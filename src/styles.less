@@ -1,0 +1,163 @@
+@nodeModulesPath: './../../';
+@coreModulePath: './../../';
+@import "../node_modules/nav-frontend-core/less/core";
+@import "../node_modules/nav-frontend-lenker-style/src/lenker-style";
+@import "../node_modules/nav-frontend-paneler-style/src/index";
+@import "../node_modules/nav-frontend-knapper-style/src/index";
+@import "../node_modules/nav-frontend-skjema-style/src/index";
+@import "../node_modules/nav-frontend-grid-style/src/index";
+
+@color-green: @navGronn;
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 10rem;
+  min-height: 100%;
+  overflow-y: scroll;
+  background: #F6F5F5;
+}
+
+.header {
+  padding: 1.5rem 4.125rem;
+  display: flex;
+  background: #fff;
+  margin-bottom: 2.225rem;
+}
+
+.header__logo {
+  flex-grow: 1;
+}
+
+.header__logo .logo {
+  color: #3E3832;
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  stroke: none;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header__logo {
+    width: 32px;
+    overflow: hidden;
+  }
+}
+
+.header__auth .lenke:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.pilot {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 272.5px;
+  transform: rotate(-45deg);
+  text-align: center;
+  color: #ff9100;
+  background-color: rgba(255, 145, 0, 0.4);
+  position: absolute;
+  top: 32px;
+  left: -92px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 4px;
+  z-index: 9999;
+}
+
+.footer {
+  background-color: @white;
+  padding: 1rem 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.footer__nav-logo {
+  display: inline-block;
+  border-bottom: none !important;
+}
+
+.main-vh100 {
+  min-height: 100vh;
+}
+
+.break-word {
+  word-wrap: break-word;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-columns {
+  display: flex;
+}
+
+.flex-columns .typo-normal,
+.flex-columns .typo-etikett-liten {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+button.lenke {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0 0;
+}
+
+
+.vh-50 {
+  min-height: 50vh;
+}
+
+.muted {
+  opacity: 0.7;
+}
+
+.shown {
+  display: block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.checkboks + .skjemaelement__label{
+  padding-left: 32px;
+  line-height: 24px;
+}
+
+.checkboks + .skjemaelement__label:before {
+  width: 24px;
+  height: 24px;
+  border-color: @color-green;
+}
+
+.checkboks:checked + .skjemaelement__label:before {
+  background-color: @color-green;
+  border-color: @color-green;
+  background-size: 30px 30px;
+}
+
+.checkboks:hover + .skjemaelement__label:before {
+  border-color: @navGronnDarken40;
+  border-width: 2px;
+}
+
+
