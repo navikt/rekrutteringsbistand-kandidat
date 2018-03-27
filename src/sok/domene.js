@@ -1,5 +1,6 @@
-import { select, call, put, takeLatest } from 'redux-saga/effects';
-import { SearchApiError, fetchKandidater } from './api';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { SearchApiError, fetchKandidater, fetchKandidatInfo } from './api';
+import { leggMerInfoTilKandidaterOgSorter } from './utils';
 
 /** *********************************************************
  * ACTIONS
@@ -28,7 +29,6 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
-    console.log('action.respons', action.response);
     switch (action.type) {
         case SEARCH_BEGIN:
             return {
@@ -40,7 +40,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
-                kandidatResultat: { ...state.kandidatResultat, kandidater: action.response.resultat, total: action.response.total }
+                error: undefined,
+                kandidatResultat: { ...state.kandidatResultat, kandidater: action.response, total: action.response.length }
             };
         case SEARCH_FAILURE:
             return {
@@ -56,14 +57,18 @@ export default function reducer(state = initialState, action) {
 /** *********************************************************
  * ASYNC ACTIONS
  ********************************************************* */
+
 function* search(action) {
     try {
         yield put({ type: SEARCH_BEGIN });
         const query = action.query;
+        const kandidater = yield call(fetchKandidater, query);
+        const result = yield all(
+            kandidater.map((r) => call(fetchKandidatInfo, r.id))
+        );
+        const kandidaterMedAlleFelter = leggMerInfoTilKandidaterOgSorter(kandidater, result);
 
-        const res = yield call(fetchKandidater, query);
-
-        yield put({ type: SEARCH_SUCCESS, response: res });
+        yield put({ type: SEARCH_SUCCESS, response: kandidaterMedAlleFelter });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
@@ -72,6 +77,7 @@ function* search(action) {
         }
     }
 }
+
 
 export const saga = function* () {
     yield takeLatest(SEARCH, search);

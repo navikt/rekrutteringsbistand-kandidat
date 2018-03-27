@@ -28,7 +28,11 @@ async function post(query) {
 }
 
 export async function fetchKandidater(query = {}) {
-    const result = await post({ ...query, type: 10 });
-    return { resultat: result, total: result.length };
+    const resultat = await post({ ...query, type: 10 });
+    return resultat;
 }
 
+export async function fetchKandidatInfo(id) {
+    const resultat = await fetch(`http://localhost:9010/pam-jobbprofil-api/janzzid/${id}`);
+    return resultat.json();
+}

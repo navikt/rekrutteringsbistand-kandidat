@@ -15,3 +15,17 @@ export function getUrlParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+export function leggMerInfoTilKandidaterOgSorter(kandidater, kandidaterMedInfo) {
+    const kandidaterMedAlleFelter = kandidater.map((kandidat) => {
+        const kandidatMedInfo = kandidaterMedInfo.find((k) => k.id === kandidat.id);
+        if (kandidatMedInfo) {
+            return {
+                ...kandidat,
+                ...kandidatMedInfo
+            };
+        }
+        return kandidat;
+    });
+
+    return kandidaterMedAlleFelter.sort((a, b) => a.score - b.score);
+}

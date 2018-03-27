@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Systemtittel } from 'nav-frontend-typografi';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
-import { SEARCH } from './domene';
+import { SEARCH } from '../domene';
 import Resultat from './Resultat';
 
 class Kandidatsok extends React.Component {

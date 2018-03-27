@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import SearchPage from './Kandidatsok';
+import SearchPage from './components/Kandidatsok';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { saga } from './domene';
