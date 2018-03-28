@@ -5,23 +5,32 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
-import { SEARCH } from '../domene';
+import { INITIAL_SEARCH, SEARCH } from '../domene';
 import Resultat from './Resultat';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            yrke: '',
-            utdanninger: '',
-            kompetanser: ''
+            yrke: props.query.yrke,
+            utdanninger: props.query.utdanninger,
+            kompetanser: props.query.kompetanser
         };
+        this.props.initialSearch(props.urlParams);
+    }
+
+    componentWillReceiveProps(nextProps, props) {
+        if (nextProps !== props) {
+            this.setState({
+                ...nextProps.query
+            });
+        }
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        const utdanningListe = this.state.utdanninger.split(' | ');
-        const kompetanseListe = this.state.kompetanser.split(' | ');
+        const utdanningListe = this.state.utdanninger.length > 0 ? this.state.utdanninger.split(' | ') : [];
+        const kompetanseListe = this.state.kompetanser.length > 0 ? this.state.kompetanser.split(' | ') : [];
         this.props.search({ ...this.state, utdanninger: utdanningListe, kompetanser: kompetanseListe });
     };
 
@@ -59,7 +68,7 @@ class Kandidatsok extends React.Component {
                                 name="utdanninger"
                                 className="skjemaelement__input input--fullbredde"
                                 onChange={this.handleInputChange}
-                                value={this.state.utdanninger}
+                                value={this.state.utdanninger.join(' | ')}
                             />
                             <label htmlFor="kompetanse" className="skjemaelement__label">
                                 Kompetanse
@@ -87,17 +96,26 @@ class Kandidatsok extends React.Component {
 }
 
 Kandidatsok.propTypes = {
-    search: PropTypes.func.isRequired
+    search: PropTypes.func.isRequired,
+    urlParams: PropTypes.any.isRequired,
+    initialSearch: PropTypes.func.isRequired,
+    query: PropTypes.shape({
+        yrke: PropTypes.string,
+        utdanninger: PropTypes.arrayOf(PropTypes.string),
+        kompetanser: PropTypes.arrayOf(PropTypes.string)
+    }).isRequired
 };
 
 const mapStateToProps = (state) => ({
     kandidater: state.kandidatResultat.kandidater,
     treff: state.kandidatResultat.total,
-    isSearching: state.isSearching
+    isSearching: state.isSearching,
+    query: state.query
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: (query) => dispatch({ type: SEARCH, query })
+    search: (query) => dispatch({ type: SEARCH, query }),
+    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatsok);
