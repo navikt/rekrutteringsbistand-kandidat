@@ -29,15 +29,21 @@ class Kandidatsok extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const utdanningListe = this.state.utdanninger.length > 0 ? this.state.utdanninger.split(' | ') : [];
-        const kompetanseListe = this.state.kompetanser.length > 0 ? this.state.kompetanser.split(' | ') : [];
+        const utdanningListe = this.state.utdanninger.length > 0 ? this.state.utdanninger.filter((val) => val !== '') : [];
+        const kompetanseListe = this.state.kompetanser.length > 0 ? this.state.kompetanser.filter((val) => val !== '') : [];
         this.props.search({ ...this.state, utdanninger: utdanningListe, kompetanser: kompetanseListe });
     };
 
     handleInputChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        if (e.target.name !== 'yrke') {
+            this.setState({
+                [e.target.name]: [...e.target.value.split(' | ')]
+            });
+        } else {
+            this.setState({
+                yrke: e.target.value
+            });
+        }
     };
 
     render() {
@@ -97,7 +103,11 @@ class Kandidatsok extends React.Component {
 
 Kandidatsok.propTypes = {
     search: PropTypes.func.isRequired,
-    urlParams: PropTypes.any.isRequired,
+    urlParams: PropTypes.shape({
+        yrke: PropTypes.string,
+        utdanninger: PropTypes.arrayOf(PropTypes.string),
+        kompetanser: PropTypes.arrayOf(PropTypes.string)
+    }).isRequired,
     initialSearch: PropTypes.func.isRequired,
     query: PropTypes.shape({
         yrke: PropTypes.string,

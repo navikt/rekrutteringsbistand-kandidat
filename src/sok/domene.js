@@ -74,7 +74,7 @@ export default function reducer(state = initialState, action) {
 function* search(action) {
     try {
         const query = action.query;
-        yield put({ type: SEARCH_BEGIN, query: query });
+        yield put({ type: SEARCH_BEGIN, query });
         const kandidater = yield call(fetchKandidater, query);
         const result = yield all(
             kandidater.map((r) => call(fetchKandidatInfo, r.id))
@@ -96,8 +96,6 @@ function* initialSearch(action) {
         if (Object.keys(action.query).length > 0) {
             yield put({ type: SET_INITIAL_STATE, query: action.query });
         }
-
-        // yield call(search, action.query);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
@@ -106,7 +104,8 @@ function* initialSearch(action) {
         }
     }
 }
-export const saga = function* () {
+
+export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
     yield takeLatest(INITIAL_SEARCH, initialSearch);
 };
