@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import { INITIAL_SEARCH } from './domene';
 import Resultat from './components/Resultat';
@@ -22,13 +22,20 @@ class Kandidatsok extends React.Component {
                 <Container className="search-page-margin">
                     <Systemtittel>Kandidatsøk</Systemtittel>
                 </Container>
-                <Column xs="12" md="4">
-                    <Arbeidserfaring />
-                </Column>
-                <Column xs="12" md="8">
-                    <SearchForm />
-                </Column>
-                <Resultat />
+                <SearchForm />
+                <Undertittel className="text-center">
+                    Resultat, {this.props.treff} treff
+                </Undertittel>
+                <Container className="blokk-s">
+                    <Column xs="12" md="4">
+                        <div className="arbeidserfaring-filter">
+                            <Arbeidserfaring />
+                        </div>
+                    </Column>
+                    <Column xs="12" md="8">
+                        <Resultat />
+                    </Column>
+                </Container>
             </div>
         );
     }
@@ -36,6 +43,7 @@ class Kandidatsok extends React.Component {
 
 Kandidatsok.propTypes = {
     initialSearch: PropTypes.func.isRequired,
+    treff: PropTypes.number.isRequired,
     urlParams: PropTypes.shape({
         yrkeserfaring: PropTypes.string,
         utdanning: PropTypes.string,
@@ -45,7 +53,7 @@ Kandidatsok.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    // No props
+    treff: state.elasticSearchResultat.total
 });
 
 const mapDispatchToProps = (dispatch) => ({

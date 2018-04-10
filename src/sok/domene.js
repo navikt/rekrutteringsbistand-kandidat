@@ -28,8 +28,8 @@ export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
  * REDUCER
  ********************************************************* */
 const initialState = {
-    kandidatResultat: {
-        kandidater: {
+    elasticSearchResultat: {
+        resultat: {
             cver: [],
             aggregeringer: []
         },
@@ -64,7 +64,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 error: undefined,
-                kandidatResultat: { ...state.kandidatResultat, kandidater: action.response, total: action.response.cver.length }
+                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response, total: action.response.cver.length }
             };
         case SEARCH_FAILURE:
             return {
@@ -149,9 +149,9 @@ function* search(action) {
 
         yield put({ type: SEARCH_BEGIN, query });
 
-        const kandidater = yield call(fetchKandidater, updatedQuery);
+        const elasticSearchResult = yield call(fetchKandidater, updatedQuery);
 
-        yield put({ type: SEARCH_SUCCESS, response: kandidater });
+        yield put({ type: SEARCH_SUCCESS, response: elasticSearchResult });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
@@ -166,6 +166,7 @@ function* initialSearch(action) {
         if (Object.keys(action.query).length > 0) {
             yield put({ type: SET_INITIAL_STATE, query: action.query });
         }
+        yield call(search, false);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

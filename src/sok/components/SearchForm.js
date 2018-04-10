@@ -153,8 +153,6 @@ SearchForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    kandidater: state.kandidatResultat.kandidater,
-    treff: state.kandidatResultat.total,
     isSearching: state.isSearching,
     query: state.query,
     typeAheadSuggestionsYrke: state.typeAheadSuggestionsyrkeserfaring,

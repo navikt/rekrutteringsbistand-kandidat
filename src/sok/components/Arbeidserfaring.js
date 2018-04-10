@@ -11,50 +11,51 @@ class Arbeidserfaring extends React.Component {
     };
 
     render() {
+        const { sokeResultat } = this.props;
         return (
-            <Ekspanderbartpanel
-                tittel="Velg arbeidserfaring"
-                tittelProps="element"
-                className="panel--white-bg panel--gray-border blokk-xs"
-                apen
-            >
-                <div
-                    role="group"
-                    aria-labelledby="arbeidserfaring-filter-header"
-                    className="kandidatsok-filter"
-                >
-                    <div className="filter-arbeidserfaring">
-                        <Checkbox
-                            name="arbeidserfaring"
-                            label="Brannmann"
-                        />
-                        <Checkbox
-                            name="arbeidserfaring"
-                            label="Gartner"
-                        />
-                        <Checkbox
-                            name="arbeidserfaring"
-                            label="Lærer"
-                        />
-                        <Checkbox
-                            name="arbeidserfaring"
-                            label="Sykepleier"
-                        />
-                        <Checkbox
-                            name="arbeidserfaring"
-                            label="Javautvikler"
-                        />
-                    </div>
+            sokeResultat.aggregeringer.map((aggregat) => (
+                <div key={aggregat.navn}>
+                    <Ekspanderbartpanel
+                        tittel={`${aggregat.navn} (${aggregat.felt.length})`}
+                        tittelProps="element"
+                        className="panel--white-bg panel--gray-border blokk-xs"
+                        apen
+                    >
+                        <div
+                            role="group"
+                            aria-labelledby="arbeidserfaring-filter-header"
+                            className="search-page-filter"
+                        >
+                            <div className="filter-arbeidserfaring">
+                                {aggregat.felt.map((a) => (
+                                    <div key={a.feltnavn}>
+                                        <Checkbox
+                                            name={aggregat.navn}
+                                            label={a.feltnavn}
+                                            // value=
+                                            // onChange=
+                                            // checked=
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </Ekspanderbartpanel>
                 </div>
-            </Ekspanderbartpanel>
+            ))
         );
     }
 }
 
 Arbeidserfaring.propTypes = {
+    sokeResultat: PropTypes.shape(
+        PropTypes.arrayOf(PropTypes.object).isRequired,
+        PropTypes.arrayOf(PropTypes.object)
+    ).isRequired
 };
 
 const mapStateToProps = (state) => ({
+    sokeResultat: state.elasticSearchResultat.resultat
 });
 
 const mapDispatchToProps = (dispatch) => ({
