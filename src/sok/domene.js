@@ -1,6 +1,9 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { SearchApiError, fetchKandidater, fetchKandidatInfo } from './api';
-import { leggMerInfoTilKandidaterOgSorter } from './utils';
+import { select, call, put, takeLatest } from 'redux-saga/effects';
+import {
+    SearchApiError,
+    fetchKandidater,
+    fetchTypeaheadSuggestions
+} from './api';
 
 /** *********************************************************
  * ACTIONS
@@ -13,20 +16,38 @@ export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const INITIAL_SEARCH = 'INITIAL_SEARCH';
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 
+export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
+export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
+export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
+export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE';
+
+export const SELECT_TYPE_AHEAD_VALUE = 'SELECT_TYPE_AHEAD_VALUE';
+export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 const initialState = {
     kandidatResultat: {
-        kandidater: [],
+        kandidater: {
+            cver: [],
+            aggregeringer: []
+        },
         total: 0
     },
     query: {
-        yrke: '',
-        utdanninger: [],
-        kompetanser: []
+        yrkeserfaring: '',
+        utdanning: '',
+        kompetanse: '',
+        fritekst: ''
     },
     isSearching: false,
+    typeAheadSuggestionsyrkeserfaring: [],
+    typeAheadSuggestionsutdanning: [],
+    typeAheadSuggestionskompetanse: [],
+    cachedTypeAheadSuggestionsYrke: [],
+    cachedTypeAheadSuggestionsUtdanning: [],
+    cachedTypeAheadSuggestionsKompetanse: [],
     error: undefined
 };
 
@@ -43,7 +64,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 error: undefined,
-                kandidatResultat: { ...state.kandidatResultat, kandidater: action.response, total: action.response.length }
+                kandidatResultat: { ...state.kandidatResultat, kandidater: action.response, total: action.response.cver.length }
             };
         case SEARCH_FAILURE:
             return {
@@ -62,6 +83,29 @@ export default function reducer(state = initialState, action) {
                 isSearching: false
 
             };
+        case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
+            return {
+                ...state,
+                [action.typeAheadSuggestionsLabel]: action.suggestions
+            };
+        case FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE:
+            return {
+                ...state,
+                [action.cachedTypeAheadSuggestionsLabel]: action.cachedSuggestions
+            };
+        case SELECT_TYPE_AHEAD_VALUE:
+            return {
+                ...state,
+                [action.typeAheadSuggestionsLabel]: []
+            };
+        case SET_TYPE_AHEAD_VALUE:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    [action.name]: action.value
+                }
+            };
         default:
             return { ...state };
     }
@@ -73,15 +117,41 @@ export default function reducer(state = initialState, action) {
 
 function* search(action) {
     try {
-        const query = action.query;
-        yield put({ type: SEARCH_BEGIN, query });
-        const kandidater = yield call(fetchKandidater, query);
-        const result = yield all(
-            kandidater.map((r) => call(fetchKandidatInfo, r.id))
-        );
-        const kandidaterMedAlleFelter = leggMerInfoTilKandidaterOgSorter(kandidater, result);
+        const state = yield select();
+        const query = state.query;
 
-        yield put({ type: SEARCH_SUCCESS, response: kandidaterMedAlleFelter });
+        let updatedQuery = {};
+        if (action.fritekstSok) {
+            if (query.fritekst !== '') {
+                updatedQuery = {
+                    fritekst: query.fritekst
+                };
+            }
+        } else {
+            if (query.yrkeserfaring !== '') {
+                updatedQuery = {
+                    yrkeserfaring: query.yrkeserfaring
+                };
+            }
+            if (query.utdanning !== '') {
+                updatedQuery = {
+                    ...updatedQuery,
+                    utdanning: query.utdanning
+                };
+            }
+            if (query.kompetanse !== '') {
+                updatedQuery = {
+                    ...updatedQuery,
+                    kompetanse: query.kompetanse
+                };
+            }
+        }
+
+        yield put({ type: SEARCH_BEGIN, query });
+
+        const kandidater = yield call(fetchKandidater, updatedQuery);
+
+        yield put({ type: SEARCH_SUCCESS, response: kandidater });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
@@ -105,7 +175,69 @@ function* initialSearch(action) {
     }
 }
 
+function* fetchTypeAheadSuggestions(action) {
+    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
+    const state = yield select();
+    const name = action.name;
+    const value = state.query[name];
+
+    let typeAheadName;
+    let cachedSuggestionsLabel;
+    if (name === 'yrkeserfaring') {
+        typeAheadName = 'yrke';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsYrke';
+    } else if (name === 'utdanning') {
+        typeAheadName = 'utd';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsUtdanning';
+    } else if (name === 'kompetanse') {
+        typeAheadName = 'komp';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsKompetanse';
+    }
+
+    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
+        if (state[cachedSuggestionsLabel].length === 0) {
+            const cachedTypeAheadMatch = value.substring(0, TYPE_AHEAD_MIN_INPUT_LENGTH);
+            try {
+                const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: cachedTypeAheadMatch });
+
+                // The result from Elastic Search is a key-value pair
+                // Put the values into a list
+                const result = [];
+                if (response._embedded) {
+                    response._embedded.stringList.map((r) =>
+                        result.push(r.content)
+                    );
+                }
+
+                const suggestions = result.filter((cachedSuggestion) => (
+                    cachedSuggestion.toLowerCase()
+                        .startsWith((cachedTypeAheadMatch.toLowerCase()))
+                ));
+
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: result, cachedTypeAheadSuggestionsLabel: cachedSuggestionsLabel });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+            } catch (e) {
+                if (e instanceof SearchApiError) {
+                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+                } else {
+                    throw e;
+                }
+            }
+        } else {
+            const suggestions = state[cachedSuggestionsLabel].filter((cachedSuggestion) => (
+                cachedSuggestion.toLowerCase()
+                    .startsWith(value.toLowerCase())
+            ));
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+        }
+    } else {
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: [], cachedTypeAheadSuggestionsLabel: cachedSuggestionsLabel });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+    }
+}
+
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
     yield takeLatest(INITIAL_SEARCH, initialSearch);
+    yield takeLatest(FETCH_TYPE_AHEAD_SUGGESTIONS, fetchTypeAheadSuggestions);
 };

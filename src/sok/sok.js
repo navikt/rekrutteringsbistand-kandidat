@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import Kandidatsok from './components/Kandidatsok';
+import Kandidatsok from './Kandidatsok';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { saga } from './domene';
@@ -12,22 +12,25 @@ import { getUrlParameterByName, toUrlParams } from './utils';
 
 export const getInitialStateFromUrl = (url) => {
     const stateFromUrl = {};
-    const yrke = getUrlParameterByName('yrke', url);
-    const kompetanser = getUrlParameterByName('kompetanser', url);
-    const utdanninger = getUrlParameterByName('utdanninger', url);
+    const yrkeserfaring = getUrlParameterByName('yrkeserfaring', url);
+    const kompetanse = getUrlParameterByName('kompetanse', url);
+    const utdanning = getUrlParameterByName('utdanning', url);
+    const fritekst = getUrlParameterByName('fritekst', url);
 
-    if (yrke) stateFromUrl.yrke = yrke;
-    if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
-    if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
+    if (yrkeserfaring) stateFromUrl.yrkeserfaring = yrkeserfaring;
+    if (kompetanse) stateFromUrl.kompetanse = kompetanse;
+    if (utdanning) stateFromUrl.utdanning = utdanning;
+    if (fritekst) stateFromUrl.fritekst = fritekst;
     return stateFromUrl;
 };
 
 export const createUrlParamsFromState = (state) => {
     const { query } = state;
     const urlQuery = {};
-    if (query.yrke) urlQuery.yrke = query.yrke;
-    if (query.kompetanser && query.kompetanser.length > 0) urlQuery.kompetanser = query.kompetanser.join('_');
-    if (query.utdanninger && query.utdanninger.length > 0) urlQuery.utdanninger = query.utdanninger.join('_');
+    if (query.yrkeserfaring) urlQuery.yrkeserfaring = query.yrkeserfaring;
+    if (query.kompetanse) urlQuery.kompetanse = query.kompetanse;
+    if (query.utdanning) urlQuery.utdanning = query.utdanning;
+    if (query.fritekst) urlQuery.fritekst = query.fritekst;
     return toUrlParams(urlQuery);
 };
 

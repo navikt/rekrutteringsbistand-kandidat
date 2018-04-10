@@ -1,5 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
+const baseUrl = 'http://localhost:8765/rest/kandidatsok/';
+
+const convertToUrlParams = (query) => Object.keys(query)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
+    .join('&')
+    .replace(/%20/g, '+');
+
 export class SearchApiError {
     constructor(message, statusCode) {
         this.message = message;
@@ -7,10 +14,10 @@ export class SearchApiError {
     }
 }
 
-async function post(query) {
+async function post(query, url) {
     let response;
     try {
-        response = await fetch('http://localhost:9010/pam-jobbprofil-api/sok', {
+        response = await fetch(url, {
             body: JSON.stringify(query),
             method: 'POST',
             headers: {
@@ -27,12 +34,17 @@ async function post(query) {
     return response.json();
 }
 
-export async function fetchKandidater(query = {}) {
-    const resultat = await post({ ...query, type: 10 });
-    return resultat;
+
+export async function fetchTypeaheadSuggestions(query = {}) {
+    const resultat = await fetch(
+        `${baseUrl}typeahead?${convertToUrlParams(query)}`
+    );
+    return resultat.json();
 }
 
-export async function fetchKandidatInfo(id) {
-    const resultat = await fetch(`http://localhost:9010/pam-jobbprofil-api/janzzid/${id}`);
+export async function fetchKandidater(query = {}) {
+    const resultat = await fetch(
+        `${baseUrl}sok?${convertToUrlParams(query)}`
+    );
     return resultat.json();
 }

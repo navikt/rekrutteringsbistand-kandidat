@@ -27,27 +27,24 @@ function Resultat({ kandidater, treff, isSearching, error }) {
                     Resultat, {treff} treff
             </Undertittel>
             <ul className="resultat">
-                {kandidater.map((kandidat) =>
-                    (<li key={kandidat.id}>
+                {console.log(kandidater)}
+                {kandidater.cver.map((kandidat) =>
+                    (<li key={kandidat.personId}>
                         <Row className="search-result-item">
                             <Column xs="12" md="4" className="search-result-item__arbeidstaker">
                                 <Ikon kind="nav-ansatt" size="200" />
                             </Column>
                             <Column xs="12" md="8">
                                 <Normaltekst className="blokk-s break-word muted">
-                                    {kandidat.id}
+                                    Kandidat: {kandidat.personId}
                                 </Normaltekst>
 
-                                <Undertittel className="typo-ingress blokk-s break-word">{kandidat.occupation}</Undertittel>
+                                <Undertittel className="typo-ingress blokk-s break-word">
+                                    {kandidat.yrkeserfaring[0].stillingstittel}
+                                </Undertittel>
 
                                 <Normaltekst className="blokk-s break-word muted">
-                                        Treffprosent: {kandidat.score}
-                                </Normaltekst>
-                                <Normaltekst className="blokk-s break-word muted">
-                                    {kandidat.title}
-                                </Normaltekst>
-                                <Normaltekst className="blokk-s break-word muted">
-                                    {kandidat.description}
+                                        Beskrivelse: {kandidat.beskrivelse}
                                 </Normaltekst>
                             </Column>
                         </Row>
@@ -63,7 +60,10 @@ Resultat.defaultProps = {
 };
 
 Resultat.propTypes = {
-    kandidater: PropTypes.arrayOf(PropTypes.object).isRequired,
+    kandidater: PropTypes.shape(
+        PropTypes.arrayOf(PropTypes.object).isRequired,
+        PropTypes.arrayOf(PropTypes.object)
+    ).isRequired,
     treff: PropTypes.number.isRequired,
     isSearching: PropTypes.bool.isRequired,
     error: PropTypes.node
