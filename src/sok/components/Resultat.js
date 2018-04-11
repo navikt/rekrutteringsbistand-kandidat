@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Ikon from 'nav-frontend-ikoner-assets';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Feilmelding from './Feilmelding';
+import Ikon from './Ikon';
 
 function Resultat({ sokeResultat, isSearching, error }) {
     if (isSearching) {
@@ -25,18 +25,18 @@ function Resultat({ sokeResultat, isSearching, error }) {
         <ul className="resultat">
             {console.log(sokeResultat)}
             {sokeResultat.cver.map((kandidat) =>
-                (<li key={kandidat.personId}>
+                (<li key={kandidat.arenaPersonId}>
                     <Row className="search-result-item">
-                        <Column xs="4" className="search-result-item__arbeidstaker">
-                            <Ikon kind="nav-ansatt" size="100" />
+                        <Column xs="3" className="search-result-item__arbeidstaker">
+                            <Ikon />
                         </Column>
                         <Column xs="8">
                             <Normaltekst className="blokk-s break-word muted">
-                                    Kandidat: {kandidat.personId}
+                                    Kandidat: {kandidat.arenaPersonId}
                             </Normaltekst>
 
                             <Undertittel className="typo-ingress blokk-s break-word">
-                                {kandidat.yrkeserfaring[0].stillingstittel}
+                                {kandidat.yrkeserfaring[kandidat.yrkeserfaring.length-1].styrkKodeStillingstittel}
                             </Undertittel>
 
                             <Normaltekst className="blokk-s break-word muted">

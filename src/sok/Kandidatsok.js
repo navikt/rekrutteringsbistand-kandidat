@@ -6,7 +6,7 @@ import { Column, Container } from 'nav-frontend-grid';
 import { INITIAL_SEARCH } from './domene';
 import Resultat from './components/Resultat';
 import SearchForm from './components/SearchForm';
-import Arbeidserfaring from './components/Arbeidserfaring';
+import Aggregeringer from './components/Aggregeringer';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class Kandidatsok extends React.Component {
                 <Container className="blokk-s">
                     <Column xs="12" md="4">
                         <div className="arbeidserfaring-filter">
-                            <Arbeidserfaring />
+                            <Aggregeringer />
                         </div>
                     </Column>
                     <Column xs="12" md="8">
