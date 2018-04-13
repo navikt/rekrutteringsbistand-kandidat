@@ -94,13 +94,7 @@
 }
 
 .search-result-item {
-  background-color: #fff;
-  padding: 1rem;
-  display: block;
-  text-decoration: none;
-  color: #000;
-  border: 1px solid #e9e7e7;
-  margin-bottom: 1rem;
+  display: flex;
   .typo-normal::first-letter {
     text-transform: capitalize;
   }
@@ -109,6 +103,7 @@
 .search-result-item__arbeidstaker {
   align-self: center;
   text-align: center;
+  padding: 0 2rem;
 }
 
 .search-result-item-link {
@@ -245,4 +240,10 @@
 .panel--gray-border {
   border-radius: 0;
   border: 1px solid #e9e7e7;
+}
+
+@media (min-width: @screen-sm-min) {
+  .panel--padding {
+    padding: 1.5rem 3rem;
+  }
 }

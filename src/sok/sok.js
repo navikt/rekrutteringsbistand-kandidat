@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import Kandidatsok from './Kandidatsok';
+import ShowCv from './ShowCv';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { saga } from './domene';
@@ -62,11 +64,20 @@ store.subscribe(() => {
     }
 });
 
+const App = () => (
+    <div>
+        <Route exact path="/" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+        <Route path="/showcv/:id" render={(props) => <ShowCv {...props} />} />
+    </div>
+);
+
 sagaMiddleware.run(saga);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>,
     document.getElementById('app')
 );
