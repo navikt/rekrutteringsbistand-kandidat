@@ -24,6 +24,7 @@ function Resultat({ sokeResultat, isSearching, error }) {
     }
     return (
         <ul className="resultat">
+            {console.log(sokeResultat)}
             {sokeResultat.cver.map((kandidat) =>
                 (<Link
                     className="search-result-item-link"

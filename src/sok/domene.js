@@ -26,8 +26,11 @@ export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
 
 export const FETCH_INITIAL_AGGREGATIONS_SUCCESS = 'FETCH_INITIAL_AGGREGATIONS_SUCCESS';
 export const FETCH_AGGREGATIONS_SUCCESS = 'FETCH_AGGREGATIONS_SUCCESS';
-export const CHECK_AGGREGERING = 'CHECK_AGGREGERING';
-export const UNCHECK_AGGREGERING = 'UNCHECK_AGGREGERING';
+
+export const CHECK_YRKESERFARING = 'CHECK_YRKESERFARING';
+export const UNCHECK_YRKESERFARING = 'UNCHECK_YRKESERFARING';
+export const CHECK_UTDANNING = 'CHECK_UTDANNING';
+export const UNCHECK_UTDANNING = 'UNCHECK_UTDANNING';
 
 /** *********************************************************
  * REDUCER
@@ -125,29 +128,75 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state
             };
-        case CHECK_AGGREGERING:
+        case CHECK_UTDANNING:
             return {
                 ...state,
                 query: {
                     ...state.query,
-                    [action.name]: [
-                        ...state.query[action.name],
+                    nusKoder: [
+                        ...state.query.nusKoder,
                         action.value
                     ]
                 }
             };
-        case UNCHECK_AGGREGERING:
+        case UNCHECK_UTDANNING:
             return {
                 ...state,
                 query: {
                     ...state.query,
-                    [action.name]: state.query[action.name].filter((a) => a !== action.value)
+                    nusKoder: state.query.nusKoder.filter((nusKode) => nusKode !== action.value)
+                }
+            };
+        case CHECK_YRKESERFARING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    styrkKoder: [
+                        ...state.query.styrkKoder,
+                        action.value
+                    ]
+                }
+            };
+        case UNCHECK_YRKESERFARING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    styrkKoder: state.query.styrkKoder.filter((styrkKode) => styrkKode !== action.value)
                 }
             };
         default:
             return { ...state };
     }
 }
+
+/** *********************************************************
+ * SELECTORS
+ ********************************************************* */
+export const toSearchQuery = (state, fritekstSok) => {
+    const { query } = state;
+    let searchQuery = { ...query };
+
+    // Samme query er brukt for fritekst-søket og strukturert søk.
+    // Når fritekst-søk brukes må de andre kriteriene i query være tomme,
+    // og motsatt. Dette kan skrives om når det er bestemt hvordan søket skal se ut.
+    if (fritekstSok) {
+        searchQuery = {
+            ...query,
+            yrkeserfaring: '',
+            utdanning: '',
+            kompetanse: ''
+        };
+    } else {
+        searchQuery = {
+            ...query,
+            fritekst: ''
+        };
+    }
+
+    return searchQuery;
+};
 
 /** *********************************************************
  * ASYNC ACTIONS
@@ -160,25 +209,9 @@ function* search(action) {
 
         yield put({ type: SEARCH_BEGIN, query });
 
-        // Samme query er brukt for fritekst-søket og strukturert søk.
-        // Når fritekst-søk brukes må de andre kriteriene i query være tomme,
-        // og motsatt. Dette kan skrives om når det er bestemt hvordan søket skal se ut.
-        let elasticSearchResult;
-        if (action.fritekstSok) {
-            elasticSearchResult = yield call(fetchKandidater, {
-                ...query,
-                yrkeserfaring: '',
-                utdanning: '',
-                kompetanse: ''
-            });
-        } else {
-            elasticSearchResult = yield call(fetchKandidater, {
-                ...query,
-                fritekst: ''
-            });
-        }
+        const response = yield call(fetchKandidater, toSearchQuery(state, action.fritekstSok));
 
-        yield put({ type: SEARCH_SUCCESS, response: elasticSearchResult });
+        yield put({ type: SEARCH_SUCCESS, response });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
