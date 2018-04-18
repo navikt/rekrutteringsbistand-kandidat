@@ -17,20 +17,14 @@ export const getInitialStateFromUrl = (url) => {
     const yrkeserfaring = getUrlParameterByName('yrkeserfaring', url);
     const kompetanse = getUrlParameterByName('kompetanse', url);
     const utdanning = getUrlParameterByName('utdanning', url);
-    const fritekst = getUrlParameterByName('fritekst', url);
     const styrkKode = getUrlParameterByName('styrkKode', url);
     const nusKode = getUrlParameterByName('nusKode', url);
-    const styrkKoder = getUrlParameterByName('styrkKoder', url);
-    const nusKoder = getUrlParameterByName('nusKoder', url);
 
     if (yrkeserfaring) stateFromUrl.yrkeserfaring = yrkeserfaring;
     if (kompetanse) stateFromUrl.kompetanse = kompetanse;
     if (utdanning) stateFromUrl.utdanning = utdanning;
-    if (fritekst) stateFromUrl.fritekst = fritekst;
     if (styrkKode) stateFromUrl.styrkKode = styrkKode;
     if (nusKode) stateFromUrl.nusKode = nusKode;
-    if (styrkKoder) stateFromUrl.styrkKoder = styrkKoder.split('_');
-    if (nusKoder) stateFromUrl.nusKoder = nusKoder.split('_');
     return stateFromUrl;
 };
 
@@ -40,11 +34,8 @@ export const createUrlParamsFromState = (state) => {
     if (query.yrkeserfaring) urlQuery.yrkeserfaring = query.yrkeserfaring;
     if (query.kompetanse) urlQuery.kompetanse = query.kompetanse;
     if (query.utdanning) urlQuery.utdanning = query.utdanning;
-    if (query.fritekst) urlQuery.fritekst = query.fritekst;
     if (query.styrkKode) urlQuery.styrkKode = query.styrkKode;
     if (query.nusKode) urlQuery.nusKode = query.nusKode;
-    if (query.styrkKoder && query.styrkKoder.length > 0) urlQuery.styrkKoder = query.styrkKoder.join('_');
-    if (query.nusKoder && query.nusKoder.length > 0) urlQuery.nusKoder = query.nusKoder.join('_');
     return toUrlParams(urlQuery);
 };
 
