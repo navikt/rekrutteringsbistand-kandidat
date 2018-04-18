@@ -3,6 +3,7 @@ const proxy = require('express-http-proxy');
 const helmet = require('helmet');
 const path = require('path');
 const mustacheExpress = require('mustache-express');
+const fs = require('fs');
 const Promise = require('promise');
 
 const currentDirectory = __dirname;
@@ -12,7 +13,7 @@ const port = process.env.PORT || 8080;
 server.set('port', port);
 
 server.disable('x-powered-by');
-server.use(helmet({xssFilter: false}));
+server.use(helmet({ xssFilter: false }));
 server.use(helmet({
     xssFilter: false,
     noCache: true
@@ -23,6 +24,16 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
+    PAM_SEARCH_API: process.env.PAM_KANDIDATSOK
+};
+
+const writeEnvironmentVariablesToFile = () => {
+    const fileContent =
+        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n`;
+
+    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
+        if (err) throw err;
+    });
 };
 
 const renderSok = (htmlPages) => (
@@ -34,7 +45,7 @@ const renderSok = (htmlPages) => (
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(Object.assign({"sok": html}, htmlPages));
+                    resolve(Object.assign({ sok: html }, htmlPages));
                 }
             }
         );
@@ -42,6 +53,8 @@ const renderSok = (htmlPages) => (
 );
 
 const startServer = (htmlPages) => {
+    writeEnvironmentVariablesToFile();
+
     server.use(
         '/pam-kandidatsok/js',
         express.static(path.resolve(__dirname, 'dist/js'))
@@ -54,7 +67,7 @@ const startServer = (htmlPages) => {
     server.get(
         ['/', '/pam-kandidatsok/?', /^\/pam-kandidatsok\/(?!.*dist).*$/],
         (req, res) => {
-            res.send(htmlPages["sok"]);
+            res.send(htmlPages.sok);
         }
     );
 

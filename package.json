@@ -37,7 +37,10 @@
   },
   "dependencies": {
     "express": "^4.16.2",
+    "express-http-proxy": "^1.1.0",
+    "helmet": "^3.12.0",
     "lodash.throttle": "^4.1.1",
+    "mustache-express": "^1.2.5",
     "nav-frontend-alertstriper": "^0.2.21",
     "nav-frontend-alertstriper-style": "^0.2.26",
     "nav-frontend-chevron": "^1.0.2",
@@ -63,6 +66,7 @@
     "nav-frontend-spinner-style": "^0.2.4",
     "nav-frontend-typografi": "^1.0.12",
     "nav-frontend-typografi-style": "^1.0.7",
+    "promise": "^8.0.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-collapse": "^4.0.3",

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-const baseUrl = 'http://localhost:8765/rest/kandidatsok/';
+import { SEARCH_API } from '../common/fasitProperties';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -37,14 +37,14 @@ async function post(query, url) {
 
 export async function fetchTypeaheadSuggestions(query = {}) {
     const resultat = await fetch(
-        `${baseUrl}typeahead?${convertToUrlParams(query)}`
+        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`
     );
     return resultat.json();
 }
 
 export async function fetchKandidater(query = {}) {
     const resultat = await fetch(
-        `${baseUrl}sok?${convertToUrlParams(query)}`
+        `${SEARCH_API}sok?${convertToUrlParams(query)}`
     );
     return resultat.json();
 }
