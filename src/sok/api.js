@@ -14,27 +14,6 @@ export class SearchApiError {
     }
 }
 
-async function post(query, url) {
-    let response;
-    try {
-        response = await fetch(url, {
-            body: JSON.stringify(query),
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-    } catch (e) {
-        throw new SearchApiError(e.message, 0);
-    }
-
-    if (response.status !== 200) {
-        throw new SearchApiError(response.statusText, response.status);
-    }
-    return response.json();
-}
-
-
 export async function fetchTypeaheadSuggestions(query = {}) {
     const resultat = await fetch(
         `${SEARCH_API}typeahead?${convertToUrlParams(query)}`

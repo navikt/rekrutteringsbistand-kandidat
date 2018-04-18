@@ -6,7 +6,6 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import Feilmelding from './Feilmelding';
-import Ikon from './Ikon';
 
 function Resultat({ sokeResultat, isSearching, error }) {
     if (isSearching) {
@@ -32,10 +31,7 @@ function Resultat({ sokeResultat, isSearching, error }) {
                     to={{ pathname: `showcv/${kandidat.arenaPersonId}`, kandidatInfo: kandidat }}
                 >
                     <Row className="search-result-item">
-                        <Column xs="3" className="search-result-item__arbeidstaker">
-                            <Ikon />
-                        </Column>
-                        <Column xs="8">
+                        <Column>
                             <Normaltekst className="blokk-s break-word muted">
                                     Kandidat: {kandidat.arenaPersonId}
                             </Normaltekst>

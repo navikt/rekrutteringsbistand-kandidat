@@ -24,13 +24,6 @@ export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_
 export const SELECT_TYPE_AHEAD_VALUE = 'SELECT_TYPE_AHEAD_VALUE';
 export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
 
-export const FETCH_INITIAL_AGGREGATIONS_SUCCESS = 'FETCH_INITIAL_AGGREGATIONS_SUCCESS';
-export const FETCH_AGGREGATIONS_SUCCESS = 'FETCH_AGGREGATIONS_SUCCESS';
-
-export const CHECK_YRKESERFARING = 'CHECK_YRKESERFARING';
-export const UNCHECK_YRKESERFARING = 'UNCHECK_YRKESERFARING';
-export const CHECK_UTDANNING = 'CHECK_UTDANNING';
-export const UNCHECK_UTDANNING = 'UNCHECK_UTDANNING';
 
 /** *********************************************************
  * REDUCER
@@ -47,11 +40,8 @@ const initialState = {
         yrkeserfaring: '',
         utdanning: '',
         kompetanse: '',
-        fritekst: '',
         styrkKode: '',
-        nusKode: '',
-        styrkKoder: [],
-        nusKoder: []
+        nusKode: ''
     },
     isSearching: false,
     typeAheadSuggestionsyrkeserfaring: [],
@@ -60,7 +50,6 @@ const initialState = {
     cachedTypeAheadSuggestionsYrke: [],
     cachedTypeAheadSuggestionsUtdanning: [],
     cachedTypeAheadSuggestionsKompetanse: [],
-    aggregations: [],
     error: undefined
 };
 
@@ -119,97 +108,24 @@ export default function reducer(state = initialState, action) {
                     [action.name]: action.value
                 }
             };
-        case FETCH_INITIAL_AGGREGATIONS_SUCCESS:
-            return {
-                ...state,
-                aggregations: action.response
-            };
-        case FETCH_AGGREGATIONS_SUCCESS:
-            return {
-                ...state
-            };
-        case CHECK_UTDANNING:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    nusKoder: [
-                        ...state.query.nusKoder,
-                        action.value
-                    ]
-                }
-            };
-        case UNCHECK_UTDANNING:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    nusKoder: state.query.nusKoder.filter((nusKode) => nusKode !== action.value)
-                }
-            };
-        case CHECK_YRKESERFARING:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    styrkKoder: [
-                        ...state.query.styrkKoder,
-                        action.value
-                    ]
-                }
-            };
-        case UNCHECK_YRKESERFARING:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    styrkKoder: state.query.styrkKoder.filter((styrkKode) => styrkKode !== action.value)
-                }
-            };
         default:
             return { ...state };
     }
 }
 
-/** *********************************************************
- * SELECTORS
- ********************************************************* */
-export const toSearchQuery = (state, fritekstSok) => {
-    const { query } = state;
-    let searchQuery = { ...query };
-
-    // Samme query er brukt for fritekst-søket og strukturert søk.
-    // Når fritekst-søk brukes må de andre kriteriene i query være tomme,
-    // og motsatt. Dette kan skrives om når det er bestemt hvordan søket skal se ut.
-    if (fritekstSok) {
-        searchQuery = {
-            ...query,
-            yrkeserfaring: '',
-            utdanning: '',
-            kompetanse: ''
-        };
-    } else {
-        searchQuery = {
-            ...query,
-            fritekst: ''
-        };
-    }
-
-    return searchQuery;
-};
 
 /** *********************************************************
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* search(action) {
+function* search() {
     try {
         const state = yield select();
         const query = state.query;
 
         yield put({ type: SEARCH_BEGIN, query });
 
-        const response = yield call(fetchKandidater, toSearchQuery(state, action.fritekstSok));
+        const response = yield call(fetchKandidater, query);
 
         yield put({ type: SEARCH_SUCCESS, response });
     } catch (e) {
@@ -223,13 +139,10 @@ function* search(action) {
 
 function* initialSearch(action) {
     try {
-        const response = yield call(fetchKandidater);
-        yield put({ type: FETCH_INITIAL_AGGREGATIONS_SUCCESS, response: response.aggregeringer });
-
         if (Object.keys(action.query).length > 0) {
             yield put({ type: SET_INITIAL_STATE, query: action.query });
         }
-        yield call(search, false);
+        yield call(search);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

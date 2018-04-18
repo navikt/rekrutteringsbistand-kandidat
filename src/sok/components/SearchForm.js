@@ -10,12 +10,7 @@ import Typeahead from './Typeahead';
 class SearchForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.search(false);
-    };
-
-    onSubmitFritekst = (e) => {
-        e.preventDefault();
-        this.props.search(true);
+        this.props.search();
     };
 
     onTypeAheadYrkeChange = (value) => {
@@ -46,10 +41,6 @@ class SearchForm extends React.Component {
     onTypeAheadKompetanseSelect = (value) => {
         this.props.setSearchString('kompetanse', value);
         this.props.selectTypeAheadValue('typeAheadSuggestionskompetanse');
-    };
-
-    onFritekstChange = (e) => {
-        this.props.setSearchString('fritekst', e.target.value);
     };
 
     render() {
@@ -109,27 +100,6 @@ class SearchForm extends React.Component {
                             </Column>
                         </Row>
                     </form>
-
-                    <form onSubmit={this.onSubmitFritekst}>
-                        <Row>&nbsp;</Row>
-                        <label htmlFor="fritekst" className="skjemaelement__label">
-                            Søk i fritekst
-                        </label>
-                        <input
-                            className="skjemaelement__input input--fullbredde"
-                            id="fritekst"
-                            onChange={this.onFritekstChange}
-                            autoComplete="off"
-                            name="fritekst"
-                            value={this.props.query.fritekst}
-                        />
-                        <Row>&nbsp;</Row>
-                        <Row>
-                            <Column xs="5" md="3">
-                                <Knapp htmlType="submit" type="standard" className="knapp knapp-pam-hoved">Søk</Knapp>
-                            </Column>
-                        </Row>
-                    </form>
                 </SkjemaGruppe>
             </Container>
         );
@@ -161,7 +131,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: (fritekstSok) => dispatch({ type: SEARCH, fritekstSok }),
+    search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (name, value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name, value }),
     selectTypeAheadValue: (typeAheadField) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE, typeAheadSuggestionsLabel: typeAheadField }),
     setSearchString: (name, value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name, value })

@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import { Column, Container } from 'nav-frontend-grid';
+import { Container } from 'nav-frontend-grid';
 import { INITIAL_SEARCH } from './domene';
 import Resultat from './components/Resultat';
 import SearchForm from './components/SearchForm';
-import Utdanninger from './components/Utdanninger';
-import Yrkeserfaringer from './components/Yrkeserfaringer';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
@@ -28,15 +26,7 @@ class Kandidatsok extends React.Component {
                     Resultat, {this.props.treff} treff
                 </Undertittel>
                 <Container className="blokk-s">
-                    <Column xs="12" md="4">
-                        <div className="aggregation-filters">
-                            <Utdanninger />
-                            <Yrkeserfaringer />
-                        </div>
-                    </Column>
-                    <Column xs="12" md="8">
-                        <Resultat />
-                    </Column>
+                    <Resultat />
                 </Container>
             </div>
         );
