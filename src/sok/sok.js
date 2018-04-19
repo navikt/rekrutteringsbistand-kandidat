@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -57,19 +57,21 @@ store.subscribe(() => {
 
 const App = () => (
     <div>
-        <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
-        <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
+        <Provider store={store}>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
+                </Switch>
+            </BrowserRouter>
+        </Provider>
     </div>
 );
 
 sagaMiddleware.run(saga);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </Provider>,
+    <App />,
     document.getElementById('app')
 );
 
