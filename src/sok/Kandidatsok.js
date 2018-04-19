@@ -40,7 +40,6 @@ Kandidatsok.propTypes = {
         yrkeserfaring: PropTypes.string,
         utdanning: PropTypes.string,
         kompetanse: PropTypes.string,
-        fritekst: PropTypes.string
     }).isRequired
 };
 

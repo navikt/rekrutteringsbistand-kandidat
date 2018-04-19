@@ -112,7 +112,6 @@ SearchForm.propTypes = {
         yrkeserfaring: PropTypes.string,
         utdanning: PropTypes.string,
         kompetanse: PropTypes.string,
-        fritekst: PropTypes.string
     }).isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
