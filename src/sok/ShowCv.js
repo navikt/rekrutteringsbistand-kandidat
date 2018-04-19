@@ -8,7 +8,6 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 const ShowCv = ({ ...props }) => {
     const kandidat = props.location.kandidatInfo;
     window.scrollTo(0, 0);
-    console.log(kandidat);
     return (
         <div>
             <div className="search-page-header" />
