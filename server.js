@@ -36,7 +36,7 @@ const writeEnvironmentVariablesToFile = () => {
     });
 };
 
-const renderSok = (htmlPages) => (
+const renderSok = () => (
     new Promise((resolve, reject) => {
         server.render(
             'index.html',
@@ -45,14 +45,14 @@ const renderSok = (htmlPages) => (
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(Object.assign({ sok: html }, htmlPages));
+                    resolve(html);
                 }
             }
         );
     })
 );
 
-const startServer = (htmlPages) => {
+const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
     server.use(
@@ -72,7 +72,7 @@ const startServer = (htmlPages) => {
     server.get(
         ['/', '/pam-kandidatsok/?', /^\/pam-kandidatsok\/(?!.*dist).*$/],
         (req, res) => {
-            res.send(htmlPages.sok);
+            res.send(html);
         }
     );
 
@@ -86,5 +86,5 @@ const startServer = (htmlPages) => {
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
-renderSok({})
+renderSok()
     .then(startServer, (error) => logError('Failed to render app', error));
