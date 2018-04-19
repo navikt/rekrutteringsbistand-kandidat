@@ -57,8 +57,8 @@ store.subscribe(() => {
 
 const App = () => (
     <div>
-        <Route exact path="/" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
-        <Route path="/showcv/:id" render={(props) => <ShowCv {...props} />} />
+        <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+        <Route path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
     </div>
 );
 
