@@ -28,7 +28,7 @@ function Resultat({ sokeResultat, isSearching, error }) {
                 (<Link
                     className="search-result-item-link"
                     key={kandidat.arenaPersonId}
-                    to={{ pathname: `showcv/${kandidat.arenaPersonId}`, kandidatInfo: kandidat }}
+                    to={{ pathname: `pam-kandidatsok/showcv/${kandidat.arenaPersonId}`, kandidatInfo: kandidat }}
                 >
                     <Row className="search-result-item">
                         <Column>

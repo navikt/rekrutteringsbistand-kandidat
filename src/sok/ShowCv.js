@@ -22,7 +22,7 @@ const ShowCv = ({ ...props }) => {
                     <Row className="blokk-xxs">
                         <Column xs="6">
                             <div className="pull-left">
-                                <Link to="/" className="lenke typo-normal">
+                                <Link to="/pam-kandidatsok" className="lenke typo-normal">
                                     <NavFrontendChevron type="venstre" stor />
                                     Tilbake til kandidatsøk
                                 </Link>
