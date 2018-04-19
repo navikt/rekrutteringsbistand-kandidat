@@ -24,7 +24,7 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
-    PAM_SEARCH_API: process.env.PAM_KANDIDATSOK
+    PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/'
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -54,6 +54,11 @@ const renderSok = (htmlPages) => (
 
 const startServer = (htmlPages) => {
     writeEnvironmentVariablesToFile();
+
+    server.use(
+        '/pam-kandidatsok/rest/kandidatsok/',
+        proxy('http://pam-cv-indexer/rest/kandidatsok/')
+    );
 
     server.use(
         '/pam-kandidatsok/js',

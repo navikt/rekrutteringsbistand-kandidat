@@ -39,7 +39,7 @@ Kandidatsok.propTypes = {
     urlParams: PropTypes.shape({
         yrkeserfaring: PropTypes.string,
         utdanning: PropTypes.string,
-        kompetanse: PropTypes.string,
+        kompetanse: PropTypes.string
     }).isRequired
 };
 

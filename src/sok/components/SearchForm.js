@@ -111,7 +111,7 @@ SearchForm.propTypes = {
     query: PropTypes.shape({
         yrkeserfaring: PropTypes.string,
         utdanning: PropTypes.string,
-        kompetanse: PropTypes.string,
+        kompetanse: PropTypes.string
     }).isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
