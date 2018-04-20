@@ -57,8 +57,8 @@ const startServer = (html) => {
 
     server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('http://pam-cv-indexer', {
         proxyReqPathResolver: (req) => {
-            const path = '/pam-cv-indexer' + req.originalUrl.split('/pam-kandidatsok').pop();
-            return path;
+            const pathIndexer = `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            return pathIndexer;
         }
     }));
 
