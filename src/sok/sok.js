@@ -60,7 +60,7 @@ store.subscribe(() => {
 Begin class Sok
  */
 class Sok extends React.Component {
-    // Have to wait for the error-message to be set in Redux, and redirect if the
+    // Have to wait for the error-message to be set in Redux, and redirect if the error is 401
     componentWillUpdate(nextProps) {
         const { error } = nextProps;
         if (error && error.status === 401) {
