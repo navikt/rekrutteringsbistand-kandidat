@@ -75,10 +75,12 @@ class Sok extends React.Component {
 
     render() {
         return (
-            <Switch>
-                <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
-                <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
-            </Switch>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
+                </Switch>
+            </BrowserRouter>
         );
     }
 }
@@ -95,9 +97,7 @@ const SokApp = connect(mapStateToProps)(Sok);
 const App = () => (
     <div>
         <Provider store={store}>
-            <BrowserRouter>
-                <SokApp />
-            </BrowserRouter>
+            <SokApp />
         </Provider>
     </div>
 );

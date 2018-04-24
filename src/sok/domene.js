@@ -44,6 +44,7 @@ const initialState = {
         nusKode: ''
     },
     isSearching: false,
+    isInitialSearch: true,
     typeAheadSuggestionsyrkeserfaring: [],
     typeAheadSuggestionsutdanning: [],
     typeAheadSuggestionskompetanse: [],
@@ -65,6 +66,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
+                isInitialSearch: false,
                 error: undefined,
                 elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response, total: action.response.cver.length }
             };
@@ -82,7 +84,8 @@ export default function reducer(state = initialState, action) {
                     ...state.query,
                     ...action.query
                 },
-                isSearching: false
+                isSearching: false,
+                isInitialSearch: false
 
             };
         case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
