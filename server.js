@@ -24,12 +24,14 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
-    PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/'
+    PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/',
+    LOGIN_URL: process.env.LOGINSERVICE_URL
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n`;
+        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
+        `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;

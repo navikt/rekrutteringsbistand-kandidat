@@ -8,22 +8,37 @@ const convertToUrlParams = (query) => Object.keys(query)
     .replace(/%20/g, '+');
 
 export class SearchApiError {
-    constructor(message, statusCode) {
+    constructor(message, status) {
         this.message = message;
-        this.statusCode = statusCode;
+        this.status = status;
     }
 }
 
 export async function fetchTypeaheadSuggestions(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`
+        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
 
 export async function fetchKandidater(query = {}) {
-    const resultat = await fetch(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`
+    let response = await fetch(
+        `${SEARCH_API}sok?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
-    return resultat.json();
+
+    if (response.status > 400) {
+        let error;
+        try {
+            error = await response.json();
+        } catch (e) {
+            throw new SearchApiError({
+                status: response.status,
+                message: response.message
+            });
+        }
+        throw new SearchApiError(error.message, error.status);
+    } else {
+        response = response.json();
+    }
+    return response;
 }

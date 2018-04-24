@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import Kandidatsok from './Kandidatsok';
 import ShowCv from './ShowCv';
+import { LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { saga } from './domene';
@@ -55,14 +56,47 @@ store.subscribe(() => {
     }
 });
 
+/*
+Begin class Sok
+ */
+class Sok extends React.Component {
+    // Have to wait for the error-message to be set in Redux, and redirect if the
+    componentWillUpdate(nextProps) {
+        const { error } = nextProps;
+        if (error && error.status === 401) {
+            this.redirectToLogin();
+        }
+    }
+
+    // Redirect to login with Id-Porten
+    redirectToLogin = () => {
+        window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
+    };
+
+    render() {
+        return (
+            <Switch>
+                <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
+            </Switch>
+        );
+    }
+}
+
+const mapStateToProps = (state) => ({
+    error: state.error
+});
+/*
+End class Sok
+ */
+
+const SokApp = connect(mapStateToProps)(Sok);
+
 const App = () => (
     <div>
         <Provider store={store}>
             <BrowserRouter>
-                <Switch>
-                    <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
-                    <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
-                </Switch>
+                <SokApp />
             </BrowserRouter>
         </Provider>
     </div>

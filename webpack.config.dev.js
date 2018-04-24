@@ -11,7 +11,8 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.DefinePlugin({
-            __PAM_SEARCH_API__: "'http://localhost:8080/pam-cv-indexer/rest/kandidatsok/'"
+            __PAM_SEARCH_API__: "'http://localhost:8765/pam-cv-indexer/rest/kandidatsok/'",
+            __LOGIN_URL__: "'http://localhost:8765/pam-cv-indexer/local/cookie/'"
         })
     ]
 });
