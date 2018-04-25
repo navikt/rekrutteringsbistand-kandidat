@@ -28,3 +28,5 @@ fasitResources:
   used:
   - alias: loginservice
     resourceType: restservice
+  - alias: logoutservice
+    resourceType: restservice

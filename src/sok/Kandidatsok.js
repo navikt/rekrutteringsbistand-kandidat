@@ -18,15 +18,12 @@ class Kandidatsok extends React.Component {
         return (
             <div>
                 <div className="search-page-header" />
-                <Container className="search-page-margin">
-                    <Systemtittel>Kandidatsøk</Systemtittel>
-                </Container>
                 {this.props.isInitialSearch ? (
                     <div className="text-center">
                         <NavFrontendSpinner type="L" />
                     </div>
                 ) : (
-                    <div>
+                    <div className="search-page-margin">
                         <SearchForm />
                         <Undertittel className="text-center">
                             Resultat, {this.props.treff} treff
