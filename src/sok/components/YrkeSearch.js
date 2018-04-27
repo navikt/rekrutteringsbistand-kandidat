@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import EtikettBase from 'nav-frontend-etiketter';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
 import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_YRKE, SEARCH, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
@@ -41,11 +40,7 @@ class YrkeSearch extends React.Component {
     };
 
     onFjernClick = (e) => {
-        if (e.target.value) {
-            this.props.removeYrke(e.target.value);
-        } else {
-            console.log(e.target);
-        }
+        this.props.removeYrke(e.target.value);
         this.props.search();
     };
 
@@ -61,15 +56,11 @@ class YrkeSearch extends React.Component {
                         {this.props.query.yrkeserfaringer.map((yrkeserfaring) => (
                             <button
                                 onClick={this.onFjernClick}
-                                className="etikett--sokekriterier etikett etikett--suksess"
+                                className="etikett--sokekriterier etikett etikett--suksess kryssicon--sokekriterier"
                                 key={yrkeserfaring}
                                 value={yrkeserfaring}
-                                icon={<div className="kryssicon--sokekriterier" />}
                             >
                                 {yrkeserfaring}
-                                <div
-                                    className="kryssicon--sokekriterier"
-                                />
                             </button>
                         ))}
                         {this.state.showTypeAhead ? (

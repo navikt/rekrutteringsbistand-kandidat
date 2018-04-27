@@ -6,8 +6,8 @@ import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { INITIAL_SEARCH } from './domene';
 import Resultat from './components/Resultat';
-import SearchForm from './components/SearchForm';
 import YrkeSearch from './components/YrkeSearch';
+import UtdanningSearch from './components/UtdanningSearch';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
@@ -33,6 +33,7 @@ class Kandidatsok extends React.Component {
                             <Row>
                                 <Column xs="7">
                                     <YrkeSearch />
+                                    <UtdanningSearch />
                                 </Column>
                                 <Column xs="12" md="5">
                                     <Undertittel className="text-center">
