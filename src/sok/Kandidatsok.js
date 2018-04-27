@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import { Container } from 'nav-frontend-grid';
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import { Column, Container, Row } from 'nav-frontend-grid';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { INITIAL_SEARCH } from './domene';
 import Resultat from './components/Resultat';
 import SearchForm from './components/SearchForm';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import YrkeSearch from './components/YrkeSearch';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
@@ -17,22 +18,36 @@ class Kandidatsok extends React.Component {
     render() {
         return (
             <div>
-                <div className="search-page-header" />
-                {this.props.isInitialSearch ? (
-                    <div className="text-center">
-                        <NavFrontendSpinner type="L" />
-                    </div>
-                ) : (
-                    <div className="search-page-margin">
-                        <SearchForm />
-                        <Undertittel className="text-center">
-                            Resultat, {this.props.treff} treff
-                        </Undertittel>
-                        <Container className="blokk-s">
-                            <Resultat />
-                        </Container>
-                    </div>
-                )}
+                <Container className="blokk-s">
+                    <Row>
+                        <Column className="text-center">
+                            <Innholdstittel>Finn kandidater</Innholdstittel>
+                        </Column>
+                    </Row>
+                    {this.props.isInitialSearch ? (
+                        <div className="text-center">
+                            <NavFrontendSpinner type="L" />
+                        </div>
+                    ) : (
+                        <div className="search-page">
+                            <Row>
+                                <Column xs="7">
+                                    <YrkeSearch />
+                                </Column>
+                                <Column xs="12" md="5">
+                                    <Undertittel className="text-center">
+                                        Resultat, {this.props.treff} treff
+                                    </Undertittel>
+                                </Column>
+                            </Row>
+                            <Row>
+                                <Column xs="12" md="6">
+                                    <Resultat />
+                                </Column>
+                            </Row>
+                        </div>
+                    )}
+                </Container>
             </div>
         );
     }

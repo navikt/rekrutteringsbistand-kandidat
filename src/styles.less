@@ -160,3 +160,71 @@ button.lenke {
   border-width: 2px;
 }
 
+.lenke.dashed {
+  border: 2px dashed #78706A;
+  border-radius: 4px;
+  color: #78706A;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem 1rem;
+}
+.lenke.dashed:focus,
+.lenke.dashed:hover {
+  background: #fff;
+  border: 2px dashed #0067C5;
+  color: #0067C5;
+}
+.lenke.dashed:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #FFBD66;
+}
+
+.sokekriterier--yrke {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.leggtil--sokekriterier {
+  margin: 1rem 1rem 0 0;
+  display: inline-block;
+}
+
+.leggtil--sokekriterier--knapp {
+  margin: 0.5rem 1rem 0 0;
+}
+
+.etikett--sokekriterier {
+  border: none;
+  margin: 0.5rem 1rem 0 0;
+  padding: 0.7rem 0.7rem;
+  background-color: #cce1f3;
+  color: #3e3832;
+}
+
+.kryssicon--sokekriterier {
+  width: 20px;
+  height: 10px;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  background-color: #cce1f3;
+  border: none;
+
+  &:before, &:after {
+    height: 14px;
+    width: 1px;
+    transform: rotate(-45deg);
+    content: '';
+    display: block;
+    position: absolute;
+    top: -25%;
+    left: 60%;
+    background-color: #0067c5;
+    transition: all 0.2s ease-out;
+  }
+
+
+  &:after {
+    transform: rotate(45deg);
+  }
+}

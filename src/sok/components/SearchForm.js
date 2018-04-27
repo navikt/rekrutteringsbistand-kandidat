@@ -1,26 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container, Row, Column } from 'nav-frontend-grid';
+import { Row, Column } from 'nav-frontend-grid';
 import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import { FETCH_TYPE_AHEAD_SUGGESTIONS, SEARCH, SELECT_TYPE_AHEAD_VALUE, SET_TYPE_AHEAD_VALUE } from '../domene';
-import Typeahead from './Typeahead';
+import Typeahead from '../../common/Typeahead';
 
 class SearchForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         this.props.search();
-    };
-
-    onTypeAheadYrkeChange = (value) => {
-        this.props.setSearchString('yrkeserfaring', value);
-        this.props.fetchTypeAheadSuggestions('yrkeserfaring', value);
-    };
-
-    onTypeAheadYrkeSelect = (value) => {
-        this.props.setSearchString('yrkeserfaring', value);
-        this.props.selectTypeAheadValue('typeAheadSuggestionsyrkeserfaring');
     };
 
     onTypeAheadUtdanningChange = (value) => {
@@ -45,63 +35,44 @@ class SearchForm extends React.Component {
 
     render() {
         return (
-            <Container className="blokk-s">
-                <SkjemaGruppe>
-                    <form onSubmit={this.onSubmit}>
-                        <label htmlFor="yrke" className="skjemaelement__label">
-                            Yrke/Stilling
-                        </label>
-                        <Typeahead
-                            className="skjemaelement__input input--fullbredde"
-                            id="yrke"
-                            onSelect={this.onTypeAheadYrkeSelect}
-                            onChange={this.onTypeAheadYrkeChange}
-                            label=""
-                            autocomplete="off"
-                            name="yrke"
-                            placeholder=""
-                            suggestions={this.props.typeAheadSuggestionsYrke}
-                            value={this.props.query.yrkeserfaring}
-                        />
-                        <label htmlFor="utdanning" className="skjemaelement__label">
-                            Utdanning
-                        </label>
-                        <Typeahead
-                            className="skjemaelement__input input--fullbredde"
-                            id="utdanninger"
-                            onSelect={this.onTypeAheadUtdanningSelect}
-                            onChange={this.onTypeAheadUtdanningChange}
-                            label=""
-                            autocomplete="off"
-                            name="utdanning"
-                            placeholder=""
-                            suggestions={this.props.typeAheadSuggestionsUtdanning}
-                            value={this.props.query.utdanning}
-                        />
-                        <label htmlFor="kompetanse" className="skjemaelement__label">
-                            Kompetanse
-                        </label>
-                        <Typeahead
-                            className="skjemaelement__input input--fullbredde"
-                            id="kompetanser"
-                            onSelect={this.onTypeAheadKompetanseSelect}
-                            onChange={this.onTypeAheadKompetanseChange}
-                            label=""
-                            placeholder=""
-                            autocomplete="off"
-                            name="kompetanser"
-                            suggestions={this.props.typeAheadSuggestionsKompetanse}
-                            value={this.props.query.kompetanse}
-                        />
-                        <Row>&nbsp;</Row>
-                        <Row>
-                            <Column xs="5" md="3">
-                                <Knapp htmlType="submit" type="standard" className="knapp knapp-pam-hoved">Søk</Knapp>
-                            </Column>
-                        </Row>
-                    </form>
-                </SkjemaGruppe>
-            </Container>
+            <SkjemaGruppe>
+                <form onSubmit={this.onSubmit}>
+                    <label htmlFor="utdanning" className="skjemaelement__label">
+                        Utdanning
+                    </label>
+                    <Typeahead
+                        className="skjemaelement__input input--fullbredde"
+                        id="utdanninger"
+                        onSelect={this.onTypeAheadUtdanningSelect}
+                        onChange={this.onTypeAheadUtdanningChange}
+                        label=""
+                        name="utdanning"
+                        placeholder=""
+                        suggestions={this.props.typeAheadSuggestionsUtdanning}
+                        value={this.props.query.utdanning}
+                    />
+                    <label htmlFor="kompetanse" className="skjemaelement__label">
+                        Kompetanse
+                    </label>
+                    <Typeahead
+                        className="skjemaelement__input input--fullbredde"
+                        id="kompetanser"
+                        onSelect={this.onTypeAheadKompetanseSelect}
+                        onChange={this.onTypeAheadKompetanseChange}
+                        label=""
+                        placeholder=""
+                        name="kompetanser"
+                        suggestions={this.props.typeAheadSuggestionsKompetanse}
+                        value={this.props.query.kompetanse}
+                    />
+                    <Row>&nbsp;</Row>
+                    <Row>
+                        <Column xs="5" md="3">
+                            <Knapp htmlType="submit" type="standard" className="knapp knapp-pam-hoved">Søk</Knapp>
+                        </Column>
+                    </Row>
+                </form>
+            </SkjemaGruppe>
         );
     }
 }

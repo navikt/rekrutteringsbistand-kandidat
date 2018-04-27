@@ -21,7 +21,9 @@ export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTION
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE';
 
-export const SELECT_TYPE_AHEAD_VALUE = 'SELECT_TYPE_AHEAD_VALUE';
+export const SELECT_TYPE_AHEAD_VALUE_YRKE = 'SELECT_TYPE_AHEAD_VALUE_YRKE';
+export const REMOVE_SELECTED_YRKE = 'REMOVE_SELECTED_YRKE';
+
 export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
 
 
@@ -38,8 +40,10 @@ const initialState = {
     },
     query: {
         yrkeserfaring: '',
+        yrkeserfaringer: [],
         utdanning: '',
         kompetanse: '',
+        kompetanser: [],
         styrkKode: '',
         nusKode: ''
     },
@@ -98,10 +102,27 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 [action.cachedTypeAheadSuggestionsLabel]: action.cachedSuggestions
             };
-        case SELECT_TYPE_AHEAD_VALUE:
+        case SELECT_TYPE_AHEAD_VALUE_YRKE:
             return {
                 ...state,
-                [action.typeAheadSuggestionsLabel]: []
+                query: {
+                    ...state.query,
+                    yrkeserfaringer: state.query.yrkeserfaringer.includes(state.query.yrkeserfaring) ?
+                        state.query.yrkeserfaringer :
+                        [
+                            ...state.query.yrkeserfaringer,
+                            state.query.yrkeserfaring
+                        ]
+                },
+                typeAheadSuggestionsyrkeserfaring: []
+            };
+        case REMOVE_SELECTED_YRKE:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    yrkeserfaringer: state.query.yrkeserfaringer.filter((y) => y !== action.value)
+                }
             };
         case SET_TYPE_AHEAD_VALUE:
             return {
