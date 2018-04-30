@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_GEOGRAFI, SEARCH, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, SET_TYPE_AHEAD_VALUE } from '../domene';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_YRKE, SEARCH, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
+import LeggTilKnapp from '../../common/LeggTilKnapp';
 
-class YrkeSearch extends React.Component {
+class GeografiSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ class YrkeSearch extends React.Component {
         };
     }
 
-    onTypeAheadYrkeChange = (value) => {
+    onTypeAheadGeografiChange = (value) => {
         this.props.setSearchString(value);
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
@@ -23,7 +23,7 @@ class YrkeSearch extends React.Component {
         });
     };
 
-    onTypeAheadYrkeSelect = (value) => {
+    onTypeAheadGeografiSelect = (value) => {
         this.props.setSearchString(value);
         this.props.selectTypeAheadValue();
         this.setState({
@@ -40,7 +40,7 @@ class YrkeSearch extends React.Component {
     };
 
     onFjernClick = (e) => {
-        this.props.removeYrke(e.target.value);
+        this.props.removeGeografi(e.target.value);
         this.props.search();
     };
 
@@ -57,24 +57,24 @@ class YrkeSearch extends React.Component {
     render() {
         return (
             <div>
-                <Undertittel>Yrke</Undertittel>
+                <Undertittel>Stillingens geografiske plassering</Undertittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Hvilket yrke skal kandidaten ha
+                        Legg til fylke, kommune eller by
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.yrkeserfaringer.map((yrkeserfaring) => (
+                        {this.props.query.geografiList.map((geo) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={yrkeserfaring}
-                                value={yrkeserfaring}
+                                key={geo}
+                                value={geo}
                             >
-                                {yrkeserfaring}
+                                {geo}
                             </button>
                         ))}
                         {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier" >
+                            <div className="leggtil--sokekriterier">
                                 <form
                                     onSubmit={this.onSubmit}
                                 >
@@ -82,14 +82,14 @@ class YrkeSearch extends React.Component {
                                         ref={(typeAhead) => {
                                             this.typeAhead = typeAhead;
                                         }}
-                                        onSelect={this.onTypeAheadYrkeSelect}
-                                        onChange={this.onTypeAheadYrkeChange}
+                                        onSelect={this.onTypeAheadGeografiSelect}
+                                        onChange={this.onTypeAheadGeografiChange}
                                         label=""
-                                        name="yrkeserfaring"
-                                        placeholder="Skriv inn yrke"
-                                        suggestions={this.props.typeAheadSuggestionsYrke}
+                                        name="geografi"
+                                        placeholder="Skriv inn sted"
+                                        suggestions={this.props.typeAheadSuggestionsGeografi}
                                         value={this.state.typeAheadValue}
-                                        id="yrke"
+                                        id="geografi"
                                     />
                                 </form>
                             </div>
@@ -101,7 +101,7 @@ class YrkeSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="lenke dashed leggtil--sokekriterier--knapp"
                             >
-                                Legg til yrke
+                                Legg til sted
                             </LeggTilKnapp>
                         )}
                     </div>
@@ -111,30 +111,31 @@ class YrkeSearch extends React.Component {
     }
 }
 
-YrkeSearch.propTypes = {
+GeografiSearch.propTypes = {
     search: PropTypes.func.isRequired,
-    removeYrke: PropTypes.func.isRequired,
+    removeGeografi: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     setSearchString: PropTypes.func.isRequired,
     query: PropTypes.shape({
-        yrkeserfaring: PropTypes.string,
-        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string)
+        geografi: PropTypes.string,
+        geografiList: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsYrke: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsGeografi: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
+    isSearching: state.isSearching,
     query: state.query,
-    typeAheadSuggestionsYrke: state.typeAheadSuggestionsyrkeserfaring
+    typeAheadSuggestionsGeografi: state.typeAheadSuggestionsgeografi
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'yrkeserfaring', value }),
-    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_YRKE }),
-    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'yrkeserfaring', value }),
-    removeYrke: (value) => dispatch({ type: REMOVE_SELECTED_YRKE, value })
+    fetchTypeAheadSuggestions: (name, value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
+    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI }),
+    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'geografi', value }),
+    removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(YrkeSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(GeografiSearch);

@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import Kandidatsok from './Kandidatsok';
-import ShowCv from './ShowCv';
+import ResultatVisning from './ResultatVisning';
 import { LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
@@ -16,14 +16,20 @@ import { getUrlParameterByName, toUrlParams } from './utils';
 export const getInitialStateFromUrl = (url) => {
     const stateFromUrl = {};
     const yrkeserfaringer = getUrlParameterByName('yrkeserfaringer', url);
+    const arbeidserfaringer = getUrlParameterByName('arbeidserfaringer', url);
     const kompetanser = getUrlParameterByName('kompetanser', url);
-    const utdanning = getUrlParameterByName('utdanning', url);
+    const utdanninger = getUrlParameterByName('utdanninger', url);
+    const sprakList = getUrlParameterByName('sprak', url);
+    const sertifikater = getUrlParameterByName('sertifikater', url);
     const styrkKode = getUrlParameterByName('styrkKode', url);
     const nusKode = getUrlParameterByName('nusKode', url);
 
     if (yrkeserfaringer) stateFromUrl.yrkeserfaringer = yrkeserfaringer.split('_');
+    if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
-    if (utdanning) stateFromUrl.utdanning = utdanning;
+    if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
+    if (sprakList) stateFromUrl.sprakList = sprakList.split('_');
+    if (sertifikater) stateFromUrl.sertifikater = sertifikater.split('_');
     if (styrkKode) stateFromUrl.styrkKode = styrkKode;
     if (nusKode) stateFromUrl.nusKode = nusKode;
     return stateFromUrl;
@@ -33,8 +39,11 @@ export const createUrlParamsFromState = (state) => {
     const { query } = state;
     const urlQuery = {};
     if (query.yrkeserfaringer && query.yrkeserfaringer.length > 0) urlQuery.yrkeserfaringer = query.yrkeserfaringer.join('_');
+    if (query.arbeidserfaringer && query.arbeidserfaringer.length > 0) urlQuery.arbeidserfaringer = query.arbeidserfaringer.join('_');
     if (query.kompetanser && query.kompetanser.length > 0) urlQuery.kompetanser = query.kompetanser.join('_');
-    if (query.utdanning) urlQuery.utdanning = query.utdanning;
+    if (query.utdanninger && query.utdanninger.length > 0) urlQuery.utdanninger = query.utdanninger.join('_');
+    if (query.sprakList && query.sprakList.length > 0) urlQuery.sprakList = query.sprakList.join('_');
+    if (query.sertifikater && query.sertifikater.length > 0) urlQuery.sertifikater = query.sertifikater.join('_');
     if (query.styrkKode) urlQuery.styrkKode = query.styrkKode;
     if (query.nusKode) urlQuery.nusKode = query.nusKode;
     return toUrlParams(urlQuery);
@@ -78,7 +87,6 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
-                    <Route exact path="/pam-kandidatsok/showcv/:id" render={(props) => <ShowCv {...props} />} />
                 </Switch>
             </BrowserRouter>
         );

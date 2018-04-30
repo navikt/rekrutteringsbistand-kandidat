@@ -1,54 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { INITIAL_SEARCH } from './domene';
-import Resultat from './components/Resultat';
 import YrkeSearch from './components/YrkeSearch';
 import UtdanningSearch from './components/UtdanningSearch';
+import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
+import KompetanseSearch from './components/KompetanseSearch';
+import GeografiSearch from './components/GeografiSearch';
+import ResultatVisning from './ResultatVisning';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
         super(props);
         this.props.initialSearch(props.urlParams);
+        this.state = {
+            showResultsPage: false
+        };
     }
 
+    toggleResultsClick = () => {
+        this.setState({
+            showResultsPage: !this.state.showResultsPage
+        });
+    };
+
     render() {
+        if (this.props.isInitialSearch) {
+            return (
+                <div className="text-center">
+                    <NavFrontendSpinner type="L" />
+                </div>
+            );
+        }
         return (
             <div>
-                <Container className="blokk-s">
-                    <Row>
-                        <Column className="text-center">
-                            <Innholdstittel>Finn kandidater</Innholdstittel>
-                        </Column>
-                    </Row>
-                    {this.props.isInitialSearch ? (
-                        <div className="text-center">
-                            <NavFrontendSpinner type="L" />
-                        </div>
-                    ) : (
-                        <div className="search-page">
+                {this.state.showResultsPage ? (
+                    <Container className="blokk-s container--wide">
+                        <ResultatVisning />
+                    </Container>
+                ) : (
+                    <Container className="blokk-s">
+                        <div>
                             <Row>
-                                <Column xs="7">
-                                    <YrkeSearch />
-                                    <UtdanningSearch />
-                                </Column>
-                                <Column xs="12" md="5">
-                                    <Undertittel className="text-center">
-                                        Resultat, {this.props.treff} treff
-                                    </Undertittel>
+                                <Column className="text-center">
+                                    <Innholdstittel>Finn kandidater</Innholdstittel>
                                 </Column>
                             </Row>
-                            <Row>
-                                <Column xs="12" md="6">
-                                    <Resultat />
-                                </Column>
-                            </Row>
+                            <div className="search-page">
+                                <Row>
+                                    <Column xs="8">
+                                        <YrkeSearch />
+                                        <UtdanningSearch />
+                                        <ArbeidserfaringSearch />
+                                        <KompetanseSearch />
+                                        <GeografiSearch />
+                                    </Column>
+                                    <Column xs="12" md="4">
+                                        <div className="panel resultatsummering--sokekriterier">
+                                            <Ingress>Treff på aktuelle kandidater</Ingress>
+                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.treff} treff</Systemtittel>
+                                            <Hovedknapp onClick={this.toggleResultsClick}>
+                                                Se kandidatene
+                                            </Hovedknapp>
+                                        </div>
+                                    </Column>
+                                </Row>
+                            </div>
                         </div>
-                    )}
-                </Container>
+                    </Container>
+                )}
             </div>
         );
     }

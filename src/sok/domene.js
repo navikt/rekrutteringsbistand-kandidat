@@ -24,6 +24,21 @@ export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_
 export const SELECT_TYPE_AHEAD_VALUE_YRKE = 'SELECT_TYPE_AHEAD_VALUE_YRKE';
 export const REMOVE_SELECTED_YRKE = 'REMOVE_SELECTED_YRKE';
 
+export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
+export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
+
+export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
+export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
+
+export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
+export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
+
+export const SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT = 'SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT';
+export const REMOVE_SELECTED_SERTIFIKAT = 'REMOVE_SELECTED_SERTIFIKAT';
+
+export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
+export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
+
 export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
 
 
@@ -41,20 +56,37 @@ const initialState = {
     query: {
         yrkeserfaring: '',
         yrkeserfaringer: [],
+        arbeidserfaringer: [],
+        arbeidserfaring: '',
         utdanning: '',
+        utdanninger: [],
         kompetanse: '',
         kompetanser: [],
+        sprak: '',
+        sprakList: [],
+        sertifikat: '',
+        sertifikater: [],
+        geografi: '',
+        geografiList: [],
         styrkKode: '',
         nusKode: ''
     },
     isSearching: false,
     isInitialSearch: true,
     typeAheadSuggestionsyrkeserfaring: [],
+    typeAheadSuggestionsarbeidserfaring: [],
     typeAheadSuggestionsutdanning: [],
     typeAheadSuggestionskompetanse: [],
+    typeAheadSuggestionssprak: [],
+    typeAheadSuggestionssertifikat: [],
+    typeAheadSuggestionsgeografi: [],
     cachedTypeAheadSuggestionsYrke: [],
+    cachedTypeAheadSuggestionsArbeidserfaring: [],
     cachedTypeAheadSuggestionsUtdanning: [],
     cachedTypeAheadSuggestionsKompetanse: [],
+    cachedTypeAheadSuggestionsSprak: [],
+    cachedTypeAheadSuggestionsSertifikat: [],
+    cachedTypeAheadSuggestionsGeografi: [],
     error: undefined
 };
 
@@ -124,6 +156,116 @@ export default function reducer(state = initialState, action) {
                     yrkeserfaringer: state.query.yrkeserfaringer.filter((y) => y !== action.value)
                 }
             };
+        case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    arbeidserfaringer: state.query.arbeidserfaringer.includes(state.query.arbeidserfaring) ?
+                        state.query.arbeidserfaringer :
+                        [
+                            ...state.query.arbeidserfaringer,
+                            state.query.arbeidserfaring
+                        ]
+                },
+                typeAheadSuggestionsarbeidserfaring: []
+            };
+        case REMOVE_SELECTED_ARBEIDSERFARING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    arbeidserfaringer: state.query.arbeidserfaringer.filter((y) => y !== action.value)
+                }
+            };
+        case SELECT_TYPE_AHEAD_VALUE_UTDANNING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    utdanninger: state.query.utdanninger.includes(state.query.utdanning) ?
+                        state.query.utdanninger :
+                        [
+                            ...state.query.utdanninger,
+                            state.query.utdanning
+                        ]
+                },
+                typeAheadSuggestionsutdanning: []
+            };
+        case REMOVE_SELECTED_UTDANNING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    utdanninger: state.query.utdanninger.filter((u) => u !== action.value)
+                }
+            };
+        case SELECT_TYPE_AHEAD_VALUE_SPRAK:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    sprakList: state.query.sprakList.includes(state.query.sprak) ?
+                        state.query.sprakList :
+                        [
+                            ...state.query.sprakList,
+                            state.query.sprak
+                        ]
+                },
+                typeAheadSuggestionssprak: []
+            };
+        case REMOVE_SELECTED_SPRAK:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    sprakList: state.query.sprakList.filter((s) => s !== action.value)
+                }
+            };
+        case SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    sertifikater: state.query.sertifikater.includes(state.query.sertifikat) ?
+                        state.query.sertifikater :
+                        [
+                            ...state.query.sertifikater,
+                            state.query.sertifikat
+                        ]
+                },
+                typeAheadSuggestionssertifikat: []
+            };
+        case REMOVE_SELECTED_SERTIFIKAT:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    sertifikater: state.query.sertifikater.filter((s) => s !== action.value)
+                }
+            };
+        case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    geografiList: state.query.geografiList.includes(state.query.geografi) ?
+                        state.query.geografiList :
+                        [
+                            ...state.query.geografiList,
+                            state.query.geografi
+                        ]
+                },
+                typeAheadSuggestionsgeografi: []
+            };
+        case REMOVE_SELECTED_GEOGRAFI:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    geografiList: state.query.geografiList.filter((g) => g !== action.value)
+                }
+            };
         case SET_TYPE_AHEAD_VALUE:
             return {
                 ...state,
@@ -187,12 +329,24 @@ function* fetchTypeAheadSuggestions(action) {
     if (name === 'yrkeserfaring') {
         typeAheadName = 'yrke';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsYrke';
+    } else if (name === 'arbeidserfaring') {
+        typeAheadName = 'yrke';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsArbeidserfaring';
     } else if (name === 'utdanning') {
         typeAheadName = 'utd';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsUtdanning';
     } else if (name === 'kompetanse') {
         typeAheadName = 'komp';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsKompetanse';
+    } else if (name === 'sprak') {
+        typeAheadName = 'spr';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsSprak';
+    } else if (name === 'sertifikat') {
+        typeAheadName = 'sert';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsSertifikat';
+    } else if (name === 'geografi') {
+        typeAheadName = 'geo';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsGeografi';
     }
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {

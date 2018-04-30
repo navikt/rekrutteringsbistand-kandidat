@@ -2,6 +2,7 @@
 
 /* Variables */
 @color-green: @navGronn;
+@color-blue: @navBla;
 @background-green: #E5F3EB;
 @link-color: #000000;
 
@@ -13,7 +14,7 @@
   background-repeat: no-repeat;
   background-position: right 10px center;
   border-radius: 0;
-  border: solid 1px @color-green;
+  border: solid 1px @color-blue;
   max-width: 720px;
 }
 
@@ -153,10 +154,10 @@
 }
 
 .skjemaelement__input {
-  border: 1px solid @color-green;
+  border: 1px solid @color-blue;
 
   &:hover {
-    border-color: @navGronnDarken40;
+    border-color: @navBlaDarken40;
   }
 }
 
@@ -182,7 +183,7 @@
   padding: 0;
   margin: 0;
   background-color: #fff;
-  border: 1px solid @navGronn;
+  border: 1px solid @color-blue;
   border-top: none;
   box-shadow: 0px 5px 15px -5px @navGra60;
   overflow: auto;
@@ -214,7 +215,7 @@
 
 .typeahead .active {
   color: #fff;
-  background-color: @navGronn;
+  background-color: @color-blue;
 }
 
 .typeahead-substring {
