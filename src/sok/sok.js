@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import Kandidatsok from './Kandidatsok';
-import ResultatVisning from './ResultatVisning';
+import ManglerRolleAltinn from './components/ManglerRolleAltinn';
 import { LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
@@ -74,6 +74,8 @@ class Sok extends React.Component {
         const { error } = nextProps;
         if (error && error.status === 401) {
             this.redirectToLogin();
+        } else if (error && error.status === 403) {
+            window.location.href = '/pam-kandidatsok/altinn';
         }
     }
 
@@ -87,6 +89,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/altinn" render={() => <ManglerRolleAltinn />} />
                 </Switch>
             </BrowserRouter>
         );
