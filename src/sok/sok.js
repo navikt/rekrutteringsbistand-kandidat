@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import ResultatVisning from './ResultatVisning';
 import Kandidatsok from './Kandidatsok';
 import ManglerRolleAltinn from './components/ManglerRolleAltinn';
 import { LOGIN_URL } from '../common/fasitProperties';
@@ -21,6 +22,7 @@ export const getInitialStateFromUrl = (url) => {
     const utdanninger = getUrlParameterByName('utdanninger', url);
     const sprakList = getUrlParameterByName('sprak', url);
     const sertifikater = getUrlParameterByName('sertifikater', url);
+    const geografiList = getUrlParameterByName('geografiList', url);
     const styrkKode = getUrlParameterByName('styrkKode', url);
     const nusKode = getUrlParameterByName('nusKode', url);
 
@@ -30,6 +32,7 @@ export const getInitialStateFromUrl = (url) => {
     if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
     if (sprakList) stateFromUrl.sprakList = sprakList.split('_');
     if (sertifikater) stateFromUrl.sertifikater = sertifikater.split('_');
+    if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
     if (styrkKode) stateFromUrl.styrkKode = styrkKode;
     if (nusKode) stateFromUrl.nusKode = nusKode;
     return stateFromUrl;
@@ -44,6 +47,7 @@ export const createUrlParamsFromState = (state) => {
     if (query.utdanninger && query.utdanninger.length > 0) urlQuery.utdanninger = query.utdanninger.join('_');
     if (query.sprakList && query.sprakList.length > 0) urlQuery.sprakList = query.sprakList.join('_');
     if (query.sertifikater && query.sertifikater.length > 0) urlQuery.sertifikater = query.sertifikater.join('_');
+    if (query.geografiList && query.geografiList.length > 0) urlQuery.geografiList = query.geografiList.join('_');
     if (query.styrkKode) urlQuery.styrkKode = query.styrkKode;
     if (query.nusKode) urlQuery.nusKode = query.nusKode;
     return toUrlParams(urlQuery);
@@ -89,6 +93,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/resultat" render={() => <ResultatVisning urlParams={getInitialStateFromUrl(window.location.href)} />} />
                     <Route exact path="/pam-kandidatsok/altinn" render={() => <ManglerRolleAltinn />} />
                 </Switch>
             </BrowserRouter>

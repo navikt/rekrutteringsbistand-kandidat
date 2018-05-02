@@ -1,47 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Hovedknapp } from 'nav-frontend-knapper';
 import { INITIAL_SEARCH } from './domene';
 import YrkeSearch from './components/YrkeSearch';
 import UtdanningSearch from './components/UtdanningSearch';
 import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
 import KompetanseSearch from './components/KompetanseSearch';
 import GeografiSearch from './components/GeografiSearch';
-import ResultatVisning from './ResultatVisning';
+import { createUrlParamsFromState } from './sok';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
         super(props);
         this.props.initialSearch(props.urlParams);
         this.state = {
-            showResultsPage: false
+            urlParameters: createUrlParamsFromState({ query: props.urlParams })
         };
     }
 
-    toggleResultsClick = () => {
-        this.setState({
-            showResultsPage: !this.state.showResultsPage
-        });
-    };
-
     render() {
-        if (this.props.isInitialSearch) {
-            return (
-                <div className="text-center">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        }
         return (
             <div>
-                {this.state.showResultsPage ? (
-                    <Container className="blokk-s container--wide">
-                        <ResultatVisning />
-                    </Container>
+                {this.props.isInitialSearch ? (
+                    <div className="text-center">
+                        <NavFrontendSpinner type="L" />
+                    </div>
                 ) : (
                     <Container className="blokk-s">
                         <div>
@@ -63,9 +50,12 @@ class Kandidatsok extends React.Component {
                                         <div className="panel resultatsummering--sokekriterier">
                                             <Ingress>Treff på aktuelle kandidater</Ingress>
                                             <Systemtittel className="antall--treff--sokekriterier">{this.props.treff} treff</Systemtittel>
-                                            <Hovedknapp onClick={this.toggleResultsClick}>
+                                            <Link
+                                                to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
+                                                className="knapp knapp--hoved"
+                                            >
                                                 Se kandidatene
-                                            </Hovedknapp>
+                                            </Link>
                                         </div>
                                     </Column>
                                 </Row>
@@ -82,9 +72,13 @@ Kandidatsok.propTypes = {
     initialSearch: PropTypes.func.isRequired,
     treff: PropTypes.number.isRequired,
     urlParams: PropTypes.shape({
-        yrkeserfaring: PropTypes.string,
-        utdanning: PropTypes.string,
-        kompetanse: PropTypes.string
+        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
+        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
+        utdanninger: PropTypes.arrayOf(PropTypes.string),
+        kompetanser: PropTypes.arrayOf(PropTypes.string),
+        sprakList: PropTypes.arrayOf(PropTypes.string),
+        sertifikater: PropTypes.arrayOf(PropTypes.string),
+        geografiList: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
     isInitialSearch: PropTypes.bool.isRequired
 };
