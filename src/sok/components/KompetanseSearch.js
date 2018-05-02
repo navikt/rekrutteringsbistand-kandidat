@@ -18,7 +18,6 @@ class KompetanseSearch extends React.Component {
     }
 
     onTypeAheadSprakChange = (value) => {
-        this.props.setSearchStringSprak(value);
         this.props.fetchTypeAheadSuggestionsSprak(value);
         this.setState({
             typeAheadValueSprak: value
@@ -26,8 +25,7 @@ class KompetanseSearch extends React.Component {
     };
 
     onTypeAheadSprakSelect = (value) => {
-        this.props.setSearchStringSprak(value);
-        this.props.selectTypeAheadValueSprak();
+        this.props.selectTypeAheadValueSprak(value);
         this.setState({
             typeAheadValueSprak: '',
             showTypeAheadSprak: false
@@ -47,7 +45,6 @@ class KompetanseSearch extends React.Component {
     };
 
     onTypeAheadSertifikatChange = (value) => {
-        this.props.setSearchStringSertifikat(value);
         this.props.fetchTypeAheadSuggestionsSertifikat(value);
         this.setState({
             typeAheadValueSertifikat: value
@@ -55,8 +52,7 @@ class KompetanseSearch extends React.Component {
     };
 
     onTypeAheadSertifikatSelect = (value) => {
-        this.props.setSearchStringSertifikat(value);
-        this.props.selectTypeAheadValueSertifikat();
+        this.props.selectTypeAheadValueSertifikat(value);
         this.setState({
             typeAheadValueSertifikat: '',
             showTypeAheadSertifikat: false
@@ -77,21 +73,21 @@ class KompetanseSearch extends React.Component {
 
     onSubmitSprak = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValueSprak(this.state.typeAheadValueSprak);
         this.setState({
             typeAheadValueSprak: '',
             showTypeAheadSprak: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValueSprak();
         this.props.search();
     };
 
     onSubmitSertifikat = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValueSertifikat(this.state.typeAheadValueSertifikat);
         this.setState({
             typeAheadValueSertifikat: '',
             showTypeAheadSertifikat: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValueSertifikat();
         this.props.search();
     };
 
@@ -203,11 +199,9 @@ KompetanseSearch.propTypes = {
     removeSprak: PropTypes.func.isRequired,
     fetchTypeAheadSuggestionsSprak: PropTypes.func.isRequired,
     selectTypeAheadValueSprak: PropTypes.func.isRequired,
-    setSearchStringSprak: PropTypes.func.isRequired,
     removeSertifikat: PropTypes.func.isRequired,
     fetchTypeAheadSuggestionsSertifikat: PropTypes.func.isRequired,
     selectTypeAheadValueSertifikat: PropTypes.func.isRequired,
-    setSearchStringSertifikat: PropTypes.func.isRequired,
     query: PropTypes.shape({
         sprak: PropTypes.string,
         sprakList: PropTypes.arrayOf(PropTypes.string),
@@ -227,12 +221,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestionsSprak: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sprak', value }),
-    selectTypeAheadValueSprak: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK }),
-    setSearchStringSprak: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'sprak', value }),
+    selectTypeAheadValueSprak: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
     removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     fetchTypeAheadSuggestionsSertifikat: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sertifikat', value }),
-    selectTypeAheadValueSertifikat: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT }),
-    setSearchStringSertifikat: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'sertifikat', value }),
+    selectTypeAheadValueSertifikat: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT, value }),
     removeSertifikat: (value) => dispatch({ type: REMOVE_SELECTED_SERTIFIKAT, value })
 });
 

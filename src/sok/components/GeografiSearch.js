@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_GEOGRAFI, SEARCH, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, SET_TYPE_AHEAD_VALUE } from '../domene';
 import { Element, Undertittel } from 'nav-frontend-typografi';
+import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_GEOGRAFI, SEARCH, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, SET_TYPE_AHEAD_VALUE } from '../domene';
 import Typeahead from '../../common/Typeahead';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 
@@ -16,7 +16,6 @@ class GeografiSearch extends React.Component {
     }
 
     onTypeAheadGeografiChange = (value) => {
-        this.props.setSearchString(value);
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value
@@ -24,8 +23,7 @@ class GeografiSearch extends React.Component {
     };
 
     onTypeAheadGeografiSelect = (value) => {
-        this.props.setSearchString(value);
-        this.props.selectTypeAheadValue();
+        this.props.selectTypeAheadValue(value);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
@@ -46,11 +44,11 @@ class GeografiSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValue(this.state.typeAheadValue);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValue();
         this.props.search();
     };
 
@@ -116,7 +114,6 @@ GeografiSearch.propTypes = {
     removeGeografi: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    setSearchString: PropTypes.func.isRequired,
     query: PropTypes.shape({
         geografi: PropTypes.string,
         geografiList: PropTypes.arrayOf(PropTypes.string)
@@ -133,8 +130,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (name, value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
-    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI }),
-    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'geografi', value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value })
 });
 

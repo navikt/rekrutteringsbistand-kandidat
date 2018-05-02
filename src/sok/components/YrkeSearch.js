@@ -16,7 +16,6 @@ class YrkeSearch extends React.Component {
     }
 
     onTypeAheadYrkeChange = (value) => {
-        this.props.setSearchString(value);
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value
@@ -24,8 +23,7 @@ class YrkeSearch extends React.Component {
     };
 
     onTypeAheadYrkeSelect = (value) => {
-        this.props.setSearchString(value);
-        this.props.selectTypeAheadValue();
+        this.props.selectTypeAheadValue(value);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
@@ -46,11 +44,11 @@ class YrkeSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValue(this.state.typeAheadValue);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValue();
         this.props.search();
     };
 
@@ -116,7 +114,6 @@ YrkeSearch.propTypes = {
     removeYrke: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    setSearchString: PropTypes.func.isRequired,
     query: PropTypes.shape({
         yrkeserfaring: PropTypes.string,
         yrkeserfaringer: PropTypes.arrayOf(PropTypes.string)
@@ -132,8 +129,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'yrkeserfaring', value }),
-    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_YRKE }),
-    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'yrkeserfaring', value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_YRKE, value }),
     removeYrke: (value) => dispatch({ type: REMOVE_SELECTED_YRKE, value })
 });
 

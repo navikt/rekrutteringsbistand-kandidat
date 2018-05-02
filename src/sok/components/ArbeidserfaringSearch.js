@@ -18,7 +18,6 @@ class ArbeidserfaringSearch extends React.Component {
         };
     }
 
-    // TODO: Må skrives om til Redux når vi får mappingen
     onCheckedArbeidserfaringChange = (e) => {
         if (e.target.checked) {
             this.setState({
@@ -35,7 +34,6 @@ class ArbeidserfaringSearch extends React.Component {
     };
 
     onTypeAheadArbeidserfaringChange = (value) => {
-        this.props.setSearchString(value);
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value
@@ -43,8 +41,7 @@ class ArbeidserfaringSearch extends React.Component {
     };
 
     onTypeAheadArbeidserfaringSelect = (value) => {
-        this.props.setSearchString(value);
-        this.props.selectTypeAheadValue();
+        this.props.selectTypeAheadValue(value);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
@@ -65,11 +62,11 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValue(this.state.typeAheadValue);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValue();
         this.props.search();
     };
 
@@ -147,7 +144,6 @@ ArbeidserfaringSearch.propTypes = {
     removeArbeidserfaring: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    setSearchString: PropTypes.func.isRequired,
     query: PropTypes.shape({
         arbeidserfaring: PropTypes.string,
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)
@@ -163,8 +159,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
-    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING }),
-    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'arbeidserfaring', value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
     removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value })
 });
 

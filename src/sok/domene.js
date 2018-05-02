@@ -39,8 +39,6 @@ export const REMOVE_SELECTED_SERTIFIKAT = 'REMOVE_SELECTED_SERTIFIKAT';
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
 
-export const SET_TYPE_AHEAD_VALUE = 'SET_TYPE_AHEAD_VALUE';
-
 
 /** *********************************************************
  * REDUCER
@@ -54,19 +52,12 @@ const initialState = {
         total: 0
     },
     query: {
-        yrkeserfaring: '',
         yrkeserfaringer: [],
         arbeidserfaringer: [],
-        arbeidserfaring: '',
-        utdanning: '',
         utdanninger: [],
-        kompetanse: '',
         kompetanser: [],
-        sprak: '',
         sprakList: [],
-        sertifikat: '',
         sertifikater: [],
-        geografi: '',
         geografiList: [],
         styrkKode: '',
         nusKode: ''
@@ -139,11 +130,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    yrkeserfaringer: state.query.yrkeserfaringer.includes(state.query.yrkeserfaring) ?
+                    yrkeserfaringer: state.query.yrkeserfaringer.includes(action.value) ?
                         state.query.yrkeserfaringer :
                         [
                             ...state.query.yrkeserfaringer,
-                            state.query.yrkeserfaring
+                            action.value
                         ]
                 },
                 typeAheadSuggestionsyrkeserfaring: []
@@ -161,11 +152,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    arbeidserfaringer: state.query.arbeidserfaringer.includes(state.query.arbeidserfaring) ?
+                    arbeidserfaringer: state.query.arbeidserfaringer.includes(action.value) ?
                         state.query.arbeidserfaringer :
                         [
                             ...state.query.arbeidserfaringer,
-                            state.query.arbeidserfaring
+                            action.value
                         ]
                 },
                 typeAheadSuggestionsarbeidserfaring: []
@@ -183,11 +174,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    utdanninger: state.query.utdanninger.includes(state.query.utdanning) ?
+                    utdanninger: state.query.utdanninger.includes(action.value) ?
                         state.query.utdanninger :
                         [
                             ...state.query.utdanninger,
-                            state.query.utdanning
+                            action.value
                         ]
                 },
                 typeAheadSuggestionsutdanning: []
@@ -205,11 +196,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    sprakList: state.query.sprakList.includes(state.query.sprak) ?
+                    sprakList: state.query.sprakList.includes(action.value) ?
                         state.query.sprakList :
                         [
                             ...state.query.sprakList,
-                            state.query.sprak
+                            action.value
                         ]
                 },
                 typeAheadSuggestionssprak: []
@@ -227,11 +218,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    sertifikater: state.query.sertifikater.includes(state.query.sertifikat) ?
+                    sertifikater: state.query.sertifikater.includes(action.value) ?
                         state.query.sertifikater :
                         [
                             ...state.query.sertifikater,
-                            state.query.sertifikat
+                            action.value
                         ]
                 },
                 typeAheadSuggestionssertifikat: []
@@ -249,11 +240,11 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    geografiList: state.query.geografiList.includes(state.query.geografi) ?
+                    geografiList: state.query.geografiList.includes(action.value) ?
                         state.query.geografiList :
                         [
                             ...state.query.geografiList,
-                            state.query.geografi
+                            action.value
                         ]
                 },
                 typeAheadSuggestionsgeografi: []
@@ -264,14 +255,6 @@ export default function reducer(state = initialState, action) {
                 query: {
                     ...state.query,
                     geografiList: state.query.geografiList.filter((g) => g !== action.value)
-                }
-            };
-        case SET_TYPE_AHEAD_VALUE:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    [action.name]: action.value
                 }
             };
         default:
@@ -322,7 +305,8 @@ function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
     const state = yield select();
     const name = action.name;
-    const value = state.query[name];
+    // const value = state.query[name];
+    const value = action.value;
 
     let typeAheadName;
     let cachedSuggestionsLabel;

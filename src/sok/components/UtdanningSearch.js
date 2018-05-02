@@ -34,7 +34,6 @@ class UtdanningSearch extends React.Component {
     };
 
     onTypeAheadUtdanningChange = (value) => {
-        this.props.setSearchString(value);
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value
@@ -42,8 +41,7 @@ class UtdanningSearch extends React.Component {
     };
 
     onTypeAheadUtdanningSelect = (value) => {
-        this.props.setSearchString(value);
-        this.props.selectTypeAheadValue();
+        this.props.selectTypeAheadValue(value);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
@@ -64,11 +62,11 @@ class UtdanningSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.props.selectTypeAheadValue(this.state.typeAheadValue);
         this.setState({
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.selectTypeAheadValue();
         this.props.search();
     };
 
@@ -142,7 +140,6 @@ UtdanningSearch.propTypes = {
     removeUtdanning: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    setSearchString: PropTypes.func.isRequired,
     query: PropTypes.shape({
         utdanning: PropTypes.string,
         utdanninger: PropTypes.arrayOf(PropTypes.string)
@@ -158,8 +155,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
-    selectTypeAheadValue: () => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING }),
-    setSearchString: (value) => dispatch({ type: SET_TYPE_AHEAD_VALUE, name: 'utdanning', value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value })
 });
 
