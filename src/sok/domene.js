@@ -305,7 +305,6 @@ function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
     const state = yield select();
     const name = action.name;
-    // const value = state.query[name];
     const value = action.value;
 
     let typeAheadName;
