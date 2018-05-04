@@ -5,7 +5,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 export default function KandidaterTableHeader() {
     return (
-        <div className="panel header--resultatvisning">
+        <div className="panel border--bottom--medium">
             <Row>
                 <Column md="2" />
                 <Column md="4">

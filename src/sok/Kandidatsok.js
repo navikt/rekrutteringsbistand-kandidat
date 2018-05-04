@@ -22,6 +22,14 @@ class Kandidatsok extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.query !== this.props.query) {
+            this.setState({
+                urlParameters: createUrlParamsFromState({ query: nextProps.query })
+            });
+        }
+    }
+
     render() {
         return (
             <div>
@@ -76,16 +84,22 @@ Kandidatsok.propTypes = {
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
         utdanninger: PropTypes.arrayOf(PropTypes.string),
         kompetanser: PropTypes.arrayOf(PropTypes.string),
-        sprakList: PropTypes.arrayOf(PropTypes.string),
-        sertifikater: PropTypes.arrayOf(PropTypes.string),
         geografiList: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    isInitialSearch: PropTypes.bool.isRequired
+    isInitialSearch: PropTypes.bool.isRequired,
+    query: PropTypes.shape({
+        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
+        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
+        utdanninger: PropTypes.arrayOf(PropTypes.string),
+        kompetanser: PropTypes.arrayOf(PropTypes.string),
+        geografiList: PropTypes.arrayOf(PropTypes.string)
+    }).isRequired
 };
 
 const mapStateToProps = (state) => ({
     treff: state.elasticSearchResultat.total,
-    isInitialSearch: state.isInitialSearch
+    isInitialSearch: state.isInitialSearch,
+    query: state.query
 });
 
 const mapDispatchToProps = (dispatch) => ({

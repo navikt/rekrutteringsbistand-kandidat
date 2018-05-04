@@ -4,90 +4,58 @@ import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_SERTIFIKAT, REMOVE_SELECTED_SPRAK, SEARCH, SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT, SELECT_TYPE_AHEAD_VALUE_SPRAK, SET_TYPE_AHEAD_VALUE } from '../domene';
+import {
+    FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_KOMPETANSE, SEARCH, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE
+} from '../domene';
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTypeAheadSprak: false,
-            typeAheadValueSprak: '',
-            showTypeAheadSertifikat: false,
-            typeAheadValueSertifikat: ''
+            showTypeAheadKompetanse: false,
+            typeAheadValueKompetanse: ''
         };
     }
 
-    onTypeAheadSprakChange = (value) => {
-        this.props.fetchTypeAheadSuggestionsSprak(value);
+    onTypeAheadKompetanseChange = (value) => {
+        this.props.fetchTypeAheadSuggestionsKompetanse(value);
         this.setState({
-            typeAheadValueSprak: value
+            typeAheadValueKompetanse: value
         });
     };
 
-    onTypeAheadSprakSelect = (value) => {
-        this.props.selectTypeAheadValueSprak(value);
+    onTypeAheadKompetanseSelect = (value) => {
+        this.props.selectTypeAheadValueKompetanse(value);
         this.setState({
-            typeAheadValueSprak: '',
-            showTypeAheadSprak: false
+            typeAheadValueKompetanse: '',
+            showTypeAheadKompetanse: false
         }, () => this.leggTilKnapp.button.focus());
         this.props.search();
     };
 
-    onLeggTilSprakClick = () => {
+    onLeggTilKompetanseClick = () => {
         this.setState({
-            showTypeAheadSprak: true
+            showTypeAheadKompetanse: true
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernSprakClick = (e) => {
-        this.props.removeSprak(e.target.value);
+    onFjernKompetanseClick = (e) => {
+        this.props.removeKompetanse(e.target.value);
         this.props.search();
     };
 
-    onTypeAheadSertifikatChange = (value) => {
-        this.props.fetchTypeAheadSuggestionsSertifikat(value);
-        this.setState({
-            typeAheadValueSertifikat: value
-        });
-    };
-
-    onTypeAheadSertifikatSelect = (value) => {
-        this.props.selectTypeAheadValueSertifikat(value);
-        this.setState({
-            typeAheadValueSertifikat: '',
-            showTypeAheadSertifikat: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
-    };
-
-    onLeggTilSertifikatClick = () => {
-        this.setState({
-            showTypeAheadSertifikat: true
-        }, () => this.typeAhead.input.focus());
-    };
-
-    onFjernSertifikatClick = (e) => {
-        this.props.removeSertifikat(e.target.value);
-        this.props.search();
-    };
-
-    onSubmitSprak = (e) => {
+    onSubmitKompetanse = (e) => {
         e.preventDefault();
-        this.props.selectTypeAheadValueSprak(this.state.typeAheadValueSprak);
+        this.props.selectTypeAheadValueKompetanse(this.state.typeAheadValueKompetanse);
         this.setState({
-            typeAheadValueSprak: '',
-            showTypeAheadSprak: false
+            typeAheadValueKompetanse: '',
+            showTypeAheadKompetanse: false
         }, () => this.leggTilKnapp.button.focus());
         this.props.search();
     };
 
-    onSubmitSertifikat = (e) => {
-        e.preventDefault();
-        this.props.selectTypeAheadValueSertifikat(this.state.typeAheadValueSertifikat);
-        this.setState({
-            typeAheadValueSertifikat: '',
-            showTypeAheadSertifikat: false
-        }, () => this.leggTilKnapp.button.focus());
+    onKompetanseSuggestionsClick = (e) => {
+        this.props.selectTypeAheadValueKompetanse(e.target.value);
         this.props.search();
     };
 
@@ -97,36 +65,36 @@ class KompetanseSearch extends React.Component {
                 <Undertittel>Kompetanse</Undertittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Krav til språk
+                        Krav til språk, sertifikater, kurs og sertifiseringer
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.sprakList.map((sprak) => (
+                        {this.props.query.kompetanser.map((kompetanse) => (
                             <button
-                                onClick={this.onFjernSprakClick}
+                                onClick={this.onFjernKompetanseClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={sprak}
-                                value={sprak}
+                                key={kompetanse}
+                                value={kompetanse}
                             >
-                                {sprak}
+                                {kompetanse}
                             </button>
                         ))}
-                        {this.state.showTypeAheadSprak ? (
+                        {this.state.showTypeAheadKompetanse ? (
                             <div className="leggtil--sokekriterier">
                                 <form
-                                    onSubmit={this.onSubmitSprak}
+                                    onSubmit={this.onSubmitKompetanse}
                                 >
                                     <Typeahead
                                         ref={(typeAhead) => {
                                             this.typeAhead = typeAhead;
                                         }}
-                                        onSelect={this.onTypeAheadSprakSelect}
-                                        onChange={this.onTypeAheadSprakChange}
+                                        onSelect={this.onTypeAheadKompetanseSelect}
+                                        onChange={this.onTypeAheadKompetanseChange}
                                         label=""
-                                        name="sprak"
-                                        placeholder="Skriv inn språk"
-                                        suggestions={this.props.typeAheadSuggestionsSprak}
-                                        value={this.state.typeAheadValueSprak}
-                                        id="sprak"
+                                        name="kompetanse"
+                                        placeholder="Skriv inn kompetanse"
+                                        suggestions={this.props.typeAheadSuggestionsKompetanse}
+                                        value={this.state.typeAheadValueKompetanse}
+                                        id="kompetanse"
                                     />
                                 </form>
                             </div>
@@ -135,59 +103,37 @@ class KompetanseSearch extends React.Component {
                                 ref={(leggTilKnapp) => {
                                     this.leggTilKnapp = leggTilKnapp;
                                 }}
-                                onClick={this.onLeggTilSprakClick}
+                                onClick={this.onLeggTilKompetanseClick}
                                 className="lenke dashed leggtil--sokekriterier--knapp"
                             >
-                                Legg til Språk
+                                Legg til kompetanse
                             </LeggTilKnapp>
                         )}
                     </div>
-                    <Element>
-                        Krav til sertifikat
-                    </Element>
-                    <div className="sokekriterier--kriterier">
-                        {this.props.query.sertifikater.map((sertifikat) => (
-                            <button
-                                onClick={this.onFjernSertifikatClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={sertifikat}
-                                value={sertifikat}
-                            >
-                                {sertifikat}
-                            </button>
-                        ))}
-                        {this.state.showTypeAheadSertifikat ? (
-                            <div className="leggtil--sokekriterier">
-                                <form
-                                    onSubmit={this.onSubmitSertifikat}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadSertifikatSelect}
-                                        onChange={this.onTypeAheadSertifikatChange}
-                                        label=""
-                                        name="sertifikat"
-                                        placeholder="Skriv inn sertifikat"
-                                        suggestions={this.props.typeAheadSuggestionsSertifikat}
-                                        value={this.state.typeAheadValueSertifikat}
-                                        id="sertifikat"
-                                    />
-                                </form>
+                    {this.props.kompetanseSuggestions.length > 0 && (
+                        <div>
+                            <div className="border--bottom--thin border--bottom--thin--margin" />
+                            <Element>
+                                Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
+                            </Element>
+                            <div className="sokekriterier--kriterier">
+                                {this.props.kompetanseSuggestions.map((suggestedKompetanse) => (
+                                    this.props.query.kompetanser.includes(suggestedKompetanse.feltnavn) ? (
+                                        <div key={suggestedKompetanse.feltnavn} />
+                                    ) : (
+                                        <button
+                                            onClick={this.onKompetanseSuggestionsClick}
+                                            className="etikett--forslag--kompetanse"
+                                            key={suggestedKompetanse.feltnavn}
+                                            value={suggestedKompetanse.feltnavn}
+                                        >
+                                            {suggestedKompetanse.feltnavn}
+                                        </button>
+                                    )
+                                ))}
                             </div>
-                        ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
-                                onClick={this.onLeggTilSertifikatClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
-                            >
-                                Legg til Sertifikat
-                            </LeggTilKnapp>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -196,36 +142,28 @@ class KompetanseSearch extends React.Component {
 
 KompetanseSearch.propTypes = {
     search: PropTypes.func.isRequired,
-    removeSprak: PropTypes.func.isRequired,
-    fetchTypeAheadSuggestionsSprak: PropTypes.func.isRequired,
-    selectTypeAheadValueSprak: PropTypes.func.isRequired,
-    removeSertifikat: PropTypes.func.isRequired,
-    fetchTypeAheadSuggestionsSertifikat: PropTypes.func.isRequired,
-    selectTypeAheadValueSertifikat: PropTypes.func.isRequired,
+    removeKompetanse: PropTypes.func.isRequired,
+    fetchTypeAheadSuggestionsKompetanse: PropTypes.func.isRequired,
+    selectTypeAheadValueKompetanse: PropTypes.func.isRequired,
     query: PropTypes.shape({
-        sprak: PropTypes.string,
-        sprakList: PropTypes.arrayOf(PropTypes.string),
-        sertifikat: PropTypes.string,
-        sertifikater: PropTypes.arrayOf(PropTypes.string)
+        kompetanse: PropTypes.string,
+        kompetanser: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsSertifikat: PropTypes.arrayOf(PropTypes.string).isRequired
+    kompetanseSuggestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    typeAheadSuggestionsSprak: state.typeAheadSuggestionssprak,
-    typeAheadSuggestionsSertifikat: state.typeAheadSuggestionssertifikat
+    kompetanseSuggestions: state.elasticSearchResultat.kompetanseSuggestions,
+    typeAheadSuggestionsKompetanse: state.typeAheadSuggestionskompetanse
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    fetchTypeAheadSuggestionsSprak: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sprak', value }),
-    selectTypeAheadValueSprak: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
-    removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
-    fetchTypeAheadSuggestionsSertifikat: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sertifikat', value }),
-    selectTypeAheadValueSertifikat: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT, value }),
-    removeSertifikat: (value) => dispatch({ type: REMOVE_SELECTED_SERTIFIKAT, value })
+    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'kompetanse', value }),
+    selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
+    removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KompetanseSearch);

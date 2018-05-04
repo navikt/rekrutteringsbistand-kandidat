@@ -20,7 +20,7 @@ export const getInitialStateFromUrl = (url) => {
     const arbeidserfaringer = getUrlParameterByName('arbeidserfaringer', url);
     const kompetanser = getUrlParameterByName('kompetanser', url);
     const utdanninger = getUrlParameterByName('utdanninger', url);
-    const sprakList = getUrlParameterByName('sprak', url);
+    const sprakList = getUrlParameterByName('sprakList', url);
     const sertifikater = getUrlParameterByName('sertifikater', url);
     const geografiList = getUrlParameterByName('geografiList', url);
     const styrkKode = getUrlParameterByName('styrkKode', url);

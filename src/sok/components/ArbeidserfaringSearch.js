@@ -13,7 +13,7 @@ class ArbeidserfaringSearch extends React.Component {
         this.state = {
             showTypeAhead: false,
             typeAheadValue: '',
-            arbeidserfaringer: ['Ingen arbeidserfaring', 'Over 3 år', 'Over 5 år', 'Over 10 år'],
+            arbeidserfaringer: ['Ingen arbeidserfaring', '1-3 år', '4-6 år', '7-9 år', 'Over 10 år'],
             checkedArbeidserfaringer: []
         };
     }

@@ -16,6 +16,10 @@ export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const INITIAL_SEARCH = 'INITIAL_SEARCH';
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 
+export const FETCH_KOMPETANSE_SUGGESTIONS = 'FETCH_KOMPETANSE_SUGGESTIONS';
+export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN';
+export const SET_KOMPETANSE_SUGGESTIONS_SUCCESS = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS';
+
 export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
@@ -30,14 +34,11 @@ export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING'
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
 
-export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
-export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
-
-export const SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT = 'SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT';
-export const REMOVE_SELECTED_SERTIFIKAT = 'REMOVE_SELECTED_SERTIFIKAT';
-
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
+
+export const SELECT_TYPE_AHEAD_VALUE_KOMPETANSE = 'SELECT_TYPE_AHEAD_VALUE_KOMPETANSE';
+export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
 
 
 /** *********************************************************
@@ -49,6 +50,7 @@ const initialState = {
             cver: [],
             aggregeringer: []
         },
+        kompetanseSuggestions: [],
         total: 0
     },
     query: {
@@ -56,8 +58,6 @@ const initialState = {
         arbeidserfaringer: [],
         utdanninger: [],
         kompetanser: [],
-        sprakList: [],
-        sertifikater: [],
         geografiList: [],
         styrkKode: '',
         nusKode: ''
@@ -68,15 +68,11 @@ const initialState = {
     typeAheadSuggestionsarbeidserfaring: [],
     typeAheadSuggestionsutdanning: [],
     typeAheadSuggestionskompetanse: [],
-    typeAheadSuggestionssprak: [],
-    typeAheadSuggestionssertifikat: [],
     typeAheadSuggestionsgeografi: [],
     cachedTypeAheadSuggestionsYrke: [],
     cachedTypeAheadSuggestionsArbeidserfaring: [],
     cachedTypeAheadSuggestionsUtdanning: [],
     cachedTypeAheadSuggestionsKompetanse: [],
-    cachedTypeAheadSuggestionsSprak: [],
-    cachedTypeAheadSuggestionsSertifikat: [],
     cachedTypeAheadSuggestionsGeografi: [],
     error: undefined
 };
@@ -103,7 +99,18 @@ export default function reducer(state = initialState, action) {
                 isSearching: false,
                 error: action.error
             };
-
+        case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
+            return {
+                ...state,
+                isSearching: true,
+                query: action.query
+            };
+        case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
+            return {
+                ...state,
+                isSearching: false,
+                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+            };
         case SET_INITIAL_STATE:
             return {
                 ...state,
@@ -191,50 +198,6 @@ export default function reducer(state = initialState, action) {
                     utdanninger: state.query.utdanninger.filter((u) => u !== action.value)
                 }
             };
-        case SELECT_TYPE_AHEAD_VALUE_SPRAK:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    sprakList: state.query.sprakList.includes(action.value) ?
-                        state.query.sprakList :
-                        [
-                            ...state.query.sprakList,
-                            action.value
-                        ]
-                },
-                typeAheadSuggestionssprak: []
-            };
-        case REMOVE_SELECTED_SPRAK:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    sprakList: state.query.sprakList.filter((s) => s !== action.value)
-                }
-            };
-        case SELECT_TYPE_AHEAD_VALUE_SERTIFIKAT:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    sertifikater: state.query.sertifikater.includes(action.value) ?
-                        state.query.sertifikater :
-                        [
-                            ...state.query.sertifikater,
-                            action.value
-                        ]
-                },
-                typeAheadSuggestionssertifikat: []
-            };
-        case REMOVE_SELECTED_SERTIFIKAT:
-            return {
-                ...state,
-                query: {
-                    ...state.query,
-                    sertifikater: state.query.sertifikater.filter((s) => s !== action.value)
-                }
-            };
         case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
             return {
                 ...state,
@@ -257,6 +220,28 @@ export default function reducer(state = initialState, action) {
                     geografiList: state.query.geografiList.filter((g) => g !== action.value)
                 }
             };
+        case SELECT_TYPE_AHEAD_VALUE_KOMPETANSE:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    kompetanser: state.query.kompetanser.includes(action.value) ?
+                        state.query.kompetanser :
+                        [
+                            ...state.query.kompetanser,
+                            action.value
+                        ]
+                },
+                typeAheadSuggestionskompetanse: []
+            };
+        case REMOVE_SELECTED_KOMPETANSE:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    kompetanser: state.query.kompetanser.filter((k) => k !== action.value)
+                }
+            };
         default:
             return { ...state };
     }
@@ -277,6 +262,29 @@ function* search() {
         const response = yield call(fetchKandidater, query);
 
         yield put({ type: SEARCH_SUCCESS, response });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SEARCH_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* fetchKompetanseSuggestions() {
+    try {
+        const state = yield select();
+        const query = state.query;
+
+        yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN, query });
+
+        if (query.yrkeserfaringer.length === 0) {
+            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: [] });
+        } else {
+            const response = yield call(fetchKandidater, { ...query, arbeidserfaringer: query.yrkeserfaringer });
+
+            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
+        }
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
@@ -321,12 +329,6 @@ function* fetchTypeAheadSuggestions(action) {
     } else if (name === 'kompetanse') {
         typeAheadName = 'komp';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsKompetanse';
-    } else if (name === 'sprak') {
-        typeAheadName = 'spr';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsSprak';
-    } else if (name === 'sertifikat') {
-        typeAheadName = 'sert';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsSertifikat';
     } else if (name === 'geografi') {
         typeAheadName = 'geo';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsGeografi';
@@ -376,6 +378,7 @@ function* fetchTypeAheadSuggestions(action) {
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
+    yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(INITIAL_SEARCH, initialSearch);
     yield takeLatest(FETCH_TYPE_AHEAD_SUGGESTIONS, fetchTypeAheadSuggestions);
 };

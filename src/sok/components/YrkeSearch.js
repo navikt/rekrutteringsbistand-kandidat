@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_YRKE, SEARCH, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
+import { FETCH_KOMPETANSE_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_YRKE, SEARCH, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
 
 class YrkeSearch extends React.Component {
     constructor(props) {
@@ -13,6 +13,10 @@ class YrkeSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
+    }
+
+    componentDidMount() {
+        this.props.fetchKompetanseSuggestions();
     }
 
     onTypeAheadYrkeChange = (value) => {
@@ -28,7 +32,7 @@ class YrkeSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        this.props.fetchKompetanseSuggestions();
     };
 
     onLeggTilClick = () => {
@@ -39,7 +43,7 @@ class YrkeSearch extends React.Component {
 
     onFjernClick = (e) => {
         this.props.removeYrke(e.target.value);
-        this.props.search();
+        this.props.fetchKompetanseSuggestions();
     };
 
     onSubmit = (e) => {
@@ -49,16 +53,16 @@ class YrkeSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        this.props.fetchKompetanseSuggestions();
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Yrke</Undertittel>
+                <Undertittel>Stilling</Undertittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Hvilket yrke skal kandidaten ha
+                        Hvilken stilling skal du ansette en kandidat til?
                     </Element>
                     <div className="sokekriterier--kriterier">
                         {this.props.query.yrkeserfaringer.map((yrkeserfaring) => (
@@ -110,7 +114,7 @@ class YrkeSearch extends React.Component {
 }
 
 YrkeSearch.propTypes = {
-    search: PropTypes.func.isRequired,
+    fetchKompetanseSuggestions: PropTypes.func.isRequired,
     removeYrke: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
@@ -130,7 +134,8 @@ const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'yrkeserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_YRKE, value }),
-    removeYrke: (value) => dispatch({ type: REMOVE_SELECTED_YRKE, value })
+    removeYrke: (value) => dispatch({ type: REMOVE_SELECTED_YRKE, value }),
+    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(YrkeSearch);

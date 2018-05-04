@@ -5,7 +5,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 export default function KandidaterTableRow({ kandidat, utdanning, arbeidserfaring, arbeidserfaringTid, cvLenke }) {
     return (
-        <div className="panel entry--resultatvisning">
+        <div className="panel border--bottom--thin">
             <Row>
                 <Column md="2"><Normaltekst>{`Kandidat ${kandidat + 1}`}</Normaltekst></Column>
                 <Column md="4"><Normaltekst>{utdanning}</Normaltekst></Column>
