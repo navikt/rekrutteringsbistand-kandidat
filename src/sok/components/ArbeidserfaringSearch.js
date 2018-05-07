@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Radio } from 'nav-frontend-skjema';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_ARBEIDSERFARING, SEARCH, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
+import {
+    FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_ARBEIDSERFARING, SEARCH, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING
+} from '../domene';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -13,24 +15,14 @@ class ArbeidserfaringSearch extends React.Component {
         this.state = {
             showTypeAhead: false,
             typeAheadValue: '',
-            arbeidserfaringer: ['Ingen arbeidserfaring', '1-3 år', '4-6 år', '7-9 år', 'Over 10 år'],
-            checkedArbeidserfaringer: []
+            erfaringLabel: ['Ikke relevant', '0-1 år', '2-3 år', '4-6 år', '7-9 år', 'Over 10 år'],
+            erfaringValues: ['0-', '0-12', '13-36', '37-72', '73-108', '109-']
         };
     }
 
-    onCheckedArbeidserfaringChange = (e) => {
-        if (e.target.checked) {
-            this.setState({
-                checkedArbeidserfaringer: [
-                    ...this.state.checkedArbeidserfaringer,
-                    e.target.value
-                ]
-            });
-        } else {
-            this.setState({
-                checkedArbeidserfaringer: this.state.checkedArbeidserfaringer.filter((u) => u !== e.target.value)
-            });
-        }
+    onCheckTotalErfaring = (e) => {
+        this.props.checkTotalErfaring(e.target.value);
+        this.props.search();
     };
 
     onTypeAheadArbeidserfaringChange = (value) => {
@@ -121,15 +113,17 @@ class ArbeidserfaringSearch extends React.Component {
                             </LeggTilKnapp>
                         )}
                     </div>
-                    <Element>Antall år med arbeideserfaring</Element>
+                    <Element>Antall år med arbeidserfaring</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.state.arbeidserfaringer.map((arbeidserfaring) => (
-                            <Checkbox
-                                className={this.state.checkedArbeidserfaringer.includes(arbeidserfaring) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
-                                label={arbeidserfaring}
+                        {this.state.erfaringValues.map((arbeidserfaring, i) => (
+                            <Radio
+                                className={this.props.totalErfaring === arbeidserfaring ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                label={this.state.erfaringLabel[i]}
                                 key={arbeidserfaring}
                                 value={arbeidserfaring}
-                                onChange={this.onCheckedArbeidserfaringChange}
+                                name={arbeidserfaring}
+                                checked={this.props.totalErfaring === arbeidserfaring}
+                                onChange={this.onCheckTotalErfaring}
                             />
                         ))}
                     </div>
@@ -144,23 +138,27 @@ ArbeidserfaringSearch.propTypes = {
     removeArbeidserfaring: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
+    checkTotalErfaring: PropTypes.func.isRequired,
     query: PropTypes.shape({
         arbeidserfaring: PropTypes.string,
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsArbeidserfaring: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsArbeidserfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
+    totalErfaring: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    typeAheadSuggestionsArbeidserfaring: state.typeAheadSuggestionsarbeidserfaring
+    typeAheadSuggestionsArbeidserfaring: state.typeAheadSuggestionsarbeidserfaring,
+    totalErfaring: state.query.totalErfaring
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
-    removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value })
+    removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
+    checkTotalErfaring: (value) => dispatch({ type: SELECT_TOTAL_ERFARING, value })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidserfaringSearch);

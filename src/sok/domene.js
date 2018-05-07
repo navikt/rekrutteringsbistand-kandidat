@@ -40,6 +40,8 @@ export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
 export const SELECT_TYPE_AHEAD_VALUE_KOMPETANSE = 'SELECT_TYPE_AHEAD_VALUE_KOMPETANSE';
 export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
 
+export const SELECT_TOTAL_ERFARING = 'SELECT_TOTAL_ERFARING';
+
 
 /** *********************************************************
  * REDUCER
@@ -59,6 +61,7 @@ const initialState = {
         utdanninger: [],
         kompetanser: [],
         geografiList: [],
+        totalErfaring: '',
         styrkKode: '',
         nusKode: ''
     },
@@ -240,6 +243,14 @@ export default function reducer(state = initialState, action) {
                 query: {
                     ...state.query,
                     kompetanser: state.query.kompetanser.filter((k) => k !== action.value)
+                }
+            };
+        case SELECT_TOTAL_ERFARING:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    totalErfaring: action.value
                 }
             };
         default:

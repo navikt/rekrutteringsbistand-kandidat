@@ -84,8 +84,6 @@ ResultatVisning.propTypes = {
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
         utdanninger: PropTypes.arrayOf(PropTypes.string),
         kompetanser: PropTypes.arrayOf(PropTypes.string),
-        sprakList: PropTypes.arrayOf(PropTypes.string),
-        sertifikater: PropTypes.arrayOf(PropTypes.string),
         geografiList: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
     isInitialSearch: PropTypes.bool.isRequired
