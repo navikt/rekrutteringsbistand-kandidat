@@ -14,10 +14,11 @@ class ArbeidserfaringSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: '',
-            erfaringLabel: ['Ikke relevant', '0-1 år', '2-3 år', '4-6 år', '7-9 år', 'Over 10 år'],
-            erfaringValues: ['0-', '0-12', '13-36', '37-72', '73-108', '109-']
+            typeAheadValue: ''
         };
+        this.ERFARINGER = Object.freeze([{ label: 'Ikke relevant', value: '0-' }, { label: '0-1 år', value: '0-1' },
+            { label: '2-3 år', value: '2-3' }, { label: '4-6 år', value: '4-6' }, { label: '7-9 år', value: '7-9' },
+            { label: 'Over 10 år', value: '109-' }]);
     }
 
     onCheckTotalErfaring = (e) => {
@@ -115,14 +116,14 @@ class ArbeidserfaringSearch extends React.Component {
                     </div>
                     <Element>Antall år med arbeidserfaring</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.state.erfaringValues.map((arbeidserfaring, i) => (
+                        {this.ERFARINGER.map((arbeidserfaring) => (
                             <Radio
-                                className={this.props.totalErfaring === arbeidserfaring ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
-                                label={this.state.erfaringLabel[i]}
-                                key={arbeidserfaring}
-                                value={arbeidserfaring}
-                                name={arbeidserfaring}
-                                checked={this.props.totalErfaring === arbeidserfaring}
+                                className={this.props.totalErfaring === arbeidserfaring.value ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                label={arbeidserfaring.label}
+                                key={arbeidserfaring.value}
+                                value={arbeidserfaring.value}
+                                name={arbeidserfaring.label}
+                                checked={this.props.totalErfaring === arbeidserfaring.value}
                                 onChange={this.onCheckTotalErfaring}
                             />
                         ))}
