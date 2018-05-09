@@ -92,47 +92,49 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
-                    {this.props.query.utdanninger.map((utdanning) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
-                            key={utdanning}
-                            value={utdanning}
-                        >
-                            {utdanning}
-                        </button>
-                    ))}
-                    {this.state.showTypeAhead ? (
-                        <div className="leggtil--sokekriterier">
-                            <form
-                                onSubmit={this.onSubmit}
+                    <div className="sokekriterier--kriterier">
+                        {this.props.query.utdanninger.map((utdanning) => (
+                            <button
+                                onClick={this.onFjernClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={utdanning}
+                                value={utdanning}
                             >
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadUtdanningSelect}
-                                    onChange={this.onTypeAheadUtdanningChange}
-                                    label=""
-                                    name="utdanning"
-                                    placeholder="Skriv inn fagfelt"
-                                    suggestions={this.props.typeAheadSuggestionsUtdanning}
-                                    value={this.state.typeAheadValue}
-                                    id="yrke"
-                                />
-                            </form>
-                        </div>
-                    ) : (
-                        <LeggTilKnapp
-                            ref={(leggTilKnapp) => {
-                                this.leggTilKnapp = leggTilKnapp;
-                            }}
-                            onClick={this.onLeggTilClick}
-                            className="lenke dashed leggtil--sokekriterier--knapp"
-                        >
-                            Legg til fagfelt
-                        </LeggTilKnapp>
-                    )}
+                                {utdanning}
+                            </button>
+                        ))}
+                        {this.state.showTypeAhead ? (
+                            <div className="leggtil--sokekriterier">
+                                <form
+                                    onSubmit={this.onSubmit}
+                                >
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadUtdanningSelect}
+                                        onChange={this.onTypeAheadUtdanningChange}
+                                        label=""
+                                        name="utdanning"
+                                        placeholder="Skriv inn fagfelt"
+                                        suggestions={this.props.typeAheadSuggestionsUtdanning}
+                                        value={this.state.typeAheadValue}
+                                        id="yrke"
+                                    />
+                                </form>
+                            </div>
+                        ) : (
+                            <LeggTilKnapp
+                                ref={(leggTilKnapp) => {
+                                    this.leggTilKnapp = leggTilKnapp;
+                                }}
+                                onClick={this.onLeggTilClick}
+                                className="lenke dashed leggtil--sokekriterier--knapp"
+                            >
+                                Legg til fagfelt
+                            </LeggTilKnapp>
+                        )}
+                    </div>
                 </div>
             </div>
         );
