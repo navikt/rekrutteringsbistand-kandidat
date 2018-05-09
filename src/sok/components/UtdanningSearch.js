@@ -83,6 +83,10 @@ class UtdanningSearch extends React.Component {
                             />
                         ))}
                     </div>
+                    <Checkbox
+                        label="Arbeidserfaring kan veie opp for manglende utdanning"
+                        className="checkbox--manglende--arbeidserfaring"
+                    />
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
                     {this.props.query.utdanninger.map((utdanning) => (
                         <button
