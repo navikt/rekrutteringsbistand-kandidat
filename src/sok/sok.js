@@ -21,6 +21,8 @@ export const getInitialStateFromUrl = (url) => {
     const kompetanser = getUrlParameterByName('kompetanser', url);
     const utdanninger = getUrlParameterByName('utdanninger', url);
     const geografiList = getUrlParameterByName('geografiList', url);
+    const totalErfaring = getUrlParameterByName('totalErfaring', url);
+    const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const styrkKode = getUrlParameterByName('styrkKode', url);
     const nusKode = getUrlParameterByName('nusKode', url);
 
@@ -29,6 +31,8 @@ export const getInitialStateFromUrl = (url) => {
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
     if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
     if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
+    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring;
+    if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (styrkKode) stateFromUrl.styrkKode = styrkKode;
     if (nusKode) stateFromUrl.nusKode = nusKode;
     return stateFromUrl;
@@ -42,6 +46,8 @@ export const createUrlParamsFromState = (state) => {
     if (query.kompetanser && query.kompetanser.length > 0) urlQuery.kompetanser = query.kompetanser.join('_');
     if (query.utdanninger && query.utdanninger.length > 0) urlQuery.utdanninger = query.utdanninger.join('_');
     if (query.geografiList && query.geografiList.length > 0) urlQuery.geografiList = query.geografiList.join('_');
+    if (query.totalErfaring) urlQuery.totalErfaring = query.totalErfaring;
+    if (query.utdanningsniva && query.utdanningsniva.length > 0) urlQuery.utdanningsniva = query.utdanningsniva.join('_');
     if (query.styrkKode) urlQuery.styrkKode = query.styrkKode;
     if (query.nusKode) urlQuery.nusKode = query.nusKode;
     return toUrlParams(urlQuery);
