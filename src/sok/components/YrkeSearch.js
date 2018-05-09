@@ -27,12 +27,14 @@ class YrkeSearch extends React.Component {
     };
 
     onTypeAheadYrkeSelect = (value) => {
-        this.props.selectTypeAheadValue(value);
-        this.setState({
-            typeAheadValue: '',
-            showTypeAhead: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.fetchKompetanseSuggestions();
+        if (value !== '') {
+            this.props.selectTypeAheadValue(value);
+            this.setState({
+                typeAheadValue: '',
+                showTypeAhead: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.fetchKompetanseSuggestions();
+        }
     };
 
     onLeggTilClick = () => {
@@ -48,12 +50,14 @@ class YrkeSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.selectTypeAheadValue(this.state.typeAheadValue);
-        this.setState({
-            typeAheadValue: '',
-            showTypeAhead: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.fetchKompetanseSuggestions();
+        if (this.state.typeAheadValue !== '') {
+            this.props.selectTypeAheadValue(this.state.typeAheadValue);
+            this.setState({
+                typeAheadValue: '',
+                showTypeAhead: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.fetchKompetanseSuggestions();
+        }
     };
 
     render() {

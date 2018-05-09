@@ -25,12 +25,14 @@ class KompetanseSearch extends React.Component {
     };
 
     onTypeAheadKompetanseSelect = (value) => {
-        this.props.selectTypeAheadValueKompetanse(value);
-        this.setState({
-            typeAheadValueKompetanse: '',
-            showTypeAheadKompetanse: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        if (value !== '') {
+            this.props.selectTypeAheadValueKompetanse(value);
+            this.setState({
+                typeAheadValueKompetanse: '',
+                showTypeAheadKompetanse: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.search();
+        }
     };
 
     onLeggTilKompetanseClick = () => {
@@ -46,12 +48,14 @@ class KompetanseSearch extends React.Component {
 
     onSubmitKompetanse = (e) => {
         e.preventDefault();
-        this.props.selectTypeAheadValueKompetanse(this.state.typeAheadValueKompetanse);
-        this.setState({
-            typeAheadValueKompetanse: '',
-            showTypeAheadKompetanse: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        if (this.state.typeAheadValueKompetanse !== '') {
+            this.props.selectTypeAheadValueKompetanse(this.state.typeAheadValueKompetanse);
+            this.setState({
+                typeAheadValueKompetanse: '',
+                showTypeAheadKompetanse: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.search();
+        }
     };
 
     onKompetanseSuggestionsClick = (e) => {

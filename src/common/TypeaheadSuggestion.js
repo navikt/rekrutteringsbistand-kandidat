@@ -26,9 +26,9 @@ export default class TypeaheadSuggestion extends React.Component {
                 aria-selected={this.props.active}
                 onClick={this.onClick}
                 onMouseOver={this.highlightSuggestion}
-                onFocus={this.props.avoidHideSuggestionsOnBlur}
-                onMouseDown={this.props.avoidHideSuggestionsOnBlur}
-                onKeyDown={this.props.avoidHideSuggestionsOnBlur}
+                onFocus={this.props.avoidBlur}
+                onMouseDown={this.props.avoidBlur}
+                onKeyDown={this.props.avoidBlur}
             >
                 {matchFound ? (
                     <span className={`typetext ${this.props.active && 'active'}`}>
@@ -53,5 +53,5 @@ TypeaheadSuggestion.propTypes = {
     active: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     highlightSuggestion: PropTypes.func.isRequired,
-    avoidHideSuggestionsOnBlur: PropTypes.func.isRequired
+    avoidBlur: PropTypes.func.isRequired
 };

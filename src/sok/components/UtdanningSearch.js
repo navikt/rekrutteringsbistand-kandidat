@@ -36,12 +36,14 @@ class UtdanningSearch extends React.Component {
     };
 
     onTypeAheadUtdanningSelect = (value) => {
-        this.props.selectTypeAheadValue(value);
-        this.setState({
-            typeAheadValue: '',
-            showTypeAhead: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        if (value !== '') {
+            this.props.selectTypeAheadValue(value);
+            this.setState({
+                typeAheadValue: '',
+                showTypeAhead: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.search();
+        }
     };
 
     onLeggTilClick = () => {
@@ -57,12 +59,14 @@ class UtdanningSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.selectTypeAheadValue(this.state.typeAheadValue);
-        this.setState({
-            typeAheadValue: '',
-            showTypeAhead: false
-        }, () => this.leggTilKnapp.button.focus());
-        this.props.search();
+        if (this.state.typeAheadValue !== '') {
+            this.props.selectTypeAheadValue(this.state.typeAheadValue);
+            this.setState({
+                typeAheadValue: '',
+                showTypeAhead: false
+            }, () => this.leggTilKnapp.button.focus());
+            this.props.search();
+        }
     };
 
     render() {
