@@ -16,9 +16,9 @@ class ArbeidserfaringSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.ERFARINGER = Object.freeze([{ label: 'Ikke relevant', value: '0-' }, { label: '0-1 år', value: '0-1' },
-            { label: '2-3 år', value: '2-3' }, { label: '4-6 år', value: '4-6' }, { label: '7-9 år', value: '7-9' },
-            { label: 'Over 10 år', value: '109-' }]);
+        this.erfaringer = [{ label: 'Ikke relevant', value: '0-' }, { label: '0-1 år', value: '0-12' },
+            { label: '2-3 år', value: '13-36' }, { label: '4-6 år', value: '37-72' }, { label: '7-9 år', value: '73-108' },
+            { label: 'Over 10 år', value: '109-' }];
     }
 
     onCheckTotalErfaring = (e) => {
@@ -116,7 +116,7 @@ class ArbeidserfaringSearch extends React.Component {
                     </div>
                     <Element>Antall år med arbeidserfaring</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.ERFARINGER.map((arbeidserfaring) => (
+                        {this.erfaringer.map((arbeidserfaring) => (
                             <Radio
                                 className={this.props.totalErfaring === arbeidserfaring.value ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
                                 label={arbeidserfaring.label}

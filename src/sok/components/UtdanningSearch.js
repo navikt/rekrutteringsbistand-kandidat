@@ -5,32 +5,27 @@ import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_UTDANNING, SEARCH, SELECT_TYPE_AHEAD_VALUE_UTDANNING, SET_TYPE_AHEAD_VALUE } from '../domene';
+import { CHECK_UTDANNINGSNIVA, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_UTDANNING, SEARCH, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from '../domene';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: '',
-            utdanninger: ['Doktorgrad (ph.d)', 'Mastergrad', 'Bachelorgrad', 'Fagbrev', 'Videregående', 'Ingen utdanning'],
-            checkedUtdanninger: []
+            typeAheadValue: ''
         };
+        this.utdanningsnivaKategorier = [{ key: 'Grunnskole', label: 'Grunnskole' }, { key: 'Videregaende', label: 'Videregående skole/fagbrev' },
+            { key: 'Fagskole', label: 'Fagskole/mesterbrev' }, { key: 'Bachelor', label: 'Bachelor eller lavere universitets-/høgskolegrad' },
+            { key: 'Master', label: 'Mastergrad eller tilsvarende' }, { key: 'Doktorgrad', label: 'Forsker/doktorgrad' }];
     }
 
-    onCheckedUtanningerChange = (e) => {
+    onUtdanningsnivaChange = (e) => {
         if (e.target.checked) {
-            this.setState({
-                checkedUtdanninger: [
-                    ...this.state.checkedUtdanninger,
-                    e.target.value
-                ]
-            });
+            this.props.checkUtdanningsniva(e.target.value);
         } else {
-            this.setState({
-                checkedUtdanninger: this.state.checkedUtdanninger.filter((u) => u !== e.target.value)
-            });
+            this.props.uncheckUtdanningsniva(e.target.value);
         }
+        this.props.search();
     };
 
     onTypeAheadUtdanningChange = (value) => {
@@ -77,13 +72,14 @@ class UtdanningSearch extends React.Component {
                 <div className="panel panel--sokekriterier">
                     <Element>Utdanningsnivå</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.state.utdanninger.map((utdanning) => (
+                        {this.utdanningsnivaKategorier.map((utdanning) => (
                             <Checkbox
-                                className={this.state.checkedUtdanninger.includes(utdanning) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
-                                label={utdanning}
-                                key={utdanning}
-                                value={utdanning}
-                                onChange={this.onCheckedUtanningerChange}
+                                className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                label={utdanning.label}
+                                key={utdanning.key}
+                                value={utdanning.key}
+                                checked={this.props.utdanningsniva.includes(utdanning.key)}
+                                onChange={this.onUtdanningsnivaChange}
                             />
                         ))}
                     </div>
@@ -140,23 +136,29 @@ UtdanningSearch.propTypes = {
     removeUtdanning: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
+    checkUtdanningsniva: PropTypes.func.isRequired,
+    uncheckUtdanningsniva: PropTypes.func.isRequired,
     query: PropTypes.shape({
         utdanning: PropTypes.string,
         utdanninger: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
+    utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    typeAheadSuggestionsUtdanning: state.typeAheadSuggestionsutdanning
+    typeAheadSuggestionsUtdanning: state.typeAheadSuggestionsutdanning,
+    utdanningsniva: state.query.utdanningsniva
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
-    removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value })
+    removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
+    checkUtdanningsniva: (value) => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),
+    uncheckUtdanningsniva: (value) => dispatch({ type: UNCHECK_UTDANNINGSNIVA, value })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UtdanningSearch);

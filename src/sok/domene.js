@@ -42,6 +42,9 @@ export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
 
 export const SELECT_TOTAL_ERFARING = 'SELECT_TOTAL_ERFARING';
 
+export const CHECK_UTDANNINGSNIVA = 'CHECK_UTDANNINGSNIVA';
+export const UNCHECK_UTDANNINGSNIVA = 'UNCHECK_UTDANNINGSNIVA';
+
 
 /** *********************************************************
  * REDUCER
@@ -62,6 +65,7 @@ const initialState = {
         kompetanser: [],
         geografiList: [],
         totalErfaring: '',
+        utdanningsniva: [],
         styrkKode: '',
         nusKode: ''
     },
@@ -251,6 +255,22 @@ export default function reducer(state = initialState, action) {
                 query: {
                     ...state.query,
                     totalErfaring: action.value
+                }
+            };
+        case CHECK_UTDANNINGSNIVA:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    utdanningsniva: [...state.query.utdanningsniva, action.value]
+                }
+            };
+        case UNCHECK_UTDANNINGSNIVA:
+            return {
+                ...state,
+                query: {
+                    ...state.query,
+                    utdanningsniva: state.query.utdanningsniva.filter((u) => u !== action.value)
                 }
             };
         default:
