@@ -47,7 +47,7 @@ class Kandidatsok extends React.Component {
                             </Row>
                             <div className="search-page">
                                 <Row>
-                                    <Column xs="8">
+                                    <Column xs="12" md="8">
                                         <YrkeSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />

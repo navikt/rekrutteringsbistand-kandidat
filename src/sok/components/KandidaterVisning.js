@@ -37,13 +37,13 @@ class KandidaterVisning extends React.Component {
                 <div className="resultatvisning">
                     <Systemtittel>{tittel}</Systemtittel>
                     <KandidaterTableHeader />
-                    {this.props.cver.slice(0, 5).map((cv, i) => (
+                    {this.props.cver.slice(0, 5).map((cv) => (
                         <KandidaterTableRow
-                            kandidat={i}
+                            kandidat={cv.arenaPersonId}
                             utdanning={cv.utdanning[0].nusKodeGrad}
                             arbeidserfaring={cv.yrkeserfaring[0].styrkKodeStillingstittel}
-                            arbeidserfaringTid="5 år"
-                            cvLenke="#"
+                            arbeidserfaringTid={`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}
+                            cv={cv}
                             key={cv.epostadresse}
                         />
                     ))}
@@ -52,13 +52,13 @@ class KandidaterVisning extends React.Component {
                     <div className="resultatvisning">
                         <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                         <KandidaterTableHeader />
-                        {this.props.cver.slice(5).map((cv, i) => (
+                        {this.props.cver.slice(5).map((cv) => (
                             <KandidaterTableRow
-                                kandidat={i + 5}
+                                kandidat={cv.arenaPersonId}
                                 utdanning={cv.utdanning[0].nusKodeGrad}
                                 arbeidserfaring={cv.yrkeserfaring[0].styrkKodeStillingstittel}
-                                arbeidserfaringTid="5 år"
-                                cvLenke="#"
+                                arbeidserfaringTid={`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}
+                                cv={cv}
                                 key={cv.epostadresse}
                             />
                         ))}

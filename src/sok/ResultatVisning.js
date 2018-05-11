@@ -25,9 +25,9 @@ class ResultatVisning extends React.Component {
             arbeidserfaringer: [],
             utdanninger: [],
             kompetanser: [],
-            sprakList: [],
-            sertifikater: [],
             geografiList: [],
+            totalErfaring: '',
+            utdanningsniva: [],
             styrkKode: '',
             nusKode: ''
         });
@@ -49,7 +49,7 @@ class ResultatVisning extends React.Component {
                             </Column>
                         </Row>
                         <Row className="resultatvisning--body">
-                            <Column xs="4">
+                            <Column xs="12" md="4">
                                 <button
                                     className="lenke lenke--slett--kriterier"
                                     onClick={this.onRemoveCriteriaClick}
@@ -64,7 +64,7 @@ class ResultatVisning extends React.Component {
                                     <GeografiSearch />
                                 </div>
                             </Column>
-                            <Column xs="8">
+                            <Column xs="12" md="8">
                                 <KandidaterVisning />
                             </Column>
                         </Row>

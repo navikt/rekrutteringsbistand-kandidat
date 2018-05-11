@@ -258,11 +258,17 @@ button.lenke {
   }
 }
 
-.resultatsummering--sokekriterier {
-  text-align: center;
-  padding: 2rem;
-  margin: 2.5rem;
-  position: fixed;
+@media (min-width: 767px) {
+  .resultatsummering--sokekriterier {
+    text-align: center;
+    padding: 2rem;
+    margin: 2.5rem;
+    position: fixed;
+  }
+
+  .resultatvisning {
+    margin: 2.5rem 0 0 2rem;
+  }
 }
 
 .antall--treff--sokekriterier {
@@ -286,10 +292,6 @@ button.lenke {
   padding-top: 0.3rem;
 }
 
-.resultatvisning {
-  margin: 2.5rem 0 0 2rem;
-}
-
 .border--bottom--medium {
   border-bottom: solid 2px rgba(120, 112, 106, 0.5);
   border-radius: 0;
@@ -298,6 +300,11 @@ button.lenke {
 
 .border--bottom--thin {
   border-bottom: solid 1px rgba(120, 112, 106, 0.5);
+  border-radius: 0;
+}
+
+.border--top--thin {
+  border-top: solid 1px rgba(120, 112, 106, 0.5);
   border-radius: 0;
 }
 
@@ -313,4 +320,33 @@ button.lenke {
 .lenke--slett--kriterier {
   float: right;
   margin-top: 0.3rem;
+}
+
+@media (min-width: 767px) {
+  .modal--resultat {
+    width: 50%;
+  }
+}
+
+.modal--systemtittel {
+  margin: 2rem 0 1rem 0;
+}
+
+.cv--button--row {
+  margin: 2rem 0;
+
+  button {
+    margin-right: 1rem;
+    margin-left: 0;
+  }
+}
+
+.input--resultat {
+  border: solid 1px #d8d8d8;
+  margin-top: 1rem;
+  padding: 0.5rem 0.5rem;
+}
+
+.undertittel--beskjed--sendt {
+  margin: 1rem 0 3rem 0;
 }

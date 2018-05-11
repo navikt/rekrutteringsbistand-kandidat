@@ -7,16 +7,16 @@ export default function KandidaterTableHeader() {
     return (
         <div className="panel border--bottom--medium">
             <Row>
-                <Column md="2" />
-                <Column md="4">
+                <Column xs="2" md="2" />
+                <Column xs="4" md="4">
                     <Element className="label--resultatvisning">Utdanning</Element>
                     <NavFrontendChevron type="ned" />
                 </Column>
-                <Column md="3">
+                <Column xs="3" md="3">
                     <Element className="label--resultatvisning">Jobberfaring</Element>
                     <NavFrontendChevron type="ned" />
                 </Column>
-                <Column md="3">
+                <Column xs="3" md="3">
                     <Element className="label--resultatvisning">År med erfaring</Element>
                     <NavFrontendChevron type="ned" />
                 </Column>
