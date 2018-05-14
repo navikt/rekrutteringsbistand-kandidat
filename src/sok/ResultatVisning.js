@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import YrkeSearch from './components/YrkeSearch';
+import YrkeSearch from './components/StillingSearch';
 import UtdanningSearch from './components/UtdanningSearch';
 import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
 import KompetanseSearch from './components/KompetanseSearch';
@@ -21,7 +21,7 @@ class ResultatVisning extends React.Component {
 
     onRemoveCriteriaClick = () => {
         this.props.resetQuery({
-            yrkeserfaringer: [],
+            stillinger: [],
             arbeidserfaringer: [],
             utdanninger: [],
             kompetanser: [],

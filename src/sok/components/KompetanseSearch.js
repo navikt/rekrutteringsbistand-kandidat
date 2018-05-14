@@ -13,7 +13,8 @@ class KompetanseSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAheadKompetanse: false,
-            typeAheadValueKompetanse: ''
+            typeAheadValueKompetanse: '',
+            antallKompetanser: 4
         };
     }
 
@@ -63,7 +64,16 @@ class KompetanseSearch extends React.Component {
         this.props.search();
     };
 
+    onLeggTilFlereClick = () => {
+        this.setState({
+            antallKompetanser: this.state.antallKompetanser + 4
+        });
+    };
+
     render() {
+        const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.query.kompetanser.includes(k.feltnavn));
+        console.log(this.props.kompetanseSuggestions);
+        console.log(kompetanseSuggestions);
         return (
             <div>
                 <Undertittel>Kompetanse</Undertittel>
@@ -114,28 +124,33 @@ class KompetanseSearch extends React.Component {
                             </LeggTilKnapp>
                         )}
                     </div>
-                    {this.props.kompetanseSuggestions.length > 0 && (
+                    {kompetanseSuggestions.length > 0 && (
                         <div>
                             <div className="border--bottom--thin border--bottom--thin--margin" />
                             <Element>
                                 Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
                             </Element>
                             <div className="sokekriterier--kriterier">
-                                {this.props.kompetanseSuggestions.map((suggestedKompetanse) => (
-                                    this.props.query.kompetanser.includes(suggestedKompetanse.feltnavn) ? (
-                                        <div key={suggestedKompetanse.feltnavn} />
-                                    ) : (
+                                {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
+                                    <div key={suggestedKompetanse.feltnavn} >
                                         <button
                                             onClick={this.onKompetanseSuggestionsClick}
                                             className="etikett--forslag--kompetanse"
-                                            key={suggestedKompetanse.feltnavn}
                                             value={suggestedKompetanse.feltnavn}
                                         >
                                             {suggestedKompetanse.feltnavn}
                                         </button>
-                                    )
+                                    </div>
                                 ))}
                             </div>
+                            {this.state.antallKompetanser < kompetanseSuggestions.length && (
+                                <button
+                                    onClick={this.onLeggTilFlereClick}
+                                    className="lenke"
+                                >
+                                    Legg til flere
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>

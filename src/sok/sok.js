@@ -16,7 +16,7 @@ import { getUrlParameterByName, toUrlParams } from './utils';
 
 export const getInitialStateFromUrl = (url) => {
     const stateFromUrl = {};
-    const yrkeserfaringer = getUrlParameterByName('yrkeserfaringer', url);
+    const stillinger = getUrlParameterByName('stillinger', url);
     const arbeidserfaringer = getUrlParameterByName('arbeidserfaringer', url);
     const kompetanser = getUrlParameterByName('kompetanser', url);
     const utdanninger = getUrlParameterByName('utdanninger', url);
@@ -26,7 +26,7 @@ export const getInitialStateFromUrl = (url) => {
     const styrkKode = getUrlParameterByName('styrkKode', url);
     const nusKode = getUrlParameterByName('nusKode', url);
 
-    if (yrkeserfaringer) stateFromUrl.yrkeserfaringer = yrkeserfaringer.split('_');
+    if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
     if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
@@ -41,7 +41,7 @@ export const getInitialStateFromUrl = (url) => {
 export const createUrlParamsFromState = (state) => {
     const { query } = state;
     const urlQuery = {};
-    if (query.yrkeserfaringer && query.yrkeserfaringer.length > 0) urlQuery.yrkeserfaringer = query.yrkeserfaringer.join('_');
+    if (query.stillinger && query.stillinger.length > 0) urlQuery.stillinger = query.stillinger.join('_');
     if (query.arbeidserfaringer && query.arbeidserfaringer.length > 0) urlQuery.arbeidserfaringer = query.arbeidserfaringer.join('_');
     if (query.kompetanser && query.kompetanser.length > 0) urlQuery.kompetanser = query.kompetanser.join('_');
     if (query.utdanninger && query.utdanninger.length > 0) urlQuery.utdanninger = query.utdanninger.join('_');

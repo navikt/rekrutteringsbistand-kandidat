@@ -4,9 +4,14 @@ import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
-import { FETCH_KOMPETANSE_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_YRKE, SEARCH, SELECT_TYPE_AHEAD_VALUE_YRKE, SET_TYPE_AHEAD_VALUE } from '../domene';
+import {
+    FETCH_KOMPETANSE_SUGGESTIONS,
+    FETCH_TYPE_AHEAD_SUGGESTIONS,
+    REMOVE_SELECTED_STILLING, SEARCH,
+    SELECT_TYPE_AHEAD_VALUE_STILLING
+} from '../domene';
 
-class YrkeSearch extends React.Component {
+class StillingSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,14 +24,14 @@ class YrkeSearch extends React.Component {
         this.props.fetchKompetanseSuggestions();
     }
 
-    onTypeAheadYrkeChange = (value) => {
+    onTypeAheadStillingChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value
         });
     };
 
-    onTypeAheadYrkeSelect = (value) => {
+    onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.setState({
@@ -44,13 +49,13 @@ class YrkeSearch extends React.Component {
     };
 
     onFjernClick = (e) => {
-        this.props.removeYrke(e.target.value);
+        this.props.removeStilling(e.target.value);
         this.props.fetchKompetanseSuggestions();
     };
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
+        if (this.state.typeAheadValue !== '') {
             this.props.selectTypeAheadValue(this.state.typeAheadValue);
             this.setState({
                 typeAheadValue: '',
@@ -69,14 +74,14 @@ class YrkeSearch extends React.Component {
                         Hvilken stilling skal du ansette en kandidat til?
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.yrkeserfaringer.map((yrkeserfaring) => (
+                        {this.props.query.stillinger.map((stilling) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={yrkeserfaring}
-                                value={yrkeserfaring}
+                                key={stilling}
+                                value={stilling}
                             >
-                                {yrkeserfaring}
+                                {stilling}
                             </button>
                         ))}
                         {this.state.showTypeAhead ? (
@@ -88,14 +93,14 @@ class YrkeSearch extends React.Component {
                                         ref={(typeAhead) => {
                                             this.typeAhead = typeAhead;
                                         }}
-                                        onSelect={this.onTypeAheadYrkeSelect}
-                                        onChange={this.onTypeAheadYrkeChange}
+                                        onSelect={this.onTypeAheadStillingSelect}
+                                        onChange={this.onTypeAheadStillingChange}
                                         label=""
-                                        name="yrkeserfaring"
-                                        placeholder="Skriv inn yrke"
-                                        suggestions={this.props.typeAheadSuggestionsYrke}
+                                        name="stilling"
+                                        placeholder="Skriv inn stillingstittel"
+                                        suggestions={this.props.typeAheadSuggestionsstilling}
                                         value={this.state.typeAheadValue}
-                                        id="yrke"
+                                        id="stilling"
                                     />
                                 </form>
                             </div>
@@ -117,29 +122,29 @@ class YrkeSearch extends React.Component {
     }
 }
 
-YrkeSearch.propTypes = {
+StillingSearch.propTypes = {
     fetchKompetanseSuggestions: PropTypes.func.isRequired,
-    removeYrke: PropTypes.func.isRequired,
+    removeStilling: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     query: PropTypes.shape({
-        yrkeserfaring: PropTypes.string,
-        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string)
+        stilling: PropTypes.string,
+        stillinger: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsYrke: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsstilling: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    typeAheadSuggestionsYrke: state.typeAheadSuggestionsyrkeserfaring
+    typeAheadSuggestionsstilling: state.typeAheadSuggestionsstilling
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'yrkeserfaring', value }),
-    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_YRKE, value }),
-    removeYrke: (value) => dispatch({ type: REMOVE_SELECTED_YRKE, value }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
+    removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
     fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(YrkeSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(StillingSearch);

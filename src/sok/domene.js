@@ -25,8 +25,8 @@ export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTION
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE';
 
-export const SELECT_TYPE_AHEAD_VALUE_YRKE = 'SELECT_TYPE_AHEAD_VALUE_YRKE';
-export const REMOVE_SELECTED_YRKE = 'REMOVE_SELECTED_YRKE';
+export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
+export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';
 
 export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
 export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
@@ -59,7 +59,7 @@ const initialState = {
         total: 0
     },
     query: {
-        yrkeserfaringer: [],
+        stillinger: [],
         arbeidserfaringer: [],
         utdanninger: [],
         kompetanser: [],
@@ -71,12 +71,12 @@ const initialState = {
     },
     isSearching: false,
     isInitialSearch: true,
-    typeAheadSuggestionsyrkeserfaring: [],
+    typeAheadSuggestionsstilling: [],
     typeAheadSuggestionsarbeidserfaring: [],
     typeAheadSuggestionsutdanning: [],
     typeAheadSuggestionskompetanse: [],
     typeAheadSuggestionsgeografi: [],
-    cachedTypeAheadSuggestionsYrke: [],
+    cachedTypeAheadSuggestionsStilling: [],
     cachedTypeAheadSuggestionsArbeidserfaring: [],
     cachedTypeAheadSuggestionsUtdanning: [],
     cachedTypeAheadSuggestionsKompetanse: [],
@@ -139,26 +139,26 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 [action.cachedTypeAheadSuggestionsLabel]: action.cachedSuggestions
             };
-        case SELECT_TYPE_AHEAD_VALUE_YRKE:
+        case SELECT_TYPE_AHEAD_VALUE_STILLING:
             return {
                 ...state,
                 query: {
                     ...state.query,
-                    yrkeserfaringer: state.query.yrkeserfaringer.includes(action.value) ?
-                        state.query.yrkeserfaringer :
+                    stillinger: state.query.stillinger.includes(action.value) ?
+                        state.query.stillinger :
                         [
-                            ...state.query.yrkeserfaringer,
+                            ...state.query.stillinger,
                             action.value
                         ]
                 },
-                typeAheadSuggestionsyrkeserfaring: []
+                typeAheadSuggestionsstilling: []
             };
-        case REMOVE_SELECTED_YRKE:
+        case REMOVE_SELECTED_STILLING:
             return {
                 ...state,
                 query: {
                     ...state.query,
-                    yrkeserfaringer: state.query.yrkeserfaringer.filter((y) => y !== action.value)
+                    stillinger: state.query.stillinger.filter((y) => y !== action.value)
                 }
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
@@ -309,10 +309,10 @@ function* fetchKompetanseSuggestions() {
 
         yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN, query });
 
-        if (query.yrkeserfaringer.length === 0) {
+        if (query.stillinger.length === 0) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: [] });
         } else {
-            const response = yield call(fetchKandidater, { ...query, arbeidserfaringer: query.yrkeserfaringer });
+            const response = yield call(fetchKandidater, { arbeidserfaringer: query.stillinger });
 
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
         }
@@ -348,9 +348,9 @@ function* fetchTypeAheadSuggestions(action) {
 
     let typeAheadName;
     let cachedSuggestionsLabel;
-    if (name === 'yrkeserfaring') {
+    if (name === 'stilling') {
         typeAheadName = 'yrke';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsYrke';
+        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsStilling';
     } else if (name === 'arbeidserfaring') {
         typeAheadName = 'yrke';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsArbeidserfaring';

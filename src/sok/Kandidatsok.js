@@ -6,7 +6,7 @@ import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { INITIAL_SEARCH } from './domene';
-import YrkeSearch from './components/YrkeSearch';
+import YrkeSearch from './components/StillingSearch';
 import UtdanningSearch from './components/UtdanningSearch';
 import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
 import KompetanseSearch from './components/KompetanseSearch';
