@@ -37,13 +37,11 @@ class KandidaterVisning extends React.Component {
                 <div className="resultatvisning">
                     <Systemtittel>{tittel}</Systemtittel>
                     <KandidaterTableHeader />
-                    {this.props.cver.slice(0, 5).map((cv) => (
+                    {this.props.cver.slice(0, 5).map((cv, i) => (
                         <KandidaterTableRow
-                            kandidat={cv.arenaKandidatnr}
-                            utdanning={cv.utdanning[0].nusKodeGrad}
-                            arbeidserfaring={cv.yrkeserfaring[0].styrkKodeStillingstittel}
-                            arbeidserfaringTid={`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}
-                            cv={cv}
+                            // TODO: Rewrite the next line after user-test
+                            cv={i === 1 ? { ...cv, samtykkeStatus: 'N' } : cv}
+                            // cv={cv}
                             key={cv.epostadresse}
                         />
                     ))}
@@ -54,10 +52,6 @@ class KandidaterVisning extends React.Component {
                         <KandidaterTableHeader />
                         {this.props.cver.slice(5).map((cv) => (
                             <KandidaterTableRow
-                                kandidat={cv.arenaPersonId}
-                                utdanning={cv.utdanning[0].nusKodeGrad}
-                                arbeidserfaring={cv.yrkeserfaring[0].styrkKodeStillingstittel}
-                                arbeidserfaringTid={`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}
                                 cv={cv}
                                 key={cv.epostadresse}
                             />
@@ -79,8 +73,4 @@ const mapStateToProps = (state) => ({
     treff: state.elasticSearchResultat.total
 });
 
-const mapDispatchToProps = (dispatch) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
+export default connect(mapStateToProps)(KandidaterVisning);

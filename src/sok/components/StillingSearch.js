@@ -102,7 +102,7 @@ class StillingSearch extends React.Component {
                                         label=""
                                         name="stilling"
                                         placeholder="Skriv inn stillingstittel"
-                                        suggestions={this.props.typeAheadSuggestionsstilling}
+                                        suggestions={this.props.typeAheadSuggestionsStilling}
                                         value={this.state.typeAheadValue}
                                         id="stilling"
                                     />
@@ -116,7 +116,7 @@ class StillingSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="lenke dashed leggtil--sokekriterier--knapp"
                             >
-                                Legg til yrke
+                                Legg til stilling
                             </LeggTilKnapp>
                         )}
                     </div>
@@ -136,12 +136,12 @@ StillingSearch.propTypes = {
         stilling: PropTypes.string,
         stillinger: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    typeAheadSuggestionsstilling: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    typeAheadSuggestionsstilling: state.typeAheadSuggestionsstilling
+    typeAheadSuggestionsStilling: state.typeAheadSuggestionsstilling
 });
 
 const mapDispatchToProps = (dispatch) => ({

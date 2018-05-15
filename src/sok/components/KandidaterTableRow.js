@@ -23,11 +23,20 @@ export default class KandidaterTableRow extends React.Component {
             <div>
                 <div className="panel border--top--thin">
                     <Row>
-                        <Column xs="2" md="2"><Normaltekst>{this.props.kandidat}</Normaltekst></Column>
-                        <Column xs="4" md="4"><Normaltekst>{this.props.utdanning}</Normaltekst></Column>
-                        <Column xs="3" md="3"><Normaltekst>{this.props.arbeidserfaring}</Normaltekst></Column>
-                        <Column xs="2" md="2" className="text-center"><Normaltekst>{this.props.arbeidserfaringTid}</Normaltekst></Column>
-                        <Column xs="1" md="1"><button className="lenke" onClick={this.toggleModalOpen}>CV</button></Column>
+                        <Column xs="2" md="2">
+                            <Normaltekst>{this.props.cv.arenaKandidatnr}</Normaltekst></Column>
+                        <Column xs="4" md="4">
+                            <Normaltekst>{this.props.cv.utdanning[0].nusKodeGrad}</Normaltekst>
+                        </Column>
+                        <Column xs="3" md="3">
+                            <Normaltekst>{this.props.cv.yrkeserfaring[0].styrkKodeStillingstittel}</Normaltekst>
+                        </Column>
+                        <Column xs="2" md="2" className="text-center">
+                            <Normaltekst>{`${Math.round(this.props.cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
+                        </Column>
+                        <Column xs="1" md="1">
+                            <button className="lenke" onClick={this.toggleModalOpen}>CV</button>
+                        </Column>
                     </Row>
                 </div>
                 <ShowModalResultat
@@ -41,10 +50,6 @@ export default class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.propTypes = {
-    kandidat: PropTypes.string.isRequired,
-    utdanning: PropTypes.string.isRequired,
-    arbeidserfaring: PropTypes.string.isRequired,
-    arbeidserfaringTid: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     cv: PropTypes.object.isRequired
 };
