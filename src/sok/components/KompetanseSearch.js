@@ -72,8 +72,6 @@ class KompetanseSearch extends React.Component {
 
     render() {
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.query.kompetanser.includes(k.feltnavn));
-        console.log(this.props.kompetanseSuggestions);
-        console.log(kompetanseSuggestions);
         return (
             <div>
                 <Undertittel>Kompetanse</Undertittel>

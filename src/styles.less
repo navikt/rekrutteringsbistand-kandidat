@@ -210,11 +210,6 @@ button.lenke {
   margin: 0.5rem 1rem 0 0;
   padding: 0.7rem 2rem;
   background-color: rgba(227, 227, 227, 0.5);
-
-  &:hover {
-    border-color: #333333;
-    background-color: rgba(227, 227, 227, 0.8);
-  }
 }
 
 .checkbox--sokekriterier--unchecked {
@@ -354,4 +349,16 @@ button.lenke {
 
 .undertittel--beskjed--sendt {
   margin: 1rem 0 3rem 0;
+}
+
+.editor--send--beskjed {
+  margin-top: 1rem;
+}
+
+// Overrides margins and links inside the Rich text editor.
+.RichTextEditor__paragraph___3NTf9 {
+  margin: 0 !important;
+  a {
+    .lenke;
+  }
 }

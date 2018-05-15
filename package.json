@@ -78,6 +78,7 @@
     "react-motion": "^0.5.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-rte": "^0.16.1",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-form-saga": "^0.2.0",
