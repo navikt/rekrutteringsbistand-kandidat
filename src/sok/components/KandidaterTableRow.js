@@ -23,7 +23,7 @@ export default class KandidaterTableRow extends React.Component {
             <div>
                 <div className="panel border--top--thin">
                     <Row>
-                        <Column xs="2" md="2"><Normaltekst>{`Kandidat ${this.props.kandidat}`}</Normaltekst></Column>
+                        <Column xs="2" md="2"><Normaltekst>{this.props.kandidat}</Normaltekst></Column>
                         <Column xs="4" md="4"><Normaltekst>{this.props.utdanning}</Normaltekst></Column>
                         <Column xs="3" md="3"><Normaltekst>{this.props.arbeidserfaring}</Normaltekst></Column>
                         <Column xs="2" md="2" className="text-center"><Normaltekst>{this.props.arbeidserfaringTid}</Normaltekst></Column>
@@ -41,7 +41,7 @@ export default class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.propTypes = {
-    kandidat: PropTypes.number.isRequired,
+    kandidat: PropTypes.string.isRequired,
     utdanning: PropTypes.string.isRequired,
     arbeidserfaring: PropTypes.string.isRequired,
     arbeidserfaringTid: PropTypes.string.isRequired,

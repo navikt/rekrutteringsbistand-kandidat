@@ -312,7 +312,7 @@ function* fetchKompetanseSuggestions() {
         if (query.stillinger.length === 0) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: [] });
         } else {
-            const response = yield call(fetchKandidater, { arbeidserfaringer: query.stillinger });
+            const response = yield call(fetchKandidater, { stillinger: query.stillinger });
 
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
         }
@@ -349,7 +349,7 @@ function* fetchTypeAheadSuggestions(action) {
     let typeAheadName;
     let cachedSuggestionsLabel;
     if (name === 'stilling') {
-        typeAheadName = 'yrke';
+        typeAheadName = 'sti';
         cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsStilling';
     } else if (name === 'arbeidserfaring') {
         typeAheadName = 'yrke';

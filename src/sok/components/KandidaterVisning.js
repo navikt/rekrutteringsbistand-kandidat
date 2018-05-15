@@ -39,7 +39,7 @@ class KandidaterVisning extends React.Component {
                     <KandidaterTableHeader />
                     {this.props.cver.slice(0, 5).map((cv) => (
                         <KandidaterTableRow
-                            kandidat={cv.arenaPersonId}
+                            kandidat={cv.arenaKandidatnr}
                             utdanning={cv.utdanning[0].nusKodeGrad}
                             arbeidserfaring={cv.yrkeserfaring[0].styrkKodeStillingstittel}
                             arbeidserfaringTid={`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}

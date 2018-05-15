@@ -22,6 +22,7 @@ class StillingSearch extends React.Component {
 
     componentDidMount() {
         this.props.fetchKompetanseSuggestions();
+        this.props.search();
     }
 
     onTypeAheadStillingChange = (value) => {
@@ -39,6 +40,7 @@ class StillingSearch extends React.Component {
                 showTypeAhead: false
             }, () => this.leggTilKnapp.button.focus());
             this.props.fetchKompetanseSuggestions();
+            this.props.search();
         }
     };
 
@@ -51,6 +53,7 @@ class StillingSearch extends React.Component {
     onFjernClick = (e) => {
         this.props.removeStilling(e.target.value);
         this.props.fetchKompetanseSuggestions();
+        this.props.search();
     };
 
     onSubmit = (e) => {
@@ -62,6 +65,7 @@ class StillingSearch extends React.Component {
                 showTypeAhead: false
             }, () => this.leggTilKnapp.button.focus());
             this.props.fetchKompetanseSuggestions();
+            this.props.search();
         }
     };
 
@@ -127,6 +131,7 @@ StillingSearch.propTypes = {
     removeStilling: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
     query: PropTypes.shape({
         stilling: PropTypes.string,
         stillinger: PropTypes.arrayOf(PropTypes.string)
