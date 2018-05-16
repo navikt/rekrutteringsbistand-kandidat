@@ -16,9 +16,9 @@ class ArbeidserfaringSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.erfaringer = [{ label: 'Ikke relevant', value: '0-' }, { label: 'Under 1 år', value: '0-12' },
-            { label: 'Over 1-3 år', value: '13-36' }, { label: '4-6 år', value: '37-72' }, { label: '7-9 år', value: '73-108' },
-            { label: 'Over 10 år', value: '109-' }];
+        this.erfaringer = [{ label: 'Ikke relevant', value: '0-' },
+            { label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-36' },
+            { label: '4-9 år', value: '37-108' }, { label: 'Over 10 år', value: '109-' }];
     }
 
     onCheckTotalErfaring = (e) => {
@@ -76,16 +76,6 @@ class ArbeidserfaringSearch extends React.Component {
                         Krav til arbeidserfaring
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.arbeidserfaringer.map((arbeidserfaring) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={arbeidserfaring}
-                                value={arbeidserfaring}
-                            >
-                                {arbeidserfaring}
-                            </button>
-                        ))}
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
                                 <form
@@ -117,8 +107,18 @@ class ArbeidserfaringSearch extends React.Component {
                                 Legg til arbeidserfaring
                             </LeggTilKnapp>
                         )}
+                        {this.props.query.arbeidserfaringer.map((arbeidserfaring) => (
+                            <button
+                                onClick={this.onFjernClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={arbeidserfaring}
+                                value={arbeidserfaring}
+                            >
+                                {arbeidserfaring}
+                            </button>
+                        ))}
                     </div>
-                    <Element>Antall år med arbeidserfaring</Element>
+                    <Element>Totalt antall år med arbeidserfaring</Element>
                     <div className="sokekriterier--kriterier">
                         {this.erfaringer.map((arbeidserfaring) => (
                             <Radio
