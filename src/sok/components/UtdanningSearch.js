@@ -14,9 +14,10 @@ class UtdanningSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.utdanningsnivaKategorier = [{ key: 'Grunnskole', label: 'Grunnskole' }, { key: 'Videregaende', label: 'Videregående skole/fagbrev' },
-            { key: 'Fagskole', label: 'Fagskole/mesterbrev' }, { key: 'Bachelor', label: 'Bachelor eller lavere universitets-/høgskolegrad' },
-            { key: 'Master', label: 'Mastergrad eller tilsvarende' }, { key: 'Doktorgrad', label: 'Forsker/doktorgrad' }];
+        this.utdanningsnivaKategorier = [{ key: 'Ingen', label: 'Ingen utdanning' },
+            { key: 'Grunnskole', label: 'Grunnskole' }, { key: 'Videregaende', label: 'Videregående' },
+            { key: 'Fagskole', label: 'Fagskole' }, { key: 'Bachelor', label: 'Bachelor' },
+            { key: 'Master', label: 'Mastergrad' }, { key: 'Doktorgrad', label: 'Doktorgrad' }];
     }
 
     onUtdanningsnivaChange = (e) => {
@@ -93,16 +94,6 @@ class UtdanningSearch extends React.Component {
                     />
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.utdanninger.map((utdanning) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={utdanning}
-                                value={utdanning}
-                            >
-                                {utdanning}
-                            </button>
-                        ))}
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
                                 <form
@@ -134,6 +125,16 @@ class UtdanningSearch extends React.Component {
                                 Legg til fagfelt
                             </LeggTilKnapp>
                         )}
+                        {this.props.query.utdanninger.map((utdanning) => (
+                            <button
+                                onClick={this.onFjernClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={utdanning}
+                                value={utdanning}
+                            >
+                                {utdanning}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

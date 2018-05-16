@@ -26,10 +26,10 @@ export default class KandidaterTableRow extends React.Component {
                         <Column xs="2" md="2">
                             <Normaltekst>{this.props.cv.arenaKandidatnr}</Normaltekst></Column>
                         <Column xs="4" md="4">
-                            <Normaltekst>{this.props.cv.utdanning[0].nusKodeGrad}</Normaltekst>
+                            <Normaltekst>{this.props.cv.utdanning.length > 0 ? this.props.cv.utdanning[0].nusKodeGrad : ''}</Normaltekst>
                         </Column>
                         <Column xs="3" md="3">
-                            <Normaltekst>{this.props.cv.yrkeserfaring[0].styrkKodeStillingstittel}</Normaltekst>
+                            <Normaltekst>{this.props.cv.yrkeserfaring.length > 0 ? this.props.cv.yrkeserfaring[0].styrkKodeStillingstittel : ''}</Normaltekst>
                         </Column>
                         <Column xs="2" md="2" className="text-center">
                             <Normaltekst>{`${Math.round(this.props.cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
