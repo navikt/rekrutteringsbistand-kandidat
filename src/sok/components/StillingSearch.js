@@ -78,16 +78,6 @@ class StillingSearch extends React.Component {
                         Hvilken stilling skal du ansette en kandidat til?
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.stillinger.map((stilling) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={stilling}
-                                value={stilling}
-                            >
-                                {stilling}
-                            </button>
-                        ))}
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier" >
                                 <form
@@ -119,6 +109,16 @@ class StillingSearch extends React.Component {
                                 Legg til stilling
                             </LeggTilKnapp>
                         )}
+                        {this.props.query.stillinger.map((stilling) => (
+                            <button
+                                onClick={this.onFjernClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={stilling}
+                                value={stilling}
+                            >
+                                {stilling}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

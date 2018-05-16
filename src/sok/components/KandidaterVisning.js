@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Row } from 'nav-frontend-grid';
+import { Knapp } from 'nav-frontend-knapper';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import KandidaterTableRow from './KandidaterTableRow';
 
@@ -10,8 +11,15 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            antallResultater: 20
         };
     }
+
+    onFlereResultaterClick = () => {
+        this.setState({
+            antallResultater: this.state.antallResultater + 15
+        });
+    };
 
     render() {
         let tittel = '';
@@ -27,10 +35,10 @@ class KandidaterVisning extends React.Component {
         return (
             <div>
                 <Row className="panel resultatvisning">
-                    <Column md="6">
+                    <Column xs="6" md="6">
                         <Ingress className="text--left"><strong>{this.props.treff}</strong> treff på aktuelle kandidater</Ingress>
                     </Column>
-                    <Column md="6">
+                    <Column xs="6" md="6">
                         <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
                     </Column>
                 </Row>
@@ -46,18 +54,36 @@ class KandidaterVisning extends React.Component {
                         />
                     ))}
                 </div>
-                {this.props.cver.length > 5 ? (
+                {this.props.cver.length > 5 && (
                     <div className="resultatvisning">
                         <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                         <KandidaterTableHeader />
-                        {this.props.cver.slice(5).map((cv) => (
+                        {this.props.cver.slice(5, this.state.antallResultater).map((cv) => (
                             <KandidaterTableRow
                                 cv={cv}
                                 key={cv.epostadresse}
                             />
                         ))}
+                        <div className="buttons--kandidatervisning">
+                            <Column xs="6">
+                                <Knapp
+                                    type="hoved"
+                                    mini
+                                    onClick={this.onFlereResultaterClick}
+                                >
+                                    Se flere kandidater
+                                </Knapp>
+                            </Column>
+                            <Column xs="6">
+                                <a
+                                    className="lenke lenke--lagre--sok"
+                                >
+                                    Lagre søk og liste over kandidater
+                                </a>
+                            </Column>
+                        </div>
                     </div>
-                ) : <div />}
+                )}
             </div>
         );
     }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import YrkeSearch from './components/StillingSearch';
+import StillingSearch from './components/StillingSearch';
 import UtdanningSearch from './components/UtdanningSearch';
 import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
 import KompetanseSearch from './components/KompetanseSearch';
@@ -57,7 +57,7 @@ class ResultatVisning extends React.Component {
                                     Slett alle kriterier
                                 </button>
                                 <div className="resultatvisning--sokekriterier">
-                                    <YrkeSearch />
+                                    <StillingSearch />
                                     <UtdanningSearch />
                                     <ArbeidserfaringSearch />
                                     <KompetanseSearch />

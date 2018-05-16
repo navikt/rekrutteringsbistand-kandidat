@@ -146,7 +146,7 @@ class KompetanseSearch extends React.Component {
                                     onClick={this.onLeggTilFlereClick}
                                     className="lenke"
                                 >
-                                    Legg til flere
+                                    Se flere forslag
                                 </button>
                             )}
                         </div>
