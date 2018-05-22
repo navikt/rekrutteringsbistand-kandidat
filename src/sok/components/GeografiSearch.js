@@ -65,16 +65,6 @@ class GeografiSearch extends React.Component {
                         Legg til fylke, kommune eller by
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.geografiList.map((geo) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={geo}
-                                value={geo}
-                            >
-                                {geo}
-                            </button>
-                        ))}
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
                                 <form
@@ -106,6 +96,16 @@ class GeografiSearch extends React.Component {
                                 Legg til sted
                             </LeggTilKnapp>
                         )}
+                        {this.props.query.geografiList.map((geo) => (
+                            <button
+                                onClick={this.onFjernClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={geo}
+                                value={geo}
+                            >
+                                {geo}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

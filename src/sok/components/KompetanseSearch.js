@@ -80,16 +80,6 @@ class KompetanseSearch extends React.Component {
                         Krav til språk, sertifikater, kurs og sertifiseringer
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.props.query.kompetanser.map((kompetanse) => (
-                            <button
-                                onClick={this.onFjernKompetanseClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={kompetanse}
-                                value={kompetanse}
-                            >
-                                {kompetanse}
-                            </button>
-                        ))}
                         {this.state.showTypeAheadKompetanse ? (
                             <div className="leggtil--sokekriterier">
                                 <form
@@ -121,6 +111,16 @@ class KompetanseSearch extends React.Component {
                                 Legg til kompetanse
                             </LeggTilKnapp>
                         )}
+                        {this.props.query.kompetanser.map((kompetanse) => (
+                            <button
+                                onClick={this.onFjernKompetanseClick}
+                                className="etikett--sokekriterier kryssicon--sokekriterier"
+                                key={kompetanse}
+                                value={kompetanse}
+                            >
+                                {kompetanse}
+                            </button>
+                        ))}
                     </div>
                     {kompetanseSuggestions.length > 0 && (
                         <div>
