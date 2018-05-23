@@ -1,9 +1,5 @@
-import { select, call, put, takeLatest } from 'redux-saga/effects';
-import {
-    SearchApiError,
-    fetchKandidater,
-    fetchTypeaheadSuggestions
-} from './api';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { fetchKandidater, fetchTypeaheadSuggestions, SearchApiError } from './api';
 
 /** *********************************************************
  * ACTIONS
@@ -36,6 +32,7 @@ export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
+export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
 
 export const SELECT_TYPE_AHEAD_VALUE_KOMPETANSE = 'SELECT_TYPE_AHEAD_VALUE_KOMPETANSE';
 export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
@@ -64,6 +61,7 @@ const initialState = {
         utdanninger: [],
         kompetanser: [],
         geografiList: [],
+        geografiListKomplett: [],
         totalErfaring: '',
         utdanningsniva: [],
         styrkKode: '',
@@ -81,6 +79,7 @@ const initialState = {
     cachedTypeAheadSuggestionsUtdanning: [],
     cachedTypeAheadSuggestionsKompetanse: [],
     cachedTypeAheadSuggestionsGeografi: [],
+    typeAheadSuggestionsGeografiKomplett: [],
     error: undefined
 };
 
@@ -210,10 +209,17 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    geografiList: state.query.geografiList.includes(action.value) ?
+                    geografiList: state.query.geografiList.includes(action.value.geografiKode) ?
                         state.query.geografiList :
                         [
                             ...state.query.geografiList,
+                            action.value.geografiKode
+                        ],
+                    geografiListKomplett: state.query.geografiListKomplett
+                        .find((v) => v.geografiKode === action.value.geografiKode) !== undefined ?
+                        state.query.geografiListKomplett :
+                        [
+                            ...state.query.geografiListKomplett,
                             action.value
                         ]
                 },
@@ -224,7 +230,9 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 query: {
                     ...state.query,
-                    geografiList: state.query.geografiList.filter((g) => g !== action.value)
+                    geografiList: state.query.geografiList.filter((g) => g !== action.value),
+                    geografiListKomplett: state.query.geografiListKomplett
+                        .filter((g) => g.geografiKode !== action.value)
                 }
             };
         case SELECT_TYPE_AHEAD_VALUE_KOMPETANSE:
@@ -272,6 +280,11 @@ export default function reducer(state = initialState, action) {
                     ...state.query,
                     utdanningsniva: state.query.utdanningsniva.filter((u) => u !== action.value)
                 }
+            };
+        case SET_KOMPLETT_GEOGRAFI:
+            return {
+                ...state,
+                typeAheadSuggestionsGeografiKomplett: action.value
             };
         default:
             return { ...state };
@@ -374,10 +387,20 @@ function* fetchTypeAheadSuggestions(action) {
                 // The result from Elastic Search is a list of key-value pair
                 // Put the values into a list
                 const result = [];
+                const totalResult = [];
                 if (response._embedded) {
-                    response._embedded.stringList.map((r) =>
-                        result.push(r.content)
-                    );
+                    if (name === 'geografi') {
+                        response._embedded.stringList.map((r) => {
+                            const content = JSON.parse(r.content);
+                            totalResult.push(content);
+                            return result.push(content.geografiKodeTekst);
+                        });
+                        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
+                    } else {
+                        response._embedded.stringList.map((r) =>
+                            result.push(r.content)
+                        );
+                    }
                 }
 
                 const suggestions = result.filter((cachedSuggestion) => (

@@ -57,14 +57,6 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.props.selectTypeAheadValue(this.state.typeAheadValue);
-            this.setState({
-                typeAheadValue: '',
-                showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
-            this.props.search();
-        }
     };
 
     render() {
