@@ -26,6 +26,7 @@ class ResultatVisning extends React.Component {
             utdanninger: [],
             kompetanser: [],
             geografiList: [],
+            geografiListKomplett: [],
             totalErfaring: '',
             utdanningsniva: [],
             styrkKode: '',

@@ -49,14 +49,6 @@ class KompetanseSearch extends React.Component {
 
     onSubmitKompetanse = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValueKompetanse !== '') {
-            this.props.selectTypeAheadValueKompetanse(this.state.typeAheadValueKompetanse);
-            this.setState({
-                typeAheadValueKompetanse: '',
-                showTypeAheadKompetanse: false
-            }, () => this.leggTilKnapp.button.focus());
-            this.props.search();
-        }
     };
 
     onKompetanseSuggestionsClick = (e) => {
