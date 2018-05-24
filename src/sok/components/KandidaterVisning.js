@@ -11,13 +11,71 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: 20
+            antallResultater: 20,
+            cver: this.props.cver
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            cver: nextProps.cver
+        });
     }
 
     onFlereResultaterClick = () => {
         this.setState({
             antallResultater: this.state.antallResultater + 15
+        });
+    };
+
+    onFilterUtdanningClick = () => {
+        const cver = this.state.cver.slice(0, 5).sort((cv1, cv2) => {
+            // TODO: Sortere på relevant utdanning, ikke bare første utdanning
+            const cv1utd = cv1.utdanning[0] ? cv1.utdanning[0].nusKode : 0;
+            const cv2utd = cv2.utdanning[0] ? cv2.utdanning[0].nusKode : 0;
+            if (this.state.utdanningChevronNed) {
+                return cv1utd > cv2utd;
+            }
+            return cv1utd < cv2utd;
+        });
+        this.setState({
+            cver,
+            utdanningChevronNed: !this.state.utdanningChevronNed,
+            jobberfaringChevronNed: undefined,
+            antallArChevronNed: undefined
+        });
+    };
+
+    onFilterJobberfaringClick = () => {
+        const cver = this.state.cver.slice(0, 5).sort((cv1, cv2) => {
+            // TODO: Sortere på relevant yrkeserfaring, ikke bare første erfaring
+            const cv1job = cv1.yrkeserfaring[0] ? cv1.yrkeserfaring[0].styrkKodeStillingstittel : '';
+            const cv2job = cv2.yrkeserfaring[0] ? cv2.yrkeserfaring[0].styrkKodeStillingstittel : '';
+            if (this.state.jobberfaringChevronNed) {
+                return cv1job < cv2job;
+            }
+            return cv1job > cv2job;
+        });
+        this.setState({
+            cver,
+            utdanningChevronNed: undefined,
+            jobberfaringChevronNed: !this.state.jobberfaringChevronNed,
+            antallArChevronNed: undefined
+        });
+    };
+
+    onFilterAntallArClick = () => {
+        const cver = this.state.cver.slice(0, 5).sort((cv1, cv2) => {
+            if (this.state.antallArChevronNed) {
+                return cv1.totalLengdeYrkeserfaring > cv2.totalLengdeYrkeserfaring;
+            }
+            return cv1.totalLengdeYrkeserfaring < cv2.totalLengdeYrkeserfaring;
+        });
+        this.setState({
+            cver,
+            utdanningChevronNed: undefined,
+            jobberfaringChevronNed: undefined,
+            antallArChevronNed: !this.state.antallArChevronNed
         });
     };
 
@@ -32,6 +90,7 @@ class KandidaterVisning extends React.Component {
         } else {
             tittel = `Topp ${this.props.treff} kandidater`;
         }
+        console.log(this.state.cver);
         return (
             <div>
                 <Row className="panel resultatvisning">
@@ -44,8 +103,15 @@ class KandidaterVisning extends React.Component {
                 </Row>
                 <div className="resultatvisning">
                     <Systemtittel>{tittel}</Systemtittel>
-                    <KandidaterTableHeader />
-                    {this.props.cver.slice(0, 5).map((cv, i) => (
+                    <KandidaterTableHeader
+                        onFilterUtdanningClick={this.onFilterUtdanningClick}
+                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
+                        onFilterAntallArClick={this.onFilterAntallArClick}
+                        utdanningNed={this.state.utdanningChevronNed}
+                        jobberfaringNed={this.state.jobberfaringChevronNed}
+                        antallArNed={this.state.antallArChevronNed}
+                    />
+                    {this.state.cver.slice(0, 5).map((cv, i) => (
                         <KandidaterTableRow
                             // TODO: Rewrite the next line after user-test
                             cv={i === 1 ? { ...cv, samtykkeStatus: 'N' } : cv}
