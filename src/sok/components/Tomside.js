@@ -12,7 +12,7 @@ export default function TomSide() {
                     <Normaltekst className="typo-normal blokk-xxs">
                         ...men vi jobber med saken!
                     </Normaltekst>
-                    <Link id="link-soknader" to="/pam-kandidatsok" className="lenke typo-normal">
+                    <Link id="link-soknader" to="/pam-kandidatsok/forside" className="lenke typo-normal">
                         Tilbake
                     </Link>
                 </Column>
