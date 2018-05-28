@@ -5,6 +5,11 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 
 export default function ShowCv({ cv, onTaKontaktClick }) {
+    const utdanning = cv.utdanning.slice().reverse();
+    const yrkeserfaring = cv.yrkeserfaring.slice().reverse();
+    const kurs = cv.kurs.slice().reverse();
+    const sertifikat = cv.sertifikat.slice().reverse();
+    const sprak = cv.sprak.slice().reverse();
     return (
         <div className="panel">
             <Row>
@@ -48,116 +53,111 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     </div>
                 </Column>
             </Row>
-            {cv.utdanning && cv.utdanning.length !== 0 && (
+            {utdanning && utdanning.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Utdanning</Undertittel>
-                        {cv.utdanning.reverse()
-                            .map((u) => (
-                                <Row className="blokk-xs">
-                                    <Column xs="4">
-                                        <Normaltekst>
-                                            {`${u.fraDato.substring(0, 10)} - ${u.tilDato.substring(0, 10)}`}
-                                        </Normaltekst>
-                                    </Column>
-                                    <Column xs="8">
-                                        <Element>{u.nusKodeGrad}</Element>
-                                        <Normaltekst>
-                                            {u.utdannelsessted}
-                                        </Normaltekst>
-                                        <Normaltekst><i>{u.alternativGrad}</i></Normaltekst>
-                                    </Column>
-                                </Row>
-                            ))}
+                        {utdanning.map((u) => (
+                            <Row className="blokk-xs">
+                                <Column xs="4">
+                                    <Normaltekst>
+                                        {`${u.fraDato.substring(0, 10)} - ${u.tilDato.substring(0, 10)}`}
+                                    </Normaltekst>
+                                </Column>
+                                <Column xs="8">
+                                    <Element>{u.nusKodeGrad}</Element>
+                                    <Normaltekst>
+                                        {u.utdannelsessted}
+                                    </Normaltekst>
+                                    <Normaltekst><i>{u.alternativGrad}</i></Normaltekst>
+                                </Column>
+                            </Row>
+                        ))}
                     </Column>
                 </Row>
             )}
-            {cv.yrkeserfaring && cv.yrkeserfaring.length !== 0 && (
+            {yrkeserfaring && yrkeserfaring.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Arbeidserfaring</Undertittel>
-                        {cv.yrkeserfaring.reverse()
-                            .map((a) => (
-                                <Row className="blokk-xs">
-                                    <Column xs="4">
-                                        <Normaltekst>
-                                            {`${a.fraDato.substring(0, 10)} - ${a.tilDato ? a.tilDato.substring(0, 10) : ''}`}
-                                        </Normaltekst>
-                                    </Column>
-                                    <Column xs="8">
-                                        <Element>{a.styrkKodeStillingstittel}</Element>
-                                        <Normaltekst>
-                                            {a.arbeidsgiver}
-                                        </Normaltekst>
-                                        <Normaltekst><i>{a.alternativStillingstittel}</i></Normaltekst>
-                                    </Column>
-                                </Row>
-                            ))}
+                        {yrkeserfaring.map((a) => (
+                            <Row className="blokk-xs">
+                                <Column xs="4">
+                                    <Normaltekst>
+                                        {`${a.fraDato.substring(0, 10)} - ${a.tilDato ? a.tilDato.substring(0, 10) : ''}`}
+                                    </Normaltekst>
+                                </Column>
+                                <Column xs="8">
+                                    <Element>{a.styrkKodeStillingstittel}</Element>
+                                    <Normaltekst>
+                                        {a.arbeidsgiver}
+                                    </Normaltekst>
+                                    <Normaltekst><i>{a.alternativStillingstittel}</i></Normaltekst>
+                                </Column>
+                            </Row>
+                        ))}
                     </Column>
                 </Row>
             )}
-            {cv.kurs && cv.kurs.length !== 0 && (
+            {kurs && kurs.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Kurs og sertifiseringer</Undertittel>
-                        {cv.kurs.reverse()
-                            .map((k) => (
-                                <Row className="blokk-xs">
-                                    <Column xs="4">
-                                        <Normaltekst>
-                                            {`${k.fraDato.substring(0, 10)} - ${k.tilDato ? k.tilDato.substring(0, 10) : ''}`}
-                                        </Normaltekst>
-                                    </Column>
-                                    <Column xs="8">
-                                        <Element>{k.tittel}</Element>
-                                        <Normaltekst>{k.arrangor}</Normaltekst>
-                                    </Column>
-                                </Row>
-                            ))}
+                        {kurs.map((k) => (
+                            <Row className="blokk-xs">
+                                <Column xs="4">
+                                    <Normaltekst>
+                                        {`${k.fraDato.substring(0, 10)} - ${k.tilDato ? k.tilDato.substring(0, 10) : ''}`}
+                                    </Normaltekst>
+                                </Column>
+                                <Column xs="8">
+                                    <Element>{k.tittel}</Element>
+                                    <Normaltekst>{k.arrangor}</Normaltekst>
+                                </Column>
+                            </Row>
+                        ))}
                     </Column>
                 </Row>
             )}
-            {cv.sertifikat && cv.sertifikat.length !== 0 && (
+            {sertifikat && sertifikat.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Sertifikater</Undertittel>
-                        {cv.sertifikat.reverse()
-                            .map((s) => (
-                                <Row className="blokk-xs">
-                                    <Column xs="4">
-                                        <Normaltekst>
-                                            {`${s.fraDato.substring(0, 10)} - ${s.tilDato ? s.tilDato.substring(0, 10) : ''}`}
-                                        </Normaltekst>
-                                    </Column>
-                                    <Column xs="8">
-                                        <Element>{s.sertifikatKodeNavn}</Element>
-                                        <Normaltekst>{s.utsteder}</Normaltekst>
-                                        <Normaltekst><i>{s.alternativtNavn}</i></Normaltekst>
-                                    </Column>
-                                </Row>
-                            ))}
+                        {sertifikat.map((s) => (
+                            <Row className="blokk-xs">
+                                <Column xs="4">
+                                    <Normaltekst>
+                                        {`${s.fraDato.substring(0, 10)} - ${s.tilDato ? s.tilDato.substring(0, 10) : ''}`}
+                                    </Normaltekst>
+                                </Column>
+                                <Column xs="8">
+                                    <Element>{s.sertifikatKodeNavn}</Element>
+                                    <Normaltekst>{s.utsteder}</Normaltekst>
+                                    <Normaltekst><i>{s.alternativtNavn}</i></Normaltekst>
+                                </Column>
+                            </Row>
+                        ))}
                     </Column>
                 </Row>
             )}
-            {cv.sprak && cv.sprak.length !== 0 && (
+            {sprak && sprak.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Språk</Undertittel>
-                        {cv.sprak.reverse()
-                            .map((s) => (
-                                <Row className="blokk-xs">
-                                    <Column xs="4">
-                                        <Normaltekst>
-                                            {s.fraDato.substring(0, 10)}
-                                        </Normaltekst>
-                                    </Column>
-                                    <Column xs="8">
-                                        <Element>{s.sprakKodeTekst}</Element>
-                                        <Normaltekst>{s.beskrivelse}</Normaltekst>
-                                        <Normaltekst><i>{s.alternativTekst}</i></Normaltekst>
-                                    </Column>
-                                </Row>
-                            ))}
+                        {sprak.map((s) => (
+                            <Row className="blokk-xs">
+                                <Column xs="4">
+                                    <Normaltekst>
+                                        {s.fraDato.substring(0, 10)}
+                                    </Normaltekst>
+                                </Column>
+                                <Column xs="8">
+                                    <Element>{s.sprakKodeTekst}</Element>
+                                    <Normaltekst>{s.beskrivelse}</Normaltekst>
+                                    <Normaltekst><i>{s.alternativTekst}</i></Normaltekst>
+                                </Column>
+                            </Row>
+                        ))}
                     </Column>
                 </Row>
             )}
