@@ -19,7 +19,7 @@ class KandidaterVisning extends React.Component {
     componentWillReceiveProps(nextProps) {
         // Sortere utdanning slik at høyest oppnådd utdanning vises i resultat-listen,
         // og at det er denne det filtreres på.
-        nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
+        /* nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
 
         nextProps.cver.forEach((cv) => {
             const erfaringer = cv.yrkeserfaring.map((y) =>
@@ -33,7 +33,7 @@ class KandidaterVisning extends React.Component {
 
         this.setState({
             cver: nextProps.cver
-        });
+        }); */
     }
 
     onFlereResultaterClick = () => {
