@@ -122,15 +122,14 @@ class KompetanseSearch extends React.Component {
                             </Element>
                             <div className="sokekriterier--kriterier">
                                 {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
-                                    <div key={suggestedKompetanse.feltnavn} >
-                                        <button
-                                            onClick={this.onKompetanseSuggestionsClick}
-                                            className="etikett--forslag--kompetanse"
-                                            value={suggestedKompetanse.feltnavn}
-                                        >
-                                            {suggestedKompetanse.feltnavn}
-                                        </button>
-                                    </div>
+                                    <button
+                                        onClick={this.onKompetanseSuggestionsClick}
+                                        className="etikett--forslag--kompetanse"
+                                        value={suggestedKompetanse.feltnavn}
+                                        key={suggestedKompetanse.feltnavn}
+                                    >
+                                        {suggestedKompetanse.feltnavn}
+                                    </button>
                                 ))}
                             </div>
                             {this.state.antallKompetanser < kompetanseSuggestions.length && (
