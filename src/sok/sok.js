@@ -13,6 +13,8 @@ import './../styles.less';
 import './sok.less';
 import searchReducer, { saga } from './domene';
 import { getUrlParameterByName, toUrlParams } from './utils';
+import Forside from './components/Forside';
+import Tomside from './components/Tomside';
 
 export const getInitialStateFromUrl = (url) => {
     const stateFromUrl = {};
@@ -92,9 +94,13 @@ class Sok extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok" render={() => <Forside />} />
+                    <Route exact path="/pam-kandidatsok/sok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
                     <Route exact path="/pam-kandidatsok/resultat" render={() => <ResultatVisning urlParams={getInitialStateFromUrl(window.location.href)} />} />
                     <Route exact path="/pam-kandidatsok/altinn" render={() => <ManglerRolleAltinn />} />
+                    <Route exact path="/pam-kandidatsok/annonse" render={() => <Tomside />} />
+                    <Route exact path="/pam-kandidatsok/soknader" render={() => <Tomside />} />
+                    <Route exact path="/pam-kandidatsok/fastesok" render={() => <Tomside />} />
                 </Switch>
             </BrowserRouter>
         );
