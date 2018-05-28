@@ -57,7 +57,7 @@ class Kandidatsok extends React.Component {
                                     <Column xs="12" md="4">
                                         <div className="panel resultatsummering--sokekriterier">
                                             <Ingress>Treff på aktuelle kandidater</Ingress>
-                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.treff} treff</Systemtittel>
+                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
                                                 className="knapp knapp--hoved"
@@ -78,7 +78,7 @@ class Kandidatsok extends React.Component {
 
 Kandidatsok.propTypes = {
     initialSearch: PropTypes.func.isRequired,
-    treff: PropTypes.number.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
     urlParams: PropTypes.shape({
         yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
@@ -97,7 +97,7 @@ Kandidatsok.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    treff: state.elasticSearchResultat.total,
+    totaltAntallTreff: state.elasticSearchResultat.resultat.totaltAntallTreff,
     isInitialSearch: state.isInitialSearch,
     query: state.query
 });

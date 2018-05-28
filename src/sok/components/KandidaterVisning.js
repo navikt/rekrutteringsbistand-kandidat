@@ -95,20 +95,20 @@ class KandidaterVisning extends React.Component {
 
     render() {
         let tittel = '';
-        if (this.props.treff > 5) {
+        if (this.props.totaltAntallTreff > 5) {
             tittel = 'Topp 5 kandidater';
-        } else if (this.props.treff === 0) {
+        } else if (this.props.totaltAntallTreff === 0) {
             tittel = 'Ingen direkte treff';
-        } else if (this.props.treff === 1) {
+        } else if (this.props.totaltAntallTreff === 1) {
             tittel = 'Beste kandidat';
         } else {
-            tittel = `Topp ${this.props.treff} kandidater`;
+            tittel = `Topp ${this.props.totaltAntallTreff} kandidater`;
         }
         return (
             <div>
                 <Row className="panel resultatvisning">
                     <Column xs="6" md="6">
-                        <Ingress className="text--left"><strong>{this.props.treff}</strong> treff på aktuelle kandidater</Ingress>
+                        <Ingress className="text--left"><strong>{this.props.totaltAntallTreff}</strong> treff på aktuelle kandidater</Ingress>
                     </Column>
                     <Column xs="6" md="6">
                         <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
@@ -177,7 +177,7 @@ class KandidaterVisning extends React.Component {
 
 KandidaterVisning.propTypes = {
     cver: PropTypes.arrayOf(PropTypes.object).isRequired,
-    treff: PropTypes.number.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
     query: PropTypes.shape({
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)
     }).isRequired
@@ -185,7 +185,7 @@ KandidaterVisning.propTypes = {
 
 const mapStateToProps = (state) => ({
     cver: state.elasticSearchResultat.resultat.cver,
-    treff: state.elasticSearchResultat.total,
+    totaltAntallTreff: state.elasticSearchResultat.resultat.totaltAntallTreff,
     query: state.query
 });
 

@@ -50,10 +50,10 @@ const initialState = {
     elasticSearchResultat: {
         resultat: {
             cver: [],
-            aggregeringer: []
+            aggregeringer: [],
+            totaltAntallTreff: 0
         },
-        kompetanseSuggestions: [],
-        total: 0
+        kompetanseSuggestions: []
     },
     query: {
         stillinger: [],
@@ -97,7 +97,7 @@ export default function reducer(state = initialState, action) {
                 isSearching: false,
                 isInitialSearch: false,
                 error: undefined,
-                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response, total: action.response.cver.length }
+                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
             };
         case SEARCH_FAILURE:
             return {
