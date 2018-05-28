@@ -21,6 +21,16 @@ class KandidaterVisning extends React.Component {
         // og at det er denne det filtreres på.
         nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
 
+        nextProps.cver.forEach((cv) => {
+            const erfaringer = cv.yrkeserfaring.map((y) =>
+                nextProps.query.arbeidserfaringer.find((a) => y.styrkKodeStillingstittel === a));
+            const erfaring = erfaringer.reverse().find((e) => e !== undefined);
+            if (erfaring) {
+                const index = erfaringer.reverse().indexOf(erfaring);
+                this.swapJobberfaringer(cv.yrkeserfaring, cv.yrkeserfaring.length - 1, index);
+            }
+        });
+
         this.setState({
             cver: nextProps.cver
         });
@@ -70,6 +80,14 @@ class KandidaterVisning extends React.Component {
         this.setState({
             cver
         });
+    };
+
+    swapJobberfaringer = (jobberfaring, int1, int2) => {
+        let i = int2;
+        while (i < int1) {
+            jobberfaring.splice(i + 1, 0, jobberfaring.splice(i, 1).pop());
+            i += 1;
+        }
     };
 
     render() {

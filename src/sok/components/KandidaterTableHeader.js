@@ -52,7 +52,7 @@ export default class KandidaterTableHeader extends React.Component {
                     </Column>
                     <Column xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterJobberfaringClick}>
-                            <Element className="label--resultatvisning">Jobberfaring</Element>
+                            <Element className="label--resultatvisning">Arbeidserfaring</Element>
                             <NavFrontendChevron
                                 type={this.state.jobberfaringChevronNed === undefined || this.state.jobberfaringChevronNed ? 'ned' : 'opp'}
                             />
