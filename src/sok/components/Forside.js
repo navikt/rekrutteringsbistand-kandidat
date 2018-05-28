@@ -32,7 +32,7 @@ export default function Forside() {
                             Det er nå 3205 kandidater som ønsker seg en jobb, sjekk om noen av disse
                             passer i din bedrift
                         </Normaltekst>
-                        <Link id="link-kandidatsok" to="/pam-kandidatsok/sok" className="lenke typo-normal">
+                        <Link id="link-kandidatsok" to="/pam-kandidatsok" className="lenke typo-normal">
                             Søk etter kandidat
                         </Link>
                     </div>

@@ -94,8 +94,8 @@ class Sok extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/pam-kandidatsok" render={() => <Forside />} />
-                    <Route exact path="/pam-kandidatsok/sok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/forside" render={() => <Forside />} />
+                    <Route exact path="/pam-kandidatsok" render={() => <Kandidatsok urlParams={getInitialStateFromUrl(window.location.href)} />} />
                     <Route exact path="/pam-kandidatsok/resultat" render={() => <ResultatVisning urlParams={getInitialStateFromUrl(window.location.href)} />} />
                     <Route exact path="/pam-kandidatsok/altinn" render={() => <ManglerRolleAltinn />} />
                     <Route exact path="/pam-kandidatsok/annonse" render={() => <Tomside />} />
