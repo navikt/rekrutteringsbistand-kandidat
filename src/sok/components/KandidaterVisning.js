@@ -19,7 +19,7 @@ class KandidaterVisning extends React.Component {
     componentWillReceiveProps(nextProps) {
         // Sortere utdanning slik at høyest oppnådd utdanning vises i resultat-listen,
         // og at det er denne det filtreres på.
-        /* nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
+        nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
 
         nextProps.cver.forEach((cv) => {
             const erfaringer = cv.yrkeserfaring.map((y) =>
@@ -29,7 +29,7 @@ class KandidaterVisning extends React.Component {
                 const index = erfaringer.reverse().indexOf(erfaring);
                 this.swapJobberfaringer(cv.yrkeserfaring, cv.yrkeserfaring.length - 1, index);
             }
-        }); */
+        });
 
         this.setState({
             cver: nextProps.cver
@@ -51,9 +51,12 @@ class KandidaterVisning extends React.Component {
             }
             return cv1utd < cv2utd;
         });
-        this.setState({
-            cver
-        });
+        /* this.setState({
+            cver: [
+                ...cver,
+                ...this.state.cver.slice(5)
+            ]
+        }); */
     };
 
     onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
@@ -65,9 +68,9 @@ class KandidaterVisning extends React.Component {
             }
             return cv1job > cv2job;
         });
-        this.setState({
+        /* this.setState({
             cver
-        });
+        }); */
     };
 
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
@@ -77,9 +80,9 @@ class KandidaterVisning extends React.Component {
             }
             return cv1.totalLengdeYrkeserfaring < cv2.totalLengdeYrkeserfaring;
         });
-        this.setState({
+        /* this.setState({
             cver
-        });
+        }); */
     };
 
     swapJobberfaringer = (jobberfaring, int1, int2) => {
@@ -125,7 +128,7 @@ class KandidaterVisning extends React.Component {
                             // TODO: Rewrite the next line after user-test
                             cv={i === 1 ? { ...cv, samtykkeStatus: 'N' } : cv}
                             // cv={cv}
-                            key={cv.epostadresse}
+                            key={cv.arenaKandidatnr}
                         />
                     ))}
                 </div>
@@ -142,7 +145,7 @@ class KandidaterVisning extends React.Component {
                         {this.state.cver.slice(5, this.state.antallResultater).map((cv) => (
                             <KandidaterTableRow
                                 cv={cv}
-                                key={cv.epostadresse}
+                                key={cv.arenaKandidatnr}
                             />
                         ))}
                         {this.state.cver.length > this.state.antallResultater && (

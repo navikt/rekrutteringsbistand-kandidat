@@ -58,10 +58,10 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     <Column xs="12">
                         <Undertittel>Utdanning</Undertittel>
                         {utdanning.map((u) => (
-                            <Row className="blokk-xs">
+                            <Row className="blokk-xs" key={`${u.fraDato}-${u.alternativGrad}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {`${u.fraDato.substring(0, 10)} - ${u.tilDato.substring(0, 10)}`}
+                                        {`${u.fraDato.substring(0, 10)} - ${u.tilDato ? u.tilDato.substring(0, 10) : ''}`}
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
@@ -81,7 +81,7 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     <Column xs="12">
                         <Undertittel>Arbeidserfaring</Undertittel>
                         {yrkeserfaring.map((a) => (
-                            <Row className="blokk-xs">
+                            <Row className="blokk-xs" key={`${a.fraDato}-${a.alternativStillingstittel}`}>
                                 <Column xs="4">
                                     <Normaltekst>
                                         {`${a.fraDato.substring(0, 10)} - ${a.tilDato ? a.tilDato.substring(0, 10) : ''}`}
@@ -104,7 +104,7 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     <Column xs="12">
                         <Undertittel>Kurs og sertifiseringer</Undertittel>
                         {kurs.map((k) => (
-                            <Row className="blokk-xs">
+                            <Row className="blokk-xs" key={`${k.fraDato}-${k.arrangor}`}>
                                 <Column xs="4">
                                     <Normaltekst>
                                         {`${k.fraDato.substring(0, 10)} - ${k.tilDato ? k.tilDato.substring(0, 10) : ''}`}
@@ -124,7 +124,7 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     <Column xs="12">
                         <Undertittel>Sertifikater</Undertittel>
                         {sertifikat.map((s) => (
-                            <Row className="blokk-xs">
+                            <Row className="blokk-xs" key={`${s.fraDato}-${s.alternativtNavn}`}>
                                 <Column xs="4">
                                     <Normaltekst>
                                         {`${s.fraDato.substring(0, 10)} - ${s.tilDato ? s.tilDato.substring(0, 10) : ''}`}
@@ -145,7 +145,7 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     <Column xs="12">
                         <Undertittel>Språk</Undertittel>
                         {sprak.map((s) => (
-                            <Row className="blokk-xs">
+                            <Row className="blokk-xs" key={`${s.fraDato}-${s.alternativTekst}`}>
                                 <Column xs="4">
                                     <Normaltekst>
                                         {s.fraDato.substring(0, 10)}

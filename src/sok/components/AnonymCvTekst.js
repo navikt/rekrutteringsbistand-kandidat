@@ -21,7 +21,7 @@ export default function AnonymCvTekst({ onTaKontaktClick, toggleModalOpen }) {
                         className="knapp knapp--hoved"
                         onClick={onTaKontaktClick}
                     >
-                        Vis meldingstekst
+                        Kontakt kandidat
                     </Knapp>
                     <Knapp
                         className="knapp"

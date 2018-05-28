@@ -49,7 +49,8 @@ export default class ShowModalResultat extends React.Component {
                 className="modal--resultat"
                 closeButton
             >
-                {this.state.steg === 0 && this.props.cv.samtykkeStatus === 'J' && (
+                {this.state.steg === 0 && (this.props.cv.samtykkeStatus === 'J'
+                    || this.props.cv.samtykkeStatus === 'G' || this.props.cv.samtykkeStatus === 'B') && (
                     <ShowCv
                         cv={this.props.cv}
                         onTaKontaktClick={this.onTaKontaktClick}
