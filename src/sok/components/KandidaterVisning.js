@@ -29,11 +29,11 @@ class KandidaterVisning extends React.Component {
                 const index = erfaringer.reverse().indexOf(erfaring);
                 this.swapJobberfaringer(cv.yrkeserfaring, cv.yrkeserfaring.length - 1, index);
             }
-        });
+        }); */
 
         this.setState({
             cver: nextProps.cver
-        }); */
+        });
     }
 
     onFlereResultaterClick = () => {
