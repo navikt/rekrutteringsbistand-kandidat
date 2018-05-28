@@ -10,7 +10,7 @@ import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
 import KompetanseSearch from './components/KompetanseSearch';
 import GeografiSearch from './components/GeografiSearch';
 import KandidaterVisning from './components/KandidaterVisning';
-import { INITIAL_SEARCH, SEARCH, SEARCH_BEGIN } from './domene';
+import { FETCH_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SEARCH_BEGIN } from './domene';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -32,6 +32,7 @@ class ResultatVisning extends React.Component {
             styrkKode: '',
             nusKode: ''
         });
+        this.props.fetchKompetanseSuggestions();
         this.props.search();
     };
 
@@ -80,6 +81,7 @@ ResultatVisning.propTypes = {
     initialSearch: PropTypes.func.isRequired,
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
+    fetchKompetanseSuggestions: PropTypes.func.isRequired,
     urlParams: PropTypes.shape({
         yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
@@ -97,7 +99,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SEARCH_BEGIN, query }),
     search: () => dispatch({ type: SEARCH }),
-    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query })
+    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
+    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);
