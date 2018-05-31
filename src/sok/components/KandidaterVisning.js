@@ -21,6 +21,8 @@ class KandidaterVisning extends React.Component {
         // og at det er denne det filtreres på.
         nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
 
+        // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene.
+        // Er det flere relevante jobberfaringer vises den siste
         nextProps.cver.forEach((cv) => {
             const erfaringer = cv.yrkeserfaring.map((y) =>
                 nextProps.query.arbeidserfaringer.find((a) => y.styrkKodeStillingstittel === a));
@@ -125,9 +127,7 @@ class KandidaterVisning extends React.Component {
                     />
                     {this.state.cver.slice(0, 5).map((cv, i) => (
                         <KandidaterTableRow
-                            // TODO: Rewrite the next line after user-test
-                            cv={i === 1 ? { ...cv, samtykkeStatus: 'N' } : cv}
-                            // cv={cv}
+                            cv={cv}
                             key={cv.arenaKandidatnr}
                         />
                     ))}

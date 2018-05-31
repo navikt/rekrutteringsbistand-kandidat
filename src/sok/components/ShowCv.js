@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import Tidsperiode from '../../common/Tidsperiode';
+import sortByDato from '../../common/SortByDato';
 
 export default function ShowCv({ cv, onTaKontaktClick }) {
-    const utdanning = cv.utdanning.slice().reverse();
-    const yrkeserfaring = cv.yrkeserfaring.slice().reverse();
-    const kurs = cv.kurs.slice().reverse();
-    const sertifikat = cv.sertifikat.slice().reverse();
-    const sprak = cv.sprak.slice().reverse();
+    const utdanning = cv.utdanning.slice();
+    const yrkeserfaring = cv.yrkeserfaring.slice();
+    const kurs = cv.kurs.slice();
+    const sertifikat = cv.sertifikat.slice();
+    const sprak = cv.sprak.slice();
     return (
         <div className="panel">
             <Row>
@@ -57,11 +59,14 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Utdanning</Undertittel>
-                        {utdanning.map((u) => (
+                        {sortByDato(utdanning).map((u) => (
                             <Row className="blokk-xs" key={`${u.fraDato}-${u.alternativGrad}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {`${u.fraDato.substring(0, 10)} - ${u.tilDato ? u.tilDato.substring(0, 10) : ''}`}
+                                        <Tidsperiode
+                                            fradato={u.fraDato}
+                                            tildato={u.tilDato}
+                                        />
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
@@ -80,11 +85,14 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Arbeidserfaring</Undertittel>
-                        {yrkeserfaring.map((a) => (
+                        {sortByDato(yrkeserfaring).map((a) => (
                             <Row className="blokk-xs" key={`${a.fraDato}-${a.alternativStillingstittel}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {`${a.fraDato.substring(0, 10)} - ${a.tilDato ? a.tilDato.substring(0, 10) : ''}`}
+                                        <Tidsperiode
+                                            fradato={a.fraDato}
+                                            tildato={a.tilDato}
+                                        />
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
@@ -103,11 +111,14 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Kurs og sertifiseringer</Undertittel>
-                        {kurs.map((k) => (
+                        {sortByDato(kurs).map((k) => (
                             <Row className="blokk-xs" key={`${k.fraDato}-${k.arrangor}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {`${k.fraDato.substring(0, 10)} - ${k.tilDato ? k.tilDato.substring(0, 10) : ''}`}
+                                        <Tidsperiode
+                                            fradato={k.fraDato}
+                                            tildato={k.tilDato}
+                                        />
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
@@ -123,11 +134,14 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                 <Row className="blokk-s">
                     <Column xs="12">
                         <Undertittel>Sertifikater</Undertittel>
-                        {sertifikat.map((s) => (
+                        {sortByDato(sertifikat).map((s) => (
                             <Row className="blokk-xs" key={`${s.fraDato}-${s.alternativtNavn}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {`${s.fraDato.substring(0, 10)} - ${s.tilDato ? s.tilDato.substring(0, 10) : ''}`}
+                                        <Tidsperiode
+                                            fradato={s.fraDato}
+                                            tildato={s.tilDato}
+                                        />
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
@@ -148,7 +162,10 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                             <Row className="blokk-xs" key={`${s.fraDato}-${s.alternativTekst}`}>
                                 <Column xs="4">
                                     <Normaltekst>
-                                        {s.fraDato.substring(0, 10)}
+                                        <Tidsperiode
+                                            fradato={s.fraDato}
+                                            tildato={s.tilDato}
+                                        />
                                     </Normaltekst>
                                 </Column>
                                 <Column xs="8">
