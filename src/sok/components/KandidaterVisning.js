@@ -6,6 +6,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import KandidaterTableRow from './KandidaterTableRow';
+import { cvPropTypes } from '../../PropTypes';
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
@@ -176,7 +177,7 @@ class KandidaterVisning extends React.Component {
 }
 
 KandidaterVisning.propTypes = {
-    cver: PropTypes.arrayOf(PropTypes.object).isRequired,
+    cver: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     query: PropTypes.shape({
         arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)

@@ -5,6 +5,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import Tidsperiode from '../../common/Tidsperiode';
 import sortByDato from '../../common/SortByDato';
+import { cvPropTypes } from '../../PropTypes';
 
 export default function ShowCv({ cv, onTaKontaktClick }) {
     const utdanning = cv.utdanning.slice();
@@ -194,7 +195,7 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
 
 ShowCv.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    cv: PropTypes.object.isRequired,
+    cv: cvPropTypes.isRequired,
     onTaKontaktClick: PropTypes.func.isRequired
 };
 
