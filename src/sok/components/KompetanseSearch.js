@@ -157,7 +157,11 @@ KompetanseSearch.propTypes = {
         kompetanse: PropTypes.string,
         kompetanser: PropTypes.arrayOf(PropTypes.string)
     }).isRequired,
-    kompetanseSuggestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    kompetanseSuggestions: PropTypes.arrayOf(PropTypes.shape({
+        feltnavn: PropTypes.string,
+        antall: PropTypes.number,
+        subfelt: PropTypes.array
+    })).isRequired,
     typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 

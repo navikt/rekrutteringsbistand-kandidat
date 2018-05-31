@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import ShowModalResultat from './ShowModalResultat';
+import { cvPropTypes } from '../../PropTypes';
 
 class KandidaterTableRow extends React.Component {
     constructor(props) {
@@ -54,8 +55,7 @@ class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    cv: PropTypes.object.isRequired
+    cv: cvPropTypes.isRequired
 };
 
 const mapStateToProps = (state) => ({

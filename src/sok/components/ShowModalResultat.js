@@ -5,6 +5,7 @@ import ShowCv from './ShowCv';
 import AnonymCvTekst from './AnonymCvTekst';
 import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
+import { cvPropTypes } from '../../PropTypes';
 
 export default class ShowModalResultat extends React.Component {
     constructor(props) {
@@ -81,7 +82,6 @@ export default class ShowModalResultat extends React.Component {
 ShowModalResultat.propTypes = {
     toggleModalOpen: PropTypes.func.isRequired,
     modalIsOpen: PropTypes.bool.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    cv: PropTypes.object.isRequired
+    cv: cvPropTypes.isRequired
 };
 
