@@ -22,11 +22,12 @@ class KandidaterVisning extends React.Component {
         // og at det er denne det filtreres på.
         nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
 
-        // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene.
-        // Er det flere relevante jobberfaringer vises den siste
+        // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
+        // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
         nextProps.cver.forEach((cv) => {
             const erfaringer = cv.yrkeserfaring.map((y) =>
-                nextProps.query.arbeidserfaringer.find((a) => y.styrkKodeStillingstittel === a));
+                nextProps.query.arbeidserfaringer.concat(nextProps.query.stillinger)
+                    .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
             const erfaring = erfaringer.reverse().find((e) => e !== undefined);
             if (erfaring) {
                 const index = erfaringer.reverse().indexOf(erfaring);
@@ -35,7 +36,8 @@ class KandidaterVisning extends React.Component {
         });
 
         this.setState({
-            cver: nextProps.cver
+            cver: nextProps.cver,
+            antallResultater: 20
         });
     }
 
@@ -180,7 +182,8 @@ KandidaterVisning.propTypes = {
     cver: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     query: PropTypes.shape({
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)
+        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
+        stillinger: PropTypes.arrayOf(PropTypes.string)
     }).isRequired
 };
 
