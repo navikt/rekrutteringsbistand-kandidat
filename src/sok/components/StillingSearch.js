@@ -22,7 +22,6 @@ class StillingSearch extends React.Component {
 
     componentDidMount() {
         this.props.fetchKompetanseSuggestions();
-        this.props.search();
     }
 
     onTypeAheadStillingChange = (value) => {
