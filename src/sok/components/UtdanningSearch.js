@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
 import { CHECK_UTDANNINGSNIVA, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_UTDANNING, SEARCH, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from '../domene';
@@ -67,19 +67,20 @@ class UtdanningSearch extends React.Component {
             <div>
                 <Undertittel>Utdanning</Undertittel>
                 <div className="panel panel--sokekriterier">
-                    <Element>Utdanningsnivå</Element>
-                    <div className="sokekriterier--kriterier">
-                        {this.utdanningsnivaKategorier.map((utdanning) => (
-                            <Checkbox
-                                className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
-                                label={utdanning.label}
-                                key={utdanning.key}
-                                value={utdanning.key}
-                                checked={this.props.utdanningsniva.includes(utdanning.key)}
-                                onChange={this.onUtdanningsnivaChange}
-                            />
-                        ))}
-                    </div>
+                    <SkjemaGruppe title="Utdanningsnivå">
+                        <div className="sokekriterier--kriterier">
+                            {this.utdanningsnivaKategorier.map((utdanning) => (
+                                <Checkbox
+                                    className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                    label={utdanning.label}
+                                    key={utdanning.key}
+                                    value={utdanning.key}
+                                    checked={this.props.utdanningsniva.includes(utdanning.key)}
+                                    onChange={this.onUtdanningsnivaChange}
+                                />
+                            ))}
+                        </div>
+                    </SkjemaGruppe>
                     <Checkbox
                         label="Arbeidserfaring kan veie opp for manglende utdanning"
                         className="checkbox--manglende--arbeidserfaring"

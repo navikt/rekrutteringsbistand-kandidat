@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { Radio } from 'nav-frontend-skjema';
+import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
 import Typeahead from '../../common/Typeahead';
 import {
@@ -110,20 +110,21 @@ class ArbeidserfaringSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    <Element>Totalt antall år med arbeidserfaring</Element>
-                    <div className="sokekriterier--kriterier">
-                        {this.erfaringer.map((arbeidserfaring) => (
-                            <Radio
-                                className={this.props.totalErfaring === arbeidserfaring.value ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
-                                label={arbeidserfaring.label}
-                                key={arbeidserfaring.value}
-                                value={arbeidserfaring.value}
-                                name={arbeidserfaring.label}
-                                checked={this.props.totalErfaring === arbeidserfaring.value}
-                                onChange={this.onCheckTotalErfaring}
-                            />
-                        ))}
-                    </div>
+                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring">
+                        <div className="sokekriterier--kriterier">
+                            {this.erfaringer.map((arbeidserfaring) => (
+                                <Radio
+                                    className={this.props.totalErfaring === arbeidserfaring.value ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                    label={arbeidserfaring.label}
+                                    key={arbeidserfaring.value}
+                                    value={arbeidserfaring.value}
+                                    name={arbeidserfaring.label}
+                                    checked={this.props.totalErfaring === arbeidserfaring.value}
+                                    onChange={this.onCheckTotalErfaring}
+                                />
+                            ))}
+                        </div>
+                    </SkjemaGruppe>
                 </div>
             </div>
         );
