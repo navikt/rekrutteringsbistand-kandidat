@@ -7,36 +7,20 @@ import { Knapp } from 'nav-frontend-knapper';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import KandidaterTableRow from './KandidaterTableRow';
 import { cvPropTypes } from '../../PropTypes';
+import sortByDato from '../../common/SortByDato';
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             antallResultater: 20,
-            cver: this.props.cver
+            cver: this.sortCvList(this.props.cver)
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        // Sortere utdanning slik at høyest oppnådd utdanning vises i resultat-listen,
-        // og at det er denne det filtreres på.
-        nextProps.cver.map((cv) => cv.utdanning.sort((cv1, cv2) => cv1.nusKode > cv2.nusKode));
-
-        // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
-        // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
-        nextProps.cver.forEach((cv) => {
-            const erfaringer = cv.yrkeserfaring.map((y) =>
-                nextProps.query.arbeidserfaringer.concat(nextProps.query.stillinger)
-                    .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
-            const erfaring = erfaringer.reverse().find((e) => e !== undefined);
-            if (erfaring) {
-                const index = erfaringer.reverse().indexOf(erfaring);
-                this.swapJobberfaringer(cv.yrkeserfaring, cv.yrkeserfaring.length - 1, index);
-            }
-        });
-
         this.setState({
-            cver: nextProps.cver,
+            cver: this.sortCvList(nextProps.cver),
             antallResultater: 20
         });
     }
@@ -49,53 +33,89 @@ class KandidaterVisning extends React.Component {
 
     onFilterUtdanningClick = (utdanningChevronNed, from, to) => {
         const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
-            const cv1utd = cv1.utdanning[cv1.utdanning.length - 1] ? cv1.utdanning[cv1.utdanning.length - 1].nusKode : 0;
-            const cv2utd = cv2.utdanning[cv2.utdanning.length - 1] ? cv2.utdanning[cv2.utdanning.length - 1].nusKode : 0;
+            const cv1utd = cv1.utdanning[0] ? cv1.utdanning[0].nusKode : 0;
+            const cv2utd = cv2.utdanning[0] ? cv2.utdanning[0].nusKode : 0;
             if (utdanningChevronNed) {
-                return cv1utd > cv2utd;
+                return cv1utd - cv2utd;
             }
-            return cv1utd < cv2utd;
+            return cv2utd - cv1utd;
         });
-        /* this.setState({
+
+        this.setState({
             cver: [
+                ...this.state.cver.slice(0, from),
                 ...cver,
-                ...this.state.cver.slice(5)
+                ...this.state.cver.slice(to)
             ]
-        }); */
+        });
     };
 
     onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
         const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
-            const cv1job = cv1.yrkeserfaring[cv1.yrkeserfaring.length - 1] ? cv1.yrkeserfaring[cv1.yrkeserfaring.length - 1].styrkKodeStillingstittel : '';
-            const cv2job = cv2.yrkeserfaring[cv2.yrkeserfaring.length - 1] ? cv2.yrkeserfaring[cv2.yrkeserfaring.length - 1].styrkKodeStillingstittel : '';
-            if (jobberfaringChevronNed) {
-                return cv1job < cv2job;
+            const cv1job = cv1.yrkeserfaring[0] ? cv1.yrkeserfaring[0].styrkKodeStillingstittel : '';
+            const cv2job = cv2.yrkeserfaring[0] ? cv2.yrkeserfaring[0].styrkKodeStillingstittel : '';
+            if (cv1job < cv2job) {
+                return jobberfaringChevronNed ? 1 : -1;
+            } else if (cv1job > cv2job) {
+                return jobberfaringChevronNed ? -1 : 1;
             }
-            return cv1job > cv2job;
+            return 0;
         });
-        /* this.setState({
-            cver
-        }); */
+
+        this.setState({
+            cver: [
+                ...this.state.cver.slice(0, from),
+                ...cver,
+                ...this.state.cver.slice(to)
+            ]
+        });
     };
 
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
         const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
             if (antallArChevronNed) {
-                return cv1.totalLengdeYrkeserfaring > cv2.totalLengdeYrkeserfaring;
+                return cv1.totalLengdeYrkeserfaring - cv2.totalLengdeYrkeserfaring;
             }
-            return cv1.totalLengdeYrkeserfaring < cv2.totalLengdeYrkeserfaring;
+            return cv2.totalLengdeYrkeserfaring - cv1.totalLengdeYrkeserfaring;
         });
-        /* this.setState({
-            cver
-        }); */
+        this.setState({
+            cver: [
+                ...this.state.cver.slice(0, from),
+                ...cver,
+                ...this.state.cver.slice(to)
+            ]
+        });
     };
 
     swapJobberfaringer = (jobberfaring, int1, int2) => {
         let i = int2;
-        while (i < int1) {
-            jobberfaring.splice(i + 1, 0, jobberfaring.splice(i, 1).pop());
-            i += 1;
+        while (i > int1) {
+            jobberfaring.splice(i - 1, 0, jobberfaring.splice(i, 1).pop());
+            i -= 1;
         }
+    };
+
+    sortCvList = (cver) => {
+        cver.forEach((cv) => {
+            // Sortere utdanning slik at høyest oppnådd utdanning vises i resultat-listen,
+            // og at det er denne det filtreres på.
+            cv.utdanning.sort((cv1, cv2) => cv2.nusKode - cv1.nusKode);
+
+            // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
+            // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
+            cv.yrkeserfaring = sortByDato(cv.yrkeserfaring);
+            const erfaringer = cv.yrkeserfaring.map((y) =>
+                this.props.query.arbeidserfaringer.concat(this.props.query.stillinger)
+                    .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
+            const erfaring = erfaringer.reverse()
+                .find((e) => e !== undefined);
+            if (erfaring) {
+                const index = erfaringer.reverse()
+                    .indexOf(erfaring);
+                this.swapJobberfaringer(cv.yrkeserfaring, 0, index);
+            }
+        });
+        return cver;
     };
 
     render() {
@@ -128,7 +148,7 @@ class KandidaterVisning extends React.Component {
                         from={0}
                         to={5}
                     />
-                    {this.state.cver.slice(0, 5).map((cv, i) => (
+                    {this.state.cver.slice(0, 5).map((cv) => (
                         <KandidaterTableRow
                             cv={cv}
                             key={cv.arenaKandidatnr}

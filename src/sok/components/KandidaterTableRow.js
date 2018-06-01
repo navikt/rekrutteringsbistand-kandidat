@@ -22,8 +22,8 @@ class KandidaterTableRow extends React.Component {
 
     render() {
         const cv = this.props.cv;
-        const yrkeserfaring = cv.yrkeserfaring[cv.yrkeserfaring.length - 1] ? cv.yrkeserfaring[cv.yrkeserfaring.length - 1].styrkKodeStillingstittel : '';
-        const utdanning = cv.utdanning[cv.utdanning.length - 1] ? cv.utdanning[cv.utdanning.length - 1].nusKodeGrad : '';
+        const yrkeserfaring = cv.yrkeserfaring[0] ? cv.yrkeserfaring[0].styrkKodeStillingstittel : '';
+        const utdanning = cv.utdanning[0] ? cv.utdanning[0].nusKodeGrad : '';
         return (
             <div>
                 <div className="panel border--top--thin">
