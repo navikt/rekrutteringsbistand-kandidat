@@ -107,11 +107,9 @@ class KandidaterVisning extends React.Component {
             const erfaringer = cv.yrkeserfaring.map((y) =>
                 this.props.query.arbeidserfaringer.concat(this.props.query.stillinger)
                     .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
-            const erfaring = erfaringer.reverse()
-                .find((e) => e !== undefined);
+            const erfaring = erfaringer.find((e) => e !== undefined);
             if (erfaring) {
-                const index = erfaringer.reverse()
-                    .indexOf(erfaring);
+                const index = erfaringer.indexOf(erfaring);
                 this.swapJobberfaringer(cv.yrkeserfaring, 0, index);
             }
         });
