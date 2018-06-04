@@ -20,7 +20,8 @@ export default function utdanningReducer(state = initialState, action) {
         case SET_INITIAL_STATE:
             return {
                 ...state,
-                geografiList: action.query.geografiList || []
+                geografiList: action.query.geografiList || [],
+                geografiListKomplett: action.query.geografiListKomplett || []
             };
         case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
             return {
