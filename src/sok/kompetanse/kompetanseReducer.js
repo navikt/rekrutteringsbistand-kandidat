@@ -37,8 +37,6 @@ export default function kompetanseReducer(state = initialState, action) {
                 kompetanser: state.kompetanser.filter((k) => k !== action.value)
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }

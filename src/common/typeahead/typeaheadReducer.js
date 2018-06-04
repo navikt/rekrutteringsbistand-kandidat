@@ -20,17 +20,17 @@ export const CLEAR_TYPE_AHEAD_SUGGESTIONS = 'CLEAR_TYPE_AHEAD_SUGGESTIONS';
  ********************************************************* */
 
 const initialState = {
-    typeAheadSuggestionskompetanse: [],
-    typeAheadSuggestionsstilling: [],
-    typeAheadSuggestionsarbeidserfaring: [],
-    typeAheadSuggestionsutdanning: [],
-    typeAheadSuggestionsgeografi: [],
-    cachedTypeAheadSuggestionsKompetanse: [],
-    cachedTypeAheadSuggestionsStilling: [],
-    cachedTypeAheadSuggestionsArbeidserfaring: [],
-    cachedTypeAheadSuggestionsUtdanning: [],
-    cachedTypeAheadSuggestionsGeografi: [],
-    typeAheadSuggestionsGeografiKomplett: []
+    suggestionskompetanse: [],
+    suggestionsstilling: [],
+    suggestionsarbeidserfaring: [],
+    suggestionsutdanning: [],
+    suggestionsgeografi: [],
+    cachedSuggestionsKompetanse: [],
+    cachedSuggestionsStilling: [],
+    cachedSuggestionsArbeidserfaring: [],
+    cachedSuggestionsUtdanning: [],
+    cachedSuggestionsGeografi: [],
+    suggestionsGeografiKomplett: []
 };
 
 export default function typeaheadReducer(state = initialState, action) {
@@ -38,17 +38,17 @@ export default function typeaheadReducer(state = initialState, action) {
         case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
             return {
                 ...state,
-                [action.typeAheadSuggestionsLabel]: action.suggestions
+                [action.suggestionsLabel]: action.suggestions
             };
         case FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE:
             return {
                 ...state,
-                [action.cachedTypeAheadSuggestionsLabel]: action.cachedSuggestions
+                [action.cachedSuggestionsLabel]: action.cachedSuggestions
             };
         case SET_KOMPLETT_GEOGRAFI:
             return {
                 ...state,
-                typeAheadSuggestionsGeografiKomplett: action.value
+                suggestionsGeografiKomplett: action.value
             };
         case CLEAR_TYPE_AHEAD_SUGGESTIONS:
             return {
@@ -56,11 +56,42 @@ export default function typeaheadReducer(state = initialState, action) {
                 [action.name]: []
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }
+
+const getTypeAheadNameAndLabel = (type) => {
+    if (type === 'stilling') {
+        return {
+            typeAheadName: 'sti',
+            cachedSuggestionsLabel: 'cachedSuggestionsStilling'
+        };
+    } else if (type === 'arbeidserfaring') {
+        return {
+            typeAheadName: 'yrke',
+            cachedSuggestionsLabel: 'cachedSuggestionsArbeidserfaring'
+        };
+    } else if (type === 'utdanning') {
+        return {
+            typeAheadName: 'utd',
+            cachedSuggestionsLabel: 'cachedSuggestionsUtdanning'
+        };
+    } else if (type === 'kompetanse') {
+        return {
+            typeAheadName: 'komp',
+            cachedSuggestionsLabel: 'cachedSuggestionsKompetanse'
+        };
+    } else if (type === 'geografi') {
+        return {
+            typeAheadName: 'geo',
+            cachedSuggestionsLabel: 'cachedSuggestionsGeografi'
+        };
+    }
+    return {
+        typeAheadName: '',
+        cachedSuggestionsLabel: ''
+    };
+};
 
 /** *********************************************************
  * ASYNC ACTIONS
@@ -72,30 +103,16 @@ function* fetchTypeAheadSuggestions(action) {
     const name = action.name;
     const value = action.value;
 
-    let typeAheadName;
-    let cachedSuggestionsLabel;
-    if (name === 'stilling') {
-        typeAheadName = 'sti';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsStilling';
-    } else if (name === 'arbeidserfaring') {
-        typeAheadName = 'yrke';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsArbeidserfaring';
-    } else if (name === 'utdanning') {
-        typeAheadName = 'utd';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsUtdanning';
-    } else if (name === 'kompetanse') {
-        typeAheadName = 'komp';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsKompetanse';
-    } else if (name === 'geografi') {
-        typeAheadName = 'geo';
-        cachedSuggestionsLabel = 'cachedTypeAheadSuggestionsGeografi';
-    }
+    const nameAndLabel = getTypeAheadNameAndLabel(name);
+
+    const typeAheadName = nameAndLabel.typeAheadName;
+    const cachedSuggestionsLabel = nameAndLabel.cachedSuggestionsLabel;
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         if (state.typeahead[cachedSuggestionsLabel].length === 0) {
-            const cachedTypeAheadMatch = value.substring(0, TYPE_AHEAD_MIN_INPUT_LENGTH);
+            const cachedMatch = value.substring(0, TYPE_AHEAD_MIN_INPUT_LENGTH);
             try {
-                const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: cachedTypeAheadMatch });
+                const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: cachedMatch });
 
                 // The result from Elastic Search is a list of key-value pair
                 // Put the values into a list
@@ -118,11 +135,11 @@ function* fetchTypeAheadSuggestions(action) {
 
                 const suggestions = result.filter((cachedSuggestion) => (
                     cachedSuggestion.toLowerCase()
-                        .startsWith((cachedTypeAheadMatch.toLowerCase()))
+                        .startsWith((cachedMatch.toLowerCase()))
                 ));
 
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: result, cachedTypeAheadSuggestionsLabel: cachedSuggestionsLabel });
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: result, cachedSuggestionsLabel });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: `suggestions${name}` });
             } catch (e) {
                 if (e instanceof SearchApiError) {
                     yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
@@ -135,11 +152,11 @@ function* fetchTypeAheadSuggestions(action) {
                 cachedSuggestion.toLowerCase()
                     .startsWith(value.toLowerCase())
             ));
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: `suggestions${name}` });
         }
     } else {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: [], cachedTypeAheadSuggestionsLabel: cachedSuggestionsLabel });
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], typeAheadSuggestionsLabel: `typeAheadSuggestions${name}` });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: [], cachedSuggestionsLabel });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], suggestionsLabel: `suggestions${name}` });
     }
 }
 

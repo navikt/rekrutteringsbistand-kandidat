@@ -30,7 +30,7 @@ class KompetanseSearch extends React.Component {
     onTypeAheadKompetanseSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValueKompetanse(value);
-            this.props.clearTypeAheadKompetanse('typeAheadSuggestionskompetanse');
+            this.props.clearTypeAheadKompetanse('suggestionskompetanse');
             this.setState({
                 typeAheadValueKompetanse: '',
                 showTypeAheadKompetanse: false
@@ -169,7 +169,7 @@ KompetanseSearch.propTypes = {
 const mapStateToProps = (state) => ({
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.elasticSearchResultat.kompetanseSuggestions,
-    typeAheadSuggestionsKompetanse: state.typeahead.typeAheadSuggestionskompetanse
+    typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse
 });
 
 const mapDispatchToProps = (dispatch) => ({

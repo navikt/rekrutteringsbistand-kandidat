@@ -42,7 +42,7 @@ class UtdanningSearch extends React.Component {
     onTypeAheadUtdanningSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadUtdanning('typeAheadSuggestionsutdanning');
+            this.props.clearTypeAheadUtdanning('suggestionsutdanning');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
@@ -154,7 +154,7 @@ UtdanningSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
-    typeAheadSuggestionsUtdanning: state.typeahead.typeAheadSuggestionsutdanning,
+    typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
     utdanningsniva: state.utdanning.utdanningsniva
 });
 

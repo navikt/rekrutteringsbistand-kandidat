@@ -47,8 +47,6 @@ export default function utdanningReducer(state = initialState, action) {
                     .filter((g) => g.geografiKode !== action.value)
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }

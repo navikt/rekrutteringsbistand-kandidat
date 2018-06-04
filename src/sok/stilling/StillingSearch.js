@@ -34,7 +34,7 @@ class StillingSearch extends React.Component {
     onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadStilling('typeAheadSuggestionsstilling');
+            this.props.clearTypeAheadStilling('suggestionsstilling');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
@@ -130,7 +130,7 @@ StillingSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
-    typeAheadSuggestionsStilling: state.typeahead.typeAheadSuggestionsstilling
+    typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -52,8 +52,6 @@ export default function utdanningReducer(state = initialState, action) {
                 utdanningsniva: state.utdanningsniva.filter((u) => u !== action.value)
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }

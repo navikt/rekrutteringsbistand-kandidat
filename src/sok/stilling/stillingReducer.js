@@ -37,8 +37,6 @@ export default function stillingReducer(state = initialState, action) {
                 stillinger: state.stillinger.filter((y) => y !== action.value)
             };
         default:
-            return {
-                ...state
-            };
+            return state;
     }
 }

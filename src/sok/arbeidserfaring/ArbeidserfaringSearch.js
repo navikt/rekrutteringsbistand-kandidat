@@ -38,7 +38,7 @@ class ArbeidserfaringSearch extends React.Component {
     onTypeAheadArbeidserfaringSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadArbeidserfaring('typeAheadSuggestionsarbeidserfaring');
+            this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
@@ -148,7 +148,7 @@ ArbeidserfaringSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-    typeAheadSuggestionsArbeidserfaring: state.typeahead.typeAheadSuggestionsarbeidserfaring,
+    typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
     totalErfaring: state.arbeidserfaring.totalErfaring
 });
 

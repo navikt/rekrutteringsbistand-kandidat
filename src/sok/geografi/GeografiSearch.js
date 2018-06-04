@@ -29,7 +29,7 @@ class GeografiSearch extends React.Component {
             const geografi = this.props.typeAheadSuggestionsGeografiKomplett.find((k) => k.geografiKodeTekst.toLowerCase() === value.toLowerCase());
             if (geografi !== undefined) {
                 this.props.selectTypeAheadValue(geografi);
-                this.props.clearTypeAheadGeografi('typeAheadSuggestionsgeografi');
+                this.props.clearTypeAheadGeografi('suggestionsgeografi');
                 this.setState({
                     typeAheadValue: '',
                     showTypeAhead: false
@@ -132,8 +132,8 @@ const mapStateToProps = (state) => ({
     isSearching: state.search.isSearching,
     geografiList: state.geografi.geografiList,
     geografiListKomplett: state.geografi.geografiListKomplett,
-    typeAheadSuggestionsGeografi: state.typeahead.typeAheadSuggestionsgeografi,
-    typeAheadSuggestionsGeografiKomplett: state.typeahead.typeAheadSuggestionsGeografiKomplett
+    typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
+    typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett
 });
 
 const mapDispatchToProps = (dispatch) => ({
