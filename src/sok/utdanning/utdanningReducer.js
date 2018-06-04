@@ -34,9 +34,7 @@ export default function utdanningReducer(state = initialState, action) {
                     [
                         ...state.utdanninger,
                         action.value
-                    ],
-                // TODO: Call typeaheadReducer here?
-                typeAheadSuggestionsutdanning: []
+                    ]
             };
         case REMOVE_SELECTED_UTDANNING:
             return {

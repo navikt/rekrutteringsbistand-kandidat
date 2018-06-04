@@ -29,9 +29,7 @@ export default function stillingReducer(state = initialState, action) {
                     [
                         ...state.stillinger,
                         action.value
-                    ],
-                // TODO: Call typeaheadReducer here?
-                typeAheadSuggestionsstilling: []
+                    ]
             };
         case REMOVE_SELECTED_STILLING:
             return {

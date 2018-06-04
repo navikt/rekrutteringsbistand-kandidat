@@ -29,9 +29,7 @@ export default function kompetanseReducer(state = initialState, action) {
                     [
                         ...state.kompetanser,
                         action.value
-                    ],
-                // TODO: Call typeaheadReducer here?
-                typeAheadSuggestionskompetanse: []
+                    ]
             };
         case REMOVE_SELECTED_KOMPETANSE:
             return {

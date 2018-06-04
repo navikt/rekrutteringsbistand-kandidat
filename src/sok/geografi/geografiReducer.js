@@ -37,9 +37,7 @@ export default function utdanningReducer(state = initialState, action) {
                     [
                         ...state.geografiListKomplett,
                         action.value
-                    ],
-                // TODO: Call typeaheadReducer here?
-                typeAheadSuggestionsgeografi: []
+                    ]
             };
         case REMOVE_SELECTED_GEOGRAFI:
             return {

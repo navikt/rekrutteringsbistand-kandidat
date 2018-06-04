@@ -32,9 +32,7 @@ export default function arbeidserfaringReducer(state = initialState, action) {
                     [
                         ...state.arbeidserfaringer,
                         action.value
-                    ],
-                // TODO: Call typeaheadReducer here?
-                typeAheadSuggestionsarbeidserfaring: []
+                    ]
             };
         case REMOVE_SELECTED_ARBEIDSERFARING:
             return {

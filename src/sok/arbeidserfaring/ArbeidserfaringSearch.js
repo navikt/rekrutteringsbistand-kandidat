@@ -10,7 +10,6 @@ import {
 } from '../domene';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING } from './arbeidserfaringReducer';
-import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
