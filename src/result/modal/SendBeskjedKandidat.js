@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Undertittel } from 'nav-frontend-typografi';
 import RichTextEditor from 'react-rte';
 import { Knapp } from 'nav-frontend-knapper';
+import './Modal.less';
 
 export default class SendBeskjedKandidat extends React.Component {
     constructor(props) {

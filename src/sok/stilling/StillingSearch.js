@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
+import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-    REMOVE_SELECTED_STILLING, SEARCH,
-    SELECT_TYPE_AHEAD_VALUE_STILLING
+    SEARCH
 } from '../domene';
+import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 
 class StillingSearch extends React.Component {
     constructor(props) {
@@ -34,6 +34,7 @@ class StillingSearch extends React.Component {
     onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadStilling('typeAheadSuggestionsstilling');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
@@ -99,7 +100,7 @@ class StillingSearch extends React.Component {
                                 Legg til stilling
                             </LeggTilKnapp>
                         )}
-                        {this.props.query.stillinger.map((stilling) => (
+                        {this.props.stillinger.map((stilling) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -122,20 +123,19 @@ StillingSearch.propTypes = {
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        stilling: PropTypes.string,
-        stillinger: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
-    typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired
+    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired,
+    typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadStilling: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    typeAheadSuggestionsStilling: state.typeAheadSuggestionsstilling
+    stillinger: state.stilling.stillinger,
+    typeAheadSuggestionsStilling: state.typeahead.typeAheadSuggestionsstilling
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadStilling: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),

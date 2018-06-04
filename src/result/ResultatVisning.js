@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import StillingSearch from './components/StillingSearch';
-import UtdanningSearch from './components/UtdanningSearch';
-import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
-import KompetanseSearch from './components/KompetanseSearch';
-import GeografiSearch from './components/GeografiSearch';
-import KandidaterVisning from './components/KandidaterVisning';
-import { FETCH_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SEARCH_BEGIN } from './domene';
+import StillingSearch from '../sok/stilling/StillingSearch';
+import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
+import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
+import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
+import GeografiSearch from '../sok/geografi/GeografiSearch';
+import KandidaterVisning from './KandidaterVisning';
+import { FETCH_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_INITIAL_STATE } from '../sok/domene';
+import './Resultat.less';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
-        this.props.initialSearch(props.urlParams);
+        this.props.initialSearch();
         window.scrollTo(0, 0);
     }
 
@@ -28,9 +29,7 @@ class ResultatVisning extends React.Component {
             geografiList: [],
             geografiListKomplett: [],
             totalErfaring: '',
-            utdanningsniva: [],
-            styrkKode: '',
-            nusKode: ''
+            utdanningsniva: []
         });
         this.props.fetchKompetanseSuggestions();
         this.props.search();
@@ -82,22 +81,15 @@ ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     fetchKompetanseSuggestions: PropTypes.func.isRequired,
-    urlParams: PropTypes.shape({
-        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
-        utdanninger: PropTypes.arrayOf(PropTypes.string),
-        kompetanser: PropTypes.arrayOf(PropTypes.string),
-        geografiList: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
     isInitialSearch: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isInitialSearch: state.isInitialSearch
+    isInitialSearch: state.search.isInitialSearch
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    resetQuery: (query) => dispatch({ type: SEARCH_BEGIN, query }),
+    resetQuery: (query) => dispatch({ type: SET_INITIAL_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
     fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })

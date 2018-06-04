@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
-import { CHECK_UTDANNINGSNIVA, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_UTDANNING, SEARCH, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from '../domene';
+import Typeahead from '../../common/typeahead/Typeahead';
+import { SEARCH } from '../domene';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import { CHECK_UTDANNINGSNIVA, REMOVE_SELECTED_UTDANNING, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from './utdanningReducer';
+import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
@@ -39,6 +42,7 @@ class UtdanningSearch extends React.Component {
     onTypeAheadUtdanningSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadUtdanning('typeAheadSuggestionsutdanning');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
@@ -118,7 +122,7 @@ class UtdanningSearch extends React.Component {
                                 Legg til fagfelt
                             </LeggTilKnapp>
                         )}
-                        {this.props.query.utdanninger.map((utdanning) => (
+                        {this.props.utdanninger.map((utdanning) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -142,22 +146,21 @@ UtdanningSearch.propTypes = {
     selectTypeAheadValue: PropTypes.func.isRequired,
     checkUtdanningsniva: PropTypes.func.isRequired,
     uncheckUtdanningsniva: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        utdanning: PropTypes.string,
-        utdanninger: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
-    utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired
+    utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadUtdanning: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    typeAheadSuggestionsUtdanning: state.typeAheadSuggestionsutdanning,
-    utdanningsniva: state.query.utdanningsniva
+    utdanninger: state.utdanning.utdanninger,
+    typeAheadSuggestionsUtdanning: state.typeahead.typeAheadSuggestionsutdanning,
+    utdanningsniva: state.utdanning.utdanningsniva
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadUtdanning: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
