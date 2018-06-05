@@ -61,7 +61,7 @@ node {
         withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
             withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
                 sh ("git tag -a ${releaseVersion} -m ${app}-${releaseVersion}")
-                sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags $BRANCH_NAME")
+                sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags")
             }
         }
     }
