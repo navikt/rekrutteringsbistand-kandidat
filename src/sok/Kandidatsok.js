@@ -5,29 +5,26 @@ import { Link } from 'react-router-dom';
 import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { INITIAL_SEARCH } from './domene';
-import YrkeSearch from './components/StillingSearch';
-import UtdanningSearch from './components/UtdanningSearch';
-import ArbeidserfaringSearch from './components/ArbeidserfaringSearch';
-import KompetanseSearch from './components/KompetanseSearch';
-import GeografiSearch from './components/GeografiSearch';
-import { createUrlParamsFromState } from './sok';
+import { fromUrlQuery, INITIAL_SEARCH } from './domene';
+import YrkeSearch from './stilling/StillingSearch';
+import UtdanningSearch from './utdanning/UtdanningSearch';
+import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
+import KompetanseSearch from './kompetanse/KompetanseSearch';
+import GeografiSearch from './geografi/GeografiSearch';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
         super(props);
-        this.props.initialSearch(props.urlParams);
+        this.props.initialSearch();
         this.state = {
-            urlParameters: createUrlParamsFromState({ query: props.urlParams })
+            urlParameters: fromUrlQuery(window.location.href)
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.query !== this.props.query) {
-            this.setState({
-                urlParameters: createUrlParamsFromState({ query: nextProps.query })
-            });
-        }
+    componentWillReceiveProps() {
+        this.setState({
+            urlParameters: fromUrlQuery(window.location.href)
+        });
     }
 
     render() {
@@ -79,27 +76,12 @@ class Kandidatsok extends React.Component {
 Kandidatsok.propTypes = {
     initialSearch: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    urlParams: PropTypes.shape({
-        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
-        utdanninger: PropTypes.arrayOf(PropTypes.string),
-        kompetanser: PropTypes.arrayOf(PropTypes.string),
-        geografiList: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
-    isInitialSearch: PropTypes.bool.isRequired,
-    query: PropTypes.shape({
-        yrkeserfaringer: PropTypes.arrayOf(PropTypes.string),
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
-        utdanninger: PropTypes.arrayOf(PropTypes.string),
-        kompetanser: PropTypes.arrayOf(PropTypes.string),
-        geografiList: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired
+    isInitialSearch: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    totaltAntallTreff: state.elasticSearchResultat.resultat.totaltAntallTreff,
-    isInitialSearch: state.isInitialSearch,
-    query: state.query
+    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
+    isInitialSearch: state.search.isInitialSearch
 });
 
 const mapDispatchToProps = (dispatch) => ({

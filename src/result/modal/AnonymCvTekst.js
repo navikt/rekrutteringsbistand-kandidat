@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import './Modal.less';
 
 export default function AnonymCvTekst({ onTaKontaktClick, toggleModalOpen }) {
     return (

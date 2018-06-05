@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events,no-trailing-spaces */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input } from 'nav-frontend-skjema';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
+import './Typeahead.less';
 
 export default class Typeahead extends React.Component {
     constructor(props) {
@@ -181,7 +181,6 @@ export default class Typeahead extends React.Component {
 Typeahead.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
     value: PropTypes.string.isRequired,

@@ -6,6 +6,7 @@ import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-ty
 import Tidsperiode from '../../common/Tidsperiode';
 import sortByDato from '../../common/SortByDato';
 import { cvPropTypes } from '../../PropTypes';
+import './Modal.less';
 
 export default function ShowCv({ cv, onTaKontaktClick }) {
     const utdanning = cv.utdanning.slice();

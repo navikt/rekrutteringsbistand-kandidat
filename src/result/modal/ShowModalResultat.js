@@ -6,6 +6,7 @@ import AnonymCvTekst from './AnonymCvTekst';
 import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
+import './Modal.less';
 
 export default class ShowModalResultat extends React.Component {
     constructor(props) {

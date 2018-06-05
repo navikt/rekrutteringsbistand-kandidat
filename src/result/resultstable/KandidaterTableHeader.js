@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
+import './Resultstable.less';
 
 export default class KandidaterTableHeader extends React.Component {
     constructor(props) {

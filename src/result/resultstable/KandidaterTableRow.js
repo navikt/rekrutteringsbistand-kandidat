@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import ShowModalResultat from './ShowModalResultat';
+import ShowModalResultat from '../modal/ShowModalResultat';
 import { cvPropTypes } from '../../PropTypes';
+import './Resultstable.less';
 
 class KandidaterTableRow extends React.Component {
     constructor(props) {

@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
+import Typeahead from '../../common/typeahead/Typeahead';
 import {
-    FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_KOMPETANSE, SEARCH, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE
+    SEARCH
 } from '../domene';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import { REMOVE_SELECTED_KOMPETANSE, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE } from './kompetanseReducer';
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class KompetanseSearch extends React.Component {
     onTypeAheadKompetanseSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValueKompetanse(value);
+            this.props.clearTypeAheadKompetanse('suggestionskompetanse');
             this.setState({
                 typeAheadValueKompetanse: '',
                 showTypeAheadKompetanse: false
@@ -63,7 +66,7 @@ class KompetanseSearch extends React.Component {
     };
 
     render() {
-        const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.query.kompetanser.includes(k.feltnavn));
+        const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
         return (
             <div>
                 <Undertittel>Kompetanse</Undertittel>
@@ -103,7 +106,7 @@ class KompetanseSearch extends React.Component {
                                 Legg til kompetanse
                             </LeggTilKnapp>
                         )}
-                        {this.props.query.kompetanser.map((kompetanse) => (
+                        {this.props.kompetanser.map((kompetanse) => (
                             <button
                                 onClick={this.onFjernKompetanseClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -153,26 +156,25 @@ KompetanseSearch.propTypes = {
     removeKompetanse: PropTypes.func.isRequired,
     fetchTypeAheadSuggestionsKompetanse: PropTypes.func.isRequired,
     selectTypeAheadValueKompetanse: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        kompetanse: PropTypes.string,
-        kompetanser: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    kompetanser: PropTypes.arrayOf(PropTypes.string).isRequired,
     kompetanseSuggestions: PropTypes.arrayOf(PropTypes.shape({
         feltnavn: PropTypes.string,
         antall: PropTypes.number,
         subfelt: PropTypes.array
     })).isRequired,
-    typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadKompetanse: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    kompetanseSuggestions: state.elasticSearchResultat.kompetanseSuggestions,
-    typeAheadSuggestionsKompetanse: state.typeAheadSuggestionskompetanse
+    kompetanser: state.kompetanse.kompetanser,
+    kompetanseSuggestions: state.search.elasticSearchResultat.kompetanseSuggestions,
+    typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadKompetanse: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'kompetanse', value }),
     selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value })
