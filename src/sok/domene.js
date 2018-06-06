@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, SearchApiError } from './api';
+import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
+import FEATURE_TOGGLES from '../konstanter';
 
 /** *********************************************************
  * ACTIONS
@@ -12,6 +13,10 @@ export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const INITIAL_SEARCH = 'INITIAL_SEARCH';
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
+
+export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
+const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
+const FETCH_FEATURE_TOGGLES_FAILURE = 'FETCH_FEATURE_TOGGLES_FAILURE';
 
 export const FETCH_KOMPETANSE_SUGGESTIONS = 'FETCH_KOMPETANSE_SUGGESTIONS';
 export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN';
@@ -31,7 +36,8 @@ const initialState = {
     },
     isSearching: false,
     isInitialSearch: true,
-    error: undefined
+    error: undefined,
+    featureToggles: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -66,6 +72,22 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+            };
+        case FETCH_FEATURE_TOGGLES_SUCCESS:
+            return {
+                ...state,
+                featureToggles: FEATURE_TOGGLES
+                    .reduce((dict, key) => (
+                        { ...dict, [key]: Object.keys(action.data).includes(key) && action.data[key] }
+                    ), {})
+            };
+        case FETCH_FEATURE_TOGGLES_FAILURE:
+            return {
+                ...state,
+                featureToggles: FEATURE_TOGGLES
+                    .reduce((dict, key) => (
+                        { ...dict, [key]: false }
+                    ), {})
             };
         default:
             return { ...state };
@@ -178,9 +200,23 @@ function* initialSearch() {
     }
 }
 
+function* hentFeatureToggles() {
+    try {
+        const data = yield call(fetchFeatureToggles);
+        yield put({ type: FETCH_FEATURE_TOGGLES_SUCCESS, data });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: FETCH_FEATURE_TOGGLES_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(INITIAL_SEARCH, initialSearch);
+    yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
 };

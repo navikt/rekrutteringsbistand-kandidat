@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -11,7 +12,7 @@ import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
-import searchReducer, { saga } from './domene';
+import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './domene';
 import stillingReducer from './stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from '../common/typeahead/typeaheadReducer';
 import kompetanseReducer from './kompetanse/kompetanseReducer';
@@ -35,6 +36,10 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
+    componentDidMount() {
+        this.props.fetchFeatureToggles();
+    }
+
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
     // if the error is 401 and to a new page if error is 403
     componentWillUpdate(nextProps) {
@@ -64,14 +69,29 @@ class Sok extends React.Component {
     }
 }
 
+Sok.defaultProps = {
+    error: undefined
+};
+
+Sok.propTypes = {
+    error: PropTypes.shape({
+        status: PropTypes.number
+    }),
+    fetchFeatureToggles: PropTypes.func.isRequired
+};
+
 const mapStateToProps = (state) => ({
     error: state.search.error
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
 });
 /*
 End class Sok
  */
 
-const SokApp = connect(mapStateToProps)(Sok);
+const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 
 const App = () => (
     <div>
