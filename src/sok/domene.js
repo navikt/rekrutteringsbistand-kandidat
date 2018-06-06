@@ -16,6 +16,8 @@ export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 export const FETCH_KOMPETANSE_SUGGESTIONS = 'FETCH_KOMPETANSE_SUGGESTIONS';
 export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN';
 export const SET_KOMPETANSE_SUGGESTIONS_SUCCESS = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS';
+export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
+
 
 /** *********************************************************
  * REDUCER
@@ -66,6 +68,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+            };
+        case REMOVE_KOMPETANSE_SUGGESTIONS:
+            return {
+                ...state,
+                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: [] }
             };
         default:
             return state;
@@ -146,13 +153,8 @@ function* fetchKompetanseSuggestions() {
 
         yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
-        if (state.stilling.stillinger.length === 0) {
-            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: [] });
-        } else {
-            const response = yield call(fetchKandidater, { stillinger: state.stilling.stillinger });
-
-            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
-        }
+        const response = yield call(fetchKandidater, { stillinger: state.stilling.stillinger });
+        yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

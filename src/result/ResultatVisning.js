@@ -10,7 +10,7 @@ import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch'
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { FETCH_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_INITIAL_STATE } from '../sok/domene';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_INITIAL_STATE } from '../sok/domene';
 import './Resultat.less';
 
 class ResultatVisning extends React.Component {
@@ -31,7 +31,7 @@ class ResultatVisning extends React.Component {
             totalErfaring: '',
             utdanningsniva: []
         });
-        this.props.fetchKompetanseSuggestions();
+        this.props.removeKompetanseSuggestions();
         this.props.search();
     };
 
@@ -80,7 +80,7 @@ ResultatVisning.propTypes = {
     initialSearch: PropTypes.func.isRequired,
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
-    fetchKompetanseSuggestions: PropTypes.func.isRequired,
+    removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired
 };
 
@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_INITIAL_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
-    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })
+    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);
