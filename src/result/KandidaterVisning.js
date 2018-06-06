@@ -103,6 +103,7 @@ class KandidaterVisning extends React.Component {
 
             // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
             // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
+            // eslint-disable-next-line no-param-reassign
             cv.yrkeserfaring = sortByDato(cv.yrkeserfaring);
             const erfaringer = cv.yrkeserfaring.map((y) =>
                 this.props.arbeidserfaringer.concat(this.props.stillinger)
