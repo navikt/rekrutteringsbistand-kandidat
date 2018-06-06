@@ -53,7 +53,6 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
-                isInitialSearch: false,
                 error: action.error
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
