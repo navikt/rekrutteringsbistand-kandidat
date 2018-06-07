@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const developmentToggles = {
-    'pam-kandidatsok.toggle-test': true
+    'toggle-test': true
 };
 
 module.exports = merge(common, {
