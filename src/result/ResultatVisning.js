@@ -10,7 +10,7 @@ import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch'
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_INITIAL_STATE } from '../sok/domene';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/domene';
 import './Resultat.less';
 
 class ResultatVisning extends React.Component {
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    resetQuery: (query) => dispatch({ type: SET_INITIAL_STATE, query }),
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS })

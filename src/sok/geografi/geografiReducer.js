@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_INITIAL_STATE } from '../domene';
+import { SET_STATE } from '../domene';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
@@ -17,7 +17,7 @@ const initialState = {
 
 export default function utdanningReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_INITIAL_STATE:
+        case SET_STATE:
             return {
                 ...state,
                 geografiList: action.query.geografiList || [],
