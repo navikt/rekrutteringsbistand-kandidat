@@ -17,24 +17,22 @@
 }
 
 .search-button {
-  padding: 0 1rem 0 1rem;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  top: 9px;
-  right: 1px;
+  padding: 7px 0.5rem 7px 0.5rem!important;
+  border-radius: 0!important;
+  border: none!important;
   position: absolute;
-  border: none;
+  right: 0;
 }
 
 .search-button:hover,
 .search-button:active {
-  background-color: @navGronn;
+  background-color: @navBla!important;
 }
 
 .search-button__icon {
-  width: 32px;
-  height: 32px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cg stroke='%23000' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='8.5' cy='8.5' r='8'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='#0067C5' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 28px;
   background-repeat: no-repeat;
   background-position: center;
@@ -43,11 +41,12 @@
 
 .search-button:hover .search-button__icon,
 .search-button:active .search-button__icon  {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cg stroke='%23fff' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='8.5' cy='8.5' r='8'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%23fff' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .skjemaelement__input {
   border: 1px solid @color-blue;
+  border-radius: 2px;
 
   &:hover {
     border-color: @navBlaDarken40;
@@ -64,44 +63,26 @@
   }
 }
 
-.lenke.dashed {
-  border: 2px dashed #78706A;
-  border-radius: 4px;
-  color: #78706A;
-  font-weight: 600;
-  text-align: left;
-  padding: 0.5rem 1rem;
-}
-.lenke.dashed:focus,
-.lenke.dashed:hover {
-  background: #fff;
-  border: 2px dashed #0067C5;
-  color: #0067C5;
-}
-.lenke.dashed:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px #FFBD66;
-}
-
 .sokekriterier--kriterier {
   width: 100%;
   margin: 1rem 0;
 }
 
 .leggtil--sokekriterier {
-  margin: 1rem 1rem 0 0;
+  margin: 0 1rem 0.5rem 0;
+  width: 15rem;
   display: inline-block;
 }
 
 .leggtil--sokekriterier--knapp {
-  margin: 0.5rem 1rem 0 0;
+  margin: 0 1rem 0.5rem 0;
 }
 
 .etikett--sokekriterier {
   border: none;
   border-radius: 4px;
-  margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 2rem;
+  margin: 0 1rem 0.5rem 0;
+  padding: 0.5rem 2rem;
   background-color: #cce1f3;
   color: #3e3832;
 }
@@ -144,7 +125,7 @@
     content: '';
     display: block;
     position: absolute;
-    top: 0.85rem;
+    top: 0.65rem;
     right: 1rem;
     background-color: #0067c5;
     transition: all 0.2s ease-out;

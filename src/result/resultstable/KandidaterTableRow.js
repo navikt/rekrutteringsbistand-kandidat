@@ -40,7 +40,13 @@ class KandidaterTableRow extends React.Component {
                             <Normaltekst>{`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
                         </Column>
                         <Column xs="1" md="1">
-                            <button className="lenke" onClick={this.toggleModalOpen}>CV</button>
+                            <button
+                                className="lenke"
+                                onClick={this.toggleModalOpen}
+                                aria-label={`CV for ${cv.arenaKandidatnr}`}
+                            >
+                                CV
+                            </button>
                         </Column>
                     </Row>
                 </div>

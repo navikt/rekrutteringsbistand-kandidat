@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
@@ -38,7 +38,7 @@ class StillingSearch extends React.Component {
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.fetchKompetanseSuggestions();
             this.props.search();
         }
@@ -58,19 +58,20 @@ class StillingSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadStillingSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Stilling</Undertittel>
+                <Systemtittel>Stilling</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Hvilken stilling skal du ansette en kandidat til?
                     </Element>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier" >
+                            <div className="leggtil--sokekriterier">
                                 <form
                                     onSubmit={this.onSubmit}
                                 >
@@ -86,19 +87,17 @@ class StillingSearch extends React.Component {
                                         suggestions={this.props.typeAheadSuggestionsStilling}
                                         value={this.state.typeAheadValue}
                                         id="stilling"
+                                        onSubmit={this.onSubmit}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til stilling
-                            </LeggTilKnapp>
+                                +Legg til stilling
+                            </Knapp>
                         )}
                         {this.props.stillinger.map((stilling) => (
                             <button

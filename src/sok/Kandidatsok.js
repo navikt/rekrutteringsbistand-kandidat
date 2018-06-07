@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
+import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { fromUrlQuery, INITIAL_SEARCH } from './domene';
-import YrkeSearch from './stilling/StillingSearch';
+import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './domene';
+import StillingSearch from './stilling/StillingSearch';
 import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from './kompetanse/KompetanseSearch';
@@ -27,6 +27,21 @@ class Kandidatsok extends React.Component {
         });
     }
 
+    onRemoveCriteriaClick = () => {
+        this.props.resetQuery({
+            stillinger: [],
+            arbeidserfaringer: [],
+            utdanninger: [],
+            kompetanser: [],
+            geografiList: [],
+            geografiListKomplett: [],
+            totalErfaring: '',
+            utdanningsniva: []
+        });
+        this.props.removeKompetanseSuggestions();
+        this.props.search();
+    };
+
     render() {
         return (
             <div>
@@ -39,13 +54,19 @@ class Kandidatsok extends React.Component {
                         <div>
                             <Row>
                                 <Column className="text-center">
-                                    <Innholdstittel>Finn kandidater</Innholdstittel>
+                                    <Sidetittel>Finn kandidater</Sidetittel>
                                 </Column>
                             </Row>
                             <div className="search-page">
                                 <Row>
                                     <Column xs="12" md="8">
-                                        <YrkeSearch />
+                                        <button
+                                            className="lenke lenke--slett--kriterier"
+                                            onClick={this.onRemoveCriteriaClick}
+                                        >
+                                            Slett alle kriterier
+                                        </button>
+                                        <StillingSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <KompetanseSearch />
@@ -76,7 +97,10 @@ class Kandidatsok extends React.Component {
 Kandidatsok.propTypes = {
     initialSearch: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired
+    isInitialSearch: PropTypes.bool.isRequired,
+    resetQuery: PropTypes.func.isRequired,
+    removeKompetanseSuggestions: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -85,7 +109,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query })
+    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
+    search: () => dispatch({ type: SEARCH })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatsok);

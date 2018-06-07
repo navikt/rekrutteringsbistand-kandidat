@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     SEARCH
@@ -34,7 +34,7 @@ class KompetanseSearch extends React.Component {
             this.setState({
                 typeAheadValueKompetanse: '',
                 showTypeAheadKompetanse: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.search();
         }
     };
@@ -52,6 +52,7 @@ class KompetanseSearch extends React.Component {
 
     onSubmitKompetanse = (e) => {
         e.preventDefault();
+        this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
     };
 
     onKompetanseSuggestionsClick = (e) => {
@@ -69,7 +70,7 @@ class KompetanseSearch extends React.Component {
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
         return (
             <div>
-                <Undertittel>Kompetanse</Undertittel>
+                <Systemtittel>Kompetanse</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Krav til språk, sertifikater, kurs og sertifiseringer
@@ -92,19 +93,17 @@ class KompetanseSearch extends React.Component {
                                         suggestions={this.props.typeAheadSuggestionsKompetanse}
                                         value={this.state.typeAheadValueKompetanse}
                                         id="kompetanse"
+                                        onSubmit={this.onSubmitKompetanse}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilKompetanseClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til kompetanse
-                            </LeggTilKnapp>
+                                +Legg til kompetanse
+                            </Knapp>
                         )}
                         {this.props.kompetanser.map((kompetanse) => (
                             <button

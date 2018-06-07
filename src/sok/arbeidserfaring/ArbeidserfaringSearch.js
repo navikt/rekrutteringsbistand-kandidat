@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
+import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     SEARCH
@@ -42,7 +42,7 @@ class ArbeidserfaringSearch extends React.Component {
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.search();
         }
     };
@@ -60,12 +60,13 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Arbeidserfaring</Undertittel>
+                <Systemtittel>Arbeidserfaring</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Krav til arbeidserfaring
@@ -88,19 +89,17 @@ class ArbeidserfaringSearch extends React.Component {
                                         suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
                                         value={this.state.typeAheadValue}
                                         id="arbeidserfaring"
+                                        onSubmit={this.onSubmit}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til arbeidserfaring
-                            </LeggTilKnapp>
+                                +Legg til arbeidserfaring
+                            </Knapp>
                         )}
                         {this.props.arbeidserfaringer.map((arbeidserfaring) => (
                             <button

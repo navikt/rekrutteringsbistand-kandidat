@@ -27,7 +27,7 @@ class KandidaterVisning extends React.Component {
 
     onFlereResultaterClick = () => {
         this.setState({
-            antallResultater: this.state.antallResultater + 20
+            antallResultater: this.state.antallResultater > 80 ? 100 : this.state.antallResultater + 20
         });
     };
 
@@ -103,6 +103,7 @@ class KandidaterVisning extends React.Component {
 
             // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
             // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
+            // eslint-disable-next-line no-param-reassign
             cv.yrkeserfaring = sortByDato(cv.yrkeserfaring);
             const erfaringer = cv.yrkeserfaring.map((y) =>
                 this.props.arbeidserfaringer.concat(this.props.stillinger)
@@ -176,7 +177,7 @@ class KandidaterVisning extends React.Component {
                                 </Knapp>
                             )}
                             <Element className="antall--treff--kandidatervisning">
-                                Viser {this.state.antallResultater < 100 ? this.state.antallResultater : 100} av {this.props.totaltAntallTreff}
+                                Viser {this.state.antallResultater > this.props.totaltAntallTreff ? this.props.totaltAntallTreff : this.state.antallResultater} av {this.props.totaltAntallTreff}
                             </Element>
                             <a
                                 className="lenke lenke--lagre--sok"

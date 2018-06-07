@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events,no-trailing-spaces */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Knapp } from 'nav-frontend-knapper';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
 
@@ -154,6 +155,13 @@ export default class Typeahead extends React.Component {
                     }}
                     className="skjemaelement__input input--fullbredde"
                 />
+                <Knapp
+                    aria-label="søk"
+                    className="search-button"
+                    onClick={this.props.onSubmit}
+                >
+                    <i className="search-button__icon" />
+                </Knapp>
                 <ul
                     id={`${this.props.id}-suggestions`}
                     role="listbox"
@@ -181,6 +189,7 @@ export default class Typeahead extends React.Component {
 Typeahead.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
     suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
     value: PropTypes.string.isRequired,

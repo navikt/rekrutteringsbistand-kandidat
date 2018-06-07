@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
 import { SEARCH } from '../domene';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_GEOGRAFI, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from './geografiReducer';
@@ -33,7 +33,7 @@ class GeografiSearch extends React.Component {
                 this.setState({
                     typeAheadValue: '',
                     showTypeAhead: false
-                }, () => this.leggTilKnapp.button.focus());
+                });
                 this.props.search();
             }
         }
@@ -52,12 +52,13 @@ class GeografiSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Stillingens geografiske plassering</Undertittel>
+                <Systemtittel>Stillingens geografiske plassering</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Legg til fylke, kommune eller by
@@ -80,19 +81,17 @@ class GeografiSearch extends React.Component {
                                         suggestions={this.props.typeAheadSuggestionsGeografi}
                                         value={this.state.typeAheadValue}
                                         id="geografi"
+                                        onSubmit={this.onSubmit}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til sted
-                            </LeggTilKnapp>
+                                +Legg til sted
+                            </Knapp>
                         )}
                         {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
                             <button

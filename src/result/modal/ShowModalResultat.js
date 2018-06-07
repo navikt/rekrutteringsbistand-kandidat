@@ -19,7 +19,7 @@ export default class ShowModalResultat extends React.Component {
     componentWillMount() {
         // The modal gives an error if the Modal is trying to set the app element to document.body
         // before it exists. Have to add this to set the document.body element.
-        NavFrontendModal.setAppElement('body');
+        NavFrontendModal.setAppElement('main');
     }
 
     onTaKontaktClick = () => {
