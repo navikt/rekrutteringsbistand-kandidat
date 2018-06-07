@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -70,7 +70,7 @@ class KompetanseSearch extends React.Component {
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
         return (
             <div>
-                <Undertittel>Kompetanse</Undertittel>
+                <Systemtittel>Kompetanse</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Krav til språk, sertifikater, kurs og sertifiseringer

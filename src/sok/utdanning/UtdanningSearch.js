@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -70,7 +70,7 @@ class UtdanningSearch extends React.Component {
     render() {
         return (
             <div>
-                <Undertittel>Utdanning</Undertittel>
+                <Systemtittel>Utdanning</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <SkjemaGruppe title="Utdanningsnivå">
                         <div className="sokekriterier--kriterier">

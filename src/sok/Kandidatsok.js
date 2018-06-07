@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Ingress, Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
+import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { fromUrlQuery, INITIAL_SEARCH } from './domene';
@@ -39,7 +39,7 @@ class Kandidatsok extends React.Component {
                         <div>
                             <Row>
                                 <Column className="text-center">
-                                    <Innholdstittel>Finn kandidater</Innholdstittel>
+                                    <Sidetittel>Finn kandidater</Sidetittel>
                                 </Column>
                             </Row>
                             <div className="search-page">

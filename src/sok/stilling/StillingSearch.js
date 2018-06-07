@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -64,7 +64,7 @@ class StillingSearch extends React.Component {
     render() {
         return (
             <div>
-                <Undertittel>Stilling</Undertittel>
+                <Systemtittel>Stilling</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Hvilken stilling skal du ansette en kandidat til?

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../domene';
@@ -58,7 +58,7 @@ class GeografiSearch extends React.Component {
     render() {
         return (
             <div>
-                <Undertittel>Stillingens geografiske plassering</Undertittel>
+                <Systemtittel>Stillingens geografiske plassering</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Legg til fylke, kommune eller by

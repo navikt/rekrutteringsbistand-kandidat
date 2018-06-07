@@ -45,7 +45,13 @@ export default class KandidaterTableHeader extends React.Component {
                     <Column xs="2" md="2" />
                     <Column xs="4" md="4">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterUtdanningClick}>
-                            <Element className="label--resultatvisning">Utdanning</Element>
+                            <Element
+                                className="label--resultatvisning"
+                                aria-label="Sorter på utdanning"
+                                aria-selected={this.state.utdanningChevronNed !== undefined}
+                            >
+                                Utdanning
+                            </Element>
                             <NavFrontendChevron
                                 type={this.state.utdanningChevronNed === undefined || this.state.utdanningChevronNed ? 'ned' : 'opp'}
                             />
@@ -53,7 +59,13 @@ export default class KandidaterTableHeader extends React.Component {
                     </Column>
                     <Column xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterJobberfaringClick}>
-                            <Element className="label--resultatvisning">Arbeidserfaring</Element>
+                            <Element
+                                className="label--resultatvisning"
+                                aria-label="Sorter på arbeidserfaring"
+                                aria-selected={this.state.jobberfaringChevronNed !== undefined}
+                            >
+                                Arbeidserfaring
+                            </Element>
                             <NavFrontendChevron
                                 type={this.state.jobberfaringChevronNed === undefined || this.state.jobberfaringChevronNed ? 'ned' : 'opp'}
                             />
@@ -61,7 +73,13 @@ export default class KandidaterTableHeader extends React.Component {
                     </Column>
                     <Column xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
-                            <Element className="label--resultatvisning">År med erfaring</Element>
+                            <Element
+                                className="label--resultatvisning"
+                                aria-label="Sorter på antall år med arbeidserfaring"
+                                aria-selected={this.state.antallArChevronNed !== undefined}
+                            >
+                                År med erfaring
+                            </Element>
                             <NavFrontendChevron
                                 type={this.state.antallArChevronNed === undefined || this.state.antallArChevronNed ? 'ned' : 'opp'}
                             />
