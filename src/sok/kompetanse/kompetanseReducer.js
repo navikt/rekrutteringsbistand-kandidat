@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_INITIAL_STATE } from '../domene';
+import { SET_STATE } from '../domene';
 
 export const SELECT_TYPE_AHEAD_VALUE_KOMPETANSE = 'SELECT_TYPE_AHEAD_VALUE_KOMPETANSE';
 export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
@@ -16,7 +16,7 @@ const initialState = {
 
 export default function kompetanseReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_INITIAL_STATE:
+        case SET_STATE:
             return {
                 ...state,
                 kompetanser: action.query.kompetanser || []

@@ -71,7 +71,7 @@ class StillingSearch extends React.Component {
                     </Element>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier" >
+                            <div className="leggtil--sokekriterier">
                                 <form
                                     onSubmit={this.onSubmit}
                                 >

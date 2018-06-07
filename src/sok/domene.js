@@ -11,11 +11,13 @@ export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const INITIAL_SEARCH = 'INITIAL_SEARCH';
-export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
+export const SET_STATE = 'SET_STATE';
 
 export const FETCH_KOMPETANSE_SUGGESTIONS = 'FETCH_KOMPETANSE_SUGGESTIONS';
 export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN';
 export const SET_KOMPETANSE_SUGGESTIONS_SUCCESS = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS';
+export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
+
 
 /** *********************************************************
  * REDUCER
@@ -65,6 +67,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+            };
+        case REMOVE_KOMPETANSE_SUGGESTIONS:
+            return {
+                ...state,
+                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: [] }
             };
         default:
             return state;
@@ -143,14 +150,13 @@ function* fetchKompetanseSuggestions() {
     try {
         const state = yield select();
 
-        yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
+        if (state.stilling.stillinger.length !== 0) {
+            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
-        if (state.stilling.stillinger.length === 0) {
-            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: [] });
-        } else {
             const response = yield call(fetchKandidater, { stillinger: state.stilling.stillinger });
-
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
+        } else {
+            yield put({ type: REMOVE_KOMPETANSE_SUGGESTIONS });
         }
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -165,7 +171,7 @@ function* initialSearch() {
     try {
         const urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
-            yield put({ type: SET_INITIAL_STATE, query: urlQuery });
+            yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);
     } catch (e) {
