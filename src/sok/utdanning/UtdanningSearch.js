@@ -86,10 +86,12 @@ class UtdanningSearch extends React.Component {
                             ))}
                         </div>
                     </SkjemaGruppe>
-                    <Checkbox
-                        label="Arbeidserfaring kan veie opp for manglende utdanning"
-                        className="checkbox--manglende--arbeidserfaring"
-                    />
+                    {this.props.visManglendeArbeidserfaringBoks && (
+                        <Checkbox
+                            label="Arbeidserfaring kan veie opp for manglende utdanning"
+                            className="checkbox--manglende--arbeidserfaring"
+                        />
+                    )}
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
@@ -138,6 +140,10 @@ class UtdanningSearch extends React.Component {
     }
 }
 
+UtdanningSearch.defaultProps = {
+    visManglendeArbeidserfaringBoks: false
+};
+
 UtdanningSearch.propTypes = {
     search: PropTypes.func.isRequired,
     removeUtdanning: PropTypes.func.isRequired,
@@ -148,13 +154,15 @@ UtdanningSearch.propTypes = {
     utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
     utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
-    clearTypeAheadUtdanning: PropTypes.func.isRequired
+    clearTypeAheadUtdanning: PropTypes.func.isRequired,
+    visManglendeArbeidserfaringBoks: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
-    utdanningsniva: state.utdanning.utdanningsniva
+    utdanningsniva: state.utdanning.utdanningsniva,
+    visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks']
 });
 
 const mapDispatchToProps = (dispatch) => ({
