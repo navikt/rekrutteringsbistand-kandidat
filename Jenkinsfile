@@ -13,6 +13,8 @@ node {
     def environment = 't6'
     def zone = 'sbs'
     def namespace = "t6"
+    def policies = "app-policies.xml"
+    def notenforced = "not-enforced-urls.txt"
 
     stage("checkout") {
         deleteDir()
