@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API, FEATURE_TOGGLE_API } from '../common/fasitProperties';
+import { SEARCH_API } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -36,7 +36,7 @@ async function fetchJson(url) {
 
 export function fetchFeatureToggles() {
     if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${FEATURE_TOGGLE_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
+        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
     }
     return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
 }

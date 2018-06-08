@@ -25,7 +25,6 @@ server.engine('html', mustacheExpress());
 
 const fasitProperties = {
     PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/',
-    PAM_FEATURE_TOGGLE_API: '/pam-kandidatsok/rest/',
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL
 };
@@ -33,7 +32,6 @@ const fasitProperties = {
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
-        `window.__PAM_FEATURE_TOGGLE_API__="${fasitProperties.PAM_FEATURE_TOGGLE_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n`;
 
