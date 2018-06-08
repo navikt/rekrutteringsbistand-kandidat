@@ -103,7 +103,7 @@ class KompetanseSearch extends React.Component {
                                         placeholder="Skriv inn kompetanse"
                                         suggestions={this.props.typeAheadSuggestionsKompetanse}
                                         value={this.state.typeAheadValueKompetanse}
-                                        id="suggestions-kompetanse"
+                                        id="typeahead-kompetanse"
                                         onSubmit={this.onSubmitKompetanse}
                                         onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
