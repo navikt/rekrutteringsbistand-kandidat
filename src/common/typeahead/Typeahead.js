@@ -78,24 +78,19 @@ export default class Typeahead extends React.Component {
      * at suggestions ikke skjules, slik at selectSuggestion (ved onclick) også kalles.
      */
     onBlur = (e) => {
-        // Keep the click-event for use later on.
-        e.persist();
-        this.blurDelay = setTimeout(() => {
-            if (this.shouldBlur) {
+        if (this.shouldBlur) {
+            // If the user clicks something other than the search-button, the parent function
+            // onTypeAheadBlur is called.
+            if (!e.relatedTarget || e.relatedTarget.id !== 'search-button-typeahead') {
+                this.props.onTypeAheadBlur();
                 this.setState({
                     hasFocus: false
                 });
-                // If the user clicks something other than the search-button, the parent function
-                // onTypeAheadBlur is called.
-                if (!e.relatedTarget || e.relatedTarget.id !== 'search-button-typeahead') {
-                    this.props.onTypeAheadBlur();
-                }
             }
-        }, 10);
+        }
     };
 
     onSearchButtonBlur = (e) => {
-        e.persist();
         if (!e.relatedTarget || e.relatedTarget.id !== this.props.id) {
             this.props.onTypeAheadBlur();
         }
@@ -105,11 +100,7 @@ export default class Typeahead extends React.Component {
         this.shouldBlur = false;
     };
 
-    clearBlurDelay = () => {
-        if (this.blurDelay) {
-            clearTimeout(this.blurDelay);
-            this.blurDelay = undefined;
-        }
+    blur = () => {
         this.shouldBlur = true;
     };
 
@@ -122,7 +113,7 @@ export default class Typeahead extends React.Component {
         this.setState({
             activeSuggestionIndex: index
         });
-        this.clearBlurDelay();
+        this.blur();
     };
 
     /**
@@ -146,7 +137,7 @@ export default class Typeahead extends React.Component {
         }, () => {
             this.input.focus();
         });
-        this.clearBlurDelay();
+        this.blur();
         this.props.onSelect(suggestionValue);
     };
 
