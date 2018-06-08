@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -62,6 +62,14 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadUtdanning('suggestionsutdanning');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
@@ -93,6 +101,9 @@ class UtdanningSearch extends React.Component {
                         />
                     )}
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel pedagogikk
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
@@ -112,6 +123,7 @@ class UtdanningSearch extends React.Component {
                                         value={this.state.typeAheadValue}
                                         id="yrke"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
