@@ -55,7 +55,7 @@ node {
 
     stage('Deploy to preprod') {
         callback = "${env.BUILD_URL}input/Deploy/"
-        def deploy = deployLib.deployNaisApp(app, releaseVersion, environment, zone, namespace, callback, committer).key
+        def deploy = deployLib.deployNaisApp(app, releaseVersion, environment, zone, namespace, callback, committer, false).key
         try {
             timeout(time: 15, unit: 'MINUTES') {
                 input id: 'deploy', message: "Check status here:  https://jira.adeo.no/browse/${deploy}"
