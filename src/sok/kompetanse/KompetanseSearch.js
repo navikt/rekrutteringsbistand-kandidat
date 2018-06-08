@@ -60,6 +60,14 @@ class KompetanseSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValueKompetanse: '',
+            showTypeAheadKompetanse: false
+        });
+        this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+    };
+
     onLeggTilFlereClick = () => {
         this.setState({
             antallKompetanser: this.state.antallKompetanser + 4
@@ -92,8 +100,9 @@ class KompetanseSearch extends React.Component {
                                         placeholder="Skriv inn kompetanse"
                                         suggestions={this.props.typeAheadSuggestionsKompetanse}
                                         value={this.state.typeAheadValueKompetanse}
-                                        id="kompetanse"
+                                        id="suggestions-kompetanse"
                                         onSubmit={this.onSubmitKompetanse}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>

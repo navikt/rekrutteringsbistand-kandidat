@@ -58,6 +58,14 @@ class ArbeidserfaringSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
@@ -88,8 +96,9 @@ class ArbeidserfaringSearch extends React.Component {
                                         placeholder="Skriv inn arbeidserfaring"
                                         suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
                                         value={this.state.typeAheadValue}
-                                        id="arbeidserfaring"
+                                        id="typeahead-arbeidserfaring"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>

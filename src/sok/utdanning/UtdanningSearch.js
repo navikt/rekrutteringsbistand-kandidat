@@ -62,6 +62,14 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadUtdanning('suggestionsutdanning');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
@@ -110,6 +118,7 @@ class UtdanningSearch extends React.Component {
                                         value={this.state.typeAheadValue}
                                         id="yrke"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>

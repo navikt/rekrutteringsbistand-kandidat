@@ -56,6 +56,14 @@ class StillingSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadStilling('suggestionsstilling');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadStillingSelect(this.state.typeAheadValue);
@@ -86,8 +94,9 @@ class StillingSearch extends React.Component {
                                         placeholder="Skriv inn stillingstittel"
                                         suggestions={this.props.typeAheadSuggestionsStilling}
                                         value={this.state.typeAheadValue}
-                                        id="stilling"
+                                        id="typeahead-stilling"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
