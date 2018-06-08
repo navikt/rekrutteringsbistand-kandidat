@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -83,6 +83,9 @@ class KompetanseSearch extends React.Component {
                     <Element>
                         Krav til språk, sertifikater, kurs og sertifiseringer
                     </Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel førerkort klasse B, ledelse eller Excel
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAheadKompetanse ? (
                             <div className="leggtil--sokekriterier">

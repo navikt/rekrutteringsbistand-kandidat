@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -99,6 +99,9 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                     <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel pedagogikk
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
