@@ -10,9 +10,9 @@ node {
     def appConfig = "nais.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
-    def environment = 't1'
+    def environment = 't6'
     def zone = 'sbs'
-    def namespace = "default"
+    def namespace = "t6"
 
     stage("checkout") {
         deleteDir()
