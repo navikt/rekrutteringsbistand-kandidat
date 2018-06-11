@@ -47,6 +47,10 @@
 .skjemaelement__input {
   border: 1px solid @color-blue;
   border-radius: 2px;
+  &::-ms-clear {
+    width: 0;
+    height: 0;
+  }
 
   &:hover {
     border-color: @navBlaDarken40;
