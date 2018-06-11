@@ -84,7 +84,9 @@ class UtdanningSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.utdanningsnivaKategorier.map((utdanning) => (
                                 <Checkbox
-                                    className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                    className={this.props.utdanningsniva.includes(utdanning.key) ?
+                                        'checkbox--sokekriterier--checked utdanningsniva' :
+                                        'checkbox--sokekriterier--unchecked utdanningsniva'}
                                     label={utdanning.label}
                                     key={utdanning.key}
                                     value={utdanning.key}
