@@ -81,7 +81,7 @@ class KompetanseSearch extends React.Component {
                 <Systemtittel>Kompetanse</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Krav til språk, sertifikater, kurs og sertifiseringer
+                        Legg til kompetansen du ønsker at en kandidat skal ha
                     </Element>
                     <Normaltekst className="text--italic">
                         For eksempel førerkort klasse B, ledelse eller Excel

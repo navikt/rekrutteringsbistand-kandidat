@@ -77,7 +77,7 @@ class ArbeidserfaringSearch extends React.Component {
                 <Systemtittel>Arbeidserfaring</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Krav til arbeidserfaring
+                        Hvilken arbeidserfaring skal kandidaten ha?
                     </Element>
                     <Normaltekst className="text--italic">
                         For eksempel barnehagelærer
@@ -124,7 +124,7 @@ class ArbeidserfaringSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring">
+                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
                         <div className="sokekriterier--kriterier">
                             {this.erfaringer.map((arbeidserfaring) => (
                                 <Radio
