@@ -6,38 +6,36 @@ import { Row } from 'nav-frontend-grid';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Modal.less';
 
-function AnonymCvTekst({ onTaKontaktClick, toggleModalOpen, visTaKontaktKandidat }) {
-    return (
-        <div className="panel panel--padding">
+const AnonymCvTekst = ({ onTaKontaktClick, toggleModalOpen, visTaKontaktKandidat }) => (
+    <div className="panel panel--padding">
+        <Row>
+            <Undertittel>Kandidaten har ikke synlig CV</Undertittel>
+            <br />
+            <Normaltekst>
+                Kandidaten har valgt å ikke ha synlig CV for arbeidsgivere. Du kan sende
+                kontaktinformasjon til kandidaten slik at personen kan kontakte deg.
+            </Normaltekst>
+        </Row>
+        {visTaKontaktKandidat && (
             <Row>
-                <Undertittel>Kandidaten har ikke synlig CV</Undertittel>
-                <br />
-                <Normaltekst>
-                    Kandidaten har valgt å ikke ha synlig CV for arbeidsgivere. Du kan sende
-                    kontaktinformasjon til kandidaten slik at personen kan kontakte deg.
-                </Normaltekst>
+                <div className="row cv--button--row">
+                    <Knapp
+                        className="knapp knapp--hoved"
+                        onClick={onTaKontaktClick}
+                    >
+                        Kontakt kandidat
+                    </Knapp>
+                    <Knapp
+                        className="knapp"
+                        onClick={toggleModalOpen}
+                    >
+                        Avbryt
+                    </Knapp>
+                </div>
             </Row>
-            {visTaKontaktKandidat && (
-                <Row>
-                    <div className="row cv--button--row">
-                        <Knapp
-                            className="knapp knapp--hoved"
-                            onClick={onTaKontaktClick}
-                        >
-                            Kontakt kandidat
-                        </Knapp>
-                        <Knapp
-                            className="knapp"
-                            onClick={toggleModalOpen}
-                        >
-                            Avbryt
-                        </Knapp>
-                    </div>
-                </Row>
-            )}
-        </div>
-    );
-}
+        )}
+    </div>
+);
 
 AnonymCvTekst.defaultProps = {
     visTaKontaktKandidat: false

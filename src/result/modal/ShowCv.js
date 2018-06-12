@@ -9,7 +9,7 @@ import sortByDato from '../../common/SortByDato';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
 
-function ShowCv({ cv, onTaKontaktClick, visTaKontaktKandidat }) {
+const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -191,7 +191,7 @@ function ShowCv({ cv, onTaKontaktClick, visTaKontaktKandidat }) {
             )}
         </div>
     );
-}
+};
 
 ShowCv.defaultProps = {
     visTaKontaktKandidat: false

@@ -72,7 +72,7 @@ class StillingSearch extends React.Component {
     render() {
         return (
             <div>
-                <Systemtittel>Stilling / yrke</Systemtittel>
+                <Systemtittel>Stilling/yrke</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Hvilken stilling/yrke trenger du en kandidat til?
