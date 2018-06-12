@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -56,6 +56,14 @@ class StillingSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadStilling('suggestionsstilling');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadStillingSelect(this.state.typeAheadValue);
@@ -64,11 +72,14 @@ class StillingSearch extends React.Component {
     render() {
         return (
             <div>
-                <Systemtittel>Stilling</Systemtittel>
+                <Systemtittel>Stilling/yrke</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Hvilken stilling skal du ansette en kandidat til?
+                        Hvilken stilling/yrke trenger du en kandidat til?
                     </Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel pedagogisk leder
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
@@ -86,8 +97,9 @@ class StillingSearch extends React.Component {
                                         placeholder="Skriv inn stillingstittel"
                                         suggestions={this.props.typeAheadSuggestionsStilling}
                                         value={this.state.typeAheadValue}
-                                        id="stilling"
+                                        id="typeahead-stilling"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>

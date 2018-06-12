@@ -50,6 +50,14 @@ class GeografiSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadGeografi('suggestionsgeografi');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
@@ -80,8 +88,9 @@ class GeografiSearch extends React.Component {
                                         placeholder="Skriv inn sted"
                                         suggestions={this.props.typeAheadSuggestionsGeografi}
                                         value={this.state.typeAheadValue}
-                                        id="geografi"
+                                        id="typeahead-geografi"
                                         onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
