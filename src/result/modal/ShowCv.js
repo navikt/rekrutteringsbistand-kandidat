@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
@@ -8,7 +9,7 @@ import sortByDato from '../../common/SortByDato';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
 
-export default function ShowCv({ cv, onTaKontaktClick }) {
+function ShowCv({ cv, onTaKontaktClick, visTaKontaktKandidat }) {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -16,16 +17,19 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
     const sprak = cv.sprak.slice();
     return (
         <div className="panel">
-            <Row>
-                <Column xs="12" md="6">
-                    <Knapp
-                        type="hoved"
-                        onClick={onTaKontaktClick}
-                    >
-                        Ta kontakt med kandidat
-                    </Knapp>
-                </Column>
-            </Row>
+            {/* Feature toggle for å skjule knappen "Ta kontakt med kandidat" */}
+            {visTaKontaktKandidat && (
+                <Row>
+                    <Column xs="12" md="6">
+                        <Knapp
+                            type="hoved"
+                            onClick={onTaKontaktClick}
+                        >
+                            Ta kontakt med kandidat
+                        </Knapp>
+                    </Column>
+                </Row>
+            )}
             <Row>
                 <Column xs="12">
                     <div className="text-center">
@@ -159,17 +163,9 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
             {sprak && sprak.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
-                        <Undertittel>Språk</Undertittel>
+                        <Undertittel>Språkkunnskaper</Undertittel>
                         {sprak.map((s) => (
                             <Row className="blokk-xs" key={`${s.fraDato}-${s.alternativTekst}`}>
-                                <Column xs="4">
-                                    <Normaltekst>
-                                        <Tidsperiode
-                                            fradato={s.fraDato}
-                                            tildato={s.tilDato}
-                                        />
-                                    </Normaltekst>
-                                </Column>
                                 <Column xs="8">
                                     <Element>{s.sprakKodeTekst}</Element>
                                     <Normaltekst>{s.beskrivelse}</Normaltekst>
@@ -180,23 +176,35 @@ export default function ShowCv({ cv, onTaKontaktClick }) {
                     </Column>
                 </Row>
             )}
-            <Row>
-                <Column xs="12" md="6">
-                    <Knapp
-                        type="hoved"
-                        onClick={onTaKontaktClick}
-                    >
-                        Ta kontakt med kandidat
-                    </Knapp>
-                </Column>
-            </Row>
+            {/* Feature toggle for å skjule knappen "Ta kontakt med kandidat" */}
+            {visTaKontaktKandidat && (
+                <Row>
+                    <Column xs="12" md="6">
+                        <Knapp
+                            type="hoved"
+                            onClick={onTaKontaktClick}
+                        >
+                            Ta kontakt med kandidat
+                        </Knapp>
+                    </Column>
+                </Row>
+            )}
         </div>
     );
 }
 
-ShowCv.propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    cv: cvPropTypes.isRequired,
-    onTaKontaktClick: PropTypes.func.isRequired
+ShowCv.defaultProps = {
+    visTaKontaktKandidat: false
 };
 
+ShowCv.propTypes = {
+    cv: cvPropTypes.isRequired,
+    onTaKontaktClick: PropTypes.func.isRequired,
+    visTaKontaktKandidat: PropTypes.bool
+};
+
+const mapStateToProps = (state) => ({
+    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat']
+});
+
+export default connect(mapStateToProps)(ShowCv);
