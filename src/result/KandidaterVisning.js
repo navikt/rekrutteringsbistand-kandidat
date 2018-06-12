@@ -132,7 +132,6 @@ class KandidaterVisning extends React.Component {
             <div>
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong> treff på aktuelle kandidater</Ingress>
-                    <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
                 </div>
                 <div className="resultatvisning">
                     <Systemtittel>{tittel}</Systemtittel>
@@ -179,11 +178,6 @@ class KandidaterVisning extends React.Component {
                             <Element className="antall--treff--kandidatervisning">
                                 Viser {this.state.antallResultater > this.props.totaltAntallTreff ? this.props.totaltAntallTreff : this.state.antallResultater} av {this.props.totaltAntallTreff}
                             </Element>
-                            <a
-                                className="lenke lenke--lagre--sok"
-                            >
-                                Lagre søk og liste over kandidater
-                            </a>
                         </div>
                     </div>
                 )}
