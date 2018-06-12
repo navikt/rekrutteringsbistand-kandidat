@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
@@ -60,6 +60,14 @@ class KompetanseSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValueKompetanse: '',
+            showTypeAheadKompetanse: false
+        });
+        this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+    };
+
     onLeggTilFlereClick = () => {
         this.setState({
             antallKompetanser: this.state.antallKompetanser + 4
@@ -75,6 +83,9 @@ class KompetanseSearch extends React.Component {
                     <Element>
                         Krav til språk, sertifikater, kurs og sertifiseringer
                     </Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel førerkort klasse B, ledelse eller Excel
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAheadKompetanse ? (
                             <div className="leggtil--sokekriterier">
@@ -92,8 +103,9 @@ class KompetanseSearch extends React.Component {
                                         placeholder="Skriv inn kompetanse"
                                         suggestions={this.props.typeAheadSuggestionsKompetanse}
                                         value={this.state.typeAheadValueKompetanse}
-                                        id="kompetanse"
+                                        id="typeahead-kompetanse"
                                         onSubmit={this.onSubmitKompetanse}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>

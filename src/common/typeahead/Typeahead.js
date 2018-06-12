@@ -36,9 +36,6 @@ export default class Typeahead extends React.Component {
         const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.state.value;
         if (this.state.shouldShowSuggestions) {
             switch (e.keyCode) {
-                case 9: // Tab
-                    this.selectSuggestion(value);
-                    break;
                 case 13: // Enter
                     e.preventDefault();
                     this.selectSuggestion(value);
@@ -80,25 +77,30 @@ export default class Typeahead extends React.Component {
      * suggestions-listen. Men når man trykker med musen (ved mousedown) på en suggestion, trenger vi
      * at suggestions ikke skjules, slik at selectSuggestion (ved onclick) også kalles.
      */
-    onBlur = () => {
-        this.blurDelay = setTimeout(() => {
-            if (this.shouldBlur) {
+    onBlur = (e) => {
+        if (this.shouldBlur) {
+            // If the user clicks something other than the search-button, the parent function
+            // onTypeAheadBlur is called.
+            if (!e.relatedTarget || e.relatedTarget.id !== 'search-button-typeahead') {
+                this.props.onTypeAheadBlur();
                 this.setState({
                     hasFocus: false
                 });
             }
-        }, 10);
+        }
+    };
+
+    onSearchButtonBlur = (e) => {
+        if (!e.relatedTarget || e.relatedTarget.id !== this.props.id) {
+            this.props.onTypeAheadBlur();
+        }
     };
 
     avoidBlur = () => {
         this.shouldBlur = false;
     };
 
-    clearBlurDelay = () => {
-        if (this.blurDelay) {
-            clearTimeout(this.blurDelay);
-            this.blurDelay = undefined;
-        }
+    blur = () => {
         this.shouldBlur = true;
     };
 
@@ -111,7 +113,16 @@ export default class Typeahead extends React.Component {
         this.setState({
             activeSuggestionIndex: index
         });
-        this.clearBlurDelay();
+        this.blur();
+    };
+
+    /**
+     * Når man fjerner musen fra suggestions resettes den aktive indexen til -1.
+     */
+    resetHighlightingSuggestion = () => {
+        this.setState({
+            activeSuggestionIndex: -1
+        });
     };
 
     /**
@@ -126,7 +137,7 @@ export default class Typeahead extends React.Component {
         }, () => {
             this.input.focus();
         });
-        this.clearBlurDelay();
+        this.blur();
         this.props.onSelect(suggestionValue);
     };
 
@@ -158,7 +169,9 @@ export default class Typeahead extends React.Component {
                 <Knapp
                     aria-label="søk"
                     className="search-button"
+                    id="search-button-typeahead"
                     onClick={this.props.onSubmit}
+                    onBlur={this.onSearchButtonBlur}
                 >
                     <i className="search-button__icon" />
                 </Knapp>
@@ -166,6 +179,7 @@ export default class Typeahead extends React.Component {
                     id={`${this.props.id}-suggestions`}
                     role="listbox"
                     className={showSuggestions ? '' : 'typeahead-suggestions-hidden'}
+                    onMouseLeave={this.resetHighlightingSuggestion}
                 >
                     {showSuggestions && this.props.suggestions.map((li, i) => (
                         <TypeaheadSuggestion
@@ -193,5 +207,6 @@ Typeahead.propTypes = {
     placeholder: PropTypes.string.isRequired,
     suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
     value: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    onTypeAheadBlur: PropTypes.func.isRequired
 };
