@@ -18,9 +18,9 @@ class UtdanningSearch extends React.Component {
             typeAheadValue: ''
         };
         this.utdanningsnivaKategorier = [{ key: 'Ingen', label: 'Ingen utdanning' },
-            { key: 'Grunnskole', label: 'Grunnskole' }, { key: 'Videregaende', label: 'Videregående' },
-            { key: 'Fagskole', label: 'Fagskole' }, { key: 'Bachelor', label: 'Bachelorgrad' },
-            { key: 'Master', label: 'Mastergrad' }, { key: 'Doktorgrad', label: 'Doktorgrad' }];
+            { key: 'Videregaende', label: 'Videregående' }, { key: 'Fagskole', label: 'Fagskole' },
+            { key: 'Bachelor', label: 'Bachelorgrad' }, { key: 'Master', label: 'Mastergrad' },
+            { key: 'Doktorgrad', label: 'Doktorgrad' }];
     }
 
     onUtdanningsnivaChange = (e) => {
@@ -84,7 +84,9 @@ class UtdanningSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.utdanningsnivaKategorier.map((utdanning) => (
                                 <Checkbox
-                                    className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                    className={this.props.utdanningsniva.includes(utdanning.key) ?
+                                        'checkbox--sokekriterier--checked utdanningsniva' :
+                                        'checkbox--sokekriterier--unchecked utdanningsniva'}
                                     label={utdanning.label}
                                     key={utdanning.key}
                                     value={utdanning.key}

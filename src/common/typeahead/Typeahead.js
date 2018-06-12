@@ -79,9 +79,15 @@ export default class Typeahead extends React.Component {
      */
     onBlur = (e) => {
         if (this.shouldBlur) {
+            let relatedTarget = e.relatedTarget;
             // If the user clicks something other than the search-button, the parent function
             // onTypeAheadBlur is called.
-            if (!e.relatedTarget || e.relatedTarget.id !== 'search-button-typeahead') {
+            if (relatedTarget === null) {
+                // Internet explorer støtter ikke relatedTarget, så setter denne til variabelen
+                // til det nye aktive elementet
+                relatedTarget = document.activeElement;
+            }
+            if (!relatedTarget || relatedTarget.id !== 'search-button-typeahead') {
                 this.props.onTypeAheadBlur();
                 this.setState({
                     hasFocus: false
@@ -91,7 +97,13 @@ export default class Typeahead extends React.Component {
     };
 
     onSearchButtonBlur = (e) => {
-        if (!e.relatedTarget || e.relatedTarget.id !== this.props.id) {
+        let relatedTarget = e.relatedTarget;
+        if (relatedTarget === null) {
+            // Internet explorer støtter ikke relatedTarget, så setter denne til variabelen
+            // til det nye aktive elementet
+            relatedTarget = document.activeElement;
+        }
+        if (!relatedTarget || relatedTarget.id !== this.props.id) {
             this.props.onTypeAheadBlur();
         }
     };

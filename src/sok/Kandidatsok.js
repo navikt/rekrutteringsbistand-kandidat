@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
+import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './domene';
 import StillingSearch from './stilling/StillingSearch';
@@ -78,9 +79,13 @@ class Kandidatsok extends React.Component {
                                             <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
-                                                className="knapp knapp--hoved"
                                             >
-                                                Se kandidatene
+                                                <Knapp
+                                                    type="hoved"
+                                                    disabled={this.props.totaltAntallTreff === 0}
+                                                >
+                                                    Se kandidatene
+                                                </Knapp>
                                             </Link>
                                         </div>
                                     </Column>
