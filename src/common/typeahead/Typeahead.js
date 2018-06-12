@@ -97,7 +97,13 @@ export default class Typeahead extends React.Component {
     };
 
     onSearchButtonBlur = (e) => {
-        if (!e.relatedTarget || e.relatedTarget.id !== this.props.id) {
+        let relatedTarget = e.relatedTarget;
+        if (relatedTarget === null) {
+            // Internet explorer støtter ikke relatedTarget, så setter denne til variabelen
+            // til det nye aktive elementet
+            relatedTarget = document.activeElement;
+        }
+        if (!relatedTarget || relatedTarget.id !== this.props.id) {
             this.props.onTypeAheadBlur();
         }
     };
