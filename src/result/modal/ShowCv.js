@@ -30,7 +30,7 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
                     </Column>
                 </Row>
             )}
-            <Row>
+            <Row className="blokk-s">
                 <Column xs="12">
                     <div className="text-center">
                         <Systemtittel className="modal--systemtittel">
@@ -61,6 +61,14 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
                     </div>
                 </Column>
             </Row>
+            {cv.beskrivelse && (
+                <Row className="blokk-s">
+                    <Column xs="12">
+                        <Undertittel>Nøkkelkvalifikasjoner</Undertittel>
+                        <Normaltekst>{cv.beskrivelse}</Normaltekst>
+                    </Column>
+                </Row>
+            )}
             {utdanning && utdanning.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
