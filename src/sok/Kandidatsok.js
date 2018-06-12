@@ -74,8 +74,16 @@ class Kandidatsok extends React.Component {
                                     </Column>
                                     <Column xs="12" md="4">
                                         <div className="panel resultatsummering--sokekriterier">
-                                            <Ingress>Treff på aktuelle kandidater</Ingress>
-                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                            {Object.keys(this.state.urlParameters).length !== 0 ? (
+                                                <div>
+                                                    <Ingress>Treff på aktuelle kandidater</Ingress>
+                                                    <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                                </div>
+                                            ) : (
+
+                                                <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} kandidater</Systemtittel>
+                                            )}
+
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
                                                 className="knapp knapp--hoved"

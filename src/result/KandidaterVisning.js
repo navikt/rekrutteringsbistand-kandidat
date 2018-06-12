@@ -1,27 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress, Systemtittel, Element } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
-import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
-import KandidaterTableRow from './resultstable/KandidaterTableRow';
+import { Ingress } from 'nav-frontend-typografi';
 import { cvPropTypes } from '../PropTypes';
 import sortByDato from '../common/SortByDato';
 import './Resultat.less';
+import { fromUrlQuery } from '../sok/domene';
+import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
+import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
+
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             antallResultater: 25,
-            cver: this.sortCvList(this.props.cver)
+            cver: this.sortCvList(this.props.cver),
+            urlParameters: fromUrlQuery(window.location.href)
+            // urlQuery: toUrlQuery(this.state)
         };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             cver: this.sortCvList(nextProps.cver),
-            antallResultater: 25
+            antallResultater: 25,
+            urlParameters: fromUrlQuery(window.location.href)
         });
     }
 
@@ -32,14 +36,15 @@ class KandidaterVisning extends React.Component {
     };
 
     onFilterUtdanningClick = (utdanningChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
-            const cv1utd = cv1.utdanning[0] ? cv1.utdanning[0].nusKode : 0;
-            const cv2utd = cv2.utdanning[0] ? cv2.utdanning[0].nusKode : 0;
-            if (utdanningChevronNed) {
-                return cv1utd - cv2utd;
-            }
-            return cv2utd - cv1utd;
-        });
+        const cver = this.state.cver.slice(from, to)
+            .sort((cv1, cv2) => {
+                const cv1utd = cv1.utdanning[0] ? cv1.utdanning[0].nusKode : 0;
+                const cv2utd = cv2.utdanning[0] ? cv2.utdanning[0].nusKode : 0;
+                if (utdanningChevronNed) {
+                    return cv1utd - cv2utd;
+                }
+                return cv2utd - cv1utd;
+            });
 
         this.setState({
             cver: [
@@ -51,16 +56,17 @@ class KandidaterVisning extends React.Component {
     };
 
     onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
-            const cv1job = cv1.yrkeserfaring[0] ? cv1.yrkeserfaring[0].styrkKodeStillingstittel : '';
-            const cv2job = cv2.yrkeserfaring[0] ? cv2.yrkeserfaring[0].styrkKodeStillingstittel : '';
-            if (cv1job < cv2job) {
-                return jobberfaringChevronNed ? 1 : -1;
-            } else if (cv1job > cv2job) {
-                return jobberfaringChevronNed ? -1 : 1;
-            }
-            return 0;
-        });
+        const cver = this.state.cver.slice(from, to)
+            .sort((cv1, cv2) => {
+                const cv1job = cv1.yrkeserfaring[0] ? cv1.yrkeserfaring[0].styrkKodeStillingstittel : '';
+                const cv2job = cv2.yrkeserfaring[0] ? cv2.yrkeserfaring[0].styrkKodeStillingstittel : '';
+                if (cv1job < cv2job) {
+                    return jobberfaringChevronNed ? 1 : -1;
+                } else if (cv1job > cv2job) {
+                    return jobberfaringChevronNed ? -1 : 1;
+                }
+                return 0;
+            });
 
         this.setState({
             cver: [
@@ -72,12 +78,13 @@ class KandidaterVisning extends React.Component {
     };
 
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to).sort((cv1, cv2) => {
-            if (antallArChevronNed) {
-                return cv1.totalLengdeYrkeserfaring - cv2.totalLengdeYrkeserfaring;
-            }
-            return cv2.totalLengdeYrkeserfaring - cv1.totalLengdeYrkeserfaring;
-        });
+        const cver = this.state.cver.slice(from, to)
+            .sort((cv1, cv2) => {
+                if (antallArChevronNed) {
+                    return cv1.totalLengdeYrkeserfaring - cv2.totalLengdeYrkeserfaring;
+                }
+                return cv2.totalLengdeYrkeserfaring - cv1.totalLengdeYrkeserfaring;
+            });
         this.setState({
             cver: [
                 ...this.state.cver.slice(0, from),
@@ -90,7 +97,8 @@ class KandidaterVisning extends React.Component {
     swapJobberfaringer = (jobberfaring, int1, int2) => {
         let i = int2;
         while (i > int1) {
-            jobberfaring.splice(i - 1, 0, jobberfaring.splice(i, 1).pop());
+            jobberfaring.splice(i - 1, 0, jobberfaring.splice(i, 1)
+                .pop());
             i -= 1;
         }
     };
@@ -118,75 +126,43 @@ class KandidaterVisning extends React.Component {
     };
 
     render() {
-        let tittel = '';
-        if (this.props.totaltAntallTreff > 5) {
-            tittel = 'Topp 5 kandidater';
-        } else if (this.props.totaltAntallTreff === 0) {
-            tittel = 'Ingen direkte treff';
-        } else if (this.props.totaltAntallTreff === 1) {
-            tittel = 'Beste kandidat';
-        } else {
-            tittel = `Topp ${this.props.totaltAntallTreff} kandidater`;
-        }
+        const parametersPresent = Object.keys(this.state.urlParameters).length !== 0;
+
+        const tekstTreff = parametersPresent ? ' treff på aktuelle kandidater' : ' kandidater';
+
         return (
             <div>
                 <div className="panel resultatvisning">
-                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong> treff på aktuelle kandidater</Ingress>
+                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong>{tekstTreff}</Ingress>
                     <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
                 </div>
-                <div className="resultatvisning">
-                    <Systemtittel>{tittel}</Systemtittel>
-                    <KandidaterTableHeader
+                {parametersPresent ? (
+
+                    <KandidaterTabellMedKriterier
+                        antallResultater={this.state.antallResultater}
+                        cver={this.state.cver}
                         onFilterUtdanningClick={this.onFilterUtdanningClick}
                         onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
-                        from={0}
-                        to={5}
+                        onFlereResultaterClick={this.onFlereResultaterClick}
+
                     />
-                    {this.state.cver.slice(0, 5).map((cv) => (
-                        <KandidaterTableRow
-                            cv={cv}
-                            key={cv.arenaKandidatnr}
-                        />
-                    ))}
-                </div>
-                {this.state.cver.length > 5 && (
-                    <div className="resultatvisning">
-                        <Systemtittel>Andre aktuelle kandidater</Systemtittel>
-                        <KandidaterTableHeader
-                            onFilterUtdanningClick={this.onFilterUtdanningClick}
-                            onFilterJobberfaringClick={this.onFilterJobberfaringClick}
-                            onFilterAntallArClick={this.onFilterAntallArClick}
-                            from={5}
-                            to={this.state.antallResultater}
-                        />
-                        {this.state.cver.slice(5, this.state.antallResultater).map((cv) => (
-                            <KandidaterTableRow
-                                cv={cv}
-                                key={cv.arenaKandidatnr}
-                            />
-                        ))}
-                        <div className="buttons--kandidatervisning">
-                            {this.state.cver.length > this.state.antallResultater && (
-                                <Knapp
-                                    type="hoved"
-                                    mini
-                                    onClick={this.onFlereResultaterClick}
-                                >
-                                    Se flere kandidater
-                                </Knapp>
-                            )}
-                            <Element className="antall--treff--kandidatervisning">
-                                Viser {this.state.antallResultater > this.props.totaltAntallTreff ? this.props.totaltAntallTreff : this.state.antallResultater} av {this.props.totaltAntallTreff}
-                            </Element>
-                            <a
-                                className="lenke lenke--lagre--sok"
-                            >
-                                Lagre søk og liste over kandidater
-                            </a>
-                        </div>
-                    </div>
+
+                ) : (
+
+                    <KandidaterTabellUtenKriterier
+                        antallResultater={this.state.antallResultater}
+                        cver={this.state.cver}
+                        onFilterUtdanningClick={this.onFilterUtdanningClick}
+                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
+                        onFilterAntallArClick={this.onFilterAntallArClick}
+                        onFlereResultaterClick={this.onFlereResultaterClick}
+
+                    />
+
                 )}
+
+
             </div>
         );
     }
