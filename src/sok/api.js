@@ -9,9 +9,9 @@ const convertToUrlParams = (query) => Object.keys(query)
     .replace(/%20/g, '+');
 
 export class SearchApiError {
-    constructor(message, status) {
-        this.message = message;
-        this.status = status;
+    constructor(error) {
+        this.message = error.message;
+        this.status = error.status;
     }
 }
 
@@ -28,9 +28,15 @@ async function fetchJson(url) {
         if (response.status === 200 || response.status === 201) {
             return response.json();
         }
-        throw new SearchApiError(undefined, response.status);
+        throw new SearchApiError({
+            message: undefined,
+            status: response.status
+        });
     } catch (e) {
-        throw new SearchApiError(e.message);
+        throw new SearchApiError({
+            message: e.message,
+            status: undefined
+        });
     }
 }
 
@@ -53,10 +59,38 @@ export async function fetchKandidater(query = {}) {
         } catch (e) {
             throw new SearchApiError({
                 status: response.status,
+                message: response.statusText
+            });
+        }
+        throw new SearchApiError({
+            message: error.message,
+            status: error.status
+        });
+    } else {
+        response = response.json();
+    }
+    return response;
+}
+
+export async function fetchCv(arenaKandidatnr) {
+    let response = await fetch(
+        `${SEARCH_API}hent?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
+    );
+
+    if (response.status > 400) {
+        let error;
+        try {
+            error = await response.json();
+        } catch (e) {
+            throw new SearchApiError({
+                status: response.status,
                 message: response.message
             });
         }
-        throw new SearchApiError(error.message, error.status);
+        throw new SearchApiError({
+            message: error.message,
+            status: error.status
+        });
     } else {
         response = response.json();
     }

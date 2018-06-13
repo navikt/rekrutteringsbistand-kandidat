@@ -54,7 +54,7 @@ class ShowModalResultat extends React.Component {
             >
                 {this.state.steg === 0 && this.props.cv.samtykkeStatus !== 'N' && (
                     <ShowCv
-                        cv={this.props.cv}
+                        arenaKandidatnr={this.props.cv.arenaKandidatnr}
                         onTaKontaktClick={this.onTaKontaktClick}
                     />
                 )}
