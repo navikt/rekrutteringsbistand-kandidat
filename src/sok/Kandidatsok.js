@@ -75,14 +75,17 @@ class Kandidatsok extends React.Component {
                                     </Column>
                                     <Column xs="12" md="4">
                                         <div className="panel resultatsummering--sokekriterier">
-                                            {Object.keys(this.state.urlParameters).length !== 0 ? (
+                                            {this.props.isEmptyQuery ? (
+
+                                                <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} kandidater</Systemtittel>
+
+                                            ) : (
+
                                                 <div>
                                                     <Ingress>Treff på aktuelle kandidater</Ingress>
                                                     <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
                                                 </div>
-                                            ) : (
 
-                                                <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} kandidater</Systemtittel>
                                             )}
 
                                             <Link
@@ -113,12 +116,14 @@ Kandidatsok.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     resetQuery: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired
+    search: PropTypes.func.isRequired,
+    isEmptyQuery: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
-    isInitialSearch: state.search.isInitialSearch
+    isInitialSearch: state.search.isInitialSearch,
+    isEmptyQuery: state.search.isEmptyQuery
 });
 
 const mapDispatchToProps = (dispatch) => ({
