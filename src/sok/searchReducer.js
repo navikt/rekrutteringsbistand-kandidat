@@ -43,7 +43,7 @@ const initialState = {
         .reduce((dict, key) => (
             { ...dict, [key]: false }
         ), {}),
-    isEmptyQuery: false
+    isEmptyQuery: true
 };
 
 export default function searchReducer(state = initialState, action) {
