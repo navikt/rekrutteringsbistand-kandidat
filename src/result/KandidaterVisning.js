@@ -5,7 +5,6 @@ import { Ingress } from 'nav-frontend-typografi';
 import { cvPropTypes } from '../PropTypes';
 import sortByDato from '../common/SortByDato';
 import './Resultat.less';
-import { fromUrlQuery } from '../sok/domene';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 
@@ -15,17 +14,14 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             antallResultater: 25,
-            cver: this.sortCvList(this.props.cver),
-            urlParameters: fromUrlQuery(window.location.href)
-            // urlQuery: toUrlQuery(this.state)
+            cver: this.sortCvList(this.props.cver)
         };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             cver: this.sortCvList(nextProps.cver),
-            antallResultater: 25,
-            urlParameters: fromUrlQuery(window.location.href)
+            antallResultater: 25
         });
     }
 
@@ -126,29 +122,15 @@ class KandidaterVisning extends React.Component {
     };
 
     render() {
-        const parametersPresent = Object.keys(this.state.urlParameters).length !== 0;
-
-        const tekstTreff = parametersPresent ? ' treff på aktuelle kandidater' : ' kandidater';
+        const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
 
         return (
             <div>
                 <div className="panel resultatvisning">
-                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong>{tekstTreff}</Ingress>
+                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                     <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
                 </div>
-                {parametersPresent ? (
-
-                    <KandidaterTabellMedKriterier
-                        antallResultater={this.state.antallResultater}
-                        cver={this.state.cver}
-                        onFilterUtdanningClick={this.onFilterUtdanningClick}
-                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
-                        onFilterAntallArClick={this.onFilterAntallArClick}
-                        onFlereResultaterClick={this.onFlereResultaterClick}
-
-                    />
-
-                ) : (
+                {this.props.isEmptyQuery ? (
 
                     <KandidaterTabellUtenKriterier
                         antallResultater={this.state.antallResultater}
@@ -160,8 +142,19 @@ class KandidaterVisning extends React.Component {
 
                     />
 
-                )}
+                ) : (
 
+                    <KandidaterTabellMedKriterier
+                        antallResultater={this.state.antallResultater}
+                        cver={this.state.cver}
+                        onFilterUtdanningClick={this.onFilterUtdanningClick}
+                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
+                        onFilterAntallArClick={this.onFilterAntallArClick}
+                        onFlereResultaterClick={this.onFlereResultaterClick}
+
+                    />
+
+                )}
 
             </div>
         );
@@ -172,14 +165,16 @@ KandidaterVisning.propTypes = {
     cver: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
-    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired
+    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isEmptyQuery: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     cver: state.search.elasticSearchResultat.resultat.cver,
     totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
     arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-    stillinger: state.stilling.stillinger
+    stillinger: state.stilling.stillinger,
+    isEmptyQuery: state.search.isEmptyQuery
 });
 
 export default connect(mapStateToProps)(KandidaterVisning);

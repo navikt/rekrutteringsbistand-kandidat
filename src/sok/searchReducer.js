@@ -39,7 +39,8 @@ const initialState = {
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
-    featureToggles: undefined
+    featureToggles: undefined,
+    isEmptyQuery: false
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -55,7 +56,8 @@ export default function searchReducer(state = initialState, action) {
                 isSearching: false,
                 isInitialSearch: false,
                 error: undefined,
-                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
+                isEmptyQuery: action.response.isEmptyQuery,
+                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response.response }
             };
         case SEARCH_FAILURE:
             return {
@@ -84,7 +86,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 featureToggles: FEATURE_TOGGLES
                     .reduce((dict, key) => (
-                        { ...dict, [key]: Object.keys(action.data).includes(key) && action.data[key] }
+                        {
+                            ...dict,
+                            [key]: Object.keys(action.data)
+                                .includes(key) && action.data[key]
+                        }
                     ), {})
             };
         case FETCH_FEATURE_TOGGLES_FAILURE:
@@ -158,7 +164,23 @@ function* search() {
             utdanningsniva: state.utdanning.utdanningsniva
         });
 
-        yield put({ type: SEARCH_SUCCESS, response });
+
+        const searchCriteria = [
+            state.stilling.stillinger,
+            state.arbeidserfaring.arbeidserfaringer,
+            state.utdanning.utdanninger,
+            state.kompetanse.kompetanser,
+            state.geografi.geografiList,
+            state.geografi.geografiListKomplett,
+            state.arbeidserfaring.totalErfaring,
+            state.utdanning.utdanningsniva
+        ];
+
+        const activeSearchCriteria = searchCriteria.filter((i) => i.length !== 0);
+        const isEmptyQuery = activeSearchCriteria.length === 0;
+
+
+        yield put({ type: SEARCH_SUCCESS, response: { response, isEmptyQuery } });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

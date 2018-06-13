@@ -7,7 +7,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     SEARCH
-} from '../domene';
+} from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING } from './arbeidserfaringReducer';
 

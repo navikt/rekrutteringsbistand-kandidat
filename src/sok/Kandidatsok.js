@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './domene';
+import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
 import StillingSearch from './stilling/StillingSearch';
 import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';

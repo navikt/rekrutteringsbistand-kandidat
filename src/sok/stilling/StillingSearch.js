@@ -7,7 +7,7 @@ import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
     SEARCH
-} from '../domene';
+} from '../searchReducer';
 import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 
