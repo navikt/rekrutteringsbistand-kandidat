@@ -21,7 +21,7 @@ function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClic
                 from={0}
                 to={antallResultater}
             />
-            {cver.map((cv) => (
+            {cver.slice(0, antallResultater).map((cv) => (
                 <KandidaterTableRow
                     cv={cv}
                     key={cv.arenaKandidatnr}
