@@ -3,7 +3,8 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 const developmentToggles = {
-    'vis-manglende-arbeidserfaring-boks': false
+    'vis-manglende-arbeidserfaring-boks': false,
+    'vis-ta-kontakt-kandidat': false
 };
 
 module.exports = merge(common, {

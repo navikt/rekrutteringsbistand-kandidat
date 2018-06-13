@@ -39,7 +39,10 @@ const initialState = {
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
-    featureToggles: undefined,
+    featureToggles: FEATURE_TOGGLES
+        .reduce((dict, key) => (
+            { ...dict, [key]: false }
+        ), {}),
     isEmptyQuery: false
 };
 

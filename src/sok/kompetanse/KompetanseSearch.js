@@ -9,6 +9,7 @@ import {
 } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_KOMPETANSE, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE } from './kompetanseReducer';
+import './Kompetanse.less';
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
@@ -81,7 +82,7 @@ class KompetanseSearch extends React.Component {
                 <Systemtittel>Kompetanse</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Krav til språk, sertifikater, kurs og sertifiseringer
+                        Legg til kompetansen du ønsker at en kandidat skal ha
                     </Element>
                     <Normaltekst className="text--italic">
                         For eksempel førerkort klasse B, ledelse eller Excel
@@ -145,15 +146,15 @@ class KompetanseSearch extends React.Component {
                                         {suggestedKompetanse.feltnavn}
                                     </button>
                                 ))}
+                                {this.state.antallKompetanser < kompetanseSuggestions.length && (
+                                    <Knapp
+                                        onClick={this.onLeggTilFlereClick}
+                                        className="se--flere--forslag"
+                                    >
+                                        {`Se flere (${kompetanseSuggestions.length - this.state.antallKompetanser})`}
+                                    </Knapp>
+                                )}
                             </div>
-                            {this.state.antallKompetanser < kompetanseSuggestions.length && (
-                                <button
-                                    onClick={this.onLeggTilFlereClick}
-                                    className="lenke"
-                                >
-                                    Se flere forslag
-                                </button>
-                            )}
                         </div>
                     )}
                 </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import ShowCv from './ShowCv';
 import AnonymCvTekst from './AnonymCvTekst';
@@ -8,7 +9,7 @@ import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
 
-export default class ShowModalResultat extends React.Component {
+class ShowModalResultat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -51,8 +52,7 @@ export default class ShowModalResultat extends React.Component {
                 className="modal--resultat"
                 closeButton
             >
-                {this.state.steg === 0 && (this.props.cv.samtykkeStatus === 'J'
-                    || this.props.cv.samtykkeStatus === 'G' || this.props.cv.samtykkeStatus === 'B') && (
+                {this.state.steg === 0 && this.props.cv.samtykkeStatus !== 'N' && (
                     <ShowCv
                         cv={this.props.cv}
                         onTaKontaktClick={this.onTaKontaktClick}
@@ -64,13 +64,15 @@ export default class ShowModalResultat extends React.Component {
                         toggleModalOpen={this.onCloseModalClick}
                     />
                 )}
-                {this.state.steg === 1 && (
+                {/* Feature toggle for å skjule koden for å sende beskjed til kandidat */}
+                {this.props.visTaKontaktKandidat && this.state.steg === 1 && (
                     <SendBeskjedKandidat
                         toggleModalOpen={this.onCloseModalClick}
                         onSendClick={this.onSendClick}
                     />
                 )}
-                {this.state.steg === 2 && (
+                {/* Feature toggle for å skjule koden for å vise at beskjed er sendt */}
+                {this.props.visTaKontaktKandidat && this.state.steg === 2 && (
                     <BeskjedSendt
                         toggleModalOpen={this.onCloseModalClick}
                     />
@@ -80,9 +82,19 @@ export default class ShowModalResultat extends React.Component {
     }
 }
 
+ShowModalResultat.defaultProps = {
+    visTaKontaktKandidat: false
+};
+
 ShowModalResultat.propTypes = {
     toggleModalOpen: PropTypes.func.isRequired,
     modalIsOpen: PropTypes.bool.isRequired,
-    cv: cvPropTypes.isRequired
+    cv: cvPropTypes.isRequired,
+    visTaKontaktKandidat: PropTypes.bool
 };
 
+const mapStateToProps = (state) => ({
+    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat']
+});
+
+export default connect(mapStateToProps)(ShowModalResultat);

@@ -47,6 +47,10 @@
 .skjemaelement__input {
   border: 1px solid @color-blue;
   border-radius: 2px;
+  &::-ms-clear {
+    width: 0;
+    height: 0;
+  }
 
   &:hover {
     border-color: @navBlaDarken40;
@@ -85,14 +89,16 @@
   padding: 0.5rem 2rem;
   background-color: #cce1f3;
   color: #3e3832;
+  cursor: pointer;
 }
 
 .etikett--forslag--kompetanse {
   border: solid 2px #c6c2bf;
   border-radius: 4px;
   margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 2rem;
+  padding: 0.4rem 2rem;
   background-color: rgba(227, 227, 227, 0.5);
+  cursor: pointer;
 }
 
 .checkbox--sokekriterier--unchecked {

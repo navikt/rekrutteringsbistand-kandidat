@@ -128,7 +128,6 @@ class KandidaterVisning extends React.Component {
             <div>
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
-                    <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
                 </div>
                 {this.props.isEmptyQuery ? (
 
