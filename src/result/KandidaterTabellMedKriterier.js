@@ -68,11 +68,6 @@ function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick
                         <Element className="antall--treff--kandidatervisning">
                             Viser {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av {totaltAntallTreff}
                         </Element>
-                        <a
-                            className="lenke lenke--lagre--sok"
-                        >
-                            Lagre søk og liste over kandidater
-                        </a>
                     </div>
                 </div>
             )}
