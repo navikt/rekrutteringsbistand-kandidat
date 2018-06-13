@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import { Column, Row } from 'nav-frontend-grid';
-import { Element, Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel, Sidetittel } from 'nav-frontend-typografi';
 import Tidsperiode from '../../common/Tidsperiode';
 import sortByDato from '../../common/SortByDato';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
+import { formatISOString } from '../../common/dateUtils';
 
 const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
     const utdanning = cv.utdanning.slice();
@@ -15,6 +16,7 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
     const kurs = cv.kurs.slice();
     const sertifikat = cv.sertifikat.slice();
     const sprak = cv.sprak.slice();
+    console.log(cv);
     return (
         <div className="panel">
             {/* Feature toggle for å skjule knappen "Ta kontakt med kandidat" */}
@@ -30,35 +32,30 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat }) => {
                     </Column>
                 </Row>
             )}
-            <Row className="blokk-s">
+            <Row className="blokk-s personalia--modal">
                 <Column xs="12">
-                    <div className="text-center">
-                        <Systemtittel className="modal--systemtittel">
-                            CV
-                        </Systemtittel>
+                    <Sidetittel className="navn--modal">
+                        {cv.fornavn} {cv.etternavn}
+                    </Sidetittel>
+                    {cv.fodselsdato && (
+                        <Normaltekst><strong>Fødselsdato:</strong> {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
+                    )}
+                    {cv.adresselinje1 && (
                         <Normaltekst>
-                            {cv.fornavn} {cv.etternavn}
+                            <strong>Adresse:</strong> {cv.adresselinje1}
+                            {(cv.postnummer || cv.poststed) ?
+                                (', ') : null}
+                            {cv.postnummer} {cv.poststed}
                         </Normaltekst>
-                        {cv.adresselinje1 !== '' && (
+                    )}
+                    {cv.epostadresse && (
+                        <div className="kontakt--modal">
                             <Normaltekst>
-                                {cv.adresselinje1}
-                                {cv.adresselinje1 !== '' &&
-                                (cv.postnummer !== '' || cv.poststed !== '') ?
-                                    (', ') : null}
-                                {cv.postnummer} {cv.poststed}
+                                <i className="mail--icon" />
+                                <strong>E-post:</strong> {cv.epostadresse}
                             </Normaltekst>
-                        )}
-                        {cv.epostadresse !== '' && (
-                            <Normaltekst>
-                                E-post: {cv.epostadresse}
-                            </Normaltekst>
-                        )}
-                        {cv.fodselsdato !== '' && (
-                            <Normaltekst>
-                                Fødselsdato: {cv.fodselsdato.substring(0, 10)}
-                            </Normaltekst>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </Column>
             </Row>
             {cv.beskrivelse && (
