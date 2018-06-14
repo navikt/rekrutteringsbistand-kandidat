@@ -19,6 +19,7 @@ import kompetanseReducer from './kompetanse/kompetanseReducer';
 import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
+import cvReducer, { cvSaga } from './cv/cvReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -28,7 +29,8 @@ const store = createStore(combineReducers({
     kompetanse: kompetanseReducer,
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
-    geografi: geografiReducer
+    geografi: geografiReducer,
+    cv: cvReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
@@ -103,6 +105,7 @@ const App = () => (
 
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
+sagaMiddleware.run(cvSaga);
 
 ReactDOM.render(
     <App />,
