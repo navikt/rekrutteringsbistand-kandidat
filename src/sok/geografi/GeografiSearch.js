@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
-import { FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_GEOGRAFI, SEARCH, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from '../domene';
-import Typeahead from '../../common/Typeahead';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
+import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
+import Typeahead from '../../common/typeahead/Typeahead';
+import { SEARCH } from '../domene';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import { REMOVE_SELECTED_GEOGRAFI, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from './geografiReducer';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -27,10 +29,11 @@ class GeografiSearch extends React.Component {
             const geografi = this.props.typeAheadSuggestionsGeografiKomplett.find((k) => k.geografiKodeTekst.toLowerCase() === value.toLowerCase());
             if (geografi !== undefined) {
                 this.props.selectTypeAheadValue(geografi);
+                this.props.clearTypeAheadGeografi('suggestionsgeografi');
                 this.setState({
                     typeAheadValue: '',
                     showTypeAhead: false
-                }, () => this.leggTilKnapp.button.focus());
+                });
                 this.props.search();
             }
         }
@@ -47,14 +50,23 @@ class GeografiSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadGeografi('suggestionsgeografi');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Stillingens geografiske plassering</Undertittel>
+                <Systemtittel>Stillingens geografiske plassering</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Legg til fylke, kommune eller by
@@ -76,22 +88,21 @@ class GeografiSearch extends React.Component {
                                         placeholder="Skriv inn sted"
                                         suggestions={this.props.typeAheadSuggestionsGeografi}
                                         value={this.state.typeAheadValue}
-                                        id="geografi"
+                                        id="typeahead-geografi"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til sted
-                            </LeggTilKnapp>
+                                +Legg til sted
+                            </Knapp>
                         )}
-                        {this.props.query.geografiListKomplett && this.props.query.geografiListKomplett.map((geo) => (
+                        {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -113,29 +124,29 @@ GeografiSearch.propTypes = {
     removeGeografi: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        geografiList: PropTypes.arrayOf(PropTypes.string),
-        geografiListKomplett: PropTypes.arrayOf(PropTypes.shape({
-            geografiKodeTekst: PropTypes.string,
-            geografiKode: PropTypes.string
-        }))
-    }).isRequired,
+    geografiListKomplett: PropTypes.arrayOf(PropTypes.shape({
+        geografiKodeTekst: PropTypes.string,
+        geografiKode: PropTypes.string
+    })).isRequired,
     typeAheadSuggestionsGeografi: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsGeografiKomplett: PropTypes.arrayOf(PropTypes.shape({
         geografiKodeTekst: PropTypes.string,
         geografiKode: PropTypes.string
-    })).isRequired
+    })).isRequired,
+    clearTypeAheadGeografi: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isSearching: state.isSearching,
-    query: state.query,
-    typeAheadSuggestionsGeografi: state.typeAheadSuggestionsgeografi,
-    typeAheadSuggestionsGeografiKomplett: state.typeAheadSuggestionsGeografiKomplett
+    isSearching: state.search.isSearching,
+    geografiList: state.geografi.geografiList,
+    geografiListKomplett: state.geografi.geografiListKomplett,
+    typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
+    typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadGeografi: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value })

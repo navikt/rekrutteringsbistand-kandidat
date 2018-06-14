@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
+import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-    REMOVE_SELECTED_STILLING, SEARCH,
-    SELECT_TYPE_AHEAD_VALUE_STILLING
+    SEARCH
 } from '../domene';
+import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 
 class StillingSearch extends React.Component {
     constructor(props) {
@@ -34,10 +34,11 @@ class StillingSearch extends React.Component {
     onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadStilling('suggestionsstilling');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.fetchKompetanseSuggestions();
             this.props.search();
         }
@@ -55,21 +56,33 @@ class StillingSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadStilling('suggestionsstilling');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadStillingSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Stilling</Undertittel>
+                <Systemtittel>Stilling/yrke</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Hvilken stilling skal du ansette en kandidat til?
+                        Hvilken stilling/yrke trenger du en kandidat til?
                     </Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel pedagogisk leder
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier" >
+                            <div className="leggtil--sokekriterier">
                                 <form
                                     onSubmit={this.onSubmit}
                                 >
@@ -84,22 +97,21 @@ class StillingSearch extends React.Component {
                                         placeholder="Skriv inn stillingstittel"
                                         suggestions={this.props.typeAheadSuggestionsStilling}
                                         value={this.state.typeAheadValue}
-                                        id="stilling"
+                                        id="typeahead-stilling"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til stilling
-                            </LeggTilKnapp>
+                                +Legg til stilling
+                            </Knapp>
                         )}
-                        {this.props.query.stillinger.map((stilling) => (
+                        {this.props.stillinger.map((stilling) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -122,20 +134,19 @@ StillingSearch.propTypes = {
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        stilling: PropTypes.string,
-        stillinger: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
-    typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired
+    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired,
+    typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadStilling: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    typeAheadSuggestionsStilling: state.typeAheadSuggestionsstilling
+    stillinger: state.stilling.stillinger,
+    typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadStilling: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),

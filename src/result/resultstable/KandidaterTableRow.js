@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import ShowModalResultat from './ShowModalResultat';
+import ShowModalResultat from '../modal/ShowModalResultat';
 import { cvPropTypes } from '../../PropTypes';
+import './Resultstable.less';
 
 class KandidaterTableRow extends React.Component {
     constructor(props) {
@@ -40,7 +40,13 @@ class KandidaterTableRow extends React.Component {
                             <Normaltekst>{`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
                         </Column>
                         <Column xs="1" md="1">
-                            <button className="lenke" onClick={this.toggleModalOpen}>CV</button>
+                            <button
+                                className="lenke"
+                                onClick={this.toggleModalOpen}
+                                aria-label={`CV for ${cv.arenaKandidatnr}`}
+                            >
+                                CV
+                            </button>
                         </Column>
                     </Row>
                 </div>

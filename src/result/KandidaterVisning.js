@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress, Systemtittel } from 'nav-frontend-typografi';
-import { Column, Row } from 'nav-frontend-grid';
+import { Ingress, Systemtittel, Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
-import KandidaterTableHeader from './KandidaterTableHeader';
-import KandidaterTableRow from './KandidaterTableRow';
-import { cvPropTypes } from '../../PropTypes';
-import sortByDato from '../../common/SortByDato';
+import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
+import KandidaterTableRow from './resultstable/KandidaterTableRow';
+import { cvPropTypes } from '../PropTypes';
+import sortByDato from '../common/SortByDato';
+import './Resultat.less';
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: 20,
+            antallResultater: 25,
             cver: this.sortCvList(this.props.cver)
         };
     }
@@ -21,13 +21,13 @@ class KandidaterVisning extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             cver: this.sortCvList(nextProps.cver),
-            antallResultater: 20
+            antallResultater: 25
         });
     }
 
     onFlereResultaterClick = () => {
         this.setState({
-            antallResultater: this.state.antallResultater + 15
+            antallResultater: this.state.antallResultater > 80 ? 100 : this.state.antallResultater + 20
         });
     };
 
@@ -103,9 +103,10 @@ class KandidaterVisning extends React.Component {
 
             // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
             // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
+            // eslint-disable-next-line no-param-reassign
             cv.yrkeserfaring = sortByDato(cv.yrkeserfaring);
             const erfaringer = cv.yrkeserfaring.map((y) =>
-                this.props.query.arbeidserfaringer.concat(this.props.query.stillinger)
+                this.props.arbeidserfaringer.concat(this.props.stillinger)
                     .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
             const erfaring = erfaringer.find((e) => e !== undefined);
             if (erfaring) {
@@ -129,14 +130,9 @@ class KandidaterVisning extends React.Component {
         }
         return (
             <div>
-                <Row className="panel resultatvisning">
-                    <Column xs="6" md="6">
-                        <Ingress className="text--left"><strong>{this.props.totaltAntallTreff}</strong> treff på aktuelle kandidater</Ingress>
-                    </Column>
-                    <Column xs="6" md="6">
-                        <a href="#" className="lenke lenke--lagre--sok">Lagre søk og liste over kandidater</a>
-                    </Column>
-                </Row>
+                <div className="panel resultatvisning">
+                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong> treff på aktuelle kandidater</Ingress>
+                </div>
                 <div className="resultatvisning">
                     <Systemtittel>{tittel}</Systemtittel>
                     <KandidaterTableHeader
@@ -169,26 +165,20 @@ class KandidaterVisning extends React.Component {
                                 key={cv.arenaKandidatnr}
                             />
                         ))}
-                        {this.state.cver.length > this.state.antallResultater && (
-                            <div className="buttons--kandidatervisning">
-                                <Column xs="6">
-                                    <Knapp
-                                        type="hoved"
-                                        mini
-                                        onClick={this.onFlereResultaterClick}
-                                    >
-                                        Se flere kandidater
-                                    </Knapp>
-                                </Column>
-                                <Column xs="6">
-                                    <a
-                                        className="lenke lenke--lagre--sok"
-                                    >
-                                        Lagre søk og liste over kandidater
-                                    </a>
-                                </Column>
-                            </div>
-                        )}
+                        <div className="buttons--kandidatervisning">
+                            {this.state.cver.length > this.state.antallResultater && (
+                                <Knapp
+                                    type="hoved"
+                                    mini
+                                    onClick={this.onFlereResultaterClick}
+                                >
+                                    Se flere kandidater
+                                </Knapp>
+                            )}
+                            <Element className="antall--treff--kandidatervisning">
+                                Viser {this.state.antallResultater > this.props.totaltAntallTreff ? this.props.totaltAntallTreff : this.state.antallResultater} av {this.props.totaltAntallTreff}
+                            </Element>
+                        </div>
                     </div>
                 )}
             </div>
@@ -199,16 +189,15 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.propTypes = {
     cver: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    query: PropTypes.shape({
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string),
-        stillinger: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired
+    arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
+    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = (state) => ({
-    cver: state.elasticSearchResultat.resultat.cver,
-    totaltAntallTreff: state.elasticSearchResultat.resultat.totaltAntallTreff,
-    query: state.query
+    cver: state.search.elasticSearchResultat.resultat.cver,
+    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
+    arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+    stillinger: state.stilling.stillinger
 });
 
 export default connect(mapStateToProps)(KandidaterVisning);

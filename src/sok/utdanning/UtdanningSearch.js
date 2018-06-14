@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
-import { CHECK_UTDANNINGSNIVA, FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_UTDANNING, SEARCH, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from '../domene';
+import { Knapp } from 'nav-frontend-knapper';
+import Typeahead from '../../common/typeahead/Typeahead';
+import { SEARCH } from '../domene';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import { CHECK_UTDANNINGSNIVA, REMOVE_SELECTED_UTDANNING, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from './utdanningReducer';
+import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
@@ -15,9 +18,9 @@ class UtdanningSearch extends React.Component {
             typeAheadValue: ''
         };
         this.utdanningsnivaKategorier = [{ key: 'Ingen', label: 'Ingen utdanning' },
-            { key: 'Grunnskole', label: 'Grunnskole' }, { key: 'Videregaende', label: 'Videregående' },
-            { key: 'Fagskole', label: 'Fagskole' }, { key: 'Bachelor', label: 'Bachelorgrad' },
-            { key: 'Master', label: 'Mastergrad' }, { key: 'Doktorgrad', label: 'Doktorgrad' }];
+            { key: 'Videregaende', label: 'Videregående' }, { key: 'Fagskole', label: 'Fagskole' },
+            { key: 'Bachelor', label: 'Bachelorgrad' }, { key: 'Master', label: 'Mastergrad' },
+            { key: 'Doktorgrad', label: 'Doktorgrad' }];
     }
 
     onUtdanningsnivaChange = (e) => {
@@ -39,10 +42,11 @@ class UtdanningSearch extends React.Component {
     onTypeAheadUtdanningSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadUtdanning('suggestionsutdanning');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.search();
         }
     };
@@ -58,20 +62,31 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadUtdanning('suggestionsutdanning');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Utdanning</Undertittel>
+                <Systemtittel>Utdanning</Systemtittel>
                 <div className="panel panel--sokekriterier">
-                    <SkjemaGruppe title="Utdanningsnivå">
+                    <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
                         <div className="sokekriterier--kriterier">
                             {this.utdanningsnivaKategorier.map((utdanning) => (
                                 <Checkbox
-                                    className={this.props.utdanningsniva.includes(utdanning.key) ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                    className={this.props.utdanningsniva.includes(utdanning.key) ?
+                                        'checkbox--sokekriterier--checked utdanningsniva' :
+                                        'checkbox--sokekriterier--unchecked utdanningsniva'}
                                     label={utdanning.label}
                                     key={utdanning.key}
                                     value={utdanning.key}
@@ -81,11 +96,16 @@ class UtdanningSearch extends React.Component {
                             ))}
                         </div>
                     </SkjemaGruppe>
-                    <Checkbox
-                        label="Arbeidserfaring kan veie opp for manglende utdanning"
-                        className="checkbox--manglende--arbeidserfaring"
-                    />
-                    <Element>I hvilket fagfelt skal kandidaten ha utdanning</Element>
+                    {this.props.visManglendeArbeidserfaringBoks && (
+                        <Checkbox
+                            label="Arbeidserfaring kan veie opp for manglende utdanning"
+                            className="checkbox--manglende--arbeidserfaring"
+                        />
+                    )}
+                    <Element>I hvilket fagfelt skal kandidaten ha utdanning?</Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel pedagogikk
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
@@ -104,21 +124,20 @@ class UtdanningSearch extends React.Component {
                                         suggestions={this.props.typeAheadSuggestionsUtdanning}
                                         value={this.state.typeAheadValue}
                                         id="yrke"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til fagfelt
-                            </LeggTilKnapp>
+                                +Legg til fagfelt
+                            </Knapp>
                         )}
-                        {this.props.query.utdanninger.map((utdanning) => (
+                        {this.props.utdanninger.map((utdanning) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -135,6 +154,10 @@ class UtdanningSearch extends React.Component {
     }
 }
 
+UtdanningSearch.defaultProps = {
+    visManglendeArbeidserfaringBoks: false
+};
+
 UtdanningSearch.propTypes = {
     search: PropTypes.func.isRequired,
     removeUtdanning: PropTypes.func.isRequired,
@@ -142,22 +165,23 @@ UtdanningSearch.propTypes = {
     selectTypeAheadValue: PropTypes.func.isRequired,
     checkUtdanningsniva: PropTypes.func.isRequired,
     uncheckUtdanningsniva: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        utdanning: PropTypes.string,
-        utdanninger: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
-    utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired
+    utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadUtdanning: PropTypes.func.isRequired,
+    visManglendeArbeidserfaringBoks: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    typeAheadSuggestionsUtdanning: state.typeAheadSuggestionsutdanning,
-    utdanningsniva: state.query.utdanningsniva
+    utdanninger: state.utdanning.utdanninger,
+    typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
+    utdanningsniva: state.utdanning.utdanningsniva,
+    visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks']
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadUtdanning: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),

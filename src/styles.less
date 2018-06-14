@@ -134,6 +134,10 @@ button.lenke {
   display: block;
 }
 
+.inline {
+  display: inline;
+}
+
 .text-center {
   text-align: center;
 }
@@ -141,6 +145,7 @@ button.lenke {
 .checkboks + .skjemaelement__label{
   padding-left: 32px;
   line-height: 24px;
+  width: 100%;
 }
 
 .checkboks + .skjemaelement__label:before {
@@ -160,136 +165,6 @@ button.lenke {
 .checkboks:hover + .skjemaelement__label:before {
   // border-color: @navGronnDarken40;
   border-width: 2px;
-}
-
-.lenke.dashed {
-  border: 2px dashed #78706A;
-  border-radius: 4px;
-  color: #78706A;
-  font-weight: 600;
-  text-align: left;
-  padding: 0.5rem 1rem;
-}
-.lenke.dashed:focus,
-.lenke.dashed:hover {
-  background: #fff;
-  border: 2px dashed #0067C5;
-  color: #0067C5;
-}
-.lenke.dashed:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px #FFBD66;
-}
-
-.sokekriterier--kriterier {
-  width: 100%;
-  margin: 1rem 0;
-}
-
-.leggtil--sokekriterier {
-  margin: 1rem 1rem 0 0;
-  display: inline-block;
-}
-
-.leggtil--sokekriterier--knapp {
-  margin: 0.5rem 1rem 0 0;
-}
-
-.etikett--sokekriterier {
-  border: none;
-  border-radius: 4px;
-  margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 2rem;
-  background-color: #cce1f3;
-  color: #3e3832;
-}
-
-.etikett--forslag--kompetanse {
-  border: solid 2px #c6c2bf;
-  border-radius: 4px;
-  margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 2rem;
-  background-color: rgba(227, 227, 227, 0.5);
-}
-
-.checkbox--sokekriterier--unchecked {
-  display: inline-block;
-  margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 0.7rem;
-  border: solid 2px #c6c2bf;
-  border-radius: 4px;
-}
-
-.checkbox--sokekriterier--checked {
-  display: inline-block;
-  margin: 0.5rem 1rem 0 0;
-  padding: 0.7rem 0.7rem;
-  border: solid 2px #fff;
-  border-radius: 4px;
-  background-color: #cce1f3;
-}
-
-.checkbox--manglende--arbeidserfaring {
-  margin: 2rem 0;
-}
-
-.kryssicon--sokekriterier {
-  position: relative;
-  box-sizing: border-box;
-  display: inline-block;
-  border: none;
-
-  &:before, &:after {
-    height: 14px;
-    width: 1px;
-    transform: rotate(-45deg);
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0.85rem;
-    right: 1rem;
-    background-color: #0067c5;
-    transition: all 0.2s ease-out;
-  }
-
-
-  &:after {
-    transform: rotate(45deg);
-  }
-}
-
-@media (min-width: @screen-md-min) {
-  .resultatsummering--sokekriterier {
-    text-align: center;
-    padding: 2rem;
-    margin: 2.5rem;
-    position: fixed;
-  }
-
-  .resultatvisning {
-    margin: 2.5rem 0 0 2rem;
-  }
-}
-
-.antall--treff--sokekriterier {
-  margin: 1rem;
-}
-
-.resultatvisning--sokekriterier {
-  .leggtil--sokekriterier--knapp, .checkbox--sokekriterier--unchecked,
-  .checkbox--sokekriterier--checked, .etikett--sokekriterier,
-  .leggtil--sokekriterier, .etikett--forslag--kompetanse {
-    width: 100%;
-  }
-}
-
-.resultatvisning--body {
-  margin-top: 2rem;
-}
-
-.lenke--lagre--sok {
-  float: right;
-  padding-top: 0.3rem;
 }
 
 .border--bottom--medium {
@@ -312,67 +187,3 @@ button.lenke {
   margin: 2rem 0 1rem 0;
 }
 
-.label--resultatvisning {
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
-.lenke--slett--kriterier {
-  float: right;
-  margin-top: 0.3rem;
-}
-
-@media (min-width: @screen-md-min) {
-  .modal--resultat {
-    width: 50%;
-  }
-}
-
-.modal--systemtittel {
-  margin: 2rem 0 1rem 0;
-}
-
-.cv--button--row {
-  margin: 2rem 0;
-
-  button {
-    margin-right: 1rem;
-    margin-left: 0;
-  }
-}
-
-.input--resultat {
-  border: solid 1px #d8d8d8;
-  margin-top: 1rem;
-  padding: 0.5rem 0.5rem;
-}
-
-.undertittel--beskjed--sendt {
-  margin: 1rem 0 3rem 0;
-}
-
-.editor--send--beskjed {
-  margin-top: 1rem;
-}
-
-// Overrides margins and links inside the Rich text editor.
-.RichTextEditor__paragraph___3NTf9 {
-  margin: 0 !important;
-  a {
-    .lenke;
-  }
-}
-
-.buttons--kandidatervisning {
-  margin-top: 2rem;
-}
-
-.filter--aktuelle--kandidater {
-  border: none;
-  padding: 0;
-  background-color: inherit;
-  &:hover {
-    color: rgb(0, 103, 197);
-    cursor: pointer;
-  }
-}

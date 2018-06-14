@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
-import LeggTilKnapp from '../../common/LeggTilKnapp';
-import Typeahead from '../../common/Typeahead';
+import { Knapp } from 'nav-frontend-knapper';
+import Typeahead from '../../common/typeahead/Typeahead';
 import {
-    FETCH_TYPE_AHEAD_SUGGESTIONS, REMOVE_SELECTED_ARBEIDSERFARING, SEARCH, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING
+    SEARCH
 } from '../domene';
+import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING } from './arbeidserfaringReducer';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -36,10 +38,11 @@ class ArbeidserfaringSearch extends React.Component {
     onTypeAheadArbeidserfaringSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
             this.setState({
                 typeAheadValue: '',
                 showTypeAhead: false
-            }, () => this.leggTilKnapp.button.focus());
+            });
             this.props.search();
         }
     };
@@ -55,18 +58,30 @@ class ArbeidserfaringSearch extends React.Component {
         this.props.search();
     };
 
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false
+        });
+        this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
+        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
     };
 
     render() {
         return (
             <div>
-                <Undertittel>Arbeidserfaring</Undertittel>
+                <Systemtittel>Arbeidserfaring</Systemtittel>
                 <div className="panel panel--sokekriterier">
                     <Element>
-                        Krav til arbeidserfaring
+                        Hvilken arbeidserfaring skal kandidaten ha?
                     </Element>
+                    <Normaltekst className="text--italic">
+                        For eksempel barnehagelærer
+                    </Normaltekst>
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
@@ -84,22 +99,21 @@ class ArbeidserfaringSearch extends React.Component {
                                         placeholder="Skriv inn arbeidserfaring"
                                         suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
                                         value={this.state.typeAheadValue}
-                                        id="arbeidserfaring"
+                                        id="typeahead-arbeidserfaring"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
                                     />
                                 </form>
                             </div>
                         ) : (
-                            <LeggTilKnapp
-                                ref={(leggTilKnapp) => {
-                                    this.leggTilKnapp = leggTilKnapp;
-                                }}
+                            <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="lenke dashed leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp"
                             >
-                                Legg til arbeidserfaring
-                            </LeggTilKnapp>
+                                +Legg til arbeidserfaring
+                            </Knapp>
                         )}
-                        {this.props.query.arbeidserfaringer.map((arbeidserfaring) => (
+                        {this.props.arbeidserfaringer.map((arbeidserfaring) => (
                             <button
                                 onClick={this.onFjernClick}
                                 className="etikett--sokekriterier kryssicon--sokekriterier"
@@ -110,7 +124,7 @@ class ArbeidserfaringSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring">
+                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
                         <div className="sokekriterier--kriterier">
                             {this.erfaringer.map((arbeidserfaring) => (
                                 <Radio
@@ -137,22 +151,21 @@ ArbeidserfaringSearch.propTypes = {
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     checkTotalErfaring: PropTypes.func.isRequired,
-    query: PropTypes.shape({
-        arbeidserfaring: PropTypes.string,
-        arbeidserfaringer: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsArbeidserfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
-    totalErfaring: PropTypes.string.isRequired
+    totalErfaring: PropTypes.string.isRequired,
+    clearTypeAheadArbeidserfaring: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    typeAheadSuggestionsArbeidserfaring: state.typeAheadSuggestionsarbeidserfaring,
-    totalErfaring: state.query.totalErfaring
+    arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+    typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
+    totalErfaring: state.arbeidserfaring.totalErfaring
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
+    clearTypeAheadArbeidserfaring: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
     removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),

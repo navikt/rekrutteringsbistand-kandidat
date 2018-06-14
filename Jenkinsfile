@@ -10,9 +10,11 @@ node {
     def appConfig = "nais.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
-    def environment = 't1'
+    def environment = 't6'
     def zone = 'sbs'
-    def namespace = "default"
+    def namespace = "t6"
+    def policies = "app-policies.xml"
+    def notenforced = "not-enforced-urls.txt"
 
     stage("checkout") {
         deleteDir()
@@ -44,16 +46,32 @@ node {
         }
     }
 
+    stage("publish openAm files") {
+        withCredentials([usernamePassword(credentialsId: 'nexusUploader', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+            sh "curl --user ${env.NEXUS_USERNAME}:${env.NEXUS_PASSWORD} --upload-file ${policies} https://repo.adeo.no/repository/raw/nais/${app}/${releaseVersion}/am/app-policies.xml"
+            sh "curl --user ${env.NEXUS_USERNAME}:${env.NEXUS_PASSWORD} --upload-file ${notenforced} https://repo.adeo.no/repository/raw/nais/${app}/${releaseVersion}/am/not-enforced-urls.txt"
+        }
+    }
+
     stage('Deploy to preprod') {
         callback = "${env.BUILD_URL}input/Deploy/"
-        def deploy = deployLib.deployNaisApp(app, releaseVersion, environment, zone, namespace, callback, committer).key
+        def deploy = deployLib.deployNaisApp(app, releaseVersion, environment, zone, namespace, callback, committer, false).key
         try {
             timeout(time: 15, unit: 'MINUTES') {
                 input id: 'deploy', message: "Check status here:  https://jira.adeo.no/browse/${deploy}"
             }
         } catch (Exception e) {
             throw new Exception("Deploy feilet :( \n Se https://jira.adeo.no/browse/" + deploy + " for detaljer", e)
+        }
 
+    }
+
+    stage('Tag GitHub release') {
+        withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
+            withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
+                sh ("git tag -a ${releaseVersion} -m ${app}-${releaseVersion}")
+                sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags")
+            }
         }
     }
 }

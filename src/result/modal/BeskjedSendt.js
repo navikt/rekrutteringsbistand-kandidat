@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Undertittel } from 'nav-frontend-typografi';
+import './Modal.less';
 
 export default function BeskjedSendt({ toggleModalOpen }) {
     return (
