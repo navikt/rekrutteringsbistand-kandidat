@@ -62,12 +62,20 @@ class ShowCv extends React.Component {
                                 {this.props.cv.postnummer} {this.props.cv.poststed}
                             </Normaltekst>
                         )}
-                        {this.props.cv.epostadresse && (
+                        {(this.props.cv.epostadresse || this.props.cv.telefon) && (
                             <div className="kontakt--modal">
-                                <Normaltekst>
-                                    <i className="mail--icon" />
-                                    <strong>E-post:</strong> {this.props.cv.epostadresse}
-                                </Normaltekst>
+                                {this.props.cv.epostadresse && (
+                                    <Normaltekst>
+                                        <i className="mail--icon" />
+                                        <strong>E-post:</strong> {this.props.cv.epostadresse}
+                                    </Normaltekst>
+                                )}
+                                {this.props.cv.telefon && (
+                                    <Normaltekst>
+                                        <i className="telefon--icon" />
+                                        <strong>Telefon:</strong> {/* TODO: Telefon here */}
+                                    </Normaltekst>
+                                )}
                             </div>
                         )}
                     </Column>
