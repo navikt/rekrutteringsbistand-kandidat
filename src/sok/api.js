@@ -77,7 +77,7 @@ export async function fetchCv(arenaKandidatnr) {
         `${SEARCH_API}hent?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
     );
 
-    if (response.status > 400) {
+    if (response.status >= 400) {
         let error;
         try {
             error = await response.json();
