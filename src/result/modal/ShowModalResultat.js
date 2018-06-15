@@ -8,6 +8,7 @@ import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
+import { FETCH_CV, CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class ShowModalResultat extends React.Component {
     constructor(props) {
@@ -30,10 +31,7 @@ class ShowModalResultat extends React.Component {
     };
 
     onCloseModalClick = () => {
-        this.props.toggleModalOpen();
-        this.setState({
-            steg: 0
-        });
+        this.props.closeCvModal();
     };
 
     onSendClick = () => {
@@ -46,7 +44,7 @@ class ShowModalResultat extends React.Component {
     render() {
         return (
             <NavFrontendModal
-                isOpen={this.props.modalIsOpen}
+                isOpen={this.props.cvModalOpen}
                 contentLabel="modal resultat"
                 onRequestClose={this.onCloseModalClick}
                 className="modal--resultat"
@@ -54,8 +52,8 @@ class ShowModalResultat extends React.Component {
             >
                 {this.state.steg === 0 && this.props.cv.samtykkeStatus !== 'N' && (
                     <ShowCv
-                        arenaKandidatnr={this.props.cv.arenaKandidatnr}
                         onTaKontaktClick={this.onTaKontaktClick}
+                        cv={this.props.cv}
                     />
                 )}
                 {this.state.steg === 0 && this.props.cv.samtykkeStatus === 'N' && (
@@ -87,14 +85,21 @@ ShowModalResultat.defaultProps = {
 };
 
 ShowModalResultat.propTypes = {
-    toggleModalOpen: PropTypes.func.isRequired,
-    modalIsOpen: PropTypes.bool.isRequired,
     cv: cvPropTypes.isRequired,
-    visTaKontaktKandidat: PropTypes.bool
+    visTaKontaktKandidat: PropTypes.bool,
+    cvModalOpen: PropTypes.bool.isRequired,
+    closeCvModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat']
+    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
+    cv: state.cv.cv,
+    cvModalOpen: state.cv.cvModalOpen
 });
 
-export default connect(mapStateToProps)(ShowModalResultat);
+const mapDispatchToProps = (dispatch) => ({
+    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    closeCvModal: () => dispatch({ type: CLOSE_CV_MODAL })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowModalResultat);

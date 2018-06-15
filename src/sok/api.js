@@ -52,47 +52,61 @@ export async function fetchKandidater(query = {}) {
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
 
-    if (response.status > 400) {
-        let error;
-        try {
-            error = await response.json();
-        } catch (e) {
+    try {
+        if (response.status > 400) {
+            let error;
+            try {
+                error = await response.json();
+            } catch (e) {
+                throw new SearchApiError({
+                    status: response.status,
+                    message: response.statusText
+                });
+            }
             throw new SearchApiError({
-                status: response.status,
-                message: response.statusText
+                message: error.message,
+                status: error.status
             });
+        } else {
+            response = response.json();
         }
+    } catch (e) {
         throw new SearchApiError({
-            message: error.message,
-            status: error.status
+            message: e.message,
+            status: undefined
         });
-    } else {
-        response = response.json();
     }
     return response;
 }
 
 export async function fetchCv(arenaKandidatnr) {
     let response = await fetch(
-        `${SEARCH_API}hent?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
+        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
     );
 
-    if (response.status >= 400) {
-        let error;
-        try {
-            error = await response.json();
-        } catch (e) {
+    try {
+        if (response.status >= 400) {
+            let error;
+            try {
+                error = await response.json();
+            } catch (e) {
+                throw new SearchApiError({
+                    status: response.status,
+                    message: response.message
+                });
+            }
             throw new SearchApiError({
-                status: response.status,
-                message: response.message
+                message: error.message,
+                status: error.status
             });
+        } else {
+            response = response.json();
         }
+    } catch (e) {
         throw new SearchApiError({
-            message: error.message,
-            status: error.status
+            message: e.message,
+            status: undefined
         });
-    } else {
-        response = response.json();
     }
     return response;
 }

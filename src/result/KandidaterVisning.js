@@ -8,6 +8,7 @@ import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import { cvPropTypes } from '../PropTypes';
 import sortByDato from '../common/SortByDato';
 import './Resultat.less';
+import ShowModalResultat from './modal/ShowModalResultat';
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
@@ -181,6 +182,7 @@ class KandidaterVisning extends React.Component {
                         </div>
                     </div>
                 )}
+                <ShowModalResultat />
             </div>
         );
     }
