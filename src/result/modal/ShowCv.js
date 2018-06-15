@@ -250,8 +250,8 @@ ShowCv.propTypes = {
 
 const mapStateToProps = (state) => ({
     visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
-    isFetchingCv: state.cv.isFetchingCv,
-    cv: state.cv.cv
+    isFetchingCv: state.cvReducer.isFetchingCv,
+    cv: state.cvReducer.cv
 });
 
 export default connect(mapStateToProps)(ShowCv);

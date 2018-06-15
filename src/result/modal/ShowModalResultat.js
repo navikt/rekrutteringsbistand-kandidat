@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import ShowCv from './ShowCv';
-import AnonymCvTekst from './AnonymCvTekst';
 import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
@@ -50,16 +49,10 @@ class ShowModalResultat extends React.Component {
                 className="modal--resultat"
                 closeButton
             >
-                {this.state.steg === 0 && this.props.cv.samtykkeStatus !== 'N' && (
+                {this.state.steg === 0 && (
                     <ShowCv
                         onTaKontaktClick={this.onTaKontaktClick}
                         cv={this.props.cv}
-                    />
-                )}
-                {this.state.steg === 0 && this.props.cv.samtykkeStatus === 'N' && (
-                    <AnonymCvTekst
-                        onTaKontaktClick={this.onTaKontaktClick}
-                        toggleModalOpen={this.onCloseModalClick}
                     />
                 )}
                 {/* Feature toggle for å skjule koden for å sende beskjed til kandidat */}
@@ -93,8 +86,8 @@ ShowModalResultat.propTypes = {
 
 const mapStateToProps = (state) => ({
     visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
-    cv: state.cv.cv,
-    cvModalOpen: state.cv.cvModalOpen
+    cv: state.cvReducer.cv,
+    cvModalOpen: state.cvReducer.cvModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
