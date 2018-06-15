@@ -25,7 +25,7 @@ const initialState = {
         sertifikater: [],
         sprak: []
     },
-    cvModalOpen: false,
+    isCvModalOpen: false,
     isFetchingCv: false
 };
 
@@ -51,12 +51,12 @@ export default function cvReducer(state = initialState, action) {
         case OPEN_CV_MODAL:
             return {
                 ...state,
-                cvModalOpen: true
+                isCvModalOpen: true
             };
         case CLOSE_CV_MODAL:
             return {
                 ...state,
-                cvModalOpen: false
+                isCvModalOpen: false
             };
         default:
             return state;

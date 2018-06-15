@@ -43,7 +43,7 @@ class ShowModalResultat extends React.Component {
     render() {
         return (
             <NavFrontendModal
-                isOpen={this.props.cvModalOpen}
+                isOpen={this.props.isCvModalOpen}
                 contentLabel="modal resultat"
                 onRequestClose={this.onCloseModalClick}
                 className="modal--resultat"
@@ -80,14 +80,14 @@ ShowModalResultat.defaultProps = {
 ShowModalResultat.propTypes = {
     cv: cvPropTypes.isRequired,
     visTaKontaktKandidat: PropTypes.bool,
-    cvModalOpen: PropTypes.bool.isRequired,
+    isCvModalOpen: PropTypes.bool.isRequired,
     closeCvModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
     cv: state.cvReducer.cv,
-    cvModalOpen: state.cvReducer.cvModalOpen
+    isCvModalOpen: state.cvReducer.isCvModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
