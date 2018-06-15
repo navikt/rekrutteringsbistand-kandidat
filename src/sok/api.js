@@ -48,65 +48,61 @@ export function fetchFeatureToggles() {
 }
 
 export async function fetchKandidater(query = {}) {
-    let response = await fetch(
+    const response = await fetch(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
 
     try {
-        if (response.status > 400) {
-            let error;
-            try {
-                error = await response.json();
-            } catch (e) {
-                throw new SearchApiError({
-                    status: response.status,
-                    message: response.statusText
-                });
-            }
-            throw new SearchApiError({
-                message: error.message,
-                status: error.status
-            });
-        } else {
-            response = response.json();
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
         }
+        let error;
+        try {
+            error = await response.json();
+        } catch (e) {
+            throw new SearchApiError({
+                status: response.status,
+                message: response.statusText
+            });
+        }
+        throw new SearchApiError({
+            message: error.message,
+            status: error.status
+        });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: undefined
+            status: e.status
         });
     }
-    return response;
 }
 
 export async function fetchCv(arenaKandidatnr) {
-    let response = await fetch(
+    const response = await fetch(
         `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
     );
 
     try {
-        if (response.status >= 400) {
-            let error;
-            try {
-                error = await response.json();
-            } catch (e) {
-                throw new SearchApiError({
-                    status: response.status,
-                    message: response.message
-                });
-            }
-            throw new SearchApiError({
-                message: error.message,
-                status: error.status
-            });
-        } else {
-            response = response.json();
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
         }
+        let error;
+        try {
+            error = await response.json();
+        } catch (e) {
+            throw new SearchApiError({
+                status: response.status,
+                message: response.statusText
+            });
+        }
+        throw new SearchApiError({
+            message: error.message,
+            status: error.status
+        });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: undefined
+            status: e.status
         });
     }
-    return response;
 }
