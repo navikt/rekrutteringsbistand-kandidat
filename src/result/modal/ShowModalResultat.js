@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import ShowCv from './ShowCv';
-import AnonymCvTekst from './AnonymCvTekst';
 import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
+import { FETCH_CV, CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class ShowModalResultat extends React.Component {
     constructor(props) {
@@ -30,10 +30,7 @@ class ShowModalResultat extends React.Component {
     };
 
     onCloseModalClick = () => {
-        this.props.toggleModalOpen();
-        this.setState({
-            steg: 0
-        });
+        this.props.closeCvModal();
     };
 
     onSendClick = () => {
@@ -46,22 +43,16 @@ class ShowModalResultat extends React.Component {
     render() {
         return (
             <NavFrontendModal
-                isOpen={this.props.modalIsOpen}
+                isOpen={this.props.isCvModalOpen}
                 contentLabel="modal resultat"
                 onRequestClose={this.onCloseModalClick}
                 className="modal--resultat"
                 closeButton
             >
-                {this.state.steg === 0 && this.props.cv.samtykkeStatus !== 'N' && (
+                {this.state.steg === 0 && (
                     <ShowCv
-                        arenaKandidatnr={this.props.cv.arenaKandidatnr}
                         onTaKontaktClick={this.onTaKontaktClick}
-                    />
-                )}
-                {this.state.steg === 0 && this.props.cv.samtykkeStatus === 'N' && (
-                    <AnonymCvTekst
-                        onTaKontaktClick={this.onTaKontaktClick}
-                        toggleModalOpen={this.onCloseModalClick}
+                        cv={this.props.cv}
                     />
                 )}
                 {/* Feature toggle for å skjule koden for å sende beskjed til kandidat */}
@@ -87,14 +78,21 @@ ShowModalResultat.defaultProps = {
 };
 
 ShowModalResultat.propTypes = {
-    toggleModalOpen: PropTypes.func.isRequired,
-    modalIsOpen: PropTypes.bool.isRequired,
     cv: cvPropTypes.isRequired,
-    visTaKontaktKandidat: PropTypes.bool
+    visTaKontaktKandidat: PropTypes.bool,
+    isCvModalOpen: PropTypes.bool.isRequired,
+    closeCvModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat']
+    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
+    cv: state.cvReducer.cv,
+    isCvModalOpen: state.cvReducer.isCvModalOpen
 });
 
-export default connect(mapStateToProps)(ShowModalResultat);
+const mapDispatchToProps = (dispatch) => ({
+    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    closeCvModal: () => dispatch({ type: CLOSE_CV_MODAL })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowModalResultat);

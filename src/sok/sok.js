@@ -30,7 +30,7 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
-    cv: cvReducer
+    cvReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
