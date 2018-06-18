@@ -28,7 +28,7 @@ class ResultatVisning extends React.Component {
             kompetanser: [],
             geografiList: [],
             geografiListKomplett: [],
-            totalErfaring: '',
+            totalErfaring: [],
             utdanningsniva: []
         });
         this.props.removeKompetanseSuggestions();

@@ -48,11 +48,10 @@ export function fetchFeatureToggles() {
 }
 
 export async function fetchKandidater(query = {}) {
-    const response = await fetch(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`, { credentials: 'include' }
-    );
-
     try {
+        const response = await fetch(
+            `${SEARCH_API}sok?${convertToUrlParams(query)}`, { credentials: 'include' }
+        );
         if (response.status === 200 || response.status === 201) {
             return response.json();
         }
@@ -78,11 +77,10 @@ export async function fetchKandidater(query = {}) {
 }
 
 export async function fetchCv(arenaKandidatnr) {
-    const response = await fetch(
-        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
-    );
-
     try {
+        const response = await fetch(
+            `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, { credentials: 'include' }
+        );
         if (response.status === 200 || response.status === 201) {
             return response.json();
         }

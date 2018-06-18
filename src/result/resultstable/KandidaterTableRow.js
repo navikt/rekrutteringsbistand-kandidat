@@ -17,6 +17,7 @@ class KandidaterTableRow extends React.Component {
         const cv = this.props.cv;
         const yrkeserfaring = cv.yrkeserfaring[0] ? cv.yrkeserfaring[0].styrkKodeStillingstittel : '';
         const utdanning = cv.utdanning[0] ? cv.utdanning[0].nusKodeGrad : '';
+        const lengdeYrkeserfaring = Math.round(cv.totalLengdeYrkeserfaring / 12);
         return (
             <div>
                 <div className="panel border--top--thin">
@@ -30,7 +31,7 @@ class KandidaterTableRow extends React.Component {
                             <Normaltekst>{yrkeserfaring}</Normaltekst>
                         </Column>
                         <Column xs="2" md="2" className="text-center">
-                            <Normaltekst>{`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
+                            <Normaltekst>{`${lengdeYrkeserfaring > 10 ? 'Over 10' : lengdeYrkeserfaring} år`}</Normaltekst>
                         </Column>
                         <Column xs="1" md="1">
                             <button

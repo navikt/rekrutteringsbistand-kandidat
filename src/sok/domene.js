@@ -118,7 +118,7 @@ export const fromUrlQuery = (url) => {
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
     if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
     if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
-    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring;
+    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     return stateFromUrl;
 };
@@ -130,7 +130,7 @@ export const toUrlQuery = (state) => {
     if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0) urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
     if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0) urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
     if (state.geografi.geografiList && state.geografi.geografiList.length > 0) urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring;
+    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     return toUrlParams(urlQuery);
 };
