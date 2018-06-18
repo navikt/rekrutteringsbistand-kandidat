@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Systemtittel } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
@@ -8,7 +7,7 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import { cvPropTypes } from '../PropTypes';
 
 
-function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
+export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
     return (
 
         <div className="resultatvisning">
@@ -55,9 +54,3 @@ KandidaterTabellUtenKriterier.propTypes = {
     onFlereResultaterClick: PropTypes.func.isRequired
 
 };
-
-const mapStateToProps = (state) => ({
-    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff
-});
-
-export default connect(mapStateToProps)(KandidaterTabellUtenKriterier);

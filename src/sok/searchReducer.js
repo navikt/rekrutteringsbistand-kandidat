@@ -59,8 +59,8 @@ export default function searchReducer(state = initialState, action) {
                 isSearching: false,
                 isInitialSearch: false,
                 error: undefined,
-                isEmptyQuery: action.response.isEmptyQuery,
-                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response.response }
+                isEmptyQuery: action.isEmptyQuery,
+                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
             };
         case SEARCH_FAILURE:
             return {
@@ -183,7 +183,7 @@ function* search() {
         const isEmptyQuery = activeSearchCriteria.length === 0;
 
 
-        yield put({ type: SEARCH_SUCCESS, response: { response, isEmptyQuery } });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

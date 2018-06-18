@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
 import { cvPropTypes } from '../PropTypes';
 import sortByDato from '../common/SortByDato';
-import './Resultat.less';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
+import './Resultat.less';
 
 
 class KandidaterVisning extends React.Component {
@@ -138,6 +138,7 @@ class KandidaterVisning extends React.Component {
                         onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
+                        totaltAntallTreff={this.props.totaltAntallTreff}
 
                     />
 
@@ -150,6 +151,7 @@ class KandidaterVisning extends React.Component {
                         onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
+                        totaltAntallTreff={this.props.totaltAntallTreff}
 
                     />
 

@@ -1,22 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Systemtittel } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import { cvPropTypes } from '../PropTypes';
 
-function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
+
+const antallBesteTreff = 5;
+
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
     let tittel = '';
-    if (totaltAntallTreff > 5) {
-        tittel = 'Topp 5 kandidater';
+    if (totaltAntallTreff > antallBesteTreff) {
+        tittel = `${antallBesteTreff} beste treff`;
     } else if (totaltAntallTreff === 0) {
         tittel = 'Ingen direkte treff';
     } else if (totaltAntallTreff === 1) {
-        tittel = 'Beste kandidat';
+        tittel = 'Beste treff';
     } else {
-        tittel = `Topp ${totaltAntallTreff} kandidater`;
+        tittel = `${totaltAntallTreff} beste treff`;
     }
 
     return (
@@ -28,9 +30,9 @@ function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick
                     onFilterJobberfaringClick={onFilterJobberfaringClick}
                     onFilterAntallArClick={onFilterAntallArClick}
                     from={0}
-                    to={5}
+                    to={antallBesteTreff}
                 />
-                {cver.slice(0, 5)
+                {cver.slice(0, antallBesteTreff)
                     .map((cv) => (
                         <KandidaterTableRow
                             cv={cv}
@@ -38,17 +40,17 @@ function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick
                         />
                     ))}
             </div>
-            {cver.length > 5 && (
+            {cver.length > antallBesteTreff && (
                 <div className="resultatvisning">
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
                         onFilterUtdanningClick={onFilterUtdanningClick}
                         onFilterJobberfaringClick={onFilterJobberfaringClick}
                         onFilterAntallArClick={onFilterAntallArClick}
-                        from={5}
+                        from={antallBesteTreff}
                         to={antallResultater}
                     />
-                    {cver.slice(5, antallResultater)
+                    {cver.slice(antallBesteTreff, antallResultater)
                         .map((cv) => (
                             <KandidaterTableRow
                                 cv={cv}
@@ -78,18 +80,12 @@ function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick
 
 KandidaterTabellMedKriterier.propTypes = {
     cver: PropTypes.arrayOf(cvPropTypes).isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterUtdanningClick: PropTypes.func.isRequired,
     onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
-    onFlereResultaterClick: PropTypes.func.isRequired
+    onFlereResultaterClick: PropTypes.func.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired
 
 };
-
-const mapStateToProps = (state) => ({
-    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff
-});
-
-export default connect(mapStateToProps)(KandidaterTabellMedKriterier);
 
