@@ -80,6 +80,7 @@ class KompetanseSearch extends React.Component {
         return (
             <div>
                 <Systemtittel>Kompetanse</Systemtittel>
+                <Normaltekst>Sertifikater, kurs, sertifisering, programmer og ferdigheter</Normaltekst>
                 <div className="panel panel--sokekriterier">
                     <Element>
                         Legg til kompetansen du ønsker at en kandidat skal ha
