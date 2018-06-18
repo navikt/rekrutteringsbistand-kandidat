@@ -8,7 +8,7 @@ const Promise = require('promise');
 const { initialize, isEnabled } = require('unleash-client');
 
 initialize({
-    url: process.env.UNLEASH_API,
+    url: process.env.UNLEASH_API_URL,
     appName: 'pam-kandidatsok',
     instanceId: `pam-kandidatsok-${process.env.FASIT_ENVIRONMENT_NAME}`
 });
