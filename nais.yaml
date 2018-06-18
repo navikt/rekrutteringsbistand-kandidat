@@ -30,3 +30,5 @@ fasitResources:
     resourceType: restservice
   - alias: logoutservice
     resourceType: restservice
+  - alias: unleash-api
+    resourceType: restservice
