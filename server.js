@@ -65,8 +65,10 @@ const renderSok = () => (
     })
 );
 
+const brukKandidatsokApiToggleNavn = 'pam-kandidatsok.bruk-kandidatsok-api';
+
 const selectProxyHost = () => {
-    if (isEnabled('pam-kandidatsok.bruk-kandidatsok-api')) {
+    if (isEnabled(brukKandidatsokApiToggleNavn)) {
         return 'http://pam-kandidatsok-api';
     }
     return 'http://pam-cv-indexer';
@@ -77,8 +79,10 @@ const startServer = (html) => {
 
     server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(selectProxyHost, {
         proxyReqPathResolver: (req) => {
-            const pathIndexer = `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
-            return pathIndexer;
+            if (isEnabled(brukKandidatsokApiToggleNavn)) {
+                return `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            }
+            return `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
         }
     }));
 
