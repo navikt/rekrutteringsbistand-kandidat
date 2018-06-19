@@ -7,11 +7,15 @@ const fs = require('fs');
 const Promise = require('promise');
 const { initialize, isEnabled } = require('unleash-client');
 
-initialize({
+const unleashInstance = initialize({
     url: process.env.UNLEASH_API_URL,
     appName: 'pam-kandidatsok',
     instanceId: `pam-kandidatsok-${process.env.FASIT_ENVIRONMENT_NAME}`
 });
+
+unleashInstance.on('error', console.error);
+unleashInstance.on('warn', console.warn);
+unleashInstance.on('ready', console.log);
 
 const currentDirectory = __dirname;
 
