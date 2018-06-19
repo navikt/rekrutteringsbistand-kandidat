@@ -66,9 +66,12 @@ const renderSok = () => (
 const brukKandidatsokApiToggleNavn = 'pam-kandidatsok.bruk-kandidatsok-api';
 
 const selectProxyHost = () => {
+    console.log('featureToggleApi:', isEnabled(brukKandidatsokApiToggleNavn));
     if (isEnabled(brukKandidatsokApiToggleNavn)) {
+        console.warn('Gå mot kandidatsok-api');
         return 'http://pam-kandidatsok-api';
     }
+    console.warn('Gå mot cv-indexer');
     return 'http://pam-cv-indexer';
 };
 
@@ -78,9 +81,13 @@ const startServer = (html) => {
     server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(selectProxyHost, {
         proxyReqPathResolver: (req) => {
             if (isEnabled(brukKandidatsokApiToggleNavn)) {
-                return `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+                const u = `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+                console.warn('Gå mot kandidatsok-api, path:', u);
+                return u;
             }
-            return `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            const u = `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            console.warn('Gå mot cv-indexer, path:', u);
+            return u;
         }
     }));
 
