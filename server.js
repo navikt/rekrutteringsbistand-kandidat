@@ -71,7 +71,7 @@ const brukKandidatsokApiToggleNavn = 'pam-kandidatsok.bruk-kandidatsok-api';
 
 const selectProxyHost = () => {
     console.log('featureToggleApi:', isEnabled(brukKandidatsokApiToggleNavn));
-    if (isEnabled(brukKandidatsokApiToggleNavn)) {
+    if (true) {
         console.warn('Gå mot kandidatsok-api');
         return 'http://pam-kandidatsok-api';
     }
@@ -84,7 +84,7 @@ const startServer = (html) => {
 
     server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(selectProxyHost, {
         proxyReqPathResolver: (req) => {
-            if (isEnabled(brukKandidatsokApiToggleNavn)) {
+            if (true) {
                 const u = `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
                 console.warn('Gå mot kandidatsok-api, path:', u);
                 return u;
