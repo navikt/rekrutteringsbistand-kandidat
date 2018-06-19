@@ -76,7 +76,7 @@ class Kandidatsok extends React.Component {
                                     <Column xs="12" md="4">
                                         <div className="panel resultatsummering--sokekriterier">
                                             <Ingress>Treff på aktuelle kandidater</Ingress>
-                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
                                             >
