@@ -2,7 +2,7 @@ require('nightwatch-cucumber')({
     cucumberArgs: [
         '--require-module', 'babel-core/register',
         '--require', '/home/J142350/dev/pam-kandidatsok/qa/features/step_definitions',
-        // '--format', 'node_modules/cucumber-pretty',
+        '--format', 'node_modules/cucumber-pretty',
         '--format', 'json:reports/cucumber.json',
         'features'
     ]
