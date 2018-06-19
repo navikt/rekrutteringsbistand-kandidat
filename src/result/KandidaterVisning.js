@@ -7,6 +7,7 @@ import sortByDato from '../common/SortByDato';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
+import ShowModalResultat from './modal/ShowModalResultat';
 
 
 class KandidaterVisning extends React.Component {
@@ -157,6 +158,7 @@ class KandidaterVisning extends React.Component {
 
                 )}
 
+                <ShowModalResultat />
             </div>
         );
     }
