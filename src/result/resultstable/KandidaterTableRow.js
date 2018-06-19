@@ -17,6 +17,15 @@ class KandidaterTableRow extends React.Component {
         const cv = this.props.cv;
         const yrkeserfaring = cv.yrkeserfaring[0] ? cv.yrkeserfaring[0].styrkKodeStillingstittel : '';
         const utdanning = cv.utdanning[0] ? cv.utdanning[0].nusKodeGrad : '';
+        const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
+        let lengdeYrkeserfaringTekst;
+        if (lengdeYrkeserfaring === 0) {
+            lengdeYrkeserfaringTekst = 'Under 1 år';
+        } else if (lengdeYrkeserfaring > 10) {
+            lengdeYrkeserfaringTekst = 'Over 10 år';
+        } else {
+            lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
+        }
         return (
             <div>
                 <div className="panel border--top--thin">
@@ -30,7 +39,7 @@ class KandidaterTableRow extends React.Component {
                             <Normaltekst>{yrkeserfaring}</Normaltekst>
                         </Column>
                         <Column xs="2" md="2" className="text-center">
-                            <Normaltekst>{`${Math.round(cv.totalLengdeYrkeserfaring / 12)} år`}</Normaltekst>
+                            <Normaltekst>{lengdeYrkeserfaringTekst}</Normaltekst>
                         </Column>
                         <Column xs="1" md="1">
                             <button
