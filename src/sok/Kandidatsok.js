@@ -6,7 +6,7 @@ import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './domene';
+import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
 import StillingSearch from './stilling/StillingSearch';
 import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
@@ -75,8 +75,19 @@ class Kandidatsok extends React.Component {
                                     </Column>
                                     <Column xs="12" md="4">
                                         <div className="panel resultatsummering--sokekriterier">
-                                            <Ingress>Treff på aktuelle kandidater</Ingress>
-                                            <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                            {this.props.isEmptyQuery ? (
+
+                                                <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} kandidater</Systemtittel>
+
+                                            ) : (
+
+                                                <div>
+                                                    <Ingress>Treff på aktuelle kandidater</Ingress>
+                                                    <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                                </div>
+
+                                            )}
+
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
                                             >
@@ -105,12 +116,14 @@ Kandidatsok.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     resetQuery: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired
+    search: PropTypes.func.isRequired,
+    isEmptyQuery: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
-    isInitialSearch: state.search.isInitialSearch
+    isInitialSearch: state.search.isInitialSearch,
+    isEmptyQuery: state.search.isEmptyQuery
 });
 
 const mapDispatchToProps = (dispatch) => ({

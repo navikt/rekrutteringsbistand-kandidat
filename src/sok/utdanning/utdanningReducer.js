@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../domene';
+import { SET_STATE } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';

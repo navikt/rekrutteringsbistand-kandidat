@@ -7,7 +7,7 @@ import SendBeskjedKandidat from './SendBeskjedKandidat';
 import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
-import { FETCH_CV, CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
+import { CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class ShowModalResultat extends React.Component {
     constructor(props) {
@@ -91,7 +91,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
     closeCvModal: () => dispatch({ type: CLOSE_CV_MODAL })
 });
 
