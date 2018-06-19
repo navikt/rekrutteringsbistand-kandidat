@@ -12,7 +12,7 @@ import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
-import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './domene';
+import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
 import stillingReducer from './stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from '../common/typeahead/typeaheadReducer';
 import kompetanseReducer from './kompetanse/kompetanseReducer';
@@ -30,7 +30,7 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
-    cv: cvReducer
+    cvReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 

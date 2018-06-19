@@ -1,23 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import ShowModalResultat from '../modal/ShowModalResultat';
 import { cvPropTypes } from '../../PropTypes';
 import './Resultstable.less';
+import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class KandidaterTableRow extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalIsOpen: false
-        };
-    }
-
-    toggleModalOpen = () => {
-        this.setState({
-            modalIsOpen: !this.state.modalIsOpen
-        });
+    openCvModal = () => {
+        this.props.openCvModal();
+        this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
     };
 
     render() {
@@ -42,7 +35,7 @@ class KandidaterTableRow extends React.Component {
                         <Column xs="1" md="1">
                             <button
                                 className="lenke"
-                                onClick={this.toggleModalOpen}
+                                onClick={this.openCvModal}
                                 aria-label={`CV for ${cv.arenaKandidatnr}`}
                             >
                                 CV
@@ -50,22 +43,24 @@ class KandidaterTableRow extends React.Component {
                         </Column>
                     </Row>
                 </div>
-                <ShowModalResultat
-                    modalIsOpen={this.state.modalIsOpen}
-                    toggleModalOpen={this.toggleModalOpen}
-                    cv={cv}
-                />
             </div>
         );
     }
 }
 
 KandidaterTableRow.propTypes = {
-    cv: cvPropTypes.isRequired
+    cv: cvPropTypes.isRequired,
+    openCvModal: PropTypes.func.isRequired,
+    hentCvForKandidat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query
 });
 
-export default connect(mapStateToProps)(KandidaterTableRow);
+const mapDispatchToProps = (dispatch) => ({
+    openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
+    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);

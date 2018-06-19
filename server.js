@@ -5,6 +5,13 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
 const Promise = require('promise');
+const { initialize, isEnabled } = require('unleash-client');
+
+initialize({
+    url: process.env.UNLEASH_API_URL,
+    appName: 'pam-kandidatsok',
+    instanceId: `pam-kandidatsok-${process.env.FASIT_ENVIRONMENT_NAME}`
+});
 
 const currentDirectory = __dirname;
 
@@ -56,13 +63,24 @@ const renderSok = () => (
     })
 );
 
+const brukKandidatsokApiToggleNavn = 'pam-kandidatsok.bruk-kandidatsok-api';
+
+const selectProxyHost = () => {
+    if (isEnabled(brukKandidatsokApiToggleNavn)) {
+        return 'http://pam-kandidatsok-api';
+    }
+    return 'http://pam-cv-indexer';
+};
+
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('http://pam-cv-indexer', {
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(selectProxyHost, {
         proxyReqPathResolver: (req) => {
-            const pathIndexer = `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
-            return pathIndexer;
+            if (isEnabled(brukKandidatsokApiToggleNavn)) {
+                return `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            }
+            return `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
         }
     }));
 
