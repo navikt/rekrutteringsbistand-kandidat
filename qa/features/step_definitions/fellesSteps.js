@@ -18,10 +18,10 @@ Then(/^skal det vises treff på kandidater som matcher "(.*)"/, (stilling) => {
     return 'pending';
 });
 
-Then(/antall treff *øke/, () => {
+Then(/skal antall treff øke|antall treff skal øke/, () => {
     return 'pending';
 });
 
-Then(/antall treff *minke/, () => {
+Then(/skal antall treff minke|antall treff skal minke/, () => {
     return 'pending';
 });
