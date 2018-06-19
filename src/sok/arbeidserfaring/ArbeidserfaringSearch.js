@@ -18,8 +18,8 @@ class ArbeidserfaringSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.erfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-41' },
-            { label: '4-9 år', value: '42-113' }, { label: 'Over 10 år', value: '114-' }];
+        this.erfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-47' },
+            { label: '4-9 år', value: '48-119' }, { label: 'Over 10 år', value: '120-' }];
     }
 
     onTotalErfaringChange = (e) => {
