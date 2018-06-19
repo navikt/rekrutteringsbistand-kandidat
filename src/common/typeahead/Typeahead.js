@@ -89,9 +89,6 @@ export default class Typeahead extends React.Component {
             }
             if (!relatedTarget || relatedTarget.id !== 'search-button-typeahead') {
                 this.props.onTypeAheadBlur();
-                this.setState({
-                    hasFocus: false
-                });
             }
         }
     };
