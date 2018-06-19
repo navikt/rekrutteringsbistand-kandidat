@@ -20,6 +20,7 @@ import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
+import Feilside from './error/Feilside';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -50,6 +51,8 @@ class Sok extends React.Component {
             this.redirectToLogin();
         } else if (error && error.status === 403) {
             window.location.href = '/pam-kandidatsok/altinn';
+        } else if (error) {
+            window.location.href = '/pam-kandidatsok/feilside';
         }
     }
 
@@ -65,6 +68,7 @@ class Sok extends React.Component {
                     <Route exact path="/pam-kandidatsok" component={Kandidatsok} />
                     <Route exact path="/pam-kandidatsok/resultat" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
+                    <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
                 </Switch>
             </BrowserRouter>
         );
