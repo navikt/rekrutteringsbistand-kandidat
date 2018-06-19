@@ -24,7 +24,7 @@ export default function arbeidserfaringReducer(state = initialState, action) {
             return {
                 ...state,
                 arbeidserfaringer: action.query.arbeidserfaringer || [],
-                totalErfaring: action.query.totalErfaring || ''
+                totalErfaring: action.query.totalErfaring || []
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
             return {
