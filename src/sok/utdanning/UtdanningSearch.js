@@ -84,6 +84,7 @@ class UtdanningSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.utdanningsnivaKategorier.map((utdanning) => (
                                 <Checkbox
+                                    id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
                                     className={this.props.utdanningsniva.includes(utdanning.key) ?
                                         'checkbox--sokekriterier--checked utdanningsniva' :
                                         'checkbox--sokekriterier--unchecked utdanningsniva'}
@@ -133,6 +134,7 @@ class UtdanningSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-fagfelt-knapp"
                             >
                                 +Legg til fagfelt
                             </Knapp>

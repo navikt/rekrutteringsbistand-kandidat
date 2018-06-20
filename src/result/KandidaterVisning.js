@@ -128,7 +128,7 @@ class KandidaterVisning extends React.Component {
         return (
             <div>
                 <div className="panel resultatvisning">
-                    <Ingress className="text--left inline"><strong>{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                    <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                 </div>
                 {this.props.isEmptyQuery ? (
 

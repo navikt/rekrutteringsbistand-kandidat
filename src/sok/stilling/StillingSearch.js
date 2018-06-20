@@ -107,6 +107,7 @@ class StillingSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-stilling-knapp"
                             >
                                 +Legg til stilling
                             </Knapp>

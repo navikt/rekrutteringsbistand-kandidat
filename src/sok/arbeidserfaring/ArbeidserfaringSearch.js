@@ -112,6 +112,7 @@ class ArbeidserfaringSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-arbeidserfaring-knapp"
                             >
                                 +Legg til arbeidserfaring
                             </Knapp>
@@ -131,6 +132,7 @@ class ArbeidserfaringSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.erfaringer.map((arbeidserfaring) => (
                                 <Checkbox
+                                    id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
                                     className={this.props.totalErfaring.includes(arbeidserfaring.value) ?
                                         'checkbox--sokekriterier--checked' :
                                         'checkbox--sokekriterier--unchecked'}

@@ -63,6 +63,7 @@ class Kandidatsok extends React.Component {
                                     <Column xs="12" md="8">
                                         <button
                                             className="lenke lenke--slett--kriterier"
+                                            id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >
                                             Slett alle kriterier
@@ -77,13 +78,13 @@ class Kandidatsok extends React.Component {
                                         <div className="panel resultatsummering--sokekriterier">
                                             {this.props.isEmptyQuery ? (
 
-                                                <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} kandidater</Systemtittel>
+                                                <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff} kandidater</Systemtittel>
 
                                             ) : (
 
                                                 <div>
                                                     <Ingress>Treff på aktuelle kandidater</Ingress>
-                                                    <Systemtittel className="antall--treff--sokekriterier">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff} treff</Systemtittel>
                                                 </div>
 
                                             )}
@@ -93,6 +94,7 @@ class Kandidatsok extends React.Component {
                                             >
                                                 <Knapp
                                                     type="hoved"
+                                                    id="se-kandidatene-knapp"
                                                     disabled={this.props.totaltAntallTreff === 0}
                                                 >
                                                     Se kandidatene

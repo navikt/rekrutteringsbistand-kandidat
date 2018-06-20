@@ -53,6 +53,7 @@ class ResultatVisning extends React.Component {
                             <Column xs="12" md="4">
                                 <button
                                     className="lenke lenke--slett--kriterier"
+                                    id="slett-alle-kriterier-lenke"
                                     onClick={this.onRemoveCriteriaClick}
                                 >
                                     Slett alle kriterier

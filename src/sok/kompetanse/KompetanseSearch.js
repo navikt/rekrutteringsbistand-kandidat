@@ -115,6 +115,7 @@ class KompetanseSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilKompetanseClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-kompetanse-knapp"
                             >
                                 +Legg til kompetanse
                             </Knapp>
