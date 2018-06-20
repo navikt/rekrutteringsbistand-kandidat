@@ -98,6 +98,7 @@ class GeografiSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-sted-knapp"
                             >
                                 +Legg til sted
                             </Knapp>
