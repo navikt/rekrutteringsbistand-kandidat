@@ -16,8 +16,8 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.DefinePlugin({
-            __PAM_SEARCH_API__: "'http://localhost:8765/pam-cv-indexer/rest/kandidatsok/'",
-            __LOGIN_URL__: "'http://localhost:8765/pam-cv-indexer/local/cookie'",
+            __PAM_SEARCH_API__: "'http://localhost:8765/pam-kandidatsok-api/rest/kandidatsok/'",
+            __LOGIN_URL__: "'http://localhost:8765/pam-kandidatsok-api/local/cookie'",
             __LOGOUT_URL__: "'#'",
             'process.env.NODE_ENV': "'development'",
             __DEVELOPMENT_TOGGLES__: JSON.stringify(developmentToggles)
