@@ -17,6 +17,14 @@ export default class Typeahead extends React.Component {
         this.shouldBlur = true;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.value !== nextProps.value) {
+            this.setState({
+                value: nextProps.value
+            });
+        }
+    }
+
     onChange = (e) => {
         const { value } = e.target;
         this.setState({
@@ -141,7 +149,7 @@ export default class Typeahead extends React.Component {
      */
     selectSuggestion = (suggestionValue) => {
         this.setState({
-            value: '',
+            value: suggestionValue,
             shouldShowSuggestions: false,
             activeSuggestionIndex: -1
         }, () => {

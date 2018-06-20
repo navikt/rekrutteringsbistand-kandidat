@@ -44,8 +44,7 @@ class UtdanningSearch extends React.Component {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadUtdanning('suggestionsutdanning');
             this.setState({
-                typeAheadValue: '',
-                showTypeAhead: false
+                typeAheadValue: ''
             });
             this.props.search();
         }
@@ -72,7 +71,10 @@ class UtdanningSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
+        if (this.state.typeAheadValue !== '') {
+            this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
+            this.typeAhead.input.focus();
+        }
     };
 
     render() {

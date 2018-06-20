@@ -33,8 +33,7 @@ class KompetanseSearch extends React.Component {
             this.props.selectTypeAheadValueKompetanse(value);
             this.props.clearTypeAheadKompetanse('suggestionskompetanse');
             this.setState({
-                typeAheadValueKompetanse: '',
-                showTypeAheadKompetanse: false
+                typeAheadValueKompetanse: ''
             });
             this.props.search();
         }
@@ -53,7 +52,10 @@ class KompetanseSearch extends React.Component {
 
     onSubmitKompetanse = (e) => {
         e.preventDefault();
-        this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
+        if (this.state.typeAheadValueKompetanse !== '') {
+            this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
+            this.typeAhead.input.focus();
+        }
     };
 
     onKompetanseSuggestionsClick = (e) => {
