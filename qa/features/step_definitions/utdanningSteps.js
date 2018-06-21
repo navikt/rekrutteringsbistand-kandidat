@@ -1,10 +1,12 @@
 const { client } = require('nightwatch-cucumber');
 const { When } = require('cucumber');
 
-When(/^jeg legger til utdanning "(.*)"/, (stilling) => {
+const kandidatsokPage = client.page.KandidatsokPage();
+
+When(/^jeg legger til utdanning "(.*)"/, (utdanning) => {
     return 'pending';
 });
 
-When(/^jeg legger til fagfelt "(.*)"/, (stilling) => {
-    return 'pending';
+When(/^jeg legger til fagfelt "(.*)"/, (fagfelt) => {
+    return kandidatsokPage.leggTilFagfeltkriterie(fagfelt);
 });
