@@ -122,7 +122,7 @@ Kandidatsok.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isInitialSearch: state.search.isInitialSearch,
     isEmptyQuery: state.search.isEmptyQuery
 });
