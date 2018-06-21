@@ -12,6 +12,7 @@ import GeografiSearch from '../sok/geografi/GeografiSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
+import Disclaimer from '../disclaimer/Disclaimer';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -43,34 +44,37 @@ class ResultatVisning extends React.Component {
                         <NavFrontendSpinner type="L" />
                     </div>
                 ) : (
-                    <Container className="blokk-s container--wide">
-                        <Row>
-                            <Column className="text-center">
-                                <Innholdstittel>Aktuelle kandidater</Innholdstittel>
-                            </Column>
-                        </Row>
-                        <Row className="resultatvisning--body">
-                            <Column xs="12" md="4">
-                                <button
-                                    className="lenke lenke--slett--kriterier"
-                                    id="slett-alle-kriterier-lenke"
-                                    onClick={this.onRemoveCriteriaClick}
-                                >
-                                    Slett alle kriterier
-                                </button>
-                                <div className="resultatvisning--sokekriterier">
-                                    <StillingSearch />
-                                    <UtdanningSearch />
-                                    <ArbeidserfaringSearch />
-                                    <KompetanseSearch />
-                                    <GeografiSearch />
-                                </div>
-                            </Column>
-                            <Column xs="12" md="8">
-                                <KandidaterVisning />
-                            </Column>
-                        </Row>
-                    </Container>
+                    <div>
+                        <Disclaimer />
+                        <Container className="blokk-s container--wide">
+                            <Row>
+                                <Column className="text-center">
+                                    <Innholdstittel>Aktuelle kandidater</Innholdstittel>
+                                </Column>
+                            </Row>
+                            <Row className="resultatvisning--body">
+                                <Column xs="12" md="4">
+                                    <button
+                                        className="lenke lenke--slett--kriterier"
+                                        id="slett-alle-kriterier-lenke"
+                                        onClick={this.onRemoveCriteriaClick}
+                                    >
+                                        Slett alle kriterier
+                                    </button>
+                                    <div className="resultatvisning--sokekriterier">
+                                        <StillingSearch />
+                                        <UtdanningSearch />
+                                        <ArbeidserfaringSearch />
+                                        <KompetanseSearch />
+                                        <GeografiSearch />
+                                    </div>
+                                </Column>
+                                <Column xs="12" md="8">
+                                    <KandidaterVisning />
+                                </Column>
+                            </Row>
+                        </Container>
+                    </div>
                 )}
             </div>
         );

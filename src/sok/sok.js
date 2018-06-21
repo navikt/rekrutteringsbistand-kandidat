@@ -21,6 +21,7 @@ import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
 import Feilside from './error/Feilside';
+import disclaimerReducer from '../disclaimer/disclaimerReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -31,7 +32,8 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
-    cvReducer
+    cvReducer,
+    disclaimer: disclaimerReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
