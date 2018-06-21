@@ -8,6 +8,15 @@
     color: rgb(0, 103, 197);
     cursor: pointer;
   }
+  &:focus {
+    box-shadow: 0;
+  }
+}
+
+.filter--lengde--erfaring {
+  padding-right: 0!important;
+  padding-left: 2rem!important;
+  float: right!important;
 }
 
 .label--resultatvisning {
@@ -15,3 +24,48 @@
   margin-right: 0.5rem;
 }
 
+@media(max-width: @screen-md-max) {
+  .lenke--kandidatnr--wrapper {
+    padding-left: 0!important;
+  }
+}
+
+.lenke--kandidatnr {
+  width: fit-content;
+}
+
+.kandidater--row {
+  border: none;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #cce1f3;
+  }
+}
+
+.yrkeserfaring--lengde--col {
+  padding: 0!important;
+}
+
+.yrkeserfaring--col {
+  padding: 0!important;
+}
+
+.yrkeserfaring, .utdanning {
+  padding: 0 0.5rem;
+}
+
+.utdanning--col {
+  padding: 0!important;
+}
+
+.break--word { 
+  word-break: break-word;
+}
+
+.border {
+  border-left: 1px solid #b7b1a9;
+  height: 21px;
+  float: left;
+}
