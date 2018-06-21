@@ -78,17 +78,16 @@ class Kandidatsok extends React.Component {
                                         <div className="panel resultatsummering--sokekriterier">
                                             {this.props.isEmptyQuery ? (
 
-                                                <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff} kandidater</Systemtittel>
+                                                <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
 
                                             ) : (
 
                                                 <div>
                                                     <Ingress>Treff på aktuelle kandidater</Ingress>
-                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff} treff</Systemtittel>
+                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
                                                 </div>
 
                                             )}
-
                                             <Link
                                                 to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
                                             >
