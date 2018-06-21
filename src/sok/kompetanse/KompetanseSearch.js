@@ -6,7 +6,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     SEARCH
-} from '../domene';
+} from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_KOMPETANSE, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE } from './kompetanseReducer';
 import './Kompetanse.less';
@@ -115,6 +115,7 @@ class KompetanseSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilKompetanseClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-kompetanse-knapp"
                             >
                                 +Legg til kompetanse
                             </Knapp>

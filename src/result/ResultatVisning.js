@@ -10,7 +10,7 @@ import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch'
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/domene';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 
 class ResultatVisning extends React.Component {
@@ -28,7 +28,7 @@ class ResultatVisning extends React.Component {
             kompetanser: [],
             geografiList: [],
             geografiListKomplett: [],
-            totalErfaring: '',
+            totalErfaring: [],
             utdanningsniva: []
         });
         this.props.removeKompetanseSuggestions();
@@ -53,6 +53,7 @@ class ResultatVisning extends React.Component {
                             <Column xs="12" md="4">
                                 <button
                                     className="lenke lenke--slett--kriterier"
+                                    id="slett-alle-kriterier-lenke"
                                     onClick={this.onRemoveCriteriaClick}
                                 >
                                     Slett alle kriterier

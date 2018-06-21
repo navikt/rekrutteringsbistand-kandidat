@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
+import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     SEARCH
-} from '../domene';
+} from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
-import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TOTAL_ERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING } from './arbeidserfaringReducer';
+import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from './arbeidserfaringReducer';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -18,13 +18,16 @@ class ArbeidserfaringSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.erfaringer = [{ label: 'Ikke relevant', value: '0-' },
-            { label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-36' },
-            { label: '4-9 år', value: '37-108' }, { label: 'Over 10 år', value: '109-' }];
+        this.erfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-47' },
+            { label: '4-9 år', value: '48-119' }, { label: 'Over 10 år', value: '120-' }];
     }
 
-    onCheckTotalErfaring = (e) => {
-        this.props.checkTotalErfaring(e.target.value);
+    onTotalErfaringChange = (e) => {
+        if (e.target.checked) {
+            this.props.checkTotalErfaring(e.target.value);
+        } else {
+            this.props.uncheckTotalErfaring(e.target.value);
+        }
         this.props.search();
     };
 
@@ -109,6 +112,7 @@ class ArbeidserfaringSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-arbeidserfaring-knapp"
                             >
                                 +Legg til arbeidserfaring
                             </Knapp>
@@ -127,14 +131,16 @@ class ArbeidserfaringSearch extends React.Component {
                     <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
                         <div className="sokekriterier--kriterier">
                             {this.erfaringer.map((arbeidserfaring) => (
-                                <Radio
-                                    className={this.props.totalErfaring === arbeidserfaring.value ? 'checkbox--sokekriterier--checked' : 'checkbox--sokekriterier--unchecked'}
+                                <Checkbox
+                                    id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
+                                    className={this.props.totalErfaring.includes(arbeidserfaring.value) ?
+                                        'checkbox--sokekriterier--checked' :
+                                        'checkbox--sokekriterier--unchecked'}
                                     label={arbeidserfaring.label}
                                     key={arbeidserfaring.value}
                                     value={arbeidserfaring.value}
-                                    name={arbeidserfaring.label}
-                                    checked={this.props.totalErfaring === arbeidserfaring.value}
-                                    onChange={this.onCheckTotalErfaring}
+                                    checked={this.props.totalErfaring.includes(arbeidserfaring.value)}
+                                    onChange={this.onTotalErfaringChange}
                                 />
                             ))}
                         </div>
@@ -151,9 +157,10 @@ ArbeidserfaringSearch.propTypes = {
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
     checkTotalErfaring: PropTypes.func.isRequired,
+    uncheckTotalErfaring: PropTypes.func.isRequired,
     arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsArbeidserfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
-    totalErfaring: PropTypes.string.isRequired,
+    totalErfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadArbeidserfaring: PropTypes.func.isRequired
 };
 
@@ -169,7 +176,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
     removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
-    checkTotalErfaring: (value) => dispatch({ type: SELECT_TOTAL_ERFARING, value })
+    checkTotalErfaring: (value) => dispatch({ type: CHECK_TOTAL_ERFARING, value }),
+    uncheckTotalErfaring: (value) => dispatch({ type: UNCHECK_TOTAL_ERFARING, value })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArbeidserfaringSearch);

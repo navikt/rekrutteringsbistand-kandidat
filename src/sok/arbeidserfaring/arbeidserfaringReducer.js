@@ -1,12 +1,13 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../domene';
+import { SET_STATE } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
 export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
 
-export const SELECT_TOTAL_ERFARING = 'SELECT_TOTAL_ERFARING';
+export const CHECK_TOTAL_ERFARING = 'CHECK_TOTAL_ERFARING';
+export const UNCHECK_TOTAL_ERFARING = 'UNCHECK_TOTAL_ERFARING';
 
 /** *********************************************************
  * REDUCER
@@ -14,7 +15,7 @@ export const SELECT_TOTAL_ERFARING = 'SELECT_TOTAL_ERFARING';
 
 const initialState = {
     arbeidserfaringer: [],
-    totalErfaring: ''
+    totalErfaring: []
 };
 
 export default function arbeidserfaringReducer(state = initialState, action) {
@@ -23,7 +24,7 @@ export default function arbeidserfaringReducer(state = initialState, action) {
             return {
                 ...state,
                 arbeidserfaringer: action.query.arbeidserfaringer || [],
-                totalErfaring: action.query.totalErfaring || ''
+                totalErfaring: action.query.totalErfaring || []
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
             return {
@@ -40,10 +41,15 @@ export default function arbeidserfaringReducer(state = initialState, action) {
                 ...state,
                 arbeidserfaringer: state.arbeidserfaringer.filter((y) => y !== action.value)
             };
-        case SELECT_TOTAL_ERFARING:
+        case CHECK_TOTAL_ERFARING:
             return {
                 ...state,
-                totalErfaring: action.value
+                totalErfaring: [...state.totalErfaring, action.value]
+            };
+        case UNCHECK_TOTAL_ERFARING:
+            return {
+                ...state,
+                totalErfaring: state.totalErfaring.filter((te) => te !== action.value)
             };
         default:
             return state;

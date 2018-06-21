@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../domene';
+import { SET_STATE } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
 export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';

@@ -5,7 +5,7 @@ import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import Typeahead from '../../common/typeahead/Typeahead';
-import { SEARCH } from '../domene';
+import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { CHECK_UTDANNINGSNIVA, REMOVE_SELECTED_UTDANNING, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from './utdanningReducer';
 import './Utdanning.less';
@@ -84,6 +84,7 @@ class UtdanningSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.utdanningsnivaKategorier.map((utdanning) => (
                                 <Checkbox
+                                    id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
                                     className={this.props.utdanningsniva.includes(utdanning.key) ?
                                         'checkbox--sokekriterier--checked utdanningsniva' :
                                         'checkbox--sokekriterier--unchecked utdanningsniva'}
@@ -133,6 +134,7 @@ class UtdanningSearch extends React.Component {
                             <Knapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp"
+                                id="leggtil-fagfelt-knapp"
                             >
                                 +Legg til fagfelt
                             </Knapp>

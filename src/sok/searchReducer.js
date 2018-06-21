@@ -42,7 +42,8 @@ const initialState = {
     featureToggles: FEATURE_TOGGLES
         .reduce((dict, key) => (
             { ...dict, [key]: false }
-        ), {})
+        ), {}),
+    isEmptyQuery: true
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -58,6 +59,7 @@ export default function searchReducer(state = initialState, action) {
                 isSearching: false,
                 isInitialSearch: false,
                 error: undefined,
+                isEmptyQuery: action.isEmptyQuery,
                 elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
             };
         case SEARCH_FAILURE:
@@ -87,7 +89,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 featureToggles: FEATURE_TOGGLES
                     .reduce((dict, key) => (
-                        { ...dict, [key]: Object.keys(action.data).includes(key) && action.data[key] }
+                        {
+                            ...dict,
+                            [key]: Object.keys(action.data)
+                                .includes(key) && action.data[key]
+                        }
                     ), {})
             };
         case FETCH_FEATURE_TOGGLES_FAILURE:
@@ -118,7 +124,7 @@ export const fromUrlQuery = (url) => {
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
     if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
     if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
-    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring;
+    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     return stateFromUrl;
 };
@@ -130,7 +136,7 @@ export const toUrlQuery = (state) => {
     if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0) urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
     if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0) urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
     if (state.geografi.geografiList && state.geografi.geografiList.length > 0) urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring;
+    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     return toUrlParams(urlQuery);
 };
@@ -161,7 +167,23 @@ function* search() {
             utdanningsniva: state.utdanning.utdanningsniva
         });
 
-        yield put({ type: SEARCH_SUCCESS, response });
+
+        const searchCriteria = [
+            state.stilling.stillinger,
+            state.arbeidserfaring.arbeidserfaringer,
+            state.utdanning.utdanninger,
+            state.kompetanse.kompetanser,
+            state.geografi.geografiList,
+            state.geografi.geografiListKomplett,
+            state.arbeidserfaring.totalErfaring,
+            state.utdanning.utdanningsniva
+        ];
+
+        const activeSearchCriteria = searchCriteria.filter((i) => i.length !== 0);
+        const isEmptyQuery = activeSearchCriteria.length === 0;
+
+
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
