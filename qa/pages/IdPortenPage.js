@@ -23,11 +23,11 @@ module.exports = {
         },
 
         switchFrame(frame) {
-            return this.api.frame(frame).page.idPorten();
+            return this.api.frame(frame).page.IdPortenPage();
         },
 
         idPortenPause(ms) {
-            return this.api.pause(ms).page.idPorten();
+            return this.api.pause(ms).page.IdPortenPage();
         }
     }]
 };
