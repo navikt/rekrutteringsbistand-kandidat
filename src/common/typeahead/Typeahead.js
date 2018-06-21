@@ -17,6 +17,14 @@ export default class Typeahead extends React.Component {
         this.shouldBlur = true;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.value !== nextProps.value) {
+            this.setState({
+                value: nextProps.value
+            });
+        }
+    }
+
     onChange = (e) => {
         const { value } = e.target;
         this.setState({
@@ -69,6 +77,7 @@ export default class Typeahead extends React.Component {
             hasFocus: true,
             activeSuggestionIndex: -1
         });
+        this.clearBlurDelay();
     };
 
     /**
@@ -77,39 +86,39 @@ export default class Typeahead extends React.Component {
      * suggestions-listen. Men når man trykker med musen (ved mousedown) på en suggestion, trenger vi
      * at suggestions ikke skjules, slik at selectSuggestion (ved onclick) også kalles.
      */
-    onBlur = (e) => {
-        if (this.shouldBlur) {
-            let relatedTarget = e.relatedTarget;
-            // If the user clicks something other than the search-button, the parent function
-            // onTypeAheadBlur is called.
-            if (relatedTarget === null) {
-                // Internet explorer støtter ikke relatedTarget, så setter denne til variabelen
-                // til det nye aktive elementet
-                relatedTarget = document.activeElement;
+    onBlur = () => {
+        this.blurDelay = setTimeout(() => {
+            if (this.shouldBlur) {
+                this.setState({
+                    hasFocus: false
+                }, () => {
+                    this.props.onTypeAheadBlur();
+                });
             }
-            if (!relatedTarget || relatedTarget.id !== 'search-button-typeahead') {
-                this.props.onTypeAheadBlur();
-            }
-        }
+        }, 10);
     };
 
-    onSearchButtonBlur = (e) => {
-        let relatedTarget = e.relatedTarget;
-        if (relatedTarget === null) {
-            // Internet explorer støtter ikke relatedTarget, så setter denne til variabelen
-            // til det nye aktive elementet
-            relatedTarget = document.activeElement;
-        }
-        if (!relatedTarget || relatedTarget.id !== this.props.id) {
-            this.props.onTypeAheadBlur();
-        }
+    onSearchButtonBlur = () => {
+        this.blurDelay = setTimeout(() => {
+            if (this.shouldBlur) {
+                this.setState({
+                    hasFocus: false
+                }, () => {
+                    this.props.onTypeAheadBlur();
+                });
+            }
+        }, 10);
     };
 
     avoidBlur = () => {
         this.shouldBlur = false;
     };
 
-    blur = () => {
+    clearBlurDelay = () => {
+        if (this.blurDelay) {
+            clearTimeout(this.blurDelay);
+            this.blurDelay = undefined;
+        }
         this.shouldBlur = true;
     };
 
@@ -122,7 +131,7 @@ export default class Typeahead extends React.Component {
         this.setState({
             activeSuggestionIndex: index
         });
-        this.blur();
+        this.clearBlurDelay();
     };
 
     /**
@@ -146,7 +155,7 @@ export default class Typeahead extends React.Component {
         }, () => {
             this.input.focus();
         });
-        this.blur();
+        this.clearBlurDelay();
         this.props.onSelect(suggestionValue);
     };
 
@@ -181,6 +190,9 @@ export default class Typeahead extends React.Component {
                     id="search-button-typeahead"
                     onClick={this.props.onSubmit}
                     onBlur={this.onSearchButtonBlur}
+                    onFocus={this.clearBlurDelay}
+                    onMouseDown={this.clearBlurDelay}
+                    onKeyDown={this.clearBlurDelay}
                 >
                     <i className="search-button__icon" />
                 </Knapp>

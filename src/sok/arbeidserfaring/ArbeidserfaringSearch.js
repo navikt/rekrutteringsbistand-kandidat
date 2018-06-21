@@ -43,8 +43,7 @@ class ArbeidserfaringSearch extends React.Component {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
             this.setState({
-                typeAheadValue: '',
-                showTypeAhead: false
+                typeAheadValue: ''
             });
             this.props.search();
         }
@@ -71,7 +70,10 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+        if (this.state.typeAheadValue !== '') {
+            this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+            this.typeAhead.input.focus();
+        }
     };
 
     render() {

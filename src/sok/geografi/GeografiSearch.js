@@ -31,8 +31,7 @@ class GeografiSearch extends React.Component {
                 this.props.selectTypeAheadValue(geografi);
                 this.props.clearTypeAheadGeografi('suggestionsgeografi');
                 this.setState({
-                    typeAheadValue: '',
-                    showTypeAhead: false
+                    typeAheadValue: ''
                 });
                 this.props.search();
             }
@@ -60,7 +59,10 @@ class GeografiSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
+        if (this.state.typeAheadValue !== '') {
+            this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
+            this.typeAhead.input.focus();
+        }
     };
 
     render() {

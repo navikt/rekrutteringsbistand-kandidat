@@ -36,8 +36,7 @@ class StillingSearch extends React.Component {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadStilling('suggestionsstilling');
             this.setState({
-                typeAheadValue: '',
-                showTypeAhead: false
+                typeAheadValue: ''
             });
             this.props.fetchKompetanseSuggestions();
             this.props.search();
@@ -66,7 +65,10 @@ class StillingSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadStillingSelect(this.state.typeAheadValue);
+        if (this.state.typeAheadValue !== '') {
+            this.onTypeAheadStillingSelect(this.state.typeAheadValue);
+            this.typeAhead.input.focus();
+        }
     };
 
     render() {
