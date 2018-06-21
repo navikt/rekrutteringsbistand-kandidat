@@ -34,18 +34,18 @@ class KandidaterTableRow extends React.Component {
             >
                 <Row>
                     <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Normaltekst className="break--word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
+                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
                     </Column>
-                    <Column className="utdanning--col" xs="4" md="4">
-                        <i className="border" />
-                        <Normaltekst className="break--word utdanning">{utdanning}</Normaltekst>
+                    <Column className="no--padding" xs="4" md="4">
+                        <i className="border--vertical" />
+                        <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
                     </Column>
-                    <Column className="yrkeserfaring--col" xs="4" md="4">
-                        <i className="border" />
-                        <Normaltekst className="break--word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                    <Column className="no--padding" xs="4" md="4">
+                        <i className="border--vertical" />
+                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                    <Column xs="2" md="2" className="text-center yrkeserfaring--lengde--col">
-                        <i className="border" />
+                    <Column xs="2" md="2" className="text-center no--padding">
+                        <i className="border--vertical" />
                         <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
                     </Column>
                 </Row>
