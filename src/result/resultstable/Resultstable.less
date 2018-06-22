@@ -10,8 +10,48 @@
   }
 }
 
+.filter--lengde--erfaring {
+  padding-right: 0!important;
+  padding-left: 2rem!important;
+  float: right!important;
+}
+
 .label--resultatvisning {
   display: inline-block;
   margin-right: 0.5rem;
 }
 
+@media(max-width: @screen-md-max) {
+  .lenke--kandidatnr--wrapper {
+    padding-left: 0!important;
+  }
+}
+
+.lenke--kandidatnr {
+  width: fit-content;
+}
+
+.kandidater--row {
+  border: none;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #cce1f3;
+  }
+}
+
+.no--padding {
+  padding: 0!important;
+}
+
+.yrkeserfaring, .utdanning {
+  padding: 0 0.5rem 0 1rem;
+  text-align: left;
+}
+
+.border--vertical {
+  border-left: 1px solid #b7b1a9;
+  height: 21px;
+  float: left;
+}

@@ -27,32 +27,29 @@ class KandidaterTableRow extends React.Component {
             lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
         }
         return (
-            <div>
-                <div className="panel border--top--thin">
-                    <Row>
-                        <Column xs="2" md="2">
-                            <Normaltekst>{cv.arenaKandidatnr}</Normaltekst></Column>
-                        <Column xs="4" md="4">
-                            <Normaltekst>{utdanning}</Normaltekst>
-                        </Column>
-                        <Column xs="3" md="3">
-                            <Normaltekst>{yrkeserfaring}</Normaltekst>
-                        </Column>
-                        <Column xs="2" md="2" className="text-center">
-                            <Normaltekst>{lengdeYrkeserfaringTekst}</Normaltekst>
-                        </Column>
-                        <Column xs="1" md="1">
-                            <button
-                                className="lenke"
-                                onClick={this.openCvModal}
-                                aria-label={`CV for ${cv.arenaKandidatnr}`}
-                            >
-                                CV
-                            </button>
-                        </Column>
-                    </Row>
-                </div>
-            </div>
+            <button
+                className="panel border--top--thin kandidater--row"
+                onClick={this.openCvModal}
+                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+            >
+                <Row>
+                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
+                    </Column>
+                    <Column className="no--padding" xs="4" md="4">
+                        <i className="border--vertical" />
+                        <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                    </Column>
+                    <Column className="no--padding" xs="4" md="4">
+                        <i className="border--vertical" />
+                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                    </Column>
+                    <Column xs="2" md="2" className="text-center no--padding">
+                        <i className="border--vertical" />
+                        <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
+                    </Column>
+                </Row>
+            </button>
         );
     }
 }
