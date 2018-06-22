@@ -6,26 +6,18 @@ import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { fromUrlQuery, INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
+import { INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
 import StillingSearch from './stilling/StillingSearch';
 import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from './kompetanse/KompetanseSearch';
 import GeografiSearch from './geografi/GeografiSearch';
+import Feedback from '../feedback/Feedback';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
         super(props);
         this.props.initialSearch();
-        this.state = {
-            urlParameters: fromUrlQuery(window.location.href)
-        };
-    }
-
-    componentWillReceiveProps() {
-        this.setState({
-            urlParameters: fromUrlQuery(window.location.href)
-        });
     }
 
     onRemoveCriteriaClick = () => {
@@ -51,60 +43,63 @@ class Kandidatsok extends React.Component {
                         <NavFrontendSpinner type="L" />
                     </div>
                 ) : (
-                    <Container className="blokk-s">
-                        <div>
-                            <Row>
-                                <Column className="text-center">
-                                    <Sidetittel>Finn kandidater</Sidetittel>
-                                </Column>
-                            </Row>
-                            <div className="search-page">
+                    <div>
+                        <Feedback />
+                        <Container className="blokk-s">
+                            <div>
                                 <Row>
-                                    <Column xs="12" md="8">
-                                        <button
-                                            className="lenke lenke--slett--kriterier"
-                                            id="slett-alle-kriterier-lenke"
-                                            onClick={this.onRemoveCriteriaClick}
-                                        >
-                                            Slett alle kriterier
-                                        </button>
-                                        <StillingSearch />
-                                        <UtdanningSearch />
-                                        <ArbeidserfaringSearch />
-                                        <KompetanseSearch />
-                                        <GeografiSearch />
-                                    </Column>
-                                    <Column xs="12" md="4">
-                                        <div className="panel resultatsummering--sokekriterier">
-                                            {this.props.isEmptyQuery ? (
-
-                                                <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
-
-                                            ) : (
-
-                                                <div>
-                                                    <Ingress>Treff på aktuelle kandidater</Ingress>
-                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
-                                                </div>
-
-                                            )}
-                                            <Link
-                                                to={`/pam-kandidatsok/resultat?${this.state.urlParameters}`}
-                                            >
-                                                <Knapp
-                                                    type="hoved"
-                                                    id="se-kandidatene-knapp"
-                                                    disabled={this.props.totaltAntallTreff === 0}
-                                                >
-                                                    Se kandidatene
-                                                </Knapp>
-                                            </Link>
-                                        </div>
+                                    <Column className="text-center">
+                                        <Sidetittel>Finn kandidater</Sidetittel>
                                     </Column>
                                 </Row>
+                                <div className="search-page">
+                                    <Row>
+                                        <Column xs="12" md="8">
+                                            <button
+                                                className="lenke lenke--slett--kriterier"
+                                                id="slett-alle-kriterier-lenke"
+                                                onClick={this.onRemoveCriteriaClick}
+                                            >
+                                                Slett alle kriterier
+                                            </button>
+                                            <StillingSearch />
+                                            <UtdanningSearch />
+                                            <ArbeidserfaringSearch />
+                                            <KompetanseSearch />
+                                            <GeografiSearch />
+                                        </Column>
+                                        <Column xs="12" md="4">
+                                            <div className="panel resultatsummering--sokekriterier">
+                                                {this.props.isEmptyQuery ? (
+
+                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
+
+                                                ) : (
+
+                                                    <div>
+                                                        <Ingress>Treff på aktuelle kandidater</Ingress>
+                                                        <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
+                                                    </div>
+
+                                                )}
+                                                <Link
+                                                    to="/pam-kandidatsok/resultat"
+                                                >
+                                                    <Knapp
+                                                        type="hoved"
+                                                        id="se-kandidatene-knapp"
+                                                        disabled={this.props.totaltAntallTreff === 0}
+                                                    >
+                                                        Se kandidatene
+                                                    </Knapp>
+                                                </Link>
+                                            </div>
+                                        </Column>
+                                    </Row>
+                                </div>
                             </div>
-                        </div>
-                    </Container>
+                        </Container>
+                    </div>
                 )}
             </div>
         );

@@ -5,17 +5,6 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
 const Promise = require('promise');
-const { initialize, isEnabled } = require('unleash-client');
-
-const unleashInstance = initialize({
-    url: process.env.UNLEASH_API_URL,
-    appName: 'pam-kandidatsok',
-    instanceId: `pam-kandidatsok-${process.env.FASIT_ENVIRONMENT_NAME}`
-});
-
-unleashInstance.on('error', console.error);
-unleashInstance.on('warn', console.warn);
-unleashInstance.on('ready', console.log);
 
 const currentDirectory = __dirname;
 
@@ -67,32 +56,11 @@ const renderSok = () => (
     })
 );
 
-const brukKandidatsokApiToggleNavn = 'pam-kandidatsok.bruk-kandidatsok-api';
-
-const selectProxyHost = () => {
-    console.log('featureToggleApi:', isEnabled(brukKandidatsokApiToggleNavn));
-    if (true) {
-        console.warn('Gå mot kandidatsok-api');
-        return 'http://pam-kandidatsok-api';
-    }
-    console.warn('Gå mot cv-indexer');
-    return 'http://pam-cv-indexer';
-};
-
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(selectProxyHost, {
-        proxyReqPathResolver: (req) => {
-            if (true) {
-                const u = `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
-                console.warn('Gå mot kandidatsok-api, path:', u);
-                return u;
-            }
-            const u = `/pam-cv-indexer${req.originalUrl.split('/pam-kandidatsok').pop()}`;
-            console.warn('Gå mot cv-indexer, path:', u);
-            return u;
-        }
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('http://pam-kandidatsok-api', {
+        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`
     }));
 
     server.use(

@@ -71,7 +71,7 @@ export default class KandidaterTableHeader extends React.Component {
                             />
                         </button>
                     </Column>
-                    <Column xs="3" md="3">
+                    <Column className="filter--lengde--erfaring" xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
                             <Element
                                 className="label--resultatvisning"
