@@ -50,7 +50,7 @@ module.exports = {
                 .waitForElementPresent('@leggTilStillingKnapp')
                 .click('@leggTilStillingKnapp')
                 .setValue('@leggTilStillingInput', stilling + this.api.Keys.ENTER)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
         },
 
         leggTilUtdanningkriterie(utdanning, antallTreff) {
@@ -66,7 +66,7 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent(checkboxElement)
                 .click(checkboxElement)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
         },
 
         leggTilFagfeltkriterie(fagfelt, antallTreff) {
@@ -75,7 +75,7 @@ module.exports = {
                 .waitForElementPresent('@leggTilFagfeltKnapp')
                 .click('@leggTilFagfeltKnapp')
                 .setValue('@leggTilFagfeltInput', fagfelt + this.api.Keys.ENTER)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
         },
 
         leggTilArbeidserfaringkriterie(arbeidserfaring, antallTreff) {
@@ -84,7 +84,7 @@ module.exports = {
                 .waitForElementPresent('@leggTilArbeidserfaringKnapp')
                 .click('@leggTilArbeidserfaringKnapp')
                 .setValue('@leggTilArbeidserfaringInput', arbeidserfaring + this.api.Keys.ENTER)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
         },
 
         leggTilArMedArbeidserfaringkriterie(ar, antallTreff) {
@@ -98,7 +98,7 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent(checkboxElement)
                 .click(checkboxElement)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
         },
 
         leggTilKompetansekriterie(kompetanse, antallTreff) {
@@ -107,7 +107,18 @@ module.exports = {
                 .waitForElementPresent('@leggTilKompetanseKnapp')
                 .click('@leggTilKompetanseKnapp')
                 .setValue('@leggTilKompetanseInput', kompetanse + this.api.Keys.ENTER)
-                .api.pause(4000).page.KandidatsokPage();
+                .pageWait(4000);
+        },
+
+        leggTilGeografikriterie(sted, antallTreff) {
+            return this
+                .finnAntallKandidater(antallTreff)
+                .waitForElementPresent('@leggTilStedKnapp')
+                .click('@leggTilStedKnapp')
+                .setValue('@leggTilStedInput', sted)
+                .pageWait(500)
+                .setValue('@leggTilStedInput', this.api.Keys.ENTER)
+                .pageWait(4000);
         },
 
         skalVisesTreffSomMatcher(kriterie) {
@@ -120,6 +131,10 @@ module.exports = {
             return this.getText('@resultatvisning', (result) => {
                 console.log(result.value);
             });
+        },
+
+        pageWait(ms) {
+            return this.api.pause(ms).page.KandidatsokPage();
         }
     }]
 };
