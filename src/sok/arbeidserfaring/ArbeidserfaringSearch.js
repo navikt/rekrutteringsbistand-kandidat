@@ -10,6 +10,7 @@ import {
 } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from './arbeidserfaringReducer';
+import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -136,8 +137,8 @@ class ArbeidserfaringSearch extends React.Component {
                                 <Checkbox
                                     id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
                                     className={this.props.totalErfaring.includes(arbeidserfaring.value) ?
-                                        'checkbox--sokekriterier--checked' :
-                                        'checkbox--sokekriterier--unchecked'}
+                                        'checkbox--sokekriterier--checked arbeidserfaring' :
+                                        'checkbox--sokekriterier--unchecked arbeidserfaring'}
                                     label={arbeidserfaring.label}
                                     key={arbeidserfaring.value}
                                     value={arbeidserfaring.value}
