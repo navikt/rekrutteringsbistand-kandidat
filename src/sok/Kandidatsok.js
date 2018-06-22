@@ -12,6 +12,7 @@ import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from './kompetanse/KompetanseSearch';
 import GeografiSearch from './geografi/GeografiSearch';
+import SprakSearch from './sprak/SprakSearch';
 import Feedback from '../feedback/Feedback';
 
 class Kandidatsok extends React.Component {
@@ -29,7 +30,8 @@ class Kandidatsok extends React.Component {
             geografiList: [],
             geografiListKomplett: [],
             totalErfaring: [],
-            utdanningsniva: []
+            utdanningsniva: [],
+            sprakList: []
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -65,6 +67,7 @@ class Kandidatsok extends React.Component {
                                             <StillingSearch />
                                             <UtdanningSearch />
                                             <ArbeidserfaringSearch />
+                                            <SprakSearch />
                                             <KompetanseSearch />
                                             <GeografiSearch />
                                         </Column>

@@ -9,6 +9,7 @@ import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
+import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
@@ -30,7 +31,8 @@ class ResultatVisning extends React.Component {
             geografiList: [],
             geografiListKomplett: [],
             totalErfaring: [],
-            utdanningsniva: []
+            utdanningsniva: [],
+            sprakList: []
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -65,6 +67,7 @@ class ResultatVisning extends React.Component {
                                         <StillingSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
+                                        <SprakSearch />
                                         <KompetanseSearch />
                                         <GeografiSearch />
                                     </div>

@@ -25,11 +25,13 @@ const initialState = {
     suggestionsarbeidserfaring: [],
     suggestionsutdanning: [],
     suggestionsgeografi: [],
+    suggestionssprak: [],
     cachedSuggestionsKompetanse: [],
     cachedSuggestionsStilling: [],
     cachedSuggestionsArbeidserfaring: [],
     cachedSuggestionsUtdanning: [],
     cachedSuggestionsGeografi: [],
+    cachedSuggestionsSprak: [],
     suggestionsGeografiKomplett: []
 };
 
@@ -85,6 +87,11 @@ const getTypeAheadNameAndLabel = (type) => {
         return {
             typeAheadName: 'geo',
             cachedSuggestionsLabel: 'cachedSuggestionsGeografi'
+        };
+    } else if (type === 'sprak') {
+        return {
+            typeAheadName: 'spr',
+            cachedSuggestionsLabel: 'cachedSuggestionsSprak'
         };
     }
     return {
