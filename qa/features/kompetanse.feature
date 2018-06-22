@@ -7,5 +7,5 @@ Egenskap: Finne kandidater basert på kompetanse
     Når jeg legger til kompetanse "Førerkort"
     Og jeg trykker Se kandidatene
     Så skal antall treff minke
-    Når jeg legger til kompetanse "ledelse"
+    Når jeg legger til kompetanse "Ledelse"
     Så skal antall treff minke

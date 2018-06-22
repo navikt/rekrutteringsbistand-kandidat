@@ -27,8 +27,8 @@ When(/^jeg trykker Se kandidatene/, () => {
     return kandidatsokPage.seKandidatene();
 });
 
-Then(/^skal det vises treff på kandidater som matcher "(.*)"/, (stilling) => {
-    return 'pending';
+Then(/^skal det vises treff på kandidater som matcher "(.*)"/, (kriterie) => {
+    return kandidatsokPage.skalVisesTreffSomMatcher(kriterie);
 });
 
 Then(/skal antall treff øke|antall treff skal øke/, async () => {
