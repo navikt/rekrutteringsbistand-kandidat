@@ -12,7 +12,7 @@ import GeografiSearch from '../sok/geografi/GeografiSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
-import Disclaimer from '../disclaimer/Disclaimer';
+import Feedback from '../feedback/Feedback';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class ResultatVisning extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <Disclaimer />
+                        <Feedback />
                         <Container className="blokk-s container--wide">
                             <Row>
                                 <Column className="text-center">

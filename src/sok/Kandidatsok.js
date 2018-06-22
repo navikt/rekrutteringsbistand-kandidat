@@ -12,7 +12,7 @@ import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from './kompetanse/KompetanseSearch';
 import GeografiSearch from './geografi/GeografiSearch';
-import Disclaimer from '../disclaimer/Disclaimer';
+import Feedback from '../feedback/Feedback';
 
 class Kandidatsok extends React.Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class Kandidatsok extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <Disclaimer />
+                        <Feedback />
                         <Container className="blokk-s">
                             <div>
                                 <Row>

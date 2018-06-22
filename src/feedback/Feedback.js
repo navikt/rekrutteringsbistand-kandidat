@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { HIDE_DISCLAIMER } from './disclaimerReducer';
-import './Disclaimer.less';
+import './Feedback.less';
+import { HIDE_FEEDBACK } from './feedbackReducer';
 
-function Disclaimer({ shouldShow, hideDisclaimer }) {
-    if (shouldShow) {
+function Feedback({ shouldShowFeedback, hideFeedback }) {
+    if (shouldShowFeedback) {
         return (
-            <div className="DisclaimerWrapper border--top--thin">
+            <div className="FeedbackWrapper border--top--thin">
                 <div className="container">
-                    <div role="alert" className="Disclaimer typo-normal">
+                    <div role="alert" className="Feedback typo-normal">
                         <Element className="blokk-xxs">Dette er en tidlig versjon av tjenesten</Element>
                         <Normaltekst className="blokk-xxs">
                             Vi trenger din tilbakemelding for å bli bedre
@@ -21,16 +21,16 @@ function Disclaimer({ shouldShow, hideDisclaimer }) {
                                 Gi tilbakemelding her
                             </a>
                         </Normaltekst>
-                        <Knapp mini onClick={hideDisclaimer}>Skjul</Knapp>
+                        <Knapp mini onClick={hideFeedback}>Skjul</Knapp>
                     </div>
                 </div>
             </div>
         );
     }
     return (
-        <div className="DisclaimerWrapper border--top--thin">
+        <div className="FeedbackWrapper border--top--thin">
             <div className="container">
-                <div role="alert" className="Feedback typo-normal">
+                <div role="alert" className="Feedback--link typo-normal">
                     <Normaltekst className="blokk-xxs">
                         <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
                             Gi tilbakemelding her
@@ -42,17 +42,17 @@ function Disclaimer({ shouldShow, hideDisclaimer }) {
     );
 }
 
-Disclaimer.propTypes = {
-    shouldShow: PropTypes.bool.isRequired,
-    hideDisclaimer: PropTypes.func.isRequired
+Feedback.propTypes = {
+    shouldShowFeedback: PropTypes.bool.isRequired,
+    hideFeedback: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    shouldShow: state.disclaimer.shouldShow
+    shouldShowFeedback: state.feedback.shouldShowFeedback
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hideDisclaimer: () => dispatch({ type: HIDE_DISCLAIMER })
+    hideFeedback: () => dispatch({ type: HIDE_FEEDBACK })
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Disclaimer);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
