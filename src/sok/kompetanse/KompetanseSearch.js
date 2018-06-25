@@ -52,10 +52,8 @@ class KompetanseSearch extends React.Component {
 
     onSubmitKompetanse = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValueKompetanse !== '') {
-            this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
+        this.typeAhead.input.focus();
     };
 
     onKompetanseSuggestionsClick = (e) => {
@@ -93,25 +91,21 @@ class KompetanseSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAheadKompetanse ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadKompetanseSelect}
+                                    onChange={this.onTypeAheadKompetanseChange}
+                                    label=""
+                                    name="kompetanse"
+                                    placeholder="Skriv inn kompetanse"
+                                    suggestions={this.props.typeAheadSuggestionsKompetanse}
+                                    value={this.state.typeAheadValueKompetanse}
+                                    id="typeahead-kompetanse"
                                     onSubmit={this.onSubmitKompetanse}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadKompetanseSelect}
-                                        onChange={this.onTypeAheadKompetanseChange}
-                                        label=""
-                                        name="kompetanse"
-                                        placeholder="Skriv inn kompetanse"
-                                        suggestions={this.props.typeAheadSuggestionsKompetanse}
-                                        value={this.state.typeAheadValueKompetanse}
-                                        id="typeahead-kompetanse"
-                                        onSubmit={this.onSubmitKompetanse}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp

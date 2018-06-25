@@ -59,10 +59,8 @@ class SprakSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
     };
 
     render() {
@@ -74,25 +72,21 @@ class SprakSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadSprakSelect}
+                                    onChange={this.onTypeAheadSprakChange}
+                                    label=""
+                                    name="utdanning"
+                                    placeholder="Skriv inn fagfelt"
+                                    suggestions={this.props.typeAheadSuggestionsSprak}
+                                    value={this.state.typeAheadValue}
+                                    id="yrke"
                                     onSubmit={this.onSubmit}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadSprakSelect}
-                                        onChange={this.onTypeAheadSprakChange}
-                                        label=""
-                                        name="utdanning"
-                                        placeholder="Skriv inn fagfelt"
-                                        suggestions={this.props.typeAheadSuggestionsSprak}
-                                        value={this.state.typeAheadValue}
-                                        id="yrke"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp

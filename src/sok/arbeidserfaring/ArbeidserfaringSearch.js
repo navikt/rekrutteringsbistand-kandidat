@@ -71,10 +71,8 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
     };
 
     render() {
@@ -91,25 +89,21 @@ class ArbeidserfaringSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadArbeidserfaringSelect}
+                                    onChange={this.onTypeAheadArbeidserfaringChange}
+                                    label=""
+                                    name="arbeidserfaring"
+                                    placeholder="Skriv inn arbeidserfaring"
+                                    suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-arbeidserfaring"
                                     onSubmit={this.onSubmit}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadArbeidserfaringSelect}
-                                        onChange={this.onTypeAheadArbeidserfaringChange}
-                                        label=""
-                                        name="arbeidserfaring"
-                                        placeholder="Skriv inn arbeidserfaring"
-                                        suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-arbeidserfaring"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp
