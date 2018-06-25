@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
 import { cvPropTypes } from '../PropTypes';
-import sortByDato from '../common/SortByDato';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
@@ -15,13 +14,13 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             antallResultater: 25,
-            cver: this.sortCvList(this.props.cver)
+            cver: this.props.cver
         };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            cver: this.sortCvList(nextProps.cver),
+            cver: nextProps.cver,
             antallResultater: 25
         });
     }
@@ -35,8 +34,8 @@ class KandidaterVisning extends React.Component {
     onFilterUtdanningClick = (utdanningChevronNed, from, to) => {
         const cver = this.state.cver.slice(from, to)
             .sort((cv1, cv2) => {
-                const cv1utd = cv1.utdanning[0] ? cv1.utdanning[0].nusKode : 0;
-                const cv2utd = cv2.utdanning[0] ? cv2.utdanning[0].nusKode : 0;
+                const cv1utd = cv1.hoyesteUtdanning ? cv1.hoyesteUtdanning.nusKode : 0;
+                const cv2utd = cv2.hoyesteUtdanning ? cv2.hoyesteUtdanning.nusKode : 0;
                 if (utdanningChevronNed) {
                     return cv1utd - cv2utd;
                 }
@@ -55,8 +54,8 @@ class KandidaterVisning extends React.Component {
     onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
         const cver = this.state.cver.slice(from, to)
             .sort((cv1, cv2) => {
-                const cv1job = cv1.yrkeserfaring[0] ? cv1.yrkeserfaring[0].styrkKodeStillingstittel : '';
-                const cv2job = cv2.yrkeserfaring[0] ? cv2.yrkeserfaring[0].styrkKodeStillingstittel : '';
+                const cv1job = cv1.mestRelevanteYrkeserfaring ? cv1.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+                const cv2job = cv2.mestRelevanteYrkeserfaring ? cv2.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
                 if (cv1job < cv2job) {
                     return jobberfaringChevronNed ? 1 : -1;
                 } else if (cv1job > cv2job) {
@@ -89,37 +88,6 @@ class KandidaterVisning extends React.Component {
                 ...this.state.cver.slice(to)
             ]
         });
-    };
-
-    swapJobberfaringer = (jobberfaring, int1, int2) => {
-        let i = int2;
-        while (i > int1) {
-            jobberfaring.splice(i - 1, 0, jobberfaring.splice(i, 1)
-                .pop());
-            i -= 1;
-        }
-    };
-
-    sortCvList = (cver) => {
-        cver.forEach((cv) => {
-            // Sortere utdanning slik at høyest oppnådd utdanning vises i resultat-listen,
-            // og at det er denne det filtreres på.
-            cv.utdanning.sort((cv1, cv2) => cv2.nusKode - cv1.nusKode);
-
-            // Finne finne jobberfaring i CV som er relevant ut fra søkekriteriene for
-            // arbeidserfaring og stilling. Er det flere relevante jobberfaringer vises den siste
-            // eslint-disable-next-line no-param-reassign
-            cv.yrkeserfaring = sortByDato(cv.yrkeserfaring);
-            const erfaringer = cv.yrkeserfaring.map((y) =>
-                this.props.arbeidserfaringer.concat(this.props.stillinger)
-                    .find((a) => y.styrkKodeStillingstittel.toLowerCase() === a.toLowerCase()));
-            const erfaring = erfaringer.find((e) => e !== undefined);
-            if (erfaring) {
-                const index = erfaringer.indexOf(erfaring);
-                this.swapJobberfaringer(cv.yrkeserfaring, 0, index);
-            }
-        });
-        return cver;
     };
 
     render() {
@@ -167,16 +135,12 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.propTypes = {
     cver: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
-    stillinger: PropTypes.arrayOf(PropTypes.string).isRequired,
     isEmptyQuery: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     cver: state.search.elasticSearchResultat.resultat.cver,
     totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
-    arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-    stillinger: state.stilling.stillinger,
     isEmptyQuery: state.search.isEmptyQuery
 });
 
