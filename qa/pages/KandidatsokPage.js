@@ -3,6 +3,7 @@ module.exports = {
         sideInnhold: '.search-page',
         antallKandidaterTreff: '#antall-kandidater-treff',
         seKandidateneKnapp: '#se-kandidatene-knapp',
+        slettAlleKriterierLenke: '#slett-alle-kriterier-lenke',
         leggTilStillingKnapp: '#leggtil-stilling-knapp',
         leggTilStillingInput: '#typeahead-stilling',
         leggTilFagfeltKnapp: '#leggtil-fagfelt-knapp',
@@ -24,7 +25,8 @@ module.exports = {
         leggTilStedKnapp: '#leggtil-sted-knapp',
         leggTilStedInput: '#typeahead-geografi',
         resultatvisning: 'div[class=resultatvisning]',
-        slettAlleKriterierLenke: '#slett-alle-kriterier-lenke'
+        forsteRadKandidaterTabell: 'button[class*=kandidater--row]',
+        cvModal: '.personalia--modal'
     },
 
     commands: [{
