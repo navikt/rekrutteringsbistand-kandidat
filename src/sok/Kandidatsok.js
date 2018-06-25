@@ -73,18 +73,16 @@ class Kandidatsok extends React.Component {
                                         </Column>
                                         <Column xs="12" md="4">
                                             <div className="panel resultatsummering--sokekriterier">
-                                                {this.props.isEmptyQuery ? (
-
-                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
-
-                                                ) : (
-
-                                                    <div>
-                                                        <Ingress>Treff på aktuelle kandidater</Ingress>
-                                                        <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
-                                                    </div>
-
-                                                )}
+                                                <div className="antall--treff--panel">
+                                                    {this.props.isEmptyQuery ? (
+                                                        <Systemtittel className="antall--treff--sokekriterier--empty" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
+                                                    ) : (
+                                                        <div>
+                                                            <Ingress>Treff på aktuelle kandidater</Ingress>
+                                                            <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
+                                                        </div>
+                                                    )}
+                                                </div>
                                                 <Link
                                                     to="/pam-kandidatsok/resultat"
                                                 >
