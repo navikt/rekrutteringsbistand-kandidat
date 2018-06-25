@@ -196,8 +196,6 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
                     </Column>
                 </Row>
             )}
-            {console.log(sprak)}
-            {/* TODO: Feil navn på respons her */}
             {sprak && sprak.length !== 0 && (
                 <Row className="blokk-s">
                     <Column xs="12">
@@ -205,8 +203,8 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
                         {sprak.map((s) => (
                             <Row className="blokk-xs" key={JSON.stringify(s)}>
                                 <Column xs="8">
-                                    {s.sprakKodeTekst && (
-                                        <Element>{s.sprakKodeTekst}</Element>
+                                    {s.kompetanseKodeTekst && (
+                                        <Element>{s.kompetanseKodeTekst}</Element>
                                     )}
                                     {s.beskrivelse && (
                                         <Normaltekst>{s.beskrivelse}</Normaltekst>

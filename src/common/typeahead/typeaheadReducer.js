@@ -90,7 +90,7 @@ const getTypeAheadNameAndLabel = (type) => {
         };
     } else if (type === 'sprak') {
         return {
-            typeAheadName: 'spr',
+            typeAheadName: 'sprak',
             cachedSuggestionsLabel: 'cachedSuggestionsSprak'
         };
     }

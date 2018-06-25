@@ -125,7 +125,7 @@ SprakSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    sprak: state.sprak.sprakList,
+    sprak: state.sprakReducer.sprak,
     typeAheadSuggestionsSprak: state.typeahead.suggestionssprak
 });
 

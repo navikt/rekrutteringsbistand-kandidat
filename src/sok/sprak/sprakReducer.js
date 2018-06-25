@@ -11,7 +11,7 @@ export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
  ********************************************************* */
 
 const initialState = {
-    sprakList: []
+    sprak: []
 };
 
 export default function sprakReducer(state = initialState, action) {
@@ -19,22 +19,22 @@ export default function sprakReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                sprakList: action.query.sprakList || []
+                sprak: action.query.sprak || []
             };
         case SELECT_TYPE_AHEAD_VALUE_SPRAK:
             return {
                 ...state,
-                sprakList: state.sprakList.includes(action.value) ?
-                    state.sprakList :
+                sprak: state.sprak.includes(action.value) ?
+                    state.sprak :
                     [
-                        ...state.sprakList,
+                        ...state.sprak,
                         action.value
                     ]
             };
         case REMOVE_SELECTED_SPRAK:
             return {
                 ...state,
-                sprakList: state.sprakList.filter((s) => s !== action.value)
+                sprak: state.sprak.filter((s) => s !== action.value)
             };
         default:
             return state;

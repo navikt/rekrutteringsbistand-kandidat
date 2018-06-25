@@ -31,7 +31,7 @@ class Kandidatsok extends React.Component {
             geografiListKomplett: [],
             totalErfaring: [],
             utdanningsniva: [],
-            sprakList: []
+            sprak: []
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
