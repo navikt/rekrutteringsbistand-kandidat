@@ -32,6 +32,7 @@ module.exports = {
     commands: [{
         finnAntallKandidater(antallTreff) {
             return this.getText('@antallKandidaterTreff', (result) => {
+                this.assert.equal(result.status, 0);
                 antallTreff.alleTreff.push(parseInt(result.value.replace(' ', ''), 10));
                 let lengde = antallTreff.alleTreff.length;
                 antallTreff.forste = antallTreff.alleTreff[0];
@@ -44,7 +45,8 @@ module.exports = {
             return this
                 .waitForElementPresent('@seKandidateneKnapp')
                 .click('@seKandidateneKnapp')
-                .waitForElementPresent('@resultatvisning');
+                .waitForElementPresent('@resultatvisning')
+                .pageWait(1000);
         },
 
         leggTilStillingkriterie(stilling, antallTreff) {
@@ -119,7 +121,7 @@ module.exports = {
                 .waitForElementPresent('@leggTilStedKnapp')
                 .click('@leggTilStedKnapp')
                 .setValue('@leggTilStedInput', sted)
-                .pageWait(500)
+                .pageWait(1000)
                 .setValue('@leggTilStedInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
@@ -130,16 +132,16 @@ module.exports = {
             });
         },
 
-        slettAlleKriterier() {
-            return this
-                .click('@slettAlleKriterierLenke')
-                .pageWait(4000);
-        },
-
         skalVisesTreffSomMatcherAr(ar) {
             return this.getText('@resultatvisning', (result) => {
                 console.log(result.value);
             });
+        },
+
+        slettAlleKriterier() {
+            return this
+                .click('@slettAlleKriterierLenke')
+                .pageWait(4000);
         },
 
         pageWait(ms) {
