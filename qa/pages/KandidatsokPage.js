@@ -23,7 +23,8 @@ module.exports = {
         leggTilKompetanseInput: '#typeahead-kompetanse',
         leggTilStedKnapp: '#leggtil-sted-knapp',
         leggTilStedInput: '#typeahead-geografi',
-        resultatvisning: 'div[class=resultatvisning]'
+        resultatvisning: 'div[class=resultatvisning]',
+        slettAlleKriterierLenke: '#slett-alle-kriterier-lenke'
     },
 
     commands: [{
@@ -125,6 +126,12 @@ module.exports = {
             return this.getText('@resultatvisning', (result) => {
                 console.log(result.value);
             });
+        },
+
+        slettAlleKriterier() {
+            return this
+                .click('@slettAlleKriterierLenke')
+                .pageWait(4000);
         },
 
         skalVisesTreffSomMatcherAr(ar) {
