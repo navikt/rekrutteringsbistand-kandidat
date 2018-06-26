@@ -7,7 +7,7 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import { cvPropTypes } from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
+export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     return (
 
         <div className="resultatvisning">
@@ -20,14 +20,14 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
                 from={0}
                 to={antallResultater}
             />
-            {cver.slice(0, antallResultater).map((cv) => (
+            {kandidater.slice(0, antallResultater).map((cv) => (
                 <KandidaterTableRow
                     cv={cv}
                     key={cv.arenaKandidatnr}
                 />
             ))}
             <div className="buttons--kandidatervisning">
-                {cver.length > antallResultater && (
+                {kandidater.length > antallResultater && (
                     <Knapp
                         type="hoved"
                         mini
@@ -45,7 +45,7 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
 }
 
 KandidaterTabellUtenKriterier.propTypes = {
-    cver: PropTypes.arrayOf(cvPropTypes).isRequired,
+    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterUtdanningClick: PropTypes.func.isRequired,
