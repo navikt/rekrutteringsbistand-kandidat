@@ -141,8 +141,6 @@ KandidaterVisning.propTypes = {
 const mapStateToProps = (state) => ({
     cver: state.search.searchResultat.resultat.cver,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-    stillinger: state.stilling.stillinger,
     isEmptyQuery: state.search.isEmptyQuery
 });
 
