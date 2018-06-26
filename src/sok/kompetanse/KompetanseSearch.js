@@ -178,7 +178,7 @@ KompetanseSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     kompetanser: state.kompetanse.kompetanser,
-    kompetanseSuggestions: state.search.elasticSearchResultat.kompetanseSuggestions,
+    kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
     typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse
 });
 

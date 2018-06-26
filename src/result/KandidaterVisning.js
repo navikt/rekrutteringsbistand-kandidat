@@ -139,8 +139,10 @@ KandidaterVisning.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    cver: state.search.elasticSearchResultat.resultat.cver,
-    totaltAntallTreff: state.search.elasticSearchResultat.resultat.totaltAntallTreff,
+    cver: state.search.searchResultat.resultat.cver,
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+    arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+    stillinger: state.stilling.stillinger,
     isEmptyQuery: state.search.isEmptyQuery
 });
 
