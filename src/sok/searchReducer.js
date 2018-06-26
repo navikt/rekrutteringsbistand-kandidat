@@ -28,7 +28,7 @@ export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
  * REDUCER
  ********************************************************* */
 const initialState = {
-    elasticSearchResultat: {
+    searchResultat: {
         resultat: {
             cver: [],
             aggregeringer: [],
@@ -60,7 +60,7 @@ export default function searchReducer(state = initialState, action) {
                 isInitialSearch: false,
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
-                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
+                searchResultat: { ...state.searchResultat, resultat: action.response }
             };
         case SEARCH_FAILURE:
             return {
@@ -77,12 +77,12 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
-                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response }
             };
         case REMOVE_KOMPETANSE_SUGGESTIONS:
             return {
                 ...state,
-                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: [] }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] }
             };
         case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
