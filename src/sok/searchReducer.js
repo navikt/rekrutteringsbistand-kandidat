@@ -28,7 +28,7 @@ export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
  * REDUCER
  ********************************************************* */
 const initialState = {
-    elasticSearchResultat: {
+    searchResultat: {
         resultat: {
             cver: [],
             aggregeringer: [],
@@ -60,7 +60,7 @@ export default function searchReducer(state = initialState, action) {
                 isInitialSearch: false,
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
-                elasticSearchResultat: { ...state.elasticSearchResultat, resultat: action.response }
+                searchResultat: { ...state.searchResultat, resultat: action.response }
             };
         case SEARCH_FAILURE:
             return {
@@ -77,12 +77,12 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
-                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: action.response }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response }
             };
         case REMOVE_KOMPETANSE_SUGGESTIONS:
             return {
                 ...state,
-                elasticSearchResultat: { ...state.elasticSearchResultat, kompetanseSuggestions: [] }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] }
             };
         case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
@@ -118,6 +118,7 @@ export const fromUrlQuery = (url) => {
     const geografiList = getUrlParameterByName('geografiList', url);
     const totalErfaring = getUrlParameterByName('totalErfaring', url);
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
+    const sprak = getUrlParameterByName('sprak', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -126,6 +127,7 @@ export const fromUrlQuery = (url) => {
     if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
     if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
+    if (sprak) stateFromUrl.sprak = sprak.split('_');
     return stateFromUrl;
 };
 
@@ -138,6 +140,7 @@ export const toUrlQuery = (state) => {
     if (state.geografi.geografiList && state.geografi.geografiList.length > 0) urlQuery.geografiList = state.geografi.geografiList.join('_');
     if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
+    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
     return toUrlParams(urlQuery);
 };
 
@@ -164,7 +167,8 @@ function* search() {
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
             totalErfaring: state.arbeidserfaring.totalErfaring,
-            utdanningsniva: state.utdanning.utdanningsniva
+            utdanningsniva: state.utdanning.utdanningsniva,
+            sprak: state.sprakReducer.sprak
         });
 
 
@@ -176,7 +180,8 @@ function* search() {
             state.geografi.geografiList,
             state.geografi.geografiListKomplett,
             state.arbeidserfaring.totalErfaring,
-            state.utdanning.utdanningsniva
+            state.utdanning.utdanningsniva,
+            state.sprakReducer.sprak
         ];
 
         const activeSearchCriteria = searchCriteria.filter((i) => i.length !== 0);

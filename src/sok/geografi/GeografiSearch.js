@@ -59,10 +59,8 @@ class GeografiSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
     };
 
     render() {
@@ -76,25 +74,21 @@ class GeografiSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadGeografiSelect}
+                                    onChange={this.onTypeAheadGeografiChange}
+                                    label=""
+                                    name="geografi"
+                                    placeholder="Skriv inn sted"
+                                    suggestions={this.props.typeAheadSuggestionsGeografi}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-geografi"
                                     onSubmit={this.onSubmit}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadGeografiSelect}
-                                        onChange={this.onTypeAheadGeografiChange}
-                                        label=""
-                                        name="geografi"
-                                        placeholder="Skriv inn sted"
-                                        suggestions={this.props.typeAheadSuggestionsGeografi}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-geografi"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp

@@ -7,7 +7,7 @@ npm install
 npm start
 ```
 
-Frontend kjører som default på [localhost:9009](localhost:9009).
+Frontend kjører som default på [localhost:9009/pam-kandidatsok](localhost:9009/pam-kandidatsok).
 
 For å få inn testdata må prosjektet pam-kandidatsok-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 

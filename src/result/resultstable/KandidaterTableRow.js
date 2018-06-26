@@ -15,8 +15,8 @@ class KandidaterTableRow extends React.Component {
 
     render() {
         const cv = this.props.cv;
-        const yrkeserfaring = cv.yrkeserfaring[0] ? cv.yrkeserfaring[0].styrkKodeStillingstittel : '';
-        const utdanning = cv.utdanning[0] ? cv.utdanning[0].nusKodeGrad : '';
+        const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+        const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
         const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
         let lengdeYrkeserfaringTekst;
         if (lengdeYrkeserfaring === 0) {

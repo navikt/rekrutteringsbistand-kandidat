@@ -23,6 +23,7 @@ import cvReducer, { cvSaga } from './cv/cvReducer';
 import Feilside from './error/Feilside';
 import feedbackReducer from '../feedback/feedbackReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
+import sprakReducer from './sprak/sprakReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -33,6 +34,7 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
+    sprakReducer,
     cvReducer,
     feedback: feedbackReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
