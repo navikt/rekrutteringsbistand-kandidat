@@ -26,7 +26,8 @@ module.exports = {
         leggTilStedInput: '#typeahead-geografi',
         resultatvisning: 'div[class=resultatvisning]',
         forsteRadKandidaterTabell: 'button[class*=kandidater--row]',
-        cvModal: '.personalia--modal'
+        cvModal: '.personalia--modal',
+        viserAntallTreff: '.antall--treff--kandidatervisning'
     },
 
     commands: [{
@@ -124,18 +125,6 @@ module.exports = {
                 .pageWait(1000)
                 .setValue('@leggTilStedInput', this.api.Keys.ENTER)
                 .pageWait(4000);
-        },
-
-        skalVisesTreffSomMatcher(kriterie) {
-            return this.getText('@resultatvisning', (result) => {
-                console.log(result.value);
-            });
-        },
-
-        skalVisesTreffSomMatcherAr(ar) {
-            return this.getText('@resultatvisning', (result) => {
-                console.log(result.value);
-            });
         },
 
         slettAlleKriterier() {

@@ -8,14 +8,13 @@ Egenskap: Finne kandidater basert på utdanningsnivå og fagfelt
   Scenario: Søke etter kandidater basert på utdanningsnivå
     Når jeg legger til utdanning "Bachelorgrad"
     Og jeg trykker Se kandidatene
-    Så skal det vises treff på kandidater som matcher "Bachelorgrad"
-    Og antall treff skal minke
+    Så skal antall treff minke
     Når jeg legger til utdanning "Mastergrad"
     Så skal antall treff øke
 
   Scenario: Søke etter kandidater basert på fagfelt
     Når jeg legger til fagfelt "Pedagogikk"
     Og jeg trykker Se kandidatene
-    Så skal det vises treff på kandidater som matcher "Pedagogikk"
+    Så skal kandidatene ha utdanning med fagfelt som matcher "Pedagogikk"
     Når jeg legger til fagfelt "Undervisning"
     Så skal antall treff minke
