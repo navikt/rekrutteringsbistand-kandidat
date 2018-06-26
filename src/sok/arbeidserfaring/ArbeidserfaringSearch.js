@@ -10,6 +10,7 @@ import {
 } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from './arbeidserfaringReducer';
+import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -70,10 +71,8 @@ class ArbeidserfaringSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
     };
 
     render() {
@@ -90,25 +89,21 @@ class ArbeidserfaringSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadArbeidserfaringSelect}
+                                    onChange={this.onTypeAheadArbeidserfaringChange}
+                                    label=""
+                                    name="arbeidserfaring"
+                                    placeholder="Skriv inn arbeidserfaring"
+                                    suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-arbeidserfaring"
                                     onSubmit={this.onSubmit}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadArbeidserfaringSelect}
-                                        onChange={this.onTypeAheadArbeidserfaringChange}
-                                        label=""
-                                        name="arbeidserfaring"
-                                        placeholder="Skriv inn arbeidserfaring"
-                                        suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-arbeidserfaring"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp
@@ -136,8 +131,8 @@ class ArbeidserfaringSearch extends React.Component {
                                 <Checkbox
                                     id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
                                     className={this.props.totalErfaring.includes(arbeidserfaring.value) ?
-                                        'checkbox--sokekriterier--checked' :
-                                        'checkbox--sokekriterier--unchecked'}
+                                        'checkbox--sokekriterier--checked arbeidserfaring' :
+                                        'checkbox--sokekriterier--unchecked arbeidserfaring'}
                                     label={arbeidserfaring.label}
                                     key={arbeidserfaring.value}
                                     value={arbeidserfaring.value}

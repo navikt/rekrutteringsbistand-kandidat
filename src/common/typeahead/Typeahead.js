@@ -100,13 +100,11 @@ export default class Typeahead extends React.Component {
 
     onSearchButtonBlur = () => {
         this.blurDelay = setTimeout(() => {
-            if (this.shouldBlur) {
-                this.setState({
-                    hasFocus: false
-                }, () => {
-                    this.props.onTypeAheadBlur();
-                });
-            }
+            this.setState({
+                hasFocus: false
+            }, () => {
+                this.props.onTypeAheadBlur();
+            });
         }, 10);
     };
 
@@ -190,9 +188,9 @@ export default class Typeahead extends React.Component {
                     id="search-button-typeahead"
                     onClick={this.props.onSubmit}
                     onBlur={this.onSearchButtonBlur}
-                    onFocus={this.clearBlurDelay}
-                    onMouseDown={this.clearBlurDelay}
-                    onKeyDown={this.clearBlurDelay}
+                    onFocus={this.avoidBlur}
+                    onMouseDown={this.avoidBlur}
+                    onKeyDown={this.avoidBlur}
                 >
                     <i className="search-button__icon" />
                 </Knapp>
