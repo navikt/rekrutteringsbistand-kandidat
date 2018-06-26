@@ -65,10 +65,8 @@ class StillingSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.typeAheadValue !== '') {
-            this.onTypeAheadStillingSelect(this.state.typeAheadValue);
-            this.typeAhead.input.focus();
-        }
+        this.onTypeAheadStillingSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
     };
 
     render() {
@@ -85,25 +83,21 @@ class StillingSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         {this.state.showTypeAhead ? (
                             <div className="leggtil--sokekriterier">
-                                <form
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadStillingSelect}
+                                    onChange={this.onTypeAheadStillingChange}
+                                    label=""
+                                    name="stilling"
+                                    placeholder="Skriv inn stillingstittel"
+                                    suggestions={this.props.typeAheadSuggestionsStilling}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-stilling"
                                     onSubmit={this.onSubmit}
-                                >
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadStillingSelect}
-                                        onChange={this.onTypeAheadStillingChange}
-                                        label=""
-                                        name="stilling"
-                                        placeholder="Skriv inn stillingstittel"
-                                        suggestions={this.props.typeAheadSuggestionsStilling}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-stilling"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </form>
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             </div>
                         ) : (
                             <Knapp

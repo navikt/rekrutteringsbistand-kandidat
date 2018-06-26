@@ -22,6 +22,8 @@ import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
 import Feilside from './error/Feilside';
 import feedbackReducer from '../feedback/feedbackReducer';
+import Toppmeny from '../common/toppmeny/Toppmeny';
+import sprakReducer from './sprak/sprakReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -32,6 +34,7 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
+    sprakReducer,
     cvReducer,
     feedback: feedbackReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
@@ -104,7 +107,10 @@ const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 const App = () => (
     <div>
         <Provider store={store}>
-            <SokApp />
+            <div>
+                <Toppmeny />
+                <SokApp />
+            </div>
         </Provider>
     </div>
 );

@@ -12,6 +12,7 @@ import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from './kompetanse/KompetanseSearch';
 import GeografiSearch from './geografi/GeografiSearch';
+import SprakSearch from './sprak/SprakSearch';
 import Feedback from '../feedback/Feedback';
 
 class Kandidatsok extends React.Component {
@@ -29,7 +30,8 @@ class Kandidatsok extends React.Component {
             geografiList: [],
             geografiListKomplett: [],
             totalErfaring: [],
-            utdanningsniva: []
+            utdanningsniva: [],
+            sprak: []
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -65,23 +67,22 @@ class Kandidatsok extends React.Component {
                                             <StillingSearch />
                                             <UtdanningSearch />
                                             <ArbeidserfaringSearch />
+                                            <SprakSearch />
                                             <KompetanseSearch />
                                             <GeografiSearch />
                                         </Column>
                                         <Column xs="12" md="4">
                                             <div className="panel resultatsummering--sokekriterier">
-                                                {this.props.isEmptyQuery ? (
-
-                                                    <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
-
-                                                ) : (
-
-                                                    <div>
-                                                        <Ingress>Treff på aktuelle kandidater</Ingress>
-                                                        <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
-                                                    </div>
-
-                                                )}
+                                                <div className="antall--treff--panel">
+                                                    {this.props.isEmptyQuery ? (
+                                                        <Systemtittel className="antall--treff--sokekriterier--empty" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} kandidater</Systemtittel>
+                                                    ) : (
+                                                        <div>
+                                                            <Ingress>Treff på aktuelle kandidater</Ingress>
+                                                            <Systemtittel className="antall--treff--sokekriterier" id="antall-kandidater-treff">{this.props.totaltAntallTreff.toLocaleString('nb')} treff</Systemtittel>
+                                                        </div>
+                                                    )}
+                                                </div>
                                                 <Link
                                                     to="/pam-kandidatsok/resultat"
                                                 >

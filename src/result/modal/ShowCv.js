@@ -16,9 +16,7 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
     const sertifikater = cv.sertifikater.slice();
-    // TODO: Språk er per nå ikke med fra backend. Oppdaterer denne når språk er med igjen
-    // const sprak = cv.sprak.slice();
-    const sprak = [];
+    const sprak = cv.sprak.slice();
 
     if (isFetchingCv) {
         return (
@@ -205,8 +203,8 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
                         {sprak.map((s) => (
                             <Row className="blokk-xs" key={JSON.stringify(s)}>
                                 <Column xs="8">
-                                    {s.sprakKodeTekst && (
-                                        <Element>{s.sprakKodeTekst}</Element>
+                                    {s.kompetanseKodeTekst && (
+                                        <Element>{s.kompetanseKodeTekst}</Element>
                                     )}
                                     {s.beskrivelse && (
                                         <Normaltekst>{s.beskrivelse}</Normaltekst>
