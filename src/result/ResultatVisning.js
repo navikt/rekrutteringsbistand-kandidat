@@ -53,7 +53,7 @@ class ResultatVisning extends React.Component {
                         <Container className="blokk-s container--wide">
                             <Row>
                                 <Link
-                                    className="lenke tilbake--lenke"
+                                    className="lenke tilbake--lenke typo-normal"
                                     id="tilbake-til-forside-lenke"
                                     to="/pam-kandidatsok"
                                 >
@@ -74,7 +74,7 @@ class ResultatVisning extends React.Component {
                             <Row className="resultatvisning--body">
                                 <Column xs="12" md="4">
                                     <button
-                                        className="lenke lenke--slett--kriterier"
+                                        className="lenke lenke--slett--kriterier typo-normal"
                                         id="slett-alle-kriterier-lenke"
                                         onClick={this.onRemoveCriteriaClick}
                                     >

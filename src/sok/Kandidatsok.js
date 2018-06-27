@@ -58,7 +58,7 @@ class Kandidatsok extends React.Component {
                                     <Row>
                                         <Column xs="12" md="8">
                                             <button
-                                                className="lenke lenke--slett--kriterier"
+                                                className="lenke lenke--slett--kriterier typo-normal"
                                                 id="slett-alle-kriterier-lenke"
                                                 onClick={this.onRemoveCriteriaClick}
                                             >
