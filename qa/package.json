@@ -1,0 +1,26 @@
+{
+  "name": "pam-kandidatsok-qa",
+  "version": "1.0.0",
+  "description": "Funksjonelle akseptansetester for PAM-kandidatsok",
+  "scripts": {
+    "cucumber": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env t6",
+    "cucumber-debug": "node --inspect node_modules/nightwatch/bin/nightwatch --config nightwatch.conf.js --env t6",
+    "cucumber-linux": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-t6",
+    "cucumber-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js",
+    "cucumber-local-debug": "node --inspect node_modules/.bin/nightwatch --config nightwatch.conf.js",
+    "cucumber-linux-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-local",
+    "cucumber-jenkins": "xvfb-run node_modules/.bin/nightwatch --env jenkins",
+    "cucumber-report": "node createHtmlReports.js"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "chromedriver": "^2.38.3",
+    "cucumber": "^4.2.1",
+    "cucumber-html-report": "^0.6.5",
+    "cucumber-pretty": "^1.4.4",
+    "nightwatch": "^0.9.21",
+    "nightwatch-cucumber": "^9.1.2",
+    "selenium-server-standalone-jar": "^3.12.0"
+  }
+}
