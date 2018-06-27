@@ -30,7 +30,7 @@ export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
 const initialState = {
     searchResultat: {
         resultat: {
-            cver: [],
+            kandidater: [],
             aggregeringer: [],
             totaltAntallTreff: 0
         },

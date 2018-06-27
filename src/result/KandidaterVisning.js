@@ -14,13 +14,13 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             antallResultater: 25,
-            cver: this.props.cver
+            kandidater: this.props.kandidater
         };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            cver: nextProps.cver,
+            kandidater: nextProps.kandidater,
             antallResultater: 25
         });
     }
@@ -32,60 +32,60 @@ class KandidaterVisning extends React.Component {
     };
 
     onFilterUtdanningClick = (utdanningChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to)
-            .sort((cv1, cv2) => {
-                const cv1utd = cv1.hoyesteUtdanning ? cv1.hoyesteUtdanning.nusKode : 0;
-                const cv2utd = cv2.hoyesteUtdanning ? cv2.hoyesteUtdanning.nusKode : 0;
+        const kandidater = this.state.kandidater.slice(from, to)
+            .sort((kand1, kand2) => {
+                const kand1utd = kand1.hoyesteUtdanning ? kand1.hoyesteUtdanning.nusKode : 0;
+                const kand2utd = kand2.hoyesteUtdanning ? kand2.hoyesteUtdanning.nusKode : 0;
                 if (utdanningChevronNed) {
-                    return cv1utd - cv2utd;
+                    return kand1utd - kand2utd;
                 }
-                return cv2utd - cv1utd;
+                return kand2utd - kand1utd;
             });
 
         this.setState({
-            cver: [
-                ...this.state.cver.slice(0, from),
-                ...cver,
-                ...this.state.cver.slice(to)
+            kandidater: [
+                ...this.state.kandidater.slice(0, from),
+                ...kandidater,
+                ...this.state.kandidater.slice(to)
             ]
         });
     };
 
     onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to)
-            .sort((cv1, cv2) => {
-                const cv1job = cv1.mestRelevanteYrkeserfaring ? cv1.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-                const cv2job = cv2.mestRelevanteYrkeserfaring ? cv2.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-                if (cv1job < cv2job) {
+        const kandidater = this.state.kandidater.slice(from, to)
+            .sort((kand1, kand2) => {
+                const kand1job = kand1.mestRelevanteYrkeserfaring ? kand1.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+                const kand2job = kand2.mestRelevanteYrkeserfaring ? kand2.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+                if (kand1job < kand2job) {
                     return jobberfaringChevronNed ? 1 : -1;
-                } else if (cv1job > cv2job) {
+                } else if (kand1job > kand2job) {
                     return jobberfaringChevronNed ? -1 : 1;
                 }
                 return 0;
             });
 
         this.setState({
-            cver: [
-                ...this.state.cver.slice(0, from),
-                ...cver,
-                ...this.state.cver.slice(to)
+            kandidater: [
+                ...this.state.kandidater.slice(0, from),
+                ...kandidater,
+                ...this.state.kandidater.slice(to)
             ]
         });
     };
 
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
-        const cver = this.state.cver.slice(from, to)
-            .sort((cv1, cv2) => {
+        const kandidater = this.state.kandidater.slice(from, to)
+            .sort((kand1, kand2) => {
                 if (antallArChevronNed) {
-                    return cv1.totalLengdeYrkeserfaring - cv2.totalLengdeYrkeserfaring;
+                    return kand1.totalLengdeYrkeserfaring - kand2.totalLengdeYrkeserfaring;
                 }
-                return cv2.totalLengdeYrkeserfaring - cv1.totalLengdeYrkeserfaring;
+                return kand2.totalLengdeYrkeserfaring - kand1.totalLengdeYrkeserfaring;
             });
         this.setState({
-            cver: [
-                ...this.state.cver.slice(0, from),
-                ...cver,
-                ...this.state.cver.slice(to)
+            kandidater: [
+                ...this.state.kandidater.slice(0, from),
+                ...kandidater,
+                ...this.state.kandidater.slice(to)
             ]
         });
     };
@@ -102,7 +102,7 @@ class KandidaterVisning extends React.Component {
 
                     <KandidaterTabellUtenKriterier
                         antallResultater={this.state.antallResultater}
-                        cver={this.state.cver}
+                        kandidater={this.state.kandidater}
                         onFilterUtdanningClick={this.onFilterUtdanningClick}
                         onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
@@ -115,7 +115,7 @@ class KandidaterVisning extends React.Component {
 
                     <KandidaterTabellMedKriterier
                         antallResultater={this.state.antallResultater}
-                        cver={this.state.cver}
+                        kandidater={this.state.kandidater}
                         onFilterUtdanningClick={this.onFilterUtdanningClick}
                         onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
@@ -133,13 +133,13 @@ class KandidaterVisning extends React.Component {
 }
 
 KandidaterVisning.propTypes = {
-    cver: PropTypes.arrayOf(cvPropTypes).isRequired,
+    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    cver: state.search.searchResultat.resultat.cver,
+    kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.search.isEmptyQuery
 });
