@@ -9,7 +9,7 @@ import { cvPropTypes } from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, cver, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -32,7 +32,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                     from={0}
                     to={antallBesteTreff}
                 />
-                {cver.slice(0, antallBesteTreff)
+                {kandidater.slice(0, antallBesteTreff)
                     .map((cv) => (
                         <KandidaterTableRow
                             cv={cv}
@@ -40,7 +40,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                         />
                     ))}
             </div>
-            {cver.length > antallBesteTreff && (
+            {kandidater.length > antallBesteTreff && (
                 <div className="resultatvisning">
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
@@ -50,7 +50,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                         from={antallBesteTreff}
                         to={antallResultater}
                     />
-                    {cver.slice(antallBesteTreff, antallResultater)
+                    {kandidater.slice(antallBesteTreff, antallResultater)
                         .map((cv) => (
                             <KandidaterTableRow
                                 cv={cv}
@@ -58,7 +58,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                             />
                         ))}
                     <div className="buttons--kandidatervisning">
-                        {cver.length > antallResultater && (
+                        {kandidater.length > antallResultater && (
                             <Knapp
                                 type="hoved"
                                 mini
@@ -79,7 +79,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
 
 
 KandidaterTabellMedKriterier.propTypes = {
-    cver: PropTypes.arrayOf(cvPropTypes).isRequired,
+    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterUtdanningClick: PropTypes.func.isRequired,
     onFilterJobberfaringClick: PropTypes.func.isRequired,
