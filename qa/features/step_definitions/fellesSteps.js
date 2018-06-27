@@ -13,6 +13,7 @@ Before(() => {
         nestSiste: null,
         siste: null
     };
+    return client.useCss(); // I tilfelle et scenario feiler med XPath, så vil neste scenario bruke CSS, som er default.
 });
 
 Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) => {
