@@ -10,6 +10,7 @@ import {
     FETCH_TYPE_AHEAD_SUGGESTIONS
 } from '../../common/typeahead/typeaheadReducer';
 import { SELECT_TYPE_AHEAD_VALUE_SPRAK, REMOVE_SELECTED_SPRAK } from './sprakReducer';
+import './Sprak.less';
 
 class SprakSearch extends React.Component {
     constructor(props) {
@@ -70,8 +71,8 @@ class SprakSearch extends React.Component {
                 <div className="panel panel--sokekriterier">
                     <Element>Krav til språk i jobbsituasjon</Element>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
+                        <div className="sokefelt--wrapper--sprak">
+                            {this.state.showTypeAhead ? (
                                 <Typeahead
                                     ref={(typeAhead) => {
                                         this.typeAhead = typeAhead;
@@ -80,23 +81,23 @@ class SprakSearch extends React.Component {
                                     onChange={this.onTypeAheadSprakChange}
                                     label=""
                                     name="utdanning"
-                                    placeholder="Skriv inn fagfelt"
+                                    placeholder="Skriv inn språk"
                                     suggestions={this.props.typeAheadSuggestionsSprak}
                                     value={this.state.typeAheadValue}
                                     id="yrke"
                                     onSubmit={this.onSubmit}
                                     onTypeAheadBlur={this.onTypeAheadBlur}
                                 />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-fagfelt-knapp"
-                            >
-                                +Legg til språk
-                            </Knapp>
-                        )}
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-fagfelt-knapp"
+                                >
+                                    +Legg til språk
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.sprak.map((sprak) => (
                             <button
                                 onClick={this.onFjernClick}

@@ -87,8 +87,8 @@ class ArbeidserfaringSearch extends React.Component {
                         For eksempel barnehagelærer
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
+                        <div className="sokefelt--wrapper--arbeidserfaring">
+                            {this.state.showTypeAhead ? (
                                 <Typeahead
                                     ref={(typeAhead) => {
                                         this.typeAhead = typeAhead;
@@ -104,16 +104,16 @@ class ArbeidserfaringSearch extends React.Component {
                                     onSubmit={this.onSubmit}
                                     onTypeAheadBlur={this.onTypeAheadBlur}
                                 />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-arbeidserfaring-knapp"
-                            >
-                                +Legg til arbeidserfaring
-                            </Knapp>
-                        )}
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-arbeidserfaring-knapp"
+                                >
+                                    +Legg til arbeidserfaring
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.arbeidserfaringer.map((arbeidserfaring) => (
                             <button
                                 onClick={this.onFjernClick}

@@ -108,8 +108,8 @@ class UtdanningSearch extends React.Component {
                         For eksempel pedagogikk
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
+                        <div className="sokefelt--wrapper--utdanning">
+                            {this.state.showTypeAhead ? (
                                 <Typeahead
                                     ref={(typeAhead) => {
                                         this.typeAhead = typeAhead;
@@ -125,16 +125,16 @@ class UtdanningSearch extends React.Component {
                                     onSubmit={this.onSubmit}
                                     onTypeAheadBlur={this.onTypeAheadBlur}
                                 />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-fagfelt-knapp"
-                            >
-                                +Legg til fagfelt
-                            </Knapp>
-                        )}
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-fagfelt-knapp"
+                                >
+                                    +Legg til fagfelt
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.utdanninger.map((utdanning) => (
                             <button
                                 onClick={this.onFjernClick}

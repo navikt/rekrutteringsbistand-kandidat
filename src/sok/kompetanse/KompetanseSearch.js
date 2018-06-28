@@ -89,8 +89,8 @@ class KompetanseSearch extends React.Component {
                         For eksempel førerkort klasse B, ledelse eller Excel
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAheadKompetanse ? (
-                            <div className="leggtil--sokekriterier">
+                        <div className="sokefelt--wrapper--kompetanse">
+                            {this.state.showTypeAheadKompetanse ? (
                                 <Typeahead
                                     ref={(typeAhead) => {
                                         this.typeAhead = typeAhead;
@@ -106,16 +106,16 @@ class KompetanseSearch extends React.Component {
                                     onSubmit={this.onSubmitKompetanse}
                                     onTypeAheadBlur={this.onTypeAheadBlur}
                                 />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilKompetanseClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-kompetanse-knapp"
-                            >
-                                +Legg til kompetanse
-                            </Knapp>
-                        )}
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilKompetanseClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-kompetanse-knapp"
+                                >
+                                    +Legg til kompetanse
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.kompetanser.map((kompetanse) => (
                             <button
                                 onClick={this.onFjernKompetanseClick}
