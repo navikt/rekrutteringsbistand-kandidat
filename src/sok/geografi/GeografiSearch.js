@@ -7,6 +7,7 @@ import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_GEOGRAFI, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from './geografiReducer';
+import './Geografi.less';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -72,33 +73,35 @@ class GeografiSearch extends React.Component {
                         Legg til fylke, kommune eller by
                     </Element>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadGeografiSelect}
-                                    onChange={this.onTypeAheadGeografiChange}
-                                    label=""
-                                    name="geografi"
-                                    placeholder="Skriv inn sted"
-                                    suggestions={this.props.typeAheadSuggestionsGeografi}
-                                    value={this.state.typeAheadValue}
-                                    id="typeahead-geografi"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-sted-knapp"
-                            >
-                                +Legg til sted
-                            </Knapp>
-                        )}
+                        <div className="sokefelt--wrapper--geografi">
+                            {this.state.showTypeAhead ? (
+                                <div className="leggtil--sokekriterier">
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadGeografiSelect}
+                                        onChange={this.onTypeAheadGeografiChange}
+                                        label=""
+                                        name="geografi"
+                                        placeholder="Skriv inn sted"
+                                        suggestions={this.props.typeAheadSuggestionsGeografi}
+                                        value={this.state.typeAheadValue}
+                                        id="typeahead-geografi"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
+                                    />
+                                </div>
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-sted-knapp"
+                                >
+                                    +Legg til sted
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
                             <button
                                 onClick={this.onFjernClick}
