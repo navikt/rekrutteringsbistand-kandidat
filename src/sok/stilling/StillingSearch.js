@@ -10,6 +10,7 @@ import {
 } from '../searchReducer';
 import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import './Stilling.less';
 
 class StillingSearch extends React.Component {
     constructor(props) {
@@ -81,33 +82,35 @@ class StillingSearch extends React.Component {
                         For eksempel pedagogisk leder
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadStillingSelect}
-                                    onChange={this.onTypeAheadStillingChange}
-                                    label=""
-                                    name="stilling"
-                                    placeholder="Skriv inn stillingstittel"
-                                    suggestions={this.props.typeAheadSuggestionsStilling}
-                                    value={this.state.typeAheadValue}
-                                    id="typeahead-stilling"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-stilling-knapp"
-                            >
-                                +Legg til stilling
-                            </Knapp>
-                        )}
+                        <div className="sokefelt--wrapper--stilling">
+                            {this.state.showTypeAhead ? (
+                                <div className="leggtil--sokekriterier">
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadStillingSelect}
+                                        onChange={this.onTypeAheadStillingChange}
+                                        label=""
+                                        name="stilling"
+                                        placeholder="Skriv inn stillingstittel"
+                                        suggestions={this.props.typeAheadSuggestionsStilling}
+                                        value={this.state.typeAheadValue}
+                                        id="typeahead-stilling"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
+                                    />
+                                </div>
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-stilling-knapp"
+                                >
+                                    +Legg til stilling
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.stillinger.map((stilling) => (
                             <button
                                 onClick={this.onFjernClick}

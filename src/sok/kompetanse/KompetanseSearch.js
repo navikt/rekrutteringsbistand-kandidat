@@ -89,33 +89,35 @@ class KompetanseSearch extends React.Component {
                         For eksempel førerkort klasse B, ledelse eller Excel
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAheadKompetanse ? (
-                            <div className="leggtil--sokekriterier">
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadKompetanseSelect}
-                                    onChange={this.onTypeAheadKompetanseChange}
-                                    label=""
-                                    name="kompetanse"
-                                    placeholder="Skriv inn kompetanse"
-                                    suggestions={this.props.typeAheadSuggestionsKompetanse}
-                                    value={this.state.typeAheadValueKompetanse}
-                                    id="typeahead-kompetanse"
-                                    onSubmit={this.onSubmitKompetanse}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilKompetanseClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-kompetanse-knapp"
-                            >
-                                +Legg til kompetanse
-                            </Knapp>
-                        )}
+                        <div className="sokefelt--wrapper--kompetanse">
+                            {this.state.showTypeAheadKompetanse ? (
+                                <div className="leggtil--sokekriterier">
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadKompetanseSelect}
+                                        onChange={this.onTypeAheadKompetanseChange}
+                                        label=""
+                                        name="kompetanse"
+                                        placeholder="Skriv inn kompetanse"
+                                        suggestions={this.props.typeAheadSuggestionsKompetanse}
+                                        value={this.state.typeAheadValueKompetanse}
+                                        id="typeahead-kompetanse"
+                                        onSubmit={this.onSubmitKompetanse}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
+                                    />
+                                </div>
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilKompetanseClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-kompetanse-knapp"
+                                >
+                                    +Legg til kompetanse
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.kompetanser.map((kompetanse) => (
                             <button
                                 onClick={this.onFjernKompetanseClick}

@@ -87,33 +87,35 @@ class ArbeidserfaringSearch extends React.Component {
                         For eksempel barnehagelærer
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadArbeidserfaringSelect}
-                                    onChange={this.onTypeAheadArbeidserfaringChange}
-                                    label=""
-                                    name="arbeidserfaring"
-                                    placeholder="Skriv inn arbeidserfaring"
-                                    suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
-                                    value={this.state.typeAheadValue}
-                                    id="typeahead-arbeidserfaring"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-arbeidserfaring-knapp"
-                            >
-                                +Legg til arbeidserfaring
-                            </Knapp>
-                        )}
+                        <div className="sokefelt--wrapper--arbeidserfaring">
+                            {this.state.showTypeAhead ? (
+                                <div className="leggtil--sokekriterier">
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadArbeidserfaringSelect}
+                                        onChange={this.onTypeAheadArbeidserfaringChange}
+                                        label=""
+                                        name="arbeidserfaring"
+                                        placeholder="Skriv inn arbeidserfaring"
+                                        suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
+                                        value={this.state.typeAheadValue}
+                                        id="typeahead-arbeidserfaring"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
+                                    />
+                                </div>
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-arbeidserfaring-knapp"
+                                >
+                                    +Legg til arbeidserfaring
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.arbeidserfaringer.map((arbeidserfaring) => (
                             <button
                                 onClick={this.onFjernClick}

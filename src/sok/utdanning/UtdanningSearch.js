@@ -108,33 +108,35 @@ class UtdanningSearch extends React.Component {
                         For eksempel pedagogikk
                     </Normaltekst>
                     <div className="sokekriterier--kriterier">
-                        {this.state.showTypeAhead ? (
-                            <div className="leggtil--sokekriterier">
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadUtdanningSelect}
-                                    onChange={this.onTypeAheadUtdanningChange}
-                                    label=""
-                                    name="utdanning"
-                                    placeholder="Skriv inn fagfelt"
-                                    suggestions={this.props.typeAheadSuggestionsUtdanning}
-                                    value={this.state.typeAheadValue}
-                                    id="yrke"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            </div>
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-fagfelt-knapp"
-                            >
-                                +Legg til fagfelt
-                            </Knapp>
-                        )}
+                        <div className="sokefelt--wrapper--utdanning">
+                            {this.state.showTypeAhead ? (
+                                <div className="leggtil--sokekriterier">
+                                    <Typeahead
+                                        ref={(typeAhead) => {
+                                            this.typeAhead = typeAhead;
+                                        }}
+                                        onSelect={this.onTypeAheadUtdanningSelect}
+                                        onChange={this.onTypeAheadUtdanningChange}
+                                        label=""
+                                        name="utdanning"
+                                        placeholder="Skriv inn fagfelt"
+                                        suggestions={this.props.typeAheadSuggestionsUtdanning}
+                                        value={this.state.typeAheadValue}
+                                        id="yrke"
+                                        onSubmit={this.onSubmit}
+                                        onTypeAheadBlur={this.onTypeAheadBlur}
+                                    />
+                                </div>
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp"
+                                    id="leggtil-fagfelt-knapp"
+                                >
+                                    +Legg til fagfelt
+                                </Knapp>
+                            )}
+                        </div>
                         {this.props.utdanninger.map((utdanning) => (
                             <button
                                 onClick={this.onFjernClick}
