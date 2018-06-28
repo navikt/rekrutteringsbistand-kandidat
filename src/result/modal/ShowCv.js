@@ -70,7 +70,7 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
                                     <i className="telefon--icon" />
                                     <strong>Telefon:</strong> {/* TODO: Telefon er ikke med
                                     fra backend per nå, oppdatere denne når det er med */}
-                                    {/* <a href={`tel:${cv.telefon}`}>{cv.telefon}</a> */}
+                                    {/* <a href={`tel:${cv.telefon}`} className="lenke telefon--text">{cv.telefon}</a> */}
                                 </Normaltekst>
                             )}
                         </div>

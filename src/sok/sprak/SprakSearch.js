@@ -80,7 +80,7 @@ class SprakSearch extends React.Component {
                                     onChange={this.onTypeAheadSprakChange}
                                     label=""
                                     name="utdanning"
-                                    placeholder="Skriv inn fagfelt"
+                                    placeholder="Skriv inn språk"
                                     suggestions={this.props.typeAheadSuggestionsSprak}
                                     value={this.state.typeAheadValue}
                                     id="yrke"
