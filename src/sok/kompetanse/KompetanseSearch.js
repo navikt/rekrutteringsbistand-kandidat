@@ -91,23 +91,21 @@ class KompetanseSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         <div className="sokefelt--wrapper--kompetanse">
                             {this.state.showTypeAheadKompetanse ? (
-                                <div className="leggtil--sokekriterier">
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadKompetanseSelect}
-                                        onChange={this.onTypeAheadKompetanseChange}
-                                        label=""
-                                        name="kompetanse"
-                                        placeholder="Skriv inn kompetanse"
-                                        suggestions={this.props.typeAheadSuggestionsKompetanse}
-                                        value={this.state.typeAheadValueKompetanse}
-                                        id="typeahead-kompetanse"
-                                        onSubmit={this.onSubmitKompetanse}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </div>
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadKompetanseSelect}
+                                    onChange={this.onTypeAheadKompetanseChange}
+                                    label=""
+                                    name="kompetanse"
+                                    placeholder="Skriv inn kompetanse"
+                                    suggestions={this.props.typeAheadSuggestionsKompetanse}
+                                    value={this.state.typeAheadValueKompetanse}
+                                    id="typeahead-kompetanse"
+                                    onSubmit={this.onSubmitKompetanse}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             ) : (
                                 <Knapp
                                     onClick={this.onLeggTilKompetanseClick}

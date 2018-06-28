@@ -75,23 +75,21 @@ class GeografiSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         <div className="sokefelt--wrapper--geografi">
                             {this.state.showTypeAhead ? (
-                                <div className="leggtil--sokekriterier">
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadGeografiSelect}
-                                        onChange={this.onTypeAheadGeografiChange}
-                                        label=""
-                                        name="geografi"
-                                        placeholder="Skriv inn sted"
-                                        suggestions={this.props.typeAheadSuggestionsGeografi}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-geografi"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </div>
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadGeografiSelect}
+                                    onChange={this.onTypeAheadGeografiChange}
+                                    label=""
+                                    name="geografi"
+                                    placeholder="Skriv inn sted"
+                                    suggestions={this.props.typeAheadSuggestionsGeografi}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-geografi"
+                                    onSubmit={this.onSubmit}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             ) : (
                                 <Knapp
                                     onClick={this.onLeggTilClick}

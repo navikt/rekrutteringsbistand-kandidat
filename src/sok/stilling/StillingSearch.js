@@ -84,23 +84,21 @@ class StillingSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         <div className="sokefelt--wrapper--stilling">
                             {this.state.showTypeAhead ? (
-                                <div className="leggtil--sokekriterier">
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadStillingSelect}
-                                        onChange={this.onTypeAheadStillingChange}
-                                        label=""
-                                        name="stilling"
-                                        placeholder="Skriv inn stillingstittel"
-                                        suggestions={this.props.typeAheadSuggestionsStilling}
-                                        value={this.state.typeAheadValue}
-                                        id="typeahead-stilling"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </div>
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadStillingSelect}
+                                    onChange={this.onTypeAheadStillingChange}
+                                    label=""
+                                    name="stilling"
+                                    placeholder="Skriv inn stillingstittel"
+                                    suggestions={this.props.typeAheadSuggestionsStilling}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-stilling"
+                                    onSubmit={this.onSubmit}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             ) : (
                                 <Knapp
                                     onClick={this.onLeggTilClick}

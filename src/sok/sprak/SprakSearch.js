@@ -73,23 +73,21 @@ class SprakSearch extends React.Component {
                     <div className="sokekriterier--kriterier">
                         <div className="sokefelt--wrapper--sprak">
                             {this.state.showTypeAhead ? (
-                                <div className="leggtil--sokekriterier">
-                                    <Typeahead
-                                        ref={(typeAhead) => {
-                                            this.typeAhead = typeAhead;
-                                        }}
-                                        onSelect={this.onTypeAheadSprakSelect}
-                                        onChange={this.onTypeAheadSprakChange}
-                                        label=""
-                                        name="utdanning"
-                                        placeholder="Skriv inn språk"
-                                        suggestions={this.props.typeAheadSuggestionsSprak}
-                                        value={this.state.typeAheadValue}
-                                        id="yrke"
-                                        onSubmit={this.onSubmit}
-                                        onTypeAheadBlur={this.onTypeAheadBlur}
-                                    />
-                                </div>
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadSprakSelect}
+                                    onChange={this.onTypeAheadSprakChange}
+                                    label=""
+                                    name="utdanning"
+                                    placeholder="Skriv inn språk"
+                                    suggestions={this.props.typeAheadSuggestionsSprak}
+                                    value={this.state.typeAheadValue}
+                                    id="yrke"
+                                    onSubmit={this.onSubmit}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
                             ) : (
                                 <Knapp
                                     onClick={this.onLeggTilClick}
