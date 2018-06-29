@@ -11,7 +11,6 @@ import {
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from './arbeidserfaringReducer';
 import './Arbeidserfaring.less';
-import '../../common/AlertStripeInfo.less';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 
 class ArbeidserfaringSearch extends React.Component {
