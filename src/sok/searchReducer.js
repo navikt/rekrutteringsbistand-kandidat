@@ -162,8 +162,6 @@ function* search(action = '') {
         yield put({ type: SEARCH_BEGIN });
         const state = yield select();
 
-        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
-
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
@@ -199,6 +197,7 @@ function* search(action = '') {
 
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery });
+        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });

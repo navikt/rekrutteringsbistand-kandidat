@@ -113,8 +113,7 @@ class GeografiSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
-                    && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -139,12 +138,10 @@ GeografiSearch.propTypes = {
     })).isRequired,
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired,
-    isSearching: PropTypes.bool.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isSearching: state.search.isSearching,
     geografiList: state.geografi.geografiList,
     geografiListKomplett: state.geografi.geografiListKomplett,
     typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,

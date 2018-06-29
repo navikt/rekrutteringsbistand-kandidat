@@ -157,8 +157,7 @@ class KompetanseSearch extends React.Component {
                             </div>
                         </div>
                     )}
-                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
-                    && this.props.visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -181,12 +180,10 @@ KompetanseSearch.propTypes = {
     typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired,
-    isSearching: PropTypes.bool.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isSearching: state.search.isSearching,
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
     typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse,

@@ -111,8 +111,7 @@ class SprakSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
-                    && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -130,12 +129,10 @@ SprakSearch.propTypes = {
     sprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired,
-    isSearching: PropTypes.bool.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isSearching: state.search.isSearching,
     sprak: state.sprakReducer.sprak,
     typeAheadSuggestionsSprak: state.typeahead.suggestionssprak,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
