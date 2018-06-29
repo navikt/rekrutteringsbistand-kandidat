@@ -144,7 +144,8 @@ class ArbeidserfaringSearch extends React.Component {
                             ))}
                         </div>
                     </SkjemaGruppe>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
+                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
+                    && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -165,10 +166,12 @@ ArbeidserfaringSearch.propTypes = {
     totalErfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadArbeidserfaring: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    isSearching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
+    isSearching: state.search.isSearching,
     arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
     typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
     totalErfaring: state.arbeidserfaring.totalErfaring,

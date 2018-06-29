@@ -148,7 +148,8 @@ class UtdanningSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
+                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
+                    && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -174,10 +175,12 @@ UtdanningSearch.propTypes = {
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     visManglendeArbeidserfaringBoks: PropTypes.bool,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    isSearching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
+    isSearching: state.search.isSearching,
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
     utdanningsniva: state.utdanning.utdanningsniva,

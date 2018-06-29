@@ -122,7 +122,8 @@ class StillingSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
+                    {this.props.totaltAntallTreff <= 10 && !this.props.isSearching
+                    && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -141,10 +142,12 @@ StillingSearch.propTypes = {
     typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    isSearching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
+    isSearching: state.search.isSearching,
     stillinger: state.stilling.stillinger,
     typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
