@@ -62,7 +62,7 @@ class ResultatVisning extends React.Component {
                                         stor
                                     />
                                     <span className="tekst--tilbake--lenke">
-                                        Tilbake til kandidatsøk
+                                        Tilbake
                                     </span>
                                 </Link>
                             </Row>
