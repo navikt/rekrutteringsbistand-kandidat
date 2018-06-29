@@ -7,6 +7,8 @@ import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_GEOGRAFI, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from './geografiReducer';
+import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
 import './Geografi.less';
 
 class GeografiSearch extends React.Component {
@@ -111,6 +113,9 @@ class GeografiSearch extends React.Component {
                             </button>
                         ))}
                     </div>
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
                 </div>
             </div>
         );
@@ -131,7 +136,9 @@ GeografiSearch.propTypes = {
         geografiKodeTekst: PropTypes.string,
         geografiKode: PropTypes.string
     })).isRequired,
-    clearTypeAheadGeografi: PropTypes.func.isRequired
+    clearTypeAheadGeografi: PropTypes.func.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -139,11 +146,13 @@ const mapStateToProps = (state) => ({
     geografiList: state.geografi.geografiList,
     geografiListKomplett: state.geografi.geografiListKomplett,
     typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
-    typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett
+    typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett,
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.GEOGRAFI }),
     clearTypeAheadGeografi: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),

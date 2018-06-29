@@ -10,6 +10,8 @@ import {
     FETCH_TYPE_AHEAD_SUGGESTIONS
 } from '../../common/typeahead/typeaheadReducer';
 import { SELECT_TYPE_AHEAD_VALUE_SPRAK, REMOVE_SELECTED_SPRAK } from './sprakReducer';
+import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
 import './Sprak.less';
 
 class SprakSearch extends React.Component {
@@ -109,6 +111,9 @@ class SprakSearch extends React.Component {
                             </button>
                         ))}
                     </div>
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
                 </div>
             </div>
         );
@@ -122,16 +127,20 @@ SprakSearch.propTypes = {
     selectTypeAheadValue: PropTypes.func.isRequired,
     clearTypeAheadSprak: PropTypes.func.isRequired,
     sprak: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired
+    typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     sprak: state.sprakReducer.sprak,
-    typeAheadSuggestionsSprak: state.typeahead.suggestionssprak
+    typeAheadSuggestionsSprak: state.typeahead.suggestionssprak,
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
     clearTypeAheadSprak: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sprak', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),

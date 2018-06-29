@@ -23,6 +23,8 @@ export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGI
 export const SET_KOMPETANSE_SUGGESTIONS_SUCCESS = 'SET_KOMPETANSE_SUGGESTIONS_SUCCESS';
 export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
 
+export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
+
 
 /** *********************************************************
  * REDUCER
@@ -43,7 +45,8 @@ const initialState = {
         .reduce((dict, key) => (
             { ...dict, [key]: false }
         ), {}),
-    isEmptyQuery: true
+    isEmptyQuery: true,
+    visAlertFaKandidater: ''
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -104,6 +107,11 @@ export default function searchReducer(state = initialState, action) {
                         { ...dict, [key]: false }
                     ), {})
             };
+        case SET_ALERT_TYPE_FAA_KANDIDATER:
+            return {
+                ...state,
+                visAlertFaKandidater: action.value
+            };
         default:
             return state;
     }
@@ -149,10 +157,12 @@ export const toUrlQuery = (state) => {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* search() {
+function* search(action = '') {
     try {
         yield put({ type: SEARCH_BEGIN });
         const state = yield select();
+
+        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
 
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);

@@ -8,6 +8,8 @@ import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { CHECK_UTDANNINGSNIVA, REMOVE_SELECTED_UTDANNING, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from './utdanningReducer';
+import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
 import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {
@@ -146,6 +148,9 @@ class UtdanningSearch extends React.Component {
                             </button>
                         ))}
                     </div>
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
                 </div>
             </div>
         );
@@ -167,18 +172,22 @@ UtdanningSearch.propTypes = {
     typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
     utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
-    visManglendeArbeidserfaringBoks: PropTypes.bool
+    visManglendeArbeidserfaringBoks: PropTypes.bool,
+    totaltAntallTreff: PropTypes.number.isRequired,
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
     utdanningsniva: state.utdanning.utdanningsniva,
-    visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks']
+    visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
     clearTypeAheadUtdanning: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
