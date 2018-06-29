@@ -46,7 +46,7 @@ const initialState = {
             { ...dict, [key]: false }
         ), {}),
     isEmptyQuery: true,
-    visAlertFaaKandidater: ''
+    visAlertFaKandidater: ''
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -110,7 +110,7 @@ export default function searchReducer(state = initialState, action) {
         case SET_ALERT_TYPE_FAA_KANDIDATER:
             return {
                 ...state,
-                visAlertFaaKandidater: action.value
+                visAlertFaKandidater: action.value
             };
         default:
             return state;

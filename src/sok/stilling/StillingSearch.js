@@ -10,8 +10,9 @@ import {
 } from '../searchReducer';
 import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
-import './Stilling.less';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
+import './Stilling.less';
 
 class StillingSearch extends React.Component {
     constructor(props) {
@@ -121,7 +122,7 @@ class StillingSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaaKandidater === 'stilling' && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -140,18 +141,18 @@ StillingSearch.propTypes = {
     typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
     typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaaKandidater: state.search.visAlertFaaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: 'stilling' }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
     clearTypeAheadStilling: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),

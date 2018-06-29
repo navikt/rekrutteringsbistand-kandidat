@@ -9,8 +9,9 @@ import {
 } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_KOMPETANSE, SELECT_TYPE_AHEAD_VALUE_KOMPETANSE } from './kompetanseReducer';
-import './Kompetanse.less';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
+import './Kompetanse.less';
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
@@ -156,7 +157,7 @@ class KompetanseSearch extends React.Component {
                             </div>
                         </div>
                     )}
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaaKandidater === 'kompetanse' && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -179,7 +180,7 @@ KompetanseSearch.propTypes = {
     typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -187,11 +188,11 @@ const mapStateToProps = (state) => ({
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
     typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaaKandidater: state.search.visAlertFaaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: 'kompetanse' }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
     clearTypeAheadKompetanse: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'kompetanse', value }),
     selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),

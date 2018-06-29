@@ -8,8 +8,9 @@ import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { CHECK_UTDANNINGSNIVA, REMOVE_SELECTED_UTDANNING, SELECT_TYPE_AHEAD_VALUE_UTDANNING, UNCHECK_UTDANNINGSNIVA } from './utdanningReducer';
-import './Utdanning.less';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
+import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
@@ -147,7 +148,7 @@ class UtdanningSearch extends React.Component {
                             </button>
                         ))}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaaKandidater === 'utdanning' && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -173,7 +174,7 @@ UtdanningSearch.propTypes = {
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     visManglendeArbeidserfaringBoks: PropTypes.bool,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -182,11 +183,11 @@ const mapStateToProps = (state) => ({
     utdanningsniva: state.utdanning.utdanningsniva,
     visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaaKandidater: state.search.visAlertFaaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: 'utdanning' }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
     clearTypeAheadUtdanning: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),

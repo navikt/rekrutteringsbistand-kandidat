@@ -10,8 +10,9 @@ import {
 } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { REMOVE_SELECTED_ARBEIDSERFARING, SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from './arbeidserfaringReducer';
-import './Arbeidserfaring.less';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
+import { ALERTTYPE } from '../../konstanter';
+import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
@@ -143,7 +144,7 @@ class ArbeidserfaringSearch extends React.Component {
                             ))}
                         </div>
                     </SkjemaGruppe>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaaKandidater === 'arbeidserfaring' && (
+                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                         <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                     )}
                 </div>
@@ -164,7 +165,7 @@ ArbeidserfaringSearch.propTypes = {
     totalErfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadArbeidserfaring: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -172,11 +173,11 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
     totalErfaring: state.arbeidserfaring.totalErfaring,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaaKandidater: state.search.visAlertFaaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: 'arbeidserfaring' }),
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
     clearTypeAheadArbeidserfaring: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
