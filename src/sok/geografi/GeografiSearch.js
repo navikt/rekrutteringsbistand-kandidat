@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
 import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
-import { REMOVE_SELECTED_GEOGRAFI, SELECT_TYPE_AHEAD_VALUE_GEOGRAFI } from './geografiReducer';
+import {
+    REMOVE_SELECTED_GEOGRAFI,
+    SELECT_TYPE_AHEAD_VALUE_GEOGRAFI,
+    TOGGLE_GEOGRAFI_PANEL_OPEN
+} from './geografiReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../konstanter';
 import './Geografi.less';
@@ -68,56 +73,59 @@ class GeografiSearch extends React.Component {
 
     render() {
         return (
-            <div>
-                <Systemtittel>Stillingens geografiske plassering</Systemtittel>
-                <div className="panel panel--sokekriterier">
-                    <Element>
-                        Legg til fylke, kommune eller by
-                    </Element>
-                    <div className="sokekriterier--kriterier">
-                        <div className="sokefelt--wrapper--geografi">
-                            {this.state.showTypeAhead ? (
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadGeografiSelect}
-                                    onChange={this.onTypeAheadGeografiChange}
-                                    label=""
-                                    name="geografi"
-                                    placeholder="Skriv inn sted"
-                                    suggestions={this.props.typeAheadSuggestionsGeografi}
-                                    value={this.state.typeAheadValue}
-                                    id="typeahead-geografi"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            ) : (
-                                <Knapp
-                                    onClick={this.onLeggTilClick}
-                                    className="leggtil--sokekriterier--knapp"
-                                    id="leggtil-sted-knapp"
-                                >
-                                    +Legg til sted
-                                </Knapp>
-                            )}
-                        </div>
-                        {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={geo.geografiKodeTekst}
-                                value={geo.geografiKode}
+            <Ekspanderbartpanel
+                className="panel--sokekriterier heading--geografi"
+                tittel="Stillingens geografiske plassering"
+                tittelProps="systemtittel"
+                onClick={this.props.togglePanelOpen}
+                apen={this.props.panelOpen}
+            >
+                <Element>
+                    Legg til fylke, kommune eller by
+                </Element>
+                <div className="sokekriterier--kriterier">
+                    <div className="sokefelt--wrapper--geografi">
+                        {this.state.showTypeAhead ? (
+                            <Typeahead
+                                ref={(typeAhead) => {
+                                    this.typeAhead = typeAhead;
+                                }}
+                                onSelect={this.onTypeAheadGeografiSelect}
+                                onChange={this.onTypeAheadGeografiChange}
+                                label=""
+                                name="geografi"
+                                placeholder="Skriv inn sted"
+                                suggestions={this.props.typeAheadSuggestionsGeografi}
+                                value={this.state.typeAheadValue}
+                                id="typeahead-geografi"
+                                onSubmit={this.onSubmit}
+                                onTypeAheadBlur={this.onTypeAheadBlur}
+                            />
+                        ) : (
+                            <Knapp
+                                onClick={this.onLeggTilClick}
+                                className="leggtil--sokekriterier--knapp"
+                                id="leggtil-sted-knapp"
                             >
-                                {geo.geografiKodeTekst}
-                            </button>
-                        ))}
+                                +Legg til sted
+                            </Knapp>
+                        )}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
-                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                    )}
+                    {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
+                        <button
+                            onClick={this.onFjernClick}
+                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                            key={geo.geografiKodeTekst}
+                            value={geo.geografiKode}
+                        >
+                            {geo.geografiKodeTekst}
+                        </button>
+                    ))}
                 </div>
-            </div>
+                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                )}
+            </Ekspanderbartpanel>
         );
     }
 }
@@ -138,7 +146,9 @@ GeografiSearch.propTypes = {
     })).isRequired,
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
+    togglePanelOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -147,7 +157,8 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
     typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    panelOpen: state.geografi.geografiPanelOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -155,7 +166,8 @@ const mapDispatchToProps = (dispatch) => ({
     clearTypeAheadGeografi: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
-    removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value })
+    removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
+    togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeografiSearch);

@@ -9,13 +9,16 @@ export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING'
 export const CHECK_TOTAL_ERFARING = 'CHECK_TOTAL_ERFARING';
 export const UNCHECK_TOTAL_ERFARING = 'UNCHECK_TOTAL_ERFARING';
 
+export const TOGGLE_ARBEIDSERFARING_PANEL_OPEN = 'TOGGLE_ARBEIDSERFARING_PANEL_OPEN';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
     arbeidserfaringer: [],
-    totalErfaring: []
+    totalErfaring: [],
+    arbeidserfaringPanelOpen: true
 };
 
 export default function arbeidserfaringReducer(state = initialState, action) {
@@ -50,6 +53,11 @@ export default function arbeidserfaringReducer(state = initialState, action) {
             return {
                 ...state,
                 totalErfaring: state.totalErfaring.filter((te) => te !== action.value)
+            };
+        case TOGGLE_ARBEIDSERFARING_PANEL_OPEN:
+            return {
+                ...state,
+                arbeidserfaringPanelOpen: !state.arbeidserfaringPanelOpen
             };
         default:
             return state;
