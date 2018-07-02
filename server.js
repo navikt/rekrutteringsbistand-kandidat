@@ -18,6 +18,16 @@ server.use(helmet({
     xssFilter: false,
     noCache: true
 }));
+server.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'none'"],
+        scriptSrc: ["'self'", 'https://www.google-analytics.com'],
+        styleSrc: ["'self'"],
+        fontSrc: ["'self'", 'data:'],
+        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
+        connectSrc: ["'self'", 'https://www.google-analytics.com']
+    }
+}));
 
 server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
