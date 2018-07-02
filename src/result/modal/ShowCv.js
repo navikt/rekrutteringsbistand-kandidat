@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Knapp } from 'nav-frontend-knapper';
 import { Column, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Normaltekst, Undertittel, Sidetittel } from 'nav-frontend-typografi';
@@ -11,7 +10,7 @@ import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
 import { formatISOString } from '../../common/dateUtils';
 
-const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) => {
+const ShowCv = ({ cv, isFetchingCv }) => {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -27,19 +26,6 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
     }
     return (
         <div className="panel">
-            {/* Feature toggle for å skjule knappen "Ta kontakt med kandidat" */}
-            {visTaKontaktKandidat && (
-                <Row>
-                    <Column xs="12" md="6">
-                        <Knapp
-                            type="hoved"
-                            onClick={onTaKontaktClick}
-                        >
-                            Ta kontakt med kandidat
-                        </Knapp>
-                    </Column>
-                </Row>
-            )}
             <Row className="blokk-s personalia--modal">
                 <Column xs="12">
                     <Sidetittel className="navn--modal">
@@ -220,36 +206,16 @@ const ShowCv = ({ cv, onTaKontaktClick, visTaKontaktKandidat, isFetchingCv }) =>
                     </Column>
                 </Row>
             )}
-            {/* Feature toggle for å skjule knappen "Ta kontakt med kandidat" */}
-            {visTaKontaktKandidat && (
-                <Row>
-                    <Column xs="12" md="6">
-                        <Knapp
-                            type="hoved"
-                            onClick={onTaKontaktClick}
-                        >
-                            Ta kontakt med kandidat
-                        </Knapp>
-                    </Column>
-                </Row>
-            )}
         </div>
     );
 };
 
-ShowCv.defaultProps = {
-    visTaKontaktKandidat: false
-};
-
 ShowCv.propTypes = {
     cv: cvPropTypes.isRequired,
-    onTaKontaktClick: PropTypes.func.isRequired,
-    visTaKontaktKandidat: PropTypes.bool,
     isFetchingCv: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
     isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv
 });

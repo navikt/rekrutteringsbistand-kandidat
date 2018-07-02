@@ -3,42 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import ShowCv from './ShowCv';
-import SendBeskjedKandidat from './SendBeskjedKandidat';
-import BeskjedSendt from './BeskjedSendt';
 import { cvPropTypes } from '../../PropTypes';
 import './Modal.less';
 import { CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class ShowModalResultat extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            steg: 0
-        };
-    }
-
     componentWillMount() {
         // The modal gives an error if the Modal is trying to set the app element to document.body
         // before it exists. Have to add this to set the document.body element.
         NavFrontendModal.setAppElement('main');
     }
-
-    onTaKontaktClick = () => {
-        this.setState({
-            steg: 1
-        });
-    };
-
     onCloseModalClick = () => {
         this.props.closeCvModal();
     };
-
-    onSendClick = () => {
-        this.setState({
-            steg: 2
-        });
-    };
-
 
     render() {
         return (
@@ -49,25 +26,9 @@ class ShowModalResultat extends React.Component {
                 className="modal--resultat"
                 closeButton
             >
-                {this.state.steg === 0 && (
-                    <ShowCv
-                        onTaKontaktClick={this.onTaKontaktClick}
-                        cv={this.props.cv}
-                    />
-                )}
-                {/* Feature toggle for å skjule koden for å sende beskjed til kandidat */}
-                {this.props.visTaKontaktKandidat && this.state.steg === 1 && (
-                    <SendBeskjedKandidat
-                        toggleModalOpen={this.onCloseModalClick}
-                        onSendClick={this.onSendClick}
-                    />
-                )}
-                {/* Feature toggle for å skjule koden for å vise at beskjed er sendt */}
-                {this.props.visTaKontaktKandidat && this.state.steg === 2 && (
-                    <BeskjedSendt
-                        toggleModalOpen={this.onCloseModalClick}
-                    />
-                )}
+                <ShowCv
+                    cv={this.props.cv}
+                />
             </NavFrontendModal>
         );
     }
@@ -79,13 +40,11 @@ ShowModalResultat.defaultProps = {
 
 ShowModalResultat.propTypes = {
     cv: cvPropTypes.isRequired,
-    visTaKontaktKandidat: PropTypes.bool,
     isCvModalOpen: PropTypes.bool.isRequired,
     closeCvModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    visTaKontaktKandidat: state.search.featureToggles['vis-ta-kontakt-kandidat'],
     cv: state.cvReducer.cv,
     isCvModalOpen: state.cvReducer.isCvModalOpen
 });
