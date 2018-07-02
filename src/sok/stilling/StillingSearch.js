@@ -73,6 +73,9 @@ class StillingSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulYrke) {
+            return null;
+        }
         return (
             <div>
                 <Systemtittel>Stilling/yrke</Systemtittel>
@@ -141,14 +144,16 @@ StillingSearch.propTypes = {
     typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulYrke: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
     typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulYrke: state.search.featureToggles['skjul-yrke']
 });
 
 const mapDispatchToProps = (dispatch) => ({

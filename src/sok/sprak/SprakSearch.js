@@ -67,6 +67,9 @@ class SprakSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulSprak) {
+            return null;
+        }
         return (
             <div>
                 <Systemtittel>Språk</Systemtittel>
@@ -129,14 +132,16 @@ SprakSearch.propTypes = {
     sprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulSprak: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     sprak: state.sprakReducer.sprak,
     typeAheadSuggestionsSprak: state.typeahead.suggestionssprak,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulSprak: state.search.featureToggles['skjul-spraak']
 });
 
 const mapDispatchToProps = (dispatch) => ({

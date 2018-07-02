@@ -67,6 +67,9 @@ class GeografiSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulSted) {
+            return null;
+        }
         return (
             <div>
                 <Systemtittel>Stillingens geografiske plassering</Systemtittel>
@@ -138,7 +141,8 @@ GeografiSearch.propTypes = {
     })).isRequired,
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulSted: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -147,7 +151,8 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
     typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulSted: state.search.featureToggles['skjul-sted']
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -78,6 +78,9 @@ class UtdanningSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulUtdanning) {
+            return null;
+        }
         return (
             <div>
                 <Systemtittel>Utdanning</Systemtittel>
@@ -174,7 +177,8 @@ UtdanningSearch.propTypes = {
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     visManglendeArbeidserfaringBoks: PropTypes.bool,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulUtdanning: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -182,6 +186,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
     utdanningsniva: state.utdanning.utdanningsniva,
     visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
+    skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater
 });

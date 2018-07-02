@@ -78,6 +78,9 @@ class ArbeidserfaringSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulArbeidserfaring) {
+            return null;
+        }
         return (
             <div>
                 <Systemtittel>Arbeidserfaring</Systemtittel>
@@ -165,7 +168,8 @@ ArbeidserfaringSearch.propTypes = {
     totalErfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadArbeidserfaring: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulArbeidserfaring: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -173,7 +177,8 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
     totalErfaring: state.arbeidserfaring.totalErfaring,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulArbeidserfaring: state.search.featureToggles['skjul-arbeidserfaring']
 });
 
 const mapDispatchToProps = (dispatch) => ({
