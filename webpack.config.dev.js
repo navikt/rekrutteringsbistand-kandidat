@@ -5,12 +5,12 @@ const common = require('./webpack.common.js');
 const developmentToggles = {
     'vis-manglende-arbeidserfaring-boks': false,
     'vis-ta-kontakt-kandidat': false,
-    'skjul-yrke': true,
-    'skjul-kompetanse': true,
-    'skjul-utdanning': true,
-    'skjul-arbeidserfaring': true,
-    'skjul-spraak': true,
-    'skjul-sted': true
+    'skjul-yrke': false,
+    'skjul-kompetanse': false,
+    'skjul-utdanning': false,
+    'skjul-arbeidserfaring': false,
+    'skjul-spraak': false,
+    'skjul-sted': false
 };
 
 module.exports = merge(common, {
