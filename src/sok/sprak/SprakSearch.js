@@ -67,7 +67,7 @@ class SprakSearch extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
+        this.onTypeAheadSprakSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
     };
 
