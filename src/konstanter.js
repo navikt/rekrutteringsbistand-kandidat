@@ -3,6 +3,7 @@
 // så togglen "toggle-test" korresponderer med "pam-kandidatsok.toggle-test" i unleash
 const FEATURE_TOGGLES = [
     'vis-manglende-arbeidserfaring-boks',
+    'api.janzz.enabled',
     'skjul-yrke',
     'skjul-kompetanse',
     'skjul-utdanning',
