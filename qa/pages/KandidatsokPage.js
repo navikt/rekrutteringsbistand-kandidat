@@ -27,7 +27,7 @@ module.exports = {
         resultatvisning: 'div[class=resultatvisning]',
         forsteRadKandidaterTabell: 'button[class*=kandidater--row]',
         cvModal: '.personalia--modal',
-        viserAntallTreff: '.antall--treff--kandidatervisning'
+        viserAntallTreff: '.antall-treff-kandidatervisning'
     },
 
     commands: [{

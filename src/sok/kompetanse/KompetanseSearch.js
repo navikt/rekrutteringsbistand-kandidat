@@ -164,7 +164,7 @@ class KompetanseSearch extends React.Component {
                             {this.state.antallKompetanser < kompetanseSuggestions.length && (
                                 <Knapp
                                     onClick={this.onLeggTilFlereClick}
-                                    className="se--flere--forslag"
+                                    className="se-flere-forslag"
                                 >
                                     {`Se flere (${kompetanseSuggestions.length - this.state.antallKompetanser})`}
                                 </Knapp>
