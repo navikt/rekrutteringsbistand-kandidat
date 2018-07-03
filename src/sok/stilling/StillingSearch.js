@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
     SEARCH
 } from '../searchReducer';
-import { REMOVE_SELECTED_STILLING, SELECT_TYPE_AHEAD_VALUE_STILLING } from './stillingReducer';
+import {
+    REMOVE_SELECTED_STILLING,
+    SELECT_TYPE_AHEAD_VALUE_STILLING,
+    TOGGLE_STILLING_PANEL_OPEN
+} from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../konstanter';
@@ -74,59 +79,62 @@ class StillingSearch extends React.Component {
 
     render() {
         return (
-            <div>
-                <Systemtittel>Stilling/yrke</Systemtittel>
-                <div className="panel panel--sokekriterier">
-                    <Element>
-                        Hvilken stilling/yrke trenger du en kandidat til?
-                    </Element>
-                    <Normaltekst className="text--italic">
-                        For eksempel pedagogisk leder
-                    </Normaltekst>
-                    <div className="sokekriterier--kriterier">
-                        <div className="sokefelt--wrapper--stilling">
-                            {this.state.showTypeAhead ? (
-                                <Typeahead
-                                    ref={(typeAhead) => {
-                                        this.typeAhead = typeAhead;
-                                    }}
-                                    onSelect={this.onTypeAheadStillingSelect}
-                                    onChange={this.onTypeAheadStillingChange}
-                                    label=""
-                                    name="stilling"
-                                    placeholder="Skriv inn stillingstittel"
-                                    suggestions={this.props.typeAheadSuggestionsStilling}
-                                    value={this.state.typeAheadValue}
-                                    id="typeahead-stilling"
-                                    onSubmit={this.onSubmit}
-                                    onTypeAheadBlur={this.onTypeAheadBlur}
-                                />
-                            ) : (
-                                <Knapp
-                                    onClick={this.onLeggTilClick}
-                                    className="leggtil--sokekriterier--knapp"
-                                    id="leggtil-stilling-knapp"
-                                >
-                                    +Legg til stilling
-                                </Knapp>
-                            )}
-                        </div>
-                        {this.props.stillinger.map((stilling) => (
-                            <button
-                                onClick={this.onFjernClick}
-                                className="etikett--sokekriterier kryssicon--sokekriterier"
-                                key={stilling}
-                                value={stilling}
+            <Ekspanderbartpanel
+                className="panel--sokekriterier panel--stilling"
+                tittel="Stilling/yrke"
+                tittelProps="systemtittel"
+                onClick={this.props.togglePanelOpen}
+                apen={this.props.panelOpen}
+            >
+                <Element>
+                    Hvilken stilling/yrke trenger du en kandidat til?
+                </Element>
+                <Normaltekst className="text--italic">
+                    For eksempel pedagogisk leder
+                </Normaltekst>
+                <div className="sokekriterier--kriterier">
+                    <div className="sokefelt--wrapper--stilling">
+                        {this.state.showTypeAhead ? (
+                            <Typeahead
+                                ref={(typeAhead) => {
+                                    this.typeAhead = typeAhead;
+                                }}
+                                onSelect={this.onTypeAheadStillingSelect}
+                                onChange={this.onTypeAheadStillingChange}
+                                label=""
+                                name="stilling"
+                                placeholder="Skriv inn stillingstittel"
+                                suggestions={this.props.typeAheadSuggestionsStilling}
+                                value={this.state.typeAheadValue}
+                                id="typeahead-stilling"
+                                onSubmit={this.onSubmit}
+                                onTypeAheadBlur={this.onTypeAheadBlur}
+                            />
+                        ) : (
+                            <Knapp
+                                onClick={this.onLeggTilClick}
+                                className="leggtil--sokekriterier--knapp"
+                                id="leggtil-stilling-knapp"
                             >
-                                {stilling}
-                            </button>
-                        ))}
+                                +Legg til stilling
+                            </Knapp>
+                        )}
                     </div>
-                    {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
-                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                    )}
+                    {this.props.stillinger.map((stilling) => (
+                        <button
+                            onClick={this.onFjernClick}
+                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                            key={stilling}
+                            value={stilling}
+                        >
+                            {stilling}
+                        </button>
+                    ))}
                 </div>
-            </div>
+                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
+                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                )}
+            </Ekspanderbartpanel>
         );
     }
 }
@@ -141,14 +149,17 @@ StillingSearch.propTypes = {
     typeAheadSuggestionsStilling: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
+    togglePanelOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
     typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    visAlertFaKandidater: state.search.visAlertFaKandidater,
+    panelOpen: state.stilling.stillingPanelOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -157,7 +168,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
-    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS })
+    fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
+    togglePanelOpen: () => dispatch({ type: TOGGLE_STILLING_PANEL_OPEN })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StillingSearch);

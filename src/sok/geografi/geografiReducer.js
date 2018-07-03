@@ -6,13 +6,16 @@ import { SET_STATE } from '../searchReducer';
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
 
+export const TOGGLE_GEOGRAFI_PANEL_OPEN = 'TOGGLE_GEOGRAFI_PANEL_OPEN';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
     geografiList: [],
-    geografiListKomplett: []
+    geografiListKomplett: [],
+    geografiPanelOpen: true
 };
 
 export default function utdanningReducer(state = initialState, action) {
@@ -46,6 +49,11 @@ export default function utdanningReducer(state = initialState, action) {
                 geografiList: state.geografiList.filter((g) => g !== action.value),
                 geografiListKomplett: state.geografiListKomplett
                     .filter((g) => g.geografiKode !== action.value)
+            };
+        case TOGGLE_GEOGRAFI_PANEL_OPEN:
+            return {
+                ...state,
+                geografiPanelOpen: !state.geografiPanelOpen
             };
         default:
             return state;

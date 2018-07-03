@@ -36,7 +36,7 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
                         Se flere kandidater
                     </Knapp>
                 )}
-                <Element className="antall--treff--kandidatervisning">
+                <Element className="antall-treff-kandidatervisning">
                     Viser {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av {totaltAntallTreff}
                 </Element>
             </div>
