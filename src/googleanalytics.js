@@ -8,5 +8,4 @@ import 'autotrack';
 ga('create', 'UA-9127381-24', 'auto');
 ga('set', 'anonymizeIp', true);
 ga('require', 'urlChangeTracker');
-ga('requrie', 'eventTracker');
 ga('send', 'pageview');
