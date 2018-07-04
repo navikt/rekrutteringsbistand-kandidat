@@ -165,7 +165,7 @@ function* search(action = '') {
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
-        window.history.replaceState(urlQuery, '', newUrlQuery);
+        window.history.replaceState('', '', newUrlQuery);
 
         const response = yield call(fetchKandidater, {
             stillinger: state.stilling.stillinger,

@@ -7,9 +7,5 @@ import 'autotrack';
 
 ga('create', 'UA-9127381-24', 'auto');
 ga('set', 'anonymizeIp', true);
-ga('require', 'urlChangeTracker', {
-    shouldTrackUrlChange(newPath, oldPath) {
-        return newPath != oldPath;
-    }
-});
+ga('require', 'urlChangeTracker', { trackReplaceState: true });
 ga('send', 'pageview');
