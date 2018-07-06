@@ -24,6 +24,7 @@ import Feilside from './error/Feilside';
 import feedbackReducer from '../feedback/feedbackReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
+import NedeSide from './error/NedeSide';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -115,12 +116,20 @@ const App = () => (
     </div>
 );
 
+const MidlertidigNede = () => (
+    <div>
+        <Toppmeny loggUtSynlig={false} />
+        <NedeSide />
+    </div>
+);
+
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 
 ReactDOM.render(
-    <App />,
+    /* <App />, */
+    <MidlertidigNede />,
     document.getElementById('app')
 );
 
