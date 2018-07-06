@@ -28,8 +28,8 @@ class UtdanningSearch extends React.Component {
         };
         this.utdanningsnivaKategorier = [{ key: 'Ingen', label: 'Ingen utdanning' },
             { key: 'Videregaende', label: 'Videregående' }, { key: 'Fagskole', label: 'Fagskole' },
-            { key: 'Bachelor', label: 'Bachelorgrad' }, { key: 'Master', label: 'Mastergrad' },
-            { key: 'Doktorgrad', label: 'Doktorgrad' }];
+            { key: 'Bachelor', label: 'Universitet/høgskole, inntil 4 år' }, { key: 'Master', label: 'Universitet/høgskole, over 4 år' },
+            { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' }];
     }
 
     onUtdanningsnivaChange = (e) => {
