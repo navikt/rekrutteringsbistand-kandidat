@@ -141,7 +141,7 @@ class StillingSearch extends React.Component {
 
                 {/* TODO: Fjerne feature toggle */}
                 { this.props.janzzEnabled &&
-                <Normaltekst>Du kan kun legge til én stilling/yrke</Normaltekst>
+                <Normaltekst className="blokk-xs">Du kan kun legge til én stilling/yrke</Normaltekst>
                 }
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
