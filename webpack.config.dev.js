@@ -5,7 +5,7 @@ const common = require('./webpack.common.js');
 const developmentToggles = {
     'vis-manglende-arbeidserfaring-boks': false,
     'vis-ta-kontakt-kandidat': false,
-    'api.janzz.enabled': false,
+    'janzz-enabled': false,
     'skjul-yrke': false,
     'skjul-kompetanse': false,
     'skjul-utdanning': false,

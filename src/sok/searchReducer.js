@@ -27,7 +27,7 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
-    if (!toggles['api.janzz.enabled']) {
+    if (!toggles['janzz-enabled']) {
         return !key.includes('skjul-');
     }
     return true;
