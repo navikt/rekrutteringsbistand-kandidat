@@ -91,6 +91,9 @@ class KompetanseSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulKompetanse) {
+            return null;
+        }
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
         return (
             <EkspanderbartpanelBase
@@ -195,6 +198,7 @@ KompetanseSearch.propTypes = {
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -205,6 +209,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulKompetanse: state.search.featureToggles['skjul-kompetanse'],
     panelOpen: state.kompetanse.kompetansePanelOpen
 });
 

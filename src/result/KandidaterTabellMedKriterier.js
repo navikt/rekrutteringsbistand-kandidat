@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Element, Systemtittel } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
-import { cvPropTypes } from '../PropTypes';
+import cvPropTypes from '../PropTypes';
 
 
 const antallBesteTreff = 5;

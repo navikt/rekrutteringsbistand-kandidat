@@ -105,6 +105,7 @@ End class Sok
 
 const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 
+// eslint-disable-next-line no-unused-vars
 const App = () => (
     <div>
         <Provider store={store}>

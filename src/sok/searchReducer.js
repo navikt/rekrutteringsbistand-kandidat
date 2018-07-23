@@ -26,6 +26,13 @@ export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
 export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 
+const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
+    if (!toggles['janzz-enabled']) {
+        return !key.includes('skjul-');
+    }
+    return true;
+};
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -95,7 +102,7 @@ export default function searchReducer(state = initialState, action) {
                         {
                             ...dict,
                             [key]: Object.keys(action.data)
-                                .includes(key) && action.data[key]
+                                .includes(key) && action.data[key] && erUavhengigFraJanzzEllerJanzzErEnabled(action.data, key)
                         }
                     ), {})
             };

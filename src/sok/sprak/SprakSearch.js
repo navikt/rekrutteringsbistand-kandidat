@@ -72,6 +72,9 @@ class SprakSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulSprak) {
+            return null;
+        }
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
@@ -138,6 +141,7 @@ SprakSearch.propTypes = {
     typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulSprak: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -147,6 +151,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsSprak: state.typeahead.suggestionssprak,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulSprak: state.search.featureToggles['skjul-spraak'],
     panelOpen: state.sprakReducer.sprakPanelOpen
 });
 

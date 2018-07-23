@@ -85,6 +85,9 @@ class UtdanningSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulUtdanning) {
+            return null;
+        }
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
@@ -185,6 +188,7 @@ UtdanningSearch.propTypes = {
     visManglendeArbeidserfaringBoks: PropTypes.bool,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulUtdanning: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -194,6 +198,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
     utdanningsniva: state.utdanning.utdanningsniva,
     visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
+    skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     panelOpen: state.utdanning.utdanningPanelOpen

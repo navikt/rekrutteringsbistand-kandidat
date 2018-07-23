@@ -85,6 +85,9 @@ class ArbeidserfaringSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulArbeidserfaring) {
+            return null;
+        }
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
@@ -176,6 +179,7 @@ ArbeidserfaringSearch.propTypes = {
     clearTypeAheadArbeidserfaring: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulArbeidserfaring: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -186,6 +190,7 @@ const mapStateToProps = (state) => ({
     totalErfaring: state.arbeidserfaring.totalErfaring,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulArbeidserfaring: state.search.featureToggles['skjul-arbeidserfaring'],
     panelOpen: state.arbeidserfaring.arbeidserfaringPanelOpen
 });
 

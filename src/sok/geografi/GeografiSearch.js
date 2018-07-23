@@ -72,6 +72,9 @@ class GeografiSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulSted) {
+            return null;
+        }
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier heading--geografi"
@@ -147,6 +150,7 @@ GeografiSearch.propTypes = {
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulSted: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -158,6 +162,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulSted: state.search.featureToggles['skjul-sted'],
     panelOpen: state.geografi.geografiPanelOpen
 });
 

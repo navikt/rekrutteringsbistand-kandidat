@@ -78,6 +78,9 @@ class StillingSearch extends React.Component {
     };
 
     render() {
+        if (this.props.skjulYrke) {
+            return null;
+        }
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier panel--stilling"
@@ -150,6 +153,7 @@ StillingSearch.propTypes = {
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
+    skjulYrke: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -159,6 +163,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
+    skjulYrke: state.search.featureToggles['skjul-yrke'],
     panelOpen: state.stilling.stillingPanelOpen
 });
 

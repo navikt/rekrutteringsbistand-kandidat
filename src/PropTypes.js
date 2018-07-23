@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const cvPropTypes = PropTypes.shape({
+const cvPropTypes = PropTypes.shape({
     adresselinje1: PropTypes.string,
     adresselinje2: PropTypes.string,
     adresselinje3: PropTypes.string,
@@ -40,3 +40,5 @@ export const cvPropTypes = PropTypes.shape({
     yrkeJobbonsker: PropTypes.array,
     yrkeserfaring: PropTypes.array
 });
+
+export default cvPropTypes;
