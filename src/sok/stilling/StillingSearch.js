@@ -96,6 +96,7 @@ class StillingSearch extends React.Component {
                     For eksempel pedagogisk leder
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
+                    {!(this.props.janzzEnabled && this.props.stillinger.length > 0) &&
                     <div className="sokefelt--wrapper--stilling">
                         {this.state.showTypeAhead ? (
                             <Typeahead
@@ -122,7 +123,9 @@ class StillingSearch extends React.Component {
                                 +Legg til stilling
                             </Knapp>
                         )}
+
                     </div>
+                    }
                     {this.props.stillinger.map((stilling) => (
                         <button
                             onClick={this.onFjernClick}
@@ -134,6 +137,9 @@ class StillingSearch extends React.Component {
                         </button>
                     ))}
                 </div>
+                { this.props.janzzEnabled &&
+                <Normaltekst>Du kan kun legge til én stilling/yrke</Normaltekst>
+                }
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
@@ -154,6 +160,7 @@ StillingSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulYrke: PropTypes.bool.isRequired,
+    janzzEnabled: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -164,6 +171,7 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulYrke: state.search.featureToggles['skjul-yrke'],
+    janzzEnabled: state.search.featureToggles['janzz-enabled'],
     panelOpen: state.stilling.stillingPanelOpen
 });
 
