@@ -96,6 +96,7 @@ class StillingSearch extends React.Component {
                     For eksempel pedagogisk leder
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
+                    {/* TODO: Fjerne feature toggle */}
                     {!(this.props.janzzEnabled && this.props.stillinger.length > 0) &&
                     <div className="sokefelt--wrapper--stilling">
                         {this.state.showTypeAhead ? (
@@ -137,6 +138,8 @@ class StillingSearch extends React.Component {
                         </button>
                     ))}
                 </div>
+
+                {/* TODO: Fjerne feature toggle */}
                 { this.props.janzzEnabled &&
                 <Normaltekst>Du kan kun legge til én stilling/yrke</Normaltekst>
                 }

@@ -239,6 +239,12 @@ function* initialSearch() {
     try {
         const urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
+            // TODO: Fjern samtidig som feature toggle janzz-enabled:
+            const state = yield select();
+            if (state.search.featureToggles['janzz-enabled'] && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
+                urlQuery.stillinger = [urlQuery.stillinger[0]];
+            }
+
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);

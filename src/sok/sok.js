@@ -45,7 +45,8 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
-    componentDidMount() {
+    constructor(props) {
+        super(props);
         this.props.fetchFeatureToggles();
     }
 
