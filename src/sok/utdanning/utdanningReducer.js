@@ -9,13 +9,16 @@ export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
 export const CHECK_UTDANNINGSNIVA = 'CHECK_UTDANNINGSNIVA';
 export const UNCHECK_UTDANNINGSNIVA = 'UNCHECK_UTDANNINGSNIVA';
 
+export const TOGGLE_UTDANNING_PANEL_OPEN = 'TOGGLE_UTDANNING_PANEL_OPEN';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
     utdanninger: [],
-    utdanningsniva: []
+    utdanningsniva: [],
+    utdanningPanelOpen: true
 };
 
 export default function utdanningReducer(state = initialState, action) {
@@ -50,6 +53,11 @@ export default function utdanningReducer(state = initialState, action) {
             return {
                 ...state,
                 utdanningsniva: state.utdanningsniva.filter((u) => u !== action.value)
+            };
+        case TOGGLE_UTDANNING_PANEL_OPEN:
+            return {
+                ...state,
+                utdanningPanelOpen: !state.utdanningPanelOpen
             };
         default:
             return state;

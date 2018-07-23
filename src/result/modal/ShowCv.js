@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Normaltekst, Undertittel, Sidetittel } from 'nav-frontend-typografi';
 import Tidsperiode from '../../common/Tidsperiode';
 import sortByDato from '../../common/SortByDato';
-import { cvPropTypes } from '../../PropTypes';
+import cvPropTypes from '../../PropTypes';
 import './Modal.less';
 import { formatISOString } from '../../common/dateUtils';
 

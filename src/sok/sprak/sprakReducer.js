@@ -6,12 +6,15 @@ import { SET_STATE } from '../searchReducer';
 export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
 export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
 
+export const TOGGLE_SPRAK_PANEL_OPEN = 'TOGGLE_SPRAK_PANEL_OPEN';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
-    sprak: []
+    sprak: [],
+    sprakPanelOpen: true
 };
 
 export default function sprakReducer(state = initialState, action) {
@@ -35,6 +38,11 @@ export default function sprakReducer(state = initialState, action) {
             return {
                 ...state,
                 sprak: state.sprak.filter((s) => s !== action.value)
+            };
+        case TOGGLE_SPRAK_PANEL_OPEN:
+            return {
+                ...state,
+                sprakPanelOpen: !state.sprakPanelOpen
             };
         default:
             return state;
