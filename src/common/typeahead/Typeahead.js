@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
+import { DebounceInput } from 'react-debounce-input';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
 
@@ -161,7 +162,7 @@ export default class Typeahead extends React.Component {
         const showSuggestions = this.state.hasFocus && this.state.shouldShowSuggestions && this.props.suggestions.length > 0;
         return (
             <div className="typeahead">
-                <input
+                <DebounceInput
                     id={this.props.id}
                     role="combobox"
                     aria-autocomplete="list"
@@ -177,7 +178,8 @@ export default class Typeahead extends React.Component {
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
                     onFocus={this.onFocus}
-                    ref={(input) => {
+                    debounceTimeout={300}
+                    inputRef={(input) => {
                         this.input = input;
                     }}
                     className="skjemaelement__input input--fullbredde"
