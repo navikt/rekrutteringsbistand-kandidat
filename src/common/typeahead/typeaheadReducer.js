@@ -8,6 +8,8 @@ import { fetchTypeaheadSuggestions, SearchApiError } from '../../sok/api';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
+
+// TODO: Fjern cached. Toggle: janzz-enabled
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE';
 
 export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
@@ -26,6 +28,8 @@ const initialState = {
     suggestionsutdanning: [],
     suggestionsgeografi: [],
     suggestionssprak: [],
+
+    // TODO: Fjern cached. Toggle: janzz-enabled
     cachedSuggestionsKompetanse: [],
     cachedSuggestionsStilling: [],
     cachedSuggestionsArbeidserfaring: [],
@@ -104,7 +108,7 @@ const getTypeAheadNameAndLabel = (type) => {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* fetchTypeAheadSuggestions(action) {
+function* fetchTypeAheadSuggestionsES(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
     const state = yield select();
     const name = action.name;
@@ -164,6 +168,54 @@ function* fetchTypeAheadSuggestions(action) {
     } else {
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: [], cachedSuggestionsLabel });
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], suggestionsLabel: `suggestions${name}` });
+    }
+}
+
+function* fetchTypeAheadSuggestionsJanzz(action) {
+    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
+    const name = action.name;
+    const value = action.value;
+
+    const typeAheadName = getTypeAheadNameAndLabel(name).typeAheadName;
+
+    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
+        try {
+            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: value });
+
+            if (response._embedded) {
+                const responseList = response._embedded.stringList;
+
+                if (name === 'geografi') {
+                    const totalResult = responseList.map((r) => (
+                        JSON.parse(r.content)
+                    ));
+                    yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
+                }
+
+                const suggestions = responseList.map((r) => (
+                    r.content
+                ));
+
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: `suggestions${name}` });
+            }
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+            } else {
+                throw e;
+            }
+        }
+    }
+}
+
+function* fetchTypeAheadSuggestions(action) {
+    const state = yield select();
+
+    // TODO: Fjern else og fetchTypeAheadSuggestionsES. Toggle: janzz-enabled
+    if (state.search.featureToggles['janzz-enabled']) {
+        yield fetchTypeAheadSuggestionsJanzz(action);
+    } else {
+        yield fetchTypeAheadSuggestionsES(action);
     }
 }
 
