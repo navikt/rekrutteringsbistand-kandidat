@@ -45,9 +45,8 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props.fetchFeatureToggles();
+    componentDidMount() {
+        this.props.fetchFeatureTogglesOgInitialSearch();
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
@@ -90,7 +89,7 @@ Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
     }),
-    fetchFeatureToggles: PropTypes.func.isRequired
+    fetchFeatureTogglesOgInitialSearch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -98,7 +97,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
+    fetchFeatureTogglesOgInitialSearch: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
 });
 /*
 End class Sok

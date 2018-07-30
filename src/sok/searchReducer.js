@@ -11,7 +11,6 @@ export const SEARCH = 'SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
-export const INITIAL_SEARCH = 'INITIAL_SEARCH';
 export const SET_STATE = 'SET_STATE';
 
 export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
@@ -261,6 +260,7 @@ function* hentFeatureToggles() {
     try {
         const data = yield call(fetchFeatureToggles);
         yield put({ type: FETCH_FEATURE_TOGGLES_SUCCESS, data });
+        yield call(initialSearch);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_FEATURE_TOGGLES_FAILURE, error: e });
@@ -274,6 +274,5 @@ function* hentFeatureToggles() {
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
-    yield takeLatest(INITIAL_SEARCH, initialSearch);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
 };
