@@ -15,6 +15,7 @@ target
 .idea/
 *.iml
 *.log
+*.DS_Store
 reports/
 node_modules/
 repo_test_dir

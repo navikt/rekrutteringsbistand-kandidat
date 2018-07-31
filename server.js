@@ -21,7 +21,11 @@ server.use(helmet({
 server.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'none'"],
-        scriptSrc: ["'self'", 'https://www.google-analytics.com'],
+        scriptSrc: [
+            "'self'",
+            'https://www.google-analytics.com',
+            "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
+        ],
         styleSrc: ["'self'"],
         fontSrc: ["'self'", 'data:'],
         imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
