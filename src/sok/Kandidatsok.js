@@ -6,7 +6,7 @@ import { Ingress, Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { INITIAL_SEARCH, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from './searchReducer';
 import StillingSearch from './stilling/StillingSearch';
 import UtdanningSearch from './utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from './arbeidserfaring/ArbeidserfaringSearch';
@@ -16,11 +16,6 @@ import SprakSearch from './sprak/SprakSearch';
 import Feedback from '../feedback/Feedback';
 
 class Kandidatsok extends React.Component {
-    constructor(props) {
-        super(props);
-        this.props.initialSearch();
-    }
-
     onRemoveCriteriaClick = () => {
         this.props.resetQuery({
             stillinger: [],
@@ -108,7 +103,6 @@ class Kandidatsok extends React.Component {
 }
 
 Kandidatsok.propTypes = {
-    initialSearch: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     resetQuery: PropTypes.func.isRequired,
@@ -124,7 +118,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     search: () => dispatch({ type: SEARCH })
