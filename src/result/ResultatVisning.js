@@ -13,14 +13,13 @@ import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, INITIAL_SEARCH, SEARCH, SET_STATE } from '../sok/searchReducer';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import Feedback from '../feedback/Feedback';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
-        this.props.initialSearch();
         window.scrollTo(0, 0);
     }
 
@@ -102,7 +101,6 @@ class ResultatVisning extends React.Component {
 }
 
 ResultatVisning.propTypes = {
-    initialSearch: PropTypes.func.isRequired,
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
@@ -116,7 +114,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
-    initialSearch: (query) => dispatch({ type: INITIAL_SEARCH, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS })
 });
 
