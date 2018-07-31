@@ -26,6 +26,7 @@ module.exports = merge(common, {
             __PAM_SEARCH_API__: "'http://localhost:8766/pam-kandidatsok-api/rest/kandidatsok/'",
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie'",
             __LOGOUT_URL__: "'#'",
+            __BACKEND_OPPE__: true,
             'process.env.NODE_ENV': "'development'",
             __DEVELOPMENT_TOGGLES__: JSON.stringify(developmentToggles)
         })

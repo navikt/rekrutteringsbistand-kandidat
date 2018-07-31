@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
 import Kandidatsok from './Kandidatsok';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { LOGIN_URL } from '../common/fasitProperties';
+import { BACKEND_OPPE, LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -128,9 +128,12 @@ sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 
+const Root = () => (
+    BACKEND_OPPE ? <App /> : <MidlertidigNede />
+);
+
 ReactDOM.render(
-    /* <App />, */
-    <MidlertidigNede />,
+    <Root />,
     document.getElementById('app')
 );
 
