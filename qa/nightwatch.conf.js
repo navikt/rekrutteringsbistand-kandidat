@@ -1,7 +1,7 @@
 require('nightwatch-cucumber')({
     cucumberArgs: [
         '--require-module', 'babel-core/register',
-        '--require', '/home/J142350/dev/pam-kandidatsok/qa/features/step_definitions',
+        '--require', 'features/step_definitions',
         '--format', 'node_modules/cucumber-pretty',
         '--format', 'json:reports/cucumber.json',
         'features'
@@ -13,7 +13,7 @@ module.exports = {
     page_objects_path: './pages',
     selenium: {
         start_process: true,
-        server_path: './node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.12.0.jar',
+        server_path: './node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.13.0.jar',
         host: '127.0.0.1',
         port: 4444 // standard selenium port
     },
