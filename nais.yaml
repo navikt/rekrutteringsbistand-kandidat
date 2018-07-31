@@ -30,5 +30,5 @@ fasitResources:
     resourceType: restservice
   - alias: logoutservice
     resourceType: restservice
-  - alias: PAM_KANDIDATSOK_BACKEND_OPPE
+  - alias: PAM_KANDIDATSOK_PROPERTIES
     resourceType: applicationproperties
