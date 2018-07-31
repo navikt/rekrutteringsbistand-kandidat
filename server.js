@@ -37,7 +37,7 @@ const fasitProperties = {
     PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/',
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
-    BACKEND_OPPE: process.env.PAM_KANDIDATSOK_BACKEND_OPPE
+    BACKEND_OPPE: Object.keys(process.env)
 };
 
 const writeEnvironmentVariablesToFile = () => {
