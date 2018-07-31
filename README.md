@@ -25,9 +25,9 @@ Appliksjonen vil da kjøre på port 8080. For å få data må pam-kandidatsok-ap
 ## Logging
 
 Applikasjonen logger til Kibana ved hjelp av [FO-frontendlogger](https://github.com/navikt/fo-frontendlogger).
-For å finne loggene må må søke på `application:fo-frontendlogger AND x_appname:pam-kandidatsok`.
+For å finne loggene må man søke på `application:fo-frontendlogger AND x_appname:pam-kandidatsok`.
 Siden javascripten ligger i én stor fil, så kan man bruke source-map for å finne ut
-hvilken linje feilen oppstår på, ved hjelp av verktøyet [`sourcemap-lookup`](https://www.npmjs.com/package/sourcemap-lookup):
+hvilken linje en feil har oppstått på, ved hjelp av verktøyet [`sourcemap-lookup`](https://www.npmjs.com/package/sourcemap-lookup):
 
 ```
 npm install -g sourcemap-lookup
