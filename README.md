@@ -25,7 +25,10 @@ Appliksjonen vil da kjøre på port 8080. For å få data må pam-kandidatsok-ap
 ## Logging
 
 Applikasjonen logger til Kibana ved hjelp av [FO-frontendlogger](https://github.com/navikt/fo-frontendlogger).
-For å finne loggene må man søke på `application:fo-frontendlogger AND x_appname:pam-kandidatsok`.
+For å finne loggene må man søke på `application:fo-frontendlogger AND x_appname:pam-kandidatsok` i Kibana.
+
+De vanligste feilene er også i [denne tabellen][1] i Kibana.
+
 Siden javascripten ligger i én stor fil, så kan man bruke source-map for å finne ut
 hvilken linje en feil har oppstått på, ved hjelp av verktøyet [`sourcemap-lookup`](https://www.npmjs.com/package/sourcemap-lookup):
 
@@ -53,3 +56,5 @@ For utvikling lokalt brukes togglene i `webpack.config.dev.js`.
 Man kan teste hvordan applikasjonen fungerer med forskjellige toggles ved å skru av og på
 toggles her, ved å sette dem til enten `true` eller `false`.
 For å se endringene må man restarte webpack-serveren.
+
+[1]: https://logs.adeo.no/app/kibana#/visualize/edit/5778a2f0-963f-11e8-829c-67cd76ba3446?_g=%28refreshInterval%3A%28display%3AOff%2Cpause%3A!f%2Cvalue%3A0%29%2Ctime%3A%28from%3Anow-24h%2Cmode%3Aquick%2Cto%3Anow%29%29%29
