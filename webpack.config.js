@@ -10,10 +10,10 @@ const PATH = {
 
 module.exports = () => {
     const environment = 'production';
-    const restBaseApiUrl = PATH[environment];
 
     return (
         merge(common, {
+            devtool: 'source-map',
             plugins: [
                 new webpack.DefinePlugin({
                     __PATH__: PATH[environment],
@@ -21,7 +21,7 @@ module.exports = () => {
                 }),
                 /* Optimize bundle load time */
                 new webpack.optimize.ModuleConcatenationPlugin(),
-                new UglifyJSPlugin()
+                new UglifyJSPlugin({ sourceMap: true })
             ]
         })
     );
