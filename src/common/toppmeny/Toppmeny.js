@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Column } from 'nav-frontend-grid';
 import './Toppmeny.less';
-import { LOGOUT_URL } from '../fasitProperties';
+import { LOGOUT_URL, PAMPORTAL_URL } from '../fasitProperties';
 
 const Toppmeny = ({ loggUtSynlig }) => (
     <div className="header">
@@ -10,7 +10,7 @@ const Toppmeny = ({ loggUtSynlig }) => (
         <Row className="header__row">
             <Column xs="3" sm="1">
                 <div className="header__logo">
-                    <a id="goto-forsiden" href="/" title="Gå til forsiden" className="logo" >
+                    <a id="goto-forsiden" href={PAMPORTAL_URL} title="Gå til forsiden" className="logo" >
                         Tjeneste
                     </a>
                 </div>
