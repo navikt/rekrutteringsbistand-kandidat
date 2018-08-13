@@ -87,7 +87,11 @@ const startServer = (html) => {
             return rettPath;
         },
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-            console.log('srcReq', srcReq);
+            const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
+            if (token) {
+                proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
+                console.log(`auth header = ${proxyReqOpts.headers.authorization}`);
+            }
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
             return proxyReqOpts;
         }
