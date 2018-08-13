@@ -79,7 +79,7 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('https//api-gw-t6.oera.no/pam-kandidatsok-api', {
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('https//api-gw-t6.oera.no', {
         proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`,
         proxyReqOptDecorator: (proxyReqOpts) => {
             // you can update headers
