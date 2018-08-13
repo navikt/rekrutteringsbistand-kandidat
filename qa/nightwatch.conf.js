@@ -68,6 +68,18 @@ module.exports = {
                 'webdriver.chrome.driver': './node_modules/chromedriver/lib/chromedriver/chromedriver'
             }
         },
+        'linux-q0': {
+            launch_url: 'https://tjenester-q0.nav.no/pam-kandidatsok',
+            globals: {
+                environment: 'q0'
+            },
+            chromeOptions: {
+                args: ['--ignore-certificate-errors']
+            },
+            cli_args: {
+                'webdriver.chrome.driver': './node_modules/chromedriver/lib/chromedriver/chromedriver'
+            }
+        },
         jenkins: {
             launch_url: 'https://tjenester-t6.nav.no/pam-kandidatsok',
             globals: {
