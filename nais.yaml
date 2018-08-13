@@ -34,3 +34,7 @@ fasitResources:
     resourceType: restservice
   - alias: PAM_KANDIDATSOK_PROPERTIES
     resourceType: applicationproperties
+  - alias: pam-kandidatsok-pam-kandidatsok-api-apiKey
+    resourceType: credential
+    propertyMap:
+      password: PAM_KANDIDATSOK_API_PROXY_API_APIKEY
