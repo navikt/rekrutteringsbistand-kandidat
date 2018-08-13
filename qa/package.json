@@ -6,6 +6,7 @@
     "cucumber": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env t6",
     "cucumber-debug": "node --inspect node_modules/nightwatch/bin/nightwatch --config nightwatch.conf.js --env t6",
     "cucumber-linux": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-t6",
+    "cucumber-linux-q0": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-q0",
     "cucumber-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "cucumber-local-debug": "node --inspect node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "cucumber-linux-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-local",

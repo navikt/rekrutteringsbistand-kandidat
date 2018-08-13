@@ -56,7 +56,9 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent('@leggTilStillingKnapp')
                 .click('@leggTilStillingKnapp')
-                .setValue('@leggTilStillingInput', stilling + this.api.Keys.ENTER)
+                .setValue('@leggTilStillingInput', stilling)
+                .pageWait(1000)
+                .setValue('@leggTilStillingInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
 
@@ -81,7 +83,9 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent('@leggTilFagfeltKnapp')
                 .click('@leggTilFagfeltKnapp')
-                .setValue('@leggTilFagfeltInput', fagfelt + this.api.Keys.ENTER)
+                .setValue('@leggTilFagfeltInput', fagfelt)
+                .pageWait(1000) // Fordi typeahead
+                .setValue('@leggTilFagfeltInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
 
@@ -90,7 +94,9 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent('@leggTilArbeidserfaringKnapp')
                 .click('@leggTilArbeidserfaringKnapp')
-                .setValue('@leggTilArbeidserfaringInput', arbeidserfaring + this.api.Keys.ENTER)
+                .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
+                .pageWait(1000) // Fordi typeahead
+                .setValue('@leggTilArbeidserfaringInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
 
@@ -113,7 +119,9 @@ module.exports = {
                 .finnAntallKandidater(antallTreff)
                 .waitForElementPresent('@leggTilKompetanseKnapp')
                 .click('@leggTilKompetanseKnapp')
-                .setValue('@leggTilKompetanseInput', kompetanse + this.api.Keys.ENTER)
+                .setValue('@leggTilKompetanseInput', kompetanse)
+                .pageWait(1000) // Fordi typeahead
+                .setValue('@leggTilKompetanseInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
 
@@ -123,7 +131,7 @@ module.exports = {
                 .waitForElementPresent('@leggTilStedKnapp')
                 .click('@leggTilStedKnapp')
                 .setValue('@leggTilStedInput', sted)
-                .pageWait(1000)
+                .pageWait(1000) // Fordi typeahead
                 .setValue('@leggTilStedInput', this.api.Keys.ENTER)
                 .pageWait(4000);
         },
