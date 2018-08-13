@@ -86,8 +86,8 @@ const startServer = (html) => {
             console.log(`Proxy til path ${rettPath}`);
             return rettPath;
         },
-        proxyReqOptDecorator: (proxyReqOpts) => {
-            // you can update headers
+        proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
+            console.log('srcReq', srcReq);
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
             return proxyReqOpts;
         }
