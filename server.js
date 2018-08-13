@@ -80,7 +80,12 @@ const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
     server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('https//api-gw-t6.oera.no', {
-        proxyReqPathResolver: (req) => `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`,
+        https: true,
+        proxyReqPathResolver: (req) => {
+            const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            console.log(`Proxy til path ${rettPath}`);
+            return rettPath;
+        },
         proxyReqOptDecorator: (proxyReqOpts) => {
             // you can update headers
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
