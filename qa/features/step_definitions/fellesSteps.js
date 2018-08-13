@@ -18,7 +18,6 @@ Before(() => {
 
 Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) => {
     await client.url(client.launch_url);
-    await client.url(client.launch_url); // Må ha to ganger for scenario nr >1 i en feature.
     await client.maximizeWindow();
     await idPortenPage.loggInn(brukernavn);
     await kandidatsokPage
