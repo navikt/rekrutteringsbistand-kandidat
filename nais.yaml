@@ -39,4 +39,4 @@ fasitResources:
     propertyMap:
       password: PAM_KANDIDATSOK_API_PROXY_API_APIKEY
   - alias: pam-kandidatsok-api
-      resourceType: restservice
+    resourceType: restservice
