@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const express = require('express');
 const proxy = require('express-http-proxy');
 const helmet = require('helmet');
@@ -42,7 +43,8 @@ const fasitProperties = {
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
-    BACKEND_OPPE: process.env.PAM_KANDIDATSOK_BACKEND_OPPE === 'true'
+    BACKEND_OPPE: process.env.PAM_KANDIDATSOK_BACKEND_OPPE === 'true',
+    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -77,8 +79,25 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('api-gw-t6.oera.no', {
+        https: true,
+        proxyReqPathResolver: (req) => {
+            const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            console.log(`Proxy til path ${rettPath}`);
+            return rettPath;
+        },
+        proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
+            if (srcReq.headers.cookie !== undefined) {
+                const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
+                if (token) {
+                    proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
+                    console.log(`auth header = ${proxyReqOpts.headers.authorization}`);
+                }
+            }
+            proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
+            return proxyReqOpts;
+        }
+
     }));
 
     server.use(
