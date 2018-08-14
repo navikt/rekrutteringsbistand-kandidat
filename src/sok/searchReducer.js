@@ -111,7 +111,8 @@ export default function searchReducer(state = initialState, action) {
                 featureToggles: FEATURE_TOGGLES
                     .reduce((dict, key) => (
                         { ...dict, [key]: false }
-                    ), {})
+                    ), {}),
+                error: action.error
             };
         case SET_ALERT_TYPE_FAA_KANDIDATER:
             return {
