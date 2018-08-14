@@ -44,6 +44,7 @@ const fasitProperties = {
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
     BACKEND_OPPE: process.env.PAM_KANDIDATSOK_BACKEND_OPPE === 'true',
+    API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY
 };
 
@@ -79,7 +80,9 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('api-gw-t6.oera.no', {
+    const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
+
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => {
             const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
