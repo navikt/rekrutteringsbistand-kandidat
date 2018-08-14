@@ -79,7 +79,7 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('https//api-gw-t6.oera.no', {
+    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy('api-gw-t6.oera.no', {
         https: true,
         proxyReqPathResolver: (req) => {
             const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
@@ -87,10 +87,12 @@ const startServer = (html) => {
             return rettPath;
         },
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-            const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
-            if (token) {
-                proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
-                console.log(`auth header = ${proxyReqOpts.headers.authorization}`);
+            if (srcReq.headers.cookie !== undefined) {
+                const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
+                if (token) {
+                    proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
+                    console.log(`auth header = ${proxyReqOpts.headers.authorization}`);
+                }
             }
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
             return proxyReqOpts;
