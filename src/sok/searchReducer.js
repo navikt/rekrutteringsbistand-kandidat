@@ -180,7 +180,6 @@ function* search(action = '') {
             utdanninger: state.utdanning.utdanninger,
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
-            geografiListKomplett: state.geografi.geografiListKomplett,
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak
@@ -193,7 +192,6 @@ function* search(action = '') {
             state.utdanning.utdanninger,
             state.kompetanse.kompetanser,
             state.geografi.geografiList,
-            state.geografi.geografiListKomplett,
             state.arbeidserfaring.totalErfaring,
             state.utdanning.utdanningsniva,
             state.sprakReducer.sprak
