@@ -22,6 +22,13 @@ export async function fetchTypeaheadSuggestions(query = {}) {
     return resultat.json();
 }
 
+export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
+    const resultat = await fetch(
+        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
+    );
+    return resultat.json();
+}
+
 async function fetchJson(url, includeCredentials) {
     try {
         let response;
