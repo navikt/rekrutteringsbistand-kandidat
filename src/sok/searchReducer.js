@@ -174,7 +174,6 @@ function* search(action = '') {
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
         window.history.replaceState('', '', newUrlQuery);
 
-        const lokasjonListe = state.search.featureToggles['janzz-enabled'] ? [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`)) : [];
         const response = yield call(fetchKandidater, {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -182,7 +181,7 @@ function* search(action = '') {
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
-            lokasjoner: lokasjonListe,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`)),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak
