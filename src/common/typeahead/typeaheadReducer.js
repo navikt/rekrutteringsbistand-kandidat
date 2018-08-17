@@ -182,6 +182,7 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
         try {
             const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: value });
 
+            let suggestions;
             if (response._embedded) {
                 const responseList = response._embedded.stringList;
 
@@ -189,12 +190,13 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
                     const totalResult = responseList.map((r) => (
                         JSON.parse(r.content)
                     ));
+                    suggestions = totalResult.map((s) => s.geografiKodeTekst);
                     yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
+                } else {
+                    suggestions = responseList.map((r) => (
+                        r.content
+                    ));
                 }
-
-                const suggestions = responseList.map((r) => (
-                    r.content
-                ));
 
                 yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: `suggestions${name}` });
             }
