@@ -1,5 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
+import { kategoriserMatchKonsepter } from '../utils';
 
 /** *********************************************************
  * ACTIONS
@@ -75,20 +76,23 @@ function* fetchCvForKandidat(action) {
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
-        const matchForklaringRespons = state.search.featureToggles['janzz-enabled'] ? yield call(fetchMatchExplain, {
-            stillinger: state.stilling.stillinger,
-            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-            utdanninger: state.utdanning.utdanninger,
-            kompetanser: state.kompetanse.kompetanser,
-            geografiList: state.geografi.geografiList,
-            totalErfaring: state.arbeidserfaring.totalErfaring,
-            utdanningsniva: state.utdanning.utdanningsniva,
-            sprak: state.sprakReducer.sprak,
-            kandidatnr: action.arenaKandidatnr,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`))
-        }) : undefined;
-
-        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: matchForklaringRespons });
+        let omstrukturertForklaring;
+        if (state.search.featureToggles['vis-matchforklaring']) {
+            const matchForklaringRespons = yield call(fetchMatchExplain, {
+                stillinger: state.stilling.stillinger,
+                arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+                utdanninger: state.utdanning.utdanninger,
+                kompetanser: state.kompetanse.kompetanser,
+                geografiList: state.geografi.geografiList,
+                totalErfaring: state.arbeidserfaring.totalErfaring,
+                utdanningsniva: state.utdanning.utdanningsniva,
+                sprak: state.sprakReducer.sprak,
+                kandidatnr: action.arenaKandidatnr,
+                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`))
+            });
+            omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
+        }
+        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: omstrukturertForklaring });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_CV_FAILURE, error: e });

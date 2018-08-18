@@ -9,7 +9,8 @@ const FEATURE_TOGGLES = [
     'skjul-utdanning',
     'skjul-arbeidserfaring',
     'skjul-spraak',
-    'skjul-sted'
+    'skjul-sted',
+    'vis-matchforklaring'
 ];
 export default FEATURE_TOGGLES;
 

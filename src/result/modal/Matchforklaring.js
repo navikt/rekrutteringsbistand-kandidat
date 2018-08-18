@@ -74,9 +74,9 @@ const KonsepttypeMedMatch = ({ tittel, konseptmatcher }) => {
 };
 
 const MatchPanel = ({ matchedeKonsepter, score }) => (
-    <Row className="search-result-item">
+    <Row className="match-explanation-match blokk-s">
         <div className="match-explanation-title">
-            <Systemtittel className="text-center">{`Match: ${score} %`} </Systemtittel>
+            <Systemtittel className="text-center blokk-xs">{`Match: ${score} %`} </Systemtittel>
         </div>
         <Row>
             <Column className="col-xs-6"><Undertittel>Stillingsprofil</Undertittel></Column>
@@ -94,7 +94,7 @@ const MatchPanel = ({ matchedeKonsepter, score }) => (
 const IkkematchPanel = ({ stillingskonsepter, kandidatkonsepter }) => (
     <Row className="search-result-item">
         <div className="match-explanation-title">
-            <Systemtittel className="text-center">Ikke match</Systemtittel>
+            <Systemtittel className="text-center blokk-xs">Ikke match</Systemtittel>
         </div>
         <Column className="col-xs-6">
             <Row>

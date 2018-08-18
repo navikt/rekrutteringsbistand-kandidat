@@ -229,7 +229,11 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
                 </Row>
             )}
             {matchforklaring && (
-                <Matchdetaljer />
+                <Row className="blokk-s">
+                    <Column xs="12">
+                        <Matchdetaljer matchforklaring={matchforklaring} />
+                    </Column>
+                </Row>
             )}
         </div>
     );
