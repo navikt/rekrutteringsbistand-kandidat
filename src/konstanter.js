@@ -22,3 +22,13 @@ export const ALERTTYPE = {
     KOMPETANSE: 'kompetanse',
     GEOGRAFI: 'geografi'
 };
+
+
+export const KONSEPTTYPE = {
+    UTDANNING: 'education level',
+    YRKE: 'occupation',
+    KOMPETANSE: 'skill',
+    SOFT_SKILL: 'soft skill',
+    ERFARING: 'experience level',
+    STED: 'location'
+};

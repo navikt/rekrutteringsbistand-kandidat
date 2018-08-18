@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { SearchApiError, fetchCv } from '../api';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
 
 /** *********************************************************
  * ACTIONS
@@ -26,7 +26,8 @@ const initialState = {
         sprak: []
     },
     isCvModalOpen: false,
-    isFetchingCv: false
+    isFetchingCv: false,
+    matchforklaring: undefined
 };
 
 export default function cvReducer(state = initialState, action) {
@@ -40,7 +41,8 @@ export default function cvReducer(state = initialState, action) {
             return {
                 ...state,
                 isFetchingCv: false,
-                cv: action.response
+                cv: action.response,
+                matchforklaring: action.matchforklaring
             };
         case FETCH_CV_FAILURE:
             return {
@@ -69,10 +71,23 @@ export default function cvReducer(state = initialState, action) {
 
 function* fetchCvForKandidat(action) {
     try {
+        const state = yield select();
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
-        yield put({ type: FETCH_CV_SUCCESS, response });
+        const matchForklaringRespons = state.search.featureToggles['janzz-enabled'] ? yield call(fetchMatchExplain, {
+            stillinger: state.stilling.stillinger,
+            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+            utdanninger: state.utdanning.utdanninger,
+            kompetanser: state.kompetanse.kompetanser,
+            geografiList: state.geografi.geografiList,
+            totalErfaring: state.arbeidserfaring.totalErfaring,
+            utdanningsniva: state.utdanning.utdanningsniva,
+            sprak: state.sprakReducer.sprak,
+            kandidatnr: action.arenaKandidatnr
+        }) : undefined;
+
+        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: matchForklaringRespons });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_CV_FAILURE, error: e });
