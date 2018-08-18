@@ -84,7 +84,8 @@ function* fetchCvForKandidat(action) {
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
-            kandidatnr: action.arenaKandidatnr
+            kandidatnr: action.arenaKandidatnr,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`))
         }) : undefined;
 
         yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: matchForklaringRespons });

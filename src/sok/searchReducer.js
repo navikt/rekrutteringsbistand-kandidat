@@ -180,6 +180,8 @@ function* search(action = '') {
             utdanninger: state.utdanning.utdanninger,
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
+            geografiListKomplett: state.geografi.geografiListKomplett,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`)),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak

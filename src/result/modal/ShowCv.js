@@ -18,6 +18,10 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
     const kurs = cv.kurs.slice();
     const sertifikater = cv.sertifikater.slice();
     const sprak = cv.sprak.slice();
+    const geografiJobbonsker = cv.geografiJobbonsker ? cv.geografiJobbonsker
+        .slice()
+        .filter((sted, index, self) => !sted.geografiKodeTekst.includes('/Bydel') &&
+            self.indexOf(sted) === index) : [];
 
     if (isFetchingCv) {
         return (
@@ -201,6 +205,22 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
                                     )}
                                     {s.alternativTekst && (
                                         <Normaltekst><i>{s.alternativTekst}</i></Normaltekst>
+                                    )}
+                                </Column>
+                            </Row>
+                        ))}
+                    </Column>
+                </Row>
+            )}
+            {geografiJobbonsker && geografiJobbonsker.length !== 0 && (
+                <Row className="blokk-s">
+                    <Column xs="12">
+                        <Undertittel>Ønsket arbeidssted</Undertittel>
+                        {geografiJobbonsker.map((s) => (
+                            <Row className="blokk-xs" key={JSON.stringify(s)}>
+                                <Column xs="8">
+                                    {s.geografiKodeTekst && (
+                                        <Element>{s.geografiKodeTekst}</Element>
                                     )}
                                 </Column>
                             </Row>
