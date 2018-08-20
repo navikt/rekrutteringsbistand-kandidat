@@ -22,6 +22,13 @@ export async function fetchTypeaheadSuggestions(query = {}) {
     return resultat.json();
 }
 
+export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
+    const resultat = await fetch(
+        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
+    );
+    return resultat.json();
+}
+
 async function fetchJson(url, includeCredentials) {
     try {
         let response;
@@ -70,5 +77,11 @@ export function fetchKandidater(query = {}) {
 export function fetchCv(arenaKandidatnr) {
     return fetchJson(
         `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
+    );
+}
+
+export function fetchMatchExplain(query = {}) {
+    return fetchJson(
+        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
     );
 }

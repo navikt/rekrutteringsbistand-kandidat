@@ -27,7 +27,7 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!toggles['janzz-enabled']) {
-        return !key.includes('skjul-');
+        return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
     }
     return true;
 };
@@ -180,6 +180,8 @@ function* search(action = '') {
             utdanninger: state.utdanning.utdanninger,
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
+            geografiListKomplett: state.geografi.geografiListKomplett,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`)),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak

@@ -5,13 +5,14 @@ const common = require('./webpack.common.js');
 const developmentToggles = {
     'vis-manglende-arbeidserfaring-boks': false,
     'vis-ta-kontakt-kandidat': false,
-    'janzz-enabled': false,
+    'janzz-enabled': true,
     'skjul-yrke': false,
     'skjul-kompetanse': false,
     'skjul-utdanning': false,
     'skjul-arbeidserfaring': false,
     'skjul-spraak': false,
-    'skjul-sted': false
+    'skjul-sted': false,
+    'vis-matchforklaring': false
 };
 
 module.exports = merge(common, {

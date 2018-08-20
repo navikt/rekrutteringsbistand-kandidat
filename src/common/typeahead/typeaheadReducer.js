@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadSuggestions, SearchApiError } from '../../sok/api';
+import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestions, SearchApiError } from '../../sok/api';
 
 /** *********************************************************
  * ACTIONS
@@ -180,25 +180,26 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName]: value });
+            const response = name === 'geografi' ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadName]: value });
 
-            let suggestions;
+            const result = [];
+            const totalResult = [];
             if (response._embedded) {
-                const responseList = response._embedded.stringList;
-
                 if (name === 'geografi') {
-                    const totalResult = responseList.map((r) => (
-                        JSON.parse(r.content)
-                    ));
-                    suggestions = totalResult.map((s) => s.geografiKodeTekst);
+                    response._embedded.lokasjonList.map((sted) => {
+                        totalResult.push({ geografiKode: sted.code, geografiKodeTekst: sted.label });
+                        return result.push(sted.label);
+                    });
+
+
                     yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
                 } else {
-                    suggestions = responseList.map((r) => (
-                        r.content
-                    ));
+                    response._embedded.stringList.map((r) =>
+                        result.push(r.content)
+                    );
                 }
 
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: `suggestions${name}` });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, suggestionsLabel: `suggestions${name}` });
             }
         } catch (e) {
             if (e instanceof SearchApiError) {
