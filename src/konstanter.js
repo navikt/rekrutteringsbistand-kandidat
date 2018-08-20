@@ -9,7 +9,8 @@ const FEATURE_TOGGLES = [
     'skjul-utdanning',
     'skjul-arbeidserfaring',
     'skjul-spraak',
-    'skjul-sted'
+    'skjul-sted',
+    'vis-matchforklaring'
 ];
 export default FEATURE_TOGGLES;
 
@@ -21,4 +22,14 @@ export const ALERTTYPE = {
     SPRAK: 'sprak',
     KOMPETANSE: 'kompetanse',
     GEOGRAFI: 'geografi'
+};
+
+
+export const KONSEPTTYPE = {
+    UTDANNING: 'education level',
+    YRKE: 'occupation',
+    KOMPETANSE: 'skill',
+    SOFT_SKILL: 'soft skill',
+    ERFARING: 'experience level',
+    STED: 'location'
 };

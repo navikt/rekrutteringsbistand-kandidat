@@ -9,8 +9,10 @@ import sortByDato from '../../common/SortByDato';
 import cvPropTypes from '../../PropTypes';
 import './Modal.less';
 import { formatISOString } from '../../common/dateUtils';
+import { MatchexplainProptypesGrouped } from './Proptypes';
+import Matchdetaljer from './Matchdetaljer';
 
-const ShowCv = ({ cv, isFetchingCv }) => {
+const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -220,15 +222,16 @@ const ShowCv = ({ cv, isFetchingCv }) => {
                                     {s.geografiKodeTekst && (
                                         <Element>{s.geografiKodeTekst}</Element>
                                     )}
-                                    {s.beskrivelse && (
-                                        <Normaltekst>{s.beskrivelse}</Normaltekst>
-                                    )}
-                                    {s.alternativTekst && (
-                                        <Normaltekst><i>{s.alternativTekst}</i></Normaltekst>
-                                    )}
                                 </Column>
                             </Row>
                         ))}
+                    </Column>
+                </Row>
+            )}
+            {matchforklaring && (
+                <Row className="blokk-s">
+                    <Column xs="12">
+                        <Matchdetaljer matchforklaring={matchforklaring} />
                     </Column>
                 </Row>
             )}
@@ -236,14 +239,20 @@ const ShowCv = ({ cv, isFetchingCv }) => {
     );
 };
 
+ShowCv.defaultProps = {
+    matchforklaring: undefined
+};
+
 ShowCv.propTypes = {
     cv: cvPropTypes.isRequired,
-    isFetchingCv: PropTypes.bool.isRequired
+    isFetchingCv: PropTypes.bool.isRequired,
+    matchforklaring: MatchexplainProptypesGrouped
 };
 
 const mapStateToProps = (state) => ({
     isFetchingCv: state.cvReducer.isFetchingCv,
-    cv: state.cvReducer.cv
+    cv: state.cvReducer.cv,
+    matchforklaring: state.cvReducer.matchforklaring
 });
 
 export default connect(mapStateToProps)(ShowCv);

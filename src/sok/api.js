@@ -79,3 +79,9 @@ export function fetchCv(arenaKandidatnr) {
         `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
     );
 }
+
+export function fetchMatchExplain(query = {}) {
+    return fetchJson(
+        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
+    );
+}
