@@ -26,10 +26,13 @@ class UtdanningSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.utdanningsnivaKategorier = [{ key: 'Ingen', label: 'Ingen utdanning' },
-            { key: 'Videregaende', label: 'Videregående' }, { key: 'Fagskole', label: 'Fagskole' },
-            { key: 'Bachelor', label: 'Universitet/høgskole, inntil 4 år' }, { key: 'Master', label: 'Universitet/høgskole, over 4 år' },
-            { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' }];
+        this.utdanningsnivaKategorier = [
+            { key: 'Videregaende', label: 'Videregående' },
+            { key: 'Fagskole', label: 'Fagskole' },
+            { key: 'Bachelor', label: 'Universitet/høgskole, inntil 4 år' },
+            { key: 'Master', label: 'Universitet/høgskole, over 4 år' },
+            { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' }
+        ];
     }
 
     onUtdanningsnivaChange = (e) => {
@@ -161,6 +164,19 @@ class UtdanningSearch extends React.Component {
                             {utdanning}
                         </button>
                     ))}
+                    <div className="Checkbox--ingen-utdanning">
+                        <Checkbox
+                            id={'utdanningsniva-ingen-utdanning-checkbox'}
+                            className={this.props.utdanningsniva.includes('Ingen') ?
+                                'checkbox--checked' :
+                                'checkbox--unchecked'}
+                            label="Jeg ønsker treff på kandidater som ikke har utdanning"
+                            key="Ingen"
+                            value="Ingen"
+                            checked={this.props.utdanningsniva.includes('Ingen')}
+                            onChange={this.onUtdanningsnivaChange}
+                        />
+                    </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
