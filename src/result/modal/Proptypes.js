@@ -1,10 +1,11 @@
-
 import PropTypes from 'prop-types';
 
 export const ConceptMatchPropType = PropTypes.shape({
     c1name: PropTypes.string.isRequired,
+    c1text: PropTypes.string.isRequired,
     c1id: PropTypes.number.isRequired,
     c2name: PropTypes.string.isRequired,
+    c2text: PropTypes.string.isRequired,
     c2id: PropTypes.number.isRequired,
     cor: PropTypes.number.isRequired
 });
@@ -46,4 +47,3 @@ export const MatchProptypes = PropTypes.shape({
     title: PropTypes.string.isRequired,
     score: PropTypes.number.isRequired
 });
-

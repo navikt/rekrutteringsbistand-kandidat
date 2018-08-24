@@ -31,11 +31,21 @@ export function leggMerInfoTilKandidaterOgSorter(kandidater, kandidaterMedInfo) 
     return kandidaterMedAlleFelter.sort((a, b) => a.score - b.score);
 }
 
-const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) => (
+const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
     konsepter.reduce((dict, obj) => {
         const konsepttype = konsepttypeFunksjon(obj);
         if (konsepttype === KONSEPTTYPE.UTDANNING) {
-            return { ...dict, utdanning: [...dict.utdanning, obj] };
+            return {
+                ...dict,
+                utdanning: [
+                    ...dict.utdanning,
+                    {
+                        ...obj,
+                        c1text: mapUtdanning(obj.c1name)(),
+                        c2text: mapUtdanning(obj.c2name)()
+                    }
+                ]
+            };
         } else if (konsepttype === KONSEPTTYPE.YRKE) {
             return { ...dict, yrker: [...dict.yrker, obj] };
         } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
@@ -53,14 +63,29 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) => (
         erfaring: [],
         softSkills: [],
         andre: []
-    })
-);
+    });
+
+const EducationLevelPrefix = 'education level ';
+
+const utdanningtekst = {
+    [`${EducationLevelPrefix}0`]: () => 'Ingen registrert utdanning',
+    [`${EducationLevelPrefix}1`]: () => 'Grunnskole',
+    [`${EducationLevelPrefix}2`]: () => 'Videregående skole',
+    [`${EducationLevelPrefix}3`]: () => 'Fagbrev',
+    [`${EducationLevelPrefix}4`]: () => 'Fagskole',
+    [`${EducationLevelPrefix}6`]: () => 'Bachelor',
+    [`${EducationLevelPrefix}5`]: () => 'Master',
+    [`${EducationLevelPrefix}7`]: () => 'Doktorgrad',
+    default: () => 'Annen utdanning'
+};
+
+const mapUtdanning = (leveltekst) => utdanningtekst[leveltekst] || utdanningtekst.default;
 
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
     score: Math.floor(matchforklaring.score12 * 100),
-    matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, (obj) => (obj.c1branch)),
-    stillingskonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j1_not_matched, (obj) => (obj.branch)),
-    kandidatkonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j2_not_matched, (obj) => (obj.branch))
+    matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, (obj) => obj.c1branch),
+    stillingskonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j1_not_matched, (obj) => obj.branch),
+    kandidatkonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j2_not_matched, (obj) => obj.branch)
 });
 
 export const mapExperienceLevelTilAar = (level) => {
