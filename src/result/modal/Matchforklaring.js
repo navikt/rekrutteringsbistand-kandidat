@@ -31,9 +31,9 @@ function mapYrkeserfaringKandidat(name) {
 
 const conceptMatchRad = (conceptMatch) => (
     <Row key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}>
-        <Column className="col-xs-5">{mapYrkeserfaringStilling(conceptMatch.c1name)}</Column>
+        <Column className="col-xs-5">{mapYrkeserfaringStilling(conceptMatch.c1text)}</Column>
         <Column className="col-xs-2 text-center">{`${(conceptMatch.cor * 100).toString()} %`}</Column>
-        <Column className="col-xs-5 match-explanation-right-column">{mapYrkeserfaringKandidat(conceptMatch.c2name)}</Column>
+        <Column className="col-xs-5 match-explanation-right-column">{mapYrkeserfaringKandidat(conceptMatch.c2text)}</Column>
     </Row>
 );
 
@@ -83,7 +83,7 @@ const MatchPanel = ({ matchedeKonsepter, score }) => (
             <Column className="col-xs-6 match-explanation-right-column"><Undertittel>Kandidatprofil</Undertittel></Column>
         </Row>
         <KonsepttypeMedMatch tittel="Ønsket yrke" konseptmatcher={matchedeKonsepter.yrker} />
-        <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning} />
+        <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning}  />
         <KonsepttypeMedMatch tittel="Yrkeserfaring" konseptmatcher={matchedeKonsepter.erfaring} />
         <KonsepttypeMedMatch tittel="Kompetanse" konseptmatcher={matchedeKonsepter.kompetanse} />
         <KonsepttypeMedMatch tittel="Soft skills" konseptmatcher={matchedeKonsepter.softSkills} />
