@@ -28,7 +28,6 @@ function mapYrkeserfaringKandidat(name) {
     return name;
 }
 
-
 const conceptMatchRad = (conceptMatch) => (
     <Row key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}>
         <Column className="col-xs-5">{mapYrkeserfaringStilling(conceptMatch.c1text)}</Column>
@@ -41,7 +40,6 @@ const KonsepttypeUtenMatch = ({ tittel, stillingskonsepter, kandidatkonsepter })
     if (stillingskonsepter.length > 0 || kandidatkonsepter.length > 0) {
         return (
             <Row className="match-explanation-concept-type-row">
-
                 <Column className="col-xs-12">
                     <Undertittel className="match-explanation-concept-type-header">{tittel}</Undertittel>
                 </Column>
@@ -83,7 +81,7 @@ const MatchPanel = ({ matchedeKonsepter, score }) => (
             <Column className="col-xs-6 match-explanation-right-column"><Undertittel>Kandidatprofil</Undertittel></Column>
         </Row>
         <KonsepttypeMedMatch tittel="Ønsket yrke" konseptmatcher={matchedeKonsepter.yrker} />
-        <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning}  />
+        <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning} />
         <KonsepttypeMedMatch tittel="Yrkeserfaring" konseptmatcher={matchedeKonsepter.erfaring} />
         <KonsepttypeMedMatch tittel="Kompetanse" konseptmatcher={matchedeKonsepter.kompetanse} />
         <KonsepttypeMedMatch tittel="Soft skills" konseptmatcher={matchedeKonsepter.softSkills} />
@@ -110,36 +108,12 @@ const IkkematchPanel = ({ stillingskonsepter, kandidatkonsepter }) => (
                 </Column>
             </Row>
         </Column>
-        <KonsepttypeUtenMatch
-            tittel="Ønsket yrke"
-            stillingskonsepter={stillingskonsepter.yrker}
-            kandidatkonsepter={kandidatkonsepter.yrker}
-        />
-        <KonsepttypeUtenMatch
-            tittel="Utdanning"
-            stillingskonsepter={stillingskonsepter.utdanning}
-            kandidatkonsepter={kandidatkonsepter.utdanning}
-        />
-        <KonsepttypeUtenMatch
-            tittel="Yrkeserfaring"
-            stillingskonsepter={stillingskonsepter.erfaring}
-            kandidatkonsepter={kandidatkonsepter.erfaring}
-        />
-        <KonsepttypeUtenMatch
-            tittel="Kompetanse"
-            stillingskonsepter={stillingskonsepter.kompetanse}
-            kandidatkonsepter={kandidatkonsepter.kompetanse}
-        />
-        <KonsepttypeUtenMatch
-            tittel="Soft skills"
-            stillingskonsepter={stillingskonsepter.softSkills}
-            kandidatkonsepter={kandidatkonsepter.softSkills}
-        />
-        <KonsepttypeUtenMatch
-            tittel="Andre"
-            stillingskonsepter={stillingskonsepter.andre}
-            kandidatkonsepter={kandidatkonsepter.andre}
-        />
+        <KonsepttypeUtenMatch tittel="Ønsket yrke" stillingskonsepter={stillingskonsepter.yrker} kandidatkonsepter={kandidatkonsepter.yrker} />
+        <KonsepttypeUtenMatch tittel="Utdanning" stillingskonsepter={stillingskonsepter.utdanning} kandidatkonsepter={kandidatkonsepter.utdanning} />
+        <KonsepttypeUtenMatch tittel="Yrkeserfaring" stillingskonsepter={stillingskonsepter.erfaring} kandidatkonsepter={kandidatkonsepter.erfaring} />
+        <KonsepttypeUtenMatch tittel="Kompetanse" stillingskonsepter={stillingskonsepter.kompetanse} kandidatkonsepter={kandidatkonsepter.kompetanse} />
+        <KonsepttypeUtenMatch tittel="Soft skills" stillingskonsepter={stillingskonsepter.softSkills} kandidatkonsepter={kandidatkonsepter.softSkills} />
+        <KonsepttypeUtenMatch tittel="Andre" stillingskonsepter={stillingskonsepter.andre} kandidatkonsepter={kandidatkonsepter.andre} />
     </Row>
 );
 

@@ -1,4 +1,3 @@
-
 import PropTypes from 'prop-types';
 
 export const ConceptMatchPropType = PropTypes.shape({
@@ -48,4 +47,3 @@ export const MatchProptypes = PropTypes.shape({
     title: PropTypes.string.isRequired,
     score: PropTypes.number.isRequired
 });
-
