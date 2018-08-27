@@ -59,6 +59,7 @@ export default function cvReducer(state = initialState, action) {
         case CLOSE_CV_MODAL:
             return {
                 ...state,
+                cv: { ...initialState.cv },
                 isCvModalOpen: false
             };
         default:
