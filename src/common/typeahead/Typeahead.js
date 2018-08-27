@@ -178,7 +178,7 @@ export default class Typeahead extends React.Component {
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
                     onFocus={this.onFocus}
-                    debounceTimeout={300}
+                    debounceTimeout={0}
                     inputRef={(input) => {
                         this.input = input;
                     }}

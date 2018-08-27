@@ -206,7 +206,7 @@ KompetanseSearch.propTypes = {
 const mapStateToProps = (state) => ({
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
-    typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse,
+    typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulKompetanse: state.search.featureToggles['skjul-kompetanse'],

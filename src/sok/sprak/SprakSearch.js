@@ -148,7 +148,7 @@ SprakSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     sprak: state.sprakReducer.sprak,
-    typeAheadSuggestionsSprak: state.typeahead.suggestionssprak,
+    typeAheadSuggestionsSprak: state.typeahead.sprak.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSprak: state.search.featureToggles['skjul-spraak'],

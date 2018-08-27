@@ -21,31 +21,44 @@ export const CLEAR_TYPE_AHEAD_SUGGESTIONS = 'CLEAR_TYPE_AHEAD_SUGGESTIONS';
  * REDUCER
  ********************************************************* */
 
-const initialState = {
-    suggestionskompetanse: [],
-    suggestionsstilling: [],
-    suggestionsarbeidserfaring: [],
-    suggestionsutdanning: [],
-    suggestionsgeografi: [],
-    suggestionssprak: [],
+const initialTypeaheadState = () => ({
+    value: '',
+    suggestions: [],
+    cachedSuggestions: []
+});
 
+const initialState = {
     // TODO: Fjern cached. Toggle: janzz-enabled
-    cachedSuggestionsKompetanse: [],
-    cachedSuggestionsStilling: [],
-    cachedSuggestionsArbeidserfaring: [],
-    cachedSuggestionsUtdanning: [],
-    cachedSuggestionsGeografi: [],
-    cachedSuggestionsSprak: [],
-    suggestionsGeografiKomplett: []
+    kompetanse: initialTypeaheadState(),
+    stilling: initialTypeaheadState(),
+    arbeidserfaring: initialTypeaheadState(),
+    utdanning: initialTypeaheadState(),
+    geografi: initialTypeaheadState(),
+    geografiKomplett: initialTypeaheadState(),
+    sprak: initialTypeaheadState()
 };
 
 export default function typeaheadReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
+        case FETCH_TYPE_AHEAD_SUGGESTIONS:
             return {
                 ...state,
-                [action.suggestionsLabel]: action.suggestions
+                [action.name]: {
+                    ...(state[action.name]),
+                    value: action.value
+                }
             };
+        case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
+            if (action.query === state[action.suggestionsLabel].value) {
+                return {
+                    ...state,
+                    [action.suggestionsLabel]: {
+                        ...(state[action.suggestionsLabel]),
+                        suggestions: action.suggestions
+                    }
+                };
+            }
+            return state;
         case FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE:
             return {
                 ...state,
@@ -199,7 +212,7 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
                     );
                 }
 
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, suggestionsLabel: `suggestions${name}` });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, suggestionsLabel: name, query: value });
             }
         } catch (e) {
             if (e instanceof SearchApiError) {

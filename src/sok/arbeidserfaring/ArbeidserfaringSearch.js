@@ -186,7 +186,7 @@ ArbeidserfaringSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-    typeAheadSuggestionsArbeidserfaring: state.typeahead.suggestionsarbeidserfaring,
+    typeAheadSuggestionsArbeidserfaring: state.typeahead.arbeidserfaring.suggestions,
     totalErfaring: state.arbeidserfaring.totalErfaring,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,

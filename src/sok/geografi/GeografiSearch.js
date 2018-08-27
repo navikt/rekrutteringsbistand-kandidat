@@ -158,8 +158,8 @@ GeografiSearch.propTypes = {
 const mapStateToProps = (state) => ({
     geografiList: state.geografi.geografiList,
     geografiListKomplett: state.geografi.geografiListKomplett,
-    typeAheadSuggestionsGeografi: state.typeahead.suggestionsgeografi,
-    typeAheadSuggestionsGeografiKomplett: state.typeahead.suggestionsGeografiKomplett,
+    typeAheadSuggestionsGeografi: state.typeahead.geografi.suggestions,
+    typeAheadSuggestionsGeografiKomplett: state.typeahead.geografiKomplett.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],

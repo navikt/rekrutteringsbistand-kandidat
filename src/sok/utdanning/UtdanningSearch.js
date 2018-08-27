@@ -211,7 +211,7 @@ UtdanningSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
-    typeAheadSuggestionsUtdanning: state.typeahead.suggestionsutdanning,
+    typeAheadSuggestionsUtdanning: state.typeahead.utdanning.suggestions,
     utdanningsniva: state.utdanning.utdanningsniva,
     visManglendeArbeidserfaringBoks: state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
     skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
