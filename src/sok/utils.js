@@ -41,8 +41,8 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
                     ...dict.utdanning,
                     {
                         ...obj,
-                        c1text: mapUtdanning(obj.c1name)(),
-                        c2text: mapUtdanning(obj.c2name)()
+                        c1name: mapUtdanning(obj.c1name)(),
+                        c2name: mapUtdanning(obj.c2name)()
                     }
                 ]
             };
