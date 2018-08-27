@@ -35,17 +35,7 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
     konsepter.reduce((dict, obj) => {
         const konsepttype = konsepttypeFunksjon(obj);
         if (konsepttype === KONSEPTTYPE.UTDANNING) {
-            return {
-                ...dict,
-                utdanning: [
-                    ...dict.utdanning,
-                    {
-                        ...obj,
-                        c1name: mapUtdanning(obj.c1name)(),
-                        c2name: mapUtdanning(obj.c2name)()
-                    }
-                ]
-            };
+            return { ...dict, utdanning: [...dict.utdanning, obj] };
         } else if (konsepttype === KONSEPTTYPE.YRKE) {
             return { ...dict, yrker: [...dict.yrker, obj] };
         } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
@@ -68,18 +58,22 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
 const EducationLevelPrefix = 'education level ';
 
 const utdanningtekst = {
-    [`${EducationLevelPrefix}0`]: () => 'Ingen registrert utdanning',
-    [`${EducationLevelPrefix}1`]: () => 'Grunnskole',
-    [`${EducationLevelPrefix}2`]: () => 'Videregående skole',
-    [`${EducationLevelPrefix}3`]: () => 'Fagbrev',
-    [`${EducationLevelPrefix}4`]: () => 'Fagskole',
-    [`${EducationLevelPrefix}6`]: () => 'Bachelor',
-    [`${EducationLevelPrefix}5`]: () => 'Master',
-    [`${EducationLevelPrefix}7`]: () => 'Doktorgrad',
-    default: () => 'Annen utdanning'
+    [`${EducationLevelPrefix}0`]: 'Ingen registrert utdanning',
+    [`${EducationLevelPrefix}1`]: 'Grunnskole',
+    [`${EducationLevelPrefix}2`]: 'Videregående skole',
+    [`${EducationLevelPrefix}3`]: 'Fagbrev',
+    [`${EducationLevelPrefix}4`]: 'Fagskole',
+    [`${EducationLevelPrefix}5`]: 'Bachelor',
+    [`${EducationLevelPrefix}6`]: 'Master',
+    [`${EducationLevelPrefix}7`]: 'Doktorgrad',
+    default: 'Annen utdanning'
 };
 
 const mapUtdanning = (leveltekst) => utdanningtekst[leveltekst] || utdanningtekst.default;
+
+export const mapUtdanninger = (utdanninger) => utdanninger                      
+    .map( u => {
+        return {  ...u, c1name:mapUtdanning(u.c1name), c2name:mapUtdanning(u.c2name)}})
 
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
     score: Math.floor(matchforklaring.score12 * 100),
