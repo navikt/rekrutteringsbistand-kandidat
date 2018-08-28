@@ -89,17 +89,17 @@ function* fetchCvForKandidat(action) {
                 utdanningsniva: state.utdanning.utdanningsniva,
                 sprak: state.sprakReducer.sprak,
                 kandidatnr: action.arenaKandidatnr,
-                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`))
+                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
             });
 
             const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
 
             const medUtdanningstekst = {
-                ...omstrukturertForklaring, 
+                ...omstrukturertForklaring,
                 matchedeKonsepter: oversettUtdanning(omstrukturertForklaring.matchedeKonsepter),
                 stillingskonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.stillingskonsepterUtenMatch),
                 kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
-            }
+            };
         }
         yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
     } catch (e) {
