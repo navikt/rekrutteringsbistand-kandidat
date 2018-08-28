@@ -1,8 +1,8 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
 import { kategoriserMatchKonsepter } from '../utils';
+import { oversettUtdanning } from '../utils';
 
-import { mapUtdanninger } from '../utils';
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
@@ -78,7 +78,7 @@ function* fetchCvForKandidat(action) {
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
-        //if (state.search.featureToggles['vis-matchforklaring']) {
+        if (state.search.featureToggles['vis-matchforklaring']) {
             const matchForklaringRespons = yield call(fetchMatchExplain, {
                 stillinger: state.stilling.stillinger,
                 arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -93,26 +93,17 @@ function* fetchCvForKandidat(action) {
             });
 
             const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
-            
-            const medUtdanningstekst = {
-                matchedeKonsepter: {
-                ...omstrukturertForklaring.matchedeKonsepter,  
-                   utdanning: mapUtdanninger(omstrukturertForklaring.matchedeKonsepter.utdanning)
-                },
-                stillingskonsepterUtenMatch: {
-                ...omstrukturertForklaring.stillingskonsepterUtenMatch,  
-                    utdanning: mapUtdanninger(omstrukturertForklaring.stillingskonsepterUtenMatch.utdanning)
-                },
-                kandidatkonsepterUtenMatch: {
-                    ...omstrukturertForklaring.kandidatkonsepterUtenMatch,  
-                    utdanning: mapUtdanninger(omstrukturertForklaring.kandidatkonsepterUtenMatch.utdanning)
-                },
-            }
 
+            const medUtdanningstekst = {
+                ...omstrukturertForklaring, 
+                matchedeKonsepter: oversettUtdanning(omstrukturertForklaring.matchedeKonsepter),
+                stillingskonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.stillingskonsepterUtenMatch),
+                kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
+            }
+        }
         yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
             yield put({ type: FETCH_CV_FAILURE, error: e });
         } else {
             throw e;
