@@ -9,8 +9,7 @@ export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
 
-// TODO: Fjern cached. Toggle: janzz-enabled
-export const FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE';
+// TODO: Toggle: janzz-enabled
 
 export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
 
@@ -23,13 +22,11 @@ export const CLEAR_TYPE_AHEAD_SUGGESTIONS = 'CLEAR_TYPE_AHEAD_SUGGESTIONS';
 
 const initialTypeaheadState = () => ({
     value: '',
-    suggestions: [],
-    cachedValue: '',
-    cachedSuggestions: []
+    suggestions: []
 });
-
+// 'branch'//
 const initialState = {
-    // TODO: Fjern cached. Toggle: janzz-enabled
+    // TODO: Toggle: janzz-enabled
     kompetanse: initialTypeaheadState(),
     stilling: initialTypeaheadState(),
     arbeidserfaring: initialTypeaheadState(),
@@ -50,25 +47,16 @@ export default function typeaheadReducer(state = initialState, action) {
                 }
             };
         case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
-            if (action.query === state[action.suggestionsLabel].value) {
+            if (action.query === state[action.branch].value) {
                 return {
                     ...state,
-                    [action.suggestionsLabel]: {
-                        ...(state[action.suggestionsLabel]),
+                    [action.branch]: {
+                        ...(state[action.branch]),
                         suggestions: action.suggestions
                     }
                 };
             }
             return state;
-        case FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE:
-            return {
-                ...state,
-                [action.name]: {
-                    ...(state[action.name]),
-                    cachedSuggestions: action.cachedSuggestions,
-                    cachedValue: action.query
-                }
-            };
         case SET_KOMPLETT_GEOGRAFI:
             return {
                 ...state,
@@ -121,62 +109,44 @@ const getTypeAheadName = (type) => {
 
 function* fetchTypeAheadSuggestionsES(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const state = yield select();
     const name = action.name;
     const value = action.value;
-
 
     const typeAheadName = getTypeAheadName(name);
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-        if (state.typeahead[name].cachedSuggestions.length === 0 || state.typeahead[name].cachedValue.value !== value) {
-            const cachedMatch = value.substring(0, TYPE_AHEAD_MIN_INPUT_LENGTH);
-            try {
-                const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName.typeAheadName]: value });
+        try {
+            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName.typeAheadName]: value });
 
-                // The result from Elastic Search is a list of key-value pair
-                // Put the values into a list
-                const result = [];
-                const totalResult = [];
-                if (response._embedded) {
-                    if (name === 'geografi') {
-                        response._embedded.stringList.map((r) => {
-                            const content = JSON.parse(r.content);
-                            totalResult.push(content);
-                            return result.push(content.geografiKodeTekst);
-                        });
-                        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-                    } else {
-                        response._embedded.stringList.map((r) =>
-                            result.push(r.content)
-                        );
-                    }
-                }
-
-                const suggestions = result.filter((cachedSuggestion) => (
-                    cachedSuggestion.toLowerCase()
-                        .startsWith((cachedMatch.toLowerCase()))
-                ));
-
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: suggestions, name, query: value });
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, suggestionsLabel: name, query: value });
-            } catch (e) {
-                if (e instanceof SearchApiError) {
-                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+            // The suggestions from Elastic Search is a list of key-value pair
+            // Put the values into a list
+            const suggestions = [];
+            const totalSuggestions = [];
+            if (response._embedded) {
+                if (name === 'geografi') {
+                    response._embedded.stringList.map((r) => {
+                        const content = JSON.parse(r.content);
+                        totalSuggestions.push(content);
+                        return suggestions.push(content.geografiKodeTekst);
+                    });
+                    yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestions });
                 } else {
-                    throw e;
+                    response._embedded.stringList.map((r) =>
+                        suggestions.push(r.content)
+                    );
                 }
             }
-        } else {
-            const suggestions = state.typeahead[name].suggestions.filter((cachedSuggestion) => (
-                cachedSuggestion.toLowerCase()
-                    .startsWith(value.toLowerCase())
-            ));
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, query: value });
+
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch: name, query: value });
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+            } else {
+                throw e;
+            }
         }
     } else {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_CACHE, cachedSuggestions: [], name, query: value });
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], suggestionsLabel: name, query: value });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch: name, query: value });
     }
 }
 
@@ -208,7 +178,7 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
                     );
                 }
 
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, suggestionsLabel: name, query: value });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch: name, query: value });
             }
         } catch (e) {
             if (e instanceof SearchApiError) {
