@@ -78,6 +78,8 @@ function* fetchCvForKandidat(action) {
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
+        let medUtdanningstekst;
+
         if (state.search.featureToggles['vis-matchforklaring']) {
             const matchForklaringRespons = yield call(fetchMatchExplain, {
                 stillinger: state.stilling.stillinger,
@@ -94,7 +96,7 @@ function* fetchCvForKandidat(action) {
 
             const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
 
-            const medUtdanningstekst = {
+            medUtdanningstekst = {
                 ...omstrukturertForklaring,
                 matchedeKonsepter: oversettUtdanning(omstrukturertForklaring.matchedeKonsepter),
                 stillingskonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.stillingskonsepterUtenMatch),
