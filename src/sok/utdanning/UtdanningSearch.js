@@ -163,20 +163,22 @@ class UtdanningSearch extends React.Component {
                         >
                             {utdanning}
                         </button>
-                    ))}
-                    <div className="Checkbox--ingen-utdanning">
-                        <Checkbox
-                            id={'utdanningsniva-ingen-utdanning-checkbox'}
-                            className={this.props.utdanningsniva.includes('Ingen') ?
-                                'checkbox--checked' :
-                                'checkbox--unchecked'}
-                            label="Jeg ønsker treff på kandidater som ikke har utdanning"
-                            key="Ingen"
-                            value="Ingen"
-                            checked={this.props.utdanningsniva.includes('Ingen')}
-                            onChange={this.onUtdanningsnivaChange}
-                        />
-                    </div>
+                    ))}{this.props.visIngenUtdanning && (
+                        <div className="Checkbox--ingen-utdanning">
+                            <Checkbox
+                                id={'utdanningsniva-ingen-utdanning-checkbox'}
+                                className={this.props.utdanningsniva.includes('Ingen') ?
+                                    'checkbox--checked' :
+                                    'checkbox--unchecked'}
+                                label="Jeg ønsker treff på kandidater som ikke har utdanning"
+                                key="Ingen"
+                                value="Ingen"
+                                checked={this.props.utdanningsniva.includes('Ingen')}
+                                onChange={this.onUtdanningsnivaChange}
+                            />
+                        </div>
+                    )
+                    }
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
@@ -206,7 +208,8 @@ UtdanningSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    visIngenUtdanning: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -217,7 +220,8 @@ const mapStateToProps = (state) => ({
     skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.utdanning.utdanningPanelOpen
+    panelOpen: state.utdanning.utdanningPanelOpen,
+    visIngenUtdanning: state.search.featureToggles['ingen-utdanning-filter']
 });
 
 const mapDispatchToProps = (dispatch) => ({
