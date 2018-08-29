@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { client } = require('nightwatch-cucumber');
 const { When, Then } = require('cucumber');
 
@@ -10,6 +11,6 @@ When(/^jeg åpner CVen til den første kandidaten/, () => {
 Then(/^skal hele CVen vises/, async () => {
     const nonEmptyStringRegex = /^(?!\s*$).+/;
 
-    await kandidatsokPage.expect.element('@cvModal').to.be.present.before(5000);
+    await kandidatsokPage.expect.element('@cvModal').to.be.present.before(15000);
     await kandidatsokPage.expect.element('@cvModal').text.to.match(nonEmptyStringRegex);
 });
