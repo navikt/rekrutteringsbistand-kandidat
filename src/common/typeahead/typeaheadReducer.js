@@ -60,9 +60,25 @@ export default function typeaheadReducer(state = initialState, action) {
         case SET_KOMPLETT_GEOGRAFI:
             return {
                 ...state,
-                suggestionsGeografiKomplett: action.value
+                geografiKomplett: {
+                    ...(state.geografiKomplett),
+                    suggestions: action.value
+                }
             };
         case CLEAR_TYPE_AHEAD_SUGGESTIONS:
+            if (action.branch === 'geografi') {
+                return {
+                    ...state,
+                    geografi: {
+                        ...(state.geografi),
+                        suggestions: []
+                    },
+                    geografiKomplett: {
+                        ...(state.geografiKomplett),
+                        suggestions: []
+                    }
+                };
+            }
             return {
                 ...state,
                 [action.branch]: {
