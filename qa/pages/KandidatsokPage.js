@@ -5,10 +5,13 @@ module.exports = {
         antallKandidaterTreff: '#antall-kandidater-treff',
         seKandidateneKnapp: '#se-kandidatene-knapp',
         slettAlleKriterierLenke: '#slett-alle-kriterier-lenke',
+        stillingPanel: '.panel--stilling',
         leggTilStillingKnapp: '#leggtil-stilling-knapp',
         leggTilStillingInput: '#typeahead-stilling',
+        leggTilStillingTypeahead: '#typeahead-stilling-suggestions',
         leggTilFagfeltKnapp: '#leggtil-fagfelt-knapp',
         leggTilFagfeltInput: '#yrke',
+        leggTilFagfeltTypeahead: '#yrke-suggestions',
         leggTilUtdanningIngen: 'label[for=utdanningsniva-ingen-checkbox]',
         leggTilUtdanningVideregaende: 'label[for=utdanningsniva-videregaende-checkbox]',
         leggTilUtdanningFagskole: 'label[for=utdanningsniva-fagskole-checkbox]',
@@ -17,14 +20,21 @@ module.exports = {
         leggTilUtdanningDoktorgrad: 'label[for=utdanningsniva-doktorgrad-checkbox]',
         leggTilArbeidserfaringKnapp: '#leggtil-arbeidserfaring-knapp',
         leggTilArbeidserfaringInput: '#typeahead-arbeidserfaring',
+        leggTilArbeidserfaringTypeahead: '#typeahead-arbeidserfaring-suggestions',
         leggTilArbeidserfaringUnderEn: 'label[for=arbeidserfaring-0-11-checkbox]',
         leggTilArbeidserfaringEnTilTre: 'label[for=arbeidserfaring-12-47-checkbox]',
         leggTilArbeidserfaringFireTilNi: 'label[for=arbeidserfaring-48-119-checkbox]',
         leggTilArbeidserfaringOverTi: 'label[for=arbeidserfaring-120--checkbox]',
+        leggTilSprakKnapp: '#leggtil-sprak-knapp',
+        leggTilSprakInput: '#yrke',
+        leggTilSprakTypeahead: '#yrke-suggestions',
         leggTilKompetanseKnapp: '#leggtil-kompetanse-knapp',
         leggTilKompetanseInput: '#typeahead-kompetanse',
+        leggTilKompetanseTypeahead: '#typeahead-kompetanse-suggestions',
         leggTilStedKnapp: '#leggtil-sted-knapp',
         leggTilStedInput: '#typeahead-geografi',
+        leggTilStedTypeahead: '#typeahead-geografi-suggestions',
+        sokefeltKnapp: '#search-button-typeahead',
         resultatvisning: 'div[class=resultatvisning]',
         forsteRadKandidaterTabell: 'button[class*=kandidater--row]',
         cvModal: '.personalia--modal',
@@ -32,15 +42,20 @@ module.exports = {
     },
 
     commands: [{
-        finnAntallKandidater(antallTreff) {
-            return this.getText('@antallKandidaterTreff', (result) => {
+        finnAntallKandidater(antallTreff, callback) {
+            this.getText('@antallKandidaterTreff', (result) => {
                 this.assert.equal(result.status, 0);
                 antallTreff.alleTreff.push(parseInt(result.value.replace(' ', ''), 10));
                 let lengde = antallTreff.alleTreff.length;
                 antallTreff.forste = antallTreff.alleTreff[0];
                 antallTreff.nestSiste = antallTreff.alleTreff[lengde - 2];
                 antallTreff.siste = antallTreff.alleTreff[lengde - 1];
+                
+                if (callback && typeof callback === 'function') {
+                    callback(antallTreff.siste);
+                }
             });
+            return this;
         },
 
         seKandidatene() {
@@ -52,18 +67,22 @@ module.exports = {
         },
 
         leggTilStillingkriterie(stilling, antallTreff) {
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent('@leggTilStillingKnapp')
-                .click('@leggTilStillingKnapp')
-                .setValue('@leggTilStillingInput', stilling)
-                .pageWait(1000)
-                .setValue('@leggTilStillingInput', this.api.Keys.ENTER)
-                .pageWait(4000);
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilStillingKnapp')
+                    .click('@leggTilStillingKnapp')
+                    .setValue('@leggTilStillingInput', stilling)
+                    .waitForElementPresent('@leggTilStillingTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilUtdanningkriterie(utdanning, antallTreff) {
+            const self = this;
             let checkboxElement;
+
             if (utdanning === 'Ingen utdanning') checkboxElement = '@leggTilUtdanningIngen';
             else if (utdanning === 'Videregående') checkboxElement = '@leggTilUtdanningVideregaende';
             else if (utdanning === 'Fagskole') checkboxElement = '@leggTilUtdanningFagskole';
@@ -71,75 +90,104 @@ module.exports = {
             else if (utdanning === 'Mastergrad') checkboxElement = '@leggTilUtdanningMastergrad';
             else if (utdanning === 'Doktorgrad') checkboxElement = '@leggTilUtdanningDoktorgrad';
             else throw `'${utdanning}' er ikke et støttet utdanningsnivå`;
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent(checkboxElement)
-                .click(checkboxElement)
-                .pageWait(4000);
+            
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent(checkboxElement)
+                    .click(checkboxElement)
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilFagfeltkriterie(fagfelt, antallTreff) {
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent('@leggTilFagfeltKnapp')
-                .click('@leggTilFagfeltKnapp')
-                .setValue('@leggTilFagfeltInput', fagfelt)
-                .pageWait(1000) // Fordi typeahead
-                .setValue('@leggTilFagfeltInput', this.api.Keys.ENTER)
-                .pageWait(4000);
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilFagfeltKnapp')
+                    .click('@leggTilFagfeltKnapp')
+                    .setValue('@leggTilFagfeltInput', fagfelt)
+                    .waitForElementPresent('@leggTilFagfeltTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilArbeidserfaringkriterie(arbeidserfaring, antallTreff) {
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent('@leggTilArbeidserfaringKnapp')
-                .click('@leggTilArbeidserfaringKnapp')
-                .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
-                .pageWait(1000) // Fordi typeahead
-                .setValue('@leggTilArbeidserfaringInput', this.api.Keys.ENTER)
-                .pageWait(4000);
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilArbeidserfaringKnapp')
+                    .click('@leggTilArbeidserfaringKnapp')
+                    .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
+                    .waitForElementPresent('@leggTilArbeidserfaringTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilArMedArbeidserfaringkriterie(ar, antallTreff) {
+            const self = this;
             let checkboxElement;
             if (ar === 'Under 1 år') checkboxElement = '@leggTilArbeidserfaringUnderEn';
             else if (ar === '1-3 år') checkboxElement = '@leggTilArbeidserfaringEnTilTre';
             else if (ar === '4-9 år') checkboxElement = '@leggTilArbeidserfaringFireTilNi';
             else if (ar === 'Over 10 år') checkboxElement = '@leggTilArbeidserfaringOverTi';
             else throw `'${ar}' er ikke et støttet antall år med arbeidserfaring`;
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent(checkboxElement)
-                .click(checkboxElement)
-                .pageWait(4000);
+            
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent(checkboxElement)
+                    .click(checkboxElement)
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
+        },
+
+        leggTilSprakkriterie(sprak, antallTreff) {
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilSprakKnapp')
+                    .click('@leggTilSprakKnapp')
+                    .setValue('@leggTilSprakInput', sprak)
+                    .waitForElementPresent('@leggTilSprakTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilKompetansekriterie(kompetanse, antallTreff) {
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent('@leggTilKompetanseKnapp')
-                .click('@leggTilKompetanseKnapp')
-                .setValue('@leggTilKompetanseInput', kompetanse)
-                .pageWait(1000) // Fordi typeahead
-                .setValue('@leggTilKompetanseInput', this.api.Keys.ENTER)
-                .pageWait(4000);
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilKompetanseKnapp')
+                    .click('@leggTilKompetanseKnapp')
+                    .setValue('@leggTilKompetanseInput', kompetanse)
+                    .waitForElementPresent('@leggTilKompetanseTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         leggTilGeografikriterie(sted, antallTreff) {
-            return this
-                .finnAntallKandidater(antallTreff)
-                .waitForElementPresent('@leggTilStedKnapp')
-                .click('@leggTilStedKnapp')
-                .setValue('@leggTilStedInput', sted)
-                .pageWait(1000) // Fordi typeahead
-                .setValue('@leggTilStedInput', this.api.Keys.ENTER)
-                .pageWait(4000);
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilStedKnapp')
+                    .click('@leggTilStedKnapp')
+                    .setValue('@leggTilStedInput', sted)
+                    .waitForElementPresent('@leggTilStedTypeahead', 30000)
+                    .click('@sokefeltKnapp')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
-        slettAlleKriterier() {
-            return this
-                .click('@slettAlleKriterierLenke')
-                .pageWait(4000);
+        slettAlleKriterier(antallTreff) {
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .click('@slettAlleKriterierLenke')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
         },
 
         pageWait(ms) {
