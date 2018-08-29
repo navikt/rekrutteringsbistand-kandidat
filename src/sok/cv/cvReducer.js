@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
 import { kategoriserMatchKonsepter } from '../utils';
+import { oversettUtdanning } from '../utils';
 
 /** *********************************************************
  * ACTIONS
@@ -59,6 +60,7 @@ export default function cvReducer(state = initialState, action) {
         case CLOSE_CV_MODAL:
             return {
                 ...state,
+                cv: { ...initialState.cv },
                 isCvModalOpen: false
             };
         default:
@@ -76,7 +78,8 @@ function* fetchCvForKandidat(action) {
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
-        let omstrukturertForklaring;
+        let medUtdanningstekst;
+
         if (state.search.featureToggles['vis-matchforklaring']) {
             const matchForklaringRespons = yield call(fetchMatchExplain, {
                 stillinger: state.stilling.stillinger,
@@ -88,11 +91,19 @@ function* fetchCvForKandidat(action) {
                 utdanningsniva: state.utdanning.utdanningsniva,
                 sprak: state.sprakReducer.sprak,
                 kandidatnr: action.arenaKandidatnr,
-                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`))
+                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
             });
-            omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
+
+            const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
+
+            medUtdanningstekst = {
+                ...omstrukturertForklaring,
+                matchedeKonsepter: oversettUtdanning(omstrukturertForklaring.matchedeKonsepter),
+                stillingskonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.stillingskonsepterUtenMatch),
+                kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
+            };
         }
-        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: omstrukturertForklaring });
+        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_CV_FAILURE, error: e });

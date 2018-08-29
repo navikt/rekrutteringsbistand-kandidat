@@ -32,54 +32,55 @@ export function leggMerInfoTilKandidaterOgSorter(kandidater, kandidaterMedInfo) 
 }
 
 const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
-    konsepter.reduce((dict, obj) => {
-        const konsepttype = konsepttypeFunksjon(obj);
-        if (konsepttype === KONSEPTTYPE.UTDANNING) {
-            return {
-                ...dict,
-                utdanning: [
-                    ...dict.utdanning,
-                    {
-                        ...obj,
-                        c1name: mapUtdanning(obj.c1name)(),
-                        c2name: mapUtdanning(obj.c2name)()
-                    }
-                ]
-            };
-        } else if (konsepttype === KONSEPTTYPE.YRKE) {
-            return { ...dict, yrker: [...dict.yrker, obj] };
-        } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
-            return { ...dict, kompetanse: [...dict.kompetanse, obj] };
-        } else if (konsepttype === KONSEPTTYPE.ERFARING) {
-            return { ...dict, erfaring: [...dict.erfaring, obj] };
-        } else if (konsepttype === KONSEPTTYPE.SOFT_SKILL) {
-            return { ...dict, softSkills: [...dict.softSkills, obj] };
+    konsepter.reduce(
+        (dict, obj) => {
+            const konsepttype = konsepttypeFunksjon(obj);
+            if (konsepttype === KONSEPTTYPE.UTDANNING) {
+                return { ...dict, utdanning: [...dict.utdanning, obj] };
+            } else if (konsepttype === KONSEPTTYPE.YRKE) {
+                return { ...dict, yrker: [...dict.yrker, obj] };
+            } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
+                return { ...dict, kompetanse: [...dict.kompetanse, obj] };
+            } else if (konsepttype === KONSEPTTYPE.ERFARING) {
+                return { ...dict, erfaring: [...dict.erfaring, obj] };
+            } else if (konsepttype === KONSEPTTYPE.SOFT_SKILL) {
+                return { ...dict, softSkills: [...dict.softSkills, obj] };
+            }
+            return { ...dict, andre: [...dict.andre, obj] };
+        },
+        {
+            utdanning: [],
+            yrker: [],
+            kompetanse: [],
+            erfaring: [],
+            softSkills: [],
+            andre: []
         }
-        return { ...dict, andre: [...dict.andre, obj] };
-    }, {
-        utdanning: [],
-        yrker: [],
-        kompetanse: [],
-        erfaring: [],
-        softSkills: [],
-        andre: []
-    });
+    );
 
 const EducationLevelPrefix = 'education level ';
 
 const utdanningtekst = {
-    [`${EducationLevelPrefix}0`]: () => 'Ingen registrert utdanning',
-    [`${EducationLevelPrefix}1`]: () => 'Grunnskole',
-    [`${EducationLevelPrefix}2`]: () => 'Videregående skole',
-    [`${EducationLevelPrefix}3`]: () => 'Fagbrev',
-    [`${EducationLevelPrefix}4`]: () => 'Fagskole',
-    [`${EducationLevelPrefix}6`]: () => 'Bachelor',
-    [`${EducationLevelPrefix}5`]: () => 'Master',
-    [`${EducationLevelPrefix}7`]: () => 'Doktorgrad',
-    default: () => 'Annen utdanning'
+    [`${EducationLevelPrefix}0`]: 'Ingen registrert utdanning',
+    [`${EducationLevelPrefix}1`]: 'Grunnskole',
+    [`${EducationLevelPrefix}2`]: 'Videregående skole',
+    [`${EducationLevelPrefix}3`]: 'Fagbrev',
+    [`${EducationLevelPrefix}4`]: 'Fagskole',
+    [`${EducationLevelPrefix}5`]: 'Bachelor',
+    [`${EducationLevelPrefix}6`]: 'Master',
+    [`${EducationLevelPrefix}7`]: 'Doktorgrad',
+    default: 'Annen utdanning'
 };
 
+export const oversettUtdanning = (konsepter) => ({
+    ...konsepter,
+    utdanning: mapUtdanninger(konsepter.utdanning)
+});
+
 const mapUtdanning = (leveltekst) => utdanningtekst[leveltekst] || utdanningtekst.default;
+
+const mapUtdanninger = (utdanninger) =>
+    utdanninger.map((u) => (u.name ? { ...u, name: mapUtdanning(u.name) } : { ...u, c1name: mapUtdanning(u.c1name), c2name: mapUtdanning(u.c2name) }));
 
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
     score: Math.floor(matchforklaring.score12 * 100),
@@ -120,14 +121,22 @@ export const mapExperienceLevelTilAar = (level) => {
 export const mapExperienceLevelTilKalenderEnhet = (level) => {
     if (level <= 7) {
         switch (level) {
-            case 1: return '1 måned';
-            case 2: return '2 måneder';
-            case 3: return '3 måneder';
-            case 4: return '4 måneder';
-            case 5: return '6 måneder';
-            case 6: return '1 år';
-            case 7: return '1,5 år';
-            default: return 'Ingen erfaring';
+            case 1:
+                return '1 måned';
+            case 2:
+                return '2 måneder';
+            case 3:
+                return '3 måneder';
+            case 4:
+                return '4 måneder';
+            case 5:
+                return '6 måneder';
+            case 6:
+                return '1 år';
+            case 7:
+                return '1,5 år';
+            default:
+                return 'Ingen erfaring';
         }
     } else if (level <= 16) {
         return `${level - 6} år`;

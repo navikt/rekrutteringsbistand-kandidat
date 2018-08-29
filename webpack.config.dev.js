@@ -12,7 +12,8 @@ const developmentToggles = {
     'skjul-arbeidserfaring': false,
     'skjul-spraak': false,
     'skjul-sted': false,
-    'vis-matchforklaring': false
+    'vis-matchforklaring': false,
+    'ingen-utdanning-filter': false
 };
 
 module.exports = merge(common, {
