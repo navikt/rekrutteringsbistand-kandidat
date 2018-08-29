@@ -37,7 +37,7 @@ class GeografiSearch extends React.Component {
             const geografi = this.props.typeAheadSuggestionsGeografiKomplett.find((k) => k.geografiKodeTekst.toLowerCase() === value.toLowerCase());
             if (geografi !== undefined) {
                 this.props.selectTypeAheadValue(geografi);
-                this.props.clearTypeAheadGeografi('suggestionsgeografi');
+                this.props.clearTypeAheadGeografi();
                 this.setState({
                     typeAheadValue: ''
                 });
@@ -62,7 +62,7 @@ class GeografiSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadGeografi('suggestionsgeografi');
+        this.props.clearTypeAheadGeografi();
     };
 
     onSubmit = (e) => {
@@ -168,8 +168,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.GEOGRAFI }),
-    clearTypeAheadGeografi: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'geografi', value }),
+    clearTypeAheadGeografi: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'geografi' }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'geografi', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN })

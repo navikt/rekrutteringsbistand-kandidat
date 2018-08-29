@@ -41,8 +41,8 @@ export default function typeaheadReducer(state = initialState, action) {
         case FETCH_TYPE_AHEAD_SUGGESTIONS:
             return {
                 ...state,
-                [action.name]: {
-                    ...(state[action.name]),
+                [action.branch]: {
+                    ...(state[action.branch]),
                     value: action.value
                 }
             };
@@ -65,41 +65,44 @@ export default function typeaheadReducer(state = initialState, action) {
         case CLEAR_TYPE_AHEAD_SUGGESTIONS:
             return {
                 ...state,
-                [action.name]: []
+                [action.branch]: {
+                    ...(state[action.branch]),
+                    suggestions: []
+                }
             };
         default:
             return state;
     }
 }
 
-const getTypeAheadName = (type) => {
+const getTypeAheadBranch = (type) => {
     if (type === 'stilling') {
         return {
-            typeAheadName: 'sti'
+            typeAheadBranch: 'sti'
         };
     } else if (type === 'arbeidserfaring') {
         return {
-            typeAheadName: 'yrke'
+            typeAheadBranch: 'yrke'
         };
     } else if (type === 'utdanning') {
         return {
-            typeAheadName: 'utd'
+            typeAheadBranch: 'utd'
         };
     } else if (type === 'kompetanse') {
         return {
-            typeAheadName: 'komp'
+            typeAheadBranch: 'komp'
         };
     } else if (type === 'geografi') {
         return {
-            typeAheadName: 'geo'
+            typeAheadBranch: 'geo'
         };
     } else if (type === 'sprak') {
         return {
-            typeAheadName: 'sprak'
+            typeAheadBranch: 'sprak'
         };
     }
     return {
-        typeAheadName: ''
+        typeAheadBranch: ''
     };
 };
 
@@ -109,21 +112,21 @@ const getTypeAheadName = (type) => {
 
 function* fetchTypeAheadSuggestionsES(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const name = action.name;
+    const branch = action.branch;
     const value = action.value;
 
-    const typeAheadName = getTypeAheadName(name);
+    const typeAheadBranch = getTypeAheadBranch(branch);
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadName.typeAheadName]: value });
+            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadBranch.typeAheadBranch]: value });
 
             // The suggestions from Elastic Search is a list of key-value pair
             // Put the values into a list
             const suggestions = [];
             const totalSuggestions = [];
             if (response._embedded) {
-                if (name === 'geografi') {
+                if (branch === 'geografi') {
                     response._embedded.stringList.map((r) => {
                         const content = JSON.parse(r.content);
                         totalSuggestions.push(content);
@@ -137,7 +140,7 @@ function* fetchTypeAheadSuggestionsES(action) {
                 }
             }
 
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch: name, query: value });
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch, query: value });
         } catch (e) {
             if (e instanceof SearchApiError) {
                 yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
@@ -146,25 +149,25 @@ function* fetchTypeAheadSuggestionsES(action) {
             }
         }
     } else {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch: name, query: value });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch, query: value });
     }
 }
 
 function* fetchTypeAheadSuggestionsJanzz(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const name = action.name;
+    const branch = action.branch;
     const value = action.value;
 
-    const typeAheadName = getTypeAheadName(name).typeAheadName;
+    const typeAheadBranch = getTypeAheadBranch(branch).typeAheadBranch;
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = name === 'geografi' ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadName]: value });
+            const response = branch === 'geografi' ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
 
             const result = [];
             const totalResult = [];
             if (response._embedded) {
-                if (name === 'geografi') {
+                if (branch === 'geografi') {
                     response._embedded.lokasjonList.map((sted) => {
                         totalResult.push({ geografiKode: sted.code, geografiKodeTekst: sted.label });
                         return result.push(sted.label);
@@ -178,7 +181,7 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
                     );
                 }
 
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch: name, query: value });
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
             }
         } catch (e) {
             if (e instanceof SearchApiError) {

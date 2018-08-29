@@ -51,7 +51,7 @@ class ArbeidserfaringSearch extends React.Component {
     onTypeAheadArbeidserfaringSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
+            this.props.clearTypeAheadArbeidserfaring();
             this.setState({
                 typeAheadValue: ''
             });
@@ -75,7 +75,7 @@ class ArbeidserfaringSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadArbeidserfaring('suggestionsarbeidserfaring');
+        this.props.clearTypeAheadArbeidserfaring();
     };
 
     onSubmit = (e) => {
@@ -196,8 +196,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
-    clearTypeAheadArbeidserfaring: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'arbeidserfaring', value }),
+    clearTypeAheadArbeidserfaring: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'arbeidserfaring' }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'arbeidserfaring', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
     removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
     checkTotalErfaring: (value) => dispatch({ type: CHECK_TOTAL_ERFARING, value }),

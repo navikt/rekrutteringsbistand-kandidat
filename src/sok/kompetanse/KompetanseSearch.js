@@ -46,7 +46,7 @@ class KompetanseSearch extends React.Component {
     onTypeAheadKompetanseSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValueKompetanse(value);
-            this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+            this.props.clearTypeAheadKompetanse();
             this.setState({
                 typeAheadValueKompetanse: ''
             });
@@ -81,7 +81,7 @@ class KompetanseSearch extends React.Component {
             typeAheadValueKompetanse: '',
             showTypeAheadKompetanse: false
         });
-        this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+        this.props.clearTypeAheadKompetanse();
     };
 
     onLeggTilFlereClick = () => {
@@ -215,8 +215,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
-    clearTypeAheadKompetanse: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'kompetanse', value }),
+    clearTypeAheadKompetanse: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'kompetanse' }),
+    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'kompetanse', value }),
     selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN })

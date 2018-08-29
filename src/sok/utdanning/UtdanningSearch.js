@@ -54,7 +54,7 @@ class UtdanningSearch extends React.Component {
     onTypeAheadUtdanningSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadUtdanning('suggestionsutdanning');
+            this.props.clearTypeAheadUtdanning();
             this.setState({
                 typeAheadValue: ''
             });
@@ -78,7 +78,7 @@ class UtdanningSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadUtdanning('suggestionsutdanning');
+        this.props.clearTypeAheadUtdanning();
     };
 
     onSubmit = (e) => {
@@ -226,8 +226,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
-    clearTypeAheadUtdanning: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'utdanning', value }),
+    clearTypeAheadUtdanning: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'utdanning' }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'utdanning', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
     checkUtdanningsniva: (value) => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),

@@ -38,7 +38,7 @@ class SprakSearch extends React.Component {
     onTypeAheadSprakSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadSprak('suggestionssprak');
+            this.props.clearTypeAheadSprak();
             this.setState({
                 typeAheadValue: ''
             });
@@ -62,7 +62,7 @@ class SprakSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadSprak('suggestionssprak');
+        this.props.clearTypeAheadSprak();
     };
 
     onSubmit = (e) => {
@@ -157,8 +157,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
-    clearTypeAheadSprak: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'sprak', value }),
+    clearTypeAheadSprak: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'sprak' }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'sprak', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
     removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_SPRAK_PANEL_OPEN })

@@ -42,7 +42,7 @@ class StillingSearch extends React.Component {
     onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadStilling('suggestionsstilling');
+            this.props.clearTypeAheadStilling();
             this.setState({
                 typeAheadValue: ''
             });
@@ -68,7 +68,7 @@ class StillingSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadStilling('suggestionsstilling');
+        this.props.clearTypeAheadStilling();
     };
 
     onSubmit = (e) => {
@@ -180,8 +180,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
-    clearTypeAheadStilling: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
+    clearTypeAheadStilling: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'stilling' }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'stilling', value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
     fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
