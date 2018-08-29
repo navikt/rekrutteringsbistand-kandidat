@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { client } = require('nightwatch-cucumber');
 const { Before, Given, When, Then, After } = require('cucumber');
 
@@ -20,8 +21,10 @@ Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) =>
     await client.url(client.launch_url);
     await client.maximizeWindow();
     await idPortenPage.loggInn(brukernavn);
+    await kandidatsokPage.waitForElementPresent('@sideInnhold', 30000);
+    await client.url(client.launch_url + '/resultat');
     await kandidatsokPage
-        .waitForElementPresent('@sideInnhold', 20000)
+        .waitForElementPresent('@stillingPanel', 20000)
         .finnAntallKandidater(antallTreff);
 });
 
