@@ -47,9 +47,9 @@ const initialState = {
     isInitialSearch: true,
     error: undefined,
     featureToggles: FEATURE_TOGGLES
-    .reduce((dict, key) => (
-        { ...dict, [key]: false }
-    ), {}),
+        .reduce((dict, key) => (
+            { ...dict, [key]: false }
+        ), {}),
     isEmptyQuery: true,
     visAlertFaKandidater: ''
 };
@@ -92,7 +92,7 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] }
             };
-            case FETCH_FEATURE_TOGGLES_SUCCESS:
+        case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
                 ...state,
                 featureToggles: FEATURE_TOGGLES
@@ -173,19 +173,19 @@ function* search(action = '') {
         window.history.replaceState('', '', newUrlQuery);
 
         const criteriaValues = {
-                stillinger: state.stilling.stillinger,
-                arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-                utdanninger: state.utdanning.utdanninger,
-                kompetanser: state.kompetanse.kompetanser,
-                geografiList: state.geografi.geografiList,
-                geografiListKomplett: state.geografi.geografiListKomplett,
-                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
-                totalErfaring: state.arbeidserfaring.totalErfaring,
-                utdanningsniva: state.utdanning.utdanningsniva,
-                sprak: state.sprakReducer.sprak,
-             }
+            stillinger: state.stilling.stillinger,
+            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+            utdanninger: state.utdanning.utdanninger,
+            kompetanser: state.kompetanse.kompetanser,
+            geografiList: state.geografi.geografiList,
+            geografiListKomplett: state.geografi.geografiListKomplett,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
+            totalErfaring: state.arbeidserfaring.totalErfaring,
+            utdanningsniva: state.utdanning.utdanningsniva,
+            sprak: state.sprakReducer.sprak
+        };
 
-        const criteria = {...criteriaValues, hasValues: Object.values(criteriaValues).some(v => Array.isArray(v) && v.length)};
+        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
 
         let response = {};
         if (state.search.featureToggles['janzz-enabled'] && criteria.hasValues) {
@@ -193,12 +193,12 @@ function* search(action = '') {
                 janzzResponse: call(fetchKandidater, criteria),
                 janzzResponseCount: call(fetchKandidaterCount, criteria)
             });
-            response = { ...janzzResponse, totaltAntallTreff: janzzResponseCount.count }
+            response = { ...janzzResponse, totaltAntallTreff: janzzResponseCount.count };
         } else {
             response = yield call(fetchKandidater, criteria);
         }
 
-        yield put({ type: SEARCH_SUCCESS, response: response, isEmptyQuery: !criteria.hasValues });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {

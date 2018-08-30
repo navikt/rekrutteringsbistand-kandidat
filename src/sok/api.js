@@ -8,6 +8,7 @@ const convertToUrlParams = (query) => Object.keys(query)
     .join('&')
     .replace(/%20/g, '+');
 
+
 export class SearchApiError {
     constructor(error) {
         this.message = error.message;
