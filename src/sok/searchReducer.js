@@ -1,5 +1,5 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { fetchKandidater, fetchKandidaterCount, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
 import FEATURE_TOGGLES from '../konstanter';
 
@@ -23,7 +23,6 @@ export const SET_KOMPETANSE_SUGGESTIONS_SUCCESS = 'SET_KOMPETANSE_SUGGESTIONS_SU
 export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
 
 export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
-
 
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!toggles['janzz-enabled']) {
@@ -159,7 +158,6 @@ export const toUrlQuery = (state) => {
     return toUrlParams(urlQuery);
 };
 
-
 /** *********************************************************
  * ASYNC ACTIONS
  ********************************************************* */
@@ -174,36 +172,33 @@ function* search(action = '') {
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
         window.history.replaceState('', '', newUrlQuery);
 
-        const response = yield call(fetchKandidater, {
+        const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
             utdanninger: state.utdanning.utdanninger,
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => (`${sted.geografiKodeTekst}:${sted.geografiKode}`)),
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak
-        });
+        };
 
+        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
 
-        const searchCriteria = [
-            state.stilling.stillinger,
-            state.arbeidserfaring.arbeidserfaringer,
-            state.utdanning.utdanninger,
-            state.kompetanse.kompetanser,
-            state.geografi.geografiList,
-            state.arbeidserfaring.totalErfaring,
-            state.utdanning.utdanningsniva,
-            state.sprakReducer.sprak
-        ];
+        let response = {};
+        if (state.search.featureToggles['janzz-enabled'] && criteria.hasValues) {
+            const { janzzResponse, janzzResponseCount } = yield all({
+                janzzResponse: call(fetchKandidater, criteria),
+                janzzResponseCount: call(fetchKandidaterCount, criteria)
+            });
+            response = { ...janzzResponse, totaltAntallTreff: janzzResponseCount.count };
+        } else {
+            response = yield call(fetchKandidater, criteria);
+        }
 
-        const activeSearchCriteria = searchCriteria.filter((i) => i.length !== 0);
-        const isEmptyQuery = activeSearchCriteria.length === 0;
-
-
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -270,7 +265,6 @@ function* hentFeatureToggles() {
         }
     }
 }
-
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
