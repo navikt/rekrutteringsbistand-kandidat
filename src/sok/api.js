@@ -74,7 +74,6 @@ export function fetchKandidater(query = {}) {
     );
 }
 
-
 export function fetchKandidaterCount(query = {}) {
     return fetchJson(
         `${SEARCH_API}sok/count?${convertToUrlParams(query)}`, true
