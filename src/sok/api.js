@@ -8,6 +8,7 @@ const convertToUrlParams = (query) => Object.keys(query)
     .join('&')
     .replace(/%20/g, '+');
 
+
 export class SearchApiError {
     constructor(error) {
         this.message = error.message;
@@ -71,6 +72,12 @@ export function fetchFeatureToggles() {
 export function fetchKandidater(query = {}) {
     return fetchJson(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+    );
+}
+
+export function fetchKandidaterCount(query = {}) {
+    return fetchJson(
+        `${SEARCH_API}sok/count?${convertToUrlParams(query)}`, true
     );
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
     elements: {
         idPortenKnapp: '#IdPortenExchange',
@@ -16,9 +17,9 @@ module.exports = {
                 .switchFrame(0) // feltene ligger i en iframe
                 .waitForElementPresent('@inputFelt')
                 .setValue('@inputFelt', brukernavn + this.api.Keys.ENTER)
-                .idPortenPause(1000)
+                .idPortenPause(1500)
                 .setValue('@inputFelt', engangspassord + this.api.Keys.ENTER)
-                .idPortenPause(1000)
+                .idPortenPause(1500)
                 .setValue('@inputFelt', personligPassord + this.api.Keys.ENTER);
         },
 
