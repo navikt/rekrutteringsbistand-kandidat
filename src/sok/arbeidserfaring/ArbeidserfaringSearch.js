@@ -18,7 +18,7 @@ import {
     TOGGLE_ARBEIDSERFARING_PANEL_OPEN
 } from './arbeidserfaringReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
@@ -196,8 +196,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
-    clearTypeAheadArbeidserfaring: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'arbeidserfaring' }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'arbeidserfaring', value }),
+    clearTypeAheadArbeidserfaring: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.ARBEIDSERFARING, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING, value }),
     removeArbeidserfaring: (value) => dispatch({ type: REMOVE_SELECTED_ARBEIDSERFARING, value }),
     checkTotalErfaring: (value) => dispatch({ type: CHECK_TOTAL_ERFARING, value }),

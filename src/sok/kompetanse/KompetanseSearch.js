@@ -15,7 +15,7 @@ import {
     TOGGLE_KOMPETANSE_PANEL_OPEN
 } from './kompetanseReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Kompetanse.less';
 
 
@@ -215,8 +215,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
-    clearTypeAheadKompetanse: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'kompetanse' }),
-    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'kompetanse', value }),
+    clearTypeAheadKompetanse: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
+    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
     selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN })

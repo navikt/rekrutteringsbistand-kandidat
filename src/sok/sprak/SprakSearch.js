@@ -16,7 +16,7 @@ import {
     TOGGLE_SPRAK_PANEL_OPEN
 } from './sprakReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Sprak.less';
 
 class SprakSearch extends React.Component {
@@ -157,8 +157,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
-    clearTypeAheadSprak: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: 'sprak' }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: 'sprak', value }),
+    clearTypeAheadSprak: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
     removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_SPRAK_PANEL_OPEN })

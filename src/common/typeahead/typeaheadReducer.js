@@ -1,5 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestions, SearchApiError } from '../../sok/api';
+import { BRANCHNAVN } from '../../konstanter';
 
 /** *********************************************************
  * ACTIONS
@@ -66,7 +67,7 @@ export default function typeaheadReducer(state = initialState, action) {
                 }
             };
         case CLEAR_TYPE_AHEAD_SUGGESTIONS:
-            if (action.branch === 'geografi') {
+            if (action.branch === BRANCHNAVN.GEOGRAFI) {
                 return {
                     ...state,
                     geografi: {
@@ -92,12 +93,12 @@ export default function typeaheadReducer(state = initialState, action) {
 }
 
 const getTypeAheadBranch = (type) => {
-    if (type === 'stilling') return 'sti';
-    else if (type === 'arbeidserfaring') return 'yrke';
-    else if (type === 'utdanning') return 'utd';
-    else if (type === 'kompetanse') return 'komp';
-    else if (type === 'geografi') return 'geo';
-    else if (type === 'sprak') return 'sprak';
+    if (type === BRANCHNAVN.STILLING) return 'sti';
+    else if (type === BRANCHNAVN.ARBEIDSERFARING) return 'yrke';
+    else if (type === BRANCHNAVN.UTDANNING) return 'utd';
+    else if (type === BRANCHNAVN.KOMPETANSE) return 'komp';
+    else if (type === BRANCHNAVN.GEOGRAFI) return 'geo';
+    else if (type === BRANCHNAVN.SPRAK) return 'sprak';
     return '';
 };
 
@@ -121,7 +122,7 @@ function* fetchTypeAheadSuggestionsES(action) {
             const suggestions = [];
             const totalSuggestions = [];
             if (response._embedded) {
-                if (branch === 'geografi') {
+                if (branch === BRANCHNAVN.GEOGRAFI) {
                     response._embedded.stringList.map((r) => {
                         const content = JSON.parse(r.content);
                         totalSuggestions.push(content);
@@ -157,12 +158,12 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = branch === 'geografi' ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
+            const response = branch === BRANCHNAVN.GEOGRAFI ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
 
             const result = [];
             const totalResult = [];
             if (response._embedded) {
-                if (branch === 'geografi') {
+                if (branch === BRANCHNAVN.GEOGRAFI) {
                     response._embedded.lokasjonList.map((sted) => {
                         totalResult.push({ geografiKode: sted.code, geografiKodeTekst: sted.label });
                         return result.push(sted.label);

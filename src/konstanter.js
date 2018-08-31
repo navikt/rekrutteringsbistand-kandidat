@@ -34,3 +34,13 @@ export const KONSEPTTYPE = {
     ERFARING: 'experience level',
     STED: 'location'
 };
+
+
+export const BRANCHNAVN = {
+    KOMPETANSE: 'kompetanse',
+    STILLING: 'stilling',
+    ARBEIDSERFARING: 'arbeidserfaring',
+    UTDANNING: 'utdanning',
+    GEOGRAFI: 'geografi',
+    SPRAK: 'sprak'
+};
