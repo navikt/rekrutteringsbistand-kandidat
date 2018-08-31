@@ -24,7 +24,7 @@ const initialTypeaheadState = () => ({
     value: '',
     suggestions: []
 });
-// 'branch'//
+
 const initialState = {
     // TODO: Toggle: janzz-enabled
     kompetanse: initialTypeaheadState(),
@@ -92,34 +92,13 @@ export default function typeaheadReducer(state = initialState, action) {
 }
 
 const getTypeAheadBranch = (type) => {
-    if (type === 'stilling') {
-        return {
-            typeAheadBranch: 'sti'
-        };
-    } else if (type === 'arbeidserfaring') {
-        return {
-            typeAheadBranch: 'yrke'
-        };
-    } else if (type === 'utdanning') {
-        return {
-            typeAheadBranch: 'utd'
-        };
-    } else if (type === 'kompetanse') {
-        return {
-            typeAheadBranch: 'komp'
-        };
-    } else if (type === 'geografi') {
-        return {
-            typeAheadBranch: 'geo'
-        };
-    } else if (type === 'sprak') {
-        return {
-            typeAheadBranch: 'sprak'
-        };
-    }
-    return {
-        typeAheadBranch: ''
-    };
+    if (type === 'stilling') return 'sti';
+    else if (type === 'arbeidserfaring') return 'yrke';
+    else if (type === 'utdanning') return 'utd';
+    else if (type === 'kompetanse') return 'komp';
+    else if (type === 'geografi') return 'geo';
+    else if (type === 'sprak') return 'sprak';
+    return '';
 };
 
 /** *********************************************************
@@ -135,7 +114,7 @@ function* fetchTypeAheadSuggestionsES(action) {
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadBranch.typeAheadBranch]: value });
+            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
 
             // The suggestions from Elastic Search is a list of key-value pair
             // Put the values into a list
@@ -174,7 +153,7 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
     const branch = action.branch;
     const value = action.value;
 
-    const typeAheadBranch = getTypeAheadBranch(branch).typeAheadBranch;
+    const typeAheadBranch = getTypeAheadBranch(branch);
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
