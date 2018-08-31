@@ -190,8 +190,8 @@ function* search(action = '') {
         let response = {};
         if (state.search.featureToggles['janzz-enabled'] && criteria.hasValues) {
             const { janzzResponse, janzzResponseCount } = yield all({
-                janzzResponse: call(fetchKandidater, criteria),
-                janzzResponseCount: call(fetchKandidaterCount, criteria)
+                janzzResponse: call(fetchKandidater, {...criteria, matchFactor: 10}),
+                janzzResponseCount: call(fetchKandidaterCount,  {...criteria, matchFactor: 70})
             });
             response = { ...janzzResponse, totaltAntallTreff: janzzResponseCount.count };
         } else {
