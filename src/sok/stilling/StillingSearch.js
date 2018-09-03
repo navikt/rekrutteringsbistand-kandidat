@@ -16,7 +16,7 @@ import {
 } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Stilling.less';
 
 class StillingSearch extends React.Component {
@@ -42,7 +42,7 @@ class StillingSearch extends React.Component {
     onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadStilling('suggestionsstilling');
+            this.props.clearTypeAheadStilling();
             this.setState({
                 typeAheadValue: ''
             });
@@ -68,7 +68,7 @@ class StillingSearch extends React.Component {
             typeAheadValue: '',
             showTypeAhead: false
         });
-        this.props.clearTypeAheadStilling('suggestionsstilling');
+        this.props.clearTypeAheadStilling();
     };
 
     onSubmit = (e) => {
@@ -170,7 +170,7 @@ StillingSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
-    typeAheadSuggestionsStilling: state.typeahead.suggestionsstilling,
+    typeAheadSuggestionsStilling: state.typeahead.stilling.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulYrke: state.search.featureToggles['skjul-yrke'],
@@ -180,8 +180,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
-    clearTypeAheadStilling: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'stilling', value }),
+    clearTypeAheadStilling: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING }),
+    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
     removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
     fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
