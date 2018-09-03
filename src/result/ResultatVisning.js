@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Link } from 'react-router-dom';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
@@ -50,21 +48,6 @@ class ResultatVisning extends React.Component {
                     <div>
                         <Feedback />
                         <Container className="blokk-s container--wide">
-                            <Row>
-                                <Link
-                                    className="lenke tilbake--lenke typo-normal"
-                                    id="tilbake-til-forside-lenke"
-                                    to="/pam-kandidatsok"
-                                >
-                                    <NavFrontendChevron
-                                        type="venstre"
-                                        stor
-                                    />
-                                    <span className="tekst--tilbake--lenke">
-                                        Tilbake
-                                    </span>
-                                </Link>
-                            </Row>
                             <Row>
                                 <Column className="text-center">
                                     <Sidetittel>Aktuelle kandidater</Sidetittel>
