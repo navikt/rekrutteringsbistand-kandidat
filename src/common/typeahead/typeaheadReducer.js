@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestions, SearchApiError } from '../../sok/api';
+import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../sok/api';
 import { BRANCHNAVN } from '../../konstanter';
 
 /** *********************************************************
@@ -115,24 +115,25 @@ function* fetchTypeAheadSuggestionsES(action) {
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
+            const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
 
             // The suggestions from Elastic Search is a list of key-value pair
             // Put the values into a list
-            const suggestions = [];
-            const totalSuggestions = [];
+            let suggestions;
             if (response._embedded) {
                 if (branch === BRANCHNAVN.GEOGRAFI) {
-                    response._embedded.stringList.map((r) => {
+                    const totalSuggestions = response._embedded.stringList.map((r) => (
+                        JSON.parse(r.content)
+                    ));
+                    suggestions = response._embedded.stringList.map((r) => {
                         const content = JSON.parse(r.content);
-                        totalSuggestions.push(content);
-                        return suggestions.push(content.geografiKodeTekst);
+                        return content.geografiKodeTekst;
                     });
                     yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestions });
                 } else {
-                    response._embedded.stringList.map((r) =>
-                        suggestions.push(r.content)
-                    );
+                    suggestions = response._embedded.stringList.map((r) => (
+                        r.content
+                    ));
                 }
             }
 
@@ -158,23 +159,23 @@ function* fetchTypeAheadSuggestionsJanzz(action) {
 
     if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
         try {
-            const response = branch === BRANCHNAVN.GEOGRAFI ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestions, { [typeAheadBranch]: value });
+            const response = branch === BRANCHNAVN.GEOGRAFI ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
 
-            const result = [];
-            const totalResult = [];
+            let result;
             if (response._embedded) {
                 if (branch === BRANCHNAVN.GEOGRAFI) {
-                    response._embedded.lokasjonList.map((sted) => {
-                        totalResult.push({ geografiKode: sted.code, geografiKodeTekst: sted.label });
-                        return result.push(sted.label);
-                    });
+                    const totalResult = response._embedded.lokasjonList.map((sted) => (
+                        { geografiKode: sted.code, geografiKodeTekst: sted.label }
+                    ));
 
-
+                    result = response._embedded.lokasjonList.map((sted) => (
+                        sted.label
+                    ));
                     yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
                 } else {
-                    response._embedded.stringList.map((r) =>
-                        result.push(r.content)
-                    );
+                    result = response._embedded.stringList.map((r) => (
+                        r.content
+                    ));
                 }
 
                 yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
