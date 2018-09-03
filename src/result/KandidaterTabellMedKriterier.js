@@ -9,7 +9,7 @@ import cvPropTypes from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterScoreClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -27,6 +27,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                 <Systemtittel>{tittel}</Systemtittel>
                 <KandidaterTableHeader
                     onFilterUtdanningClick={onFilterUtdanningClick}
+                    onFilterScoreClick={onFilterScoreClick}
                     onFilterJobberfaringClick={onFilterJobberfaringClick}
                     onFilterAntallArClick={onFilterAntallArClick}
                     from={0}
@@ -45,6 +46,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
                         onFilterUtdanningClick={onFilterUtdanningClick}
+                        onFilterScoreClick={onFilterScoreClick} 
                         onFilterJobberfaringClick={onFilterJobberfaringClick}
                         onFilterAntallArClick={onFilterAntallArClick}
                         from={antallBesteTreff}
@@ -82,6 +84,7 @@ KandidaterTabellMedKriterier.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterUtdanningClick: PropTypes.func.isRequired,
+    onFilterScoreClick: PropTypes.func.isRequired,
     onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,

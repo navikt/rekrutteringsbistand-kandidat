@@ -17,6 +17,7 @@ class KandidaterTableRow extends React.Component {
         const cv = this.props.cv;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
+        const score = cv.score;
         const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
         let lengdeYrkeserfaringTekst;
         if (lengdeYrkeserfaring === 0) {
@@ -36,10 +37,16 @@ class KandidaterTableRow extends React.Component {
                     <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                         <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
                     </Column>
+                    {this.props.janzzEnabled ?
+                    <Column className="no--padding" xs="4" md="4">
+                        <i className="border--vertical" />
+                        <Normaltekst className="break-word score">{score}</Normaltekst>
+                    </Column> :
                     <Column className="no--padding" xs="4" md="4">
                         <i className="border--vertical" />
                         <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                    </Column>
+                    </Column> 
+                    }
                     <Column className="no--padding" xs="4" md="4">
                         <i className="border--vertical" />
                         <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
@@ -61,7 +68,8 @@ KandidaterTableRow.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query
+    query: state.query,
+    janzzEnabled: state.search.featureToggles["janzz-enabled"],
 });
 
 const mapDispatchToProps = (dispatch) => ({

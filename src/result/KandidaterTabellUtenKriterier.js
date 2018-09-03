@@ -15,6 +15,7 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
             <Systemtittel>Alle kandidater</Systemtittel>
             <KandidaterTableHeader
                 onFilterUtdanningClick={onFilterUtdanningClick}
+                onFilterScoreClick={onFilterScoreClick}
                 onFilterJobberfaringClick={onFilterJobberfaringClick}
                 onFilterAntallArClick={onFilterAntallArClick}
                 from={0}
@@ -49,6 +50,7 @@ KandidaterTabellUtenKriterier.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterUtdanningClick: PropTypes.func.isRequired,
+    onFilterScoreClick: PropTypes.func.isRequired,
     onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired
