@@ -7,7 +7,7 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterUtdanningClick, onFilterScoreClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     return (
 
         <div className="resultatvisning">
