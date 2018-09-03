@@ -1,7 +1,6 @@
 /* eslint-disable */
 module.exports = {
     elements: {
-        sideInnhold: '.search-page',
         antallKandidaterTreff: '#antall-kandidater-treff',
         seKandidateneKnapp: '#se-kandidatene-knapp',
         slettAlleKriterierLenke: '#slett-alle-kriterier-lenke',
@@ -56,14 +55,6 @@ module.exports = {
                 }
             });
             return this;
-        },
-
-        seKandidatene() {
-            return this
-                .waitForElementPresent('@seKandidateneKnapp')
-                .click('@seKandidateneKnapp')
-                .waitForElementPresent('@resultatvisning')
-                .pageWait(1000);
         },
 
         leggTilStillingkriterie(stilling, antallTreff) {

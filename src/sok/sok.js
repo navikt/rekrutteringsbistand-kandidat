@@ -7,7 +7,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
-import Kandidatsok from './Kandidatsok';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { BACKEND_OPPE, LOGIN_URL } from '../common/fasitProperties';
 import './../styles.less';
@@ -71,8 +70,7 @@ class Sok extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/pam-kandidatsok" component={Kandidatsok} />
-                    <Route exact path="/pam-kandidatsok/resultat" component={ResultatVisning} />
+                    <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
                 </Switch>
