@@ -44,7 +44,7 @@ export default class KandidaterTableHeader extends React.Component {
                 <Row>
                     <Column xs="2" md="2" />
                     <Column xs="4" md="4">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterUtdanningClick}>
+                        <div className="filter--aktuelle--kandidater">
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på utdanning"
@@ -52,13 +52,10 @@ export default class KandidaterTableHeader extends React.Component {
                             >
                                 Utdanning
                             </Element>
-                            <NavFrontendChevron
-                                type={this.state.utdanningChevronNed === undefined || this.state.utdanningChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
+                        </div>
                     </Column>
                     <Column xs="3" md="3">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterJobberfaringClick}>
+                        <div className="filter--aktuelle--kandidater">
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på arbeidserfaring"
@@ -66,10 +63,7 @@ export default class KandidaterTableHeader extends React.Component {
                             >
                                 Arbeidserfaring
                             </Element>
-                            <NavFrontendChevron
-                                type={this.state.jobberfaringChevronNed === undefined || this.state.jobberfaringChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
+                        </div>
                     </Column>
                     <Column className="filter--lengde--erfaring" xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
