@@ -2,18 +2,9 @@
 
 Egenskap: Finne kandidater til en stilling
 
+  @stilling
   Scenario: Søke etter kandidater basert på ønsket stilling
     Gitt at jeg er logget inn i kandidatsøket som "08044601975"
-    Når jeg legger til stillingen "frisør"
-    #Og jeg trykker Se kandidatene
+    Når jeg legger til stillingen "Frisør"
     Så skal antall treff minke
-    Når jeg legger til stillingen "servitør"
-    Så skal stillingen "servitør" vises
-    Og antall treff skal øke
-    Og det skal være mulig å fjerne stillingen "servitør"
-
-  @janzz @stilling
-  Scenario: Søke på stilling
-    Gitt at jeg er logget inn i kandidatsøket som "08044601975"
-    Når jeg legger til stillingen "frisør"
-    Så skal antall treff øke
+    Og det skal være mulig å fjerne stillingen "Frisør"
