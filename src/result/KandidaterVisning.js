@@ -31,48 +31,6 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    onFilterUtdanningClick = (utdanningChevronNed, from, to) => {
-        const kandidater = this.state.kandidater.slice(from, to)
-            .sort((kand1, kand2) => {
-                const kand1utd = kand1.hoyesteUtdanning ? kand1.hoyesteUtdanning.nusKode : 0;
-                const kand2utd = kand2.hoyesteUtdanning ? kand2.hoyesteUtdanning.nusKode : 0;
-                if (utdanningChevronNed) {
-                    return kand1utd - kand2utd;
-                }
-                return kand2utd - kand1utd;
-            });
-
-        this.setState({
-            kandidater: [
-                ...this.state.kandidater.slice(0, from),
-                ...kandidater,
-                ...this.state.kandidater.slice(to)
-            ]
-        });
-    };
-
-    onFilterJobberfaringClick = (jobberfaringChevronNed, from, to) => {
-        const kandidater = this.state.kandidater.slice(from, to)
-            .sort((kand1, kand2) => {
-                const kand1job = kand1.mestRelevanteYrkeserfaring ? kand1.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-                const kand2job = kand2.mestRelevanteYrkeserfaring ? kand2.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-                if (kand1job < kand2job) {
-                    return jobberfaringChevronNed ? 1 : -1;
-                } else if (kand1job > kand2job) {
-                    return jobberfaringChevronNed ? -1 : 1;
-                }
-                return 0;
-            });
-
-        this.setState({
-            kandidater: [
-                ...this.state.kandidater.slice(0, from),
-                ...kandidater,
-                ...this.state.kandidater.slice(to)
-            ]
-        });
-    };
-
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
         const kandidater = this.state.kandidater.slice(from, to)
             .sort((kand1, kand2) => {
@@ -103,8 +61,6 @@ class KandidaterVisning extends React.Component {
                     <KandidaterTabellUtenKriterier
                         antallResultater={this.state.antallResultater}
                         kandidater={this.state.kandidater}
-                        onFilterUtdanningClick={this.onFilterUtdanningClick}
-                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
@@ -116,8 +72,6 @@ class KandidaterVisning extends React.Component {
                     <KandidaterTabellMedKriterier
                         antallResultater={this.state.antallResultater}
                         kandidater={this.state.kandidater}
-                        onFilterUtdanningClick={this.onFilterUtdanningClick}
-                        onFilterJobberfaringClick={this.onFilterJobberfaringClick}
                         onFilterAntallArClick={this.onFilterAntallArClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}

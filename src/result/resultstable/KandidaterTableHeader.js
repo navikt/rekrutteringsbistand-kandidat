@@ -11,24 +11,6 @@ export default class KandidaterTableHeader extends React.Component {
         this.state = {};
     }
 
-    onFilterUtdanningClick = () => {
-        this.props.onFilterUtdanningClick(this.state.utdanningChevronNed, this.props.from, this.props.to);
-        this.setState({
-            utdanningChevronNed: !this.state.utdanningChevronNed,
-            jobberfaringChevronNed: undefined,
-            antallArChevronNed: undefined
-        });
-    };
-
-    onFilterJobberfaringClick = () => {
-        this.props.onFilterJobberfaringClick(this.state.jobberfaringChevronNed, this.props.from, this.props.to);
-        this.setState({
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: !this.state.jobberfaringChevronNed,
-            antallArChevronNed: undefined
-        });
-    };
-
     onFilterAntallArClick = () => {
         this.props.onFilterAntallArClick(this.state.antallArChevronNed, this.props.from, this.props.to);
         this.setState({
@@ -86,8 +68,6 @@ export default class KandidaterTableHeader extends React.Component {
 }
 
 KandidaterTableHeader.propTypes = {
-    onFilterUtdanningClick: PropTypes.func.isRequired,
-    onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired
