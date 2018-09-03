@@ -15,7 +15,7 @@ import {
     TOGGLE_KOMPETANSE_PANEL_OPEN
 } from './kompetanseReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Kompetanse.less';
 
 
@@ -46,7 +46,7 @@ class KompetanseSearch extends React.Component {
     onTypeAheadKompetanseSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValueKompetanse(value);
-            this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+            this.props.clearTypeAheadKompetanse();
             this.setState({
                 typeAheadValueKompetanse: ''
             });
@@ -81,7 +81,7 @@ class KompetanseSearch extends React.Component {
             typeAheadValueKompetanse: '',
             showTypeAheadKompetanse: false
         });
-        this.props.clearTypeAheadKompetanse('suggestionskompetanse');
+        this.props.clearTypeAheadKompetanse();
     };
 
     onLeggTilFlereClick = () => {
@@ -206,7 +206,7 @@ KompetanseSearch.propTypes = {
 const mapStateToProps = (state) => ({
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
-    typeAheadSuggestionsKompetanse: state.typeahead.suggestionskompetanse,
+    typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulKompetanse: state.search.featureToggles['skjul-kompetanse'],
@@ -215,8 +215,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
-    clearTypeAheadKompetanse: (name) => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, name }),
-    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, name: 'kompetanse', value }),
+    clearTypeAheadKompetanse: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
+    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
     selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
     removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN })

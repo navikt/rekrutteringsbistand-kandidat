@@ -16,7 +16,7 @@ export class SearchApiError {
     }
 }
 
-export async function fetchTypeaheadSuggestions(query = {}) {
+export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
         `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
