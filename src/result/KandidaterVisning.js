@@ -54,7 +54,7 @@ class KandidaterVisning extends React.Component {
     onFilterScoreClick = (scoreChevronNed, from, to) => {
         const kandidater = this.state.kandidater.slice(from, to)
             .sort((kand1, kand2) => {
-                const kand1score= kand1.score;
+                const kand1score = kand1.score;
                 const kand2score = kand2.score;
                 if (scoreChevronNed) {
                     return kand1score - kand2score;

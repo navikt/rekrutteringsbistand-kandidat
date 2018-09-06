@@ -46,7 +46,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
                         onFilterUtdanningClick={onFilterUtdanningClick}
-                        onFilterScoreClick={onFilterScoreClick} 
+                        onFilterScoreClick={onFilterScoreClick}
                         onFilterJobberfaringClick={onFilterJobberfaringClick}
                         onFilterAntallArClick={onFilterAntallArClick}
                         from={antallBesteTreff}

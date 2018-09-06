@@ -37,16 +37,17 @@ class KandidaterTableRow extends React.Component {
                     <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                         <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
                     </Column>
-                    {this.props.janzzEnabled ?
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word score">{score}</Normaltekst>
-                    </Column> :
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                    </Column> 
-                    }
+                    {this.props.janzzEnabled ? (
+                        <Column className="no--padding" xs="4" md="4">
+                            <i className="border--vertical" />
+                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                        </Column>
+                    ) : (
+                        <Column className="no--padding" xs="4" md="4">
+                            <i className="border--vertical" />
+                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                        </Column>
+                    )}
                     <Column className="no--padding" xs="4" md="4">
                         <i className="border--vertical" />
                         <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
@@ -64,12 +65,13 @@ class KandidaterTableRow extends React.Component {
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     openCvModal: PropTypes.func.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired
+    hentCvForKandidat: PropTypes.func.isRequired,
+    janzzEnabled: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    janzzEnabled: state.search.featureToggles["janzz-enabled"],
+    janzzEnabled: state.search.featureToggles['janzz-enabled']
 });
 
 const mapDispatchToProps = (dispatch) => ({

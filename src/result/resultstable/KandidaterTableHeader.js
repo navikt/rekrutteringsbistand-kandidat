@@ -56,35 +56,35 @@ class KandidaterTableHeader extends React.Component {
                 <Row>
                     <Column xs="2" md="2" />
                     {this.props.janzzEnabled ?
-                    (<Column xs="4" md="4">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Sorter på matchscore"
-                                aria-selected={this.state.scoreChevronNed !== undefined}
-                            >
+                        (<Column xs="4" md="4">
+                            <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Sorter på matchscore"
+                                    aria-selected={this.state.scoreChevronNed !== undefined}
+                                >
                                 Matchscore
-                            </Element>
-                            <NavFrontendChevron
-                                type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
-                    </Column>) :
-                    (<Column xs="4" md="4">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterUtdanningClick}>
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Sorter på utdanning"
-                                aria-selected={this.state.scoreChevronNed !== undefined}
-                            >
+                                </Element>
+                                <NavFrontendChevron
+                                    type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
+                                />
+                            </button>
+                        </Column>) :
+                        (<Column xs="4" md="4">
+                            <button className="filter--aktuelle--kandidater" onClick={this.onFilterUtdanningClick}>
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Sorter på utdanning"
+                                    aria-selected={this.state.scoreChevronNed !== undefined}
+                                >
                                 Utdanning
-                            </Element>
-                            <NavFrontendChevron
-                                type={this.state.utdanningChevronNed === undefined || this.state.utdanningChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
-                    </Column>)}
-                    
+                                </Element>
+                                <NavFrontendChevron
+                                    type={this.state.utdanningChevronNed === undefined || this.state.utdanningChevronNed ? 'ned' : 'opp'}
+                                />
+                            </button>
+                        </Column>)}
+
                     <Column xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterJobberfaringClick}>
                             <Element
@@ -109,7 +109,7 @@ class KandidaterTableHeader extends React.Component {
                                 År med erfaring
                             </Element>
                             <NavFrontendChevron
-                                type={this.state.antallArChevronNed === undefined ||  antallArChevronNed ? 'ned' : 'opp'}
+                                type={this.state.antallArChevronNed === undefined || this.state.antallArChevronNed ? 'ned' : 'opp'}
                             />
                         </button>
                     </Column>
@@ -120,7 +120,7 @@ class KandidaterTableHeader extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    janzzEnabled: state.search.featureToggles['janzz-enabled'],
+    janzzEnabled: state.search.featureToggles['janzz-enabled']
 });
 
 KandidaterTableHeader.propTypes = {
@@ -129,7 +129,8 @@ KandidaterTableHeader.propTypes = {
     onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
-    to: PropTypes.number.isRequired
+    to: PropTypes.number.isRequired,
+    janzzEnabled: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps)(KandidaterTableHeader);
