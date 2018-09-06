@@ -55,14 +55,6 @@ module.exports = {
             return this;
         },
 
-        seKandidatene() {
-            return this
-                .waitForElementPresent('@seKandidateneKnapp')
-                .click('@seKandidateneKnapp')
-                .waitForElementPresent('@resultatvisning')
-                .pageWait(1000);
-        },
-
         leggTilStillingkriterie(stilling, antallTreff) {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {

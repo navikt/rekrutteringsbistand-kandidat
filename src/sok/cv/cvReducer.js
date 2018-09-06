@@ -1,7 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
-import { kategoriserMatchKonsepter } from '../utils';
-import { oversettUtdanning } from '../utils';
+import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
 
 /** *********************************************************
  * ACTIONS

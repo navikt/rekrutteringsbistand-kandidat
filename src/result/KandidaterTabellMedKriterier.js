@@ -9,7 +9,7 @@ import cvPropTypes from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterUtdanningClick, onFilterJobberfaringClick, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -26,9 +26,8 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
             <div className="resultatvisning">
                 <Systemtittel>{tittel}</Systemtittel>
                 <KandidaterTableHeader
-                    onFilterUtdanningClick={onFilterUtdanningClick}
-                    onFilterJobberfaringClick={onFilterJobberfaringClick}
                     onFilterAntallArClick={onFilterAntallArClick}
+                    onFilterScoreClick={onFilterScoreClick}
                     from={0}
                     to={antallBesteTreff}
                 />
@@ -44,9 +43,8 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                 <div className="resultatvisning">
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
-                        onFilterUtdanningClick={onFilterUtdanningClick}
-                        onFilterJobberfaringClick={onFilterJobberfaringClick}
                         onFilterAntallArClick={onFilterAntallArClick}
+                        onFilterScoreClick={onFilterScoreClick}
                         from={antallBesteTreff}
                         to={antallResultater}
                     />
@@ -81,9 +79,8 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
 KandidaterTabellMedKriterier.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     antallResultater: PropTypes.number.isRequired,
-    onFilterUtdanningClick: PropTypes.func.isRequired,
-    onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
+    onFilterScoreClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired
 
