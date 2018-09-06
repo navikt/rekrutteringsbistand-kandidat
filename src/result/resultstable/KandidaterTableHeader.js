@@ -15,8 +15,6 @@ class KandidaterTableHeader extends React.Component {
     onFilterAntallArClick = () => {
         this.props.onFilterAntallArClick(this.state.antallArChevronNed, this.props.from, this.props.to);
         this.setState({
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: undefined,
             scoreChevronNed: undefined,
             antallArChevronNed: !this.state.antallArChevronNed
         });
@@ -26,8 +24,6 @@ class KandidaterTableHeader extends React.Component {
         this.props.onFilterScoreClick(this.state.scoreChevronNed, this.props.from, this.props.to);
         this.setState({
             scoreChevronNed: !this.state.scoreChevronNed,
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: undefined,
             antallArChevronNed: undefined
         });
     };
@@ -58,7 +54,6 @@ class KandidaterTableHeader extends React.Component {
                                     <Element
                                         className="label--resultatvisning"
                                         aria-label="Sorter på utdanning"
-                                        aria-selected={this.state.scoreChevronNed !== undefined}
                                     >
                                 Utdanning
                                     </Element>
@@ -70,7 +65,6 @@ class KandidaterTableHeader extends React.Component {
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på arbeidserfaring"
-                                aria-selected={this.state.jobberfaringChevronNed !== undefined}
                             >
                                 Arbeidserfaring
                             </Element>
@@ -103,7 +97,6 @@ const mapStateToProps = (state) => ({
 KandidaterTableHeader.propTypes = {
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
     janzzEnabled: PropTypes.bool.isRequired
