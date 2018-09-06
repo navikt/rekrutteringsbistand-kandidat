@@ -72,15 +72,15 @@ const utdanningtekst = {
     default: 'Annen utdanning'
 };
 
-export const oversettUtdanning = (konsepter) => ({
-    ...konsepter,
-    utdanning: mapUtdanninger(konsepter.utdanning)
-});
-
 const mapUtdanning = (leveltekst) => utdanningtekst[leveltekst] || utdanningtekst.default;
 
 const mapUtdanninger = (utdanninger) =>
     utdanninger.map((u) => (u.name ? { ...u, name: mapUtdanning(u.name) } : { ...u, c1name: mapUtdanning(u.c1name), c2name: mapUtdanning(u.c2name) }));
+
+export const oversettUtdanning = (konsepter) => ({
+    ...konsepter,
+    utdanning: mapUtdanninger(konsepter.utdanning)
+});
 
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
     score: Math.floor(matchforklaring.score12 * 100),
