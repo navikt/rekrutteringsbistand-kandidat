@@ -63,9 +63,8 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilStillingKnapp')
                     .click('@leggTilStillingKnapp')
-                    .setValue('@leggTilStillingInput', stilling)
-                    .waitForElementPresent('@leggTilStillingTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .setValue('@leggTilStillingInput', stilling + self.api.Keys.ENTER)
+                    .waitForElementPresent('button[value="' + stilling + '"]')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -96,9 +95,9 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilFagfeltKnapp')
                     .click('@leggTilFagfeltKnapp')
-                    .setValue('@leggTilFagfeltInput', fagfelt)
-                    .waitForElementPresent('@leggTilFagfeltTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .setValue('@leggTilFagfeltInput', fagfelt + self.api.Keys.ENTER)
+                    .waitForElementPresent('button[value="' + fagfelt + '"]')
+                    .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -109,9 +108,9 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilArbeidserfaringKnapp')
                     .click('@leggTilArbeidserfaringKnapp')
-                    .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
-                    .waitForElementPresent('@leggTilArbeidserfaringTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .setValue('@leggTilArbeidserfaringInput', arbeidserfaring + self.api.Keys.ENTER)
+                    .waitForElementPresent('button[value="' + arbeidserfaring + '"]')
+                    .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -139,9 +138,9 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilSprakKnapp')
                     .click('@leggTilSprakKnapp')
-                    .setValue('@leggTilSprakInput', sprak)
-                    .waitForElementPresent('@leggTilSprakTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .setValue('@leggTilSprakInput', sprak + self.api.Keys.ENTER)
+                    .waitForElementPresent('button[value="' + sprak + '"]')
+                    .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -152,9 +151,9 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilKompetanseKnapp')
                     .click('@leggTilKompetanseKnapp')
-                    .setValue('@leggTilKompetanseInput', kompetanse)
-                    .waitForElementPresent('@leggTilKompetanseTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .setValue('@leggTilKompetanseInput', kompetanse + self.api.Keys.ENTER)
+                    .waitForElementPresent('button[value="' + kompetanse + '"]')
+                    .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -166,8 +165,9 @@ module.exports = {
                     .waitForElementPresent('@leggTilStedKnapp')
                     .click('@leggTilStedKnapp')
                     .setValue('@leggTilStedInput', sted)
-                    .waitForElementPresent('@leggTilStedTypeahead', 30000)
-                    .click('@sokefeltKnapp')
+                    .waitForElementVisible('@leggTilStedTypeahead', 30000)
+                    .setValue('@leggTilStedInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },

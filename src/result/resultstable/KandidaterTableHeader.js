@@ -105,7 +105,8 @@ KandidaterTableHeader.propTypes = {
     onFilterScoreClick: PropTypes.func.isRequired,
     janzzEnabled: PropTypes.bool.isRequired,
     from: PropTypes.number.isRequired,
-    to: PropTypes.number.isRequired
+    to: PropTypes.number.isRequired,
+    janzzEnabled: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps)(KandidaterTableHeader);
