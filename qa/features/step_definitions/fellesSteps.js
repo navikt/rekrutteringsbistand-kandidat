@@ -18,13 +18,12 @@ Before(() => {
 });
 
 Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) => {
-    await client.url(client.launch_url);
-    await client.maximizeWindow();
+    await client
+        .url(client.launch_url)
+        .maximizeWindow();
     await idPortenPage.loggInn(brukernavn);
-    await kandidatsokPage.waitForElementPresent('@sideInnhold', 30000);
-    await client.url(client.launch_url + '/resultat');
     await kandidatsokPage
-        .waitForElementPresent('@stillingPanel', 20000)
+        .waitForElementPresent('@antallKandidaterTreff', 30000)
         .finnAntallKandidater(antallTreff);
 });
 
