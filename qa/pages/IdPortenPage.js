@@ -11,15 +11,15 @@ module.exports = {
             const engangspassord = 'otp';
             const personligPassord = 'qwer1234';
             return this.api.globals.environment === 'local' ? this : this // Logger kun inn i ID-porten hvis man ikke kjører lokalt
-                .waitForElementPresent('@idPortenKnapp', 10000)
+                .waitForElementPresent('@idPortenKnapp', 30000)
                 .click('@idPortenKnapp')
                 .click('@bankIdKnapp')
                 .switchFrame(0) // feltene ligger i en iframe
-                .waitForElementPresent('@inputFelt')
+                .waitForElementPresent('@inputFelt', 60000)
                 .setValue('@inputFelt', brukernavn + this.api.Keys.ENTER)
-                .idPortenPause(1500)
+                .idPortenPause(2000)
                 .setValue('@inputFelt', engangspassord + this.api.Keys.ENTER)
-                .idPortenPause(1500)
+                .idPortenPause(2000)
                 .setValue('@inputFelt', personligPassord + this.api.Keys.ENTER);
         },
 
