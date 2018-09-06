@@ -12,13 +12,11 @@ class KandidaterTableHeader extends React.Component {
         this.state = {};
     }
 
-    onFilterUtdanningClick = () => {
-        this.props.onFilterUtdanningClick(this.state.utdanningChevronNed, this.props.from, this.props.to);
+    onFilterAntallArClick = () => {
+        this.props.onFilterAntallArClick(this.state.antallArChevronNed, this.props.from, this.props.to);
         this.setState({
-            utdanningChevronNed: !this.state.utdanningChevronNed,
             scoreChevronNed: undefined,
-            jobberfaringChevronNed: undefined,
-            antallArChevronNed: undefined
+            antallArChevronNed: !this.state.antallArChevronNed
         });
     };
 
@@ -26,27 +24,7 @@ class KandidaterTableHeader extends React.Component {
         this.props.onFilterScoreClick(this.state.scoreChevronNed, this.props.from, this.props.to);
         this.setState({
             scoreChevronNed: !this.state.scoreChevronNed,
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: undefined,
             antallArChevronNed: undefined
-        });
-    };
-
-    onFilterJobberfaringClick = () => {
-        this.props.onFilterJobberfaringClick(this.state.jobberfaringChevronNed, this.props.from, this.props.to);
-        this.setState({
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: !this.state.jobberfaringChevronNed,
-            antallArChevronNed: undefined
-        });
-    };
-
-    onFilterAntallArClick = () => {
-        this.props.onFilterAntallArClick(this.state.antallArChevronNed, this.props.from, this.props.to);
-        this.setState({
-            utdanningChevronNed: undefined,
-            jobberfaringChevronNed: undefined,
-            antallArChevronNed: !this.state.antallArChevronNed
         });
     };
 
@@ -69,35 +47,28 @@ class KandidaterTableHeader extends React.Component {
                                     type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
                                 />
                             </button>
-                        </Column>) :
-                        (<Column xs="4" md="4">
-                            <button className="filter--aktuelle--kandidater" onClick={this.onFilterUtdanningClick}>
-                                <Element
-                                    className="label--resultatvisning"
-                                    aria-label="Sorter på utdanning"
-                                    aria-selected={this.state.scoreChevronNed !== undefined}
-                                >
+                        </Column>)
+                        : (
+                            <Column xs="4" md="4">
+                                <div className="filter--aktuelle--kandidater">
+                                    <Element
+                                        className="label--resultatvisning"
+                                        aria-label="Sorter på utdanning"
+                                    >
                                 Utdanning
-                                </Element>
-                                <NavFrontendChevron
-                                    type={this.state.utdanningChevronNed === undefined || this.state.utdanningChevronNed ? 'ned' : 'opp'}
-                                />
-                            </button>
-                        </Column>)}
-
+                                    </Element>
+                                </div>
+                            </Column>
+                        )}
                     <Column xs="3" md="3">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterJobberfaringClick}>
+                        <div className="filter--aktuelle--kandidater">
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på arbeidserfaring"
-                                aria-selected={this.state.jobberfaringChevronNed !== undefined}
                             >
                                 Arbeidserfaring
                             </Element>
-                            <NavFrontendChevron
-                                type={this.state.jobberfaringChevronNed === undefined || this.state.jobberfaringChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
+                        </div>
                     </Column>
                     <Column className="filter--lengde--erfaring" xs="3" md="3">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
@@ -124,10 +95,8 @@ const mapStateToProps = (state) => ({
 });
 
 KandidaterTableHeader.propTypes = {
-    onFilterUtdanningClick: PropTypes.func.isRequired,
-    onFilterScoreClick: PropTypes.func.isRequired,
-    onFilterJobberfaringClick: PropTypes.func.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
+    onFilterScoreClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
     janzzEnabled: PropTypes.bool.isRequired
