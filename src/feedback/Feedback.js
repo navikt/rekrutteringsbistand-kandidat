@@ -12,7 +12,11 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
             <div className="FeedbackWrapper border--top--thin">
                 <div className="container">
                     <div role="alert" className="Feedback typo-normal">
-                        <Element className="blokk-xxs">Dette er en tidlig versjon av kandidatsøket. I denne versjonen er det ikke mulig å lagre lister med kandidater. Dette kommer i en senere versjon. </Element>
+                        <Element className="blokk-xxs">
+                            Dette er en tidlig versjon av kandidatsøket.
+                            I denne versjonen er det ikke mulig å lagre lister med kandidater.
+                            Dette kommer i en senere versjon.
+                        </Element>
                         <Normaltekst className="blokk-xxs">
                             Vi trenger din tilbakemelding for å bli bedre
                         </Normaltekst>
