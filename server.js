@@ -86,7 +86,6 @@ const startServer = (html) => {
         https: true,
         proxyReqPathResolver: (req) => {
             const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
-            console.log(`Proxy til path ${rettPath}`);
             return rettPath;
         },
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
@@ -94,7 +93,6 @@ const startServer = (html) => {
                 const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
                 if (token) {
                     proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
-                    console.log(`auth header = ${proxyReqOpts.headers.authorization}`);
                 }
             }
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
