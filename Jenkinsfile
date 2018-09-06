@@ -65,6 +65,14 @@ node {
         }
 
     }
+    
+    def qaDir = "${env.WORKSPACE}/qa"
+    def folder = new File(qaDir)
+    if (folder.exists()) {
+        stage("Functional acceptance tests") {
+            acceptanceTest()
+        }
+    }
 
     stage('Tag GitHub release') {
         withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
@@ -73,5 +81,22 @@ node {
                 sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags")
             }
         }
+    }
+}
+
+def acceptanceTest() {
+    echo "Running QA tests"
+    withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
+        try {
+            sh "cd ${qaDir} && npm i -D"
+            sh "cd ${qaDir} && npm i chromedriver@2.38.3 -D"
+            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore"
+        } catch (Exception e) {
+            sh "cd ${qaDir} && npm run-script cucumber-report "
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+            throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+        }
+        sh "cd ${qaDir} && npm run-script cucumber-report "
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
     }
 }
