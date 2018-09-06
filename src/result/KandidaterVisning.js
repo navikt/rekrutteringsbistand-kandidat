@@ -31,6 +31,26 @@ class KandidaterVisning extends React.Component {
         });
     };
 
+    onFilterScoreClick = (scoreChevronNed, from, to) => {
+        const kandidater = this.state.kandidater.slice(from, to)
+            .sort((kand1, kand2) => {
+                const kand1score = kand1.score;
+                const kand2score = kand2.score;
+                if (scoreChevronNed) {
+                    return kand1score - kand2score;
+                }
+                return kand2score - kand1score;
+            });
+
+        this.setState({
+            kandidater: [
+                ...this.state.kandidater.slice(0, from),
+                ...kandidater,
+                ...this.state.kandidater.slice(to)
+            ]
+        });
+    };
+
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
         const kandidater = this.state.kandidater.slice(from, to)
             .sort((kand1, kand2) => {
@@ -62,6 +82,7 @@ class KandidaterVisning extends React.Component {
                         antallResultater={this.state.antallResultater}
                         kandidater={this.state.kandidater}
                         onFilterAntallArClick={this.onFilterAntallArClick}
+                        onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
 
@@ -73,6 +94,7 @@ class KandidaterVisning extends React.Component {
                         antallResultater={this.state.antallResultater}
                         kandidater={this.state.kandidater}
                         onFilterAntallArClick={this.onFilterAntallArClick}
+                        onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
 

@@ -9,7 +9,7 @@ import cvPropTypes from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -27,6 +27,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                 <Systemtittel>{tittel}</Systemtittel>
                 <KandidaterTableHeader
                     onFilterAntallArClick={onFilterAntallArClick}
+                    onFilterScoreClick={onFilterScoreClick}
                     from={0}
                     to={antallBesteTreff}
                 />
@@ -43,6 +44,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                     <Systemtittel>Andre aktuelle kandidater</Systemtittel>
                     <KandidaterTableHeader
                         onFilterAntallArClick={onFilterAntallArClick}
+                        onFilterScoreClick={onFilterScoreClick}
                         from={antallBesteTreff}
                         to={antallResultater}
                     />
@@ -78,6 +80,7 @@ KandidaterTabellMedKriterier.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
+    onFilterScoreClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired
 
