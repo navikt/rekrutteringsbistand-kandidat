@@ -1,11 +1,8 @@
 /* eslint-disable */
 module.exports = {
     elements: {
-        sideInnhold: '.search-page',
         antallKandidaterTreff: '#antall-kandidater-treff',
-        seKandidateneKnapp: '#se-kandidatene-knapp',
         slettAlleKriterierLenke: '#slett-alle-kriterier-lenke',
-        stillingPanel: '.panel--stilling',
         leggTilStillingKnapp: '#leggtil-stilling-knapp',
         leggTilStillingInput: '#typeahead-stilling',
         leggTilStillingTypeahead: '#typeahead-stilling-suggestions',
