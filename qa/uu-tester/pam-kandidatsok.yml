@@ -1,0 +1,25 @@
+links:
+  - link: "https://tjenester-t6.nav.no/pam-kandidatsok"
+    desc: "Kandidatsok"
+    options:
+      commands:
+        - clickOn: '#IdPortenExchange'
+        - clickOn: '#BankIDJS'
+        - waitFor: 'iframe'
+        - switchFrame: 0
+        - waitFor: '.full_width_height::shadow input[data-bind]'
+        - type:
+            into: '.full_width_height::shadow input[data-bind]'
+            text: '01065500791'
+        - clickOn: '.full_width_height::shadow button[title=Neste]'
+        - pause: 2000
+        - type:
+            into: '.full_width_height::shadow input[data-bind]'
+            text: 'otp'
+        - clickOn: '.full_width_height::shadow button[title=Neste]'
+        - pause: 2000
+        - type:
+            into: '.full_width_height::shadow input[data-bind]'
+            text: 'qwer1234'
+        - clickOn: '.full_width_height::shadow button[title=Neste]'
+        - waitFor: '#antall-kandidater-treff'
