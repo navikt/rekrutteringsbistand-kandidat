@@ -75,12 +75,6 @@ export function fetchKandidater(query = {}) {
     );
 }
 
-export function fetchKandidaterCount(query = {}) {
-    return fetchJson(
-        `${SEARCH_API}sok/count?${convertToUrlParams(query)}`, true
-    );
-}
-
 export function fetchCv(arenaKandidatnr) {
     return fetchJson(
         `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
