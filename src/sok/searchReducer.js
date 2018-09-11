@@ -1,5 +1,5 @@
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterCount, fetchFeatureToggles, SearchApiError } from './api';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
 import FEATURE_TOGGLES from '../konstanter';
 
@@ -187,16 +187,7 @@ function* search(action = '') {
 
         const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
 
-        let response = {};
-        if (state.search.featureToggles['janzz-enabled'] && criteria.hasValues) {
-            const { janzzResponse, janzzResponseCount } = yield all({
-                janzzResponse: call(fetchKandidater, { ...criteria, matchFactor: 10 }),
-                janzzResponseCount: call(fetchKandidaterCount, { ...criteria, matchFactor: 70 })
-            });
-            response = { ...janzzResponse, totaltAntallTreff: janzzResponseCount.count };
-        } else {
-            response = yield call(fetchKandidater, criteria);
-        }
+        const response = yield call(fetchKandidater, criteria);
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
