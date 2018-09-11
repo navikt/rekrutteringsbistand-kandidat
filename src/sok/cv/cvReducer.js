@@ -79,19 +79,22 @@ function* fetchCvForKandidat(action) {
 
         let medUtdanningstekst;
 
-        if (state.search.featureToggles['vis-matchforklaring']) {
-            const matchForklaringRespons = yield call(fetchMatchExplain, {
-                stillinger: state.stilling.stillinger,
-                arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-                utdanninger: state.utdanning.utdanninger,
-                kompetanser: state.kompetanse.kompetanser,
-                geografiList: state.geografi.geografiList,
-                totalErfaring: state.arbeidserfaring.totalErfaring,
-                utdanningsniva: state.utdanning.utdanningsniva,
-                sprak: state.sprakReducer.sprak,
-                kandidatnr: action.arenaKandidatnr,
-                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
-            });
+        const criteriaValues = {
+            stillinger: state.stilling.stillinger,
+            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
+            utdanninger: state.utdanning.utdanninger,
+            kompetanser: state.kompetanse.kompetanser,
+            geografiList: state.geografi.geografiList,
+            totalErfaring: state.arbeidserfaring.totalErfaring,
+            utdanningsniva: state.utdanning.utdanningsniva,
+            sprak: state.sprakReducer.sprak,
+            kandidatnr: action.arenaKandidatnr,
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
+        }
+
+        const hasValues = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
+        if (hasValues && state.search.featureToggles['vis-matchforklaring']) {
+            const matchForklaringRespons = yield call(fetchMatchExplain, criteriaValues);
 
             const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
 
