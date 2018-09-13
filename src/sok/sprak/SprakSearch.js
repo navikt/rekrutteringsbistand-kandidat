@@ -37,12 +37,15 @@ class SprakSearch extends React.Component {
 
     onTypeAheadSprakSelect = (value) => {
         if (value !== '') {
-            this.props.selectTypeAheadValue(value);
-            this.props.clearTypeAheadSprak();
-            this.setState({
-                typeAheadValue: ''
-            });
-            this.props.search();
+            const sprak = this.props.typeAheadSuggestionsSprak.find((s) => s.toLowerCase() === value.toLowerCase());
+            if (sprak !== undefined) {
+                this.props.selectTypeAheadValue(sprak);
+                this.props.clearTypeAheadSprak();
+                this.setState({
+                    typeAheadValue: ''
+                });
+                this.props.search();
+            }
         }
     };
 

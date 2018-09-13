@@ -136,7 +136,9 @@ module.exports = {
                 self
                     .waitForElementPresent('@leggTilSprakKnapp')
                     .click('@leggTilSprakKnapp')
-                    .setValue('@leggTilSprakInput', sprak + self.api.Keys.ENTER)
+                    .setValue('@leggTilSprakInput', sprak)
+                    .waitForElementVisible('@leggTilSprakTypeahead', 30000)
+                    .setValue('@leggTilSprakInput', self.api.Keys.ENTER)
                     .waitForElementPresent('button[value="' + sprak + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
