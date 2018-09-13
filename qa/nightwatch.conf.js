@@ -19,7 +19,7 @@ module.exports = {
         port: 4444 // standard selenium port
     },
     test_workers: {
-        enabled: false,
+        enabled: true,
         workers: 'auto' // number of cores used. "auto" means the same number as cores in the cpu
     },
     test_settings: {
