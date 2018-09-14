@@ -66,20 +66,20 @@ node {
 
     }
 
-    def qaDir = "${env.WORKSPACE}/qa"
-    def folder = new File(qaDir)
-    if (folder.exists()) {
-        stage("Functional acceptance tests") {
-            acceptanceTest(qaDir)
-        }
-    }
-
     stage('Tag GitHub release') {
         withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
             withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
                 sh ("git tag -a ${releaseVersion} -m ${releaseVersion}")
                 sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags")
             }
+        }
+    }
+
+    def qaDir = "${env.WORKSPACE}/qa"
+    def folder = new File(qaDir)
+    if (folder.exists()) {
+        stage("Functional acceptance tests") {
+            acceptanceTest(qaDir)
         }
     }
 }

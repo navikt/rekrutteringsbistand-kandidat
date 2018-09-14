@@ -24,7 +24,7 @@ module.exports = {
     },
     test_settings: {
         default: {
-            launch_url: 'http://localhost:9009',
+            launch_url: 'http://localhost:9009/pam-kandidatsok',
             screenshots: {
                 enabled: true,
                 on_failure: true,
