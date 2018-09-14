@@ -108,8 +108,8 @@ const getTypeAheadBranch = (type) => {
 
 function* fetchTypeaheadGeografiES(value, branch) {
     const typeAheadBranch = getTypeAheadBranch(branch);
-    const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
     try {
+        const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
         const totalSuggestions = response.map((r) => (
             JSON.parse(r)
         ));
@@ -126,28 +126,32 @@ function* fetchTypeaheadGeografiES(value, branch) {
 }
 
 function* fetchTypeaheadGeografiJanzz(value, branch) {
-    const response = yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value });
+    try {
+        const response = yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value });
 
-    if (response._embedded) {
-        const totalResult = response._embedded.lokasjonList.map((sted) => (
-            { geografiKode: sted.code, geografiKodeTekst: sted.label }
-        ));
+        if (response._embedded) {
+            const totalResult = response._embedded.lokasjonList.map((sted) => (
+                { geografiKode: sted.code, geografiKodeTekst: sted.label }
+            ));
 
-        const result = response._embedded.lokasjonList.map((sted) => (
-            sted.label
-        ));
+            const result = response._embedded.lokasjonList.map((sted) => (
+                sted.label
+            ));
 
-        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
-    } else {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }) });
+            yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
+        } else {
+            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }) });
+        }
+    } catch (e) {
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: e.message }) });
     }
 }
 
 function* fetchTypeaheadGeografi(value, branch) {
     const state = yield select();
 
-    // TODO: Fjern else og fetchTypeAheadSuggestionsES. Toggle: janzz-enabled
+    // TODO: Fjern else og fetchTypeaheadGeografiES. Toggle: janzz-enabled
     if (state.search.featureToggles['janzz-enabled']) {
         yield fetchTypeaheadGeografiJanzz(value, branch);
     } else {
