@@ -75,12 +75,19 @@ node {
         }
     }
 
+    // QA
     def qaDir = "${env.WORKSPACE}/qa"
     def folder = new File(qaDir)
+    def uuDefinitionFile = "${app}.yml"
     if (folder.exists()) {
         stage("Functional acceptance tests") {
             acceptanceTest(qaDir)
         }
+        if (fileExists("${qaDir}/${uuDefinitionFile}")) {
+			stage("UU-tests") {
+				uuTests(qaDir, uuDefinitionFile)
+			}
+		}
     }
 }
 
@@ -98,5 +105,22 @@ def acceptanceTest(qaDir) {
         }
         sh "cd ${qaDir} && npm run-script cucumber-report "
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+    }
+}
+
+def uuTests(qaDir, uuDefinitionFile) {
+	withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
+        withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
+            sh "cd ${qaDir} && git clone https://${token}:x-oauth-basic@github.com/navikt/pus-uu-validator.git"
+        }
+    }
+    withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no,oera.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
+        try {
+            sh "cd ${qaDir}/pus-uu-validator && npm i"
+			sh "cd ${qaDir}/pus-uu-validator && npm i chromedriver@2.38.3"
+			sh "cd ${qaDir}/pus-uu-validator && DEFINITION_FILE=../${uuDefinitionFile} npm run test-uu"
+        } catch (Exception e) {
+            println("UU-tester feilet")
+        }
     }
 }
