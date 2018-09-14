@@ -89,8 +89,8 @@ function* fetchCvForKandidat(action) {
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
             kandidatnr: action.arenaKandidatnr,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
-        }
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
+        };
 
         const hasValues = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         if (hasValues && state.search.featureToggles['vis-matchforklaring']) {
