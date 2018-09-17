@@ -1,19 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Column, Row } from 'nav-frontend-grid';
+import connect from 'react-redux/es/connect/connect';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Element, Normaltekst, Undertittel, Sidetittel } from 'nav-frontend-typografi';
-import Tidsperiode from '../../common/Tidsperiode';
-import sortByDato from '../../common/SortByDato';
-import cvPropTypes from '../../PropTypes';
-import './Modal.less';
+import { Column, Row } from 'nav-frontend-grid';
+import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
 import { formatISOString } from '../../common/dateUtils';
-import { MatchexplainProptypesGrouped } from './Proptypes';
-import Matchdetaljer from './Matchdetaljer';
+import sortByDato from '../../common/SortByDato';
+import Tidsperiode from '../../common/Tidsperiode';
+import Matchdetaljer from '../modal/Matchdetaljer';
+import cvPropTypes from '../../PropTypes';
+import PropTypes from 'prop-types';
+import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
 
-// TODO: FJERNE MODAL FOR VISNING AV CV
-const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
+// const VisKandidat = () => (
+//     <div>Vis enkel kandidat</div>
+// );
+
+const VisKandidat = ({ cv, isFetchingCv, matchforklaring }) => {
+    { console.log(cv); }
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -240,11 +243,11 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
     );
 };
 
-ShowCv.defaultProps = {
+VisKandidat.defaultProps = {
     matchforklaring: undefined
 };
 
-ShowCv.propTypes = {
+VisKandidat.propTypes = {
     cv: cvPropTypes.isRequired,
     isFetchingCv: PropTypes.bool.isRequired,
     matchforklaring: MatchexplainProptypesGrouped
@@ -256,4 +259,4 @@ const mapStateToProps = (state) => ({
     matchforklaring: state.cvReducer.matchforklaring
 });
 
-export default connect(mapStateToProps)(ShowCv);
+export default connect(mapStateToProps)(VisKandidat);

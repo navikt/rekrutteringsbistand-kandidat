@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Link } from 'react-router-dom';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
@@ -28,36 +29,40 @@ class KandidaterTableRow extends React.Component {
             lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
         }
         return (
-            <button
-                className="panel border--top--thin kandidater--row"
-                onClick={this.openCvModal}
-                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+            <Link
+                to={'/pam-kandidatsok/cv'}
             >
-                <Row>
-                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
-                    </Column>
-                    {this.props.janzzEnabled ? (
+                <button
+                    className="panel border--top--thin kandidater--row"
+                    to="VisKandidat"
+                    aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                >
+                    <Row>
+                        <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                            <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
+                        </Column>
+                        {this.props.janzzEnabled ? (
+                            <Column className="no--padding" xs="4" md="4">
+                                <i className="border--vertical" />
+                                <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                            </Column>
+                        ) : (
+                            <Column className="no--padding" xs="4" md="4">
+                                <i className="border--vertical" />
+                                <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                            </Column>
+                        )}
                         <Column className="no--padding" xs="4" md="4">
                             <i className="border--vertical" />
-                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                            <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                         </Column>
-                    ) : (
-                        <Column className="no--padding" xs="4" md="4">
+                        <Column xs="2" md="2" className="text-center no--padding">
                             <i className="border--vertical" />
-                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                            <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
                         </Column>
-                    )}
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
-                    </Column>
-                    <Column xs="2" md="2" className="text-center no--padding">
-                        <i className="border--vertical" />
-                        <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
-                    </Column>
-                </Row>
-            </button>
+                    </Row>
+                </button>
+            </Link>
         );
     }
 }
