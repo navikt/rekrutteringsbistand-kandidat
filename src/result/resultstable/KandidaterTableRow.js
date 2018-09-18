@@ -16,6 +16,7 @@ class KandidaterTableRow extends React.Component {
 
     render() {
         const cv = this.props.cv;
+        const kandidatnummer = this.props.cv.arenaKandidatnr;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
         const score = cv.score;
@@ -30,11 +31,10 @@ class KandidaterTableRow extends React.Component {
         }
         return (
             <Link
-                to={'/pam-kandidatsok/cv'}
+                to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
             >
                 <button
                     className="panel border--top--thin kandidater--row"
-                    to="VisKandidat"
                     aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                 >
                     <Row>
