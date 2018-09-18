@@ -2,9 +2,8 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Column, Row } from 'nav-frontend-grid';
-import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
-import { formatISOString } from '../../common/dateUtils';
 import sortByDato from '../../common/SortByDato';
 import Tidsperiode from '../../common/Tidsperiode';
 import Matchdetaljer from '../modal/Matchdetaljer';
@@ -12,6 +11,7 @@ import cvPropTypes from '../../PropTypes';
 import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../../sok/utils';
+import VisKandidatPersonalia from './VisKandidatPersonalia';
 
 class VisKandidat extends React.Component {
     componentDidMount() {
@@ -41,43 +41,7 @@ class VisKandidat extends React.Component {
         }
         return (
             <div className="panel">
-                <Row className="blokk-s personalia--modal">
-                    <Column xs="12">
-                        <Sidetittel className="navn--modal">
-                            {cv.fornavn} {cv.etternavn}
-                        </Sidetittel>
-                        {cv.fodselsdato && (
-                            <Normaltekst><strong>Fødselsdato:</strong> {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
-                        )}
-                        {cv.adresse && cv.adresse.adrlinje1 && (
-                            <Normaltekst>
-                                <strong>Adresse:</strong> {cv.adresse.adrlinje1}
-                                {(cv.adresse.postnr || cv.adresse.poststednavn) ?
-                                    (', ') : null}
-                                {cv.adresse.postnr} {cv.adresse.poststednavn}
-                            </Normaltekst>
-                        )}
-                        {(cv.epost || cv.telefon) && (
-                            <div className="kontakt--modal">
-                                {cv.epost && (
-                                    <Normaltekst>
-                                        <i className="mail--icon" />
-                                        <strong>E-post:</strong>
-                                        <a href={`mailto:${cv.epost}`} className="lenke mail--text">{cv.epost}</a>
-                                    </Normaltekst>
-                                )}
-                                {cv.telefon && (
-                                    <Normaltekst>
-                                        <i className="telefon--icon" />
-                                        <strong>Telefon:</strong> {/* TODO: Telefon er ikke med
-                                    fra backend per nå, oppdatere denne når det er med */}
-                                        {/* <a href={`tel:${cv.telefon}`} className="lenke telefon--text">{cv.telefon}</a> */}
-                                    </Normaltekst>
-                                )}
-                            </div>
-                        )}
-                    </Column>
-                </Row>
+                <VisKandidatPersonalia cv={cv} />
                 {cv.beskrivelse && (
                     <Row className="blokk-s">
                         <Column xs="12">
@@ -270,6 +234,7 @@ const mapStateToProps = (state) => ({
     cv: state.cvReducer.cv,
     matchforklaring: state.cvReducer.matchforklaring
 });
+
 const mapDispatchToProps = (dispatch) => ({
     openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
     hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
