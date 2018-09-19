@@ -13,7 +13,8 @@ const developmentToggles = {
     'skjul-spraak': false,
     'skjul-sted': false,
     'vis-matchforklaring': false,
-    'ingen-utdanning-filter': false
+    'ingen-utdanning-filter': false,
+    'vis-ny-vis-kandidat-side': true
 };
 
 module.exports = merge(common, {
