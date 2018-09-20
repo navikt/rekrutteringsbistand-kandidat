@@ -26,10 +26,9 @@ class VisKandidat extends React.Component {
             );
         }
         return (
-            <div className="panel">
+            <div>
                 <VisKandidatPersonalia cv={cv} />
-                <VisKandidatCv cv={cv} matchforklaring={matchforklaring} />
-
+                <VisKandidatCv cv={cv} />
             </div>
         );
     }
