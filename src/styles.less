@@ -137,3 +137,42 @@ button.lenke {
   margin: 2rem 0 1rem 0;
 }
 
+.TilbakeLenke {
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+
+.TilbakeLenke__lenke {
+  font-weight: 600;
+}
+
+.knapp--disabled--clickable:active {
+  background-color: @navGra20;
+}
+
+.knapp--disabled--clickable:hover {
+  background-color: @navGra20;
+}
+
+.fading {
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  margin-bottom: -3.5rem;
+}
+
+.fading.synlig {
+  opacity: 1;
+  visibility: visible;
+}
+
+.HjelpetekstFading {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
