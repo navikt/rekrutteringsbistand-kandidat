@@ -106,7 +106,7 @@ class KompetanseSearch extends React.Component {
                     Legg til kompetansen du ønsker at en kandidat skal ha
                 </Element>
                 <Normaltekst className="text--italic">
-                    For eksempel førerkort klasse B, ledelse eller Excel
+                    For eksempel fagbrev, ledelse eller Excel
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--kompetanse">
