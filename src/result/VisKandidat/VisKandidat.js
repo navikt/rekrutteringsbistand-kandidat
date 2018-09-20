@@ -2,9 +2,9 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
-import cvPropTypes from '../../PropTypes';
+import { cvPropTypes } from '../../PropTypes';
 import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
-import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { FETCH_CV } from '../../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../../sok/utils';
 import VisKandidatPersonalia from './VisKandidatPersonalia';
 import VisKandidatCv from './VisKandidatCv';
@@ -17,7 +17,6 @@ class VisKandidat extends React.Component {
 
     render() {
         const { cv, isFetchingCv, matchforklaring } = this.props;
-
 
         if (isFetchingCv) {
             return (
@@ -55,7 +54,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
     hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
 });
 
