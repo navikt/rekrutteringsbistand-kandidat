@@ -1,32 +1,30 @@
 @import '../../Variables';
 
-.cv-panel {
+.panel--cv {
   margin: auto;
   max-width: 640px;
   border: solid 1px #d8d8d8;
   .ekspanderbartPanel__hode {
     padding: 1.5rem 2rem 1.5rem 2rem;
   }
+  .cv--tidsperiode {
+    margin-top: 5px;
+    color: #78706a;
+  }
 }
 
-.cv-panel-tidsperiode {
-  margin-top: 5px;
-  color: #78706a;
-}
-
-.cv-panel-row {
+.panel--cv__row {
   padding: 0 1rem 0 1rem;
   margin-bottom: 4rem;
+  &:last-child {
+    margin-bottom: 1rem;
+  }
+  .row--kategori {
+    margin-bottom: 2rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
-.cv-panel-row:last-child {
-  margin-bottom: 1rem;
-}
 
-.cv-panel-row-kategori {
-  margin-bottom: 2rem;
-}
-
-.cv-panel-row-kategori:last-child {
-  margin-bottom: 0;
-}

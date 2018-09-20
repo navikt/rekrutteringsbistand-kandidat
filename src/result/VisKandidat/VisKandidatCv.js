@@ -15,7 +15,7 @@ const VisKandidatCv = ({ cv }) => {
     const sprak = cv.sprak.slice();
 
     return (
-        <div className="cv-panel">
+        <div className="panel--cv">
             <Ekspanderbartpanel
                 id="ekspanderbartpanel-cv"
                 tittel="CV"
@@ -23,7 +23,7 @@ const VisKandidatCv = ({ cv }) => {
                 apen
             >
                 {cv.beskrivelse && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="12">
                             <Undertittel>Sammendrag</Undertittel>
                             <Normaltekst>{cv.beskrivelse}</Normaltekst>
@@ -31,15 +31,15 @@ const VisKandidatCv = ({ cv }) => {
                     </Row>
                 )}
                 {utdanning && utdanning.length !== 0 && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="5">
                             <Undertittel>Utdanning</Undertittel>
                         </Column>
                         <Column xs="7">
                             {sortByDato(utdanning)
                                 .map((u) => (
-                                    <Row className="cv-panel-row-kategori" key={JSON.stringify(u)}>
-                                        <Undertekst className="cv-panel-tidsperiode">
+                                    <Row className="row--kategori" key={JSON.stringify(u)}>
+                                        <Undertekst className="cv--tidsperiode">
                                             <Tidsperiode
                                                 fradato={u.fraDato}
                                                 tildato={u.tilDato}
@@ -58,15 +58,15 @@ const VisKandidatCv = ({ cv }) => {
                     </Row>
                 )}
                 {yrkeserfaring && yrkeserfaring.length !== 0 && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="5">
                             <Undertittel>Arbeidserfaring</Undertittel>
                         </Column>
                         <Column xs="7">
                             {sortByDato(yrkeserfaring)
                                 .map((a) => (
-                                    <Row className="cv-panel-row-kategori" key={JSON.stringify(a)}>
-                                        <Undertekst className="cv-panel-tidsperiode">
+                                    <Row className="row--kategori" key={JSON.stringify(a)}>
+                                        <Undertekst className="cv--tidsperiode">
                                             <Tidsperiode
                                                 fradato={a.fraDato}
                                                 tildato={a.tilDato}
@@ -85,15 +85,15 @@ const VisKandidatCv = ({ cv }) => {
                     </Row>
                 )}
                 {kurs && kurs.length !== 0 && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="5">
                             <Undertittel>Kurs og sertifiseringer</Undertittel>
                         </Column>
                         <Column xs="7">
                             {sortByDato(kurs)
                                 .map((k) => (
-                                    <Row className="cv-panel-row-kategori" key={JSON.stringify(k)}>
-                                        <Undertekst className="cv-panel-tidsperiode">
+                                    <Row className="row--kategori" key={JSON.stringify(k)}>
+                                        <Undertekst className="cv--tidsperiode">
                                             <Tidsperiode
                                                 fradato={k.fraDato}
                                                 tildato={k.tilDato}
@@ -111,15 +111,15 @@ const VisKandidatCv = ({ cv }) => {
                     </Row>
                 )}
                 {sertifikater && sertifikater.length !== 0 && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="5">
                             <Undertittel>Sertifikat</Undertittel>
                         </Column>
                         <Column xs="7">
                             {sortByDato(sertifikater)
                                 .map((s) => (
-                                    <Row className="cv-panel-row-kategori" key={JSON.stringify(s)}>
-                                        <Undertekst className="cv-panel-tidsperiode">
+                                    <Row className="row--kategori" key={JSON.stringify(s)}>
+                                        <Undertekst className="cv--tidsperiode">
                                             <Tidsperiode
                                                 fradato={s.fraDato}
                                                 tildato={s.tilDato}
@@ -140,13 +140,13 @@ const VisKandidatCv = ({ cv }) => {
                     </Row>
                 )}
                 {sprak && sprak.length !== 0 && (
-                    <Row className="cv-panel-row">
+                    <Row className="panel--cv__row">
                         <Column xs="5">
                             <Undertittel>Språk</Undertittel>
                         </Column>
                         <Column xs="7">
                             {sprak.map((s) => (
-                                <Row className="cv-panel-row-kategori" key={JSON.stringify(s)}>
+                                <Row className="row--kategori" key={JSON.stringify(s)}>
                                     {s.kompetanseKodeTekst && (
                                         <Element>{s.kompetanseKodeTekst}</Element>
                                     )}
