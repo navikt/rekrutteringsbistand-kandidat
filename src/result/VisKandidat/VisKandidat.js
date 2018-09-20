@@ -2,7 +2,7 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
-import { cvPropTypes } from '../../PropTypes';
+import cvPropTypes from '../../PropTypes';
 import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../../sok/utils';

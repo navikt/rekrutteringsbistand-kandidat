@@ -4,7 +4,7 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
 import { formatISOString } from '../../common/dateUtils';
-import { cvPropTypes } from '../../PropTypes';
+import cvPropTypes from '../../PropTypes';
 
 class VisKandidatPersonalia extends React.Component {
     render() {
