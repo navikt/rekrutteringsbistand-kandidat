@@ -48,7 +48,7 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
                             {cv.adresse.postnr} {cv.adresse.poststednavn}
                         </Normaltekst>
                     )}
-                    {(cv.epost || cv.telefon) && (
+                    {(cv.epost || cv.mobiltelefon || cv.telefon) && (
                         <div className="kontakt--modal">
                             {cv.epost && (
                                 <Normaltekst>
@@ -57,12 +57,18 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
                                     <a href={`mailto:${cv.epost}`} className="lenke mail--text">{cv.epost}</a>
                                 </Normaltekst>
                             )}
+                            {cv.mobiltelefon && (
+                                <Normaltekst>
+                                    <i className="telefon--icon" />
+                                    <strong>Mobiltelefon:</strong>
+                                    <a href={`tel:${cv.mobiltelefon}`} className="lenke telefon--text">{cv.mobiltelefon}</a>
+                                </Normaltekst>
+                            )}
                             {cv.telefon && (
                                 <Normaltekst>
                                     <i className="telefon--icon" />
-                                    <strong>Telefon:</strong> {/* TODO: Telefon er ikke med
-                                    fra backend per nå, oppdatere denne når det er med */}
-                                    {/* <a href={`tel:${cv.telefon}`} className="lenke telefon--text">{cv.telefon}</a> */}
+                                    <strong>Telefon:</strong>
+                                    <a href={`tel:${cv.telefon}`} className="lenke telefon--text">{cv.telefon}</a>
                                 </Normaltekst>
                             )}
                         </div>
