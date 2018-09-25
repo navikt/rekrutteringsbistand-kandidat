@@ -63,10 +63,7 @@ async function fetchJson(url, includeCredentials) {
 }
 
 export function fetchFeatureToggles() {
-    if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
-    }
-    return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
+    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {

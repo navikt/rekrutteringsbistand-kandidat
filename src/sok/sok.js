@@ -60,8 +60,6 @@ class Sok extends React.Component {
             this.redirectToLogin();
         } else if (error && error.status === 403) {
             window.location.href = '/pam-kandidatsok/altinn';
-        } else if (error) {
-            window.location.href = '/pam-kandidatsok/feilside';
         }
     }
 
@@ -71,6 +69,9 @@ class Sok extends React.Component {
     };
 
     render() {
+        if (this.props.error) {
+            return <Feilside />;
+        }
         return (
             <BrowserRouter>
                 <Switch>
