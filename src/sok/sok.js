@@ -24,7 +24,7 @@ import feedbackReducer from '../feedback/feedbackReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
-import VisKandidat from '../result/VisKandidat/VisKandidat';
+import VisKandidat from '../result/visKandidat/VisKandidat';
 import { getUrlParameterByName } from './utils';
 
 const sagaMiddleware = createSagaMiddleware();
