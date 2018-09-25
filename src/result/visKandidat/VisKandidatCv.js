@@ -18,17 +18,17 @@ const VisKandidatCv = ({ cv }) => (
             {cv.beskrivelse && (
                 <Row className="panel--cv__row">
                     <Column xs="12">
-                        <Undertittel>Sammendrag</Undertittel>
+                        <Undertittel className="cv__overskrift">Sammendrag</Undertittel>
                         <Normaltekst>{cv.beskrivelse}</Normaltekst>
                     </Column>
                 </Row>
             )}
             {cv.utdanning && cv.utdanning.length !== 0 && (
                 <Row className="panel--cv__row">
-                    <Column xs="5">
-                        <Undertittel>Utdanning</Undertittel>
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Utdanning</Undertittel>
                     </Column>
-                    <Column xs="7">
+                    <Column xs="12" sm="7">
                         {sortByDato(cv.utdanning)
                             .map((u) => (
                                 <Row className="row--kategori" key={JSON.stringify(u)}>
@@ -52,10 +52,10 @@ const VisKandidatCv = ({ cv }) => (
             )}
             {cv.yrkeserfaring && cv.yrkeserfaring.length !== 0 && (
                 <Row className="panel--cv__row">
-                    <Column xs="5">
-                        <Undertittel>Arbeidserfaring</Undertittel>
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Arbeidserfaring</Undertittel>
                     </Column>
-                    <Column xs="7">
+                    <Column xs="12" sm="7">
                         {sortByDato(cv.yrkeserfaring)
                             .map((a) => (
                                 <Row className="row--kategori" key={JSON.stringify(a)}>
@@ -79,10 +79,10 @@ const VisKandidatCv = ({ cv }) => (
             )}
             {cv.kurs && cv.kurs.length !== 0 && (
                 <Row className="panel--cv__row">
-                    <Column xs="5">
-                        <Undertittel>Kurs og sertifiseringer</Undertittel>
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Kurs og sertifiseringer</Undertittel>
                     </Column>
-                    <Column xs="7">
+                    <Column xs="12" sm="7">
                         {sortByDato(cv.kurs)
                             .map((k) => (
                                 <Row className="row--kategori" key={JSON.stringify(k)}>
@@ -105,10 +105,10 @@ const VisKandidatCv = ({ cv }) => (
             )}
             {cv.sertifikater && cv.sertifikater.length !== 0 && (
                 <Row className="panel--cv__row">
-                    <Column xs="5">
-                        <Undertittel>Sertifikat</Undertittel>
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Sertifikat</Undertittel>
                     </Column>
-                    <Column xs="7">
+                    <Column xs="12" sm="7">
                         {sortByDato(cv.sertifikater)
                             .map((s) => (
                                 <Row className="row--kategori" key={JSON.stringify(s)}>
@@ -134,10 +134,10 @@ const VisKandidatCv = ({ cv }) => (
             )}
             {cv.sprak && cv.sprak.length !== 0 && (
                 <Row className="panel--cv__row">
-                    <Column xs="5">
-                        <Undertittel>Språk</Undertittel>
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Språk</Undertittel>
                     </Column>
-                    <Column xs="7">
+                    <Column xs="12" sm="7">
                         {cv.sprak.map((s) => (
                             <Row className="row--kategori" key={JSON.stringify(s)}>
                                 {s.kompetanseKodeTekst && (

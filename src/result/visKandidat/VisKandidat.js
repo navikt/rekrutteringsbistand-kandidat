@@ -3,11 +3,11 @@ import connect from 'react-redux/es/connect/connect';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 import cvPropTypes from '../../PropTypes';
-import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../../sok/utils';
 import VisKandidatPersonalia from './VisKandidatPersonalia';
 import VisKandidatCv from './VisKandidatCv';
+import VisKandidatJobbprofil from './VisKandidatJobbprofil';
 
 class VisKandidat extends React.Component {
     componentDidMount() {
@@ -16,7 +16,7 @@ class VisKandidat extends React.Component {
     }
 
     render() {
-        const { cv, isFetchingCv, matchforklaring } = this.props;
+        const { cv, isFetchingCv } = this.props;
 
         if (isFetchingCv) {
             return (
@@ -28,6 +28,7 @@ class VisKandidat extends React.Component {
         return (
             <div>
                 <VisKandidatPersonalia cv={cv} />
+                <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
             </div>
         );
@@ -41,7 +42,6 @@ VisKandidat.defaultProps = {
 VisKandidat.propTypes = {
     cv: cvPropTypes.isRequired,
     isFetchingCv: PropTypes.bool.isRequired,
-    matchforklaring: MatchexplainProptypesGrouped,
     hentCvForKandidat: PropTypes.func.isRequired
 
 };
