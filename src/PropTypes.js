@@ -12,6 +12,8 @@ const cvPropTypes = PropTypes.shape({
     beskrivelse: PropTypes.string,
     disponererBil: PropTypes.bool,
     epostadresse: PropTypes.string,
+    mobiltelefon: PropTypes.string,
+    telefon: PropTypes.string,
     etternavn: PropTypes.string,
     fodselsdato: PropTypes.string,
     fodselsdatoErDnr: PropTypes.bool,
