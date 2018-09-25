@@ -44,3 +44,10 @@ export const BRANCHNAVN = {
     GEOGRAFI: 'geografi',
     SPRAK: 'sprak'
 };
+
+export const LAGRE_STATUS = {
+    UNSAVED: 'UNSAVED',
+    LOADING: 'LOADING',
+    SUCCESS: 'SUCCESS',
+    FAILURE: 'FAILURE'
+};

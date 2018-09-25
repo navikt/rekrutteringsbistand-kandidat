@@ -5,7 +5,7 @@ import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const FELTER = {
-    NAVN: 'NAVN',
+    TITTEL: 'TITTEL',
     BESKRIVELSE: 'BESKRIVELSE',
     OPPDRAGSGIVER: 'OPPDRAGSGIVER'
 };
@@ -19,7 +19,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
     }
 
     formValidates = () => (
-        this.state.kandidatlisteInfo.navn !== ''
+        this.state.kandidatlisteInfo.tittel !== ''
     );
 
     validateAndSave = () => {
@@ -29,12 +29,12 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     updateField = (field, value) => {
-        if (field === FELTER.NAVN) {
+        if (field === FELTER.TITTEL) {
             this.setState({
                 ...this.state,
                 kandidatlisteInfo: {
                     ...this.state.kandidatlisteInfo,
-                    navn: value
+                    tittel: value
                 }
             });
         } else if (field === FELTER.BESKRIVELSE) {
@@ -57,16 +57,16 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, onDisabledClick } = this.props;
+        const { backLink, onDisabledClick, saving } = this.props;
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm__input">
                     <Input
                         label="Navn på kandidatliste *"
                         placeholder="For eksempel barnehagelærer, Oslo"
-                        value={this.state.kandidatlisteInfo.navn}
+                        value={this.state.kandidatlisteInfo.tittel}
                         onChange={(event) => {
-                            this.updateField(FELTER.NAVN, event.target.value);
+                            this.updateField(FELTER.TITTEL, event.target.value);
                         }}
                     />
                 </div>
@@ -90,7 +90,15 @@ export default class OpprettKandidatlisteForm extends React.Component {
                         }}
                     />
                 </div>
-                <KnappMedDisabledFunksjon type="hoved" onClick={this.validateAndSave} onDisabledClick={onDisabledClick} disabled={!this.formValidates()}>Lagre</KnappMedDisabledFunksjon>
+                <KnappMedDisabledFunksjon
+                    type="hoved"
+                    onClick={this.validateAndSave}
+                    onDisabledClick={onDisabledClick}
+                    disabled={!this.formValidates()}
+                    spinner={saving}
+                >
+                    Lagre
+                </KnappMedDisabledFunksjon>
                 <div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
                     <Link to={backLink} className="lenke">Avbryt</Link>
                 </div>
@@ -99,14 +107,19 @@ export default class OpprettKandidatlisteForm extends React.Component {
     }
 }
 
+OpprettKandidatlisteForm.defaultProps = {
+    saving: false
+};
+
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
     onDisabledClick: PropTypes.func.isRequired,
     backLink: PropTypes.string.isRequired,
     kandidatlisteInfo: PropTypes.shape({
-        navn: PropTypes.string,
+        tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
         oppdragsgiver: PropTypes.string,
         stillingsId: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    saving: PropTypes.bool
 };
