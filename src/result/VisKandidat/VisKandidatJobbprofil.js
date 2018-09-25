@@ -2,7 +2,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import React from 'react';
-import HideText from '../../common/HideText';
+import TruncatedTextList from '../../common/TruncatedTextList';
 import cvPropTypes from '../../PropTypes';
 import './VisKandidat.less';
 
@@ -25,8 +25,8 @@ const VisKandidatJobbprofil = ({ cv }) => (
                         <Element className="jobbprofil__overskrift">Ønsket yrke</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <HideText
-                            text={
+                        <TruncatedTextList
+                            tekstElementer={
                                 cv.yrkeJobbonsker
                                     .map((u) => (
                                         u.styrkBeskrivelse
@@ -42,8 +42,8 @@ const VisKandidatJobbprofil = ({ cv }) => (
                         <Element className="jobbprofil__overskrift">Ønsket sted</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <HideText
-                            text={
+                        <TruncatedTextList
+                            tekstElementer={
                                 cv.geografiJobbonsker
                                     .map((u) => (
                                         u.geografiKodeTekst
