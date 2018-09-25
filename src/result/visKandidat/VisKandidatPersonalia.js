@@ -1,4 +1,4 @@
-import { Column, Row } from 'nav-frontend-grid';
+import { Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
@@ -15,7 +15,6 @@ class VisKandidatPersonalia extends React.Component {
 
     render() {
         const cv = this.props.cv;
-        cv.telefon = '12312312';
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
