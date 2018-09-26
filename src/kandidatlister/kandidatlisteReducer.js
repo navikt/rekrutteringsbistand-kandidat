@@ -12,12 +12,17 @@ export const OPPRETT_KANDIDATLISTE_FAILURE = 'OPPRETT_KANDIDATLISTE_FAILURE';
 
 export const RESET_LAGRE_STATUS = 'RESET_LAGRE_STATUS';
 
+export const HENT_KANDIDATLISTE = 'HENT_KANDIDATLISTE';
+export const HENT_KANDIDATLISTE_SUCCESS = 'HENT_KANDIDATLISTE_SUCCESS';
+export const HENT_KANDIDATLISTE_FAILURE = 'HENT_KANDIDATLISTE_FAILURE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
-    lagreStatus: LAGRE_STATUS.UNSAVED
+    lagreStatus: LAGRE_STATUS.UNSAVED,
+    kandidater: []
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -42,6 +47,16 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 lagreStatus: LAGRE_STATUS.UNSAVED
             };
+        case HENT_KANDIDATLISTE_SUCCESS:
+            return {
+                ...state,
+                kandidater: action.kandidater
+            };
+        case HENT_KANDIDATLISTE_FAILURE:
+            return {
+                ...state,
+                kandidater: []
+            };
         default:
             return state;
     }
@@ -65,7 +80,22 @@ function* opprettKandidatliste(action) {
     }
 }
 
+function* hentKandidatListe() {
+    // const { listeId } = action;
+    try {
+        yield put({ type: HENT_KANDIDATLISTE_SUCCESS,
+            kandidater: [
+                { lagtTilAv: 'meg', kandidatnr: '1234', arbeidsErfaring: 'Mye rart' },
+                { lagtTilAv: 'deg', kandidatnr: '1235', arbeidsErfaring: 'Kokk' }
+            ]
+        });
+    } catch (e) {
+        yield put({ type: HENT_KANDIDATLISTE_FAILURE });
+    }
+}
+
 export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
+    yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
 }
 

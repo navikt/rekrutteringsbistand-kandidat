@@ -10,14 +10,25 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 import './kandidatlister.less';
 import TilbakeLenke from '../common/TilbakeLenke';
+import { HENT_KANDIDATLISTE } from './kandidatlisteReducer';
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             markerAlleChecked: false,
-            kandidater: props.kandidater.map((k) => ({ ...k, checked: false }))
+            kandidater: []
         };
+    }
+
+    componentWillMount() {
+        this.props.hentKandidater(this.props.listeId);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            kandidater: nextProps.kandidater
+        });
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -102,13 +113,11 @@ KandidatlisteDetalj.defaultProps = {
     listeBeskrivelse: 'En testliste som er til test. Kun til test.',
     oppdragsgiver: 'Test AS',
     stillingsannonse: 'TestKokk søkes',
-    kandidater: [
-        { lagtTilAv: 'meg', kandidatnr: '1234', arbeidsErfaring: 'Mye rart' },
-        { lagtTilAv: 'deg', kandidatnr: '1235', arbeidsErfaring: 'Kokk' }
-    ]
+    kandidater: []
 };
 
 KandidatlisteDetalj.propTypes = {
+    listeId: PropTypes.string.isRequired,
     listeNavn: PropTypes.string.isRequired,
     listeBeskrivelse: PropTypes.string.isRequired,
     oppdragsgiver: PropTypes.string.isRequired,
@@ -119,9 +128,14 @@ KandidatlisteDetalj.propTypes = {
             kandidatnr: PropTypes.string,
             arbeidsErfaring: PropTypes.string
         })
-    )
+    ),
+    hentKandidater: PropTypes.func.isRequired
 };
 
-const mapStateToProps = () => ({ listeId: '123456' });
+const mapStateToProps = (state) => ({ listeId: '123456', kandidater: state.kandidatlister.kandidater });
 
-export default connect(mapStateToProps)(KandidatlisteDetalj);
+const mapDispatchToProps = (dispatch) => ({
+    hentKandidater: (listeId) => dispatch({ type: HENT_KANDIDATLISTE, listeId })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteDetalj);
