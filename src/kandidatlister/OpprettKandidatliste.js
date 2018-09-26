@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Sidetittel } from 'nav-frontend-typografi';
 import HjelpetekstFading from '../common/HjelpetekstFading';
@@ -9,9 +10,10 @@ import './kandidatlister.less';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';
 import { OPPRETT_KANDIDATLISTE } from './kandidatlisteReducer';
+import { LAGRE_STATUS } from '../konstanter';
 
 const tomKandidatlisteInfo = () => ({
-    navn: '',
+    tittel: '',
     beskrivelse: '',
     oppdragsgiver: ''
 });
@@ -41,8 +43,11 @@ class OpprettKandidatliste extends React.Component {
     };
 
     render() {
-        const { opprettKandidatliste } = this.props;
+        const { opprettKandidatliste, lagreStatus } = this.props;
         const { feilmeldingVises } = this.state;
+        if (lagreStatus === LAGRE_STATUS.SUCCESS) {
+            return <Redirect to="/pam-kandidatsok/lister" push />;
+        }
         return (
             <div>
                 <Feedback />
@@ -57,6 +62,7 @@ class OpprettKandidatliste extends React.Component {
                                 onDisabledClick={this.visFeilmelding}
                                 backLink="/pam-kandidatsok/lister"
                                 kandidatlisteInfo={tomKandidatlisteInfo()}
+                                saving={lagreStatus === LAGRE_STATUS.LOADING}
                             />
                         </div>
                     </Container>
@@ -67,11 +73,16 @@ class OpprettKandidatliste extends React.Component {
 }
 
 OpprettKandidatliste.propTypes = {
-    opprettKandidatliste: PropTypes.func.isRequired
+    opprettKandidatliste: PropTypes.func.isRequired,
+    lagreStatus: PropTypes.string.isRequired
 };
+
+const mapStateToProps = (state) => ({
+    lagreStatus: state.kandidatlister.lagreStatus
+});
 
 const mapDispatchToProps = (dispatch) => ({
     opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); }
 });
 
-export default connect(null, mapDispatchToProps)(OpprettKandidatliste);
+export default connect(mapStateToProps, mapDispatchToProps)(OpprettKandidatliste);

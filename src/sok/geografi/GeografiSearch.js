@@ -84,7 +84,7 @@ class GeografiSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <Element>
-                    Legg til fylke, kommune eller by
+                    Legg til fylke eller kommune
                 </Element>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--geografi">
