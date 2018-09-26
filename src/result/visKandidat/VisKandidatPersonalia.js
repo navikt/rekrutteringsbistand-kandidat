@@ -13,6 +13,24 @@ import AdresseIkon from '../../common/ikoner/AdresseIkon';
 class VisKandidatPersonalia extends React.Component {
     capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1);
 
+    formatTelephoneNumber = (inputString) => {
+        const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
+        return inputStringNoWhiteSpace.replace(/(\d{2})/g, '$1 ')
+            .replace(/(^\s+|\s+$)/, '');
+    };
+
+    formatMobileTelephoneNumber = (inputString) => {
+        const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
+        const actualNumber = inputStringNoWhiteSpace.slice(-8);
+        const countryCode = inputStringNoWhiteSpace.slice(-99, -8);
+        const lastString = actualNumber.slice(-3);
+        const midString = actualNumber.slice(-5, -3);
+        const firstString = actualNumber.slice(-8, -5);
+
+
+        return `${countryCode} ${firstString} ${midString} ${lastString}`;
+    };
+
     render() {
         const cv = this.props.cv;
 
@@ -58,14 +76,17 @@ class VisKandidatPersonalia extends React.Component {
 
                             </div>
                         )}
-                        {cv.telefon && (
+                        {(cv.telefon || cv.mobiltelefon) && (
                             <div className="personalia--item">
                                 <div>
                                     <TelefonIkon />
                                 </div>
 
                                 <Normaltekst className="header--personalia__tekst">
-                                    <strong>{cv.telefon}</strong>
+                                    <strong>
+                                        {cv.mobiltelefon && <div>{this.formatMobileTelephoneNumber(cv.mobiltelefon)}</div>}
+                                        {cv.telefon && <div>{this.formatTelephoneNumber(cv.telefon)}</div>}
+                                    </strong>
                                 </Normaltekst>
 
                             </div>

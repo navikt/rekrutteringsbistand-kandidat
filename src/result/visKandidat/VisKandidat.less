@@ -66,9 +66,10 @@
 
 .header--personalia__tekst {
   padding: 1rem 0;
-  text-align: center;
+  text-align: left;
   color: white;
   font-weight: bolder;
+  font-size: 20px;
 }
 
 .header--personalia__overskrift {
@@ -107,20 +108,21 @@
   padding-bottom: 2rem;
   color: white;
   font-weight: normal;
-  font-size: 15px;
 
 }
 
 .personalia-container {
+  margin: auto;
+  max-width: 1200px;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 
-  @media(max-width: 800px ) {
+  @media(max-width: 768px ) {
     flex-direction: column;
   }
-  @media(min-width: 801px ) {
+  @media(min-width: 767px ) {
     flex-direction: row;
 
     :first-child {
@@ -132,6 +134,8 @@
     }
   }
   .personalia--item {
+    padding-left: 2rem;
+    padding-right: 2rem;
     display: inline-flex;
     align-items: center;
     flex-grow: 1;
