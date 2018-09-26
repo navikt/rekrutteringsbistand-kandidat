@@ -1,4 +1,4 @@
-import { Row } from 'nav-frontend-grid';
+import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
@@ -26,7 +26,6 @@ class VisKandidatPersonalia extends React.Component {
         const lastString = actualNumber.slice(-3);
         const midString = actualNumber.slice(-5, -3);
         const firstString = actualNumber.slice(-8, -5);
-
 
         return `${countryCode} ${firstString} ${midString} ${lastString}`;
     };
@@ -81,14 +80,22 @@ class VisKandidatPersonalia extends React.Component {
                                 <div className="personalia--icon">
                                     <TelefonIkon />
                                 </div>
-
-                                <Normaltekst className="header--personalia__tekst">
-                                    <strong>
-                                        {cv.mobiltelefon && <div>{this.formatMobileTelephoneNumber(cv.mobiltelefon)}</div>}
-                                        {cv.telefon && <div>{this.formatTelephoneNumber(cv.telefon)}</div>}
-                                    </strong>
-                                </Normaltekst>
-
+                                <Column>
+                                    {cv.mobiltelefon &&
+                                        <Normaltekst className="header--personalia__tekst">
+                                            <strong>
+                                                {this.formatMobileTelephoneNumber(cv.mobiltelefon)}
+                                            </strong>
+                                        </Normaltekst>
+                                    }
+                                    {cv.telefon &&
+                                        <Normaltekst className="header--personalia__tekst">
+                                            <strong>
+                                                {this.formatTelephoneNumber(cv.telefon)}
+                                            </strong>
+                                        </Normaltekst>
+                                    }
+                                </Column>
                             </div>
                         )}
                         {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
