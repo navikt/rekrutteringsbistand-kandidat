@@ -33,7 +33,7 @@ module.exports = {
         leggTilStedTypeahead: '#typeahead-geografi-suggestions',
         sokefeltKnapp: '#search-button-typeahead',
         resultatvisning: 'div[class=resultatvisning]',
-        forsteRadKandidaterTabell: 'button[class*=kandidater--row]',
+        forsteRadKandidaterTabell: '.kandidater--row',
         cvModal: '.personalia--modal',
         viserAntallTreff: '.antall-treff-kandidatervisning'
     },
@@ -47,7 +47,7 @@ module.exports = {
                 antallTreff.forste = antallTreff.alleTreff[0];
                 antallTreff.nestSiste = antallTreff.alleTreff[lengde - 2];
                 antallTreff.siste = antallTreff.alleTreff[lengde - 1];
-                
+
                 if (callback && typeof callback === 'function') {
                     callback(antallTreff.siste);
                 }
@@ -78,7 +78,7 @@ module.exports = {
             else if (utdanning === 'Mastergrad') checkboxElement = '@leggTilUtdanningMastergrad';
             else if (utdanning === 'Doktorgrad') checkboxElement = '@leggTilUtdanningDoktorgrad';
             else throw `'${utdanning}' er ikke et støttet utdanningsnivå`;
-            
+
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
                     .waitForElementPresent(checkboxElement)
@@ -121,7 +121,7 @@ module.exports = {
             else if (ar === '4-9 år') checkboxElement = '@leggTilArbeidserfaringFireTilNi';
             else if (ar === 'Over 10 år') checkboxElement = '@leggTilArbeidserfaringOverTi';
             else throw `'${ar}' er ikke et støttet antall år med arbeidserfaring`;
-            
+
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
                     .waitForElementPresent(checkboxElement)
