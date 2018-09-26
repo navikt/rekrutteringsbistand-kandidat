@@ -30,8 +30,8 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="7">
                         {sortByDato(cv.utdanning)
-                            .map((u) => (
-                                <Row className="row--kategori" key={JSON.stringify(u)}>
+                            .map((u, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...u, index: i })}>
                                     <Undertekst className="cv--tidsperiode">
                                         <Tidsperiode
                                             fradato={u.fraDato}
@@ -57,8 +57,8 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="7">
                         {sortByDato(cv.yrkeserfaring)
-                            .map((a) => (
-                                <Row className="row--kategori" key={JSON.stringify(a)}>
+                            .map((a, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...a, index: i })}>
                                     <Undertekst className="cv--tidsperiode">
                                         <Tidsperiode
                                             fradato={a.fraDato}
@@ -84,8 +84,8 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="7">
                         {sortByDato(cv.kurs)
-                            .map((k) => (
-                                <Row className="row--kategori" key={JSON.stringify(k)}>
+                            .map((k, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...k, index: i })}>
                                     <Undertekst className="cv--tidsperiode">
                                         <Tidsperiode
                                             fradato={k.fraDato}
@@ -110,8 +110,8 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="7">
                         {sortByDato(cv.sertifikater)
-                            .map((s) => (
-                                <Row className="row--kategori" key={JSON.stringify(s)}>
+                            .map((s, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...s, index: i })}>
                                     <Undertekst className="cv--tidsperiode">
                                         <Tidsperiode
                                             fradato={s.fraDato}
