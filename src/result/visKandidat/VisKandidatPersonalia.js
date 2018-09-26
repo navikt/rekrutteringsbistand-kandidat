@@ -67,7 +67,7 @@ class VisKandidatPersonalia extends React.Component {
                     <div className="personalia-container">
                         {(cv.epost) && (
                             <div className="personalia--item">
-                                <div>
+                                <div className="personalia--icon" >
                                     <MailIkon />
                                 </div>
                                 <Normaltekst className="header--personalia__tekst">
@@ -78,7 +78,7 @@ class VisKandidatPersonalia extends React.Component {
                         )}
                         {(cv.telefon || cv.mobiltelefon) && (
                             <div className="personalia--item">
-                                <div>
+                                <div className="personalia--icon">
                                     <TelefonIkon />
                                 </div>
 
@@ -93,7 +93,7 @@ class VisKandidatPersonalia extends React.Component {
                         )}
                         {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
 
-                            <div>
+                            <div className="personalia--icon">
                                 <AdresseIkon />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
