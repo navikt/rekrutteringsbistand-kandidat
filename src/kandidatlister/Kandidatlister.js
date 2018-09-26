@@ -4,12 +4,68 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
+import { Undertittel, Element } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import Feedback from '../feedback/Feedback';
-import './kandidatlister.less';
-import { RESET_LAGRE_STATUS } from './kandidatlisteReducer';
-import { LAGRE_STATUS } from '../konstanter';
 import HjelpetekstFading from '../common/HjelpetekstFading';
+import EditIkon from '../common/ikon/EditIkon';
+import SlettIkon from '../common/ikon/SlettIkon';
+import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
+import { LAGRE_STATUS } from '../konstanter';
 
+import './kandidatlister.less';
+
+const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
+    if (fetching || kandidatlister === undefined) {
+        return <NavFrontendSpinner type="L" />;
+    } else if (kandidatlister.length === 0) {
+        return 'Ingen kandidatlister';
+    }
+    return (
+        kandidatlister.map((kandidatliste) => (
+            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} />
+        ))
+    );
+};
+
+const IkonKnapp = ({ Ikon, tekst, onClick }) => (
+    <button onClick={onClick} className="Kandidatlister--ikon-knapp">
+        <Ikon className="Kandidatlister--ikon" />
+        {tekst}
+    </button>
+);
+
+const KandidatlisteRad = ({ kandidatliste }) => (
+    <div className="Kandidatliste-panel">
+        <div className="Kandidatliste--panel--beskrivelse">
+            <div className="Kandidatliste--panel--topp">
+                <div>
+                    <Link to={`/pam-kandidatsok/lister/${kandidatliste.id}`} className="lenke" >
+                        <Undertittel className="KandidatlisteRad--panel--overskrift">{kandidatliste.tittel}</Undertittel>
+                    </Link>
+                </div>
+                <div className="KandidatlisteRad--panel--dato-opprettet">
+                    {`Opprettet: ${'dato'}`}
+                </div>
+            </div>
+            <Element className="Kandidatlister-kandidatantall">
+                {
+                    kandidatliste.antallKandidater === 1 ?
+                        '1 kandidat' :
+                        `${kandidatliste.antallKandidater} kandidater`
+                }
+            </Element>
+            {kandidatliste.organisasjonNavn && // TODO: Endre til oppdragsgiver
+            <div className="Kandidatliste-oppdragsgiver">
+                {`Oppdragsgiver: ${kandidatliste.organisasjonNavn}`}
+            </div>}
+        </div>
+        <div className="Kandidatliste-funksjonsknapp-panel">
+            <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => { console.log('endre'); }} />
+            <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} />
+        </div>
+    </div>
+);
 
 class Kandidatlister extends React.Component {
     constructor(props) {
@@ -20,6 +76,7 @@ class Kandidatlister extends React.Component {
     }
 
     componentDidMount() {
+        this.props.hentKandidatlister();
         if (this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
             this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
             this.props.resetLagreStatus();
@@ -37,6 +94,7 @@ class Kandidatlister extends React.Component {
     };
 
     render() {
+        const { kandidatlister, fetchingKandidatlister } = this.props;
         return (
             <div>
                 <Feedback />
@@ -45,6 +103,9 @@ class Kandidatlister extends React.Component {
                     <Link to="/pam-kandidatsok/lister/opprett">
                         <Knapp role="link" type="standard">Opprett ny</Knapp>
                     </Link>
+                    <Container className="Kandidatlister__container Kandidatlister__container-width">
+                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                    </Container>
                 </Container>
             </div>
         );
@@ -53,23 +114,40 @@ class Kandidatlister extends React.Component {
 
 const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.lagreStatus,
-    kandidatlister: [{
-        id: 'aosidmsad123eqwd',
-        tittel: 'Kokk, Oslo',
-        oppdragsgiver: 'Restaurant MAT',
-        opprettet: '28.05.2018',
-        status: 'AKTIV',
-        antallKandidater: 1
-    }]
+    kandidatlister: state.kandidatlister.kandidatlister,
+    fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
     resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
 });
 
+const KandidatlisteBeskrivelse = {
+    tittel: PropTypes.string.isRequired,
+    antallKandidater: PropTypes.number.isRequired
+};
+
+IkonKnapp.propTypes = {
+    Ikon: PropTypes.node.isRequired,
+    tekst: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
+};
+
+KandidatlisteRad.propTypes = {
+    kandidatliste: KandidatlisteBeskrivelse.isRequired
+};
+
+Kandidatlister.defaultProps = {
+    kandidatlister: undefined
+};
+
 Kandidatlister.propTypes = {
     lagreStatus: PropTypes.string.isRequired,
-    resetLagreStatus: PropTypes.func.isRequired
+    resetLagreStatus: PropTypes.func.isRequired,
+    hentKandidatlister: PropTypes.func.isRequired,
+    kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
+    fetchingKandidatlister: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
