@@ -81,7 +81,7 @@ OpprettKandidatliste.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.lagreStatus
+    lagreStatus: state.kandidatlister.opprett.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
