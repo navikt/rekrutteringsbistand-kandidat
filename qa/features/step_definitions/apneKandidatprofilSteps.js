@@ -13,6 +13,7 @@ When(/^jeg åpner profilen til den første kandidaten/, async () => {
 Then(/^skal profilen vise kontaktinfo, jobbprofil og CV/, async () => {
     const nonEmptyStringRegex = /^(?!\s*$).+/;
 
+    await profilPage.expect.element('@personaliaBakgrunn').text.to.match(nonEmptyStringRegex);
     await profilPage.expect.element('@jobbprofilPanel').text.to.match(nonEmptyStringRegex);
     await profilPage.expect.element('@cvPanel').text.to.match(nonEmptyStringRegex);
 });

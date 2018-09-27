@@ -43,7 +43,7 @@ class VisKandidatPersonalia extends React.Component {
         }
 
         return (
-            <div className="header--bakgrunn">
+            <div className="header--bakgrunn" id="bakgrunn-personalia">
 
                 <Row>
                     <Link
