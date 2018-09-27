@@ -97,7 +97,7 @@ def acceptanceTest(qaDir) {
         try {
             sh "cd ${qaDir} && npm i -D"
             sh "cd ${qaDir} && npm i chromedriver@2.38.3 -D"
-            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore"
+            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore --tag elastic"
         } catch (Exception e) {
             sh "cd ${qaDir} && npm run-script cucumber-report "
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
