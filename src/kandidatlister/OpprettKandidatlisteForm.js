@@ -29,6 +29,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     updateField = (field, value) => {
+        if (this.props.onChange) {
+            this.props.onChange();
+        }
         if (field === FELTER.TITTEL) {
             this.setState({
                 ...this.state,
@@ -108,11 +111,13 @@ export default class OpprettKandidatlisteForm extends React.Component {
 }
 
 OpprettKandidatlisteForm.defaultProps = {
-    saving: false
+    saving: false,
+    onChange: undefined
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     onDisabledClick: PropTypes.func.isRequired,
     backLink: PropTypes.string.isRequired,
     kandidatlisteInfo: PropTypes.shape({

@@ -71,7 +71,7 @@ export default function searchReducer(state = initialState, action) {
 
 function* opprettKandidatliste(action) {
     try {
-        yield postKandidatliste({ ...action.kandidatlisteInfo, stillingReferanse: 'test' });
+        yield postKandidatliste(action.kandidatlisteInfo);
         yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS });
     } catch (e) {
         if (e instanceof SearchApiError) {
