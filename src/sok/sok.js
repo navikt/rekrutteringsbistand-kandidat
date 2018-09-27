@@ -25,7 +25,6 @@ import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
-import { getUrlParameterByName } from './utils';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -74,7 +73,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
-                    <Route exact path="/pam-kandidatsok/cv" render={() => <VisKandidat kandidatNr={getUrlParameterByName('kandidatNr', window.location.href)} />} />
+                    <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
                 </Switch>
