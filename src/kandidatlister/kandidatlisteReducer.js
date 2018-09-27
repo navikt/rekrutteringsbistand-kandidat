@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { postKandidatliste, SearchApiError } from '../sok/api';
+import { postKandidatliste, SearchApiError, deleteKandidater } from '../sok/api';
 import { LAGRE_STATUS } from '../konstanter';
 
 /** *********************************************************
@@ -15,6 +15,10 @@ export const RESET_LAGRE_STATUS = 'RESET_LAGRE_STATUS';
 export const HENT_KANDIDATLISTE = 'HENT_KANDIDATLISTE';
 export const HENT_KANDIDATLISTE_SUCCESS = 'HENT_KANDIDATLISTE_SUCCESS';
 export const HENT_KANDIDATLISTE_FAILURE = 'HENT_KANDIDATLISTE_FAILURE';
+
+export const SLETT_KANDIDATER = 'SLETT_KANDIDATER';
+export const SLETT_KANDIDATER_SUCCESS = 'SLETT_KANDIDATER_SUCCESS';
+export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 
 /** *********************************************************
  * REDUCER
@@ -57,7 +61,23 @@ export default function searchReducer(state = initialState, action) {
         case HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                kandidater: []
+                kandidatliste: {
+                    kandidater: []
+                }
+            };
+        case SLETT_KANDIDATER_SUCCESS: {
+            const { slettKandidatnr } = action;
+            return {
+                ...state,
+                kandidatliste: {
+                    ...state.kandidatliste,
+                    kandidater: state.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                }
+            };
+        }
+        case SLETT_KANDIDATER_FAILURE:
+            return {
+                ...state
             };
         default:
             return state;
@@ -95,12 +115,39 @@ function* hentKandidatListe() {
         };
         yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
     } catch (e) {
-        yield put({ type: HENT_KANDIDATLISTE_FAILURE });
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_KANDIDATLISTE_FAILURE });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* slettKandidater(action) {
+    try {
+        const { kandidater, kandidatlisteId } = action;
+
+        const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
+        try {
+            yield deleteKandidater(kandidatlisteId, slettKandidatnr);
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                console.log(e);
+            }
+        }
+        yield put({ type: SLETT_KANDIDATER_SUCCESS, slettKandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SLETT_KANDIDATER_FAILURE });
+        } else {
+            throw e;
+        }
     }
 }
 
 export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
+    yield takeLatest(SLETT_KANDIDATER, slettKandidater);
 }
 
