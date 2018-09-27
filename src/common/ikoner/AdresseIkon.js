@@ -1,7 +1,6 @@
 /* eslint-disable */
 import * as React from 'react';
-const AdresseIkon = () =>
-    (
+const AdresseIkon = () => (
         <svg width="23px" height="34px" viewBox="0 0 23 34" version="1.1"  >
             <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
                 <g id="header/-profil" transform="translate(-868.000000, -168.000000)" stroke="#FFFFFF">
