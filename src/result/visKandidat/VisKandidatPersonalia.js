@@ -1,7 +1,7 @@
 import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { formatISOString } from '../../common/dateUtils';
