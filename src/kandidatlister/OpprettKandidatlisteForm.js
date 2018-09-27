@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
+import { Normaltekst } from 'nav-frontend-typografi';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const FELTER = {
@@ -72,6 +73,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
         const { backLink, saving } = this.props;
         return (
             <SkjemaGruppe>
+                <div className="OpprettKandidatlisteForm__input">
+                    <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
+                </div>
                 <div className="OpprettKandidatlisteForm__input">
                     <Input
                         label="Navn på kandidatliste *"
