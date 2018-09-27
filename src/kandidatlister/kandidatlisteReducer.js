@@ -87,21 +87,10 @@ function* opprettKandidatliste(action) {
     }
 }
 
-const midlertidig = (response) => (
-    response._embedded.kandidatlister.map((kandidatliste) => (
-        {
-            ...kandidatliste,
-            organisasjonNavn: kandidatliste.organisasjonNr,
-            organisasjonNr: kandidatliste.organisasjonNavn
-        }
-    ))
-);
-
-
 function* hentKandidatlister(action) {
     try {
         const response = yield fetchKandidatlister('010005434');
-        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: midlertidig(response) });
+        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: response.liste });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: HENT_KANDIDATLISTER_FAILURE, error: e });

@@ -35,6 +35,11 @@ const IkonKnapp = ({ Ikon, tekst, onClick }) => (
     </button>
 );
 
+const formaterDato = (datoStreng) => {
+    const dato = new Date(datoStreng);
+    return dato.toLocaleDateString('no-nb').replace(/\//g, '.');
+};
+
 const KandidatlisteRad = ({ kandidatliste }) => (
     <div className="Kandidatliste-panel">
         <div className="Kandidatliste--panel--beskrivelse">
@@ -45,7 +50,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
                     </Link>
                 </div>
                 <div className="KandidatlisteRad--panel--dato-opprettet">
-                    {`Opprettet: ${'dato'}`}
+                    {`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}
                 </div>
             </div>
             <Element className="Kandidatlister-kandidatantall">
@@ -123,13 +128,13 @@ const mapDispatchToProps = (dispatch) => ({
     resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
 });
 
-const KandidatlisteBeskrivelse = {
+const KandidatlisteBeskrivelse = PropTypes.shape({
     tittel: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired
-};
+});
 
 IkonKnapp.propTypes = {
-    Ikon: PropTypes.node.isRequired,
+    Ikon: PropTypes.func.isRequired,
     tekst: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired
 };
