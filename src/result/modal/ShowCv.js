@@ -12,6 +12,7 @@ import { formatISOString } from '../../common/dateUtils';
 import { MatchexplainProptypesGrouped } from './Proptypes';
 import Matchdetaljer from './Matchdetaljer';
 
+// TODO: FJERNE MODAL FOR VISNING AV CV. FEATURETOGGLE: 'vis-ny-vis-kandidat-side'
 const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();

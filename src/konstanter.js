@@ -11,7 +11,8 @@ const FEATURE_TOGGLES = [
     'skjul-spraak',
     'skjul-sted',
     'vis-matchforklaring',
-    'ingen-utdanning-filter'
+    'ingen-utdanning-filter',
+    'vis-ny-vis-kandidat-side'
 ];
 export default FEATURE_TOGGLES;
 

@@ -6,7 +6,7 @@ const cvPropTypes = PropTypes.shape({
     adresselinje3: PropTypes.string,
     annenerfaring: PropTypes.array,
     ansettelsesforholdJobbonsker: PropTypes.array,
-    arbeidstisordningJobbonsker: PropTypes.array,
+    arbeidstidsordningJobbonsker: PropTypes.array,
     arenaKandidatnr: PropTypes.string,
     arenaPersonId: PropTypes.number,
     beskrivelse: PropTypes.string,
