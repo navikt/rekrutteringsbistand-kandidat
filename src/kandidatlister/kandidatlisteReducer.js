@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { postKandidatliste, SearchApiError, deleteKandidater } from '../sok/api';
+import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste } from '../sok/api';
 import { LAGRE_STATUS } from '../konstanter';
 
 /** *********************************************************
@@ -27,8 +27,18 @@ export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 const initialState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     kandidatliste: {
+        beskrivelse: '',
+        kandidatlisteId: '',
+        oppdragsgiver: '',
+        opprettetAv: '',
+        opprettetTidspunkt: undefined,
+        organisasjonNavn: '',
+        organisasjonReferanse: '',
+        stillingId: '',
+        tittel: '',
         kandidater: []
-    }
+    },
+    opprettetKandidatlisteTittel: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -36,17 +46,20 @@ export default function searchReducer(state = initialState, action) {
         case OPPRETT_KANDIDATLISTE:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.LOADING
+                lagreStatus: LAGRE_STATUS.LOADING,
+                opprettetKandidatlisteTittel: undefined
             };
         case OPPRETT_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.SUCCESS
+                lagreStatus: LAGRE_STATUS.SUCCESS,
+                opprettetKandidatlisteTittel: action.tittel
             };
         case OPPRETT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.FAILURE
+                lagreStatus: LAGRE_STATUS.FAILURE,
+                opprettetKandidatlisteTittel: undefined
             };
         case RESET_LAGRE_STATUS:
             return {
@@ -92,7 +105,7 @@ export default function searchReducer(state = initialState, action) {
 function* opprettKandidatliste(action) {
     try {
         yield postKandidatliste(action.kandidatlisteInfo);
-        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS });
+        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });
@@ -102,17 +115,10 @@ function* opprettKandidatliste(action) {
     }
 }
 
-function* hentKandidatListe() {
-    // const { kandidatlisteId } = action;
+function* hentKandidatListe(action) {
+    const { kandidatlisteId } = action;
     try {
-        // console.log(listeId);
-        // const kandidatListe = yield fetchKandidatliste(listeId);
-        const kandidatliste = {
-            kandidater: [
-                { kandidatId: '123', lagtTilAv: 'meg', kandidatnr: '1234', sisteArbeidserfaring: 'Mye rart', lagtTilTidspunkt: new Date() },
-                { kandidatId: '123', lagtTilAv: 'deg', kandidatnr: '1235', sisteArbeidserfaring: 'Kokk', lagtTilTidspunkt: new Date() }
-            ]
-        };
+        const kandidatliste = yield fetchKandidatliste(kandidatlisteId);
         yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -126,15 +132,8 @@ function* hentKandidatListe() {
 function* slettKandidater(action) {
     try {
         const { kandidater, kandidatlisteId } = action;
-
         const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
-        try {
-            yield deleteKandidater(kandidatlisteId, slettKandidatnr);
-        } catch (e) {
-            if (e instanceof SearchApiError) {
-                console.log(e);
-            }
-        }
+        yield deleteKandidater(kandidatlisteId, slettKandidatnr);
         yield put({ type: SLETT_KANDIDATER_SUCCESS, slettKandidatnr });
     } catch (e) {
         if (e instanceof SearchApiError) {
