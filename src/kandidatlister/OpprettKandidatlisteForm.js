@@ -14,19 +14,27 @@ export default class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kandidatlisteInfo: props.kandidatlisteInfo
+            kandidatlisteInfo: props.kandidatlisteInfo,
+            visValideringsfeilInput: false
         };
     }
 
-    formValidates = () => (
-        this.state.kandidatlisteInfo.tittel !== ''
-    );
+    onUnvalidatedSave = () => {
+        this.props.onDisabledClick();
+        this.setState({
+            visValideringsfeilInput: true
+        });
+    };
 
     validateAndSave = () => {
         if (this.formValidates()) {
             this.props.onSave(this.state.kandidatlisteInfo);
         }
     };
+
+    formValidates = () => (
+        this.state.kandidatlisteInfo.tittel !== ''
+    );
 
     updateField = (field, value) => {
         if (this.props.onChange) {
@@ -38,7 +46,8 @@ export default class OpprettKandidatlisteForm extends React.Component {
                 kandidatlisteInfo: {
                     ...this.state.kandidatlisteInfo,
                     tittel: value
-                }
+                },
+                visValideringsfeilInput: this.state.visValideringsfeilInput && value === ''
             });
         } else if (field === FELTER.BESKRIVELSE) {
             this.setState({
@@ -60,7 +69,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, onDisabledClick, saving } = this.props;
+        const { backLink, saving } = this.props;
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm__input">
@@ -71,10 +80,12 @@ export default class OpprettKandidatlisteForm extends React.Component {
                         onChange={(event) => {
                             this.updateField(FELTER.TITTEL, event.target.value);
                         }}
+                        feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn må være utfylt' } : undefined}
                     />
                 </div>
                 <div className="OpprettKandidatlisteForm__input">
                     <Textarea
+                        textareaClass="OpprettKandidatlisteForm__input__textarea"
                         label="Beskrivelse"
                         placeholder="Skrive noen ord om stillingen du søker kandidater til"
                         value={this.state.kandidatlisteInfo.beskrivelse}
@@ -96,7 +107,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                 <KnappMedDisabledFunksjon
                     type="hoved"
                     onClick={this.validateAndSave}
-                    onDisabledClick={onDisabledClick}
+                    onDisabledClick={this.onUnvalidatedSave}
                     disabled={!this.formValidates()}
                     spinner={saving}
                 >

@@ -40,7 +40,11 @@ class Kandidatlister extends React.Component {
         return (
             <div>
                 <Feedback />
-                <HjelpetekstFading synlig={this.state.visSuccessMelding} type="suksess" tekst="Kandidatliste opprettet" />
+                <HjelpetekstFading
+                    synlig={this.state.visSuccessMelding}
+                    type="suksess"
+                    tekst={this.props.opprettetTittel ? `Kandidatliste "${this.props.opprettetTittel}" opprettet` : 'Kandidatliste opprettet'}
+                />
                 <Container className="blokk-s container">
                     <Link to="/pam-kandidatsok/lister/opprett">
                         <Knapp role="link" type="standard">Opprett ny</Knapp>
@@ -53,6 +57,7 @@ class Kandidatlister extends React.Component {
 
 const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.lagreStatus,
+    opprettetTittel: state.kandidatlister.opprettetKandidatlisteTittel,
     kandidatlister: [{
         id: 'aosidmsad123eqwd',
         tittel: 'Kokk, Oslo',
@@ -67,9 +72,14 @@ const mapDispatchToProps = (dispatch) => ({
     resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
 });
 
+Kandidatlister.defaultProps = {
+    opprettetTittel: undefined
+};
+
 Kandidatlister.propTypes = {
     lagreStatus: PropTypes.string.isRequired,
-    resetLagreStatus: PropTypes.func.isRequired
+    resetLagreStatus: PropTypes.func.isRequired,
+    opprettetTittel: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

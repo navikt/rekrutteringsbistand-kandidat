@@ -22,7 +22,7 @@ class OpprettKandidatliste extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valideringfeilmeldingVises: false
+            visValideringfeilmelding: false
         };
     }
 
@@ -33,10 +33,10 @@ class OpprettKandidatliste extends React.Component {
     visFeilmelding = () => {
         clearTimeout(this.state.valideringsCallbackId);
         this.setState({
-            valideringfeilmeldingVises: true,
+            visValideringfeilmelding: true,
             valideringsCallbackId: setTimeout(() => {
                 this.setState({
-                    valideringfeilmeldingVises: false
+                    visValideringfeilmelding: false
                 });
             }, 5000)
         });
@@ -44,14 +44,14 @@ class OpprettKandidatliste extends React.Component {
 
     render() {
         const { opprettKandidatliste, resetStatusTilUnsaved, lagreStatus } = this.props;
-        const { valideringfeilmeldingVises } = this.state;
+        const { visValideringfeilmelding } = this.state;
         if (lagreStatus === LAGRE_STATUS.SUCCESS) {
             return <Redirect to="/pam-kandidatsok/lister" push />;
         }
         return (
             <div>
                 <Feedback />
-                <HjelpetekstFading synlig={valideringfeilmeldingVises} type="advarsel" tekst="Navn må være utfylt" />
+                <HjelpetekstFading synlig={visValideringfeilmelding} type="advarsel" tekst="Navn må være utfylt" />
                 <HjelpetekstFading synlig={lagreStatus === LAGRE_STATUS.FAILURE} type="advarsel" tekst="Det skjedde en feil ved lagring" />
                 <div className="OpprettKandidatliste__container">
                     <TilbakeLenke href="/pam-kandidatsok/lister" tekst="Til kandidatlister" />
