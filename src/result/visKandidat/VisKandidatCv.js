@@ -1,7 +1,7 @@
+import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Undertittel, Undertekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import React from 'react';
 import cvPropTypes from '../../PropTypes';
 import sortByDato from '../../common/SortByDato';
 import Tidsperiode from '../../common/Tidsperiode';

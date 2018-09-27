@@ -1,6 +1,6 @@
+import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -43,7 +43,7 @@ class VisKandidatPersonalia extends React.Component {
         }
 
         return (
-            <div className="header--bakgrunn">
+            <div className="header--bakgrunn" id="bakgrunn-personalia">
 
                 <Row>
                     <Link

@@ -1,7 +1,7 @@
+import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import React from 'react';
 import TruncatedTextList from '../../common/TruncatedTextList';
 import cvPropTypes from '../../PropTypes';
 import './VisKandidat.less';
