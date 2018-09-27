@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
-import { Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
+import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import Feedback from '../feedback/Feedback';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import EditIkon from '../common/ikon/EditIkon';
 import SlettIkon from '../common/ikon/SlettIkon';
@@ -72,6 +71,15 @@ const KandidatlisteRad = ({ kandidatliste }) => (
     </div>
 );
 
+const KandidatlisteHeader = () => (
+    <div className="KandidatlisteHeader">
+        <Sidetittel>Kandidatlister</Sidetittel>
+        <Link to="/pam-kandidatsok/lister/opprett">
+            <Knapp role="link" type="standard" className="KandidatlisteHeader--knapp">Opprett ny</Knapp>
+        </Link>
+    </div>
+);
+
 class Kandidatlister extends React.Component {
     constructor(props) {
         super(props);
@@ -102,16 +110,13 @@ class Kandidatlister extends React.Component {
         const { kandidatlister, fetchingKandidatlister } = this.props;
         return (
             <div>
-                <Feedback />
                 <HjelpetekstFading
                     synlig={this.state.visSuccessMelding}
                     type="suksess"
                     tekst={this.props.opprettetTittel ? `Kandidatliste "${this.props.opprettetTittel}" opprettet` : 'Kandidatliste opprettet'}
                 />
+                <KandidatlisteHeader />
                 <Container className="blokk-s container">
-                    <Link to="/pam-kandidatsok/lister/opprett">
-                        <Knapp role="link" type="standard">Opprett ny</Knapp>
-                    </Link>
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
                         <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
                     </Container>
