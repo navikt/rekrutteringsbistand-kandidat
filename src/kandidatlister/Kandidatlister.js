@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Knapp } from 'nav-frontend-knapper';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Feedback from '../feedback/Feedback';
 import HjelpetekstFading from '../common/HjelpetekstFading';
@@ -50,7 +50,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
                     </Link>
                 </div>
                 <div className="KandidatlisteRad--panel--dato-opprettet">
-                    {`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}
+                    <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
                 </div>
             </div>
             <Element className="Kandidatlister-kandidatantall">
@@ -61,7 +61,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
                 }
             </Element>
             {kandidatliste.oppdragsgiver &&
-            <div className="Kandidatliste-oppdragsgiver">
+            <div className="Kandidatliste-oppdragsgiver typo-normal">
                 {`Oppdragsgiver: ${kandidatliste.oppdragsgiver}`}
             </div>}
         </div>
