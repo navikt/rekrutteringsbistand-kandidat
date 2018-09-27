@@ -122,8 +122,8 @@ class Kandidatlister extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.lagreStatus,
-    opprettetTittel: state.kandidatlister.opprettetKandidatlisteTittel,
+    lagreStatus: state.kandidatlister.opprett.lagreStatus,
+    opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister,
     fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister
 });
