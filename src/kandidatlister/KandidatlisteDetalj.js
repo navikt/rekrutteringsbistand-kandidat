@@ -11,6 +11,8 @@ import { Knapp } from 'nav-frontend-knapper';
 import './kandidatlister.less';
 import TilbakeLenke from '../common/TilbakeLenke';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
+import SlettIkon from '../common/ikoner/SlettIkon';
+import PrinterIkon from '../common/ikoner/PrinterIkon';
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -22,13 +24,16 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     componentWillMount() {
-        this.props.hentKandidater(this.props.kandidatlisteId);
+        this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            kandidater: nextProps.kandidater
-        });
+        if (nextProps.kandidatliste) {
+            this.setState({
+                markerAlleChecked: false,
+                kandidater: nextProps.kandidatliste.kandidater.map((k) => ({ ...k, checked: false }))
+            });
+        }
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -54,13 +59,18 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     slettMarkerteKandidaterClicked = () => {
+        const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
-        this.props.slettKandidater(kandidater);
+        if (kandidatlisteId && kandidater.length > 0) {
+            this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
+        }
     }
 
     render() {
-        const { tittel, beskrivelse, organisasjonNavn } = this.props;
-        const { kandidater, markerAlleChecked } = this.state;
+        const { markerAlleChecked, kandidater } = this.state;
+        const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
+        const valgteKandidater = kandidater.filter((k) => k.checked);
+
         const ToppRad = () => (
             <Panel className="KandidatPanel KandidatPanel__header">
                 <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
@@ -83,7 +93,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Container className="KandidatlisteDetalj__toppmeny--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
                     <Sidetittel>{tittel}</Sidetittel>
-                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
+                    <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
                     <div className="KandidatlisteDetalj__toppmeny--inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: <Link to="#">{organisasjonNavn}</Link></Normaltekst>
@@ -94,8 +104,26 @@ class KandidatlisteDetalj extends React.Component {
 
         const Knapper = () => (
             <div className="KandidatlisteDetalj__knapper-rad">
-                <Knapp type="standard" mini>Skriv ut</Knapp>
-                <Knapp type="standard" mini onClick={this.slettMarkerteKandidaterClicked}>Slett</Knapp>
+                <div
+                    role="button"
+                    tabIndex="0"
+                    className="knapp--ikon"
+                    onKeyPress={() => {}}
+                    onClick={() => {}}
+                >
+                    <PrinterIkon />
+                    <Normaltekst>Skriv ut</Normaltekst>
+                </div>
+                <div
+                    role="button"
+                    tabIndex="0"
+                    className={valgteKandidater.length > 0 ? 'knapp--ikon' : 'knapp--ikon disabled'}
+                    onKeyPress={this.slettMarkerteKandidaterClicked}
+                    onClick={this.slettMarkerteKandidaterClicked}
+                >
+                    <SlettIkon />
+                    <Normaltekst>Slett ({valgteKandidater.length})</Normaltekst>
+                </div>
             </div>
         );
 
@@ -113,37 +141,46 @@ class KandidatlisteDetalj extends React.Component {
 }
 
 KandidatlisteDetalj.defaultProps = {
-    tittel: 'Testliste',
-    beskrivelse: 'En testliste som er til test. Kun til test.',
-    organisasjonNavn: 'Test AS',
-    stillingsannonse: 'TestKokk søkes',
-    opprettetAv: 'Meg',
-    kandidater: []
+    kandidatliste: {
+        tittel: '',
+        beskrivelse: '',
+        organisasjonNavn: '',
+        stillingsannonse: '',
+        opprettetAv: '',
+        kandidater: []
+    }
 };
 
 KandidatlisteDetalj.propTypes = {
     kandidatlisteId: PropTypes.string.isRequired,
-    tittel: PropTypes.string.isRequired,
-    beskrivelse: PropTypes.string.isRequired,
-    organisasjonNavn: PropTypes.string.isRequired,
-    // stillingsannonse: PropTypes.string.isRequired,
-    // opprettetAv: PropTypes.string.isRequired,
-    kandidater: PropTypes.arrayOf(
-        PropTypes.shape({
-            lagtTilAv: PropTypes.string,
-            kandidatnr: PropTypes.string,
-            sisteArbeidserfaring: PropTypes.string
-        })
-    ),
-    hentKandidater: PropTypes.func.isRequired,
+    kandidatliste: PropTypes.shape({
+        tittel: PropTypes.string.isRequired,
+        beskrivelse: PropTypes.string,
+        organisasjonNavn: PropTypes.string.isRequired,
+        // stillingsannonse: PropTypes.string.isRequired,
+        // opprettetAv: PropTypes.string.isRequired,
+        kandidater: PropTypes.arrayOf(
+            PropTypes.shape({
+                lagtTilAv: PropTypes.string,
+                kandidatnr: PropTypes.string,
+                sisteArbeidserfaring: PropTypes.string
+            })
+        )
+    }),
+    hentKandidatliste: PropTypes.func.isRequired,
     slettKandidater: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({ kandidatlisteId: '123456', kandidater: state.kandidatlister.kandidatliste.kandidater });
+const mapStateToProps = (state) => ({
+    kandidatlisteId: '06714719-b7e7-49c1-b049-75ae03b3b6d5',
+    kandidatliste: {
+        ...state.kandidatlister.kandidatliste
+    }
+});
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidater: (listeId) => dispatch({ type: HENT_KANDIDATLISTE, listeId }),
-    slettKandidater: (kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidater })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
+    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteDetalj);
