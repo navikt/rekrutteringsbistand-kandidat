@@ -22,7 +22,7 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     componentWillMount() {
-        this.props.hentKandidater(this.props.listeId);
+        this.props.hentKandidater(this.props.kandidatlisteId);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -54,7 +54,7 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     render() {
-        const { listeNavn, listeBeskrivelse, oppdragsgiver, stillingsannonse } = this.props;
+        const { tittel, beskrivelse, organisasjonNavn } = this.props;
         const { kandidater, markerAlleChecked } = this.state;
         const ToppRad = () => (
             <Panel className="KandidatPanel KandidatPanel__header">
@@ -67,7 +67,7 @@ class KandidatlisteDetalj extends React.Component {
             kandidater.map((kandidat) => (
                 <Panel className="KandidatPanel" key={JSON.stringify(kandidat)}>
                     <Checkbox label={kandidat.kandidatnr} checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                    <Undertekst >{kandidat.arbeidsErfaring}</Undertekst>
+                    <Undertekst >{kandidat.sisteArbeidserfaring}</Undertekst>
                     <Knapp>CV</Knapp>
                 </Panel>
             ))
@@ -77,12 +77,11 @@ class KandidatlisteDetalj extends React.Component {
             <div className="KandidatlisteDetalj__toppmeny--bakgrunn">
                 <Container className="KandidatlisteDetalj__toppmeny--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
-                    <Sidetittel>{listeNavn}</Sidetittel>
-                    <Undertekst className="undertittel">{listeBeskrivelse}</Undertekst>
+                    <Sidetittel>{tittel}</Sidetittel>
+                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
                     <div className="KandidatlisteDetalj__toppmeny--inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst>Oppdragsgiver: <Link to="/">{oppdragsgiver}</Link></Normaltekst>
-                        <Normaltekst>Stillingsannonse: <Link to="/">{stillingsannonse}</Link></Normaltekst>
+                        <Normaltekst>Oppdragsgiver: <Link to="/">{organisasjonNavn}</Link></Normaltekst>
                     </div>
                 </Container>
             </div>
@@ -109,30 +108,32 @@ class KandidatlisteDetalj extends React.Component {
 }
 
 KandidatlisteDetalj.defaultProps = {
-    listeNavn: 'Testliste',
-    listeBeskrivelse: 'En testliste som er til test. Kun til test.',
-    oppdragsgiver: 'Test AS',
+    tittel: 'Testliste',
+    beskrivelse: 'En testliste som er til test. Kun til test.',
+    organisasjonNavn: 'Test AS',
     stillingsannonse: 'TestKokk søkes',
+    opprettetAv: 'Meg',
     kandidater: []
 };
 
 KandidatlisteDetalj.propTypes = {
-    listeId: PropTypes.string.isRequired,
-    listeNavn: PropTypes.string.isRequired,
-    listeBeskrivelse: PropTypes.string.isRequired,
-    oppdragsgiver: PropTypes.string.isRequired,
-    stillingsannonse: PropTypes.string.isRequired,
+    kandidatlisteId: PropTypes.string.isRequired,
+    tittel: PropTypes.string.isRequired,
+    beskrivelse: PropTypes.string.isRequired,
+    organisasjonNavn: PropTypes.string.isRequired,
+    // stillingsannonse: PropTypes.string.isRequired,
+    // opprettetAv: PropTypes.string.isRequired,
     kandidater: PropTypes.arrayOf(
         PropTypes.shape({
             lagtTilAv: PropTypes.string,
             kandidatnr: PropTypes.string,
-            arbeidsErfaring: PropTypes.string
+            sisteArbeidserfaring: PropTypes.string
         })
     ),
     hentKandidater: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({ listeId: '123456', kandidater: state.kandidatlister.kandidater });
+const mapStateToProps = (state) => ({ kandidatlisteId: '123456', kandidater: state.kandidatlister.kandidatliste.kandidater });
 
 const mapDispatchToProps = (dispatch) => ({
     hentKandidater: (listeId) => dispatch({ type: HENT_KANDIDATLISTE, listeId })

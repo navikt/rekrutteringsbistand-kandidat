@@ -111,3 +111,7 @@ export function fetchMatchExplain(query = {}) {
 export function postKandidatliste(kandidatlistBeskrivelse) {
     return postJson(`${KANDIDATLISTE_API}010005434/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
 }
+
+export function fetchKandidatliste(kandidatlisteId) {
+    return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+}

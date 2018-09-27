@@ -78,7 +78,7 @@ class Sok extends React.Component {
                 <Switch>
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
-                    <Route exact path="/pam-kandidatsok/lister/vis" component={KandidatlisteDetalj} />
+                    <Route exact path="/pam-kandidatsok/lister/detaljer" component={KandidatlisteDetalj} />
                     <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
