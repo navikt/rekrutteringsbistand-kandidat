@@ -162,8 +162,8 @@ module.exports = {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent('@leggTilStedKnapp')
-                    .click('@leggTilStedKnapp')
+                    .waitForElementVisible('@leggTilStedKnapp')
+                    .clickElement('@leggTilStedKnapp', self, 1000)
                     .setValue('@leggTilStedInput', sted)
                     .waitForElementVisible('@leggTilStedTypeahead', 30000)
                     .setValue('@leggTilStedInput', self.api.Keys.ENTER)
