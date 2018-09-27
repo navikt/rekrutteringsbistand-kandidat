@@ -9,7 +9,7 @@ import Feedback from '../feedback/Feedback';
 import './kandidatlister.less';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';
-import { OPPRETT_KANDIDATLISTE } from './kandidatlisteReducer';
+import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 
 const tomKandidatlisteInfo = () => ({
@@ -22,36 +22,37 @@ class OpprettKandidatliste extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feilmeldingVises: false
+            visValideringfeilmelding: false
         };
     }
 
     componentWillUnmount() {
-        clearTimeout(this.state.callbackId);
+        clearTimeout(this.state.valideringsCallbackId);
     }
 
     visFeilmelding = () => {
-        clearTimeout(this.state.callbackId);
+        clearTimeout(this.state.valideringsCallbackId);
         this.setState({
-            feilmeldingVises: true,
-            callbackId: setTimeout(() => {
+            visValideringfeilmelding: true,
+            valideringsCallbackId: setTimeout(() => {
                 this.setState({
-                    feilmeldingVises: false
+                    visValideringfeilmelding: false
                 });
             }, 5000)
         });
     };
 
     render() {
-        const { opprettKandidatliste, lagreStatus } = this.props;
-        const { feilmeldingVises } = this.state;
+        const { opprettKandidatliste, resetStatusTilUnsaved, lagreStatus } = this.props;
+        const { visValideringfeilmelding } = this.state;
         if (lagreStatus === LAGRE_STATUS.SUCCESS) {
             return <Redirect to="/pam-kandidatsok/lister" push />;
         }
         return (
             <div>
                 <Feedback />
-                <HjelpetekstFading synlig={feilmeldingVises} type="advarsel" tekst="Navn må være utfylt" />
+                <HjelpetekstFading synlig={visValideringfeilmelding} type="advarsel" tekst="Navn må være utfylt" />
+                <HjelpetekstFading synlig={lagreStatus === LAGRE_STATUS.FAILURE} type="advarsel" tekst="Det skjedde en feil ved lagring" />
                 <div className="OpprettKandidatliste__container">
                     <TilbakeLenke href="/pam-kandidatsok/lister" tekst="Til kandidatlister" />
                     <Container className="OpprettKandidatliste__container-width">
@@ -59,6 +60,7 @@ class OpprettKandidatliste extends React.Component {
                         <div className="OpprettKandidatliste__form-wrapper">
                             <OpprettKandidatlisteForm
                                 onSave={opprettKandidatliste}
+                                onChange={resetStatusTilUnsaved}
                                 onDisabledClick={this.visFeilmelding}
                                 backLink="/pam-kandidatsok/lister"
                                 kandidatlisteInfo={tomKandidatlisteInfo()}
@@ -74,6 +76,7 @@ class OpprettKandidatliste extends React.Component {
 
 OpprettKandidatliste.propTypes = {
     opprettKandidatliste: PropTypes.func.isRequired,
+    resetStatusTilUnsaved: PropTypes.func.isRequired,
     lagreStatus: PropTypes.string.isRequired
 };
 
@@ -82,7 +85,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); }
+    opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); },
+    resetStatusTilUnsaved: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OpprettKandidatliste);

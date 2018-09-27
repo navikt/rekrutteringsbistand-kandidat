@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
+import { Normaltekst } from 'nav-frontend-typografi';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const FELTER = {
@@ -14,13 +15,17 @@ export default class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kandidatlisteInfo: props.kandidatlisteInfo
+            kandidatlisteInfo: props.kandidatlisteInfo,
+            visValideringsfeilInput: false
         };
     }
 
-    formValidates = () => (
-        this.state.kandidatlisteInfo.tittel !== ''
-    );
+    onUnvalidatedSave = () => {
+        this.props.onDisabledClick();
+        this.setState({
+            visValideringsfeilInput: true
+        });
+    };
 
     validateAndSave = () => {
         if (this.formValidates()) {
@@ -28,14 +33,22 @@ export default class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
+    formValidates = () => (
+        this.state.kandidatlisteInfo.tittel !== ''
+    );
+
     updateField = (field, value) => {
+        if (this.props.onChange) {
+            this.props.onChange();
+        }
         if (field === FELTER.TITTEL) {
             this.setState({
                 ...this.state,
                 kandidatlisteInfo: {
                     ...this.state.kandidatlisteInfo,
                     tittel: value
-                }
+                },
+                visValideringsfeilInput: this.state.visValideringsfeilInput && value === ''
             });
         } else if (field === FELTER.BESKRIVELSE) {
             this.setState({
@@ -57,9 +70,12 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, onDisabledClick, saving } = this.props;
+        const { backLink, saving } = this.props;
         return (
             <SkjemaGruppe>
+                <div className="OpprettKandidatlisteForm__input">
+                    <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
+                </div>
                 <div className="OpprettKandidatlisteForm__input">
                     <Input
                         label="Navn på kandidatliste *"
@@ -68,10 +84,12 @@ export default class OpprettKandidatlisteForm extends React.Component {
                         onChange={(event) => {
                             this.updateField(FELTER.TITTEL, event.target.value);
                         }}
+                        feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn må være utfylt' } : undefined}
                     />
                 </div>
                 <div className="OpprettKandidatlisteForm__input">
                     <Textarea
+                        textareaClass="OpprettKandidatlisteForm__input__textarea"
                         label="Beskrivelse"
                         placeholder="Skrive noen ord om stillingen du søker kandidater til"
                         value={this.state.kandidatlisteInfo.beskrivelse}
@@ -93,7 +111,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                 <KnappMedDisabledFunksjon
                     type="hoved"
                     onClick={this.validateAndSave}
-                    onDisabledClick={onDisabledClick}
+                    onDisabledClick={this.onUnvalidatedSave}
                     disabled={!this.formValidates()}
                     spinner={saving}
                 >
@@ -108,11 +126,13 @@ export default class OpprettKandidatlisteForm extends React.Component {
 }
 
 OpprettKandidatlisteForm.defaultProps = {
-    saving: false
+    saving: false,
+    onChange: undefined
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     onDisabledClick: PropTypes.func.isRequired,
     backLink: PropTypes.string.isRequired,
     kandidatlisteInfo: PropTypes.shape({

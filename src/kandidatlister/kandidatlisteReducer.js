@@ -22,6 +22,7 @@ export const RESET_LAGRE_STATUS = 'RESET_LAGRE_STATUS';
 
 const initialState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
+    opprettetKandidatlisteTittel: undefined,
     fetchingKandidatlister: false,
     kandidatlister: undefined
 };
@@ -31,17 +32,20 @@ export default function searchReducer(state = initialState, action) {
         case OPPRETT_KANDIDATLISTE:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.LOADING
+                lagreStatus: LAGRE_STATUS.LOADING,
+                opprettetKandidatlisteTittel: undefined
             };
         case OPPRETT_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.SUCCESS
+                lagreStatus: LAGRE_STATUS.SUCCESS,
+                opprettetKandidatlisteTittel: action.tittel
             };
         case OPPRETT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                lagreStatus: LAGRE_STATUS.FAILURE
+                lagreStatus: LAGRE_STATUS.FAILURE,
+                opprettetKandidatlisteTittel: undefined
             };
         case RESET_LAGRE_STATUS:
             return {
@@ -76,8 +80,8 @@ export default function searchReducer(state = initialState, action) {
 
 function* opprettKandidatliste(action) {
     try {
-        yield postKandidatliste({ ...action.kandidatlisteInfo, stillingReferanse: 'test' });
-        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS });
+        yield postKandidatliste(action.kandidatlisteInfo);
+        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });
