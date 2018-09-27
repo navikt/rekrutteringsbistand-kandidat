@@ -45,7 +45,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
         <div className="Kandidatliste--panel--beskrivelse">
             <div className="Kandidatliste--panel--topp">
                 <div>
-                    <Link to={`/pam-kandidatsok/lister/${kandidatliste.id}`} className="lenke" >
+                    <Link to={`/pam-kandidatsok/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
                         <Undertittel className="KandidatlisteRad--panel--overskrift">{kandidatliste.tittel}</Undertittel>
                     </Link>
                 </div>
@@ -60,9 +60,9 @@ const KandidatlisteRad = ({ kandidatliste }) => (
                         `${kandidatliste.antallKandidater} kandidater`
                 }
             </Element>
-            {kandidatliste.organisasjonNavn && // TODO: Endre til oppdragsgiver
+            {kandidatliste.oppdragsgiver &&
             <div className="Kandidatliste-oppdragsgiver">
-                {`Oppdragsgiver: ${kandidatliste.organisasjonNavn}`}
+                {`Oppdragsgiver: ${kandidatliste.oppdragsgiver}`}
             </div>}
         </div>
         <div className="Kandidatliste-funksjonsknapp-panel">
@@ -135,7 +135,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const KandidatlisteBeskrivelse = PropTypes.shape({
     tittel: PropTypes.string.isRequired,
-    antallKandidater: PropTypes.number.isRequired
+    kandidatlisteId: PropTypes.string.isRequired,
+    antallKandidater: PropTypes.number.isRequired,
+    opprettetTidspunkt: PropTypes.string.isRequired,
+    oppdragsgiver: PropTypes.string
 });
 
 IkonKnapp.propTypes = {
