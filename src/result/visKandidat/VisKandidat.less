@@ -1,64 +1,6 @@
 @import '../../Variables';
 @mobile: ~"only screen and (min-width: 1px) and (max-width: 767px)";
 
-.panel--jobbprofil {
-  margin: auto auto 20px;
-  max-width: 640px;
-  border: solid 1px #d8d8d8;
-  .ekspanderbartPanel__hode {
-    padding: 1.5rem 2rem 1.5rem 2rem;
-  }
-}
-
-.panel--jobbprofil__row {
-  padding: 0 1rem 0 1rem;
-  margin-bottom: 2rem;
-  &:first-child {
-    margin-bottom: 4rem;
-  }
-  &:last-child {
-    margin-bottom: 1rem;
-  }
-  .jobbprofil__overskrift {
-    @media @mobile {
-      margin-bottom: 0.5rem;
-    }
-  }
-}
-
-.panel--cv {
-  margin: auto;
-  max-width: 640px;
-  border: solid 1px #d8d8d8;
-  .ekspanderbartPanel__hode {
-    padding: 1.5rem 2rem 1.5rem 2rem;
-  }
-  .cv--tidsperiode {
-    margin-top: 5px;
-    color: #78706a;
-  }
-}
-
-.panel--cv__row {
-  padding: 0 1rem 0 1rem;
-  margin-bottom: 4rem;
-  &:last-child {
-    margin-bottom: 1rem;
-  }
-  .row--kategori {
-    margin-bottom: 2rem;
-    padding-left: 0.5rem;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .cv__overskrift {
-    @media @mobile {
-      margin-bottom: 0.5rem;
-    }
-  }
-}
-
 .header--bakgrunn {
   background-color: #0067c5;
   padding-bottom: 64px;
@@ -148,5 +90,61 @@
   }
   .personalia--icon {
     padding-top: 0.5rem;
+  }
+}
+
+.panel--jobbprofil {
+  margin: auto auto 20px;
+  max-width: 640px;
+  border: solid 1px #d8d8d8;
+  .ekspanderbartPanel__hode {
+    padding: 1.5rem 2rem 1.5rem 2rem;
+  }
+}
+
+.panel--jobbprofil__row {
+  padding: 0 1rem 0 1rem;
+  margin-bottom: 2rem;
+  &:first-child {
+    margin-bottom: 4rem;
+  }
+  &:last-child {
+    margin-bottom: 1rem;
+  }
+  .jobbprofil__overskrift {
+    @media @mobile {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.panel--cv {
+  margin: auto;
+  max-width: 640px;
+  border: solid 1px #d8d8d8;
+  .ekspanderbartPanel__hode {
+    padding: 1.5rem 2rem 1.5rem 2rem;
+  }
+  .cv--tidsperiode {
+    margin-top: 5px;
+    color: #78706a;
+  }
+}
+
+.panel--cv__row {
+  padding: 0 1rem 0 1rem;
+  margin-bottom: 4rem;
+  &:last-child {
+    margin-bottom: 1rem;
+  }
+  .row--kategori {
+    margin-bottom: 2rem;
+    padding-left: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .cv__overskrift {
+    margin-bottom: 0.5rem;
   }
 }
