@@ -28,6 +28,8 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!toggles['janzz-enabled']) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
+    } else if (toggles['janzz-enabled'] && key.includes('vis-ny-vis-kandidat-side')) {
+        return false;
     }
     return true;
 };
