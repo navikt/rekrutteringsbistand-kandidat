@@ -108,6 +108,12 @@ export function fetchMatchExplain(query = {}) {
     );
 }
 
+export function fetchKandidatlister(orgNummer) {
+    return fetchJson(
+        `${KANDIDATLISTE_API}${orgNummer}/kandidatlister`, true
+    );
+}
+
 export function postKandidatliste(kandidatlistBeskrivelse) {
     return postJson(`${KANDIDATLISTE_API}010005434/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
 }
