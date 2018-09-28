@@ -1,21 +1,103 @@
 @import '../Variables.less';
+@import "../styles";
+
+
+.KandidatlisteHeader {
+  background-color: @navBla;
+  color: white;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  padding-left: 8rem;
+  padding-right: 8rem;
+  :first-child {
+    flex: 1;
+  }
+}
+
+.KandidatlisteHeader--knapp {
+  color: white;
+  border: 2px solid white;
+}
 
 .Kandidatliste-panel {
   background-color: white;
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 1.25rem;
+  border-radius: 0.25rem;
+}
+
+.Kandidatliste-panel:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.Kandidatliste--panel--beskrivelse {
+  padding-bottom: 1.25rem;
+}
+
+.KandidatlisteRad--panel--overskrift {
+  text-decoration: underline;
+}
+
+.KandidatlisteRad--panel--dato-opprettet {
+  color: #78706a;
+}
+
+.Kandidatliste--panel--topp {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  :first-child {
+    flex: 1;
+  }
 }
 
 .Kandidatliste-oppdragsgiver {
   display: inline;
   border-left: 1px solid black;
-  margin-left: 1rem;
-  padding-left: 1rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
 }
+
+.Kandidatlister__container {
+  margin-top: 1rem;
+}
+
+.Kandidatlister__container-width {
+  max-width: 40rem;
+}
+
+.Kandidatlister-kandidatantall {
+  display: inline;
+}
+
+.Kandidatliste-funksjonsknapp-panel {
+  border-top: 1px solid @navGra20;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1.25rem;
+}
+
+.Kandidatlister--ikon-knapp {
+  color: @navBla;
+  cursor: pointer;
+  border: 1px;
+  margin: 2px 2px 2px 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.Kandidatlister--ikon {
+  margin-right: 0.5rem;
+}
+
 
 .OpprettKandidatliste__form-wrapper {
   background-color: white;
   padding: 2rem 2rem 2rem 2rem;
   margin-top: 2rem;
+  margin-bottom: 6rem;
+  border-radius: 0.25rem;
 }
 
 .OpprettKandidatlisteForm__avbryt-lenke-wrapper {
@@ -28,7 +110,7 @@
 }
 
 .OpprettKandidatliste__container-width {
-  max-width: 650px;
+  max-width: 40rem;
 }
 
 .OpprettKandidatlisteForm__input {
