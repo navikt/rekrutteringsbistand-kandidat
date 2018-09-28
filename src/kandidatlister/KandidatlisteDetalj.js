@@ -84,7 +84,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatPanel" key={JSON.stringify(kandidat)}>
                     <div className="left">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link to="/">{kandidat.kandidatnr}</Link>
+                        <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
                     <Undertekst >{kandidat.sisteArbeidserfaring}</Undertekst>
                 </Panel>
@@ -125,7 +125,7 @@ class KandidatlisteDetalj extends React.Component {
                     onClick={this.slettMarkerteKandidaterClicked}
                 >
                     <SlettIkon />
-                    <Normaltekst>Slett ({valgteKandidater.length})</Normaltekst>
+                    <Normaltekst>Slett</Normaltekst>
                 </div>
             </div>
         );
@@ -160,8 +160,6 @@ KandidatlisteDetalj.propTypes = {
         tittel: PropTypes.string.isRequired,
         beskrivelse: PropTypes.string,
         organisasjonNavn: PropTypes.string.isRequired,
-        // stillingsannonse: PropTypes.string.isRequired,
-        // opprettetAv: PropTypes.string.isRequired,
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
@@ -174,8 +172,8 @@ KandidatlisteDetalj.propTypes = {
     slettKandidater: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-    kandidatlisteId: '06714719-b7e7-49c1-b049-75ae03b3b6d5',
+const mapStateToProps = (state, props) => ({
+    kandidatlisteId: props.match.params.listeid,
     kandidatliste: {
         ...state.kandidatlister.kandidatliste
     }
