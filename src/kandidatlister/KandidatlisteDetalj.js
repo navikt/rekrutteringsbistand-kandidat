@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom';
 /** nav komponenter */
 import { Container } from 'nav-frontend-grid';
 import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
+import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+
+/** prosjekt */
 import TilbakeLenke from '../common/TilbakeLenke';
-import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
+import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kandidatlisteReducer';
+
 import './kandidatlister.less';
 
 class KandidatlisteDetalj extends React.Component {
@@ -33,6 +37,10 @@ class KandidatlisteDetalj extends React.Component {
                 kandidater: nextProps.kandidatliste.kandidater.map((k) => ({ ...k, checked: false }))
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.clearKandidatliste();
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -66,10 +74,15 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     render() {
+        if (this.props.kandidatliste === undefined) {
+            return (
+                <NavFrontendSpinner />
+            );
+        }
+
         const { markerAlleChecked, kandidater } = this.state;
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
-
         const ToppRad = () => (
             <Panel className="KandidatPanel KandidatPanel__header">
                 <div className="left">
@@ -80,7 +93,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const KandidatListe = () => (
-            kandidater.map((kandidat) => (
+            kandidater && kandidater.map((kandidat) => (
                 <Panel className="KandidatPanel" key={JSON.stringify(kandidat)}>
                     <div className="left">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
@@ -144,22 +157,15 @@ class KandidatlisteDetalj extends React.Component {
 }
 
 KandidatlisteDetalj.defaultProps = {
-    kandidatliste: {
-        tittel: '',
-        beskrivelse: '',
-        organisasjonNavn: '',
-        stillingsannonse: '',
-        opprettetAv: '',
-        kandidater: []
-    }
+    kandidatliste: undefined
 };
 
 KandidatlisteDetalj.propTypes = {
     kandidatlisteId: PropTypes.string.isRequired,
     kandidatliste: PropTypes.shape({
-        tittel: PropTypes.string.isRequired,
+        tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
-        organisasjonNavn: PropTypes.string.isRequired,
+        organisasjonNavn: PropTypes.string,
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
@@ -169,19 +175,20 @@ KandidatlisteDetalj.propTypes = {
         )
     }),
     hentKandidatliste: PropTypes.func.isRequired,
-    slettKandidater: PropTypes.func.isRequired
+    slettKandidater: PropTypes.func.isRequired,
+    clearKandidatliste: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
+    ...props,
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: {
-        ...state.kandidatlister.kandidatliste
-    }
+    kandidatliste: state.kandidatlister.kandidatlisteDetalj
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
+    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater }),
+    clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteDetalj);
