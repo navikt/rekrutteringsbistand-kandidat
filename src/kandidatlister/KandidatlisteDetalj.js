@@ -7,12 +7,11 @@ import { Container } from 'nav-frontend-grid';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
-import './kandidatlister.less';
 import TilbakeLenke from '../common/TilbakeLenke';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
+import './kandidatlister.less';
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -73,7 +72,9 @@ class KandidatlisteDetalj extends React.Component {
 
         const ToppRad = () => (
             <Panel className="KandidatPanel KandidatPanel__header">
-                <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                <div className="left">
+                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                </div>
                 <UndertekstBold >Arbeidserfaring</UndertekstBold>
             </Panel>
         );
@@ -81,9 +82,11 @@ class KandidatlisteDetalj extends React.Component {
         const KandidatListe = () => (
             kandidater.map((kandidat) => (
                 <Panel className="KandidatPanel" key={JSON.stringify(kandidat)}>
-                    <Checkbox label={kandidat.kandidatnr} checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                    <div className="left">
+                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                        <Link to="/">{kandidat.kandidatnr}</Link>
+                    </div>
                     <Undertekst >{kandidat.sisteArbeidserfaring}</Undertekst>
-                    <Knapp>CV</Knapp>
                 </Panel>
             ))
         );

@@ -127,26 +127,32 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-between;
+        // justify-content: space-between;
         padding: 1.5rem;
         margin-bottom: 1rem;
 
-        :first-child {
+        .left {
             flex: 0 0 180px;
             min-width: 180px;
-        }
-
-        @media(max-width: 400px) {
-            :first-child {
-                flex: 0 0 100px;
-                min-width: 100px;
+            align-items: center;
+            display: inline-flex;
+            
+            .skjemaelement__label {
+                padding-left: 48px;
             }
+
         }
 
-        :not(:last-child):not(:first-child) {
-            flex: 1;
-            padding-left: 4rem;
-        }
+        // @media(max-width: 400px) {
+        //     :first-child {
+        //         flex: 0 0 100px;
+        //         min-width: 100px;
+        //     }
+        // }
+
+        // :not(:last-child):not(:first-child) {
+        //     flex: 1;
+        // }
 
         .skjemaelement {
             display: inline-flex;
@@ -160,10 +166,5 @@
         border-width: 1px;
         border-color: black;
         border-style: solid;
-
-        :last-child {
-            flex: 1;
-            padding-left: 4rem;
-        }
     }
 }
