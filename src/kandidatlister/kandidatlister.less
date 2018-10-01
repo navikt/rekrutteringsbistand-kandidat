@@ -5,12 +5,12 @@
 .KandidatlisteHeader {
   background-color: @navBla;
   color: white;
-  height: 8rem;
+  min-height: 8rem;
   display: flex;
   align-items: center;
   padding-left: 8rem;
   padding-right: 8rem;
-  :first-child {
+  > :first-child {
     flex: 1;
   }
 }
@@ -117,19 +117,12 @@
   margin-bottom: 2rem;
 }
 
-.KandidatlisteDetalj__toppmeny--bakgrunn {
-    margin-left: 0px;
-    margin-right: 0px;
-    background: @navBla;
-    min-height: 240px;
-    padding-top: 24px;
-    width: 100%;
-}
-
-.KandidatlisteDetalj__toppmeny--innhold {
+.KandidatlisteDetalj__header--innhold {
     display: flex;
     flex-direction: column;
     color: white;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
 
     .TilbakeLenke {
         padding: 0px;
@@ -151,7 +144,7 @@
         margin-top: 12px;
     }
 
-    .KandidatlisteDetalj__toppmeny--inforad {
+    > .inforad {
         margin-top: 24px;
         display: inline-flex;
 
@@ -178,32 +171,12 @@
     }
 }
 
-.knapp--ikon {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    
-    + .disabled {
-    }
-}
-
-.KandidatlisteDetalj__knapper-rad {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
-
-    * {
-      margin-left: 8px;  
-    }
-}
-
-
 .KandidatlisteDetalj__container {
     padding-top: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 8rem;
+    padding-right: 8rem;
 
     .KandidatPanel {
         display: flex;
@@ -225,17 +198,6 @@
 
         }
 
-        // @media(max-width: 400px) {
-        //     :first-child {
-        //         flex: 0 0 100px;
-        //         min-width: 100px;
-        //     }
-        // }
-
-        // :not(:last-child):not(:first-child) {
-        //     flex: 1;
-        // }
-
         .skjemaelement {
             display: inline-flex;
             align-items: center;
@@ -248,5 +210,24 @@
         border-width: 1px;
         border-color: black;
         border-style: solid;
+    }
+
+    .knapperad {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 8px;
+        * {
+            margin-left: 8px;  
+        }
+
+        .knapp--ikon {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
     }
 }

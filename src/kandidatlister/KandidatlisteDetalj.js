@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 /** nav komponenter */
-import { Container } from 'nav-frontend-grid';
 import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
@@ -83,12 +82,13 @@ class KandidatlisteDetalj extends React.Component {
         const { markerAlleChecked, kandidater } = this.state;
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
+
         const ToppRad = () => (
             <Panel className="KandidatPanel KandidatPanel__header">
                 <div className="left">
                     <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
-                <UndertekstBold >Arbeidserfaring</UndertekstBold>
+                <UndertekstBold>Arbeidserfaring</UndertekstBold>
             </Panel>
         );
 
@@ -105,21 +105,21 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const ToppMeny = () => (
-            <div className="KandidatlisteDetalj__toppmeny--bakgrunn">
-                <Container className="KandidatlisteDetalj__toppmeny--innhold">
+            <div className="KandidatlisteHeader">
+                <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
                     <Sidetittel>{tittel}</Sidetittel>
                     <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
-                    <div className="KandidatlisteDetalj__toppmeny--inforad">
+                    <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: <Link to="#">{organisasjonNavn}</Link></Normaltekst>
                     </div>
-                </Container>
+                </div>
             </div>
         );
 
         const Knapper = () => (
-            <div className="KandidatlisteDetalj__knapper-rad">
+            <div className="knapperad">
                 <div
                     role="button"
                     tabIndex="0"
@@ -146,11 +146,11 @@ class KandidatlisteDetalj extends React.Component {
         return (
             <div>
                 <ToppMeny />
-                <Container className="KandidatlisteDetalj__container">
+                <div className="KandidatlisteDetalj__container">
                     <Knapper />
                     <ToppRad />
                     <KandidatListe />
-                </Container>
+                </div>
             </div>
         );
     }
