@@ -33,7 +33,7 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.kandidatliste) {
+        if (nextProps.kandidatliste && nextProps.kandidatliste.kandidater) {
             this.setState({
                 markerAlleChecked: false,
                 kandidater: nextProps.kandidatliste.kandidater.map((k) => ({ ...k, checked: false }))
