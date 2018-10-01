@@ -1,0 +1,10 @@
+links:
+  - link: "http://localhost:9009/pam-kandidatsok/"
+    desc: "Kandidatsok - resultatside"
+
+  - link: "http://localhost:9009/pam-kandidatsok/"
+    desc: "Kandidatsok - kandidatprofil"
+    options:
+      commands:
+      - clickOn: '.kandidater--row'
+      - waitFor: '#ekspanderbartpanel-jobbprofil'

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API } from '../common/fasitProperties';
+import { KANDIDATLISTE_API, SEARCH_API } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -62,11 +62,32 @@ async function fetchJson(url, includeCredentials) {
     }
 }
 
-export function fetchFeatureToggles() {
-    if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
+async function postJson(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'POST',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 200 || response.status === 201) {
+            return;
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
     }
-    return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
+}
+
+export function fetchFeatureToggles() {
+    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
@@ -85,4 +106,14 @@ export function fetchMatchExplain(query = {}) {
     return fetchJson(
         `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
     );
+}
+
+export function fetchKandidatlister(orgNummer) {
+    return fetchJson(
+        `${KANDIDATLISTE_API}${orgNummer}/kandidatlister`, true
+    );
+}
+
+export function postKandidatliste(kandidatlistBeskrivelse) {
+    return postJson(`${KANDIDATLISTE_API}010005434/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
 }

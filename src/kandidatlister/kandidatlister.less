@@ -1,0 +1,106 @@
+@import "../styles";
+
+
+.KandidatlisteHeader {
+  background-color: @navBla;
+  color: white;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  padding-left: 8rem;
+  padding-right: 8rem;
+  :first-child {
+    flex: 1;
+  }
+  .knapp {
+    color: white;
+    border: 2px solid white;
+  }
+}
+
+.Kandidatliste__panel {
+  background-color: white;
+  padding: 1.25rem;
+  border-radius: 0.25rem;
+  .beskrivelse {
+    padding-bottom: 1.25rem;
+    .overskrift {
+      text-decoration: underline;
+    }
+    .dato-opprettet {
+      color: #78706a;
+    }
+    .topp {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      :first-child {
+        flex: 1;
+      }
+    }
+    .oppdragsgiver {
+      display: inline;
+      border-left: 1px solid black;
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .kandidatantall {
+      display: inline;
+    }
+  }
+  .funksjonsknapp-panel {
+    border-top: 1px solid @navGra20;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+    .ikon-knapp {
+      color: @navBla;
+      cursor: pointer;
+      border: 1px;
+      margin: 2px 2px 2px 2px;
+      display: inline-flex;
+      align-items: center;
+      .ikon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.Kandidatliste__panel:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.Kandidatlister__container {
+  margin-top: 1rem;
+}
+
+.Kandidatlister__container-width {
+  max-width: 40rem;
+}
+
+.OpprettKandidatliste__form-wrapper {
+  background-color: white;
+  padding: 2rem 2rem 2rem 2rem;
+  margin-top: 2rem;
+  margin-bottom: 6rem;
+  border-radius: 0.25rem;
+}
+
+.OpprettKandidatlisteForm__avbryt-lenke-wrapper {
+  display: inline;
+  padding-left: 2rem;
+}
+
+.OpprettKandidatliste__container {
+  margin-top: 1rem;
+}
+
+.OpprettKandidatliste__container-width {
+  max-width: 40rem;
+}
+
+.OpprettKandidatlisteForm__input {
+  margin-bottom: 2rem;
+}

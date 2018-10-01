@@ -39,7 +39,7 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
-    PAM_SEARCH_API: '/pam-kandidatsok/rest/kandidatsok/',
+    PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok/rest/',
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
@@ -50,7 +50,7 @@ const fasitProperties = {
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
+        `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
@@ -82,7 +82,7 @@ const startServer = (html) => {
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(proxyHost, {
+    server.use('/pam-kandidatsok/rest/', proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => {
             const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
