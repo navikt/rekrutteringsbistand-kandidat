@@ -78,7 +78,6 @@ class KandidatlisteDetalj extends React.Component {
 
         const { markerAlleChecked, kandidater } = this.state;
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
-        const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const ToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
@@ -116,7 +115,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const Knapper = () => (
-            <div className="knapperad">
+            <div className="KandidatlisteDetalj__knapperad">
                 <div
                     role="button"
                     tabIndex="0"
