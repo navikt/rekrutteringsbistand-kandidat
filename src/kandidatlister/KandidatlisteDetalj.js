@@ -22,7 +22,7 @@ class KandidatlisteDetalj extends React.Component {
         this.state = {
             markerAlleChecked: false,
             kandidater: [],
-            visSlettKandidaterModal: true
+            visSlettKandidaterModal: false
         };
     }
 
