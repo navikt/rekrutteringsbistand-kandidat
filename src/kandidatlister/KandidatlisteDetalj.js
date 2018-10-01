@@ -111,7 +111,9 @@ class KandidatlisteDetalj extends React.Component {
         if (this.props.kandidatliste === undefined
             || this.props.kandidatliste.kandidater === undefined) {
             return (
-                <NavFrontendSpinner />
+                <div className="KandidatlisteDetalj__spinner--wrapper">
+                    <NavFrontendSpinner />
+                </div>
             );
         }
 
