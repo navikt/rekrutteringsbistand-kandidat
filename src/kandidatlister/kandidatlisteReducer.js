@@ -115,7 +115,7 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 kandidatlisteDetalj: {
                     ...state.kandidatlisteDetalj,
-                    kandidater: state.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                    kandidater: state.kandidatlisteDetalj.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
                 }
             };
         }

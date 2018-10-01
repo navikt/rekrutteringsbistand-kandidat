@@ -168,7 +168,6 @@ class KandidatlisteDetalj extends React.Component {
                 isOpen={this.state.visSlettKandidaterModal}
                 onRequestClose={this.lukkSlettModal}
                 closeButton
-                arialHideApp={false}
                 contentLabel="Slett kandidater"
             >
                 <Sidetittel>Slett kandidatene</Sidetittel>
