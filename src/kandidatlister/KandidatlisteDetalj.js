@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
+import Modal from 'nav-frontend-modal';
+import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
@@ -18,7 +21,8 @@ class KandidatlisteDetalj extends React.Component {
         super(props);
         this.state = {
             markerAlleChecked: false,
-            kandidater: []
+            kandidater: [],
+            visSlettKandidaterModal: true
         };
     }
 
@@ -65,8 +69,25 @@ class KandidatlisteDetalj extends React.Component {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
         if (kandidatlisteId && kandidater.length > 0) {
+            this.visSlettKandidaterModal();
+        }
+    }
+
+    slettMarkerteKandidater = () => {
+        const { kandidatlisteId } = this.props;
+        const kandidater = this.state.kandidater.filter((k) => k.checked);
+        if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
         }
+        this.lukkSlettModal();
+    }
+
+    visSlettKandidaterModal = () => {
+        this.setState({ visSlettKandidaterModal: true });
+    }
+
+    lukkSlettModal = () => {
+        this.setState({ visSlettKandidaterModal: false });
     }
 
     render() {
@@ -78,6 +99,7 @@ class KandidatlisteDetalj extends React.Component {
 
         const { markerAlleChecked, kandidater } = this.state;
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
+        const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const ToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
@@ -139,14 +161,41 @@ class KandidatlisteDetalj extends React.Component {
             </div>
         );
 
+
+        const SlettKandidaterModal = ({ appElement }) => (
+            <Modal
+                appElement={appElement}
+                className="KandidatlisteDetalj__modal"
+                isOpen={this.state.visSlettKandidaterModal}
+                onRequestClose={this.lukkSlettModal}
+                closeButton
+                arialHideApp={false}
+                contentLabel="Slett kandidater"
+            >
+                <Sidetittel>Slett kandidatene</Sidetittel>
+                <br />
+                <Normaltekst>{valgteKandidater.length === 1
+                    ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr}?`
+                    : 'Er du sikker på at du ønsker å slette kandidatene?'
+                }
+                </Normaltekst>
+
+                <div className="knapperad">
+                    <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
+                    <Flatknapp onClick={this.lukkSlettModal}>Tilbake til kandidatlisten</Flatknapp>
+                </div>
+            </Modal>
+        );
+
         return (
-            <div>
+            <div id="KandidaterDetalj">
                 <Header />
                 <div className="KandidatlisteDetalj__container">
                     <Knapper />
                     <ToppRad />
                     <KandidatListe />
                 </div>
+                <SlettKandidaterModal />
             </div>
         );
     }
@@ -186,5 +235,7 @@ const mapDispatchToProps = (dispatch) => ({
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater }),
     clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE })
 });
+
+Modal.setAppElement('#app');
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteDetalj);
