@@ -25,6 +25,7 @@ import feedbackReducer from '../feedback/feedbackReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
+import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
@@ -77,6 +78,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
+                    <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
                     <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
                     <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid" component={KandidatlisteDetalj} />
                     <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />

@@ -7,8 +7,8 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import EditIkon from '../common/ikon/EditIkon';
-import SlettIkon from '../common/ikon/SlettIkon';
+import EditIkon from '../common/ikoner/EditIkon';
+import SlettIkon from '../common/ikoner/SlettIkon';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 
@@ -28,8 +28,8 @@ const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
 };
 
 const IkonKnapp = ({ Ikon, tekst, onClick }) => (
-    <button onClick={onClick} className="Kandidatlister--ikon-knapp">
-        <Ikon className="Kandidatlister--ikon" />
+    <button onClick={onClick} className="ikon-knapp">
+        <Ikon className="ikon" />
         {tekst}
     </button>
 );
@@ -40,19 +40,19 @@ const formaterDato = (datoStreng) => {
 };
 
 const KandidatlisteRad = ({ kandidatliste }) => (
-    <div className="Kandidatliste-panel">
-        <div className="Kandidatliste--panel--beskrivelse">
-            <div className="Kandidatliste--panel--topp">
+    <div className="Kandidatliste__panel">
+        <div className="beskrivelse">
+            <div className="topp">
                 <div>
                     <Link to={`/pam-kandidatsok/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
-                        <Undertittel className="KandidatlisteRad--panel--overskrift">{kandidatliste.tittel}</Undertittel>
+                        <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
                     </Link>
                 </div>
-                <div className="KandidatlisteRad--panel--dato-opprettet">
+                <div className="dato-opprettet">
                     <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
                 </div>
             </div>
-            <Element className="Kandidatlister-kandidatantall">
+            <Element className="kandidatantall">
                 {
                     kandidatliste.antallKandidater === 1 ?
                         '1 kandidat' :
@@ -60,11 +60,11 @@ const KandidatlisteRad = ({ kandidatliste }) => (
                 }
             </Element>
             {kandidatliste.oppdragsgiver &&
-            <div className="Kandidatliste-oppdragsgiver typo-normal">
+            <div className="oppdragsgiver typo-normal">
                 {`Oppdragsgiver: ${kandidatliste.oppdragsgiver}`}
             </div>}
         </div>
-        <div className="Kandidatliste-funksjonsknapp-panel">
+        <div className="funksjonsknapp-panel">
             <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => { console.log('endre'); }} />
             <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} />
         </div>
@@ -75,7 +75,7 @@ const KandidatlisteHeader = () => (
     <div className="KandidatlisteHeader">
         <Sidetittel>Kandidatlister</Sidetittel>
         <Link to="/pam-kandidatsok/lister/opprett">
-            <Knapp role="link" type="standard" className="KandidatlisteHeader--knapp">Opprett ny</Knapp>
+            <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
         </Link>
     </div>
 );

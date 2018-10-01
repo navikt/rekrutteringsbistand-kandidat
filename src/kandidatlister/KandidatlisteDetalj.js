@@ -2,13 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-/** nav komponenter */
 import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-
-/** prosjekt */
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
@@ -84,8 +81,8 @@ class KandidatlisteDetalj extends React.Component {
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const ToppRad = () => (
-            <Panel className="KandidatPanel KandidatPanel__header">
-                <div className="left">
+            <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
+                <div className="KandidatlisteDetalj__panel--venstre">
                     <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
@@ -94,8 +91,8 @@ class KandidatlisteDetalj extends React.Component {
 
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => (
-                <Panel className="KandidatPanel" key={JSON.stringify(kandidat)}>
-                    <div className="left">
+                <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
+                    <div className="KandidatlisteDetalj__panel--venstre">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
                         <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
@@ -104,7 +101,7 @@ class KandidatlisteDetalj extends React.Component {
             ))
         );
 
-        const ToppMeny = () => (
+        const Header = () => (
             <div className="KandidatlisteHeader">
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
@@ -133,11 +130,11 @@ class KandidatlisteDetalj extends React.Component {
                 <div
                     role="button"
                     tabIndex="0"
-                    className={valgteKandidater.length > 0 ? 'knapp--ikon' : 'knapp--ikon disabled'}
+                    className="knapp--ikon"
                     onKeyPress={this.slettMarkerteKandidaterClicked}
                     onClick={this.slettMarkerteKandidaterClicked}
                 >
-                    <SlettIkon />
+                    <SlettIkon fargeKode="#000" />
                     <Normaltekst>Slett</Normaltekst>
                 </div>
             </div>
@@ -145,7 +142,7 @@ class KandidatlisteDetalj extends React.Component {
 
         return (
             <div>
-                <ToppMeny />
+                <Header />
                 <div className="KandidatlisteDetalj__container">
                     <Knapper />
                     <ToppRad />

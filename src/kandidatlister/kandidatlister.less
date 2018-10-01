@@ -13,50 +13,64 @@
   > :first-child {
     flex: 1;
   }
-}
-
-.KandidatlisteHeader--knapp {
-  color: white;
-  border: 2px solid white;
-}
-
-.Kandidatliste-panel {
-  background-color: white;
-  padding: 1.25rem;
-  border-radius: 0.25rem;
-}
-
-.Kandidatliste-panel:not(:first-child) {
-    margin-top: 1rem;
-}
-
-.Kandidatliste--panel--beskrivelse {
-  padding-bottom: 1.25rem;
-}
-
-.KandidatlisteRad--panel--overskrift {
-  text-decoration: underline;
-}
-
-.KandidatlisteRad--panel--dato-opprettet {
-  color: #78706a;
-}
-
-.Kandidatliste--panel--topp {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  :first-child {
-    flex: 1;
+  .knapp {
+    color: white;
+    border: 2px solid white;
   }
 }
 
-.Kandidatliste-oppdragsgiver {
-  display: inline;
-  border-left: 1px solid black;
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
+.Kandidatliste__panel {
+  background-color: white;
+  padding: 1.25rem;
+  border-radius: 0.25rem;
+  .beskrivelse {
+    padding-bottom: 1.25rem;
+    .overskrift {
+      text-decoration: underline;
+    }
+    .dato-opprettet {
+      color: #78706a;
+    }
+    .topp {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      :first-child {
+        flex: 1;
+      }
+    }
+    .oppdragsgiver {
+      display: inline;
+      border-left: 1px solid black;
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .kandidatantall {
+      display: inline;
+    }
+  }
+  .funksjonsknapp-panel {
+    border-top: 1px solid @navGra20;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+    .ikon-knapp {
+      color: @navBla;
+      cursor: pointer;
+      border: 1px;
+      margin: 2px 2px 2px 2px;
+      display: inline-flex;
+      align-items: center;
+      .ikon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.Kandidatliste__panel:not(:first-child) {
+  margin-top: 1rem;
 }
 
 .Kandidatlister__container {
@@ -66,31 +80,6 @@
 .Kandidatlister__container-width {
   max-width: 40rem;
 }
-
-.Kandidatlister-kandidatantall {
-  display: inline;
-}
-
-.Kandidatliste-funksjonsknapp-panel {
-  border-top: 1px solid @navGra20;
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 1.25rem;
-}
-
-.Kandidatlister--ikon-knapp {
-  color: @navBla;
-  cursor: pointer;
-  border: 1px;
-  margin: 2px 2px 2px 2px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.Kandidatlister--ikon {
-  margin-right: 0.5rem;
-}
-
 
 .OpprettKandidatliste__form-wrapper {
   background-color: white;
@@ -156,8 +145,8 @@
             flex-direction: row;
             p:not(:last-child):after {
                 content: '|';
-                margin-left: 8px;
-                margin-right: 8px;  
+                margin-left: 1rem;
+                margin-right: 1rem;  
             }
         }
 
@@ -175,22 +164,33 @@
     padding-top: 1rem;
     margin-left: 0;
     margin-right: 0;
-    padding-left: 8rem;
-    padding-right: 8rem;
 
-    .KandidatPanel {
+    @media (min-width: 672px) {
+        padding-left: 8rem;
+        padding-right: 8rem;   
+    }
+
+    .KandidatlisteDetalj__panel {
         display: flex;
         flex-direction: row;
         align-items: center;
         // justify-content: space-between;
-        padding: 1.5rem;
         margin-bottom: 1rem;
-
-        .left {
-            flex: 0 0 180px;
-            min-width: 180px;
-            align-items: center;
+        padding: 1.5rem;
+        flex-direction: row;
+    
+        .KandidatlisteDetalj__panel--venstre {
             display: inline-flex;
+            align-items: center;
+            flex-direction: row;
+            @media (min-width: 672px) {
+                flex: 0 0 180px;
+                min-width: 180px;   
+            }
+
+            @media (max-width: 671px) {
+                flex: 1;
+            }
             
             .skjemaelement__label {
                 padding-left: 48px;
@@ -205,7 +205,7 @@
         }
     }
 
-    .KandidatPanel__header {
+    .KandidatlisteDetalj__panel--header {
         border-radius: 4px;
         border-width: 1px;
         border-color: black;

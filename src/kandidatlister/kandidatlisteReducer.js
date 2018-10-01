@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
 import { LAGRE_STATUS } from '../konstanter';
+import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -187,10 +188,19 @@ function* hentKandidatlister() {
     }
 }
 
+function* sjekkError(action) {
+    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+}
+
 export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
     yield takeLatest(SLETT_KANDIDATER, slettKandidater);
     yield takeLatest(HENT_KANDIDATLISTER, hentKandidatlister);
+    yield takeLatest([
+        OPPRETT_KANDIDATLISTE_FAILURE,
+        HENT_KANDIDATLISTER_FAILURE
+    ],
+    sjekkError);
 }
 

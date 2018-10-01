@@ -6,8 +6,8 @@ def deployLib = new deploy()
 node {
     def commitHashShort, committer, releaseVersion
 
-    def app = "pam-kandidatsok"
-    def appConfig = "nais.yaml"
+    def app = "pam-kandidatsok-next"
+    def appConfig = "nais_next.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
     def environment = 't6'
@@ -97,7 +97,7 @@ def acceptanceTest(qaDir) {
         try {
             sh "cd ${qaDir} && npm i -D"
             sh "cd ${qaDir} && npm i chromedriver@2.38.3 -D"
-            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore --tag elastic"
+            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore"
         } catch (Exception e) {
             sh "cd ${qaDir} && npm run-script cucumber-report "
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
