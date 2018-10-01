@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
-import { LAGRE_STATUS } from '../konstanter';
+import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
 /** *********************************************************
@@ -32,7 +32,9 @@ export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 
 const initialState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
-    kandidatlisteDetalj: undefined,
+    detaljer: {
+        sletteStatus: SLETTE_STATUS.FINISHED
+    },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         opprettetKandidatlisteTittel: undefined
@@ -97,31 +99,45 @@ export default function searchReducer(state = initialState, action) {
         case HENT_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                kandidatlisteDetalj: action.kandidatliste
+                detaljer: action.kandidatliste
             };
         case HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                kandidatlisteDetalj: undefined
+                detaljer: undefined
             };
         case CLEAR_KANDIDATLISTE:
             return {
                 ...state,
-                kandidatlisteDetalj: undefined
+                detaljer: undefined
             };
+        case SLETT_KANDIDATER: {
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    sletteStatus: SLETTE_STATUS.LOADING
+                }
+            };
+        }
         case SLETT_KANDIDATER_SUCCESS: {
             const { slettKandidatnr } = action;
             return {
                 ...state,
-                kandidatlisteDetalj: {
-                    ...state.kandidatlisteDetalj,
-                    kandidater: state.kandidatlisteDetalj.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                detaljer: {
+                    ...state.detaljer,
+                    kandidater: state.detaljer.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1)),
+                    sletteStatus: SLETTE_STATUS.SUCCESS
                 }
             };
         }
         case SLETT_KANDIDATER_FAILURE:
             return {
-                ...state
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    sletteStatus: SLETTE_STATUS.FAILURE
+                }
             };
         default:
             return state;

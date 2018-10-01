@@ -8,11 +8,12 @@ import Modal from 'nav-frontend-modal';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kandidatlisteReducer';
+import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
 
@@ -22,7 +23,8 @@ class KandidatlisteDetalj extends React.Component {
         this.state = {
             markerAlleChecked: false,
             kandidater: [],
-            visSlettKandidaterModal: false
+            visSlettKandidaterModal: false,
+            visSlettKandidaterFeilmelding: false
         };
     }
 
@@ -36,6 +38,18 @@ class KandidatlisteDetalj extends React.Component {
                 markerAlleChecked: false,
                 kandidater: nextProps.kandidatliste.kandidater.map((k) => ({ ...k, checked: false }))
             });
+
+            if (!this.props.kandidatliste) {
+                return;
+            }
+
+            if (this.props.kandidatliste.sletteStatus === SLETTE_STATUS.LOADING
+                && nextProps.kandidatliste.sletteStatus !== SLETTE_STATUS.FAILURE) {
+                this.lukkSlettModal();
+            } else if (this.props.kandidatliste.sletteStatus !== SLETTE_STATUS.FAILURE &&
+                nextProps.kandidatliste.sletteStatus === SLETTE_STATUS.FAILURE) {
+                this.visSlettKandidaterFeilmelding();
+            }
         }
     }
 
@@ -56,6 +70,10 @@ class KandidatlisteDetalj extends React.Component {
                 return { ...k };
             })
         });
+    }
+
+    visSlettKandidaterFeilmelding = () => {
+        this.setState({ visSlettKandidaterFeilmelding: true });
     }
 
     markerAlleClicked = () => {
@@ -79,7 +97,6 @@ class KandidatlisteDetalj extends React.Component {
         if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
         }
-        this.lukkSlettModal();
     }
 
     visSlettKandidaterModal = () => {
@@ -87,17 +104,18 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     lukkSlettModal = () => {
-        this.setState({ visSlettKandidaterModal: false });
+        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false });
     }
 
     render() {
-        if (this.props.kandidatliste === undefined) {
+        if (this.props.kandidatliste === undefined
+            || this.props.kandidatliste.kandidater === undefined) {
             return (
                 <NavFrontendSpinner />
             );
         }
 
-        const { markerAlleChecked, kandidater } = this.state;
+        const { markerAlleChecked, kandidater, visSlettKandidaterFeilmelding, visSlettKandidaterModal } = this.state;
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
@@ -165,11 +183,14 @@ class KandidatlisteDetalj extends React.Component {
         const SlettKandidaterModal = () => (
             <Modal
                 className="KandidatlisteDetalj__modal"
-                isOpen={this.state.visSlettKandidaterModal}
+                isOpen={visSlettKandidaterModal}
                 onRequestClose={this.lukkSlettModal}
                 closeButton
                 contentLabel="Slett kandidater"
             >
+                {visSlettKandidaterFeilmelding && (
+                    <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
+                )}
                 <Sidetittel>Slett kandidatene</Sidetittel>
                 <br />
                 <Normaltekst>{valgteKandidater.length === 1
@@ -177,7 +198,6 @@ class KandidatlisteDetalj extends React.Component {
                     : 'Er du sikker på at du ønsker å slette kandidatene?'
                 }
                 </Normaltekst>
-
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
                     <Flatknapp onClick={this.lukkSlettModal}>Tilbake til kandidatlisten</Flatknapp>
@@ -206,6 +226,7 @@ KandidatlisteDetalj.defaultProps = {
 KandidatlisteDetalj.propTypes = {
     kandidatlisteId: PropTypes.string.isRequired,
     kandidatliste: PropTypes.shape({
+        sletteStatus: PropTypes.string,
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
         organisasjonNavn: PropTypes.string,
@@ -225,7 +246,7 @@ KandidatlisteDetalj.propTypes = {
 const mapStateToProps = (state, props) => ({
     ...props,
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.kandidatlisteDetalj
+    kandidatliste: state.kandidatlister.detaljer
 });
 
 const mapDispatchToProps = (dispatch) => ({
