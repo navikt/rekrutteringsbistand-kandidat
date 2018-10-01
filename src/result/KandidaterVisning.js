@@ -7,6 +7,16 @@ import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
+import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
+
+const lagreKandidaterKnappTekst = (antall) => {
+    if (antall === 0) {
+        return 'Lagre Kandidater';
+    } else if (antall === 1) {
+        return 'lagre 1 kandidat';
+    }
+    return `lagre ${antall} kandidater`;
+};
 
 
 class KandidaterVisning extends React.Component {
@@ -14,16 +24,33 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             antallResultater: 25,
-            kandidater: this.props.kandidater
+            kandidater: this.props.kandidater,
+            valgteKandidater: []
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            kandidater: nextProps.kandidater,
-            antallResultater: 25
-        });
+    componentDidUpdate(prevProps) {
+        if (prevProps.kandidater !== this.props.kandidater) {
+        // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                kandidater: this.props.kandidater,
+                antallResultater: 25,
+                valgteKandidater: []
+            });
+        }
     }
+
+    onKandidatValgt = (checked, kandidatnr, sisteArbeidserfaring) => {
+        if (checked) {
+            this.setState({
+                valgteKandidater: [...this.state.valgteKandidater, { kandidatnr, sisteArbeidserfaring }]
+            });
+        } else {
+            this.setState({
+                valgteKandidater: this.state.valgteKandidater.filter((k) => (k.kandidatnr !== kandidatnr))
+            });
+        }
+    };
 
     onFlereResultaterClick = () => {
         this.setState({
@@ -68,6 +95,7 @@ class KandidaterVisning extends React.Component {
         });
     };
 
+
     render() {
         const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
 
@@ -75,6 +103,9 @@ class KandidaterVisning extends React.Component {
             <div>
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                    <KnappMedDisabledFunksjon disabled={this.state.valgteKandidater.length === 0} onClick={() => { console.log('Clicked!'); }} onDisabledClick={this.props.visFeilmelding} >
+                        {lagreKandidaterKnappTekst(this.state.valgteKandidater.length)}
+                    </KnappMedDisabledFunksjon>
                 </div>
                 {this.props.isEmptyQuery ? (
 
@@ -85,6 +116,7 @@ class KandidaterVisning extends React.Component {
                         onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
+                        onKandidatValgt={this.onKandidatValgt}
 
                     />
 
@@ -97,6 +129,7 @@ class KandidaterVisning extends React.Component {
                         onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
+                        onKandidatValgt={this.onKandidatValgt}
 
                     />
 
@@ -111,7 +144,8 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    isEmptyQuery: PropTypes.bool.isRequired
+    isEmptyQuery: PropTypes.bool.isRequired,
+    visFeilmelding: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

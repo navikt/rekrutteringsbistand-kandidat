@@ -9,6 +9,21 @@ import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class KandidaterTableRow extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            checked: false
+        };
+    }
+    onCheck = (kandidatnr, yrkeserfaring) => {
+        const checked = !this.state.checked;
+        this.props.onKandidatValgt(checked, kandidatnr, yrkeserfaring);
+        this.setState({
+            checked
+        });
+    };
+
+
     openCvModal = () => {
         this.props.openCvModal();
         this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
@@ -32,12 +47,16 @@ class KandidaterTableRow extends React.Component {
 
         if (this.props.visNyVisKandidatSide) {
             return (
-                <Link
-                    to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
-                    className="panel border--top--thin kandidater--row"
-                    aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                >
-                    <Row>
+
+                <Row>
+                    <Column>
+                        <input type="checkbox" onChange={() => { this.onCheck(cv.arenaKandidatnr, yrkeserfaring); }} />
+                    </Column>
+                    <Link
+                        to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
+                        className="panel border--top--thin kandidater--row"
+                        aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                    >
                         <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                             <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
                         </Column>
@@ -60,9 +79,11 @@ class KandidaterTableRow extends React.Component {
                             <i className="border--vertical" />
                             <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
                         </Column>
-                    </Row>
 
-                </Link>
+                    </Link>
+                </Row>
+
+
             );
         }
 
@@ -106,7 +127,8 @@ KandidaterTableRow.propTypes = {
     openCvModal: PropTypes.func.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     janzzEnabled: PropTypes.bool.isRequired,
-    visNyVisKandidatSide: PropTypes.bool.isRequired
+    visNyVisKandidatSide: PropTypes.bool.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

@@ -9,7 +9,7 @@ import cvPropTypes from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff, onKandidatValgt }) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -36,6 +36,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                         <KandidaterTableRow
                             cv={cv}
                             key={cv.arenaKandidatnr}
+                            onKandidatValgt={onKandidatValgt}
                         />
                     ))}
             </div>
@@ -53,6 +54,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                             <KandidaterTableRow
                                 cv={cv}
                                 key={cv.arenaKandidatnr}
+                                onKandidatValgt={onKandidatValgt}
                             />
                         ))}
                     <div className="buttons--kandidatervisning">
@@ -82,7 +84,8 @@ KandidaterTabellMedKriterier.propTypes = {
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired
+    totaltAntallTreff: PropTypes.number.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired
 
 };
 

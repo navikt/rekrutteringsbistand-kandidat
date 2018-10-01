@@ -7,7 +7,7 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff, onKandidatValgt }) {
     return (
 
         <div className="resultatvisning">
@@ -23,6 +23,7 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
                 <KandidaterTableRow
                     cv={cv}
                     key={cv.arenaKandidatnr}
+                    onKandidatValgt={onKandidatValgt}
                 />
             ))}
             <div className="buttons--kandidatervisning">
@@ -49,6 +50,6 @@ KandidaterTabellUtenKriterier.propTypes = {
     antallResultater: PropTypes.number.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
-    onFlereResultaterClick: PropTypes.func.isRequired
-
+    onFlereResultaterClick: PropTypes.func.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired
 };

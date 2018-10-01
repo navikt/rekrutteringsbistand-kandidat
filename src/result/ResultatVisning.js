@@ -14,15 +14,23 @@ import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import Feedback from '../feedback/Feedback';
+import HjelpetekstFading from '../common/HjelpetekstFading';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
         window.scrollTo(0, 0);
+        this.state = {
+            feilmeldingVises: false
+        };
     }
 
     componentDidMount() {
         this.props.performInitialSearch();
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.feilmeldingCallbackId);
     }
 
     onRemoveCriteriaClick = () => {
@@ -41,6 +49,18 @@ class ResultatVisning extends React.Component {
         this.props.search();
     };
 
+    visFeilmelding = () => {
+        clearTimeout(this.feilmeldingCallbackId);
+        this.setState({
+            feilmeldingVises: true
+        });
+        this.feilmeldingCallbackId = setTimeout(() => {
+            this.setState({
+                feilmeldingVises: false
+            });
+        }, 5000);
+    };
+
     render() {
         return (
             <div>
@@ -51,6 +71,7 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Feedback />
+                        <HjelpetekstFading synlig={this.state.feilmeldingVises} type="advarsel" tekst="Du må huke av for kandidatene du ønsker å lagre" />
                         <Container className="blokk-s container--wide">
                             <Row>
                                 <Column className="text-center">
@@ -76,7 +97,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                 </Column>
                                 <Column xs="12" md="8">
-                                    <KandidaterVisning />
+                                    <KandidaterVisning visFeilmelding={this.visFeilmelding} />
                                 </Column>
                             </Row>
                         </Container>
