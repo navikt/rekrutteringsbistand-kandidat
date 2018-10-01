@@ -19,12 +19,15 @@ import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
+import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
 import Feilside from './error/Feilside';
 import feedbackReducer from '../feedback/feedbackReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
+import Kandidatlister from '../kandidatlister/Kandidatlister';
+import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -37,6 +40,7 @@ const store = createStore(combineReducers({
     geografi: geografiReducer,
     sprakReducer,
     cvReducer,
+    kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
@@ -74,6 +78,8 @@ class Sok extends React.Component {
                 <Switch>
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
+                    <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
+                    <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
                 </Switch>
@@ -128,6 +134,7 @@ const MidlertidigNede = () => (
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
+sagaMiddleware.run(kandidatlisteSaga);
 
 const Root = () => (
     BACKEND_OPPE ? <App /> : <MidlertidigNede />
