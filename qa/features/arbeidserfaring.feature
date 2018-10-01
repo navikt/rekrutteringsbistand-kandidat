@@ -2,7 +2,7 @@
 
 Egenskap: Finne kandidater basert på arbeidserfaring
 
-  @erfaring @ignore
+  @erfaring @ignore @elastic @janzz
   Scenario: Søke etter kandidater basert på arbeidserfaring
     Gitt at jeg er logget inn i kandidatsøket som "08044601975"
     Når jeg legger til arbeidserfaring "Barnehagelærer"

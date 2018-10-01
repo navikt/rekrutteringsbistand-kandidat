@@ -12,6 +12,7 @@ export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const SET_STATE = 'SET_STATE';
+export const PERFORM_INITIAL_SEARCH = 'PERFORM_INITIAL_SEARCH';
 
 export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
 const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
@@ -27,6 +28,8 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!toggles['janzz-enabled']) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
+    } else if (toggles['janzz-enabled'] && key.includes('vis-ny-vis-kandidat-side')) {
+        return false;
     }
     return true;
 };
@@ -247,7 +250,6 @@ function* hentFeatureToggles() {
     try {
         const data = yield call(fetchFeatureToggles);
         yield put({ type: FETCH_FEATURE_TOGGLES_SUCCESS, data });
-        yield call(initialSearch);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_FEATURE_TOGGLES_FAILURE, error: e });
@@ -259,6 +261,7 @@ function* hentFeatureToggles() {
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, search);
+    yield takeLatest(PERFORM_INITIAL_SEARCH, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
 };
