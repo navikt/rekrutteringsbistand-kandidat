@@ -162,9 +162,8 @@ class KandidatlisteDetalj extends React.Component {
         );
 
 
-        const SlettKandidaterModal = ({ appElement }) => (
+        const SlettKandidaterModal = () => (
             <Modal
-                appElement={appElement}
                 className="KandidatlisteDetalj__modal"
                 isOpen={this.state.visSlettKandidaterModal}
                 onRequestClose={this.lukkSlettModal}
