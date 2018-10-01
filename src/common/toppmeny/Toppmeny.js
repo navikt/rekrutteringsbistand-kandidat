@@ -14,7 +14,7 @@ const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
             <Column xs="3" sm="1">
                 <div className="header__logo">
                     <a id="goto-forsiden" href={PAMPORTAL_URL} title="Gå til forsiden" className="logo" >
-                        Tjeneste
+                        Arbeidsplassen
                     </a>
                 </div>
             </Column>
