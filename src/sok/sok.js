@@ -22,12 +22,17 @@ import cvReducer, { cvSaga } from './cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
 import Feilside from './error/Feilside';
 import feedbackReducer from '../feedback/feedbackReducer';
+import arbeidsgivervelgerReducer, {
+    HENT_ARBEIDSGIVERE_BEGIN,
+    mineArbeidsgivereSaga
+} from '../arbeidsgivervelger/arbeidsgivervelgerReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
+import VelgArbeidsgiver from '../arbeidsgivervelger/VelgArbeidsgiver';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -41,7 +46,8 @@ const store = createStore(combineReducers({
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
-    feedback: feedbackReducer
+    feedback: feedbackReducer,
+    mineArbeidsgivere: arbeidsgivervelgerReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
@@ -51,6 +57,7 @@ Begin class Sok
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureTogglesOgInitialSearch();
+        this.props.fetchArbeidsgivere();
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
@@ -72,6 +79,8 @@ class Sok extends React.Component {
     render() {
         if (this.props.error) {
             return <Feilside />;
+        } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {
+            return <VelgArbeidsgiver />;
         }
         return (
             <BrowserRouter>
@@ -89,22 +98,32 @@ class Sok extends React.Component {
 }
 
 Sok.defaultProps = {
-    error: undefined
+    error: undefined,
+    valgtArbeidsgiverId: undefined
 };
 
 Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
     }),
-    fetchFeatureTogglesOgInitialSearch: PropTypes.func.isRequired
+    fetchFeatureTogglesOgInitialSearch: PropTypes.func.isRequired,
+    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
+        orgnr: PropTypes.string,
+        orgnavn: PropTypes.string
+    })).isRequired,
+    valgtArbeidsgiverId: PropTypes.string,
+    fetchArbeidsgivere: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    error: state.search.error
+    error: state.search.error,
+    arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
+    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFeatureTogglesOgInitialSearch: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
+    fetchFeatureTogglesOgInitialSearch: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
+    fetchArbeidsgivere: () => dispatch({ type: HENT_ARBEIDSGIVERE_BEGIN })
 });
 /*
 End class Sok
@@ -135,6 +154,7 @@ sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(kandidatlisteSaga);
+sagaMiddleware.run(mineArbeidsgivereSaga);
 
 const Root = () => (
     BACKEND_OPPE ? <App /> : <MidlertidigNede />
