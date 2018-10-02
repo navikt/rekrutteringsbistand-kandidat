@@ -83,7 +83,7 @@ class Sok extends React.Component {
         } else if (this.props.isFetchingArbeidsgivere) {
             return (
                 <div className="text-center">
-                    <NavFrontendSpinner type="XL" />
+                    <NavFrontendSpinner type="L" />
                 </div>
             );
         } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {

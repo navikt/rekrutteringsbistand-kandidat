@@ -15,7 +15,7 @@ export const RESET_ARBEIDSGIVER = 'RESET_ARBEIDSGIVER';
  * REDUCER
  ********************************************************* */
 const initialState = {
-    valgtArbeidsgiverId: undefined,
+    valgtArbeidsgiverId: sessionStorage.getItem('orgnr') ? sessionStorage.getItem('orgnr') : undefined,
     arbeidsgivere: [],
     isFetchingArbeidsgivere: true
 };
