@@ -1,14 +1,15 @@
+@import '../Variables.less';
 @import "../styles";
 
 .KandidatlisteHeader {
   background-color: @navBla;
   color: white;
-  height: 8rem;
+  min-height: 8rem;
   display: flex;
   align-items: center;
   padding-left: 8rem;
   padding-right: 8rem;
-  :first-child {
+  > :first-child {
     flex: 1;
   }
   .knapp {
@@ -102,4 +103,174 @@
 
 .OpprettKandidatlisteForm__input {
   margin-bottom: 2rem;
+}
+
+.KandidatlisteDetalj__header--innhold {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+
+    .TilbakeLenke {
+        padding: 0px;
+        > a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+
+    .undertittel {
+        font-style: italic;
+    }
+
+    > :nth-child(2) {
+        margin-top: 24px;
+    }
+
+    > :nth-child(3) {
+        margin-top: 12px;
+    }
+
+    .inforad {
+        margin-top: 24px;
+        display: inline-flex;
+
+        @media(max-width: 768px) {
+            flex-direction: column;
+        }
+
+        @media(min-width: 769px) {
+            flex-direction: row;
+            p:not(:last-child):after {
+                content: '|';
+                margin-left: 1rem;
+                margin-right: 1rem;  
+            }
+        }
+
+        p > a {
+            color: white;
+        }
+
+        p:first-child {
+            font-weight: bolder;
+        }
+    }
+}
+
+.KandidatlisteDetalj__container {
+    padding-top: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+
+    @media (min-width: 672px) {
+        padding-left: 8rem;
+        padding-right: 8rem;   
+    }
+
+    .KandidatlisteDetalj__panel {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        // justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: 1.5rem;
+        flex-direction: row;
+    
+        .KandidatlisteDetalj__panel--venstre {
+            display: inline-flex;
+            align-items: center;
+            flex-direction: row;
+            @media (min-width: 672px) {
+                flex: 0 0 180px;
+                min-width: 180px;   
+            }
+
+            @media (max-width: 671px) {
+                flex: 1;
+            }
+            
+            .skjemaelement__label {
+                padding-left: 48px;
+                font-weight: bold;
+            }
+
+            
+        }
+        .typo-undertekst-bold {
+            font-size: 16px;
+        }
+
+        .skjemaelement {
+            display: inline-flex;
+            align-items: center;
+            margin: 0px;
+        }
+    }
+
+    .KandidatlisteDetalj__panel--header {
+        border-radius: 4px;
+        border-width: 1px;
+        border-color: black;
+        border-style: solid;
+    }
+
+    .KandidatlisteDetalj__knapperad {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 8px;
+        * {
+            margin-left: 8px;  
+        }
+
+        .knapp--ikon {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    }
+}
+
+.KandidatlisteDetalj__modal {
+    padding-right: 4rem;
+    padding-left: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    .knapperad {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: row;
+        * > {
+            margin-right: 1rem;
+        }
+    }
+
+    .alertstripe {
+        margin-bottom: 1rem;
+    }
+}
+
+.KandidatlisteDetalj__spinner--wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.TomListe {
+    text-align: center;
+    padding: 4rem !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #b9b7b57c;
+
+    >.lenke {
+        text-align: center;
+        display: inline-block;
+        margin-top: 2rem;
+    }
 }

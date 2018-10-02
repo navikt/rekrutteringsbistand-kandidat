@@ -34,6 +34,7 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -95,6 +96,7 @@ class Sok extends React.Component {
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
                     <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
+                    <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid" component={KandidatlisteDetalj} />
                     <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
