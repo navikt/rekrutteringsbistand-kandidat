@@ -18,8 +18,15 @@ const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
     if (fetching || kandidatlister === undefined) {
         return <NavFrontendSpinner type="L" />;
     } else if (kandidatlister.length === 0) {
-        return 'Ingen kandidatlister';
+        return (
+            <TomListe
+                lenke="/pam-kandidatsok/lister/opprett"
+                lenkeTekst="Opprett kandidatliste"
+            >
+                Du har ingen kandidatlister
+            </TomListe>);
     }
+
     return (
         kandidatlister.map((kandidatliste) => (
             <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} />
@@ -118,11 +125,7 @@ class Kandidatlister extends React.Component {
                 <KandidatlisteHeader />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        {kandidatlister !== undefined && kandidatlister.length > 0 ? (
-                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
-                        ) : (
-                            <TomListe lenke="/pam-kandidatsok/lister/opprett" lenkeTekst="Opprett kandidatliste">Du har ingen kandidatlister</TomListe>
-                        )}
+                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
                     </Container>
                 </Container>
             </div>

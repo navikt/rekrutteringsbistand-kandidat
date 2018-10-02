@@ -14,7 +14,7 @@ const TomListe = ({ children, lenke, lenkeTekst }) => {
             <Undertittel>
                 { children }
             </Undertittel>
-            { visLenke && (<Link class="lenke" to={lenke}>{lenkeTekst}</Link>)}
+            { visLenke && (<Link className="lenke" to={lenke}>{lenkeTekst}</Link>)}
         </Panel>
     );
 };
