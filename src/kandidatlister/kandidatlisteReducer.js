@@ -33,7 +33,8 @@ export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 const initialState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
-        sletteStatus: SLETTE_STATUS.FINISHED
+        sletteStatus: SLETTE_STATUS.FINISHED,
+        kandidatliste: undefined
     },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
@@ -99,17 +100,25 @@ export default function searchReducer(state = initialState, action) {
         case HENT_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                detaljer: action.kandidatliste
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: action.kandidatliste
+                }
             };
         case HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                detaljer: undefined
+                detaljer: {
+                    ...state.kandidatlister,
+                    sletteStatus: SLETTE_STATUS.FAILURE
+                }
             };
         case CLEAR_KANDIDATLISTE:
             return {
                 ...state,
-                detaljer: undefined
+                detaljer: {
+                    ...initialState.detaljer
+                }
             };
         case SLETT_KANDIDATER: {
             return {
@@ -125,8 +134,10 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 detaljer: {
-                    ...state.detaljer,
-                    kandidater: state.detaljer.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1)),
+                    kandidatliste: {
+                        ...state.detaljer.kandidatliste,
+                        kandidater: state.detaljer.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                    },
                     sletteStatus: SLETTE_STATUS.SUCCESS
                 }
             };
