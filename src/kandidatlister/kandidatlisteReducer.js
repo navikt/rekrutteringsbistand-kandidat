@@ -1,6 +1,6 @@
 import { put, takeLatest, select } from 'redux-saga/effects';
-import { fetchKandidatlister, postKandidatliste, SearchApiError } from '../sok/api';
-import { LAGRE_STATUS } from '../konstanter';
+import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
+import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
 /** *********************************************************
@@ -17,11 +17,25 @@ export const HENT_KANDIDATLISTER_FAILURE = 'HENT_KANDIDATLISTER_FAILURE';
 
 export const RESET_LAGRE_STATUS = 'RESET_LAGRE_STATUS';
 
+export const HENT_KANDIDATLISTE = 'HENT_KANDIDATLISTE';
+export const HENT_KANDIDATLISTE_SUCCESS = 'HENT_KANDIDATLISTE_SUCCESS';
+export const HENT_KANDIDATLISTE_FAILURE = 'HENT_KANDIDATLISTE_FAILURE';
+export const CLEAR_KANDIDATLISTE = 'CLEAR_KANDIDATLISTE';
+
+export const SLETT_KANDIDATER = 'SLETT_KANDIDATER';
+export const SLETT_KANDIDATER_SUCCESS = 'SLETT_KANDIDATER_SUCCESS';
+export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
+    lagreStatus: LAGRE_STATUS.UNSAVED,
+    detaljer: {
+        sletteStatus: SLETTE_STATUS.FINISHED,
+        kandidatliste: undefined
+    },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         opprettetKandidatlisteTittel: undefined
@@ -70,18 +84,71 @@ export default function searchReducer(state = initialState, action) {
         case HENT_KANDIDATLISTER:
             return {
                 ...state,
-                fetchKandidatlister: true
+                fetchingKandidatlister: true
             };
         case HENT_KANDIDATLISTER_SUCCESS:
             return {
                 ...state,
                 kandidatlister: action.kandidatlister,
-                fetchKandidatlister: false
+                fetchingKandidatlister: false
             };
         case HENT_KANDIDATLISTER_FAILURE:
             return {
                 ...state,
-                fetchKandidatlister: false
+                fetchingKandidatlister: false
+            };
+        case HENT_KANDIDATLISTE_SUCCESS:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: action.kandidatliste
+                }
+            };
+        case HENT_KANDIDATLISTE_FAILURE:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.kandidatlister,
+                    sletteStatus: SLETTE_STATUS.FAILURE
+                }
+            };
+        case CLEAR_KANDIDATLISTE:
+            return {
+                ...state,
+                detaljer: {
+                    ...initialState.detaljer
+                }
+            };
+        case SLETT_KANDIDATER: {
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    sletteStatus: SLETTE_STATUS.LOADING
+                }
+            };
+        }
+        case SLETT_KANDIDATER_SUCCESS: {
+            const { slettKandidatnr } = action;
+            return {
+                ...state,
+                detaljer: {
+                    kandidatliste: {
+                        ...state.detaljer.kandidatliste,
+                        kandidater: state.detaljer.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                    },
+                    sletteStatus: SLETTE_STATUS.SUCCESS
+                }
+            };
+        }
+        case SLETT_KANDIDATER_FAILURE:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    sletteStatus: SLETTE_STATUS.FAILURE
+                }
             };
         default:
             return state;
@@ -108,7 +175,35 @@ function* opprettKandidatliste(action) {
     }
 }
 
-function* hentKandidatlister(action) {
+function* hentKandidatListe(action) {
+    const { kandidatlisteId } = action;
+    try {
+        const kandidatliste = yield fetchKandidatliste(kandidatlisteId);
+        yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_KANDIDATLISTE_FAILURE });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* slettKandidater(action) {
+    try {
+        const { kandidater, kandidatlisteId } = action;
+        const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
+        yield deleteKandidater(kandidatlisteId, slettKandidatnr);
+        yield put({ type: SLETT_KANDIDATER_SUCCESS, slettKandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SLETT_KANDIDATER_FAILURE });
+        }
+    }
+}
+
+
+function* hentKandidatlister() {
     try {
         const state = yield select();
         const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
@@ -129,6 +224,8 @@ function* sjekkError(action) {
 
 export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
+    yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
+    yield takeLatest(SLETT_KANDIDATER, slettKandidater);
     yield takeLatest(HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
@@ -32,8 +33,8 @@ import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
+import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -95,6 +96,7 @@ class Sok extends React.Component {
                     <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
                     <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
                     <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
+                    <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid" component={KandidatlisteDetalj} />
                     <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />

@@ -86,6 +86,31 @@ async function postJson(url, bodyString) {
     }
 }
 
+async function deleteReq(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'DELETE',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status <= 202) {
+            return response.json();
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 export function fetchFeatureToggles() {
     return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
@@ -120,4 +145,12 @@ export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
 
 export function fetchArbeidsgivere() {
     return fetchJson(`${ORGANISASJON_API}`, true);
+}
+
+export function fetchKandidatliste(kandidatlisteId) {
+    return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+}
+
+export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
+    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
 }

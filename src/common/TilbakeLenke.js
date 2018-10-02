@@ -5,7 +5,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 const TilbakeLenke = ({ href, tekst }) => (
     <div className="TilbakeLenke">
-        <Link to={href} className="lenke TilbakeLenke__lenke"><NavFrontendChevron type="venstre" /> {tekst}</Link>
+        <Link to={href} className="TilbakeLenke__lenke"><NavFrontendChevron type="venstre" /> {tekst}</Link>
     </div>
 );
 
