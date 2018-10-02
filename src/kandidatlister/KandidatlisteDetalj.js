@@ -16,6 +16,7 @@ import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kan
 import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
+import TomListe from './TomListe';
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -210,11 +211,19 @@ class KandidatlisteDetalj extends React.Component {
         return (
             <div id="KandidaterDetalj">
                 <Header />
-                <div className="KandidatlisteDetalj__container">
-                    <Knapper />
-                    <ToppRad />
-                    <KandidatListe />
-                </div>
+                {kandidater.length > 0 ? (
+                    <div className="KandidatlisteDetalj__container">
+                        <Knapper />
+                        <ToppRad />
+                        <KandidatListe />
+                    </div>
+                ) : (
+                    <div className="KandidatlisteDetalj__container">
+                        <TomListe lenke="/pam-kandidatsok" lenkeTekst="Finn kandidater">
+                            Du har ingen kandidater i kandidatlisten
+                        </TomListe>
+                    </div>
+                )}
                 <SlettKandidaterModal />
             </div>
         );
