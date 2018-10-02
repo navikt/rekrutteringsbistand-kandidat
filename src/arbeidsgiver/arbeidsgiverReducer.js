@@ -17,7 +17,8 @@ export const RESET_ARBEIDSGIVER = 'RESET_ARBEIDSGIVER';
 const initialState = {
     valgtArbeidsgiverId: sessionStorage.getItem('orgnr') ? sessionStorage.getItem('orgnr') : undefined,
     arbeidsgivere: [],
-    isFetchingArbeidsgivere: true
+    isFetchingArbeidsgivere: true,
+    error: undefined
 };
 
 export default function reducer(state = initialState, action) {
@@ -47,7 +48,8 @@ export default function reducer(state = initialState, action) {
         case HENT_ARBEIDSGIVERE_FAILURE:
             return {
                 ...state,
-                isFetchingArbeidsgivere: false
+                isFetchingArbeidsgivere: false,
+                error: action.error
             };
         default:
             return state;
