@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Select } from 'nav-frontend-skjema';
-import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgivervelgerReducer';
+import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
 
 class ArbeidsgiverSelect extends React.Component {
     onArbeidsgiverChange = (e) => {

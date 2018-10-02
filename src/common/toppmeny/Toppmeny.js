@@ -5,7 +5,7 @@ import { Row, Column } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './Toppmeny.less';
 import { LOGOUT_URL, PAMPORTAL_URL } from '../fasitProperties';
-import ArbeidsgiverSelect from '../../arbeidsgivervelger/ArbeidsgiverSelect';
+import ArbeidsgiverSelect from '../../arbeidsgiver/ArbeidsgiverSelect';
 
 const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
     <div className="header">

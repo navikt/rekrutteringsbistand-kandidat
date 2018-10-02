@@ -25,14 +25,14 @@ import feedbackReducer from '../feedback/feedbackReducer';
 import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
-} from '../arbeidsgivervelger/arbeidsgivervelgerReducer';
+} from '../arbeidsgiver/arbeidsgiverReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
-import VelgArbeidsgiver from '../arbeidsgivervelger/VelgArbeidsgiver';
+import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
