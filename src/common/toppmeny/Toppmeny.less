@@ -14,6 +14,7 @@
 
 .header__row {
   margin-top: 1rem;
+  width: 100%;
 }
 
 .header__logo .logo {
@@ -58,11 +59,28 @@
 }
 
 .pull {
-  float: right;
+  text-align: right;
+  .header__right {
+    display: inline-block;
+    &:first-child {
+      margin-right: 3rem;
+    }
+  }
 }
 
 @media (max-width: @screen-xs-max) {
   .pull {
     float: none;
+  }
+}
+
+.topmeny-select {
+  margin-bottom: 0 !important;
+  width: 100%;
+  label {
+    margin: 0
+  }
+  select {
+    padding-right: 2rem !important;
   }
 }
