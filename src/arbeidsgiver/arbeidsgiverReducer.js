@@ -16,7 +16,8 @@ export const RESET_ARBEIDSGIVER = 'RESET_ARBEIDSGIVER';
  ********************************************************* */
 const initialState = {
     valgtArbeidsgiverId: undefined,
-    arbeidsgivere: []
+    arbeidsgivere: [],
+    isFetchingArbeidsgivere: true
 };
 
 export default function reducer(state = initialState, action) {
@@ -25,7 +26,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 arbeidsgivere: action.response,
-                valgtArbeidsgiverId: action.response.length === 1 ? action.response[0].orgnr : state.valgtArbeidsgiverId
+                valgtArbeidsgiverId: action.response.length === 1 ? action.response[0].orgnr : state.valgtArbeidsgiverId,
+                isFetchingArbeidsgivere: false
             };
         case VELG_ARBEIDSGIVER:
             return {
@@ -38,6 +40,15 @@ export default function reducer(state = initialState, action) {
                 valgtArbeidsgiverId: undefined
             };
         case HENT_ARBEIDSGIVERE_BEGIN:
+            return {
+                ...state,
+                isFetchingArbeidsgivere: true
+            };
+        case HENT_ARBEIDSGIVERE_FAILURE:
+            return {
+                ...state,
+                isFetchingArbeidsgivere: false
+            };
         default:
             return state;
     }

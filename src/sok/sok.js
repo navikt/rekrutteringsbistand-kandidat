@@ -33,6 +33,7 @@ import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -79,6 +80,12 @@ class Sok extends React.Component {
     render() {
         if (this.props.error) {
             return <Feilside />;
+        } else if (this.props.isFetchingArbeidsgivere) {
+            return (
+                <div className="text-center">
+                    <NavFrontendSpinner type="XL" />
+                </div>
+            );
         } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {
             return <VelgArbeidsgiver />;
         }
@@ -112,13 +119,15 @@ Sok.propTypes = {
         orgnavn: PropTypes.string
     })).isRequired,
     valgtArbeidsgiverId: PropTypes.string,
-    fetchArbeidsgivere: PropTypes.func.isRequired
+    fetchArbeidsgivere: PropTypes.func.isRequired,
+    isFetchingArbeidsgivere: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     error: state.search.error,
     arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
-    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId
+    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId,
+    isFetchingArbeidsgivere: state.mineArbeidsgivere.isFetchingArbeidsgivere
 });
 
 const mapDispatchToProps = (dispatch) => ({
