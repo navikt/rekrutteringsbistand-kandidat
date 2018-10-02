@@ -53,3 +53,10 @@ export const LAGRE_STATUS = {
     SUCCESS: 'SUCCESS',
     FAILURE: 'FAILURE'
 };
+
+export const SLETTE_STATUS = {
+    LOADING: 'LOADING',
+    SUCCESS: 'SUCCESS',
+    FINISHED: 'FINISHED',
+    FAILURE: 'FAILURE'
+};

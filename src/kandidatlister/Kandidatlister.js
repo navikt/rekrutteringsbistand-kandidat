@@ -7,8 +7,8 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import EditIkon from '../common/ikon/EditIkon';
-import SlettIkon from '../common/ikon/SlettIkon';
+import EditIkon from '../common/ikoner/EditIkon';
+import SlettIkon from '../common/ikoner/SlettIkon';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 

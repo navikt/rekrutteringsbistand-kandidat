@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Row, Column } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 import './Toppmeny.less';
 import { LOGOUT_URL, PAMPORTAL_URL } from '../fasitProperties';
-import { Knapp } from 'nav-frontend-knapper';
 import ArbeidsgiverSelect from '../../arbeidsgiver/ArbeidsgiverSelect';
 
 const loggUt = () => {
