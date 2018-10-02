@@ -75,7 +75,7 @@ class ResultatVisning extends React.Component {
                         <Container className="blokk-s container--wide">
                             <Row>
                                 <Column className="text-center">
-                                    <Sidetittel>Aktuelle kandidater</Sidetittel>
+                                    <Sidetittel>Kandidatsøk</Sidetittel>
                                 </Column>
                             </Row>
                             <Row className="resultatvisning--body">

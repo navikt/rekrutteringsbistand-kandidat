@@ -82,7 +82,7 @@ const startServer = (html) => {
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
-    server.use('/pam-kandidatsok/rest/kandidatsok/', proxy(proxyHost, {
+    server.use('/pam-kandidatsok/rest/', proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => {
             const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;

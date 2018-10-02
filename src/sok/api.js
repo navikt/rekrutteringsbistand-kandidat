@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API } from '../common/fasitProperties';
+import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -86,6 +86,31 @@ async function postJson(url, bodyString) {
     }
 }
 
+async function deleteReq(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'DELETE',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status <= 202) {
+            return response.json();
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 export function fetchFeatureToggles() {
     return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
@@ -114,6 +139,18 @@ export function fetchKandidatlister(orgNummer) {
     );
 }
 
-export function postKandidatliste(kandidatlistBeskrivelse) {
-    return postJson(`${KANDIDATLISTE_API}010005434/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
+export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
+    return postJson(`${KANDIDATLISTE_API}${orgNr}/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
+}
+
+export function fetchArbeidsgivere() {
+    return fetchJson(`${ORGANISASJON_API}`, true);
+}
+
+export function fetchKandidatliste(kandidatlisteId) {
+    return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+}
+
+export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
+    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
 }

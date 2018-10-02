@@ -12,7 +12,7 @@ module.exports = merge(common, {
     plugins: [
         new webpack.DefinePlugin({
             __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/pam-kandidatsok-api/rest/'",
-            __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie'",
+            __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie?level=Level3'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __BACKEND_OPPE__: true,
