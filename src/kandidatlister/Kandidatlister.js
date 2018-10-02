@@ -13,6 +13,7 @@ import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer'
 import { LAGRE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
+import UnderArbeidSide from "./UnderArbeidSide";
 
 const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
     if (fetching || kandidatlister === undefined) {
@@ -107,7 +108,11 @@ class Kandidatlister extends React.Component {
     };
 
     render() {
-        const { kandidatlister, fetchingKandidatlister } = this.props;
+        // TODO: Fjern featureToggle
+        const { kandidatlister, fetchingKandidatlister, skalViseKandidatlister } = this.props;
+        if (!skalViseKandidatlister) {
+            return <UnderArbeidSide />;
+        }
         return (
             <div>
                 <HjelpetekstFading
@@ -130,7 +135,8 @@ const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister,
-    fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister
+    fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister,
+    skalViseKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -167,7 +173,8 @@ Kandidatlister.propTypes = {
     hentKandidatlister: PropTypes.func.isRequired,
     fetchingKandidatlister: PropTypes.bool.isRequired,
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
-    opprettetTittel: PropTypes.string
+    opprettetTittel: PropTypes.string,
+    skalViseKandidatlister: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
