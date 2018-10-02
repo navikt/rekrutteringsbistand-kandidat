@@ -9,6 +9,8 @@ import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
+import { HENT_KANDIDATLISTER } from '../kandidatlister/kandidatlisteReducer';
+import LagreKandidaterModal from './LagreKandidaterModal';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -39,7 +41,8 @@ class KandidaterVisning extends React.Component {
         this.state = {
             antallResultater: 25,
             kandidater: this.props.kandidater.map(avmarkerKandidat),
-            alleKandidaterMarkert: false
+            alleKandidaterMarkert: false,
+            lagreKandidaterModalVises: false
         };
     }
 
@@ -112,16 +115,30 @@ class KandidaterVisning extends React.Component {
         });
     };
 
+    aapneLagreKandidaterModal = () => {
+        this.setState({
+            lagreKandidaterModalVises: true
+        });
+    };
+
+    lukkeLagreKandidaterModal = () => {
+        this.setState({
+            lagreKandidaterModalVises: false
+        });
+    };
+
     render() {
         const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
         return (
             <div>
+                {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} />}
+
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                     <Checkbox className="text-hide" label="." checked={this.state.alleKandidaterMarkert} onChange={this.toggleMarkeringAlleKandidater} />
-                    <KnappMedDisabledFunksjon disabled={antallMarkert === 0} onClick={() => { console.log('Clicked!'); }} onDisabledClick={this.props.visFeilmelding} >
+                    <KnappMedDisabledFunksjon disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding} >
                         {lagreKandidaterKnappTekst(antallMarkert)}
                     </KnappMedDisabledFunksjon>
                 </div>
@@ -167,10 +184,15 @@ KandidaterVisning.propTypes = {
     visFeilmelding: PropTypes.func.isRequired
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); }
+});
+
 const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    isEmptyQuery: state.search.isEmptyQuery
+    isEmptyQuery: state.search.isEmptyQuery,
+    kandidatlister: state.kandidatlister.kandidatlister
 });
 
-export default connect(mapStateToProps)(KandidaterVisning);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
