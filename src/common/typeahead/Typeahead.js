@@ -197,7 +197,7 @@ export default class Typeahead extends React.Component {
                 <ul
                     id={`${this.props.id}-suggestions`}
                     role="listbox"
-                    className={showSuggestions ? '' : 'typeahead-suggestions-hidden'}
+                    className={showSuggestions ? 'typeahead-suggestions-visible' : 'typeahead-suggestions-hidden'}
                     onMouseLeave={this.resetHighlightingSuggestion}
                 >
                     {showSuggestions && this.props.suggestions.map((li, i) => (
