@@ -66,7 +66,7 @@ class Sok extends React.Component {
 
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
-        window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
+        window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
     };
 
     render() {
