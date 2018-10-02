@@ -9,9 +9,9 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import EditIkon from '../common/ikoner/EditIkon';
 import SlettIkon from '../common/ikoner/SlettIkon';
+import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
-
 import './kandidatlister.less';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
@@ -118,7 +118,11 @@ class Kandidatlister extends React.Component {
                 <KandidatlisteHeader />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                        {kandidatlister !== undefined && kandidatlister.length > 0 ? (
+                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                        ) : (
+                            <TomListe lenke="/pam-kandidatsok/lister/opprett" lenkeTekst="Opprett kandidatliste">Du har ingen kandidatlister</TomListe>
+                        )}
                     </Container>
                 </Container>
             </div>
