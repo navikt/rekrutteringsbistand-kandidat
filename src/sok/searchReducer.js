@@ -2,7 +2,6 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
 import FEATURE_TOGGLES from '../konstanter';
-import { HENT_ARBEIDSGIVERE_FAILURE } from '../arbeidsgiver/arbeidsgiverReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -124,7 +123,6 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 visAlertFaKandidater: action.value
             };
-        case HENT_ARBEIDSGIVERE_FAILURE:
         case INVALID_RESPONSE_STATUS:
             return {
                 ...state,
