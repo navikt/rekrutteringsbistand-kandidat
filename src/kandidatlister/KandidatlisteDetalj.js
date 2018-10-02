@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
+import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
@@ -12,11 +13,12 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
 import PrinterIkon from '../common/ikoner/PrinterIkon';
+import TomListe from './TomListe';
+import KandidatlisteHeader from './KandidatlisteHeader';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
-import TomListe from './TomListe';
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -138,29 +140,8 @@ class KandidatlisteDetalj extends React.Component {
         const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
-        const ToppRad = () => (
-            <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
-                <div className="KandidatlisteDetalj__panel--venstre">
-                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
-                </div>
-                <UndertekstBold>Arbeidserfaring</UndertekstBold>
-            </Panel>
-        );
-
-        const KandidatListe = () => (
-            kandidater && kandidater.map((kandidat) => (
-                <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
-                    <div className="KandidatlisteDetalj__panel--venstre">
-                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
-                    </div>
-                    <Undertekst >{kandidat.sisteArbeidserfaring}</Undertekst>
-                </Panel>
-            ))
-        );
-
         const Header = () => (
-            <div className="KandidatlisteHeader">
+            <KandidatlisteHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
                     <Sidetittel>{tittel}</Sidetittel>
@@ -170,7 +151,7 @@ class KandidatlisteDetalj extends React.Component {
                         <Normaltekst>Oppdragsgiver: <Link to="#">{organisasjonNavn}</Link></Normaltekst>
                     </div>
                 </div>
-            </div>
+            </KandidatlisteHeader>
         );
 
         const Knapper = () => (
@@ -198,6 +179,26 @@ class KandidatlisteDetalj extends React.Component {
             </div>
         );
 
+        const KandidatListeToppRad = () => (
+            <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
+                <div className="KandidatlisteDetalj__panel--venstre">
+                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                </div>
+                <UndertekstBold>Arbeidserfaring</UndertekstBold>
+            </Panel>
+        );
+
+        const KandidatListe = () => (
+            kandidater && kandidater.map((kandidat) => (
+                <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
+                    <div className="KandidatlisteDetalj__panel--venstre">
+                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                        <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                    </div>
+                    <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
+                </Panel>
+            ))
+        );
 
         const SlettKandidaterModal = () => (
             <Modal
@@ -228,17 +229,17 @@ class KandidatlisteDetalj extends React.Component {
             <div id="KandidaterDetalj">
                 <Header />
                 {kandidater.length > 0 ? (
-                    <div className="KandidatlisteDetalj__container">
+                    <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
                         <Knapper />
-                        <ToppRad />
+                        <KandidatListeToppRad />
                         <KandidatListe />
                     </div>
                 ) : (
-                    <div className="KandidatlisteDetalj__container">
+                    <Container className="Kandidatlister__container Kandidatlister__container-width">
                         <TomListe lenke="/pam-kandidatsok" lenkeTekst="Finn kandidater">
                             Du har ingen kandidater i kandidatlisten
                         </TomListe>
-                    </div>
+                    </Container>
                 )}
                 <SlettKandidaterModal />
             </div>

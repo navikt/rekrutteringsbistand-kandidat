@@ -1,29 +1,56 @@
 @import '../Variables.less';
 @import "../styles";
 
+@borderMork: #78706a;
+@borderLys: #d8d8d8;
+
 .KandidatlisteHeader {
   background-color: @navBla;
   color: white;
   min-height: 8rem;
   display: flex;
   align-items: center;
-  padding-left: 8rem;
-  padding-right: 8rem;
-  > :first-child {
-    flex: 1;
+  justify-content: center;
+  justify-items: center;
+
+  @media (max-width: 1050px) {
+      padding-left: 20px;
+      padding-right: 20px;
   }
-  .knapp {
-    color: white;
-    border: 2px solid white;
+  .KandidatlisteHeader__content {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      flex: 1;
+      max-width: 1036px;
   }
+}
+
+.Kandidatlister__header {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    > :first-child {
+        flex: 1;
+    }
+    .knapp {
+        color: white;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        border: 2px solid white;
+        border-radius: 4px;
+    }
 }
 
 .Kandidatliste__panel {
   background-color: white;
-  padding: 1.25rem;
+  padding: 20px;
   border-radius: 0.25rem;
+  border-width: 1px;
+  border-color: @borderLys;
+  border-style: solid;
   .beskrivelse {
-    padding-bottom: 1.25rem;
+    padding-bottom: 16px;
     .overskrift {
       text-decoration: underline;
     }
@@ -31,7 +58,7 @@
       color: #78706a;
     }
     .topp {
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -50,10 +77,10 @@
     }
   }
   .funksjonsknapp-panel {
-    border-top: 1px solid @navGra20;
+    border-top: 1px solid @borderLys;
     display: flex;
     justify-content: flex-end;
-    padding-top: 1.25rem;
+    padding-top: 16px;
     .ikon-knapp {
       color: @navBla;
       cursor: pointer;
@@ -73,12 +100,16 @@
 }
 
 .Kandidatlister__container {
-  margin-top: 1rem;
+  margin-top: 40px;
 }
 
 .Kandidatlister__container-width {
-  max-width: 40rem;
+  max-width: 640px;
 }
+
+.Kandidatlister__container-width-l {
+    max-width: 1036px;
+  }
 
 .OpprettKandidatliste__form-wrapper {
   background-color: white;
@@ -109,8 +140,6 @@
     display: flex;
     flex-direction: column;
     color: white;
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
 
     .TilbakeLenke {
         padding: 0px;
@@ -121,20 +150,18 @@
     }
 
     .undertittel {
+        margin-top: 5px;
         font-style: italic;
     }
 
     > :nth-child(2) {
-        margin-top: 24px;
-    }
-
-    > :nth-child(3) {
-        margin-top: 12px;
+        margin-top: 32px;
     }
 
     .inforad {
-        margin-top: 24px;
+        margin-top: 32px;
         display: inline-flex;
+        margin-bottom: 20px;
 
         @media(max-width: 768px) {
             flex-direction: column;
@@ -160,13 +187,13 @@
 }
 
 .KandidatlisteDetalj__container {
-    padding-top: 1rem;
-    margin-left: 0;
-    margin-right: 0;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
 
-    @media (min-width: 672px) {
-        padding-left: 8rem;
-        padding-right: 8rem;   
+    @media (max-width: 1050px) {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .KandidatlisteDetalj__panel {
@@ -174,32 +201,35 @@
         flex-direction: row;
         align-items: center;
         // justify-content: space-between;
-        margin-bottom: 1rem;
-        padding: 1.5rem;
+        margin-bottom: 0.5rem;
+        padding: 1.25rem;
+        min-height: 4rem;
         flex-direction: row;
+        border-style: solid;
+        border-color: @borderLys;
+        border-width: 1px;
     
         .KandidatlisteDetalj__panel--venstre {
             display: inline-flex;
             align-items: center;
             flex-direction: row;
             @media (min-width: 672px) {
-                flex: 0 0 180px;
-                min-width: 180px;   
+                flex: 0 0 240px;
+                min-width: 240px;   
             }
 
             @media (max-width: 671px) {
                 flex: 1;
             }
-            
+
             .skjemaelement__label {
-                padding-left: 48px;
+                padding-left: 3rem;
                 font-weight: bold;
             }
 
-            
         }
         .typo-undertekst-bold {
-            font-size: 16px;
+            font-size: 1rem;
         }
 
         .skjemaelement {
@@ -212,14 +242,14 @@
     .KandidatlisteDetalj__panel--header {
         border-radius: 4px;
         border-width: 1px;
-        border-color: black;
+        border-color: @borderMork;
         border-style: solid;
     }
 
     .KandidatlisteDetalj__knapperad {
         display: flex;
         justify-content: flex-end;
-        margin-bottom: 8px;
+        margin-bottom: 16px;
         * {
             margin-left: 8px;  
         }
@@ -241,7 +271,6 @@
     padding-left: 2rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
-
     .knapperad {
         margin-top: 2rem;
         display: flex;
@@ -250,7 +279,6 @@
             margin-right: 1rem;
         }
     }
-
     .alertstripe {
         margin-bottom: 1rem;
     }
@@ -266,9 +294,8 @@
     padding: 4rem !important;
     border-width: 1px;
     border-style: solid;
-    border-color: #b9b7b57c;
-
-    >.lenke {
+    border-color: @borderLys;
+    .lenke {
         text-align: center;
         display: inline-block;
         margin-top: 2rem;
