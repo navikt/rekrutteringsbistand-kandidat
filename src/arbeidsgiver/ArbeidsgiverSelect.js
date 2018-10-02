@@ -7,8 +7,10 @@ import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
 class ArbeidsgiverSelect extends React.Component {
     onArbeidsgiverChange = (e) => {
         if (e.target.value !== '0') {
+            sessionStorage.setItem('orgnr', e.target.value);
             this.props.velgArbeidsgiver(e.target.value);
         } else {
+            sessionStorage.removeItem('orgnr');
             this.props.resetArbeidsgiver();
         }
     };

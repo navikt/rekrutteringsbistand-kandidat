@@ -5,7 +5,13 @@ import { Row, Column } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './Toppmeny.less';
 import { LOGOUT_URL, PAMPORTAL_URL } from '../fasitProperties';
+import { Knapp } from 'nav-frontend-knapper';
 import ArbeidsgiverSelect from '../../arbeidsgiver/ArbeidsgiverSelect';
+
+const loggUt = () => {
+    sessionStorage.removeItem('orgnr');
+    window.location.href = LOGOUT_URL;
+};
 
 const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
     <div className="header">
@@ -31,9 +37,9 @@ const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
                 </div>
                 {loggUtSynlig && (
                     <div className="header__right">
-                        <a id="logg-ut" href={LOGOUT_URL} className="knapp knapp--mini knapp--loggut">
+                        <Knapp onClick={loggUt} id="logg-ut" className="knapp knapp--mini knapp--loggut">
                             Logg ut
-                        </a>
+                        </Knapp>
                     </div>
                 )}
             </Column>
