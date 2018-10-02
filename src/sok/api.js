@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API } from '../common/fasitProperties';
+import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -139,8 +139,12 @@ export function fetchKandidatlister(orgNummer) {
     );
 }
 
-export function postKandidatliste(kandidatlistBeskrivelse) {
-    return postJson(`${KANDIDATLISTE_API}010005434/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
+export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
+    return postJson(`${KANDIDATLISTE_API}${orgNr}/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
+}
+
+export function fetchArbeidsgivere() {
+    return fetchJson(`${ORGANISASJON_API}`, true);
 }
 
 export function fetchKandidatliste(kandidatlisteId) {

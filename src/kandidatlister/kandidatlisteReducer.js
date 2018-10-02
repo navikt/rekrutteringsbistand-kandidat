@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, select } from 'redux-saga/effects';
 import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
@@ -33,7 +33,8 @@ export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 const initialState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
-        sletteStatus: SLETTE_STATUS.FINISHED
+        sletteStatus: SLETTE_STATUS.FINISHED,
+        kandidatliste: undefined
     },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
@@ -99,17 +100,25 @@ export default function searchReducer(state = initialState, action) {
         case HENT_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                detaljer: action.kandidatliste
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: action.kandidatliste
+                }
             };
         case HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                detaljer: undefined
+                detaljer: {
+                    ...state.kandidatlister,
+                    sletteStatus: SLETTE_STATUS.FAILURE
+                }
             };
         case CLEAR_KANDIDATLISTE:
             return {
                 ...state,
-                detaljer: undefined
+                detaljer: {
+                    ...initialState.detaljer
+                }
             };
         case SLETT_KANDIDATER: {
             return {
@@ -125,8 +134,10 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 detaljer: {
-                    ...state.detaljer,
-                    kandidater: state.detaljer.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1)),
+                    kandidatliste: {
+                        ...state.detaljer.kandidatliste,
+                        kandidater: state.detaljer.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
+                    },
                     sletteStatus: SLETTE_STATUS.SUCCESS
                 }
             };
@@ -151,7 +162,9 @@ export default function searchReducer(state = initialState, action) {
 
 function* opprettKandidatliste(action) {
     try {
-        yield postKandidatliste(action.kandidatlisteInfo);
+        const state = yield select();
+        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
+        yield postKandidatliste(action.kandidatlisteInfo, orgNr);
         yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -192,8 +205,9 @@ function* slettKandidater(action) {
 
 function* hentKandidatlister() {
     try {
-        // TODO: fjern hardkoding
-        const response = yield fetchKandidatlister('010005434');
+        const state = yield select();
+        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
+        const response = yield fetchKandidatlister(orgNr);
         yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: response.liste });
     } catch (e) {
         if (e instanceof SearchApiError) {
