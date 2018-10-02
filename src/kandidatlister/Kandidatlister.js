@@ -14,7 +14,7 @@ import { LAGRE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
 import EndreModal from './EndreModal';
-import UnderArbeidSide from "./UnderArbeidSide";
+import UnderArbeidSide from './UnderArbeidSide';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -221,7 +221,7 @@ Kandidatlister.propTypes = {
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
     opprettetTittel: PropTypes.string,
     skalViseKandidatlister: PropTypes.bool.isRequired,
-    valgtArbeidsgiverId: PropTypes.bool.isRequired
+    valgtArbeidsgiverId: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
