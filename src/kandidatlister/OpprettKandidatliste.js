@@ -11,7 +11,7 @@ import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';
 import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
-import UnderArbeidSide from "./UnderArbeidSide";
+import UnderArbeidSide from './UnderArbeidSide';
 
 const tomKandidatlisteInfo = () => ({
     tittel: '',
