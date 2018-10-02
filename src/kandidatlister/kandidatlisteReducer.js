@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, select } from 'redux-saga/effects';
 import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
@@ -162,7 +162,9 @@ export default function searchReducer(state = initialState, action) {
 
 function* opprettKandidatliste(action) {
     try {
-        yield postKandidatliste(action.kandidatlisteInfo);
+        const state = yield select();
+        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
+        yield postKandidatliste(action.kandidatlisteInfo, orgNr);
         yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -203,8 +205,9 @@ function* slettKandidater(action) {
 
 function* hentKandidatlister() {
     try {
-        // TODO: fjern hardkoding
-        const response = yield fetchKandidatlister('010005434');
+        const state = yield select();
+        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
+        const response = yield fetchKandidatlister(orgNr);
         yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: response.liste });
     } catch (e) {
         if (e instanceof SearchApiError) {

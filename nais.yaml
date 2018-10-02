@@ -26,8 +26,10 @@ ingress:
   enabled: true
 fasitResources:
   used:
-  - alias: loginservice
+  - alias: loginservice-level-3
     resourceType: restservice
+    propertyMap:
+      url: LOGINSERVICE_URL
   - alias: logoutservice
     resourceType: restservice
   - alias: pamportal
