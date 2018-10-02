@@ -3,24 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
 
 class KandidaterTableRow extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            checked: false
-        };
-    }
-    onCheck = (kandidatnr, yrkeserfaring) => {
-        const checked = !this.state.checked;
-        this.props.onKandidatValgt(checked, kandidatnr, yrkeserfaring);
-        this.setState({
-            checked
-        });
+    onCheck = (kandidatnr) => {
+        this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
 
@@ -49,9 +40,13 @@ class KandidaterTableRow extends React.Component {
             return (
 
                 <Row>
+
+                    {this.props.visKandidatlister &&
                     <Column>
-                        <input type="checkbox" onChange={() => { this.onCheck(cv.arenaKandidatnr, yrkeserfaring); }} />
+                        <Checkbox className="text-hide" label="." checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
                     </Column>
+                    }
+
                     <Link
                         to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
                         className="panel border--top--thin kandidater--row"
@@ -128,13 +123,16 @@ KandidaterTableRow.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     janzzEnabled: PropTypes.bool.isRequired,
     visNyVisKandidatSide: PropTypes.bool.isRequired,
-    onKandidatValgt: PropTypes.func.isRequired
+    onKandidatValgt: PropTypes.func.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired,
+    markert: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
     janzzEnabled: state.search.featureToggles['janzz-enabled'],
-    visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side']
+    visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side'],
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({

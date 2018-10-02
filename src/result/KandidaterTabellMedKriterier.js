@@ -37,6 +37,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                             cv={cv}
                             key={cv.arenaKandidatnr}
                             onKandidatValgt={onKandidatValgt}
+                            markert={cv.markert}
                         />
                     ))}
             </div>
@@ -55,6 +56,7 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                                 cv={cv}
                                 key={cv.arenaKandidatnr}
                                 onKandidatValgt={onKandidatValgt}
+                                markert={cv.markert}
                             />
                         ))}
                     <div className="buttons--kandidatervisning">

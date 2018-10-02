@@ -2,12 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
+import { Checkbox } from 'nav-frontend-skjema';
 import cvPropTypes from '../PropTypes';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
+
+const antallKandidaterMarkert = (kandidater) => (
+    kandidater.filter((k) => (k.markert)).length
+);
 
 const lagreKandidaterKnappTekst = (antall) => {
     if (antall === 0) {
@@ -18,14 +23,23 @@ const lagreKandidaterKnappTekst = (antall) => {
     return `lagre ${antall} kandidater`;
 };
 
+const avmarkerKandidat = (k) => ({ ...k, markert: false });
+
+const markereKandidat = (kandidatnr, checked) => (k) => {
+    if (k.arenaKandidatnr === kandidatnr) {
+        return { ...k, markert: checked };
+    }
+
+    return k;
+};
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             antallResultater: 25,
-            kandidater: this.props.kandidater,
-            valgteKandidater: []
+            kandidater: this.props.kandidater.map(avmarkerKandidat),
+            alleKandidaterMarkert: false
         };
     }
 
@@ -33,23 +47,18 @@ class KandidaterVisning extends React.Component {
         if (prevProps.kandidater !== this.props.kandidater) {
         // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
+                kandidater: this.props.kandidater.map(avmarkerKandidat),
                 antallResultater: 25,
-                valgteKandidater: []
+                alleKandidaterMarkert: false
             });
         }
     }
 
-    onKandidatValgt = (checked, kandidatnr, sisteArbeidserfaring) => {
-        if (checked) {
-            this.setState({
-                valgteKandidater: [...this.state.valgteKandidater, { kandidatnr, sisteArbeidserfaring }]
-            });
-        } else {
-            this.setState({
-                valgteKandidater: this.state.valgteKandidater.filter((k) => (k.kandidatnr !== kandidatnr))
-            });
-        }
+    onKandidatValgt = (checked, kandidatnr) => {
+        this.setState({
+            kandidater: this.state.kandidater.map(markereKandidat(kandidatnr, checked)),
+            alleKandidaterMarkert: false
+        });
     };
 
     onFlereResultaterClick = () => {
@@ -95,18 +104,28 @@ class KandidaterVisning extends React.Component {
         });
     };
 
+    toggleMarkeringAlleKandidater = () => {
+        const checked = !this.state.alleKandidaterMarkert;
+        this.setState({
+            alleKandidaterMarkert: checked,
+            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
+        });
+    };
 
     render() {
         const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
 
+        const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
         return (
             <div>
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
-                    <KnappMedDisabledFunksjon disabled={this.state.valgteKandidater.length === 0} onClick={() => { console.log('Clicked!'); }} onDisabledClick={this.props.visFeilmelding} >
-                        {lagreKandidaterKnappTekst(this.state.valgteKandidater.length)}
+                    <Checkbox className="text-hide" label="." checked={this.state.alleKandidaterMarkert} onChange={this.toggleMarkeringAlleKandidater} />
+                    <KnappMedDisabledFunksjon disabled={antallMarkert === 0} onClick={() => { console.log('Clicked!'); }} onDisabledClick={this.props.visFeilmelding} >
+                        {lagreKandidaterKnappTekst(antallMarkert)}
                     </KnappMedDisabledFunksjon>
                 </div>
+
                 {this.props.isEmptyQuery ? (
 
                     <KandidaterTabellUtenKriterier

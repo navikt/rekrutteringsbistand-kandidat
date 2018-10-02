@@ -24,6 +24,7 @@ export default function KandidaterTabellUtenKriterier({ antallResultater, onFilt
                     cv={cv}
                     key={cv.arenaKandidatnr}
                     onKandidatValgt={onKandidatValgt}
+                    markert={cv.markert}
                 />
             ))}
             <div className="buttons--kandidatervisning">
