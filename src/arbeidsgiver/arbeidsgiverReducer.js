@@ -58,7 +58,7 @@ export default function reducer(state = initialState, action) {
 /** *********************************************************
  * ASYNC ACTIONS
  ********************************************************* */
-function* hentArbeidsgivere(action) {
+function* hentArbeidsgivere() {
     try {
         const response = yield call(fetchArbeidsgivere);
         yield put({ type: HENT_ARBEIDSGIVERE_SUCCESS, response });

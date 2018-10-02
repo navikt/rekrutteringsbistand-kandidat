@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Flatknapp } from 'nav-frontend-knapper';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const FELTER = {
@@ -21,7 +22,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
     }
 
     onUnvalidatedSave = () => {
-        this.props.onDisabledClick();
+        if (this.props.onDisabledClick !== undefined) {
+            this.props.onDisabledClick();
+        }
         this.setState({
             visValideringsfeilInput: true
         });
@@ -70,7 +73,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, saving } = this.props;
+        const { backLink, saving, onAvbrytClick } = this.props;
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm__input">
@@ -117,9 +120,10 @@ export default class OpprettKandidatlisteForm extends React.Component {
                 >
                     Lagre
                 </KnappMedDisabledFunksjon>
-                <div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
-                    <Link to={backLink} className="lenke">Avbryt</Link>
-                </div>
+                {onAvbrytClick !== undefined ? <Flatknapp className="knapp--avbryt" onClick={onAvbrytClick}>Avbryt</Flatknapp> : (
+                    <div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
+                        <Link to={backLink} className="lenke">Avbryt</Link>
+                    </div>)}
             </SkjemaGruppe>
         );
     }
@@ -127,13 +131,15 @@ export default class OpprettKandidatlisteForm extends React.Component {
 
 OpprettKandidatlisteForm.defaultProps = {
     saving: false,
-    onChange: undefined
+    onChange: undefined,
+    onAvbrytClick: undefined,
+    onDisabledClick: undefined
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
     onChange: PropTypes.func,
-    onDisabledClick: PropTypes.func.isRequired,
+    onDisabledClick: PropTypes.func,
     backLink: PropTypes.string.isRequired,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
@@ -141,5 +147,6 @@ OpprettKandidatlisteForm.propTypes = {
         oppdragsgiver: PropTypes.string,
         stillingsId: PropTypes.string
     }).isRequired,
-    saving: PropTypes.bool
+    saving: PropTypes.bool,
+    onAvbrytClick: PropTypes.func
 };
