@@ -97,6 +97,12 @@ class Kandidatlister extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.valgtArbeidsgiverId !== prevProps.valgtArbeidsgiverId) {
+            this.props.hentKandidatlister();
+        }
+    }
+
     componentWillUnmount() {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
@@ -136,6 +142,7 @@ const mapStateToProps = (state) => ({
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister,
     fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister,
+    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId,
     skalViseKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
@@ -174,7 +181,8 @@ Kandidatlister.propTypes = {
     fetchingKandidatlister: PropTypes.bool.isRequired,
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
     opprettetTittel: PropTypes.string,
-    skalViseKandidatlister: PropTypes.bool.isRequired
+    skalViseKandidatlister: PropTypes.bool.isRequired,
+    valgtArbeidsgiverId: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
