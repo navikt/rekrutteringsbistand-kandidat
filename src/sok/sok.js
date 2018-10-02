@@ -29,6 +29,7 @@ import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
+import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -81,6 +82,7 @@ class Sok extends React.Component {
                     <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
                     <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
                     <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid" component={KandidatlisteDetalj} />
+                    <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid/cv" component={VisKandidatFraLister} />
                     <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
                     <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
                     <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />

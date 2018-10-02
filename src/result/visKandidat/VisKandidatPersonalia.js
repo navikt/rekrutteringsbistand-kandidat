@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ class VisKandidatPersonalia extends React.Component {
 
     render() {
         const cv = this.props.cv;
+        const kandidatListe = this.props.kandidatListe;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -47,10 +49,10 @@ class VisKandidatPersonalia extends React.Component {
 
                 <Row>
                     <Link
-                        to={'/pam-kandidatsok'}
+                        to={kandidatListe ? `/pam-kandidatsok/lister/detaljer/${kandidatListe}` : '/pam-kandidatsok'}
                         className="header--personalia__lenke"
                     >
-                        <NavFrontendChevron type="venstre" /> Til kandidatsøk
+                        <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøk'}
                     </Link>
                 </Row>
 
@@ -119,8 +121,13 @@ class VisKandidatPersonalia extends React.Component {
     }
 }
 
+VisKandidatPersonalia.defaultProps = {
+    kandidatListe: undefined
+};
+
 VisKandidatPersonalia.propTypes = {
-    cv: cvPropTypes.isRequired
+    cv: cvPropTypes.isRequired,
+    kandidatListe: PropTypes.string
 };
 
 export default connect()(VisKandidatPersonalia);

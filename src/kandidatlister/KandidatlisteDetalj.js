@@ -133,7 +133,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--venstre">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Link to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
                     <Undertekst >{kandidat.sisteArbeidserfaring}</Undertekst>
                 </Panel>
