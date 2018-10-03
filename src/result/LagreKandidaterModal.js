@@ -33,7 +33,7 @@ class LagreKandidaterModal extends React.Component {
                             <Undertittel>
                                 Velg en eller flere kandidater
                             </Undertittel>
-                            { this.props.kandidatlister && this.props.kandidatlister.map((liste) => <Checkbox label={liste.tittel} />) }
+                            { this.props.kandidatlister && this.props.kandidatlister.map((liste) => <Checkbox label={liste.tittel} key={liste.kandidatlisteId} />) }
                         </div>
                     }
 
@@ -51,11 +51,15 @@ const KandidatlisteBeskrivelse = PropTypes.shape({
     oppdragsgiver: PropTypes.string
 });
 
+LagreKandidaterModal.defaultProps = {
+    kandidatlister: undefined
+};
+
 LagreKandidaterModal.propTypes = {
     hentKandidatlister: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
-    fetchingKandidatlister: PropTypes.func.isRequired,
-    kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse).isRequired
+    fetchingKandidatlister: PropTypes.bool.isRequired,
+    kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse)
 };
 
 const mapDispatchToProps = (dispatch) => ({
