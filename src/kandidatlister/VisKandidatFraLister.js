@@ -33,28 +33,28 @@ class VisKandidatFraLister extends React.Component {
         this.props.hentCvForKandidat(this.props.kandidatnummer);
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (state.sletterKandidat) {
-    //         const visSlettKandidatModal = (
-    //             state.sletterKandidat &&
-    //             props.sletteStatus !== SLETTE_STATUS.SUCCESS
-    //         );
+    static getDerivedStateFromProps(props, state) {
+        if (state.sletterKandidat) {
+            const visSlettKandidatModal = (
+                state.sletterKandidat &&
+                props.sletteStatus !== SLETTE_STATUS.SUCCESS
+            );
 
-    //         const visSlettKandidatFeilmelding = (
-    //             state.sletterKandidat &&
-    //             props.sletteStatus === SLETTE_STATUS.FAILURE
-    //         );
+            const visSlettKandidatFeilmelding = (
+                state.sletterKandidat &&
+                props.sletteStatus === SLETTE_STATUS.FAILURE
+            );
 
-    //         return {
-    //             ...state,
-    //             visSlettKandidatModal,
-    //             visSlettKandidatFeilmelding,
-    //             sletterKandidater: false
-    //         };
-    //     }
+            return {
+                ...state,
+                visSlettKandidatModal,
+                visSlettKandidatFeilmelding,
+                sletterKandidater: false
+            };
+        }
 
-    //     return null;
-    // }
+        return null;
+    }
 
     visSlettKandidatFeilmelding = () => {
         this.setState({ visSlettKandidatFeilmelding: true });
@@ -72,7 +72,7 @@ class VisKandidatFraLister extends React.Component {
     }
 
     lukkSlettModal = () => {
-        this.setState({ visSlettKandidatModal: false, visSlettKandidatFeilmelding: false });
+        this.setState({ visSlettKandidatModal: false, visSlettKandidatFeilmelding: false, sletterKandidat: false });
     }
 
     render() {
@@ -116,7 +116,7 @@ class VisKandidatFraLister extends React.Component {
                 )}
                 <Sidetittel>Slett kandidat</Sidetittel>
                 <br />
-                <Normaltekst>Er du sikker på at du vil slette {this.props.kandidatnummer} fra listen?</Normaltekst>
+                <Normaltekst>Er du sikker på at du ønsker å slette {this.props.kandidatnummer}?</Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettKandidat}>Slett</Hovedknapp>
                     <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>
