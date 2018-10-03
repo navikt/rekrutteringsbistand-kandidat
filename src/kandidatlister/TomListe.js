@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
+import { Link } from 'react-router-dom';
 
 import './kandidatlister.less';
 
@@ -14,7 +14,7 @@ const TomListe = ({ children, lenke, lenkeTekst }) => {
             <Undertittel>
                 { children }
             </Undertittel>
-            { visLenke && (<Lenke href={lenke}>{lenkeTekst}</Lenke>)}
+            { visLenke && (<Link className="lenke" to={lenke}>{lenkeTekst}</Link>)}
         </Panel>
     );
 };

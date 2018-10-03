@@ -9,18 +9,26 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import EditIkon from '../common/ikoner/EditIkon';
 import SlettIkon from '../common/ikoner/SlettIkon';
+import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
-
 import './kandidatlister.less';
+import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
     if (fetching || kandidatlister === undefined) {
         return <NavFrontendSpinner type="L" />;
     } else if (kandidatlister.length === 0) {
-        return 'Ingen kandidatlister';
+        return (
+            <TomListe
+                lenke="/pam-kandidatsok/lister/opprett"
+                lenkeTekst="Opprett kandidatliste"
+            >
+                Du har ingen kandidatlister
+            </TomListe>);
     }
+
     return (
         kandidatlister.map((kandidatliste) => (
             <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} />
@@ -72,13 +80,15 @@ const KandidatlisteRad = ({ kandidatliste }) => (
     </div>
 );
 
-const KandidatlisteHeader = () => (
-    <div className="KandidatlisteHeader">
-        <Sidetittel>Kandidatlister</Sidetittel>
-        <Link to="/pam-kandidatsok/lister/opprett">
-            <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
-        </Link>
-    </div>
+const Header = () => (
+    <PageHeader>
+        <div className="Kandidatlister__header--innhold">
+            <Sidetittel>Kandidatlister</Sidetittel>
+            <Link to="/pam-kandidatsok/lister/opprett">
+                <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
+            </Link>
+        </div>
+    </PageHeader>
 );
 
 class Kandidatlister extends React.Component {
@@ -126,7 +136,7 @@ class Kandidatlister extends React.Component {
                     type="suksess"
                     tekst={this.props.opprettetTittel ? `Kandidatliste "${this.props.opprettetTittel}" opprettet` : 'Kandidatliste opprettet'}
                 />
-                <KandidatlisteHeader />
+                <Header />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
                         <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
