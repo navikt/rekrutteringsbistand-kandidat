@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 import cvPropTypes from '../../PropTypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
-import { getUrlParameterByName } from '../../sok/utils';
 import VisKandidatPersonalia from './VisKandidatPersonalia';
 import VisKandidatCv from './VisKandidatCv';
 import VisKandidatJobbprofil from './VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
-import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import sortByDato from '../../common/SortByDato';
-import { Knapp } from 'nav-frontend-knapper';
+import { getUrlParameterByName } from '../../sok/utils';
+import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class VisKandidat extends React.Component {
     onLagreKandidatlister = (kandidatlisteIder) => {
         let mestRelevanteYrkeserfaring;
         if (this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer) !== undefined) {
-            mestRelevanteYrkeserfaring = this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer;
+            mestRelevanteYrkeserfaring = this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer);
         } else {
             mestRelevanteYrkeserfaring = this.props.cv.yrkeserfaring ? sortByDato(this.props.cv.yrkeserfaring).pop() : undefined;
         }
