@@ -136,7 +136,7 @@ class KandidatlisteDetalj extends React.Component {
         }
 
         const { markerAlleChecked, kandidater, visSlettKandidaterFeilmelding, visSlettKandidaterModal } = this.state;
-        const { tittel, beskrivelse, organisasjonNavn } = this.props.kandidatliste;
+        const { tittel, beskrivelse, oppdragsgiver } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const Header = () => (
@@ -147,7 +147,7 @@ class KandidatlisteDetalj extends React.Component {
                     <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst>Oppdragsgiver: <Link to="#">{organisasjonNavn}</Link></Normaltekst>
+                        <Normaltekst>Oppdragsgiver: <Link to="#">{oppdragsgiver}</Link></Normaltekst>
                     </div>
                 </div>
             </PageHeader>
@@ -257,6 +257,7 @@ KandidatlisteDetalj.propTypes = {
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
         organisasjonNavn: PropTypes.string,
+        oppdragsgiver: PropTypes.string,
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
