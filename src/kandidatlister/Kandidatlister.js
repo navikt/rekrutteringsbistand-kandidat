@@ -13,12 +13,13 @@ import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 import './kandidatlister.less';
+import EndreModal from './EndreModal';
 import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
 
-const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
+const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     if (fetching || kandidatlister === undefined) {
-        return <NavFrontendSpinner type="L" />;
+        return <div className="text-center"> <NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
         return (
             <TomListe
@@ -31,7 +32,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
 
     return (
         kandidatlister.map((kandidatliste) => (
-            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} />
+            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} />
         ))
     );
 };
@@ -48,7 +49,7 @@ const formaterDato = (datoStreng) => {
     return dato.toLocaleDateString('no-nb').replace(/\//g, '.');
 };
 
-const KandidatlisteRad = ({ kandidatliste }) => (
+const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
     <div className="Kandidatliste__panel">
         <div className="beskrivelse">
             <div className="topp">
@@ -74,7 +75,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
             </div>}
         </div>
         <div className="funksjonsknapp-panel">
-            <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => { console.log('endre'); }} />
+            <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => endreKandidatliste(kandidatliste)} />
             <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} />
         </div>
     </div>
@@ -94,8 +95,13 @@ const Header = ({ antallKandidater }) => (
 class Kandidatlister extends React.Component {
     constructor(props) {
         super(props);
+        const visSuccessMld = props.lagreStatus === LAGRE_STATUS.SUCCESS;
+        const successMld = (visSuccessMld && (this.props.opprettetTittel ?
+            `Kandidatliste "${this.props.opprettetTittel}" opprettet` : 'Kandidatliste opprettet')) || '';
         this.state = {
-            visSuccessMelding: props.lagreStatus === LAGRE_STATUS.SUCCESS
+            visSuccessMelding: visSuccessMld,
+            successMelding: successMld,
+            visEndreModal: false
         };
     }
 
@@ -108,6 +114,13 @@ class Kandidatlister extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
+            this.props.hentKandidatlister();
+            this.visSuccessMelding('Endringene er lagret');
+            this.onLukkModalClick();
+            this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
+            this.props.resetLagreStatus();
+        }
         if (this.props.valgtArbeidsgiverId !== prevProps.valgtArbeidsgiverId) {
             this.props.hentKandidatlister();
         }
@@ -116,6 +129,27 @@ class Kandidatlister extends React.Component {
     componentWillUnmount() {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
+
+    onEndreClick = (kandidatliste) => {
+        this.setState({
+            visEndreModal: true,
+            kandidatlisteIEndring: kandidatliste
+        });
+    };
+
+    onLukkModalClick = () => {
+        this.setState({
+            visEndreModal: false,
+            kandidatlisteIEndring: undefined
+        });
+    };
+
+    visSuccessMelding = (tekst) => {
+        this.setState({
+            visSuccessMelding: true,
+            successMelding: tekst
+        });
+    };
 
     skjulSuccessMelding = () => {
         this.setState({
@@ -131,15 +165,16 @@ class Kandidatlister extends React.Component {
         }
         return (
             <div>
+                {this.state.visEndreModal && <EndreModal kandidatliste={this.state.kandidatlisteIEndring} onAvbrytClick={this.onLukkModalClick} />}
                 <HjelpetekstFading
                     synlig={this.state.visSuccessMelding}
                     type="suksess"
-                    tekst={this.props.opprettetTittel ? `Kandidatliste "${this.props.opprettetTittel}" opprettet` : 'Kandidatliste opprettet'}
+                    tekst={this.state.successMelding}
                 />
                 <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} />
                     </Container>
                 </Container>
             </div>
@@ -161,7 +196,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
 });
 
-const KandidatlisteBeskrivelse = PropTypes.shape({
+export const KandidatlisteBeskrivelse = PropTypes.shape({
     tittel: PropTypes.string.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired,
@@ -176,7 +211,8 @@ IkonKnapp.propTypes = {
 };
 
 KandidatlisteRad.propTypes = {
-    kandidatliste: KandidatlisteBeskrivelse.isRequired
+    kandidatliste: KandidatlisteBeskrivelse.isRequired,
+    endreKandidatliste: PropTypes.func.isRequired
 };
 
 Kandidatlister.defaultProps = {

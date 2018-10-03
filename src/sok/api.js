@@ -86,6 +86,30 @@ async function postJson(url, bodyString) {
     }
 }
 
+async function putJson(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'PUT',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.status === 200 || response.status === 201) {
+            return;
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 async function deleteReq(url, bodyString) {
     try {
         const response = await fetch(url, {
@@ -141,6 +165,10 @@ export function fetchKandidatlister(orgNummer) {
 
 export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
     return postJson(`${KANDIDATLISTE_API}${orgNr}/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
+}
+
+export function putKandidatliste(kandidatlisteBeskrivelse) {
+    return putJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteBeskrivelse.kandidatlisteId}`, JSON.stringify(kandidatlisteBeskrivelse));
 }
 
 export function fetchArbeidsgivere() {
