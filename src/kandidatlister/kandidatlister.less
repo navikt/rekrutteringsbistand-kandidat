@@ -184,6 +184,17 @@
     }
 }
 
+// .hjelpetekst__tooltip {
+//     background-color: red;
+// }
+
+
+//     @media (min-width: 480px) {
+//         left: calc(20px + 90%) !important;
+//         transform: translateX(calc(-90% - 10px));
+//     }
+// }
+
 .KandidatlisteDetalj__container {
     margin-top: 2.5rem;
     margin-left: auto;
@@ -192,6 +203,24 @@
     @media (max-width: 1050px) {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
+    }
+
+
+    /** overstyr tooltip for slett-knapp */
+    .KandidatlisteDetalj__knapperad--slett {
+        .hjelpetekst__tooltip--midtstilt  {
+            &::before {
+                left: 75%;
+            }
+            &:focus::after {
+                left: 75%;
+            }
+        }
+    }
+
+    .hjelpetekst__tooltip {
+        left: 0;
+        transform: translateX(calc(-55%));
     }
 
     .KandidatlisteDetalj__panel {
@@ -241,6 +270,8 @@
         border-radius: 4px;
         border-width: 1px;
         border-color: @borderMork;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
         border-style: solid;
     }
 
@@ -253,6 +284,7 @@
         }
 
         .knapp--ikon {
+            color: black;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -272,9 +304,10 @@
     width: 640px;
     .overskrift {
         font-size: 1.5rem;
+        padding-bottom: 1.25rem;
     }
     .knapperad {
-        margin-top: 2rem;
+        margin-top: 2.5rem;
         display: flex;
         flex-direction: row;
         * > {

@@ -25,6 +25,7 @@ export const CLEAR_KANDIDATLISTE = 'CLEAR_KANDIDATLISTE';
 export const SLETT_KANDIDATER = 'SLETT_KANDIDATER';
 export const SLETT_KANDIDATER_SUCCESS = 'SLETT_KANDIDATER_SUCCESS';
 export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
+export const SLETT_KANDIDATER_RESET_STATUS = 'SLETT_KANDIDATER_RESET_STATUS';
 
 /** *********************************************************
  * REDUCER
@@ -148,6 +149,14 @@ export default function searchReducer(state = initialState, action) {
                 detaljer: {
                     ...state.detaljer,
                     sletteStatus: SLETTE_STATUS.FAILURE
+                }
+            };
+        case SLETT_KANDIDATER_RESET_STATUS:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    sletteStatus: SLETTE_STATUS.FINISHED
                 }
             };
         default:
