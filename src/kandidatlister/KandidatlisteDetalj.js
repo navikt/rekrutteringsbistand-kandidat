@@ -30,8 +30,7 @@ class KandidatlisteDetalj extends React.Component {
             sletterKandidater: false,
             visSlettKandidaterModal: false,
             visSlettKandidaterFeilmelding: false,
-            visSlettSuccessMelding: false,
-            visMarkeringsFeilmelding: false
+            visSlettSuccessMelding: false
         };
     }
 
@@ -123,7 +122,7 @@ class KandidatlisteDetalj extends React.Component {
         const kandidater = this.state.kandidater.filter((k) => k.checked);
         if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
-            this.setState({ sletterKandidater: true, visMarkeringsFeilmelding: false });
+            this.setState({ sletterKandidater: true });
         }
     }
 
@@ -315,7 +314,7 @@ const mapDispatchToProps = (dispatch) => ({
     hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater }),
     clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE }),
-    nullstillSletteStatus: () => dispatch({ SLETT_KANDIDATER_RESET_STATUS })
+    nullstillSletteStatus: () => dispatch({ type: SLETT_KANDIDATER_RESET_STATUS })
 });
 
 Modal.setAppElement('#app');
