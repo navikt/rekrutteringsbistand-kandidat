@@ -120,8 +120,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
                 >
                     Lagre
                 </KnappMedDisabledFunksjon>
-                {onAvbrytClick !== undefined ? <Flatknapp className="knapp--avbryt" onClick={onAvbrytClick}>Avbryt</Flatknapp> : (
-                    <div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
+                {onAvbrytClick !== undefined ?
+                    <Flatknapp className="knapp--avbryt" onClick={onAvbrytClick}>Avbryt</Flatknapp> :
+                    (<div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
                         <Link to={backLink} className="lenke">Avbryt</Link>
                     </div>)}
             </SkjemaGruppe>
