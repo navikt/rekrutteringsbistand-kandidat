@@ -75,12 +75,15 @@ class KandidatlisteDetalj extends React.Component {
 
     componentDidUpdate() {
         if (this.state.visSlettSuccessMelding) {
-            setTimeout(this.skjulSlettSuccessMelding, 3000);
+            this.skjulSuccessMeldingTimeout = setTimeout(this.skjulSlettSuccessMelding, 3000);
+        } else if (this.skjulSuccessMeldingTimeout !== undefined && this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
+            clearTimeout(this.skjulSuccessMeldingTimeout);
         }
     }
 
     componentWillUnmount() {
         this.props.clearKandidatliste();
+        clearTimeout(this.skjulSuccessMeldingTimeout);
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -98,6 +101,8 @@ class KandidatlisteDetalj extends React.Component {
         });
     }
 
+    skjulSuccessMeldingTimeout = undefined;
+
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });
     }
@@ -112,6 +117,7 @@ class KandidatlisteDetalj extends React.Component {
     slettMarkerteKandidaterClicked = () => {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
+
         if (kandidatlisteId && kandidater.length > 0) {
             this.visSlettKandidaterModal();
         }
@@ -120,6 +126,11 @@ class KandidatlisteDetalj extends React.Component {
     slettMarkerteKandidater = () => {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
+
+        if (this.state.sletterKandidater) {
+            return;
+        }
+
         if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
             this.setState({ sletterKandidater: true });
@@ -137,6 +148,7 @@ class KandidatlisteDetalj extends React.Component {
     skjulSlettSuccessMelding = () => {
         this.setState({ visSlettSuccessMelding: false });
         this.props.nullstillSletteStatus();
+        clearTimeout(this.skjulSuccessMeldingTimeout);
     }
 
     render() {
@@ -229,7 +241,11 @@ class KandidatlisteDetalj extends React.Component {
             <Modal
                 className="KandidatlisteDetalj__modal"
                 isOpen={visSlettKandidaterModal}
-                onRequestClose={this.lukkSlettModal}
+                onRequestClose={() => {
+                    if (!this.state.sletterKandidater) {
+                        this.lukkSlettModal();
+                    }
+                }}
                 closeButton
                 contentLabel={valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}
             >
@@ -244,7 +260,7 @@ class KandidatlisteDetalj extends React.Component {
                 </Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
-                    <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>
+                    <Flatknapp onClick={this.lukkSlettModal} disabled={this.state.sletterKandidater} >Avbryt</Flatknapp>
                 </div>
             </Modal>
         );
@@ -297,6 +313,7 @@ KandidatlisteDetalj.propTypes = {
             })
         )
     }),
+    sletteStatus: PropTypes.string.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     slettKandidater: PropTypes.func.isRequired,
     clearKandidatliste: PropTypes.func.isRequired,
