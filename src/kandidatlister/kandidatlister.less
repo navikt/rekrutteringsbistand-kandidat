@@ -34,7 +34,11 @@
   .beskrivelse {
     padding-bottom: 16px;
     .overskrift {
+      font-size: 1rem;
       text-decoration: underline;
+      line-height: 1.38;
+      font-style: normal;
+      font-weight: bold;
     }
     .dato-opprettet {
       color: #78706a;
@@ -82,6 +86,8 @@
 }
 
 .Kandidatlister__container {
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 2.5rem;
 }
 
@@ -107,7 +113,15 @@
 }
 
 .OpprettKandidatliste__container {
+  margin: auto;
   margin-top: 1rem;
+
+  .TilbakeLenke {
+     color: @navBla
+  }
+  .TilbakeLenke__lenke {
+    color: @navBla
+  }
 }
 
 .OpprettKandidatliste__container-width {
@@ -255,6 +269,10 @@
     padding-left: 2rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    width: 640px;
+    .overskrift {
+        font-size: 1.5rem;
+    }
     .knapperad {
         margin-top: 2rem;
         display: flex;
@@ -271,6 +289,10 @@
 .KandidatlisteDetalj__spinner--wrapper {
     display: flex;
     justify-content: center;
+}
+
+.lenke {
+    color: @navBla
 }
 
 .TomListe {

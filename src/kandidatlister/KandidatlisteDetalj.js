@@ -147,7 +147,7 @@ class KandidatlisteDetalj extends React.Component {
                     <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst>Oppdragsgiver: <Link to="#">{oppdragsgiver}</Link></Normaltekst>
+                        <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
                     </div>
                 </div>
             </PageHeader>
@@ -192,7 +192,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
                     <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
@@ -205,13 +205,12 @@ class KandidatlisteDetalj extends React.Component {
                 isOpen={visSlettKandidaterModal}
                 onRequestClose={this.lukkSlettModal}
                 closeButton
-                contentLabel="Slett kandidater"
+                contentLabel={valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}
             >
                 {visSlettKandidaterFeilmelding && (
                     <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
                 )}
-                <Sidetittel>Slett kandidatene</Sidetittel>
-                <br />
+                <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
                     ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr}?`
                     : 'Er du sikker på at du ønsker å slette kandidatene?'
@@ -219,7 +218,7 @@ class KandidatlisteDetalj extends React.Component {
                 </Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
-                    <Flatknapp onClick={this.lukkSlettModal}>Tilbake til kandidatlisten</Flatknapp>
+                    <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>
                 </div>
             </Modal>
         );
