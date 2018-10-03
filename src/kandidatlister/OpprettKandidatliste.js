@@ -13,7 +13,7 @@ import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReduce
 import { LAGRE_STATUS } from '../konstanter';
 import UnderArbeidSide from './UnderArbeidSide';
 
-const tomKandidatlisteInfo = () => ({
+export const tomKandidatlisteInfo = () => ({
     tittel: '',
     beskrivelse: '',
     oppdragsgiver: ''

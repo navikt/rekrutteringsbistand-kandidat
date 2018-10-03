@@ -219,6 +219,7 @@ function* opprettKandidatliste(action) {
         const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
         yield postKandidatliste(action.kandidatlisteInfo, orgNr);
         yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
+        yield put({ type: HENT_KANDIDATLISTER });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });

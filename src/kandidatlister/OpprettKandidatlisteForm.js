@@ -183,14 +183,15 @@ OpprettKandidatlisteForm.defaultProps = {
     saving: false,
     onChange: undefined,
     onAvbrytClick: undefined,
-    onDisabledClick: undefined
+    onDisabledClick: undefined,
+    backLink: undefined
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     onDisabledClick: PropTypes.func,
-    backLink: PropTypes.string.isRequired,
+    backLink: PropTypes.string,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
