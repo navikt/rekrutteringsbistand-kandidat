@@ -5,9 +5,8 @@ import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
+import KnappBase from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER } from '../kandidatlister/kandidatlisteReducer';
-
 
 const markerKandidater = (kandidatlister) => (
     kandidatlister ? kandidatlister.map((k) => ({ ...k, markert: false })) : undefined
@@ -17,9 +16,11 @@ class LagreKandidaterModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kandidatlister: markerKandidater(props.kandidatlister)
+            kandidatlister: markerKandidater(props.kandidatlister),
+            alleKandidatlisterVises: false
         };
     }
+
     componentDidMount() {
         this.props.hentKandidatlister();
     }
@@ -51,7 +52,17 @@ class LagreKandidaterModal extends React.Component {
             .map((liste) => (liste.kandidatlisteId)));
     };
 
+    visAlleKandidatlister = () => {
+        this.setState({
+            alleKandidatlisterVises: true
+        });
+    };
     render() {
+        let kandidatlister;
+
+        if (this.state.kandidatlister) {
+            kandidatlister = this.state.alleKandidatlisterVises ? this.state.kandidatlister : this.state.kandidatlister.slice(0, 5);
+        }
         return (
 
             <Modal
@@ -72,7 +83,7 @@ class LagreKandidaterModal extends React.Component {
                             <Undertittel>
                                 Velg en eller flere kandidater
                             </Undertittel>
-                            { this.state.kandidatlister && this.state.kandidatlister.map((liste) =>
+                            { kandidatlister && kandidatlister.map((liste) =>
                                 (<Checkbox
                                     checked={liste.markert}
                                     onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
@@ -80,16 +91,29 @@ class LagreKandidaterModal extends React.Component {
                                     key={liste.kandidatlisteId}
                                 />)) }
 
-                            <Knapp
+                            {!this.state.alleKandidatlisterVises && <KnappBase
+                                type="flat"
+                                onClick={this.visAlleKandidatlister}
+                            >
+                                    Vi alle Listene
+                            </KnappBase>}
+
+                            <KnappBase
                                 type="hoved"
                                 onClick={this.lagreKandidaterILister}
                             >
-                                    test
-                            </Knapp>
+                                    Lagre
+                            </KnappBase>
+
+                            <KnappBase
+                                type="flat"
+                                onClick={this.props.onRequestClose}
+                            >
+                                    Avbryt
+                            </KnappBase>
 
                         </div>
                     }
-
                 </div>
             </Modal>
         );

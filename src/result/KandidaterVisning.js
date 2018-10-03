@@ -11,6 +11,7 @@ import ShowModalResultat from './modal/ShowModalResultat';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
+import { LAGRE_STATUS } from '../konstanter';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -54,6 +55,10 @@ class KandidaterVisning extends React.Component {
                 antallResultater: 25,
                 alleKandidaterMarkert: false
             });
+        }
+        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.lukkeLagreKandidaterModal();
+            this.toggleMarkeringAlleKandidater(false);
         }
     }
 
@@ -117,19 +122,24 @@ class KandidaterVisning extends React.Component {
             })), kandidatlisteIder);
     };
 
+    onToggleMarkeringAlleKandidater = () => {
+        const checked = !this.state.alleKandidaterMarkert;
+        this.toggleMarkeringAlleKandidater(checked);
+    };
+
     aapneLagreKandidaterModal = () => {
         this.setState({
             lagreKandidaterModalVises: true
         });
     };
+
     lukkeLagreKandidaterModal = () => {
         this.setState({
             lagreKandidaterModalVises: false
         });
     };
 
-    toggleMarkeringAlleKandidater = () => {
-        const checked = !this.state.alleKandidaterMarkert;
+    toggleMarkeringAlleKandidater = (checked) => {
         this.setState({
             alleKandidaterMarkert: checked,
             kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
@@ -146,7 +156,7 @@ class KandidaterVisning extends React.Component {
 
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
-                    <Checkbox className="text-hide" label="." checked={this.state.alleKandidaterMarkert} onChange={this.toggleMarkeringAlleKandidater} />
+                    <Checkbox className="text-hide" label="." checked={this.state.alleKandidaterMarkert} onChange={this.onToggleMarkeringAlleKandidater} />
                     <KnappMedDisabledFunksjon disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding} >
                         {lagreKandidaterKnappTekst(antallMarkert)}
                     </KnappMedDisabledFunksjon>
@@ -191,7 +201,8 @@ KandidaterVisning.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired,
     visFeilmelding: PropTypes.func.isRequired,
-    leggTilKandidaterIKandidatliste: PropTypes.func.isRequired
+    leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
+    leggTilKandidatStatus: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -204,7 +215,8 @@ const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.search.isEmptyQuery,
-    kandidatlister: state.kandidatlister.kandidatlister
+    kandidatlister: state.kandidatlister.kandidatlister,
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
