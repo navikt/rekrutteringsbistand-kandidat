@@ -111,9 +111,6 @@ class Kandidatlister extends React.Component {
             this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
             this.props.resetLagreStatus();
         }
-    }
-
-    componentDidUpdate(prevProps) {
         if (this.props.valgtArbeidsgiverId !== prevProps.valgtArbeidsgiverId) {
             this.props.hentKandidatlister();
         }
