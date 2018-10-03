@@ -11,6 +11,7 @@ import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';
 import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
+import UnderArbeidSide from './UnderArbeidSide';
 
 const tomKandidatlisteInfo = () => ({
     tittel: '',
@@ -43,8 +44,12 @@ class OpprettKandidatliste extends React.Component {
     };
 
     render() {
-        const { opprettKandidatliste, resetStatusTilUnsaved, lagreStatus } = this.props;
+        // TODO: Fjerne feature toggle
+        const { opprettKandidatliste, resetStatusTilUnsaved, lagreStatus, skalViseKandidatlister } = this.props;
         const { visValideringfeilmelding } = this.state;
+        if (!skalViseKandidatlister) {
+            return <UnderArbeidSide />;
+        }
         if (lagreStatus === LAGRE_STATUS.SUCCESS) {
             return <Redirect to="/pam-kandidatsok/lister" push />;
         }
@@ -77,11 +82,13 @@ class OpprettKandidatliste extends React.Component {
 OpprettKandidatliste.propTypes = {
     opprettKandidatliste: PropTypes.func.isRequired,
     resetStatusTilUnsaved: PropTypes.func.isRequired,
-    lagreStatus: PropTypes.string.isRequired
+    lagreStatus: PropTypes.string.isRequired,
+    skalViseKandidatlister: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus
+    lagreStatus: state.kandidatlister.opprett.lagreStatus,
+    skalViseKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({
