@@ -21,6 +21,7 @@ body {
   min-height: 100%;
   overflow-y: scroll;
   background: #e9e7e7;
+  color: #3e3832;
 }
 
 button:focus {
@@ -137,12 +138,15 @@ button.lenke {
 }
 
 .TilbakeLenke {
-  padding-left: 1rem;
-  padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
 }
 
 .TilbakeLenke__lenke {
-    font-weight: 600;
+    margin-left: 4px;
+    font-weight: normal;
 }
 
 .knapp--disabled--clickable:active {
@@ -176,4 +180,11 @@ button.lenke {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.modal--bekreft {
+  padding: 1.5rem 2rem 1.5rem 2rem !important;
+  .knapp--hoved {
+    margin-right: 2.5rem;
+  }
 }

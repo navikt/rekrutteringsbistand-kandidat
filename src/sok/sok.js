@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Provider, connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
@@ -33,9 +33,9 @@ import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
+import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
-import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
