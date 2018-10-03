@@ -13,7 +13,7 @@ import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer'
 import { LAGRE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
-import UnderArbeidSide from "./UnderArbeidSide";
+import UnderArbeidSide from './UnderArbeidSide';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
     if (fetching || kandidatlister === undefined) {
@@ -182,7 +182,7 @@ Kandidatlister.propTypes = {
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
     opprettetTittel: PropTypes.string,
     skalViseKandidatlister: PropTypes.bool.isRequired,
-    valgtArbeidsgiverId: PropTypes.bool.isRequired
+    valgtArbeidsgiverId: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
