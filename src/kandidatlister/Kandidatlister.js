@@ -13,7 +13,7 @@ import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 import './kandidatlister.less';
-import KandidatlisteHeader from './KandidatlisteHeader';
+import PageHeader from '../common/PageHeaderWrapper';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
     if (fetching || kandidatlister === undefined) {
@@ -80,14 +80,14 @@ const KandidatlisteRad = ({ kandidatliste }) => (
 );
 
 const Header = () => (
-    <KandidatlisteHeader>
-        <div className="Kandidatlister__header">
+    <PageHeader>
+        <div className="Kandidatlister__header--innhold">
             <Sidetittel>Kandidatlister</Sidetittel>
             <Link to="/pam-kandidatsok/lister/opprett">
                 <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
             </Link>
         </div>
-    </KandidatlisteHeader>
+    </PageHeader>
 );
 
 class Kandidatlister extends React.Component {

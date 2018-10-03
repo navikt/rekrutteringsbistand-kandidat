@@ -12,9 +12,8 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
-import PrinterIkon from '../common/ikoner/PrinterIkon';
 import TomListe from './TomListe';
-import KandidatlisteHeader from './KandidatlisteHeader';
+import PageHeader from '../common/PageHeaderWrapper';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
@@ -141,7 +140,7 @@ class KandidatlisteDetalj extends React.Component {
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const Header = () => (
-            <KandidatlisteHeader>
+            <PageHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
                     <Sidetittel>{tittel}</Sidetittel>
@@ -151,12 +150,12 @@ class KandidatlisteDetalj extends React.Component {
                         <Normaltekst>Oppdragsgiver: <Link to="#">{organisasjonNavn}</Link></Normaltekst>
                     </div>
                 </div>
-            </KandidatlisteHeader>
+            </PageHeader>
         );
 
         const Knapper = () => (
             <div className="KandidatlisteDetalj__knapperad">
-                <div
+                {/* <div
                     role="button"
                     tabIndex="0"
                     className="knapp--ikon"
@@ -165,7 +164,7 @@ class KandidatlisteDetalj extends React.Component {
                 >
                     <PrinterIkon />
                     <Normaltekst>Skriv ut</Normaltekst>
-                </div>
+                </div> */}
                 <div
                     role="button"
                     tabIndex="0"
@@ -181,7 +180,7 @@ class KandidatlisteDetalj extends React.Component {
 
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
-                <div className="KandidatlisteDetalj__panel--venstre">
+                <div className="KandidatlisteDetalj__panel--first">
                     <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
@@ -191,7 +190,7 @@ class KandidatlisteDetalj extends React.Component {
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => (
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
-                    <div className="KandidatlisteDetalj__panel--venstre">
+                    <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
                         <Link to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
