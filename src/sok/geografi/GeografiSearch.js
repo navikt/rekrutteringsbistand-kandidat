@@ -115,20 +115,18 @@ class GeografiSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <div>
-                                <Knapp
-                                    onClick={this.onLeggTilClick}
-                                    className="leggtil--sokekriterier--knapp"
-                                    id="leggtil-sted-knapp"
-                                >
-                                +Legg til sted
-                                </Knapp>
-                            </div>
+                            <Knapp
+                                onClick={this.onLeggTilClick}
+                                className="leggtil--sokekriterier--knapp"
+                                id="leggtil-sted-knapp"
+                            >
+                            +Legg til sted
+                            </Knapp>
                         )}
                         <Checkbox
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
-                            className={'Checkbox--ma-bo-pa-geografi'}
+                            className="Checkbox--ma-bo-pa-geografi"
                             checked={this.props.maaBoInnenforGeografi}
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}
