@@ -131,7 +131,7 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     lukkSlettModal = () => {
-        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false });
+        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false, sletterKandidater: false });
     }
 
     skjulSlettSuccessMelding = () => {
