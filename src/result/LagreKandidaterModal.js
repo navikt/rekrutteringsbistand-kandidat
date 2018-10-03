@@ -5,12 +5,51 @@ import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
+import { Knapp } from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER } from '../kandidatlister/kandidatlisteReducer';
 
+
+const markerKandidater = (kandidatlister) => (
+    kandidatlister ? kandidatlister.map((k) => ({ ...k, markert: false })) : undefined
+);
+
 class LagreKandidaterModal extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            kandidatlister: markerKandidater(props.kandidatlister)
+        };
+    }
     componentDidMount() {
         this.props.hentKandidatlister();
     }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.kandidatlister !== this.props.kandidatlister) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                kandidatlister: markerKandidater(this.props.kandidatlister)
+            });
+        }
+    }
+
+
+    onKandidatlisteCheck = (kandidatlisteId) => {
+        this.setState({
+            kandidatlister: this.state.kandidatlister.map((liste) => {
+                if (liste.kandidatlisteId === kandidatlisteId) {
+                    return { ...liste, markert: !liste.markert };
+                }
+                return liste;
+            })
+        });
+    };
+
+    lagreKandidaterILister = () => {
+        this.props.onLagre(this.state.kandidatlister
+            .filter((liste) => (liste.markert))
+            .map((liste) => (liste.kandidatlisteId)));
+    };
 
     render() {
         return (
@@ -33,7 +72,21 @@ class LagreKandidaterModal extends React.Component {
                             <Undertittel>
                                 Velg en eller flere kandidater
                             </Undertittel>
-                            { this.props.kandidatlister && this.props.kandidatlister.map((liste) => <Checkbox label={liste.tittel} key={liste.kandidatlisteId} />) }
+                            { this.state.kandidatlister && this.state.kandidatlister.map((liste) =>
+                                (<Checkbox
+                                    checked={liste.markert}
+                                    onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
+                                    label={liste.tittel}
+                                    key={liste.kandidatlisteId}
+                                />)) }
+
+                            <Knapp
+                                type="hoved"
+                                onClick={this.lagreKandidaterILister}
+                            >
+                                    test
+                            </Knapp>
+
                         </div>
                     }
 
@@ -56,6 +109,7 @@ LagreKandidaterModal.defaultProps = {
 };
 
 LagreKandidaterModal.propTypes = {
+    onLagre: PropTypes.func.isRequired,
     hentKandidatlister: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     fetchingKandidatlister: PropTypes.bool.isRequired,

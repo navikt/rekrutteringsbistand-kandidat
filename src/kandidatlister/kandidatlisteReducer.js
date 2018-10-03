@@ -1,5 +1,5 @@
 import { put, takeLatest, select } from 'redux-saga/effects';
-import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister } from '../sok/api';
+import { postKandidatliste, SearchApiError, deleteKandidater, fetchKandidatliste, fetchKandidatlister, postKandidaterTilKandidatliste } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
@@ -26,6 +26,10 @@ export const SLETT_KANDIDATER = 'SLETT_KANDIDATER';
 export const SLETT_KANDIDATER_SUCCESS = 'SLETT_KANDIDATER_SUCCESS';
 export const SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE';
 
+export const LEGG_TIL_KANDIDATER = 'LEGG_TIL_KANDIDATER';
+export const LEGG_TIL_KANDIDATER_SUCCESS = 'LEGG_TIL_KANDIDATER_SUCCESS';
+export const LEGG_TIL_KANDIDATER_FAILURE = 'LEGG_TIL_KANDIDATER_FAILURE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -39,6 +43,9 @@ const initialState = {
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         opprettetKandidatlisteTittel: undefined
+    },
+    leggTilKandidater: {
+        lagreStatus: LAGRE_STATUS.UNSAVED
     },
     fetchingKandidatlister: false,
     kandidatlister: undefined
@@ -150,6 +157,30 @@ export default function searchReducer(state = initialState, action) {
                     sletteStatus: SLETTE_STATUS.FAILURE
                 }
             };
+        case LEGG_TIL_KANDIDATER:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.LOADING
+                }
+            };
+        case LEGG_TIL_KANDIDATER_SUCCESS:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.SUCCESS
+                }
+            };
+        case LEGG_TIL_KANDIDATER_FAILURE:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.FAILURE
+                }
+            };
         default:
             return state;
     }
@@ -218,6 +249,21 @@ function* hentKandidatlister() {
     }
 }
 
+function* leggTilKandidater(action) {
+    try {
+        for (let i = 0; i < action.kandidatlisteIder.length; i += 1) {
+            yield postKandidaterTilKandidatliste(action.kandidatlisteIder[i], action.kandidater);
+        }
+        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: LEGG_TIL_KANDIDATER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
@@ -226,6 +272,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
     yield takeLatest(SLETT_KANDIDATER, slettKandidater);
+    yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
     yield takeLatest(HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,

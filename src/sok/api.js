@@ -143,6 +143,10 @@ export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
     return postJson(`${KANDIDATLISTE_API}${orgNr}/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
 }
 
+export function postKandidaterTilKandidatliste(kandidatlisteId, kandidater) {
+    return postJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater));
+}
+
 export function fetchArbeidsgivere() {
     return fetchJson(`${ORGANISASJON_API}`, true);
 }

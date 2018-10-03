@@ -9,7 +9,7 @@ import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
-import { HENT_KANDIDATLISTER } from '../kandidatlister/kandidatlisteReducer';
+import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 
 const antallKandidaterMarkert = (kandidater) => (
@@ -107,12 +107,14 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    toggleMarkeringAlleKandidater = () => {
-        const checked = !this.state.alleKandidaterMarkert;
-        this.setState({
-            alleKandidaterMarkert: checked,
-            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
-        });
+
+    onLagreKandidatlister = (kandidatlisteIder) => {
+        this.props.leggTilKandidaterIKandidatliste(this.state.kandidater
+            .filter((kandidat) => (kandidat.markert))
+            .map((kandidat) => ({
+                kandidatnr: kandidat.arenaKandidatnr,
+                sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
+            })), kandidatlisteIder);
     };
 
     aapneLagreKandidaterModal = () => {
@@ -120,10 +122,17 @@ class KandidaterVisning extends React.Component {
             lagreKandidaterModalVises: true
         });
     };
-
     lukkeLagreKandidaterModal = () => {
         this.setState({
             lagreKandidaterModalVises: false
+        });
+    };
+
+    toggleMarkeringAlleKandidater = () => {
+        const checked = !this.state.alleKandidaterMarkert;
+        this.setState({
+            alleKandidaterMarkert: checked,
+            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
         });
     };
 
@@ -133,7 +142,7 @@ class KandidaterVisning extends React.Component {
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
         return (
             <div>
-                {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} />}
+                {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <div className="panel resultatvisning">
                     <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
@@ -181,11 +190,14 @@ KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired,
-    visFeilmelding: PropTypes.func.isRequired
+    visFeilmelding: PropTypes.func.isRequired,
+    leggTilKandidaterIKandidatliste: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); }
+    leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
+        dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
+    }
 });
 
 const mapStateToProps = (state) => ({
