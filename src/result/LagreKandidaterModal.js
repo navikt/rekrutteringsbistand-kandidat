@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Innholdstittel, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import KnappBase from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
@@ -97,20 +97,27 @@ class LagreKandidaterModal extends React.Component {
                             <NavFrontendSpinner type="L" />
                         </div>
                         : <div>
-                            <Innholdstittel>
+                            <Systemtittel>
                                 Lagre kandidater
-                            </Innholdstittel>
-                            <Undertittel>
+                            </Systemtittel>
+                            <Element>
                                 Velg en eller flere kandidatlister
-                            </Undertittel>
-                            { kandidatlister && kandidatlister.map((liste) =>
-                                (<Checkbox
-                                    checked={liste.markert}
-                                    onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
-                                    label={liste.tittel}
-                                    key={liste.kandidatlisteId}
-                                />)) }
+                            </Element>
+                            <ul >
 
+                                { kandidatlister && kandidatlister.map((liste) =>
+                                    (
+                                        <li>
+                                            <Checkbox
+                                                checked={liste.markert}
+                                                onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
+                                                label={liste.tittel}
+                                                key={liste.kandidatlisteId}
+                                            />
+                                        </li>
+                                    )) }
+
+                            </ul>
                             {!this.state.alleKandidatlisterVises && <KnappBase
                                 type="flat"
                                 onClick={this.visAlleKandidatlister}
