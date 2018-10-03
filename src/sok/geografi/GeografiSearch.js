@@ -60,7 +60,7 @@ class GeografiSearch extends React.Component {
     };
 
     onFjernClick = (e) => {
-        if (this.props.geografiListKomplett && this.props.geografiListKomplett.length === 1) {
+        if (this.props.geografiListKomplett && this.props.geografiListKomplett.length === 1 && this.props.maaBoInnenforGeografi) {
             this.props.toggleMaBoPaGeografi();
         }
         this.props.removeGeografi(e.target.value);
