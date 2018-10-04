@@ -230,7 +230,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.fornavn} {kandidat.etternavn} dwadwadawdadawdawdawdad</Link>
                     </div>
                     <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
@@ -309,7 +309,9 @@ KandidatlisteDetalj.propTypes = {
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
                 kandidatnr: PropTypes.string,
-                sisteArbeidserfaring: PropTypes.string
+                sisteArbeidserfaring: PropTypes.string,
+                fornavn: PropTypes.string,
+                etternavn: PropTypes.string
             })
         )
     }),
