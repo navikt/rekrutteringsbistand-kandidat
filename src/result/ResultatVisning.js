@@ -52,7 +52,8 @@ class ResultatVisning extends React.Component {
             geografiListKomplett: [],
             totalErfaring: [],
             utdanningsniva: [],
-            sprak: []
+            sprak: [],
+            maaBoInnenforGeografi: false
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
