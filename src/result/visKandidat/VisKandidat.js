@@ -31,10 +31,11 @@ class VisKandidat extends React.Component {
             mestRelevanteYrkeserfaring = this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer);
         } else {
             mestRelevanteYrkeserfaring = this.props.cv.yrkeserfaring ? sortByDato(this.props.cv.yrkeserfaring).pop() : undefined;
+            mestRelevanteYrkeserfaring = mestRelevanteYrkeserfaring !== undefined ? mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         }
         this.props.leggTilKandidaterIKandidatliste([{
             kandidatnr: this.kandidatnummer,
-            sisteArbeidserfaring: mestRelevanteYrkeserfaring !== undefined ? mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
+            sisteArbeidserfaring: mestRelevanteYrkeserfaring
         }], kandidatlisteIder);
     };
 
