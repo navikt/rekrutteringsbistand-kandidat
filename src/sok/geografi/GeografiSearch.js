@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -88,14 +88,14 @@ class GeografiSearch extends React.Component {
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier heading--geografi"
-                tittel="Stillingens geografiske plassering"
+                tittel="Fylke eller kommune"
                 tittelProps="systemtittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <Element>
-                    Legg til fylke eller kommune
-                </Element>
+                <Normaltekst className="text--italic">
+                    Du vil få treff der arbeidssøker ønsker å jobbe
+                </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--geografi">
                         {this.state.showTypeAhead ? (
@@ -120,7 +120,7 @@ class GeografiSearch extends React.Component {
                                 className="leggtil--sokekriterier--knapp"
                                 id="leggtil-sted-knapp"
                             >
-                            +Legg til sted
+                            +Legg til fylke, kommune
                             </Knapp>
                         )}
                         {this.props.visMaaBoCheckbox &&
