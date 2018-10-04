@@ -37,3 +37,17 @@ export default function sortByDato(items) {
         return 0;
     });
 }
+
+export function sortKandidatlisteByDato(kandidatlister) {
+    return kandidatlister.concat().sort((a, b) => {
+        if (isValidISOString(a.opprettetTidspunkt) && isValidISOString(b.opprettetTidspunkt)) {
+            if (toDate(a.opprettetTidspunkt).getTime() > toDate(b.opprettetTidspunkt).getTime()) {
+                return -1;
+            } else if (toDate(a.opprettetTidspunkt).getTime() < toDate(b.opprettetTidspunkt).getTime()) {
+                return 1;
+            }
+            return 0;
+        }
+        return 0;
+    });
+}
