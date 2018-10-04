@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Element, Innholdstittel, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import KnappBase from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
@@ -14,6 +14,43 @@ import { tomKandidatlisteInfo } from '../kandidatlister/OpprettKandidatliste';
 const markerKandidatlister = (kandidatlister, markerteIder = []) => (
     kandidatlister ? kandidatlister.map((k) => ({ ...k, markert: markerteIder.includes(k.kandidatlisteId) })) : undefined
 );
+
+const ANTALL_FOR_VIS_FLERE_KNAPP = 8;
+const ANTALL_SOM_VISES_MINIMERT = 5;
+
+const noenKandidaterSkalSkjules = (kandidatlister, alleKandidatlisterVises) => (
+    kandidatlister && !alleKandidatlisterVises && kandidatlister.length >= ANTALL_FOR_VIS_FLERE_KNAPP
+);
+
+
+const synligeKandidater = (kandidatlister, alleKandidatlisterVises) => (
+    noenKandidaterSkalSkjules(kandidatlister, alleKandidatlisterVises)
+        ? kandidatlister.slice(0, ANTALL_SOM_VISES_MINIMERT)
+        : kandidatlister
+);
+
+const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister }) => {
+    if (fetchingKanidatlister) {
+        return (
+            <div className="text-center">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
+    }
+    return (
+        <ul >
+            { kandidatlister && kandidatlister.map((liste) =>
+                (<li key={liste.kandidatlisteId}>
+                    <Checkbox
+                        checked={liste.markert}
+                        onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
+                        label={liste.tittel}
+                    />
+                </li>)
+            ) }
+        </ul>
+    );
+};
 
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
@@ -72,95 +109,59 @@ class LagreKandidaterModal extends React.Component {
             alleKandidatlisterVises: true
         });
     };
+
     toggleOpprettNyKandidatlisteVises = () => {
         this.setState({
             opprettKandidatlisteVises: !this.state.opprettKandidatlisteVises
         });
     };
+
     render() {
-        let kandidatlister;
+        const visFlereListerKnappErSynlig = noenKandidaterSkalSkjules(this.state.kandidatlister, this.state.alleKandidatlisterVises);
+        const kandidatlister = synligeKandidater(this.state.kandidatlister, this.state.alleKandidatlisterVises);
 
-        if (this.state.kandidatlister) {
-            kandidatlister = this.state.alleKandidatlisterVises ? this.state.kandidatlister : this.state.kandidatlister.slice(0, 5);
-        }
         return (
-
             <Modal
                 isOpen
                 onRequestClose={this.props.onRequestClose}
                 closeButton
                 contentLabel="LagreKandidaterModal."
+                className="LagreKandidaterModal"
             >
-                <div className="LagreKandidaterModal">
-                    {this.props.fetchingKandidatlister
-                        ? <div className="text-center">
-                            <NavFrontendSpinner type="L" />
+                <div className="LagreKandidaterModal--wrapper">
+                    <Systemtittel className="overskrift">Lagre kandidater</Systemtittel>
+                    <Element>Velg en eller flere kandidatlister</Element>
+                    <ListeAvKandidatlister kandidatlister={kandidatlister} fetchingKanidatlister={this.props.fetchingKandidatlister} />
+
+                    {visFlereListerKnappErSynlig &&
+                    <div className="knapperad">
+                        <KnappBase type="flat" mini onClick={this.visAlleKandidatlister}>Vis alle listene</KnappBase>
+                    </div>
+                    }
+
+                    {this.state.opprettKandidatlisteVises ?
+                        <div className="ny-liste-container">
+                            <Undertittel className="ny-liste-overskrift">Opprett ny liste</Undertittel>
+                            <OpprettKandidatlisteForm
+                                onSave={this.props.opprettKandidatliste}
+                                onChange={() => {}}
+                                onDisabledClick={() => {}}
+                                kandidatlisteInfo={tomKandidatlisteInfo()}
+                                saving={this.props.opprettKandidatliste === LAGRE_STATUS.LOADING}
+                                onAvbrytClick={this.toggleOpprettNyKandidatlisteVises}
+                            />
                         </div>
-                        : <div>
-                            <Systemtittel>
-                                Lagre kandidater
-                            </Systemtittel>
-                            <Element>
-                                Velg en eller flere kandidatlister
-                            </Element>
-                            <ul >
-
-                                { kandidatlister && kandidatlister.map((liste) =>
-                                    (
-                                        <li>
-                                            <Checkbox
-                                                checked={liste.markert}
-                                                onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
-                                                label={liste.tittel}
-                                                key={liste.kandidatlisteId}
-                                            />
-                                        </li>
-                                    )) }
-
-                            </ul>
-                            {!this.state.alleKandidatlisterVises && <KnappBase
-                                type="flat"
-                                onClick={this.visAlleKandidatlister}
-                            >
-                                    Vis alle Listene
-                            </KnappBase>}
-
-                            {this.state.opprettKandidatlisteVises ?
-                                (
-                                    <OpprettKandidatlisteForm
-                                        onSave={this.props.opprettKandidatliste}
-                                        onChange={() => {}}
-                                        onDisabledClick={() => {}}
-                                        kandidatlisteInfo={tomKandidatlisteInfo()}
-                                        saving={this.props.opprettKandidatliste === LAGRE_STATUS.LOADING}
-                                        onAvbrytClick={this.toggleOpprettNyKandidatlisteVises}
-                                    />
-
-                                ) : (
-                                    <div>
-                                        <KnappBase
-                                            type="flat"
-                                            onClick={this.toggleOpprettNyKandidatlisteVises}
-                                        >
-                                            + Opprett ny liste
-                                        </KnappBase>
-
-                                        <KnappBase
-                                            type="hoved"
-                                            onClick={this.lagreKandidaterILister}
-                                        >
-                                    Lagre
-                                        </KnappBase>
-
-                                        <KnappBase
-                                            type="flat"
-                                            onClick={this.props.onRequestClose}
-                                        >
-                                    Avbryt
-                                        </KnappBase>
-                                    </div>
-                                )}
-
+                        :
+                        <div>
+                            <div className="knapperad">
+                                <KnappBase type="flat" mini onClick={this.toggleOpprettNyKandidatlisteVises}>
+                                    + Opprett ny liste
+                                </KnappBase>
+                            </div>
+                            <div className="knapperad">
+                                <KnappBase type="hoved" onClick={this.lagreKandidaterILister}>Lagre</KnappBase>
+                                <KnappBase type="flat" onClick={this.props.onRequestClose}>Avbryt</KnappBase>
+                            </div>
                         </div>
                     }
                 </div>
@@ -176,6 +177,19 @@ const KandidatlisteBeskrivelse = PropTypes.shape({
     opprettetTidspunkt: PropTypes.string.isRequired,
     oppdragsgiver: PropTypes.string
 });
+
+ListeAvKandidatlister.defaultProps = {
+    kandidatlister: undefined
+};
+
+ListeAvKandidatlister.propTypes = {
+    kandidatlister: PropTypes.arrayOf(PropTypes.shape({
+        markert: PropTypes.bool,
+        tittel: PropTypes.string.isRequired,
+        kandidatlisteId: PropTypes.string.isRequired
+    })),
+    fetchingKanidatlister: PropTypes.bool.isRequired
+};
 
 LagreKandidaterModal.defaultProps = {
     kandidatlister: undefined

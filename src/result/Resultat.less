@@ -45,11 +45,34 @@ a.tilbake--lenke {
 }
 
 .LagreKandidaterModal {
+  width: 40rem;
 
-  width: 640px;
+  .LagreKandidaterModal--wrapper {
+    padding: 1rem;
 
-  ul{
-    list-style: none;
-    padding: 0;
+    .overskrift {
+      margin-bottom: 1.25rem;
+    }
+    .knapperad {
+      margin-top: 2rem;
+    }
+
+    .ny-liste-container {
+      margin-top: 2.5rem;
+    }
+
+    .ny-liste-overskrift {
+      margin-bottom: 1.25rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.625rem;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
   }
 }
