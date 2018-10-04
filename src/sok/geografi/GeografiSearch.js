@@ -10,11 +10,13 @@ import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../.
 import {
     REMOVE_SELECTED_GEOGRAFI,
     SELECT_TYPE_AHEAD_VALUE_GEOGRAFI,
-    TOGGLE_GEOGRAFI_PANEL_OPEN
+    TOGGLE_GEOGRAFI_PANEL_OPEN,
+    TOGGLE_MA_BO_INNENFOR_GEOGRAFI
 } from './geografiReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Geografi.less';
+import { Checkbox } from 'nav-frontend-skjema';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -23,6 +25,11 @@ class GeografiSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
+    }
+
+    onToggleMaBoPaGeografi = () => {
+        this.props.toggleMaBoPaGeografi();
+        this.props.search();
     }
 
     onTypeAheadGeografiChange = (value) => {
@@ -53,6 +60,9 @@ class GeografiSearch extends React.Component {
     };
 
     onFjernClick = (e) => {
+        if (this.props.geografiListKomplett && this.props.geografiListKomplett.length === 1 && this.props.maaBoInnenforGeografi) {
+            this.props.toggleMaBoPaGeografi();
+        }
         this.props.removeGeografi(e.target.value);
         this.props.search();
     };
@@ -110,9 +120,19 @@ class GeografiSearch extends React.Component {
                                 className="leggtil--sokekriterier--knapp"
                                 id="leggtil-sted-knapp"
                             >
-                                +Legg til sted
+                            +Legg til sted
                             </Knapp>
                         )}
+                        <Checkbox
+                            id="toggle-ma-bo-pa-geografi"
+                            label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
+                            className="Checkbox--ma-bo-pa-geografi"
+                            checked={this.props.maaBoInnenforGeografi}
+                            value="geografiCheckbox"
+                            onChange={this.onToggleMaBoPaGeografi}
+                            disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
+                        />
+
                     </div>
                     {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
                         <button
@@ -152,7 +172,9 @@ GeografiSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSted: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    maaBoInnenforGeografi: PropTypes.bool.isRequired,
+    toggleMaBoPaGeografi: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -163,7 +185,9 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],
-    panelOpen: state.geografi.geografiPanelOpen
+    panelOpen: state.geografi.geografiPanelOpen,
+    maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -172,7 +196,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
     removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
-    togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN })
+    togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN }),
+    toggleMaBoPaGeografi: () => dispatch({ type: TOGGLE_MA_BO_INNENFOR_GEOGRAFI })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeografiSearch);
