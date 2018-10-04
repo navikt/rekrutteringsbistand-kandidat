@@ -123,6 +123,7 @@ class GeografiSearch extends React.Component {
                             +Legg til sted
                             </Knapp>
                         )}
+                        {this.props.visMaaBoCheckbox &&
                         <Checkbox
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
@@ -131,7 +132,7 @@ class GeografiSearch extends React.Component {
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}
                             disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
-                        />
+                        /> }
 
                     </div>
                     {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
@@ -174,7 +175,8 @@ GeografiSearch.propTypes = {
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
-    toggleMaBoPaGeografi: PropTypes.func.isRequired
+    toggleMaBoPaGeografi: PropTypes.func.isRequired,
+    visMaaBoCheckbox: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -185,6 +187,7 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],
+    visMaaBoCheckbox: state.search.featureToggles['vis-geografi-maa-bo-checkbox'],
     panelOpen: state.geografi.geografiPanelOpen,
     maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
 

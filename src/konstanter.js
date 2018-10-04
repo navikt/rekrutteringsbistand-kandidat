@@ -13,7 +13,8 @@ const FEATURE_TOGGLES = [
     'vis-matchforklaring',
     'ingen-utdanning-filter',
     'vis-ny-vis-kandidat-side',
-    'vis-kandidatlister'
+    'vis-kandidatlister',
+    'vis-geografi-maa-bo-checkbox'
 ];
 export default FEATURE_TOGGLES;
 
