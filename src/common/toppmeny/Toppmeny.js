@@ -37,9 +37,9 @@ const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
                 </div>
                 {loggUtSynlig && (
                     <div className="header__right">
-                        <Knapp onClick={loggUt} id="logg-ut" className="knapp knapp--mini knapp--loggut">
+                        <a id="logg-ut" href={LOGOUT_URL} className="knapp knapp--mini knapp--loggut">
                             Logg ut
-                        </Knapp>
+                        </a>
                     </div>
                 )}
             </Column>
