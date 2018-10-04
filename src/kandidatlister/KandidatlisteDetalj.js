@@ -10,11 +10,13 @@ import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
 import SlettIkon from '../common/ikoner/SlettIkon';
-import TomListe from './TomListe';
+import HjelpetekstFading from '../common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
-import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE } from './kandidatlisteReducer';
+import TomListe from './TomListe';
+import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
@@ -27,7 +29,8 @@ class KandidatlisteDetalj extends React.Component {
             kandidater: [],
             sletterKandidater: false,
             visSlettKandidaterModal: false,
-            visSlettKandidaterFeilmelding: false
+            visSlettKandidaterFeilmelding: false,
+            visSlettSuccessMelding: false
         };
     }
 
@@ -43,7 +46,8 @@ class KandidatlisteDetalj extends React.Component {
                 kandidater: props.kandidatliste.kandidater.map((k) => ({ ...k, checked: false })),
                 visSlettKandidaterFeilmelding: false,
                 visSlettKandidaterModal: false,
-                sletterKandidater: false
+                sletterKandidater: false,
+                visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
             };
         } else if (state.sletterKandidater) {
             const visSlettKandidaterModal = (
@@ -61,15 +65,25 @@ class KandidatlisteDetalj extends React.Component {
                 kandidater: props.kandidatliste.kandidater.map((k) => ({ ...k, checked: false })),
                 visSlettKandidaterModal,
                 visSlettKandidaterFeilmelding,
-                sletterKandidater: false
+                sletterKandidater: false,
+                visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
             };
         }
 
         return null;
     }
 
+    componentDidUpdate() {
+        if (this.state.visSlettSuccessMelding) {
+            this.skjulSuccessMeldingTimeout = setTimeout(this.skjulSlettSuccessMelding, 3000);
+        } else if (this.skjulSuccessMeldingTimeout !== undefined && this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
+            clearTimeout(this.skjulSuccessMeldingTimeout);
+        }
+    }
+
     componentWillUnmount() {
         this.props.clearKandidatliste();
+        clearTimeout(this.skjulSuccessMeldingTimeout);
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -87,6 +101,8 @@ class KandidatlisteDetalj extends React.Component {
         });
     }
 
+    skjulSuccessMeldingTimeout = undefined;
+
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });
     }
@@ -101,6 +117,7 @@ class KandidatlisteDetalj extends React.Component {
     slettMarkerteKandidaterClicked = () => {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
+
         if (kandidatlisteId && kandidater.length > 0) {
             this.visSlettKandidaterModal();
         }
@@ -109,6 +126,11 @@ class KandidatlisteDetalj extends React.Component {
     slettMarkerteKandidater = () => {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
+
+        if (this.state.sletterKandidater) {
+            return;
+        }
+
         if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
             this.setState({ sletterKandidater: true });
@@ -120,7 +142,13 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     lukkSlettModal = () => {
-        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false });
+        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false, sletterKandidater: false });
+    }
+
+    skjulSlettSuccessMelding = () => {
+        this.setState({ visSlettSuccessMelding: false });
+        this.props.nullstillSletteStatus();
+        clearTimeout(this.skjulSuccessMeldingTimeout);
     }
 
     render() {
@@ -145,10 +173,23 @@ class KandidatlisteDetalj extends React.Component {
                     <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst>Oppdragsgiver: <Link to="#">{oppdragsgiver}</Link></Normaltekst>
+                        <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
                     </div>
                 </div>
             </PageHeader>
+        );
+
+        const SlettKnapp = () => (
+            <div
+                role="button"
+                tabIndex="0"
+                className="knapp--ikon"
+                onKeyPress={this.slettMarkerteKandidaterClicked}
+                onClick={this.slettMarkerteKandidaterClicked}
+            >
+                <SlettIkon id="slett-knapp" fargeKode="#000" />
+                <Normaltekst>Slett</Normaltekst>
+            </div>
         );
 
         const Knapper = () => (
@@ -163,15 +204,14 @@ class KandidatlisteDetalj extends React.Component {
                     <PrinterIkon />
                     <Normaltekst>Skriv ut</Normaltekst>
                 </div> */}
-                <div
-                    role="button"
-                    tabIndex="0"
-                    className="knapp--ikon"
-                    onKeyPress={this.slettMarkerteKandidaterClicked}
-                    onClick={this.slettMarkerteKandidaterClicked}
-                >
-                    <SlettIkon fargeKode="#000" />
-                    <Normaltekst>Slett</Normaltekst>
+                <div className="KandidatlisteDetalj__knapperad--slett">
+                    <HjelpetekstMidt
+                        className="hjelpetekst--slett"
+                        id="marker-kandidater-hjelpetekst"
+                        anchor={SlettKnapp}
+                    >
+                            Du må huke av for kandidatene du ønsker å slette
+                    </HjelpetekstMidt>
                 </div>
             </div>
         );
@@ -190,7 +230,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Link className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
                     </div>
                     <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
@@ -201,15 +241,18 @@ class KandidatlisteDetalj extends React.Component {
             <Modal
                 className="KandidatlisteDetalj__modal"
                 isOpen={visSlettKandidaterModal}
-                onRequestClose={this.lukkSlettModal}
+                onRequestClose={() => {
+                    if (!this.state.sletterKandidater) {
+                        this.lukkSlettModal();
+                    }
+                }}
                 closeButton
-                contentLabel="Slett kandidater"
+                contentLabel={valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}
             >
                 {visSlettKandidaterFeilmelding && (
                     <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
                 )}
-                <Sidetittel>Slett kandidatene</Sidetittel>
-                <br />
+                <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
                     ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr}?`
                     : 'Er du sikker på at du ønsker å slette kandidatene?'
@@ -217,7 +260,7 @@ class KandidatlisteDetalj extends React.Component {
                 </Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
-                    <Flatknapp onClick={this.lukkSlettModal}>Tilbake til kandidatlisten</Flatknapp>
+                    <Flatknapp onClick={this.lukkSlettModal} disabled={this.state.sletterKandidater} >Avbryt</Flatknapp>
                 </div>
             </Modal>
         );
@@ -225,12 +268,18 @@ class KandidatlisteDetalj extends React.Component {
         return (
             <div id="KandidaterDetalj">
                 <Header />
+                <HjelpetekstFading
+                    synlig={this.state.visSlettSuccessMelding}
+                    type="suksess"
+                    tekst={'Kandidaten er slettet'}
+                />
                 {kandidater.length > 0 ? (
                     <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
                         <Knapper />
                         <KandidatListeToppRad />
                         <KandidatListe />
                     </div>
+
                 ) : (
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
                         <TomListe lenke="/pam-kandidatsok" lenkeTekst="Finn kandidater">
@@ -264,9 +313,11 @@ KandidatlisteDetalj.propTypes = {
             })
         )
     }),
+    sletteStatus: PropTypes.string.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     slettKandidater: PropTypes.func.isRequired,
-    clearKandidatliste: PropTypes.func.isRequired
+    clearKandidatliste: PropTypes.func.isRequired,
+    nullstillSletteStatus: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
@@ -279,7 +330,8 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => ({
     hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater }),
-    clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE })
+    clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE }),
+    nullstillSletteStatus: () => dispatch({ type: SLETT_KANDIDATER_RESET_STATUS })
 });
 
 Modal.setAppElement('#app');
