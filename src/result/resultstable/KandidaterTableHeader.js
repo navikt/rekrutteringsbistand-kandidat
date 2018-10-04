@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
+import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
 
 class KandidaterTableHeader extends React.Component {
@@ -32,9 +33,18 @@ class KandidaterTableHeader extends React.Component {
         return (
             <div className="panel border--bottom--medium">
                 <Row>
-                    <Column xs="2" md="2" />
+                    {this.props.visKandidatlister &&
+                        <Column xs="1" md="1">
+                            {this.props.visCheckbox && <Checkbox className="text-hide" label="" checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />}
+                        </Column>
+                    }
+                    <Column xs="2" md="2" >
+                        <Element className="label--resultatvisning">
+                            Kandidat
+                        </Element>
+                    </Column>
                     {this.props.janzzEnabled ?
-                        (<Column xs="4" md="4">
+                        (<Column xs="3" md="3">
                             <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
                                 <Element
                                     className="label--resultatvisning"
@@ -49,7 +59,7 @@ class KandidaterTableHeader extends React.Component {
                             </button>
                         </Column>)
                         : (
-                            <Column xs="4" md="4">
+                            <Column xs="3" md="3">
                                 <div className="filter--aktuelle--kandidater">
                                     <Element
                                         className="label--resultatvisning"
@@ -91,7 +101,8 @@ class KandidaterTableHeader extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    janzzEnabled: state.search.featureToggles['janzz-enabled']
+    janzzEnabled: state.search.featureToggles['janzz-enabled'],
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 KandidaterTableHeader.propTypes = {
@@ -99,7 +110,11 @@ KandidaterTableHeader.propTypes = {
     onFilterScoreClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired
+    janzzEnabled: PropTypes.bool.isRequired,
+    alleKandidaterMarkert: PropTypes.bool.isRequired,
+    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
+    visCheckbox: PropTypes.bool.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps)(KandidaterTableHeader);
