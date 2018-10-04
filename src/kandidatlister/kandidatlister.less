@@ -34,7 +34,10 @@
   .beskrivelse {
     padding-bottom: 16px;
     .overskrift {
+      font-size: 1rem;
       text-decoration: underline;
+      font-style: normal;
+      font-weight: bold;
     }
     .dato-opprettet {
       color: #78706a;
@@ -70,6 +73,7 @@
       margin: 2px 2px 2px 2px;
       display: inline-flex;
       align-items: center;
+      background-color: #fff;
       .ikon {
         margin-right: 0.5rem;
       }
@@ -82,6 +86,8 @@
 }
 
 .Kandidatlister__container {
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 2.5rem;
 }
 
@@ -118,7 +124,15 @@
 }
 
 .OpprettKandidatliste__container {
+  margin: auto;
   margin-top: 1rem;
+
+  .TilbakeLenke {
+     color: @navBla
+  }
+  .TilbakeLenke__lenke {
+    color: @navBla
+  }
 }
 
 .OpprettKandidatliste__container-width {
@@ -181,6 +195,17 @@
     }
 }
 
+// .hjelpetekst__tooltip {
+//     background-color: red;
+// }
+
+
+//     @media (min-width: 480px) {
+//         left: calc(20px + 90%) !important;
+//         transform: translateX(calc(-90% - 10px));
+//     }
+// }
+
 .KandidatlisteDetalj__container {
     margin-top: 2.5rem;
     margin-left: auto;
@@ -189,6 +214,24 @@
     @media (max-width: 1050px) {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
+    }
+
+
+    /** overstyr tooltip for slett-knapp */
+    .KandidatlisteDetalj__knapperad--slett {
+        .hjelpetekst__tooltip--midtstilt  {
+            &::before {
+                left: 75%;
+            }
+            &:focus::after {
+                left: 75%;
+            }
+        }
+    }
+
+    .hjelpetekst__tooltip {
+        left: 0;
+        transform: translateX(calc(-55%));
     }
 
     .KandidatlisteDetalj__panel {
@@ -238,6 +281,8 @@
         border-radius: 4px;
         border-width: 1px;
         border-color: @borderMork;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
         border-style: solid;
     }
 
@@ -250,6 +295,7 @@
         }
 
         .knapp--ikon {
+            color: black;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -266,8 +312,13 @@
     padding-left: 2rem;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    width: 640px;
+    .overskrift {
+        font-size: 1.5rem;
+        padding-bottom: 1.25rem;
+    }
     .knapperad {
-        margin-top: 2rem;
+        margin-top: 2.5rem;
         display: flex;
         flex-direction: row;
         * > {
@@ -282,6 +333,10 @@
 .KandidatlisteDetalj__spinner--wrapper {
     display: flex;
     justify-content: center;
+}
+
+.lenke {
+    color: @navBla
 }
 
 .TomListe {

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
-import { Checkbox } from 'nav-frontend-skjema';
 import cvPropTypes from '../PropTypes';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
@@ -19,11 +18,11 @@ const antallKandidaterMarkert = (kandidater) => (
 
 const lagreKandidaterKnappTekst = (antall) => {
     if (antall === 0) {
-        return 'Lagre Kandidater';
+        return 'Lagre kandidater';
     } else if (antall === 1) {
-        return 'lagre 1 kandidat';
+        return 'Lagre 1 kandidat';
     }
-    return `lagre ${antall} kandidater`;
+    return `Lagre ${antall} kandidater`;
 };
 
 const avmarkerKandidat = (k) => ({ ...k, markert: false });
@@ -155,11 +154,14 @@ class KandidaterVisning extends React.Component {
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <div className="panel resultatvisning">
-                    <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
-                    <Checkbox className="text-hide" label="." checked={this.state.alleKandidaterMarkert} onChange={this.onToggleMarkeringAlleKandidater} />
-                    <KnappMedDisabledFunksjon disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding} >
-                        {lagreKandidaterKnappTekst(antallMarkert)}
-                    </KnappMedDisabledFunksjon>
+                    <div className="resultatvisning--header">
+                        <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                        {this.props.visKandidatlister &&
+                            <KnappMedDisabledFunksjon mini disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding}>
+                                {lagreKandidaterKnappTekst(antallMarkert)}
+                            </KnappMedDisabledFunksjon>
+                        }
+                    </div>
                 </div>
 
                 {this.props.isEmptyQuery ? (
@@ -172,6 +174,8 @@ class KandidaterVisning extends React.Component {
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
                         onKandidatValgt={this.onKandidatValgt}
+                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
 
                     />
 
@@ -185,6 +189,8 @@ class KandidaterVisning extends React.Component {
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
                         onKandidatValgt={this.onKandidatValgt}
+                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
 
                     />
 
@@ -202,7 +208,8 @@ KandidaterVisning.propTypes = {
     isEmptyQuery: PropTypes.bool.isRequired,
     visFeilmelding: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -216,7 +223,8 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.search.isEmptyQuery,
     kandidatlister: state.kandidatlister.kandidatlister,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

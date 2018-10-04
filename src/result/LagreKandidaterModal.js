@@ -29,7 +29,7 @@ const synligeKandidater = (kandidatlister, alleKandidatlisterVises) => (
         : kandidatlister
 );
 
-const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister }) => {
+const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandidatlisteCheck }) => {
     if (fetchingKanidatlister) {
         return (
             <div className="text-center">
@@ -43,7 +43,7 @@ const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister }) => {
                 (<li key={liste.kandidatlisteId}>
                     <Checkbox
                         checked={liste.markert}
-                        onChange={() => { this.onKandidatlisteCheck(liste.kandidatlisteId); }}
+                        onChange={() => { onKandidatlisteCheck(liste.kandidatlisteId); }}
                         label={liste.tittel}
                     />
                 </li>)
@@ -131,7 +131,12 @@ class LagreKandidaterModal extends React.Component {
                 <div className="LagreKandidaterModal--wrapper">
                     <Systemtittel className="overskrift">Lagre kandidater</Systemtittel>
                     <Element>Velg en eller flere kandidatlister</Element>
-                    <ListeAvKandidatlister kandidatlister={kandidatlister} fetchingKanidatlister={this.props.fetchingKandidatlister} />
+                    <ListeAvKandidatlister
+                        kandidatlister={kandidatlister}
+                        fetchingKanidatlister={this.props.fetchingKandidatlister}
+                        onKandidatlisteCheck={this.onKandidatlisteCheck}
+
+                    />
 
                     {visFlereListerKnappErSynlig &&
                     <div className="knapperad">
@@ -188,7 +193,8 @@ ListeAvKandidatlister.propTypes = {
         tittel: PropTypes.string.isRequired,
         kandidatlisteId: PropTypes.string.isRequired
     })),
-    fetchingKanidatlister: PropTypes.bool.isRequired
+    fetchingKanidatlister: PropTypes.bool.isRequired,
+    onKandidatlisteCheck: PropTypes.func.isRequired
 };
 
 LagreKandidaterModal.defaultProps = {

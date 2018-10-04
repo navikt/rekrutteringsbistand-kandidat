@@ -35,12 +35,12 @@ button.filter--aktuelle--kandidater {
 }
 
 .kandidater--row {
-  border: none;
   width: 100%;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #cce1f3;
+  padding-bottom: 1rem;
+  &:not(:first-child) {
+    padding-top: 1rem;
+    border-top: solid 1px rgba(120, 112, 106, 0.5);
+    border-radius: 0;
   }
 }
 
