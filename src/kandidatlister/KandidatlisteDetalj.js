@@ -21,6 +21,9 @@ import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
 
+
+const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
         super(props);
@@ -232,7 +235,7 @@ class KandidatlisteDetalj extends React.Component {
                         <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
                         <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>
                             {kandidat.fornavn && kandidat.etternavn
-                                ? `${kandidat.fornavn} ${kandidat.etternavn}`
+                                ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
                                 : kandidat.kandidatnr
                             }
                         </Link>
