@@ -254,8 +254,8 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
-                    ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr}?`
-                    : 'Er du sikker på at du ønsker å slette kandidatene?'
+                    ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr} fra listen?`
+                    : 'Er du sikker på at du ønsker å slette kandidatene fra listen?'
                 }
                 </Normaltekst>
                 <div className="knapperad">

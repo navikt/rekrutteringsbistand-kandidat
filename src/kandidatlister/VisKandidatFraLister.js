@@ -104,11 +104,10 @@ class VisKandidatFraLister extends React.Component {
                 contentLabel="Slett kandidat"
             >
                 {this.state.visSlettKandidatFeilmelding && (
-                    <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
+                    <AlertStripeAdvarsel>Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
                 )}
-                <Sidetittel>Slett kandidat</Sidetittel>
-                <br />
-                <Normaltekst>Er du sikker på at du ønsker å slette {this.props.kandidatnummer}?</Normaltekst>
+                <Sidetittel className="overskrift">Slett kandidat</Sidetittel>
+                <Normaltekst>Er du sikker på at du ønsker å slette {this.props.kandidatnummer} fra listen?</Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettKandidat}>Slett</Hovedknapp>
                     <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>
