@@ -169,8 +169,8 @@ class KandidatlisteDetalj extends React.Component {
             <PageHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
-                    <Sidetittel>{tittel || ''}</Sidetittel>
-                    <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
+                    <Sidetittel>{tittel}</Sidetittel>
+                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
