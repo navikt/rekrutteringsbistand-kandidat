@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
-import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
-import NavFrontendModal from 'nav-frontend-modal';
-import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Flatknapp } from 'nav-frontend-knapper';
 import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const FELTER = {
@@ -12,37 +11,6 @@ const FELTER = {
     BESKRIVELSE: 'BESKRIVELSE',
     OPPDRAGSGIVER: 'OPPDRAGSGIVER'
 };
-
-const BekreftAvbrytPopup = ({ onCancel, onConfirm }) => (
-    <NavFrontendModal
-        isOpen
-        contentLabel={'Fortsett'}
-        onRequestClose={onCancel}
-        className="modal--bekreft"
-        closeButton={false}
-    >
-        <Innholdstittel className="blokk-xxs" tag="h1">
-            Obs!
-        </Innholdstittel>
-        <Normaltekst className="blokk">
-            Du har ikke lagret endringene dine. Er du sikker på at du vil avbryte?
-        </Normaltekst>
-        <div className="text-center">
-            <Hovedknapp
-                onClick={onConfirm}
-                id="confirmationPopup--fortsett"
-            >
-            Fortsett
-            </Hovedknapp>
-            <Knapp
-                onClick={onCancel}
-                id="confirmationPopup--avbryt"
-            >
-            Avbryt
-            </Knapp>
-        </div>
-    </NavFrontendModal>
-);
 
 export default class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
@@ -52,22 +20,6 @@ export default class OpprettKandidatlisteForm extends React.Component {
             visValideringsfeilInput: false
         };
     }
-
-    onAvbrytClick = () => {
-        if (JSON.stringify(this.state.kandidatlisteInfo) !== JSON.stringify(this.props.kandidatlisteInfo)) {
-            this.setState({
-                visBekreftAvbrytPopup: true
-            });
-        } else {
-            this.props.onAvbrytClick();
-        }
-    };
-
-    onAvbrytCancel = () => {
-        this.setState({
-            visBekreftAvbrytPopup: false
-        });
-    };
 
     onUnvalidatedSave = () => {
         if (this.props.onDisabledClick !== undefined) {
@@ -124,7 +76,6 @@ export default class OpprettKandidatlisteForm extends React.Component {
         const { backLink, saving } = this.props;
         return (
             <SkjemaGruppe>
-                {this.state.visBekreftAvbrytPopup && <BekreftAvbrytPopup onCancel={this.onAvbrytCancel} onConfirm={this.props.onAvbrytClick} />}
                 <div className="OpprettKandidatlisteForm__input">
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                 </div>
@@ -170,7 +121,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     Lagre
                 </KnappMedDisabledFunksjon>
                 {this.props.onAvbrytClick !== undefined ?
-                    <Flatknapp className="knapp--avbryt" onClick={this.onAvbrytClick}>Avbryt</Flatknapp> :
+                    <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp> :
                     (<div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
                         <Link to={backLink} className="lenke">Avbryt</Link>
                     </div>)}
@@ -199,9 +150,4 @@ OpprettKandidatlisteForm.propTypes = {
     }).isRequired,
     saving: PropTypes.bool,
     onAvbrytClick: PropTypes.func
-};
-
-BekreftAvbrytPopup.propTypes = {
-    onConfirm: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired
 };
