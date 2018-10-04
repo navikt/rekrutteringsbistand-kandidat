@@ -9,6 +9,7 @@ import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { CONTEXT_ROOT } from '../../common/fasitProperties'; 
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -51,7 +52,7 @@ class KandidaterTableRow extends React.Component {
                     <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                         <Link
                             className="lenke--kandidatnr"
-                            to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
+                            to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
 
                             aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                         >

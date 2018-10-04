@@ -1,0 +1,2 @@
+https://${DomainName}/pam-kandidatsok-next/*
+https://${DomainName}/pam-kandidatsok-next*

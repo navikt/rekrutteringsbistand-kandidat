@@ -9,7 +9,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { BACKEND_OPPE, LOGIN_URL } from '../common/fasitProperties';
+import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -69,7 +69,7 @@ class Sok extends React.Component {
         if (error && error.status === 401) {
             this.redirectToLogin();
         } else if (error && error.status === 403) {
-            window.location.href = '/pam-kandidatsok/altinn';
+            window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
     }
 
@@ -93,13 +93,13 @@ class Sok extends React.Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/pam-kandidatsok" component={ResultatVisning} />
-                    <Route exact path="/pam-kandidatsok/cv" component={VisKandidat} />
-                    <Route exact path="/pam-kandidatsok/lister" component={Kandidatlister} />
-                    <Route exact path="/pam-kandidatsok/lister/detaljer/:listeid" component={KandidatlisteDetalj} />
-                    <Route exact path="/pam-kandidatsok/lister/opprett" component={OpprettKandidatliste} />
-                    <Route exact path="/pam-kandidatsok/altinn" component={ManglerRolleAltinn} />
-                    <Route exact path="/pam-kandidatsok/feilside" component={Feilside} />
+                    <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
+                    <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
+                    <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
+                    <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                    <Route exact path={`/${CONTEXT_ROOT}/lister/opprett`} component={OpprettKandidatliste} />
+                    <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
+                    <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                 </Switch>
             </BrowserRouter>
         );

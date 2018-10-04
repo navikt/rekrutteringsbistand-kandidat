@@ -16,6 +16,7 @@ import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -23,7 +24,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     } else if (kandidatlister.length === 0) {
         return (
             <TomListe
-                lenke="/pam-kandidatsok/lister/opprett"
+                lenke={`/${CONTEXT_ROOT}/lister/opprett`}
                 lenkeTekst="Opprett kandidatliste"
             >
                 Du har ingen kandidatlister
@@ -54,7 +55,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
         <div className="beskrivelse">
             <div className="topp">
                 <div>
-                    <Link to={`/pam-kandidatsok/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
+                    <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
                         <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
                     </Link>
                 </div>
@@ -85,7 +86,7 @@ const Header = ({ antallKandidater }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
             <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
-            <Link to="/pam-kandidatsok/lister/opprett">
+            <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
                 <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
             </Link>
         </div>
