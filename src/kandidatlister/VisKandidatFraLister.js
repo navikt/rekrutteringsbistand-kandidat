@@ -36,12 +36,10 @@ class VisKandidatFraLister extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if (state.sletterKandidat) {
             const visSlettKandidatModal = (
-                state.sletterKandidat &&
                 props.sletteStatus !== SLETTE_STATUS.SUCCESS
             );
 
             const visSlettKandidatFeilmelding = (
-                state.sletterKandidat &&
                 props.sletteStatus === SLETTE_STATUS.FAILURE
             );
 
@@ -72,7 +70,11 @@ class VisKandidatFraLister extends React.Component {
     }
 
     lukkSlettModal = () => {
-        this.setState({ visSlettKandidatModal: false, visSlettKandidatFeilmelding: false, sletterKandidat: false });
+        this.setState({
+            visSlettKandidatModal: false,
+            visSlettKandidatFeilmelding: false,
+            sletterKandidat: false
+        });
     }
 
     render() {
@@ -80,16 +82,6 @@ class VisKandidatFraLister extends React.Component {
 
         const Knapper = () => (
             <div className="viskandidat__knapperad">
-                {/* <div
-                    role="button"
-                    tabIndex="0"
-                    className="knapp--ikon"
-                    onKeyPress={() => {}}
-                    onClick={() => {}}
-                >
-                    <PrinterIkon />
-                    <Normaltekst>Skriv ut</Normaltekst>
-                </div> */}
                 <div
                     role="button"
                     tabIndex="0"
