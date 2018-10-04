@@ -105,14 +105,19 @@ const mapStateToProps = (state) => ({
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
+KandidaterTableHeader.defaultProps = {
+    alleKandidaterMarkert: false,
+    onToggleMarkeringAlleKandidater: undefined
+};
+
 KandidaterTableHeader.propTypes = {
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
     janzzEnabled: PropTypes.bool.isRequired,
-    alleKandidaterMarkert: PropTypes.bool.isRequired,
-    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
+    alleKandidaterMarkert: PropTypes.bool,
+    onToggleMarkeringAlleKandidater: PropTypes.func,
     visCheckbox: PropTypes.bool.isRequired,
     visKandidatlister: PropTypes.bool.isRequired
 };

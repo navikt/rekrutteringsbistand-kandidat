@@ -5,7 +5,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
-import KnappBase from 'nav-frontend-knapper';
+import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
@@ -48,10 +48,9 @@ class KandidaterTableRow extends React.Component {
                     </Column>
                     }
 
-
                     <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                         <Link
-                            className="lenke"
+                            className="lenke--kandidatnr"
                             to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
 
                             aria-label={`Se CV for ${cv.arenaKandidatnr}`}
@@ -62,20 +61,19 @@ class KandidaterTableRow extends React.Component {
                         </Link>
                     </Column>
 
-
                     {this.props.janzzEnabled ? (
-                        <Column className="no--padding" xs="3" md="3">
+                        <Column className="no-padding" xs="3" md="3">
                             <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                         </Column>
                     ) : (
-                        <Column className="no--padding" xs="3" md="3">
+                        <Column className="no-padding" xs="3" md="3">
                             <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
                         </Column>
                     )}
-                    <Column className="no--padding" xs="4" md="4">
+                    <Column className="no-padding" xs="4" md="4">
                         <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                    <Column xs="2" md="2" className="text-center no--padding">
+                    <Column xs="2" md="2" className="text-center no-padding">
                         <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
                     </Column>
 
@@ -96,29 +94,27 @@ class KandidaterTableRow extends React.Component {
                     </Column>
                 }
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                    <KnappBase
-
+                    <Flatknapp
                         onClick={this.openCvModal}
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                        type="flat"
                         mini
                     >
-                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
-                    </KnappBase>
+                        <Normaltekst className="break-word ">{cv.arenaKandidatnr}</Normaltekst>
+                    </Flatknapp>
                 </Column>
                 {this.props.janzzEnabled ? (
-                    <Column className="no--padding" xs="3" md="3">
+                    <Column className="no-padding" xs="3" md="3">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
-                    <Column className="no--padding" xs="3" md="3">
+                    <Column className="no-padding" xs="3" md="3">
                         <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
                     </Column>
                 )}
-                <Column className="no--padding" xs="4" md="4">
+                <Column className="no-padding" xs="4" md="4">
                     <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
-                <Column xs="2" md="2" className="text-center no--padding">
+                <Column xs="2" md="2" className="text-center no-padding">
                     <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
                 </Column>
             </Row>

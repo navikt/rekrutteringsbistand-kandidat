@@ -5,7 +5,7 @@ import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
-import KnappBase from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 import OpprettKandidatlisteForm from '../kandidatlister/OpprettKandidatlisteForm';
@@ -18,13 +18,13 @@ const markerKandidatlister = (kandidatlister, markerteIder = []) => (
 const ANTALL_FOR_VIS_FLERE_KNAPP = 8;
 const ANTALL_SOM_VISES_MINIMERT = 5;
 
-const noenKandidaterSkalSkjules = (kandidatlister, alleKandidatlisterVises) => (
+const noenKandidatlisterSkalSkjules = (kandidatlister, alleKandidatlisterVises) => (
     kandidatlister && !alleKandidatlisterVises && kandidatlister.length >= ANTALL_FOR_VIS_FLERE_KNAPP
 );
 
 
-const synligeKandidater = (kandidatlister, alleKandidatlisterVises) => (
-    noenKandidaterSkalSkjules(kandidatlister, alleKandidatlisterVises)
+const synligeKandidatlister = (kandidatlister, alleKandidatlisterVises) => (
+    noenKandidatlisterSkalSkjules(kandidatlister, alleKandidatlisterVises)
         ? kandidatlister.slice(0, ANTALL_SOM_VISES_MINIMERT)
         : kandidatlister
 );
@@ -117,8 +117,8 @@ class LagreKandidaterModal extends React.Component {
     };
 
     render() {
-        const visFlereListerKnappErSynlig = noenKandidaterSkalSkjules(this.state.kandidatlister, this.state.alleKandidatlisterVises);
-        const kandidatlister = synligeKandidater(this.state.kandidatlister, this.state.alleKandidatlisterVises);
+        const visFlereListerKnappErSynlig = noenKandidatlisterSkalSkjules(this.state.kandidatlister, this.state.alleKandidatlisterVises);
+        const kandidatlister = synligeKandidatlister(this.state.kandidatlister, this.state.alleKandidatlisterVises);
 
         return (
             <Modal
@@ -129,23 +129,8 @@ class LagreKandidaterModal extends React.Component {
                 className="LagreKandidaterModal"
             >
                 <div className="LagreKandidaterModal--wrapper">
-                    <Systemtittel className="overskrift">Lagre kandidater</Systemtittel>
-                    <Element>Velg en eller flere kandidatlister</Element>
-                    <ListeAvKandidatlister
-                        kandidatlister={kandidatlister}
-                        fetchingKanidatlister={this.props.fetchingKandidatlister}
-                        onKandidatlisteCheck={this.onKandidatlisteCheck}
-
-                    />
-
-                    {visFlereListerKnappErSynlig &&
-                    <div className="knapperad">
-                        <KnappBase type="flat" mini onClick={this.visAlleKandidatlister}>Vis alle listene</KnappBase>
-                    </div>
-                    }
-
                     {this.state.opprettKandidatlisteVises ?
-                        <div className="ny-liste-container">
+                        <div>
                             <Undertittel className="ny-liste-overskrift">Opprett ny liste</Undertittel>
                             <OpprettKandidatlisteForm
                                 onSave={this.props.opprettKandidatliste}
@@ -154,18 +139,35 @@ class LagreKandidaterModal extends React.Component {
                                 kandidatlisteInfo={tomKandidatlisteInfo()}
                                 saving={this.props.opprettKandidatliste === LAGRE_STATUS.LOADING}
                                 onAvbrytClick={this.toggleOpprettNyKandidatlisteVises}
+                                knappTekst="Opprett"
                             />
                         </div>
                         :
                         <div>
+
+                            <Systemtittel className="overskrift">Lagre kandidater</Systemtittel>
+                            <Element>Velg en eller flere kandidatlister</Element>
+                            <ListeAvKandidatlister
+                                kandidatlister={kandidatlister}
+                                fetchingKanidatlister={this.props.fetchingKandidatlister}
+                                onKandidatlisteCheck={this.onKandidatlisteCheck}
+
+                            />
+
+                            {visFlereListerKnappErSynlig &&
                             <div className="knapperad">
-                                <KnappBase type="flat" mini onClick={this.toggleOpprettNyKandidatlisteVises}>
+                                <Flatknapp mini onClick={this.visAlleKandidatlister}>Vis alle listene</Flatknapp>
+                            </div>
+                            }
+
+                            <div className="knapperad">
+                                <Flatknapp mini onClick={this.toggleOpprettNyKandidatlisteVises}>
                                     + Opprett ny liste
-                                </KnappBase>
+                                </Flatknapp>
                             </div>
                             <div className="knapperad">
-                                <KnappBase type="hoved" onClick={this.lagreKandidaterILister}>Lagre</KnappBase>
-                                <KnappBase type="flat" onClick={this.props.onRequestClose}>Avbryt</KnappBase>
+                                <Hovedknapp onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
+                                <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
                             </div>
                         </div>
                     }

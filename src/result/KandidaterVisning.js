@@ -157,7 +157,7 @@ class KandidaterVisning extends React.Component {
                     <div className="resultatvisning--header">
                         <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                         {this.props.visKandidatlister &&
-                            <KnappMedDisabledFunksjon mini disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding}>
+                            <KnappMedDisabledFunksjon mini type="hoved" disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding}>
                                 {lagreKandidaterKnappTekst(antallMarkert)}
                             </KnappMedDisabledFunksjon>
                         }

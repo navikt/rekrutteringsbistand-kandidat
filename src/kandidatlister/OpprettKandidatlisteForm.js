@@ -73,7 +73,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, saving } = this.props;
+        const { backLink, saving, knappTekst } = this.props;
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm">
@@ -119,7 +119,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                         disabled={!this.formValidates()}
                         spinner={saving}
                     >
-                    Lagre
+                        {knappTekst}
                     </KnappMedDisabledFunksjon>
                     {this.props.onAvbrytClick !== undefined ?
                         <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp> :
@@ -137,7 +137,8 @@ OpprettKandidatlisteForm.defaultProps = {
     onChange: undefined,
     onAvbrytClick: undefined,
     onDisabledClick: undefined,
-    backLink: undefined
+    backLink: undefined,
+    knappTekst: 'Lagre'
 };
 
 OpprettKandidatlisteForm.propTypes = {
@@ -152,5 +153,6 @@ OpprettKandidatlisteForm.propTypes = {
         stillingsId: PropTypes.string
     }).isRequired,
     saving: PropTypes.bool,
-    onAvbrytClick: PropTypes.func
+    onAvbrytClick: PropTypes.func,
+    knappTekst: PropTypes.string
 };
