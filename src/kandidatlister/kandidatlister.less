@@ -251,8 +251,8 @@
             align-items: center;
             flex-direction: row;
             @media (min-width: 672px) {
-                flex: 0 0 240px;
-                min-width: 240px;
+                flex: 0 1 337px;
+                min-width: 337px;
             }
 
             @media (max-width: 671px) {
@@ -262,6 +262,14 @@
             .skjemaelement__label {
                 padding-left: 3rem;
                 font-weight: bold;
+            }
+
+            > a {
+                max-lines: 1;
+                max-width: 240px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
 
         }
