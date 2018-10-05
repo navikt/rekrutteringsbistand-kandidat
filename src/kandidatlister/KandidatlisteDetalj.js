@@ -189,6 +189,7 @@ class KandidatlisteDetalj extends React.Component {
                 className="knapp--ikon"
                 onKeyPress={this.slettMarkerteKandidaterClicked}
                 onClick={this.slettMarkerteKandidaterClicked}
+                title="Slett kandidater"
             >
                 <SlettIkon id="slett-knapp" fargeKode="#000" />
                 <Normaltekst>Slett</Normaltekst>
@@ -222,7 +223,7 @@ class KandidatlisteDetalj extends React.Component {
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
                 <div className="KandidatlisteDetalj__panel--first">
-                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                    <Checkbox title="Marker alle" label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
             </Panel>
@@ -232,8 +233,8 @@ class KandidatlisteDetalj extends React.Component {
             kandidater && kandidater.map((kandidat) => (
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
-                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                        <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                        <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>
                             {kandidat.fornavn && kandidat.etternavn
                                 ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
                                 : kandidat.kandidatnr
