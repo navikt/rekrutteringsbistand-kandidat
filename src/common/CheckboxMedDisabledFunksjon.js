@@ -4,7 +4,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 
 const DisabledCheckbox = () => (
-    <Checkbox className="Checkbox--ma-bo-pa-geografi-disabled" id={'somid'} label={'Ønsker kun lokale kandidater (gir treff på kandidatens bosted)'} checked={false} disabled={false} readOnly />
+    <Checkbox className="Checkbox--ma-bo-pa-geografi-disabled" id={'geografi-checkbox-hjelpetekst-disabled'} label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)" checked={false} disabled={false} readOnly />
 );
 
 const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled_ }) => (
