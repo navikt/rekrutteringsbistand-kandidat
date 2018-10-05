@@ -33,7 +33,7 @@ module.exports = {
         leggTilStedTypeahead: '#typeahead-geografi-suggestions',
         sokefeltKnapp: '#search-button-typeahead',
         resultatvisning: 'div[class=resultatvisning]',
-        forsteRadKandidaterTabell: '.kandidater--row',
+        forsteRadKandidaterTabell: '.lenke--kandidatnr',
         cvModal: '.personalia--modal',
         viserAntallTreff: '.antall-treff-kandidatervisning'
     },
