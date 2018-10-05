@@ -10,6 +10,7 @@ import {
 } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
+import { sortKandidatlisteByDato } from '../common/SortByDato';
 
 /** *********************************************************
  * ACTIONS
@@ -271,7 +272,8 @@ function* hentKandidatlister() {
         const state = yield select();
         const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
         const response = yield fetchKandidatlister(orgNr);
-        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: response.liste });
+        const sortertKandidatliste = sortKandidatlisteByDato(response.liste);
+        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: sortertKandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: HENT_KANDIDATLISTER_FAILURE, error: e });
