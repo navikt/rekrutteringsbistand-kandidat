@@ -161,14 +161,11 @@ export default function searchReducer(state = initialState, action) {
             };
         }
         case SLETT_KANDIDATER_SUCCESS: {
-            const { slettKandidatnr } = action;
+            const { nyKandidatliste } = action;
             return {
                 ...state,
                 detaljer: {
-                    kandidatliste: {
-                        ...state.detaljer.kandidatliste,
-                        kandidater: state.detaljer.kandidatliste.kandidater.filter((k) => !(slettKandidatnr.indexOf(k.kandidatnr) > -1))
-                    },
+                    kandidatliste: nyKandidatliste,
                     sletteStatus: SLETTE_STATUS.SUCCESS
                 }
             };
@@ -257,8 +254,8 @@ function* slettKandidater(action) {
     try {
         const { kandidater, kandidatlisteId } = action;
         const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
-        yield deleteKandidater(kandidatlisteId, slettKandidatnr);
-        yield put({ type: SLETT_KANDIDATER_SUCCESS, slettKandidatnr });
+        const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
+        yield put({ type: SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SLETT_KANDIDATER_FAILURE });

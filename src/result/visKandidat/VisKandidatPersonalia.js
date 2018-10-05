@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { formatISOString } from '../../common/dateUtils';
@@ -33,6 +33,7 @@ class VisKandidatPersonalia extends React.Component {
 
     render() {
         const cv = this.props.cv;
+        const kandidatListe = this.props.kandidatListe;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -48,10 +49,10 @@ class VisKandidatPersonalia extends React.Component {
 
                 <Row>
                     <Link
-                        to={`/${CONTEXT_ROOT}`}
+                        to={kandidatListe ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatListe}` : `/${CONTEXT_ROOT}`}
                         className="header--personalia__lenke"
                     >
-                        <NavFrontendChevron type="venstre" /> Til kandidatsøk
+                        <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøk'}
                     </Link>
                 </Row>
 
@@ -120,8 +121,13 @@ class VisKandidatPersonalia extends React.Component {
     }
 }
 
-VisKandidatPersonalia.propTypes = {
-    cv: cvPropTypes.isRequired
+VisKandidatPersonalia.defaultProps = {
+    kandidatListe: undefined
 };
 
-export default connect()(VisKandidatPersonalia);
+VisKandidatPersonalia.propTypes = {
+    cv: cvPropTypes.isRequired,
+    kandidatListe: PropTypes.string
+};
+
+export default VisKandidatPersonalia;

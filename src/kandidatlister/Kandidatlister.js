@@ -7,8 +7,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import EditIkon from '../common/ikoner/EditIkon';
-// import SlettIkon from '../common/ikoner/SlettIkon';
+import Lenkeknapp from '../common/Lenkeknapp';
 import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
@@ -37,13 +36,6 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
         ))
     );
 };
-
-const IkonKnapp = ({ Ikon, tekst, onClick }) => (
-    <button onClick={onClick} className="ikon-knapp">
-        <Ikon className="ikon" />
-        {tekst}
-    </button>
-);
 
 const formaterDato = (datoStreng) => {
     const dato = new Date(datoStreng);
@@ -76,8 +68,14 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
             </div>}
         </div>
         <div className="funksjonsknapp-panel">
-            <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => endreKandidatliste(kandidatliste)} />
-            {/* <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} /> */}
+            <Lenkeknapp onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
+                <i className="Edit__icon" />
+                Endre
+            </Lenkeknapp>
+            {/* <Lenkeknapp onClick={() => { console.log('slett'); }} className="Delete">
+                <i className="Delete__icon" />
+                Slett
+            </Lenkeknapp> */}
         </div>
     </div>
 );
@@ -204,12 +202,6 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     opprettetTidspunkt: PropTypes.string.isRequired,
     oppdragsgiver: PropTypes.string
 });
-
-IkonKnapp.propTypes = {
-    Ikon: PropTypes.func.isRequired,
-    tekst: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
-};
 
 KandidatlisteRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,

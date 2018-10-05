@@ -35,6 +35,7 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
+import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -97,6 +98,7 @@ class Sok extends React.Component {
                     <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
                     <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
                     <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                    <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
                     <Route exact path={`/${CONTEXT_ROOT}/lister/opprett`} component={OpprettKandidatliste} />
                     <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                     <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />

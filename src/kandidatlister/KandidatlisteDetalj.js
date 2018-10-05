@@ -12,7 +12,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
-import SlettIkon from '../common/ikoner/SlettIkon';
+import Lenkeknapp from '../common/Lenkeknapp';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
 import TomListe from './TomListe';
@@ -21,6 +21,7 @@ import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDID
 import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
+import '../common/ikoner/ikoner.less';
 
 
 const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
@@ -122,15 +123,6 @@ class KandidatlisteDetalj extends React.Component {
         });
     };
 
-    slettMarkerteKandidaterClicked = () => {
-        const { kandidatlisteId } = this.props;
-        const kandidater = this.state.kandidater.filter((k) => k.checked);
-
-        if (kandidatlisteId && kandidater.length > 0) {
-            this.visSlettKandidaterModal();
-        }
-    };
-
     slettMarkerteKandidater = () => {
         const { kandidatlisteId } = this.props;
         const kandidater = this.state.kandidater.filter((k) => k.checked);
@@ -178,7 +170,7 @@ class KandidatlisteDetalj extends React.Component {
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
                     <Sidetittel>{tittel}</Sidetittel>
-                    <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
+                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
@@ -187,43 +179,41 @@ class KandidatlisteDetalj extends React.Component {
             </PageHeader>
         );
 
-        const SlettKnapp = () => (
-            <div
-                role="button"
-                tabIndex="0"
-                className="knapp--ikon"
-                onKeyPress={this.slettMarkerteKandidaterClicked}
-                onClick={this.slettMarkerteKandidaterClicked}
-                title="Slett kandidater"
-            >
-                <SlettIkon id="slett-knapp" fargeKode="#000" />
-                <Normaltekst>Slett</Normaltekst>
+        const DisabledSlettKnapp = () => (
+            <div className="Lenkeknapp typo-normal Delete">
+                <i className="Delete__icon" />
+                Slett
             </div>
         );
 
-        const Knapper = () => (
-            <div className="KandidatlisteDetalj__knapperad">
-                {/* <div
-                    role="button"
-                    tabIndex="0"
-                    className="knapp--ikon"
-                    onKeyPress={() => {}}
-                    onClick={() => {}}
-                >
-                    <PrinterIkon />
-                    <Normaltekst>Skriv ut</Normaltekst>
-                </div> */}
-                <div className="KandidatlisteDetalj__knapperad--slett">
-                    <HjelpetekstMidt
-                        className="hjelpetekst--slett"
-                        id="marker-kandidater-hjelpetekst"
-                        anchor={SlettKnapp}
-                    >
+        const Knapper = () => {
+            const { kandidatlisteId } = this.props;
+
+            if (kandidatlisteId && valgteKandidater.length > 0) {
+                return (
+                    <div className="KandidatlisteDetalj__knapperad">
+                        <div className="KandidatlisteDetalj__knapperad--slett">
+                            <Lenkeknapp onClick={this.visSlettKandidaterModal} className="Delete">
+                                <i className="Delete__icon" />
+                                Slett
+                            </Lenkeknapp>
+                        </div>
+                    </div>
+                );
+            }
+            return (
+                <div className="KandidatlisteDetalj__knapperad">
+                    <div className="KandidatlisteDetalj__knapperad--slett">
+                        <HjelpetekstMidt
+                            id="marker-kandidater-hjelpetekst"
+                            anchor={DisabledSlettKnapp}
+                        >
                             Du må huke av for kandidatene du ønsker å slette
-                    </HjelpetekstMidt>
+                        </HjelpetekstMidt>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        };
 
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
@@ -239,7 +229,8 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                        {/* <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}> */}
+                        <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
                             {fornavnOgEtternavnFraKandidat(kandidat)}
                         </Link>
                     </div>
@@ -265,8 +256,8 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
-                    ? `Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(valgteKandidater.pop())}?`
-                    : 'Er du sikker på at du ønsker å slette kandidatene?'
+                    ? `Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(valgteKandidater.pop())} fra listen?`
+                    : 'Er du sikker på at du ønsker å slette kandidatene fra listen?'
                 }
                 </Normaltekst>
                 <div className="knapperad">
