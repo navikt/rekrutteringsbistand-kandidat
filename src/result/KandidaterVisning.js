@@ -7,10 +7,10 @@ import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
-import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS } from '../konstanter';
+import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -157,9 +157,15 @@ class KandidaterVisning extends React.Component {
                     <div className="resultatvisning--header">
                         <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                         {this.props.visKandidatlister &&
-                            <KnappMedDisabledFunksjon mini type="hoved" disabled={antallMarkert === 0} onClick={this.aapneLagreKandidaterModal} onDisabledClick={this.props.visFeilmelding}>
+                            <KnappMedHjelpetekst
+                                hjelpetekst="Du må huke av for kandidatene du ønsker å lagre"
+                                mini
+                                type="hoved"
+                                disabled={antallMarkert === 0}
+                                onClick={this.aapneLagreKandidaterModal}
+                            >
                                 {lagreKandidaterKnappTekst(antallMarkert)}
-                            </KnappMedDisabledFunksjon>
+                            </KnappMedHjelpetekst>
                         }
                     </div>
                 </div>
@@ -206,7 +212,6 @@ KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired,
-    visFeilmelding: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     visKandidatlister: PropTypes.bool.isRequired

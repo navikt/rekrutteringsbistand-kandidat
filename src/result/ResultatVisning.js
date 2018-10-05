@@ -22,7 +22,6 @@ class ResultatVisning extends React.Component {
         super(props);
         window.scrollTo(0, 0);
         this.state = {
-            feilmeldingVises: false,
             suksessmeldingLagreKandidatVises: false
         };
     }
@@ -38,7 +37,6 @@ class ResultatVisning extends React.Component {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.feilmeldingCallbackId);
         clearTimeout(this.suksessmeldingCallbackId);
     }
 
@@ -57,18 +55,6 @@ class ResultatVisning extends React.Component {
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
-    };
-
-    visFeilmelding = () => {
-        clearTimeout(this.feilmeldingCallbackId);
-        this.setState({
-            feilmeldingVises: true
-        });
-        this.feilmeldingCallbackId = setTimeout(() => {
-            this.setState({
-                feilmeldingVises: false
-            });
-        }, 5000);
     };
 
     visAlertstripeLagreKandidater = () => {
@@ -93,7 +79,6 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Feedback />
-                        <HjelpetekstFading synlig={this.state.feilmeldingVises} type="advarsel" tekst="Du må huke av for kandidatene du ønsker å lagre" />
                         <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
                         <Container className="blokk-s container--wide">
                             <Row>
@@ -120,7 +105,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                 </Column>
                                 <Column xs="12" md="8">
-                                    <KandidaterVisning visFeilmelding={this.visFeilmelding} />
+                                    <KandidaterVisning />
                                 </Column>
                             </Row>
                         </Container>
