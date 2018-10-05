@@ -7,11 +7,12 @@ import '../result/modal/Modal.less';
 import { LAGRE_STATUS } from '../konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import './EndreModal.less';
-import { CONTEXT_ROOT } from '../common/fasitProperties'; 
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { OPPDATER_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { KandidatlisteBeskrivelse } from './Kandidatlister';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
+    ...kandidatliste,
     tittel: kandidatliste.tittel || '',
     beskrivelse: kandidatliste.beskrivelse || '',
     oppdragsgiver: kandidatliste.oppdragsgiver || ''

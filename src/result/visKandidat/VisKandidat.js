@@ -34,11 +34,12 @@ class VisKandidat extends React.Component {
 
     onLagreKandidatlister = (kandidatlisteIder) => {
         let mestRelevanteYrkeserfaring;
-        if (this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer) !== undefined) {
+        if (this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer)) {
             mestRelevanteYrkeserfaring = this.props.kandidater.find((k) => k.arenaKandidatnr === this.kandidatnummer);
+            mestRelevanteYrkeserfaring = mestRelevanteYrkeserfaring ? mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         } else {
             mestRelevanteYrkeserfaring = this.props.cv.yrkeserfaring ? sortByDato(this.props.cv.yrkeserfaring).pop() : undefined;
-            mestRelevanteYrkeserfaring = mestRelevanteYrkeserfaring !== undefined ? mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+            mestRelevanteYrkeserfaring = mestRelevanteYrkeserfaring ? mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         }
         this.props.leggTilKandidaterIKandidatliste([{
             kandidatnr: this.kandidatnummer,
