@@ -34,7 +34,8 @@ const initialState = {
     utdanning: initialTypeaheadState(),
     geografi: initialTypeaheadState(),
     geografiKomplett: initialTypeaheadState(),
-    sprak: initialTypeaheadState()
+    sprak: initialTypeaheadState(),
+    forerkort: initialTypeaheadState()
 };
 
 export default function typeaheadReducer(state = initialState, action) {
@@ -99,6 +100,7 @@ const getTypeAheadBranch = (type) => {
     else if (type === BRANCHNAVN.KOMPETANSE) return 'komp';
     else if (type === BRANCHNAVN.GEOGRAFI) return 'geo';
     else if (type === BRANCHNAVN.SPRAK) return 'sprak';
+    else if (type === BRANCHNAVN.FORERKORT) return 'forerkort';
     return '';
 };
 

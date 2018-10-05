@@ -14,6 +14,7 @@ import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import Feedback from '../feedback/Feedback';
+import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -72,6 +73,7 @@ class ResultatVisning extends React.Component {
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
+                                        <ForerkortSearch />
                                         <KompetanseSearch />
                                         <GeografiSearch />
                                     </div>
