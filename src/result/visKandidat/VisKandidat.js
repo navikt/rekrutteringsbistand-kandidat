@@ -12,6 +12,7 @@ import LagreKandidaterModal from '../LagreKandidaterModal';
 import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
+import { LAGRE_STATUS } from '../../konstanter';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -23,6 +24,12 @@ class VisKandidat extends React.Component {
     }
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.lukkeLagreKandidaterModal();
+        }
     }
 
     onLagreKandidatlister = (kandidatlisteIder) => {
@@ -89,7 +96,8 @@ VisKandidat.propTypes = {
     isFetchingCv: PropTypes.bool.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
-    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired
+    kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
+    leggTilKandidatStatus: PropTypes.string.isRequired
 
 };
 
@@ -97,7 +105,8 @@ const mapStateToProps = (state) => ({
     isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv,
     matchforklaring: state.cvReducer.matchforklaring,
-    kandidater: state.search.searchResultat.resultat.kandidater
+    kandidater: state.search.searchResultat.resultat.kandidater,
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
