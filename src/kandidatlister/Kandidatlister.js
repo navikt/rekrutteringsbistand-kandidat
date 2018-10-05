@@ -8,7 +8,7 @@ import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typog
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import EditIkon from '../common/ikoner/EditIkon';
-import SlettIkon from '../common/ikoner/SlettIkon';
+// import SlettIkon from '../common/ikoner/SlettIkon';
 import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
@@ -77,7 +77,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
         </div>
         <div className="funksjonsknapp-panel">
             <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => endreKandidatliste(kandidatliste)} />
-            <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} />
+            {/* <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} /> */}
         </div>
     </div>
 );
