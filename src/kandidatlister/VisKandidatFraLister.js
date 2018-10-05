@@ -13,11 +13,12 @@ import { getUrlParameterByName } from '../sok/utils';
 import VisKandidatPersonalia from '../result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../result/visKandidat/VisKandidatJobbprofil';
-import SlettIkon from '../common/ikoner/SlettIkon';
+import Lenkeknapp from '../common/Lenkeknapp';
 import { SLETT_KANDIDATER } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
 import './VisKandidatFraLister.less';
+import '../common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -82,16 +83,10 @@ class VisKandidatFraLister extends React.Component {
 
         const Knapper = () => (
             <div className="viskandidat__knapperad">
-                <div
-                    role="button"
-                    tabIndex="0"
-                    className="knapp--ikon"
-                    onKeyPress={this.visSlettKandidatModal}
-                    onClick={this.visSlettKandidatModal}
-                >
-                    <SlettIkon fargeKode="#000" />
-                    <Normaltekst>Slett</Normaltekst>
-                </div>
+                <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
+                    <i className="Delete__icon" />
+                    Slett
+                </Lenkeknapp>
             </div>
         );
 
