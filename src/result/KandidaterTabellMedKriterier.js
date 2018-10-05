@@ -9,7 +9,17 @@ import cvPropTypes from '../PropTypes';
 
 const antallBesteTreff = 5;
 
-export default function KandidaterTabellMedKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellMedKriterier({
+    antallResultater,
+    onFilterAntallArClick,
+    onFilterScoreClick,
+    onFlereResultaterClick,
+    kandidater,
+    totaltAntallTreff,
+    onKandidatValgt,
+    alleKandidaterMarkert,
+    onToggleMarkeringAlleKandidater
+}) {
     let tittel = '';
     if (totaltAntallTreff > antallBesteTreff) {
         tittel = `${antallBesteTreff} beste treff`;
@@ -30,14 +40,21 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                     onFilterScoreClick={onFilterScoreClick}
                     from={0}
                     to={antallBesteTreff}
+                    alleKandidaterMarkert={alleKandidaterMarkert}
+                    onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
+                    visCheckbox
                 />
-                {kandidater.slice(0, antallBesteTreff)
-                    .map((cv) => (
-                        <KandidaterTableRow
-                            cv={cv}
-                            key={cv.arenaKandidatnr}
-                        />
-                    ))}
+                <div className="panel">
+                    {kandidater.slice(0, antallBesteTreff)
+                        .map((cv) => (
+                            <KandidaterTableRow
+                                cv={cv}
+                                key={cv.arenaKandidatnr}
+                                onKandidatValgt={onKandidatValgt}
+                                markert={cv.markert}
+                            />
+                        ))}
+                </div>
             </div>
             {kandidater.length > antallBesteTreff && (
                 <div className="resultatvisning">
@@ -47,14 +64,19 @@ export default function KandidaterTabellMedKriterier({ antallResultater, onFilte
                         onFilterScoreClick={onFilterScoreClick}
                         from={antallBesteTreff}
                         to={antallResultater}
+                        visCheckbox={false}
                     />
-                    {kandidater.slice(antallBesteTreff, antallResultater)
-                        .map((cv) => (
-                            <KandidaterTableRow
-                                cv={cv}
-                                key={cv.arenaKandidatnr}
-                            />
-                        ))}
+                    <div className="panel">
+                        {kandidater.slice(antallBesteTreff, antallResultater)
+                            .map((cv) => (
+                                <KandidaterTableRow
+                                    cv={cv}
+                                    key={cv.arenaKandidatnr}
+                                    onKandidatValgt={onKandidatValgt}
+                                    markert={cv.markert}
+                                />
+                            ))}
+                    </div>
                     <div className="buttons--kandidatervisning">
                         {kandidater.length > antallResultater && (
                             <Knapp
@@ -82,7 +104,9 @@ KandidaterTabellMedKriterier.propTypes = {
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired
-
+    totaltAntallTreff: PropTypes.number.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired,
+    alleKandidaterMarkert: PropTypes.bool.isRequired,
+    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired
 };
 

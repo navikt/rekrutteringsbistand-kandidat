@@ -107,6 +107,17 @@
   border-radius: 0.25rem;
 }
 
+.OpprettKandidatlisteForm {
+  input {
+    padding: 0.75rem;
+  }
+
+  textarea {
+    padding: 0.75rem;
+    min-height: 8.25rem;
+  }
+}
+
 .OpprettKandidatlisteForm__avbryt-lenke-wrapper {
   display: inline;
   padding-left: 2rem;
@@ -140,7 +151,7 @@
     padding-bottom: 20px;
 
     .TilbakeLenke {
-        padding: 0px;
+        padding: 0;
         > a {
             color: white;
             text-decoration: none;
@@ -231,8 +242,7 @@
         margin-bottom: 0.5rem;
         padding: 1.25rem;
         min-height: 4rem;
-        flex-direction: row;
-        border-style: solid;
+      border-style: solid;
         border-color: @borderLys;
         border-width: 1px;
 
@@ -262,7 +272,7 @@
         .skjemaelement {
             display: inline-flex;
             align-items: center;
-            margin: 0px;
+            margin: 0;
         }
     }
 
@@ -342,5 +352,5 @@
 }
 
 .knapp--avbryt {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 }
