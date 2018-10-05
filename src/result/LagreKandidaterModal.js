@@ -119,6 +119,7 @@ class LagreKandidaterModal extends React.Component {
     render() {
         const visFlereListerKnappErSynlig = noenKandidatlisterSkalSkjules(this.state.kandidatlister, this.state.alleKandidatlisterVises);
         const kandidatlister = synligeKandidatlister(this.state.kandidatlister, this.state.alleKandidatlisterVises);
+        const ingenKandidatlisterMarkert = !(this.state.kandidatlister && this.state.kandidatlister.filter((liste) => (liste.markert)).length !== 0);
 
         return (
             <Modal
@@ -166,7 +167,7 @@ class LagreKandidaterModal extends React.Component {
                                 </Flatknapp>
                             </div>
                             <div className="knapperad">
-                                <Hovedknapp onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
+                                <Hovedknapp disabled={ingenKandidatlisterMarkert} onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
                                 <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
                             </div>
                         </div>
