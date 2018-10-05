@@ -14,14 +14,12 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
                     <div role="alert" className="Feedback typo-normal">
                         <Element className="blokk-xxs">
                             Dette er en tidlig versjon av kandidatsøket.
-                            I denne versjonen er det ikke mulig å lagre lister med kandidater.
-                            Dette kommer i en senere versjon.
                         </Element>
                         <Normaltekst className="blokk-xxs">
                             Vi trenger din tilbakemelding for å bli bedre
                         </Normaltekst>
                         <Normaltekst className="blokk-xxs">
-                            <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                            <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
                                 Gi tilbakemelding her
                             </a>
                         </Normaltekst>
@@ -36,7 +34,7 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
             <div className="container">
                 <div role="alert" className="Feedback--link typo-normal">
                     <Normaltekst className="blokk-xxs">
-                        <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                        <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
                             Gi tilbakemelding her
                         </a>
                     </Normaltekst>

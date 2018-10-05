@@ -14,15 +14,30 @@ import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import Feedback from '../feedback/Feedback';
+import HjelpetekstFading from '../common/HjelpetekstFading';
+import { LAGRE_STATUS } from '../konstanter';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
         window.scrollTo(0, 0);
+        this.state = {
+            suksessmeldingLagreKandidatVises: false
+        };
     }
 
     componentDidMount() {
         this.props.performInitialSearch();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.visAlertstripeLagreKandidater();
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.suksessmeldingCallbackId);
     }
 
     onRemoveCriteriaClick = () => {
@@ -42,6 +57,18 @@ class ResultatVisning extends React.Component {
         this.props.search();
     };
 
+    visAlertstripeLagreKandidater = () => {
+        clearTimeout(this.suksessmeldingCallbackId);
+        this.setState({
+            suksessmeldingLagreKandidatVises: true
+        });
+        this.suksessmeldingCallbackId = setTimeout(() => {
+            this.setState({
+                suksessmeldingLagreKandidatVises: false
+            });
+        }, 5000);
+    };
+
     render() {
         return (
             <div>
@@ -52,6 +79,7 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Feedback />
+                        <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
                         <Container className="blokk-s container--wide">
                             <Row>
                                 <Column className="text-center">
@@ -93,11 +121,13 @@ ResultatVisning.propTypes = {
     search: PropTypes.func.isRequired,
     performInitialSearch: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired
+    isInitialSearch: PropTypes.bool.isRequired,
+    leggTilKandidatStatus: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isInitialSearch: state.search.isInitialSearch
+    isInitialSearch: state.search.isInitialSearch,
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -22,6 +22,13 @@ import { SLETTE_STATUS } from '../konstanter';
 import './kandidatlister.less';
 import '../common/ikoner/ikoner.less';
 
+
+const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
+const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
+    ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
+    : kandidat.kandidatnr);
+
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
         super(props);
@@ -210,7 +217,7 @@ class KandidatlisteDetalj extends React.Component {
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
                 <div className="KandidatlisteDetalj__panel--first">
-                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                    <Checkbox title="Marker alle" label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
             </Panel>
@@ -220,8 +227,10 @@ class KandidatlisteDetalj extends React.Component {
             kandidater && kandidater.map((kandidat) => (
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
-                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                        <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                            {fornavnOgEtternavnFraKandidat(kandidat)}
+                        </Link>
                     </div>
                     <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
@@ -245,7 +254,7 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
-                    ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr} fra listen?`
+                    ? `Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(valgteKandidater.pop())} fra listen?`
                     : 'Er du sikker på at du ønsker å slette kandidatene fra listen?'
                 }
                 </Normaltekst>
@@ -300,7 +309,9 @@ KandidatlisteDetalj.propTypes = {
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
                 kandidatnr: PropTypes.string,
-                sisteArbeidserfaring: PropTypes.string
+                sisteArbeidserfaring: PropTypes.string,
+                fornavn: PropTypes.string,
+                etternavn: PropTypes.string
             })
         )
     }),

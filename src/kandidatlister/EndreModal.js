@@ -10,6 +10,13 @@ import './EndreModal.less';
 import { OPPDATER_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { KandidatlisteBeskrivelse } from './Kandidatlister';
 
+const kandidatlisteInfoWrapper = (kandidatliste) => ({
+    tittel: kandidatliste.tittel || '',
+    beskrivelse: kandidatliste.beskrivelse || '',
+    oppdragsgiver: kandidatliste.oppdragsgiver || ''
+
+});
+
 const EndreModal = ({ lagreKandidatliste, resetStatusTilUnsaved, lagreStatus, kandidatliste, onAvbrytClick }) => (
     <NavFrontendModal
         isOpen
@@ -23,9 +30,10 @@ const EndreModal = ({ lagreKandidatliste, resetStatusTilUnsaved, lagreStatus, ka
             onSave={lagreKandidatliste}
             onChange={resetStatusTilUnsaved}
             backLink="/pam-kandidatsok/lister"
-            kandidatlisteInfo={kandidatliste}
+            kandidatlisteInfo={kandidatlisteInfoWrapper(kandidatliste)}
             saving={lagreStatus === LAGRE_STATUS.LOADING}
             onAvbrytClick={onAvbrytClick}
+            knappTekst="Lagre"
         />
     </NavFrontendModal>
 );

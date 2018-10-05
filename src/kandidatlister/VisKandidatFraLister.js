@@ -81,6 +81,11 @@ class VisKandidatFraLister extends React.Component {
     render() {
         const { cv, kandidatlisteId, isFetchingCv } = this.props;
 
+        const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+        const fornavnOgEtternavnFraKandidat = () => (cv.fornavn && cv.etternavn
+            ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
+            : cv.kandidatnr);
+
         const Knapper = () => (
             <div className="viskandidat__knapperad">
                 <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
@@ -102,7 +107,7 @@ class VisKandidatFraLister extends React.Component {
                     <AlertStripeAdvarsel>Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
                 )}
                 <Sidetittel className="overskrift">Slett kandidat</Sidetittel>
-                <Normaltekst>Er du sikker på at du ønsker å slette {this.props.kandidatnummer} fra listen?</Normaltekst>
+                <Normaltekst>{`Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(cv)} fra listen?`}</Normaltekst>
                 <div className="knapperad">
                     <Hovedknapp onClick={this.slettKandidat}>Slett</Hovedknapp>
                     <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>

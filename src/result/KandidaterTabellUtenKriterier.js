@@ -7,24 +7,44 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({ antallResultater, onFilterAntallArClick, onFilterScoreClick, onFlereResultaterClick, kandidater, totaltAntallTreff }) {
+export default function KandidaterTabellUtenKriterier({
+    antallResultater,
+    onFilterAntallArClick,
+    onFilterScoreClick,
+    onFlereResultaterClick,
+    kandidater,
+    totaltAntallTreff,
+    onKandidatValgt,
+    alleKandidaterMarkert,
+    onToggleMarkeringAlleKandidater
+}) {
     return (
 
         <div className="resultatvisning">
 
             <Systemtittel>Alle kandidater</Systemtittel>
+
             <KandidaterTableHeader
                 onFilterAntallArClick={onFilterAntallArClick}
                 onFilterScoreClick={onFilterScoreClick}
                 from={0}
                 to={antallResultater}
+                alleKandidaterMarkert={alleKandidaterMarkert}
+                onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
+                visCheckbox
             />
-            {kandidater.slice(0, antallResultater).map((cv) => (
-                <KandidaterTableRow
-                    cv={cv}
-                    key={cv.arenaKandidatnr}
-                />
-            ))}
+
+            <div className="panel">
+                {kandidater.slice(0, antallResultater).map((cv) => (
+                    <KandidaterTableRow
+                        cv={cv}
+                        key={cv.arenaKandidatnr}
+                        onKandidatValgt={onKandidatValgt}
+                        markert={cv.markert}
+                        visCheckbox={false}
+                    />
+                ))}
+            </div>
             <div className="buttons--kandidatervisning">
                 {kandidater.length > antallResultater && (
                     <Knapp
@@ -49,6 +69,8 @@ KandidaterTabellUtenKriterier.propTypes = {
     antallResultater: PropTypes.number.isRequired,
     onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
-    onFlereResultaterClick: PropTypes.func.isRequired
-
+    onFlereResultaterClick: PropTypes.func.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired,
+    alleKandidaterMarkert: PropTypes.bool.isRequired,
+    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired
 };

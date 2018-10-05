@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -88,14 +88,14 @@ class GeografiSearch extends React.Component {
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier heading--geografi"
-                tittel="Stillingens geografiske plassering"
+                tittel="Fylke eller kommune"
                 tittelProps="systemtittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <Element>
-                    Legg til fylke eller kommune
-                </Element>
+                <Normaltekst className="text--italic">
+                    Du vil få treff der arbeidssøker ønsker å jobbe
+                </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--geografi">
                         {this.state.showTypeAhead ? (
@@ -120,9 +120,10 @@ class GeografiSearch extends React.Component {
                                 className="leggtil--sokekriterier--knapp"
                                 id="leggtil-sted-knapp"
                             >
-                            +Legg til sted
+                            +Legg til fylke, kommune
                             </Knapp>
                         )}
+                        {this.props.visMaaBoCheckbox &&
                         <Checkbox
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
@@ -131,7 +132,7 @@ class GeografiSearch extends React.Component {
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}
                             disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
-                        />
+                        /> }
 
                     </div>
                     {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
@@ -174,7 +175,8 @@ GeografiSearch.propTypes = {
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
-    toggleMaBoPaGeografi: PropTypes.func.isRequired
+    toggleMaBoPaGeografi: PropTypes.func.isRequired,
+    visMaaBoCheckbox: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -185,6 +187,7 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],
+    visMaaBoCheckbox: state.search.featureToggles['vis-geografi-maa-bo-checkbox'],
     panelOpen: state.geografi.geografiPanelOpen,
     maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
 
