@@ -9,7 +9,7 @@ import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
-import { CONTEXT_ROOT } from '../../common/fasitProperties'; 
+import { CONTEXT_ROOT } from '../../common/fasitProperties';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {

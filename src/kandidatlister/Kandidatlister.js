@@ -47,7 +47,7 @@ const IkonKnapp = ({ Ikon, tekst, onClick }) => (
 
 const formaterDato = (datoStreng) => {
     const dato = new Date(datoStreng);
-    return dato.toLocaleDateString('no-nb').replace(/\//g, '.');
+    return dato.toLocaleDateString('nb-NO');
 };
 
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (

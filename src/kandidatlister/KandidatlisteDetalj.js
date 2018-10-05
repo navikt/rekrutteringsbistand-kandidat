@@ -16,7 +16,7 @@ import SlettIkon from '../common/ikoner/SlettIkon';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
 import TomListe from './TomListe';
-import { CONTEXT_ROOT } from '../common/fasitProperties'; 
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
@@ -107,20 +107,20 @@ class KandidatlisteDetalj extends React.Component {
                 return { ...k };
             })
         });
-    }
+    };
 
     skjulSuccessMeldingTimeout = undefined;
 
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });
-    }
+    };
 
     markerAlleClicked = () => {
         this.setState({
             markerAlleChecked: !this.state.markerAlleChecked,
             kandidater: this.state.kandidater.map((k) => ({ ...k, checked: !this.state.markerAlleChecked }))
         });
-    }
+    };
 
     slettMarkerteKandidaterClicked = () => {
         const { kandidatlisteId } = this.props;
@@ -129,7 +129,7 @@ class KandidatlisteDetalj extends React.Component {
         if (kandidatlisteId && kandidater.length > 0) {
             this.visSlettKandidaterModal();
         }
-    }
+    };
 
     slettMarkerteKandidater = () => {
         const { kandidatlisteId } = this.props;
@@ -143,21 +143,21 @@ class KandidatlisteDetalj extends React.Component {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
             this.setState({ sletterKandidater: true });
         }
-    }
+    };
 
     visSlettKandidaterModal = () => {
         this.setState({ visSlettKandidaterModal: true });
-    }
+    };
 
     lukkSlettModal = () => {
         this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false, sletterKandidater: false });
-    }
+    };
 
     skjulSlettSuccessMelding = () => {
         this.setState({ visSlettSuccessMelding: false });
         this.props.nullstillSletteStatus();
         clearTimeout(this.skjulSuccessMeldingTimeout);
-    }
+    };
 
     render() {
         if (this.props.kandidatliste === undefined
