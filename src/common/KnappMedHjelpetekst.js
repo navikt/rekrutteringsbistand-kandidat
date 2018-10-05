@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import KnappBase from 'nav-frontend-knapper';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import { HjelpetekstAuto } from 'nav-frontend-hjelpetekst';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, type, children, spinner, mini, hjelpetekst }) => {
     if (disabled) {
@@ -9,15 +9,12 @@ const KnappMedHjelpetekst = ({ disabled, onClick, type, children, spinner, mini,
 
         const DisabledKnapp = () => (<div className={mini ? `${disabledClasses} knapp--mini` : disabledClasses}>{children}</div>);
         return (
-
-            <HjelpetekstMidt
-                className="hjelpetekst--slett"
+            <HjelpetekstAuto
                 id="marker-kandidater-hjelpetekst"
                 anchor={DisabledKnapp}
             >
                 {hjelpetekst}
-            </HjelpetekstMidt>
-
+            </HjelpetekstAuto>
         );
     }
     return <KnappBase mini={mini} spinner={spinner} type={type} onClick={onClick}>{children}</KnappBase>;

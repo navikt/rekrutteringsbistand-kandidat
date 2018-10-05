@@ -9,6 +9,7 @@ import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
 import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
+import { CONTEXT_ROOT } from '../../common/fasitProperties';
 
 class VisKandidatPersonalia extends React.Component {
     capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1);
@@ -48,7 +49,7 @@ class VisKandidatPersonalia extends React.Component {
 
                 <Row>
                     <Link
-                        to={kandidatListe ? `/pam-kandidatsok/lister/detaljer/${kandidatListe}` : '/pam-kandidatsok'}
+                        to={kandidatListe ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatListe}` : `/${CONTEXT_ROOT}`}
                         className="header--personalia__lenke"
                     >
                         <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøk'}

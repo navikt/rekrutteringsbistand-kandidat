@@ -16,6 +16,7 @@ import Lenkeknapp from '../common/Lenkeknapp';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
 import TomListe from './TomListe';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
@@ -167,7 +168,7 @@ class KandidatlisteDetalj extends React.Component {
         const Header = () => (
             <PageHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
-                    <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
+                    <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
                     <Sidetittel>{tittel}</Sidetittel>
                     <Undertekst className="undertittel">{beskrivelse}</Undertekst>
                     <div className="inforad">
@@ -228,7 +229,8 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                        {/* <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}> */}
+                        <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
                             {fornavnOgEtternavnFraKandidat(kandidat)}
                         </Link>
                     </div>
@@ -282,7 +284,7 @@ class KandidatlisteDetalj extends React.Component {
 
                 ) : (
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <TomListe lenke="/pam-kandidatsok" lenkeTekst="Finn kandidater">
+                        <TomListe lenke={`/${CONTEXT_ROOT}`} lenkeTekst="Finn kandidater">
                             Du har ingen kandidater i kandidatlisten
                         </TomListe>
                     </Container>
