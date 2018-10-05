@@ -19,7 +19,7 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
                             Vi trenger din tilbakemelding for å bli bedre
                         </Normaltekst>
                         <Normaltekst className="blokk-xxs">
-                            <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                            <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
                                 Gi tilbakemelding her
                             </a>
                         </Normaltekst>
@@ -34,7 +34,7 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
             <div className="container">
                 <div role="alert" className="Feedback--link typo-normal">
                     <Normaltekst className="blokk-xxs">
-                        <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                        <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
                             Gi tilbakemelding her
                         </a>
                     </Normaltekst>
