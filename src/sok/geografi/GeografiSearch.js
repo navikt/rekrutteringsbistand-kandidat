@@ -16,7 +16,7 @@ import {
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Geografi.less';
-import CheckboxMedDisabledFunksjon from "../../common/CheckboxMedDisabledFunksjon";
+import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class GeografiSearch extends React.Component {
         this.props.search();
     }
 
-    onclickedDisabledCheckbox = (event) => {
+    onClickedDisabledCheckbox = (event) => {
         if (this.props.onDisabledChange !== undefined) {
             this.props.onDisabledChange();
         }
@@ -137,8 +137,8 @@ class GeografiSearch extends React.Component {
                             checked={this.props.maaBoInnenforGeografi}
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}
-                            disabled_={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
-                            onDisabledChange={(event) => this.onclickedDisabledCheckbox(event)}
+                            disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
+                            onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
                         /> }
 
                     </div>

@@ -7,8 +7,8 @@ const DisabledCheckbox = () => (
     <Checkbox className="Checkbox--ma-bo-pa-geografi-disabled" id={'geografi-checkbox-hjelpetekst-disabled'} label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)" checked={false} disabled={false} readOnly />
 );
 
-const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled_ }) => (
-    disabled_ ?
+const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled }) => (
+    disabled ?
         <HjelpetekstMidt className="hjelpetekst__tooltip--over" id="geografi-checkbox-hjelpetekst" anchor={DisabledCheckbox}>
             Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater.
         </HjelpetekstMidt>
@@ -19,7 +19,7 @@ const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled_ }
 CheckboxMedDisabledFunksjon.propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    disabled_: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool.isRequired,
     checked: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired
 };
