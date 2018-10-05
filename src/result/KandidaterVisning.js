@@ -158,7 +158,7 @@ class KandidaterVisning extends React.Component {
                         <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
                         {this.props.visKandidatlister &&
                             <KnappMedHjelpetekst
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å lagre"
+                                hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                                 mini
                                 type="hoved"
                                 disabled={antallMarkert === 0}
