@@ -24,8 +24,4 @@ CheckboxMedDisabledFunksjon.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-CheckboxMedDisabledFunksjon.defaultProps = {
-    type: 'standard'
-};
-
 export default CheckboxMedDisabledFunksjon;
