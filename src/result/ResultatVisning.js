@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -15,6 +16,8 @@ import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STAT
 import './Resultat.less';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../konstanter';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
+import ListeIkon from '../common/ikoner/ListeIkon';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -78,12 +81,25 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
-                        <Container className="blokk-s container--wide">
-                            <Row>
-                                <Column className="text-center">
+                        <div className="ResultatVisning--header">
+                            {this.props.visKandidatlister ? (
+                                <div className="wrapper container">
+                                    <div className="header--side" />
+                                    <Sidetittel className="header--tittel">Kandidatsøk</Sidetittel>
+                                    <div className="header--side">
+                                        <ListeIkon fargeKode="white" className="ListeIkon" />
+                                        <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                            Lagrede kandidatlister
+                                        </Link>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="wrapper container">
                                     <Sidetittel>Kandidatsøk</Sidetittel>
-                                </Column>
-                            </Row>
+                                </div>
+                            )}
+                        </div>
+                        <Container className="blokk-s container--wide">
                             <Row className="resultatvisning--body">
                                 <Column xs="12" md="4">
                                     <button
@@ -120,12 +136,15 @@ ResultatVisning.propTypes = {
     performInitialSearch: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired
+
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({
