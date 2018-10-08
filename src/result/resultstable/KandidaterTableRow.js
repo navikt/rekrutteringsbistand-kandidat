@@ -9,12 +9,27 @@ import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { UTDANNING } from '../../konstanter';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
+    nusKodeTilUtdanningsNivaa = (nusKode) => {
+        switch (nusKode.charAt(0)) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4': return UTDANNING.VIDEREGAAENDE.label;
+            case '5': return UTDANNING.FAGSKOLE.label;
+            case '6': return UTDANNING.BACHELOR.label;
+            case '7': return UTDANNING.MASTER.label;
+            case '8': return UTDANNING.DOKTORGRAD.label;
+            default: return 'Ukjent';
+        }
+    }
 
     openCvModal = () => {
         this.props.openCvModal();
@@ -26,6 +41,9 @@ class KandidaterTableRow extends React.Component {
         const kandidatnummer = this.props.cv.arenaKandidatnr;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
+        const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning.nusKode);
+
+
         const score = cv.score;
         const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
         let lengdeYrkeserfaringTekst;
@@ -67,7 +85,7 @@ class KandidaterTableRow extends React.Component {
                         </Column>
                     ) : (
                         <Column className="no-padding" xs="3" md="3">
-                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                            <Normaltekst className="break-word utdanning">{utdanningsNivaa}</Normaltekst>
                         </Column>
                     )}
                     <Column className="no-padding" xs="4" md="4">
