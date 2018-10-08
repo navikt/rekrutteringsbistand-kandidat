@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Sidetittel } from 'nav-frontend-typografi';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import Feedback from '../feedback/Feedback';
 import './kandidatlister.less';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';
@@ -56,7 +55,6 @@ class OpprettKandidatliste extends React.Component {
         }
         return (
             <div>
-                <Feedback />
                 <HjelpetekstFading synlig={visValideringfeilmelding} type="advarsel" tekst="Navn må være utfylt" />
                 <HjelpetekstFading synlig={lagreStatus === LAGRE_STATUS.FAILURE} type="advarsel" tekst="Det skjedde en feil ved lagring" />
                 <div className="OpprettKandidatliste__container OpprettKandidatliste__container-width">

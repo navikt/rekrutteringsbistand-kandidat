@@ -28,6 +28,7 @@ import arbeidsgivervelgerReducer, {
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
+import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
@@ -149,6 +150,7 @@ const App = () => (
     <div>
         <Provider store={store}>
             <div>
+                <Feedback />
                 <Toppmeny />
                 <SokApp />
             </div>

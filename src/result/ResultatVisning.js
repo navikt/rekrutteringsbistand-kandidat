@@ -13,7 +13,6 @@ import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
-import Feedback from '../feedback/Feedback';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../konstanter';
 
@@ -78,7 +77,6 @@ class ResultatVisning extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <Feedback />
                         <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
                         <Container className="blokk-s container--wide">
                             <Row>
