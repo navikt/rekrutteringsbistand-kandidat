@@ -6,7 +6,6 @@ import cvPropTypes from '../PropTypes';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
-import ShowModalResultat from './modal/ShowModalResultat';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS } from '../konstanter';
@@ -201,8 +200,6 @@ class KandidaterVisning extends React.Component {
                     />
 
                 )}
-
-                <ShowModalResultat />
             </div>
         );
     }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
+import { Column, Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../PropTypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from './VisKandidatPersonalia';
@@ -13,6 +14,8 @@ import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../konstanter';
+import Matchdetaljer from '../modal/Matchdetaljer';
+import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -83,6 +86,16 @@ class VisKandidat extends React.Component {
                 </div>
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
+
+                {this.props.matchforklaring && (
+                    <div className="container" style={{ backgroundColor: 'white', padding: '2.5rem', marginTop: '20px', maxWidth: '640px' }}>
+                        <Row className="blokk-s">
+                            <Column xs="12">
+                                <Matchdetaljer matchforklaring={this.props.matchforklaring} />
+                            </Column>
+                        </Row>
+                    </div>
+                )}
             </div>
         );
     }
@@ -98,8 +111,8 @@ VisKandidat.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired
-
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    matchforklaring: MatchexplainProptypesGrouped
 };
 
 const mapStateToProps = (state) => ({
