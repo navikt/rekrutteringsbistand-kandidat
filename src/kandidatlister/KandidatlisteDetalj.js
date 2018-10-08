@@ -44,6 +44,7 @@ class KandidatlisteDetalj extends React.Component {
     }
 
     componentDidMount() {
+        this.mounted = true;
         this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
 
@@ -84,15 +85,17 @@ class KandidatlisteDetalj extends React.Component {
 
     componentDidUpdate() {
         if (this.state.visSlettSuccessMelding) {
-            this.skjulSuccessMeldingTimeout = setTimeout(this.skjulSlettSuccessMelding, 3000);
-        } else if (this.skjulSuccessMeldingTimeout !== undefined && this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
-            clearTimeout(this.skjulSuccessMeldingTimeout);
+            this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
+            this.props.nullstillSletteStatus();
+        } else if (this.skjulSuccessMeldingTimeoutHandle !== undefined && this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
+            clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
         }
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         this.props.clearKandidatliste();
-        clearTimeout(this.skjulSuccessMeldingTimeout);
+        clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
     }
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
@@ -110,7 +113,7 @@ class KandidatlisteDetalj extends React.Component {
         });
     };
 
-    skjulSuccessMeldingTimeout = undefined;
+    skjulSuccessMeldingTimeoutHandle;
 
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });
@@ -146,9 +149,9 @@ class KandidatlisteDetalj extends React.Component {
     };
 
     skjulSlettSuccessMelding = () => {
-        this.setState({ visSlettSuccessMelding: false });
-        this.props.nullstillSletteStatus();
-        clearTimeout(this.skjulSuccessMeldingTimeout);
+        if (this.mounted) {
+            this.setState({ visSlettSuccessMelding: false });
+        }
     };
 
     render() {
