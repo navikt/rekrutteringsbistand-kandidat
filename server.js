@@ -11,6 +11,10 @@ const currentDirectory = __dirname;
 
 const server = express();
 const port = process.env.PORT || 8080;
+
+const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
+const testtmp = process.argv;
+
 server.set('port', port);
 
 server.disable('x-powered-by');
@@ -39,7 +43,7 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
-    PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok/rest/',
+    PAM_KANDIDATSOK_API_URL: `/${contextRoot}/rest/`,
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
@@ -54,7 +58,8 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
-        `window.__BACKEND_OPPE__=${fasitProperties.BACKEND_OPPE};\n`;
+        `window.__BACKEND_OPPE__=${fasitProperties.BACKEND_OPPE};\n` +
+        `window.__CONTEXT_ROOT__="${contextRoot}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -64,7 +69,7 @@ const writeEnvironmentVariablesToFile = () => {
 const renderSok = () => (
     new Promise((resolve, reject) => {
         server.render(
-            'index.html',
+            contextRoot === 'pam-kandidatsok-next' ? 'index-next.html' : 'index.html',
             fasitProperties,
             (err, html) => {
                 if (err) {
@@ -82,10 +87,10 @@ const startServer = (html) => {
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
-    server.use('/pam-kandidatsok/rest/', proxy(proxyHost, {
+    server.use(`/${contextRoot}/rest/`, proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => {
-            const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok').pop()}`;
+            const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split(`/${contextRoot}`).pop()}`;
             return rettPath;
         },
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
@@ -102,30 +107,31 @@ const startServer = (html) => {
     }));
 
     server.use(
-        '/pam-kandidatsok/js',
+        `/${contextRoot}/js`,
         express.static(path.resolve(__dirname, 'dist/js'))
     );
     server.use(
-        '/pam-kandidatsok/css',
+        `/${contextRoot}/css`,
         express.static(path.resolve(__dirname, 'dist/css'))
     );
 
     server.get(
-        ['/', '/pam-kandidatsok/?', /^\/pam-kandidatsok\/(?!.*dist).*$/],
+        ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],
         (req, res) => {
             res.send(html);
         }
     );
 
-    server.get('/pam-kandidatsok/internal/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/pam-kandidatsok/internal/isReady', (req, res) => res.sendStatus(200));
+    server.get(`/${contextRoot}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`/${contextRoot}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     server.listen(port, () => {
-        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/`);
+        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${contextRoot} test: ${testtmp}`);
     });
 };
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 renderSok()
-    .then(startServer, (error) => logError('Failed to render app', error));
+    .then(startServer)
+    .catch((error) => logError('Failed to render app', error));

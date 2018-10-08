@@ -16,7 +16,7 @@ import {
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Geografi.less';
-import { Checkbox } from 'nav-frontend-skjema';
+import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -30,6 +30,13 @@ class GeografiSearch extends React.Component {
     onToggleMaBoPaGeografi = () => {
         this.props.toggleMaBoPaGeografi();
         this.props.search();
+    }
+
+    onClickedDisabledCheckbox = (event) => {
+        if (this.props.onDisabledChange !== undefined) {
+            this.props.onDisabledChange();
+        }
+        event.preventDefault();
     }
 
     onTypeAheadGeografiChange = (value) => {
@@ -124,14 +131,14 @@ class GeografiSearch extends React.Component {
                             </Knapp>
                         )}
                         {this.props.visMaaBoCheckbox &&
-                        <Checkbox
+                        <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
-                            className="Checkbox--ma-bo-pa-geografi"
                             checked={this.props.maaBoInnenforGeografi}
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}
                             disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
+                            onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
                         /> }
 
                     </div>
@@ -153,6 +160,11 @@ class GeografiSearch extends React.Component {
         );
     }
 }
+
+
+GeografiSearch.defaultProps = {
+    onDisabledChange: undefined
+};
 
 GeografiSearch.propTypes = {
     search: PropTypes.func.isRequired,
@@ -176,7 +188,8 @@ GeografiSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,
-    visMaaBoCheckbox: PropTypes.bool.isRequired
+    visMaaBoCheckbox: PropTypes.bool.isRequired,
+    onDisabledChange: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
