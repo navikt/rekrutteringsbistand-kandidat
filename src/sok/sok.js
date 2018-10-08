@@ -22,7 +22,6 @@ import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
 import Feilside from './error/Feilside';
-import feedbackReducer from '../feedback/feedbackReducer';
 import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
@@ -50,7 +49,6 @@ const store = createStore(combineReducers({
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
-    feedback: feedbackReducer,
     mineArbeidsgivere: arbeidsgivervelgerReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
