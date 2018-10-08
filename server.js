@@ -49,7 +49,8 @@ const fasitProperties = {
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
     BACKEND_OPPE: process.env.PAM_KANDIDATSOK_BACKEND_OPPE === 'true',
     API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
-    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY
+    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
+    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true'
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -59,6 +60,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__BACKEND_OPPE__=${fasitProperties.BACKEND_OPPE};\n` +
+        `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
         `window.__CONTEXT_ROOT__="${contextRoot}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {

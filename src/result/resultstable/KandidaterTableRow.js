@@ -9,7 +9,7 @@ import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
-import { CONTEXT_ROOT } from '../../common/fasitProperties';
+import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -62,7 +62,7 @@ class KandidaterTableRow extends React.Component {
                         </Link>
                     </Column>
 
-                    {this.props.janzzEnabled ? (
+                    {USE_JANZZ ? (
                         <Column className="no-padding" xs="3" md="3">
                             <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                         </Column>
@@ -103,7 +103,7 @@ class KandidaterTableRow extends React.Component {
                         <Normaltekst className="break-word ">{cv.arenaKandidatnr}</Normaltekst>
                     </Flatknapp>
                 </Column>
-                {this.props.janzzEnabled ? (
+                { USE_JANZZ ? (
                     <Column className="no-padding" xs="3" md="3">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
@@ -128,7 +128,6 @@ KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     openCvModal: PropTypes.func.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired,
     visNyVisKandidatSide: PropTypes.bool.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     visKandidatlister: PropTypes.bool.isRequired,
@@ -137,7 +136,6 @@ KandidaterTableRow.propTypes = {
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    janzzEnabled: state.search.featureToggles['janzz-enabled'],
     visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side'],
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
