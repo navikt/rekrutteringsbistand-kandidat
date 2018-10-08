@@ -78,6 +78,12 @@ class KandidatlisteDetalj extends React.Component {
                 sletterKandidater: false,
                 visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
             };
+        } else if (props.sletteStatus === SLETTE_STATUS.SUCCESS && !state.sletterKandidater) {
+            // kommer tilbake med slett success fra cv-visning
+            return {
+                ...state,
+                visSlettSuccessMelding: true
+            };
         }
 
         return null;
