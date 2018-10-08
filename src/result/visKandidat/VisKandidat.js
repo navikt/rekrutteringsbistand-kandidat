@@ -14,8 +14,8 @@ import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../konstanter';
-import Matchdetaljer from '../modal/Matchdetaljer';
-import { MatchexplainProptypesGrouped } from '../modal/Proptypes';
+import Matchdetaljer from '../matchforklaring/Matchdetaljer';
+import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 
 class VisKandidat extends React.Component {
     constructor(props) {
