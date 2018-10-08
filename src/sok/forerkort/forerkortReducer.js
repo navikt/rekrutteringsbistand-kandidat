@@ -22,7 +22,7 @@ export default function forerkortReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                forerkortList: action.query.forerkortList || []
+                forerkortList: action.query.forerkort || []
             };
         case SELECT_TYPE_AHEAD_VALUE_FORERKORT:
             return {
