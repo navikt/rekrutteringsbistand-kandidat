@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
+import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
 import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { CONTEXT_ROOT } from '../../common/fasitProperties';
 
 class KandidaterTableRow extends React.Component {
+    onCheck = (kandidatnr) => {
+        this.props.onKandidatValgt(!this.props.markert, kandidatnr);
+    };
+
+
     openCvModal = () => {
         this.props.openCvModal();
         this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
@@ -32,71 +40,86 @@ class KandidaterTableRow extends React.Component {
 
         if (this.props.visNyVisKandidatSide) {
             return (
-                <Link
-                    to={`/pam-kandidatsok/cv?kandidatNr=${kandidatnummer}`}
-                    className="panel border--top--thin kandidater--row"
-                    aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                >
-                    <Row>
-                        <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                            <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
-                        </Column>
-                        {this.props.janzzEnabled ? (
-                            <Column className="no--padding" xs="4" md="4">
-                                <i className="border--vertical" />
-                                <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                            </Column>
-                        ) : (
-                            <Column className="no--padding" xs="4" md="4">
-                                <i className="border--vertical" />
-                                <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                            </Column>
-                        )}
-                        <Column className="no--padding" xs="4" md="4">
-                            <i className="border--vertical" />
-                            <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
-                        </Column>
-                        <Column xs="2" md="2" className="text-center no--padding">
-                            <i className="border--vertical" />
-                            <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
-                        </Column>
-                    </Row>
 
-                </Link>
+                <Row className="kandidater--row">
+
+                    {this.props.visKandidatlister &&
+                    <Column xs="1" md="1">
+                        <Checkbox className="text-hide" label="" checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
+                    </Column>
+                    }
+
+                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                        <Link
+                            className="lenke--kandidatnr"
+                            to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
+
+                            aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                        >
+
+                            <Normaltekst className="break-word">{cv.arenaKandidatnr}</Normaltekst>
+
+                        </Link>
+                    </Column>
+
+                    {this.props.janzzEnabled ? (
+                        <Column className="no-padding" xs="3" md="3">
+                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                        </Column>
+                    ) : (
+                        <Column className="no-padding" xs="3" md="3">
+                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
+                        </Column>
+                    )}
+                    <Column className="no-padding" xs="4" md="4">
+                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                    </Column>
+                    <Column xs="2" md="2" className="text-center no-padding">
+                        <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
+                    </Column>
+
+
+                </Row>
+
+
             );
         }
 
         return (
-            <button
-                className="panel border--top--thin kandidater--row"
-                onClick={this.openCvModal}
-                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-            >
-                <Row>
-                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
+
+            <Row className="kandidater--row">
+
+                {this.props.visKandidatlister &&
+                    <Column xs="1" md="1">
+                        <Checkbox className="text-hide" label="" checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
                     </Column>
-                    {this.props.janzzEnabled ? (
-                        <Column className="no--padding" xs="4" md="4">
-                            <i className="border--vertical" />
-                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                        </Column>
-                    ) : (
-                        <Column className="no--padding" xs="4" md="4">
-                            <i className="border--vertical" />
-                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                        </Column>
-                    )}
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                }
+                <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                    <Flatknapp
+                        onClick={this.openCvModal}
+                        aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                        mini
+                    >
+                        <Normaltekst className="break-word ">{cv.arenaKandidatnr}</Normaltekst>
+                    </Flatknapp>
+                </Column>
+                {this.props.janzzEnabled ? (
+                    <Column className="no-padding" xs="3" md="3">
+                        <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
-                    <Column xs="2" md="2" className="text-center no--padding">
-                        <i className="border--vertical" />
-                        <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
+                ) : (
+                    <Column className="no-padding" xs="3" md="3">
+                        <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
                     </Column>
-                </Row>
-            </button>
+                )}
+                <Column className="no-padding" xs="4" md="4">
+                    <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                </Column>
+                <Column xs="2" md="2" className="text-center no-padding">
+                    <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
+                </Column>
+            </Row>
+
         );
     }
 }
@@ -106,13 +129,17 @@ KandidaterTableRow.propTypes = {
     openCvModal: PropTypes.func.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     janzzEnabled: PropTypes.bool.isRequired,
-    visNyVisKandidatSide: PropTypes.bool.isRequired
+    visNyVisKandidatSide: PropTypes.bool.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired,
+    markert: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query,
     janzzEnabled: state.search.featureToggles['janzz-enabled'],
-    visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side']
+    visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side'],
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({

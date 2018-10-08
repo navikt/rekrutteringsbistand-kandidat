@@ -7,8 +7,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../common/HjelpetekstFading';
-import EditIkon from '../common/ikoner/EditIkon';
-import SlettIkon from '../common/ikoner/SlettIkon';
+import Lenkeknapp from '../common/Lenkeknapp';
 import TomListe from './TomListe';
 import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
@@ -16,6 +15,7 @@ import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -23,7 +23,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     } else if (kandidatlister.length === 0) {
         return (
             <TomListe
-                lenke="/pam-kandidatsok/lister/opprett"
+                lenke={`/${CONTEXT_ROOT}/lister/opprett`}
                 lenkeTekst="Opprett kandidatliste"
             >
                 Du har ingen kandidatlister
@@ -37,16 +37,9 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick }) => {
     );
 };
 
-const IkonKnapp = ({ Ikon, tekst, onClick }) => (
-    <button onClick={onClick} className="ikon-knapp">
-        <Ikon className="ikon" />
-        {tekst}
-    </button>
-);
-
 const formaterDato = (datoStreng) => {
     const dato = new Date(datoStreng);
-    return dato.toLocaleDateString('no-nb').replace(/\//g, '.');
+    return dato.toLocaleDateString('nb-NO');
 };
 
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
@@ -54,7 +47,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
         <div className="beskrivelse">
             <div className="topp">
                 <div>
-                    <Link to={`/pam-kandidatsok/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
+                    <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
                         <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
                     </Link>
                 </div>
@@ -75,8 +68,14 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
             </div>}
         </div>
         <div className="funksjonsknapp-panel">
-            <IkonKnapp Ikon={EditIkon} tekst="Endre" onClick={() => endreKandidatliste(kandidatliste)} />
-            <IkonKnapp Ikon={SlettIkon} tekst="Slett" onClick={() => { console.log('slett'); }} />
+            <Lenkeknapp onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
+                <i className="Edit__icon" />
+                Endre
+            </Lenkeknapp>
+            {/* <Lenkeknapp onClick={() => { console.log('slett'); }} className="Delete">
+                <i className="Delete__icon" />
+                Slett
+            </Lenkeknapp> */}
         </div>
     </div>
 );
@@ -85,7 +84,7 @@ const Header = ({ antallKandidater }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
             <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
-            <Link to="/pam-kandidatsok/lister/opprett">
+            <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
                 <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
             </Link>
         </div>
@@ -203,12 +202,6 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     opprettetTidspunkt: PropTypes.string.isRequired,
     oppdragsgiver: PropTypes.string
 });
-
-IkonKnapp.propTypes = {
-    Ikon: PropTypes.func.isRequired,
-    tekst: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
-};
 
 KandidatlisteRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,

@@ -25,6 +25,11 @@
   }
 }
 
+.resultatvisning--header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .buttons--kandidatervisning {
   margin-top: 2rem;
 }
@@ -41,5 +46,34 @@ a.tilbake--lenke {
 
   &:hover .tekst--tilbake--lenke {
     border-bottom: solid 1px;
+  }
+}
+
+.LagreKandidaterModal {
+  width: 40rem;
+
+  .LagreKandidaterModal--wrapper {
+    padding: 1rem;
+
+    .overskrift {
+      margin-bottom: 1.25rem;
+    }
+    .knapperad {
+      margin-top: 2rem;
+    }
+
+    .ny-liste-overskrift {
+      margin-bottom: 1.25rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.625rem;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
   }
 }

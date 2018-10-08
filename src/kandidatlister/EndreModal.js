@@ -7,8 +7,17 @@ import '../result/modal/Modal.less';
 import { LAGRE_STATUS } from '../konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import './EndreModal.less';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { OPPDATER_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { KandidatlisteBeskrivelse } from './Kandidatlister';
+
+const kandidatlisteInfoWrapper = (kandidatliste) => ({
+    ...kandidatliste,
+    tittel: kandidatliste.tittel || '',
+    beskrivelse: kandidatliste.beskrivelse || '',
+    oppdragsgiver: kandidatliste.oppdragsgiver || ''
+
+});
 
 const EndreModal = ({ lagreKandidatliste, resetStatusTilUnsaved, lagreStatus, kandidatliste, onAvbrytClick }) => (
     <NavFrontendModal
@@ -22,10 +31,11 @@ const EndreModal = ({ lagreKandidatliste, resetStatusTilUnsaved, lagreStatus, ka
         <OpprettKandidatlisteForm
             onSave={lagreKandidatliste}
             onChange={resetStatusTilUnsaved}
-            backLink="/pam-kandidatsok/lister"
-            kandidatlisteInfo={kandidatliste}
+            backLink={`/${CONTEXT_ROOT}/lister`}
+            kandidatlisteInfo={kandidatlisteInfoWrapper(kandidatliste)}
             saving={lagreStatus === LAGRE_STATUS.LOADING}
             onAvbrytClick={onAvbrytClick}
+            knappTekst="Lagre"
         />
     </NavFrontendModal>
 );

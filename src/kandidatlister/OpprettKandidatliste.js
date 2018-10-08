@@ -12,8 +12,9 @@ import TilbakeLenke from '../common/TilbakeLenke';
 import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
 import UnderArbeidSide from './UnderArbeidSide';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 
-const tomKandidatlisteInfo = () => ({
+export const tomKandidatlisteInfo = () => ({
     tittel: '',
     beskrivelse: '',
     oppdragsgiver: ''
@@ -51,7 +52,7 @@ class OpprettKandidatliste extends React.Component {
             return <UnderArbeidSide />;
         }
         if (lagreStatus === LAGRE_STATUS.SUCCESS) {
-            return <Redirect to="/pam-kandidatsok/lister" push />;
+            return <Redirect to={`/${CONTEXT_ROOT}/lister`} push />;
         }
         return (
             <div>
@@ -59,7 +60,7 @@ class OpprettKandidatliste extends React.Component {
                 <HjelpetekstFading synlig={visValideringfeilmelding} type="advarsel" tekst="Navn må være utfylt" />
                 <HjelpetekstFading synlig={lagreStatus === LAGRE_STATUS.FAILURE} type="advarsel" tekst="Det skjedde en feil ved lagring" />
                 <div className="OpprettKandidatliste__container OpprettKandidatliste__container-width">
-                    <TilbakeLenke href="/pam-kandidatsok/lister" tekst="Til kandidatlister" />
+                    <TilbakeLenke href={'/CONTEXT_ROOT/lister'} tekst="Til kandidatlister" />
                     <Container className="OpprettKandidatliste__container-width">
                         <Sidetittel>Opprett kandidatliste</Sidetittel>
                         <div className="OpprettKandidatliste__form-wrapper">
@@ -67,9 +68,10 @@ class OpprettKandidatliste extends React.Component {
                                 onSave={opprettKandidatliste}
                                 onChange={resetStatusTilUnsaved}
                                 onDisabledClick={this.visFeilmelding}
-                                backLink="/pam-kandidatsok/lister"
+                                backLink={'/CONTEXT_ROOT/lister'}
                                 kandidatlisteInfo={tomKandidatlisteInfo()}
                                 saving={lagreStatus === LAGRE_STATUS.LOADING}
+                                knappTekst="Opprett"
                             />
                         </div>
                     </Container>

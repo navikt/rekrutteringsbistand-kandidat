@@ -7,23 +7,66 @@ import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import ShowModalResultat from './modal/ShowModalResultat';
+import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
+import LagreKandidaterModal from './LagreKandidaterModal';
+import { LAGRE_STATUS } from '../konstanter';
+import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
 
+const antallKandidaterMarkert = (kandidater) => (
+    kandidater.filter((k) => (k.markert)).length
+);
+
+const lagreKandidaterKnappTekst = (antall) => {
+    if (antall === 0) {
+        return 'Lagre kandidater';
+    } else if (antall === 1) {
+        return 'Lagre 1 kandidat';
+    }
+    return `Lagre ${antall} kandidater`;
+};
+
+const avmarkerKandidat = (k) => ({ ...k, markert: false });
+
+const markereKandidat = (kandidatnr, checked) => (k) => {
+    if (k.arenaKandidatnr === kandidatnr) {
+        return { ...k, markert: checked };
+    }
+
+    return k;
+};
 
 class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             antallResultater: 25,
-            kandidater: this.props.kandidater
+            kandidater: this.props.kandidater.map(avmarkerKandidat),
+            alleKandidaterMarkert: false,
+            lagreKandidaterModalVises: false
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            kandidater: nextProps.kandidater,
-            antallResultater: 25
-        });
+    componentDidUpdate(prevProps) {
+        if (prevProps.kandidater !== this.props.kandidater) {
+        // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                kandidater: this.props.kandidater.map(avmarkerKandidat),
+                antallResultater: 25,
+                alleKandidaterMarkert: false
+            });
+        }
+        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.lukkeLagreKandidaterModal();
+            this.toggleMarkeringAlleKandidater(false);
+        }
     }
+
+    onKandidatValgt = (checked, kandidatnr) => {
+        this.setState({
+            kandidater: this.state.kandidater.map(markereKandidat(kandidatnr, checked)),
+            alleKandidaterMarkert: false
+        });
+    };
 
     onFlereResultaterClick = () => {
         this.setState({
@@ -68,14 +111,65 @@ class KandidaterVisning extends React.Component {
         });
     };
 
+
+    onLagreKandidatlister = (kandidatlisteIder) => {
+        this.props.leggTilKandidaterIKandidatliste(this.state.kandidater
+            .filter((kandidat) => (kandidat.markert))
+            .map((kandidat) => ({
+                kandidatnr: kandidat.arenaKandidatnr,
+                sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
+            })), kandidatlisteIder);
+    };
+
+    onToggleMarkeringAlleKandidater = () => {
+        const checked = !this.state.alleKandidaterMarkert;
+        this.toggleMarkeringAlleKandidater(checked);
+    };
+
+    aapneLagreKandidaterModal = () => {
+        this.setState({
+            lagreKandidaterModalVises: true
+        });
+    };
+
+    lukkeLagreKandidaterModal = () => {
+        this.setState({
+            lagreKandidaterModalVises: false
+        });
+    };
+
+    toggleMarkeringAlleKandidater = (checked) => {
+        this.setState({
+            alleKandidaterMarkert: checked,
+            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
+        });
+    };
+
     render() {
         const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
 
+        const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
         return (
             <div>
+                {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
+
                 <div className="panel resultatvisning">
-                    <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                    <div className="resultatvisning--header">
+                        <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                        {this.props.visKandidatlister &&
+                            <KnappMedHjelpetekst
+                                hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
+                                mini
+                                type="hoved"
+                                disabled={antallMarkert === 0}
+                                onClick={this.aapneLagreKandidaterModal}
+                            >
+                                {lagreKandidaterKnappTekst(antallMarkert)}
+                            </KnappMedHjelpetekst>
+                        }
+                    </div>
                 </div>
+
                 {this.props.isEmptyQuery ? (
 
                     <KandidaterTabellUtenKriterier
@@ -85,6 +179,9 @@ class KandidaterVisning extends React.Component {
                         onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
+                        onKandidatValgt={this.onKandidatValgt}
+                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
 
                     />
 
@@ -97,6 +194,9 @@ class KandidaterVisning extends React.Component {
                         onFilterScoreClick={this.onFilterScoreClick}
                         onFlereResultaterClick={this.onFlereResultaterClick}
                         totaltAntallTreff={this.props.totaltAntallTreff}
+                        onKandidatValgt={this.onKandidatValgt}
+                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
 
                     />
 
@@ -111,13 +211,25 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    isEmptyQuery: PropTypes.bool.isRequired
+    isEmptyQuery: PropTypes.bool.isRequired,
+    leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired
 };
+
+const mapDispatchToProps = (dispatch) => ({
+    leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
+        dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
+    }
+});
 
 const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    isEmptyQuery: state.search.isEmptyQuery
+    isEmptyQuery: state.search.isEmptyQuery,
+    kandidatlister: state.kandidatlister.kandidatlister,
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
-export default connect(mapStateToProps)(KandidaterVisning);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

@@ -66,17 +66,8 @@
     display: flex;
     justify-content: flex-end;
     padding-top: 1rem;
-    .ikon-knapp {
-      color: @navBla;
-      cursor: pointer;
-      border: 1px;
-      margin: 2px 2px 2px 2px;
-      display: inline-flex;
-      align-items: center;
-      background-color: #fff;
-      .ikon {
-        margin-right: 0.5rem;
-      }
+    * {
+        margin-left: 0.5rem;
     }
   }
 }
@@ -105,6 +96,17 @@
   margin-top: 2rem;
   margin-bottom: 6rem;
   border-radius: 0.25rem;
+}
+
+.OpprettKandidatlisteForm {
+  input {
+    padding: 0.75rem;
+  }
+
+  textarea {
+    padding: 0.75rem;
+    min-height: 8.25rem;
+  }
 }
 
 .OpprettKandidatlisteForm__avbryt-lenke-wrapper {
@@ -140,7 +142,7 @@
     padding-bottom: 20px;
 
     .TilbakeLenke {
-        padding: 0px;
+        padding: 0;
         > a {
             color: white;
             text-decoration: none;
@@ -207,20 +209,22 @@
 
 
     /** overstyr tooltip for slett-knapp */
-    .KandidatlisteDetalj__knapperad--slett {
-        .hjelpetekst__tooltip--midtstilt  {
-            &::before {
-                left: 75%;
+    @media (min-width: 480px) {
+        .KandidatlisteDetalj__knapperad--slett {
+            .hjelpetekst__tooltip--midtstilt  {
+                &::before {
+                    left: 75%;
+                }
+                &:focus::after {
+                    left: 75%;
+                }
             }
-            &:focus::after {
-                left: 75%;
-            }
+        }   
+        
+        .hjelpetekst__tooltip {
+            left: 0;
+            transform: translateX(calc(-55%));
         }
-    }
-
-    .hjelpetekst__tooltip {
-        left: 0;
-        transform: translateX(calc(-55%));
     }
 
     .KandidatlisteDetalj__panel {
@@ -231,8 +235,7 @@
         margin-bottom: 0.5rem;
         padding: 1.25rem;
         min-height: 4rem;
-        flex-direction: row;
-        border-style: solid;
+      border-style: solid;
         border-color: @borderLys;
         border-width: 1px;
 
@@ -241,8 +244,8 @@
             align-items: center;
             flex-direction: row;
             @media (min-width: 672px) {
-                flex: 0 0 240px;
-                min-width: 240px;
+                flex: 0 1 337px;
+                min-width: 337px;
             }
 
             @media (max-width: 671px) {
@@ -254,6 +257,14 @@
                 font-weight: bold;
             }
 
+            > a {
+                max-lines: 1;
+                max-width: 240px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
         }
         .typo-undertekst-bold {
             font-size: 1rem;
@@ -262,7 +273,7 @@
         .skjemaelement {
             display: inline-flex;
             align-items: center;
-            margin: 0px;
+            margin: 0;
         }
     }
 
@@ -342,5 +353,17 @@
 }
 
 .knapp--avbryt {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
+}
+
+.hjelpetekst {
+  button {
+    &:focus {
+      .Delete__icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20' height='20' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cpath id='a' d='M19.583 2.5h-5.416V.417A.417.417 0 0 0 13.75 0H7.083a.417.417 0 0 0-.416.417V2.5H1.25a.417.417 0 0 0 0 .833h2.083v16.25c0 .23.187.417.417.417h13.333c.23 0 .417-.187.417-.417V3.333h2.083a.417.417 0 0 0 0-.833zM7.5 15.417a.417.417 0 0 1-.833 0V6.25a.417.417 0 0 1 .833 0v9.167zM7.5.833h5.833V2.5H7.5V.833zm3.333 14.584a.417.417 0 0 1-.833 0V6.25a.417.417 0 0 1 .833 0v9.167zm3.334 0a.417.417 0 0 1-.834 0V6.25a.417.417 0 0 1 .834 0v9.167z'/%3E%3C/defs%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cmask id='b' fill='%23fff'%3E%3Cuse xlink:href='%23a'/%3E%3C/mask%3E%3Cuse fill='%23005b82' fill-rule='nonzero' xlink:href='%23a'/%3E%3Cg fill='%23005b82' mask='url(%23b)'%3E%3Cpath d='M0 20h20V0H0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      outline: 1px solid @navOransjeLighten40;
+      color:@navDypBla;
+    }
+  }
 }

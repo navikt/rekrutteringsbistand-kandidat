@@ -12,14 +12,23 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
-import SlettIkon from '../common/ikoner/SlettIkon';
+import Lenkeknapp from '../common/Lenkeknapp';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
 import TomListe from './TomListe';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
+import '../common/ikoner/ikoner.less';
+
+
+const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
+const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
+    ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
+    : kandidat.kandidatnr);
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -99,29 +108,20 @@ class KandidatlisteDetalj extends React.Component {
                 return { ...k };
             })
         });
-    }
+    };
 
     skjulSuccessMeldingTimeout = undefined;
 
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });
-    }
+    };
 
     markerAlleClicked = () => {
         this.setState({
             markerAlleChecked: !this.state.markerAlleChecked,
             kandidater: this.state.kandidater.map((k) => ({ ...k, checked: !this.state.markerAlleChecked }))
         });
-    }
-
-    slettMarkerteKandidaterClicked = () => {
-        const { kandidatlisteId } = this.props;
-        const kandidater = this.state.kandidater.filter((k) => k.checked);
-
-        if (kandidatlisteId && kandidater.length > 0) {
-            this.visSlettKandidaterModal();
-        }
-    }
+    };
 
     slettMarkerteKandidater = () => {
         const { kandidatlisteId } = this.props;
@@ -135,21 +135,21 @@ class KandidatlisteDetalj extends React.Component {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
             this.setState({ sletterKandidater: true });
         }
-    }
+    };
 
     visSlettKandidaterModal = () => {
         this.setState({ visSlettKandidaterModal: true });
-    }
+    };
 
     lukkSlettModal = () => {
         this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false, sletterKandidater: false });
-    }
+    };
 
     skjulSlettSuccessMelding = () => {
         this.setState({ visSlettSuccessMelding: false });
         this.props.nullstillSletteStatus();
         clearTimeout(this.skjulSuccessMeldingTimeout);
-    }
+    };
 
     render() {
         if (this.props.kandidatliste === undefined
@@ -168,9 +168,9 @@ class KandidatlisteDetalj extends React.Component {
         const Header = () => (
             <PageHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
-                    <TilbakeLenke tekst="Til kandidatlistene" href="/pam-kandidatsok/lister" />
+                    <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
                     <Sidetittel>{tittel}</Sidetittel>
-                    <Undertekst className="undertittel">{beskrivelse || ''}</Undertekst>
+                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
@@ -179,47 +179,46 @@ class KandidatlisteDetalj extends React.Component {
             </PageHeader>
         );
 
-        const SlettKnapp = () => (
-            <div
-                role="button"
-                tabIndex="0"
-                className="knapp--ikon"
-                onKeyPress={this.slettMarkerteKandidaterClicked}
-                onClick={this.slettMarkerteKandidaterClicked}
-            >
-                <SlettIkon id="slett-knapp" fargeKode="#000" />
-                <Normaltekst>Slett</Normaltekst>
+        const DisabledSlettKnapp = () => (
+            <div className="Lenkeknapp typo-normal Delete">
+                <i className="Delete__icon" />
+                Slett
             </div>
         );
 
-        const Knapper = () => (
-            <div className="KandidatlisteDetalj__knapperad">
-                {/* <div
-                    role="button"
-                    tabIndex="0"
-                    className="knapp--ikon"
-                    onKeyPress={() => {}}
-                    onClick={() => {}}
-                >
-                    <PrinterIkon />
-                    <Normaltekst>Skriv ut</Normaltekst>
-                </div> */}
-                <div className="KandidatlisteDetalj__knapperad--slett">
-                    <HjelpetekstMidt
-                        className="hjelpetekst--slett"
-                        id="marker-kandidater-hjelpetekst"
-                        anchor={SlettKnapp}
-                    >
+        const Knapper = () => {
+            const { kandidatlisteId } = this.props;
+
+            if (kandidatlisteId && valgteKandidater.length > 0) {
+                return (
+                    <div className="KandidatlisteDetalj__knapperad">
+                        <div className="KandidatlisteDetalj__knapperad--slett">
+                            <Lenkeknapp onClick={this.visSlettKandidaterModal} className="Delete">
+                                <i className="Delete__icon" />
+                                Slett
+                            </Lenkeknapp>
+                        </div>
+                    </div>
+                );
+            }
+            return (
+                <div className="KandidatlisteDetalj__knapperad">
+                    <div className="KandidatlisteDetalj__knapperad--slett">
+                        <HjelpetekstMidt
+                            id="marker-kandidater-hjelpetekst"
+                            anchor={DisabledSlettKnapp}
+                        >
                             Du må huke av for kandidatene du ønsker å slette
-                    </HjelpetekstMidt>
+                        </HjelpetekstMidt>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        };
 
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
                 <div className="KandidatlisteDetalj__panel--first">
-                    <Checkbox label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                    <Checkbox title="Marker alle" label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
             </Panel>
@@ -229,8 +228,11 @@ class KandidatlisteDetalj extends React.Component {
             kandidater && kandidater.map((kandidat) => (
                 <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
-                        <Checkbox className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        <Link className="lenke" to={`/pam-kandidatsok/cv?kandidatNr=${kandidat.kandidatnr}`}>{kandidat.kandidatnr}</Link>
+                        <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
+                        {/* <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}> */}
+                        <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                            {fornavnOgEtternavnFraKandidat(kandidat)}
+                        </Link>
                     </div>
                     <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
@@ -254,8 +256,8 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
                 <Normaltekst>{valgteKandidater.length === 1
-                    ? `Er du sikker på at du ønsker å slette ${valgteKandidater.pop().kandidatnr}?`
-                    : 'Er du sikker på at du ønsker å slette kandidatene?'
+                    ? `Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(valgteKandidater.pop())} fra listen?`
+                    : 'Er du sikker på at du ønsker å slette kandidatene fra listen?'
                 }
                 </Normaltekst>
                 <div className="knapperad">
@@ -282,7 +284,7 @@ class KandidatlisteDetalj extends React.Component {
 
                 ) : (
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <TomListe lenke="/pam-kandidatsok" lenkeTekst="Finn kandidater">
+                        <TomListe lenke={`/${CONTEXT_ROOT}`} lenkeTekst="Finn kandidater">
                             Du har ingen kandidater i kandidatlisten
                         </TomListe>
                     </Container>
@@ -309,7 +311,9 @@ KandidatlisteDetalj.propTypes = {
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
                 kandidatnr: PropTypes.string,
-                sisteArbeidserfaring: PropTypes.string
+                sisteArbeidserfaring: PropTypes.string,
+                fornavn: PropTypes.string,
+                etternavn: PropTypes.string
             })
         )
     }),

@@ -167,6 +167,10 @@ export function postKandidatliste(kandidatlistBeskrivelse, orgNr) {
     return postJson(`${KANDIDATLISTE_API}${orgNr}/kandidatlister`, JSON.stringify(kandidatlistBeskrivelse));
 }
 
+export function postKandidaterTilKandidatliste(kandidatlisteId, kandidater) {
+    return postJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater));
+}
+
 export function putKandidatliste(kandidatlisteBeskrivelse) {
     return putJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteBeskrivelse.kandidatlisteId}`, JSON.stringify(kandidatlisteBeskrivelse));
 }
