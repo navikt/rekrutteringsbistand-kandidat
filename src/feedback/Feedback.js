@@ -9,7 +9,7 @@ import { HIDE_FEEDBACK } from './feedbackReducer';
 function Feedback({ shouldShowFeedback, hideFeedback }) {
     if (shouldShowFeedback) {
         return (
-            <div className="FeedbackWrapper border--top--thin">
+            <div className="FeedbackWrapper border--bottom--thin">
                 <div className="container">
                     <div role="alert" className="Feedback typo-normal">
                         <Element className="blokk-xxs">
@@ -30,7 +30,7 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
         );
     }
     return (
-        <div className="FeedbackWrapper border--top--thin">
+        <div className="FeedbackWrapper border--bottom--thin">
             <div className="container">
                 <div role="alert" className="Feedback--link typo-normal">
                     <Normaltekst className="blokk-xxs">
