@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
-import { Column, Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../PropTypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from './VisKandidatPersonalia';
@@ -88,12 +87,8 @@ class VisKandidat extends React.Component {
                 <VisKandidatCv cv={cv} />
 
                 {this.props.matchforklaring && (
-                    <div className="container" style={{ backgroundColor: 'white', padding: '2.5rem', marginTop: '20px', maxWidth: '640px' }}>
-                        <Row className="blokk-s">
-                            <Column xs="12">
-                                <Matchdetaljer matchforklaring={this.props.matchforklaring} />
-                            </Column>
-                        </Row>
+                    <div className="match-explanation-container">
+                        <Matchdetaljer matchforklaring={this.props.matchforklaring} />
                     </div>
                 )}
             </div>
