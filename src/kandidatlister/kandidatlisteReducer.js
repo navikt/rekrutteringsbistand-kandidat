@@ -223,8 +223,7 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 slett: {
                     ...state.slett,
-                    sletteStatus: SLETTE_STATUS.LOADING,
-                    slettetKandidatlisteTittel: undefined
+                    sletteStatus: SLETTE_STATUS.LOADING
                 }
             };
         }

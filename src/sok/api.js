@@ -188,5 +188,5 @@ export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
 }
 
 export function deleteKandidatliste(kandidatlisteId) {
-    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, JSON.stringify(kandidatlisteId));
+    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
 }
