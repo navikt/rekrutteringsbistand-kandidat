@@ -13,6 +13,8 @@ import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../konstanter';
+import Matchdetaljer from '../matchforklaring/Matchdetaljer';
+import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -84,6 +86,12 @@ class VisKandidat extends React.Component {
                 </div>}
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
+
+                {this.props.matchforklaring && (
+                    <div className="match-explanation-container">
+                        <Matchdetaljer matchforklaring={this.props.matchforklaring} />
+                    </div>
+                )}
             </div>
         );
     }
@@ -99,6 +107,7 @@ VisKandidat.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
+    matchforklaring: MatchexplainProptypesGrouped,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     visKandidatlister: PropTypes.bool.isRequired
 };

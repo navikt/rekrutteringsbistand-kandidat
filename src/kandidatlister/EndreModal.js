@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
-import '../result/modal/Modal.less';
+import '../result/matchforklaring/Matchforklaring.less';
 import { LAGRE_STATUS } from '../konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import './EndreModal.less';

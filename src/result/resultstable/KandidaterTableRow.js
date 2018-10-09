@@ -5,21 +5,13 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
-import { Flatknapp } from 'nav-frontend-knapper';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
-import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
 import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
-    };
-
-
-    openCvModal = () => {
-        this.props.openCvModal();
-        this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
     };
 
     render() {
@@ -38,53 +30,6 @@ class KandidaterTableRow extends React.Component {
             lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
         }
 
-        if (this.props.visNyVisKandidatSide) {
-            return (
-
-                <Row className="kandidater--row">
-
-                    {this.props.visKandidatlister &&
-                    <Column xs="1" md="1">
-                        <Checkbox className="text-hide" label="" checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
-                    </Column>
-                    }
-
-                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Link
-                            className="lenke--kandidatnr"
-                            to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
-
-                            aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                        >
-
-                            <Normaltekst className="break-word">{cv.arenaKandidatnr}</Normaltekst>
-
-                        </Link>
-                    </Column>
-
-                    {USE_JANZZ ? (
-                        <Column className="no-padding" xs="3" md="3">
-                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                        </Column>
-                    ) : (
-                        <Column className="no-padding" xs="3" md="3">
-                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                        </Column>
-                    )}
-                    <Column className="no-padding" xs="4" md="4">
-                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
-                    </Column>
-                    <Column xs="2" md="2" className="text-center no-padding">
-                        <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
-                    </Column>
-
-
-                </Row>
-
-
-            );
-        }
-
         return (
 
             <Row className="kandidater--row">
@@ -94,16 +39,21 @@ class KandidaterTableRow extends React.Component {
                         <Checkbox className="text-hide" label="" checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
                     </Column>
                 }
+
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                    <Flatknapp
-                        onClick={this.openCvModal}
+                    <Link
+                        className="lenke--kandidatnr"
+                        to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
+
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                        mini
                     >
-                        <Normaltekst className="break-word ">{cv.arenaKandidatnr}</Normaltekst>
-                    </Flatknapp>
+
+                        <Normaltekst className="break-word">{cv.arenaKandidatnr}</Normaltekst>
+
+                    </Link>
                 </Column>
-                { USE_JANZZ ? (
+
+                {USE_JANZZ ? (
                     <Column className="no-padding" xs="3" md="3">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
@@ -116,9 +66,12 @@ class KandidaterTableRow extends React.Component {
                     <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
                 <Column xs="2" md="2" className="text-center no-padding">
-                    <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
+                    <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
                 </Column>
+
+
             </Row>
+
 
         );
     }
@@ -126,9 +79,6 @@ class KandidaterTableRow extends React.Component {
 
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
-    openCvModal: PropTypes.func.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired,
-    visNyVisKandidatSide: PropTypes.bool.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     visKandidatlister: PropTypes.bool.isRequired,
     markert: PropTypes.bool.isRequired
@@ -136,13 +86,7 @@ KandidaterTableRow.propTypes = {
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    visNyVisKandidatSide: state.search.featureToggles['vis-ny-vis-kandidat-side'],
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);
+export default connect(mapStateToProps)(KandidaterTableRow);
