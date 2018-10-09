@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
 import cvPropTypes from '../PropTypes';
-import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
-import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
+import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
@@ -168,38 +167,17 @@ class KandidaterVisning extends React.Component {
                         }
                     </div>
                 </div>
-
-                {this.props.isEmptyQuery ? (
-
-                    <KandidaterTabellUtenKriterier
-                        antallResultater={this.state.antallResultater}
-                        kandidater={this.state.kandidater}
-                        onFilterAntallArClick={this.onFilterAntallArClick}
-                        onFilterScoreClick={this.onFilterScoreClick}
-                        onFlereResultaterClick={this.onFlereResultaterClick}
-                        totaltAntallTreff={this.props.totaltAntallTreff}
-                        onKandidatValgt={this.onKandidatValgt}
-                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
-                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
-
-                    />
-
-                ) : (
-
-                    <KandidaterTabellMedKriterier
-                        antallResultater={this.state.antallResultater}
-                        kandidater={this.state.kandidater}
-                        onFilterAntallArClick={this.onFilterAntallArClick}
-                        onFilterScoreClick={this.onFilterScoreClick}
-                        onFlereResultaterClick={this.onFlereResultaterClick}
-                        totaltAntallTreff={this.props.totaltAntallTreff}
-                        onKandidatValgt={this.onKandidatValgt}
-                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
-                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
-
-                    />
-
-                )}
+                <KandidaterTabell
+                    antallResultater={this.state.antallResultater}
+                    kandidater={this.state.kandidater}
+                    onFilterAntallArClick={this.onFilterAntallArClick}
+                    onFilterScoreClick={this.onFilterScoreClick}
+                    onFlereResultaterClick={this.onFlereResultaterClick}
+                    totaltAntallTreff={this.props.totaltAntallTreff}
+                    onKandidatValgt={this.onKandidatValgt}
+                    alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                    onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
+                />
             </div>
         );
     }

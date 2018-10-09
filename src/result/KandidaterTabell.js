@@ -7,7 +7,7 @@ import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({
+export default function KandidaterTabell({
     antallResultater,
     onFilterAntallArClick,
     onFilterScoreClick,
@@ -31,7 +31,6 @@ export default function KandidaterTabellUtenKriterier({
                 to={antallResultater}
                 alleKandidaterMarkert={alleKandidaterMarkert}
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
-                visCheckbox
             />
 
             <div className="panel">
@@ -63,7 +62,7 @@ export default function KandidaterTabellUtenKriterier({
     );
 }
 
-KandidaterTabellUtenKriterier.propTypes = {
+KandidaterTabell.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,

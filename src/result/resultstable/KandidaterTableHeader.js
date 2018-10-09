@@ -36,16 +36,16 @@ class KandidaterTableHeader extends React.Component {
                 <Row>
                     {this.props.visKandidatlister &&
                         <Column xs="1" md="1">
-                            {this.props.visCheckbox && <Checkbox className="text-hide" label="" checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />}
+                            <Checkbox className="text-hide" label="" checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
                         </Column>
                     }
-                    <Column xs="2" md="2" >
+                    <Column xs="3" md="3" >
                         <Element className="label--resultatvisning">
                             Kandidat
                         </Element>
                     </Column>
                     {USE_JANZZ ?
-                        (<Column xs="3" md="3">
+                        (<Column xs="4" md="4">
                             <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
                                 <Element
                                     className="label--resultatvisning"
@@ -60,7 +60,7 @@ class KandidaterTableHeader extends React.Component {
                             </button>
                         </Column>)
                         : (
-                            <Column xs="3" md="3">
+                            <Column xs="4" md="4">
                                 <div className="filter--aktuelle--kandidater">
                                     <Element
                                         className="label--resultatvisning"
@@ -71,7 +71,7 @@ class KandidaterTableHeader extends React.Component {
                                 </div>
                             </Column>
                         )}
-                    <Column xs="3" md="3">
+                    <Column xs="4" md="4">
                         <div className="filter--aktuelle--kandidater">
                             <Element
                                 className="label--resultatvisning"
@@ -80,20 +80,6 @@ class KandidaterTableHeader extends React.Component {
                                 Arbeidserfaring
                             </Element>
                         </div>
-                    </Column>
-                    <Column className="filter--lengde--erfaring" xs="3" md="3">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Sorter på antall år med arbeidserfaring"
-                                aria-selected={this.state.antallArChevronNed !== undefined}
-                            >
-                                År med erfaring
-                            </Element>
-                            <NavFrontendChevron
-                                type={this.state.antallArChevronNed === undefined || this.state.antallArChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
                     </Column>
                 </Row>
             </div>
@@ -117,7 +103,6 @@ KandidaterTableHeader.propTypes = {
     to: PropTypes.number.isRequired,
     alleKandidaterMarkert: PropTypes.bool,
     onToggleMarkeringAlleKandidater: PropTypes.func,
-    visCheckbox: PropTypes.bool.isRequired,
     visKandidatlister: PropTypes.bool.isRequired
 };
 
