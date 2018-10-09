@@ -7,7 +7,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../PropTypes';
 import './Resultstable.less';
-import { CONTEXT_ROOT } from '../../common/fasitProperties';
+import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -53,7 +53,7 @@ class KandidaterTableRow extends React.Component {
                     </Link>
                 </Column>
 
-                {this.props.janzzEnabled ? (
+                {USE_JANZZ ? (
                     <Column className="no-padding" xs="3" md="3">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
@@ -79,7 +79,6 @@ class KandidaterTableRow extends React.Component {
 
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     visKandidatlister: PropTypes.bool.isRequired,
     markert: PropTypes.bool.isRequired
@@ -87,7 +86,6 @@ KandidaterTableRow.propTypes = {
 
 const mapStateToProps = (state) => ({
     query: state.query,
-    janzzEnabled: state.search.featureToggles['janzz-enabled'],
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 

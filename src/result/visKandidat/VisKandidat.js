@@ -78,11 +78,12 @@ class VisKandidat extends React.Component {
                     onLagre={this.onLagreKandidatlister}
                 />}
                 <VisKandidatPersonalia cv={cv} />
+                {this.props.visKandidatlister &&
                 <div className="container--lagre-knapp">
                     <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
                         Lagre kandidaten
                     </Knapp>
-                </div>
+                </div>}
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
 
@@ -106,8 +107,9 @@ VisKandidat.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
+    matchforklaring: MatchexplainProptypesGrouped,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    matchforklaring: MatchexplainProptypesGrouped
+    visKandidatlister: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -115,7 +117,8 @@ const mapStateToProps = (state) => ({
     cv: state.cvReducer.cv,
     matchforklaring: state.cvReducer.matchforklaring,
     kandidater: state.search.searchResultat.resultat.kandidater,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({
