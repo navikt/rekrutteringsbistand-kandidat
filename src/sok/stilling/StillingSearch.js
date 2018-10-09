@@ -18,6 +18,7 @@ import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../.
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Stilling.less';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 class StillingSearch extends React.Component {
     constructor(props) {
@@ -97,7 +98,7 @@ class StillingSearch extends React.Component {
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     {/* TODO: Fjerne feature toggle */}
-                    {!(this.props.janzzEnabled && this.props.stillinger.length > 0) &&
+                    {!(USE_JANZZ && this.props.stillinger.length > 0) &&
                     <div className="sokefelt--wrapper--stilling">
                         {this.state.showTypeAhead ? (
                             <Typeahead
@@ -140,7 +141,7 @@ class StillingSearch extends React.Component {
                 </div>
 
                 {/* TODO: Fjerne feature toggle */}
-                { this.props.janzzEnabled &&
+                { USE_JANZZ &&
                 <Normaltekst className="blokk-xs">Du kan kun legge til én stilling/yrke</Normaltekst>
                 }
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
@@ -163,7 +164,6 @@ StillingSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulYrke: PropTypes.bool.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
@@ -174,7 +174,6 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulYrke: state.search.featureToggles['skjul-yrke'],
-    janzzEnabled: state.search.featureToggles['janzz-enabled'],
     panelOpen: state.stilling.stillingPanelOpen
 });
 

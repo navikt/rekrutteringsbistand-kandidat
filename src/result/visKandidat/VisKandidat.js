@@ -13,6 +13,8 @@ import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../konstanter';
+import Matchdetaljer from '../matchforklaring/Matchdetaljer';
+import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -76,13 +78,20 @@ class VisKandidat extends React.Component {
                     onLagre={this.onLagreKandidatlister}
                 />}
                 <VisKandidatPersonalia cv={cv} />
+                {this.props.visKandidatlister &&
                 <div className="container--lagre-knapp">
                     <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
                         Lagre kandidaten
                     </Knapp>
-                </div>
+                </div>}
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
+
+                {this.props.matchforklaring && (
+                    <div className="match-explanation-container">
+                        <Matchdetaljer matchforklaring={this.props.matchforklaring} />
+                    </div>
+                )}
             </div>
         );
     }
@@ -98,8 +107,9 @@ VisKandidat.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired
-
+    matchforklaring: MatchexplainProptypesGrouped,
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    visKandidatlister: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -107,7 +117,8 @@ const mapStateToProps = (state) => ({
     cv: state.cvReducer.cv,
     matchforklaring: state.cvReducer.matchforklaring,
     kandidater: state.search.searchResultat.resultat.kandidater,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
 const mapDispatchToProps = (dispatch) => ({

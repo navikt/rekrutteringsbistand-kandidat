@@ -17,6 +17,7 @@ module.exports = merge(common, {
             __PAMPORTAL_URL__: "'#'",
             __BACKEND_OPPE__: true,
             __CONTEXT_ROOT__: "'pam-kandidatsok'",
+            __USE_JANZZ__: false,
             'process.env.NODE_ENV': "'development'"
         })
     ]

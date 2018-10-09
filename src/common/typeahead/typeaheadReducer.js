@@ -1,7 +1,8 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../sok/api';
 import { BRANCHNAVN } from '../../konstanter';
 import alleForerkort from '../../sok/forerkort/forerkort';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 /** *********************************************************
  * ACTIONS
@@ -10,8 +11,6 @@ import alleForerkort from '../../sok/forerkort/forerkort';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
-
-// TODO: Toggle: janzz-enabled
 
 export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
 
@@ -28,7 +27,6 @@ const initialTypeaheadState = () => ({
 });
 
 const initialState = {
-    // TODO: Toggle: janzz-enabled
     kompetanse: initialTypeaheadState(),
     stilling: initialTypeaheadState(),
     arbeidserfaring: initialTypeaheadState(),
@@ -152,10 +150,7 @@ function* fetchTypeaheadGeografiJanzz(value, branch) {
 }
 
 function* fetchTypeaheadGeografi(value, branch) {
-    const state = yield select();
-
-    // TODO: Fjern else og fetchTypeaheadGeografiES. Toggle: janzz-enabled
-    if (state.search.featureToggles['janzz-enabled']) {
+    if (USE_JANZZ) {
         yield fetchTypeaheadGeografiJanzz(value, branch);
     } else {
         yield fetchTypeaheadGeografiES(value, branch);

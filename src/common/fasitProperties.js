@@ -7,3 +7,4 @@ export const LOGOUT_URL = __LOGOUT_URL__;
 export const BACKEND_OPPE = __BACKEND_OPPE__;
 export const PAMPORTAL_URL = __PAMPORTAL_URL__;
 export const CONTEXT_ROOT = __CONTEXT_ROOT__;
+export const USE_JANZZ = __USE_JANZZ__;

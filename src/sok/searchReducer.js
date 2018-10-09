@@ -1,7 +1,8 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
+import { fetchKandidater, fetchKandidaterUtenCriteria, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
 import FEATURE_TOGGLES from '../konstanter';
+import { USE_JANZZ } from '../common/fasitProperties';
 
 /** *********************************************************
  * ACTIONS
@@ -28,9 +29,9 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
-    if (!toggles['janzz-enabled']) {
+    if (!USE_JANZZ) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
-    } else if (toggles['janzz-enabled'] && key.includes('vis-ny-vis-kandidat-side')) {
+    } else if (USE_JANZZ && key.includes('vis-ny-vis-kandidat-side')) {
         return false;
     }
     return true;
@@ -201,9 +202,11 @@ function* search(action = '') {
             forerkort: state.forerkort.forerkortList
         };
 
-        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
+        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
 
-        const response = yield call(fetchKandidater, criteria);
+        const criteria = { ...criteriaValues };
+
+        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterUtenCriteria, criteria);
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
@@ -241,9 +244,7 @@ function* initialSearch() {
     try {
         const urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
-            // TODO: Fjern samtidig som feature toggle janzz-enabled:
-            const state = yield select();
-            if (state.search.featureToggles['janzz-enabled'] && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
+            if (USE_JANZZ && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
                 urlQuery.stillinger = [urlQuery.stillinger[0]];
             }
 
