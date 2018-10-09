@@ -19,7 +19,7 @@ const VisKandidatCv = ({ cv }) => (
                 <Row className="panel--cv__row">
                     <Column xs="12">
                         <Undertittel className="cv__overskrift">Sammendrag</Undertittel>
-                        <Normaltekst>{cv.beskrivelse.split('¿').join('')}</Normaltekst>
+                        <Normaltekst>{cv.beskrivelse}</Normaltekst>
                     </Column>
                 </Row>
             )}
