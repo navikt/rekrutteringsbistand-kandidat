@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../sok/api';
 import { BRANCHNAVN } from '../../konstanter';
+import alleForerkort from '../../sok/forerkort/forerkort';
 
 /** *********************************************************
  * ACTIONS
@@ -165,22 +166,36 @@ function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
     const branch = action.branch;
     const value = action.value;
+    if (branch === BRANCHNAVN.FORERKORT) {
+        let result;
+        if (!value) {
+            result = alleForerkort;
+        } else {
+            result = alleForerkort.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
+        }
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
+    } else {
+        const typeAheadBranch = getTypeAheadBranch(branch);
 
-    const typeAheadBranch = getTypeAheadBranch(branch);
-
-    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-        try {
-            if (branch === BRANCHNAVN.GEOGRAFI) {
-                yield fetchTypeaheadGeografi(value, branch);
-            } else {
-                const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: response, branch, query: value });
-            }
-        } catch (e) {
-            if (e instanceof SearchApiError) {
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
-            } else {
-                throw e;
+        if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
+            try {
+                if (branch === BRANCHNAVN.GEOGRAFI) {
+                    yield fetchTypeaheadGeografi(value, branch);
+                } else {
+                    const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
+                    yield put({
+                        type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+                        suggestions: response,
+                        branch,
+                        query: value
+                    });
+                }
+            } catch (e) {
+                if (e instanceof SearchApiError) {
+                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+                } else {
+                    throw e;
+                }
             }
         }
     }

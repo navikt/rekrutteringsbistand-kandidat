@@ -103,6 +103,35 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
+            {cv.forerkort && cv.forerkort.length !== 0 && (
+                <Row className="panel--cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Førerkort</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {sortByDato(cv.forerkort)
+                            .map((s, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...s, index: i })}>
+                                    <Undertekst className="cv--tidsperiode">
+                                        <Tidsperiode
+                                            fradato={s.fraDato}
+                                            tildato={s.tilDato}
+                                        />
+                                    </Undertekst>
+                                    {s.sertifikatKodeNavn && (
+                                        <Element>{s.sertifikatKodeNavn}</Element>
+                                    )}
+                                    {s.utsteder && (
+                                        <Normaltekst>{s.utsteder}</Normaltekst>
+                                    )}
+                                    {s.alternativtNavn && (
+                                        <Normaltekst>{s.alternativtNavn}</Normaltekst>
+                                    )}
+                                </Row>
+                            ))}
+                    </Column>
+                </Row>
+            )}
             {cv.sertifikater && cv.sertifikater.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">

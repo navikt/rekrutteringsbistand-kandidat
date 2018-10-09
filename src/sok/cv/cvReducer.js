@@ -77,7 +77,6 @@ function* fetchCvForKandidat(action) {
         const state = yield select();
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
-
         let medUtdanningstekst;
 
         const criteriaValues = {

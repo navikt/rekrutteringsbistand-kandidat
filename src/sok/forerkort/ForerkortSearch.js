@@ -31,25 +31,37 @@ class ForerkortSearch extends React.Component {
         this.state = {
             showTypeAheadForerkort: false,
             typeAheadValueForerkort: '',
-            antallForerkort: 4
+            antallForerkort: 4,
+            feil: false
         };
     }
 
     onTypeAheadForerkortChange = (value) => {
         this.props.fetchTypeAheadSuggestionsForerkort(value);
         this.setState({
-            typeAheadValueForerkort: value
+            typeAheadValueForerkort: value,
+            feil: false
         });
     };
 
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
-            this.props.selectTypeAheadValueForerkort(value);
-            this.props.clearTypeAheadForerkort();
-            this.setState({
-                typeAheadValueForerkort: ''
-            });
-            this.props.search();
+            const forerkort = this.props.typeAheadSuggestionsForerkort.find((fk) => fk.toLowerCase() === value.toLowerCase());
+            if (forerkort !== undefined) {
+                this.props.selectTypeAheadValueForerkort(value);
+                this.props.clearTypeAheadForerkort();
+                this.setState({
+                    typeAheadValueForerkort: ''
+                });
+                this.props.search();
+                this.setState({
+                    feil: false
+                });
+            } else {
+                this.setState({
+                    feil: true
+                });
+            }
         }
     };
 
@@ -73,7 +85,8 @@ class ForerkortSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValueForerkort: '',
-            showTypeAheadForerkort: false
+            showTypeAheadForerkort: false,
+            feil: false
         });
         this.props.clearTypeAheadForerkort();
     };
@@ -100,7 +113,7 @@ class ForerkortSearch extends React.Component {
                                 onChange={this.onTypeAheadForerkortChange}
                                 label=""
                                 name="forerkort"
-                                placeholder="Skriv inn forerkort/-bevis"
+                                placeholder="Skriv inn førerkort"
                                 suggestions={this.props.typeAheadSuggestionsForerkort}
                                 value={this.state.typeAheadValueForerkort}
                                 id="typeahead-forerkort"
@@ -116,6 +129,11 @@ class ForerkortSearch extends React.Component {
                                 +Legg til førerkort
                             </Knapp>
                         )}
+                        {this.state.feil &&
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            Ordet du har skrevet inn gir ingen treff
+                        </Normaltekst>
+                        }
                     </div>
                     {this.props.forerkortList.map((forerkort) => (
                         <button

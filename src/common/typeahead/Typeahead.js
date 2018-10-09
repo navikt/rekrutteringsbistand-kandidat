@@ -73,6 +73,9 @@ export default class Typeahead extends React.Component {
     };
 
     onFocus = () => {
+        if (this.props.id === 'typeahead-forerkort') {
+            this.props.onChange(this.state.value);
+        }
         this.setState({
             hasFocus: true,
             activeSuggestionIndex: -1
