@@ -4,6 +4,7 @@
   margin: 0 1rem 0.5rem 0;
   width: 13rem;
   display: inline-block;
+  color: @navMorkGra;
 }
 
 .heading--geografi span {
@@ -13,16 +14,19 @@
 .Checkbox--ma-bo-pa-geografi-disabled{
   width: 100%;
   margin: 1rem 1rem 0 0;
+  label {
+    color: @navMorkGra !important;
+  }
 }
 
 .Checkbox--ma-bo-pa-geografi-disabled  .checkboks + .skjemaelement__label:before {
   border-color: #b7b1a9;
   background-color: @navGra20;
-  color: #000000;
+  color: @navMorkGra;
 }
 
 .Checkbox--ma-bo-pa-geografi-disabled  .checkboks + .skjemaelement__label:before:hover {
-  color: #000000;
+  color: @navMorkGra;
 }
 
 .Checkbox--ma-bo-pa-geografi {
@@ -32,13 +36,16 @@
 
 .sokefelt--wrapper--geografi .hjelpetekst__apneknapp:hover {
   outline: 0;
-  color: #000000;
+  color: @navMorkGra;
   box-shadow: none;
+  input {
+    color: @navMorkGra;
+  }
 }
 
 .sokefelt--wrapper--geografi .hjelpetekst__apneknapp:focus {
   outline: 0;
-  color: #000000;
+  color: @navMorkGra;
   box-shadow: none;
 
 }
@@ -50,5 +57,5 @@
 }
 
 .sokefelt--wrapper--geografi .hjelpetekst {
-  padding-left: 0rem;
+  padding-left: 0;
 }
