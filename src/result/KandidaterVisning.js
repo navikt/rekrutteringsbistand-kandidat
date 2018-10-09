@@ -138,9 +138,10 @@ class KandidaterVisning extends React.Component {
     };
 
     toggleMarkeringAlleKandidater = (checked) => {
+        const markerteKandidater = this.state.kandidater.filter((kandidat, i) => i < this.state.antallResultater).map((k) => ({ ...k, markert: checked }));
         this.setState({
             alleKandidaterMarkert: checked,
-            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
+            kandidater: [...markerteKandidater, ...this.state.kandidater.filter((kandidat, i) => i >= this.state.antallResultater)]
         });
     };
 
