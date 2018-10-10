@@ -199,6 +199,10 @@ class Kandidatlister extends React.Component {
         });
     };
 
+    onSlettBekreft = () => {
+        this.props.slettKandidatliste(this.state.kandidatlisteISletting.kandidatlisteId);
+    };
+
     visSuccessMelding = (tekst) => {
         this.setState({
             visSuccessMelding: true,
@@ -238,7 +242,7 @@ class Kandidatlister extends React.Component {
                 {this.state.visSletteModal && <SlettKandidatlisteModal
                     tittelKandidatliste={this.state.kandidatlisteISletting.tittel}
                     onAvbrytClick={this.onLukkSletteModalClick}
-                    onSletteClick={() => this.props.slettKandidatliste(this.state.kandidatlisteISletting.kandidatlisteId)}
+                    onSletteClick={this.onSlettBekreft}
                     sletteStatus={this.props.sletteStatus}
                 />}
                 <HjelpetekstFading
