@@ -100,7 +100,7 @@ const Header = ({ antallKandidater }) => (
     </PageHeader>
 );
 
-const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick }) => (
+const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick, sletteStatus, antallKandidater }) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal slett kandidatliste"
@@ -109,9 +109,9 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
         closeButton
     >
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
-        <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
-        <div className="knapperad--ie">
-            <Hovedknapp onClick={() => { console.log('click'); onSletteClick(); }}>Slett</Hovedknapp>
+        <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'}{tittelKandidatliste || ''}{'"'} {`(${antallKandidater} ${antallKandidater === 1 ? 'kandidat' : 'kandidater'})`}?</Normaltekst>
+        <div className="knapperad">
+            <Hovedknapp onClick={onSletteClick} spinner={sletteStatus === SLETTE_STATUS.LOADING}>Slett</Hovedknapp>
             <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
         </div>
     </NavFrontendModal>
@@ -200,7 +200,6 @@ class Kandidatlister extends React.Component {
     };
 
     onSlettBekreft = () => {
-        console.log('Slett klikket');
         this.props.slettKandidatliste(this.state.kandidatlisteISletting.kandidatlisteId);
     };
 
@@ -244,6 +243,8 @@ class Kandidatlister extends React.Component {
                     tittelKandidatliste={this.state.kandidatlisteISletting.tittel}
                     onAvbrytClick={this.onLukkSletteModalClick}
                     onSletteClick={this.onSlettBekreft}
+                    sletteStatus={this.props.sletteStatus}
+                    antallKandidater={kandidatlister.find((kl) => kl.kandidatlisteId === this.state.kandidatlisteISletting.kandidatlisteId).antallKandidater}
                 />}
                 <HjelpetekstFading
                     synlig={this.state.visSuccessMelding}
@@ -324,7 +325,8 @@ SlettKandidatlisteModal.propTypes = {
     onAvbrytClick: PropTypes.func.isRequired,
     onSletteClick: PropTypes.func.isRequired,
     tittelKandidatliste: PropTypes.string.isRequired,
-    sletteStatus: PropTypes.string.isRequired
+    sletteStatus: PropTypes.string.isRequired,
+    antallKandidater: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

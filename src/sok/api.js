@@ -111,7 +111,6 @@ async function putJson(url, bodyString) {
 }
 
 async function deleteReq(url, bodyString) {
-    console.log('deleteReq');
     try {
         const response = await fetch(url, {
             credentials: 'include',
