@@ -13,7 +13,7 @@ const KnappMedDisabledFunksjon = ({ disabled, onClick, onDisabledClick, type, ch
 KnappMedDisabledFunksjon.propTypes = {
     disabled: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
-    onDisabledClick: PropTypes.func.isRequired,
+    onDisabledClick: PropTypes.func,
     type: PropTypes.string,
     children: PropTypes.string,
     spinner: PropTypes.bool,
@@ -24,7 +24,8 @@ KnappMedDisabledFunksjon.defaultProps = {
     type: 'standard',
     children: '',
     spinner: false,
-    mini: false
+    mini: false,
+    onDisabledClick: undefined
 };
 
 export default KnappMedDisabledFunksjon;

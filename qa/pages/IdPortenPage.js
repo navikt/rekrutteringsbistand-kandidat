@@ -10,7 +10,7 @@ module.exports = {
         loggInn(brukernavn) {
             const engangspassord = 'otp';
             const personligPassord = 'qwer1234';
-            return this.api.globals.environment === 'local' ? this : this // Logger kun inn i ID-porten hvis man ikke kjører lokalt
+            return this
                 .waitForElementPresent('@idPortenKnapp', 30000)
                 .click('@idPortenKnapp')
                 .click('@bankIdKnapp')

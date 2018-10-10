@@ -118,7 +118,7 @@ const startServer = (html) => {
     );
 
     server.get(
-        ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],        
+        ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],
         (req, res) => {
             res.send(html);
         }
