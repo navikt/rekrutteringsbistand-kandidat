@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Undertittel, Undertekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
@@ -6,6 +7,24 @@ import cvPropTypes from '../../PropTypes';
 import sortByDato from '../../common/SortByDato';
 import Tidsperiode from '../../common/Tidsperiode';
 import './VisKandidat.less';
+
+const VisCvBeskrivelse = ({ beskrivelse }) => {
+    if (beskrivelse.includes('¿')) {
+        const punktliste = beskrivelse.split('¿');
+        if (!punktliste[0]) {
+            punktliste.shift();
+        }
+        return (
+            <ul className="nokkelkvalifikasjoner">
+                {punktliste.map((punkt) =>
+                    (<li key={punkt.toString()}>
+                        {punkt}
+                    </li>))}
+            </ul>
+        );
+    }
+    return <Normaltekst>{beskrivelse}</Normaltekst>;
+};
 
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
@@ -19,7 +38,7 @@ const VisKandidatCv = ({ cv }) => (
                 <Row className="panel--cv__row">
                     <Column xs="12">
                         <Undertittel className="cv__overskrift">Sammendrag</Undertittel>
-                        <Normaltekst>{cv.beskrivelse}</Normaltekst>
+                        <VisCvBeskrivelse beskrivelse={cv.beskrivelse} />
                     </Column>
                 </Row>
             )}
@@ -161,6 +180,10 @@ const VisKandidatCv = ({ cv }) => (
 
 VisKandidatCv.propTypes = {
     cv: cvPropTypes.isRequired
+};
+
+VisCvBeskrivelse.propTypes = {
+    beskrivelse: PropTypes.string.isRequired
 };
 
 export default VisKandidatCv;
