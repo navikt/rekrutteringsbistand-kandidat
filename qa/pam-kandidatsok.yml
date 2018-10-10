@@ -48,5 +48,32 @@ links:
           text: 'qwer1234'
       - clickOn: '.full_width_height::shadow button[title=Neste]'
       - waitFor: '#antall-kandidater-treff'
-      - clickOn: '.kandidater--row'
+      - clickOn: '.lenke--kandidatnr'
       - waitFor: '#ekspanderbartpanel-jobbprofil'
+
+  - link: "http://tjenester-t6.nav.no/pam-kandidatsok"
+    desc: "Kandidatsok - kandidatlister"
+    options:
+      commands:
+      - clickOn: '#IdPortenExchange'
+      - clickOn: '#BankIDJS'
+      - waitFor: 'iframe'
+      - switchFrame: 0
+      - waitFor: '.full_width_height::shadow input[data-bind]'
+      - type:
+          into: '.full_width_height::shadow input[data-bind]'
+          text: '01065500791'
+      - clickOn: '.full_width_height::shadow button[title=Neste]'
+      - pause: 2000
+      - type:
+          into: '.full_width_height::shadow input[data-bind]'
+          text: 'otp'
+      - clickOn: '.full_width_height::shadow button[title=Neste]'
+      - pause: 2000
+      - type:
+          into: '.full_width_height::shadow input[data-bind]'
+          text: 'qwer1234'
+      - clickOn: '.full_width_height::shadow button[title=Neste]'
+      - waitFor: '#antall-kandidater-treff'
+      - clickOn: 'a[href="/pam-kandidatsok/lister"]'
+      - waitFor: '.Kandidatliste__panel'
