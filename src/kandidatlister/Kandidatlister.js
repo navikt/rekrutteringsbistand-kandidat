@@ -101,7 +101,7 @@ const Header = ({ antallKandidater }) => (
     </PageHeader>
 );
 
-const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick, sletteStatus }) => (
+const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick }) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal slett kandidatliste"
@@ -112,7 +112,7 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
         <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
         <div className="knapperad--ie">
-            <KnappMedDisabledFunksjon type="hoved" onClick={onSletteClick} disabled={false} spinner={sletteStatus === SLETTE_STATUS.LOADING}>Slett</KnappMedDisabledFunksjon>
+            <Hovedknapp onClick={() => { console.log('click'); onSletteClick(); }}>Slett</Hovedknapp>
             <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
         </div>
     </NavFrontendModal>
@@ -178,7 +178,7 @@ class Kandidatlister extends React.Component {
         });
     };
 
-    onSletteClick = (kandidatliste) => {
+    onDeleteClick = (kandidatliste) => {
         this.setState({
             visSletteModal: true,
             kandidatlisteISletting: kandidatliste,
@@ -201,6 +201,7 @@ class Kandidatlister extends React.Component {
     };
 
     onSlettBekreft = () => {
+        console.log('Slett klikket');
         this.props.slettKandidatliste(this.state.kandidatlisteISletting.kandidatlisteId);
     };
 
@@ -244,7 +245,6 @@ class Kandidatlister extends React.Component {
                     tittelKandidatliste={this.state.kandidatlisteISletting.tittel}
                     onAvbrytClick={this.onLukkSletteModalClick}
                     onSletteClick={this.onSlettBekreft}
-                    sletteStatus={this.props.sletteStatus}
                 />}
                 <HjelpetekstFading
                     synlig={this.state.visSuccessMelding}
@@ -259,7 +259,7 @@ class Kandidatlister extends React.Component {
                 <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onSletteClick} />
+                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
                     </Container>
                 </Container>
             </div>
