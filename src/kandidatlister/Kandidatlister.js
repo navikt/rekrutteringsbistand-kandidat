@@ -277,10 +277,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
-    resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); },
-    resetSletteStatus: () => { dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }); },
-    slettKandidatliste: (id) => { dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id }); }
+    hentKandidatlister: () => dispatch({ type: HENT_KANDIDATLISTER }),
+    resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS }),
+    resetSletteStatus: () => dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }),
+    slettKandidatliste: (id) => dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id })
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({
