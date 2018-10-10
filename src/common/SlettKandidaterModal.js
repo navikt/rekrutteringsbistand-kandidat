@@ -5,7 +5,6 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { fornavnOgEtternavnFraKandidat } from '../sok/utils';
-import cvPropTypes from '../PropTypes';
 
 const SlettKandidaterModal = ({ isOpen, sletterKandidater, lukkModal, valgteKandidater, visFeilmelding, onDeleteClick }) => (
     <Modal
@@ -46,15 +45,7 @@ SlettKandidaterModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     sletterKandidater: PropTypes.bool.isRequired,
     lukkModal: PropTypes.func.isRequired,
-    valgteKandidater: PropTypes.oneOf(PropTypes.arrayOf(
-        PropTypes.shape({
-            lagtTilAv: PropTypes.string,
-            kandidatnr: PropTypes.string,
-            sisteArbeidserfaring: PropTypes.string,
-            fornavn: PropTypes.string,
-            etternavn: PropTypes.string
-        })), PropTypes.arrayOf(cvPropTypes.isRequired)
-    ),
+    valgteKandidater: PropTypes.arrayOf(PropTypes.any).isRequired,
     visFeilmelding: PropTypes.bool.isRequired,
     onDeleteClick: PropTypes.func.isRequired
 };
