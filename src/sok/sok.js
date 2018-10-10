@@ -22,12 +22,12 @@ import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
 import Feilside from './error/Feilside';
-import feedbackReducer from '../feedback/feedbackReducer';
 import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
 import Toppmeny from '../common/toppmeny/Toppmeny';
+import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
@@ -49,7 +49,6 @@ const store = createStore(combineReducers({
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
-    feedback: feedbackReducer,
     mineArbeidsgivere: arbeidsgivervelgerReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
@@ -149,6 +148,7 @@ const App = () => (
     <div>
         <Provider store={store}>
             <div>
+                <Feedback />
                 <Toppmeny />
                 <SokApp />
             </div>

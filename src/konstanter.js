@@ -3,7 +3,6 @@
 // så togglen "toggle-test" korresponderer med "pam-kandidatsok.toggle-test" i unleash
 const FEATURE_TOGGLES = [
     'vis-manglende-arbeidserfaring-boks',
-    'janzz-enabled',
     'skjul-yrke',
     'skjul-kompetanse',
     'skjul-utdanning',
@@ -12,7 +11,6 @@ const FEATURE_TOGGLES = [
     'skjul-sted',
     'vis-matchforklaring',
     'ingen-utdanning-filter',
-    'vis-ny-vis-kandidat-side',
     'vis-kandidatlister',
     'vis-geografi-maa-bo-checkbox'
 ];

@@ -7,22 +7,41 @@
 
 
 .Kandidatlister__header--innhold {
+
     display: flex;
-    flex-direction: row;
-    justify-items: center;
-    align-items: center;
-    height: 7.5rem;
-    > :first-child {
-        flex: 1;
+    flex-direction: column;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+  .TilbakeLenke {
+    padding: 0;
+    > a {
+      color: white;
+      text-decoration: none;
     }
-    .knapp {
-        color: white;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-        border: 2px solid white;
-        border-radius: 4px;
-    }
+  }
 }
+
+.Kandidatlister__header--innhold--indre {
+
+  display: flex;
+  flex-direction: row;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  > :first-child {
+    flex: 1;
+  }
+  .knapp {
+    color: white;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border: 2px solid white;
+    border-radius: 4px;
+  }
+}
+
 
 .Kandidatliste__panel {
   background-color: white;
@@ -324,6 +343,13 @@
         * > {
             margin-right: 1rem;
         }
+    }
+
+    .knapperad--ie {
+      margin-top: 2.5rem;
+      * > {
+        margin-right: 1rem;
+      }
     }
     .alertstripe {
         margin-bottom: 1rem;

@@ -35,7 +35,8 @@ module.exports = {
         resultatvisning: 'div[class=resultatvisning]',
         forsteRadKandidaterTabell: '.lenke--kandidatnr',
         cvModal: '.personalia--modal',
-        viserAntallTreff: '.antall-treff-kandidatervisning'
+        viserAntallTreff: '.antall-treff-kandidatervisning',
+        velgArbedsgiverDropdown: '#arbeidsgiver-select'
     },
 
     commands: [{

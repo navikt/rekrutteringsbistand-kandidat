@@ -6,6 +6,7 @@ import { Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 class KandidaterTableHeader extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ class KandidaterTableHeader extends React.Component {
                             Kandidat
                         </Element>
                     </Column>
-                    {this.props.janzzEnabled ?
+                    {USE_JANZZ ?
                         (<Column xs="3" md="3">
                             <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
                                 <Element
@@ -101,7 +102,6 @@ class KandidaterTableHeader extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    janzzEnabled: state.search.featureToggles['janzz-enabled'],
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
@@ -115,7 +115,6 @@ KandidaterTableHeader.propTypes = {
     onFilterScoreClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired,
     alleKandidaterMarkert: PropTypes.bool,
     onToggleMarkeringAlleKandidater: PropTypes.func,
     visCheckbox: PropTypes.bool.isRequired,

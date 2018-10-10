@@ -6,7 +6,6 @@ import cvPropTypes from '../PropTypes';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
-import ShowModalResultat from './modal/ShowModalResultat';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS } from '../konstanter';
@@ -139,9 +138,10 @@ class KandidaterVisning extends React.Component {
     };
 
     toggleMarkeringAlleKandidater = (checked) => {
+        const markerteKandidater = this.state.kandidater.filter((kandidat, i) => i < this.state.antallResultater).map((k) => ({ ...k, markert: checked }));
         this.setState({
             alleKandidaterMarkert: checked,
-            kandidater: this.state.kandidater.map((k) => ({ ...k, markert: checked }))
+            kandidater: [...markerteKandidater, ...this.state.kandidater.filter((kandidat, i) => i >= this.state.antallResultater)]
         });
     };
 
@@ -201,8 +201,6 @@ class KandidaterVisning extends React.Component {
                     />
 
                 )}
-
-                <ShowModalResultat />
             </div>
         );
     }

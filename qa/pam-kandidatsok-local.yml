@@ -1,10 +1,50 @@
 links:
   - link: "http://localhost:9009/pam-kandidatsok/"
     desc: "Kandidatsok - resultatside"
+    options:
+      commands:
+      - waitFor: '#arbeidsgiver-select'
+      - type:
+          into: '#arbeidsgiver-select'
+          text: 'Aust'
 
   - link: "http://localhost:9009/pam-kandidatsok/"
     desc: "Kandidatsok - kandidatprofil"
     options:
       commands:
-      - clickOn: '.kandidater--row'
+      - waitFor: '#arbeidsgiver-select'
+      - type:
+          into: '#arbeidsgiver-select'
+          text: 'Aust'
+      - waitFor: '.lenke--kandidatnr'
+      - clickOn: '.lenke--kandidatnr'
       - waitFor: '#ekspanderbartpanel-jobbprofil'
+
+  - link: "http://localhost:9009/pam-kandidatsok/lister"
+    desc: "Kandidatsok - kandidatlister"
+    options:
+      commands:
+      - waitFor: '#arbeidsgiver-select'
+      - type:
+          into: '#arbeidsgiver-select'
+          text: 'Aust'
+
+  - link: "http://localhost:9009/pam-kandidatsok/lister"
+    desc: "Kandidatsok - opprett kandidatliste"
+    options:
+      commands:
+      - waitFor: '#arbeidsgiver-select'
+      - type:
+          into: '#arbeidsgiver-select'
+          text: 'Aust'
+      - clickOn: 'a[href="/pam-kandidatsok/lister/opprett"]'
+
+  - link: "http://localhost:9009/pam-kandidatsok/lister"
+    desc: "Kandidatsok - kandidatlistevisning"
+    options:
+      commands:
+      - waitFor: '#arbeidsgiver-select'
+      - type:
+          into: '#arbeidsgiver-select'
+          text: 'Aust'
+      - clickOn: 'a[href*="/lister/detaljer"]'

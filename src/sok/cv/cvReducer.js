@@ -11,10 +11,6 @@ export const FETCH_CV_BEGIN = 'FETCH_CV_BEGIN';
 export const FETCH_CV_SUCCESS = 'FETCH_CV_SUCCESS';
 export const FETCH_CV_FAILURE = 'FETCH_CV_FAILURE';
 
-// TODO: FJERNE OPEN/CLOSE_CV_MODAL FRA REDUCER.
-export const OPEN_CV_MODAL = 'OPEN_CV_MODAL';
-export const CLOSE_CV_MODAL = 'CLOSE_CV_MODAL';
-
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -27,7 +23,6 @@ const initialState = {
         sertifikater: [],
         sprak: []
     },
-    isCvModalOpen: false,
     isFetchingCv: false,
     matchforklaring: undefined
 };
@@ -51,17 +46,6 @@ export default function cvReducer(state = initialState, action) {
                 ...state,
                 isFetchingCv: false,
                 error: action.error
-            };
-        case OPEN_CV_MODAL:
-            return {
-                ...state,
-                isCvModalOpen: true
-            };
-        case CLOSE_CV_MODAL:
-            return {
-                ...state,
-                cv: { ...initialState.cv },
-                isCvModalOpen: false
             };
         default:
             return state;

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API } from '../common/fasitProperties';
+import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API, USE_JANZZ } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -18,14 +18,14 @@ export class SearchApiError {
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}typeahead${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
 
 export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}typeaheadSted${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
@@ -141,6 +141,12 @@ export function fetchFeatureToggles() {
 
 export function fetchKandidater(query = {}) {
     return fetchJson(
+        `${SEARCH_API}sok${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, true
+    );
+}
+
+export function fetchKandidaterUtenCriteria(query = {}) {
+    return fetchJson(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );
 }
@@ -185,4 +191,8 @@ export function fetchKandidatliste(kandidatlisteId) {
 
 export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
     return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
+}
+
+export function deleteKandidatliste(kandidatlisteId) {
+    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
 }
