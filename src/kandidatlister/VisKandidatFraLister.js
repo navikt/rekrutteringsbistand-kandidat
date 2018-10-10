@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import Modal from 'nav-frontend-modal';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import cvPropTypes from '../PropTypes';
 import { FETCH_CV } from '../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../sok/utils';
@@ -19,6 +15,7 @@ import { SLETTE_STATUS } from '../konstanter';
 
 import './VisKandidatFraLister.less';
 import '../common/ikoner/ikoner.less';
+import SlettKandidaterModal from '../common/SlettKandidaterModal';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -81,11 +78,6 @@ class VisKandidatFraLister extends React.Component {
     render() {
         const { cv, kandidatlisteId, isFetchingCv } = this.props;
 
-        const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
-        const fornavnOgEtternavnFraKandidat = () => (cv.fornavn && cv.etternavn
-            ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
-            : cv.kandidatnr);
-
         const Knapper = () => (
             <div className="viskandidat__knapperad">
                 <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
@@ -93,26 +85,6 @@ class VisKandidatFraLister extends React.Component {
                     Slett
                 </Lenkeknapp>
             </div>
-        );
-
-        const SlettKandidaterModal = () => (
-            <Modal
-                className="KandidatlisteDetalj__modal"
-                isOpen={this.state.visSlettKandidatModal}
-                onRequestClose={this.lukkSlettModal}
-                closeButton
-                contentLabel="Slett kandidat"
-            >
-                {this.state.visSlettKandidatFeilmelding && (
-                    <AlertStripeAdvarsel>Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
-                )}
-                <Sidetittel className="overskrift">Slett kandidat</Sidetittel>
-                <Normaltekst>{`Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(cv)} fra listen?`}</Normaltekst>
-                <div className="knapperad">
-                    <Hovedknapp onClick={this.slettKandidat}>Slett</Hovedknapp>
-                    <Flatknapp onClick={this.lukkSlettModal}>Avbryt</Flatknapp>
-                </div>
-            </Modal>
         );
 
         if (this.props.sletteStatus === SLETTE_STATUS.SUCCESS) {
@@ -133,7 +105,14 @@ class VisKandidatFraLister extends React.Component {
                     <VisKandidatJobbprofil cv={cv} />
                     <VisKandidatCv cv={cv} />
                 </div>
-                <SlettKandidaterModal />
+                <SlettKandidaterModal
+                    isOpen={this.state.visSlettKandidatModal}
+                    visFeilmelding={this.state.visSlettKandidatFeilmelding}
+                    sletterKandidater={this.props.sletteStatus === SLETTE_STATUS.LOADING}
+                    valgteKandidater={[cv]}
+                    lukkModal={this.lukkSlettModal}
+                    onDeleteClick={this.slettKandidat}
+                />
             </div>
         );
     }

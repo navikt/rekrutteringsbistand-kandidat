@@ -143,3 +143,9 @@ export const mapExperienceLevelTilKalenderEnhet = (level) => {
     }
     return 'Over 10 år';
 };
+
+export const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
+export const fornavnOgEtternavnFraKandidat = (cv) => (cv.fornavn && cv.etternavn
+    ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
+    : cv.kandidatnr);
