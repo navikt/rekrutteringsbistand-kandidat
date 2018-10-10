@@ -36,9 +36,13 @@ export default class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    formValidates = () => (
-        this.state.kandidatlisteInfo.tittel !== ''
-    );
+    formValidates = () => {
+        const validTittel = this.state.kandidatlisteInfo.tittel !== '';
+        const validBeskrivelse = (
+            this.state.kandidatlisteInfo.beskrivelse !== undefined
+            && this.state.kandidatlisteInfo.beskrivelse.length <= 255);
+        return validTittel && validBeskrivelse;
+    };
 
     updateField = (field, value) => {
         if (this.props.onChange) {
@@ -93,10 +97,13 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Textarea
+
                             textareaClass="OpprettKandidatlisteForm__input__textarea"
                             label="Beskrivelse"
                             placeholder="Skrive noen ord om stillingen du søker kandidater til"
                             value={this.state.kandidatlisteInfo.beskrivelse}
+                            maxLength={255}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255}
                             onChange={(event) => {
                                 this.updateField(FELTER.BESKRIVELSE, event.target.value);
                             }}
