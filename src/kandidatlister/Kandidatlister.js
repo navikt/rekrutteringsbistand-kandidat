@@ -110,7 +110,7 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
     >
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
         <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
-        <div className="knapperad">
+        <div className="knapperad--ie">
             <Hovedknapp spinner={sletteStatus === SLETTE_STATUS.LOADING} onClick={onSletteClick}>Slett</Hovedknapp>
             <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
         </div>
