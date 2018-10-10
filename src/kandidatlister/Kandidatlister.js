@@ -21,7 +21,6 @@ import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import TilbakeLenke from '../common/TilbakeLenke';
-import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
