@@ -21,6 +21,7 @@ import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import TilbakeLenke from '../common/TilbakeLenke';
+import { SkjemaGruppe } from 'nav-frontend-skjema';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -109,11 +110,15 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
         closeButton
     >
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
-        <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
-        <div className="knapperad--ie">
-            <Hovedknapp spinner={sletteStatus === SLETTE_STATUS.LOADING} onClick={onSletteClick}>Slett</Hovedknapp>
-            <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
-        </div>
+        <SkjemaGruppe>
+            <div className="OpprettKandidatlisteForm">
+                <div className="OpprettKandidatlisteForm__input">
+                    <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
+                </div>
+                <Hovedknapp spinner={sletteStatus === SLETTE_STATUS.LOADING} onClick={onSletteClick}>Slett</Hovedknapp>
+                <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
+            </div>
+        </SkjemaGruppe>
     </NavFrontendModal>
 );
 
