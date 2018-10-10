@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
@@ -21,9 +21,6 @@ export default function KandidaterTabell({
     return (
 
         <div className="resultatvisning">
-
-            <Systemtittel>Alle kandidater</Systemtittel>
-
             <KandidaterTableHeader
                 onFilterAntallArClick={onFilterAntallArClick}
                 onFilterScoreClick={onFilterScoreClick}
@@ -33,7 +30,7 @@ export default function KandidaterTabell({
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
 
-            <div className="panel">
+            <div>
                 {kandidater.slice(0, antallResultater).map((cv) => (
                     <KandidaterTableRow
                         cv={cv}

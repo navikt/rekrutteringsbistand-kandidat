@@ -104,9 +104,6 @@ class UtdanningSearch extends React.Component {
                         {this.utdanningsnivaKategorier.map((utdanning) => (
                             <Checkbox
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
-                                className={this.props.utdanningsniva.includes(utdanning.key) ?
-                                    'checkbox--sokekriterier--checked utdanningsniva' :
-                                    'checkbox--sokekriterier--unchecked utdanningsniva'}
                                 label={utdanning.label}
                                 key={utdanning.key}
                                 value={utdanning.key}
