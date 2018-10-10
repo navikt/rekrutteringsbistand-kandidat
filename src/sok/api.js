@@ -111,6 +111,7 @@ async function putJson(url, bodyString) {
 }
 
 async function deleteReq(url, bodyString) {
+    console.log('deleteReq');
     try {
         const response = await fetch(url, {
             credentials: 'include',
@@ -194,5 +195,5 @@ export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
 }
 
 export function deleteKandidatliste(kandidatlisteId) {
-    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, JSON.stringify(kandidatlisteId));
 }
