@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import AlertStripe from 'nav-frontend-alertstriper';
 
 const HjelpetekstFading = ({ synlig, type, tekst }) => (
-    <AlertStripe type={type} className={synlig ? 'HjelpetekstFading fading synlig' : 'HjelpetekstFading fading'} solid>
-        {tekst}
-    </AlertStripe>
+    <div aria-live="assertive">
+        <AlertStripe type={type} className={synlig ? 'HjelpetekstFading fading synlig' : 'HjelpetekstFading fading'} solid>
+            {tekst}
+        </AlertStripe>
+    </div>
 );
 
 HjelpetekstFading.propTypes = {
