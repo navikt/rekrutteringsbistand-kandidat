@@ -13,26 +13,33 @@
 .ResultatVisning--header {
   background-color: @navBla;
   color: white;
-  .wrapper {
+  .flex {
     display: flex;
-    flex-direction: row;
-    justify-items: center;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
     height: 7.5rem;
+    align-items: center;
+  }
+
+  .flex-item {
+    flex: 1;
+    flex-grow: 1;
+
     .lenke {
       color: white;
       border-bottom: 1px solid white;
     }
-    .header--side{
-      display: inline-flex;
-      flex: 1;
-      justify-content: flex-end;
-      align-items: center;
+
+    .lenke-og-ikon {
+      display:inline-flex;
     }
-    .header--tittel{
-      flex: 2;
-      text-align: center;
+  }
+  @media(max-width: 660px) {
+    .no-content {
+      flex-grow: 0;
+    }
+    .flex-item {
+      flex-basis: 100%;
     }
   }
 }

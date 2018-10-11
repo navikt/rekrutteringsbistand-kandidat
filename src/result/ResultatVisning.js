@@ -83,14 +83,18 @@ class ResultatVisning extends React.Component {
                         <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
                         <div className="ResultatVisning--header">
                             {this.props.visKandidatlister ? (
-                                <div className="wrapper container">
-                                    <div className="header--side" />
-                                    <Sidetittel className="header--tittel">Kandidatsøk</Sidetittel>
-                                    <div className="header--side">
-                                        <ListeIkon fargeKode="white" className="ListeIkon" />
-                                        <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                <div className="flex">
+                                    <div className="flex-item no-content" />
+                                    <div className="flex-item">
+                                        <Sidetittel> Kandidatsøk </Sidetittel>
+                                    </div>
+                                    <div className="flex-item">
+                                        <div className="lenke-og-ikon">
+                                            <ListeIkon fargeKode="white" className="ListeIkon" />
+                                            <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
                                             Lagrede kandidatlister
-                                        </Link>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
