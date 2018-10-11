@@ -25,7 +25,7 @@ class KandidaterTableRow extends React.Component {
             <Row className="kandidater--row">
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
-                        <Checkbox className="text-hide" label="" checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
+                        <Checkbox className="text-hide" label="." checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
                     </Column>
                 }
                 <Column className="lenke--kandidatnr--wrapper" xs="3" md="3">

@@ -32,57 +32,55 @@ class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <div className="panel header--border">
-                <Row>
-                    {this.props.visKandidatlister &&
-                        <Column xs="1" md="1">
-                            <Checkbox className="text-hide" label="" checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
-                        </Column>
-                    }
-                    <Column xs="3" md="3" >
-                        <Element className="label--resultatvisning">
-                            Kandidat
-                        </Element>
+            <Row className="panel header--border">
+                {this.props.visKandidatlister &&
+                    <Column xs="1" md="1">
+                        <Checkbox className="text-hide" label="." checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
                     </Column>
-                    {USE_JANZZ ?
-                        (<Column xs="4" md="4">
-                            <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
-                                <Element
-                                    className="label--resultatvisning"
-                                    aria-label="Sorter på matchscore"
-                                    aria-selected={this.state.scoreChevronNed !== undefined}
-                                >
-                                Matchscore
-                                </Element>
-                                <NavFrontendChevron
-                                    type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
-                                />
-                            </button>
-                        </Column>)
-                        : (
-                            <Column xs="4" md="4">
-                                <div className="filter--aktuelle--kandidater">
-                                    <Element
-                                        className="label--resultatvisning"
-                                        aria-label="Sorter på utdanning"
-                                    >
-                                Utdanningsnivå
-                                    </Element>
-                                </div>
-                            </Column>
-                        )}
-                    <Column xs="4" md="4">
-                        <div className="filter--aktuelle--kandidater">
+                }
+                <Column xs="3" md="3" >
+                    <Element className="label--resultatvisning">
+                            Kandidat
+                    </Element>
+                </Column>
+                {USE_JANZZ ?
+                    (<Column xs="4" md="4">
+                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
-                                aria-label="Sorter på arbeidserfaring"
+                                aria-label="Sorter på matchscore"
+                                aria-selected={this.state.scoreChevronNed !== undefined}
                             >
-                                Relevant arbeidserfaring
+                                Matchscore
                             </Element>
-                        </div>
-                    </Column>
-                </Row>
-            </div>
+                            <NavFrontendChevron
+                                type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
+                            />
+                        </button>
+                    </Column>)
+                    : (
+                        <Column xs="4" md="4">
+                            <div className="filter--aktuelle--kandidater">
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Sorter på utdanning"
+                                >
+                                Utdanningsnivå
+                                </Element>
+                            </div>
+                        </Column>
+                    )}
+                <Column xs="4" md="4">
+                    <div className="filter--aktuelle--kandidater">
+                        <Element
+                            className="label--resultatvisning"
+                            aria-label="Sorter på arbeidserfaring"
+                        >
+                                Relevant arbeidserfaring
+                        </Element>
+                    </div>
+                </Column>
+            </Row>
         );
     }
 }
