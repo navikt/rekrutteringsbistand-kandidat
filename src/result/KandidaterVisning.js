@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
@@ -152,9 +152,9 @@ class KandidaterVisning extends React.Component {
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
-                <div className="panel resultatvisning">
+                <div className="resultatvisning">
                     <div className="resultatvisning--header">
-                        <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                        <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
                         {this.props.visKandidatlister &&
                             <KnappMedHjelpetekst
                                 hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
