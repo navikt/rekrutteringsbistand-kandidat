@@ -32,7 +32,7 @@ class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <div className="panel border--bottom--medium">
+            <div className="panel header--border">
                 <Row>
                     {this.props.visKandidatlister &&
                         <Column xs="1" md="1">
@@ -66,7 +66,7 @@ class KandidaterTableHeader extends React.Component {
                                         className="label--resultatvisning"
                                         aria-label="Sorter på utdanning"
                                     >
-                                Utdanning
+                                Utdanningsnivå
                                     </Element>
                                 </div>
                             </Column>
@@ -77,7 +77,7 @@ class KandidaterTableHeader extends React.Component {
                                 className="label--resultatvisning"
                                 aria-label="Sorter på arbeidserfaring"
                             >
-                                Arbeidserfaring
+                                Relevant arbeidserfaring
                             </Element>
                         </div>
                     </Column>
