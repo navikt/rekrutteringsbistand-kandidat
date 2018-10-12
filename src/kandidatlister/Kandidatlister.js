@@ -111,7 +111,7 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
         <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
         <div className="knapperad--ie">
-            <Hovedknapp onClick={() => { console.log('click'); onSletteClick(); }}>Slett</Hovedknapp>
+            <Hovedknapp onClick={() => { onSletteClick(); }}>Slett</Hovedknapp>
             <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
         </div>
     </NavFrontendModal>
@@ -323,8 +323,7 @@ Kandidatlister.propTypes = {
 SlettKandidatlisteModal.propTypes = {
     onAvbrytClick: PropTypes.func.isRequired,
     onSletteClick: PropTypes.func.isRequired,
-    tittelKandidatliste: PropTypes.string.isRequired,
-    sletteStatus: PropTypes.string.isRequired
+    tittelKandidatliste: PropTypes.string.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

@@ -78,13 +78,13 @@ export default function KandidaterTabellMedKriterier({
                             ))}
                     </div>
                     <div className="buttons--kandidatervisning">
-                        {kandidater.length > antallResultater && (
+                        {kandidater.length < totaltAntallTreff && (
                             <Knapp
                                 type="hoved"
                                 mini
                                 onClick={onFlereResultaterClick}
                             >
-                                Se flere kandidater
+                                {`Se flere kandidater ${kandidater.length} <= ${totaltAntallTreff}`}
                             </Knapp>
                         )}
                         <Element className="antall-treff-kandidatervisning">
