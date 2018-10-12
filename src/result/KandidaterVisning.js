@@ -54,7 +54,7 @@ class KandidaterVisning extends React.Component {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 kandidater: this.props.kandidater.map(avmarkerKandidat),
-                antallResultater: this.props.kandidater.length,
+                antallResultater: KANDIDATLISTE_CHUNK_SIZE,
                 alleKandidaterMarkert: false
             });
         } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
