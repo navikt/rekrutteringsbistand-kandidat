@@ -84,7 +84,7 @@ export default function KandidaterTabellMedKriterier({
                                 mini
                                 onClick={onFlereResultaterClick}
                             >
-                                {`Se flere kandidater ${kandidater.length} <= ${totaltAntallTreff}`}
+                                Se flere kandidater
                             </Knapp>
                         )}
                         <Element className="antall-treff-kandidatervisning">
