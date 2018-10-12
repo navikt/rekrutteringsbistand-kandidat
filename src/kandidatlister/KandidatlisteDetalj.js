@@ -234,7 +234,7 @@ class KandidatlisteDetalj extends React.Component {
 
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => (
-                <Panel className="KandidatlisteDetalj__panel" key={JSON.stringify(kandidat)}>
+                <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
                         {/* <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}> */}
