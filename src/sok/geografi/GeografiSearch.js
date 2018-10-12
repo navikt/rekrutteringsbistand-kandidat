@@ -17,6 +17,7 @@ import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Geografi.less';
 import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -130,7 +131,7 @@ class GeografiSearch extends React.Component {
                             +Legg til fylke, kommune
                             </Knapp>
                         )}
-                        {this.props.visMaaBoCheckbox &&
+                        {this.props.visMaaBoCheckbox && !USE_JANZZ &&
                         <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"

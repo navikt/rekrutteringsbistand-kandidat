@@ -6,10 +6,8 @@ import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../common/Lenkeknapp';
@@ -22,6 +20,7 @@ import { SLETTE_STATUS } from '../konstanter';
 
 import './kandidatlister.less';
 import '../common/ikoner/ikoner.less';
+import SlettKandidaterModal from '../common/SlettKandidaterModal';
 
 
 const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
@@ -179,7 +178,7 @@ class KandidatlisteDetalj extends React.Component {
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
                     <Sidetittel>{tittel}</Sidetittel>
-                    <Undertekst className="undertittel">{beskrivelse}</Undertekst>
+                    {beskrivelse && <Undertekst className="undertittel">{beskrivelse}</Undertekst>}
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
@@ -248,34 +247,6 @@ class KandidatlisteDetalj extends React.Component {
             ))
         );
 
-        const SlettKandidaterModal = () => (
-            <Modal
-                className="KandidatlisteDetalj__modal"
-                isOpen={visSlettKandidaterModal}
-                onRequestClose={() => {
-                    if (!this.state.sletterKandidater) {
-                        this.lukkSlettModal();
-                    }
-                }}
-                closeButton
-                contentLabel={valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}
-            >
-                {visSlettKandidaterFeilmelding && (
-                    <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av kandidater</AlertStripeAdvarsel>
-                )}
-                <Sidetittel className="overskrift">{valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}</Sidetittel>
-                <Normaltekst>{valgteKandidater.length === 1
-                    ? `Er du sikker på at du ønsker å slette ${fornavnOgEtternavnFraKandidat(valgteKandidater.pop())} fra listen?`
-                    : 'Er du sikker på at du ønsker å slette kandidatene fra listen?'
-                }
-                </Normaltekst>
-                <div className="knapperad">
-                    <Hovedknapp onClick={this.slettMarkerteKandidater}>Slett</Hovedknapp>
-                    <Flatknapp onClick={this.lukkSlettModal} disabled={this.state.sletterKandidater} >Avbryt</Flatknapp>
-                </div>
-            </Modal>
-        );
-
         return (
             <div id="KandidaterDetalj">
                 <Header />
@@ -298,7 +269,14 @@ class KandidatlisteDetalj extends React.Component {
                         </TomListe>
                     </Container>
                 )}
-                <SlettKandidaterModal />
+                <SlettKandidaterModal
+                    isOpen={visSlettKandidaterModal}
+                    sletterKandidater={this.state.sletterKandidater}
+                    lukkModal={this.lukkSlettModal}
+                    visFeilmelding={visSlettKandidaterFeilmelding}
+                    valgteKandidater={valgteKandidater}
+                    onDeleteClick={this.slettMarkerteKandidater}
+                />
             </div>
         );
     }
