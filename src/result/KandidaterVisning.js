@@ -9,6 +9,7 @@ import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS } from '../konstanter';
 import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
+import { Row } from 'nav-frontend-grid';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -152,7 +153,7 @@ class KandidaterVisning extends React.Component {
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
-                <div className="resultatvisning">
+                <Row className="resultatvisning">
                     <div className="resultatvisning--header">
                         <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
                         {this.props.visKandidatlister &&
@@ -167,7 +168,7 @@ class KandidaterVisning extends React.Component {
                             </KnappMedHjelpetekst>
                         }
                     </div>
-                </div>
+                </Row>
                 <KandidaterTabell
                     antallResultater={this.state.antallResultater}
                     kandidater={this.state.kandidater}

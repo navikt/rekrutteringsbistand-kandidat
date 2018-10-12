@@ -40,15 +40,15 @@ class KandidaterTableRow extends React.Component {
                 </Column>
 
                 {USE_JANZZ ? (
-                    <Column className="no-padding" xs="4" md="4">
+                    <Column xs="4" md="4">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
-                    <Column className="no-padding" xs="4" md="4">
+                    <Column xs="4" md="4">
                         <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
                     </Column>
                 )}
-                <Column className="no-padding" xs="4" md="4">
+                <Column xs="4" md="4">
                     <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
             </Row>
