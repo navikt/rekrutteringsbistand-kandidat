@@ -86,7 +86,7 @@ class StillingSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier panel--stilling"
                 tittel="Stilling/yrke"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >

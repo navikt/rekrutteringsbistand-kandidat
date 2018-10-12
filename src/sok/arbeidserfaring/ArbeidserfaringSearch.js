@@ -92,7 +92,7 @@ class ArbeidserfaringSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
                 tittel="Arbeidserfaring"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >

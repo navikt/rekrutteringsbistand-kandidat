@@ -95,7 +95,7 @@ class UtdanningSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
                 tittel="Utdanning"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >

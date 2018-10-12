@@ -30,14 +30,14 @@ class GeografiSearch extends React.Component {
     onToggleMaBoPaGeografi = () => {
         this.props.toggleMaBoPaGeografi();
         this.props.search();
-    }
+    };
 
     onClickedDisabledCheckbox = (event) => {
         if (this.props.onDisabledChange !== undefined) {
             this.props.onDisabledChange();
         }
         event.preventDefault();
-    }
+    };
 
     onTypeAheadGeografiChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
@@ -96,7 +96,7 @@ class GeografiSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier heading--geografi"
                 tittel="Fylke eller kommune"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >

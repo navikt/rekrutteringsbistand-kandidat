@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -21,7 +21,7 @@ import './Kompetanse.less';
 
 const kompetanseHeading = (
     <div className="heading--kompetanse ekspanderbartPanel__heading">
-        <Systemtittel>Kompetanse</Systemtittel>
+        <Undertittel>Kompetanse</Undertittel>
         <Normaltekst>Sertifikater, kurs, sertifisering, programmer og ferdigheter</Normaltekst>
     </div>
 );
