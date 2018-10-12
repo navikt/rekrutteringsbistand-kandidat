@@ -46,7 +46,7 @@ export default function KandidaterTabellUtenKriterier({
                 ))}
             </div>
             <div className="buttons--kandidatervisning">
-                {kandidater.length >= antallResultater && (
+                {kandidater.length < totaltAntallTreff && (
                     <Knapp
                         type="hoved"
                         mini
