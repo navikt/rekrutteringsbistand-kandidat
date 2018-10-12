@@ -104,8 +104,8 @@ class ResultatVisning extends React.Component {
                             )}
                         </div>
                         <Container className="blokk-s container--wide">
-                            <Row className="resultatvisning--body">
-                                <Column xs="12" md="4">
+                            <Row >
+                                <Column xs="12" md="4" className="resultatvisning--body-column">
                                     <button
                                         className="lenke lenke--slett--kriterier typo-normal"
                                         id="slett-alle-kriterier-lenke"
@@ -122,7 +122,7 @@ class ResultatVisning extends React.Component {
                                         <GeografiSearch />
                                     </div>
                                 </Column>
-                                <Column xs="12" md="8">
+                                <Column xs="12" md="8" className="resultatvisning--body-column">
                                     <KandidaterVisning />
                                 </Column>
                             </Row>
