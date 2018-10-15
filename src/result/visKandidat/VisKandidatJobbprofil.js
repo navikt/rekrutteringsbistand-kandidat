@@ -53,42 +53,6 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.heltidDeltidJobbonsker && cv.heltidDeltidJobbonsker.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
-                    <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Heltid/deltid</Element>
-                    </Column>
-                    <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.heltidDeltidJobbonsker.join(', ')}
-                        </Normaltekst>
-                    </Column>
-                </Row>
-            )}
-            {cv.arbeidstidsordningJobbonsker && cv.arbeidstidsordningJobbonsker.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
-                    <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidstid</Element>
-                    </Column>
-                    <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.arbeidstidsordningJobbonsker.join(', ')}
-                        </Normaltekst>
-                    </Column>
-                </Row>
-            )}
-            {cv.ansettelsesforholdJobbonsker && cv.ansettelsesforholdJobbonsker.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
-                    <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidsforhold</Element>
-                    </Column>
-                    <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.ansettelsesforholdJobbonsker.join(', ')}
-                        </Normaltekst>
-                    </Column>
-                </Row>
-            )}
         </Ekspanderbartpanel>
     </div>
 );
