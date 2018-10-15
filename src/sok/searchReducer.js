@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterUtenCriteria, fetchFeatureToggles, SearchApiError } from './api';
-import { getUrlParameterByName, toUrlParams } from './utils';
-import FEATURE_TOGGLES from '../konstanter';
+import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 
 /** *********************************************************
@@ -12,6 +12,8 @@ export const SEARCH = 'SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
+export const LAST_FLERE_KANDIDATER = 'LAST_FLERE_KANDIDATER';
+
 export const SET_STATE = 'SET_STATE';
 export const PERFORM_INITIAL_SEARCH = 'PERFORM_INITIAL_SEARCH';
 
@@ -49,6 +51,7 @@ const initialState = {
         },
         kompetanseSuggestions: []
     },
+    searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
@@ -67,15 +70,24 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: true
             };
-        case SEARCH_SUCCESS:
+        case SEARCH_SUCCESS: {
+            const { isPaginatedSok } = action;
             return {
                 ...state,
                 isSearching: false,
+                searchQueryHash: action.searchQueryHash,
                 isInitialSearch: false,
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
-                searchResultat: { ...state.searchResultat, resultat: action.response }
+                searchResultat: { ...state.searchResultat,
+                    resultat: !isPaginatedSok ? action.response :
+                        {
+                            ...state.searchResultat.resultat,
+                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
+                        }
+                }
             };
+        }
         case SEARCH_FAILURE:
             return {
                 ...state,
@@ -184,6 +196,9 @@ function* search(action = '') {
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
         window.history.replaceState('', '', newUrlQuery);
 
+        const fraIndex = action.fraIndex || 0;
+        const antallResultater = action.antallResultater || KANDIDATLISTE_INITIAL_CHUNK_SIZE;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -198,13 +213,15 @@ function* search(action = '') {
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
         };
 
-        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
+        const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
+        const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
 
-        const criteria = { ...criteriaValues };
+        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
+        const criteria = { ...criteriaValues, fraIndex, antallResultater };
 
         const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterUtenCriteria, criteria);
 
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -213,6 +230,12 @@ function* search(action = '') {
             throw e;
         }
     }
+}
+
+function* hentFlereKandidater(action) {
+    const state = yield select();
+    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
+    yield search({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
 }
 
 function* fetchKompetanseSuggestions() {
@@ -274,4 +297,5 @@ export const saga = function* saga() {
     yield takeLatest(PERFORM_INITIAL_SEARCH, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
+    yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
 };
