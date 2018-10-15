@@ -34,7 +34,8 @@ export const ALERTTYPE = {
     ARBEIDSERFARING: 'arbeidserfaring',
     SPRAK: 'sprak',
     KOMPETANSE: 'kompetanse',
-    GEOGRAFI: 'geografi'
+    GEOGRAFI: 'geografi',
+    FORERKORT: 'forerkort'
 };
 
 
@@ -44,7 +45,8 @@ export const KONSEPTTYPE = {
     KOMPETANSE: 'skill',
     SOFT_SKILL: 'soft skill',
     ERFARING: 'experience level',
-    STED: 'location'
+    STED: 'location',
+    FORERKORT: 'license'
 };
 
 
@@ -54,7 +56,8 @@ export const BRANCHNAVN = {
     ARBEIDSERFARING: 'arbeidserfaring',
     UTDANNING: 'utdanning',
     GEOGRAFI: 'geografi',
-    SPRAK: 'sprak'
+    SPRAK: 'sprak',
+    FORERKORT: 'forerkort'
 };
 
 export const LAGRE_STATUS = {

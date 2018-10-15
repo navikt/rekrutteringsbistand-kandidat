@@ -156,6 +156,7 @@ export const fromUrlQuery = (url) => {
     const totalErfaring = getUrlParameterByName('totalErfaring', url);
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
+    const forerkort = getUrlParameterByName('forerkort', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -165,6 +166,7 @@ export const fromUrlQuery = (url) => {
     if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
+    if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
     return stateFromUrl;
 };
 
@@ -178,6 +180,7 @@ export const toUrlQuery = (state) => {
     if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
+    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     return toUrlParams(urlQuery);
 };
@@ -210,7 +213,8 @@ function* search(action = '') {
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
-            maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
+            maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
+            forerkort: state.forerkort.forerkortList
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
