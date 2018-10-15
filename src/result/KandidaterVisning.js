@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Ingress, Undertittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
@@ -10,7 +11,6 @@ import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS } from '../konstanter';
 import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
-import { Row } from 'nav-frontend-grid';
 import { USE_JANZZ } from '../common/fasitProperties';
 
 const antallKandidaterMarkert = (kandidater) => (

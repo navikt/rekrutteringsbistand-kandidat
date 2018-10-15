@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import KnappBase from 'nav-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
@@ -106,13 +107,19 @@ class ResultatVisning extends React.Component {
                         <Container className="blokk-s container--wide">
                             <Row >
                                 <Column xs="12" md="4" className="resultatvisning--body-column">
-                                    <button
-                                        className="lenke lenke--slett--kriterier typo-normal"
-                                        id="slett-alle-kriterier-lenke"
-                                        onClick={this.onRemoveCriteriaClick}
-                                    >
+                                    <div className="slett-alle-kriterier-wrapper">
+                                        <div className="knapp-wrapper">
+                                            <KnappBase
+                                                mini
+                                                type="flat"
+                                                className="lenke lenke--slett--kriterier typo-normal"
+                                                id="slett-alle-kriterier-lenke"
+                                                onClick={this.onRemoveCriteriaClick}
+                                            >
                                         Slett alle kriterier
-                                    </button>
+                                            </KnappBase>
+                                        </div>
+                                    </div>
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
                                         <UtdanningSearch />

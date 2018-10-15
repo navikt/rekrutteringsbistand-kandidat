@@ -58,8 +58,14 @@
 
 .lenke--slett--kriterier {
   float: right;
-  margin-bottom: 2.5rem;
-;
+  border: 2px solid transparent !important;
+  &:hover{
+    border: 2px solid @navBla !important;
+  }
+}
+
+.slett-alle-kriterier-wrapper {
+  margin-bottom: 4rem;
 }
 
 @media (min-width: @screen-md-min) {
