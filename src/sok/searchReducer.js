@@ -213,7 +213,7 @@ function* search(action = '') {
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
         };
 
-        const isPaginatedSok = !action.addToCurrentResult;
+        const isPaginatedSok = !action.isPaginatedSok;
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
 
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
