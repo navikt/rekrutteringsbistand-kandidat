@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterUtenCriteria, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
-import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../konstanter';
+import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 
 /** *********************************************************
@@ -80,7 +80,7 @@ export default function searchReducer(state = initialState, action) {
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
                 searchResultat: { ...state.searchResultat,
-                    resultat: isPaginatedSok ? action.response :
+                    resultat: !isPaginatedSok ? action.response :
                         {
                             ...state.searchResultat.resultat,
                             kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
@@ -213,8 +213,8 @@ function* search(action = '') {
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
         };
 
-        const isPaginatedSok = !action.isPaginatedSok;
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
+        const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
 
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = { ...criteriaValues, fraIndex, antallResultater };
@@ -233,7 +233,9 @@ function* search(action = '') {
 }
 
 function* hentFlereKandidater(action) {
-    yield search({ ...action, isPaginatedSok: true });
+    const state = yield select();
+    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
+    yield search({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
 }
 
 function* fetchKompetanseSuggestions() {

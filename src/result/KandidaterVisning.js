@@ -82,7 +82,7 @@ class KandidaterVisning extends React.Component {
         }
         const nyttAntall = Math.min(this.state.antallResultater + KANDIDATLISTE_CHUNK_SIZE, this.props.totaltAntallTreff);
         if (nyttAntall > this.props.kandidater.length) {
-            this.props.lastFlereKandidater(this.props.kandidater.length, KANDIDATLISTE_CHUNK_SIZE);
+            this.props.lastFlereKandidater();
         }
 
         if (nyttAntall !== this.state.antallResultater) {
@@ -251,8 +251,8 @@ const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
         dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
     },
-    lastFlereKandidater: (fraIndex, antallResultater) => {
-        dispatch({ type: LAST_FLERE_KANDIDATER, fraIndex, antallResultater });
+    lastFlereKandidater: () => {
+        dispatch({ type: LAST_FLERE_KANDIDATER });
     }
 });
 
