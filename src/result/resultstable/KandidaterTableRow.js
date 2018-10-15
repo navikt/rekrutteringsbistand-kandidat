@@ -34,7 +34,7 @@ class KandidaterTableRow extends React.Component {
         const cv = this.props.cv;
         const kandidatnummer = this.props.cv.arenaKandidatnr;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-        const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning.nusKode);
+        const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
 
         const score = cv.score;
         const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
