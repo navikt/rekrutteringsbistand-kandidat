@@ -250,11 +250,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        // justify-content: space-between;
         margin-bottom: 0.5rem;
         padding: 1.25rem;
         min-height: 4rem;
-      border-style: solid;
+        border-style: solid;
         border-color: @borderLys;
         border-width: 1px;
 
@@ -296,6 +295,15 @@
         }
     }
 
+    .KandidatlisteDetalj__panel:hover {
+        box-shadow: 1px 0 4px 1px #cecac4,
+            0 1px 4px 1px #cecac4;
+    }
+
+    .KandidatlisteDetalj__panel--checked {
+        border-color: @navBla;
+    }
+
     .KandidatlisteDetalj__panel--header {
         border-radius: 4px;
         border-width: 1px;
@@ -303,6 +311,10 @@
         padding-top: 1.25rem;
         padding-bottom: 1.25rem;
         border-style: solid;
+    }
+
+    .KandidatlisteDetalj__panel--header:hover {
+        box-shadow: none;
     }
 
     .KandidatlisteDetalj__knapperad {
