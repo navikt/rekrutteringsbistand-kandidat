@@ -198,13 +198,22 @@ button.lenke {
 }
 
 .HjelpetekstFading {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 10000;
   width: 100%;
   display: flex;
   justify-content: center;
+  .alertstripe__tekst {
+    flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+  }
+  .alertstripe__ikon {
+    margin-right: 0;
+    padding-right: 0;
+    width: 2.2rem;
+  }
 }
 
 .modal--bekreft {

@@ -16,7 +16,7 @@ import {
     TOGGLE_UTDANNING_PANEL_OPEN
 } from './utdanningReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN, UTDANNING } from '../../konstanter';
 import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {
@@ -26,13 +26,7 @@ class UtdanningSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.utdanningsnivaKategorier = [
-            { key: 'Videregaende', label: 'Videregående' },
-            { key: 'Fagskole', label: 'Fagskole' },
-            { key: 'Bachelor', label: 'Universitet/høgskole, inntil 4 år' },
-            { key: 'Master', label: 'Universitet/høgskole, over 4 år' },
-            { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' }
-        ];
+        this.utdanningsnivaKategorier = Object.keys(UTDANNING).map((key) => UTDANNING[key]);
     }
 
     onUtdanningsnivaChange = (e) => {

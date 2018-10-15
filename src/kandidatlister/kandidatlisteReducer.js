@@ -306,7 +306,7 @@ function* slettKandidater(action) {
 
 function* slettKandidatListe(action) {
     try {
-        const { kandidatlisteId } = action;
+        const kandidatlisteId = action.kandidatlisteId;
         yield deleteKandidatliste(kandidatlisteId);
         yield put({ type: SLETT_KANDIDATLISTE_SUCCESS });
     } catch (e) {

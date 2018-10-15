@@ -16,6 +16,13 @@ const FEATURE_TOGGLES = [
 ];
 export default FEATURE_TOGGLES;
 
+export const UTDANNING = {
+    VIDEREGAAENDE: { key: 'Videregaende', label: 'Videregående' },
+    FAGSKOLE: { key: 'Fagskole', label: 'Fagskole' },
+    BACHELOR: { key: 'Bachelor', label: 'Universitet/høgskole, inntil 4 år' },
+    MASTER: { key: 'Master', label: 'Universitet/høgskole, over 4 år' },
+    DOKTORGRAD: { key: 'Doktorgrad', label: 'Doktorgrad (PhD)' }
+};
 
 export const ALERTTYPE = {
     STILLING: 'stilling',

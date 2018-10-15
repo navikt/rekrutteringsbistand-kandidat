@@ -12,7 +12,7 @@ const currentDirectory = __dirname;
 const server = express();
 const port = process.env.PORT || 8080;
 
-const contextRoot = process.argv.length && process.argv[process.argv.length-1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
+const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
 const testtmp = process.argv;
 
 server.set('port', port);

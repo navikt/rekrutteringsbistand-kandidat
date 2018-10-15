@@ -21,7 +21,6 @@ import PageHeader from '../common/PageHeaderWrapper';
 import UnderArbeidSide from './UnderArbeidSide';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import TilbakeLenke from '../common/TilbakeLenke';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -101,7 +100,7 @@ const Header = ({ antallKandidater }) => (
     </PageHeader>
 );
 
-const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick, sletteStatus }) => (
+const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick, sletteStatus, antallKandidater }) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal slett kandidatliste"
@@ -110,15 +109,11 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
         closeButton
     >
         <Systemtittel className="blokk-s">Slett kandidatlisten</Systemtittel>
-        <SkjemaGruppe>
-            <div className="OpprettKandidatlisteForm">
-                <div className="OpprettKandidatlisteForm__input">
-                    <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'} {tittelKandidatliste || ''}{'"'}?</Normaltekst>
-                </div>
-                <Hovedknapp spinner={sletteStatus === SLETTE_STATUS.LOADING} onClick={onSletteClick}>Slett</Hovedknapp>
-                <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
-            </div>
-        </SkjemaGruppe>
+        <Normaltekst>Er du sikker på at du ønsker å slette kandidatlisten {'"'}{tittelKandidatliste || ''}{'"'} {`(${antallKandidater} ${antallKandidater === 1 ? 'kandidat' : 'kandidater'})`}?</Normaltekst>
+        <div className="knapperad">
+            <Hovedknapp onClick={onSletteClick} spinner={sletteStatus === SLETTE_STATUS.LOADING}>Slett</Hovedknapp>
+            <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
+        </div>
     </NavFrontendModal>
 );
 
@@ -182,7 +177,7 @@ class Kandidatlister extends React.Component {
         });
     };
 
-    onSletteClick = (kandidatliste) => {
+    onDeleteClick = (kandidatliste) => {
         this.setState({
             visSletteModal: true,
             kandidatlisteISletting: kandidatliste,
@@ -249,6 +244,7 @@ class Kandidatlister extends React.Component {
                     onAvbrytClick={this.onLukkSletteModalClick}
                     onSletteClick={this.onSlettBekreft}
                     sletteStatus={this.props.sletteStatus}
+                    antallKandidater={kandidatlister.find((kl) => kl.kandidatlisteId === this.state.kandidatlisteISletting.kandidatlisteId).antallKandidater}
                 />}
                 <HjelpetekstFading
                     synlig={this.state.visSuccessMelding}
@@ -263,7 +259,7 @@ class Kandidatlister extends React.Component {
                 <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
                     <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onSletteClick} />
+                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
                     </Container>
                 </Container>
             </div>
@@ -282,10 +278,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
-    resetLagreStatus: () => { dispatch({ type: RESET_LAGRE_STATUS }); },
-    resetSletteStatus: () => { dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }); },
-    slettKandidatliste: (id) => { dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id }); }
+    hentKandidatlister: () => dispatch({ type: HENT_KANDIDATLISTER }),
+    resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS }),
+    resetSletteStatus: () => dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }),
+    slettKandidatliste: (id) => dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id })
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({
@@ -329,7 +325,8 @@ SlettKandidatlisteModal.propTypes = {
     onAvbrytClick: PropTypes.func.isRequired,
     onSletteClick: PropTypes.func.isRequired,
     tittelKandidatliste: PropTypes.string.isRequired,
-    sletteStatus: PropTypes.string.isRequired
+    sletteStatus: PropTypes.string.isRequired,
+    antallKandidater: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
