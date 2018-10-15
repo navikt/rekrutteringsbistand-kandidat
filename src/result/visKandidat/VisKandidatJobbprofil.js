@@ -104,23 +104,6 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.arbeidsdagerJobbprofil && cv.arbeidsdagerJobbprofil.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
-                    <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidsdager</Element>
-                    </Column>
-                    <Column xs="12" sm="8">
-                        <TruncatedTextList
-                            tekstElementer={
-                                cv.arbeidsdagerJobbprofil
-                                    .map((u) => (
-                                        u.arbeidsdagerKodeTekst
-                                    ))
-                            }
-                        />
-                    </Column>
-                </Row>
-            )}
             {cv.ansettelsesformJobbprofil && cv.ansettelsesformJobbprofil.length !== 0 && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
