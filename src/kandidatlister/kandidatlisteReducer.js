@@ -67,7 +67,8 @@ const initialState = {
         sletteStatus: SLETTE_STATUS.FINISHED
     },
     leggTilKandidater: {
-        lagreStatus: LAGRE_STATUS.UNSAVED
+        lagreStatus: LAGRE_STATUS.UNSAVED,
+        antallLagredeKandidater: 0
     },
     fetchingKandidatlister: false,
     kandidatlister: undefined
@@ -207,7 +208,8 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 leggTilKandidater: {
                     ...state.leggTilKandidater,
-                    lagreStatus: LAGRE_STATUS.SUCCESS
+                    lagreStatus: LAGRE_STATUS.SUCCESS,
+                    antallLagredeKandidater: action.antallLagredeKandidater
                 }
             };
         case LEGG_TIL_KANDIDATER_FAILURE:
@@ -337,7 +339,7 @@ function* leggTilKandidater(action) {
         for (let i = 0; i < action.kandidatlisteIder.length; i += 1) {
             yield postKandidaterTilKandidatliste(action.kandidatlisteIder[i], action.kandidater);
         }
-        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS });
+        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS, antallLagredeKandidater: action.kandidater.length });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: LEGG_TIL_KANDIDATER_FAILURE, error: e });
