@@ -9,8 +9,9 @@ import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
-import { LAGRE_STATUS } from '../konstanter';
+import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
+import { LAST_FLERE_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
 
 const antallKandidaterMarkert = (kandidater) => (
@@ -40,7 +41,7 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: 25,
+            antallResultater: KANDIDATLISTE_CHUNK_SIZE,
             kandidater: this.props.kandidater.map(avmarkerKandidat),
             alleKandidaterMarkert: false,
             lagreKandidaterModalVises: false
@@ -48,12 +49,18 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.kandidater !== this.props.kandidater) {
-        // eslint-disable-next-line react/no-did-update-set-state
+        const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
+        if (harNyeSokekriterier) {
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 kandidater: this.props.kandidater.map(avmarkerKandidat),
-                antallResultater: 25,
+                antallResultater: KANDIDATLISTE_CHUNK_SIZE,
                 alleKandidaterMarkert: false
+            });
+        } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
+        // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                kandidater: this.props.kandidater.map(avmarkerKandidat)
             });
         }
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
@@ -70,9 +77,19 @@ class KandidaterVisning extends React.Component {
     };
 
     onFlereResultaterClick = () => {
-        this.setState({
-            antallResultater: this.state.antallResultater > 80 ? 100 : this.state.antallResultater + 20
-        });
+        if (this.props.isSearching) {
+            return;
+        }
+        const nyttAntall = Math.min(this.state.antallResultater + KANDIDATLISTE_CHUNK_SIZE, this.props.totaltAntallTreff);
+        if (nyttAntall > this.props.kandidater.length) {
+            this.props.lastFlereKandidater();
+        }
+
+        if (nyttAntall !== this.state.antallResultater) {
+            this.setState({
+                antallResultater: nyttAntall
+            });
+        }
     };
 
     onFilterScoreClick = (scoreChevronNed, from, to) => {
@@ -224,13 +241,18 @@ KandidaterVisning.propTypes = {
     isEmptyQuery: PropTypes.bool.isRequired,
     isSearching: PropTypes.bool.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
+    lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired
+    visKandidatlister: PropTypes.bool.isRequired,
+    searchQueryHash: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
         dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
+    },
+    lastFlereKandidater: () => {
+        dispatch({ type: LAST_FLERE_KANDIDATER });
     }
 });
 
@@ -241,7 +263,8 @@ const mapStateToProps = (state) => ({
     isSearching: state.search.isSearching,
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    visKandidatlister: state.search.featureToggles['vis-kandidatlister'],
+    searchQueryHash: state.search.searchQueryHash
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

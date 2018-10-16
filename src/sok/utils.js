@@ -7,6 +7,21 @@ export function toUrlParams(query) {
         .replace(/%20/g, '+');
 }
 
+export function getHashFromString(string) {
+    let hash = 0;
+    let i;
+    let chr;
+    if (string.length === 0) return hash;
+    for (i = 0; i < string.length; i += 1) {
+        chr = string.charCodeAt(i);
+        // eslint-disable-next-line no-bitwise
+        hash = ((hash << 5) - hash) + chr;
+        // eslint-disable-next-line no-bitwise
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash.toString();
+}
+
 export function getUrlParameterByName(name, url = window.location.href) {
     const navn = name.replace(/[\]]/g, '\\$&');
     const regex = new RegExp(`[?&]${navn}(=([^&#]*)|&|#|$)`);
