@@ -105,7 +105,6 @@ const startServer = (html) => {
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
             return proxyReqOpts;
         }
-
     }));
 
     server.use(

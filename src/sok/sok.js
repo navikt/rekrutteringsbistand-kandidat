@@ -64,12 +64,36 @@ class Sok extends React.Component {
         this.props.fetchArbeidsgivere();
     }
 
+    componentWillReceiveProps() {
+        console.log("sok props");
+    }
+
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
     // if the error is 401 and to a new page if error is 403
     componentWillUpdate(nextProps) {
+        console.log("cookie");
         const { error } = nextProps;
+
+        const cookie = document.cookie;
+        if (!cookie) {
+            return this.redirectToLogin();
+        }
+        const token = cookie.split(';').filter((v) => v.indexOf('-idtoken') !== -1).pop().split('-idtoken=').pop();
+        
+        const currentExpiration = sessionStorage.getItem('token_expire');
+
+        if (token && !currentExpiration) {
+            console.log("setting token expire");
+            sessionStorage.setItem('token_expire', Date.now() + 10000);
+        } else if (token && currentExpiration < Date.now()) {
+            sessionStorage.removeItem('token_expire');
+            console.log("currentExpire", currentExpiration);
+            console.log("date.now()", Date.now());
+            console.log("token expired!");
+        }
+        
+
         if (error && error.status === 401) {
-            this.redirectToLogin();
         } else if (error && error.status === 403) {
             window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
