@@ -14,6 +14,7 @@ import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
+import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../konstanter';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
@@ -114,6 +115,7 @@ class ResultatVisning extends React.Component {
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
+                                        <ForerkortSearch />
                                         <KompetanseSearch />
                                         <GeografiSearch />
                                     </div>

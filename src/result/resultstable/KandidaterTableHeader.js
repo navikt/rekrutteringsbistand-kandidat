@@ -66,7 +66,7 @@ class KandidaterTableHeader extends React.Component {
                                         className="label--resultatvisning"
                                         aria-label="Sorter på utdanning"
                                     >
-                                Utdanning
+                                Utdanningsnivå
                                     </Element>
                                 </div>
                             </Column>
