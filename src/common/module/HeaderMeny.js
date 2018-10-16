@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import ArbeidsgiverSelect from './ArbeidsgiverSelect';
+import ArbeidsgiverListePropTypes from './PropTypes';
 import './HeaderMeny.less';
 
 export const TAB_ID = {
@@ -99,10 +100,7 @@ HeaderMeny.defaultProps = {
 HeaderMeny.propTypes = {
     onLoggUt: PropTypes.func.isRequired,
     onArbeidsgiverSelect: PropTypes.func.isRequired,
-    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
-        orgnr: PropTypes.string,
-        orgnavn: PropTypes.string
-    })).isRequired,
+    arbeidsgivere: ArbeidsgiverListePropTypes.isRequired,
     valgtArbeidsgiverId: PropTypes.string,
     activeTabID: PropTypes.oneOf(Object.values(TAB_ID)).isRequired
 };

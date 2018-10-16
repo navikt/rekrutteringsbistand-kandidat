@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'nav-frontend-skjema';
+import ArbeidsgiverListePropTypes from './PropTypes';
 
 class ArbeidsgiverSelect extends React.Component {
     onArbeidsgiverChange = (e) => {
@@ -41,10 +42,7 @@ ArbeidsgiverSelect.defaultProps = {
 
 ArbeidsgiverSelect.propTypes = {
     onArbeidsgiverSelect: PropTypes.func.isRequired,
-    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
-        orgnr: PropTypes.string,
-        orgnavn: PropTypes.string
-    })).isRequired,
+    arbeidsgivere: ArbeidsgiverListePropTypes.isRequired,
     valgtArbeidsgiverId: PropTypes.string
 };
 

@@ -5,8 +5,10 @@ import { Panel } from 'nav-frontend-paneler';
 import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import Ikon from 'nav-frontend-ikoner-assets';
 import ArbeidsgiverSelect from './ArbeidsgiverSelect';
+import ArbeidsgiverListePropTypes from './PropTypes';
 
 import './VelgArbeidsgiver.less';
+
 
 const LENKE_RETTIGHETER = 'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
@@ -68,10 +70,7 @@ VelgArbeidsgiver.defaultProps = {
 
 VelgArbeidsgiver.propTypes = {
     onArbeidsgiverSelect: PropTypes.func.isRequired,
-    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
-        orgnr: PropTypes.string,
-        orgnavn: PropTypes.string
-    })).isRequired,
+    arbeidsgivere: ArbeidsgiverListePropTypes.isRequired,
     valgtArbeidsgiverId: PropTypes.string
 };
 

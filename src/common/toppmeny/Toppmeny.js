@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LOGOUT_URL } from '../fasitProperties';
 import HeaderMeny, { TAB_ID } from '../module/HeaderMeny';
+import ArbeidsgiverListePropTypes from '../module/PropTypes';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
 
 const loggUt = () => {
@@ -33,10 +34,7 @@ Toppmeny.defaultProps = {
 };
 
 Toppmeny.propTypes = {
-    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
-        orgnr: PropTypes.string,
-        orgnavn: PropTypes.string
-    })).isRequired,
+    arbeidsgivere: ArbeidsgiverListePropTypes.isRequired,
     valgtArbeidsgiverId: PropTypes.string,
     velgArbeidsgiver: PropTypes.func.isRequired,
     resetArbeidsgiver: PropTypes.func.isRequired,
