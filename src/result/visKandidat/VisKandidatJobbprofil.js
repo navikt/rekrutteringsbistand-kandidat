@@ -53,39 +53,71 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.heltidDeltidJobbonsker && cv.heltidDeltidJobbonsker.length !== 0 && (
+            {cv.omfangJobbprofil && cv.omfangJobbprofil.length !== 0 && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
                         <Element className="jobbprofil__overskrift">Heltid/deltid</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.heltidDeltidJobbonsker.join(', ')}
-                        </Normaltekst>
+                        <TruncatedTextList
+                            tekstElementer={
+                                cv.omfangJobbprofil
+                                    .map((u) => (
+                                        u.heltidDeltidKodeTekst
+                                    ))
+                            }
+                        />
                     </Column>
                 </Row>
             )}
-            {cv.arbeidstidsordningJobbonsker && cv.arbeidstidsordningJobbonsker.length !== 0 && (
+            {cv.arbeidstidJobbprofil && cv.arbeidstidJobbprofil.length !== 0 && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
                         <Element className="jobbprofil__overskrift">Arbeidstid</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.arbeidstidsordningJobbonsker.join(', ')}
-                        </Normaltekst>
+                        <TruncatedTextList
+                            tekstElementer={
+                                cv.arbeidstidJobbprofil
+                                    .map((u) => (
+                                        u.arbeidstidKodeTekst
+                                    ))
+                            }
+                        />
                     </Column>
                 </Row>
             )}
-            {cv.ansettelsesforholdJobbonsker && cv.ansettelsesforholdJobbonsker.length !== 0 && (
+            {cv.arbeidstidsordningJobbprofil && cv.arbeidstidsordningJobbprofil.length !== 0 && (
+                <Row className="panel--jobbprofil__row">
+                    <Column xs="12" sm="4">
+                        <Element className="jobbprofil__overskrift">Arbeidstidsordning</Element>
+                    </Column>
+                    <Column xs="12" sm="8">
+                        <TruncatedTextList
+                            tekstElementer={
+                                cv.arbeidstidsordningJobbprofil
+                                    .map((u) => (
+                                        u.arbeidstidsordningKodeTekst
+                                    ))
+                            }
+                        />
+                    </Column>
+                </Row>
+            )}
+            {cv.ansettelsesformJobbprofil && cv.ansettelsesformJobbprofil.length !== 0 && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
                         <Element className="jobbprofil__overskrift">Arbeidsforhold</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <Normaltekst>
-                            {cv.ansettelsesforholdJobbonsker.join(', ')}
-                        </Normaltekst>
+                        <TruncatedTextList
+                            tekstElementer={
+                                cv.ansettelsesformJobbprofil
+                                    .map((u) => (
+                                        u.ansettelsesformKodeTekst
+                                    ))
+                            }
+                        />
                     </Column>
                 </Row>
             )}

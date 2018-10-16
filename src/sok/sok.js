@@ -35,6 +35,7 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
+import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -46,6 +47,7 @@ const store = createStore(combineReducers({
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
     geografi: geografiReducer,
+    forerkort: forerkortReducer,
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,

@@ -16,6 +16,10 @@ const FEATURE_TOGGLES = [
 ];
 export default FEATURE_TOGGLES;
 
+export const KANDIDATLISTE_CHUNK_SIZE = 25;
+export const KANDIDATLISTE_INITIAL_CHUNK_SIZE = 50;
+
+
 export const UTDANNING = {
     VIDEREGAAENDE: { key: 'Videregaende', label: 'Videregående' },
     FAGSKOLE: { key: 'Fagskole', label: 'Fagskole' },
@@ -30,7 +34,8 @@ export const ALERTTYPE = {
     ARBEIDSERFARING: 'arbeidserfaring',
     SPRAK: 'sprak',
     KOMPETANSE: 'kompetanse',
-    GEOGRAFI: 'geografi'
+    GEOGRAFI: 'geografi',
+    FORERKORT: 'forerkort'
 };
 
 
@@ -40,7 +45,8 @@ export const KONSEPTTYPE = {
     KOMPETANSE: 'skill',
     SOFT_SKILL: 'soft skill',
     ERFARING: 'experience level',
-    STED: 'location'
+    STED: 'location',
+    FORERKORT: 'license'
 };
 
 
@@ -50,7 +56,8 @@ export const BRANCHNAVN = {
     ARBEIDSERFARING: 'arbeidserfaring',
     UTDANNING: 'utdanning',
     GEOGRAFI: 'geografi',
-    SPRAK: 'sprak'
+    SPRAK: 'sprak',
+    FORERKORT: 'forerkort'
 };
 
 export const LAGRE_STATUS = {
