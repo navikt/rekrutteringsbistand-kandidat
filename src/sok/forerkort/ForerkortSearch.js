@@ -53,7 +53,6 @@ class ForerkortSearch extends React.Component {
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
             const forerkort = alleForerkort.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
-            console.log({ forerkort });
             if (forerkort !== undefined) {
                 this.props.selectTypeAheadValueForerkort(forerkort);
                 this.props.clearTypeAheadForerkort();
