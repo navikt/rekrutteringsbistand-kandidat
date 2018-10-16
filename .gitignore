@@ -24,3 +24,4 @@ war/src/main/client/build/
 dist/
 
 screenshots
+.vscode/settings.json

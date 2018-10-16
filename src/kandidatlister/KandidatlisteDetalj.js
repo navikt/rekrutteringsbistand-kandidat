@@ -243,7 +243,7 @@ class KandidatlisteDetalj extends React.Component {
                             {fornavnOgEtternavnFraKandidat(kandidat)}
                         </Link>
                     </div>
-                    <Normaltekst >{kandidat.sisteArbeidserfaring}</Normaltekst>
+                    <Normaltekst>{kandidat.sisteArbeidserfaring}</Normaltekst>
                 </Panel>
             ))
         );
