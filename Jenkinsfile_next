@@ -116,6 +116,7 @@ def uuTests(qaDir, uuDefinitionFile) {
     withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no,oera.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
         try {
             sh "cd ${qaDir}/pus-uu-validator && npm i"
+            sh "cd ${qaDir}/pus-uu-validator && npm i chromedriver"
 			sh "cd ${qaDir}/pus-uu-validator && DEFINITION_FILE=../${uuDefinitionFile} npm run test-uu"
         } catch (Exception e) {
             println("UU-tester feilet")
