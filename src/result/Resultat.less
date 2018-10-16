@@ -44,8 +44,24 @@
   }
 }
 
-.resultatvisning--body-column {
+.sokekriterier--column {
   margin-top: 3rem;
+}
+
+.kandidatervisning--column {
+  margin-top: 3rem;
+}
+
+@media (min-width: @screen-md-min) {
+  .kandidatervisning--column {
+    margin-left: 2.5rem;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .kandidatervisning--column {
+    margin-left: 4.375rem;
+  }
 }
 
 .resultatvisning {
@@ -70,7 +86,7 @@
 
 @media (min-width: @screen-md-min) {
   .resultatvisning {
-    margin: 0 0 0 2rem;
+    margin: 0 0 0 0;
   }
 }
 
@@ -78,7 +94,6 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.55rem;
-  padding-left: 2rem;
   padding-right: 1rem;
 }
 

@@ -38,13 +38,13 @@ class KandidaterTableHeader extends React.Component {
                         <Checkbox className="text-hide" label="." checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
                     </Column>
                 }
-                <Column xs="3" md="3" >
+                <Column xs="2" md="2" >
                     <Element className="label--resultatvisning">
                             Kandidat
                     </Element>
                 </Column>
                 {USE_JANZZ ?
-                    (<Column xs="4" md="4">
+                    (<Column xs="5" md="5">
                         <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
@@ -59,7 +59,7 @@ class KandidaterTableHeader extends React.Component {
                         </button>
                     </Column>)
                     : (
-                        <Column xs="4" md="4">
+                        <Column xs="5" md="5">
                             <div className="filter--aktuelle--kandidater">
                                 <Element
                                     className="label--resultatvisning"

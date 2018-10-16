@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Sidetittel } from 'nav-frontend-typografi';
-import { Column, Container, Row } from 'nav-frontend-grid';
+import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -104,35 +104,36 @@ class ResultatVisning extends React.Component {
                                 </div>
                             )}
                         </div>
-                        <Container className="blokk-s container--wide">
-                            <Row >
-                                <Column xs="12" md="4" className="resultatvisning--body-column">
-                                    <div className="slett-alle-kriterier-wrapper">
-                                        <div className="knapp-wrapper">
-                                            <KnappBase
-                                                mini
-                                                type="flat"
-                                                className="lenke lenke--slett--kriterier typo-normal"
-                                                id="slett-alle-kriterier-lenke"
-                                                onClick={this.onRemoveCriteriaClick}
-                                            >
+                        <Container className="blokk-s">
+                            <Column xs="12" md="4" className="sokekriterier--column">
+                                <div className="slett-alle-kriterier-wrapper">
+                                    <div className="knapp-wrapper">
+                                        <KnappBase
+                                            mini
+                                            type="flat"
+                                            className="lenke lenke--slett--kriterier typo-normal"
+                                            id="slett-alle-kriterier-lenke"
+                                            onClick={this.onRemoveCriteriaClick}
+                                        >
                                         Slett alle kriterier
-                                            </KnappBase>
-                                        </div>
+                                        </KnappBase>
                                     </div>
-                                    <div className="resultatvisning--sokekriterier">
-                                        <StillingSearch />
-                                        <UtdanningSearch />
-                                        <ArbeidserfaringSearch />
-                                        <SprakSearch />
-                                        <KompetanseSearch />
-                                        <GeografiSearch />
-                                    </div>
-                                </Column>
-                                <Column xs="12" md="8" className="resultatvisning--body-column">
+                                </div>
+                                <div className="resultatvisning--sokekriterier">
+                                    <StillingSearch />
+                                    <UtdanningSearch />
+                                    <ArbeidserfaringSearch />
+                                    <SprakSearch />
+                                    <KompetanseSearch />
+                                    <GeografiSearch />
+                                </div>
+                            </Column>
+                            <Column xs="12" md="8" >
+                                <div className="kandidatervisning--column">
                                     <KandidaterVisning />
-                                </Column>
-                            </Row>
+                                </div>
+                            </Column>
+
                         </Container>
                     </div>
                 )}

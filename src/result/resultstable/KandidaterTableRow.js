@@ -28,7 +28,7 @@ class KandidaterTableRow extends React.Component {
             case '8': return UTDANNING.DOKTORGRAD.label;
             default: return 'Ukjent';
         }
-    }
+    };
 
     render() {
         const cv = this.props.cv;
@@ -45,7 +45,7 @@ class KandidaterTableRow extends React.Component {
                         <Checkbox className="text-hide" label="." checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
                     </Column>
                 }
-                <Column className="lenke--kandidatnr--wrapper" xs="3" md="3">
+                <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
                         className="lenke--kandidatnr"
                         to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
@@ -57,11 +57,11 @@ class KandidaterTableRow extends React.Component {
                 </Column>
 
                 {USE_JANZZ ? (
-                    <Column xs="4" md="4">
+                    <Column xs="5" md="5">
                         <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
-                    <Column xs="4" md="4">
+                    <Column xs="5" md="5">
                         <Normaltekst className="break-word utdanning">{utdanningsNivaa}</Normaltekst>
                     </Column>
                 )}
