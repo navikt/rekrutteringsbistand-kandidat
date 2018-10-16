@@ -38,7 +38,8 @@ class KandidatlisteDetalj extends React.Component {
             sletterKandidater: false,
             visSlettKandidaterModal: false,
             visSlettKandidaterFeilmelding: false,
-            visSlettSuccessMelding: false
+            visSlettSuccessMelding: false,
+            antallSlettedeKandidater: 0
         };
     }
 
@@ -141,7 +142,7 @@ class KandidatlisteDetalj extends React.Component {
 
         if (kandidatlisteId && kandidater.length > 0) {
             this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
-            this.setState({ sletterKandidater: true });
+            this.setState({ sletterKandidater: true, antallSlettedeKandidater: kandidater.length });
         }
     };
 
@@ -169,7 +170,7 @@ class KandidatlisteDetalj extends React.Component {
             );
         }
 
-        const { markerAlleChecked, kandidater, visSlettKandidaterFeilmelding, visSlettKandidaterModal } = this.state;
+        const { markerAlleChecked, kandidater, visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
         const { tittel, beskrivelse, oppdragsgiver } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
@@ -251,9 +252,9 @@ class KandidatlisteDetalj extends React.Component {
             <div id="KandidaterDetalj">
                 <Header />
                 <HjelpetekstFading
-                    synlig={this.state.visSlettSuccessMelding}
+                    synlig={visSlettSuccessMelding}
                     type="suksess"
-                    tekst={'Kandidaten er slettet'}
+                    tekst={antallSlettedeKandidater > 1 ? `${antallSlettedeKandidater} kandidater er slettet` : 'Kandidaten er slettet'}
                 />
                 {kandidater.length > 0 ? (
                     <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
