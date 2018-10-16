@@ -99,8 +99,6 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 2.5rem;
-
-
 }
 
 .Kandidatlister__container-width {
@@ -207,17 +205,6 @@
     }
 }
 
-// .hjelpetekst__tooltip {
-//     background-color: red;
-// }
-
-
-//     @media (min-width: 480px) {
-//         left: calc(20px + 90%) !important;
-//         transform: translateX(calc(-90% - 10px));
-//     }
-// }
-
 .KandidatlisteDetalj__container {
     margin-top: 2.5rem;
     margin-left: auto;
@@ -235,7 +222,7 @@
 
 
     /** overstyr tooltip for slett-knapp */
-    @media (min-width: 480px) {
+    @media (min-width: @screen-xs) {
         .KandidatlisteDetalj__knapperad--slett {
             .hjelpetekst__tooltip--midtstilt  {
                 &::before {
@@ -274,7 +261,7 @@
                 min-width: 337px;
             }
 
-            @media (max-width: 480px) {
+            @media (max-width: @screen-xs) {
                 flex: 0 1 150px;
                 min-width: 150px;
             }
@@ -309,7 +296,7 @@
             padding-left: 3rem;
             font-weight: bold;
 
-            @media (max-width: 480px) {
+            @media (max-width: @screen-xs) {
                 padding-left: 2rem;
             }
         }

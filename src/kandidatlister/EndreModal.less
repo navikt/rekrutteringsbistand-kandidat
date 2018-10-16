@@ -1,11 +1,13 @@
+@import '../Variables.less';
+
 .modal--endre-kandidatliste {
   padding: 2rem;
   width: 50%;
-  @media (max-width: 768px) {
+  @media (max-width: @screen-sm) {
     min-width: 80%;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: @screen-xs) {
       min-width: 95%;
   }
 }
