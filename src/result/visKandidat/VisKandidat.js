@@ -9,6 +9,7 @@ import VisKandidatPersonalia from './VisKandidatPersonalia';
 import VisKandidatCv from './VisKandidatCv';
 import VisKandidatJobbprofil from './VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
+import HjelpetekstFading from '../../common/HjelpetekstFading';
 import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
@@ -20,7 +21,8 @@ class VisKandidat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lagreKandidaterModalVises: false
+            lagreKandidaterModalVises: false,
+            suksessmeldingLagreKandidatVises: false
         };
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
     }
@@ -31,7 +33,12 @@ class VisKandidat extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
+            this.visAlertstripeLagreKandidater();
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.suksessmeldingCallbackId);
     }
 
     onLagreKandidatlister = (kandidatlisteIder) => {
@@ -60,6 +67,18 @@ class VisKandidat extends React.Component {
         });
     };
 
+    visAlertstripeLagreKandidater = () => {
+        clearTimeout(this.suksessmeldingCallbackId);
+        this.setState({
+            suksessmeldingLagreKandidatVises: true
+        });
+        this.suksessmeldingCallbackId = setTimeout(() => {
+            this.setState({
+                suksessmeldingLagreKandidatVises: false
+            });
+        }, 5000);
+    };
+
     render() {
         const { cv, isFetchingCv } = this.props;
 
@@ -72,6 +91,11 @@ class VisKandidat extends React.Component {
         }
         return (
             <div>
+                <HjelpetekstFading
+                    synlig={this.state.suksessmeldingLagreKandidatVises}
+                    type="suksess"
+                    tekst="Kandidaten er lagt til"
+                />
                 {this.state.lagreKandidaterModalVises &&
                 <LagreKandidaterModal
                     onRequestClose={this.lukkeLagreKandidaterModal}
