@@ -26,7 +26,7 @@ import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
-import Toppmeny from '../common/toppmeny/Toppmeny';
+import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import NedeSide from './error/NedeSide';
@@ -92,16 +92,22 @@ class Sok extends React.Component {
         }
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
-                    <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
-                    <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
-                    <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
-                    <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
-                    <Route exact path={`/${CONTEXT_ROOT}/lister/opprett`} component={OpprettKandidatliste} />
-                    <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
-                    <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
-                </Switch>
+                <div>
+                    <Switch>
+                        <Route path={`/${CONTEXT_ROOT}/lister`} component={KandidatlisteHeader} />
+                        <Route component={KandidatsokHeader} />
+                    </Switch>
+                    <Switch>
+                        <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
+                        <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
+                        <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
+                        <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                        <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
+                        <Route exact path={`/${CONTEXT_ROOT}/lister/opprett`} component={OpprettKandidatliste} />
+                        <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
+                        <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
+                    </Switch>
+                </div>
             </BrowserRouter>
         );
     }
@@ -149,7 +155,6 @@ const App = () => (
         <Provider store={store}>
             <div>
                 <Feedback />
-                <Toppmeny />
                 <SokApp />
             </div>
         </Provider>
@@ -158,7 +163,7 @@ const App = () => (
 
 const MidlertidigNede = () => (
     <div>
-        <Toppmeny loggUtSynlig={false} />
+        <KandidatsokHeader />
         <NedeSide />
     </div>
 );

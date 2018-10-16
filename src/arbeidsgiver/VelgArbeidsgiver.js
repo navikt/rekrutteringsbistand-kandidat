@@ -1,60 +1,49 @@
 import React from 'react';
-import { Container, Row, Column } from 'nav-frontend-grid';
-import { Panel } from 'nav-frontend-paneler';
-import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
-import Ikon from 'nav-frontend-ikoner-assets';
-import ArbeidsgiverSelect from './ArbeidsgiverSelect';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
+import VelgArbeidsgiver from '../common/module/VelgArbeidsgiver';
 
-import './VelgArbeidsgiver.less';
+const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetArbeidsgiver }) => {
+    const onArbeidsgiverSelect = (orgNummer) => {
+        if (orgNummer) {
+            velgArbeidsgiver(orgNummer);
+        } else {
+            resetArbeidsgiver();
+        }
+    };
+    return (
+        <VelgArbeidsgiver
+            arbeidsgivere={arbeidsgivere}
+            valgtArbeidsgiverId={valgtArbeidsgiverId}
+            onArbeidsgiverSelect={onArbeidsgiverSelect}
+        />
+    );
+};
 
-const LENKE_RETTIGHETER = 'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
+VelgArbeidsgiverComponent.defaultProps = {
+    valgtArbeidsgiverId: undefined
+};
 
-const VelgArbeidsgiver = () => (
-    <Container className="container-arbeidsgiver">
-        <Panel className="panel--arbeidsgiver">
-            <Row className="text-center blokk-xxs">
-                <Ikon kind="info-sirkel-orange" />
-            </Row>
-            <Row className="text-center blokk-xxs">
-                <Innholdstittel>Velg aktuell arbeidsgiver </Innholdstittel>
-            </Row>
-            <Row className="text-center blokk-s">
-                <div className="stroke" />
-            </Row>
-            <Row>
-                <Column xs="12">
-                    <Normaltekst className="blokk-s">
-                        Du representerer flere arbeidsgivere. Velg aktuell arbeidsgiver fra listen under.
-                    </Normaltekst>
-                    <Row className="text-center blokk-s">
-                        <ArbeidsgiverSelect />
-                    </Row>
-                    <Element>Finner du ikke den aktuelle arbeidsgiveren i listen?</Element>
-                    <Normaltekst>
-                        Bruk av våre rekrutteringstjenester forutsetter at du har fått tilgang til Altinn-tjenesten
-                        Rekruttering for virksomheten du representerer. Disse rollene gir deg automatisk tilgang:
-                    </Normaltekst>
-                    <ul>
-                        <li><Normaltekst>Utfyller/Innsender</Normaltekst></li>
-                        <li><Normaltekst>Lønn og personalmedarbeider</Normaltekst></li>
-                    </ul>
+VelgArbeidsgiverComponent.propTypes = {
+    velgArbeidsgiver: PropTypes.func.isRequired,
+    resetArbeidsgiver: PropTypes.func.isRequired,
+    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
+        orgnr: PropTypes.string,
+        orgnavn: PropTypes.string
+    })).isRequired,
+    valgtArbeidsgiverId: PropTypes.string
+};
 
-                    <Normaltekst className="blokk-s">
-                        Alternativt kan du få tilgang til enkelttjenesten Rekruttering.
-                    </Normaltekst>
-                    <Normaltekst className="blokk-s">
-                        Mer informasjon om tildeling av roller og rettigheter finnes på:{' '}
-                        <a
-                            className="lenke"
-                            href={LENKE_RETTIGHETER}
-                        >
-                            Altinn
-                        </a>
-                    </Normaltekst>
-                </Column>
-            </Row>
-        </Panel>
-    </Container>
-);
 
-export default VelgArbeidsgiver;
+const mapStateToProps = (state) => ({
+    arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
+    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    velgArbeidsgiver: (orgnr) => dispatch({ type: VELG_ARBEIDSGIVER, data: orgnr }),
+    resetArbeidsgiver: () => dispatch({ type: RESET_ARBEIDSGIVER })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VelgArbeidsgiverComponent);
