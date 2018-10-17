@@ -37,6 +37,7 @@ import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
+import TokenChecker from './tokenCheck';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -59,61 +60,41 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
+    tokenChecker;
 
-    refreshTokenCallbackId;
+    constructor(props) {
+        super(props);
+        this.tokenChecker = new TokenChecker(5000, '-idtoken');
+        this.tokenChecker.on('token_expired', () => this.redirectToLogin());
+        this.tokenChecker.on('token_missing', () => this.redirectToLogin());
+    }
+
+    componentWillMount() {
+        this.tokenChecker.initiate(Date.now() + 15000);
+    }
 
     componentDidMount() {
         this.props.fetchFeatureTogglesOgInitialSearch();
         this.props.fetchArbeidsgivere();
     }
 
-    componentWillReceiveProps() {
-        console.log("sok props");
+    componentWillUnmount() {
+        this.tokenChecker.destroy();
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
     // if the error is 401 and to a new page if error is 403
     componentWillUpdate(nextProps) {
-        console.log("cookie");
         const { error } = nextProps;
-
-        const cookie = document.cookie;
-        if (!cookie) {
-            this.clearLoginState();
-            return this.redirectToLogin();
-        }
-        const token = cookie.split(';').filter((v) => v.indexOf('-idtoken') !== -1).pop().split('-idtoken=').pop();
-        
-        const currentExpiration = sessionStorage.getItem('token_expire');
-        const isExpired = currentExpiration && currentExpiration < Date.now();
-        console.log("token", token);
-        console.log("currentExpiration", currentExpiration);
-        if (token && !currentExpiration) {
-            sessionStorage.setItem('token_expire', Date.now() + 10000);
-            this.refreshToken(10000);
-        } else if (token && isExpired) {
-            this.refreshToken(0);
-        } else if (error && error.status === 401) {
+        if (error && error.status === 401) {
             // do something
         } else if (error && error.status === 403) {
             window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
     }
-    clearLoginState = () => {
-        sessionStorage.removeItem('token_expire');
-    }
-
-    refreshToken = (omAntallMs) => {
-        console.log("redirecting in " + omAntallMs);
-        this.refreshTokenCallbackId = setTimeout(() => {
-            this.clearLoginState();
-            this.redirectToLogin();
-        }, omAntallMs);
-    }
 
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
-        console.log("==> LOGIN!");
         window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
     };
 
