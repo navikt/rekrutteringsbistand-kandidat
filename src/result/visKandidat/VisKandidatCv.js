@@ -26,6 +26,10 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
     return <Normaltekst>{beskrivelse}</Normaltekst>;
 };
 
+const fjernDuplikater = (forerkortListe) =>
+    forerkortListe.filter((forerkort, index, self) => index === self.indexOf(forerkortListe.find((fk) => fk.sertifikatKodeNavn === forerkort.sertifikatKodeNavn)));
+
+
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
@@ -116,6 +120,35 @@ const VisKandidatCv = ({ cv }) => (
                                     )}
                                     {k.arrangor && (
                                         <Normaltekst>{k.arrangor}</Normaltekst>
+                                    )}
+                                </Row>
+                            ))}
+                    </Column>
+                </Row>
+            )}
+            {cv.forerkort && cv.forerkort.length !== 0 && (
+                <Row className="panel--cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Førerkort</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {fjernDuplikater(sortByDato(cv.forerkort))
+                            .map((s, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...s, index: i })}>
+                                    <Undertekst className="cv--tidsperiode">
+                                        <Tidsperiode
+                                            fradato={s.fraDato}
+                                            tildato={s.tilDato}
+                                        />
+                                    </Undertekst>
+                                    {s.sertifikatKodeNavn && (
+                                        <Element>{s.sertifikatKodeNavn}</Element>
+                                    )}
+                                    {s.utsteder && (
+                                        <Normaltekst>{s.utsteder}</Normaltekst>
+                                    )}
+                                    {s.alternativtNavn && (
+                                        <Normaltekst>{s.alternativtNavn}</Normaltekst>
                                     )}
                                 </Row>
                             ))}

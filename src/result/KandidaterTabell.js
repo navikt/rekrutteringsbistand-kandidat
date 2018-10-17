@@ -42,7 +42,7 @@ export default function KandidaterTabell({
                 ))}
             </div>
             <div className="buttons--kandidatervisning">
-                {kandidater.length > antallResultater && (
+                {antallResultater < totaltAntallTreff && (
                     <Knapp
                         type="hoved"
                         mini

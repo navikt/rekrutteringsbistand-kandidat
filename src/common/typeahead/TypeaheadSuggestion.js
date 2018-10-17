@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -16,8 +18,7 @@ export default class TypeaheadSuggestion extends React.Component {
     };
 
     render() {
-        const matchFound = this.value.toLowerCase().indexOf(this.props.match.toLowerCase()) !== -1;
-
+        const matchIndex = this.value.toLowerCase().indexOf(this.props.match.toLowerCase());
         return (
             <li
                 id={this.props.id}
@@ -30,16 +31,21 @@ export default class TypeaheadSuggestion extends React.Component {
                 onMouseDown={this.props.avoidBlur}
                 onKeyDown={this.props.avoidBlur}
             >
-                {matchFound ? (
+                {matchIndex !== -1 && this.props.match !== '' ? (
                     <span className={`typetext ${this.props.active && 'active'}`}>
-                        {this.value.substring(0, this.props.match.length)}
-                        <span className="typeahead-substring">{this.value.substring(this.props.match.length)}</span>
-                    </span>
-                ) : (
-                    <span className={`typetext ${this.props.active && 'active'}`}>
+                        {this.value.split('').map((c, i) => {
+                            if (i === matchIndex || (i > matchIndex && i < matchIndex + (this.props.match.length))) {
+                                return (<span key={`${c}-${i}`}>
+                                    {c}
+                                </span>);
+                            }
+                            return <span key={`${c}-${i}`} className="typeahead-substring">{c}</span>;
+                        })}
+                    </span>) :
+                    (<span className={`typetext typeahead-substring ${this.props.active && 'active'}`}>
                         {this.value}
-                    </span>
-                )}
+                    </span>)
+                }
             </li>
         );
     }

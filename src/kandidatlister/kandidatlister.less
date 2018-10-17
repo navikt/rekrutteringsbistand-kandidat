@@ -50,6 +50,7 @@
   border-width: 1px;
   border-color: @borderLys;
   border-style: solid;
+  max-width: 640px;
   .beskrivelse {
     padding-bottom: 16px;
     .overskrift {
@@ -102,12 +103,12 @@
 }
 
 .Kandidatlister__container-width {
-  max-width: 640px;
+    max-width: 640px;
 }
 
 .Kandidatlister__container-width-l {
     max-width: 1036px;
-  }
+}
 
 .OpprettKandidatliste__form-wrapper {
   background-color: white;
@@ -182,11 +183,11 @@
         display: inline-flex;
         margin-bottom: 1.25rem;
 
-        @media(max-width: 768px) {
+        @media(max-width: @screen-sm) {
             flex-direction: column;
         }
 
-        @media(min-width: 769px) {
+        @media(min-width: @screen-sm) {
             flex-direction: row;
             p:not(:last-child):after {
                 content: '|';
@@ -205,30 +206,24 @@
     }
 }
 
-// .hjelpetekst__tooltip {
-//     background-color: red;
-// }
-
-
-//     @media (min-width: 480px) {
-//         left: calc(20px + 90%) !important;
-//         transform: translateX(calc(-90% - 10px));
-//     }
-// }
-
 .KandidatlisteDetalj__container {
     margin-top: 2.5rem;
     margin-left: auto;
     margin-right: auto;
 
-    @media (max-width: 1050px) {
+    @media (min-width: @screen-sm) {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
     }
 
+    @media (max-width: @screen-sm) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
 
     /** overstyr tooltip for slett-knapp */
-    @media (min-width: 480px) {
+    @media (min-width: @screen-xs) {
         .KandidatlisteDetalj__knapperad--slett {
             .hjelpetekst__tooltip--midtstilt  {
                 &::before {
@@ -250,11 +245,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        // justify-content: space-between;
         margin-bottom: 0.5rem;
         padding: 1.25rem;
         min-height: 4rem;
-      border-style: solid;
+        border-style: solid;
         border-color: @borderLys;
         border-width: 1px;
 
@@ -262,38 +256,66 @@
             display: inline-flex;
             align-items: center;
             flex-direction: row;
-            @media (min-width: 672px) {
-                flex: 0 1 337px;
-                min-width: 337px;
+            padding-right: 8px;
+            
+            @media (min-width: @screen-xs) {
+                flex: 0 1 250px;
+                max-width: 250px;
             }
 
-            @media (max-width: 671px) {
-                flex: 1;
+            @media (min-width: @screen-md) {
+                flex: 0 1 350px;
+                min-width: 350px;
             }
 
-            .skjemaelement__label {
-                padding-left: 3rem;
-                font-weight: bold;
+            @media (max-width: @screen-xs) {
+                flex: 0 1 150px;
+                max-width: 150px;
             }
 
             > a {
                 max-lines: 1;
                 max-width: 240px;
+                margin-right: 0.25rem;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
 
         }
+
+        > :last-child {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
         .typo-undertekst-bold {
             font-size: 1rem;
         }
 
         .skjemaelement {
-            display: inline-flex;
-            align-items: center;
             margin: 0;
         }
+        
+        .skjemaelement__label {
+            padding-left: 3rem;
+            font-weight: bold;
+
+            @media (max-width: @screen-xs) {
+                padding-left: 2rem;
+            }
+        }
+    }
+
+    .KandidatlisteDetalj__panel:hover {
+        box-shadow: 1px 0 4px 1px #cecac4,
+            0 1px 4px 1px #cecac4;
+    }
+
+    .KandidatlisteDetalj__panel--checked {
+        border-color: @navBla;
     }
 
     .KandidatlisteDetalj__panel--header {
@@ -303,6 +325,10 @@
         padding-top: 1.25rem;
         padding-bottom: 1.25rem;
         border-style: solid;
+    }
+
+    .KandidatlisteDetalj__panel--header:hover {
+        box-shadow: none;
     }
 
     .KandidatlisteDetalj__knapperad {

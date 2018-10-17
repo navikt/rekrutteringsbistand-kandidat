@@ -15,6 +15,7 @@ import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
+import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../konstanter';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
@@ -73,6 +74,7 @@ class ResultatVisning extends React.Component {
     };
 
     render() {
+        const { antallLagredeKandidater } = this.props;
         return (
             <div>
                 {this.props.isInitialSearch ? (
@@ -81,7 +83,11 @@ class ResultatVisning extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
+                        <HjelpetekstFading
+                            synlig={this.state.suksessmeldingLagreKandidatVises}
+                            type="suksess"
+                            tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
+                        />
                         <div className="ResultatVisning--hovedside--header">
                             {this.props.visKandidatlister ? (
                                 <div className="flex">
@@ -126,6 +132,7 @@ class ResultatVisning extends React.Component {
                                     <UtdanningSearch />
                                     <ArbeidserfaringSearch />
                                     <SprakSearch />
+                                    <ForerkortSearch />
                                     <KompetanseSearch />
                                     <GeografiSearch />
                                 </div>
@@ -150,13 +157,14 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired
-
+    visKandidatlister: PropTypes.bool.isRequired,
+    antallLagredeKandidater: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     visKandidatlister: state.search.featureToggles['vis-kandidatlister']
 });
 
