@@ -286,7 +286,7 @@ function* hentKandidatListe(action) {
         yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: HENT_KANDIDATLISTE_FAILURE });
+            yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -301,7 +301,9 @@ function* slettKandidater(action) {
         yield put({ type: SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SLETT_KANDIDATER_FAILURE });
+            yield put({ type: SLETT_KANDIDATER_FAILURE, error: e });
+        } else {
+            throw e;
         }
     }
 }
@@ -313,7 +315,9 @@ function* slettKandidatListe(action) {
         yield put({ type: SLETT_KANDIDATLISTE_SUCCESS });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SLETT_KANDIDATLISTE_FAILURE });
+            yield put({ type: SLETT_KANDIDATLISTE_FAILURE, error: e });
+        } else {
+            throw e;
         }
     }
 }
