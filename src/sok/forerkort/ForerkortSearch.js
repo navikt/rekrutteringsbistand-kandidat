@@ -27,7 +27,11 @@ const forerkortHeading = (
 );
 
 const matcherLignendeTekst = (typeaheadVerdi, tekst) => {
-    const tV = typeaheadVerdi.includes('(') ? [...typeaheadVerdi.split('(').shift().split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten() : '';
+    if (typeaheadVerdi === tekst) {
+        return true;
+    }
+    const tV = typeaheadVerdi.includes('(') ? [...typeaheadVerdi.split('(').shift().split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten() :
+        [...typeaheadVerdi.split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten();
     return JSON.stringify(tV) === JSON.stringify(tekst.split(/[:|;|.|,|\s]/).map((t) => t.split('')).flatten());
 };
 
@@ -106,7 +110,7 @@ class ForerkortSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <Normaltekst className="text--italic">
-                    For eksempel: førerkort kl. B
+                    For eksempel: førerkort: kl. B
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--forerkort">
