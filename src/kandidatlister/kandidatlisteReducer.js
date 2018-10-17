@@ -380,7 +380,9 @@ export function* kandidatlisteSaga() {
     yield takeLatest(OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,
-        HENT_KANDIDATLISTER_FAILURE
+        HENT_KANDIDATLISTER_FAILURE,
+        HENT_KANDIDATLISTE_FAILURE,
+        SLETT_KANDIDATER_FAILURE
     ],
     sjekkError);
 }
