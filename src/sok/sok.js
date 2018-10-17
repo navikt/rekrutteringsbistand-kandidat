@@ -147,7 +147,7 @@ const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 const App = () => (
     <div>
         <Provider store={store}>
-            <div>
+            <div className="styling-app">
                 <Feedback />
                 <Toppmeny />
                 <SokApp />

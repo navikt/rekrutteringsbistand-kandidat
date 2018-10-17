@@ -123,7 +123,7 @@ class ArbeidserfaringSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-arbeidserfaring-knapp"
                             >
                                 +Legg til arbeidserfaring

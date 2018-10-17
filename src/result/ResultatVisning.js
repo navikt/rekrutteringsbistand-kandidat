@@ -82,13 +82,15 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <HjelpetekstFading synlig={this.state.suksessmeldingLagreKandidatVises} type="suksess" tekst="Kandidaten har blitt lagret i kandidatlisten" />
-                        <div className="ResultatVisning--header">
+                        <div className="ResultatVisning--hovedside--header">
                             {this.props.visKandidatlister ? (
                                 <div className="flex">
+                                    <div className="flex-item no-content" />
                                     <div className="flex-item no-content" />
                                     <div className="flex-item">
                                         <Sidetittel> Kandidatsøk </Sidetittel>
                                     </div>
+                                    <div className="flex-item no-content" />
                                     <div className="flex-item">
                                         <div className="lenke-og-ikon">
                                             <ListeIkon fargeKode="white" className="ListeIkon" />
@@ -105,7 +107,7 @@ class ResultatVisning extends React.Component {
                             )}
                         </div>
                         <Container className="blokk-s">
-                            <Column xs="12" md="4" className="sokekriterier--column">
+                            <Column xs="12" md="4" lg="3" className="sokekriterier--column">
                                 <div className="slett-alle-kriterier-wrapper">
                                     <div className="knapp-wrapper">
                                         <KnappBase
@@ -128,12 +130,11 @@ class ResultatVisning extends React.Component {
                                     <GeografiSearch />
                                 </div>
                             </Column>
-                            <Column xs="12" md="8" >
+                            <Column xs="12" md="8" lg="9">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning />
                                 </div>
                             </Column>
-
                         </Container>
                     </div>
                 )}

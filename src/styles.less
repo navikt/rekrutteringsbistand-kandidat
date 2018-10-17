@@ -37,6 +37,14 @@ button:focus {
   left: 0;
 }
 
+//@media (min-width: 1400px) {
+  .container {
+    //width: 80rem;
+    width: 90%;
+    //margin-left: auto;
+  }
+//}
+
 .footer__nav-logo {
   display: inline-block;
   border-bottom: none !important;
@@ -47,7 +55,8 @@ button:focus {
 }
 
 .break-word {
-  word-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .text-right {
@@ -117,21 +126,23 @@ button.lenke {
   border-width: 2px;
 }
 
-.header--border {
+.kandidater--header {
+  height: 4rem;
   display: inline-flex;
   align-items: center;
   width: 100%;
   margin-top: 0.5rem;
   border: solid 1px #78706a;
   border-radius: 4px;
-
-  //.skjemaelement {
-  //  margin: 0;
-  //}
-
+  padding: 0.75rem;
+  input {
+  position: absolute;
+}
+  .skjemaelement {
+    margin: 0;
+  }
 
   * > {
-    position: relative;
     top: 0;
     bottom: 0;
   }
@@ -180,6 +191,15 @@ button.lenke {
 
 .knapp--disabled--clickable:hover {
   background-color: @navGra60;
+}
+
+.knapp--sokekriterier {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+  word-break: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .fading {

@@ -32,14 +32,14 @@ class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <Row className="panel header--border">
+            <Row className="panel kandidater--header">
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
                         <Checkbox className="text-hide" label="." checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
                     </Column>
                 }
                 <Column xs="2" md="2" >
-                    <Element className="label--resultatvisning">
+                    <Element className="label--resultatvisning header--kandidatnr--wrapper">
                             Kandidat
                     </Element>
                 </Column>

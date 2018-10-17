@@ -138,7 +138,7 @@ class UtdanningSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-fagfelt-knapp"
                             >
                                 +Legg til fagfelt
