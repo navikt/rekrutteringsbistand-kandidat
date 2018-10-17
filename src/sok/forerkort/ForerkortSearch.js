@@ -17,6 +17,7 @@ import {
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Forerkort.less';
+import alleForerkort from './forerkort';
 
 
 const forerkortHeading = (
@@ -24,6 +25,11 @@ const forerkortHeading = (
         <Systemtittel>Førerkort</Systemtittel>
     </div>
 );
+
+const matcherLignendeTekst = (typeaheadVerdi, tekst) => {
+    const tV = typeaheadVerdi.includes('(') ? [...typeaheadVerdi.split('(').shift().split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten() : '';
+    return JSON.stringify(tV) === JSON.stringify(tekst.split(/[:|;|.|,|\s]/).map((t) => t.split('')).flatten());
+};
 
 class ForerkortSearch extends React.Component {
     constructor(props) {
@@ -46,9 +52,9 @@ class ForerkortSearch extends React.Component {
 
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
-            const forerkort = this.props.typeAheadSuggestionsForerkort.find((fk) => fk.toLowerCase() === value.toLowerCase());
+            const forerkort = alleForerkort.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
             if (forerkort !== undefined) {
-                this.props.selectTypeAheadValueForerkort(value);
+                this.props.selectTypeAheadValueForerkort(forerkort);
                 this.props.clearTypeAheadForerkort();
                 this.setState({
                     typeAheadValueForerkort: ''

@@ -202,6 +202,9 @@ function* search(action = '') {
         const fraIndex = action.fraIndex || 0;
         const antallResultater = action.antallResultater || KANDIDATLISTE_INITIAL_CHUNK_SIZE;
 
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
+            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -214,7 +217,7 @@ function* search(action = '') {
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
-            forerkort: state.forerkort.forerkortList
+            forerkort: forerkortListe
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
