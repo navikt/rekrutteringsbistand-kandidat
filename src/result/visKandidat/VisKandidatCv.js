@@ -26,6 +26,10 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
     return <Normaltekst>{beskrivelse}</Normaltekst>;
 };
 
+const fjernDuplikater = (forerkortListe) =>
+    forerkortListe.filter((forerkort, index, self) => index === self.indexOf(forerkortListe.find((fk) => fk.sertifikatKodeNavn === forerkort.sertifikatKodeNavn)));
+
+
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
@@ -128,7 +132,7 @@ const VisKandidatCv = ({ cv }) => (
                         <Undertittel className="cv__overskrift">Førerkort</Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {sortByDato(cv.forerkort)
+                        {fjernDuplikater(sortByDato(cv.forerkort))
                             .map((s, i) => (
                                 <Row className="row--kategori" key={JSON.stringify({ ...s, index: i })}>
                                     <Undertekst className="cv--tidsperiode">
