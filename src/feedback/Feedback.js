@@ -29,7 +29,7 @@ class Feedback extends React.Component {
                                 Vi trenger din tilbakemelding for å bli bedre
                             </Normaltekst>
                             <Normaltekst className="blokk-xxs">
-                                <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke" target="_blank" rel="noopener noreferrer">
+                                <a href="https://in.hotjar.com/s?siteId=118350&surveyId=118054" className="lenke" target="_blank" rel="noopener noreferrer">
                                     Gi tilbakemelding her
                                 </a>
                             </Normaltekst>
@@ -44,7 +44,7 @@ class Feedback extends React.Component {
                 <div className="container">
                     <div role="alert" className="Feedback--link typo-normal">
                         <Normaltekst className="blokk-xxs">
-                            <a href="https://in.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke" target="_blank" rel="noopener noreferrer">
+                            <a href="https://in.hotjar.com/s?siteId=118350&surveyId=118054" className="lenke" target="_blank" rel="noopener noreferrer">
                                 Gi tilbakemelding her
                             </a>
                         </Normaltekst>
