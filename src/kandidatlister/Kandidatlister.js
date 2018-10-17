@@ -258,9 +258,9 @@ class Kandidatlister extends React.Component {
                 />
                 <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
-                    <Container className="Kandidatlister__container Kandidatlister__container-width">
+                    <div className="Kandidatlister__container Kandidatlister__container-width">
                         <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
-                    </Container>
+                    </div>
                 </Container>
             </div>
         );
