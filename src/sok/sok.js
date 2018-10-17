@@ -59,6 +59,9 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
+
+    refreshTokenCallbackId;
+
     componentDidMount() {
         this.props.fetchFeatureTogglesOgInitialSearch();
         this.props.fetchArbeidsgivere();
@@ -76,31 +79,41 @@ class Sok extends React.Component {
 
         const cookie = document.cookie;
         if (!cookie) {
+            this.clearLoginState();
             return this.redirectToLogin();
         }
         const token = cookie.split(';').filter((v) => v.indexOf('-idtoken') !== -1).pop().split('-idtoken=').pop();
         
         const currentExpiration = sessionStorage.getItem('token_expire');
-
+        const isExpired = currentExpiration && currentExpiration < Date.now();
+        console.log("token", token);
+        console.log("currentExpiration", currentExpiration);
         if (token && !currentExpiration) {
-            console.log("setting token expire");
             sessionStorage.setItem('token_expire', Date.now() + 10000);
-        } else if (token && currentExpiration < Date.now()) {
-            sessionStorage.removeItem('token_expire');
-            console.log("currentExpire", currentExpiration);
-            console.log("date.now()", Date.now());
-            console.log("token expired!");
-        }
-        
-
-        if (error && error.status === 401) {
+            this.refreshToken(10000);
+        } else if (token && isExpired) {
+            this.refreshToken(0);
+        } else if (error && error.status === 401) {
+            // do something
         } else if (error && error.status === 403) {
             window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
     }
+    clearLoginState = () => {
+        sessionStorage.removeItem('token_expire');
+    }
+
+    refreshToken = (omAntallMs) => {
+        console.log("redirecting in " + omAntallMs);
+        this.refreshTokenCallbackId = setTimeout(() => {
+            this.clearLoginState();
+            this.redirectToLogin();
+        }, omAntallMs);
+    }
 
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
+        console.log("==> LOGIN!");
         window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
     };
 

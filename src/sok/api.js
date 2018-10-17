@@ -86,10 +86,6 @@ async function postJson(url, bodyString) {
     }
 }
 
-function tryRefreshOrThrow(cb) {
-    
-}
-
 async function putJson(url, bodyString) {
     try {
         const response = await fetch(url, {
