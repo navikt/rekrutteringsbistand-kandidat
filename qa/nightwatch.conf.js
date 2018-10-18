@@ -1,3 +1,4 @@
+/* eslint-disable */
 const seleniumServer = require('selenium-server-standalone-jar');
 require('nightwatch-cucumber')({
     cucumberArgs: [
