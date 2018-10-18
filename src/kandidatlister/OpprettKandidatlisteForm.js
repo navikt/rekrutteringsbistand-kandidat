@@ -32,9 +32,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    tittelValidates = this.state.kandidatlisteInfo.tittel !== '';
+    tittelValidates = () => this.state.kandidatlisteInfo.tittel !== '';
 
-    beskrivelseValidates = this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
+    beskrivelseValidates = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
 
     updateField = (field, value) => {
         if (this.props.onChange) {
