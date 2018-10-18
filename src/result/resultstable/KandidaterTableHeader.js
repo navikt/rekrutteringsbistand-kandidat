@@ -32,20 +32,20 @@ class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <Row className="panel kandidater--header">
+            <Row className="kandidater--header">
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
                         <Checkbox className="text-hide" label="." checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
                     </Column>
                 }
-                <Column xs="2" md="2" >
-                    <Element className="label--resultatvisning header--kandidatnr--wrapper">
+                <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
+                    <Element className="label--resultatvisning">
                             Kandidat
                     </Element>
                 </Column>
                 {USE_JANZZ ?
                     (<Column xs="5" md="5">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
+                        <button className="filter--aktuelle--kandidater break-word" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på matchscore"
@@ -60,7 +60,7 @@ class KandidaterTableHeader extends React.Component {
                     </Column>)
                     : (
                         <Column xs="5" md="5">
-                            <div className="filter--aktuelle--kandidater">
+                            <div className="filter--aktuelle--kandidater break-word">
                                 <Element
                                     className="label--resultatvisning"
                                     aria-label="Sorter på utdanning"
@@ -71,7 +71,7 @@ class KandidaterTableHeader extends React.Component {
                         </Column>
                     )}
                 <Column xs="4" md="4">
-                    <div className="filter--aktuelle--kandidater">
+                    <div className="filter--aktuelle--kandidater break-word">
                         <Element
                             className="label--resultatvisning"
                             aria-label="Sorter på arbeidserfaring"
