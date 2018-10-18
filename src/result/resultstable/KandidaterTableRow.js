@@ -39,7 +39,7 @@ class KandidaterTableRow extends React.Component {
         const score = cv.score;
 
         return (
-            <Row className="kandidater--row">
+            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}`}>
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
                         <Checkbox className="text-hide" label="." checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />

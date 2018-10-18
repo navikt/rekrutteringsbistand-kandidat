@@ -57,6 +57,11 @@ button.filter--aktuelle--kandidater {
   border: solid 1px #d8d8d8;
   border-radius: 4px;
 
+  &:hover{
+    box-shadow: 1px 0 4px 1px #cecac4,
+    0 1px 4px 1px #cecac4;
+  }
+
   .skjemaelement {
     margin: 0;
   }
@@ -73,6 +78,10 @@ button.filter--aktuelle--kandidater {
     max-lines: 2;
     text-overflow: ellipsis;
   }
+}
+
+.kandidater--row--checked {
+  border-color: @navBla;
 }
 
 .no-padding {
