@@ -26,9 +26,14 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
     return <Normaltekst>{beskrivelse}</Normaltekst>;
 };
 
-const fjernDuplikater = (forerkortListe) =>
-    forerkortListe.filter((forerkort, index, self) => index === self.indexOf(forerkortListe.find((fk) => fk.sertifikatKodeNavn === forerkort.sertifikatKodeNavn)));
-
+const fjernDuplikater = (forerkortListe) => {
+    const forerkortUtenDuplikater = forerkortListe.filter((forerkort, index, self) => index === self.indexOf(forerkortListe.find((fk) => fk.sertifikatKode === forerkort.sertifikatKode)));
+    // Filterer ut Mopedførerbevis hvis kandidat har både Mopedførerbevis og Førerkort: Kl. M (Moped)
+    if (forerkortUtenDuplikater.find((forerkort) => forerkort.sertifikatKode === 'V1.6148') && forerkortUtenDuplikater.find((forerkort) => forerkort.sertifikatKode === 'V1.6190')) {
+        return forerkortUtenDuplikater.filter((forerkort) => forerkort.sertifikatKode !== 'V1.6190');
+    }
+    return forerkortUtenDuplikater;
+};
 
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
