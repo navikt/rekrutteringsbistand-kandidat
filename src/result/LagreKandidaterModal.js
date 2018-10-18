@@ -43,6 +43,8 @@ const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandid
                 { kandidatlister && kandidatlister.map((liste) =>
                     (<li key={liste.kandidatlisteId}>
                         <Checkbox
+                            id={`marker-liste-${liste.tittel}-checkbox`}
+                            aria-label={`Marker liste ${liste.tittel}`}
                             checked={liste.markert}
                             onChange={() => { onKandidatlisteCheck(liste.kandidatlisteId); }}
                             label={liste.tittel}
