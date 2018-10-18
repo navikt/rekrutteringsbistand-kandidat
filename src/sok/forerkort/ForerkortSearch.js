@@ -133,7 +133,7 @@ class ForerkortSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilForerkortClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-forerkort-knapp"
                             >
                                 +Legg til førerkort

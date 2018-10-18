@@ -94,7 +94,7 @@ class UtdanningSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
-                    <div className="sokekriterier--kriterier">
+                    <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
                         {this.utdanningsnivaKategorier.map((utdanning) => (
                             <Checkbox
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
@@ -113,7 +113,7 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                 )}
-                <Element>I hvilket fagfelt skal kandidaten ha utdanning?</Element>
+                <Element className="sokekriterier--margin-top-extra-large">I hvilket fagfelt skal kandidaten ha utdanning?</Element>
                 <Normaltekst className="text--italic">
                     For eksempel pedagogikk
                 </Normaltekst>
