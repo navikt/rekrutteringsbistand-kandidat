@@ -92,6 +92,7 @@ class UtdanningSearch extends React.Component {
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
                     <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
@@ -140,6 +141,7 @@ class UtdanningSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-fagfelt-knapp"
+                                mini
                             >
                                 +Legg til fagfelt
                             </Knapp>

@@ -108,6 +108,7 @@ class ForerkortSearch extends React.Component {
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+                ariaTittel="Panel førerkort"
             >
                 <Normaltekst className="text--italic">
                     For eksempel: førerkort: kl. B
@@ -135,6 +136,7 @@ class ForerkortSearch extends React.Component {
                                 onClick={this.onLeggTilForerkortClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-forerkort-knapp"
+                                mini
                             >
                                 +Legg til førerkort
                             </Knapp>

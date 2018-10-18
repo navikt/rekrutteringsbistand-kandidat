@@ -110,6 +110,7 @@ class SprakSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-sprak-knapp"
+                                mini
                             >
                                 +Legg til språk
                             </Knapp>

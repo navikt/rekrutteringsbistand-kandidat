@@ -101,6 +101,7 @@ class KompetanseSearch extends React.Component {
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+                ariaTittel="Panel Kompetanse"
             >
                 <Element>
                     Legg til kompetansen du ønsker at en kandidat skal ha
@@ -131,6 +132,7 @@ class KompetanseSearch extends React.Component {
                                 onClick={this.onLeggTilKompetanseClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-kompetanse-knapp"
+                                mini
                             >
                                 +Legg til kompetanse
                             </Knapp>

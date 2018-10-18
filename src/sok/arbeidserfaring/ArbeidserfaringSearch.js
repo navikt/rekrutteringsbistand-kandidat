@@ -125,6 +125,7 @@ class ArbeidserfaringSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-arbeidserfaring-knapp"
+                                mini
                             >
                                 +Legg til arbeidserfaring
                             </Knapp>

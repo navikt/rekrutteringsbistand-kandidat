@@ -113,7 +113,7 @@ class ResultatVisning extends React.Component {
                             )}
                         </div>
                         <Container className="blokk-s">
-                            <Column xs="12" md="4" lg="3" className="sokekriterier--column">
+                            <Column xs="12" md="4">
                                 <div className="slett-alle-kriterier-wrapper">
                                     <div className="knapp-wrapper">
                                         <KnappBase
@@ -127,7 +127,7 @@ class ResultatVisning extends React.Component {
                                         </KnappBase>
                                     </div>
                                 </div>
-                                <div className="resultatvisning--sokekriterier">
+                                <div className="resultatvisning--sokekriterier sokekriterier--column">
                                     <StillingSearch />
                                     <UtdanningSearch />
                                     <ArbeidserfaringSearch />
@@ -137,7 +137,7 @@ class ResultatVisning extends React.Component {
                                     <GeografiSearch />
                                 </div>
                             </Column>
-                            <Column xs="12" md="8" lg="9">
+                            <Column xs="12" md="8">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning />
                                 </div>
