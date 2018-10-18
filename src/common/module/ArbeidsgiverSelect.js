@@ -27,8 +27,8 @@ class ArbeidsgiverSelect extends React.Component {
             >
                 <option value="0">Velg arbeidsgiver</option>
                 {arbeidsgivere && arbeidsgivere.map((arbeidsgiver) => (
-                    <option key={arbeidsgiver.orgnr} value={arbeidsgiver.orgnr}>
-                        {arbeidsgiver.orgnavn}
+                    <option key={arbeidsgiver.orgNummer} value={arbeidsgiver.orgNummer}>
+                        {arbeidsgiver.navn}
                     </option>))
                 };
             </Select>

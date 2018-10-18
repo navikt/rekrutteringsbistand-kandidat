@@ -18,11 +18,15 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
             resetArbeidsgiver();
         }
     };
+    const mappedeArbeidsgivere = arbeidsgivere.map((arbeidsgiver) => ({
+        navn: arbeidsgiver.orgnavn,
+        orgNummer: arbeidsgiver.orgnr
+    }));
     return (
         <HeaderMeny
             onLoggUt={loggUt}
             onArbeidsgiverSelect={onArbeidsgiverSelect}
-            arbeidsgivere={arbeidsgivere}
+            arbeidsgivere={mappedeArbeidsgivere}
             valgtArbeidsgiverId={valgtArbeidsgiverId}
             activeTabID={activeTabID}
         />

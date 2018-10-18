@@ -12,9 +12,13 @@ const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArb
             resetArbeidsgiver();
         }
     };
+    const mappedeArbeidsgivere = arbeidsgivere.map((arbeidsgiver) => ({
+        navn: arbeidsgiver.orgnavn,
+        orgNummer: arbeidsgiver.orgnr
+    }));
     return (
         <VelgArbeidsgiver
-            arbeidsgivere={arbeidsgivere}
+            arbeidsgivere={mappedeArbeidsgivere}
             valgtArbeidsgiverId={valgtArbeidsgiverId}
             onArbeidsgiverSelect={onArbeidsgiverSelect}
         />

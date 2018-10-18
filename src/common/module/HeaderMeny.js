@@ -18,7 +18,7 @@ const TABS = [
     {
         id: TAB_ID.VAAR_SIDE,
         tittel: 'Vår side',
-        href: '/var'
+        href: '/stillingsregistrering'
     },
     {
         id: TAB_ID.KANDIDATSOK,
@@ -33,7 +33,7 @@ const TABS = [
     {
         id: TAB_ID.STILLINGSREGISTRERING,
         tittel: 'Stillingsregistrering',
-        href: '/pam-adreg'
+        href: '/stillingsregistrering/vilkaar'
     }
 ];
 
