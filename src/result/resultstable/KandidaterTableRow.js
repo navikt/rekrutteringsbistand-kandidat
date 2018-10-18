@@ -71,9 +71,7 @@ class KandidaterTableRow extends React.Component {
 
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                     >
-
-                        <Normaltekst className="break-word">{cv.arenaKandidatnr}</Normaltekst>
-
+                        <Normaltekst className="break-word" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
                 </Column>
 
