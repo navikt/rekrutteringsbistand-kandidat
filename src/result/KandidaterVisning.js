@@ -185,22 +185,19 @@ class KandidaterVisning extends React.Component {
                 <div className="panel resultatvisning">
                     <div className="resultatvisning--header">
                         <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
-                        {this.props.visKandidatlister &&
-                            <KnappMedHjelpetekst
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
-                                mini
-                                type="hoved"
-                                disabled={antallMarkert === 0}
-                                onClick={this.aapneLagreKandidaterModal}
-                            >
-                                {lagreKandidaterKnappTekst(antallMarkert)}
-                            </KnappMedHjelpetekst>
-                        }
+                        <KnappMedHjelpetekst
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
+                            mini
+                            type="hoved"
+                            disabled={antallMarkert === 0}
+                            onClick={this.aapneLagreKandidaterModal}
+                        >
+                            {lagreKandidaterKnappTekst(antallMarkert)}
+                        </KnappMedHjelpetekst>
                     </div>
                 </div>
 
                 {this.props.isEmptyQuery ? (
-
                     <KandidaterTabellUtenKriterier
                         antallResultater={this.state.antallResultater}
                         kandidater={this.state.kandidater}
@@ -243,7 +240,6 @@ KandidaterVisning.propTypes = {
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     searchQueryHash: PropTypes.string.isRequired
 };
 
@@ -263,7 +259,6 @@ const mapStateToProps = (state) => ({
     isSearching: state.search.isSearching,
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister'],
     searchQueryHash: state.search.searchQueryHash
 });
 

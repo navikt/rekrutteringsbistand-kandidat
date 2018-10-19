@@ -96,22 +96,16 @@ class ResultatVisning extends React.Component {
                             tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                         />
                         <div className="ResultatVisning--header">
-                            {this.props.visKandidatlister ? (
-                                <div className="wrapper container">
-                                    <div className="header--side" />
-                                    <Sidetittel className="header--tittel">Kandidatsøk</Sidetittel>
-                                    <div className="header--side">
-                                        <ListeIkon fargeKode="white" className="ListeIkon" />
-                                        <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
-                                            Lagrede kandidatlister
-                                        </Link>
-                                    </div>
+                            <div className="wrapper container">
+                                <div className="header--side" />
+                                <Sidetittel className="header--tittel">Kandidatsøk</Sidetittel>
+                                <div className="header--side">
+                                    <ListeIkon fargeKode="white" className="ListeIkon" />
+                                    <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                        Lagrede kandidatlister
+                                    </Link>
                                 </div>
-                            ) : (
-                                <div className="wrapper container">
-                                    <Sidetittel>Kandidatsøk</Sidetittel>
-                                </div>
-                            )}
+                            </div>
                         </div>
                         <Container className="blokk-s container--wide">
                             <Row className="resultatvisning--body">
@@ -161,15 +155,13 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
