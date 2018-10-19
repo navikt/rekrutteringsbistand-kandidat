@@ -51,7 +51,7 @@ links:
       - clickOn: '.lenke--kandidatnr'
       - waitFor: '#ekspanderbartpanel-jobbprofil'
 
-  - link: "http://tjenester-q6.nav.no/pam-kandidatsok"
+  - link: "https://tjenester-q6.nav.no/pam-kandidatsok"
     desc: "Kandidatsok - kandidatlister"
     options:
       commands:
