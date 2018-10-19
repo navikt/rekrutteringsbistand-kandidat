@@ -4,7 +4,7 @@ import KnappBase from 'nav-frontend-knapper';
 
 const KnappMedDisabledFunksjon = ({ disabled, onClick, onDisabledClick, type, children, spinner, mini }) => {
     if (disabled) {
-        const disabledClasses = 'knapp knapp--disabled knapp--disabled--clickable';
+        const disabledClasses = 'knapp knapp--disabled--clickable';
         return <button className={mini ? `${disabledClasses} knapp--mini` : disabledClasses} type="submit" onClick={onDisabledClick}>{children}</button>;
     }
     return <KnappBase mini={mini} spinner={spinner} type={type} onClick={onClick}>{children}</KnappBase>;

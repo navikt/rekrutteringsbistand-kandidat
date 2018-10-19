@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import { Checkbox } from 'nav-frontend-skjema';
+import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../konstanter';
@@ -29,7 +29,7 @@ const synligeKandidatlister = (kandidatlister, alleKandidatlisterVises) => (
         : kandidatlister
 );
 
-const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandidatlisteCheck }) => {
+const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandidatlisteCheck, visValideringsfeilInput }) => {
     if (fetchingKanidatlister) {
         return (
             <div className="text-center">
@@ -38,17 +38,21 @@ const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandid
         );
     }
     return (
-        <ul >
-            { kandidatlister && kandidatlister.map((liste) =>
-                (<li key={liste.kandidatlisteId}>
-                    <Checkbox
-                        checked={liste.markert}
-                        onChange={() => { onKandidatlisteCheck(liste.kandidatlisteId); }}
-                        label={liste.tittel}
-                    />
-                </li>)
-            ) }
-        </ul>
+        <SkjemaGruppe feil={visValideringsfeilInput ? { feilmelding: 'En eller flere lister må være valgt' } : undefined}>
+            <ul >
+                { kandidatlister && kandidatlister.map((liste) =>
+                    (<li key={liste.kandidatlisteId}>
+                        <Checkbox
+                            id={`marker-liste-${liste.tittel}-checkbox`}
+                            aria-label={`Marker liste ${liste.tittel}`}
+                            checked={liste.markert}
+                            onChange={() => { onKandidatlisteCheck(liste.kandidatlisteId); }}
+                            label={liste.tittel}
+                        />
+                    </li>)
+                ) }
+            </ul>
+        </SkjemaGruppe>
     );
 };
 
@@ -58,7 +62,8 @@ class LagreKandidaterModal extends React.Component {
         this.state = {
             kandidatlister: markerKandidatlister(props.kandidatlister),
             alleKandidatlisterVises: false,
-            opprettKandidatlisteVises: false
+            opprettKandidatlisteVises: false,
+            visValideringsfeilInput: false
         };
     }
 
@@ -94,14 +99,20 @@ class LagreKandidaterModal extends React.Component {
                     return { ...liste, markert: !liste.markert };
                 }
                 return liste;
-            })
+            }),
+            visValideringsfeilInput: false
         });
     };
 
     lagreKandidaterILister = () => {
-        this.props.onLagre(this.state.kandidatlister
-            .filter((liste) => (liste.markert))
-            .map((liste) => (liste.kandidatlisteId)));
+        const ingenKandidatlisterMarkert = !(this.state.kandidatlister && this.state.kandidatlister.filter((liste) => (liste.markert)).length !== 0);
+        if (ingenKandidatlisterMarkert) {
+            this.setState({ visValideringsfeilInput: true });
+        } else {
+            this.props.onLagre(this.state.kandidatlister
+                .filter((liste) => (liste.markert))
+                .map((liste) => (liste.kandidatlisteId)));
+        }
     };
 
     visAlleKandidatlister = () => {
@@ -112,14 +123,14 @@ class LagreKandidaterModal extends React.Component {
 
     toggleOpprettNyKandidatlisteVises = () => {
         this.setState({
-            opprettKandidatlisteVises: !this.state.opprettKandidatlisteVises
+            opprettKandidatlisteVises: !this.state.opprettKandidatlisteVises,
+            visValideringsfeilInput: false
         });
     };
 
     render() {
         const visFlereListerKnappErSynlig = noenKandidatlisterSkalSkjules(this.state.kandidatlister, this.state.alleKandidatlisterVises);
         const kandidatlister = synligeKandidatlister(this.state.kandidatlister, this.state.alleKandidatlisterVises);
-        const ingenKandidatlisterMarkert = !(this.state.kandidatlister && this.state.kandidatlister.filter((liste) => (liste.markert)).length !== 0);
 
         return (
             <Modal
@@ -152,7 +163,7 @@ class LagreKandidaterModal extends React.Component {
                                 kandidatlister={kandidatlister}
                                 fetchingKanidatlister={this.props.fetchingKandidatlister}
                                 onKandidatlisteCheck={this.onKandidatlisteCheck}
-
+                                visValideringsfeilInput={this.state.visValideringsfeilInput}
                             />
 
                             {visFlereListerKnappErSynlig &&
@@ -167,7 +178,7 @@ class LagreKandidaterModal extends React.Component {
                                 </Flatknapp>
                             </div>
                             <div className="knapperad">
-                                <Hovedknapp disabled={ingenKandidatlisterMarkert} onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
+                                <Hovedknapp onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
                                 <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
                             </div>
                         </div>
@@ -187,7 +198,8 @@ const KandidatlisteBeskrivelse = PropTypes.shape({
 });
 
 ListeAvKandidatlister.defaultProps = {
-    kandidatlister: undefined
+    kandidatlister: undefined,
+    visValideringsfeilInput: false
 };
 
 ListeAvKandidatlister.propTypes = {
@@ -197,7 +209,8 @@ ListeAvKandidatlister.propTypes = {
         kandidatlisteId: PropTypes.string.isRequired
     })),
     fetchingKanidatlister: PropTypes.bool.isRequired,
-    onKandidatlisteCheck: PropTypes.func.isRequired
+    onKandidatlisteCheck: PropTypes.func.isRequired,
+    visValideringsfeilInput: PropTypes.bool
 };
 
 LagreKandidaterModal.defaultProps = {

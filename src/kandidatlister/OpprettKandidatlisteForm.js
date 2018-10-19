@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp } from 'nav-frontend-knapper';
-import KnappMedDisabledFunksjon from '../common/KnappMedDisabledFunksjon';
+import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 
 const FELTER = {
     TITTEL: 'TITTEL',
@@ -21,28 +20,21 @@ export default class OpprettKandidatlisteForm extends React.Component {
         };
     }
 
-    onUnvalidatedSave = () => {
-        if (this.props.onDisabledClick !== undefined) {
-            this.props.onDisabledClick();
-        }
-        this.setState({
-            visValideringsfeilInput: true
-        });
-    };
-
     validateAndSave = () => {
-        if (this.formValidates()) {
+        if (this.tittelValidates() && this.beskrivelseValidates()) {
             this.props.onSave(this.state.kandidatlisteInfo);
+        } else if (!this.tittelValidates()) {
+            this.setState({
+                visValideringsfeilInput: true
+            }, () => this.input.focus());
+        } else if (!this.beskrivelseValidates()) {
+            this.textArea.focus();
         }
     };
 
-    formValidates = () => {
-        const validTittel = this.state.kandidatlisteInfo.tittel !== '';
-        const validBeskrivelse = (
-            this.state.kandidatlisteInfo.beskrivelse !== undefined
-            && this.state.kandidatlisteInfo.beskrivelse.length <= 255);
-        return validTittel && validBeskrivelse;
-    };
+    tittelValidates = () => this.state.kandidatlisteInfo.tittel !== '';
+
+    beskrivelseValidates = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
 
     updateField = (field, value) => {
         if (this.props.onChange) {
@@ -93,11 +85,11 @@ export default class OpprettKandidatlisteForm extends React.Component {
                                 this.updateField(FELTER.TITTEL, event.target.value);
                             }}
                             feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn må være utfylt' } : undefined}
+                            inputRef={(input) => { this.input = input; }}
                         />
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Textarea
-
                             textareaClass="OpprettKandidatlisteForm__input__textarea"
                             label="Beskrivelse"
                             placeholder="Skrive noen ord om stillingen du søker kandidater til"
@@ -107,6 +99,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             onChange={(event) => {
                                 this.updateField(FELTER.BESKRIVELSE, event.target.value);
                             }}
+                            textareaRef={(textArea) => { this.textArea = textArea; }}
                         />
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
@@ -119,15 +112,9 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             }}
                         />
                     </div>
-                    <KnappMedDisabledFunksjon
-                        type="hoved"
-                        onClick={this.validateAndSave}
-                        onDisabledClick={this.onUnvalidatedSave}
-                        disabled={!this.formValidates()}
-                        spinner={saving}
-                    >
+                    <Hovedknapp onClick={this.validateAndSave} spinner={saving}>
                         {knappTekst}
-                    </KnappMedDisabledFunksjon>
+                    </Hovedknapp>
                     {this.props.onAvbrytClick !== undefined ?
                         <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp> :
                         (<div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
@@ -143,7 +130,6 @@ OpprettKandidatlisteForm.defaultProps = {
     saving: false,
     onChange: undefined,
     onAvbrytClick: undefined,
-    onDisabledClick: undefined,
     backLink: undefined,
     knappTekst: 'Lagre'
 };
@@ -151,7 +137,6 @@ OpprettKandidatlisteForm.defaultProps = {
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
     onChange: PropTypes.func,
-    onDisabledClick: PropTypes.func,
     backLink: PropTypes.string,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,

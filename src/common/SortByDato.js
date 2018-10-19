@@ -23,7 +23,12 @@ export default function sortByDato(items) {
             }
             return 0;
         } else if (!isValidISOString(a.tilDato) || !isValidISOString(b.tilDato)) {
-            if (toDate(a.fraDato).getTime() > toDate(b.fraDato).getTime()) {
+            if (isValidISOString(a.tilDato)) {
+                return 1;
+            } else if (isValidISOString(b.tilDato)) {
+                return -1;
+            }
+            else if (toDate(a.fraDato).getTime() > toDate(b.fraDato).getTime()) {
                 return -1;
             } else if (toDate(a.fraDato).getTime() < toDate(b.fraDato).getTime()) {
                 return 1;

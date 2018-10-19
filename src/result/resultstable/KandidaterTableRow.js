@@ -42,7 +42,14 @@ class KandidaterTableRow extends React.Component {
             <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}`}>
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
-                        <Checkbox className="text-hide" label="." checked={this.props.markert} onChange={() => { this.onCheck(cv.arenaKandidatnr); }} />
+                        <Checkbox
+                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                            className="text-hide"
+                            label="."
+                            aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                            checked={this.props.markert}
+                            onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                        />
                     </Column>
                 }
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
@@ -52,7 +59,7 @@ class KandidaterTableRow extends React.Component {
 
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                     >
-                        <Normaltekst className="break-word">{cv.arenaKandidatnr}</Normaltekst>
+                        <Normaltekst className="break-word" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
                 </Column>
 

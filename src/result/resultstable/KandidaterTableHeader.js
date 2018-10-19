@@ -35,7 +35,14 @@ class KandidaterTableHeader extends React.Component {
             <Row className="kandidater--header">
                 {this.props.visKandidatlister &&
                     <Column xs="1" md="1">
-                        <Checkbox className="text-hide" label="." checked={this.props.alleKandidaterMarkert} onChange={this.props.onToggleMarkeringAlleKandidater} />
+                        <Checkbox
+                            id="marker-alle-kandidater-checkbox"
+                            className="text-hide"
+                            label="."
+                            aria-label="Marker alle kandidater"
+                            checked={this.props.alleKandidaterMarkert}
+                            onChange={this.props.onToggleMarkeringAlleKandidater}
+                        />
                     </Column>
                 }
                 <Column className="header--kandidatnr--wrapper" xs="2" md="2" >

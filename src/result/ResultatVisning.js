@@ -13,12 +13,12 @@ import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, MATCH_SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../konstanter';
-import { CONTEXT_ROOT } from '../common/fasitProperties';
+import { CONTEXT_ROOT, USE_JANZZ } from '../common/fasitProperties';
 import ListeIkon from '../common/ikoner/ListeIkon';
 
 class ResultatVisning extends React.Component {
@@ -59,6 +59,13 @@ class ResultatVisning extends React.Component {
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
+        if (USE_JANZZ) {
+            this.props.matchSearch();
+        }
+    };
+
+    onMatchClick = () => {
+        this.props.matchSearch();
     };
 
     visAlertstripeLagreKandidater = () => {
@@ -128,6 +135,13 @@ class ResultatVisning extends React.Component {
                                             </Element>
                                         </KnappBase>
                                     </div>
+                                    {USE_JANZZ ? <KnappBase type="hoved"
+                                        onClick={this.onMatchClick}
+                                        className="send--sokekriterier--knapp"
+                                        id="knapp-send--sokekriterier-knapp"
+                                    >
+                                        Finn kandidater
+                                    </KnappBase> : ''}
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
                                         <UtdanningSearch />
@@ -155,6 +169,7 @@ class ResultatVisning extends React.Component {
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
+    matchSearch: PropTypes.func.isRequired,
     performInitialSearch: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
@@ -173,6 +188,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
+    matchSearch: () => dispatch({ type: MATCH_SEARCH }),
     performInitialSearch: () => dispatch({ type: PERFORM_INITIAL_SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS })
 });
