@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Sidetittel } from 'nav-frontend-typografi';
+import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
@@ -90,22 +90,22 @@ class ResultatVisning extends React.Component {
                         />
                         <div className="ResultatVisning--hovedside--header">
                             {this.props.visKandidatlister ? (
-                                <div className="flex">
-                                    <div className="flex-item no-content" />
-                                    <div className="flex-item no-content" />
+                                <Container className="flex">
+                                    <div className="flex-item">
+                                        <div className="no-content" />
+                                    </div>
                                     <div className="flex-item">
                                         <Sidetittel> Kandidatsøk </Sidetittel>
                                     </div>
-                                    <div className="flex-item no-content" />
-                                    <div className="flex-item">
+                                    <div className="flex-item lenke--lagrede-kandidatlister">
                                         <div className="lenke-og-ikon">
                                             <ListeIkon fargeKode="white" className="ListeIkon" />
                                             <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
-                                            Lagrede kandidatlister
+                                                <Normaltekst>Lagrede kandidatlister</Normaltekst>
                                             </Link>
                                         </div>
                                     </div>
-                                </div>
+                                </Container>
                             ) : (
                                 <div className="wrapper container">
                                     <Sidetittel>Kandidatsøk</Sidetittel>
