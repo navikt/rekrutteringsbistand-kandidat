@@ -135,7 +135,8 @@ class ResultatVisning extends React.Component {
                                             </Element>
                                         </KnappBase>
                                     </div>
-                                    {USE_JANZZ ? <KnappBase type="hoved"
+                                    {USE_JANZZ ? <KnappBase
+                                        type="hoved"
                                         onClick={this.onMatchClick}
                                         className="send--sokekriterier--knapp"
                                         id="knapp-send--sokekriterier-knapp"

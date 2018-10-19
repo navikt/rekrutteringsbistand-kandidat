@@ -97,7 +97,7 @@ export default function searchReducer(state = initialState, action) {
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
-                ...state,
+                ...state
             };
         case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
             return {
