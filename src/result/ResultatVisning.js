@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
@@ -114,7 +114,7 @@ class ResultatVisning extends React.Component {
                         </div>
                         <Container className="blokk-s">
                             <Column xs="12" md="4">
-                                <div className="slett-alle-kriterier-wrapper">
+                                <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
                                         <KnappBase
                                             mini
@@ -123,18 +123,20 @@ class ResultatVisning extends React.Component {
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >
-                                        Slett alle kriterier
+                                            <Element>
+                                            Slett alle kriterier
+                                            </Element>
                                         </KnappBase>
                                     </div>
-                                </div>
-                                <div className="resultatvisning--sokekriterier sokekriterier--column">
-                                    <StillingSearch />
-                                    <UtdanningSearch />
-                                    <ArbeidserfaringSearch />
-                                    <SprakSearch />
-                                    <ForerkortSearch />
-                                    <KompetanseSearch />
-                                    <GeografiSearch />
+                                    <div className="resultatvisning--sokekriterier">
+                                        <StillingSearch />
+                                        <UtdanningSearch />
+                                        <ArbeidserfaringSearch />
+                                        <SprakSearch />
+                                        <ForerkortSearch />
+                                        <KompetanseSearch />
+                                        <GeografiSearch />
+                                    </div>
                                 </div>
                             </Column>
                             <Column xs="12" md="8">
