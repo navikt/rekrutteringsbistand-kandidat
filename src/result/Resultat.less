@@ -13,7 +13,7 @@
 .ResultatVisning--hovedside--header {
   background-color: @navBla;
   color: white;
-  .flex {
+  .container--header {
     display: flex;
     flex-wrap: wrap;
     height: 7.5rem;
@@ -21,7 +21,7 @@
     padding: 0 1.5rem;
   }
 
-  .flex-item {
+  .child-item__container--header {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -31,7 +31,7 @@
       border-bottom: 1px solid white;
     }
 
-    .lenke-og-ikon {
+    .ikonlenke {
       display:inline-flex;
       justify-content: flex-end;
       }
@@ -48,7 +48,7 @@
     .no-content {
       flex-grow: 0;
     }
-    .flex-item {
+    .child-item__container--header {
       flex-basis: 100%;
     }
     .lenke--lagrede-kandidatlister {

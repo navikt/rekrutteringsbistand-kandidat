@@ -97,15 +97,15 @@ class ResultatVisning extends React.Component {
                         />
                         <div className="ResultatVisning--hovedside--header">
                             {this.props.visKandidatlister ? (
-                                <Container className="flex">
-                                    <div className="flex-item">
+                                <Container className="container--header">
+                                    <div className="child-item__container--header">
                                         <div className="no-content" />
                                     </div>
-                                    <div className="flex-item">
+                                    <div className="child-item__container--header">
                                         <Sidetittel> Kandidatsøk </Sidetittel>
                                     </div>
-                                    <div className="flex-item lenke--lagrede-kandidatlister">
-                                        <div className="lenke-og-ikon">
+                                    <div className="child-item__container--header lenke--lagrede-kandidatlister">
+                                        <div className="ikonlenke">
                                             <ListeIkon fargeKode="white" className="ListeIkon" />
                                             <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
                                                 <Normaltekst>Lagrede kandidatlister</Normaltekst>
