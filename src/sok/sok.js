@@ -12,7 +12,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT } from '../common/fasitProperties';
+import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -65,7 +65,6 @@ Begin class Sok
 class Sok extends React.Component {
     constructor(props) {
         super(props);
-        // this.tokenChecker = new TokenChecker(1000);
         this.tokenChecker = new TokenChecker(1000 * 60 * 2);
         this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
         this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
@@ -136,9 +135,9 @@ class Sok extends React.Component {
         window.location.href = `${LOGIN_URL}&redirect=${window.location.origin}/${CONTEXT_ROOT}`;
     }
 
-    redirectTilForsideOgClearLoginState = () => {
+    loggUt = () => {
         sessionStorage.clear();
-        window.location.pathname = `/${CONTEXT_ROOT}`;
+        window.location.href = LOGOUT_URL;
     }
 
     render() {
@@ -154,21 +153,22 @@ class Sok extends React.Component {
             return <VelgArbeidsgiver />;
         } else if (this.state.visSesjonUtloperSnartModal) {
             return (<SesjonUtgaarModal
-                tittelTekst={'Sesjon utgår'}
-                innholdTekst={'Din sesjon er i ferd med å utgå.'}
-                positvKnappTekst={'Fortsett'}
+                tittelTekst={'Du blir snart logget ut'}
+                innholdTekst={'Vil du fortsette å bruke tjenesten?'}
+                primaerKnappTekst={'Forbli innlogget'}
+                sekundaeKnappTekst={'Logg ut'}
                 isOpen={this.state.visSesjonUtloperSnartModal}
-                onAvbrytClick={this.lukkUtloperSnartModal}
-                onFornyClick={this.redirectToLogin}
+                onSekundaerKnappClick={this.loggUt}
+                onPrimaerKnappClick={this.redirectToLogin}
+                sekundaerKnapp
             />);
         } else if (this.state.visSesjonHarUtgaattModal) {
             return (<SesjonUtgaarModal
                 tittelTekst={'Du har blitt logget ut'}
-                innholdTekst={'En eller annen innholdtekst.'}
-                positvKnappTekst={'Logg inn'}
+                innholdTekst={'Denne sesjonen har utløpt. Gå til forsiden for å logge inn på nytt.'}
+                primaerKnappTekst={'Til forsiden'}
                 isOpen={this.state.visSesjonHarUtgaattModal}
-                onAvbrytClick={this.redirectTilForsideOgClearLoginState}
-                onFornyClick={this.redirectToLoginMedForsideCallback}
+                onPrimaerKnappClick={this.redirectToLoginMedForsideCallback}
             />);
         }
         return (
@@ -244,7 +244,7 @@ const MidlertidigNede = () => (
     </div>
 );
 
-const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, positvKnappTekst, onFornyClick, onAvbrytClick, isOpen }) => (
+const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaeKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
     <NavFrontendModal
         className="SesjonUgaarModal"
         closeButton={false}
@@ -260,19 +260,26 @@ const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, positvKnappTekst, onForn
             </Normaltekst>
         </div>
         <div className="knapperad">
-            <KnappBase onClick={onFornyClick} type="hoved">{positvKnappTekst}</KnappBase>
-            <KnappBase onClick={onAvbrytClick} type="flat">Avbryt</KnappBase>
+            <KnappBase onClick={onPrimaerKnappClick} type="hoved">{primaerKnappTekst}</KnappBase>
+            {sekundaerKnapp && <KnappBase onClick={onSekundaerKnappClick} type="flat">{sekundaeKnappTekst}</KnappBase>}
         </div>
     </NavFrontendModal>
 );
 
+SesjonUtgaarModal.defaultProps = {
+    sekundaerKnapp: false,
+    onSekundaerKnappClick: () => {},
+    sekundaeKnappTekst: ''
+};
 
 SesjonUtgaarModal.propTypes = {
     tittelTekst: PropTypes.string.isRequired,
     innholdTekst: PropTypes.string.isRequired,
-    positvKnappTekst: PropTypes.string.isRequired,
-    onFornyClick: PropTypes.func.isRequired,
-    onAvbrytClick: PropTypes.func.isRequired,
+    primaerKnappTekst: PropTypes.string.isRequired,
+    onPrimaerKnappClick: PropTypes.func.isRequired,
+    sekundaeKnappTekst: PropTypes.string,
+    onSekundaerKnappClick: PropTypes.func,
+    sekundaerKnapp: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired
 };
 
