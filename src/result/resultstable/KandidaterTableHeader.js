@@ -52,7 +52,7 @@ class KandidaterTableHeader extends React.Component {
                 </Column>
                 {USE_JANZZ ?
                     (<Column xs="5" md="5">
-                        <button className="filter--aktuelle--kandidater break-word" onClick={this.onFilterScoreClick}>
+                        <button className="filter--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på matchscore"
@@ -67,7 +67,7 @@ class KandidaterTableHeader extends React.Component {
                     </Column>)
                     : (
                         <Column xs="5" md="5">
-                            <div className="filter--aktuelle--kandidater break-word">
+                            <div className="filter--aktuelle--kandidater text-overflow">
                                 <Element
                                     className="label--resultatvisning"
                                     aria-label="Sorter på utdanning"
@@ -78,7 +78,7 @@ class KandidaterTableHeader extends React.Component {
                         </Column>
                     )}
                 <Column xs="4" md="4">
-                    <div className="filter--aktuelle--kandidater break-word">
+                    <div className="filter--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
                             aria-label="Sorter på arbeidserfaring"

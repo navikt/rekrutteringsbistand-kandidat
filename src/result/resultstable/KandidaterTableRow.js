@@ -59,21 +59,21 @@ class KandidaterTableRow extends React.Component {
 
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                     >
-                        <Normaltekst className="break-word" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                        <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
                 </Column>
 
                 {USE_JANZZ ? (
                     <Column xs="5" md="5">
-                        <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                        <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
                     <Column xs="5" md="5">
-                        <Normaltekst className="break-word utdanning">{utdanningsNivaa}</Normaltekst>
+                        <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                     </Column>
                 )}
                 <Column xs="4" md="4">
-                    <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                    <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
             </Row>
         );
