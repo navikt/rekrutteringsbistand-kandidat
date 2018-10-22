@@ -149,7 +149,7 @@ const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 const App = () => (
     <div>
         <Provider store={store}>
-            <div className="styling-app">
+            <div>
                 <Feedback />
                 <Toppmeny />
                 <SokApp />
