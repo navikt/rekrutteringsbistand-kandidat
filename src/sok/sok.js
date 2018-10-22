@@ -65,7 +65,7 @@ Begin class Sok
 class Sok extends React.Component {
     constructor(props) {
         super(props);
-        this.tokenChecker = new TokenChecker(1000 * 60 * 2);
+        this.tokenChecker = new TokenChecker(120000, 1800000); // 5 min interval - 30 min delay
         this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
         this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
     }

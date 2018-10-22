@@ -6,13 +6,13 @@ import { sjekkTokenGaarUtSnart, SearchApiError } from './api';
 export default class TokenChecker extends EventEmitter {
     // timeout callbackid
     timeoutId = undefined;
-    // antall ms for hver timeout check
-    interval = 60000;
     isPaused = false;
-
-    constructor(interval) {
+    interval; // antall ms for hver timeout check
+    initialDelayTime; // timestamp for første sjekk
+    constructor(interval = 60000, initialDelay = 60000) {
         super();
         this.interval = interval;
+        this.initialDelayTime = Date.now() + initialDelay;
     }
 
     start() {
@@ -45,7 +45,16 @@ export default class TokenChecker extends EventEmitter {
             clearTimeout(this.timeoutId);
             this.timeoutId = undefined;
         }
-        await this.timeout(this.interval);
+
+        // velg distansen til initialDelayTime
+        // hvis den er kortere enn intervallet
+        const calculatedInterval = Date.now() < this.initialDelayTime
+            ? Math.min(this.initialDelayTime - Date.now(), this.interval)
+            : this.interval;
+
+        // async timeout
+        await this.timeout(calculatedInterval);
+
         try {
             const gaarUtSnart = await this.gaarTokenUtSnart();
             if (gaarUtSnart && !this.isPaused) {
