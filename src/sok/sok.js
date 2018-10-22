@@ -156,10 +156,10 @@ class Sok extends React.Component {
                 tittelTekst={'Du blir snart logget ut'}
                 innholdTekst={'Vil du fortsette å bruke tjenesten?'}
                 primaerKnappTekst={'Forbli innlogget'}
-                sekundaeKnappTekst={'Logg ut'}
-                isOpen={this.state.visSesjonUtloperSnartModal}
-                onSekundaerKnappClick={this.loggUt}
                 onPrimaerKnappClick={this.redirectToLogin}
+                isOpen={this.state.visSesjonUtloperSnartModal}
+                sekundaerKnappTekst={'Logg ut'}
+                onSekundaerKnappClick={this.loggUt}
                 sekundaerKnapp
             />);
         } else if (this.state.visSesjonHarUtgaattModal) {
@@ -167,8 +167,8 @@ class Sok extends React.Component {
                 tittelTekst={'Du har blitt logget ut'}
                 innholdTekst={'Denne sesjonen har utløpt. Gå til forsiden for å logge inn på nytt.'}
                 primaerKnappTekst={'Til forsiden'}
-                isOpen={this.state.visSesjonHarUtgaattModal}
                 onPrimaerKnappClick={this.redirectToLoginMedForsideCallback}
+                isOpen={this.state.visSesjonHarUtgaattModal}
             />);
         }
         return (
@@ -244,7 +244,7 @@ const MidlertidigNede = () => (
     </div>
 );
 
-const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaeKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
+const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaerKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
     <NavFrontendModal
         className="SesjonUgaarModal"
         closeButton={false}
@@ -261,7 +261,7 @@ const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekun
         </div>
         <div className="knapperad">
             <KnappBase onClick={onPrimaerKnappClick} type="hoved">{primaerKnappTekst}</KnappBase>
-            {sekundaerKnapp && <KnappBase onClick={onSekundaerKnappClick} type="flat">{sekundaeKnappTekst}</KnappBase>}
+            {sekundaerKnapp && <KnappBase onClick={onSekundaerKnappClick} type="flat">{sekundaerKnappTekst}</KnappBase>}
         </div>
     </NavFrontendModal>
 );
@@ -269,7 +269,7 @@ const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekun
 SesjonUtgaarModal.defaultProps = {
     sekundaerKnapp: false,
     onSekundaerKnappClick: () => {},
-    sekundaeKnappTekst: ''
+    sekundaerKnappTekst: ''
 };
 
 SesjonUtgaarModal.propTypes = {
@@ -277,7 +277,7 @@ SesjonUtgaarModal.propTypes = {
     innholdTekst: PropTypes.string.isRequired,
     primaerKnappTekst: PropTypes.string.isRequired,
     onPrimaerKnappClick: PropTypes.func.isRequired,
-    sekundaeKnappTekst: PropTypes.string,
+    sekundaerKnappTekst: PropTypes.string,
     onSekundaerKnappClick: PropTypes.func,
     sekundaerKnapp: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired
