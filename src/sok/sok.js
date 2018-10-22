@@ -7,6 +7,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import KnappBase from 'nav-frontend-knapper';
+import NavFrontendModal from 'nav-frontend-modal';
+import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT } from '../common/fasitProperties';
@@ -60,17 +63,21 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
-    tokenChecker;
-
     constructor(props) {
         super(props);
-        this.tokenChecker = new TokenChecker(5000, '-idtoken');
-        this.tokenChecker.on('token_expired', () => this.redirectToLogin());
-        this.tokenChecker.on('token_missing', () => this.redirectToLogin());
+        // this.tokenChecker = new TokenChecker(1000);
+        this.tokenChecker = new TokenChecker(1000 * 60 * 2);
+        this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
+        this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
+    }
+
+    state = {
+        visSesjonUtloperSnartModal: false,
+        visSesjonHarUtgaattModal: false
     }
 
     componentWillMount() {
-        this.tokenChecker.initiate(Date.now() + 15000);
+        this.tokenChecker.start();
     }
 
     componentDidMount() {
@@ -78,25 +85,61 @@ class Sok extends React.Component {
         this.props.fetchArbeidsgivere();
     }
 
-    componentWillUnmount() {
-        this.tokenChecker.destroy();
-    }
-
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
     // if the error is 401 and to a new page if error is 403
     componentWillUpdate(nextProps) {
         const { error } = nextProps;
         if (error && error.status === 401) {
-            // do something
+            this.redirectToLogin();
         } else if (error && error.status === 403) {
             window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
+    }
+
+    componentWillUnmount() {
+        this.tokenChecker.destroy();
+    }
+
+    visUtloperSnartModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: true
+        });
+    }
+
+    visSesjonUtgaattModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: false,
+            visSesjonHarUtgaattModal: true
+        });
+        this.tokenChecker.pause();
+    }
+
+    lukkUtloperSnartModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: false
+        });
+    }
+
+    lukkSesjonUtgaattModal = () => {
+        this.setState({
+            visSesjonHarUtgaattModal: false
+        });
+        this.tokenChecker.pause();
     }
 
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
         window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
     };
+
+    redirectToLoginMedForsideCallback = () => {
+        window.location.href = `${LOGIN_URL}&redirect=${window.location.origin}/${CONTEXT_ROOT}`;
+    }
+
+    redirectTilForsideOgClearLoginState = () => {
+        sessionStorage.clear();
+        window.location.pathname = `/${CONTEXT_ROOT}`;
+    }
 
     render() {
         if (this.props.error) {
@@ -109,6 +152,24 @@ class Sok extends React.Component {
             );
         } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {
             return <VelgArbeidsgiver />;
+        } else if (this.state.visSesjonUtloperSnartModal) {
+            return (<SesjonUtgaarModal
+                tittelTekst={'Sesjon utgår'}
+                innholdTekst={'Din sesjon er i ferd med å utgå.'}
+                positvKnappTekst={'Fortsett'}
+                isOpen={this.state.visSesjonUtloperSnartModal}
+                onAvbrytClick={this.lukkUtloperSnartModal}
+                onFornyClick={this.redirectToLogin}
+            />);
+        } else if (this.state.visSesjonHarUtgaattModal) {
+            return (<SesjonUtgaarModal
+                tittelTekst={'Du har blitt logget ut'}
+                innholdTekst={'En eller annen innholdtekst.'}
+                positvKnappTekst={'Logg inn'}
+                isOpen={this.state.visSesjonHarUtgaattModal}
+                onAvbrytClick={this.redirectTilForsideOgClearLoginState}
+                onFornyClick={this.redirectToLoginMedForsideCallback}
+            />);
         }
         return (
             <BrowserRouter>
@@ -182,6 +243,38 @@ const MidlertidigNede = () => (
         <NedeSide />
     </div>
 );
+
+const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, positvKnappTekst, onFornyClick, onAvbrytClick, isOpen }) => (
+    <NavFrontendModal
+        className="SesjonUgaarModal"
+        closeButton={false}
+        shouldCloseOnOverlayClick={false}
+        isOpen={isOpen}
+        shouldFocusAfterRender
+        onRequestClose={() => {}}
+    >
+        <Systemtittel>{tittelTekst}</Systemtittel>
+        <div className="innhold">
+            <Normaltekst>
+                {innholdTekst}
+            </Normaltekst>
+        </div>
+        <div className="knapperad">
+            <KnappBase onClick={onFornyClick} type="hoved">{positvKnappTekst}</KnappBase>
+            <KnappBase onClick={onAvbrytClick} type="flat">Avbryt</KnappBase>
+        </div>
+    </NavFrontendModal>
+);
+
+
+SesjonUtgaarModal.propTypes = {
+    tittelTekst: PropTypes.string.isRequired,
+    innholdTekst: PropTypes.string.isRequired,
+    positvKnappTekst: PropTypes.string.isRequired,
+    onFornyClick: PropTypes.func.isRequired,
+    onAvbrytClick: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
+};
 
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);

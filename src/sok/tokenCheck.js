@@ -1,42 +1,27 @@
+
 import { EventEmitter } from 'events';
+import { sjekkTokenGaarUtSnart, SearchApiError } from './api';
 
 
 export default class TokenChecker extends EventEmitter {
     // timeout callbackid
-    timeoutId;
+    timeoutId = undefined;
     // antall ms for hver timeout check
-    interval;
-    expirationTime;
-    tokenName;
+    interval = 60000;
+    isPaused = false;
 
-    constructor(interval, tokenName) {
+    constructor(interval) {
         super();
         this.interval = interval;
-        this.tokenName = tokenName;
     }
 
-    /**
-     * Initiate the token check
-     * @param {} getToken Function to grab token from browser
-     * @param {*} expirationTime Expiration time in ms
-     */
-    initiate(expirationTime) {
-        if (expirationTime === undefined) {
-            throw new Error('Error: mangler gyldig utløpstid');
-        }
-        this.expirationTime = expirationTime;
-        this.refresh();
+    start() {
+        this.isPaused = false;
+        this.loop();
     }
 
-    getToken() {
-        const cookie = document.cookie;
-        if (!cookie) return undefined;
-        return cookie
-            .split(';')
-            .filter((v) => v.indexOf(this.tokenName) !== -1)
-            .pop()
-            .split(`${this.tokeNName}=`)
-            .pop();
+    pause() {
+        this.isPaused = true;
     }
 
     destroy() {
@@ -45,32 +30,45 @@ export default class TokenChecker extends EventEmitter {
         this.removeAllListeners();
     }
 
-    refresh() {
-        clearTimeout(this.timeoutId);
-        this.timeoutId = undefined;
-        const token = this.getToken();
-        if (token === undefined) {
-            this.dispatchNoToken();
-        }
-        this.timeoutId = setTimeout(() => {
-            const hasNoToken = token === undefined;
-            const tokenExpired = token && Date.now() > this.expirationTime;
-            if (hasNoToken) {
-                this.dispatchNoToken();
-            } else if (tokenExpired) {
-                this.dispatchTokenExpired();
-            }
-            this.refresh();
-        }, this.interval);
+    gaarTokenUtSnart = async () => {
+        const result = await sjekkTokenGaarUtSnart();
+        return result.content;
     }
 
-    dispatchNoToken() {
-        console.log('dispatching token missing');
-        this.emit('token_missing');
+    timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    loop = async () => {
+        if (this.isPaused) {
+            return;
+        }
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = undefined;
+        }
+        await this.timeout(this.interval);
+        try {
+            const gaarUtSnart = await this.gaarTokenUtSnart();
+            if (gaarUtSnart && !this.isPaused) {
+                this.dispatchTokenExpiresSoon();
+            }
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                if (e.status === 401) {
+                    this.dispatchTokenExpired();
+                }
+            } else {
+                throw e;
+            }
+        }
+        this.loop();
     }
+
 
     dispatchTokenExpired() {
-        console.log('dispatching token expired');
         this.emit('token_expired');
+    }
+
+    dispatchTokenExpiresSoon() {
+        this.emit('token_expires_soon');
     }
 }
