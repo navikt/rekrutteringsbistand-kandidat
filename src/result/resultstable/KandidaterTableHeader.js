@@ -46,13 +46,16 @@ class KandidaterTableHeader extends React.Component {
                     </Column>
                 }
                 <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
-                    <Element className="label--resultatvisning">
+                    <Element
+                        className="label--resultatvisning"
+                        aria-label="Kandidat"
+                    >
                             Kandidat
                     </Element>
                 </Column>
                 {USE_JANZZ ?
                     (<Column xs="5" md="5">
-                        <button className="filter--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
+                        <button className="header--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
                                 aria-label="Sorter på matchscore"
@@ -67,10 +70,10 @@ class KandidaterTableHeader extends React.Component {
                     </Column>)
                     : (
                         <Column xs="5" md="5">
-                            <div className="filter--aktuelle--kandidater text-overflow">
+                            <div className="header--aktuelle--kandidater text-overflow">
                                 <Element
                                     className="label--resultatvisning"
-                                    aria-label="Sorter på utdanning"
+                                    aria-label="Utdanning"
                                 >
                                 Utdanningsnivå
                                 </Element>
@@ -78,10 +81,10 @@ class KandidaterTableHeader extends React.Component {
                         </Column>
                     )}
                 <Column xs="4" md="4">
-                    <div className="filter--aktuelle--kandidater text-overflow">
+                    <div className="header--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
-                            aria-label="Sorter på arbeidserfaring"
+                            aria-label="Arbeidserfaring"
                         >
                                 Relevant arbeidserfaring
                         </Element>
