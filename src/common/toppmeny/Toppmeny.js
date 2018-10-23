@@ -5,6 +5,7 @@ import { HeaderMeny, TabId } from 'pam-frontend-header';
 import 'pam-frontend-header/dist/style.css';
 import { LOGOUT_URL } from '../fasitProperties';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
+import './Toppmeny.less';
 
 const loggUt = () => {
     window.location.href = LOGOUT_URL;
@@ -23,13 +24,16 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
         orgNummer: arbeidsgiver.orgnr
     }));
     return (
-        <HeaderMeny
-            onLoggUt={loggUt}
-            onArbeidsgiverSelect={onArbeidsgiverSelect}
-            arbeidsgivere={mappedeArbeidsgivere}
-            valgtArbeidsgiverId={valgtArbeidsgiverId}
-            activeTabID={activeTabID}
-        />
+        <div>
+            <span className="pilot typo-element">Tidlig versjon</span>
+            <HeaderMeny
+                onLoggUt={loggUt}
+                onArbeidsgiverSelect={onArbeidsgiverSelect}
+                arbeidsgivere={mappedeArbeidsgivere}
+                valgtArbeidsgiverId={valgtArbeidsgiverId}
+                activeTabID={activeTabID}
+            />
+        </div>
     );
 };
 
