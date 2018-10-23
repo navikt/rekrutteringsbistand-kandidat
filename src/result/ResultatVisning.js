@@ -142,7 +142,9 @@ class ResultatVisning extends React.Component {
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
-                                        <ForerkortSearch />
+                                        {!USE_JANZZ ?
+                                            <ForerkortSearch />
+                                            : ''}
                                         <KompetanseSearch />
                                         <GeografiSearch />
                                     </div>
