@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -22,7 +22,7 @@ import alleForerkort from './forerkort';
 
 const forerkortHeading = (
     <div className="heading--forerkort ekspanderbartPanel__heading">
-        <Systemtittel>Førerkort</Systemtittel>
+        <Undertittel>Førerkort</Undertittel>
     </div>
 );
 

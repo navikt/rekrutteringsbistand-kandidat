@@ -90,7 +90,7 @@ class StillingSearch extends React.Component {
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <Element className="sokekriterier--margin-top-large">
+                <Element>
                     Hvilken stilling/yrke trenger du en kandidat til?
                 </Element>
                 <Normaltekst className="text--italic">
