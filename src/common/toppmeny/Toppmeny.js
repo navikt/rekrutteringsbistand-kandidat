@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { HeaderMeny, TabId } from 'pam-frontend-header';
+import 'pam-frontend-header/dist/style.css';
 import { LOGOUT_URL } from '../fasitProperties';
-import HeaderMeny, { TAB_ID } from '../module/HeaderMeny';
-import ArbeidsgiverListePropTypes from '../module/PropTypes';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
 
 const loggUt = () => {
@@ -34,11 +34,15 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
 };
 
 Toppmeny.defaultProps = {
-    valgtArbeidsgiverId: undefined
+    valgtArbeidsgiverId: undefined,
+    arbeidsgivere: []
 };
 
 Toppmeny.propTypes = {
-    arbeidsgivere: ArbeidsgiverListePropTypes.isRequired,
+    arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
+        orgnavn: PropTypes.string,
+        orgnr: PropTypes.string
+    })),
     valgtArbeidsgiverId: PropTypes.string,
     velgArbeidsgiver: PropTypes.func.isRequired,
     resetArbeidsgiver: PropTypes.func.isRequired,
@@ -57,11 +61,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const KandidatsokHeaderComponent = (props) => (
-    <Toppmeny {...props} activeTabID={TAB_ID.KANDIDATSOK} />
+    <Toppmeny {...props} activeTabID={TabId.KANDIDATSOK} />
 );
 
 const KandidatlisteHeaderComponent = (props) => (
-    <Toppmeny {...props} activeTabID={TAB_ID.KANDIDATLISTER} />
+    <Toppmeny {...props} activeTabID={TabId.KANDIDATLISTER} />
 );
 
 export const KandidatsokHeader = connect(mapStateToProps, mapDispatchToProps)(KandidatsokHeaderComponent);

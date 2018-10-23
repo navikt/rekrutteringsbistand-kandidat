@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { VelgArbeidsgiver } from 'pam-frontend-header';
+import 'pam-frontend-header/dist/style.css';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
-import VelgArbeidsgiver from '../common/module/VelgArbeidsgiver';
+
 
 const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetArbeidsgiver }) => {
     const onArbeidsgiverSelect = (orgNummer) => {
@@ -38,7 +40,6 @@ VelgArbeidsgiverComponent.propTypes = {
     })).isRequired,
     valgtArbeidsgiverId: PropTypes.string
 };
-
 
 const mapStateToProps = (state) => ({
     arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
