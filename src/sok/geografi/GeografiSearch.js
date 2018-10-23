@@ -132,7 +132,7 @@ class GeografiSearch extends React.Component {
                             +Legg til fylke, kommune
                             </Knapp>
                         )}
-                        {this.props.visMaaBoCheckbox && !USE_JANZZ &&
+                        {!USE_JANZZ &&
                         <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
@@ -190,7 +190,6 @@ GeografiSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,
-    visMaaBoCheckbox: PropTypes.bool.isRequired,
     onDisabledChange: PropTypes.func
 };
 
@@ -202,7 +201,6 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],
-    visMaaBoCheckbox: state.search.featureToggles['vis-geografi-maa-bo-checkbox'],
     panelOpen: state.geografi.geografiPanelOpen,
     maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
 

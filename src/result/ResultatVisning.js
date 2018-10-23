@@ -96,28 +96,22 @@ class ResultatVisning extends React.Component {
                             tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                         />
                         <div className="ResultatVisning--hovedside--header">
-                            {this.props.visKandidatlister ? (
-                                <Container className="container--header">
-                                    <div className="child-item__container--header">
-                                        <div className="no-content" />
-                                    </div>
-                                    <div className="child-item__container--header">
-                                        <Sidetittel> Kandidatsøk </Sidetittel>
-                                    </div>
-                                    <div className="child-item__container--header lenke--lagrede-kandidatlister">
-                                        <div className="ikonlenke">
-                                            <ListeIkon fargeKode="white" className="ListeIkon" />
-                                            <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
-                                                <Normaltekst>Lagrede kandidatlister</Normaltekst>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </Container>
-                            ) : (
-                                <div className="wrapper container">
-                                    <Sidetittel>Kandidatsøk</Sidetittel>
+                            <Container className="container--header">
+                                <div className="child-item__container--header">
+                                    <div className="no-content" />
                                 </div>
-                            )}
+                                <div className="child-item__container--header">
+                                    <Sidetittel> Kandidatsøk </Sidetittel>
+                                </div>
+                                <div className="child-item__container--header lenke--lagrede-kandidatlister">
+                                    <div className="ikonlenke">
+                                        <ListeIkon fargeKode="white" className="ListeIkon" />
+                                        <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                            <Normaltekst>Lagrede kandidatlister</Normaltekst>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Container>
                         </div>
                         <Container className="blokk-s">
                             <Column xs="12" md="4">
@@ -175,15 +169,13 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
