@@ -21,7 +21,6 @@ const alleForerkort = [
     'Førerkort: Kl. S (beltemotorsykkel/snøscooter)',
     'Førerkort: Andre kombinasjoner/utenlandsk førerkort',
     'Kjøreseddel for persontransport mot vederlag',
-    'Mopedførerbevis',
     'Tankbilsertifikat',
     'Kompetansebevis for utrykningskjøretøy',
     'Bevis for yrkessjåførkompetanse (YSK)'

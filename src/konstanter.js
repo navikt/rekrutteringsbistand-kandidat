@@ -10,9 +10,7 @@ const FEATURE_TOGGLES = [
     'skjul-spraak',
     'skjul-sted',
     'vis-matchforklaring',
-    'ingen-utdanning-filter',
-    'vis-kandidatlister',
-    'vis-geografi-maa-bo-checkbox'
+    'ingen-utdanning-filter'
 ];
 export default FEATURE_TOGGLES;
 

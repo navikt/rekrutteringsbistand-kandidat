@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterUtenCriteria, fetchFeatureToggles, SearchApiError } from './api';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
@@ -9,6 +9,7 @@ import { USE_JANZZ } from '../common/fasitProperties';
  ********************************************************* */
 
 export const SEARCH = 'SEARCH';
+export const MATCH_SEARCH = 'MATCH_SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
@@ -96,8 +97,7 @@ export default function searchReducer(state = initialState, action) {
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
-                ...state,
-                isSearching: true
+                ...state
             };
         case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
             return {
@@ -202,6 +202,9 @@ function* search(action = '') {
         const fraIndex = action.fraIndex || 0;
         const antallResultater = action.antallResultater || KANDIDATLISTE_INITIAL_CHUNK_SIZE;
 
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
+            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -214,7 +217,7 @@ function* search(action = '') {
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
-            forerkort: state.forerkort.forerkortList
+            forerkort: forerkortListe
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
@@ -223,7 +226,7 @@ function* search(action = '') {
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = { ...criteriaValues, fraIndex, antallResultater };
 
-        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterUtenCriteria, criteria);
+        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
@@ -236,10 +239,20 @@ function* search(action = '') {
     }
 }
 
+function* esSearch(action = '') {
+    if (!USE_JANZZ) {
+        yield search(action);
+    }
+}
+
+function* matchSearch(action = '') {
+    yield search(action);
+}
+
 function* hentFlereKandidater(action) {
     const state = yield select();
     const fraIndex = state.search.searchResultat.resultat.kandidater.length;
-    yield search({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
+    yield esSearch({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
 }
 
 function* fetchKompetanseSuggestions() {
@@ -249,7 +262,7 @@ function* fetchKompetanseSuggestions() {
         if (state.stilling.stillinger.length !== 0) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
-            const response = yield call(fetchKandidater, { stillinger: state.stilling.stillinger });
+            const response = yield call(fetchKandidaterES, { stillinger: state.stilling.stillinger });
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
         } else {
             yield put({ type: REMOVE_KOMPETANSE_SUGGESTIONS });
@@ -297,7 +310,8 @@ function* hentFeatureToggles() {
 }
 
 export const saga = function* saga() {
-    yield takeLatest(SEARCH, search);
+    yield takeLatest(SEARCH, esSearch);
+    yield takeLatest(MATCH_SEARCH, matchSearch);
     yield takeLatest(PERFORM_INITIAL_SEARCH, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);

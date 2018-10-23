@@ -89,18 +89,16 @@ class UtdanningSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
                 tittel="Utdanning"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
-                    <div className="sokekriterier--kriterier">
+                    <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
                         {this.utdanningsnivaKategorier.map((utdanning) => (
                             <Checkbox
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
-                                className={this.props.utdanningsniva.includes(utdanning.key) ?
-                                    'checkbox--sokekriterier--checked utdanningsniva' :
-                                    'checkbox--sokekriterier--unchecked utdanningsniva'}
                                 label={utdanning.label}
                                 key={utdanning.key}
                                 value={utdanning.key}
@@ -116,7 +114,7 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                 )}
-                <Element>I hvilket fagfelt skal kandidaten ha utdanning?</Element>
+                <Element className="sokekriterier--margin-top-extra-large">I hvilket fagfelt skal kandidaten ha utdanning?</Element>
                 <Normaltekst className="text--italic">
                     For eksempel pedagogikk
                 </Normaltekst>
@@ -141,8 +139,9 @@ class UtdanningSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-fagfelt-knapp"
+                                mini
                             >
                                 +Legg til fagfelt
                             </Knapp>

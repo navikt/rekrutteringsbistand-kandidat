@@ -1,3 +1,4 @@
+/* eslint-disable */
 const seleniumServer = require('selenium-server-standalone-jar');
 require('nightwatch-cucumber')({
     cucumberArgs: [
@@ -48,19 +49,19 @@ module.exports = {
                 'webdriver.chrome.driver': './node_modules/chromedriver/lib/chromedriver/chromedriver'
             }
         },
-        t6: {
-            launch_url: 'https://tjenester-t6.nav.no/pam-kandidatsok',
+        q6: {
+            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
             globals: {
-                environment: 't6'
+                environment: 'q6'
             },
             chromeOptions: {
                 args: ['--ignore-certificate-errors']
             }
         },
-        'linux-t6': {
-            launch_url: 'https://tjenester-t6.nav.no/pam-kandidatsok',
+        'linux-q6': {
+            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
             globals: {
-                environment: 't6'
+                environment: 'q6'
             },
             chromeOptions: {
                 args: ['--ignore-certificate-errors']
@@ -82,9 +83,9 @@ module.exports = {
             }
         },
         jenkins: {
-            launch_url: 'https://tjenester-t6.nav.no/pam-kandidatsok',
+            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
             globals: {
-                environment: 't6'
+                environment: 'q6'
             },
             desiredCapabilities: {
                 browserName: 'chrome',

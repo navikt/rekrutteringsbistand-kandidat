@@ -17,6 +17,7 @@ import {
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
 import './Forerkort.less';
+import alleForerkort from './forerkort';
 
 
 const forerkortHeading = (
@@ -24,6 +25,15 @@ const forerkortHeading = (
         <Systemtittel>Førerkort</Systemtittel>
     </div>
 );
+
+const matcherLignendeTekst = (typeaheadVerdi, tekst) => {
+    if (typeaheadVerdi === tekst) {
+        return true;
+    }
+    const tV = typeaheadVerdi.includes('(') ? [...typeaheadVerdi.split('(').shift().split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten() :
+        [...typeaheadVerdi.split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten();
+    return JSON.stringify(tV) === JSON.stringify(tekst.split(/[:|;|.|,|\s]/).map((t) => t.split('')).flatten());
+};
 
 class ForerkortSearch extends React.Component {
     constructor(props) {
@@ -46,9 +56,9 @@ class ForerkortSearch extends React.Component {
 
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
-            const forerkort = this.props.typeAheadSuggestionsForerkort.find((fk) => fk.toLowerCase() === value.toLowerCase());
+            const forerkort = alleForerkort.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
             if (forerkort !== undefined) {
-                this.props.selectTypeAheadValueForerkort(value);
+                this.props.selectTypeAheadValueForerkort(forerkort);
                 this.props.clearTypeAheadForerkort();
                 this.setState({
                     typeAheadValueForerkort: ''
@@ -98,9 +108,10 @@ class ForerkortSearch extends React.Component {
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+                ariaTittel="Panel førerkort"
             >
                 <Normaltekst className="text--italic">
-                    For eksempel: førerkort kl. B
+                    For eksempel: førerkort: kl. B
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--forerkort">
@@ -123,8 +134,9 @@ class ForerkortSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilForerkortClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-forerkort-knapp"
+                                mini
                             >
                                 +Legg til førerkort
                             </Knapp>
