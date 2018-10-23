@@ -6,6 +6,8 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
 const Promise = require('promise');
+const { isNullOrUndefined } = require('util');
+const jwt = require('jsonwebtoken');
 
 const currentDirectory = __dirname;
 
@@ -23,22 +25,36 @@ server.use(helmet({
     xssFilter: false,
     noCache: true
 }));
-server.use(helmet.contentSecurityPolicy({
-    directives: {
-        defaultSrc: ["'none'"],
-        scriptSrc: [
-            "'self'",
-            'https://www.google-analytics.com',
-            "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
-        ],
-        styleSrc: ["'self'"],
-        fontSrc: ["'self'", 'data:'],
-        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-        connectSrc: ["'self'", 'https://www.google-analytics.com']
-    }
-}));
 
-server.set('views', `${currentDirectory}/views`);
+if (process.env.NODE_ENV === 'production') {
+    server.use(helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'none'"],
+            scriptSrc: [
+                "'self'",
+                'https://www.google-analytics.com',
+                "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
+            ],
+            styleSrc: ["'self'"],
+            fontSrc: ["'self'", 'data:'],
+            imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
+            connectSrc: ["'self'", 'https://www.google-analytics.com']
+        }
+    }));
+}
+
+const dirExists = (dir) => fs.existsSync(path.join(__dirname, dir));
+
+const getViewsDir = () => {
+    if (process.env.NODE_ENV === 'production') {
+        return 'views';
+    } else if (process.env.NODE_ENV === 'development' && dirExists('viewsDev')) {
+        return 'viewsDev';
+    }
+    return 'views';
+};
+
+server.set('views', `${currentDirectory}/${getViewsDir()}`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
@@ -84,6 +100,42 @@ const renderSok = () => (
     })
 );
 
+
+const normalizedTokenExpiration = (token) => {
+    const expiration = jwt.decode(token).exp;
+    if (expiration.toString().length === 10) {
+        return expiration * 1000;
+    }
+    return expiration;
+};
+
+const unsafeTokenIsExpired = (token) => {
+    if (token) {
+        const normalizedExpirationTime = normalizedTokenExpiration(token);
+        return normalizedExpirationTime - Date.now() < 0;
+    }
+    return true;
+};
+
+const extractTokenFromCookie = (cookie) => {
+    if (cookie !== undefined) {
+        const token = cookie.split(';').filter((s) => s && s.indexOf('-idtoken') !== -1).pop();
+        if (token) {
+            return token.split('=').pop().trim();
+        }
+    }
+    return null;
+};
+
+const tokenValidator = (req, res, next) => {
+    const token = extractTokenFromCookie(req.headers.cookie);
+    if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
+        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${req.get('host')}/${contextRoot}`;
+        return res.redirect(redirectUrl);
+    }
+    return next();
+};
+
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
@@ -118,6 +170,7 @@ const startServer = (html) => {
 
     server.get(
         ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],
+        tokenValidator,
         (req, res) => {
             res.send(html);
         }

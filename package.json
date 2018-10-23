@@ -31,6 +31,8 @@
   "scripts": {
     "clean-build": "rimraf ./dist",
     "build": "npm run clean-build && webpack -p",
+    "build:dev": "npm run clean-build && webpack --config webpack.config.dev.js",
+    "build:dev:express": "npm run build:dev && sh localserver.sh",
     "start-express": "node ./server.js",
     "start-express-next": "node ./server.js pam-kandidatsok-next",
     "start": "webpack-dev-server --port 9009 --inline --env.dev --config webpack.config.dev.js",
@@ -46,6 +48,7 @@
     "express": "^4.16.2",
     "express-http-proxy": "^1.4.0",
     "helmet": "^3.13.0",
+    "jsonwebtoken": "^8.3.0",
     "lodash.throttle": "^4.1.1",
     "mustache-express": "^1.2.7",
     "nav-frontend-alertstriper": "^0.2.21",

@@ -8,7 +8,7 @@ module.exports = {
     output: {
         path: `${__dirname}/dist`,
         filename: 'js/[name].js',
-        publicPath: '/sok/'
+        publicPath: '/pam-kandidatsok/'
     },
     module: {
         loaders: [
