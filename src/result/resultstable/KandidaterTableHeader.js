@@ -31,77 +31,63 @@ class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <div className="panel border--bottom--medium">
-                <Row>
-                    <Column xs="1" md="1">
-                        {this.props.visCheckbox &&
-                            <Checkbox
-                                id="marker-alle-kandidater-checkbox"
-                                className="text-hide"
-                                label=""
-                                aria-label="Marker alle kandidater"
-                                checked={this.props.alleKandidaterMarkert}
-                                onChange={this.props.onToggleMarkeringAlleKandidater}
-                            />}
-                    </Column>
-                    <Column xs="2" md="2" >
-                        <Element className="label--resultatvisning">
+            <Row className="kandidater--header">
+                <Column xs="1" md="1">
+                    <Checkbox
+                        id="marker-alle-kandidater-checkbox"
+                        className="text-hide"
+                        label="."
+                        aria-label="Marker alle kandidater"
+                        checked={this.props.alleKandidaterMarkert}
+                        onChange={this.props.onToggleMarkeringAlleKandidater}
+                    />
+                </Column>
+                <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
+                    <Element
+                        className="label--resultatvisning"
+                        aria-label="Kandidat"
+                    >
                             Kandidat
-                        </Element>
-                    </Column>
-                    {USE_JANZZ ?
-                        (<Column xs="3" md="3">
-                            <button className="filter--aktuelle--kandidater" onClick={this.onFilterScoreClick}>
-                                <Element
-                                    className="label--resultatvisning"
-                                    aria-label="Sorter på matchscore"
-                                    aria-selected={this.state.scoreChevronNed !== undefined}
-                                >
+                    </Element>
+                </Column>
+                {USE_JANZZ ?
+                    (<Column xs="5" md="5">
+                        <button className="header--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
+                            <Element
+                                className="label--resultatvisning"
+                                aria-label="Sorter på matchscore"
+                                aria-selected={this.state.scoreChevronNed !== undefined}
+                            >
                                 Matchscore
-                                </Element>
-                                <NavFrontendChevron
-                                    type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
-                                />
-                            </button>
-                        </Column>)
-                        : (
-                            <Column xs="3" md="3">
-                                <div className="filter--aktuelle--kandidater">
-                                    <Element
-                                        className="label--resultatvisning"
-                                        aria-label="Sorter på utdanning"
-                                    >
-                                Utdanningsnivå
-                                    </Element>
-                                </div>
-                            </Column>
-                        )}
-                    <Column xs="3" md="3">
-                        <div className="filter--aktuelle--kandidater">
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Sorter på arbeidserfaring"
-                            >
-                                Arbeidserfaring
-                            </Element>
-                        </div>
-                    </Column>
-                    <Column className="filter--lengde--erfaring" xs="3" md="3">
-                        <button className="filter--aktuelle--kandidater" onClick={this.onFilterAntallArClick}>
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Sorter på antall år med arbeidserfaring"
-                                aria-selected={this.state.antallArChevronNed !== undefined}
-                            >
-                                År med erfaring
                             </Element>
                             <NavFrontendChevron
-                                type={this.state.antallArChevronNed === undefined || this.state.antallArChevronNed ? 'ned' : 'opp'}
+                                type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
                             />
                         </button>
-                    </Column>
-                </Row>
-            </div>
+                    </Column>)
+                    : (
+                        <Column xs="5" md="5">
+                            <div className="header--aktuelle--kandidater text-overflow">
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Utdanning"
+                                >
+                                Utdanningsnivå
+                                </Element>
+                            </div>
+                        </Column>
+                    )}
+                <Column xs="4" md="4">
+                    <div className="header--aktuelle--kandidater text-overflow">
+                        <Element
+                            className="label--resultatvisning"
+                            aria-label="Arbeidserfaring"
+                        >
+                                Relevant arbeidserfaring
+                        </Element>
+                    </div>
+                </Column>
+            </Row>
         );
     }
 }
@@ -117,8 +103,7 @@ KandidaterTableHeader.propTypes = {
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
     alleKandidaterMarkert: PropTypes.bool,
-    onToggleMarkeringAlleKandidater: PropTypes.func,
-    visCheckbox: PropTypes.bool.isRequired
+    onToggleMarkeringAlleKandidater: PropTypes.func
 };
 
 export default KandidaterTableHeader;

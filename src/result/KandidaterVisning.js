@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress } from 'nav-frontend-typografi';
+import { Ingress, Undertittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../PropTypes';
-import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
-import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
+import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
@@ -182,9 +182,9 @@ class KandidaterVisning extends React.Component {
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
-                <div className="panel resultatvisning">
+                <Row className="resultatvisning">
                     <div className="resultatvisning--header">
-                        <Ingress className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Ingress>
+                        <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             mini
@@ -195,38 +195,18 @@ class KandidaterVisning extends React.Component {
                             {lagreKandidaterKnappTekst(antallMarkert)}
                         </KnappMedHjelpetekst>
                     </div>
-                </div>
-
-                {this.props.isEmptyQuery ? (
-                    <KandidaterTabellUtenKriterier
-                        antallResultater={this.state.antallResultater}
-                        kandidater={this.state.kandidater}
-                        onFilterAntallArClick={this.onFilterAntallArClick}
-                        onFilterScoreClick={this.onFilterScoreClick}
-                        onFlereResultaterClick={this.onFlereResultaterClick}
-                        totaltAntallTreff={this.props.totaltAntallTreff}
-                        onKandidatValgt={this.onKandidatValgt}
-                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
-                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
-
-                    />
-
-                ) : (
-
-                    <KandidaterTabellMedKriterier
-                        antallResultater={this.state.antallResultater}
-                        kandidater={this.state.kandidater}
-                        onFilterAntallArClick={this.onFilterAntallArClick}
-                        onFilterScoreClick={this.onFilterScoreClick}
-                        onFlereResultaterClick={this.onFlereResultaterClick}
-                        totaltAntallTreff={this.props.totaltAntallTreff}
-                        onKandidatValgt={this.onKandidatValgt}
-                        alleKandidaterMarkert={this.state.alleKandidaterMarkert}
-                        onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
-
-                    />
-
-                )}
+                </Row>
+                <KandidaterTabell
+                    antallResultater={this.state.antallResultater}
+                    kandidater={this.state.kandidater}
+                    onFilterAntallArClick={this.onFilterAntallArClick}
+                    onFilterScoreClick={this.onFilterScoreClick}
+                    onFlereResultaterClick={this.onFlereResultaterClick}
+                    totaltAntallTreff={this.props.totaltAntallTreff}
+                    onKandidatValgt={this.onKandidatValgt}
+                    alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                    onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
+                />
             </div>
         );
     }

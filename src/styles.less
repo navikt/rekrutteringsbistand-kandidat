@@ -46,8 +46,10 @@ button:focus {
   min-height: 100vh;
 }
 
-.break-word {
-  word-wrap: break-word;
+.text-overflow {
+  max-height: 3rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .text-right {
@@ -117,10 +119,28 @@ button.lenke {
   border-width: 2px;
 }
 
-.border--bottom--medium {
-  border-bottom: solid 2px rgba(120, 112, 106, 0.5);
-  border-radius: 0;
-  margin-top: 1rem;
+.kandidater--header {
+  height: 4rem;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: white;
+  border: solid 1px #78706a;
+  border-radius: 4px;
+  padding: 0.75rem;
+  input {
+  position: absolute;
+}
+  .skjemaelement {
+    margin: 0;
+  }
+
+  * > {
+    top: 0;
+    bottom: 0;
+    margin-right: 0.5rem;
+  }
 }
 
 .border--bottom--thin {
@@ -150,7 +170,7 @@ button.lenke {
     text-decoration: none;
 }
 
-.knapp--disabled {
+.knapp--disabled--clickable {
   background-color: @navGra60;
   border: 2px solid @navGra60;
 }
@@ -166,6 +186,15 @@ button.lenke {
 
 .hjelpetekst__apneknapp:focus {
   box-shadow: 0 0 0 2pt @orangeFocus;
+}
+
+.knapp--sokekriterier {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  text-align: center;
+  word-break: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .fading {
@@ -211,6 +240,18 @@ button.lenke {
 
 .ekspanderbartPanel__hode {
   color: @navMorkGra;
+  padding-top: 1.25rem !important;
+  padding-bottom: 0 !important;
+  padding-right: 1.25rem !important;
+  padding-left: 1.25rem !important;
+}
+
+.ekspanderbartPanel__innhold {
+  color: @navMorkGra;
+  padding-top: 1.25rem !important;
+  padding-bottom: 1rem !important;
+  padding-right: 1.25rem !important;
+  padding-left: 1.25rem !important;
 }
 
 select {

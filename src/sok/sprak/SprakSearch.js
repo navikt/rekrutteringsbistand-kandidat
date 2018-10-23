@@ -82,7 +82,7 @@ class SprakSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
                 tittel="Språk"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
@@ -108,8 +108,9 @@ class SprakSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-sprak-knapp"
+                                mini
                             >
                                 +Legg til språk
                             </Knapp>

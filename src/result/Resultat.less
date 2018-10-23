@@ -10,35 +10,71 @@
   }
 }
 
-.ResultatVisning--header {
+.ResultatVisning--hovedside--header {
   background-color: @navBla;
   color: white;
-  .wrapper {
+  .container--header {
     display: flex;
-    flex-direction: row;
-    justify-items: center;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
     height: 7.5rem;
+    align-items: center;
+    padding: 0 1.5rem;
+  }
+
+  .child-item__container--header {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
     .lenke {
       color: white;
       border-bottom: 1px solid white;
     }
-    .header--side{
-      display: inline-flex;
-      flex: 1;
+
+    .ikonlenke {
+      display:inline-flex;
       justify-content: flex-end;
-      align-items: center;
+      }
+  }
+
+  .lenke--lagrede-kandidatlister {
+    justify-content: flex-end;
+  }
+
+  @media(max-width: 991px) {
+
+    height: 8.75rem;
+
+    .no-content {
+      flex-grow: 0;
     }
-    .header--tittel{
-      flex: 2;
-      text-align: center;
+    .child-item__container--header {
+      flex-basis: 100%;
+    }
+    .lenke--lagrede-kandidatlister {
+      justify-content: center;
     }
   }
 }
 
-.resultatvisning--body {
-  margin-top: 2rem;
+.sokekriterier--column {
+  margin-top: 2.5rem;
+}
+
+.kandidatervisning--column {
+  margin-top: 2.5rem;
+}
+
+@media (min-width: @screen-md-min) {
+  .sokekriterier--column {
+    margin-right: 2.5rem;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .sokekriterier--column {
+    margin-right: 4rem;
+  }
 }
 
 .resultatvisning {
@@ -50,19 +86,25 @@
 }
 
 .lenke--slett--kriterier {
+  margin-bottom: 2.375rem;
   float: right;
-  margin-top: 0.3rem;
+  border: 2px solid transparent !important;
+  &:hover{
+    border: 2px solid @navBla !important;
+  }
 }
 
 @media (min-width: @screen-md-min) {
   .resultatvisning {
-    margin: 2rem 0 0 2rem;
+    margin: 0 0 0 0;
   }
 }
 
 .resultatvisning--header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1.55rem;
+  padding-right: 1rem;
 }
 
 .buttons--kandidatervisning {

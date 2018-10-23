@@ -27,8 +27,7 @@ export default function sortByDato(items) {
                 return 1;
             } else if (isValidISOString(b.tilDato)) {
                 return -1;
-            }
-            else if (toDate(a.fraDato).getTime() > toDate(b.fraDato).getTime()) {
+            } else if (toDate(a.fraDato).getTime() > toDate(b.fraDato).getTime()) {
                 return -1;
             } else if (toDate(a.fraDato).getTime() < toDate(b.fraDato).getTime()) {
                 return 1;
