@@ -150,17 +150,22 @@ button.lenke {
     text-decoration: none;
 }
 
+.knapp--disabled {
+  background-color: @navGra60;
+  border: 2px solid @navGra60;
+}
+
 .knapp--disabled--clickable:active {
-  background-color: @navGra40;
-  border: 2px solid @navGra40;
+  background-color: @navGra60;
+  border: 2px solid @navGra60;
+}
+
+.knapp--disabled--clickable:hover {
+  background-color: @navGra60;
 }
 
 .hjelpetekst__apneknapp:focus {
   box-shadow: 0 0 0 2pt @orangeFocus;
-}
-
-.knapp--disabled--clickable:hover {
-  background-color: @navGra40;
 }
 
 .fading {

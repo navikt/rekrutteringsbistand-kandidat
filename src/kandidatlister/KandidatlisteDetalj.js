@@ -227,7 +227,14 @@ class KandidatlisteDetalj extends React.Component {
         const KandidatListeToppRad = () => (
             <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
                 <div className="KandidatlisteDetalj__panel--first">
-                    <Checkbox title="Marker alle" label="Navn" checked={markerAlleChecked} onChange={this.markerAlleClicked} />
+                    <Checkbox
+                        id="marker-alle-kandidater-checkbox"
+                        title="Marker alle"
+                        label="Navn"
+                        aria-label="Marker alle kandidater"
+                        checked={markerAlleChecked}
+                        onChange={this.markerAlleClicked}
+                    />
                 </div>
                 <UndertekstBold>Arbeidserfaring</UndertekstBold>
             </Panel>
@@ -237,8 +244,14 @@ class KandidatlisteDetalj extends React.Component {
             kandidater && kandidater.map((kandidat) => (
                 <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
-                        <Checkbox title="Marker" className="text-hide" label="." checked={kandidat.checked} onChange={() => this.onKandidatCheckboxClicked(kandidat)} />
-                        {/* <Link title="Vis profil" className="lenke" to={`/pam-kandidatsok/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}> */}
+                        <Checkbox
+                            title="Marker"
+                            className="text-hide"
+                            label="."
+                            aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
+                            checked={kandidat.checked}
+                            onChange={() => this.onKandidatCheckboxClicked(kandidat)}
+                        />
                         <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
                             {fornavnOgEtternavnFraKandidat(kandidat)}
                         </Link>

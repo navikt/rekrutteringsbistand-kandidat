@@ -21,6 +21,7 @@ class ArbeidsgiverSelect extends React.Component {
             <Select
                 className="topmeny-select topmeny-mr"
                 label=""
+                aria-label="Velg arbeidsgiver"
                 id="arbeidsgiver-select"
                 onChange={this.onArbeidsgiverChange}
                 value={valgtArbeidsgiverId || undefined}

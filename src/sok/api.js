@@ -145,7 +145,7 @@ export function fetchKandidater(query = {}) {
     );
 }
 
-export function fetchKandidaterUtenCriteria(query = {}) {
+export function fetchKandidaterES(query = {}) {
     return fetchJson(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );
