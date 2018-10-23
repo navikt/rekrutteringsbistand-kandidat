@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -34,19 +33,17 @@ class KandidaterTableHeader extends React.Component {
         return (
             <div className="panel border--bottom--medium">
                 <Row>
-                    {this.props.visKandidatlister &&
-                        <Column xs="1" md="1">
-                            {this.props.visCheckbox &&
-                                <Checkbox
-                                    id="marker-alle-kandidater-checkbox"
-                                    className="text-hide"
-                                    label=""
-                                    aria-label="Marker alle kandidater"
-                                    checked={this.props.alleKandidaterMarkert}
-                                    onChange={this.props.onToggleMarkeringAlleKandidater}
-                                />}
-                        </Column>
-                    }
+                    <Column xs="1" md="1">
+                        {this.props.visCheckbox &&
+                            <Checkbox
+                                id="marker-alle-kandidater-checkbox"
+                                className="text-hide"
+                                label=""
+                                aria-label="Marker alle kandidater"
+                                checked={this.props.alleKandidaterMarkert}
+                                onChange={this.props.onToggleMarkeringAlleKandidater}
+                            />}
+                    </Column>
                     <Column xs="2" md="2" >
                         <Element className="label--resultatvisning">
                             Kandidat
@@ -109,10 +106,6 @@ class KandidaterTableHeader extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
-});
-
 KandidaterTableHeader.defaultProps = {
     alleKandidaterMarkert: false,
     onToggleMarkeringAlleKandidater: undefined
@@ -125,8 +118,7 @@ KandidaterTableHeader.propTypes = {
     to: PropTypes.number.isRequired,
     alleKandidaterMarkert: PropTypes.bool,
     onToggleMarkeringAlleKandidater: PropTypes.func,
-    visCheckbox: PropTypes.bool.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired
+    visCheckbox: PropTypes.bool.isRequired
 };
 
-export default connect(mapStateToProps)(KandidaterTableHeader);
+export default KandidaterTableHeader;

@@ -50,20 +50,16 @@ class KandidaterTableRow extends React.Component {
         return (
 
             <Row className="kandidater--row">
-
-                {this.props.visKandidatlister &&
-                    <Column xs="1" md="1">
-                        <Checkbox
-                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            className="text-hide"
-                            label=""
-                            aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                            checked={this.props.markert}
-                            onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
-                        />
-                    </Column>
-                }
-
+                <Column xs="1" md="1">
+                    <Checkbox
+                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                        className="text-hide"
+                        label=""
+                        aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                        checked={this.props.markert}
+                        onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                    />
+                </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
                         className="lenke--kandidatnr"
@@ -102,13 +98,11 @@ class KandidaterTableRow extends React.Component {
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     markert: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    query: state.query
 });
 
 export default connect(mapStateToProps)(KandidaterTableRow);
