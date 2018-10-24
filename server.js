@@ -46,9 +46,7 @@ if (process.env.NODE_ENV === 'production') {
 const dirExists = (dir) => fs.existsSync(path.join(__dirname, dir));
 
 const getViewsDir = () => {
-    if (process.env.NODE_ENV === 'production') {
-        return 'views';
-    } else if (process.env.NODE_ENV === 'development' && dirExists('viewsDev')) {
+    if (process.env.NODE_ENV === 'development' && dirExists('viewsDev')) {
         return 'viewsDev';
     }
     return 'views';
