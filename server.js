@@ -15,7 +15,8 @@ const server = express();
 const port = process.env.PORT || 8080;
 
 const isProd = process.env.NODE_ENV !== 'development';
-const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
+const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'kandidater';
+const appNavn = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
 const testtmp = process.argv;
 
 server.set('port', port);
@@ -137,10 +138,20 @@ const tokenValidator = (req, res, next) => {
     return next();
 };
 
+const urlHost = (miljo) => {
+    if (miljo.toUpperCase() === 'Q0') {
+        return 'https://arbeidsplassen-q.nav.no';
+    } else if (miljo.toUpperCase() === 'Q6') {
+        return 'https://arbeidsplassen-t.nav.no';
+    }
+    return 'https://arbeidsplassen.nav.no';
+};
+
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
-    server.get(`/${contextRoot}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`/${contextRoot}/internal/isReady`, (req, res) => res.sendStatus(200));
+
+    server.get(`/${appNavn}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`/${appNavn}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
@@ -172,10 +183,19 @@ const startServer = (html) => {
     );
 
     server.get(
-        ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],
+        [`/${contextRoot}`, `/${contextRoot}/*`],
         tokenValidator,
         (req, res) => {
             res.send(html);
+        }
+    );
+
+    server.get(
+        ['/pam-kandidatsok', '/pam-kandidatsok/*'],
+        (req, res) => {
+            const host = urlHost(process.env.FASIT_ENVIRONMENT_NAME);
+            const urlPath = req.url.split('pam-kandidatsok')[1];
+            res.redirect(`${host}/kandidater${urlPath}`);
         }
     );
 
