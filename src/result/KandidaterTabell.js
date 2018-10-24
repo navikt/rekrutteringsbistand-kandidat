@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
-import { Element, Systemtittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../PropTypes';
 
 
-export default function KandidaterTabellUtenKriterier({
+export default function KandidaterTabell({
     antallResultater,
     onFilterAntallArClick,
     onFilterScoreClick,
@@ -21,9 +21,6 @@ export default function KandidaterTabellUtenKriterier({
     return (
 
         <div className="resultatvisning">
-
-            <Systemtittel>Alle kandidater</Systemtittel>
-
             <KandidaterTableHeader
                 onFilterAntallArClick={onFilterAntallArClick}
                 onFilterScoreClick={onFilterScoreClick}
@@ -31,10 +28,9 @@ export default function KandidaterTabellUtenKriterier({
                 to={antallResultater}
                 alleKandidaterMarkert={alleKandidaterMarkert}
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
-                visCheckbox
             />
 
-            <div className="panel">
+            <div>
                 {kandidater.slice(0, antallResultater).map((cv) => (
                     <KandidaterTableRow
                         cv={cv}
@@ -63,7 +59,7 @@ export default function KandidaterTabellUtenKriterier({
     );
 }
 
-KandidaterTabellUtenKriterier.propTypes = {
+KandidaterTabell.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,

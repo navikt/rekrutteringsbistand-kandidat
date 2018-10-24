@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../common/typeahead/Typeahead';
@@ -22,7 +22,7 @@ import alleForerkort from './forerkort';
 
 const forerkortHeading = (
     <div className="heading--forerkort ekspanderbartPanel__heading">
-        <Systemtittel>Førerkort</Systemtittel>
+        <Undertittel>Førerkort</Undertittel>
     </div>
 );
 
@@ -108,6 +108,7 @@ class ForerkortSearch extends React.Component {
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
+                ariaTittel="Panel førerkort"
             >
                 <Normaltekst className="text--italic">
                     For eksempel: førerkort: kl. B
@@ -133,8 +134,9 @@ class ForerkortSearch extends React.Component {
                         ) : (
                             <Knapp
                                 onClick={this.onLeggTilForerkortClick}
-                                className="leggtil--sokekriterier--knapp"
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-forerkort-knapp"
+                                mini
                             >
                                 +Legg til førerkort
                             </Knapp>

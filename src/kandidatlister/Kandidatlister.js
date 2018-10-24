@@ -18,7 +18,6 @@ import { LAGRE_STATUS, SLETTE_STATUS } from '../konstanter';
 import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../common/PageHeaderWrapper';
-import UnderArbeidSide from './UnderArbeidSide';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import TilbakeLenke from '../common/TilbakeLenke';
 
@@ -230,12 +229,7 @@ class Kandidatlister extends React.Component {
     };
 
     render() {
-        // TODO: Fjern featureToggle
-        const { kandidatlister, fetchingKandidatlister, skalViseKandidatlister } = this.props;
-        if (!skalViseKandidatlister) {
-            return <UnderArbeidSide />;
-        }
-
+        const { kandidatlister, fetchingKandidatlister } = this.props;
         return (
             <div>
                 {this.state.visEndreModal && <EndreModal kandidatliste={this.state.kandidatlisteIEndring} onAvbrytClick={this.onLukkModalClick} />}
@@ -273,8 +267,7 @@ const mapStateToProps = (state) => ({
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister,
     fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister,
-    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId,
-    skalViseKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -316,7 +309,6 @@ Kandidatlister.propTypes = {
     fetchingKandidatlister: PropTypes.bool.isRequired,
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
     opprettetTittel: PropTypes.string,
-    skalViseKandidatlister: PropTypes.bool.isRequired,
     valgtArbeidsgiverId: PropTypes.string.isRequired,
     slettKandidatliste: PropTypes.func.isRequired
 };

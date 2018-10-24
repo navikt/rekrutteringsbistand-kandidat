@@ -86,7 +86,7 @@ class StillingSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier panel--stilling"
                 tittel="Stilling/yrke"
-                tittelProps="systemtittel"
+                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
@@ -99,34 +99,35 @@ class StillingSearch extends React.Component {
                 <div className="sokekriterier--kriterier">
                     {/* TODO: Fjerne feature toggle */}
                     {!(USE_JANZZ && this.props.stillinger.length > 0) &&
-                    <div className="sokefelt--wrapper--stilling">
-                        {this.state.showTypeAhead ? (
-                            <Typeahead
-                                ref={(typeAhead) => {
-                                    this.typeAhead = typeAhead;
-                                }}
-                                onSelect={this.onTypeAheadStillingSelect}
-                                onChange={this.onTypeAheadStillingChange}
-                                label=""
-                                name="stilling"
-                                placeholder="Skriv inn stillingstittel"
-                                suggestions={this.props.typeAheadSuggestionsStilling}
-                                value={this.state.typeAheadValue}
-                                id="typeahead-stilling"
-                                onSubmit={this.onSubmit}
-                                onTypeAheadBlur={this.onTypeAheadBlur}
-                            />
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-stilling-knapp"
-                            >
+                        <div className="sokefelt--wrapper--stilling">
+                            {this.state.showTypeAhead ? (
+                                <Typeahead
+                                    ref={(typeAhead) => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadStillingSelect}
+                                    onChange={this.onTypeAheadStillingChange}
+                                    label=""
+                                    name="stilling"
+                                    placeholder="Skriv inn stillingstittel"
+                                    suggestions={this.props.typeAheadSuggestionsStilling}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-stilling"
+                                    onSubmit={this.onSubmit}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                />
+                            ) : (
+                                <Knapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp knapp--sokekriterier"
+                                    id="leggtil-stilling-knapp"
+                                    mini
+                                >
                                 +Legg til stilling
-                            </Knapp>
-                        )}
+                                </Knapp>
+                            )}
 
-                    </div>
+                        </div>
                     }
                     {this.props.stillinger.map((stilling) => (
                         <button
@@ -142,7 +143,7 @@ class StillingSearch extends React.Component {
 
                 {/* TODO: Fjerne feature toggle */}
                 { USE_JANZZ &&
-                <Normaltekst className="blokk-xs">Du kan kun legge til én stilling/yrke</Normaltekst>
+                    <Normaltekst className="blokk-xs">Du kan kun legge til én stilling/yrke</Normaltekst>
                 }
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Sidetittel } from 'nav-frontend-typografi';
-import { Column, Container, Row } from 'nav-frontend-grid';
+import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -95,35 +95,42 @@ class ResultatVisning extends React.Component {
                             type="suksess"
                             tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                         />
-                        <div className="ResultatVisning--header">
-                            {this.props.visKandidatlister ? (
-                                <div className="wrapper container">
-                                    <div className="header--side" />
-                                    <Sidetittel className="header--tittel">Kandidatsøk</Sidetittel>
-                                    <div className="header--side">
+                        <div className="ResultatVisning--hovedside--header">
+                            <Container className="container--header">
+                                <div className="child-item__container--header">
+                                    <div className="no-content" />
+                                </div>
+                                <div className="child-item__container--header">
+                                    <Sidetittel> Kandidatsøk </Sidetittel>
+                                </div>
+                                <div className="child-item__container--header lenke--lagrede-kandidatlister">
+                                    <div className="ikonlenke">
                                         <ListeIkon fargeKode="white" className="ListeIkon" />
                                         <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
-                                            Lagrede kandidatlister
+                                            <Normaltekst>Lagrede kandidatlister</Normaltekst>
                                         </Link>
                                     </div>
                                 </div>
-                            ) : (
-                                <div className="wrapper container">
-                                    <Sidetittel>Kandidatsøk</Sidetittel>
-                                </div>
-                            )}
+                            </Container>
                         </div>
-                        <Container className="blokk-s container--wide">
-                            <Row className="resultatvisning--body">
-                                <Column xs="12" md="4">
-                                    <button
-                                        className="lenke lenke--slett--kriterier typo-normal"
-                                        id="slett-alle-kriterier-lenke"
-                                        onClick={this.onRemoveCriteriaClick}
-                                    >
-                                        Slett alle kriterier
-                                    </button>
-                                    {USE_JANZZ ? <KnappBase type="hoved"
+                        <Container className="blokk-s">
+                            <Column xs="12" md="4">
+                                <div className="sokekriterier--column">
+                                    <div className="knapp-wrapper">
+                                        <KnappBase
+                                            mini
+                                            type="flat"
+                                            className="lenke lenke--slett--kriterier typo-normal"
+                                            id="slett-alle-kriterier-lenke"
+                                            onClick={this.onRemoveCriteriaClick}
+                                        >
+                                            <Element>
+                                            Slett alle kriterier
+                                            </Element>
+                                        </KnappBase>
+                                    </div>
+                                    {USE_JANZZ ? <KnappBase
+                                        type="hoved"
                                         onClick={this.onMatchClick}
                                         className="send--sokekriterier--knapp"
                                         id="knapp-send--sokekriterier-knapp"
@@ -131,7 +138,6 @@ class ResultatVisning extends React.Component {
                                         Finn kandidater
                                     </KnappBase> : ''}
                                     <div className="resultatvisning--sokekriterier">
-
                                         <StillingSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
@@ -140,11 +146,13 @@ class ResultatVisning extends React.Component {
                                         <KompetanseSearch />
                                         <GeografiSearch />
                                     </div>
-                                </Column>
-                                <Column xs="12" md="8">
+                                </div>
+                            </Column>
+                            <Column xs="12" md="8">
+                                <div className="kandidatervisning--column">
                                     <KandidaterVisning />
-                                </Column>
-                            </Row>
+                                </div>
+                            </Column>
                         </Container>
                     </div>
                 )}
@@ -161,15 +169,13 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,69 +1,77 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Row, Column } from 'nav-frontend-grid';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { connect } from 'react-redux';
+import { HeaderMeny, TabId } from 'pam-frontend-header';
+import 'pam-frontend-header/dist/style.css';
+import { LOGOUT_URL } from '../fasitProperties';
+import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
 import './Toppmeny.less';
-import { LOGOUT_URL, PAMPORTAL_URL } from '../fasitProperties';
-import ArbeidsgiverSelect from '../../arbeidsgiver/ArbeidsgiverSelect';
 
 const loggUt = () => {
-    sessionStorage.removeItem('orgnr');
     window.location.href = LOGOUT_URL;
 };
 
-const Toppmeny = ({ loggUtSynlig, arbeidsgivere, valgtArbeidsgiverId }) => (
-    <div className="header">
-        <span className="pilot typo-element">Tidlig versjon</span>
-        <Row className="header__row">
-            <Column xs="3" sm="1">
-                <div className="header__logo">
-                    <a id="goto-forsiden" href={PAMPORTAL_URL} title="Gå til forsiden" className="logo" >
-                        Arbeidsplassen
-                    </a>
-                </div>
-            </Column>
-            <Column xs="9" sm="11" className="pull">
-                <div className="header__right">
-                    {arbeidsgivere.length === 1 ? (
-                        <Normaltekst className="topmeny-navn">
-                            {arbeidsgivere[0].orgnavn}
-                        </Normaltekst>
-                    ) :
-                        (arbeidsgivere.length > 1 && valgtArbeidsgiverId !== undefined && (
-                            <ArbeidsgiverSelect />
-                        ))}
-                </div>
-                {loggUtSynlig && (
-                    <div className="header__right">
-                        <Knapp onClick={loggUt} id="logg-ut" className="knapp knapp--mini knapp--loggut">
-                            Logg ut
-                        </Knapp>
-                    </div>
-                )}
-            </Column>
-        </Row>
-    </div>
-);
+const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetArbeidsgiver, activeTabID }) => {
+    const onArbeidsgiverSelect = (orgNummer) => {
+        if (orgNummer) {
+            velgArbeidsgiver(orgNummer);
+        } else {
+            resetArbeidsgiver();
+        }
+    };
+    const mappedeArbeidsgivere = arbeidsgivere.map((arbeidsgiver) => ({
+        navn: arbeidsgiver.orgnavn,
+        orgNummer: arbeidsgiver.orgnr
+    }));
+    return (
+        <div>
+            <span className="pilot typo-element">Tidlig versjon</span>
+            <HeaderMeny
+                onLoggUt={loggUt}
+                onArbeidsgiverSelect={onArbeidsgiverSelect}
+                arbeidsgivere={mappedeArbeidsgivere}
+                valgtArbeidsgiverId={valgtArbeidsgiverId}
+                activeTabID={activeTabID}
+            />
+        </div>
+    );
+};
 
 Toppmeny.defaultProps = {
-    loggUtSynlig: true,
-    valgtArbeidsgiverId: undefined
+    valgtArbeidsgiverId: undefined,
+    arbeidsgivere: []
 };
 
 Toppmeny.propTypes = {
-    loggUtSynlig: PropTypes.bool,
     arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
-        orgnr: PropTypes.string,
-        orgnavn: PropTypes.string
-    })).isRequired,
-    valgtArbeidsgiverId: PropTypes.string
+        orgnavn: PropTypes.string,
+        orgnr: PropTypes.string
+    })),
+    valgtArbeidsgiverId: PropTypes.string,
+    velgArbeidsgiver: PropTypes.func.isRequired,
+    resetArbeidsgiver: PropTypes.func.isRequired,
+    activeTabID: PropTypes.string.isRequired
 };
+
 
 const mapStateToProps = (state) => ({
     arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
     valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId
 });
 
-export default connect(mapStateToProps)(Toppmeny);
+const mapDispatchToProps = (dispatch) => ({
+    velgArbeidsgiver: (orgnr) => dispatch({ type: VELG_ARBEIDSGIVER, data: orgnr }),
+    resetArbeidsgiver: () => dispatch({ type: RESET_ARBEIDSGIVER })
+});
+
+const KandidatsokHeaderComponent = (props) => (
+    <Toppmeny {...props} activeTabID={TabId.KANDIDATSOK} />
+);
+
+const KandidatlisteHeaderComponent = (props) => (
+    <Toppmeny {...props} activeTabID={TabId.KANDIDATLISTER} />
+);
+
+export const KandidatsokHeader = connect(mapStateToProps, mapDispatchToProps)(KandidatsokHeaderComponent);
+
+export const KandidatlisteHeader = connect(mapStateToProps, mapDispatchToProps)(KandidatlisteHeaderComponent);

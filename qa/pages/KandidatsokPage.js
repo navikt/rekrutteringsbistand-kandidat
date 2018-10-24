@@ -60,10 +60,10 @@ module.exports = {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent('@leggTilStillingKnapp')
-                    .click('@leggTilStillingKnapp')
+                    .waitForElementVisible('@leggTilStillingKnapp')
+                    .clickElement('@leggTilStillingKnapp', self, 1000, 1000)
                     .setValue('@leggTilStillingInput', stilling + self.api.Keys.ENTER)
-                    .waitForElementPresent('button[value="' + stilling + '"]')
+                    .waitForElementVisible('button[value="' + stilling + '"]')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -82,7 +82,7 @@ module.exports = {
 
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent(checkboxElement)
+                    .waitForElementVisible(checkboxElement)
                     .click(checkboxElement)
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -92,10 +92,10 @@ module.exports = {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent('@leggTilFagfeltKnapp')
-                    .click('@leggTilFagfeltKnapp')
+                    .waitForElementVisible('@leggTilFagfeltKnapp')
+                    .clickElement('@leggTilFagfeltKnapp', self, 1000, 1000)
                     .setValue('@leggTilFagfeltInput', fagfelt + self.api.Keys.ENTER)
-                    .waitForElementPresent('button[value="' + fagfelt + '"]')
+                    .waitForElementVisible('button[value="' + fagfelt + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -105,10 +105,10 @@ module.exports = {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent('@leggTilArbeidserfaringKnapp')
-                    .click('@leggTilArbeidserfaringKnapp')
+                    .waitForElementVisible('@leggTilArbeidserfaringKnapp')
+                    .clickElement('@leggTilArbeidserfaringKnapp', self, 1000, 1000)
                     .setValue('@leggTilArbeidserfaringInput', arbeidserfaring + self.api.Keys.ENTER)
-                    .waitForElementPresent('button[value="' + arbeidserfaring + '"]')
+                    .waitForElementVisible('button[value="' + arbeidserfaring + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -136,11 +136,11 @@ module.exports = {
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
                     .waitForElementPresent('@leggTilSprakKnapp')
-                    .click('@leggTilSprakKnapp')
+                    .clickElement('@leggTilSprakKnapp', self, 1000, 1000)
                     .setValue('@leggTilSprakInput', sprak)
                     .waitForElementVisible('@leggTilSprakTypeahead', 30000)
                     .setValue('@leggTilSprakInput', self.api.Keys.ENTER)
-                    .waitForElementPresent('button[value="' + sprak + '"]')
+                    .waitForElementVisible('button[value="' + sprak + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -150,10 +150,10 @@ module.exports = {
             const self = this;
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
-                    .waitForElementPresent('@leggTilKompetanseKnapp')
-                    .click('@leggTilKompetanseKnapp')
+                    .waitForElementVisible('@leggTilKompetanseKnapp')
+                    .clickElement('@leggTilKompetanseKnapp', self, 1000, 1000)
                     .setValue('@leggTilKompetanseInput', kompetanse + self.api.Keys.ENTER)
-                    .waitForElementPresent('button[value="' + kompetanse + '"]')
+                    .waitForElementVisible('button[value="' + kompetanse + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -164,7 +164,7 @@ module.exports = {
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
                     .waitForElementVisible('@leggTilStedKnapp')
-                    .clickElement('@leggTilStedKnapp', self, 1000)
+                    .clickElement('@leggTilStedKnapp', self, 1000, 1000)
                     .setValue('@leggTilStedInput', sted)
                     .waitForElementVisible('@leggTilStedTypeahead', 30000)
                     .setValue('@leggTilStedInput', self.api.Keys.ENTER)

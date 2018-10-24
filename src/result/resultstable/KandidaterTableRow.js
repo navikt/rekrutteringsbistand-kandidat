@@ -28,7 +28,7 @@ class KandidaterTableRow extends React.Component {
             case '8': return UTDANNING.DOKTORGRAD.label;
             default: return 'Ukjent';
         }
-    }
+    };
 
     render() {
         const cv = this.props.cv;
@@ -37,33 +37,19 @@ class KandidaterTableRow extends React.Component {
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
 
         const score = cv.score;
-        const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
-        let lengdeYrkeserfaringTekst;
-        if (lengdeYrkeserfaring === 0) {
-            lengdeYrkeserfaringTekst = 'Under 1 år';
-        } else if (lengdeYrkeserfaring > 10) {
-            lengdeYrkeserfaringTekst = 'Over 10 år';
-        } else {
-            lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
-        }
 
         return (
-
-            <Row className="kandidater--row">
-
-                {this.props.visKandidatlister &&
-                    <Column xs="1" md="1">
-                        <Checkbox
-                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            className="text-hide"
-                            label=""
-                            aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                            checked={this.props.markert}
-                            onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
-                        />
-                    </Column>
-                }
-
+            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}`}>
+                <Column xs="1" md="1">
+                    <Checkbox
+                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                        className="text-hide"
+                        label="."
+                        aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                        checked={this.props.markert}
+                        onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                    />
+                </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
                         className="lenke--kandidatnr"
@@ -71,30 +57,23 @@ class KandidaterTableRow extends React.Component {
 
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                     >
-                        <Normaltekst className="break-word" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                        <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
                 </Column>
 
                 {USE_JANZZ ? (
-                    <Column className="no-padding" xs="3" md="3">
-                        <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                    <Column xs="5" md="5">
+                        <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
-                    <Column className="no-padding" xs="3" md="3">
-                        <Normaltekst className="break-word utdanning">{utdanningsNivaa}</Normaltekst>
+                    <Column xs="5" md="5">
+                        <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                     </Column>
                 )}
-                <Column className="no-padding" xs="4" md="4">
-                    <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                <Column xs="4" md="4">
+                    <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
-                <Column xs="2" md="2" className="text-center no-padding">
-                    <Normaltekst className="inline lengdeYrkeserfaringTekst">{lengdeYrkeserfaringTekst}</Normaltekst>
-                </Column>
-
-
             </Row>
-
-
         );
     }
 }
@@ -102,13 +81,11 @@ class KandidaterTableRow extends React.Component {
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
-    visKandidatlister: PropTypes.bool.isRequired,
     markert: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    visKandidatlister: state.search.featureToggles['vis-kandidatlister']
+    query: state.query
 });
 
 export default connect(mapStateToProps)(KandidaterTableRow);
