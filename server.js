@@ -135,6 +135,15 @@ const tokenValidator = (req, res, next) => {
     return next();
 };
 
+const urlHost = (miljo) => {
+    if (miljo.toUpperCase() === 'Q0') {
+        return 'https://arbeidsplassen-q.nav.no';
+    } else if (miljo.toUpperCase() === 'Q6') {
+        return 'https://arbeidsplassen-t.nav.no';
+    }
+    return 'https://arbeidsplassen.nav.no';
+};
+
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
@@ -175,6 +184,15 @@ const startServer = (html) => {
         tokenValidator,
         (req, res) => {
             res.send(html);
+        }
+    );
+
+    server.get(
+        ['/pam-kandidatsok', '/pam-kandidatsok/*'],
+        (req, res) => {
+            const host = urlHost(process.env.FASIT_ENVIRONMENT_NAME);
+            const urlPath = req.url.split('pam-kandidatsok')[1];
+            res.redirect(`${host}/kandidater${urlPath}`);
         }
     );
 
