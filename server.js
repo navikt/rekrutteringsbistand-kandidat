@@ -136,6 +136,8 @@ const tokenValidator = (req, res, next) => {
 
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
+    server.get(`/${contextRoot}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`/${contextRoot}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
@@ -173,9 +175,6 @@ const startServer = (html) => {
             res.send(html);
         }
     );
-
-    server.get(`/${contextRoot}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`/${contextRoot}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     server.listen(port, () => {
         console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${contextRoot} test: ${testtmp}`);
