@@ -14,6 +14,7 @@ const currentDirectory = __dirname;
 const server = express();
 const port = process.env.PORT || 8080;
 
+const isProd = process.env.NODE_ENV !== 'development';
 const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'kandidater';
 const appNavn = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
 const testtmp = process.argv;
@@ -27,7 +28,8 @@ server.use(helmet({
     noCache: true
 }));
 
-if (process.env.NODE_ENV === 'production') {
+
+if (isProd) {
     server.use(helmet.contentSecurityPolicy({
         directives: {
             defaultSrc: ["'none'"],
@@ -129,7 +131,8 @@ const extractTokenFromCookie = (cookie) => {
 const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
-        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${req.get('host')}/${contextRoot}`;
+        const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
+        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${contextRoot}`;
         return res.redirect(redirectUrl);
     }
     return next();
