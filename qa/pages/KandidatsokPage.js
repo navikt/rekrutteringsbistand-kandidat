@@ -25,6 +25,9 @@ module.exports = {
         leggTilSprakKnapp: '#leggtil-sprak-knapp',
         leggTilSprakInput: '#yrke',
         leggTilSprakTypeahead: '#yrke-suggestions',
+        leggTilForerkortKnapp: '#leggtil-forerkort-knapp',
+        leggTilForerkortInput: '#typeahead-forerkort',
+        leggTilForerkortTypeahead: '#typeahead-forerkort-suggestions',
         leggTilKompetanseKnapp: '#leggtil-kompetanse-knapp',
         leggTilKompetanseInput: '#typeahead-kompetanse',
         leggTilKompetanseTypeahead: '#typeahead-kompetanse-suggestions',
@@ -141,6 +144,21 @@ module.exports = {
                     .waitForElementVisible('@leggTilSprakTypeahead', 30000)
                     .setValue('@leggTilSprakInput', self.api.Keys.ENTER)
                     .waitForElementVisible('button[value="' + sprak + '"]')
+                    .click('@antallKandidaterTreff')
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+            });
+        },
+
+        leggTilForerkortkriterie(forerkort, antallTreff) {
+            const self = this;
+            return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
+                self
+                    .waitForElementPresent('@leggTilForerkortKnapp')
+                    .clickElement('@leggTilForerkortKnapp', self, 1000, 1000)
+                    .setValue('@leggTilForerkortInput', forerkort)
+                    .waitForElementVisible('@leggTilForerkortTypeahead', 30000)
+                    .setValue('@leggTilForerkortInput', self.api.Keys.ENTER)
+                    .waitForElementVisible('button[value^="' + forerkort + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
