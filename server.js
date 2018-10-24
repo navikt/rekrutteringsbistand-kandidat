@@ -128,7 +128,8 @@ const extractTokenFromCookie = (cookie) => {
 const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
-        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${req.get('host')}/${contextRoot}`;
+        const protocol = process.env.NODE_ENV === 'production' ? 'https:' : req.protocol; // produksjon får også inn http, så må tvinge https der
+        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${contextRoot}`;
         return res.redirect(redirectUrl);
     }
     return next();
