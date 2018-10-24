@@ -68,11 +68,10 @@ class Sok extends React.Component {
         this.tokenChecker = new TokenChecker(120000, 1800000); // 5 min interval - 30 min delay
         this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
         this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
-    }
-
-    state = {
-        visSesjonUtloperSnartModal: false,
-        visSesjonHarUtgaattModal: false
+        this.state = {
+            visSesjonUtloperSnartModal: false,
+            visSesjonHarUtgaattModal: false
+        };
     }
 
     componentDidMount() {
