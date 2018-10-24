@@ -14,7 +14,8 @@ const currentDirectory = __dirname;
 const server = express();
 const port = process.env.PORT || 8080;
 
-const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
+const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'kandidater';
+const appNavn = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
 const testtmp = process.argv;
 
 server.set('port', port);
@@ -137,6 +138,9 @@ const tokenValidator = (req, res, next) => {
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
+    server.get(`/${appNavn}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`/${appNavn}/internal/isReady`, (req, res) => res.sendStatus(200));
+
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
     server.use(`/${contextRoot}/rest/`, proxy(proxyHost, {
@@ -167,15 +171,12 @@ const startServer = (html) => {
     );
 
     server.get(
-        ['/', `/${contextRoot}/?`, contextRoot === 'pam-kandidatsok-next' ? /^\/pam-kandidatsok-next\/(?!.*dist).*$/ : /^\/pam-kandidatsok\/(?!.*dist).*$/],
+        [`/${contextRoot}`, `/${contextRoot}/*`],
         tokenValidator,
         (req, res) => {
             res.send(html);
         }
     );
-
-    server.get(`/${contextRoot}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`/${contextRoot}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     server.listen(port, () => {
         console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${contextRoot} test: ${testtmp}`);
