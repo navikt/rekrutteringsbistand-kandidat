@@ -130,7 +130,7 @@ const extractTokenFromCookie = (cookie) => {
 const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
-        const protocol = isProd ? 'https:' : req.protocol; // produksjon får også inn http, så må tvinge https der
+        const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
         const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${contextRoot}`;
         return res.redirect(redirectUrl);
     }
