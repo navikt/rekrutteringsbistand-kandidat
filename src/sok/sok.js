@@ -75,11 +75,8 @@ class Sok extends React.Component {
         visSesjonHarUtgaattModal: false
     }
 
-    componentWillMount() {
-        this.tokenChecker.start();
-    }
-
     componentDidMount() {
+        this.tokenChecker.start();
         this.props.fetchFeatureTogglesOgInitialSearch();
         this.props.fetchArbeidsgivere();
     }
