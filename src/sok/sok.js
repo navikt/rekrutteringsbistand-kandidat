@@ -7,9 +7,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import KnappBase from 'nav-frontend-knapper';
+import NavFrontendModal from 'nav-frontend-modal';
+import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT } from '../common/fasitProperties';
+import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -37,6 +40,7 @@ import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
+import TokenChecker from './tokenCheck';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -59,7 +63,19 @@ const store = createStore(combineReducers({
 Begin class Sok
  */
 class Sok extends React.Component {
+    constructor(props) {
+        super(props);
+        this.tokenChecker = new TokenChecker(120000, 1800000); // 5 min interval - 30 min delay
+        this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
+        this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
+        this.state = {
+            visSesjonUtloperSnartModal: false,
+            visSesjonHarUtgaattModal: false
+        };
+    }
+
     componentDidMount() {
+        this.tokenChecker.start();
         this.props.fetchFeatureTogglesOgInitialSearch();
         this.props.fetchArbeidsgivere();
     }
@@ -75,10 +91,50 @@ class Sok extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        this.tokenChecker.destroy();
+    }
+
+    visUtloperSnartModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: true
+        });
+    }
+
+    visSesjonUtgaattModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: false,
+            visSesjonHarUtgaattModal: true
+        });
+        this.tokenChecker.pause();
+    }
+
+    lukkUtloperSnartModal = () => {
+        this.setState({
+            visSesjonUtloperSnartModal: false
+        });
+    }
+
+    lukkSesjonUtgaattModal = () => {
+        this.setState({
+            visSesjonHarUtgaattModal: false
+        });
+        this.tokenChecker.pause();
+    }
+
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
         window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
     };
+
+    redirectToLoginMedForsideCallback = () => {
+        window.location.href = `${LOGIN_URL}&redirect=${window.location.origin}/${CONTEXT_ROOT}`;
+    }
+
+    loggUt = () => {
+        sessionStorage.clear();
+        window.location.href = LOGOUT_URL;
+    }
 
     render() {
         if (this.props.error) {
@@ -91,6 +147,25 @@ class Sok extends React.Component {
             );
         } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {
             return <VelgArbeidsgiver />;
+        } else if (this.state.visSesjonUtloperSnartModal) {
+            return (<SesjonUtgaarModal
+                tittelTekst={'Du blir snart logget ut'}
+                innholdTekst={'Vil du fortsette å bruke tjenesten?'}
+                primaerKnappTekst={'Forbli innlogget'}
+                onPrimaerKnappClick={this.redirectToLogin}
+                isOpen={this.state.visSesjonUtloperSnartModal}
+                sekundaerKnappTekst={'Logg ut'}
+                onSekundaerKnappClick={this.loggUt}
+                sekundaerKnapp
+            />);
+        } else if (this.state.visSesjonHarUtgaattModal) {
+            return (<SesjonUtgaarModal
+                tittelTekst={'Du har blitt logget ut'}
+                innholdTekst={'Denne sesjonen har utløpt. Gå til forsiden for å logge inn på nytt.'}
+                primaerKnappTekst={'Til forsiden'}
+                onPrimaerKnappClick={this.redirectToLoginMedForsideCallback}
+                isOpen={this.state.visSesjonHarUtgaattModal}
+            />);
         }
         return (
             <BrowserRouter>
@@ -169,6 +244,45 @@ const MidlertidigNede = () => (
         <NedeSide />
     </div>
 );
+
+const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaerKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
+    <NavFrontendModal
+        className="SesjonUgaarModal"
+        closeButton={false}
+        shouldCloseOnOverlayClick={false}
+        isOpen={isOpen}
+        shouldFocusAfterRender
+        onRequestClose={() => {}}
+    >
+        <Systemtittel>{tittelTekst}</Systemtittel>
+        <div className="innhold">
+            <Normaltekst>
+                {innholdTekst}
+            </Normaltekst>
+        </div>
+        <div className="knapperad">
+            <KnappBase onClick={onPrimaerKnappClick} type="hoved">{primaerKnappTekst}</KnappBase>
+            {sekundaerKnapp && <KnappBase onClick={onSekundaerKnappClick} type="flat">{sekundaerKnappTekst}</KnappBase>}
+        </div>
+    </NavFrontendModal>
+);
+
+SesjonUtgaarModal.defaultProps = {
+    sekundaerKnapp: false,
+    onSekundaerKnappClick: () => {},
+    sekundaerKnappTekst: ''
+};
+
+SesjonUtgaarModal.propTypes = {
+    tittelTekst: PropTypes.string.isRequired,
+    innholdTekst: PropTypes.string.isRequired,
+    primaerKnappTekst: PropTypes.string.isRequired,
+    onPrimaerKnappClick: PropTypes.func.isRequired,
+    sekundaerKnappTekst: PropTypes.string,
+    onSekundaerKnappClick: PropTypes.func,
+    sekundaerKnapp: PropTypes.bool,
+    isOpen: PropTypes.bool.isRequired
+};
 
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
