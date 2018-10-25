@@ -62,6 +62,12 @@ async function fetchJson(url, includeCredentials) {
     }
 }
 
+const getCookie = (name) => {
+    const re = new RegExp(`${name}=([^;]+)`);
+    const match = re.exec(document.cookie);
+    return match !== null ? match[1] : '';
+};
+
 async function postJson(url, bodyString) {
     try {
         const response = await fetch(url, {
@@ -69,7 +75,8 @@ async function postJson(url, bodyString) {
             method: 'POST',
             body: bodyString,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
             }
         });
         if (response.status === 200 || response.status === 201) {
@@ -93,7 +100,8 @@ async function putJson(url, bodyString) {
             method: 'PUT',
             body: bodyString,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
             }
         });
         if (response.status === 200 || response.status === 201) {
@@ -117,7 +125,8 @@ async function deleteReq(url, bodyString) {
             method: 'DELETE',
             body: bodyString,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
             }
         });
 
