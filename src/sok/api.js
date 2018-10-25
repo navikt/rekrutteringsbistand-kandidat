@@ -77,7 +77,8 @@ async function postJson(url, bodyString) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-            }
+            },
+            mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
             return;
@@ -102,7 +103,8 @@ async function putJson(url, bodyString) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-            }
+            },
+            mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
             return;
@@ -127,7 +129,8 @@ async function deleteReq(url, bodyString) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-            }
+            },
+            mode: 'cors'
         });
 
         if (response.status <= 202) {
