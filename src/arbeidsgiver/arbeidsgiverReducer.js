@@ -33,16 +33,16 @@ const valgtArbeidsgiverIdVedEndring = (arbeidsgivere, valgtArbeidsgiverId) => {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case HENT_ARBEIDSGIVERE_SUCCESS: // eslint-disable-line no-case-declarations
-            const nyValgtAreidsgiverId = valgtArbeidsgiverIdVedEndring(action.response, state.valgtArbeidsgiverId);
-            if (nyValgtAreidsgiverId) {
-                sessionStorage.setItem('orgnr', nyValgtAreidsgiverId);
+            const nyValgtArbeidsgiverId = valgtArbeidsgiverIdVedEndring(action.response, state.valgtArbeidsgiverId);
+            if (nyValgtArbeidsgiverId) {
+                sessionStorage.setItem('orgnr', nyValgtArbeidsgiverId);
             } else {
                 sessionStorage.removeItem('orgnr');
             }
             return {
                 ...state,
                 arbeidsgivere: action.response,
-                valgtArbeidsgiverId: nyValgtAreidsgiverId,
+                valgtArbeidsgiverId: nyValgtArbeidsgiverId,
                 isFetchingArbeidsgivere: false
             };
         case VELG_ARBEIDSGIVER:
