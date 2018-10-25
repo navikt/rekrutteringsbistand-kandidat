@@ -19,7 +19,6 @@ import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import TilbakeLenke from '../common/TilbakeLenke';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -88,7 +87,6 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
 const Header = ({ antallKandidater }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
-            <TilbakeLenke href={`/${CONTEXT_ROOT}/`} tekst="Til kandidatsøk" />
             <div className="Kandidatlister__header--innhold--indre">
                 <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
                 <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
