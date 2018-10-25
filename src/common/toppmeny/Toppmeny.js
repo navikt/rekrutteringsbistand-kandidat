@@ -8,6 +8,7 @@ import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeid
 import './Toppmeny.less';
 
 const loggUt = () => {
+    sessionStorage.removeItem('orgnr');
     window.location.href = LOGOUT_URL;
 };
 
