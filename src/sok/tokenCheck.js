@@ -8,11 +8,10 @@ export default class TokenChecker extends EventEmitter {
     timeoutId = undefined;
     isPaused = false;
     interval; // antall ms for hver timeout check
-    initialDelayTime; // timestamp for første sjekk
-    constructor(interval = 60000, initialDelay = 60000) {
+
+    constructor(interval = 60000) {
         super();
         this.interval = interval;
-        this.initialDelayTime = Date.now() + initialDelay;
     }
 
     start() {
@@ -46,14 +45,8 @@ export default class TokenChecker extends EventEmitter {
             this.timeoutId = undefined;
         }
 
-        // velg distansen til initialDelayTime
-        // hvis den er kortere enn intervallet
-        const calculatedInterval = Date.now() < this.initialDelayTime
-            ? Math.min(this.initialDelayTime - Date.now(), this.interval)
-            : this.interval;
-
         // async timeout
-        await this.timeout(calculatedInterval);
+        await this.timeout(this.interval);
 
         try {
             const gaarUtSnart = await this.gaarTokenUtSnart();
