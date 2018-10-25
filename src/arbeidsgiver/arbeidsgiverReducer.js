@@ -21,21 +21,38 @@ const initialState = {
     error: undefined
 };
 
+const valgtArbeidsgiverIdVedEndring = (arbeidsgivere, valgtArbeidsgiverId) => {
+    if (arbeidsgivere.length === 1) {
+        return arbeidsgivere[0].orgnr;
+    } else if (valgtArbeidsgiverId && arbeidsgivere.map((arbeidsgiver) => (arbeidsgiver.orgnr)).includes(valgtArbeidsgiverId)) {
+        return valgtArbeidsgiverId;
+    }
+    return undefined;
+};
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
-        case HENT_ARBEIDSGIVERE_SUCCESS:
+        case HENT_ARBEIDSGIVERE_SUCCESS: // eslint-disable-line no-case-declarations
+            const nyValgtArbeidsgiverId = valgtArbeidsgiverIdVedEndring(action.response, state.valgtArbeidsgiverId);
+            if (nyValgtArbeidsgiverId) {
+                sessionStorage.setItem('orgnr', nyValgtArbeidsgiverId);
+            } else {
+                sessionStorage.removeItem('orgnr');
+            }
             return {
                 ...state,
                 arbeidsgivere: action.response,
-                valgtArbeidsgiverId: action.response.length === 1 ? action.response[0].orgnr : state.valgtArbeidsgiverId,
+                valgtArbeidsgiverId: nyValgtArbeidsgiverId,
                 isFetchingArbeidsgivere: false
             };
         case VELG_ARBEIDSGIVER:
+            sessionStorage.setItem('orgnr', action.data);
             return {
                 ...state,
                 valgtArbeidsgiverId: action.data
             };
         case RESET_ARBEIDSGIVER:
+            sessionStorage.removeItem('orgnr');
             return {
                 ...state,
                 valgtArbeidsgiverId: undefined
