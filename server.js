@@ -14,19 +14,41 @@ const currentDirectory = __dirname;
 const server = express();
 const port = process.env.PORT || 8080;
 
+const APPS = {
+    KANDIDATSOK: 'kandidatsok',
+    KANDIDATSOK_NEXT: 'kandidatsok-next'
+};
+
+const appInfo = (appnavn) => {
+    if (appnavn === APPS.KANDIDATSOK) {
+        return {
+            contextRoot: 'kandidater',
+            appNavn: 'pam-kandidatsok',
+            htmlFil: 'index.html'
+        };
+    } else if (appnavn === APPS.KANDIDATSOK_NEXT) {
+        return {
+            contextRoot: 'pam-kandidatsok-next',
+            appNavn: 'pam-kandidatsok-next',
+            htmlFil: 'index-next.html'
+        };
+    }
+    throw new Error('server.js krever en miljøvariabel med navn APP_NAME som matcher en av disse: ' +
+        `${Object
+            .values(APPS)
+            .map((app) => (
+                `"${app}"`
+            ))
+            .join(', ')}`);
+};
+
+const app = appInfo(process.env.APP_NAME);
 const isProd = process.env.NODE_ENV !== 'development';
-const contextRoot = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'kandidater';
-const appNavn = process.argv.length && process.argv[process.argv.length - 1] === 'pam-kandidatsok-next' ? 'pam-kandidatsok-next' : 'pam-kandidatsok';
-const testtmp = process.argv;
 
 server.set('port', port);
 
 server.disable('x-powered-by');
 server.use(helmet({ xssFilter: false }));
-server.use(helmet({
-    xssFilter: false,
-    noCache: true
-}));
 
 
 if (isProd) {
@@ -60,7 +82,7 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
-    PAM_KANDIDATSOK_API_URL: `/${contextRoot}/rest/`,
+    PAM_KANDIDATSOK_API_URL: `/${app.contextRoot}/rest/`,
     LOGIN_URL: process.env.LOGINSERVICE_URL,
     LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
@@ -78,7 +100,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__BACKEND_OPPE__=${fasitProperties.BACKEND_OPPE};\n` +
         `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
-        `window.__CONTEXT_ROOT__="${contextRoot}";\n`;
+        `window.__CONTEXT_ROOT__="${app.contextRoot}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -88,7 +110,7 @@ const writeEnvironmentVariablesToFile = () => {
 const renderSok = () => (
     new Promise((resolve, reject) => {
         server.render(
-            contextRoot === 'pam-kandidatsok-next' ? 'index-next.html' : 'index.html',
+            app.htmlFil,
             fasitProperties,
             (err, html) => {
                 if (err) {
@@ -132,7 +154,7 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${contextRoot}`;
+        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${app.contextRoot}`;
         return res.redirect(redirectUrl);
     }
     return next();
@@ -150,15 +172,15 @@ const urlHost = (miljo) => {
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.get(`/${appNavn}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`/${appNavn}/internal/isReady`, (req, res) => res.sendStatus(200));
+    server.get(`/${app.appNavn}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    server.get(`/${app.appNavn}/internal/isReady`, (req, res) => res.sendStatus(200));
 
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
-    server.use(`/${contextRoot}/rest/`, proxy(proxyHost, {
+    server.use(`/${app.contextRoot}/rest/`, proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
+            req.originalUrl.replace(new RegExp(app.contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
         ),
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
             if (srcReq.headers.cookie !== undefined) {
@@ -173,16 +195,16 @@ const startServer = (html) => {
     }));
 
     server.use(
-        `/${contextRoot}/js`,
+        `/${app.contextRoot}/js`,
         express.static(path.resolve(__dirname, 'dist/js'))
     );
     server.use(
-        `/${contextRoot}/css`,
+        `/${app.contextRoot}/css`,
         express.static(path.resolve(__dirname, 'dist/css'))
     );
 
     server.get(
-        [`/${contextRoot}`, `/${contextRoot}/*`],
+        [`/${app.contextRoot}`, `/${app.contextRoot}/*`],
         tokenValidator,
         (req, res) => {
             res.send(html);
@@ -193,13 +215,13 @@ const startServer = (html) => {
         ['/pam-kandidatsok', '/pam-kandidatsok/*'],
         (req, res) => {
             const host = urlHost(process.env.FASIT_ENVIRONMENT_NAME);
-            const urlPath = req.url.split('pam-kandidatsok')[1];
+            const urlPath = req.url.replace(new RegExp('pam-kandidatsok'));
             res.redirect(`${host}/kandidater${urlPath}`);
         }
     );
 
     server.listen(port, () => {
-        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${contextRoot} test: ${testtmp}`);
+        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${app.contextRoot}`);
     });
 };
 
