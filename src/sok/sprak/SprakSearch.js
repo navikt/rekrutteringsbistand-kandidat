@@ -88,7 +88,7 @@ class SprakSearch extends React.Component {
             >
                 <Element>Krav til språk i jobbsituasjon</Element>
                 <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--sprak">
+                    <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
                                 ref={(typeAhead) => {
