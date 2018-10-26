@@ -119,7 +119,7 @@ class UtdanningSearch extends React.Component {
                     For eksempel pedagogikk
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--utdanning">
+                    <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
                                 ref={(typeAhead) => {

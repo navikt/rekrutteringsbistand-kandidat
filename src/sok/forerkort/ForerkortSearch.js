@@ -114,7 +114,7 @@ class ForerkortSearch extends React.Component {
                     For eksempel: førerkort: kl. B
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--forerkort">
+                    <div>
                         {this.state.showTypeAheadForerkort ? (
                             <Typeahead
                                 ref={(typeAhead) => {
