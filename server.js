@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-console */
 const express = require('express');
 const proxy = require('express-http-proxy');
 const helmet = require('helmet');
@@ -157,10 +157,9 @@ const startServer = (html) => {
 
     server.use(`/${contextRoot}/rest/`, proxy(proxyHost, {
         https: true,
-        proxyReqPathResolver: (req) => {
-            const rettPath = `/pam-kandidatsok-api/pam-kandidatsok-api${req.originalUrl.split(`/${contextRoot}`).pop()}`;
-            return rettPath;
-        },
+        proxyReqPathResolver: (req) => (
+            req.originalUrl.replace(new RegExp(contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
+        ),
         proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
             if (srcReq.headers.cookie !== undefined) {
                 const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
