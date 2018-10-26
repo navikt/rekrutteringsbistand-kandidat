@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-console */
 const express = require('express');
 const proxy = require('express-http-proxy');
 const helmet = require('helmet');
