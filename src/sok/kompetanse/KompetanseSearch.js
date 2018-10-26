@@ -109,8 +109,8 @@ class KompetanseSearch extends React.Component {
                 <Normaltekst className="text--italic">
                     For eksempel fagbrev, ledelse eller Excel
                 </Normaltekst>
-                <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--kompetanse">
+                <div className="sokekriterier--kriterier blokk-s">
+                    <div>
                         {this.state.showTypeAheadKompetanse ? (
                             <Typeahead
                                 ref={(typeAhead) => {
@@ -151,7 +151,7 @@ class KompetanseSearch extends React.Component {
                 </div>
                 {kompetanseSuggestions.length > 0 && (
                     <div>
-                        <div className="border--bottom--thin border--bottom--thin--margin" />
+                        <div className="blokk-s border--bottom--thin" />
                         <Element>
                             Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
                         </Element>

@@ -103,7 +103,7 @@ class ArbeidserfaringSearch extends React.Component {
                     For eksempel barnehagelærer
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--arbeidserfaring">
+                    <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
                                 ref={(typeAhead) => {

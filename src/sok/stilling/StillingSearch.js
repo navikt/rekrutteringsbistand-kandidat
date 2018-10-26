@@ -99,7 +99,7 @@ class StillingSearch extends React.Component {
                 <div className="sokekriterier--kriterier">
                     {/* TODO: Fjerne feature toggle */}
                     {!(USE_JANZZ && this.props.stillinger.length > 0) &&
-                        <div className="sokefelt--wrapper--stilling">
+                        <div>
                             {this.state.showTypeAhead ? (
                                 <Typeahead
                                     ref={(typeAhead) => {
