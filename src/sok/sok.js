@@ -66,7 +66,7 @@ class Sok extends React.Component {
     constructor(props) {
         super(props);
         this.tokenChecker = new TokenChecker();
-        this.tokenChecker.on('token_expires_soon', this.visSesjonUtgaattModal);
+        this.tokenChecker.on('token_expires_soon', this.visUtloperSnartModal);
         this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
         this.state = {
             visSesjonUtloperSnartModal: false,
