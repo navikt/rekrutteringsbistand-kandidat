@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
 import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
+import { INVALID_RESPONSE_STATUS } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -99,6 +100,11 @@ function* fetchCvForKandidat(action) {
     }
 }
 
+function* sjekkError(action) {
+    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+}
+
 export const cvSaga = function* cvSaga() {
     yield takeLatest(FETCH_CV, fetchCvForKandidat);
+    yield takeLatest(FETCH_CV_FAILURE, sjekkError);
 };
