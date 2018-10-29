@@ -82,7 +82,7 @@
     "nav-frontend-spinner-style": "^0.2.5",
     "nav-frontend-typografi": "^2.0.6",
     "nav-frontend-typografi-style": "^1.0.10",
-    "pam-frontend-header": "^0.1.2",
+    "pam-frontend-header": "^1.0.0",
     "pre-commit": "^1.2.2",
     "promise": "^8.0.2",
     "prop-types": "^15.6.2",

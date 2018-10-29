@@ -84,35 +84,35 @@ class ResultatVisning extends React.Component {
         const { antallLagredeKandidater } = this.props;
         return (
             <div>
+                <HjelpetekstFading
+                    synlig={this.state.suksessmeldingLagreKandidatVises}
+                    type="suksess"
+                    tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
+                />
+                <div className="ResultatVisning--hovedside--header">
+                    <Container className="container--header">
+                        <div className="child-item__container--header">
+                            <div className="no-content" />
+                        </div>
+                        <div className="child-item__container--header">
+                            <Sidetittel> Kandidatsøk </Sidetittel>
+                        </div>
+                        <div className="child-item__container--header lenke--lagrede-kandidatlister">
+                            <div className="ikonlenke">
+                                <ListeIkon fargeKode="white" className="ListeIkon" />
+                                <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                    <Normaltekst>Lagrede kandidatlister</Normaltekst>
+                                </Link>
+                            </div>
+                        </div>
+                    </Container>
+                </div>
                 {this.props.isInitialSearch ? (
-                    <div className="text-center">
+                    <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />
                     </div>
                 ) : (
                     <div>
-                        <HjelpetekstFading
-                            synlig={this.state.suksessmeldingLagreKandidatVises}
-                            type="suksess"
-                            tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
-                        />
-                        <div className="ResultatVisning--hovedside--header">
-                            <Container className="container--header">
-                                <div className="child-item__container--header">
-                                    <div className="no-content" />
-                                </div>
-                                <div className="child-item__container--header">
-                                    <Sidetittel> Kandidatsøk </Sidetittel>
-                                </div>
-                                <div className="child-item__container--header lenke--lagrede-kandidatlister">
-                                    <div className="ikonlenke">
-                                        <ListeIkon fargeKode="white" className="ListeIkon" />
-                                        <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
-                                            <Normaltekst>Lagrede kandidatlister</Normaltekst>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </Container>
-                        </div>
                         <Container className="blokk-s">
                             <Column xs="12" md="4">
                                 <div className="sokekriterier--column">

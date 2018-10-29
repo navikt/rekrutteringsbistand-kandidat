@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { VelgArbeidsgiver } from 'pam-frontend-header';
 import 'pam-frontend-header/dist/style.css';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
+import { LOGOUT_URL } from '../common/fasitProperties';
 
 
 const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetArbeidsgiver }) => {
@@ -14,6 +15,10 @@ const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArb
             resetArbeidsgiver();
         }
     };
+    const onLoggUt = () => {
+        sessionStorage.clear();
+        window.location.href = LOGOUT_URL;
+    };
     const mappedeArbeidsgivere = arbeidsgivere.map((arbeidsgiver) => ({
         navn: arbeidsgiver.orgnavn,
         orgNummer: arbeidsgiver.orgnr
@@ -23,6 +28,7 @@ const VelgArbeidsgiverComponent = ({ arbeidsgivere, valgtArbeidsgiverId, velgArb
             arbeidsgivere={mappedeArbeidsgivere}
             valgtArbeidsgiverId={valgtArbeidsgiverId}
             onArbeidsgiverSelect={onArbeidsgiverSelect}
+            onLoggUt={onLoggUt}
         />
     );
 };
