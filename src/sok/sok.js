@@ -12,7 +12,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
+import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -32,7 +32,6 @@ import arbeidsgivervelgerReducer, {
 import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
-import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
@@ -238,13 +237,6 @@ const App = () => (
     </div>
 );
 
-const MidlertidigNede = () => (
-    <div>
-        <KandidatsokHeader />
-        <NedeSide />
-    </div>
-);
-
 const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaerKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
     <NavFrontendModal
         className="SesjonUgaarModal"
@@ -290,12 +282,8 @@ sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(mineArbeidsgivereSaga);
 
-const Root = () => (
-    BACKEND_OPPE ? <App /> : <MidlertidigNede />
-);
-
 ReactDOM.render(
-    <Root />,
+    <App />,
     document.getElementById('app')
 );
 
