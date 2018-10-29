@@ -21,14 +21,12 @@ class GiSamtykke extends React.Component {
     }
 
     componentDidMount() {
-        this.mounted = true;
         this.props.hentVilkarstekst();
     }
 
   onSamtykkeChange = (e) => {
       this.setState({
-          isSamtykkeChecked: e.target.checked,
-          samtykkeError: undefined
+          isSamtykkeChecked: e.target.checked
       });
   };
 
@@ -36,10 +34,6 @@ class GiSamtykke extends React.Component {
         e.preventDefault();
         if (this.state.isSamtykkeChecked) {
             this.props.godtaVilkar();
-        } else {
-            this.setState({
-                samtykkeError: { feilmelding: 'Du må samtykke for å kunne bruke tjenesten' }
-            });
         }
     };
 
@@ -67,7 +61,7 @@ class GiSamtykke extends React.Component {
                 <Container className="container-vilkar">
                     <Panel className="panel--vilkar">
                         <Vilkar samtykkeTekst={this.props.vilkarstekst.tekst} />
-                        <AvgiSamtykkeRad feil={false} {...avgiSamtykkeRadProps} />
+                        <AvgiSamtykkeRad {...avgiSamtykkeRadProps} />
                     </Panel>
                 </Container>
             );
@@ -93,8 +87,7 @@ GiSamtykke.propTypes = {
     vilkarGodtatt: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (state, props) => ({
-    ...props,
+const mapStateToProps = (state) => ({
     vilkarstekst: state.samtykke.vilkarstekst,
     vilkarGodtatt: state.samtykke.vilkarGodtatt
 });

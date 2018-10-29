@@ -1,13 +1,9 @@
-import {put, select, takeLatest} from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import {
-    fetchVilkarstekst, postGodtaGjeldendeVilkar, postKandidatliste,
-    SearchApiError,
+    fetchVilkarstekst, postGodtaGjeldendeVilkar,
+    SearchApiError
 } from '../sok/api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
-import {
-    HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE_FAILURE,
-    OPPRETT_KANDIDATLISTE_SUCCESS
-} from "../kandidatlister/kandidatlisteReducer";
 
 /** *********************************************************
  * ACTIONS
@@ -52,18 +48,15 @@ export default function searchReducer(state = initialState, action) {
             };
         case GODTA_VILKAR:
             return {
-                ...state,
-                vilkarGodtatt: false
+                ...state
             };
         case GODTA_VILKAR_SUCCESS:
             return {
-                ...state,
-                vilkarGodtatt: true
+                ...state
             };
         case GODTA_VILKAR_FAILURE:
             return {
-                ...state,
-                vilkarGodtatt: false
+                ...state
             };
         default:
             return state;
@@ -81,7 +74,7 @@ function* hentVilkarstekst() {
         yield put({ type: HENT_VILKARSTEKST_SUCCESS, vilkarstekst });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: HENT_VILKARSTEKST_FAILURE, error: e });
+            yield put({ type: HENT_VILKARSTEKST_FAILURE });
         } else {
             throw e;
         }
@@ -95,15 +88,15 @@ function* godtaGjeldendeVilkar() {
         yield put({ type: GODTA_VILKAR_SUCCESS });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: GODTA_VILKAR_FAILURE, error: e });
+            yield put({ type: GODTA_VILKAR_FAILURE });
         } else {
             throw e;
         }
     }
 }
 
-function* sjekkError(action) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+function* sjekkError() {
+    yield put({ type: INVALID_RESPONSE_STATUS });
 }
 
 export function* samtykkeSaga() {
