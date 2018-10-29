@@ -12,7 +12,7 @@ module.exports = () => {
     const environment = 'production';
 
     return (
-        merge(common(APP.KANDIDATSOK), {
+        merge(common(APP.KANDIDATSOK_VEILEDER), {
             devtool: 'source-map',
             plugins: [
                 new webpack.DefinePlugin({

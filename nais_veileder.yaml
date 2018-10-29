@@ -1,0 +1,30 @@
+name: pam-kandidatsok-veileder
+image: repo.adeo.no:5443/pam-kandidatsok-veileder
+replicas:
+  min: 1
+  max: 1
+  cpuThresholdPercentage: 50
+port: 8080
+healthcheck:
+  liveness:
+    path: /pam-kandidatsok-veileder/internal/isAlive
+    initialDelay: 60
+  readiness:
+    path: /pam-kandidatsok-veileder/internal/isReady
+    initialDelay: 60
+prometheus:
+  enabled: false
+  path: /metrics
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+ingress:
+  enabled: true
+fasitResources:
+  used:
+  - alias: pam-kandidatsok-api
+    resourceType: restservice
