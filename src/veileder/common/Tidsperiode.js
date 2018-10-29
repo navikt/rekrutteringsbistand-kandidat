@@ -11,7 +11,7 @@ export default function Tidsperiode({ fradato, tildato, navarende }) {
         );
     } else if (fradatoFormatted) {
         return (
-            <span>{fradatoFormatted}{navarende && ' - (Nåværende)'}</span>
+            <span>{fradatoFormatted}{navarende && ' (Nåværende)'}</span>
         );
     } else if (tildatoFormatted) {
         return (
