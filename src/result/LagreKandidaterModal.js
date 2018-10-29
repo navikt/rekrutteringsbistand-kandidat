@@ -173,7 +173,7 @@ class LagreKandidaterModal extends React.Component {
                             }
 
                             <div className="knapperad">
-                                <Flatknapp mini onClick={this.toggleOpprettNyKandidatlisteVises}>
+                                <Flatknapp id="opprett-ny-liste" mini onClick={this.toggleOpprettNyKandidatlisteVises}>
                                     + Opprett ny liste
                                 </Flatknapp>
                             </div>

@@ -22,7 +22,10 @@ Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) =>
         .url(client.launch_url)
         .maximizeWindow();
     await client.globals.environment === 'local' 
-        ? kandidatsokPage.pageWait(2000).setValue('@velgArbedsgiverDropdown', 'Aust' + client.Keys.ENTER)
+        ? kandidatsokPage
+            .click('@kandidatsokLink')
+            .waitForElementVisible('@velgArbeidsgiverDropdown')
+            .setValue('@velgArbeidsgiverDropdown', 'Aust' + client.Keys.ENTER)
         : idPortenPage.loggInn(brukernavn)
     await kandidatsokPage
         .waitForElementPresent('@antallKandidaterTreff', 30000)
