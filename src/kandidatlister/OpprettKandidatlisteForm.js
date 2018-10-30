@@ -78,6 +78,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
+                            id="kandidatliste-navn-input"
                             label="Navn på kandidatliste *"
                             placeholder="For eksempel barnehagelærer, Oslo"
                             value={this.state.kandidatlisteInfo.tittel}
@@ -90,6 +91,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Textarea
+                            id="kandidatliste-beskrivelse-input"
                             textareaClass="OpprettKandidatlisteForm__input__textarea"
                             label="Beskrivelse"
                             placeholder="Skrive noen ord om stillingen du søker kandidater til"
@@ -104,6 +106,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
+                            id="kandidatliste-oppdragsgiver-input"
                             label="Oppdragsgiver"
                             placeholder="For eksempel NAV"
                             value={this.state.kandidatlisteInfo.oppdragsgiver}
@@ -112,7 +115,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             }}
                         />
                     </div>
-                    <Hovedknapp onClick={this.validateAndSave} spinner={saving}>
+                    <Hovedknapp id="kandidatliste-opprett-knapp" onClick={this.validateAndSave} spinner={saving}>
                         {knappTekst}
                     </Hovedknapp>
                     {this.props.onAvbrytClick !== undefined ?

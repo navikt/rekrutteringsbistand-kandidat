@@ -178,11 +178,11 @@ class KandidatlisteDetalj extends React.Component {
             <PageHeader>
                 <div className="KandidatlisteDetalj__header--innhold">
                     <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
-                    <Sidetittel>{tittel}</Sidetittel>
-                    {beskrivelse && <Undertekst className="undertittel">{beskrivelse}</Undertekst>}
+                    <Sidetittel id="kandidatliste-navn">{tittel}</Sidetittel>
+                    {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
                     <div className="inforad">
                         <Normaltekst>{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst>Oppdragsgiver: {oppdragsgiver}</Normaltekst>
+                        <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>
                     </div>
                 </div>
             </PageHeader>

@@ -1,6 +1,7 @@
 /* eslint-disable */
 module.exports = {
     elements: {
+        kandidatsokLink: 'a[href="/kandidater"]',
         antallKandidaterTreff: '#antall-kandidater-treff',
         slettAlleKriterierLenke: '#slett-alle-kriterier-lenke',
         leggTilStillingKnapp: '#leggtil-stilling-knapp',
@@ -39,7 +40,7 @@ module.exports = {
         forsteRadKandidaterTabell: '.lenke--kandidatnr',
         cvModal: '.personalia--modal',
         viserAntallTreff: '.antall-treff-kandidatervisning',
-        velgArbedsgiverDropdown: '#arbeidsgiver-select'
+        velgArbeidsgiverDropdown: '#arbeidsgiver-select'
     },
 
     commands: [{
