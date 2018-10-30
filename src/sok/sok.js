@@ -19,6 +19,7 @@ import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReduce
 import stillingReducer from './stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from '../common/typeahead/typeaheadReducer';
 import kompetanseReducer from './kompetanse/kompetanseReducer';
+import samtykkeReducer, { samtykkeSaga } from '../samtykke/samtykkeReducer';
 import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
@@ -40,6 +41,8 @@ import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
+import GiSamtykke from '../samtykke/GiSamtykke';
+import AvgiSamtykkeRad from "../samtykke/AvgiSamtykkeRad";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -54,7 +57,8 @@ const store = createStore(combineReducers({
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
-    mineArbeidsgivere: arbeidsgivervelgerReducer
+    mineArbeidsgivere: arbeidsgivervelgerReducer,
+    samtykke: samtykkeReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
@@ -136,6 +140,9 @@ class Sok extends React.Component {
     }
 
     render() {
+        if (this.props.error && this.props.error.status === 406) {
+            return <GiSamtykke />;
+        }
         if (this.props.error) {
             return <Feilside />;
         } else if (this.props.isFetchingArbeidsgivere) {
@@ -279,6 +286,7 @@ SesjonUtgaarModal.propTypes = {
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
+sagaMiddleware.run(samtykkeSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(mineArbeidsgivereSaga);
 
