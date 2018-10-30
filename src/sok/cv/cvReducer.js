@@ -63,6 +63,9 @@ function* fetchCvForKandidat(action) {
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
         let medUtdanningstekst;
 
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
+        [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -73,7 +76,8 @@ function* fetchCvForKandidat(action) {
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
             kandidatnr: action.arenaKandidatnr,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
+            forerkort: forerkortListe
         };
 
         const hasValues = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
