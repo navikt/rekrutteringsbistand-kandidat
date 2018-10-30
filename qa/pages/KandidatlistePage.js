@@ -10,7 +10,7 @@ module.exports = {
         alleKandidaterCheckbox: '#marker-alle-kandidater-checkbox',
         deleteIcon: '.Delete__icon',
         deleteKnappModal: '.knapp--hoved',
-        hjelpetekstfading: '#hjelpetekstfading'
+        hjelpetekstfading: '.alertstripe__tekst'
     },
 
     commands: [{
@@ -19,7 +19,8 @@ module.exports = {
                 .waitForElementPresent('@kandidatCheckbox')
                 .setValue('@kandidatCheckbox', this.api.Keys.SPACE)
                 .click('@deleteIcon')
-                .click('@deleteKnappModal');
+                .click('@deleteKnappModal')
+                .waitForElementVisible('@hjelpetekstfading');
         }
     }]
 };

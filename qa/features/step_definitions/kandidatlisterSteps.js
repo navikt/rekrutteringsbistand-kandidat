@@ -54,7 +54,6 @@ Then(/skal listen inneholde "(.*)" kandidater/, async (antallKandidater) => {
 });
 
 When(/jeg sletter en kandidat fra listen/, async () => {
-    listePage
-        .slettKandidatFraListe()
-        .waitForElementVisible('@hjelpetekstfading');
+    await listePage
+        .slettKandidatFraListe();
 });
