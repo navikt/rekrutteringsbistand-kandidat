@@ -178,7 +178,7 @@ class LagreKandidaterModal extends React.Component {
                                 </Flatknapp>
                             </div>
                             <div className="knapperad">
-                                <Hovedknapp onClick={this.lagreKandidaterILister}>Lagre</Hovedknapp>
+                                <Hovedknapp onClick={this.lagreKandidaterILister} id="lagre-kandidater-i-liste">Lagre</Hovedknapp>
                                 <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
                             </div>
                         </div>

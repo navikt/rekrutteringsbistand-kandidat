@@ -40,7 +40,12 @@ module.exports = {
         forsteRadKandidaterTabell: '.lenke--kandidatnr',
         cvModal: '.personalia--modal',
         viserAntallTreff: '.antall-treff-kandidatervisning',
-        velgArbeidsgiverDropdown: '#arbeidsgiver-select'
+        velgArbeidsgiverDropdown: '#arbeidsgiver-select',
+        markerAlleKandidaterCheckbox: '#marker-alle-kandidater-checkbox',
+        lagreKandidaterKnapp: '#lagre-kandidater-knapp',
+        forsteKandidatliste: 'input[id^="marker-liste"]',
+        lagreKandidaterIListeKnapp: '#lagre-kandidater-i-liste',
+        hjelpetekstfading: '#hjelpetekstfading'
     },
 
     commands: [{

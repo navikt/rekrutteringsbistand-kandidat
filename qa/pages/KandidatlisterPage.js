@@ -21,15 +21,15 @@ module.exports = {
                 .waitForElementVisible('@opprettNyListeKnapp');
         },
 
-        opprettNyListe(navn, beskrivelse, oppdragsgiver) {
+        opprettNyListe(navn, beskrivelse='', oppdragsgiver='') {
             return this
+                .waitForElementVisible('@opprettNyListeKnapp')
                 .click('@opprettNyListeKnapp')
                 .waitForElementVisible('@listeNavnInput')
                 .setValue('@listeNavnInput', navn)
                 .setValue('@listeBeskrivelseInput', beskrivelse)
                 .setValue('@listeOppdragsgiverInput', oppdragsgiver)
-                .click('@listeOpprettKnapp')
-                .waitForElementVisible('@listeLagretMelding');
+                .click('@listeOpprettKnapp');
         },
 
         slettKandidatlister(navn) {

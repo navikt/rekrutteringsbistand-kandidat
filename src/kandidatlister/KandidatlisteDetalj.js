@@ -181,7 +181,7 @@ class KandidatlisteDetalj extends React.Component {
                     <Sidetittel id="kandidatliste-navn">{tittel}</Sidetittel>
                     {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
                     <div className="inforad">
-                        <Normaltekst>{kandidater.length} kandidater</Normaltekst>
+                        <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length} kandidater</Normaltekst>
                         <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>
                     </div>
                 </div>
@@ -245,6 +245,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
                     <div className="KandidatlisteDetalj__panel--first">
                         <Checkbox
+                            id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
                             title="Marker"
                             className="text-hide"
                             label="."
