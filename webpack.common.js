@@ -1,14 +1,23 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
+const APP = {
+    KANDIDATSOK: 'KANDIDATSOK',
+    KANDIDATSOK_VEILEDER: 'KANDIDATSOK_VEILEDER'
+};
+
+const common = (app) => ({
     entry: {
-        sok: ['babel-polyfill', 'whatwg-fetch', './src/sok/sok.js'],
+        sok: [
+            'babel-polyfill',
+            'whatwg-fetch',
+            app === APP.KANDIDATSOK_VEILEDER ? './src/veileder/sok/sok.js' : './src/sok/sok.js'
+        ],
         googleanalytics: ['./src/googleanalytics.js']
     },
     output: {
         path: `${__dirname}/dist`,
         filename: 'js/[name].js',
-        publicPath: '/kandidater/'
+        publicPath: app === APP.KANDIDATSOK_VEILEDER ? '/sok' : '/kandidater/'
     },
     module: {
         loaders: [
@@ -44,4 +53,9 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('css/[name].css')
     ]
-};
+});
+
+module.exports = (() => ({
+    APP,
+    common
+}))();

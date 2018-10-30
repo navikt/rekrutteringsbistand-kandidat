@@ -91,6 +91,7 @@ const VisKandidatCv = ({ cv }) => (
                                         <Tidsperiode
                                             fradato={a.fraDato}
                                             tildato={a.tilDato}
+                                            navarende={!a.tilDato}
                                         />
                                     </Undertekst>
                                     <Element>{a.styrkKodeStillingstittel}</Element>

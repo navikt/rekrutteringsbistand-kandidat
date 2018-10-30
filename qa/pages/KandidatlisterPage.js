@@ -37,16 +37,19 @@ module.exports = {
 
             return this
                 .waitForElementPresent('@forsteListe')
-                .api.elements('xpath', `//h2[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`, (result) => {
-                    result.value.forEach((element) => {
-                        self.api.elementIdClick(element.ELEMENT);
+                .api.useXpath()
+                .elements('xpath', `//h2[text()="${navn}"]`, (result) => {
+                    const antallLister = result.value.length;
+                    for (let i = 0; i < antallLister; i++) {
                         self
+                            .click(`//h2[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`)
                             .waitForElementVisible('@slettKnapp')
                             .clickElement('@slettKnapp', self, 1000)
                             .waitForElementVisible('@listeSlettetMelding')
                             .listerPause(1000);
-                    });
+                    }
                 })
+                .useCss()
                 .page.KandidatlisterPage();
         },
 

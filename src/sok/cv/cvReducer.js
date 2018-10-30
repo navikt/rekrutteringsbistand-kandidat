@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
 import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
+import { INVALID_RESPONSE_STATUS } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -63,6 +64,9 @@ function* fetchCvForKandidat(action) {
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
         let medUtdanningstekst;
 
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
+        [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -73,7 +77,8 @@ function* fetchCvForKandidat(action) {
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
             kandidatnr: action.arenaKandidatnr,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
+            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
+            forerkort: forerkortListe
         };
 
         const hasValues = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
@@ -99,6 +104,11 @@ function* fetchCvForKandidat(action) {
     }
 }
 
+function* sjekkError(action) {
+    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+}
+
 export const cvSaga = function* cvSaga() {
     yield takeLatest(FETCH_CV, fetchCvForKandidat);
+    yield takeLatest(FETCH_CV_FAILURE, sjekkError);
 };

@@ -1,0 +1,45 @@
+@import '../Variables';
+
+.resultatvisning--sokekriterier {
+  .sokefelt--wrapper--sprak, .sokefelt--wrapper--stilling, .sokefelt--wrapper--utdanning,
+  .sokefelt--wrapper--arbeidserfaring, .sokefelt--wrapper--kompetanse,
+  .sokefelt--wrapper--geografi, .checkbox--sokekriterier--unchecked,
+  .checkbox--sokekriterier--checked, .etikett--sokekriterier,
+  .leggtil--sokekriterier, .etikett--forslag--kompetanse, .se-flere-forslag {
+    width: 100%;
+  }
+}
+
+.resultatvisning--body {
+  margin-top: 2rem;
+}
+
+.lenke--slett--kriterier {
+  float: right;
+  margin-top: 0.3rem;
+}
+
+@media (min-width: @screen-md-min) {
+  .resultatvisning {
+    margin: 2rem 0 0 2rem;
+  }
+}
+
+.buttons--kandidatervisning {
+  margin-top: 2rem;
+}
+
+.antall-treff-kandidatervisning {
+  display: inline;
+  margin-left: 0.5rem !important;
+}
+
+a.tilbake--lenke {
+  border-bottom: none;
+  font-weight: 600;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+
+  &:hover .tekst--tilbake--lenke{
+    border-bottom: solid 1px;
+  }
+}

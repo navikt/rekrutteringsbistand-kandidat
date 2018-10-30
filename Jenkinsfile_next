@@ -10,9 +10,9 @@ node {
     def appConfig = "nais_next.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
-    def environment = 't6'
+    def environment = 'q6'
     def zone = 'sbs'
-    def namespace = "t6"
+    def namespace = "q6"
     def policies = "app-policies-next.xml"
     def notenforced = "not-enforced-urls-next.txt"
 

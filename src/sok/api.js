@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API, USE_JANZZ } from '../common/fasitProperties';
+import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API, USE_JANZZ, SAMTYKKE_API } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -211,4 +211,12 @@ export function deleteKandidatliste(kandidatlisteId) {
 
 export function sjekkTokenGaarUtSnart() {
     return fetchJson(`${SEARCH_API}validertoken`, true);
+}
+
+export function fetchVilkarstekst() {
+    return fetchJson(`${SAMTYKKE_API}`, true);
+}
+
+export function postGodtaGjeldendeVilkar() {
+    return postJson(`${SAMTYKKE_API}`, true);
 }

@@ -31,11 +31,14 @@
   "scripts": {
     "clean-build": "rimraf ./dist",
     "build": "npm run clean-build && webpack -p",
+    "build-veileder": "npm run clean-build && webpack --config webpack.config.veileder.js",
     "build:dev": "npm run clean-build && webpack --config webpack.config.dev.js",
     "build:dev:express": "npm run build:dev && sh localserver.sh",
-    "start-express": "node ./server.js",
-    "start-express-next": "node ./server.js pam-kandidatsok-next",
+    "start-express": "APP_NAME=kandidatsok node ./server.js",
+    "start-express-veileder": "node ./server-veileder.js",
+    "start-express-next": "APP_NAME=kandidatsok-next node ./server.js",
     "start": "webpack-dev-server --port 9009 --inline --env.dev --config webpack.config.dev.js",
+    "start-veileder": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.veileder.dev.js",
     "lint": "eslint \"./src/**/*.{js,jsx}\" --fix",
     "lint-staged": "bash ./scripts/pre-commit.sh"
   },
@@ -98,6 +101,7 @@
     "redux-form": "^7.4.2",
     "redux-form-saga": "^0.2.0",
     "redux-saga": "^0.16.0",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^2.0.4",
+    "react-html-parser": "^2.0.2"
   }
 }
