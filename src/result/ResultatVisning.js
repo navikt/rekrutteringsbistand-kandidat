@@ -139,12 +139,12 @@ class ResultatVisning extends React.Component {
                                     </KnappBase> : ''}
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
+                                        <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
-                                        <GeografiSearch />
                                     </div>
                                 </div>
                             </Column>
