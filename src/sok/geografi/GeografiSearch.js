@@ -132,7 +132,6 @@ class GeografiSearch extends React.Component {
                             +Legg til fylke, kommune
                             </Knapp>
                         )}
-                        {!USE_JANZZ &&
                         <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"
                             label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
@@ -141,7 +140,7 @@ class GeografiSearch extends React.Component {
                             onChange={this.onToggleMaBoPaGeografi}
                             disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
                             onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
-                        /> }
+                        />
 
                     </div>
                     {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
