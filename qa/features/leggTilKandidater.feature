@@ -2,7 +2,7 @@
 
 Egenskap: Lagre og slette kandidater fra kandidatlister
 
-    @leggtilkandidater @elastic @janzz @ignore
+    @leggtilkandidater @elastic @janzz
     Scenario: Lagre og slette kandidater
         Gitt at jeg er logget inn i kandidatsøket som "08044601975"
         Når jeg lagrer "25" kandidater i kandidatlisten "Auto test 2"
