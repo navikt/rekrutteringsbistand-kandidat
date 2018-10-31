@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API } from '../common/fasitProperties';
-import FEATURE_TOGGLES from '../konstanter';
+import { SEARCH_API } from './common/fasitProperties';
+import FEATURE_TOGGLES from './konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -86,3 +86,29 @@ export function fetchMatchExplain(query = {}) {
         `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
     );
 }
+
+export const fetchKandidatliste = (stillingsnummer) => (
+    {
+        tittel: 'Engasjert kokk på Burger King',
+        oppdragsgiver: 'MAT Restaurant',
+        opprettetAv: {
+            navn: 'Aksel Wester',
+            ident: 'Z999001'
+        },
+        stillingsId: stillingsnummer,
+        kandidater: [
+            {
+                navn: 'Test Testesen',
+                kandidatnummer: 'Z900550'
+            },
+            {
+                navn: 'Test Testesen',
+                kandidatnummer: 'Z900551'
+            },
+            {
+                navn: 'Test Testesen',
+                kandidatnummer: 'Z900552'
+            }
+        ]
+    }
+);

@@ -18,6 +18,7 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
+import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer';
 import Feilside from './sok/error/Feilside';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
@@ -37,6 +38,7 @@ const store = createStore(combineReducers({
     geografi: geografiReducer,
     sprakReducer,
     cvReducer,
+    kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
@@ -46,7 +48,7 @@ Begin class Sok
  */
 class Sok extends React.Component {
     componentDidMount() {
-        this.props.fetchFeatureTogglesOgInitialSearch();
+        this.props.fetchFeatureToggles();
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
@@ -87,7 +89,7 @@ Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
     }),
-    fetchFeatureTogglesOgInitialSearch: PropTypes.func.isRequired
+    fetchFeatureToggles: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -95,7 +97,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFeatureTogglesOgInitialSearch: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
+    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
 });
 /*
 End class Sok
@@ -118,13 +120,10 @@ const App = () => (
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
-
-const Root = () => (
-    <App />
-);
+sagaMiddleware.run(kandidatlisteSaga);
 
 ReactDOM.render(
-    <Root />,
+    <App />,
     document.getElementById('app')
 );
 
