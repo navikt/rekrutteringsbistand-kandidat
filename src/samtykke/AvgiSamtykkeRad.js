@@ -21,7 +21,7 @@ const AvgiSamtykkeRad = ({ ...props }) => (
                     <Column xs="12" className="center">
                         <Hovedknapp
                             id="samtykke-aksepter"
-                            spinner={false}
+                            spinner={props.isSavingVilkar}
                             disabled={!props.isSamtykkeChecked}
                             htmlType="submit"
                         >
@@ -36,13 +36,15 @@ const AvgiSamtykkeRad = ({ ...props }) => (
 );
 
 AvgiSamtykkeRad.defaultProps = {
-    isSamtykkeChecked: false
+    isSamtykkeChecked: false,
+    isSavingVilkar: false
 };
 
 AvgiSamtykkeRad.propTypes = {
     handleClick: PropTypes.func.isRequired,
     isSamtykkeChecked: PropTypes.bool,
-    onSamtykkeChange: PropTypes.func.isRequired
+    onSamtykkeChange: PropTypes.func.isRequired,
+    isSavingVilkar: PropTypes.bool.isRequired
 };
 
 export default AvgiSamtykkeRad;

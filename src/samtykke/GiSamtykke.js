@@ -15,8 +15,7 @@ class GiSamtykke extends React.Component {
         super(props);
         this.state = {
             isFetching: true,
-            vilkarstekst: undefined,
-            isAdding: false
+            vilkarstekst: undefined
         };
     }
 
@@ -52,7 +51,7 @@ class GiSamtykke extends React.Component {
             );
         } else if (this.props.vilkarstekst) {
             const avgiSamtykkeRadProps = {
-                isAdding: this.state.isAdding,
+                isSavingVilkar: this.props.isSavingVilkar,
                 onSamtykkeChange: this.onSamtykkeChange,
                 isSamtykkeChecked: this.state.isSamtykkeChecked,
                 handleClick: this.handleClick
@@ -84,12 +83,12 @@ GiSamtykke.propTypes = {
     }),
     hentVilkarstekst: PropTypes.func.isRequired,
     godtaVilkar: PropTypes.func.isRequired,
-    vilkarGodtatt: PropTypes.bool.isRequired
+    isSavingVilkar: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     vilkarstekst: state.samtykke.vilkarstekst,
-    vilkarGodtatt: state.samtykke.vilkarGodtatt
+    isSavingVilkar: state.samtykke.isSavingVilkar
 });
 
 const mapDispatchToProps = (dispatch) => ({
