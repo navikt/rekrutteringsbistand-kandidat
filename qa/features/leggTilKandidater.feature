@@ -9,7 +9,8 @@ Egenskap: Lagre og slette kandidater fra kandidatlister
         Og jeg går til siden for kandidatlister
         Og jeg åpner kandidatlisten "Auto test 2"
         Så skal listen inneholde "25" kandidater
-        Når jeg sletter "2" kandidater fra listen
-        Så skal listen inneholde "23" kandidater
-        Når jeg sletter alle kandidatlister med navn "Auto test 2"
+        Når jeg sletter en kandidat fra listen
+        Så skal listen inneholde "24" kandidater
+        Når jeg går til siden for kandidatlister
+        Og jeg sletter alle kandidatlister med navn "Auto test 2"
         Så skal det ikke lenger eksistere kandidatlister med navn "Auto test 2"
