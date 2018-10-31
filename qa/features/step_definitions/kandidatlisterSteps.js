@@ -50,7 +50,8 @@ When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandid
 });
 
 Then(/skal listen inneholde "(.*)" kandidater/, async (antallKandidater) => {
-    await listePage.waitForElementPresent('@antallKandidater').expect.element('@antallKandidater').text.to.equal(`${antallKandidater} kandidater`);
+    await listePage.waitForElementPresent('@antallKandidater')
+        .expect.element('@antallKandidater').text.to.equal(`${antallKandidater} kandidater`);
 });
 
 When(/jeg sletter en kandidat fra listen/, async () => {
