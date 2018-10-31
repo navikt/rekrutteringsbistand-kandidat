@@ -6,24 +6,25 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import ResultatVisning from '../result/ResultatVisning';
-import ManglerRolle from './error/ManglerRolle';
-import './../styles.less';
-import './sok.less';
-import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
-import stillingReducer from './stilling/stillingReducer';
-import typeaheadReducer, { typeaheadSaga } from '../common/typeahead/typeaheadReducer';
-import kompetanseReducer from './kompetanse/kompetanseReducer';
-import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
-import utdanningReducer from './utdanning/utdanningReducer';
-import geografiReducer from './geografi/geografiReducer';
-import cvReducer, { cvSaga } from './cv/cvReducer';
-import Feilside from './error/Feilside';
-import feedbackReducer from '../feedback/feedbackReducer';
-import Toppmeny from '../common/toppmeny/Toppmeny';
-import sprakReducer from './sprak/sprakReducer';
-import FeilsideIkkeInnlogget from './error/FeilsideIkkeInnlogget';
-import { LOGIN_URL } from '../common/fasitProperties';
+import ResultatVisning from './result/ResultatVisning';
+import ManglerRolle from './sok/error/ManglerRolle';
+import './sok/../styles.less';
+import './sok/sok.less';
+import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './sok/searchReducer';
+import stillingReducer from './sok/stilling/stillingReducer';
+import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
+import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
+import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
+import utdanningReducer from './sok/utdanning/utdanningReducer';
+import geografiReducer from './sok/geografi/geografiReducer';
+import cvReducer, { cvSaga } from './sok/cv/cvReducer';
+import Feilside from './sok/error/Feilside';
+import feedbackReducer from './feedback/feedbackReducer';
+import Toppmeny from './common/toppmeny/Toppmeny';
+import sprakReducer from './sok/sprak/sprakReducer';
+import FeilsideIkkeInnlogget from './sok/error/FeilsideIkkeInnlogget';
+import Listedetaljer from './kandidatlister/Listedetaljer';
+import { LOGIN_URL } from './common/fasitProperties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -68,6 +69,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/pam-kandidatsok-veileder" component={ResultatVisning} />
+                    <Route exact path="/pam-kandidatsok-veileder/lister/:id/detaljer" component={Listedetaljer} />
                     <Route exact path="/pam-kandidatsok-veileder/ikke-innlogget" component={FeilsideIkkeInnlogget} />
                     <Route exact path="/pam-kandidatsok-veileder/mangler-tilgang" component={ManglerRolle} />
                     <Route exact path="/pam-kandidatsok-veileder/feilside" component={Feilside} />

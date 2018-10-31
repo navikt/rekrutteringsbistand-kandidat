@@ -10,7 +10,7 @@ const common = (app) => ({
         sok: [
             'babel-polyfill',
             'whatwg-fetch',
-            app === APP.KANDIDATSOK_VEILEDER ? './src/veileder/sok/sok.js' : './src/sok/sok.js'
+            app === APP.KANDIDATSOK_VEILEDER ? './src/veileder/app.js' : './src/sok/sok.js'
         ],
         googleanalytics: ['./src/googleanalytics.js']
     },

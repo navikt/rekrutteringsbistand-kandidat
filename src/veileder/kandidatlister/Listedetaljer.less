@@ -1,0 +1,85 @@
+.Listedetaljer {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  color: #59514b;
+  .side-header {
+    background-color: #e3edf8;
+    height: 10.75rem;
+    padding-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+
+    .wrapper {
+      width: 90rem;
+      .top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .tittel {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+        }
+        .header-side {
+          width: 10rem;
+        }
+
+      }
+      .bottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 1.25rem;
+        .border-left {
+          border-left: 1px solid #59514b;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+        .antall {
+          font-weight: 600;
+          padding-right: 0.5rem;
+        }
+      }
+    }
+
+  }
+  .detaljer {
+    display: flex;
+    justify-content: center;
+    .wrapper {
+      width: 90rem;
+      .liste-rad {
+        background-color: white;
+        border-radius: 4px;
+        height: 4.5rem;
+        display: flex;
+        align-items: center;
+        .kolonne-checkboks {
+          padding-left: 1.25rem;
+          padding-right: 1.25rem;
+        }
+        .kolonne-smal {
+          flex: 1;
+        }
+        .kolonne-bred {
+          flex: 2;
+        }
+      }
+      .liste-header {
+        border: 1px solid #78706a;
+        margin-top: 1.25rem;
+      }
+      .kandidat {
+        margin-top: 0.5rem;
+      }
+      .kandidat.checked {
+        border: 1px solid #0067c5;
+      }
+      .kandidat.unchecked {
+        border: 1px solid #d8d8d8;
+      }
+    }
+  }
+}
+.skjemaelement {
+  margin: 0;
+}
