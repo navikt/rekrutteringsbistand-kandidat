@@ -22,10 +22,9 @@ export const GODTA_VILKAR_FAILURE = 'GODTA_VILKAR_FAILURE';
  ********************************************************* */
 
 const initialState = {
-    fetchingVilkarstekst: false,
-    godtarGjeldendeVilkar: false,
-    vilkarstekst: undefined,
-    vilkarGodtatt: false
+    isFetchingVilkarstekst: false,
+    isSavingVilkar: false,
+    vilkarstekst: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -33,30 +32,33 @@ export default function searchReducer(state = initialState, action) {
         case HENT_VILKARSTEKST:
             return {
                 ...state,
-                fetchingVilkarstekst: true
+                isFetchingVilkarstekst: true
             };
         case HENT_VILKARSTEKST_SUCCESS:
             return {
                 ...state,
                 vilkarstekst: action.vilkarstekst,
-                fetchingVilkarstekst: false
+                isFetchingVilkarstekst: false
             };
         case HENT_VILKARSTEKST_FAILURE:
             return {
                 ...state,
-                fetchingVilkarstekst: false
+                isFetchingVilkarstekst: false
             };
         case GODTA_VILKAR:
             return {
-                ...state
+                ...state,
+                isSavingVilkar: true
             };
         case GODTA_VILKAR_SUCCESS:
             return {
-                ...state
+                ...state,
+                isSavingVilkar: false
             };
         case GODTA_VILKAR_FAILURE:
             return {
-                ...state
+                ...state,
+                isSavingVilkar: false
             };
         default:
             return state;
