@@ -1,0 +1,95 @@
+@nodeModulesPath: '../../../node_modules/';
+@coreModulePath: './../../';
+@import "../../../node_modules/nav-frontend-core/less/core";
+@import '@{nodeModulesPath}nav-frontend-lenker-style/src/lenker-mixins';
+@import '@{nodeModulesPath}nav-frontend-paneler-style/src/mixins';
+
+.vilkar-text {
+  h1 {
+    margin: 0 0 20px 0;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  h2 {
+    margin: 0 0 .5rem 0;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.5625rem;
+    font-weight: 600;
+  }
+  p {
+    margin: 0 0 20px 0;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-weight: 400;
+    &:last-of-type {
+      margin-top: 2.5rem;
+    }
+  }
+  ul {
+    margin: 0 0 20px 0;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-weight: 400;
+  }
+  a {
+    color: #0067C5;
+    background: none;
+    text-decoration: none;
+    border-bottom: solid 1px #B7B1A9;
+    cursor: pointer;
+  }
+}
+@media (min-width: 30em) {
+  .vilkar-text h1 {
+    font-size: 2rem;
+    line-height: 2.25rem;
+  }
+}
+
+.vilkar-overskrift {
+  padding: 0 2rem;
+}
+
+.samtykke {
+  margin-top: 0.5rem;
+  margin-bottom: 3.5rem;
+  margin-right: -0.5rem;
+  .skjemaelement__feilmelding {
+    margin-bottom: -1.625rem;
+  }
+}
+.lenke--vilkar, .lenke--tilbake {
+  color: #0067C5;
+  background: none;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.vilkar-oppsummert-tekst:extend(.vilkar-text all) {
+  padding: 1.5rem 0;
+  a {
+    display: inline-block;
+  }
+  ul {
+    margin: 0 0 2.5rem 0;
+    li {
+      margin: 0 0 1.5rem 0;
+    }
+  }
+}
+
+.container-vilkar {
+  padding-top: 2.5rem;
+  max-width: 700px;
+}
+
+.panel.panel--vilkar {
+  padding: 1.5rem;
+}
+
