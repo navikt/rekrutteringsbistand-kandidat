@@ -11,7 +11,7 @@ import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
-import { LAST_FLERE_KANDIDATER } from '../sok/searchReducer';
+import { LAST_FLERE_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
 
 const antallKandidaterMarkert = (kandidater) => (
@@ -54,13 +54,18 @@ class KandidaterVisning extends React.Component {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 kandidater: this.props.kandidater.map(avmarkerKandidat),
-                antallResultater: KANDIDATLISTE_CHUNK_SIZE,
                 alleKandidaterMarkert: false
             });
         } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
         // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater.map(avmarkerKandidat)
+                kandidater: this.props.kandidater.map(avmarkerKandidat),
+                antallResultater: this.props.antallKandidater
+            });
+        } else if (prevProps.antallKandidater !== this.props.antallKandidater) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                antallResultater: this.props.antallKandidater
             });
         }
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
@@ -86,9 +91,7 @@ class KandidaterVisning extends React.Component {
         }
 
         if (nyttAntall !== this.state.antallResultater) {
-            this.setState({
-                antallResultater: nyttAntall
-            });
+            this.props.oppdaterAntallKandidater(nyttAntall);
         }
     };
 
@@ -222,7 +225,8 @@ KandidaterVisning.propTypes = {
     lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     searchQueryHash: PropTypes.string.isRequired.isRequired,
-    antallKandidater: PropTypes.number.isRequired
+    antallKandidater: PropTypes.number.isRequired,
+    oppdaterAntallKandidater: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -231,6 +235,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     lastFlereKandidater: () => {
         dispatch({ type: LAST_FLERE_KANDIDATER });
+    },
+    oppdaterAntallKandidater: (antallKandidater) => {
+        dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater });
     }
 });
 
@@ -242,7 +249,7 @@ const mapStateToProps = (state) => ({
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff
+    antallKandidater: state.search.antallVisteKandidater
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

@@ -3,7 +3,7 @@ import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
-import {GODTA_VILKAR_SUCCESS} from "../samtykke/samtykkeReducer";
+import { GODTA_VILKAR_SUCCESS } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -32,6 +32,8 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
+export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
+
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!USE_JANZZ) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
@@ -53,6 +55,7 @@ const initialState = {
         },
         kompetanseSuggestions: []
     },
+    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
     searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
@@ -85,8 +88,7 @@ export default function searchReducer(state = initialState, action) {
                     resultat: !isPaginatedSok ? action.response :
                         {
                             ...state.searchResultat.resultat,
-                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater],
-                            totaltAntallTreff: action.antallResultater
+                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
                         }
                 }
             };
@@ -97,6 +99,12 @@ export default function searchReducer(state = initialState, action) {
                 isSearching: false,
                 error: action.error
             };
+        case OPPDATER_ANTALL_KANDIDATER: {
+            return {
+                ...state,
+                antallVisteKandidater: action.antall
+            };
+        }
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
                 ...state
@@ -207,7 +215,7 @@ function* search(action = '') {
         window.history.replaceState('', '', newUrlQuery);
 
         const fraIndex = action.fraIndex || 0;
-        const antallResultater = action.antallResultater || KANDIDATLISTE_INITIAL_CHUNK_SIZE;
+        const antallResultater = action.antallResultater ? Math.max(action.antallResultater, state.search.antallVisteKandidater) : state.search.antallVisteKandidater;
 
         const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
             [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
