@@ -85,7 +85,8 @@ export default function searchReducer(state = initialState, action) {
                     resultat: !isPaginatedSok ? action.response :
                         {
                             ...state.searchResultat.resultat,
-                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
+                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater],
+                            totaltAntallTreff: action.antallResultater
                         }
                 }
             };
@@ -234,7 +235,7 @@ function* search(action = '') {
 
         const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {

@@ -41,7 +41,7 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: KANDIDATLISTE_CHUNK_SIZE,
+            antallResultater: props.antallKandidater,
             kandidater: this.props.kandidater.map(avmarkerKandidat),
             alleKandidaterMarkert: false,
             lagreKandidaterModalVises: false
@@ -221,7 +221,8 @@ KandidaterVisning.propTypes = {
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    searchQueryHash: PropTypes.string.isRequired
+    searchQueryHash: PropTypes.string.isRequired.isRequired,
+    antallKandidater: PropTypes.number.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -240,7 +241,8 @@ const mapStateToProps = (state) => ({
     isSearching: state.search.isSearching,
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    searchQueryHash: state.search.searchQueryHash
+    searchQueryHash: state.search.searchQueryHash,
+    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
