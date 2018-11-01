@@ -88,6 +88,7 @@ class ResultatVisning extends React.Component {
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
                     tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
+                    id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
                     <Container className="container--header">
@@ -139,12 +140,12 @@ class ResultatVisning extends React.Component {
                                     </KnappBase> : ''}
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
+                                        <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
-                                        <GeografiSearch />
                                     </div>
                                 </div>
                             </Column>

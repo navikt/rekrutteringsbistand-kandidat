@@ -11,11 +11,12 @@ module.exports = {
             const engangspassord = 'otp';
             const personligPassord = 'qwer1234';
             return this
-                .waitForElementPresent('@idPortenKnapp', 30000)
+                .waitForElementVisible('@idPortenKnapp', 30000)
                 .click('@idPortenKnapp')
+                .waitForElementVisible('@bankIdKnapp')
                 .click('@bankIdKnapp')
                 .switchFrame(0) // feltene ligger i en iframe
-                .waitForElementPresent('@inputFelt', 60000)
+                .waitForElementVisible('@inputFelt', 60000)
                 .setValue('@inputFelt', brukernavn + this.api.Keys.ENTER)
                 .idPortenPause(2000)
                 .setValue('@inputFelt', engangspassord + this.api.Keys.ENTER)

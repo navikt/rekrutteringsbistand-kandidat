@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const { APP, common } = require('./webpack.common.js');
 
-module.exports = merge(common, {
+module.exports = merge(common(APP.KANDIDATSOK), {
     devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: {
@@ -15,7 +15,6 @@ module.exports = merge(common, {
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie?level=Level3'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
-            __BACKEND_OPPE__: true,
             __CONTEXT_ROOT__: "'kandidater'",
             __USE_JANZZ__: false,
             'process.env.NODE_ENV': "'development'"

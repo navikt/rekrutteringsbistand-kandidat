@@ -12,13 +12,14 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { BACKEND_OPPE, LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
+import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
 import './../styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
 import stillingReducer from './stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from '../common/typeahead/typeaheadReducer';
 import kompetanseReducer from './kompetanse/kompetanseReducer';
+import samtykkeReducer, { samtykkeSaga } from '../samtykke/samtykkeReducer';
 import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
@@ -32,7 +33,6 @@ import arbeidsgivervelgerReducer, {
 import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
-import NedeSide from './error/NedeSide';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
@@ -41,6 +41,8 @@ import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
+import GiSamtykke from '../samtykke/GiSamtykke';
+import AvgiSamtykkeRad from "../samtykke/AvgiSamtykkeRad";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -55,7 +57,8 @@ const store = createStore(combineReducers({
     sprakReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
-    mineArbeidsgivere: arbeidsgivervelgerReducer
+    mineArbeidsgivere: arbeidsgivervelgerReducer,
+    samtykke: samtykkeReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 
@@ -137,6 +140,9 @@ class Sok extends React.Component {
     }
 
     render() {
+        if (this.props.error && this.props.error.status === 406) {
+            return <GiSamtykke />;
+        }
         if (this.props.error) {
             return <Feilside />;
         } else if (this.props.isFetchingArbeidsgivere) {
@@ -238,13 +244,6 @@ const App = () => (
     </div>
 );
 
-const MidlertidigNede = () => (
-    <div>
-        <KandidatsokHeader />
-        <NedeSide />
-    </div>
-);
-
 const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaerKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
     <NavFrontendModal
         className="SesjonUgaarModal"
@@ -287,15 +286,12 @@ SesjonUtgaarModal.propTypes = {
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
+sagaMiddleware.run(samtykkeSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(mineArbeidsgivereSaga);
 
-const Root = () => (
-    BACKEND_OPPE ? <App /> : <MidlertidigNede />
-);
-
 ReactDOM.render(
-    <Root />,
+    <App />,
     document.getElementById('app')
 );
 

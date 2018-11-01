@@ -90,7 +90,7 @@ const Header = ({ antallKandidater }) => (
             <div className="Kandidatlister__header--innhold--indre">
                 <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
                 <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
-                    <Knapp role="link" type="standard" className="knapp">Opprett ny</Knapp>
+                    <Knapp id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
                 </Link>
             </div>
         </div>
@@ -239,11 +239,13 @@ class Kandidatlister extends React.Component {
                     antallKandidater={kandidatlister.find((kl) => kl.kandidatlisteId === this.state.kandidatlisteISletting.kandidatlisteId).antallKandidater}
                 />}
                 <HjelpetekstFading
+                    id="kandidatliste-lagret-melding"
                     synlig={this.state.visSuccessMelding}
                     type="suksess"
                     tekst={this.state.successMelding}
                 />
                 <HjelpetekstFading
+                    id="kandidatliste-slettet-melding"
                     synlig={this.state.visSuccessMeldingSlettet}
                     type="suksess"
                     tekst={this.state.successMeldingSlettet}
