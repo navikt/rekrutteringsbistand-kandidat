@@ -1,9 +1,9 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
-import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../konstanter';
+import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
-import {GODTA_VILKAR_SUCCESS} from "../samtykke/samtykkeReducer";
+import { GODTA_VILKAR_SUCCESS } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
  * ACTIONS

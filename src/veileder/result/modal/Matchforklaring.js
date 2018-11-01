@@ -3,7 +3,7 @@ import { Undertittel, Systemtittel } from 'nav-frontend-typografi';
 import { Row, Column } from 'nav-frontend-grid';
 import PropTypes from 'prop-types';
 import { ConceptMatchPropType, MatchedGroupConceptsPropType, MatchexplainProptypesGrouped, UnmatchedGroupConceptsPropType } from './Proptypes';
-import { KONSEPTTYPE } from '../../konstanter';
+import { KONSEPTTYPE } from '../../../felles/konstanter';
 import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../sok/utils';
 
 function mapYrkeserfaringStilling(name) {

@@ -17,7 +17,6 @@ import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Geografi.less';
 import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
-// import { USE_JANZZ } from '../../common/fasitProperties';
 
 class GeografiSearch extends React.Component {
     constructor(props) {

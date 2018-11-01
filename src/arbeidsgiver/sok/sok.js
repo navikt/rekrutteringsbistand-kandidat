@@ -13,7 +13,7 @@ import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
-import './../styles.less';
+import '../../felles/styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
 import stillingReducer from './stilling/stillingReducer';
@@ -42,7 +42,6 @@ import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import GiSamtykke from '../samtykke/GiSamtykke';
-import AvgiSamtykkeRad from "../samtykke/AvgiSamtykkeRad";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -102,7 +101,7 @@ class Sok extends React.Component {
         this.setState({
             visSesjonUtloperSnartModal: true
         });
-    }
+    };
 
     visSesjonUtgaattModal = () => {
         this.setState({
@@ -110,20 +109,20 @@ class Sok extends React.Component {
             visSesjonHarUtgaattModal: true
         });
         this.tokenChecker.pause();
-    }
+    };
 
     lukkUtloperSnartModal = () => {
         this.setState({
             visSesjonUtloperSnartModal: false
         });
-    }
+    };
 
     lukkSesjonUtgaattModal = () => {
         this.setState({
             visSesjonHarUtgaattModal: false
         });
         this.tokenChecker.pause();
-    }
+    };
 
     // Redirect to login with Id-Porten
     redirectToLogin = () => {
@@ -132,12 +131,12 @@ class Sok extends React.Component {
 
     redirectToLoginMedForsideCallback = () => {
         window.location.href = `${LOGIN_URL}&redirect=${window.location.origin}/${CONTEXT_ROOT}`;
-    }
+    };
 
     loggUt = () => {
         sessionStorage.clear();
         window.location.href = LOGOUT_URL;
-    }
+    };
 
     render() {
         if (this.props.error && this.props.error.status === 406) {

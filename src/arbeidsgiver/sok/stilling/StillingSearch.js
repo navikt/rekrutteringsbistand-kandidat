@@ -16,7 +16,7 @@ import {
 } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Stilling.less';
 import { USE_JANZZ } from '../../common/fasitProperties';
 

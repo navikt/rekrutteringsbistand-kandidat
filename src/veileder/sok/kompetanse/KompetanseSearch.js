@@ -15,7 +15,7 @@ import {
     TOGGLE_KOMPETANSE_PANEL_OPEN
 } from './kompetanseReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Kompetanse.less';
 
 

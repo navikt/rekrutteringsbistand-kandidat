@@ -1,4 +1,4 @@
-import { KONSEPTTYPE } from '../konstanter';
+import { KONSEPTTYPE } from '../../felles/konstanter';
 
 export function toUrlParams(query) {
     return Object.keys(query)

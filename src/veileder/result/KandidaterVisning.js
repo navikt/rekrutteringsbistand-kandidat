@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Ingress } from 'nav-frontend-typografi';
-import cvPropTypes from '../PropTypes';
+import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabellUtenKriterier from './KandidaterTabellUtenKriterier';
 import KandidaterTabellMedKriterier from './KandidaterTabellMedKriterier';
 import './Resultat.less';

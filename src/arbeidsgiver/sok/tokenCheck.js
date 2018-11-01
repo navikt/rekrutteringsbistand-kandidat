@@ -32,7 +32,7 @@ export default class TokenChecker extends EventEmitter {
     gaarTokenUtSnart = async () => {
         const result = await sjekkTokenGaarUtSnart();
         return result.content;
-    }
+    };
 
     timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -63,7 +63,7 @@ export default class TokenChecker extends EventEmitter {
             }
         }
         this.loop();
-    }
+    };
 
 
     dispatchTokenExpired() {

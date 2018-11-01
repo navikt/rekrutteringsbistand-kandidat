@@ -40,12 +40,12 @@ sourcemap-lookup dist/js/sok.js:{LINJENUMMER}:{KOLONNENUMMER}
 ## Feature toggles
 
 Applikasjonen bruker feature toggles fra unleash for å skru av og på funksjonalitet.
-I `src/konstanter.js` ligger en liste med navnene på feature togglene som appen bruker.
+I `src/felles/konstanter.js` ligger en liste med navnene på feature togglene som appen bruker.
 Disse ligger også i `webpack.config.dev.js` for toggles under utvikling lokalt.
 
 For å legge til en feature toggle med navn `'test-toggle'` må man legge den til 3 steder:
 
-- Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/konstanter.js`.
+- Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
 - Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
 - Legg til `pam-kandidatsok.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
 
