@@ -65,7 +65,7 @@ function* fetchCvForKandidat(action) {
         let medUtdanningstekst;
 
         const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
-        [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
 
         const criteriaValues = {
             stillinger: state.stilling.stillinger,

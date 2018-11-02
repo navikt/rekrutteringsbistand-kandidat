@@ -48,6 +48,12 @@ class KandidaterVisning extends React.Component {
         };
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            window.scrollTo(0, this.props.scrolletFraToppen);
+        }, 10);
+    }
+
     componentDidUpdate(prevProps) {
         const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
@@ -210,6 +216,7 @@ class KandidaterVisning extends React.Component {
                     onKandidatValgt={this.onKandidatValgt}
                     alleKandidaterMarkert={this.state.alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
+                    valgtKandidatNr={this.props.valgtKandidatNr}
                 />
             </div>
         );
@@ -226,6 +233,8 @@ KandidaterVisning.propTypes = {
     leggTilKandidatStatus: PropTypes.string.isRequired,
     searchQueryHash: PropTypes.string.isRequired.isRequired,
     antallKandidater: PropTypes.number.isRequired,
+    valgtKandidatNr: PropTypes.string.isRequired,
+    scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired
 };
 
@@ -249,7 +258,9 @@ const mapStateToProps = (state) => ({
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.antallVisteKandidater
+    antallKandidater: state.search.antallVisteKandidater,
+    valgtKandidatNr: state.search.valgtKandidatNr,
+    scrolletFraToppen: state.search.scrolletFraToppen
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

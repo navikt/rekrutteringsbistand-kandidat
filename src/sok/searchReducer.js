@@ -34,6 +34,8 @@ export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
 export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 
+export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
+
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!USE_JANZZ) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
@@ -65,7 +67,9 @@ const initialState = {
             { ...dict, [key]: false }
         ), {}),
     isEmptyQuery: true,
-    visAlertFaKandidater: ''
+    visAlertFaKandidater: '',
+    valgtKandidatNr: '',
+    scrolletFraToppen: 0
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -99,12 +103,17 @@ export default function searchReducer(state = initialState, action) {
                 isSearching: false,
                 error: action.error
             };
-        case OPPDATER_ANTALL_KANDIDATER: {
+        case OPPDATER_ANTALL_KANDIDATER:
             return {
                 ...state,
                 antallVisteKandidater: action.antall
             };
-        }
+        case SETT_KANDIDATNUMMER:
+            return {
+                ...state,
+                valgtKandidatNr: action.kandidatnr,
+                scrolletFraToppen: action.scrollStr
+            };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
                 ...state

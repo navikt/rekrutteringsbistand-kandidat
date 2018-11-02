@@ -42,7 +42,6 @@ import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import GiSamtykke from '../samtykke/GiSamtykke';
-import AvgiSamtykkeRad from '../samtykke/AvgiSamtykkeRad';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({

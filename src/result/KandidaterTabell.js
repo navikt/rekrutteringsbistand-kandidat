@@ -16,7 +16,8 @@ export default function KandidaterTabell({
     totaltAntallTreff,
     onKandidatValgt,
     alleKandidaterMarkert,
-    onToggleMarkeringAlleKandidater
+    onToggleMarkeringAlleKandidater,
+    valgtKandidatNr
 }) {
     return (
 
@@ -38,6 +39,7 @@ export default function KandidaterTabell({
                         onKandidatValgt={onKandidatValgt}
                         markert={cv.markert}
                         visCheckbox={false}
+                        nettoppValgt={valgtKandidatNr === cv.arenaKandidatnr}
                     />
                 ))}
             </div>
@@ -68,5 +70,6 @@ KandidaterTabell.propTypes = {
     onFlereResultaterClick: PropTypes.func.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     alleKandidaterMarkert: PropTypes.bool.isRequired,
-    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired
+    onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
+    valgtKandidatNr: PropTypes.string.isRequired
 };
