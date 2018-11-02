@@ -17,7 +17,7 @@ When(/jeg oppretter en kandidatliste/, (listeInput) => {
 });
 
 When(/jeg åpner kandidatlisten "(.*)"/, async (listeNavn) => {
-    await listerPage.waitForElementVisible('@forsteListe');
+    await listerPage.waitForElementVisible('@forsteListe', 20000);
     await client.useXpath().click(`//h2[text()="${listeNavn}"]`).useCss();
     await listePage.waitForElementVisible('@kandidatlisteDetaljer');
 });
@@ -45,7 +45,7 @@ When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandid
 
     await sokPage.waitForElementPresent('@forsteKandidatliste')
         .setValue('@forsteKandidatliste', client.Keys.SPACE)
-        .click('@lagreKandidaterIListeKnapp')
+        .clickElement('@lagreKandidaterIListeKnapp', sokPage, 500)
         .waitForElementVisible('@hjelpetekstfading')
         .pageWait(1000);
 });

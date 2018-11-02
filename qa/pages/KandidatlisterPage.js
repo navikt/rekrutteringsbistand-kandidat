@@ -16,8 +16,7 @@ module.exports = {
     commands: [{
         navigerTilKandidatlister() {
             return this
-                .waitForElementVisible('@kandidatlisterLink')
-                .click('@kandidatlisterLink')
+                .clickElement('@kandidatlisterLink', this, 1000)
                 .waitForElementVisible('@opprettNyListeKnapp');
         },
 
