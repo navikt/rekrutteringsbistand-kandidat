@@ -36,13 +36,13 @@ module.exports = {
             let self = this;
 
             return this
-                .waitForElementPresent('@forsteListe')
+                .waitForElementVisible('@forsteListe')
                 .api.useXpath()
                 .elements('xpath', `//h2[text()="${navn}"]`, (result) => {
                     const antallLister = result.value.length;
                     for (let i = 0; i < antallLister; i++) {
                         self
-                            .click(`//h2[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`)
+                            .clickElement(`//h2[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`, self, 1000)
                             .waitForElementVisible('@slettKnapp')
                             .clickElement('@slettKnapp', self, 1000)
                             .waitForElementVisible('@listeSlettetMelding')
