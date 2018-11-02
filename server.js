@@ -180,13 +180,7 @@ const startServer = (html) => {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp(app.contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
         ),
-        proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-            if (srcReq.headers.cookie !== undefined) {
-                const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('selvbetjening-idtoken') !== -1).pop();
-                if (token) {
-                    proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
-                }
-            }
+        proxyReqOptDecorator: (proxyReqOpts) => {
             proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
             return proxyReqOpts;
         }
