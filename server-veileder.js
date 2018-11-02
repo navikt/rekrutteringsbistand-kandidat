@@ -115,16 +115,7 @@ const startServer = (html) => {
     server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
     server.use('/pam-kandidatsok-veileder/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok-veileder').pop()}`,
-        proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-            if (srcReq.headers.cookie !== undefined) {
-                const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('isso-idtoken') !== -1).pop();
-                if (token) {
-                    proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
-                }
-            }
-            return proxyReqOpts;
-        }
+        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok-veileder').pop()}`
     }));
 
     server.use(
