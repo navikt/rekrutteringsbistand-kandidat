@@ -40,11 +40,3 @@ fasitResources:
       password: PAM_KANDIDATSOK_API_PROXY_API_APIKEY
   - alias: pam-kandidatsok-api
     resourceType: restservice
-  - alias: loginservice_login
-    resourceType: baseurl
-    propertyMap:
-      url: LOGINSERVICE_VEILEDER_URL
-  - alias: loginservice_logout
-    resourceType: baseurl
-    propertyMap:
-      url: LOGINSERVICE_LOGOUT_VEILEDER_URL
