@@ -18,18 +18,14 @@ module.exports = {
                 .switchFrame(0) // feltene ligger i en iframe
                 .waitForElementVisible('@inputFelt', 60000)
                 .setValue('@inputFelt', brukernavn + this.api.Keys.ENTER)
-                .idPortenPause(2000)
+                .pagePause(2000)
                 .setValue('@inputFelt', engangspassord + this.api.Keys.ENTER)
-                .idPortenPause(2000)
+                .pagePause(2000)
                 .setValue('@inputFelt', personligPassord + this.api.Keys.ENTER);
         },
 
         switchFrame(frame) {
             return this.api.frame(frame).page.IdPortenPage();
-        },
-
-        idPortenPause(ms) {
-            return this.api.pause(ms).page.IdPortenPage();
         }
     }]
 };

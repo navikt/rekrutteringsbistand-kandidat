@@ -45,15 +45,11 @@ module.exports = {
                             .waitForElementVisible('@slettKnapp')
                             .clickElement('@slettKnapp', self, 1000)
                             .waitForElementVisible('@listeSlettetMelding')
-                            .listerPause(1000);
+                            .pagePause(1000);
                     }
                 })
                 .useCss()
                 .page.KandidatlisterPage();
-        },
-
-        listerPause(ms) {
-            return this.api.pause(ms).page.KandidatlisterPage();
         }
     }]
 };

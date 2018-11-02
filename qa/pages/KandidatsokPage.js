@@ -204,10 +204,6 @@ module.exports = {
                     .click('@slettAlleKriterierLenke')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
-        },
-
-        pageWait(ms) {
-            return this.api.pause(ms).page.KandidatsokPage();
         }
     }]
 };

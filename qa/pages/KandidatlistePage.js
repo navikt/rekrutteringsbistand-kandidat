@@ -20,7 +20,9 @@ module.exports = {
                 .setValue('@kandidatCheckbox', this.api.Keys.SPACE)
                 .click('@deleteIcon')
                 .click('@deleteKnappModal')
-                .waitForElementVisible('@hjelpetekstfading');
+                .waitForElementVisible('@hjelpetekstfading')
+                .waitForElementNotVisible('@hjelpetekstfading')
+                .pagePause(500);
         }
     }]
 };

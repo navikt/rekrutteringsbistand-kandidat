@@ -8,5 +8,4 @@ exports.command = function (element, pageObject, pauseBefore = 100, pauseAfter =
     this.pause(pauseBefore);
     client.click(element);
     this.pause(pauseAfter);
-    return client;
 };

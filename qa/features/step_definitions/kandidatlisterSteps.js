@@ -48,7 +48,7 @@ When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandid
         .clickElement('@lagreKandidaterIListeKnapp', sokPage, 500)
         .waitForElementVisible('@hjelpetekstfading')
         .waitForElementNotVisible('@hjelpetekstfading', 10000)
-        .pageWait(500);
+        .pagePause(500);
 });
 
 Then(/skal listen inneholde "(.*)" kandidater/, async (antallKandidater) => {
