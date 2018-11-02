@@ -13,7 +13,7 @@ import {
     TOGGLE_GEOGRAFI_PANEL_OPEN
 } from './geografiReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Geografi.less';
 
 class GeografiSearch extends React.Component {

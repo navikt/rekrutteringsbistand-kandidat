@@ -8,7 +8,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolle from './error/ManglerRolle';
-import './../styles.less';
+import './../../felles/styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
 import stillingReducer from './stilling/stillingReducer';

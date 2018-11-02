@@ -16,7 +16,7 @@ import {
     TOGGLE_SPRAK_PANEL_OPEN
 } from './sprakReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Sprak.less';
 
 class SprakSearch extends React.Component {
