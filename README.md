@@ -16,7 +16,7 @@ npm run start-veileder
 
 Frontend kjører som default på
  
-Arbeidsgiver: [localhost:9009/pam-kandidatsok](localhost:9009/pam-kandidatsok)
+Arbeidsgiver: [localhost:9009/kandidater](localhost:9009/kandidater)
 
 Veileder: [localhost:9010/pam-kandidatsok-veileder/](localhost:9010/pam-kandidatsok-veileder)
 
