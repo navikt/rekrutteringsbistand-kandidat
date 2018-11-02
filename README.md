@@ -1,13 +1,24 @@
 # PAM Kandidatsøk
 
-## Hvordan kjøre applikasjonen lokalt
+## Hvordan kjøre applikasjonen lokalt i arbeidsgivermodus
 
 ```sh 
 npm install
 npm start
 ```
 
-Frontend kjører som default på [localhost:9009/pam-kandidatsok](localhost:9009/pam-kandidatsok).
+## Hvordan kjøre applikasjonen lokalt i veiledermodus
+
+```sh 
+npm install
+npm run start-veileder
+```
+
+Frontend kjører som default på
+ 
+Arbeidsgiver: [localhost:9009/kandidater](localhost:9009/kandidater)
+
+Veileder: [localhost:9010/pam-kandidatsok-veileder/](localhost:9010/pam-kandidatsok-veileder)
 
 For å få inn testdata må prosjektet pam-kandidatsok-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 
