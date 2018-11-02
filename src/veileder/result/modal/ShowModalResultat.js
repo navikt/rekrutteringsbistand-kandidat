@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import ShowCv from './ShowCv';
-import cvPropTypes from '../../PropTypes';
+import cvPropTypes from '../../../felles/PropTypes';
 import './Modal.less';
 import { CLOSE_CV_MODAL } from '../../sok/cv/cvReducer';
 

@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchFeatureToggles, SearchApiError } from './api';
 import { getUrlParameterByName, toUrlParams } from './utils';
-import FEATURE_TOGGLES from '../konstanter';
+import FEATURE_TOGGLES from '../../felles/konstanter';
 
 /** *********************************************************
  * ACTIONS

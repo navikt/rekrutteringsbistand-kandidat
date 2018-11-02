@@ -16,7 +16,7 @@ import {
     TOGGLE_UTDANNING_PANEL_OPEN
 } from './utdanningReducer';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
-import { ALERTTYPE, BRANCHNAVN } from '../../konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Utdanning.less';
 
 class UtdanningSearch extends React.Component {

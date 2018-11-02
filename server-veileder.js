@@ -6,6 +6,8 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
 const Promise = require('promise');
+const { isNullOrUndefined } = require('util');
+const jwt = require('jsonwebtoken');
 
 const currentDirectory = __dirname;
 
@@ -35,19 +37,59 @@ server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
+const isProd = process.env.NODE_ENV !== 'development';
+
 const fasitProperties = {
     PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
-    LOGIN_URL: process.env.LOGIN_URL
+    LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
+    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
-        `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n`;
+        `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
+        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
+};
+
+const normalizedTokenExpiration = (token) => {
+    const expiration = jwt.decode(token).exp;
+    if (expiration.toString().length === 10) {
+        return expiration * 1000;
+    }
+    return expiration;
+};
+
+const unsafeTokenIsExpired = (token) => {
+    if (token) {
+        const normalizedExpirationTime = normalizedTokenExpiration(token);
+        return normalizedExpirationTime - Date.now() < 0;
+    }
+    return true;
+};
+
+const extractTokenFromCookie = (cookie) => {
+    if (cookie !== undefined) {
+        const token = cookie.split(';').filter((s) => s && s.indexOf('-idtoken') !== -1).pop();
+        if (token) {
+            return token.split('=').pop().trim();
+        }
+    }
+    return null;
+};
+
+const tokenValidator = (req, res, next) => {
+    const token = extractTokenFromCookie(req.headers.cookie);
+    if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
+        const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
+        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/pam-kandidatsok-veileder`;
+        return res.redirect(redirectUrl);
+    }
+    return next();
 };
 
 const renderSok = () => (
@@ -73,16 +115,7 @@ const startServer = (html) => {
     server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
     server.use('/pam-kandidatsok-veileder/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok-veileder').pop()}`,
-        proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-            if (srcReq.headers.cookie !== undefined) {
-                const token = srcReq.headers.cookie.split(';').filter((s) => s && s.indexOf('ID_token') !== -1).pop();
-                if (token) {
-                    proxyReqOpts.headers.authorization = `Bearer ${token.split('=').pop().trim()}`;
-                }
-            }
-            return proxyReqOpts;
-        }
+        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok-veileder').pop()}`
     }));
 
     server.use(
@@ -96,6 +129,7 @@ const startServer = (html) => {
 
     server.get(
         ['/pam-kandidatsok-veileder', '/pam-kandidatsok-veileder/*'],
+        tokenValidator,
         (req, res) => {
             res.send(html);
         }

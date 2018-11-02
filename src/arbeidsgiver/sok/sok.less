@@ -1,0 +1,196 @@
+@import '../../felles/Variables';
+
+.search-button {
+  padding: 7px 0.5rem 7px 0.5rem !important;
+  border-radius: 0 !important;
+  border: none !important;
+  position: absolute;
+  right: 0;
+}
+
+.search-button:hover,
+.search-button:active {
+  background-color: @navBla !important;
+}
+
+.search-button__icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%230067C5' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 28px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: block;
+}
+
+.search-button:hover .search-button__icon,
+.search-button:active .search-button__icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%23fff' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.skjemaelement__input {
+  border: 1px solid @color-blue;
+  border-radius: 2px;
+  &::-ms-clear {
+    width: 0;
+    height: 0;
+  }
+
+  &:hover {
+    border-color: @navBlaDarken40;
+  }
+}
+
+.panel--sokekriterier {
+  margin: 1rem 0 1rem;
+}
+
+@media (min-width: @screen-sm-min) {
+  .panel--padding {
+    padding: 1.5rem 3rem;
+  }
+}
+
+.sokekriterier--kriterier {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.sokekriterier--margin-top-large {
+  margin-top: 1.25rem;
+}
+
+.sokekriterier--margin-top-extra-large {
+  margin-top: 2rem;
+}
+
+.sokekriterier--margin-bottom-medium {
+  margin-bottom: 1rem;
+}
+
+.leggtil--sokekriterier--knapp {
+  width: 100%;
+}
+
+.etikett--sokekriterier {
+  border: none;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  background-color: #cce1f3;
+  color: #3e3832;
+  cursor: pointer;
+}
+
+.etikett--forslag--kompetanse {
+  border: solid 2px #c6c2bf;
+  border-radius: 4px;
+  margin: 0.5rem 1rem 0 0;
+  padding: 0.4rem 2rem;
+  background-color: rgba(227, 227, 227, 0.5);
+  cursor: pointer;
+}
+
+.checkbox--sokekriterier--unchecked {
+  display: inline-flex;
+  margin: 0.5rem 1rem 0 0;
+  padding: 0.7rem 0.7rem;
+  border: solid 2px #c6c2bf;
+  border-radius: 8px;
+}
+
+.checkbox--sokekriterier--checked {
+  display: inline-flex;
+  margin: 0.5rem 1rem 0 0;
+  padding: 0.7rem 0.7rem;
+  border: solid 2px #fff;
+  border-radius: 8px;
+  background-color: #cce1f3;
+}
+
+.kryssicon--sokekriterier {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  border: none;
+
+  &:before, &:after {
+    height: 14px;
+    width: 1px;
+    transform: rotate(-45deg);
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0.65rem;
+    right: 1rem;
+    background-color: #0067c5;
+    transition: all 0.2s ease-out;
+  }
+
+  &:after {
+    transform: rotate(45deg);
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .resultatsummering--sokekriterier {
+    text-align: center;
+    padding: 2rem 0;
+    margin: 2rem;
+    position: fixed;
+    width: 18rem;
+    height: 12rem;
+  }
+
+  .antall-treff-sokekriterier-empty {
+    margin-top: 1.5rem;
+  }
+
+  .antall-treff-sokekriterier {
+    margin-top: 1rem;
+  }
+}
+
+.resultatsummering--sokekriterier {
+  text-align: center;
+}
+
+.antall-treff-sokekriterier-empty {
+  margin: 1rem 0;
+}
+
+.antall-treff-sokekriterier {
+  margin: 1rem 0;
+}
+
+.antall-treff-panel {
+  height: 80%;
+  padding-top: 0.5rem;
+}
+
+.text--italic {
+  font-style: italic;
+}
+
+.ekspanderbartPanel__hode {
+  color: rgb(0, 0, 0);
+}
+
+.SesjonUgaarModal {
+    width: 640px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .innhold {
+        margin-top: 1.25rem;
+    }
+
+    .knapperad {
+        margin-top: 2.5rem;
+        :not(:first-child) {
+            margin-left: 1rem;
+        }
+    }
+}
