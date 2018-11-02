@@ -86,7 +86,7 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/pam-kandidatsok-veileder`;
+        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get('host')}/pam-kandidatsok-veileder`;
         return res.redirect(redirectUrl);
     }
     return next();
