@@ -9,10 +9,15 @@ import cvPropTypes from '../../../felles/PropTypes';
 import { UTDANNING } from '../../../felles/konstanter';
 import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import './Resultstable.less';
+import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
+    };
+
+    onKandidatNrClick = () => {
+        this.props.settValgtKandidat(this.props.cv.arenaKandidatnr, window.pageYOffset);
     };
 
     nusKodeTilUtdanningsNivaa = (nusKode) => {
@@ -37,9 +42,8 @@ class KandidaterTableRow extends React.Component {
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
 
         const score = cv.score;
-
         return (
-            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}`}>
+            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
                     <Checkbox
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
@@ -54,7 +58,7 @@ class KandidaterTableRow extends React.Component {
                     <Link
                         className="lenke--kandidatnr"
                         to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
-
+                        onClick={this.onKandidatNrClick}
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                     >
                         <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
@@ -81,11 +85,18 @@ class KandidaterTableRow extends React.Component {
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
-    markert: PropTypes.bool.isRequired
+    markert: PropTypes.bool.isRequired,
+    nettoppValgt: PropTypes.bool.isRequired,
+    settValgtKandidat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     query: state.query
 });
 
-export default connect(mapStateToProps)(KandidaterTableRow);
+const mapDispatchToProps = (dispatch) => ({
+    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);

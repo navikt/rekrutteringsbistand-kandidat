@@ -32,6 +32,10 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
+export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
+
+export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
+
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!USE_JANZZ) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
@@ -53,6 +57,7 @@ const initialState = {
         },
         kompetanseSuggestions: []
     },
+    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
     searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
@@ -62,7 +67,9 @@ const initialState = {
             { ...dict, [key]: false }
         ), {}),
     isEmptyQuery: true,
-    visAlertFaKandidater: ''
+    visAlertFaKandidater: '',
+    valgtKandidatNr: '',
+    scrolletFraToppen: 0
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -95,6 +102,17 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 error: action.error
+            };
+        case OPPDATER_ANTALL_KANDIDATER:
+            return {
+                ...state,
+                antallVisteKandidater: action.antall
+            };
+        case SETT_KANDIDATNUMMER:
+            return {
+                ...state,
+                valgtKandidatNr: action.kandidatnr,
+                scrolletFraToppen: action.scrollStr
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
@@ -206,7 +224,7 @@ function* search(action = '') {
         window.history.replaceState('', '', newUrlQuery);
 
         const fraIndex = action.fraIndex || 0;
-        const antallResultater = action.antallResultater || KANDIDATLISTE_INITIAL_CHUNK_SIZE;
+        const antallResultater = action.antallResultater ? Math.max(action.antallResultater, state.search.antallVisteKandidater) : state.search.antallVisteKandidater;
 
         const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
             [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
@@ -234,7 +252,7 @@ function* search(action = '') {
 
         const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
