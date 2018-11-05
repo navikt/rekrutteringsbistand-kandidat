@@ -26,6 +26,8 @@ export const REMOVE_KOMPETANSE_SUGGESTIONS = 'REMOVE_KOMPETANSE_SUGGESTIONS';
 
 export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
+export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
+
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!toggles['janzz-enabled']) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
@@ -119,6 +121,11 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 visAlertFaKandidater: action.value
+            };
+        case INVALID_RESPONSE_STATUS:
+            return {
+                ...state,
+                error: action.error
             };
         default:
             return state;

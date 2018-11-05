@@ -110,7 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: () => { dispatch({ type: INITIAL_SEARCH_BEGIN })}
+    initialSearch: () => { dispatch({ type: INITIAL_SEARCH_BEGIN }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

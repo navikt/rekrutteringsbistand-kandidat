@@ -1,5 +1,6 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
-import { fetchKandidatliste } from '../api';
+import { put, takeLatest } from 'redux-saga/effects';
+import { fetchKandidatliste, SearchApiError } from '../api';
+import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -71,22 +72,6 @@ export default function reducer(state = initialState, action) {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* opprettKandidatliste(action) {
-    try {
-        const state = yield select();
-        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
-        yield postKandidatliste(action.kandidatlisteInfo, orgNr);
-        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
-        yield put({ type: HENT_KANDIDATLISTER });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* hentKandidatListe(action) {
     const { stillingsnummer } = action;
     try {
@@ -101,88 +86,12 @@ function* hentKandidatListe(action) {
     }
 }
 
-function* slettKandidater(action) {
-    try {
-        const { kandidater, kandidatlisteId } = action;
-        const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
-        const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
-        yield put({ type: SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: SLETT_KANDIDATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* slettKandidatListe(action) {
-    try {
-        const kandidatlisteId = action.kandidatlisteId;
-        yield deleteKandidatliste(kandidatlisteId);
-        yield put({ type: SLETT_KANDIDATLISTE_SUCCESS });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: SLETT_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatlister() {
-    try {
-        const state = yield select();
-        const orgNr = state.mineArbeidsgivere.valgtArbeidsgiverId;
-        const response = yield fetchKandidatlister(orgNr);
-        const sortertKandidatliste = sortKandidatlisteByDato(response.liste);
-        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister: sortertKandidatliste });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: HENT_KANDIDATLISTER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* leggTilKandidater(action) {
-    try {
-        for (let i = 0; i < action.kandidatlisteIder.length; i += 1) {
-            yield postKandidaterTilKandidatliste(action.kandidatlisteIder[i], action.kandidater);
-        }
-        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS, antallLagredeKandidater: action.kandidater.length });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: LEGG_TIL_KANDIDATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* oppdaterKandidatliste(action) {
-    try {
-        yield putKandidatliste(action.kandidatlisteInfo);
-        yield put({ type: OPPDATER_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: OPPDATER_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
 
 export function* kandidatlisteSaga() {
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
-    yield takeLatest(SLETT_KANDIDATER, slettKandidater);
-    yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
-    yield takeLatest(OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
         SLETT_KANDIDATER_FAILURE

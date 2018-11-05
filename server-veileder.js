@@ -36,12 +36,14 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 const fasitProperties = {
+    PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok-veileder/rest',
     PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
     LOGIN_URL: process.env.LOGIN_URL
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
+        `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n`;
 

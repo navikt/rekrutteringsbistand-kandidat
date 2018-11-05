@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './Listedetaljer.less';
-import ListedetaljerView from './ListedetaljerView';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HENT_KANDIDATLISTE } from './kandidatlisteReducer';
+import ListedetaljerView from './ListedetaljerView';
+import './Listedetaljer.less';
+import { Kandidatliste } from './PropTypes';
 
 class Listedetaljer extends React.Component {
     constructor(props) {
@@ -46,11 +49,11 @@ class Listedetaljer extends React.Component {
         });
     };
 
-    onToggleKandidat = (kandidatnummer) => {
+    onToggleKandidat = (kandidatnr) => {
         this.setState({
             alleMarkert: false,
             kandidater: this.state.kandidater.map((kandidat) => {
-                if (kandidat.kandidatnummer === kandidatnummer) {
+                if (kandidat.kandidatnr === kandidatnr) {
                     return {
                         ...kandidat,
                         markert: !kandidat.markert
@@ -63,17 +66,21 @@ class Listedetaljer extends React.Component {
 
     render() {
         if (this.props.fetching || !this.props.kandidatliste) {
-            return <span>Spinner</span>;
+            return (
+                <div className="fullscreen-spinner">
+                    <NavFrontendSpinner type="L" />
+                </div>
+            );
         }
 
-        const { tittel, oppdragsgiver, opprettetAv, stillingsId } = this.props.kandidatliste;
+        const { tittel, oppdragsgiver, opprettetAv, stillingId } = this.props.kandidatliste;
         const { kandidater, alleMarkert } = this.state;
         return (
             <ListedetaljerView
                 tittel={tittel}
                 oppdragsgiver={oppdragsgiver}
                 opprettetAv={opprettetAv}
-                stillingsId={stillingsId}
+                stillingsId={stillingId}
                 kandidater={kandidater}
                 alleMarkert={alleMarkert}
                 onToggleKandidat={this.onToggleKandidat}
@@ -84,6 +91,21 @@ class Listedetaljer extends React.Component {
         );
     }
 }
+
+Listedetaljer.defaultProps = {
+    kandidatliste: undefined
+};
+
+Listedetaljer.propTypes = {
+    fetching: PropTypes.bool.isRequired,
+    kandidatliste: PropTypes.shape(Kandidatliste),
+    hentKandidatliste: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.string.isRequired
+        })
+    }).isRequired
+};
 
 const mapStateToProps = (state) => ({
     fetching: state.kandidatlister.detaljer.fetching,

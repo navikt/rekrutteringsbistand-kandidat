@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API } from './common/fasitProperties';
+import { SEARCH_API, KANDIDATLISTE_API } from './common/fasitProperties';
 import FEATURE_TOGGLES from './konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -87,28 +87,6 @@ export function fetchMatchExplain(query = {}) {
     );
 }
 
-export const fetchKandidatliste = (stillingsnummer) => (
-    {
-        tittel: 'Engasjert kokk på Burger King',
-        oppdragsgiver: 'MAT Restaurant',
-        opprettetAv: {
-            navn: 'Aksel Wester',
-            ident: 'Z999001'
-        },
-        stillingsId: stillingsnummer,
-        kandidater: [
-            {
-                navn: 'Test Testesen',
-                kandidatnummer: 'Z900550'
-            },
-            {
-                navn: 'Test Testesen',
-                kandidatnummer: 'Z900551'
-            },
-            {
-                navn: 'Test Testesen',
-                kandidatnummer: 'Z900552'
-            }
-        ]
-    }
+export const fetchKandidatliste = (stillingsId) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
 );
