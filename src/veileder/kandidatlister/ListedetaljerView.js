@@ -52,7 +52,7 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, sti
                     </div>
                     }
                     <div className="border-left">
-                        { `Opprettet av: ${opprettetAv.ident}` }
+                        { `Opprettet av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     <div className="border-left">
                         <Lenke href="#">Se stillingsannonse</Lenke>
@@ -92,7 +92,7 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, sti
             </div>
             <div className="kolonne-bred">{kandidat.fornavn} {kandidat.etternavn}</div>
             <div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
-            <div className="kolonne-bred">{kandidat.lagtTilAv.ident}</div>
+            <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
             <div className="kolonne-bred">-</div>
             <div className="kolonne-smal">{statusToString(kandidat.status)}</div>
             <div className="kolonne-bred">{utfallToString(kandidat.utfall)}</div>
@@ -120,7 +120,10 @@ ListedetaljerView.propTypes = {
     kandidater: PropTypes.arrayOf(PropTypes.shape({ ...Kandidat, markert: PropTypes.bool })).isRequired,
     tittel: PropTypes.string.isRequired,
     oppdragsgiver: PropTypes.string,
-    opprettetAv: PropTypes.string.isRequired,
+    opprettetAv: PropTypes.shape({
+        ident: PropTypes.string,
+        navn: PropTypes.string
+    }).isRequired,
     stillingsId: PropTypes.string.isRequired,
     alleMarkert: PropTypes.bool.isRequired,
     onCheckAlleKandidater: PropTypes.func.isRequired,

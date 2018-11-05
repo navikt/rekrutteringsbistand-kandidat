@@ -6,10 +6,10 @@ export const Kandidat = {
     sisteArbeidserfaring: PropTypes.string,
     status: PropTypes.string,
     lagtTilTidspunkt: PropTypes.string,
-    lagtTilAv: {
+    lagtTilAv: PropTypes.shape({
         ident: PropTypes.string,
         navn: PropTypes.string
-    },
+    }),
     fornavn: PropTypes.string,
     etternavn: PropTypes.string,
     fodselsdato: PropTypes.string,
