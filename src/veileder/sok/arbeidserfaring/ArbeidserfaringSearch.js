@@ -17,7 +17,7 @@ import {
     UNCHECK_TOTAL_ERFARING,
     TOGGLE_ARBEIDSERFARING_PANEL_OPEN
 } from './arbeidserfaringReducer';
-import AlertStripeInfo from '../../common/AlertStripeInfo';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Arbeidserfaring.less';
 

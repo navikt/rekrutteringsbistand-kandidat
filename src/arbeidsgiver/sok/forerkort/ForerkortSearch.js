@@ -14,7 +14,7 @@ import {
     SELECT_TYPE_AHEAD_VALUE_FORERKORT,
     TOGGLE_FORERKORT_PANEL_OPEN
 } from './forerkortReducer';
-import AlertStripeInfo from '../../common/AlertStripeInfo';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Forerkort.less';
 import alleForerkort from './forerkort';

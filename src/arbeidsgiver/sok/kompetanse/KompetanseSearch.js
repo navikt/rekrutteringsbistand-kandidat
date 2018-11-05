@@ -14,7 +14,7 @@ import {
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN
 } from './kompetanseReducer';
-import AlertStripeInfo from '../../common/AlertStripeInfo';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Kompetanse.less';
 

@@ -15,7 +15,7 @@ import {
     REMOVE_SELECTED_SPRAK,
     TOGGLE_SPRAK_PANEL_OPEN
 } from './sprakReducer';
-import AlertStripeInfo from '../../common/AlertStripeInfo';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import './Sprak.less';
 

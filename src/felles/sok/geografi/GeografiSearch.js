@@ -4,7 +4,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
-import AlertStripeInfo from '../../../arbeidsgiver/common/AlertStripeInfo';
+import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Geografi.less';
 import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
