@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { SEARCH_API, KANDIDATLISTE_API } from './common/fasitProperties';
-import FEATURE_TOGGLES from './konstanter';
+import FEATURE_TOGGLES from './../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)

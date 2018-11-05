@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
-import { BRANCHNAVN } from '../../konstanter';
+import { BRANCHNAVN } from '../../../felles/konstanter';
 
 /** *********************************************************
  * ACTIONS

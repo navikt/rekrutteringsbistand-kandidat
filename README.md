@@ -1,13 +1,24 @@
 # PAM Kandidatsøk
 
-## Hvordan kjøre applikasjonen lokalt
+## Hvordan kjøre applikasjonen lokalt i arbeidsgivermodus
 
 ```sh 
 npm install
 npm start
 ```
 
-Frontend kjører som default på [localhost:9009/pam-kandidatsok](localhost:9009/pam-kandidatsok).
+## Hvordan kjøre applikasjonen lokalt i veiledermodus
+
+```sh 
+npm install
+npm run start-veileder
+```
+
+Frontend kjører som default på
+ 
+Arbeidsgiver: [localhost:9009/kandidater](localhost:9009/kandidater)
+
+Veileder: [localhost:9010/pam-kandidatsok-veileder/](localhost:9010/pam-kandidatsok-veileder)
 
 For å få inn testdata må prosjektet pam-kandidatsok-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 
@@ -40,12 +51,12 @@ sourcemap-lookup dist/js/sok.js:{LINJENUMMER}:{KOLONNENUMMER}
 ## Feature toggles
 
 Applikasjonen bruker feature toggles fra unleash for å skru av og på funksjonalitet.
-I `src/konstanter.js` ligger en liste med navnene på feature togglene som appen bruker.
+I `src/felles/konstanter.js` ligger en liste med navnene på feature togglene som appen bruker.
 Disse ligger også i `webpack.config.dev.js` for toggles under utvikling lokalt.
 
 For å legge til en feature toggle med navn `'test-toggle'` må man legge den til 3 steder:
 
-- Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/konstanter.js`.
+- Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
 - Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
 - Legg til `pam-kandidatsok.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
 

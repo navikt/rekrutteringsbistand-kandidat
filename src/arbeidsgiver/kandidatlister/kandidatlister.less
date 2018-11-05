@@ -1,0 +1,414 @@
+@import '../../felles/Variables.less';
+@import "../../felles/styles";
+
+@borderMork: #78706a;
+@borderLys: #d8d8d8;
+
+
+
+.Kandidatlister__header--innhold {
+
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+  .TilbakeLenke {
+    padding: 0;
+    > a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.Kandidatlister__header--innhold--indre {
+
+  display: flex;
+  flex-direction: row;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  > :first-child {
+    flex: 1;
+  }
+  .knapp {
+    color: white;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border: 2px solid white;
+    border-radius: 4px;
+  }
+}
+
+
+.Kandidatliste__panel {
+  background-color: white;
+  padding: 20px;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-color: @borderLys;
+  border-style: solid;
+  max-width: 640px;
+  .beskrivelse {
+    padding-bottom: 16px;
+    .overskrift {
+      font-size: 1rem;
+      text-decoration: underline;
+      font-style: normal;
+      font-weight: bold;
+    }
+    .dato-opprettet {
+      color: #78706a;
+    }
+    .topp {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      :first-child {
+        flex: 1;
+      }
+    }
+    .oppdragsgiver {
+      display: inline;
+      border-left: 1px solid black;
+      margin-left: 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .kandidatantall {
+      display: inline;
+    }
+  }
+  .funksjonsknapp-panel {
+    border-top: 1px solid @borderLys;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    * {
+        margin-left: 0.5rem;
+    }
+  }
+}
+
+.Kandidatliste__panel:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.Kandidatlister__container {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2.5rem;
+}
+
+.Kandidatlister__container-width {
+    max-width: 640px;
+}
+
+.Kandidatlister__container-width-l {
+    max-width: 1036px;
+}
+
+.OpprettKandidatliste__form-wrapper {
+  background-color: white;
+  padding: 2rem 2rem 2rem 2rem;
+  margin-top: 2rem;
+  margin-bottom: 6rem;
+  border-radius: 0.25rem;
+}
+
+.OpprettKandidatlisteForm {
+  input {
+    padding: 0.75rem;
+  }
+
+  textarea {
+    padding: 0.75rem;
+    min-height: 8.25rem;
+  }
+}
+
+.OpprettKandidatlisteForm__avbryt-lenke-wrapper {
+  display: inline;
+  padding-left: 2rem;
+}
+
+.OpprettKandidatliste__container {
+  margin: auto;
+  margin-top: 1rem;
+
+  .TilbakeLenke {
+     color: @navBla
+  }
+  .TilbakeLenke__lenke {
+    color: @navBla
+  }
+}
+
+.OpprettKandidatliste__container-width {
+  max-width: 40rem;
+}
+
+.OpprettKandidatlisteForm__input {
+  margin-bottom: 2rem;
+}
+
+.KandidatlisteDetalj__header--innhold {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .TilbakeLenke {
+        padding: 0;
+        > a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+
+    .undertittel {
+        margin-top: 5px;
+        font-style: italic;
+    }
+
+    > :nth-child(2) {
+        margin-top: 2rem;
+    }
+
+    .inforad {
+        margin-top: 2rem;
+        display: inline-flex;
+        margin-bottom: 1.25rem;
+
+        @media(max-width: @screen-sm) {
+            flex-direction: column;
+        }
+
+        @media(min-width: @screen-sm) {
+            flex-direction: row;
+            p:not(:last-child):after {
+                content: '|';
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+        }
+
+        p > a {
+            color: white;
+        }
+
+        p:first-child {
+            font-weight: bolder;
+        }
+    }
+}
+
+.KandidatlisteDetalj__container {
+    margin-top: 2.5rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: @screen-sm) {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    @media (max-width: @screen-sm) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+
+    /** overstyr tooltip for slett-knapp */
+    @media (min-width: @screen-xs) {
+        .KandidatlisteDetalj__knapperad--slett {
+            .hjelpetekst__tooltip--midtstilt  {
+                &::before {
+                    left: 75%;
+                }
+                &:focus::after {
+                    left: 75%;
+                }
+            }
+        }   
+        
+        .hjelpetekst__tooltip {
+            left: 0;
+            transform: translateX(calc(-55%));
+        }
+    }
+
+    .KandidatlisteDetalj__panel {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding: 1.25rem;
+        min-height: 4rem;
+        border-style: solid;
+        border-color: @borderLys;
+        border-width: 1px;
+
+        .KandidatlisteDetalj__panel--first {
+            display: inline-flex;
+            align-items: center;
+            flex-direction: row;
+            padding-right: 8px;
+            
+            @media (min-width: @screen-xs) {
+                flex: 0 1 250px;
+                max-width: 250px;
+            }
+
+            @media (min-width: @screen-md) {
+                flex: 0 1 350px;
+                min-width: 350px;
+            }
+
+            @media (max-width: @screen-xs) {
+                flex: 0 1 150px;
+                max-width: 150px;
+            }
+
+            > a {
+                max-lines: 1;
+                max-width: 240px;
+                margin-right: 0.25rem;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+        }
+
+        > :last-child {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .typo-undertekst-bold {
+            font-size: 1rem;
+        }
+
+        .skjemaelement {
+            margin: 0;
+        }
+        
+        .skjemaelement__label {
+            padding-left: 3rem;
+            font-weight: bold;
+
+            @media (max-width: @screen-xs) {
+                padding-left: 2rem;
+            }
+        }
+    }
+
+    .KandidatlisteDetalj__panel:hover {
+        box-shadow: 1px 0 4px 1px #cecac4,
+            0 1px 4px 1px #cecac4;
+    }
+
+    .KandidatlisteDetalj__panel--checked {
+        border-color: @navBla;
+    }
+
+    .KandidatlisteDetalj__panel--header {
+        border-radius: 4px;
+        border-width: 1px;
+        border-color: @borderMork;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+        border-style: solid;
+    }
+
+    .KandidatlisteDetalj__panel--header:hover {
+        box-shadow: none;
+    }
+
+    .KandidatlisteDetalj__knapperad {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+        * {
+            margin-left: 0.5rem;
+        }
+
+        .knapp--ikon {
+            color: black;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    }
+}
+
+.KandidatlisteDetalj__modal {
+    padding-right: 4rem;
+    padding-left: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    width: 640px;
+    .overskrift {
+        font-size: 1.5rem;
+        padding-bottom: 1.25rem;
+    }
+    .knapperad {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: row;
+        * > {
+            margin-right: 1rem;
+        }
+    }
+    .alertstripe {
+        margin-bottom: 1rem;
+    }
+}
+
+.KandidatlisteDetalj__spinner--wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.lenke {
+    color: @navBla
+}
+
+.TomListe {
+    text-align: center;
+    padding: 4rem !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: @borderLys;
+    .lenke {
+        text-align: center;
+        display: inline-block;
+        margin-top: 2rem;
+    }
+}
+
+.knapp--avbryt {
+  margin-left: 1rem;
+}
+
+.hjelpetekst {
+  button {
+    &:focus {
+      .Delete__icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20' height='20' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cpath id='a' d='M19.583 2.5h-5.416V.417A.417.417 0 0 0 13.75 0H7.083a.417.417 0 0 0-.416.417V2.5H1.25a.417.417 0 0 0 0 .833h2.083v16.25c0 .23.187.417.417.417h13.333c.23 0 .417-.187.417-.417V3.333h2.083a.417.417 0 0 0 0-.833zM7.5 15.417a.417.417 0 0 1-.833 0V6.25a.417.417 0 0 1 .833 0v9.167zM7.5.833h5.833V2.5H7.5V.833zm3.333 14.584a.417.417 0 0 1-.833 0V6.25a.417.417 0 0 1 .833 0v9.167zm3.334 0a.417.417 0 0 1-.834 0V6.25a.417.417 0 0 1 .834 0v9.167z'/%3E%3C/defs%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cmask id='b' fill='%23fff'%3E%3Cuse xlink:href='%23a'/%3E%3C/mask%3E%3Cuse fill='%23005b82' fill-rule='nonzero' xlink:href='%23a'/%3E%3Cg fill='%23005b82' mask='url(%23b)'%3E%3Cpath d='M0 20h20V0H0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      outline: 1px solid @navOransjeLighten40;
+      color:@navDypBla;
+    }
+  }
+}
