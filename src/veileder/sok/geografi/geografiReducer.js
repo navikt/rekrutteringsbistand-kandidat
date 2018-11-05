@@ -8,6 +8,8 @@ export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
 
 export const TOGGLE_GEOGRAFI_PANEL_OPEN = 'TOGGLE_GEOGRAFI_PANEL_OPEN';
 
+export const TOGGLE_MA_BO_INNENFOR_GEOGRAFI = 'TOGGLE_MA_BO_INNENFOR_GEOGRAFI';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -15,16 +17,18 @@ export const TOGGLE_GEOGRAFI_PANEL_OPEN = 'TOGGLE_GEOGRAFI_PANEL_OPEN';
 const initialState = {
     geografiList: [],
     geografiListKomplett: [],
-    geografiPanelOpen: true
+    geografiPanelOpen: true,
+    maaBoInnenforGeografi: false
 };
 
-export default function utdanningReducer(state = initialState, action) {
+export default function geografiReducer(state = initialState, action) {
     switch (action.type) {
         case SET_STATE:
             return {
                 ...state,
                 geografiList: action.query.geografiList || [],
-                geografiListKomplett: action.query.geografiListKomplett || []
+                geografiListKomplett: action.query.geografiListKomplett || [],
+                maaBoInnenforGeografi: action.query.maaBoInnenforGeografi || false
             };
         case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
             return {
@@ -54,6 +58,11 @@ export default function utdanningReducer(state = initialState, action) {
             return {
                 ...state,
                 geografiPanelOpen: !state.geografiPanelOpen
+            };
+        case TOGGLE_MA_BO_INNENFOR_GEOGRAFI:
+            return {
+                ...state,
+                maaBoInnenforGeografi: !state.maaBoInnenforGeografi
             };
         default:
             return state;

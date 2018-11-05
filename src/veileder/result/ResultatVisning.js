@@ -65,11 +65,11 @@ class ResultatVisning extends React.Component {
                                     </button>
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
+                                        <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <KompetanseSearch />
-                                        <GeografiSearch />
                                     </div>
                                 </Column>
                                 <Column xs="12" md="8">
