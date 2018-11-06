@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API } from '../common/fasitProperties';
+import { SEARCH_API, USE_JANZZ } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -18,14 +18,14 @@ export class SearchApiError {
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}typeahead${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
 
 export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}typeaheadSted${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
@@ -63,13 +63,16 @@ async function fetchJson(url, includeCredentials) {
 }
 
 export function fetchFeatureToggles() {
-    if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
-    }
-    return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
+    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
+    return fetchJson(
+        `${SEARCH_API}sok${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, true
+    );
+}
+
+export function fetchKandidaterES(query = {}) {
     return fetchJson(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );

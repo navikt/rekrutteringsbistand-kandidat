@@ -10,6 +10,7 @@ import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch'
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
+import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
@@ -69,6 +70,7 @@ class ResultatVisning extends React.Component {
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
+                                        <ForerkortSearch />
                                         <KompetanseSearch />
                                     </div>
                                 </Column>
