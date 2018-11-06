@@ -42,14 +42,16 @@ const isProd = process.env.NODE_ENV !== 'development';
 const fasitProperties = {
     PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
-    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL
+    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
+    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true'
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n`;
+        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
+        `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
