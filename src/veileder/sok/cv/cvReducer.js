@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
+import { SearchApiError, fetchCv, fetchMatchExplain } from '../../api';
 import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
 
 /** *********************************************************

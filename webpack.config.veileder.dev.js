@@ -25,6 +25,7 @@ module.exports = merge(common(APP.KANDIDATSOK_VEILEDER), {
     plugins: [
         new webpack.DefinePlugin({
             __PAM_SEARCH_API__: "'http://localhost:8766/pam-kandidatsok-api/rest/veileder/kandidatsok/'",
+            __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/pam-kandidatsok-api/rest'",
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie-isso'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",

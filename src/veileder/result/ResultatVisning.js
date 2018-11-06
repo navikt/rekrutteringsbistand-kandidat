@@ -11,13 +11,17 @@ import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
 import KandidaterVisning from './KandidaterVisning';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
+import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
         window.scrollTo(0, 0);
+    }
+
+    componentDidMount() {
+        this.props.initialSearch();
     }
 
     onRemoveCriteriaClick = () => {
@@ -90,6 +94,7 @@ ResultatVisning.defaultProps = {
 
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
+    initialSearch: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
@@ -104,7 +109,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
-    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS })
+    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
+    initialSearch: () => { dispatch({ type: INITIAL_SEARCH_BEGIN }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

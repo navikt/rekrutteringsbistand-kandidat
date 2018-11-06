@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API } from '../common/fasitProperties';
-import FEATURE_TOGGLES from '../../felles/konstanter';
+import { SEARCH_API, KANDIDATLISTE_API } from './common/fasitProperties';
+import FEATURE_TOGGLES from './../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -86,3 +86,7 @@ export function fetchMatchExplain(query = {}) {
         `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
     );
 }
+
+export const fetchKandidatliste = (stillingsId) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
+);
