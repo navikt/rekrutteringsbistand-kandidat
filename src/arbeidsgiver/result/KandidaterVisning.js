@@ -40,7 +40,7 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             antallResultater: props.antallKandidater,
-            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === props.totaltAntallTreff,
+            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
             kandidater: props.kandidater
         };
