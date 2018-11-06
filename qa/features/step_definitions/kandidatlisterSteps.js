@@ -43,7 +43,7 @@ When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandid
 
     await listerPage.opprettNyListe(listeNavn);
 
-    await sokPage.waitForElementPresent('@forsteKandidatliste')
+    await sokPage.waitForElementPresent('@forsteKandidatliste', 20000)
         .setValue('@forsteKandidatliste', client.Keys.SPACE)
         .clickElement('@lagreKandidaterIListeKnapp', sokPage, 500)
         .waitForElementVisible('@hjelpetekstfading')
