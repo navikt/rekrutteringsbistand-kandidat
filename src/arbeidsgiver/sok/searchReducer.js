@@ -36,6 +36,8 @@ export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 
 export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
+export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
+
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!USE_JANZZ) {
         return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
@@ -58,6 +60,7 @@ const initialState = {
         kompetanseSuggestions: []
     },
     antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+    alleKandidaterMarkert: false,
     searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
@@ -102,6 +105,17 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 error: action.error
+            };
+        case MARKER_KANDIDATER:
+            return {
+                ...state,
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: {
+                        ...state.searchResultat.resultat,
+                        kandidater: action.kandidater
+                    }
+                }
             };
         case OPPDATER_ANTALL_KANDIDATER:
             return {
@@ -245,12 +259,19 @@ function* search(action = '') {
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
-        const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
+        const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
+        const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
 
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = { ...criteriaValues, fraIndex, antallResultater };
 
-        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
+        let response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
+
+        if (!harNyeSokekriterier) {
+            const kandidater = state.search.searchResultat.resultat.kandidater;
+            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({ ...kFraResponse, markert: kandidater.some((k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert) }));
+            response = { ...response, kandidater: kandidaterMedMarkering };
+        }
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });

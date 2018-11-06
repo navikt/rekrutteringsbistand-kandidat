@@ -82,10 +82,14 @@ class KandidaterTableRow extends React.Component {
     }
 }
 
+KandidaterTableRow.defaultProps = {
+    markert: false
+};
+
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
-    markert: PropTypes.bool.isRequired,
+    markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
     settValgtKandidat: PropTypes.func.isRequired
 };
