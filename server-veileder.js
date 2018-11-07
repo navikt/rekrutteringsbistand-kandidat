@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-console */
 const express = require('express');
 const proxy = require('express-http-proxy');
 const helmet = require('helmet');
@@ -40,6 +40,7 @@ server.engine('html', mustacheExpress());
 const isProd = process.env.NODE_ENV !== 'development';
 
 const fasitProperties = {
+    PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok-veileder/rest',
     PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
@@ -48,6 +49,7 @@ const fasitProperties = {
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
+        `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +

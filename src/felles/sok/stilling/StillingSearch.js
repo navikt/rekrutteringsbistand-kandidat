@@ -8,7 +8,7 @@ import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Stilling.less';
 
-class StillingSearch extends React.Component {
+export default class StillingSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -157,5 +157,3 @@ StillingSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     useJanzz: PropTypes.bool.isRequired
 };
-
-export default StillingSearch;

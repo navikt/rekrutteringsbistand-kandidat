@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from './api';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
@@ -16,7 +16,8 @@ export const SEARCH_FAILURE = 'SEARCH_FAILURE';
 export const LAST_FLERE_KANDIDATER = 'LAST_FLERE_KANDIDATER';
 
 export const SET_STATE = 'SET_STATE';
-export const PERFORM_INITIAL_SEARCH = 'PERFORM_INITIAL_SEARCH';
+
+export const INITIAL_SEARCH_BEGIN = 'INITIAL_SEARCH_BEGIN';
 
 export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
 const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
@@ -301,7 +302,6 @@ function* initialSearch() {
             if (USE_JANZZ && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
                 urlQuery.stillinger = [urlQuery.stillinger[0]];
             }
-
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);
@@ -330,7 +330,7 @@ function* hentFeatureToggles() {
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(MATCH_SEARCH, matchSearch);
-    yield takeLatest(PERFORM_INITIAL_SEARCH, initialSearch);
+    yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
