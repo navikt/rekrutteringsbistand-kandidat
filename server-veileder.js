@@ -40,8 +40,8 @@ server.engine('html', mustacheExpress());
 const isProd = process.env.NODE_ENV !== 'development';
 
 const fasitProperties = {
-    PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok-veileder/rest',
-    PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
+    PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
+    PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL
 };
@@ -88,7 +88,7 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get('host')}/pam-kandidatsok-veileder`;
+        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get('host')}/kandidater`;
         return res.redirect(redirectUrl);
     }
     return next();
@@ -113,28 +113,26 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.get('/kandidater', (req, res) => {
-        res.send('ok?');
-    });
+    server.get('/kandidater/internal/isAlive', (req, res) => res.sendStatus(200));
+    server.get('/kandidater/internal/isReady', (req, res) => res.sendStatus(200));
 
-    server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
-
-    server.use('/pam-kandidatsok-veileder/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => `/pam-kandidatsok-api${req.originalUrl.split('/pam-kandidatsok-veileder').pop()}`
+    server.use('/kandidater/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
+        proxyReqPathResolver: (req) => (
+            req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')
+        )
     }));
 
     server.use(
-        '/pam-kandidatsok-veileder/js',
+        '/kandidater/js',
         express.static(path.resolve(__dirname, 'dist/js'))
     );
     server.use(
-        '/pam-kandidatsok-veileder/css',
+        '/kandidater/css',
         express.static(path.resolve(__dirname, 'dist/css'))
     );
 
     server.get(
-        ['/pam-kandidatsok-veileder', '/pam-kandidatsok-veileder/*'],
+        ['/kandidater', '/kandidater/*'],
         tokenValidator,
         (req, res) => {
             res.send(html);
