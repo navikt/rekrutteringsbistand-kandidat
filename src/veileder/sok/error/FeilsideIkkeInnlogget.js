@@ -5,7 +5,7 @@ import { Container, Row, Column } from 'nav-frontend-grid';
 import './Feilside.less';
 
 function refreshPage() {
-    window.location.href = '/pam-kandidatsok-veileder';
+    window.location.href = '/kandidater';
 }
 
 
