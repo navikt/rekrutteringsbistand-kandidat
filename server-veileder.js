@@ -113,8 +113,8 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.get('/kandidater/internal/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/kandidater/internal/isReady', (req, res) => res.sendStatus(200));
+    server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
+    server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
     server.use('/kandidater/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
         proxyReqPathResolver: (req) => (
