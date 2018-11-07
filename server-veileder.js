@@ -113,6 +113,10 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
+    server.get('/kandidater', (req, res) => {
+        res.send('ok?');
+    });
+
     server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
     server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
