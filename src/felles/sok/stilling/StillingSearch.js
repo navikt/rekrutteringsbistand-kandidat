@@ -141,6 +141,10 @@ export default class StillingSearch extends React.Component {
     }
 }
 
+StillingSearch.defaultProps = {
+    useJanzz: false
+};
+
 StillingSearch.propTypes = {
     fetchKompetanseSuggestions: PropTypes.func.isRequired,
     removeStilling: PropTypes.func.isRequired,
@@ -155,5 +159,5 @@ StillingSearch.propTypes = {
     skjulYrke: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    useJanzz: PropTypes.bool.isRequired
+    useJanzz: PropTypes.bool
 };

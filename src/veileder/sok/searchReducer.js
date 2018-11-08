@@ -2,14 +2,12 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
 import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import { USE_JANZZ } from '../common/fasitProperties';
 
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
 
 export const SEARCH = 'SEARCH';
-export const MATCH_SEARCH = 'MATCH_SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
@@ -37,15 +35,6 @@ export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
-
-const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
-    if (!USE_JANZZ) {
-        return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
-    } else if (USE_JANZZ && key.includes('vis-ny-vis-kandidat-side')) {
-        return false;
-    }
-    return true;
-};
 
 /** *********************************************************
  * REDUCER
@@ -150,7 +139,7 @@ export default function searchReducer(state = initialState, action) {
                         {
                             ...dict,
                             [key]: Object.keys(action.data)
-                                .includes(key) && action.data[key] && erUavhengigFraJanzzEllerJanzzErEnabled(action.data, key)
+                                .includes(key) && action.data[key]
                         }
                     ), {})
             };
@@ -272,12 +261,6 @@ function* search(action = '') {
 }
 
 function* esSearch(action = '') {
-    if (!USE_JANZZ) {
-        yield search(action);
-    }
-}
-
-function* matchSearch(action = '') {
     yield search(action);
 }
 
@@ -312,9 +295,6 @@ function* initialSearch() {
     try {
         const urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
-            if (USE_JANZZ && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
-                urlQuery.stillinger = [urlQuery.stillinger[0]];
-            }
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);
@@ -342,7 +322,6 @@ function* hentFeatureToggles() {
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
-    yield takeLatest(MATCH_SEARCH, matchSearch);
     yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);

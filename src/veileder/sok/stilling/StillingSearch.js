@@ -13,7 +13,6 @@ import {
 } from './stillingReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import { USE_JANZZ } from '../../common/fasitProperties';
 
 const StillingSearch = ({ ...props }) => {
     const { stillinger, typeAheadSuggestionsStilling, totaltAntallTreff, visAlertFaKandidater,
@@ -34,7 +33,6 @@ const StillingSearch = ({ ...props }) => {
             removeStilling={removeStilling}
             fetchKompetanseSuggestions={fetchKompetanseSuggestions}
             togglePanelOpen={togglePanelOpen}
-            useJanzz={USE_JANZZ}
         />
     );
 };

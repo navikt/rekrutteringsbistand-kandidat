@@ -1,8 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
+import { fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
 import { BRANCHNAVN } from '../../../felles/konstanter';
 import alleForerkort from '../../../felles/sok/forerkort/forerkort';
-import { USE_JANZZ } from '../fasitProperties';
 
 /** *********************************************************
  * ACTIONS
@@ -126,35 +125,8 @@ function* fetchTypeaheadGeografiES(value, branch) {
     }
 }
 
-function* fetchTypeaheadGeografiJanzz(value, branch) {
-    try {
-        const response = yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value });
-
-        if (response._embedded) {
-            const totalResult = response._embedded.lokasjonList.map((sted) => (
-                { geografiKode: sted.code, geografiKodeTekst: sted.label }
-            ));
-
-            const result = response._embedded.lokasjonList.map((sted) => (
-                sted.label
-            ));
-
-            yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
-        } else {
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }) });
-        }
-    } catch (e) {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: e.message }) });
-    }
-}
-
 function* fetchTypeaheadGeografi(value, branch) {
-    if (USE_JANZZ) {
-        yield fetchTypeaheadGeografiJanzz(value, branch);
-    } else {
-        yield fetchTypeaheadGeografiES(value, branch);
-    }
+    yield fetchTypeaheadGeografiES(value, branch);
 }
 
 function* fetchTypeAheadSuggestions(action) {

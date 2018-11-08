@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress, Undertittel } from 'nav-frontend-typografi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Undertittel } from 'nav-frontend-typografi';
 import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import { USE_JANZZ } from '../common/fasitProperties';
 import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 
@@ -97,26 +95,6 @@ class KandidaterVisning extends React.Component {
         }
     };
 
-    onFilterScoreClick = (scoreChevronNed, from, to) => {
-        const kandidater = this.state.kandidater.slice(from, to)
-            .sort((kand1, kand2) => {
-                const kand1score = kand1.score;
-                const kand2score = kand2.score;
-                if (scoreChevronNed) {
-                    return kand1score - kand2score;
-                }
-                return kand2score - kand1score;
-            });
-
-        this.setState({
-            kandidater: [
-                ...this.state.kandidater.slice(0, from),
-                ...kandidater,
-                ...this.state.kandidater.slice(to)
-            ]
-        });
-    };
-
     onFilterAntallArClick = (antallArChevronNed, from, to) => {
         const kandidater = this.state.kandidater.slice(from, to)
             .sort((kand1, kand2) => {
@@ -149,18 +127,8 @@ class KandidaterVisning extends React.Component {
 
     render() {
         const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
-
-        if (this.props.isSearching && USE_JANZZ) {
-            return (
-                <div>
-                    <div className="panel resultatvisning">
-                        <Ingress className="text--left inline">Oppdaterer resultatet <NavFrontendSpinner type="S" className="spinner--center" /></Ingress>
-                    </div>
-                </div>
-            );
-        }
-
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
+
         return (
             <div>
                 <Row className="resultatvisning">
@@ -171,7 +139,7 @@ class KandidaterVisning extends React.Component {
                             mini
                             type="hoved"
                             disabled={antallMarkert === 0}
-                            onClick={() => { console.log('Lagre kandidater'); }}
+                            onClick={() => { console.log('Lagre kandidater'); }} // eslint-disable-line no-console
                             id="lagre-kandidater-knapp"
                         >
                             {lagreKandidaterKnappTekst(antallMarkert)}
@@ -182,7 +150,6 @@ class KandidaterVisning extends React.Component {
                     antallResultater={this.state.antallResultater}
                     kandidater={this.state.kandidater}
                     onFilterAntallArClick={this.onFilterAntallArClick}
-                    onFilterScoreClick={this.onFilterScoreClick}
                     onFlereResultaterClick={this.onFlereResultaterClick}
                     totaltAntallTreff={this.props.totaltAntallTreff}
                     onKandidatValgt={this.onKandidatValgt}

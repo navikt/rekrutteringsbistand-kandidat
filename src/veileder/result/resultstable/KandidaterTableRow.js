@@ -7,7 +7,6 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
-import { USE_JANZZ } from '../../common/fasitProperties';
 import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
@@ -25,7 +24,6 @@ class KandidaterTableRow extends React.Component {
         const yrkeserfaring = 'ho!';
         const utdanningsNivaa = 'hey!';
 
-        const score = cv.score;
         return (
             <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
@@ -48,16 +46,9 @@ class KandidaterTableRow extends React.Component {
                         <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
                 </Column>
-
-                {USE_JANZZ ? (
-                    <Column xs="5" md="5">
-                        <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                    </Column>
-                ) : (
-                    <Column xs="5" md="5">
-                        <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
-                    </Column>
-                )}
+                <Column xs="5" md="5">
+                    <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
+                </Column>
                 <Column xs="4" md="4">
                     <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                 </Column>
