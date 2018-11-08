@@ -199,4 +199,4 @@ const mapStateToProps = (state) => ({
     scrolletFraToppen: state.search.scrolletFraToppen
 });
 
-export default connect(mapStateToProps, mapDispatchToProps())(KandidaterVisning);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
