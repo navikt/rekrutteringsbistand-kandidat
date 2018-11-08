@@ -9,10 +9,8 @@ import sortByDato from '../../common/SortByDato';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Modal.less';
 import { formatISOString } from '../../common/dateUtils';
-import { MatchexplainProptypesGrouped } from './Proptypes';
-import Matchdetaljer from './Matchdetaljer';
 
-const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
+const ShowCv = ({ cv, isFetchingCv }) => {
     const utdanning = cv.utdanning.slice();
     const yrkeserfaring = cv.yrkeserfaring.slice();
     const kurs = cv.kurs.slice();
@@ -228,31 +226,18 @@ const ShowCv = ({ cv, isFetchingCv, matchforklaring }) => {
                     </Column>
                 </Row>
             )}
-            {matchforklaring && (
-                <Row className="blokk-s">
-                    <Column xs="12">
-                        <Matchdetaljer matchforklaring={matchforklaring} />
-                    </Column>
-                </Row>
-            )}
         </div>
     );
 };
 
-ShowCv.defaultProps = {
-    matchforklaring: undefined
-};
-
 ShowCv.propTypes = {
     cv: cvPropTypes.isRequired,
-    isFetchingCv: PropTypes.bool.isRequired,
-    matchforklaring: MatchexplainProptypesGrouped
+    isFetchingCv: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isFetchingCv: state.cvReducer.isFetchingCv,
-    cv: state.cvReducer.cv,
-    matchforklaring: state.cvReducer.matchforklaring
+    cv: state.cvReducer.cv
 });
 
 export default connect(mapStateToProps)(ShowCv);

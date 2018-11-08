@@ -1,5 +1,3 @@
-import { KONSEPTTYPE } from '../../felles/konstanter';
-
 export function toUrlParams(query) {
     return Object.keys(query)
         .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -31,48 +29,6 @@ export function getUrlParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-export function leggMerInfoTilKandidaterOgSorter(kandidater, kandidaterMedInfo) {
-    const kandidaterMedAlleFelter = kandidater.map((kandidat) => {
-        const kandidatMedInfo = kandidaterMedInfo.find((k) => k.id === kandidat.id);
-        if (kandidatMedInfo) {
-            return {
-                ...kandidat,
-                ...kandidatMedInfo
-            };
-        }
-        return kandidat;
-    });
-
-    return kandidaterMedAlleFelter.sort((a, b) => a.score - b.score);
-}
-
-const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
-    konsepter.reduce(
-        (dict, obj) => {
-            const konsepttype = konsepttypeFunksjon(obj);
-            if (konsepttype === KONSEPTTYPE.UTDANNING) {
-                return { ...dict, utdanning: [...dict.utdanning, obj] };
-            } else if (konsepttype === KONSEPTTYPE.YRKE) {
-                return { ...dict, yrker: [...dict.yrker, obj] };
-            } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
-                return { ...dict, kompetanse: [...dict.kompetanse, obj] };
-            } else if (konsepttype === KONSEPTTYPE.ERFARING) {
-                return { ...dict, erfaring: [...dict.erfaring, obj] };
-            } else if (konsepttype === KONSEPTTYPE.SOFT_SKILL) {
-                return { ...dict, softSkills: [...dict.softSkills, obj] };
-            }
-            return { ...dict, andre: [...dict.andre, obj] };
-        },
-        {
-            utdanning: [],
-            yrker: [],
-            kompetanse: [],
-            erfaring: [],
-            softSkills: [],
-            andre: []
-        }
-    );
-
 const EducationLevelPrefix = 'education level ';
 
 const utdanningtekst = {
@@ -95,13 +51,6 @@ const mapUtdanninger = (utdanninger) =>
 export const oversettUtdanning = (konsepter) => ({
     ...konsepter,
     utdanning: mapUtdanninger(konsepter.utdanning)
-});
-
-export const kategoriserMatchKonsepter = (matchforklaring) => ({
-    score: Math.floor(matchforklaring.score12 * 100),
-    matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, (obj) => obj.c1branch),
-    stillingskonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j1_not_matched, (obj) => obj.branch),
-    kandidatkonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j2_not_matched, (obj) => obj.branch)
 });
 
 export const mapExperienceLevelTilAar = (level) => {

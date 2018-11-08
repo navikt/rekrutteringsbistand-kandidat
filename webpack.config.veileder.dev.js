@@ -17,7 +17,6 @@ module.exports = merge(common(APP.KANDIDATSOK_VEILEDER), {
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __BACKEND_OPPE__: true,
-            __USE_JANZZ__: false,
             'process.env.NODE_ENV': "'development'"
         })
     ]

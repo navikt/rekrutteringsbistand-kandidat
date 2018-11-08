@@ -43,8 +43,7 @@ const fasitProperties = {
     PAM_KANDIDATSOK_API_URL: '/pam-kandidatsok-veileder/rest',
     PAM_SEARCH_API: '/pam-kandidatsok-veileder/rest/veileder/kandidatsok/',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
-    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
-    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true'
+    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -52,8 +51,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
-        `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n`;
+        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;

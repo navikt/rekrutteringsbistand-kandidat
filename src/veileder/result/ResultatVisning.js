@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -55,9 +55,6 @@ class ResultatVisning extends React.Component {
                                 <Column className="text-center">
                                     <Sidetittel>Aktuelle kandidater</Sidetittel>
                                 </Column>
-                                {this.props.janzzEnabled &&
-                                    <Normaltekst className="text-center">Går mot Janzz</Normaltekst>
-                                }
                             </Row>
                             <Row className="resultatvisning--body">
                                 <Column xs="12" md="4">
@@ -90,22 +87,16 @@ class ResultatVisning extends React.Component {
     }
 }
 
-ResultatVisning.defaultProps = {
-    janzzEnabled: false
-};
-
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     initialSearch: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired,
-    janzzEnabled: PropTypes.bool
+    isInitialSearch: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isInitialSearch: state.search.isInitialSearch,
-    janzzEnabled: state.search.featureToggles['janzz-enabled']
+    isInitialSearch: state.search.isInitialSearch
 });
 
 const mapDispatchToProps = (dispatch) => ({
