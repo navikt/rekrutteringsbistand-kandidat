@@ -10,8 +10,8 @@ import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-fronten
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
-import Lenkeknapp from '../common/Lenkeknapp';
-import HjelpetekstFading from '../common/HjelpetekstFading';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../common/PageHeaderWrapper';
 import TomListe from './TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
@@ -19,7 +19,7 @@ import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDID
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
 import './kandidatlister.less';
-import '../common/ikoner/ikoner.less';
+import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 
 
