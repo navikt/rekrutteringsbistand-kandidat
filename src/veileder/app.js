@@ -58,25 +58,21 @@ class Sok extends React.Component {
     componentWillUpdate(nextProps) {
         const { error } = nextProps;
         if (error && error.status === 401) {
-            if (LOGIN_URL && LOGIN_URL.includes('local/cookie')) {
-                window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
-            } else { window.location.href = '/kandidater/ikke-innlogget'; }
-        } else if (error && error.status === 403) {
-            window.location.href = '/kandidater/mangler-tilgang';
-        } else if (error) {
-            window.location.href = '/kandidater/feilside';
+            window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
         }
     }
 
     render() {
+        if (this.props.error && this.props.error.status === 403) {
+            return <ManglerRolle />;
+        } else if (this.props.error) {
+            return <Feilside />;
+        }
         return (
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/kandidater" component={ResultatVisning} />
                     <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
-                    <Route exact path="/kandidater/ikke-innlogget" component={FeilsideIkkeInnlogget} />
-                    <Route exact path="/kandidater/mangler-tilgang" component={ManglerRolle} />
-                    <Route exact path="/kandidater/feilside" component={Feilside} />
                 </Switch>
             </BrowserRouter>
         );
