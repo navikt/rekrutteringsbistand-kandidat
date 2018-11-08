@@ -3,80 +3,87 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Checkbox } from 'nav-frontend-skjema';
+import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
-import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { USE_JANZZ } from '../../common/fasitProperties';
+import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
-    openCvModal = () => {
-        this.props.openCvModal();
-        this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
+    onCheck = (kandidatnr) => {
+        this.props.onKandidatValgt(!this.props.markert, kandidatnr);
+    };
+
+    onKandidatNrClick = () => {
+        this.props.settValgtKandidat(this.props.cv.arenaKandidatnr, window.pageYOffset);
     };
 
     render() {
         const cv = this.props.cv;
-        const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-        const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
+        const kandidatnummer = this.props.cv.arenaKandidatnr;
+        const yrkeserfaring = 'ho!';
+        const utdanningsNivaa = 'hey!';
+
         const score = cv.score;
-        const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
-        let lengdeYrkeserfaringTekst;
-        if (lengdeYrkeserfaring === 0) {
-            lengdeYrkeserfaringTekst = 'Under 1 år';
-        } else if (lengdeYrkeserfaring > 10) {
-            lengdeYrkeserfaringTekst = 'Over 10 år';
-        } else {
-            lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
-        }
         return (
-            <button
-                className="panel border--top--thin kandidater--row"
-                onClick={this.openCvModal}
-                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-            >
-                <Row>
-                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
+            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+                <Column xs="1" md="1">
+                    <Checkbox
+                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                        className="text-hide"
+                        label="."
+                        aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                        checked={this.props.markert}
+                        onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                    />
+                </Column>
+                <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                    <Link
+                        className="lenke--kandidatnr"
+                        to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
+                        onClick={this.onKandidatNrClick}
+                        aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                    >
+                        <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                    </Link>
+                </Column>
+
+                {USE_JANZZ ? (
+                    <Column xs="5" md="5">
+                        <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
-                    {this.props.janzzEnabled ? (
-                        <Column className="no--padding" xs="4" md="4">
-                            <i className="border--vertical" />
-                            <Normaltekst className="break-word score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                        </Column>
-                    ) : (
-                        <Column className="no--padding" xs="4" md="4">
-                            <i className="border--vertical" />
-                            <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                        </Column>
-                    )}
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                ) : (
+                    <Column xs="5" md="5">
+                        <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                     </Column>
-                    <Column xs="2" md="2" className="text-center no--padding">
-                        <i className="border--vertical" />
-                        <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
-                    </Column>
-                </Row>
-            </button>
+                )}
+                <Column xs="4" md="4">
+                    <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                </Column>
+            </Row>
         );
     }
 }
 
+KandidaterTableRow.defaultProps = {
+    markert: false
+};
+
 KandidaterTableRow.propTypes = {
     cv: cvPropTypes.isRequired,
-    openCvModal: PropTypes.func.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired,
-    janzzEnabled: PropTypes.bool.isRequired
+    onKandidatValgt: PropTypes.func.isRequired,
+    markert: PropTypes.bool,
+    nettoppValgt: PropTypes.bool.isRequired,
+    settValgtKandidat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query,
-    janzzEnabled: state.search.featureToggles['janzz-enabled']
+    query: state.query
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
+    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);
