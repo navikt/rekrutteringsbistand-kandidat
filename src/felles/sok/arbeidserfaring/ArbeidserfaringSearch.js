@@ -135,6 +135,7 @@ class ArbeidserfaringSearch extends React.Component {
                         <div className="sokekriterier--kriterier">
                             {this.erfaringer.map((arbeidserfaring) => (
                                 <Checkbox
+                                    className="checkbox--arbeidserfaring"
                                     id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
                                     label={arbeidserfaring.label}
                                     key={arbeidserfaring.value}
