@@ -7,7 +7,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
 import { USE_JANZZ } from '../../common/fasitProperties';
 
-class KandidaterTableHeader extends React.Component {
+export default class KandidaterTableHeader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -105,5 +105,3 @@ KandidaterTableHeader.propTypes = {
     alleKandidaterMarkert: PropTypes.bool,
     onToggleMarkeringAlleKandidater: PropTypes.func
 };
-
-export default KandidaterTableHeader;

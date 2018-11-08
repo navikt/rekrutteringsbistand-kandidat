@@ -16,10 +16,10 @@ import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, MATCH_SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
-import HjelpetekstFading from '../common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { CONTEXT_ROOT, USE_JANZZ } from '../common/fasitProperties';
-import ListeIkon from '../common/ikoner/ListeIkon';
+import ListeIkon from '../../felles/common/ikoner/ListeIkon';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
