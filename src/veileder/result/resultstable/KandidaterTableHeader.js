@@ -27,18 +27,18 @@ export default class KandidaterTableHeader extends React.Component {
                 <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
                     <Element
                         className="label--resultatvisning"
-                        aria-label="Kandidat"
+                        aria-label="Navn"
                     >
-                        Kandidat
+                        Navn
                     </Element>
                 </Column>
                 <Column xs="5" md="5">
                     <div className="header--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
-                            aria-label="Utdanning"
+                            aria-label="Fødselsdato"
                         >
-                            Utdanningsnivå
+                            Fødselsdato
                         </Element>
                     </div>
                 </Column>
@@ -46,9 +46,9 @@ export default class KandidaterTableHeader extends React.Component {
                     <div className="header--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
-                            aria-label="Arbeidserfaring"
+                            aria-label="Innsatsgruppe"
                         >
-                            Relevant arbeidserfaring
+                            Innsatsgruppe
                         </Element>
                     </div>
                 </Column>

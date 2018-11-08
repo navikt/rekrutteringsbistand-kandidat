@@ -20,9 +20,10 @@ class KandidaterTableRow extends React.Component {
 
     render() {
         const cv = this.props.cv;
-        const kandidatnummer = this.props.cv.arenaKandidatnr;
-        const yrkeserfaring = 'ho!';
-        const utdanningsNivaa = 'hey!';
+        const kandidatnummer = cv.arenaKandidatnr;
+        const navn = 'Etternavn, Fornavn';
+        const fodselsdato = '01.01.01';
+        const innsatsgruppe = cv.servicebehov;
 
         return (
             <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
@@ -31,7 +32,7 @@ class KandidaterTableRow extends React.Component {
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
                         className="text-hide"
                         label="."
-                        aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                        aria-label={`Marker kandidat med navn ${navn}`}
                         checked={this.props.markert}
                         onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
                     />
@@ -41,16 +42,16 @@ class KandidaterTableRow extends React.Component {
                         className="lenke--kandidatnr"
                         to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
                         onClick={this.onKandidatNrClick}
-                        aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                        aria-label={`Se CV for ${navn}`}
                     >
-                        <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                        <Normaltekst className="text-overflow" aria-hidden="true">{navn}</Normaltekst>
                     </Link>
                 </Column>
                 <Column xs="5" md="5">
-                    <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
+                    <Normaltekst className="text-overflow utdanning">{fodselsdato}</Normaltekst>
                 </Column>
                 <Column xs="4" md="4">
-                    <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                    <Normaltekst className="text-overflow yrkeserfaring">{`"${innsatsgruppe}"`}</Normaltekst>
                 </Column>
             </Row>
         );
