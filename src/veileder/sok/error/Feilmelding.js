@@ -3,7 +3,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Hovedknapp } from 'nav-frontend-knapper';
 
 function refreshPage() {
-    window.location.href = '/kandidater';
+    window.location.reload();
 }
 
 const Feilmelding = () => (
