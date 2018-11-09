@@ -37,7 +37,7 @@ class KandidaterTableRow extends React.Component {
                         onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
                     />
                 </Column>
-                <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
+                <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
                     <Link
                         className="lenke--kandidatnr"
                         to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
@@ -47,10 +47,10 @@ class KandidaterTableRow extends React.Component {
                         <Normaltekst className="text-overflow" aria-hidden="true">{navn}</Normaltekst>
                     </Link>
                 </Column>
-                <Column xs="5" md="5">
+                <Column xs="3" md="3">
                     <Normaltekst className="text-overflow utdanning">{fodselsdato}</Normaltekst>
                 </Column>
-                <Column xs="4" md="4">
+                <Column xs="3" md="3">
                     <Normaltekst className="text-overflow yrkeserfaring">{`"${innsatsgruppe}"`}</Normaltekst>
                 </Column>
             </Row>
