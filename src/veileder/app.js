@@ -58,25 +58,21 @@ class Sok extends React.Component {
     componentWillUpdate(nextProps) {
         const { error } = nextProps;
         if (error && error.status === 401) {
-            if (LOGIN_URL && LOGIN_URL.includes('local/cookie')) {
-                window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
-            } else { window.location.href = '/pam-kandidatsok-veileder/ikke-innlogget'; }
-        } else if (error && error.status === 403) {
-            window.location.href = '/pam-kandidatsok-veileder/mangler-tilgang';
-        } else if (error) {
-            window.location.href = '/pam-kandidatsok-veileder/feilside';
+            window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
         }
     }
 
     render() {
+        if (this.props.error && this.props.error.status === 403) {
+            return <ManglerRolle />;
+        } else if (this.props.error) {
+            return <Feilside />;
+        }
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/pam-kandidatsok-veileder" component={ResultatVisning} />
-                    <Route exact path="/pam-kandidatsok-veileder/lister/:id/detaljer" component={Listedetaljer} />
-                    <Route exact path="/pam-kandidatsok-veileder/ikke-innlogget" component={FeilsideIkkeInnlogget} />
-                    <Route exact path="/pam-kandidatsok-veileder/mangler-tilgang" component={ManglerRolle} />
-                    <Route exact path="/pam-kandidatsok-veileder/feilside" component={Feilside} />
+                    <Route exact path="/kandidater" component={ResultatVisning} />
+                    <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
                 </Switch>
             </BrowserRouter>
         );

@@ -207,8 +207,8 @@ const startServer = (html) => {
         ['/pam-kandidatsok', '/pam-kandidatsok/*'],
         (req, res) => {
             const host = urlHost(process.env.FASIT_ENVIRONMENT_NAME);
-            const urlPath = req.url.replace(new RegExp('pam-kandidatsok'));
-            res.redirect(`${host}/kandidater${urlPath}`);
+            const urlPath = req.url.replace(new RegExp('pam-kandidatsok'), 'kandidater');
+            res.redirect(`${host}${urlPath}`);
         }
     );
 
