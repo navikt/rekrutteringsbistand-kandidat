@@ -1,6 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API, USE_JANZZ, SAMTYKKE_API } from '../common/fasitProperties';
+import {
+    KANDIDATLISTE_API,
+    SEARCH_API,
+    ORGANISASJON_API,
+    USE_JANZZ,
+    SAMTYKKE_API,
+    KODEVERK_API
+} from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -219,4 +226,8 @@ export function fetchVilkarstekst() {
 
 export function postGodtaGjeldendeVilkar() {
     return postJson(`${SAMTYKKE_API}`, true);
+}
+
+export function fetchGeografiKode(geografiKode) {
+    return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
 }
