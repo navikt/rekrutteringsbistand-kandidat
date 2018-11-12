@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { HENT_KANDIDATLISTE } from './kandidatlisteReducer';
+import { ENDRE_STATUS_KANDIDAT, HENT_KANDIDATLISTE } from './kandidatlisteReducer';
 import ListedetaljerView from './ListedetaljerView';
 import './Listedetaljer.less';
 import { Kandidatliste } from './PropTypes';
@@ -73,13 +73,14 @@ class Listedetaljer extends React.Component {
             );
         }
 
-        const { tittel, oppdragsgiver, opprettetAv, stillingId } = this.props.kandidatliste;
+        const { tittel, oppdragsgiver, opprettetAv, kandidatlisteId, stillingId } = this.props.kandidatliste;
         const { kandidater, alleMarkert } = this.state;
         return (
             <ListedetaljerView
                 tittel={tittel}
                 oppdragsgiver={oppdragsgiver}
                 opprettetAv={opprettetAv}
+                kandidatlisteId={kandidatlisteId}
                 stillingsId={stillingId}
                 kandidater={kandidater}
                 alleMarkert={alleMarkert}
@@ -87,6 +88,7 @@ class Listedetaljer extends React.Component {
                 onCheckAlleKandidater={() => {
                     this.onCheckAlleKandidater(!alleMarkert);
                 }}
+                onKandidatStatusChange={this.props.endreStatusKandidat}
             />
         );
     }
@@ -100,6 +102,7 @@ Listedetaljer.propTypes = {
     fetching: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
     hentKandidatliste: PropTypes.func.isRequired,
+    endreStatusKandidat: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
             id: PropTypes.string.isRequired
@@ -113,7 +116,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer }); }
+    hentKandidatliste: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer }); },
+    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);

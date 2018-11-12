@@ -23,7 +23,6 @@ import Feilside from './sok/error/Feilside';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
-import FeilsideIkkeInnlogget from './sok/error/FeilsideIkkeInnlogget';
 import Listedetaljer from './kandidatlister/Listedetaljer';
 import { LOGIN_URL } from './common/fasitProperties';
 

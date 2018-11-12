@@ -62,6 +62,38 @@ async function fetchJson(url, includeCredentials) {
     }
 }
 
+const getCookie = (name) => {
+    const re = new RegExp(`${name}=([^;]+)`);
+    const match = re.exec(document.cookie);
+    return match !== null ? match[1] : '';
+};
+
+async function putJson(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'PUT',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
+            mode: 'cors'
+        });
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 export function fetchFeatureToggles() {
     if (process.env.NODE_ENV !== 'development') {
         return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
@@ -89,4 +121,8 @@ export function fetchMatchExplain(query = {}) {
 
 export const fetchKandidatliste = (stillingsId) => (
     fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
+);
+
+export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
 );

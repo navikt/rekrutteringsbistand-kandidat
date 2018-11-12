@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { fetchKandidatliste, SearchApiError } from '../api';
+import { fetchKandidatliste, putStatusKandidat, SearchApiError } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 
 /** *********************************************************
@@ -23,6 +23,10 @@ export const LEGG_TIL_KANDIDATER_FAILURE = 'LEGG_TIL_KANDIDATER_FAILURE';
 export const OPPDATER_KANDIDATLISTE = 'OPPDATER_KANDIDATLISTE_BEGIN';
 export const OPPDATER_KANDIDATLISTE_SUCCESS = 'OPPDATER_KANDIDATLISTE_SUCCESS';
 export const OPPDATER_KANDIDATLISTE_FAILURE = 'OPPDATER_KANDIDATLISTE_FAILURE';
+
+export const ENDRE_STATUS_KANDIDAT = 'ENDRE_STATUS_KANDIDAT';
+export const ENDRE_STATUS_KANDIDAT_SUCCESS = 'ENDRE_STATUS_KANDIDAT_SUCCESS';
+export const ENDRE_STATUS_KANDIDAT_FAILURE = 'ENDRE_STATUS_KANDIDAT_FAILURE';
 
 /** *********************************************************
  * REDUCER
@@ -58,8 +62,16 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 detaljer: {
-                    ...state.kandidatlister,
+                    ...state.detaljer,
                     fetching: false
+                }
+            };
+        case ENDRE_STATUS_KANDIDAT_SUCCESS:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: action.kandidatliste
                 }
             };
         default:
@@ -86,15 +98,31 @@ function* hentKandidatListe(action) {
     }
 }
 
+function* endreKandidatstatus(action) {
+    const { status, kandidatlisteId, kandidatnr } = action;
+    try {
+        const response = yield putStatusKandidat(status, kandidatlisteId, kandidatnr);
+        yield put({ type: ENDRE_STATUS_KANDIDAT_SUCCESS, kandidatliste: response });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: ENDRE_STATUS_KANDIDAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
 
 export function* kandidatlisteSaga() {
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
+    yield takeLatest(ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
-        SLETT_KANDIDATER_FAILURE
+        SLETT_KANDIDATER_FAILURE,
+        ENDRE_STATUS_KANDIDAT_FAILURE
     ],
     sjekkError);
 }
