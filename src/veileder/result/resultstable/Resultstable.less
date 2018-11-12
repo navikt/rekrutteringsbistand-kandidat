@@ -31,11 +31,6 @@ button.header--aktuelle--kandidater {
   }
 }
 
-.lenke--kandidatnr {
-  color: @navBla;
-  display: table;
-}
-
 .kandidater--row {
   height: 4rem;
   display: inline-flex;
@@ -47,7 +42,7 @@ button.header--aktuelle--kandidater {
   border: solid 1px #d8d8d8;
   border-radius: 4px;
 
-  &:hover{
+  &:hover {
     box-shadow: 1px 0 4px 1px #cecac4,
     0 1px 4px 1px #cecac4;
   }
@@ -63,10 +58,16 @@ button.header--aktuelle--kandidater {
     margin-right: 0.5rem;
   }
 
-  .utdanning {
+  .kandidater--row__col {
     overflow: hidden;
-    max-lines: 2;
+    max-height: 1.5rem;
     text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kandidater--row__col--navn {
+    .kandidater--row__col();
+    color: @navBla;
   }
 }
 

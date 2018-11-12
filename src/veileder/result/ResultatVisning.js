@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Element, Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
@@ -16,7 +15,6 @@ import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
-import ListeIkon from '../../felles/common/ikoner/ListeIkon';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -54,18 +52,7 @@ class ResultatVisning extends React.Component {
                 <div className="ResultatVisning--hovedside--header">
                     <Container className="container--header">
                         <div className="child-item__container--header">
-                            <div className="no-content" />
-                        </div>
-                        <div className="child-item__container--header">
                             <Sidetittel> Kandidatsøk </Sidetittel>
-                        </div>
-                        <div className="child-item__container--header lenke--lagrede-kandidatlister">
-                            <div className="ikonlenke">
-                                <ListeIkon fargeKode="white" className="ListeIkon" />
-                                <Link to={'/kandidater/lister'} className="lenke">
-                                    <Normaltekst>Lagrede kandidatlister</Normaltekst>
-                                </Link>
-                            </div>
                         </div>
                     </Container>
                 </div>

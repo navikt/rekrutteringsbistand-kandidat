@@ -30,14 +30,14 @@ export default function KandidaterTabell({
             />
 
             <div>
-                {kandidater.slice(0, antallResultater).map((cv) => (
+                {kandidater.slice(0, antallResultater).map((kandidat) => (
                     <KandidaterTableRow
-                        cv={cv}
-                        key={cv.arenaKandidatnr}
+                        kandidat={kandidat}
+                        key={kandidat.arenaKandidatnr}
                         onKandidatValgt={onKandidatValgt}
-                        markert={cv.markert}
+                        markert={kandidat.markert}
                         visCheckbox={false}
-                        nettoppValgt={valgtKandidatNr === cv.arenaKandidatnr}
+                        nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
                     />
                 ))}
             </div>

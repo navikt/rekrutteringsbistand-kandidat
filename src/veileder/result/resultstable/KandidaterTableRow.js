@@ -15,15 +15,16 @@ class KandidaterTableRow extends React.Component {
     };
 
     onKandidatNrClick = () => {
-        this.props.settValgtKandidat(this.props.cv.arenaKandidatnr, window.pageYOffset);
+        this.props.settValgtKandidat(this.props.kandidat.arenaKandidatnr, window.pageYOffset);
     };
 
     render() {
-        const cv = this.props.cv;
-        const kandidatnummer = cv.arenaKandidatnr;
-        const navn = 'Etternavn, Fornavn';
-        const fodselsdato = '01.01.01';
-        const innsatsgruppe = cv.servicebehov;
+        const kandidat = this.props.kandidat;
+        const kandidatnummer = kandidat.arenaKandidatnr;
+        const fornavn = kandidat.fornavn;
+        const etternavn = kandidat.etternavn;
+        const fodselsdato = kandidat.fodselsdato;
+        const innsatsgruppe = kandidat.servicebehov;
 
         return (
             <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
@@ -32,26 +33,25 @@ class KandidaterTableRow extends React.Component {
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
                         className="text-hide"
                         label="."
-                        aria-label={`Marker kandidat med navn ${navn}`}
+                        aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
                         checked={this.props.markert}
-                        onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                        onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
                     />
                 </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
                     <Link
-                        className="lenke--kandidatnr"
                         to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
                         onClick={this.onKandidatNrClick}
-                        aria-label={`Se CV for ${navn}`}
+                        aria-label={`Se CV for ${etternavn}, ${fornavn}`}
                     >
-                        <Normaltekst className="text-overflow" aria-hidden="true">{navn}</Normaltekst>
+                        <Normaltekst className="kandidater--row__col--navn">{`${etternavn}, ${fornavn}`}</Normaltekst>
                     </Link>
                 </Column>
-                <Column xs="3" md="3">
-                    <Normaltekst className="text-overflow utdanning">{fodselsdato}</Normaltekst>
+                <Column xs="2" md="2">
+                    <Normaltekst className="text-overflow kandidater--row__col">{new Date(fodselsdato).toLocaleDateString('NB-no')}</Normaltekst>
                 </Column>
-                <Column xs="3" md="3">
-                    <Normaltekst className="text-overflow yrkeserfaring">{`"${innsatsgruppe}"`}</Normaltekst>
+                <Column xs="4" md="4">
+                    <Normaltekst className="text-overflow kandidater--row__col">{`${innsatsgruppe}`}</Normaltekst>
                 </Column>
             </Row>
         );
@@ -63,7 +63,7 @@ KandidaterTableRow.defaultProps = {
 };
 
 KandidaterTableRow.propTypes = {
-    cv: cvPropTypes.isRequired,
+    kandidat: cvPropTypes.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,

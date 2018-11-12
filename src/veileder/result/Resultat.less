@@ -11,6 +11,7 @@
 .ResultatVisning--hovedside--header {
   background-color: #e3edf8;
   color: @navMorkGra;
+  border: solid 1px #d8d8d8;
   .container--header {
     display: flex;
     flex-wrap: wrap;
@@ -37,21 +38,6 @@
 
   .lenke--lagrede-kandidatlister {
     justify-content: flex-end;
-  }
-
-  @media(max-width: 991px) {
-
-    height: 8.75rem;
-
-    .no-content {
-      flex-grow: 0;
-    }
-    .child-item__container--header {
-      flex-basis: 100%;
-    }
-    .lenke--lagrede-kandidatlister {
-      justify-content: center;
-    }
   }
 }
 
