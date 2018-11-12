@@ -10,7 +10,7 @@ import './Resultat.less';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import KnappMedHjelpetekst from '../common/KnappMedHjelpetekst';
+import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
 

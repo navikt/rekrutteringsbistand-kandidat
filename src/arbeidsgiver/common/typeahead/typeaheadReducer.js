@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../sok/api';
 import { BRANCHNAVN } from '../../../felles/konstanter';
-import alleForerkort from '../../sok/forerkort/forerkort';
+import alleForerkort from '../../../felles/sok/forerkort/forerkort';
 import { USE_JANZZ } from '../fasitProperties';
 
 /** *********************************************************

@@ -9,7 +9,7 @@ import VisKandidatPersonalia from './VisKandidatPersonalia';
 import VisKandidatCv from './VisKandidatCv';
 import VisKandidatJobbprofil from './VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
-import HjelpetekstFading from '../../common/HjelpetekstFading';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
 import sortByDato from '../../common/SortByDato';
 import { getUrlParameterByName } from '../../sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';

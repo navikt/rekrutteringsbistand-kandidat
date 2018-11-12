@@ -5,19 +5,42 @@ import { Checkbox } from 'nav-frontend-skjema';
 import Lenke from 'nav-frontend-lenker';
 import { Kandidat } from './PropTypes';
 
+const STATUS = {
+    FORESLATT: 'FORESLATT',
+    VURDERES: 'VURDERES',
+    KONTAKTET: 'KONTAKTET',
+    AKTUELL: 'AKTUELL',
+    UAKTUELL: 'UAKTUELL'
+};
+
 const statusToString = (status) => {
-    if (status === 'VURDERES') {
-        return 'Vurderes';
-    } else if (status === 'FORESLATT') {
+    if (status === 'FORESLATT') {
         return 'Foreslått';
+    } else if (status === 'VURDERES') {
+        return 'Vurderes';
     } else if (status === 'KONTAKTET') {
         return 'Kontaktet';
     } else if (status === 'AKTUELL') {
         return 'Aktuell';
     } else if (status === 'UAKTUELL') {
-        return 'Uaktuell';
+        return 'Ikke aktuell';
     }
     return status;
+};
+
+const statusToClassname = (status) => {
+    if (status === 'FORESLATT') {
+        return 'foreslatt';
+    } else if (status === 'VURDERES') {
+        return 'vurderes';
+    } else if (status === 'KONTAKTET') {
+        return 'kontaktet';
+    } else if (status === 'AKTUELL') {
+        return 'aktuell';
+    } else if (status === 'UAKTUELL') {
+        return 'uaktuell';
+    }
+    return '';
 };
 
 const utfallToString = (utfall) => {
@@ -31,7 +54,8 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat }) => {
+// eslint-disable-next-line no-unused-vars
+const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange }) => {
     const SideHeader = () => (
         <div className="side-header">
             <div className="wrapper">
@@ -75,8 +99,22 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, sti
             <div className="kolonne-smal"><Element>Fødselsdato</Element></div>
             <div className="kolonne-bred"><Element>Lagt til av</Element></div>
             <div className="kolonne-bred"><Element>Aktivitetsplan</Element></div>
-            <div className="kolonne-smal"><Element>Status</Element></div>
+            <div className="kolonne-bred"><Element>Status</Element></div>
             <div className="kolonne-bred"><Element>Utfall</Element></div>
+        </div>
+    );
+
+    const StatusSelect = ({ value, onChange }) => ( // eslint-disable-line react/prop-types
+        <div className="skjemaelement">
+            <div className="selectContainer input--s">
+                <select className="skjemaelement__input" value={value} onChange={onChange}>
+                    {[STATUS.FORESLATT, STATUS.VURDERES, STATUS.KONTAKTET, STATUS.AKTUELL, STATUS.UAKTUELL]
+                        .map((status) => (
+                            <option key={status} value={status}>{statusToString(status)}</option>
+                        ))
+                    }
+                </select>
+            </div>
         </div>
     );
 
@@ -94,7 +132,21 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, sti
             <div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
             <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
             <div className="kolonne-bred">-</div>
-            <div className="kolonne-smal">{statusToString(kandidat.status)}</div>
+            <div className="kolonne-bred">
+                {/* Denne endres til en faktisk variabel når det legges til i backend-APIet */}
+                {'kanRedigere' // eslint-disable-line no-constant-condition
+                    ? <StatusSelect
+                        value={kandidat.status}
+                        onChange={(e) => {
+                            onKandidatStatusChange(e.target.value, kandidatlisteId, kandidat.kandidatnr);
+                        }}
+                    />
+                    : <span className="status">
+                        <span className={`sirkel ${statusToClassname(kandidat.status)}`} />
+                        {statusToString(kandidat.status)}
+                    </span>
+                }
+            </div>
             <div className="kolonne-bred">{utfallToString(kandidat.utfall)}</div>
         </div>
     );
@@ -124,10 +176,12 @@ ListedetaljerView.propTypes = {
         ident: PropTypes.string,
         navn: PropTypes.string
     }).isRequired,
+    kandidatlisteId: PropTypes.string.isRequired,
     stillingsId: PropTypes.string.isRequired,
     alleMarkert: PropTypes.bool.isRequired,
     onCheckAlleKandidater: PropTypes.func.isRequired,
-    onToggleKandidat: PropTypes.func.isRequired
+    onToggleKandidat: PropTypes.func.isRequired,
+    onKandidatStatusChange: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;

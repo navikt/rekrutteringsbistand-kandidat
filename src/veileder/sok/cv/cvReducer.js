@@ -1,6 +1,5 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
-import { SearchApiError, fetchCv, fetchMatchExplain } from '../../api';
-import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { SearchApiError, fetchCv } from '../../api';
 
 /** *********************************************************
  * ACTIONS
@@ -27,8 +26,7 @@ const initialState = {
         sprak: []
     },
     isCvModalOpen: false,
-    isFetchingCv: false,
-    matchforklaring: undefined
+    isFetchingCv: false
 };
 
 export default function cvReducer(state = initialState, action) {
@@ -42,8 +40,7 @@ export default function cvReducer(state = initialState, action) {
             return {
                 ...state,
                 isFetchingCv: false,
-                cv: action.response,
-                matchforklaring: action.matchforklaring
+                cv: action.response
             };
         case FETCH_CV_FAILURE:
             return {
@@ -73,36 +70,10 @@ export default function cvReducer(state = initialState, action) {
 
 function* fetchCvForKandidat(action) {
     try {
-        const state = yield select();
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
 
-        let medUtdanningstekst;
-
-        if (state.search.featureToggles['vis-matchforklaring']) {
-            const matchForklaringRespons = yield call(fetchMatchExplain, {
-                stillinger: state.stilling.stillinger,
-                arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-                utdanninger: state.utdanning.utdanninger,
-                kompetanser: state.kompetanse.kompetanser,
-                geografiList: state.geografi.geografiList,
-                totalErfaring: state.arbeidserfaring.totalErfaring,
-                utdanningsniva: state.utdanning.utdanningsniva,
-                sprak: state.sprakReducer.sprak,
-                kandidatnr: action.arenaKandidatnr,
-                lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
-            });
-
-            const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
-
-            medUtdanningstekst = {
-                ...omstrukturertForklaring,
-                matchedeKonsepter: oversettUtdanning(omstrukturertForklaring.matchedeKonsepter),
-                stillingskonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.stillingskonsepterUtenMatch),
-                kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
-            };
-        }
-        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
+        yield put({ type: FETCH_CV_SUCCESS, response });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: FETCH_CV_FAILURE, error: e });

@@ -67,6 +67,33 @@
         .kolonne-bred {
           flex: 2;
         }
+        .status {
+          display: flex;
+          align-items: center;
+          .sirkel {
+            width: 0.5rem;
+            height: 0.5rem;
+            margin-right: 0.5rem;
+            -webkit-border-radius: 0.25rem;
+            -moz-border-radius: 0.25rem;
+            border-radius: 0.25rem;
+          }
+          .foreslatt {
+            background-color: rgba(62, 56, 50, 0.6);;
+          }
+          .vurderes {
+            background-color: rgba(62, 56, 50, 0.6);
+          }
+          .kontaktet {
+            background-color: #ffd200;
+          }
+          .aktuell {
+            background-color: #ff9100;
+          }
+          .uaktuell {
+            background-color: #c30000;
+          }
+        }
       }
       .liste-header {
         border: 1px solid #78706a;
@@ -86,7 +113,11 @@
 }
 
 .skjemaelement {
-  margin: 0;
+   margin: 0;
+ }
+
+.skjemaelement__label {
+  margin-bottom: 0;
 }
 
 .fullscreen-spinner {

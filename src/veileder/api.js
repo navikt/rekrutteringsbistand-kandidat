@@ -23,13 +23,6 @@ export async function fetchTypeaheadSuggestionsRest(query = {}) {
     return resultat.json();
 }
 
-export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
-    const resultat = await fetch(
-        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
-    );
-    return resultat.json();
-}
-
 async function fetchJson(url, includeCredentials) {
     try {
         let response;
@@ -62,14 +55,49 @@ async function fetchJson(url, includeCredentials) {
     }
 }
 
-export function fetchFeatureToggles() {
-    if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
+const getCookie = (name) => {
+    const re = new RegExp(`${name}=([^;]+)`);
+    const match = re.exec(document.cookie);
+    return match !== null ? match[1] : '';
+};
+
+async function putJson(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'PUT',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
+            mode: 'cors'
+        });
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
     }
-    return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
+}
+
+export function fetchFeatureToggles() {
+    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
+    return fetchJson(
+        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+    );
+}
+
+export function fetchKandidaterES(query = {}) {
     return fetchJson(
         `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );
@@ -81,12 +109,10 @@ export function fetchCv(arenaKandidatnr) {
     );
 }
 
-export function fetchMatchExplain(query = {}) {
-    return fetchJson(
-        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
-    );
-}
-
 export const fetchKandidatliste = (stillingsId) => (
     fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
+);
+
+export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
 );

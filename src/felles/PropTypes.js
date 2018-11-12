@@ -33,6 +33,7 @@ const cvPropTypes = PropTypes.shape({
     samtykkeDato: PropTypes.string,
     samtykkeStatus: PropTypes.string,
     sertifikat: PropTypes.array,
+    servicebehov: PropTypes.string,
     sprak: PropTypes.array,
     statsborgerskap: PropTypes.string,
     tidsstempel: PropTypes.string,
