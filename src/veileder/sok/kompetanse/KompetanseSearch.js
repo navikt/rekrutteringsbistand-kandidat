@@ -1,187 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
-import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
-import Typeahead from '../../common/typeahead/Typeahead';
-import {
-    SEARCH
-} from '../searchReducer';
+import KompetanseSearchFelles from '../../../felles/sok/kompetanse/KompetanseSearch';
+import { SEARCH } from '../searchReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 import {
     REMOVE_SELECTED_KOMPETANSE,
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN
 } from './kompetanseReducer';
-import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import './Kompetanse.less';
 
-
-const kompetanseHeading = (
-    <div className="heading--kompetanse ekspanderbartPanel__heading">
-        <Systemtittel>Kompetanse</Systemtittel>
-        <Normaltekst>Sertifikater, kurs, sertifisering, programmer og ferdigheter</Normaltekst>
-    </div>
-);
-
-class KompetanseSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showTypeAheadKompetanse: false,
-            typeAheadValueKompetanse: '',
-            antallKompetanser: 4
-        };
-    }
-
-    onTypeAheadKompetanseChange = (value) => {
-        this.props.fetchTypeAheadSuggestionsKompetanse(value);
-        this.setState({
-            typeAheadValueKompetanse: value
-        });
-    };
-
-    onTypeAheadKompetanseSelect = (value) => {
-        if (value !== '') {
-            this.props.selectTypeAheadValueKompetanse(value);
-            this.props.clearTypeAheadKompetanse();
-            this.setState({
-                typeAheadValueKompetanse: ''
-            });
-            this.props.search();
-        }
-    };
-
-    onLeggTilKompetanseClick = () => {
-        this.setState({
-            showTypeAheadKompetanse: true
-        }, () => this.typeAhead.input.focus());
-    };
-
-    onFjernKompetanseClick = (e) => {
-        this.props.removeKompetanse(e.target.value);
-        this.props.search();
-    };
-
-    onSubmitKompetanse = (e) => {
-        e.preventDefault();
-        this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
-        this.typeAhead.input.focus();
-    };
-
-    onKompetanseSuggestionsClick = (e) => {
-        this.props.selectTypeAheadValueKompetanse(e.target.value);
-        this.props.search();
-    };
-
-    onTypeAheadBlur = () => {
-        this.setState({
-            typeAheadValueKompetanse: '',
-            showTypeAheadKompetanse: false
-        });
-        this.props.clearTypeAheadKompetanse();
-    };
-
-    onLeggTilFlereClick = () => {
-        this.setState({
-            antallKompetanser: this.state.antallKompetanser + 4
-        });
-    };
-
-    render() {
-        if (this.props.skjulKompetanse) {
-            return null;
-        }
-        const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
-        return (
-            <EkspanderbartpanelBase
-                heading={kompetanseHeading}
-                className="panel--sokekriterier"
-                onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
-            >
-                <Element>
-                    Legg til kompetansen du ønsker at en kandidat skal ha
-                </Element>
-                <Normaltekst className="text--italic">
-                    For eksempel førerkort klasse B, ledelse eller Excel
-                </Normaltekst>
-                <div className="sokekriterier--kriterier">
-                    <div className="sokefelt--wrapper--kompetanse">
-                        {this.state.showTypeAheadKompetanse ? (
-                            <Typeahead
-                                ref={(typeAhead) => {
-                                    this.typeAhead = typeAhead;
-                                }}
-                                onSelect={this.onTypeAheadKompetanseSelect}
-                                onChange={this.onTypeAheadKompetanseChange}
-                                label=""
-                                name="kompetanse"
-                                placeholder="Skriv inn kompetanse"
-                                suggestions={this.props.typeAheadSuggestionsKompetanse}
-                                value={this.state.typeAheadValueKompetanse}
-                                id="typeahead-kompetanse"
-                                onSubmit={this.onSubmitKompetanse}
-                                onTypeAheadBlur={this.onTypeAheadBlur}
-                            />
-                        ) : (
-                            <Knapp
-                                onClick={this.onLeggTilKompetanseClick}
-                                className="leggtil--sokekriterier--knapp"
-                                id="leggtil-kompetanse-knapp"
-                            >
-                                +Legg til kompetanse
-                            </Knapp>
-                        )}
-                    </div>
-                    {this.props.kompetanser.map((kompetanse) => (
-                        <button
-                            onClick={this.onFjernKompetanseClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
-                            key={kompetanse}
-                            value={kompetanse}
-                        >
-                            {kompetanse}
-                        </button>
-                    ))}
-                </div>
-                {kompetanseSuggestions.length > 0 && (
-                    <div>
-                        <div className="border--bottom--thin border--bottom--thin--margin" />
-                        <Element>
-                            Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
-                        </Element>
-                        <div className="sokekriterier--kriterier">
-                            {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
-                                <button
-                                    onClick={this.onKompetanseSuggestionsClick}
-                                    className="etikett--forslag--kompetanse"
-                                    value={suggestedKompetanse.feltnavn}
-                                    key={suggestedKompetanse.feltnavn}
-                                >
-                                    {suggestedKompetanse.feltnavn}
-                                </button>
-                            ))}
-                            {this.state.antallKompetanser < kompetanseSuggestions.length && (
-                                <Knapp
-                                    onClick={this.onLeggTilFlereClick}
-                                    className="se-flere-forslag"
-                                >
-                                    {`Se flere (${kompetanseSuggestions.length - this.state.antallKompetanser})`}
-                                </Knapp>
-                            )}
-                        </div>
-                    </div>
-                )}
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
-            </EkspanderbartpanelBase>
-        );
-    }
-}
+const KompetanseSearch = ({ ...props }) => {
+    const { search, removeKompetanse, fetchTypeAheadSuggestionsKompetanse, selectTypeAheadValueKompetanse,
+        kompetanser, kompetanseSuggestions, typeAheadSuggestionsKompetanse, clearTypeAheadKompetanse,
+        totaltAntallTreff, visAlertFaKandidater, skjulKompetanse, panelOpen, togglePanelOpen } = props;
+    return (
+        <KompetanseSearchFelles
+            search={search}
+            removeKompetanse={removeKompetanse}
+            fetchTypeAheadSuggestionsKompetanse={fetchTypeAheadSuggestionsKompetanse}
+            selectTypeAheadValueKompetanse={selectTypeAheadValueKompetanse}
+            kompetanser={kompetanser}
+            kompetanseSuggestions={kompetanseSuggestions}
+            typeAheadSuggestionsKompetanse={typeAheadSuggestionsKompetanse}
+            clearTypeAheadKompetanse={clearTypeAheadKompetanse}
+            totaltAntallTreff={totaltAntallTreff}
+            visAlertFaKandidater={visAlertFaKandidater}
+            skjulKompetanse={skjulKompetanse}
+            panelOpen={panelOpen}
+            togglePanelOpen={togglePanelOpen}
+        />
+    );
+};
 
 KompetanseSearch.propTypes = {
     search: PropTypes.func.isRequired,

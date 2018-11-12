@@ -7,8 +7,8 @@ import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import HjelpetekstFading from '../common/HjelpetekstFading';
-import Lenkeknapp from '../common/Lenkeknapp';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import TomListe from './TomListe';
 import {
     HENT_KANDIDATLISTER, RESET_LAGRE_STATUS, SLETT_KANDIDATLISTE,

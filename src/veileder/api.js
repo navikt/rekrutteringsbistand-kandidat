@@ -23,13 +23,6 @@ export async function fetchTypeaheadSuggestionsRest(query = {}) {
     return resultat.json();
 }
 
-export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
-    const resultat = await fetch(
-        `${SEARCH_API}typeaheadSted?${convertToUrlParams(query)}`, { credentials: 'include' }
-    );
-    return resultat.json();
-}
-
 async function fetchJson(url, includeCredentials) {
     try {
         let response;
@@ -95,10 +88,7 @@ async function putJson(url, bodyString) {
 }
 
 export function fetchFeatureToggles() {
-    if (process.env.NODE_ENV !== 'development') {
-        return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
-    }
-    return __DEVELOPMENT_TOGGLES__; //eslint-disable-line
+    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
@@ -107,15 +97,15 @@ export function fetchKandidater(query = {}) {
     );
 }
 
-export function fetchCv(arenaKandidatnr) {
+export function fetchKandidaterES(query = {}) {
     return fetchJson(
-        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
+        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );
 }
 
-export function fetchMatchExplain(query = {}) {
+export function fetchCv(arenaKandidatnr) {
     return fetchJson(
-        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
     );
 }
 

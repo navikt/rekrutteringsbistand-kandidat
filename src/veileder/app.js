@@ -8,7 +8,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
 import ManglerRolle from './sok/error/ManglerRolle';
-import './sok/../../felles/styles.less';
+import '../felles/styles.less';
 import './sok/sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
@@ -25,6 +25,7 @@ import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import Listedetaljer from './kandidatlister/Listedetaljer';
 import { LOGIN_URL } from './common/fasitProperties';
+import forerkortReducer from './sok/forerkort/forerkortReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -34,6 +35,7 @@ const store = createStore(combineReducers({
     kompetanse: kompetanseReducer,
     arbeidserfaring: arbeidserfaringReducer,
     utdanning: utdanningReducer,
+    forerkort: forerkortReducer,
     geografi: geografiReducer,
     sprakReducer,
     cvReducer,

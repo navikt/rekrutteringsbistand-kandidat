@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchFeatureToggles, SearchApiError } from '../api';
-import { getUrlParameterByName, toUrlParams } from './utils';
-import FEATURE_TOGGLES from '../../felles/konstanter';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
+import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
 /** *********************************************************
  * ACTIONS
@@ -11,6 +11,8 @@ export const SEARCH = 'SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
 export const SEARCH_SUCCESS = 'SEARCH_SUCCESS';
 export const SEARCH_FAILURE = 'SEARCH_FAILURE';
+export const LAST_FLERE_KANDIDATER = 'LAST_FLERE_KANDIDATER';
+
 export const SET_STATE = 'SET_STATE';
 
 export const INITIAL_SEARCH_BEGIN = 'INITIAL_SEARCH_BEGIN';
@@ -28,12 +30,11 @@ export const SET_ALERT_TYPE_FAA_KANDIDATER = 'SET_ALERT_TYPE_FAA_KANDIDATER';
 
 export const INVALID_RESPONSE_STATUS = 'INVALID_RESPONSE_STATUS';
 
-const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
-    if (!toggles['janzz-enabled']) {
-        return !(key.includes('skjul-') || key.includes('vis-matchforklaring'));
-    }
-    return true;
-};
+export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
+
+export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
+
+export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
 /** *********************************************************
  * REDUCER
@@ -47,6 +48,8 @@ const initialState = {
         },
         kompetanseSuggestions: []
     },
+    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+    searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
@@ -55,7 +58,9 @@ const initialState = {
             { ...dict, [key]: false }
         ), {}),
     isEmptyQuery: true,
-    visAlertFaKandidater: ''
+    visAlertFaKandidater: '',
+    valgtKandidatNr: '',
+    scrolletFraToppen: 0
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -65,25 +70,55 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: true
             };
-        case SEARCH_SUCCESS:
+        case SEARCH_SUCCESS: {
+            const { isPaginatedSok } = action;
             return {
                 ...state,
                 isSearching: false,
                 isInitialSearch: false,
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
-                searchResultat: { ...state.searchResultat, resultat: action.response }
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: !isPaginatedSok ? action.response :
+                        {
+                            ...state.searchResultat.resultat,
+                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
+                        }
+                }
             };
+        }
         case SEARCH_FAILURE:
             return {
                 ...state,
                 isSearching: false,
                 error: action.error
             };
-        case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
+        case MARKER_KANDIDATER:
             return {
                 ...state,
-                isSearching: true
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: {
+                        ...state.searchResultat.resultat,
+                        kandidater: action.kandidater
+                    }
+                }
+            };
+        case OPPDATER_ANTALL_KANDIDATER:
+            return {
+                ...state,
+                antallVisteKandidater: action.antall
+            };
+        case SETT_KANDIDATNUMMER:
+            return {
+                ...state,
+                valgtKandidatNr: action.kandidatnr,
+                scrolletFraToppen: action.scrollStr
+            };
+        case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
+            return {
+                ...state
             };
         case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
             return {
@@ -104,7 +139,7 @@ export default function searchReducer(state = initialState, action) {
                         {
                             ...dict,
                             [key]: Object.keys(action.data)
-                                .includes(key) && action.data[key] && erUavhengigFraJanzzEllerJanzzErEnabled(action.data, key)
+                                .includes(key) && action.data[key]
                         }
                     ), {})
             };
@@ -142,6 +177,7 @@ export const fromUrlQuery = (url) => {
     const totalErfaring = getUrlParameterByName('totalErfaring', url);
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
+    const forerkort = getUrlParameterByName('forerkort', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -151,6 +187,7 @@ export const fromUrlQuery = (url) => {
     if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
+    if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
     return stateFromUrl;
 };
 
@@ -164,6 +201,8 @@ export const toUrlQuery = (state) => {
     if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
+    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
+    if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     return toUrlParams(urlQuery);
 };
 
@@ -181,6 +220,12 @@ function* search(action = '') {
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
         window.history.replaceState('', '', newUrlQuery);
 
+        const fraIndex = action.fraIndex || 0;
+        const antallResultater = action.antallResultater ? Math.max(action.antallResultater, state.search.antallVisteKandidater) : state.search.antallVisteKandidater;
+
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
+            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+
         const criteriaValues = {
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
@@ -191,14 +236,20 @@ function* search(action = '') {
             lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
-            sprak: state.sprakReducer.sprak
+            sprak: state.sprakReducer.sprak,
+            maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
+            forerkort: forerkortListe
         };
 
+        const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
+        const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
+
+        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
 
-        const response = yield call(fetchKandidater, criteria);
+        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues });
+        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -209,6 +260,16 @@ function* search(action = '') {
     }
 }
 
+function* esSearch(action = '') {
+    yield search(action);
+}
+
+function* hentFlereKandidater(action) {
+    const state = yield select();
+    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
+    yield esSearch({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
+}
+
 function* fetchKompetanseSuggestions() {
     try {
         const state = yield select();
@@ -216,7 +277,7 @@ function* fetchKompetanseSuggestions() {
         if (state.stilling.stillinger.length !== 0) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
-            const response = yield call(fetchKandidater, { stillinger: state.stilling.stillinger });
+            const response = yield call(fetchKandidaterES, { stillinger: state.stilling.stillinger });
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[1].felt });
         } else {
             yield put({ type: REMOVE_KOMPETANSE_SUGGESTIONS });
@@ -234,11 +295,6 @@ function* initialSearch() {
     try {
         const urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
-            // TODO: Fjern samtidig som feature toggle janzz-enabled:
-            const state = yield select();
-            if (state.search.featureToggles['janzz-enabled'] && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
-                urlQuery.stillinger = [urlQuery.stillinger[0]];
-            }
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);
@@ -265,8 +321,9 @@ function* hentFeatureToggles() {
 }
 
 export const saga = function* saga() {
-    yield takeLatest(SEARCH, search);
+    yield takeLatest(SEARCH, esSearch);
+    yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
-    yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
+    yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
 };

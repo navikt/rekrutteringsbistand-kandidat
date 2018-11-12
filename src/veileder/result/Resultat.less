@@ -1,28 +1,99 @@
 @import '../../felles/Variables';
 
 .resultatvisning--sokekriterier {
-  .sokefelt--wrapper--sprak, .sokefelt--wrapper--stilling, .sokefelt--wrapper--utdanning,
-  .sokefelt--wrapper--arbeidserfaring, .sokefelt--wrapper--kompetanse,
-  .sokefelt--wrapper--geografi, .checkbox--sokekriterier--unchecked,
+  .checkbox--sokekriterier--unchecked,
   .checkbox--sokekriterier--checked, .etikett--sokekriterier,
   .leggtil--sokekriterier, .etikett--forslag--kompetanse, .se-flere-forslag {
     width: 100%;
   }
 }
 
-.resultatvisning--body {
-  margin-top: 2rem;
+.ResultatVisning--hovedside--header {
+  background-color: #e3edf8;
+  color: @navMorkGra;
+  border: solid 1px #d8d8d8;
+  .container--header {
+    display: flex;
+    flex-wrap: wrap;
+    height: 7.5rem;
+    align-items: center;
+    padding: 0 1.5rem;
+  }
+
+  .child-item__container--header {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    .lenke {
+      color: white;
+      border-bottom: 1px solid white;
+    }
+
+    .ikonlenke {
+      display:inline-flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .lenke--lagrede-kandidatlister {
+    justify-content: flex-end;
+  }
+}
+
+.fullscreen-spinner {
+  text-align: center;
+  padding-top: 2.5rem;
+}
+
+.sokekriterier--column {
+  margin-top: 2.5rem;
+}
+
+.kandidatervisning--column {
+  margin-top: 2.5rem;
+}
+
+@media (min-width: @screen-md-min) {
+  .sokekriterier--column {
+    margin-right: 2.5rem;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .sokekriterier--column {
+    margin-right: 4rem;
+  }
+}
+
+.resultatvisning {
+  .spinner {
+    position: absolute;
+    margin-left: 1rem;
+    margin-top: 2px;
+  }
 }
 
 .lenke--slett--kriterier {
+  margin-bottom: 2.375rem;
   float: right;
-  margin-top: 0.3rem;
+  border: 2px solid transparent !important;
+  &:hover{
+    border: 2px solid @navBla !important;
+  }
 }
 
 @media (min-width: @screen-md-min) {
   .resultatvisning {
-    margin: 2rem 0 0 2rem;
+    margin: 0 0 0 0;
   }
+}
+
+.resultatvisning--header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.55rem;
+  padding-right: 1rem;
 }
 
 .buttons--kandidatervisning {
@@ -39,7 +110,36 @@ a.tilbake--lenke {
   font-weight: 600;
   padding: 0.5rem 0.5rem 0.5rem 0;
 
-  &:hover .tekst--tilbake--lenke{
+  &:hover .tekst--tilbake--lenke {
     border-bottom: solid 1px;
+  }
+}
+
+.LagreKandidaterModal {
+  width: 40rem;
+
+  .LagreKandidaterModal--wrapper {
+    padding: 1rem;
+
+    .overskrift {
+      margin-bottom: 1.25rem;
+    }
+    .knapperad {
+      margin-top: 2rem;
+    }
+
+    .ny-liste-overskrift {
+      margin-bottom: 1.25rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.625rem;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
   }
 }
