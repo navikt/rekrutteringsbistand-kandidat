@@ -177,15 +177,9 @@ KandidaterVisning.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    lastFlereKandidater: () => {
-        dispatch({ type: LAST_FLERE_KANDIDATER });
-    },
-    oppdaterAntallKandidater: (antallKandidater) => {
-        dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater });
-    },
-    oppdaterMarkerteKandidater: (markerteKandidater) => {
-        dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater });
-    }
+    lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
+    oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
+    oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); }
 });
 
 const mapStateToProps = (state) => ({
