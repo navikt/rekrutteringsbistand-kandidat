@@ -34,6 +34,8 @@ export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 
 export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
+export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -91,6 +93,17 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 isSearching: false,
                 error: action.error
+            };
+        case MARKER_KANDIDATER:
+            return {
+                ...state,
+                searchResultat: {
+                    ...state.searchResultat,
+                    resultat: {
+                        ...state.searchResultat.resultat,
+                        kandidater: action.kandidater
+                    }
+                }
             };
         case OPPDATER_ANTALL_KANDIDATER:
             return {

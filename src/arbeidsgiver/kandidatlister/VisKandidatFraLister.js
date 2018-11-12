@@ -9,12 +9,12 @@ import { getUrlParameterByName } from '../sok/utils';
 import VisKandidatPersonalia from '../result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../result/visKandidat/VisKandidatJobbprofil';
-import Lenkeknapp from '../common/Lenkeknapp';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import { SLETT_KANDIDATER } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
 import './VisKandidatFraLister.less';
-import '../common/ikoner/ikoner.less';
+import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 
 class VisKandidatFraLister extends React.Component {

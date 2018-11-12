@@ -3,61 +3,71 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Checkbox } from 'nav-frontend-skjema';
+import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
-import { FETCH_CV, OPEN_CV_MODAL } from '../../sok/cv/cvReducer';
+import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
-    openCvModal = () => {
-        this.props.openCvModal();
-        this.props.hentCvForKandidat(this.props.cv.arenaKandidatnr);
+    onCheck = (kandidatnr) => {
+        this.props.onKandidatValgt(!this.props.markert, kandidatnr);
+    };
+
+    onKandidatNrClick = () => {
+        this.props.settValgtKandidat(this.props.kandidat.arenaKandidatnr, window.pageYOffset);
     };
 
     render() {
-        const cv = this.props.cv;
-        const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
-        const utdanning = cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKodeGrad : '';
-        const lengdeYrkeserfaring = Math.floor(cv.totalLengdeYrkeserfaring / 12);
-        let lengdeYrkeserfaringTekst;
-        if (lengdeYrkeserfaring === 0) {
-            lengdeYrkeserfaringTekst = 'Under 1 år';
-        } else if (lengdeYrkeserfaring > 10) {
-            lengdeYrkeserfaringTekst = 'Over 10 år';
-        } else {
-            lengdeYrkeserfaringTekst = `${lengdeYrkeserfaring} år`;
-        }
+        const kandidat = this.props.kandidat;
+        const kandidatnummer = kandidat.arenaKandidatnr;
+        const fornavn = kandidat.fornavn;
+        const etternavn = kandidat.etternavn;
+        const fodselsdato = kandidat.fodselsdato;
+        const innsatsgruppe = kandidat.servicebehov;
+
         return (
-            <button
-                className="panel border--top--thin kandidater--row"
-                onClick={this.openCvModal}
-                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-            >
-                <Row>
-                    <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                        <Normaltekst className="break-word lenke lenke--kandidatnr">{cv.arenaKandidatnr}</Normaltekst>
-                    </Column>
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word utdanning">{utdanning}</Normaltekst>
-                    </Column>
-                    <Column className="no--padding" xs="4" md="4">
-                        <i className="border--vertical" />
-                        <Normaltekst className="break-word yrkeserfaring">{yrkeserfaring}</Normaltekst>
-                    </Column>
-                    <Column xs="2" md="2" className="text-center no--padding">
-                        <i className="border--vertical" />
-                        <Normaltekst className="inline">{lengdeYrkeserfaringTekst}</Normaltekst>
-                    </Column>
-                </Row>
-            </button>
+            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+                <Column xs="1" md="1">
+                    <Checkbox
+                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                        className="text-hide"
+                        label="."
+                        aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
+                        checked={this.props.markert}
+                        onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
+                    />
+                </Column>
+                <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
+                    <Link
+                        to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
+                        onClick={this.onKandidatNrClick}
+                        aria-label={`Se CV for ${etternavn}, ${fornavn}`}
+                    >
+                        <Normaltekst className="kandidater--row__col--navn">{`${etternavn}, ${fornavn}`}</Normaltekst>
+                    </Link>
+                </Column>
+                <Column xs="2" md="2">
+                    <Normaltekst className="text-overflow kandidater--row__col">{new Date(fodselsdato).toLocaleDateString('NB-no')}</Normaltekst>
+                </Column>
+                <Column xs="4" md="4">
+                    <Normaltekst className="text-overflow kandidater--row__col">{`${innsatsgruppe}`}</Normaltekst>
+                </Column>
+            </Row>
         );
     }
 }
 
+KandidaterTableRow.defaultProps = {
+    markert: false
+};
+
 KandidaterTableRow.propTypes = {
-    cv: cvPropTypes.isRequired,
-    openCvModal: PropTypes.func.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired
+    kandidat: cvPropTypes.isRequired,
+    onKandidatValgt: PropTypes.func.isRequired,
+    markert: PropTypes.bool,
+    nettoppValgt: PropTypes.bool.isRequired,
+    settValgtKandidat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -65,8 +75,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    openCvModal: () => dispatch({ type: OPEN_CV_MODAL }),
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr })
+    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);
