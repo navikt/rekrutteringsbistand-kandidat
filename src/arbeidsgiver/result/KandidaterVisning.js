@@ -124,24 +124,6 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    onFilterAntallArClick = (antallArChevronNed, from, to) => {
-        const kandidater = this.state.kandidater.slice(from, to)
-            .sort((kand1, kand2) => {
-                if (antallArChevronNed) {
-                    return kand1.totalLengdeYrkeserfaring - kand2.totalLengdeYrkeserfaring;
-                }
-                return kand2.totalLengdeYrkeserfaring - kand1.totalLengdeYrkeserfaring;
-            });
-        this.setState({
-            kandidater: [
-                ...this.state.kandidater.slice(0, from),
-                ...kandidater,
-                ...this.state.kandidater.slice(to)
-            ]
-        });
-    };
-
-
     onLagreKandidatlister = (kandidatlisteIder) => {
         this.props.leggTilKandidaterIKandidatliste(this.state.kandidater
             .filter((kandidat) => (kandidat.markert))
@@ -212,7 +194,6 @@ class KandidaterVisning extends React.Component {
                 <KandidaterTabell
                     antallResultater={this.state.antallResultater}
                     kandidater={this.state.kandidater}
-                    onFilterAntallArClick={this.onFilterAntallArClick}
                     onFilterScoreClick={this.onFilterScoreClick}
                     onFlereResultaterClick={this.onFlereResultaterClick}
                     totaltAntallTreff={this.props.totaltAntallTreff}
