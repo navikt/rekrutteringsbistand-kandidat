@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { formatISOString } from '../../common/dateUtils';
 import cvPropTypes from '../../../felles/PropTypes';
-import TelefonIkon from '../../common/ikoner/TelefonIkon';
-import MailIkon from '../../common/ikoner/MailIkon';
-import AdresseIkon from '../../common/ikoner/AdresseIkon';
+import TelefonIkon from '../../../felles/common/ikoner/TelefonIkon';
+import MailIkon from '../../../felles/common/ikoner/MailIkon';
+import AdresseIkon from '../../../felles/common/ikoner/AdresseIkon';
 import { CONTEXT_ROOT } from '../../common/fasitProperties';
 
 class VisKandidatPersonalia extends React.Component {

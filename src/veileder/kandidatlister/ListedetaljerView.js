@@ -30,7 +30,7 @@ const utfallToString = (utfall) => {
     }
     return utfall;
 };
-
+// eslint-disable-next-line no-unused-vars
 const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat }) => {
     const SideHeader = () => (
         <div className="side-header">

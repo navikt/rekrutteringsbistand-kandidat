@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import { Column, Container, Row } from 'nav-frontend-grid';
+import { Element, Sidetittel } from 'nav-frontend-typografi';
+import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import KnappBase from 'nav-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
+import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
@@ -18,6 +20,9 @@ class ResultatVisning extends React.Component {
     constructor(props) {
         super(props);
         window.scrollTo(0, 0);
+        this.state = {
+            suksessmeldingLagreKandidatVises: false
+        };
     }
 
     componentDidMount() {
@@ -34,7 +39,8 @@ class ResultatVisning extends React.Component {
             geografiListKomplett: [],
             totalErfaring: [],
             utdanningsniva: [],
-            sprak: []
+            sprak: [],
+            maaBoInnenforGeografi: false
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -43,43 +49,51 @@ class ResultatVisning extends React.Component {
     render() {
         return (
             <div>
+                <div className="ResultatVisning--hovedside--header">
+                    <Container className="container--header">
+                        <div className="child-item__container--header">
+                            <Sidetittel> Kandidatsøk </Sidetittel>
+                        </div>
+                    </Container>
+                </div>
                 {this.props.isInitialSearch ? (
-                    <div className="text-center">
+                    <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />
                     </div>
                 ) : (
                     <div>
-                        <Container className="blokk-s container--wide">
-                            <Row>
-                                <Column className="text-center">
-                                    <Sidetittel>Aktuelle kandidater</Sidetittel>
-                                </Column>
-                                {this.props.janzzEnabled &&
-                                    <Normaltekst className="text-center">Går mot Janzz</Normaltekst>
-                                }
-                            </Row>
-                            <Row className="resultatvisning--body">
-                                <Column xs="12" md="4">
-                                    <button
-                                        className="lenke lenke--slett--kriterier typo-normal"
-                                        id="slett-alle-kriterier-lenke"
-                                        onClick={this.onRemoveCriteriaClick}
-                                    >
-                                        Slett alle kriterier
-                                    </button>
+                        <Container className="blokk-s">
+                            <Column xs="12" md="4">
+                                <div className="sokekriterier--column">
+                                    <div className="knapp-wrapper">
+                                        <KnappBase
+                                            mini
+                                            type="flat"
+                                            className="lenke lenke--slett--kriterier typo-normal"
+                                            id="slett-alle-kriterier-lenke"
+                                            onClick={this.onRemoveCriteriaClick}
+                                        >
+                                            <Element>
+                                                Slett alle kriterier
+                                            </Element>
+                                        </KnappBase>
+                                    </div>
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
+                                        <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
+                                        <ForerkortSearch />
                                         <KompetanseSearch />
-                                        <GeografiSearch />
                                     </div>
-                                </Column>
-                                <Column xs="12" md="8">
+                                </div>
+                            </Column>
+                            <Column xs="12" md="8">
+                                <div className="kandidatervisning--column">
                                     <KandidaterVisning />
-                                </Column>
-                            </Row>
+                                </div>
+                            </Column>
                         </Container>
                     </div>
                 )}
@@ -88,22 +102,16 @@ class ResultatVisning extends React.Component {
     }
 }
 
-ResultatVisning.defaultProps = {
-    janzzEnabled: false
-};
-
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     initialSearch: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired,
-    janzzEnabled: PropTypes.bool
+    isInitialSearch: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    isInitialSearch: state.search.isInitialSearch,
-    janzzEnabled: state.search.featureToggles['janzz-enabled']
+    isInitialSearch: state.search.isInitialSearch
 });
 
 const mapDispatchToProps = (dispatch) => ({

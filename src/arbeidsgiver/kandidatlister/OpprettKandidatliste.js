@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Sidetittel } from 'nav-frontend-typografi';
-import HjelpetekstFading from '../common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import './kandidatlister.less';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import TilbakeLenke from '../common/TilbakeLenke';

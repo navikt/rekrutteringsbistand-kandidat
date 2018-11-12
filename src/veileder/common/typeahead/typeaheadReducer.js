@@ -1,6 +1,7 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
 import { BRANCHNAVN } from '../../../felles/konstanter';
+import alleForerkort from '../../../felles/sok/forerkort/forerkort';
 
 /** *********************************************************
  * ACTIONS
@@ -9,8 +10,6 @@ import { BRANCHNAVN } from '../../../felles/konstanter';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS = 'FETCH_TYPE_AHEAD_SUGGESTIONS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS';
 export const FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE = 'FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE';
-
-// TODO: Toggle: janzz-enabled
 
 export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
 
@@ -27,14 +26,14 @@ const initialTypeaheadState = () => ({
 });
 
 const initialState = {
-    // TODO: Toggle: janzz-enabled
     kompetanse: initialTypeaheadState(),
     stilling: initialTypeaheadState(),
     arbeidserfaring: initialTypeaheadState(),
     utdanning: initialTypeaheadState(),
     geografi: initialTypeaheadState(),
     geografiKomplett: initialTypeaheadState(),
-    sprak: initialTypeaheadState()
+    sprak: initialTypeaheadState(),
+    forerkort: initialTypeaheadState()
 };
 
 export default function typeaheadReducer(state = initialState, action) {
@@ -99,6 +98,7 @@ const getTypeAheadBranch = (type) => {
     else if (type === BRANCHNAVN.KOMPETANSE) return 'komp';
     else if (type === BRANCHNAVN.GEOGRAFI) return 'geo';
     else if (type === BRANCHNAVN.SPRAK) return 'sprak';
+    else if (type === BRANCHNAVN.FORERKORT) return 'forerkort';
     return '';
 };
 
@@ -106,98 +106,65 @@ const getTypeAheadBranch = (type) => {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* fetchTypeAheadSuggestionsES(action) {
-    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const branch = action.branch;
-    const value = action.value;
-
+function* fetchTypeaheadGeografiES(value, branch) {
     const typeAheadBranch = getTypeAheadBranch(branch);
+    try {
+        const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
+        const totalSuggestions = response.suggestions.map((r) => (
+            JSON.parse(r)
+        ));
+        const suggestions = response.suggestions.map((r) => {
+            const content = JSON.parse(r);
+            return content.geografiKodeTekst;
+        });
+        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestions });
 
-    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-        try {
-            const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-
-            // The suggestions from Elastic Search is a list of key-value pair
-            // Put the values into a list
-            let suggestions;
-            if (response._embedded) {
-                if (branch === BRANCHNAVN.GEOGRAFI) {
-                    const totalSuggestions = response._embedded.stringList.map((r) => (
-                        JSON.parse(r.content)
-                    ));
-                    suggestions = response._embedded.stringList.map((r) => {
-                        const content = JSON.parse(r.content);
-                        return content.geografiKodeTekst;
-                    });
-                    yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestions });
-                } else {
-                    suggestions = response._embedded.stringList.map((r) => (
-                        r.content
-                    ));
-                }
-            }
-
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch, query: value });
-        } catch (e) {
-            if (e instanceof SearchApiError) {
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
-            } else {
-                throw e;
-            }
-        }
-    } else {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch, query: value });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch, query: value });
+    } catch (e) {
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: e.message }) });
     }
 }
 
-function* fetchTypeAheadSuggestionsJanzz(action) {
-    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const branch = action.branch;
-    const value = action.value;
-
-    const typeAheadBranch = getTypeAheadBranch(branch);
-
-    if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-        try {
-            const response = branch === BRANCHNAVN.GEOGRAFI ? yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value }) : yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-
-            let result;
-            if (response._embedded) {
-                if (branch === BRANCHNAVN.GEOGRAFI) {
-                    const totalResult = response._embedded.lokasjonList.map((sted) => (
-                        { geografiKode: sted.code, geografiKodeTekst: sted.label }
-                    ));
-
-                    result = response._embedded.lokasjonList.map((sted) => (
-                        sted.label
-                    ));
-                    yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-                } else {
-                    result = response._embedded.stringList.map((r) => (
-                        r.content
-                    ));
-                }
-
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
-            }
-        } catch (e) {
-            if (e instanceof SearchApiError) {
-                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
-            } else {
-                throw e;
-            }
-        }
-    }
+function* fetchTypeaheadGeografi(value, branch) {
+    yield fetchTypeaheadGeografiES(value, branch);
 }
 
 function* fetchTypeAheadSuggestions(action) {
-    const state = yield select();
-
-    // TODO: Fjern else og fetchTypeAheadSuggestionsES. Toggle: janzz-enabled
-    if (state.search.featureToggles['janzz-enabled']) {
-        yield fetchTypeAheadSuggestionsJanzz(action);
+    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
+    const branch = action.branch;
+    const value = action.value;
+    if (branch === BRANCHNAVN.FORERKORT) {
+        let result;
+        if (!value) {
+            result = alleForerkort;
+        } else {
+            result = alleForerkort.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
+        }
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
     } else {
-        yield fetchTypeAheadSuggestionsES(action);
+        const typeAheadBranch = getTypeAheadBranch(branch);
+
+        if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
+            try {
+                if (branch === BRANCHNAVN.GEOGRAFI) {
+                    yield fetchTypeaheadGeografi(value, branch);
+                } else {
+                    const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
+                    yield put({
+                        type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+                        suggestions: response.suggestions,
+                        branch,
+                        query: value
+                    });
+                }
+            } catch (e) {
+                if (e instanceof SearchApiError) {
+                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+                } else {
+                    throw e;
+                }
+            }
+        }
     }
 }
 
