@@ -5,10 +5,10 @@ import { Redirect } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV } from '../sok/cv/cvReducer';
-import { getUrlParameterByName } from '../sok/utils';
-import VisKandidatPersonalia from '../result/visKandidat/VisKandidatPersonalia';
-import VisKandidatCv from '../result/visKandidat/VisKandidatCv';
-import VisKandidatJobbprofil from '../result/visKandidat/VisKandidatJobbprofil';
+import { getUrlParameterByName } from '../../felles/sok/utils';
+import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPersonalia';
+import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
+import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import { SLETT_KANDIDATER } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';
@@ -16,6 +16,7 @@ import { SLETTE_STATUS } from '../../felles/konstanter';
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
+import { CONTEXT_ROOT } from '../common/fasitProperties';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -99,7 +100,7 @@ class VisKandidatFraLister extends React.Component {
         }
         return (
             <div>
-                <VisKandidatPersonalia cv={cv} kandidatListe={kandidatlisteId} />
+                <VisKandidatPersonalia cv={cv} kandidatListe={kandidatlisteId} contextRoot={CONTEXT_ROOT} />
                 <div className="viskandidat-container">
                     <Knapper />
                     <VisKandidatJobbprofil cv={cv} />

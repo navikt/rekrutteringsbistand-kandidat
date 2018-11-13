@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
-import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import { getUrlParameterByName, toUrlParams, getHashFromString } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
 /** *********************************************************

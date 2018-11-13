@@ -5,17 +5,18 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 import cvPropTypes from '../../../felles/PropTypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
-import VisKandidatPersonalia from './VisKandidatPersonalia';
-import VisKandidatCv from './VisKandidatCv';
-import VisKandidatJobbprofil from './VisKandidatJobbprofil';
+import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
+import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
+import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
-import sortByDato from '../../common/SortByDato';
-import { getUrlParameterByName } from '../../sok/utils';
+import sortByDato from '../../../felles/common/SortByDato';
+import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import Matchdetaljer from '../matchforklaring/Matchdetaljer';
 import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
+import { CONTEXT_ROOT } from '../../common/fasitProperties';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -101,7 +102,7 @@ class VisKandidat extends React.Component {
                     onRequestClose={this.lukkeLagreKandidaterModal}
                     onLagre={this.onLagreKandidatlister}
                 />}
-                <VisKandidatPersonalia cv={cv} />
+                <VisKandidatPersonalia cv={cv} contextRoot={CONTEXT_ROOT} />
                 <div className="container--lagre-knapp">
                     <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
                         Lagre kandidaten
