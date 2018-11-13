@@ -25,12 +25,15 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalVises: false,
             suksessmeldingLagreKandidatVises: false
         };
-        this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+
         this.kandidater = this.props.kandidater;
+        this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        this.profilId = getUrlParameterByName('profilId', window.location.href);
+        this.sisteSokId = getUrlParameterByName('sisteSokId', window.location.href);
     }
 
     componentDidMount() {
-        this.props.hentCvForKandidat(this.kandidatnummer);
+        this.props.hentCvForKandidat(this.kandidatnummer, this.profilId, this.sisteSokId);
         this.props.settValgtKandidat(this.kandidatnummer);
     }
 
@@ -171,7 +174,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    hentCvForKandidat: (arenaKandidatnr, profilId, sisteSokId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId, sisteSokId }),
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
         dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
     },

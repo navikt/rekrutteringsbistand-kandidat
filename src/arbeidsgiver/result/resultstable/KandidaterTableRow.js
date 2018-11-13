@@ -34,8 +34,11 @@ class KandidaterTableRow extends React.Component {
     render() {
         const cv = this.props.cv;
         const kandidatnummer = this.props.cv.arenaKandidatnr;
+        const profilId = this.props.cv.profilId;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
+        const sisteSokId = this.props.sisteSokId;
+        const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
 
         const score = cv.score;
         return (
@@ -53,7 +56,7 @@ class KandidaterTableRow extends React.Component {
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
                         className="lenke--kandidatnr"
-                        to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
+                        to={`/${CONTEXT_ROOT}/cv?${parametere}`}
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
                         onClick={() => this.props.setScrollPosition(window.pageYOffset)}
                     >
@@ -79,7 +82,8 @@ class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.defaultProps = {
-    markert: false
+    markert: false,
+    sisteSokId: undefined
 };
 
 KandidaterTableRow.propTypes = {
@@ -87,11 +91,13 @@ KandidaterTableRow.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
-    setScrollPosition: PropTypes.func.isRequired
+    setScrollPosition: PropTypes.func.isRequired,
+    sisteSokId: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query
+    query: state.query,
+    sisteSokId: state.cvReducer.sisteSokId
 });
 
 const mapDispatchToProps = (dispatch) => ({
