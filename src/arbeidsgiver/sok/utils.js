@@ -164,3 +164,8 @@ export const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUp
 export const fornavnOgEtternavnFraKandidat = (cv) => (cv.fornavn && cv.etternavn
     ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
     : cv.kandidatnr);
+
+export const formatterStedsnavn = (inputString) => inputString
+    .split(' ')
+    .map((s) => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
+    .join(' ');

@@ -1,6 +1,12 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from './api';
-import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import {
+    fetchKandidater,
+    fetchKandidaterES,
+    fetchFeatureToggles,
+    SearchApiError,
+    fetchGeografiKode
+} from './api';
+import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from './utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 import { GODTA_VILKAR_SUCCESS } from '../samtykke/samtykkeReducer';
@@ -323,12 +329,22 @@ function* fetchKompetanseSuggestions() {
 
 function* initialSearch() {
     try {
-        const urlQuery = fromUrlQuery(window.location.href);
+        let urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
             if (USE_JANZZ && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
                 urlQuery.stillinger = [urlQuery.stillinger[0]];
             }
-
+            if (urlQuery.geografiList) {
+                const geografiKoder = [];
+                for (let i = 0; i < urlQuery.geografiList.length; i += 1) {
+                    geografiKoder[i] = yield fetchGeografiKode(urlQuery.geografiList[i]);
+                }
+                urlQuery = {
+                    ...urlQuery,
+                    geografiListKomplett: geografiKoder.map((sted) =>
+                        ({ geografiKode: sted.id, geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()) }))
+                };
+            }
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);
