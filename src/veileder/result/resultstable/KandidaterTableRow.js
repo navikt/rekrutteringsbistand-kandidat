@@ -7,19 +7,15 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
-import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
+import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
-    onKandidatNrClick = () => {
-        this.props.settValgtKandidat(this.props.kandidat.arenaKandidatnr, window.pageYOffset);
-    };
-
     render() {
-        const kandidat = this.props.kandidat;
+        const { kandidat, markert, nettoppValgt, setScrollPosition } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn;
         const etternavn = kandidat.etternavn;
@@ -27,21 +23,22 @@ class KandidaterTableRow extends React.Component {
         const innsatsgruppe = kandidat.servicebehov;
 
         return (
-            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+            <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
                     <Checkbox
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
                         className="text-hide"
                         label="."
                         aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
-                        checked={this.props.markert}
+                        checked={markert}
                         onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
                     />
                 </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
                     <Link
+                        className="lenke--kandidatnr"
                         to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
-                        onClick={this.onKandidatNrClick}
+                        onClick={() => setScrollPosition(window.pageYOffset)}
                         aria-label={`Se CV for ${etternavn}, ${fornavn}`}
                     >
                         <Normaltekst className="kandidater--row__col--navn">{`${etternavn}, ${fornavn}`}</Normaltekst>
@@ -67,7 +64,7 @@ KandidaterTableRow.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
-    settValgtKandidat: PropTypes.func.isRequired
+    setScrollPosition: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -75,7 +72,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
+    setScrollPosition: (scrollPosisjon) => dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);

@@ -9,7 +9,6 @@ import cvPropTypes from '../../felles/PropTypes';
 
 export default function KandidaterTabell({
     antallResultater,
-    onFilterAntallArClick,
     onFlereResultaterClick,
     kandidater,
     totaltAntallTreff,
@@ -22,7 +21,6 @@ export default function KandidaterTabell({
 
         <div className="resultatvisning">
             <KandidaterTableHeader
-                onFilterAntallArClick={onFilterAntallArClick}
                 from={0}
                 to={antallResultater}
                 alleKandidaterMarkert={alleKandidaterMarkert}
@@ -63,7 +61,6 @@ KandidaterTabell.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,
-    onFilterAntallArClick: PropTypes.func.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,
     onKandidatValgt: PropTypes.func.isRequired,
     alleKandidaterMarkert: PropTypes.bool.isRequired,

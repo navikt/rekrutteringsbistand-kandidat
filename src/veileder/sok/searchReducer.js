@@ -36,6 +36,8 @@ export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
+export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -113,8 +115,7 @@ export default function searchReducer(state = initialState, action) {
         case SETT_KANDIDATNUMMER:
             return {
                 ...state,
-                valgtKandidatNr: action.kandidatnr,
-                scrolletFraToppen: action.scrollStr
+                valgtKandidatNr: action.kandidatnr
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
@@ -161,6 +162,11 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error
+            };
+        case SET_SCROLL_POSITION:
+            return {
+                ...state,
+                scrolletFraToppen: action.scrolletFraToppen
             };
         default:
             return state;
