@@ -175,7 +175,7 @@ const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
         dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
     },
-    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
+    settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer })
 });
 
 

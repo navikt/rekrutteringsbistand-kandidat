@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
@@ -11,7 +10,6 @@ import TelefonIkon from '../../common/ikoner/TelefonIkon';
 import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import { CONTEXT_ROOT } from '../../common/fasitProperties';
-import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class VisKandidatPersonalia extends React.Component {
     capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1);
@@ -160,8 +158,4 @@ VisKandidatPersonalia.propTypes = {
     nesteKandidat: PropTypes.string
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
-});
-
-export default connect(mapDispatchToProps)(VisKandidatPersonalia);
+export default VisKandidatPersonalia;
