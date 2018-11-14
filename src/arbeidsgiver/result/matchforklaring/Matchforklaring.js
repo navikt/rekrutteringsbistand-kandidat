@@ -74,7 +74,9 @@ const KonsepttypeMedMatch = ({ tittel, konseptmatcher }) => {
 const MatchPanel = ({ matchedeKonsepter, score }) => (
     <Row className="match-explanation-match blokk-s">
         <div className="match-explanation-title">
-            <Systemtittel className="text-center blokk-xs">{`Match: ${score} %`} </Systemtittel>
+            <Systemtittel className="text-center blokk-xs">{`Snittmatch: ${score.snitt} %`} </Systemtittel>
+            <Systemtittel className="text-center blokk-xs">{`Match: ${score.match} %`} </Systemtittel>
+            <Systemtittel className="text-center blokk-xs">{`Reversert match: ${score.revertertMatch} %`} </Systemtittel>
         </div>
         <Row>
             <Column className="col-xs-6"><Undertittel>Stillingsprofil</Undertittel></Column>
@@ -140,7 +142,7 @@ KonsepttypeMedMatch.propTypes = {
 };
 
 MatchPanel.propTypes = {
-    score: PropTypes.number.isRequired,
+    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number }).isRequired,
     matchedeKonsepter: MatchedGroupConceptsPropType.isRequired
 };
 

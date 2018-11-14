@@ -98,7 +98,11 @@ export const oversettUtdanning = (konsepter) => ({
 });
 
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
-    score: Math.floor(matchforklaring.score12 * 100),
+    score: {
+        snitt: Math.floor((matchforklaring.score12 + matchforklaring.score21) * (100 / 2)),
+        match: Math.floor(matchforklaring.score12 * 100),
+        revertertMatch: Math.floor(matchforklaring.score21 * 100)
+    },
     matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, (obj) => obj.c1branch),
     stillingskonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j1_not_matched, (obj) => obj.branch),
     kandidatkonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j2_not_matched, (obj) => obj.branch)
