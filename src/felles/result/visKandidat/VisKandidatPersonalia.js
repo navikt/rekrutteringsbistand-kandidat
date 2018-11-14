@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Row } from 'nav-frontend-grid';
+import { Column, Container, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -31,7 +31,7 @@ export default class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const { cv, kandidatListe, contextRoot } = this.props;
+        const { cv, kandidatListe, contextRoot, forrigeKandidat, nesteKandidat } = this.props;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -45,14 +45,36 @@ export default class VisKandidatPersonalia extends React.Component {
         return (
             <div className="header--bakgrunn" id="bakgrunn-personalia">
 
-                <Row>
-                    <Link
-                        to={kandidatListe ? `/${contextRoot}/lister/detaljer/${kandidatListe}` : `/${contextRoot}`}
-                        className="header--personalia__lenke"
-                    >
-                        <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøk'}
-                    </Link>
-                </Row>
+                <Container className="blokk-s">
+                    <Column className="header--personalia__lenker--container">
+                        <Link
+                            to={kandidatListe ? `/${contextRoot}/lister/detaljer/${kandidatListe}` : `/${contextRoot}`}
+                            className="header--personalia__lenke"
+                        >
+                            <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøket'}
+                        </Link>
+
+                        <div className="navigering-forrige-neste">
+                            {forrigeKandidat &&
+                            <Link
+                                to={`/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
+                                className="header--personalia__lenke"
+                            >
+                                <NavFrontendChevron type="venstre" /> Forrige kandidat
+                            </Link>
+                            }
+                            {nesteKandidat &&
+                            <Link
+                                to={`/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
+                                className="header--personalia__lenke"
+                            >
+                                Neste kandidat <NavFrontendChevron type="høyre" />
+                            </Link>
+                            }
+
+                        </div>
+                    </Column>
+                </Container>
 
                 <Row>
                     <Sidetittel className="header--personalia__overskrift">
@@ -120,11 +142,15 @@ export default class VisKandidatPersonalia extends React.Component {
 }
 
 VisKandidatPersonalia.defaultProps = {
-    kandidatListe: undefined
+    kandidatListe: undefined,
+    forrigeKandidat: undefined,
+    nesteKandidat: undefined
 };
 
 VisKandidatPersonalia.propTypes = {
     cv: cvPropTypes.isRequired,
     contextRoot: PropTypes.string.isRequired,
-    kandidatListe: PropTypes.string
+    kandidatListe: PropTypes.string,
+    forrigeKandidat: PropTypes.string,
+    nesteKandidat: PropTypes.string
 };

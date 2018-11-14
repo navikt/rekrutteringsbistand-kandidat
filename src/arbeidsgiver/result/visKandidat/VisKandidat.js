@@ -17,6 +17,7 @@ import { LAGRE_STATUS } from '../../../felles/konstanter';
 import Matchdetaljer from '../matchforklaring/Matchdetaljer';
 import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 import { CONTEXT_ROOT } from '../../common/fasitProperties';
+import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -26,15 +27,25 @@ class VisKandidat extends React.Component {
             suksessmeldingLagreKandidatVises: false
         };
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        this.kandidater = this.props.kandidater;
     }
+
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
+        this.props.settValgtKandidat(this.kandidatnummer);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
             this.visAlertstripeLagreKandidater();
+        }
+
+        const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        if (this.kandidatnummer !== currentUrlKandidatnummer && currentUrlKandidatnummer !== undefined) {
+            this.kandidatnummer = currentUrlKandidatnummer;
+            this.props.settValgtKandidat(this.kandidatnummer);
+            this.props.hentCvForKandidat(this.kandidatnummer);
         }
     }
 
@@ -80,6 +91,22 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
+    returnerForrigeKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
+            return undefined;
+        }
+        return this.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
+    };
+
+    returnerNesteKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
+            return undefined;
+        }
+        return this.kandidater[gjeldendeIndex + 1].arenaKandidatnr;
+    };
+
     render() {
         const { cv, isFetchingCv } = this.props;
 
@@ -102,7 +129,7 @@ class VisKandidat extends React.Component {
                     onRequestClose={this.lukkeLagreKandidaterModal}
                     onLagre={this.onLagreKandidatlister}
                 />}
-                <VisKandidatPersonalia cv={cv} contextRoot={CONTEXT_ROOT} />
+                <VisKandidatPersonalia cv={cv} contextRoot={CONTEXT_ROOT} forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)} nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)} />
                 <div className="container--lagre-knapp">
                     <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
                         Lagre kandidaten
@@ -132,7 +159,8 @@ VisKandidat.propTypes = {
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     matchforklaring: MatchexplainProptypesGrouped,
-    leggTilKandidatStatus: PropTypes.string.isRequired
+    leggTilKandidatStatus: PropTypes.string.isRequired,
+    settValgtKandidat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -147,7 +175,8 @@ const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
         dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
-    }
+    },
+    settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer })
 });
 
 
