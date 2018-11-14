@@ -29,7 +29,7 @@ class VisKandidatFraLister extends React.Component {
     }
 
     componentDidMount() {
-        this.props.hentCvForKandidat(this.props.kandidatnummer);
+        this.props.hentCvForKandidat(this.props.kandidatnummer, this.props.cv.profilId);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -143,7 +143,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
 });
 

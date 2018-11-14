@@ -1,7 +1,8 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
-import { SearchApiError, fetchCv, fetchMatchExplain } from '../api';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { SearchApiError, fetchCv, fetchMatchExplainFraId } from '../api';
 import { kategoriserMatchKonsepter, oversettUtdanning } from '../../../felles/sok/utils';
-import { INVALID_RESPONSE_STATUS } from '../searchReducer';
+import { INVALID_RESPONSE_STATUS, SEARCH_SUCCESS } from '../searchReducer';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 /** *********************************************************
  * ACTIONS
@@ -25,7 +26,8 @@ const initialState = {
         sprak: []
     },
     isFetchingCv: false,
-    matchforklaring: undefined
+    matchforklaring: undefined,
+    sisteSokId: undefined
 };
 
 export default function cvReducer(state = initialState, action) {
@@ -48,6 +50,11 @@ export default function cvReducer(state = initialState, action) {
                 isFetchingCv: false,
                 error: action.error
             };
+        case SEARCH_SUCCESS:
+            return {
+                ...state,
+                sisteSokId: action.response.sokId
+            };
         default:
             return state;
     }
@@ -59,31 +66,12 @@ export default function cvReducer(state = initialState, action) {
 
 function* fetchCvForKandidat(action) {
     try {
-        const state = yield select();
         yield put({ type: FETCH_CV_BEGIN });
         const response = yield call(fetchCv, { kandidatnr: action.arenaKandidatnr });
         let medUtdanningstekst;
 
-        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
-            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
-
-        const criteriaValues = {
-            stillinger: state.stilling.stillinger,
-            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-            utdanninger: state.utdanning.utdanninger,
-            kompetanser: state.kompetanse.kompetanser,
-            geografiList: state.geografi.geografiList,
-            totalErfaring: state.arbeidserfaring.totalErfaring,
-            utdanningsniva: state.utdanning.utdanningsniva,
-            sprak: state.sprakReducer.sprak,
-            kandidatnr: action.arenaKandidatnr,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
-            forerkort: forerkortListe
-        };
-
-        const hasValues = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
-        if (hasValues && state.search.featureToggles['vis-matchforklaring']) {
-            const matchForklaringRespons = yield call(fetchMatchExplain, criteriaValues);
+        if (USE_JANZZ && action.sisteSokId && action.sisteSokId !== 'null' && action.profilId && action.profilId !== 'null') {
+            const matchForklaringRespons = yield call(fetchMatchExplainFraId, { sisteSokId: action.sisteSokId, profilId: action.profilId });
 
             const omstrukturertForklaring = kategoriserMatchKonsepter(matchForklaringRespons);
 

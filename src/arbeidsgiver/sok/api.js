@@ -176,9 +176,9 @@ export function fetchCv(arenaKandidatnr) {
     );
 }
 
-export function fetchMatchExplain(query = {}) {
+export function fetchMatchExplainFraId(query = {}) {
     return fetchJson(
-        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}hentmatchforklaringFraId?${convertToUrlParams(query)}`, true
     );
 }
 
