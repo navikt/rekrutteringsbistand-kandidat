@@ -31,6 +31,8 @@ class GiSamtykke extends React.Component {
 
     handleClick = (e) => {
         e.preventDefault();
+        console.log({ e });
+        console.log(this.state.isSamtykkeChecked);
         if (this.state.isSamtykkeChecked) {
             this.props.godtaVilkar();
         }
