@@ -56,22 +56,22 @@ export default class VisKandidatPersonalia extends React.Component {
 
                         <div className="navigering-forrige-neste">
                             {forrigeKandidat &&
-                            <Link
-                                to={`/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
-                                className="header--personalia__lenke"
-                            >
-                                <NavFrontendChevron type="venstre" /> Forrige kandidat
-                            </Link>
+                                <Link
+                                    to={`/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
+                                    className="header--personalia__lenke"
+                                >
+                                    <NavFrontendChevron type="venstre" /> Forrige kandidat
+                                </Link>
                             }
-                            {nesteKandidat &&
-                            <Link
-                                to={`/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
-                                className="header--personalia__lenke"
-                            >
-                                Neste kandidat <NavFrontendChevron type="høyre" />
-                            </Link>
+                            {nesteKandidat ? (
+                                <Link
+                                    to={`/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
+                                    className="header--personalia__lenke"
+                                >
+                                    Neste kandidat <NavFrontendChevron type="høyre" />
+                                </Link>) : (<div className="header--personalia__lenke--placeholder" />
+                            )
                             }
-
                         </div>
                     </Column>
                 </Container>
