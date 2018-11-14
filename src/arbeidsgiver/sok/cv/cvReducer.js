@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { SearchApiError, fetchCv, fetchMatchExplainFraId } from '../api';
-import { kategoriserMatchKonsepter, oversettUtdanning } from '../utils';
+import { kategoriserMatchKonsepter, oversettUtdanning } from '../../../felles/sok/utils';
 import { INVALID_RESPONSE_STATUS, SEARCH_SUCCESS } from '../searchReducer';
 import { USE_JANZZ } from '../../common/fasitProperties';
 

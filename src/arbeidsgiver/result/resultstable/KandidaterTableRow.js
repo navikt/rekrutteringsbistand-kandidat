@@ -32,24 +32,23 @@ class KandidaterTableRow extends React.Component {
     };
 
     render() {
-        const cv = this.props.cv;
-        const kandidatnummer = this.props.cv.arenaKandidatnr;
-        const profilId = this.props.cv.profilId;
+        const { cv, markert, nettoppValgt, setScrollPosition, sisteSokId } = this.props;
+        const kandidatnummer = cv.arenaKandidatnr;
+        const profilId = cv.profilId;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
-        const sisteSokId = this.props.sisteSokId;
         const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
 
         const score = cv.score;
         return (
-            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+            <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
                     <Checkbox
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
                         className="text-hide"
                         label="."
                         aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                        checked={this.props.markert}
+                        checked={markert}
                         onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
                     />
                 </Column>
@@ -58,7 +57,7 @@ class KandidaterTableRow extends React.Component {
                         className="lenke--kandidatnr"
                         to={`/${CONTEXT_ROOT}/cv?${parametere}`}
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                        onClick={() => this.props.setScrollPosition(window.pageYOffset)}
+                        onClick={() => setScrollPosition(window.pageYOffset)}
                     >
                         <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>

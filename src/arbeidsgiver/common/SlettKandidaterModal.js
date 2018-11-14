@@ -4,7 +4,7 @@ import Modal from 'nav-frontend-modal';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { fornavnOgEtternavnFraKandidat } from '../sok/utils';
+import { fornavnOgEtternavnFraKandidat } from '../../felles/sok/utils';
 
 const SlettKandidaterModal = ({ isOpen, sletterKandidater, lukkModal, valgteKandidater, visFeilmelding, onDeleteClick }) => (
     <Modal

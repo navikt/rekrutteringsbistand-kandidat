@@ -17,7 +17,7 @@ import {
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import './kandidatlister.less';
 import EndreModal from './EndreModal';
-import PageHeader from '../common/PageHeaderWrapper';
+import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {

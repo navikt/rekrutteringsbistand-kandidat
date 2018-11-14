@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
-import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import { getUrlParameterByName, toUrlParams, getHashFromString } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
 /** *********************************************************
@@ -35,6 +35,8 @@ export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
+
+export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
 
 /** *********************************************************
  * REDUCER
@@ -113,8 +115,7 @@ export default function searchReducer(state = initialState, action) {
         case SETT_KANDIDATNUMMER:
             return {
                 ...state,
-                valgtKandidatNr: action.kandidatnr,
-                scrolletFraToppen: action.scrollStr
+                valgtKandidatNr: action.kandidatnr
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
@@ -161,6 +162,11 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error
+            };
+        case SET_SCROLL_POSITION:
+            return {
+                ...state,
+                scrolletFraToppen: action.scrolletFraToppen
             };
         default:
             return state;

@@ -4,7 +4,7 @@ import { Row, Column } from 'nav-frontend-grid';
 import PropTypes from 'prop-types';
 import { ConceptMatchPropType, MatchedGroupConceptsPropType, MatchexplainProptypesGrouped, UnmatchedGroupConceptsPropType } from './Proptypes';
 import { KONSEPTTYPE } from '../../../felles/konstanter';
-import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../sok/utils';
+import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../../felles/sok/utils';
 
 function mapYrkeserfaringStilling(name) {
     if (name.includes(KONSEPTTYPE.ERFARING)) {

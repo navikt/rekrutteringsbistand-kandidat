@@ -3,7 +3,7 @@ import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import TruncatedTextList from '../../common/TruncatedTextList';
-import cvPropTypes from '../../../felles/PropTypes';
+import cvPropTypes from '../../PropTypes';
 import './VisKandidat.less';
 
 const VisKandidatJobbprofil = ({ cv }) => (
