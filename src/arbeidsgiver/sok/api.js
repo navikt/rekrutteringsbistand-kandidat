@@ -225,7 +225,7 @@ export function fetchVilkarstekst() {
 }
 
 export function postGodtaGjeldendeVilkar() {
-    return postJson(`${SAMTYKKE_API}`, true);
+    return postJson(`${SAMTYKKE_API}`, JSON.stringify(true));
 }
 
 export function fetchGeografiKode(geografiKode) {
