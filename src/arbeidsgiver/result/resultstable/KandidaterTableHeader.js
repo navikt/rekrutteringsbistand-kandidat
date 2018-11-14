@@ -13,14 +13,6 @@ export default class KandidaterTableHeader extends React.Component {
         this.state = {};
     }
 
-    onFilterAntallArClick = () => {
-        this.props.onFilterAntallArClick(this.state.antallArChevronNed, this.props.from, this.props.to);
-        this.setState({
-            scoreChevronNed: undefined,
-            antallArChevronNed: !this.state.antallArChevronNed
-        });
-    };
-
     onFilterScoreClick = () => {
         this.props.onFilterScoreClick(this.state.scoreChevronNed, this.props.from, this.props.to);
         this.setState({
@@ -98,7 +90,6 @@ KandidaterTableHeader.defaultProps = {
 };
 
 KandidaterTableHeader.propTypes = {
-    onFilterAntallArClick: PropTypes.func.isRequired,
     onFilterScoreClick: PropTypes.func.isRequired,
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired,
