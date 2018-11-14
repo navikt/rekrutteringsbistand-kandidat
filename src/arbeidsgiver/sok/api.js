@@ -76,7 +76,6 @@ const getCookie = (name) => {
 };
 
 async function postJson(url, bodyString) {
-    console.log('postJson');
     try {
         const response = await fetch(url, {
             credentials: 'include',
@@ -226,7 +225,6 @@ export function fetchVilkarstekst() {
 }
 
 export function postGodtaGjeldendeVilkar() {
-    console.log('GodtaGjeldendeVilkar');
     return postJson(`${SAMTYKKE_API}`, JSON.stringify(true));
 }
 
