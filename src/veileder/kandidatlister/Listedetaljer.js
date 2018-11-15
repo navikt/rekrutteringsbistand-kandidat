@@ -73,12 +73,12 @@ class Listedetaljer extends React.Component {
             );
         }
 
-        const { tittel, oppdragsgiver, opprettetAv, kandidatlisteId, stillingId } = this.props.kandidatliste;
+        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId } = this.props.kandidatliste;
         const { kandidater, alleMarkert } = this.state;
         return (
             <ListedetaljerView
                 tittel={tittel}
-                oppdragsgiver={oppdragsgiver}
+                arbeidsgiver={organisasjonNavn}
                 opprettetAv={opprettetAv}
                 kandidatlisteId={kandidatlisteId}
                 stillingsId={stillingId}
