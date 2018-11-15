@@ -54,7 +54,6 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-// eslint-disable-next-line no-unused-vars
 const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange }) => {
     const SideHeader = () => (
         <div className="side-header">
@@ -79,7 +78,7 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
                         { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     <div className="border-left">
-                        <Lenke href="#">Se stillingsannonse</Lenke>
+                        <Lenke href={`/stillinger/${stillingsId}`}>Se stillingsannonse</Lenke>
                     </div>
                 </div>
             </div>
