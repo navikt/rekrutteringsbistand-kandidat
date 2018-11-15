@@ -207,6 +207,7 @@ export const fromUrlQuery = (url) => {
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
     const forerkort = getUrlParameterByName('forerkort', url);
+    const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -217,6 +218,7 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
+    if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     return stateFromUrl;
 };
 
