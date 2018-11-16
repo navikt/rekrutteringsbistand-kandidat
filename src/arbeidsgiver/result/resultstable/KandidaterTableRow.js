@@ -9,15 +9,11 @@ import cvPropTypes from '../../../felles/PropTypes';
 import { UTDANNING } from '../../../felles/konstanter';
 import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import './Resultstable.less';
-import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
+import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
-    };
-
-    onKandidatNrClick = () => {
-        this.props.settValgtKandidat(this.props.cv.arenaKandidatnr, window.pageYOffset);
     };
 
     nusKodeTilUtdanningsNivaa = (nusKode) => {
@@ -36,30 +32,32 @@ class KandidaterTableRow extends React.Component {
     };
 
     render() {
-        const cv = this.props.cv;
-        const kandidatnummer = this.props.cv.arenaKandidatnr;
+        const { cv, markert, nettoppValgt, setScrollPosition, sisteSokId } = this.props;
+        const kandidatnummer = cv.arenaKandidatnr;
+        const profilId = cv.profilId;
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
+        const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
 
         const score = cv.score;
         return (
-            <Row className={`kandidater--row${this.props.markert ? ' kandidater--row--checked' : ''}${this.props.nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+            <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
                     <Checkbox
                         id={`marker-kandidat-${kandidatnummer}-checkbox`}
                         className="text-hide"
                         label="."
                         aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                        checked={this.props.markert}
+                        checked={markert}
                         onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
                     />
                 </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
                         className="lenke--kandidatnr"
-                        to={`/${CONTEXT_ROOT}/cv?kandidatNr=${kandidatnummer}`}
-                        onClick={this.onKandidatNrClick}
+                        to={`/${CONTEXT_ROOT}/cv?${parametere}`}
                         aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                        onClick={() => setScrollPosition(window.pageYOffset)}
                     >
                         <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
                     </Link>
@@ -83,7 +81,8 @@ class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.defaultProps = {
-    markert: false
+    markert: false,
+    sisteSokId: undefined
 };
 
 KandidaterTableRow.propTypes = {
@@ -91,15 +90,17 @@ KandidaterTableRow.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
-    settValgtKandidat: PropTypes.func.isRequired
+    setScrollPosition: PropTypes.func.isRequired,
+    sisteSokId: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
-    query: state.query
+    query: state.query,
+    sisteSokId: state.cvReducer.sisteSokId
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    settValgtKandidat: (kandidatnummer, scrollTop) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer, scrollStr: scrollTop })
+    setScrollPosition: (scrollPosisjon) => dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon })
 });
 
 

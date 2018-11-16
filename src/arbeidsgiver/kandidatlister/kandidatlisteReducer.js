@@ -10,7 +10,7 @@ import {
 } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
-import { sortKandidatlisteByDato } from '../common/SortByDato';
+import { sortKandidatlisteByDato } from '../../felles/common/SortByDato';
 
 /** *********************************************************
  * ACTIONS

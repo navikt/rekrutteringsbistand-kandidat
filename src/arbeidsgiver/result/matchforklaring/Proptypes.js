@@ -27,7 +27,7 @@ export const MatchedGroupConceptsPropType = PropTypes.shape({
 });
 
 export const MatchexplainProptypesGrouped = PropTypes.shape({
-    score: PropTypes.number,
+    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number }),
     concepts_matched: ConceptMatchPropType,
     j1_not_matched: UnmatchedGroupConceptsPropType,
     j2_not_matched: UnmatchedGroupConceptsPropType,
@@ -43,5 +43,5 @@ export const MatchexplainProptypes = PropTypes.shape({
 
 export const MatchProptypes = PropTypes.shape({
     title: PropTypes.string.isRequired,
-    score: PropTypes.number.isRequired
+    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number })
 });

@@ -1,6 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 
-import { KANDIDATLISTE_API, SEARCH_API, ORGANISASJON_API, USE_JANZZ, SAMTYKKE_API } from '../common/fasitProperties';
+import {
+    KANDIDATLISTE_API,
+    SEARCH_API,
+    ORGANISASJON_API,
+    USE_JANZZ,
+    SAMTYKKE_API,
+    KODEVERK_API
+} from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -169,9 +176,9 @@ export function fetchCv(arenaKandidatnr) {
     );
 }
 
-export function fetchMatchExplain(query = {}) {
+export function fetchMatchExplainFraId(query = {}) {
     return fetchJson(
-        `${SEARCH_API}hentmatchforklaring?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}hentmatchforklaringFraId?${convertToUrlParams(query)}`, true
     );
 }
 
@@ -218,5 +225,9 @@ export function fetchVilkarstekst() {
 }
 
 export function postGodtaGjeldendeVilkar() {
-    return postJson(`${SAMTYKKE_API}`, true);
+    return postJson(`${SAMTYKKE_API}`, JSON.stringify(true));
+}
+
+export function fetchGeografiKode(geografiKode) {
+    return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
 }

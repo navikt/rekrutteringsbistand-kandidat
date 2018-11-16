@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Row } from 'nav-frontend-grid';
+import { Column, Container, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { formatISOString } from '../../common/dateUtils';
-import cvPropTypes from '../../../felles/PropTypes';
-import TelefonIkon from '../../../felles/common/ikoner/TelefonIkon';
-import MailIkon from '../../../felles/common/ikoner/MailIkon';
-import AdresseIkon from '../../../felles/common/ikoner/AdresseIkon';
-import { CONTEXT_ROOT } from '../../common/fasitProperties';
+import cvPropTypes from '../../PropTypes';
+import TelefonIkon from '../../common/ikoner/TelefonIkon';
+import MailIkon from '../../common/ikoner/MailIkon';
+import AdresseIkon from '../../common/ikoner/AdresseIkon';
 
-class VisKandidatPersonalia extends React.Component {
+export default class VisKandidatPersonalia extends React.Component {
     capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1);
 
     formatTelephoneNumber = (inputString) => {
@@ -32,8 +31,7 @@ class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const cv = this.props.cv;
-        const kandidatListe = this.props.kandidatListe;
+        const { cv, kandidatListe, contextRoot, forrigeKandidat, nesteKandidat } = this.props;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -47,14 +45,36 @@ class VisKandidatPersonalia extends React.Component {
         return (
             <div className="header--bakgrunn" id="bakgrunn-personalia">
 
-                <Row>
-                    <Link
-                        to={kandidatListe ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatListe}` : `/${CONTEXT_ROOT}`}
-                        className="header--personalia__lenke"
-                    >
-                        <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøk'}
-                    </Link>
-                </Row>
+                <Container className="blokk-s">
+                    <Column className="header--personalia__lenker--container">
+                        <Link
+                            to={kandidatListe ? `/${contextRoot}/lister/detaljer/${kandidatListe}` : `/${contextRoot}`}
+                            className="header--personalia__lenke"
+                        >
+                            <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøket'}
+                        </Link>
+
+                        <div className="navigering-forrige-neste">
+                            {forrigeKandidat &&
+                                <Link
+                                    to={`/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
+                                    className="header--personalia__lenke"
+                                >
+                                    <NavFrontendChevron type="venstre" /> Forrige kandidat
+                                </Link>
+                            }
+                            {nesteKandidat ? (
+                                <Link
+                                    to={`/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
+                                    className="header--personalia__lenke"
+                                >
+                                    Neste kandidat <NavFrontendChevron type="høyre" />
+                                </Link>) : (<div className="header--personalia__lenke--placeholder" />
+                            )
+                            }
+                        </div>
+                    </Column>
+                </Container>
 
                 <Row>
                     <Sidetittel className="header--personalia__overskrift">
@@ -122,12 +142,15 @@ class VisKandidatPersonalia extends React.Component {
 }
 
 VisKandidatPersonalia.defaultProps = {
-    kandidatListe: undefined
+    kandidatListe: undefined,
+    forrigeKandidat: undefined,
+    nesteKandidat: undefined
 };
 
 VisKandidatPersonalia.propTypes = {
     cv: cvPropTypes.isRequired,
-    kandidatListe: PropTypes.string
+    contextRoot: PropTypes.string.isRequired,
+    kandidatListe: PropTypes.string,
+    forrigeKandidat: PropTypes.string,
+    nesteKandidat: PropTypes.string
 };
-
-export default VisKandidatPersonalia;

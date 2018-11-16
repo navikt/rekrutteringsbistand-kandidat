@@ -57,8 +57,7 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-// eslint-disable-next-line no-unused-vars
-const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange, onKandidatShare }) => {
+const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange, onKandidatShare }) => {
     const SideHeader = () => (
         <div className="side-header">
             <div className="wrapper">
@@ -73,16 +72,16 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, kan
                     <div className="antall">
                         {kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}
                     </div>
-                    { oppdragsgiver &&
+                    { arbeidsgiver &&
                     <div className="border-left">
-                        Oppdragsgiver: {oppdragsgiver}
+                        Arbeidsgiver: {arbeidsgiver}
                     </div>
                     }
                     <div className="border-left">
-                        { `Opprettet av: ${opprettetAv.navn} (${opprettetAv.ident})` }
+                        { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     <div className="border-left">
-                        <Lenke href="#">Se stillingsannonse</Lenke>
+                        <Lenke href={`/stillinger/${stillingsId}`}>Se stillingsannonse</Lenke>
                     </div>
                 </div>
             </div>
@@ -199,13 +198,13 @@ const ListedetaljerView = ({ kandidater, tittel, oppdragsgiver, opprettetAv, kan
     );
 };
 ListedetaljerView.defaultProps = {
-    oppdragsgiver: undefined
+    arbeidsgiver: undefined
 };
 
 ListedetaljerView.propTypes = {
     kandidater: PropTypes.arrayOf(PropTypes.shape({ ...Kandidat, markert: PropTypes.bool })).isRequired,
     tittel: PropTypes.string.isRequired,
-    oppdragsgiver: PropTypes.string,
+    arbeidsgiver: PropTypes.string,
     opprettetAv: PropTypes.shape({
         ident: PropTypes.string,
         navn: PropTypes.string

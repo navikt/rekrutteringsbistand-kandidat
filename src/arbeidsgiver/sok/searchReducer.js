@@ -1,6 +1,12 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from './api';
-import { getUrlParameterByName, toUrlParams, getHashFromString } from './utils';
+import {
+    fetchKandidater,
+    fetchKandidaterES,
+    fetchFeatureToggles,
+    SearchApiError,
+    fetchGeografiKode
+} from './api';
+import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 import { GODTA_VILKAR_SUCCESS } from '../samtykke/samtykkeReducer';
@@ -37,6 +43,8 @@ export const OPPDATER_ANTALL_KANDIDATER = 'OPPDATER_ANTALL_KANDIDATER';
 export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
+
+export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
 
 const erUavhengigFraJanzzEllerJanzzErEnabled = (toggles, key) => {
     if (!USE_JANZZ) {
@@ -125,8 +133,7 @@ export default function searchReducer(state = initialState, action) {
         case SETT_KANDIDATNUMMER:
             return {
                 ...state,
-                valgtKandidatNr: action.kandidatnr,
-                scrolletFraToppen: action.scrollStr
+                valgtKandidatNr: action.kandidatnr
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
@@ -179,6 +186,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 error: undefined
             };
+        case SET_SCROLL_POSITION:
+            return {
+                ...state,
+                scrolletFraToppen: action.scrolletFraToppen
+            };
         default:
             return state;
     }
@@ -195,6 +207,7 @@ export const fromUrlQuery = (url) => {
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
     const forerkort = getUrlParameterByName('forerkort', url);
+    const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -205,6 +218,7 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
+    if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     return stateFromUrl;
 };
 
@@ -323,12 +337,22 @@ function* fetchKompetanseSuggestions() {
 
 function* initialSearch() {
     try {
-        const urlQuery = fromUrlQuery(window.location.href);
+        let urlQuery = fromUrlQuery(window.location.href);
         if (Object.keys(urlQuery).length > 0) {
             if (USE_JANZZ && urlQuery.stillinger && urlQuery.stillinger.length > 1) {
                 urlQuery.stillinger = [urlQuery.stillinger[0]];
             }
-
+            if (urlQuery.geografiList) {
+                const geografiKoder = [];
+                for (let i = 0; i < urlQuery.geografiList.length; i += 1) {
+                    geografiKoder[i] = yield fetchGeografiKode(urlQuery.geografiList[i]);
+                }
+                urlQuery = {
+                    ...urlQuery,
+                    geografiListKomplett: geografiKoder.map((sted) =>
+                        ({ geografiKode: sted.id, geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()) }))
+                };
+            }
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);

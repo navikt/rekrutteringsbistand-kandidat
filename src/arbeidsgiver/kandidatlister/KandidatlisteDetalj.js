@@ -12,7 +12,7 @@ import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
-import PageHeader from '../common/PageHeaderWrapper';
+import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from './TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';

@@ -114,11 +114,12 @@ function* fetchTypeaheadGeografiES(value, branch) {
         const totalSuggestions = response.map((r) => (
             JSON.parse(r)
         ));
-        const suggestions = response.map((r) => {
-            const content = JSON.parse(r);
-            return content.geografiKodeTekst;
-        });
-        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestions });
+        const totalSuggestionsUtenBydelerOgLand = totalSuggestions.filter((s) =>
+            !s.geografiKodeTekst.toLowerCase().includes('bydel') &&
+                s.geografiKode.substring(0, 2).toUpperCase() === 'NO'
+        );
+        const suggestions = totalSuggestionsUtenBydelerOgLand.map((r) => r.geografiKodeTekst);
+        yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestionsUtenBydelerOgLand });
 
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch, query: value });
     } catch (e) {

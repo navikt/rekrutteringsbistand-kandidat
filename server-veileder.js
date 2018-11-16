@@ -116,7 +116,7 @@ const startServer = (html) => {
     server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
     server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
-    server.use('/kandidater/rest/veileder/kandidatsok/', proxy('http://pam-kandidatsok-api', {
+    server.use('/kandidater/rest/', proxy('http://pam-kandidatsok-api', {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')
         )
