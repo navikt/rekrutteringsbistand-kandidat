@@ -61,6 +61,32 @@ const getCookie = (name) => {
     return match !== null ? match[1] : '';
 };
 
+async function postJson(url, bodyString) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'POST',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
+            mode: 'cors'
+        });
+        if (response.status === 200 || response.status === 201) {
+            return;
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 async function putJson(url, bodyString) {
     try {
         const response = await fetch(url, {
@@ -115,4 +141,15 @@ export const fetchKandidatliste = (stillingsId) => (
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
+);
+
+export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => (
+    postJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/deltekandidater`,
+        JSON.stringify({
+            epostMottakere: mailadresser,
+            epostTekst: beskjed,
+            kandidater: kandidatnummerListe
+        })
+    )
 );
