@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, SearchApiError } from '../api';
-import { getUrlParameterByName, toUrlParams, getHashFromString } from '../../felles/sok/utils';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStilling, fetchGeografiKode, SearchApiError } from '../api';
+import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
 /** *********************************************************
@@ -62,7 +62,9 @@ const initialState = {
     isEmptyQuery: true,
     visAlertFaKandidater: '',
     valgtKandidatNr: '',
-    scrolletFraToppen: 0
+    scrolletFraToppen: 0,
+    stillingsId: undefined,
+    harHentetStilling: false
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -168,6 +170,11 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 scrolletFraToppen: action.scrolletFraToppen
             };
+        case SET_STATE:
+            return {
+                ...state,
+                harHentetStilling: action.query.harHentetStilling
+            };
         default:
             return state;
     }
@@ -184,6 +191,8 @@ export const fromUrlQuery = (url) => {
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
     const forerkort = getUrlParameterByName('forerkort', url);
+    const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
+    const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
 
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
@@ -194,6 +203,8 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
+    if (maaBoInnenforGeografi) stateFromUrl.maaBoInnenforGeografi = true;
+    if (harHentetStilling) stateFromUrl.harHentetStilling = true;
     return stateFromUrl;
 };
 
@@ -209,6 +220,7 @@ export const toUrlQuery = (state) => {
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
     if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
+    if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
     return toUrlParams(urlQuery);
 };
 
@@ -297,10 +309,27 @@ function* fetchKompetanseSuggestions() {
     }
 }
 
-function* initialSearch() {
+function* initialSearch(action) {
     try {
-        const urlQuery = fromUrlQuery(window.location.href);
+        let urlQuery = fromUrlQuery(window.location.href);
+        const state = yield select();
+        if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
+            const response = yield call(fetchStilling, action.stillingsId);
+            urlQuery.stillinger = response.stilling;
+            urlQuery.harHentetStilling = true;
+        }
         if (Object.keys(urlQuery).length > 0) {
+            if (urlQuery.geografiList) {
+                const geografiKoder = [];
+                for (let i = 0; i < urlQuery.geografiList.length; i += 1) {
+                    geografiKoder[i] = yield fetchGeografiKode(urlQuery.geografiList[i]);
+                }
+                urlQuery = {
+                    ...urlQuery,
+                    geografiListKomplett: geografiKoder.map((sted) =>
+                        ({ geografiKode: sted.id, geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()) }))
+                };
+            }
             yield put({ type: SET_STATE, query: urlQuery });
         }
         yield call(search);

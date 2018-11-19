@@ -26,7 +26,8 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidMount() {
-        this.props.initialSearch();
+        const { stillingsId } = this.props.match.params;
+        this.props.initialSearch(stillingsId);
     }
 
     onRemoveCriteriaClick = () => {
@@ -40,23 +41,30 @@ class ResultatVisning extends React.Component {
             totalErfaring: [],
             utdanningsniva: [],
             sprak: [],
-            maaBoInnenforGeografi: false
+            maaBoInnenforGeografi: false,
+            harHentetStilling: this.props.harHentetStilling
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
     };
 
     render() {
+        const { match, isInitialSearch } = this.props;
+        const stillingsId = match.params.stillingsId;
         return (
             <div>
                 <div className="ResultatVisning--hovedside--header">
                     <Container className="container--header">
                         <div className="child-item__container--header">
-                            <Sidetittel> Kandidatsøk </Sidetittel>
+                            {stillingsId ? (
+                                <Sidetittel> Søk etter kandidater til stilling </Sidetittel>
+                            ) : (
+                                <Sidetittel> Kandidatsøk </Sidetittel>
+                            )}
                         </div>
                     </Container>
                 </div>
-                {this.props.isInitialSearch ? (
+                {isInitialSearch ? (
                     <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />
                     </div>
@@ -91,7 +99,7 @@ class ResultatVisning extends React.Component {
                             </Column>
                             <Column xs="12" md="8">
                                 <div className="kandidatervisning--column">
-                                    <KandidaterVisning />
+                                    <KandidaterVisning stillingsId={stillingsId} />
                                 </div>
                             </Column>
                         </Container>
@@ -102,23 +110,38 @@ class ResultatVisning extends React.Component {
     }
 }
 
+ResultatVisning.defaultProps = {
+    match: {
+        params: {
+            stillingsId: undefined
+        }
+    }
+};
+
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     initialSearch: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired
+    isInitialSearch: PropTypes.bool.isRequired,
+    harHentetStilling: PropTypes.bool.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            stillingsId: PropTypes.string
+        })
+    })
 };
 
 const mapStateToProps = (state) => ({
-    isInitialSearch: state.search.isInitialSearch
+    isInitialSearch: state.search.isInitialSearch,
+    harHentetStilling: state.search.harHentetStilling
 });
 
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: () => { dispatch({ type: INITIAL_SEARCH_BEGIN }); }
+    initialSearch: (stillingsId) => { dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

@@ -132,7 +132,13 @@ class VisKandidat extends React.Component {
                     onRequestClose={this.lukkeLagreKandidaterModal}
                     onLagre={this.onLagreKandidatlister}
                 />}
-                <VisKandidatPersonalia cv={cv} contextRoot={CONTEXT_ROOT} forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)} nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)} />
+                <VisKandidatPersonalia
+                    cv={cv}
+                    appContext={'arbeidsgiver'}
+                    contextRoot={CONTEXT_ROOT}
+                    forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)}
+                    nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)}
+                />
                 <div className="container--lagre-knapp">
                     <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
                         Lagre kandidaten

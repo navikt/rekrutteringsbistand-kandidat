@@ -156,11 +156,16 @@ class KandidaterVisning extends React.Component {
                     alleKandidaterMarkert={this.state.alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
                     valgtKandidatNr={this.props.valgtKandidatNr}
+                    stillingsId={this.props.stillingsId}
                 />
             </div>
         );
     }
 }
+
+KandidaterVisning.defaultProps = {
+    stillingsId: undefined
+};
 
 KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
@@ -173,7 +178,8 @@ KandidaterVisning.propTypes = {
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
-    oppdaterMarkerteKandidater: PropTypes.func.isRequired
+    oppdaterMarkerteKandidater: PropTypes.func.isRequired,
+    stillingsId: PropTypes.string
 };
 
 const mapDispatchToProps = (dispatch) => ({

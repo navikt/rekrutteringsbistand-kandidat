@@ -72,7 +72,9 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/kandidater" component={ResultatVisning} />
+                    <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
                     <Route exact path="/kandidater/cv" component={VisKandidat} />
+                    <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
                     <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
                 </Switch>
             </BrowserRouter>

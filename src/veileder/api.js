@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API, KANDIDATLISTE_API } from './common/fasitProperties';
+import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -115,4 +115,12 @@ export const fetchKandidatliste = (stillingsId) => (
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
+);
+
+export function fetchGeografiKode(geografiKode) {
+    return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
+}
+
+export const fetchStilling = (stillingsId) => (
+    fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true)
 );

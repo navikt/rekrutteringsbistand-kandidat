@@ -47,7 +47,8 @@ class VisKandidat extends React.Component {
     };
 
     render() {
-        const { cv, isFetchingCv } = this.props;
+        const { cv, isFetchingCv, match } = this.props;
+        const stillingsId = match.params.stillingsId;
 
         if (isFetchingCv) {
             return (
@@ -58,7 +59,14 @@ class VisKandidat extends React.Component {
         }
         return (
             <div>
-                <VisKandidatPersonalia cv={cv} contextRoot={'kandidater'} forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)} nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)} />
+                <VisKandidatPersonalia
+                    cv={cv}
+                    appContext={'veileder'}
+                    contextRoot={'kandidater'}
+                    stillingsId={stillingsId}
+                    forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)}
+                    nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)}
+                />
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
             </div>
@@ -67,7 +75,11 @@ class VisKandidat extends React.Component {
 }
 
 VisKandidat.defaultProps = {
-    matchforklaring: undefined
+    match: {
+        params: {
+            stillingsId: undefined
+        }
+    }
 };
 
 VisKandidat.propTypes = {
@@ -75,7 +87,12 @@ VisKandidat.propTypes = {
     isFetchingCv: PropTypes.bool.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
-    settValgtKandidat: PropTypes.func.isRequired
+    settValgtKandidat: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            stillingsId: PropTypes.string
+        })
+    })
 };
 
 const mapStateToProps = (state) => ({

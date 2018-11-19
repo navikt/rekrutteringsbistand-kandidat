@@ -15,7 +15,8 @@ export default function KandidaterTabell({
     onKandidatValgt,
     alleKandidaterMarkert,
     onToggleMarkeringAlleKandidater,
-    valgtKandidatNr
+    valgtKandidatNr,
+    stillingsId
 }) {
     return (
 
@@ -36,6 +37,7 @@ export default function KandidaterTabell({
                         markert={kandidat.markert}
                         visCheckbox={false}
                         nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
+                        stillingsId={stillingsId}
                     />
                 ))}
             </div>
@@ -57,6 +59,10 @@ export default function KandidaterTabell({
     );
 }
 
+KandidaterTabell.defaultProps = {
+    stillingsId: undefined
+};
+
 KandidaterTabell.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
@@ -65,5 +71,6 @@ KandidaterTabell.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     alleKandidaterMarkert: PropTypes.bool.isRequired,
     onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
-    valgtKandidatNr: PropTypes.string.isRequired
+    valgtKandidatNr: PropTypes.string.isRequired,
+    stillingsId: PropTypes.string
 };
