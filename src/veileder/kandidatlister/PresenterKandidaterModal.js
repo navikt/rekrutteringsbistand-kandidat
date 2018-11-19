@@ -132,7 +132,7 @@ export default class PresenterKandidaterModal extends React.Component {
                         <Flatknapp mini onClick={this.leggTilMailadressefelt}>+ Legg til flere</Flatknapp>
                     </div>
                     <Textarea
-                        label="Beskjed til arbeidsgiver"
+                        label="Melding til arbeidsgiver"
                         textareaClass="beskjed"
                         value={this.state.beskjed}
                         onChange={this.onBeskjedChange}
