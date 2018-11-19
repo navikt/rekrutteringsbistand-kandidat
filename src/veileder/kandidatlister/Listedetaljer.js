@@ -1,11 +1,14 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { ENDRE_STATUS_KANDIDAT, HENT_KANDIDATLISTE } from './kandidatlisteReducer';
+import { DELE_STATUS, ENDRE_STATUS_KANDIDAT, HENT_KANDIDATLISTE, PRESENTER_KANDIDATER, RESET_DELE_STATUS } from './kandidatlisteReducer';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import PresenterKandidaterModal from './PresenterKandidaterModal';
 import ListedetaljerView from './ListedetaljerView';
-import './Listedetaljer.less';
 import { Kandidatliste } from './PropTypes';
+import './Listedetaljer.less';
 
 class Listedetaljer extends React.Component {
     constructor(props) {
@@ -16,7 +19,9 @@ class Listedetaljer extends React.Component {
                 props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert: false
-                }))
+                })),
+            deleModalOpen: false,
+            visDeleSuksessMelding: false
         };
     }
     componentDidMount() {
@@ -24,19 +29,26 @@ class Listedetaljer extends React.Component {
         this.props.hentKandidatliste(id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.kandidatliste) {
+    componentDidUpdate(prevProps) {
+        if (this.props.deleStatus !== prevProps.deleStatus && this.props.deleStatus === DELE_STATUS.SUCCESS) {
+            this.visSuccessMelding();
+        }
+        if (!this.props.kandidatliste) {
             return;
         }
-        if ((!this.props.kandidatliste && nextProps.kandidatliste.kandidater)
-            || this.props.kandidatliste.kandidater !== nextProps.kandidatliste.kandidater) {
+        if ((!prevProps.kandidatliste && this.props.kandidatliste.kandidater)
+            || prevProps.kandidatliste.kandidater !== this.props.kandidatliste.kandidater) {
             this.setState({
-                kandidater: nextProps.kandidatliste.kandidater.map((kandidat) => ({
+                kandidater: this.props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert: false
                 }))
             });
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.deleSuksessMeldingCallbackId);
     }
 
     onCheckAlleKandidater = (markert) => {
@@ -64,8 +76,42 @@ class Listedetaljer extends React.Component {
         });
     };
 
+    onToggleDeleModal = () => {
+        this.setState({
+            deleModalOpen: !this.state.deleModalOpen
+        });
+    };
+
+    onDelMedArbeidsgiver = (beskjed, mailadresser) => {
+        this.props.presenterKandidater(
+            beskjed,
+            mailadresser,
+            this.props.kandidatliste.kandidatlisteId,
+            this.state.kandidater
+                .filter((kandidat) => kandidat.markert)
+                .map((kandidat) => kandidat.kandidatnr)
+        );
+        this.setState({
+            deleModalOpen: false
+        });
+    };
+
+    visSuccessMelding = () => {
+        this.props.resetDeleStatus();
+        clearTimeout(this.deleSuksessMeldingCallbackId);
+        this.setState({
+            visDeleSuksessMelding: true
+        });
+        this.deleSuksessMeldingCallbackId = setTimeout(() => {
+            this.setState({
+                visDeleSuksessMelding: false
+            });
+        }, 5000);
+    };
+
+
     render() {
-        if (this.props.fetching || !this.props.kandidatliste) {
+        if (this.props.fetching || !this.props.kandidatliste || !this.state.kandidater) {
             return (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
@@ -74,22 +120,33 @@ class Listedetaljer extends React.Component {
         }
 
         const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId } = this.props.kandidatliste;
-        const { kandidater, alleMarkert } = this.state;
+        const { kandidater, alleMarkert, deleModalOpen, visDeleSuksessMelding } = this.state;
         return (
-            <ListedetaljerView
-                tittel={tittel}
-                arbeidsgiver={organisasjonNavn}
-                opprettetAv={opprettetAv}
-                kandidatlisteId={kandidatlisteId}
-                stillingsId={stillingId}
-                kandidater={kandidater}
-                alleMarkert={alleMarkert}
-                onToggleKandidat={this.onToggleKandidat}
-                onCheckAlleKandidater={() => {
-                    this.onCheckAlleKandidater(!alleMarkert);
-                }}
-                onKandidatStatusChange={this.props.endreStatusKandidat}
-            />
+            <div>
+                {deleModalOpen &&
+                    <PresenterKandidaterModal
+                        vis={this.state.deleModalOpen}
+                        onClose={this.onToggleDeleModal}
+                        onSubmit={this.onDelMedArbeidsgiver}
+                    />
+                }
+                <HjelpetekstFading synlig={visDeleSuksessMelding} type="suksess" tekst="Kandidatene er delt med arbeidsgiver" />
+                <ListedetaljerView
+                    tittel={tittel}
+                    arbeidsgiver={organisasjonNavn}
+                    opprettetAv={opprettetAv}
+                    kandidatlisteId={kandidatlisteId}
+                    stillingsId={stillingId}
+                    kandidater={kandidater}
+                    alleMarkert={alleMarkert}
+                    onToggleKandidat={this.onToggleKandidat}
+                    onCheckAlleKandidater={() => {
+                        this.onCheckAlleKandidater(!alleMarkert);
+                    }}
+                    onKandidatStatusChange={this.props.endreStatusKandidat}
+                    onKandidatShare={this.onToggleDeleModal}
+                />
+            </div>
         );
     }
 }
@@ -103,6 +160,9 @@ Listedetaljer.propTypes = {
     kandidatliste: PropTypes.shape(Kandidatliste),
     hentKandidatliste: PropTypes.func.isRequired,
     endreStatusKandidat: PropTypes.func.isRequired,
+    presenterKandidater: PropTypes.func.isRequired,
+    resetDeleStatus: PropTypes.func.isRequired,
+    deleStatus: PropTypes.string.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
             id: PropTypes.string.isRequired
@@ -112,12 +172,15 @@ Listedetaljer.propTypes = {
 
 const mapStateToProps = (state) => ({
     fetching: state.kandidatlister.detaljer.fetching,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    deleStatus: state.kandidatlister.detaljer.deleStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentKandidatliste: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer }); },
-    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); }
+    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); },
+    presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
+    resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);
