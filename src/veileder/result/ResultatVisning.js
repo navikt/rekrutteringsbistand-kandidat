@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Sidetittel } from 'nav-frontend-typografi';
-import { Column, Container } from 'nav-frontend-grid';
+import { Element, Sidetittel, Normaltekst } from 'nav-frontend-typografi';
+import { Row, Column, Container } from 'nav-frontend-grid';
+import Lenke from 'nav-frontend-lenker';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -49,20 +50,37 @@ class ResultatVisning extends React.Component {
     };
 
     render() {
-        const { match, isInitialSearch } = this.props;
+        const { match, isInitialSearch, annonseoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent } = this.props;
         const stillingsId = match.params.stillingsId;
         return (
             <div>
                 <div className="ResultatVisning--hovedside--header">
-                    <Container className="container--header">
-                        <div className="child-item__container--header">
-                            {stillingsId ? (
-                                <Sidetittel> Søk etter kandidater til stilling </Sidetittel>
-                            ) : (
+                    {stillingsId ? (
+                        <Container className="container--header">
+                            <div className="child-item__container--header">
+                                <div>
+                                    <Row className="header__row--veileder">
+                                        <Sidetittel>Søk etter kandidater til stilling</Sidetittel>
+                                    </Row>
+                                    <Row className="header__row--veileder">
+                                        <Lenke href="/kandidater">{annonseoverskrift}</Lenke>
+                                    </Row>
+                                    <Row className="header__row--veileder">
+                                        <div className="opprettet-av__row">
+                                            <Normaltekst>Arbeidsgiver: {`${arbeidsgiver}`}</Normaltekst>
+                                            <Normaltekst>Registrert av: {annonseOpprettetAvNavn} ({annonseOpprettetAvIdent})</Normaltekst>
+                                        </div>
+                                    </Row>
+                                </div>
+                            </div>
+                        </Container>
+                    ) : (
+                        <Container className="container--header--uten-stilling">
+                            <div className="child-item__container--header">
                                 <Sidetittel> Kandidatsøk </Sidetittel>
-                            )}
-                        </div>
-                    </Container>
+                            </div>
+                        </Container>
+                    )}
                 </div>
                 {isInitialSearch ? (
                     <div className="fullscreen-spinner">
@@ -111,6 +129,10 @@ class ResultatVisning extends React.Component {
 }
 
 ResultatVisning.defaultProps = {
+    annonseoverskrift: undefined,
+    arbeidsgiver: undefined,
+    annonseOpprettetAvNavn: undefined,
+    annonseOpprettetAvIdent: undefined,
     match: {
         params: {
             stillingsId: undefined
@@ -125,6 +147,10 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
+    annonseoverskrift: PropTypes.string,
+    arbeidsgiver: PropTypes.string,
+    annonseOpprettetAvNavn: PropTypes.string,
+    annonseOpprettetAvIdent: PropTypes.string,
     match: PropTypes.shape({
         params: PropTypes.shape({
             stillingsId: PropTypes.string
@@ -134,7 +160,11 @@ ResultatVisning.propTypes = {
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
-    harHentetStilling: state.search.harHentetStilling
+    harHentetStilling: state.search.harHentetStilling,
+    annonseoverskrift: state.search.annonseoverskrift,
+    arbeidsgiver: state.search.arbeidsgiver,
+    annonseOpprettetAvNavn: state.search.annonseOpprettetAvNavn,
+    annonseOpprettetAvIdent: state.search.annonseOpprettetAvIdent
 });
 
 const mapDispatchToProps = (dispatch) => ({

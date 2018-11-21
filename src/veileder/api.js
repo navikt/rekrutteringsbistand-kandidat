@@ -121,6 +121,10 @@ export function fetchGeografiKode(geografiKode) {
     return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
 }
 
-export const fetchStilling = (stillingsId) => (
+export const fetchStillingFraListe = (stillingsId) => (
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true)
+);
+
+export const fetchDataFraListe = (stillingsId) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
 );

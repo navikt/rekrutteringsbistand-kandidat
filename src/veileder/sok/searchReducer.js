@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStilling, fetchGeografiKode, SearchApiError } from '../api';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStillingFraListe, fetchDataFraListe, fetchGeografiKode, SearchApiError } from '../api';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
@@ -38,6 +38,8 @@ export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
 export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
 
+export const SET_LISTEDATA = 'SET_LISTEDATA';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -64,7 +66,11 @@ const initialState = {
     valgtKandidatNr: '',
     scrolletFraToppen: 0,
     stillingsId: undefined,
-    harHentetStilling: false
+    harHentetStilling: false,
+    annonseoverskrift: undefined,
+    arbeidsgiver: undefined,
+    annonseOpprettetAvNavn: undefined,
+    annonseOpprettetAvIdent: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -174,6 +180,14 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling
+            };
+        case SET_LISTEDATA:
+            return {
+                ...state,
+                annonseoverskrift: action.listeData.tittel,
+                arbeidsgiver: action.listeData.organisasjonNavn,
+                annonseOpprettetAvNavn: action.listeData.opprettetAv.navn,
+                annonseOpprettetAvIdent: action.listeData.opprettetAv.ident
             };
         default:
             return state;
@@ -313,10 +327,14 @@ function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
-        if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
-            const response = yield call(fetchStilling, action.stillingsId);
-            urlQuery.stillinger = response.stilling;
-            urlQuery.harHentetStilling = true;
+        if (action.stillingsId) {
+            const listeData = yield call(fetchDataFraListe, action.stillingsId);
+            yield put({ type: SET_LISTEDATA, listeData });
+            if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
+                const response = yield call(fetchStillingFraListe, action.stillingsId);
+                urlQuery.stillinger = response.stilling;
+                urlQuery.harHentetStilling = true;
+            }
         }
         if (Object.keys(urlQuery).length > 0) {
             if (urlQuery.geografiList) {

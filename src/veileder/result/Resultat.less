@@ -15,6 +15,13 @@
   .container--header {
     display: flex;
     flex-wrap: wrap;
+    height: 12.5rem;
+    align-items: center;
+    padding: 0 1.5rem;
+  }
+  .container--header--uten-stilling {
+    display: flex;
+    flex-wrap: wrap;
     height: 7.5rem;
     align-items: center;
     padding: 0 1.5rem;
@@ -25,9 +32,34 @@
     display: flex;
     justify-content: center;
 
+    .header__row--veileder {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      text-align: center;
+      .opprettet-av__row {
+        display: inline-flex;
+
+        @media (max-width: @screen-sm) {
+          flex-direction: column;
+        }
+
+        @media (min-width: @screen-sm) {
+          flex-direction: row;
+          p:not(:last-child):after {
+            content: '|';
+            margin-left: 1rem;
+            margin-right: 1rem;
+          }
+        }
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
     .lenke {
-      color: white;
-      border-bottom: 1px solid white;
+      font-weight: bold;
     }
 
     .ikonlenke {

@@ -35,9 +35,15 @@
   text-align: center;
 }
 
-.header--personalia__mail--veileder {
+.header--personalia__mail {
   text-align: center;
   color: white;
+  font-weight: bold;
+}
+
+.header--personalia__mail--veileder {
+  text-align: center;
+  color: @navMorkGra;
   font-weight: bold;
 }
 
@@ -60,6 +66,13 @@
 
 .header--personalia__lenke {
   color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header--personalia__lenke--veileder {
+  color: @navBla;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -125,7 +138,7 @@
 }
 
 .panel--jobbprofil__row {
-  padding: 0 1rem 0 1rem;
+  padding: 0 0.75rem 0 0.75rem;
   margin-bottom: 2rem;
   &:first-child {
     margin-bottom: 4rem;
