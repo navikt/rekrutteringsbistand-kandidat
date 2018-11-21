@@ -18,7 +18,7 @@ export class SearchApiError {
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}/typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
@@ -114,24 +114,24 @@ async function putJson(url, bodyString) {
 }
 
 export function fetchFeatureToggles() {
-    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
+    return fetchJson(`${SEARCH_API}/toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
     return fetchJson(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}/sok?${convertToUrlParams(query)}`, true
     );
 }
 
 export function fetchKandidaterES(query = {}) {
     return fetchJson(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}/sok?${convertToUrlParams(query)}`, true
     );
 }
 
 export function fetchCv(arenaKandidatnr) {
     return fetchJson(
-        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
+        `${SEARCH_API}/hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
     );
 }
 
@@ -144,7 +144,7 @@ export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
 );
 
 export function fetchGeografiKode(geografiKode) {
-    return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
+    return fetchJson(`${KODEVERK_API}/arenageografikoder/${geografiKode}`, true);
 }
 
 export const fetchStillingFraListe = (stillingsId) => (
