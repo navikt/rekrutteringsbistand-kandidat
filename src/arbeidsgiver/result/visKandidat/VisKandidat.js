@@ -144,14 +144,13 @@ class VisKandidat extends React.Component {
                         Lagre kandidaten
                     </Knapp>
                 </div>
-                <VisKandidatJobbprofil cv={cv} />
-                <VisKandidatCv cv={cv} />
-
                 {this.props.matchforklaring && (
                     <div className="match-explanation-container">
                         <Matchdetaljer matchforklaring={this.props.matchforklaring} />
                     </div>
                 )}
+                <VisKandidatJobbprofil cv={cv} />
+                <VisKandidatCv cv={cv} />
             </div>
         );
     }

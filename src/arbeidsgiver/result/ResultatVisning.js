@@ -68,6 +68,11 @@ class ResultatVisning extends React.Component {
         this.props.matchSearch();
     };
 
+    onMatchClickMedScroll = () => {
+        this.onMatchClick();
+        window.scrollTo(0, 0);
+    };
+
     visAlertstripeLagreKandidater = () => {
         clearTimeout(this.suksessmeldingCallbackId);
         this.setState({
@@ -147,6 +152,14 @@ class ResultatVisning extends React.Component {
                                         <ForerkortSearch />
                                         <KompetanseSearch />
                                     </div>
+                                    {USE_JANZZ ? <KnappBase
+                                        type="hoved"
+                                        onClick={this.onMatchClickMedScroll}
+                                        className="send--sokekriterier--knapp"
+                                        id="knapp-send--sokekriterier-knapp"
+                                    >
+                                        Finn kandidater
+                                    </KnappBase> : ''}
                                 </div>
                             </Column>
                             <Column xs="12" md="8">
