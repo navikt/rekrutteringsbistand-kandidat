@@ -217,8 +217,8 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
-    if (maaBoInnenforGeografi) stateFromUrl.maaBoInnenforGeografi = true;
-    if (harHentetStilling) stateFromUrl.harHentetStilling = true;
+    if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
+    if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
     return stateFromUrl;
 };
 
