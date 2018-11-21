@@ -63,7 +63,7 @@ class ResultatVisning extends React.Component {
                                         <Sidetittel>Søk etter kandidater til stilling</Sidetittel>
                                     </Row>
                                     <Row className="header__row--veileder">
-                                        <Lenke href="/kandidater">{annonseoverskrift}</Lenke>
+                                        <Lenke href={`/stillinger/${stillingsId}`}>{annonseoverskrift}</Lenke>
                                     </Row>
                                     <Row className="header__row--veileder">
                                         <div className="opprettet-av__row">
