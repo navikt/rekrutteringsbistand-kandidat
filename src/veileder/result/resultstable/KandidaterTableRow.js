@@ -15,7 +15,7 @@ class KandidaterTableRow extends React.Component {
     };
 
     render() {
-        const { kandidat, markert, nettoppValgt, setScrollPosition } = this.props;
+        const { kandidat, markert, nettoppValgt, setScrollPosition, stillingsId } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn;
         const etternavn = kandidat.etternavn;
@@ -37,7 +37,7 @@ class KandidaterTableRow extends React.Component {
                 <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
                     <Link
                         className="lenke--kandidatnr"
-                        to={`kandidater/cv?kandidatNr=${kandidatnummer}`}
+                        to={stillingsId ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}` : `/kandidater/cv?kandidatNr=${kandidatnummer}`}
                         onClick={() => setScrollPosition(window.pageYOffset)}
                         aria-label={`Se CV for ${etternavn}, ${fornavn}`}
                     >
@@ -56,7 +56,8 @@ class KandidaterTableRow extends React.Component {
 }
 
 KandidaterTableRow.defaultProps = {
-    markert: false
+    markert: false,
+    stillingsId: undefined
 };
 
 KandidaterTableRow.propTypes = {
@@ -64,7 +65,8 @@ KandidaterTableRow.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
-    setScrollPosition: PropTypes.func.isRequired
+    setScrollPosition: PropTypes.func.isRequired,
+    stillingsId: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({

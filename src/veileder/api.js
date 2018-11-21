@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API, KANDIDATLISTE_API } from './common/fasitProperties';
+import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
@@ -18,7 +18,7 @@ export class SearchApiError {
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}/typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
@@ -114,24 +114,24 @@ async function putJson(url, bodyString) {
 }
 
 export function fetchFeatureToggles() {
-    return fetchJson(`${SEARCH_API}toggles?feature=${FEATURE_TOGGLES.join(',')}`);
+    return fetchJson(`${SEARCH_API}/toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
 export function fetchKandidater(query = {}) {
     return fetchJson(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}/sok?${convertToUrlParams(query)}`, true
     );
 }
 
 export function fetchKandidaterES(query = {}) {
     return fetchJson(
-        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}/sok?${convertToUrlParams(query)}`, true
     );
 }
 
 export function fetchCv(arenaKandidatnr) {
     return fetchJson(
-        `${SEARCH_API}hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
+        `${SEARCH_API}/hentcv?${convertToUrlParams(arenaKandidatnr)}`, true
     );
 }
 
@@ -141,6 +141,18 @@ export const fetchKandidatliste = (stillingsId) => (
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
+);
+
+export function fetchGeografiKode(geografiKode) {
+    return fetchJson(`${KODEVERK_API}/arenageografikoder/${geografiKode}`, true);
+}
+
+export const fetchStillingFraListe = (stillingsId) => (
+    fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true)
+);
+
+export const fetchDataFraListe = (stillingsId) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
 );
 
 export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => (

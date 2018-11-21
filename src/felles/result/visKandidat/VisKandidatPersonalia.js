@@ -31,7 +31,16 @@ export default class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const { cv, kandidatListe, contextRoot, forrigeKandidat, nesteKandidat } = this.props;
+        const { cv, contextRoot, kandidatListe, stillingsId, forrigeKandidat, nesteKandidat } = this.props;
+
+        let tilbakeLink;
+        if (kandidatListe) {
+            tilbakeLink = `/${contextRoot}/lister/detaljer/${kandidatListe}`;
+        } else if (stillingsId) {
+            tilbakeLink = `/${contextRoot}/stilling/${stillingsId}`;
+        } else {
+            tilbakeLink = `/${contextRoot}`;
+        }
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -42,14 +51,16 @@ export default class VisKandidatPersonalia extends React.Component {
             etternavnStorForbokstav = this.capitalizeFirstLetter(cv.etternavn.toLowerCase());
         }
 
+        const lenkeClass = this.props.appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'header--personalia__lenke';
+
         return (
-            <div className="header--bakgrunn" id="bakgrunn-personalia">
+            <div className={this.props.appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
 
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
                         <Link
-                            to={kandidatListe ? `/${contextRoot}/lister/detaljer/${kandidatListe}` : `/${contextRoot}`}
-                            className="header--personalia__lenke"
+                            to={tilbakeLink}
+                            className={lenkeClass}
                         >
                             <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
@@ -57,16 +68,16 @@ export default class VisKandidatPersonalia extends React.Component {
                         <div className="navigering-forrige-neste">
                             {forrigeKandidat &&
                                 <Link
-                                    to={`/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
-                                    className="header--personalia__lenke"
+                                    to={stillingsId ? `/${contextRoot}/stilling/${stillingsId}/cv?kandidatNr=${forrigeKandidat}` : `/${contextRoot}/cv?kandidatNr=${forrigeKandidat}`}
+                                    className={lenkeClass}
                                 >
                                     <NavFrontendChevron type="venstre" /> Forrige kandidat
                                 </Link>
                             }
                             {nesteKandidat ? (
                                 <Link
-                                    to={`/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
-                                    className="header--personalia__lenke"
+                                    to={stillingsId ? `/${contextRoot}/stilling/${stillingsId}/cv?kandidatNr=${nesteKandidat}` : `/${contextRoot}/cv?kandidatNr=${nesteKandidat}`}
+                                    className={lenkeClass}
                                 >
                                     Neste kandidat <NavFrontendChevron type="høyre" />
                                 </Link>) : (<div className="header--personalia__lenke--placeholder" />
@@ -89,10 +100,15 @@ export default class VisKandidatPersonalia extends React.Component {
                         {(cv.epost) && (
                             <div className="personalia--item">
                                 <div className="personalia--icon" >
-                                    <MailIkon />
+                                    <MailIkon color={this.props.appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
                                 </div>
                                 <Normaltekst className="header--personalia__tekst">
-                                    <a href={`mailto:${cv.epost}`} className="header--personalia__mail">{cv.epost}</a>
+                                    <a
+                                        href={`mailto:${cv.epost}`}
+                                        className={this.props.appContext === 'arbeidsgiver' ? 'header--personalia__mail' : 'header--personalia__mail--veileder'}
+                                    >
+                                        {cv.epost}
+                                    </a>
                                 </Normaltekst>
 
                             </div>
@@ -100,7 +116,7 @@ export default class VisKandidatPersonalia extends React.Component {
                         {(cv.telefon || cv.mobiltelefon) && (
                             <div className="personalia--item">
                                 <div className="personalia--icon">
-                                    <TelefonIkon />
+                                    <TelefonIkon color={this.props.appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
                                 </div>
                                 <Column>
                                     {cv.mobiltelefon &&
@@ -123,7 +139,7 @@ export default class VisKandidatPersonalia extends React.Component {
                         {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
 
                             <div className="personalia--icon">
-                                <AdresseIkon />
+                                <AdresseIkon color={this.props.appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
                                 {cv.adresse.adrlinje1}
@@ -143,14 +159,17 @@ export default class VisKandidatPersonalia extends React.Component {
 
 VisKandidatPersonalia.defaultProps = {
     kandidatListe: undefined,
+    stillingsId: undefined,
     forrigeKandidat: undefined,
     nesteKandidat: undefined
 };
 
 VisKandidatPersonalia.propTypes = {
     cv: cvPropTypes.isRequired,
+    appContext: PropTypes.string.isRequired,
     contextRoot: PropTypes.string.isRequired,
     kandidatListe: PropTypes.string,
+    stillingsId: PropTypes.string,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string
 };
