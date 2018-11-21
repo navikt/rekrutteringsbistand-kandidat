@@ -93,7 +93,7 @@ class KandidatlisteDetalj extends React.Component {
         if (this.state.visSlettSuccessMelding) {
             this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
             this.props.nullstillSletteStatus();
-        } else if (this.skjulSuccessMeldingTimeoutHandle !== undefined && this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
+        } else if (this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
             clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
         }
     }
@@ -118,8 +118,6 @@ class KandidatlisteDetalj extends React.Component {
             })
         });
     };
-
-    skjulSuccessMeldingTimeoutHandle;
 
     visSlettKandidaterFeilmelding = () => {
         this.setState({ visSlettKandidaterFeilmelding: true });

@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Sidetittel } from 'nav-frontend-typografi';
+import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
+import { Element, Sidetittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import { Kandidat } from './PropTypes';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import '../../felles/common/ikoner/ikoner.less';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -54,8 +57,7 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-// eslint-disable-next-line no-unused-vars
-const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange }) => {
+const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange, onKandidatShare }) => {
     const SideHeader = () => (
         <div className="side-header">
             <div className="wrapper">
@@ -79,12 +81,42 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
                         { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     <div className="border-left">
-                        <Lenke href="#">Se stillingsannonse</Lenke>
+                        <Lenke href={`/stillinger/${stillingsId}`}>Se stillingsannonse</Lenke>
                     </div>
                 </div>
             </div>
         </div>
     );
+
+    const KnappeRad = () => {
+        const Disabled = () => (
+            <div className="Lenkeknapp typo-normal Share">
+                <i className="Share__icon" />
+                Del med arbeidsgiver (presenter)
+            </div>
+        );
+        const Enabled = () => (
+            <Lenkeknapp onClick={onKandidatShare} className="Share">
+                <i className="Share__icon" />
+                Del med arbeidsgiver (presenter)
+            </Lenkeknapp>
+        );
+        return (
+            <div className="knappe-rad">
+                <div className="dele-wrapper">
+                    { kandidater.filter((kandidat) => kandidat.markert).length > 0
+                        ? <Enabled />
+                        : <HjelpetekstMidt
+                            id="marker-kandidater-hjelpetekst"
+                            anchor={Disabled}
+                        >
+                                Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
+                        </HjelpetekstMidt> }
+                </div>
+            </div>
+        );
+    };
+
     const ListeHeader = () => (
         <div className="liste-rad liste-header">
             <div className="kolonne-checkboks">
@@ -155,6 +187,7 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
             <SideHeader />
             <div className="detaljer">
                 <div className="wrapper">
+                    <KnappeRad />
                     <ListeHeader />
                     {kandidater.map((kandidat) => (
                         <KandidatRad key={kandidat.kandidatnr} kandidat={kandidat} />
@@ -181,7 +214,8 @@ ListedetaljerView.propTypes = {
     alleMarkert: PropTypes.bool.isRequired,
     onCheckAlleKandidater: PropTypes.func.isRequired,
     onToggleKandidat: PropTypes.func.isRequired,
-    onKandidatStatusChange: PropTypes.func.isRequired
+    onKandidatStatusChange: PropTypes.func.isRequired,
+    onKandidatShare: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;
