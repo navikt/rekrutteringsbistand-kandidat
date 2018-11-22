@@ -100,7 +100,7 @@ class VisKandidatFraLister extends React.Component {
         }
         return (
             <div>
-                <VisKandidatPersonalia cv={cv} kandidatListe={kandidatlisteId} contextRoot={CONTEXT_ROOT} />
+                <VisKandidatPersonalia cv={cv} kandidatListe={kandidatlisteId} contextRoot={CONTEXT_ROOT} appContext={'arbeidsgiver'} />
                 <div className="viskandidat-container">
                     <Knapper />
                     <VisKandidatJobbprofil cv={cv} />
