@@ -83,7 +83,7 @@ export default class KandidaterTableHeader extends React.Component {
                     <div className="header--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
-                            aria-label="Arbeidserfaring"
+                            aria-label="Bosted"
                         >
                             Bosted
                         </Element>
