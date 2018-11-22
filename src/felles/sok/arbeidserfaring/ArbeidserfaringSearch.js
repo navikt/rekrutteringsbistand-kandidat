@@ -7,6 +7,8 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
+import { USE_JANZZ } from '../../../arbeidsgiver/common/fasitProperties';
+
 import './Arbeidserfaring.less';
 
 class ArbeidserfaringSearch extends React.Component {
@@ -72,9 +74,41 @@ class ArbeidserfaringSearch extends React.Component {
         this.typeAhead.input.focus();
     };
 
+    renderTotalErfaring = () => (
+        <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
+            <div className="sokekriterier--kriterier">
+                {this.erfaringer.map((arbeidserfaring) => (
+                    <Checkbox
+                        className="checkbox--arbeidserfaring"
+                        id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
+                        label={arbeidserfaring.label}
+                        key={arbeidserfaring.value}
+                        value={arbeidserfaring.value}
+                        checked={this.props.totalErfaring.includes(arbeidserfaring.value)}
+                        onChange={this.onTotalErfaringChange}
+                    />
+                ))}
+            </div>
+        </SkjemaGruppe>
+    );
+
     render() {
         if (this.props.skjulArbeidserfaring) {
             return null;
+        }
+
+        if (USE_JANZZ) {
+            return (
+                <Ekspanderbartpanel
+                    className="panel--sokekriterier"
+                    tittel="Arbeidserfaring"
+                    tittelProps="undertittel"
+                    onClick={this.props.togglePanelOpen}
+                    apen={this.props.panelOpen}
+                >
+                    {this.renderTotalErfaring()}
+                </Ekspanderbartpanel>
+            );
         }
         return (
             <Ekspanderbartpanel
@@ -131,21 +165,7 @@ class ArbeidserfaringSearch extends React.Component {
                     ))}
                 </div>
                 <div className="sokekriterier--margin-top-extra-large">
-                    <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
-                        <div className="sokekriterier--kriterier">
-                            {this.erfaringer.map((arbeidserfaring) => (
-                                <Checkbox
-                                    className="checkbox--arbeidserfaring"
-                                    id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
-                                    label={arbeidserfaring.label}
-                                    key={arbeidserfaring.value}
-                                    value={arbeidserfaring.value}
-                                    checked={this.props.totalErfaring.includes(arbeidserfaring.value)}
-                                    onChange={this.onTotalErfaringChange}
-                                />
-                            ))}
-                        </div>
-                    </SkjemaGruppe>
+                    {this.renderTotalErfaring()}
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
