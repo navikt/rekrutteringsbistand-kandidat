@@ -38,7 +38,7 @@ class KandidaterTableRow extends React.Component {
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
         const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
-
+        const bosted = cv.poststed;
         const score = cv.score;
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
@@ -64,16 +64,19 @@ class KandidaterTableRow extends React.Component {
                 </Column>
 
                 {USE_JANZZ ? (
-                    <Column xs="5" md="5">
+                    <Column xs="3" md="3">
                         <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                     </Column>
                 ) : (
-                    <Column xs="5" md="5">
+                    <Column xs="3" md="3">
                         <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                     </Column>
                 )}
                 <Column xs="4" md="4">
                     <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
+                </Column>
+                <Column xs="2" md="2">
+                    <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                 </Column>
             </Row>
         );
