@@ -128,6 +128,7 @@ class Listedetaljer extends React.Component {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
+                        antallKandidater={kandidater.filter((kandidat) => (kandidat.markert)).length}
                     />
                 }
                 <HjelpetekstFading synlig={visDeleSuksessMelding} type="suksess" tekst="Kandidatene er delt med arbeidsgiver" />

@@ -102,7 +102,7 @@ export default class PresenterKandidaterModal extends React.Component {
     };
 
     render() {
-        const { vis } = this.props;
+        const { vis, antallKandidater } = this.props;
         return (
             <NavFrontendModal
                 contentLabel="modal del kandidater"
@@ -112,10 +112,15 @@ export default class PresenterKandidaterModal extends React.Component {
                 appElement={document.getElementById('app')}
             >
                 <div className="wrapper">
-                    <Systemtittel>Del kandidater med arbeidsgiver</Systemtittel>
+                    {
+                        antallKandidater === 1
+                            ? <Systemtittel>Del 1 kandidat med arbeidsgiver</Systemtittel>
+                            : <Systemtittel>{`Del ${antallKandidater} kandidater med arbeidsgiver`}</Systemtittel>
+                    }
+                    <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
-                        De du ønsker å dele listen med vil motta en e-post
-                        med beskjed om at de kan logge inn for å se kandidatene.
+                        De du deler listen med vil motta en e-post med informasjon om antall kandidater,
+                        navn på stilling og link for å logge inn.
                     </Normaltekst>
                     <div className="mailadresser">
                         { this.state.mailadresser.map((mailadresseFelt) => (
@@ -152,6 +157,7 @@ PresenterKandidaterModal.defaultProps = {
 
 PresenterKandidaterModal.propTypes = {
     vis: PropTypes.bool,
+    antallKandidater: PropTypes.number.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
 };
