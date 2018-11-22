@@ -43,7 +43,7 @@ export default class KandidaterTableHeader extends React.Component {
                     </Element>
                 </Column>
                 {USE_JANZZ ?
-                    (<Column xs="5" md="5">
+                    (<Column xs="3" md="3">
                         <button className="header--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
                             <Element
                                 className="label--resultatvisning"
@@ -58,7 +58,7 @@ export default class KandidaterTableHeader extends React.Component {
                         </button>
                     </Column>)
                     : (
-                        <Column xs="5" md="5">
+                        <Column xs="3" md="3">
                             <div className="header--aktuelle--kandidater text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -76,6 +76,16 @@ export default class KandidaterTableHeader extends React.Component {
                             aria-label="Arbeidserfaring"
                         >
                                 Relevant arbeidserfaring
+                        </Element>
+                    </div>
+                </Column>
+                <Column xs="2" md="2">
+                    <div className="header--aktuelle--kandidater text-overflow">
+                        <Element
+                            className="label--resultatvisning"
+                            aria-label="Bosted"
+                        >
+                            Bosted
                         </Element>
                     </div>
                 </Column>
