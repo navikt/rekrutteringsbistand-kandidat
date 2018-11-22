@@ -8,7 +8,7 @@ Egenskap: Finne kandidater basert på geografi
     Og jeg legger til sted "Oslo"
     Så skal antall treff minke
     Når jeg legger til sted "Akershus"
-    Så skal antall treff minke
+    Så skal antall treff øke
 
   @geografi-janzz @janzz
   Scenario: Søke etter kandidater basert på geografi
