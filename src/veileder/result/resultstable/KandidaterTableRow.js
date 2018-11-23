@@ -21,6 +21,7 @@ class KandidaterTableRow extends React.Component {
         const etternavn = kandidat.etternavn;
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
+        const bosted = kandidat.poststed;
 
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
@@ -34,7 +35,7 @@ class KandidaterTableRow extends React.Component {
                         onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
                     />
                 </Column>
-                <Column className="lenke--kandidatnr--wrapper" xs="5" md="5">
+                <Column className="lenke--kandidatnr--wrapper" xs="4" md="4">
                     <Link
                         className="lenke--kandidatnr"
                         to={stillingsId ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}` : `/kandidater/cv?kandidatNr=${kandidatnummer}`}
@@ -47,8 +48,11 @@ class KandidaterTableRow extends React.Component {
                 <Column xs="2" md="2">
                     <Normaltekst className="text-overflow kandidater--row__col">{new Date(fodselsdato).toLocaleDateString('NB-no')}</Normaltekst>
                 </Column>
-                <Column xs="4" md="4">
+                <Column xs="3" md="3">
                     <Normaltekst className="text-overflow kandidater--row__col">{`${innsatsgruppe}`}</Normaltekst>
+                </Column>
+                <Column xs="2" md="2">
+                    <Normaltekst className="bosted text-overflow kandidater--row__col">{`${bosted}`}</Normaltekst>
                 </Column>
             </Row>
         );
