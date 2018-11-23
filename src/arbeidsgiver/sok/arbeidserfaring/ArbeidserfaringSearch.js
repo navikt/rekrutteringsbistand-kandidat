@@ -12,6 +12,7 @@ import {
     TOGGLE_ARBEIDSERFARING_PANEL_OPEN
 } from './arbeidserfaringReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import { USE_JANZZ } from '../../common/fasitProperties';
 
 const ArbeidserfaringSearch = ({ ...props }) => {
     const { search, removeArbeidserfaring, fetchTypeAheadSuggestions, selectTypeAheadValue, checkTotalErfaring,
@@ -35,6 +36,7 @@ const ArbeidserfaringSearch = ({ ...props }) => {
             skjulArbeidserfaring={skjulArbeidserfaring}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
+            useJanzz={USE_JANZZ}
         />
     );
 };

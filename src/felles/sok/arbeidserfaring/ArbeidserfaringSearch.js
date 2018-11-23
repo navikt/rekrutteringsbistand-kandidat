@@ -7,7 +7,6 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
-import { USE_JANZZ } from '../../../arbeidsgiver/common/fasitProperties';
 
 import './Arbeidserfaring.less';
 
@@ -97,7 +96,7 @@ class ArbeidserfaringSearch extends React.Component {
             return null;
         }
 
-        if (USE_JANZZ) {
+        if (this.props.useJanzz) {
             return (
                 <Ekspanderbartpanel
                     className="panel--sokekriterier"
@@ -175,6 +174,10 @@ class ArbeidserfaringSearch extends React.Component {
     }
 }
 
+ArbeidserfaringSearch.defaultProps = {
+    useJanzz: false
+}
+
 ArbeidserfaringSearch.propTypes = {
     search: PropTypes.func.isRequired,
     removeArbeidserfaring: PropTypes.func.isRequired,
@@ -190,7 +193,8 @@ ArbeidserfaringSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulArbeidserfaring: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    useJanzz: PropTypes.bool
 };
 
 export default ArbeidserfaringSearch;
