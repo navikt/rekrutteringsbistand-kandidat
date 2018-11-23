@@ -24,7 +24,7 @@ export default class KandidaterTableHeader extends React.Component {
                         onChange={this.props.onToggleMarkeringAlleKandidater}
                     />
                 </Column>
-                <Column className="header--kandidatnr--wrapper" xs="6" sm="5" >
+                <Column className="header--kandidatnr--wrapper" xs="5" sm="4" >
                     <Element
                         className="label--resultatvisning"
                         aria-label="Navn"
@@ -42,13 +42,23 @@ export default class KandidaterTableHeader extends React.Component {
                         </Element>
                     </div>
                 </Column>
-                <Column xs="3" sm="4">
+                <Column xs="2" sm="3">
                     <div className="header--aktuelle--kandidater text-overflow">
                         <Element
                             className="label--resultatvisning"
                             aria-label="Innsatsgruppe"
                         >
                             Innsatsgruppe
+                        </Element>
+                    </div>
+                </Column>
+                <Column xs="2" sm="2">
+                    <div className="header--aktuelle--kandidater text-overflow">
+                        <Element
+                            className="label--resultatvisning"
+                            aria-label="Bosted"
+                        >
+                            Bosted
                         </Element>
                     </div>
                 </Column>
