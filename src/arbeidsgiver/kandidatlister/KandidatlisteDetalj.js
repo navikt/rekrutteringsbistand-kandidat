@@ -187,7 +187,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const DisabledSlettKnapp = () => (
-            <div className="Lenkeknapp typo-normal Delete">
+            <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
                 <i className="Delete__icon" />
                 Slett
             </div>
@@ -199,7 +199,7 @@ class KandidatlisteDetalj extends React.Component {
             if (kandidatlisteId && valgteKandidater.length > 0) {
                 return (
                     <div className="KandidatlisteDetalj__knapperad">
-                        <div className="KandidatlisteDetalj__knapperad--slett">
+                        <div className="KandidatlisteDetalj__knapperad--slett" aria-label="Knapp for sletting av markerte kandidater fra listen">
                             <Lenkeknapp onClick={this.visSlettKandidaterModal} className="Delete">
                                 <i className="Delete__icon" />
                                 Slett
