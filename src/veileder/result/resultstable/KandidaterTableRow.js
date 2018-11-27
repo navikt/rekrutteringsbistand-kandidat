@@ -14,6 +14,8 @@ class KandidaterTableRow extends React.Component {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
+    capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
     render() {
         const { kandidat, markert, nettoppValgt, setScrollPosition, stillingsId } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
@@ -21,7 +23,7 @@ class KandidaterTableRow extends React.Component {
         const etternavn = kandidat.etternavn;
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
-        const bosted = kandidat.poststed;
+        const bosted = kandidat.poststed ? this.capitalizeFirstLetter(kandidat.poststed) : '-';
 
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
