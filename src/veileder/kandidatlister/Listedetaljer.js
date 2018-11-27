@@ -119,7 +119,7 @@ class Listedetaljer extends React.Component {
             );
         }
 
-        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId } = this.props.kandidatliste;
+        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere } = this.props.kandidatliste;
         const { kandidater, alleMarkert, deleModalOpen, visDeleSuksessMelding } = this.state;
         return (
             <div>
@@ -138,6 +138,7 @@ class Listedetaljer extends React.Component {
                     opprettetAv={opprettetAv}
                     kandidatlisteId={kandidatlisteId}
                     stillingsId={stillingId}
+                    kanEditere={kanEditere}
                     kandidater={kandidater}
                     alleMarkert={alleMarkert}
                     onToggleKandidat={this.onToggleKandidat}
