@@ -16,6 +16,8 @@ class KandidaterTableRow extends React.Component {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
+    capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+
     nusKodeTilUtdanningsNivaa = (nusKode) => {
         switch (nusKode.charAt(0)) {
             case '0':
@@ -35,10 +37,10 @@ class KandidaterTableRow extends React.Component {
         const { cv, markert, nettoppValgt, setScrollPosition, sisteSokId } = this.props;
         const kandidatnummer = cv.arenaKandidatnr;
         const profilId = cv.profilId;
-        const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '';
+        const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '-';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
         const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
-        const bosted = cv.poststed;
+        const bosted = cv.poststed ? this.capitalizeFirstLetter(cv.poststed) : '-';
         const score = cv.score;
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
