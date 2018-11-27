@@ -23,7 +23,7 @@ const common = (app) => ({
         loaders: [
             {
                 test: /\.js$/,
-                exclude: [/node_modules\/(?!(autotrack|dom-utils))/, '/Users/akselwester/Projects/pam-frontend-moduler/pam-frontend-header/dist'],
+                exclude: /node_modules\/(?!(autotrack|dom-utils))/,
                 loader: 'babel-loader',
                 query: { presets: ['es2015', 'react', 'stage-2'] }
             }, {
