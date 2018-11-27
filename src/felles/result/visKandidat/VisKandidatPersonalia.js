@@ -9,10 +9,9 @@ import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
 import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
+import { capitalizeFirstLetter } from '../../sok/utils';
 
 export default class VisKandidatPersonalia extends React.Component {
-    capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1);
-
     formatTelephoneNumber = (inputString) => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         return inputStringNoWhiteSpace.replace(/(\d{2})/g, '$1 ')
@@ -44,11 +43,11 @@ export default class VisKandidatPersonalia extends React.Component {
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
-            fornavnStorForbokstav = this.capitalizeFirstLetter(cv.fornavn.toLowerCase());
+            fornavnStorForbokstav = capitalizeFirstLetter(cv.fornavn.toLowerCase());
         }
         let etternavnStorForbokstav;
         if (cv.etternavn) {
-            etternavnStorForbokstav = this.capitalizeFirstLetter(cv.etternavn.toLowerCase());
+            etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn.toLowerCase());
         }
 
         const lenkeClass = this.props.appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'header--personalia__lenke';

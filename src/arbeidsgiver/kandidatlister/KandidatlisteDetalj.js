@@ -21,9 +21,7 @@ import { SLETTE_STATUS } from '../../felles/konstanter';
 import './kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
-
-
-const capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
+import { capitalizeFirstLetter } from '../../felles/sok/utils';
 
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
