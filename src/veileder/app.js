@@ -10,7 +10,7 @@ import ResultatVisning from './result/ResultatVisning';
 import ManglerRolle from './sok/error/ManglerRolle';
 import '../felles/styles.less';
 import './sok/sok.less';
-import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './sok/searchReducer';
+import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, HENT_INNLOGGET_VEILEDER, saga } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
@@ -21,7 +21,7 @@ import cvReducer, { cvSaga } from './sok/cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer';
 import Feilside from './sok/error/Feilside';
 import feedbackReducer from './feedback/feedbackReducer';
-import Toppmeny from './common/toppmeny/Toppmeny';
+import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import Listedetaljer from './kandidatlister/Listedetaljer';
 import { LOGIN_URL } from './common/fasitProperties';
@@ -51,6 +51,7 @@ Begin class Sok
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
+        this.props.hentInnloggetVeileder();
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
@@ -63,42 +64,56 @@ class Sok extends React.Component {
     }
 
     render() {
-        if (this.props.error && this.props.error.status === 403) {
+        const { error, innloggetVeileder } = this.props;
+        if (error && error.status === 403) {
             return <ManglerRolle />;
-        } else if (this.props.error) {
+        } else if (error) {
             return <Feilside />;
+        } else if (!innloggetVeileder) {
+            return null;
         }
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route exact path="/kandidater" component={ResultatVisning} />
-                    <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
-                    <Route exact path="/kandidater/cv" component={VisKandidat} />
-                    <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
-                    <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
-                </Switch>
+                <div>
+                    <Switch>
+                        <Route path="/kandidater/lister" render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />} />
+                        <Route render={() => <KandidatsokHeader innloggetVeileder={innloggetVeileder} />} />
+                    </Switch>
+                    <Switch>
+                        <Route exact path="/kandidater" component={ResultatVisning} />
+                        <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
+                        <Route exact path="/kandidater/cv" component={VisKandidat} />
+                        <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
+                        <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
+                    </Switch>
+                </div>
             </BrowserRouter>
         );
     }
 }
 
 Sok.defaultProps = {
-    error: undefined
+    error: undefined,
+    innloggetVeileder: undefined
 };
 
 Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
     }),
-    fetchFeatureToggles: PropTypes.func.isRequired
+    innloggetVeileder: PropTypes.string,
+    fetchFeatureToggles: PropTypes.func.isRequired,
+    hentInnloggetVeileder: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    error: state.search.error
+    error: state.search.error,
+    innloggetVeileder: state.search.innloggetVeileder
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN })
+    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
+    hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER })
 });
 /*
 End class Sok
@@ -111,7 +126,6 @@ const App = () => (
     <div>
         <Provider store={store}>
             <div>
-                <Toppmeny />
                 <SokApp />
             </div>
         </Provider>

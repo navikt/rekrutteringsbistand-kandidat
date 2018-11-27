@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStillingFraListe, fetchDataFraListe, fetchGeografiKode, SearchApiError } from '../api';
+import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStillingFraListe, fetchDataFraListe, fetchGeografiKode, SearchApiError, fetchInnloggetVeileder } from '../api';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
@@ -40,6 +40,10 @@ export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
 
 export const SET_LISTEDATA = 'SET_LISTEDATA';
 
+export const HENT_INNLOGGET_VEILEDER = 'HENT_INNLOGGET_VEILEDER';
+export const HENT_INNLOGGET_VEILEDER_SUCCESS = 'HENT_INNLOGGET_VEILEDER_SUCCESS';
+export const HENT_INNLOGGET_VEILEDER_FAILURE = 'HENT_INNLOGGET_VEILEDER_FAILURE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -70,7 +74,8 @@ const initialState = {
     annonseoverskrift: undefined,
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
-    annonseOpprettetAvIdent: undefined
+    annonseOpprettetAvIdent: undefined,
+    innloggetVeileder: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -188,6 +193,16 @@ export default function searchReducer(state = initialState, action) {
                 arbeidsgiver: action.listeData.organisasjonNavn,
                 annonseOpprettetAvNavn: action.listeData.opprettetAv.navn,
                 annonseOpprettetAvIdent: action.listeData.opprettetAv.ident
+            };
+        case HENT_INNLOGGET_VEILEDER_SUCCESS:
+            return {
+                ...state,
+                innloggetVeileder: action.data.navn
+            };
+        case HENT_INNLOGGET_VEILEDER_FAILURE:
+            return {
+                ...state,
+                error: action.error
             };
         default:
             return state;
@@ -373,10 +388,24 @@ function* hentFeatureToggles() {
     }
 }
 
+function* hentInnloggetVeileder() {
+    try {
+        const data = yield call(fetchInnloggetVeileder);
+        yield put({ type: HENT_INNLOGGET_VEILEDER_SUCCESS, data });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_INNLOGGET_VEILEDER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
+    yield takeLatest(HENT_INNLOGGET_VEILEDER, hentInnloggetVeileder);
 };
