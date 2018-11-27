@@ -57,7 +57,21 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange, onKandidatShare }) => {
+const ListedetaljerView = (props) => {
+    const {
+        kandidater,
+        tittel,
+        arbeidsgiver,
+        opprettetAv,
+        kandidatlisteId,
+        stillingsId,
+        kanEditere,
+        alleMarkert,
+        onCheckAlleKandidater,
+        onToggleKandidat,
+        onKandidatStatusChange,
+        onKandidatShare
+    } = props;
     const SideHeader = () => (
         <div className="side-header">
             <div className="wrapper">
@@ -101,17 +115,23 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
                 Del med arbeidsgiver (presenter)
             </Lenkeknapp>
         );
+        const DeleKnapp = () => {
+            if (kandidater.filter((kandidat) => kandidat.markert).length > 0) {
+                return <Enabled />;
+            }
+            return (
+                <HjelpetekstMidt
+                    id="marker-kandidater-hjelpetekst"
+                    anchor={Disabled}
+                >
+                    Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
+                </HjelpetekstMidt>
+            );
+        };
         return (
             <div className="knappe-rad">
                 <div className="dele-wrapper">
-                    { kandidater.filter((kandidat) => kandidat.markert).length > 0
-                        ? <Enabled />
-                        : <HjelpetekstMidt
-                            id="marker-kandidater-hjelpetekst"
-                            anchor={Disabled}
-                        >
-                                Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
-                        </HjelpetekstMidt> }
+                    { kanEditere && <DeleKnapp /> }
                 </div>
             </div>
         );
@@ -165,8 +185,7 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
             <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
             <div className="kolonne-bred">-</div>
             <div className="kolonne-bred">
-                {/* Denne endres til en faktisk variabel når det legges til i backend-APIet */}
-                {'kanRedigere' // eslint-disable-line no-constant-condition
+                {kanEditere
                     ? <StatusSelect
                         value={kandidat.status}
                         onChange={(e) => {
@@ -211,6 +230,7 @@ ListedetaljerView.propTypes = {
     }).isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
     stillingsId: PropTypes.string.isRequired,
+    kanEditere: PropTypes.bool.isRequired,
     alleMarkert: PropTypes.bool.isRequired,
     onCheckAlleKandidater: PropTypes.func.isRequired,
     onToggleKandidat: PropTypes.func.isRequired,
