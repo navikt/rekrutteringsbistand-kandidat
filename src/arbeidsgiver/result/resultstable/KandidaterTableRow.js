@@ -10,13 +10,12 @@ import { UTDANNING } from '../../../felles/konstanter';
 import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
-
-    capitalizeFirstLetter = (inputString) => inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase();
 
     nusKodeTilUtdanningsNivaa = (nusKode) => {
         switch (nusKode.charAt(0)) {
@@ -40,7 +39,7 @@ class KandidaterTableRow extends React.Component {
         const yrkeserfaring = cv.mestRelevanteYrkeserfaring ? cv.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : '-';
         const utdanningsNivaa = this.nusKodeTilUtdanningsNivaa(cv.hoyesteUtdanning ? cv.hoyesteUtdanning.nusKode : '-');
         const parametere = USE_JANZZ ? `kandidatNr=${kandidatnummer}&profilId=${profilId}&sisteSokId=${sisteSokId}` : `kandidatNr=${kandidatnummer}`;
-        const bosted = cv.poststed ? this.capitalizeFirstLetter(cv.poststed) : '-';
+        const bosted = cv.poststed ? capitalizeFirstLetter(cv.poststed) : '-';
         const score = cv.score;
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
