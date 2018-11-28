@@ -176,7 +176,7 @@ class ArbeidserfaringSearch extends React.Component {
 
 ArbeidserfaringSearch.defaultProps = {
     useJanzz: false
-}
+};
 
 ArbeidserfaringSearch.propTypes = {
     search: PropTypes.func.isRequired,
