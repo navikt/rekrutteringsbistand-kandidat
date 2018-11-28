@@ -57,7 +57,10 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater, onToggleKandidat, onKandidatStatusChange, onKandidatShare }) => {
+const ListedetaljerView = ({
+    kandidater, tittel, arbeidsgiver, opprettetAv, kandidatlisteId, stillingsId, alleMarkert, onCheckAlleKandidater,
+    onToggleKandidat, onKandidatStatusChange, onKandidatShare, onLeggTilKandidat
+}) => {
     const SideHeader = () => (
         <div className="side-header">
             <div className="wrapper">
@@ -103,6 +106,18 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
         );
         return (
             <div className="knappe-rad">
+                <div>
+                    <Lenke href={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
+                        <i className="FinnKandidater__icon" />
+                        Finn kandidater
+                    </Lenke>
+                </div>
+                <div>
+                    <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
+                        <i className="LeggTilKandidat__icon" />
+                        Legg til kandidat
+                    </Lenkeknapp>
+                </div>
                 <div className="dele-wrapper">
                     { kandidater.filter((kandidat) => kandidat.markert).length > 0
                         ? <Enabled />
@@ -110,7 +125,7 @@ const ListedetaljerView = ({ kandidater, tittel, arbeidsgiver, opprettetAv, kand
                             id="marker-kandidater-hjelpetekst"
                             anchor={Disabled}
                         >
-                                Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
+                            Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
                         </HjelpetekstMidt> }
                 </div>
             </div>
@@ -215,7 +230,8 @@ ListedetaljerView.propTypes = {
     onCheckAlleKandidater: PropTypes.func.isRequired,
     onToggleKandidat: PropTypes.func.isRequired,
     onKandidatStatusChange: PropTypes.func.isRequired,
-    onKandidatShare: PropTypes.func.isRequired
+    onKandidatShare: PropTypes.func.isRequired,
+    onLeggTilKandidat: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;
