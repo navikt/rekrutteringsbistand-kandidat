@@ -140,6 +140,7 @@ class ResultatVisning extends React.Component {
                                         onClick={this.onMatchClick}
                                         className="send--sokekriterier--knapp"
                                         id="knapp-send--sokekriterier-knapp"
+                                        disabled={this.props.isSearching}
                                     >
                                         Finn kandidater
                                     </KnappBase> : ''}
@@ -157,6 +158,7 @@ class ResultatVisning extends React.Component {
                                         onClick={this.onMatchClickMedScroll}
                                         className="send--sokekriterier--knapp"
                                         id="knapp-send--sokekriterier-knapp"
+                                        disabled={this.props.isSearching}
                                     >
                                         Finn kandidater
                                     </KnappBase> : ''}
@@ -183,13 +185,15 @@ ResultatVisning.propTypes = {
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
-    antallLagredeKandidater: PropTypes.number.isRequired
+    antallLagredeKandidater: PropTypes.number.isRequired,
+    isSearching: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
+    isSearching: state.search.isSearching
 });
 
 const mapDispatchToProps = (dispatch) => ({
