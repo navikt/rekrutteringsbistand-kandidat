@@ -150,7 +150,6 @@ const ListedetaljerView = (props) => {
             <div className="kolonne-bred"><Element>Navn</Element></div>
             <div className="kolonne-smal"><Element>Fødselsdato</Element></div>
             <div className="kolonne-bred"><Element>Lagt til av</Element></div>
-            <div className="kolonne-bred"><Element>Aktivitetsplan</Element></div>
             <div className="kolonne-bred"><Element>Status</Element></div>
             <div className="kolonne-bred"><Element>Utfall</Element></div>
         </div>
@@ -183,7 +182,6 @@ const ListedetaljerView = (props) => {
             <div className="kolonne-bred">{kandidat.fornavn} {kandidat.etternavn}</div>
             <div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
             <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
-            <div className="kolonne-bred">-</div>
             <div className="kolonne-bred">
                 {kanEditere
                     ? <StatusSelect
