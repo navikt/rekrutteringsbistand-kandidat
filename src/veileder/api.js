@@ -69,12 +69,13 @@ async function postJson(url, bodyString) {
             body: bodyString,
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                Accept: 'application/json'
             },
             mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
-            return;
+            return response.json();
         }
         throw new SearchApiError({
             status: response.status
@@ -159,6 +160,10 @@ export const fetchDataFraListe = (stillingsId) => (
     fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
 );
 
+export const fetchKandidatMedFnr = (fnr) => (
+    fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true)
+);
+
 export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => (
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/deltekandidater`,
@@ -168,4 +173,8 @@ export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kand
             kandidater: kandidatnummerListe
         })
     )
+);
+
+export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
+    postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater))
 );

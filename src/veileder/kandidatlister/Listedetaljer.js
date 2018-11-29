@@ -3,9 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { DELE_STATUS, ENDRE_STATUS_KANDIDAT, HENT_KANDIDATLISTE, PRESENTER_KANDIDATER, RESET_DELE_STATUS } from './kandidatlisteReducer';
+import {
+    DELE_STATUS,
+    ENDRE_STATUS_KANDIDAT,
+    HENT_KANDIDATLISTE,
+    PRESENTER_KANDIDATER,
+    RESET_DELE_STATUS
+} from './kandidatlisteReducer';
+import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
+import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView from './ListedetaljerView';
 import { Kandidatliste } from './PropTypes';
 import './Listedetaljer.less';
@@ -21,9 +29,14 @@ class Listedetaljer extends React.Component {
                     markert: false
                 })),
             deleModalOpen: false,
-            visDeleSuksessMelding: false
+            leggTilModalOpen: false,
+            suksessMelding: {
+                vis: false,
+                tekst: ''
+            }
         };
     }
+
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.hentKandidatliste(id);
@@ -31,7 +44,11 @@ class Listedetaljer extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.deleStatus !== prevProps.deleStatus && this.props.deleStatus === DELE_STATUS.SUCCESS) {
-            this.visSuccessMelding();
+            this.props.resetDeleStatus();
+            this.visSuccessMelding('Kandidatene er delt med arbeidsgiver');
+        }
+        if (this.props.leggTilStatus !== prevProps.leggTilStatus && this.props.leggTilStatus === LAGRE_STATUS.SUCCESS) {
+            this.visSuccessMelding(`Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`);
         }
         if (!this.props.kandidatliste) {
             return;
@@ -82,6 +99,12 @@ class Listedetaljer extends React.Component {
         });
     };
 
+    onToggleLeggTilKandidatModal = () => {
+        this.setState({
+            leggTilModalOpen: !this.state.leggTilModalOpen
+        });
+    };
+
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         this.props.presenterKandidater(
             beskjed,
@@ -96,15 +119,20 @@ class Listedetaljer extends React.Component {
         });
     };
 
-    visSuccessMelding = () => {
-        this.props.resetDeleStatus();
+    visSuccessMelding = (tekst) => {
         clearTimeout(this.deleSuksessMeldingCallbackId);
         this.setState({
-            visDeleSuksessMelding: true
+            suksessMelding: {
+                vis: true,
+                tekst
+            }
         });
         this.deleSuksessMeldingCallbackId = setTimeout(() => {
             this.setState({
-                visDeleSuksessMelding: false
+                suksessMelding: {
+                    vis: false,
+                    tekst: ''
+                }
             });
         }, 5000);
     };
@@ -120,7 +148,7 @@ class Listedetaljer extends React.Component {
         }
 
         const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere } = this.props.kandidatliste;
-        const { kandidater, alleMarkert, deleModalOpen, visDeleSuksessMelding } = this.state;
+        const { kandidater, alleMarkert, deleModalOpen, suksessMelding, leggTilModalOpen } = this.state;
         return (
             <div>
                 {deleModalOpen &&
@@ -131,7 +159,14 @@ class Listedetaljer extends React.Component {
                         antallKandidater={kandidater.filter((kandidat) => (kandidat.markert)).length}
                     />
                 }
-                <HjelpetekstFading synlig={visDeleSuksessMelding} type="suksess" tekst="Kandidatene er delt med arbeidsgiver" />
+                {leggTilModalOpen &&
+                    <LeggTilKandidatModal
+                        vis={this.state.leggTilModalOpen}
+                        onClose={this.onToggleLeggTilKandidatModal}
+                        stillingsId={stillingId}
+                    />
+                }
+                <HjelpetekstFading synlig={suksessMelding.vis} type="suksess" tekst={suksessMelding.tekst} />
                 <ListedetaljerView
                     tittel={tittel}
                     arbeidsgiver={organisasjonNavn}
@@ -147,6 +182,7 @@ class Listedetaljer extends React.Component {
                     }}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
+                    onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                 />
             </div>
         );
@@ -154,7 +190,12 @@ class Listedetaljer extends React.Component {
 }
 
 Listedetaljer.defaultProps = {
-    kandidatliste: undefined
+    kandidatliste: undefined,
+    fodselsnummer: undefined,
+    kandidat: {
+        fornavn: '',
+        etternavn: ''
+    }
 };
 
 Listedetaljer.propTypes = {
@@ -165,6 +206,12 @@ Listedetaljer.propTypes = {
     presenterKandidater: PropTypes.func.isRequired,
     resetDeleStatus: PropTypes.func.isRequired,
     deleStatus: PropTypes.string.isRequired,
+    leggTilStatus: PropTypes.string.isRequired,
+    fodselsnummer: PropTypes.string,
+    kandidat: PropTypes.shape({
+        fornavn: PropTypes.string,
+        etternavn: PropTypes.string
+    }),
     match: PropTypes.shape({
         params: PropTypes.shape({
             id: PropTypes.string.isRequired
@@ -175,7 +222,10 @@ Listedetaljer.propTypes = {
 const mapStateToProps = (state) => ({
     fetching: state.kandidatlister.detaljer.fetching,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste,
-    deleStatus: state.kandidatlister.detaljer.deleStatus
+    deleStatus: state.kandidatlister.detaljer.deleStatus,
+    leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    fodselsnummer: state.kandidatlister.fodselsnummer,
+    kandidat: state.kandidatlister.kandidat
 });
 
 const mapDispatchToProps = (dispatch) => ({

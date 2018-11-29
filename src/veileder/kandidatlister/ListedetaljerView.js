@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Sidetittel } from 'nav-frontend-typografi';
@@ -70,7 +71,8 @@ const ListedetaljerView = (props) => {
         onCheckAlleKandidater,
         onToggleKandidat,
         onKandidatStatusChange,
-        onKandidatShare
+        onKandidatShare,
+        onLeggTilKandidat
     } = props;
     const SideHeader = () => (
         <div className="side-header">
@@ -130,6 +132,18 @@ const ListedetaljerView = (props) => {
         };
         return (
             <div className="knappe-rad">
+                <div>
+                    <Link to={`/kandidater/stilling/${stillingsId}`} className="lenke finn-kandidater FinnKandidater">
+                        <i className="FinnKandidater__icon" />
+                        Finn kandidater
+                    </Link>
+                </div>
+                <div>
+                    <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
+                        <i className="LeggTilKandidat__icon" />
+                        Legg til kandidat
+                    </Lenkeknapp>
+                </div>
                 <div className="dele-wrapper">
                     { kanEditere && <DeleKnapp /> }
                 </div>
@@ -233,7 +247,8 @@ ListedetaljerView.propTypes = {
     onCheckAlleKandidater: PropTypes.func.isRequired,
     onToggleKandidat: PropTypes.func.isRequired,
     onKandidatStatusChange: PropTypes.func.isRequired,
-    onKandidatShare: PropTypes.func.isRequired
+    onKandidatShare: PropTypes.func.isRequired,
+    onLeggTilKandidat: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;

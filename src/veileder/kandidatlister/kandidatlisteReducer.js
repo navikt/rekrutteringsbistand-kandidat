@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { fetchKandidatliste, postDelteKandidater, putStatusKandidat, SearchApiError } from '../api';
+import { fetchKandidatliste, postDelteKandidater, putStatusKandidat, fetchKandidatMedFnr, postKandidaterTilKandidatliste, SearchApiError } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
+import { LAGRE_STATUS } from '../../felles/konstanter';
 
 /** *********************************************************
  * ACTIONS
@@ -33,6 +34,14 @@ export const ENDRE_STATUS_KANDIDAT = 'ENDRE_STATUS_KANDIDAT';
 export const ENDRE_STATUS_KANDIDAT_SUCCESS = 'ENDRE_STATUS_KANDIDAT_SUCCESS';
 export const ENDRE_STATUS_KANDIDAT_FAILURE = 'ENDRE_STATUS_KANDIDAT_FAILURE';
 
+export const SET_FODSELSNUMMER = 'SET_FODSELSNUMMER';
+
+export const HENT_KANDIDAT_MED_FNR = 'HENT_KANDIDAT_MED_FNR';
+export const HENT_KANDIDAT_MED_FNR_SUCCESS = 'HENT_KANDIDAT_MED_FNR_SUCCESS';
+export const HENT_KANDIDAT_MED_FNR_NOT_FOUND = 'HENT_KANDIDAT_MED_FNR_NOT_FOUND';
+export const HENT_KANDIDAT_MED_FNR_FAILURE = 'HENT_KANDIDAT_MED_FNR_FAILURE';
+export const HENT_KANDIDAT_MED_FNR_RESET = 'HENT_KANDIDAT_MED_FNR_RESET';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -43,11 +52,34 @@ export const DELE_STATUS = {
     SUCCESS: 'SUCCESS'
 };
 
+export const HENT_STATUS = {
+    IKKE_HENTET: 'IKKE_HENTET',
+    LOADING: 'LOADING',
+    SUCCESS: 'SUCCESS',
+    FINNES_IKKE: 'FINNES_IKKE',
+    FAILURE: 'FAILURE'
+};
+
 const initialState = {
+    lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
         fetching: false,
         kandidatliste: undefined,
         deleStatus: DELE_STATUS.IKKE_SPURT
+    },
+    fodselsnummer: undefined,
+    hentStatus: HENT_STATUS.IKKE_HENTET,
+    kandidat: {
+        arenaKandidatnr: undefined,
+        fornavn: undefined,
+        etternavn: undefined,
+        mestRelevanteYrkeserfaring: {
+            styrkKodeStillingstittel: undefined,
+            yrkeserfaringManeder: undefined
+        }
+    },
+    leggTilKandidater: {
+        lagreStatus: LAGRE_STATUS.UNSAVED
     }
 };
 
@@ -118,6 +150,72 @@ export default function reducer(state = initialState, action) {
                     deleStatus: DELE_STATUS.IKKE_SPURT
                 }
             };
+        case SET_FODSELSNUMMER: {
+            return {
+                ...state,
+                fodselsnummer: action.fodselsnummer
+            };
+        }
+        case HENT_KANDIDAT_MED_FNR: {
+            return {
+                ...state,
+                hentStatus: HENT_STATUS.LOADING
+            };
+        }
+        case HENT_KANDIDAT_MED_FNR_SUCCESS: {
+            return {
+                ...state,
+                hentStatus: HENT_STATUS.SUCCESS,
+                kandidat: action.kandidat
+            };
+        }
+        case HENT_KANDIDAT_MED_FNR_NOT_FOUND: {
+            return {
+                ...state,
+                hentStatus: HENT_STATUS.FINNES_IKKE
+            };
+        }
+        case HENT_KANDIDAT_MED_FNR_FAILURE: {
+            return {
+                ...state,
+                hentStatus: HENT_STATUS.FAILURE
+            };
+        }
+        case HENT_KANDIDAT_MED_FNR_RESET: {
+            return {
+                ...state,
+                hentStatus: HENT_STATUS.IKKE_HENTET,
+                kandidat: initialState.kandidat
+            };
+        }
+        case LEGG_TIL_KANDIDATER:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.LOADING
+                }
+            };
+        case LEGG_TIL_KANDIDATER_SUCCESS:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.SUCCESS
+                },
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: action.kandidatliste
+                }
+            };
+        case LEGG_TIL_KANDIDATER_FAILURE:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    ...state.leggTilKandidater,
+                    lagreStatus: LAGRE_STATUS.FAILURE
+                }
+            };
         default:
             return state;
     }
@@ -170,6 +268,39 @@ function* endreKandidatstatus(action) {
     }
 }
 
+function* hentKandidatMedFnr(action) {
+    try {
+        const response = yield fetchKandidatMedFnr(action.fodselsnummer);
+        yield put({ type: HENT_KANDIDAT_MED_FNR_SUCCESS, kandidat: response });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            if (e.status === 404) {
+                yield put({ type: HENT_KANDIDAT_MED_FNR_NOT_FOUND });
+            } else {
+                yield put({ type: HENT_KANDIDAT_MED_FNR_FAILURE, error: e });
+            }
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* leggTilKandidater(action) {
+    try {
+        let response;
+        for (let i = 0; i < action.kandidatlisteIder.length; i += 1) {
+            response = yield postKandidaterTilKandidatliste(action.kandidatlisteIder[i], action.kandidater);
+        }
+        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS, kandidatliste: response });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: LEGG_TIL_KANDIDATER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
@@ -178,11 +309,15 @@ export function* kandidatlisteSaga() {
     yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
     yield takeLatest(PRESENTER_KANDIDATER, presenterKandidater);
     yield takeLatest(ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
+    yield takeLatest(HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
+    yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
         SLETT_KANDIDATER_FAILURE,
         ENDRE_STATUS_KANDIDAT_FAILURE,
-        PRESENTER_KANDIDATER_FAILURE
+        PRESENTER_KANDIDATER_FAILURE,
+        HENT_KANDIDAT_MED_FNR_FAILURE,
+        LEGG_TIL_KANDIDATER_FAILURE
     ],
     sjekkError);
 }
