@@ -33,7 +33,9 @@ export default class VisKandidatPersonalia extends React.Component {
         const sisteDel = [postnummer, poststed ? capitalizePoststed(poststed) : null]
             .filter((string) => string)
             .join(' ');
-        return [gate, sisteDel].join(', ');
+        return [gate, sisteDel]
+            .filter((string) => string)
+            .join(', ');
     };
 
     render() {
