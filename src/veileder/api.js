@@ -175,6 +175,6 @@ export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kand
     )
 );
 
-export function postKandidaterTilKandidatliste(kandidatlisteId, kandidater) {
-    return postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater));
-}
+export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
+    postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater))
+);
