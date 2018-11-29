@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { capitalizePoststed } from '../../../felles/sok/utils';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -22,7 +22,7 @@ class KandidaterTableRow extends React.Component {
         const etternavn = kandidat.etternavn;
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
-        const bosted = kandidat.poststed ? capitalizeFirstLetter(kandidat.poststed) : '-';
+        const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>

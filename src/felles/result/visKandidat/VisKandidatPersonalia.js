@@ -9,7 +9,7 @@ import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
 import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
-import { capitalizeFirstLetter } from '../../sok/utils';
+import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
 
 export default class VisKandidatPersonalia extends React.Component {
     formatTelephoneNumber = (inputString) => {
@@ -27,6 +27,13 @@ export default class VisKandidatPersonalia extends React.Component {
         const firstString = actualNumber.slice(-8, -5);
 
         return `${countryCode} ${firstString} ${midString} ${lastString}`;
+    };
+
+    formatterAdresse = (gate, postnummer, poststed) => {
+        const sisteDel = [postnummer, poststed ? capitalizePoststed(poststed) : null]
+            .filter((string) => string)
+            .join(' ');
+        return [gate, sisteDel].join(', ');
     };
 
     render() {
@@ -141,11 +148,7 @@ export default class VisKandidatPersonalia extends React.Component {
                                 <AdresseIkon color={this.props.appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
-                                {cv.adresse.adrlinje1}
-                                {(cv.adresse.postnr || cv.adresse.poststednavn) ?
-                                    (', ') : null}
-
-                                {cv.adresse.postnr} {cv.adresse.poststednavn}
+                                {this.formatterAdresse(cv.adresse.adrlinje1, cv.adresse.postnr, cv.adresse.poststednavn)}
                             </Normaltekst>
                         </div>}
                     </div>
