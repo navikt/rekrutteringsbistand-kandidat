@@ -167,6 +167,17 @@ export const capitalizeFirstLetter = (inputString) => (
     inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase()
 );
 
+export const capitalizePoststed = (poststed) => (
+    poststed
+        .split(' ')
+        .map((ord) => (
+            ['I', 'PÅ'].includes(ord.toUpperCase())
+                ? ord.toLowerCase()
+                : capitalizeFirstLetter(ord)
+        ))
+        .join(' ')
+);
+
 export const fornavnOgEtternavnFraKandidat = (cv) => (cv.fornavn && cv.etternavn
     ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
     : cv.kandidatnr);
