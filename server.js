@@ -24,14 +24,12 @@ const appInfo = (appnavn) => {
         return {
             contextRoot: 'kandidater',
             appNavn: 'pam-kandidatsok',
-            liggerPaaArbeidsplassen: true,
             htmlFil: 'index.html'
         };
     } else if (appnavn === APPS.KANDIDATSOK_NEXT) {
         return {
             contextRoot: 'pam-kandidatsok-next',
             appNavn: 'pam-kandidatsok-next',
-            liggerPaaArbeidsplassen: false,
             htmlFil: 'index-next.html'
         };
     }
@@ -204,10 +202,6 @@ const startServer = (html) => {
             res.send(html);
         }
     );
-
-    if (app.liggerPaaArbeidsplassen) {
-        server.use('/frontendlogger/', proxy('http://frontendlogger'));
-    }
 
     server.get(
         ['/pam-kandidatsok', '/pam-kandidatsok/*'],
