@@ -48,27 +48,49 @@ const formaterDato = (datoStreng) => {
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatliste }) => (
     <div className="Kandidatliste__panel">
         <div className="beskrivelse">
+            {kandidatliste.opprettetAvNav &&
+                <div className="delt-fra-nav-rad">
+                    <div className="etikett">
+                        Kandidatliste fra NAV
+                    </div>
+                    <div className="logo">
+                        <i className="NAV-loco-ikon__svart" />
+                    </div>
+                </div>
+            }
             <div className="topp">
                 <div>
                     <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
                         <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
                     </Link>
                 </div>
-                <div className="dato-opprettet">
-                    <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
-                </div>
-            </div>
-            <Element className="kandidatantall">
-                {
-                    kandidatliste.antallKandidater === 1 ?
-                        '1 kandidat' :
-                        `${kandidatliste.antallKandidater} kandidater`
+                {!kandidatliste.opprettetAvNav &&
+                    <div className="dato-opprettet">
+                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                    </div>
                 }
-            </Element>
-            {kandidatliste.oppdragsgiver &&
-            <div className="oppdragsgiver typo-normal">
-                {`Oppdragsgiver: ${kandidatliste.oppdragsgiver}`}
-            </div>}
+            </div>
+            <div className="beskrivelse-rad">
+                <div>
+                    <Element className="kandidatantall">
+                        {
+                            kandidatliste.antallKandidater === 1 ?
+                                '1 kandidat' :
+                                `${kandidatliste.antallKandidater} kandidater`
+                        }
+                    </Element>
+                    {kandidatliste.oppdragsgiver &&
+                        <div className="oppdragsgiver typo-normal">
+                            {`Oppdragsgiver: ${kandidatliste.oppdragsgiver}`}
+                        </div>
+                    }
+                </div>
+                {kandidatliste.opprettetAvNav &&
+                    <div className="dato-opprettet">
+                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                    </div>
+                }
+            </div>
         </div>
         <div className="funksjonsknapp-panel">
             <Lenkeknapp onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
@@ -282,6 +304,7 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     kandidatlisteId: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired,
     opprettetTidspunkt: PropTypes.string.isRequired,
+    opprettetAvNav: PropTypes.bool.isRequired,
     oppdragsgiver: PropTypes.string
 });
 
