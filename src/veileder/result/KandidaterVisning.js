@@ -167,6 +167,7 @@ class KandidaterVisning extends React.Component {
                         onLagre={this.onLagreKandidatlister}
                         antallMarkerteKandidater={antallMarkert}
                         kandidatlisteId={this.state.kandidatlisteId}
+                        stillingsoverskrift={this.props.stillingsoverskrift}
                     />
                 }
                 <Row className="resultatvisning">
@@ -205,7 +206,8 @@ KandidaterVisning.defaultProps = {
     stillingsId: undefined,
     kandidatliste: {
         kandidatlisteId: undefined
-    }
+    },
+    stillingsoverskrift: undefined
 };
 
 KandidaterVisning.propTypes = {
@@ -226,7 +228,8 @@ KandidaterVisning.propTypes = {
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string
-    })
+    }),
+    stillingsoverskrift: PropTypes.string
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -247,7 +250,8 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    stillingsoverskrift: state.search.stillingsoverskrift
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

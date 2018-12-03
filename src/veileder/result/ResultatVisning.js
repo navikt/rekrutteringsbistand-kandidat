@@ -76,7 +76,7 @@ class ResultatVisning extends React.Component {
     };
 
     render() {
-        const { match, isInitialSearch, annonseoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent, antallLagredeKandidater } = this.props;
+        const { match, isInitialSearch, stillingsoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent, antallLagredeKandidater } = this.props;
         const stillingsId = match.params.stillingsId;
 
         const LinkTilMineStillinger = () => (
@@ -95,7 +95,7 @@ class ResultatVisning extends React.Component {
                     </Row>
                     <Row className="header__row--veileder">
                         <Link className="lenke" to={`/stillinger/${stillingsId}`}>
-                            <span>{annonseoverskrift}</span>
+                            <span>{stillingsoverskrift}</span>
                         </Link>
                     </Row>
                     <Row className="header__row--veileder">
@@ -124,8 +124,8 @@ class ResultatVisning extends React.Component {
                     type="suksess"
                     tekst={
                         antallLagredeKandidater > 1
-                            ? `${antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${annonseoverskrift}»`
-                            : `Kandidaten er lagt til i kandidatlisten «${annonseoverskrift}»`
+                            ? `${antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${stillingsoverskrift}»`
+                            : `Kandidaten er lagt til i kandidatlisten «${stillingsoverskrift}»`
                     }
                     id="hjelpetekstfading"
                 />
@@ -207,7 +207,7 @@ class ResultatVisning extends React.Component {
 }
 
 ResultatVisning.defaultProps = {
-    annonseoverskrift: undefined,
+    stillingsoverskrift: undefined,
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
@@ -227,7 +227,7 @@ ResultatVisning.propTypes = {
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
-    annonseoverskrift: PropTypes.string,
+    stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
     annonseOpprettetAvNavn: PropTypes.string,
     annonseOpprettetAvIdent: PropTypes.string,
@@ -243,7 +243,7 @@ const mapStateToProps = (state) => ({
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     harHentetStilling: state.search.harHentetStilling,
-    annonseoverskrift: state.search.annonseoverskrift,
+    stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,
     annonseOpprettetAvNavn: state.search.annonseOpprettetAvNavn,
     annonseOpprettetAvIdent: state.search.annonseOpprettetAvIdent
