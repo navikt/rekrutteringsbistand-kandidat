@@ -133,9 +133,9 @@ const ListedetaljerView = (props) => {
         return (
             <div className="knappe-rad">
                 <div>
-                    <Link to={`/kandidater/stilling/${stillingsId}`} className="lenke finn-kandidater FinnKandidater">
+                    <Link to={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
                         <i className="FinnKandidater__icon" />
-                        Finn kandidater
+                        <span className="lenke">Finn kandidater</span>
                     </Link>
                 </div>
                 <div>

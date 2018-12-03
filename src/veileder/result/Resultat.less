@@ -52,9 +52,10 @@
             margin-right: 1rem;
           }
         }
-      }&:first-child {
+      }
+      &:first-child {
          padding-top: 2.5rem;
-       }
+      }
       &:last-child {
         margin-bottom: 0;
         padding-bottom: 2.5rem;
@@ -63,6 +64,7 @@
 
     .lenke {
       font-weight: bold;
+      font-family: "Source Sans Pro", Arial, sans-serif;
     }
 
     .ikonlenke {
@@ -71,8 +73,64 @@
     }
   }
 
+  .container--header__lenke--mine-stillinger {
+    padding: 52px 0 135px 0;
+    .lenke {
+      border-bottom: none;
+    }
+  }
+
+  .container--header__lenke--kandidatliste {
+    padding: 54px 0 133px 0;
+    .lenke {
+      font-weight: bold;
+    }
+  }
+
   .lenke--lagrede-kandidatlister {
     justify-content: flex-end;
+  }
+
+  @media(max-width: 991px) {
+    .container--header {
+      display: block;
+      .header--links {
+        display: flex;
+      }
+    }
+    .container--header__lenke--mine-stillinger {
+      flex: auto;
+      padding: 2.5rem 0 0;
+    }
+    .child-item__container--header {
+      padding: 0;
+      .header__row--veileder:first-child {
+        padding-top: 2rem;
+      }
+    }
+    .container--header__lenke--kandidatliste {
+      padding: 2.5rem 0 0;
+    }
+  }
+
+  @media(max-width: 479px) {
+    .container--header__lenke--mine-stillinger {
+      padding-top: 1rem;
+    }
+    .child-item__container--header {
+      .header__row--veileder {
+        margin-bottom: 1rem;
+        &:first-child {
+          padding-top: 1rem;
+        }
+        &:last-child {
+          padding-bottom: 1rem;
+        }
+      }
+    }
+    .container--header__lenke--kandidatliste {
+      padding-top: 1rem;
+    }
   }
 }
 
@@ -176,5 +234,21 @@ a.tilbake--lenke {
     li:not(:last-child) {
       margin-bottom: 0.75rem;
     }
+  }
+}
+
+.LagreKandidaterTilStillingModal {
+  width: 640px;
+  .LagreKandidaterTilStillingModal--wrapper {
+    padding: 1rem;
+  }
+  .tittel {
+    margin-bottom: 1.25rem;
+  }
+  .lagre--knapp {
+    margin: 2.5rem 1rem 0 0;
+  }
+  .avbryt--knapp {
+    margin-top: 2.5rem;
   }
 }

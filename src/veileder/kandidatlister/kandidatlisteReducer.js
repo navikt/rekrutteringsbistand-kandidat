@@ -79,7 +79,8 @@ const initialState = {
         }
     },
     leggTilKandidater: {
-        lagreStatus: LAGRE_STATUS.UNSAVED
+        lagreStatus: LAGRE_STATUS.UNSAVED,
+        antallLagredeKandidater: 0
     }
 };
 
@@ -201,7 +202,8 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 leggTilKandidater: {
                     ...state.leggTilKandidater,
-                    lagreStatus: LAGRE_STATUS.SUCCESS
+                    lagreStatus: LAGRE_STATUS.SUCCESS,
+                    antallLagredeKandidater: action.antallLagredeKandidater
                 },
                 detaljer: {
                     ...state.detaljer,
@@ -291,7 +293,7 @@ function* leggTilKandidater(action) {
         for (let i = 0; i < action.kandidatlisteIder.length; i += 1) {
             response = yield postKandidaterTilKandidatliste(action.kandidatlisteIder[i], action.kandidater);
         }
-        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS, kandidatliste: response });
+        yield put({ type: LEGG_TIL_KANDIDATER_SUCCESS, kandidatliste: response, antallLagredeKandidater: action.kandidater.length });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: LEGG_TIL_KANDIDATER_FAILURE, error: e });
