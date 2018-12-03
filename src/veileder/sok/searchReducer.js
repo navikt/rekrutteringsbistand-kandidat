@@ -71,7 +71,7 @@ const initialState = {
     scrolletFraToppen: 0,
     stillingsId: undefined,
     harHentetStilling: false,
-    annonseoverskrift: undefined,
+    stillingsoverskrift: undefined,
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
@@ -189,7 +189,7 @@ export default function searchReducer(state = initialState, action) {
         case SET_LISTEDATA:
             return {
                 ...state,
-                annonseoverskrift: action.listeData.tittel,
+                stillingsoverskrift: action.listeData.tittel,
                 arbeidsgiver: action.listeData.organisasjonNavn,
                 annonseOpprettetAvNavn: action.listeData.opprettetAv.navn,
                 annonseOpprettetAvIdent: action.listeData.opprettetAv.ident
