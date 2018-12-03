@@ -82,7 +82,7 @@ class KandidaterVisning extends React.Component {
             });
         }
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            this.lukkeLagreKandidaterTilStillingModal();
+            this.setState({ lagreKandidaterModalTilStillingVises: false });
             this.toggleMarkeringAlleKandidater(false);
         }
     }
@@ -126,12 +126,13 @@ class KandidaterVisning extends React.Component {
     };
 
     onLagreKandidatlister = (kandidatlisteIder) => {
-        this.props.leggTilKandidaterIKandidatliste(this.state.kandidater
+        this.props.leggTilKandidaterIKandidatliste(kandidatlisteIder, this.state.kandidater
             .filter((kandidat) => (kandidat.markert))
             .map((kandidat) => ({
                 kandidatnr: kandidat.arenaKandidatnr,
                 sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
-            })), kandidatlisteIder);
+            }))
+        );
     };
 
     onToggleMarkeringAlleKandidater = () => {
@@ -147,14 +148,10 @@ class KandidaterVisning extends React.Component {
         this.props.oppdaterMarkerteKandidater([...markerteKandidater, ...this.state.kandidater.filter((kandidat, i) => i >= this.state.antallResultater)]);
     };
 
-    apneLagreKandidaterTilStillingModal = () => {
+    toggleLagreKandidaterTilStillingModal = () => {
         this.setState({
-            lagreKandidaterModalTilStillingVises: true });
-    };
-
-    lukkeLagreKandidaterTilStillingModal = () => {
-        this.setState({
-            lagreKandidaterModalTilStillingVises: false });
+            lagreKandidaterModalTilStillingVises: !this.state.lagreKandidaterModalTilStillingVises
+        });
     };
 
     render() {
@@ -165,7 +162,8 @@ class KandidaterVisning extends React.Component {
             <div>
                 {this.state.lagreKandidaterModalTilStillingVises &&
                     <LagreKandidaterTilStillingModal
-                        onRequestClose={this.lukkeLagreKandidaterTilStillingModal}
+                        vis={this.state.lagreKandidaterModalTilStillingVises}
+                        onRequestClose={this.toggleLagreKandidaterTilStillingModal}
                         onLagre={this.onLagreKandidatlister}
                         antallMarkerteKandidater={antallMarkert}
                         kandidatlisteId={this.state.kandidatlisteId}
@@ -179,7 +177,7 @@ class KandidaterVisning extends React.Component {
                             mini
                             type="hoved"
                             disabled={antallMarkert === 0}
-                            onClick={this.apneLagreKandidaterTilStillingModal}
+                            onClick={this.toggleLagreKandidaterTilStillingModal}
                             id="lagre-kandidater-knapp"
                         >
                             {lagreKandidaterTilStillingKnappTekst(antallMarkert)}
@@ -232,7 +230,7 @@ KandidaterVisning.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder }); },
+    leggTilKandidaterIKandidatliste: (kandidatlisteIder, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatlisteIder, kandidater }); },
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },

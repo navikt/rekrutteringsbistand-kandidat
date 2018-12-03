@@ -11,12 +11,11 @@ class LagreKandidaterTilStillingModal extends React.Component {
     };
 
     render() {
-        const { onRequestClose, annonseoverskrift, antallMarkerteKandidater } = this.props;
+        const { vis, onRequestClose, annonseoverskrift, antallMarkerteKandidater } = this.props;
         return (
             <Modal
-                isOpen
+                isOpen={vis}
                 onRequestClose={onRequestClose}
-                closeButton
                 contentLabel="LagreKandidaterModal."
                 className="LagreKandidaterTilStillingModal"
                 appElement={document.getElementById('app')}
@@ -49,6 +48,7 @@ LagreKandidaterTilStillingModal.defaultProps = {
 };
 
 LagreKandidaterTilStillingModal.propTypes = {
+    vis: PropTypes.bool.isRequired,
     onLagre: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     annonseoverskrift: PropTypes.string,
