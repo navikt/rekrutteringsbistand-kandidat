@@ -94,7 +94,7 @@ class ResultatVisning extends React.Component {
                         <Sidetittel>Søk etter kandidater til stilling</Sidetittel>
                     </Row>
                     <Row className="header__row--veileder">
-                        <Link className="lenke" to={`/stillinger/${stillingsId}`}>
+                        <Link className="lenke" to={`/stilling/${stillingsId}`}>
                             <span>{stillingsoverskrift}</span>
                         </Link>
                     </Row>

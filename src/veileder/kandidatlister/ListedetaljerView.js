@@ -97,7 +97,7 @@ const ListedetaljerView = (props) => {
                         { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     <div className="border-left">
-                        <Lenke href={`/stillinger/${stillingsId}`}>Se stillingsannonse</Lenke>
+                        <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
                     </div>
                 </div>
             </div>
