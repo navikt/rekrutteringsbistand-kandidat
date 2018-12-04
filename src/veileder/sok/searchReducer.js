@@ -71,7 +71,7 @@ const initialState = {
     scrolletFraToppen: 0,
     stillingsId: undefined,
     harHentetStilling: false,
-    annonseoverskrift: undefined,
+    stillingsoverskrift: undefined,
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
@@ -90,6 +90,7 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 isSearching: false,
+                searchQueryHash: action.searchQueryHash,
                 isInitialSearch: false,
                 error: undefined,
                 isEmptyQuery: action.isEmptyQuery,
@@ -189,7 +190,7 @@ export default function searchReducer(state = initialState, action) {
         case SET_LISTEDATA:
             return {
                 ...state,
-                annonseoverskrift: action.listeData.tittel,
+                stillingsoverskrift: action.listeData.tittel,
                 arbeidsgiver: action.listeData.organisasjonNavn,
                 annonseOpprettetAvNavn: action.listeData.opprettetAv.navn,
                 annonseOpprettetAvIdent: action.listeData.opprettetAv.ident
@@ -292,7 +293,7 @@ function* search(action = '') {
         const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
 
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
-        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length) };
+        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length), fraIndex, antallResultater };
 
         const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
