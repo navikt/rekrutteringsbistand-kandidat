@@ -35,7 +35,6 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: props.antallKandidater,
             alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
             kandidater: props.kandidater
         };
@@ -58,13 +57,7 @@ class KandidaterVisning extends React.Component {
         } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
-                antallResultater: this.props.antallKandidater
-            });
-        } else if (prevProps.antallKandidater !== this.props.antallKandidater) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({
-                antallResultater: this.props.antallKandidater
+                kandidater: this.props.kandidater
             });
         } else if (prevProps.kandidater !== this.props.kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -85,31 +78,14 @@ class KandidaterVisning extends React.Component {
         if (this.props.isSearching) {
             return;
         }
-        const nyttAntall = Math.min(this.state.antallResultater + KANDIDATLISTE_CHUNK_SIZE, this.props.totaltAntallTreff);
+        const nyttAntall = Math.min(this.props.antallKandidater + KANDIDATLISTE_CHUNK_SIZE, this.props.totaltAntallTreff);
         if (nyttAntall > this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
 
-        if (nyttAntall !== this.state.antallResultater) {
+        if (nyttAntall !== this.props.antallKandidater) {
             this.props.oppdaterAntallKandidater(nyttAntall);
         }
-    };
-
-    onFilterAntallArClick = (antallArChevronNed, from, to) => {
-        const kandidater = this.state.kandidater.slice(from, to)
-            .sort((kand1, kand2) => {
-                if (antallArChevronNed) {
-                    return kand1.totalLengdeYrkeserfaring - kand2.totalLengdeYrkeserfaring;
-                }
-                return kand2.totalLengdeYrkeserfaring - kand1.totalLengdeYrkeserfaring;
-            });
-        this.setState({
-            kandidater: [
-                ...this.state.kandidater.slice(0, from),
-                ...kandidater,
-                ...this.state.kandidater.slice(to)
-            ]
-        });
     };
 
     onToggleMarkeringAlleKandidater = () => {
@@ -147,9 +123,8 @@ class KandidaterVisning extends React.Component {
                     </div>
                 </Row>
                 <KandidaterTabell
-                    antallResultater={this.state.antallResultater}
+                    antallResultater={this.props.antallKandidater}
                     kandidater={this.state.kandidater}
-                    onFilterAntallArClick={this.onFilterAntallArClick}
                     onFlereResultaterClick={this.onFlereResultaterClick}
                     totaltAntallTreff={this.props.totaltAntallTreff}
                     onKandidatValgt={this.onKandidatValgt}
