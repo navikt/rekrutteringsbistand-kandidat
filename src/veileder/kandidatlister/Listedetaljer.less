@@ -76,53 +76,103 @@
           font-weight: bold;
         }
       }
-      .liste-rad {
-        background-color: white;
+      .liste-rad-wrapper {
         border-radius: 4px;
-        height: 4.5rem;
-        display: flex;
-        align-items: center;
-        .kolonne-checkboks {
-          padding-left: 1.25rem;
-          padding-right: 1.25rem;
-        }
-        .kolonne-smal {
-          flex: 1;
-        }
-        .kolonne-bred {
-          flex: 2;
-        }
-        .status {
+        overflow: hidden;
+        background-color: white;
+        .liste-rad {
+          height: 4.5rem;
           display: flex;
           align-items: center;
-          .sirkel {
-            width: 0.5rem;
-            height: 0.5rem;
-            margin-right: 0.5rem;
-            -webkit-border-radius: 0.25rem;
-            -moz-border-radius: 0.25rem;
-            border-radius: 0.25rem;
+          .kolonne-checkboks {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
           }
-          .foreslatt {
-            background-color: rgba(62, 56, 50, 0.6);;
+          .kolonne-smal {
+            flex: 1;
           }
-          .vurderes {
-            background-color: rgba(62, 56, 50, 0.6);
+          .kolonne-bred {
+            flex: 2;
           }
-          .kontaktet {
-            background-color: #ffd200;
-          }
-          .aktuell {
-            background-color: #ff9100;
-          }
-          .uaktuell {
-            background-color: #c30000;
+          .status {
+            display: flex;
+            align-items: center;
+            .sirkel {
+              width: 0.5rem;
+              height: 0.5rem;
+              margin-right: 0.5rem;
+              -webkit-border-radius: 0.25rem;
+              -moz-border-radius: 0.25rem;
+              border-radius: 0.25rem;
+            }
+            .foreslatt {
+              background-color: rgba(62, 56, 50, 0.6);;
+            }
+            .vurderes {
+              background-color: rgba(62, 56, 50, 0.6);
+            }
+            .kontaktet {
+              background-color: #ffd200;
+            }
+            .aktuell {
+              background-color: #ff9100;
+            }
+            .uaktuell {
+              background-color: #c30000;
+            }
           }
         }
-      }
-      .liste-header {
-        border: 1px solid #78706a;
-        margin-top: 1.25rem;
+        .notater {
+          background-color: #f6f5f5;
+          display: flex;
+          justify-content: center;
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+          .notater-content {
+            width: 40rem;
+            .avsnitt {
+              margin-top: 1.25rem;
+            }
+            .spinner-wrapper {
+              display: flex;
+              justify-content: center;
+              padding-top: 1.25rem;
+            }
+            .notatliste {
+              margin-top: 2rem;
+              border-top: 1px solid #d8d8d8;
+              .notatliste-rad {
+                border-bottom: 1px solid #d8d8d8;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                .topprad {
+                  font-size: 14px;
+                  .info {
+                    .grey-tekst {
+                      color: #78706a;
+                    }
+                    .red-tekst {
+                      color: #c30000;
+                    }
+                  }
+                }
+                .notat-tekst {
+                  margin-top: 0.25rem;
+                }
+              }
+            }
+          }
+          .nytt-notat-form {
+            margin-top: 2rem;
+            .nytt-notat-tekst {
+              margin-top: 0.25rem;
+              min-height: 7.5rem;
+            }
+          }
+          .nytt-notat-knapperad {
+            margin-top: 1.25rem;
+          }
+        }
       }
       .kandidat {
         margin-top: 0.5rem;
@@ -133,6 +183,10 @@
       .kandidat.unchecked {
         border: 1px solid #d8d8d8;
       }
+    }
+    .liste-header {
+      margin-top: 1.25rem;
+      border: 1px solid #78706a;
     }
   }
 }

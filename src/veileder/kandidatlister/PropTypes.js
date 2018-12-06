@@ -30,3 +30,14 @@ export const Kandidatliste = {
     opprettetTidspunkt: PropTypes.string,
     kandidater: PropTypes.arrayOf(PropTypes.shape(Kandidat))
 };
+
+export const Notat = {
+    tekst: PropTypes.string,
+    notatId: PropTypes.string,
+    lagtTilTidspunkt: PropTypes.string,
+    sistEndretTidspunkt: PropTypes.string,
+    lagtTilAv: PropTypes.shape({
+        navn: PropTypes.string,
+        ident: PropTypes.string
+    })
+};

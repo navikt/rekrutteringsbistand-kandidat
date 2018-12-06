@@ -24,6 +24,25 @@ export function toIsoDateString(year, month) {
     return isoDateString;
 }
 
+const doubleDigits = (s) => (
+    s.length === 1 ? `0${s}` : s
+);
+
+export const formatterDato = (date) => (
+    [
+        doubleDigits(`${date.getDate()}`),
+        doubleDigits(`${date.getMonth() + 1}`),
+        `${date.getFullYear()}`
+    ].join('.')
+);
+
+export const formatterTid = (datetime) => (
+    [
+        doubleDigits(`${datetime.getHours()}`),
+        doubleDigits(`${datetime.getMinutes()}`)
+    ].join('.')
+);
+
 export function formatISOString(isoString, format = 'MMMM YYYY') {
     if (isValidISOString(isoString)) {
         const dt = isoString.split('-');
