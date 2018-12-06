@@ -26,6 +26,7 @@ import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
 import NotFound from './sok/error/NotFound';
+import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -87,6 +88,7 @@ class Sok extends React.Component {
                         <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
                         <Route component={NotFound} />
+                        <Route exact path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr" component={VisKandidatFraLister} />
                     </Switch>
                 </div>
             </BrowserRouter>

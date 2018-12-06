@@ -94,7 +94,7 @@ const VisKandidatCv = ({ cv }) => (
                                             navarende={!a.tilDato}
                                         />
                                     </Undertekst>
-                                    <Element>{a.styrkKodeStillingstittel}</Element>
+                                    {a.styrkKodeStillingstittel && <Element>{a.styrkKodeStillingstittel}</Element>}
                                     {a.arbeidsgiver && (
                                         <Normaltekst>{a.arbeidsgiver}</Normaltekst>
                                     )}
