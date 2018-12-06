@@ -44,6 +44,8 @@ export const HENT_INNLOGGET_VEILEDER = 'HENT_INNLOGGET_VEILEDER';
 export const HENT_INNLOGGET_VEILEDER_SUCCESS = 'HENT_INNLOGGET_VEILEDER_SUCCESS';
 export const HENT_INNLOGGET_VEILEDER_FAILURE = 'HENT_INNLOGGET_VEILEDER_FAILURE';
 
+export const FJERN_ERROR = 'FJERN_ERROR';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -204,6 +206,11 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error
+            };
+        case FJERN_ERROR:
+            return {
+                ...state,
+                error: undefined
             };
         default:
             return state;
