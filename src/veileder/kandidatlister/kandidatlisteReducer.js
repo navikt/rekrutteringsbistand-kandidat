@@ -150,6 +150,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
+                    kandidatliste: action.kandidatliste,
                     deleStatus: DELE_STATUS.SUCCESS
                 }
             };
@@ -284,8 +285,8 @@ function* hentKandidatListe(action) {
 function* presenterKandidater(action) {
     try {
         const { beskjed, mailadresser, kandidatlisteId, kandidatnummerListe } = action;
-        yield postDelteKandidater(beskjed, mailadresser, kandidatlisteId, kandidatnummerListe);
-        yield put({ type: PRESENTER_KANDIDATER_SUCCESS });
+        const response = yield postDelteKandidater(beskjed, mailadresser, kandidatlisteId, kandidatnummerListe);
+        yield put({ type: PRESENTER_KANDIDATER_SUCCESS, kandidatliste: response });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: PRESENTER_KANDIDATER_FAILURE, error: e });
