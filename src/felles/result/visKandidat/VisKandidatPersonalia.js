@@ -44,6 +44,8 @@ export default class VisKandidatPersonalia extends React.Component {
         let tilbakeLink;
         if (kandidatListe) {
             tilbakeLink = `/${contextRoot}/lister/detaljer/${kandidatListe}`;
+        } else if (stillingsId && (contextRoot === 'kandidater/lister')) {
+            tilbakeLink = `/${contextRoot}/stilling/${stillingsId}/detaljer`;
         } else if (stillingsId) {
             tilbakeLink = `/${contextRoot}/stilling/${stillingsId}`;
         } else {
@@ -70,7 +72,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             to={tilbakeLink}
                             className={lenkeClass}
                         >
-                            <NavFrontendChevron type="venstre" /> Til {kandidatListe ? 'kandidatlisten' : 'kandidatsøket'}
+                            <NavFrontendChevron type="venstre" /> Til {kandidatListe || stillingsId ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
 
                         <div className="navigering-forrige-neste">

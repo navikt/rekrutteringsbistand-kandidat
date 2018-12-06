@@ -27,6 +27,7 @@ import Listedetaljer from './kandidatlister/Listedetaljer';
 import { LOGIN_URL } from './common/fasitProperties';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
+import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -85,6 +86,7 @@ class Sok extends React.Component {
                         <Route exact path="/kandidater/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
+                        <Route exact path="/kandidater/lister/detaljer/:listeid/cv" component={VisKandidatFraLister} />
                     </Switch>
                 </div>
             </BrowserRouter>

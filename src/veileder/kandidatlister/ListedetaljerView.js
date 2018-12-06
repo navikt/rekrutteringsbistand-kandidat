@@ -193,7 +193,10 @@ const ListedetaljerView = (props) => {
                     onChange={() => { onToggleKandidat(kandidat.kandidatnr); }}
                 />
             </div>
-            <div className="kolonne-bred">{kandidat.fornavn} {kandidat.etternavn}</div>
+            <div className="kolonne-bred">
+                <Link title="Vis profil" className="lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                    {kandidat.fornavn} {kandidat.etternavn}
+                </Link></div>
             <div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
             <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
             <div className="kolonne-bred">
