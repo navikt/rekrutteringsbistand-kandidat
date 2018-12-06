@@ -3,7 +3,7 @@ import { Container, Row, Column } from 'nav-frontend-grid';
 import Feilmelding from './Feilmelding';
 import './Feilside.less';
 
-const Feilside = () => (
+const GenerellFeilside = () => (
     <Container className="blokk-s feilside">
         <Row>
             <Column>
@@ -13,4 +13,4 @@ const Feilside = () => (
     </Container>
 );
 
-export default Feilside;
+export default GenerellFeilside;

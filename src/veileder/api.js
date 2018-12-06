@@ -114,6 +114,30 @@ async function putJson(url, bodyString) {
     }
 }
 
+async function putRequest(url) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
+            mode: 'cors'
+        });
+        if (response.status >= 200 && response.status < 300) {
+            return;
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 export function fetchFeatureToggles() {
     return fetchJson(`${SEARCH_API}/toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
@@ -147,6 +171,10 @@ export const fetchKandidatliste = (stillingsId) => (
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
 );
+
+export function putKandidatliste(stillingsId) {
+    return putRequest(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste/`);
+}
 
 export function fetchGeografiKode(geografiKode) {
     return fetchJson(`${KODEVERK_API}/arenageografikoder/${geografiKode}`, true);
