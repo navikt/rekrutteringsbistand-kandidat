@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV } from '../sok/cv/cvReducer';
-import { getUrlParameterByName } from '../../felles/sok/utils';
 import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
@@ -12,7 +11,7 @@ import '../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
-        this.props.hentCvForKandidat(this.props.kandidatnummer, this.props.cv.profilId);
+        this.props.hentCvForKandidat(this.props.match.params.kandidatNr, this.props.cv.profilId);
     }
 
     render() {
@@ -42,7 +41,11 @@ class VisKandidatFraLister extends React.Component {
 }
 
 VisKandidatFraLister.propTypes = {
-    kandidatnummer: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            kandidatNr: PropTypes.string
+        })
+    }).isRequired,
     cv: cvPropTypes.isRequired,
     isFetchingCv: PropTypes.bool.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
@@ -50,7 +53,6 @@ VisKandidatFraLister.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-    kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     stillingsId: props.match.params.listeid,
     isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv
