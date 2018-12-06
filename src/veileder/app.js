@@ -7,10 +7,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
-import ManglerRolle from './sok/error/ManglerRolle';
 import '../felles/styles.less';
 import './sok/sok.less';
-import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, HENT_INNLOGGET_VEILEDER, saga } from './sok/searchReducer';
+import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, FJERN_ERROR, HENT_INNLOGGET_VEILEDER, saga } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
@@ -19,14 +18,14 @@ import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer';
-import Feilside from './sok/error/Feilside';
 import feedbackReducer from './feedback/feedbackReducer';
 import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import Listedetaljer from './kandidatlister/Listedetaljer';
-import { LOGIN_URL } from './common/fasitProperties';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
+import ErrorSide from './sok/error/ErrorSide';
+import NotFound from './sok/error/NotFound';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -44,47 +43,50 @@ const store = createStore(combineReducers({
     feedback: feedbackReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
+const HeaderSwitch = ({ innloggetVeileder }) => (
+    <Switch>
+        <Route path="/kandidater/lister" render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />} />
+        <Route render={() => <KandidatsokHeader innloggetVeileder={innloggetVeileder} />} />
+    </Switch>
+);
 
-/*
-Begin class Sok
- */
+HeaderSwitch.defaultProps = {
+    innloggetVeileder: ''
+};
+
+HeaderSwitch.propTypes = {
+    innloggetVeileder: PropTypes.string
+};
+
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
         this.props.hentInnloggetVeileder();
     }
 
-    // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
-    // if the error is 401 and to a new page if error is 403
-    componentWillUpdate(nextProps) {
-        const { error } = nextProps;
-        if (error && error.status === 401) {
-            window.location.href = `${LOGIN_URL}?redirect=${window.location.href}`;
-        }
-    }
-
     render() {
-        const { error, innloggetVeileder } = this.props;
-        if (error && error.status === 403) {
-            return <ManglerRolle />;
-        } else if (error) {
-            return <Feilside />;
-        } else if (!innloggetVeileder) {
-            return null;
+        const { error, innloggetVeileder, fjernError } = this.props;
+        if (error) {
+            return (
+                <BrowserRouter>
+                    <div>
+                        <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+                        <ErrorSide error={error} fjernError={fjernError} />
+                    </div>
+                </BrowserRouter>
+            );
         }
         return (
             <BrowserRouter>
                 <div>
-                    <Switch>
-                        <Route path="/kandidater/lister" render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />} />
-                        <Route render={() => <KandidatsokHeader innloggetVeileder={innloggetVeileder} />} />
-                    </Switch>
+                    <HeaderSwitch innloggetVeileder={innloggetVeileder} />
                     <Switch>
                         <Route exact path="/kandidater" component={ResultatVisning} />
                         <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
                         <Route exact path="/kandidater/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
+                        <Route component={NotFound} />
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -103,7 +105,8 @@ Sok.propTypes = {
     }),
     innloggetVeileder: PropTypes.string,
     fetchFeatureToggles: PropTypes.func.isRequired,
-    hentInnloggetVeileder: PropTypes.func.isRequired
+    hentInnloggetVeileder: PropTypes.func.isRequired,
+    fjernError: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -113,7 +116,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
-    hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER })
+    hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
+    fjernError: () => dispatch({ type: FJERN_ERROR })
 });
 /*
 End class Sok

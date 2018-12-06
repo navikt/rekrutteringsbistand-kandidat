@@ -1,13 +1,14 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import {
+    SearchApiError,
     fetchKandidatliste,
     postDelteKandidater,
     putStatusKandidat,
     fetchKandidatMedFnr,
     postKandidaterTilKandidatliste,
-    SearchApiError,
     fetchNotater,
-    postNotat
+    postNotat,
+    putKandidatliste
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -268,6 +269,20 @@ export default function reducer(state = initialState, action) {
  * ASYNC ACTIONS
  ********************************************************* */
 
+function* opprettKandidatlisteForStilling(stillingsnummer, opprinneligError) {
+    try {
+        yield putKandidatliste(stillingsnummer);
+        const kandidatliste = yield fetchKandidatliste(stillingsnummer);
+        yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: opprinneligError });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* hentKandidatListe(action) {
     const { stillingsnummer } = action;
     try {
@@ -275,7 +290,11 @@ function* hentKandidatListe(action) {
         yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: e });
+            if (e.status === 404) {
+                yield opprettKandidatlisteForStilling(stillingsnummer, e);
+            } else {
+                yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: e });
+            }
         } else {
             throw e;
         }
