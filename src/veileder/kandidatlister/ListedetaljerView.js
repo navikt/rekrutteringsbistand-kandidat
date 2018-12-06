@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Sidetittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { Kandidat } from './PropTypes';
+import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
+import Notater from './Notater';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -72,7 +74,9 @@ const ListedetaljerView = (props) => {
         onToggleKandidat,
         onKandidatStatusChange,
         onKandidatShare,
-        onLeggTilKandidat
+        onLeggTilKandidat,
+        onNotaterToggle,
+        opprettNotat
     } = props;
     const SideHeader = () => (
         <div className="side-header">
@@ -152,20 +156,23 @@ const ListedetaljerView = (props) => {
     };
 
     const ListeHeader = () => (
-        <div className="liste-rad liste-header">
-            <div className="kolonne-checkboks">
-                <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide"
-                    checked={alleMarkert}
-                    onChange={onCheckAlleKandidater}
-                />
+        <div className="liste-rad-wrapper liste-header">
+            <div className="liste-rad">
+                <div className="kolonne-checkboks">
+                    <Checkbox
+                        label="&#8203;" // <- tegnet for tom streng
+                        className="text-hide"
+                        checked={alleMarkert}
+                        onChange={onCheckAlleKandidater}
+                    />
+                </div>
+                <div className="kolonne-bred"><Element>Navn</Element></div>
+                <div className="kolonne-smal"><Element>Fødselsdato</Element></div>
+                <div className="kolonne-bred"><Element>Lagt til av</Element></div>
+                <div className="kolonne-bred"><Element>Status</Element></div>
+                <div className="kolonne-bred"><Element>Utfall</Element></div>
+                <div className="kolonne-smal"><Element>Notater</Element></div>
             </div>
-            <div className="kolonne-bred"><Element>Navn</Element></div>
-            <div className="kolonne-smal"><Element>Fødselsdato</Element></div>
-            <div className="kolonne-bred"><Element>Lagt til av</Element></div>
-            <div className="kolonne-bred"><Element>Status</Element></div>
-            <div className="kolonne-bred"><Element>Utfall</Element></div>
         </div>
     );
 
@@ -183,39 +190,65 @@ const ListedetaljerView = (props) => {
         </div>
     );
 
-    const KandidatRad = ({ kandidat }) => ( // eslint-disable-line react/prop-types
-        <div className={`liste-rad kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
-            <div className="kolonne-checkboks">
-                <Checkbox
-                    label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide"
-                    checked={kandidat.markert}
-                    onChange={() => { onToggleKandidat(kandidat.kandidatnr); }}
-                />
-            </div>
-            <div className="kolonne-bred">
-                <Link title="Vis profil" className="lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
-                    {kandidat.fornavn} {kandidat.etternavn}
-                </Link></div>
-            <div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
-            <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
-            <div className="kolonne-bred">
-                {kanEditere
-                    ? <StatusSelect
-                        value={kandidat.status}
-                        onChange={(e) => {
-                            onKandidatStatusChange(e.target.value, kandidatlisteId, kandidat.kandidatnr);
+    const KandidatRad = ({ kandidat }) => { // eslint-disable-line react/prop-types
+        const antallNotater = kandidat.notater ? kandidat.notater.length : kandidat.antallNotater;
+        const toggleNotater = () => {
+            onNotaterToggle(kandidat.notaterVises, kandidatlisteId, kandidat.kandidatnr);
+        };
+
+        return (
+            <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
+                <div className={'liste-rad '}>
+                    <div className="kolonne-checkboks">
+                        <Checkbox
+                            label="&#8203;" // <- tegnet for tom streng
+                            className="text-hide"
+                            checked={kandidat.markert}
+                            onChange={() => {
+                                onToggleKandidat(kandidat.kandidatnr);
+                            }}
+                        />
+                    </div>
+                    <div className="kolonne-bred">
+                        <Link title="Vis profil" className="lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                            {kandidat.fornavn} {kandidat.etternavn}
+                        </Link></div><div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
+                    <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
+                    <div className="kolonne-bred">
+                        {kanEditere
+                            ? <StatusSelect
+                                value={kandidat.status}
+                                onChange={(e) => {
+                                    onKandidatStatusChange(e.target.value, kandidatlisteId, kandidat.kandidatnr);
+                                }}
+                            />
+                            : <span className="status">
+                                <span className={`sirkel ${statusToClassname(kandidat.status)}`} />
+                                {statusToString(kandidat.status)}
+                            </span>
+                        }
+                    </div>
+                    <div className="kolonne-bred">{utfallToString(kandidat.utfall)}</div>
+                    <div className="kolonne-smal">
+                        <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
+                            <i className="Notat__icon" />
+                            {antallNotater}
+                            <NavFrontendChevron type={kandidat.notaterVises ? 'opp' : 'ned'} />
+                        </Lenkeknapp>
+                    </div>
+                </div>
+                {kandidat.notaterVises &&
+                    <Notater
+                        notater={kandidat.notater}
+                        antallNotater={kandidat.notater ? kandidat.notater.length : kandidat.antallNotater}
+                        onOpprettNotat={(tekst) => {
+                            opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                         }}
                     />
-                    : <span className="status">
-                        <span className={`sirkel ${statusToClassname(kandidat.status)}`} />
-                        {statusToString(kandidat.status)}
-                    </span>
                 }
             </div>
-            <div className="kolonne-bred">{utfallToString(kandidat.utfall)}</div>
-        </div>
-    );
+        );
+    };
     return (
         <div className="Listedetaljer">
             <SideHeader />
@@ -236,7 +269,12 @@ ListedetaljerView.defaultProps = {
 };
 
 ListedetaljerView.propTypes = {
-    kandidater: PropTypes.arrayOf(PropTypes.shape({ ...Kandidat, markert: PropTypes.bool })).isRequired,
+    kandidater: PropTypes.arrayOf(PropTypes.shape({
+        ...Kandidat,
+        markert: PropTypes.bool,
+        notaterVises: PropTypes.bool,
+        notater: PropTypes.arrayOf(Notat)
+    })).isRequired,
     tittel: PropTypes.string.isRequired,
     arbeidsgiver: PropTypes.string,
     opprettetAv: PropTypes.shape({
@@ -251,7 +289,9 @@ ListedetaljerView.propTypes = {
     onToggleKandidat: PropTypes.func.isRequired,
     onKandidatStatusChange: PropTypes.func.isRequired,
     onKandidatShare: PropTypes.func.isRequired,
-    onLeggTilKandidat: PropTypes.func.isRequired
+    onLeggTilKandidat: PropTypes.func.isRequired,
+    onNotaterToggle: PropTypes.func.isRequired,
+    opprettNotat: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;
