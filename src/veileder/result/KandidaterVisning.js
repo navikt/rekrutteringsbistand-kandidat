@@ -118,11 +118,18 @@ class KandidaterVisning extends React.Component {
     };
 
     toggleMarkeringAlleKandidater = (checked) => {
-        const markerteKandidater = this.state.kandidater.filter((kandidat, i) => i < this.state.antallResultater).map((k) => ({ ...k, markert: checked }));
+        const kandidaterMedMarkering = this.state.kandidater.map((k, i) => {
+            if (i < this.props.antallKandidater) {
+                return { ...k, markert: checked };
+            }
+            return k;
+        });
+
         this.setState({
             alleKandidaterMarkert: checked
         });
-        this.props.oppdaterMarkerteKandidater([...markerteKandidater, ...this.state.kandidater.filter((kandidat, i) => i >= this.state.antallResultater)]);
+
+        this.props.oppdaterMarkerteKandidater(kandidaterMedMarkering);
     };
 
     toggleLagreKandidaterTilStillingModal = () => {
@@ -138,14 +145,14 @@ class KandidaterVisning extends React.Component {
         return (
             <div>
                 {this.state.lagreKandidaterModalTilStillingVises &&
-                    <LagreKandidaterTilStillingModal
-                        vis={this.state.lagreKandidaterModalTilStillingVises}
-                        onRequestClose={this.toggleLagreKandidaterTilStillingModal}
-                        onLagre={this.onLagreKandidatlister}
-                        antallMarkerteKandidater={antallMarkert}
-                        kandidatlisteId={this.state.kandidatlisteId}
-                        stillingsoverskrift={this.props.stillingsoverskrift}
-                    />
+                <LagreKandidaterTilStillingModal
+                    vis={this.state.lagreKandidaterModalTilStillingVises}
+                    onRequestClose={this.toggleLagreKandidaterTilStillingModal}
+                    onLagre={this.onLagreKandidatlister}
+                    antallMarkerteKandidater={antallMarkert}
+                    kandidatlisteId={this.state.kandidatlisteId}
+                    stillingsoverskrift={this.props.stillingsoverskrift}
+                />
                 }
                 <Row className="resultatvisning">
                     <div className="resultatvisning--header">
