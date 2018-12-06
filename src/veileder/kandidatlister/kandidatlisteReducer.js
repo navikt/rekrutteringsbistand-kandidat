@@ -1,5 +1,15 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { fetchKandidatliste, postDelteKandidater, putStatusKandidat, fetchKandidatMedFnr, postKandidaterTilKandidatliste, SearchApiError, putKandidatliste } from '../api';
+import {
+    SearchApiError,
+    fetchKandidatliste,
+    postDelteKandidater,
+    putStatusKandidat,
+    fetchKandidatMedFnr,
+    postKandidaterTilKandidatliste,
+    fetchNotater,
+    postNotat,
+    putKandidatliste
+} from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 
@@ -42,6 +52,14 @@ export const HENT_KANDIDAT_MED_FNR_NOT_FOUND = 'HENT_KANDIDAT_MED_FNR_NOT_FOUND'
 export const HENT_KANDIDAT_MED_FNR_FAILURE = 'HENT_KANDIDAT_MED_FNR_FAILURE';
 export const HENT_KANDIDAT_MED_FNR_RESET = 'HENT_KANDIDAT_MED_FNR_RESET';
 
+export const HENT_NOTATER = 'HENT_NOTATER';
+export const HENT_NOTATER_SUCCESS = 'HENT_NOTATER_SUCCESS';
+export const HENT_NOTATER_FAILURE = 'HENT_NOTATER_FAILURE';
+
+export const OPPRETT_NOTAT = 'OPPRETT_NOTAT';
+export const OPPRETT_NOTAT_SUCCESS = 'OPPRETT_NOTAT_SUCCESS';
+export const OPPRETT_NOTAT_FAILURE = 'OPPRETT_NOTAT_FAILURE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -81,7 +99,8 @@ const initialState = {
     leggTilKandidater: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         antallLagredeKandidater: 0
-    }
+    },
+    notater: undefined
 };
 
 export default function reducer(state = initialState, action) {
@@ -218,6 +237,27 @@ export default function reducer(state = initialState, action) {
                     lagreStatus: LAGRE_STATUS.FAILURE
                 }
             };
+        case HENT_NOTATER:
+            return {
+                ...state,
+                notater: undefined
+            };
+        case HENT_NOTATER_SUCCESS:
+            return {
+                ...state,
+                notater: {
+                    kandidatnr: action.kandidatnr,
+                    notater: action.notater
+                }
+            };
+        case OPPDATER_KANDIDATLISTE_SUCCESS:
+            return {
+                ...state,
+                notater: {
+                    kandidatnr: action.kandidatnr,
+                    notater: action.notater
+                }
+            };
         default:
             return state;
     }
@@ -321,6 +361,32 @@ function* leggTilKandidater(action) {
     }
 }
 
+function* hentNotater(action) {
+    try {
+        const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
+        yield put({ type: HENT_NOTATER_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_NOTATER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* opprettNotat(action) {
+    try {
+        const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
+        yield put({ type: OPPDATER_KANDIDATLISTE_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: OPPRETT_NOTAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
@@ -331,6 +397,8 @@ export function* kandidatlisteSaga() {
     yield takeLatest(ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
     yield takeLatest(HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
     yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
+    yield takeLatest(HENT_NOTATER, hentNotater);
+    yield takeLatest(OPPRETT_NOTAT, opprettNotat);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
         SLETT_KANDIDATER_FAILURE,

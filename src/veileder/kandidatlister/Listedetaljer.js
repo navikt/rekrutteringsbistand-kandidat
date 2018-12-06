@@ -7,6 +7,8 @@ import {
     DELE_STATUS,
     ENDRE_STATUS_KANDIDAT,
     HENT_KANDIDATLISTE,
+    HENT_NOTATER,
+    OPPRETT_NOTAT,
     PRESENTER_KANDIDATER,
     RESET_DELE_STATUS
 } from './kandidatlisteReducer';
@@ -15,7 +17,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView from './ListedetaljerView';
-import { Kandidatliste } from './PropTypes';
+import { Kandidatliste, Notat } from './PropTypes';
 import './Listedetaljer.less';
 
 class Listedetaljer extends React.Component {
@@ -58,8 +60,23 @@ class Listedetaljer extends React.Component {
             this.setState({
                 kandidater: this.props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
-                    markert: false
+                    markert: false,
+                    notaterVises: false,
+                    notater: undefined
                 }))
+            });
+        }
+        if (this.props.notaterForKandidat && this.props.notaterForKandidat !== prevProps.notaterForKandidat) {
+            this.setState({
+                kandidater: this.state.kandidater.map((kandidat) => {
+                    if (kandidat.kandidatnr === this.props.notaterForKandidat.kandidatnr) {
+                        return {
+                            ...kandidat,
+                            notater: this.props.notaterForKandidat.notater
+                        };
+                    }
+                    return kandidat;
+                })
             });
         }
     }
@@ -119,6 +136,27 @@ class Listedetaljer extends React.Component {
         });
     };
 
+    onNotaterToggle = (notatFeltVises, kandidatlisteId, kandidatnr) => {
+        if (!notatFeltVises) {
+            this.props.hentNotater(kandidatlisteId, kandidatnr);
+        }
+        this.setState({
+            kandidater: this.state.kandidater
+                .map((kandidat) => {
+                    if (kandidat.kandidatnr === kandidatnr) {
+                        return {
+                            ...kandidat,
+                            notaterVises: !notatFeltVises
+                        };
+                    }
+                    return {
+                        ...kandidat,
+                        notaterVises: false
+                    };
+                })
+        });
+    };
+
     visSuccessMelding = (tekst) => {
         clearTimeout(this.deleSuksessMeldingCallbackId);
         this.setState({
@@ -136,7 +174,6 @@ class Listedetaljer extends React.Component {
             });
         }, 5000);
     };
-
 
     render() {
         if (this.props.fetching || !this.props.kandidatliste || !this.state.kandidater) {
@@ -183,6 +220,8 @@ class Listedetaljer extends React.Component {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
+                    onNotaterToggle={this.onNotaterToggle}
+                    opprettNotat={this.props.opprettNotat}
                 />
             </div>
         );
@@ -195,7 +234,8 @@ Listedetaljer.defaultProps = {
     kandidat: {
         fornavn: '',
         etternavn: ''
-    }
+    },
+    notaterForKandidat: undefined
 };
 
 Listedetaljer.propTypes = {
@@ -216,7 +256,13 @@ Listedetaljer.propTypes = {
         params: PropTypes.shape({
             id: PropTypes.string.isRequired
         })
-    }).isRequired
+    }).isRequired,
+    opprettNotat: PropTypes.func.isRequired,
+    hentNotater: PropTypes.func.isRequired,
+    notaterForKandidat: PropTypes.shape({
+        kandidatnr: PropTypes.string,
+        notater: PropTypes.arrayOf(PropTypes.shape(Notat))
+    })
 };
 
 const mapStateToProps = (state) => ({
@@ -225,14 +271,17 @@ const mapStateToProps = (state) => ({
     deleStatus: state.kandidatlister.detaljer.deleStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
-    kandidat: state.kandidatlister.kandidat
+    kandidat: state.kandidatlister.kandidat,
+    notaterForKandidat: state.kandidatlister.notater
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentKandidatliste: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer }); },
     endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); },
     presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
-    resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); }
+    resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); },
+    hentNotater: (kandidatlisteId, kandidatnr) => { dispatch({ type: HENT_NOTATER, kandidatlisteId, kandidatnr }); },
+    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => { dispatch({ type: OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);

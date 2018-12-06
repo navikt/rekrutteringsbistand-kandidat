@@ -192,6 +192,10 @@ export const fetchKandidatMedFnr = (fnr) => (
     fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true)
 );
 
+export const fetchNotater = (kandidatlisteId, kandidatnr) => (
+    fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, true)
+);
+
 export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => (
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/deltekandidater`,
@@ -205,4 +209,8 @@ export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kand
 
 export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
     postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(kandidater))
+);
+
+export const postNotat = (kandidatlisteId, kandidatnr, tekst) => (
+    postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, JSON.stringify({ tekst }))
 );
