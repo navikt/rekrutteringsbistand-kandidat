@@ -8,7 +8,9 @@ import {
     postKandidaterTilKandidatliste,
     fetchNotater,
     postNotat,
-    putKandidatliste
+    putKandidatliste,
+    putNotat,
+    deleteNotat
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -59,6 +61,14 @@ export const HENT_NOTATER_FAILURE = 'HENT_NOTATER_FAILURE';
 export const OPPRETT_NOTAT = 'OPPRETT_NOTAT';
 export const OPPRETT_NOTAT_SUCCESS = 'OPPRETT_NOTAT_SUCCESS';
 export const OPPRETT_NOTAT_FAILURE = 'OPPRETT_NOTAT_FAILURE';
+
+export const ENDRE_NOTAT = 'ENDRE_NOTAT';
+export const ENDRE_NOTAT_SUCCESS = 'ENDRE_NOTAT_SUCCESS';
+export const ENDRE_NOTAT_FAILURE = 'ENDRE_NOTAT_FAILURE';
+
+export const SLETT_NOTAT = 'SLETT_NOTAT';
+export const SLETT_NOTAT_SUCCESS = 'SLETT_NOTAT_SUCCESS';
+export const SLETT_NOTAT_FAILURE = 'SLETT_NOTAT_FAILURE';
 
 /** *********************************************************
  * REDUCER
@@ -251,7 +261,23 @@ export default function reducer(state = initialState, action) {
                     notater: action.notater
                 }
             };
-        case OPPDATER_KANDIDATLISTE_SUCCESS:
+        case OPPRETT_NOTAT_SUCCESS:
+            return {
+                ...state,
+                notater: {
+                    kandidatnr: action.kandidatnr,
+                    notater: action.notater
+                }
+            };
+        case ENDRE_NOTAT_SUCCESS:
+            return {
+                ...state,
+                notater: {
+                    kandidatnr: action.kandidatnr,
+                    notater: action.notater
+                }
+            };
+        case SLETT_NOTAT_SUCCESS:
             return {
                 ...state,
                 notater: {
@@ -378,10 +404,36 @@ function* hentNotater(action) {
 function* opprettNotat(action) {
     try {
         const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
-        yield put({ type: OPPDATER_KANDIDATLISTE_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
+        yield put({ type: OPPRETT_NOTAT_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: OPPRETT_NOTAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* endreNotat(action) {
+    try {
+        const response = yield putNotat(action.kandidatlisteId, action.kandidatnr, action.notatId, action.tekst);
+        yield put({ type: ENDRE_NOTAT_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: ENDRE_NOTAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* slettNotat(action) {
+    try {
+        const response = yield deleteNotat(action.kandidatlisteId, action.kandidatnr, action.notatId);
+        yield put({ type: SLETT_NOTAT_SUCCESS, notater: response.liste, kandidatnr: action.kandidatnr });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SLETT_NOTAT_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -400,13 +452,18 @@ export function* kandidatlisteSaga() {
     yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
     yield takeLatest(HENT_NOTATER, hentNotater);
     yield takeLatest(OPPRETT_NOTAT, opprettNotat);
+    yield takeLatest(ENDRE_NOTAT, endreNotat);
+    yield takeLatest(SLETT_NOTAT, slettNotat);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
         SLETT_KANDIDATER_FAILURE,
         ENDRE_STATUS_KANDIDAT_FAILURE,
         PRESENTER_KANDIDATER_FAILURE,
         HENT_KANDIDAT_MED_FNR_FAILURE,
-        LEGG_TIL_KANDIDATER_FAILURE
+        LEGG_TIL_KANDIDATER_FAILURE,
+        OPPRETT_NOTAT_FAILURE,
+        ENDRE_NOTAT_FAILURE,
+        SLETT_NOTAT_FAILURE
     ],
     sjekkError);
 }
