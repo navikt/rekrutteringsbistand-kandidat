@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import KnappBase, { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import NavFrontendModal from 'nav-frontend-modal';
 import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
 import { Notat } from './PropTypes';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import RedigerNotatModal from './RedigerNotatModal';
 
 class Notater extends React.Component {
     constructor() {
@@ -13,9 +16,35 @@ class Notater extends React.Component {
         this.state = {
             nyttNotatVises: false,
             nyttNotatTekst: '',
-            nyttNotatFeil: false
+            nyttNotatFeil: false,
+            notatSomRedigeres: undefined,
+            notatSomSlettes: undefined
         };
     }
+
+    onOpenRedigeringsModal = (notat) => {
+        this.setState({
+            notatSomRedigeres: notat
+        });
+    };
+
+    onCloseNotatModal = () => {
+        this.setState({
+            notatSomRedigeres: undefined
+        });
+    };
+
+    onOpenSletteModal = (notat) => {
+        this.setState({
+            notatSomSlettes: notat
+        });
+    };
+
+    onCloseSletteModal = () => {
+        this.setState({
+            notatSomSlettes: undefined
+        });
+    };
 
     toggleNyttNotatVises = () => {
         this.setState({
@@ -43,16 +72,56 @@ class Notater extends React.Component {
     };
 
     render() {
-        const { notater, antallNotater } = this.props;
+        const { notater, antallNotater, onEndreNotat, onSletteNotat } = this.props;
+        const NotatInfo = ({ notat }) => (
+            <div className="notatinfo">
+                <span className="grey-tekst">{`${notat.lagtTilAv.navn} (${notat.lagtTilAv.ident})`}</span>
+                <span className="grey-tekst">{` - ${formatterDato(new Date(notat.lagtTilTidspunkt))} kl. ${formatterTid(new Date(notat.lagtTilTidspunkt))}`}</span>
+                {notat.notatEndret &&
+                    <span>
+                        <span className="grey-tekst"> - </span>
+                        <span className="red-tekst">redigert</span>
+                    </span>
+                }
+            </div>
+        );
+        const SletteModal = ({ notat }) => (
+            <NavFrontendModal
+                isOpen
+                contentLabel={'Rediger notat'}
+                onRequestClose={this.onCloseSletteModal}
+                className="SlettNotatModal"
+                appElement={document.getElementById('app')}
+            >
+                <Systemtittel className="overskrift">Slett notat</Systemtittel>
+                <Normaltekst className="notat-tekst">Er du sikker på at du ønsker å slette notatet?</Normaltekst>
+                <div className="notat-topprad">
+                    <NotatInfo notat={notat} />
+                </div>
+                <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
+                <Hovedknapp onClick={() => { onSletteNotat(notat.notatId); }}>Slett</Hovedknapp>
+                <Flatknapp onClick={this.onCloseSletteModal}>Avbryt</Flatknapp>
+            </NavFrontendModal>
+        );
         return (
             <div className="notater">
+                { this.state.notatSomRedigeres &&
+                    <RedigerNotatModal
+                        notat={this.state.notatSomRedigeres}
+                        onClose={this.onCloseNotatModal}
+                        onSave={onEndreNotat}
+                    />
+                }
+                { this.state.notatSomSlettes &&
+                    <SletteModal notat={this.state.notatSomSlettes} />
+                }
                 <div className="notater-content">
                     <Element>Notater ({antallNotater})</Element>
                     <Normaltekst className="avsnitt">
                         Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive opplysninger skrives <strong>ikke</strong> her. Ta eventuelt direkte kontakt med aktuell veileder.
                     </Normaltekst>
                     <Normaltekst className="avsnitt">
-                        Notatene blir automatisk slettet etter 3 måneder.
+                        Notatene vil være synlige for alle veiledere, og blir automatisk slettet etter 3 måneder.
                     </Normaltekst>
                     <div className="nytt-notat-form">
                         {this.state.nyttNotatVises
@@ -76,30 +145,32 @@ class Notater extends React.Component {
                             : <KnappBase type="standard" mini onClick={this.toggleNyttNotatVises}>Skriv notat</KnappBase>
                         }
                     </div>
-                    { notater === undefined
-                        ? <div className="spinner-wrapper">
+                    {notater === undefined && antallNotater > 0 &&
+                        <div className="spinner-wrapper">
                             <NavFrontendSpinner />
                         </div>
-                        : notater.length > 0 &&
-                            <div className="notatliste">
-                                {notater.map((notat) => (
-                                    <div className="notatliste-rad" key={notat.notatId}>
-                                        <div className="topprad">
-                                            <div className="info">
-                                                <span className="grey-tekst">{`${notat.lagtTilAv.navn} (${notat.lagtTilAv.ident})`}</span>
-                                                <span className="grey-tekst">{` - ${formatterDato(new Date(notat.lagtTilTidspunkt))} kl. ${formatterTid(new Date(notat.lagtTilTidspunkt))}`}</span>
-                                                {notat.lagtTilTidspunkt !== notat.sistEndretTidspunkt &&
-                                                    <span>
-                                                        <span className="grey-tekst"> - </span>
-                                                        <span className="red-tekst">redigert</span>
-                                                    </span>
-                                                }
+                    }
+                    { notater !== undefined && notater.length > 0 &&
+                        <div className="notatliste">
+                            {notater.map((notat) => (
+                                <div className="notatliste-rad" key={notat.notatId}>
+                                    <div className="notat-topprad">
+                                        <NotatInfo notat={notat} />
+                                        {notat.kanEditere &&
+                                            <div className="endre-knapper">
+                                                <Lenkeknapp className="Edit " onClick={() => { this.onOpenRedigeringsModal(notat); }}>
+                                                    <i className="Edit__icon" />
+                                                </Lenkeknapp>
+                                                <Lenkeknapp className="Delete" onClick={() => { this.onOpenSletteModal(notat); }}>
+                                                    <i className="Delete__icon" />
+                                                </Lenkeknapp>
                                             </div>
-                                        </div>
-                                        <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
+                                        }
                                     </div>
-                                ))}
-                            </div>
+                                    <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
+                                </div>
+                            ))}
+                        </div>
                     }
                 </div>
             </div>
@@ -114,7 +185,9 @@ Notater.defaultProps = {
 Notater.propTypes = {
     antallNotater: PropTypes.number.isRequired,
     notater: PropTypes.arrayOf(PropTypes.shape(Notat)),
-    onOpprettNotat: PropTypes.func.isRequired
+    onOpprettNotat: PropTypes.func.isRequired,
+    onEndreNotat: PropTypes.func.isRequired,
+    onSletteNotat: PropTypes.func.isRequired
 };
 
 export default Notater;

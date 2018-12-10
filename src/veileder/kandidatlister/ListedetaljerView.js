@@ -76,7 +76,9 @@ const ListedetaljerView = (props) => {
         onKandidatShare,
         onLeggTilKandidat,
         onNotaterToggle,
-        opprettNotat
+        opprettNotat,
+        endreNotat,
+        slettNotat
     } = props;
     const SideHeader = () => (
         <div className="side-header">
@@ -196,6 +198,14 @@ const ListedetaljerView = (props) => {
             onNotaterToggle(kandidat.notaterVises, kandidatlisteId, kandidat.kandidatnr);
         };
 
+        const onEndreNotat = (notatId, tekst) => {
+            endreNotat(kandidatlisteId, kandidat.kandidatnr, notatId, tekst);
+        };
+
+        const onSletteNotat = (notatId) => {
+            slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
+        };
+
         return (
             <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
                 <div className={'liste-rad '}>
@@ -244,6 +254,8 @@ const ListedetaljerView = (props) => {
                         onOpprettNotat={(tekst) => {
                             opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                         }}
+                        onEndreNotat={onEndreNotat}
+                        onSletteNotat={onSletteNotat}
                     />
                 }
             </div>
@@ -264,6 +276,7 @@ const ListedetaljerView = (props) => {
         </div>
     );
 };
+
 ListedetaljerView.defaultProps = {
     arbeidsgiver: undefined
 };
@@ -273,7 +286,7 @@ ListedetaljerView.propTypes = {
         ...Kandidat,
         markert: PropTypes.bool,
         notaterVises: PropTypes.bool,
-        notater: PropTypes.arrayOf(Notat)
+        notater: PropTypes.arrayOf(PropTypes.shape(Notat))
     })).isRequired,
     tittel: PropTypes.string.isRequired,
     arbeidsgiver: PropTypes.string,
@@ -291,7 +304,9 @@ ListedetaljerView.propTypes = {
     onKandidatShare: PropTypes.func.isRequired,
     onLeggTilKandidat: PropTypes.func.isRequired,
     onNotaterToggle: PropTypes.func.isRequired,
-    opprettNotat: PropTypes.func.isRequired
+    opprettNotat: PropTypes.func.isRequired,
+    endreNotat: PropTypes.func.isRequired,
+    slettNotat: PropTypes.func.isRequired
 };
 
 export default ListedetaljerView;

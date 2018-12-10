@@ -31,7 +31,7 @@ async function fetchJson(url, includeCredentials) {
         } else {
             response = await fetch(url);
         }
-        if (response.status === 200 || response.status === 201) {
+        if (response.status >= 200 && response.status < 300) {
             return response.json();
         }
         let error;
@@ -138,6 +138,31 @@ async function putRequest(url) {
     }
 }
 
+async function deleteRequest(url) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
+            mode: 'cors'
+        });
+        if (response.status === 200 || response.status === 201) {
+            return response.json();
+        }
+        throw new SearchApiError({
+            status: response.status
+        });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status
+        });
+    }
+}
+
 export function fetchFeatureToggles() {
     return fetchJson(`${SEARCH_API}/toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
@@ -213,6 +238,14 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) => (
     postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, JSON.stringify({ tekst }))
+);
+
+export const putNotat = (kandidatlisteId, kandidatnr, notatId, tekst) => (
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`, JSON.stringify({ tekst }))
+);
+
+export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) => (
+    deleteRequest(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`)
 );
 
 export const fetchEgneKandidatlister = () => (

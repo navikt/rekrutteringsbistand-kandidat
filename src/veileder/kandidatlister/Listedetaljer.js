@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import {
     DELE_STATUS,
+    ENDRE_NOTAT,
     ENDRE_STATUS_KANDIDAT,
     HENT_KANDIDATLISTE,
     HENT_NOTATER,
     OPPRETT_NOTAT,
     PRESENTER_KANDIDATER,
-    RESET_DELE_STATUS
+    RESET_DELE_STATUS,
+    SLETT_NOTAT
 } from './kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -222,6 +224,8 @@ class Listedetaljer extends React.Component {
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onNotaterToggle={this.onNotaterToggle}
                     opprettNotat={this.props.opprettNotat}
+                    endreNotat={this.props.endreNotat}
+                    slettNotat={this.props.slettNotat}
                 />
             </div>
         );
@@ -257,8 +261,10 @@ Listedetaljer.propTypes = {
             id: PropTypes.string.isRequired
         })
     }).isRequired,
-    opprettNotat: PropTypes.func.isRequired,
     hentNotater: PropTypes.func.isRequired,
+    opprettNotat: PropTypes.func.isRequired,
+    endreNotat: PropTypes.func.isRequired,
+    slettNotat: PropTypes.func.isRequired,
     notaterForKandidat: PropTypes.shape({
         kandidatnr: PropTypes.string,
         notater: PropTypes.arrayOf(PropTypes.shape(Notat))
@@ -281,7 +287,9 @@ const mapDispatchToProps = (dispatch) => ({
     presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
     resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); },
     hentNotater: (kandidatlisteId, kandidatnr) => { dispatch({ type: HENT_NOTATER, kandidatlisteId, kandidatnr }); },
-    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => { dispatch({ type: OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }); }
+    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => { dispatch({ type: OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }); },
+    endreNotat: (kandidatlisteId, kandidatnr, notatId, tekst) => { dispatch({ type: ENDRE_NOTAT, kandidatlisteId, kandidatnr, notatId, tekst }); },
+    slettNotat: (kandidatlisteId, kandidatnr, notatId) => { dispatch({ type: SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);

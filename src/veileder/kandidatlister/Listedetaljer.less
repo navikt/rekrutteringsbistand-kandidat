@@ -145,19 +145,9 @@
                 border-bottom: 1px solid #d8d8d8;
                 padding-top: 1rem;
                 padding-bottom: 1rem;
-                .topprad {
-                  font-size: 14px;
-                  .info {
-                    .grey-tekst {
-                      color: #78706a;
-                    }
-                    .red-tekst {
-                      color: #c30000;
-                    }
-                  }
-                }
                 .notat-tekst {
                   margin-top: 0.25rem;
+                  padding-right: 6.25rem;
                 }
               }
             }
@@ -189,6 +179,30 @@
       border: 1px solid #78706a;
     }
   }
+}
+
+.notat-topprad {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  .notatinfo {
+    .grey-tekst {
+      color: #78706a;
+    }
+    .red-tekst {
+      color: #c30000;
+    }
+  }
+  .endre-knapper {
+    >:first-child {
+      margin-right: 0.5rem;
+    }
+  }
+}
+.notat-tekst {
+  margin-top: 0.25rem;
+  padding-right: 6.25rem;
 }
 
 .skjemaelement {
@@ -265,5 +279,33 @@
   }
   .avbryt--knapp {
     margin-top: 2.5rem;
+  }
+}
+.RedigerNotatModal {
+  width: 40rem;
+  padding: 1rem;
+  .overskrift {
+    margin-bottom: 2rem;
+  }
+  .tekstomrade {
+    margin-bottom: 2rem;
+    .tekstomrade-input {
+      min-height: 6.25rem;
+      margin-top: 0.25rem;
+    }
+  }
+  .modalknapp {
+    margin-bottom: 0;
+  }
+}
+.modal.SlettNotatModal {
+  width: 40rem;
+  padding: 2rem;
+  .overskrift {
+    margin-bottom: 2rem;
+  }
+  .notat-tekst {
+    margin-bottom: 2.5rem;
+    padding-right: 2rem;
   }
 }

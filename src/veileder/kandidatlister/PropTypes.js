@@ -35,7 +35,8 @@ export const Notat = {
     tekst: PropTypes.string,
     notatId: PropTypes.string,
     lagtTilTidspunkt: PropTypes.string,
-    sistEndretTidspunkt: PropTypes.string,
+    notatEndret: PropTypes.bool,
+    kanEditere: PropTypes.bool,
     lagtTilAv: PropTypes.shape({
         navn: PropTypes.string,
         ident: PropTypes.string
