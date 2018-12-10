@@ -8,8 +8,9 @@ import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { HENT_EGNE_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer';
+import { HENT_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
+import { formatterDato } from '../../felles/common/dateUtils';
 
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
@@ -31,10 +32,13 @@ class LagreKandidaterModal extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.hentListerStatus !== this.props.hentListerStatus && this.props.hentListerStatus === HENT_STATUS.SUCCESS) {
-            this.setState({ kandidatlister: this.props.egneKandidatlister.map((liste) => ({
-                ...liste,
-                markert: false
-            })) });
+            this.setState({
+                kandidatlister: this.props.egneKandidatlister.map((liste) => ({
+                    ...liste,
+                    markert: false
+                })),
+                antallListerSomVises: this.props.egneKandidatlister.length === 6 ? 6 : this.state.antallListerSomVises
+            });
         }
         if (prevProps.hentListeMedStillingsnummerStatus !== this.props.hentListeMedStillingsnummerStatus) {
             if (this.props.hentListeMedStillingsnummerStatus === HENT_STATUS.SUCCESS) {
@@ -70,19 +74,23 @@ class LagreKandidaterModal extends React.Component {
     markerListe = (listeId) => {
         this.setState({ kandidatlister: this.state.kandidatlister.map((liste) => {
             if (liste.kandidatlisteId === listeId) {
-                return this.inverterMarkering(liste);
+                return this.toggleMarkering(liste);
             }
             return liste;
         }) });
     };
 
-    inverterMarkering = (liste) => ({
+    toggleMarkering = (liste) => ({
         ...liste,
         markert: !liste.markert
     });
 
     visFlereLister = () => {
-        this.setState({ antallListerSomVises: this.state.antallListerSomVises + 5 });
+        if (this.state.kandidatlister.length === this.state.antallListerSomVises + 6) {
+            this.setState({ antallListerSomVises: this.state.antallListerSomVises + 6 });
+        } else {
+            this.setState({ antallListerSomVises: this.state.antallListerSomVises + 5 });
+        }
     };
 
     oppdaterStillingsnummer = (input) => {
@@ -110,8 +118,19 @@ class LagreKandidaterModal extends React.Component {
     };
 
     render() {
-        const { vis, onRequestClose, hentListerStatus } = this.props;
-        const { kandidatlister, hentetListe, showHentetListe, antallListerSomVises, hentListeFeilmelding, ingenMarkerteListerFeilmelding } = this.state;
+        const {
+            vis,
+            onRequestClose,
+            hentListerStatus
+        } = this.props;
+        const {
+            kandidatlister,
+            hentetListe,
+            showHentetListe,
+            antallListerSomVises,
+            hentListeFeilmelding,
+            ingenMarkerteListerFeilmelding
+        } = this.state;
 
         const ListerTableHeader = () => (
             <Row className="lister--rader">
@@ -134,7 +153,7 @@ class LagreKandidaterModal extends React.Component {
                         checked={liste.markert}
                         onChange={onChange}
                     />
-                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">{`${new Date(liste.opprettetTidspunkt).toLocaleDateString('nb-NO')}`}</Undertekst>
+                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">{`${formatterDato(new Date(liste.opprettetTidspunkt))}`}</Undertekst>
                     <Normaltekst className="stillingstittel__col rader--text">{`${liste.tittel}`}</Normaltekst>
                     <Normaltekst className="arbeidsgiver__col rader--text">{`${liste.organisasjonNavn}`}</Normaltekst>
                 </Row>
@@ -178,7 +197,7 @@ class LagreKandidaterModal extends React.Component {
                                     <ListerTableRows />
                                 </SkjemaGruppe>
                             </div>
-                            : <Normaltekst className="lister--rader">Du har ingen stillinger/lister</Normaltekst>
+                            : <Normaltekst className="lister--rader">Du har ingen stillinger/kandidatlister</Normaltekst>
                     }
                     {antallListerSomVises < kandidatlister.length &&
                         <Flatknapp mini onClick={this.visFlereLister}>Se flere stillinger/lister</Flatknapp>
@@ -208,7 +227,7 @@ class LagreKandidaterModal extends React.Component {
                     {showHentetListe &&
                         <ListerTableRow
                             liste={hentetListe}
-                            onChange={() => { this.setState({ hentetListe: this.inverterMarkering(hentetListe) }); }}
+                            onChange={() => { this.setState({ hentetListe: this.toggleMarkering(hentetListe) }); }}
                             id="marker-liste-hentet-med-stillingsnr-checkbox"
                             className="lister--rader hentet-stilling__row"
                         />
@@ -224,7 +243,7 @@ class LagreKandidaterModal extends React.Component {
 }
 
 LagreKandidaterModal.defaultProps = {
-    egneKandidatlister: [],
+    egneKandidatlister: undefined,
     kandidatlisteMedStillingsnr: undefined
 };
 
@@ -248,7 +267,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentEgneKandidatlister: () => { dispatch({ type: HENT_EGNE_KANDIDATLISTER }); },
+    hentEgneKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
     hentKandidatlisteMedStillingsnr: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, stillingsnummer }); }
 });
 

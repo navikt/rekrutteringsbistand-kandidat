@@ -62,9 +62,9 @@ export const OPPRETT_NOTAT = 'OPPRETT_NOTAT';
 export const OPPRETT_NOTAT_SUCCESS = 'OPPRETT_NOTAT_SUCCESS';
 export const OPPRETT_NOTAT_FAILURE = 'OPPRETT_NOTAT_FAILURE';
 
-export const HENT_EGNE_KANDIDATLISTER = 'HENT_EGNE_KANDIDATLISTER';
-export const HENT_EGNE_KANDIDATLISTER_SUCCESS = 'HENT_EGNE_KANDIDATLISTER_SUCCESS';
-export const HENT_EGNE_KANDIDATLISTER_FAILURE = 'HENT_EGNE_KANDIDATLISTER_FAILURE';
+export const HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER';
+export const HENT_KANDIDATLISTER_SUCCESS = 'HENT_KANDIDATLISTER_SUCCESS';
+export const HENT_KANDIDATLISTER_FAILURE = 'HENT_KANDIDATLISTER_FAILURE';
 
 export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER';
 export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS';
@@ -277,12 +277,12 @@ export default function reducer(state = initialState, action) {
                     notater: action.notater
                 }
             };
-        case HENT_EGNE_KANDIDATLISTER:
+        case HENT_KANDIDATLISTER:
             return {
                 ...state,
                 hentListerStatus: HENT_STATUS.LOADING
             };
-        case HENT_EGNE_KANDIDATLISTER_SUCCESS:
+        case HENT_KANDIDATLISTER_SUCCESS:
             return {
                 ...state,
                 hentListerStatus: HENT_STATUS.SUCCESS,
@@ -290,7 +290,7 @@ export default function reducer(state = initialState, action) {
                     liste: action.egneKandidatlister.liste.reverse()
                 }
             };
-        case HENT_EGNE_KANDIDATLISTER_FAILURE:
+        case HENT_KANDIDATLISTER_FAILURE:
             return {
                 ...state,
                 hentListerStatus: HENT_STATUS.FAILURE
@@ -451,10 +451,10 @@ function* opprettNotat(action) {
 function* hentEgneLister() {
     try {
         const egneKandidatlister = yield fetchEgneKandidatlister();
-        yield put({ type: HENT_EGNE_KANDIDATLISTER_SUCCESS, egneKandidatlister });
+        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, egneKandidatlister });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: HENT_EGNE_KANDIDATLISTER_FAILURE, error: e });
+            yield put({ type: HENT_KANDIDATLISTER_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -490,7 +490,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(LEGG_TIL_KANDIDATER, leggTilKandidater);
     yield takeLatest(HENT_NOTATER, hentNotater);
     yield takeLatest(OPPRETT_NOTAT, opprettNotat);
-    yield takeLatest(HENT_EGNE_KANDIDATLISTER, hentEgneLister);
+    yield takeLatest(HENT_KANDIDATLISTER, hentEgneLister);
     yield takeLatest(HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, hentKandidatlisteMedStillingsnr);
     yield takeLatest([
         HENT_KANDIDATLISTE_FAILURE,
@@ -499,7 +499,7 @@ export function* kandidatlisteSaga() {
         PRESENTER_KANDIDATER_FAILURE,
         HENT_KANDIDAT_MED_FNR_FAILURE,
         LEGG_TIL_KANDIDATER_FAILURE,
-        HENT_EGNE_KANDIDATLISTER_FAILURE
+        HENT_KANDIDATLISTER_FAILURE
     ],
     sjekkError);
 }
