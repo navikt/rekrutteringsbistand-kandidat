@@ -74,6 +74,7 @@ const ListedetaljerView = (props) => {
         onToggleKandidat,
         onKandidatStatusChange,
         onKandidatShare,
+        onEmailKandidater,
         onLeggTilKandidat,
         onNotaterToggle,
         opprettNotat,
@@ -111,46 +112,74 @@ const ListedetaljerView = (props) => {
     );
 
     const KnappeRad = () => {
-        const Disabled = () => (
-            <div className="Lenkeknapp typo-normal Share">
-                <i className="Share__icon" />
-                Del med arbeidsgiver (presenter)
-            </div>
-        );
-        const Enabled = () => (
-            <Lenkeknapp onClick={onKandidatShare} className="Share">
-                <i className="Share__icon" />
-                Del med arbeidsgiver (presenter)
-            </Lenkeknapp>
-        );
         const DeleKnapp = () => {
+            const Disabled = () => (
+                <div className="Lenkeknapp typo-normal Share">
+                    <i className="Share__icon" />
+                    <span>Del med arbeidsgiver (presenter)</span>
+                </div>
+            );
+            const Enabled = () => (
+                <div className="hjelpetekst">
+                    <Lenkeknapp onClick={onKandidatShare} className="Share">
+                        <i className="Share__icon" />
+                        <span>Del med arbeidsgiver (presenter)</span>
+                    </Lenkeknapp>
+                </div>
+            );
             if (kandidater.filter((kandidat) => kandidat.markert).length > 0) {
                 return <Enabled />;
             }
             return (
                 <HjelpetekstMidt
-                    id="marker-kandidater-hjelpetekst"
+                    id="marker-kandidater-presentere-hjelpetekst"
                     anchor={Disabled}
                 >
                     Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
                 </HjelpetekstMidt>
             );
         };
+        const EpostKnapp = () => {
+            const Disabled = () => (
+                <div className="Lenkeknapp typo-normal Email">
+                    <i className="Email__icon" />
+                    Send e-post til kandidatene
+                </div>
+            );
+            const Enabled = () => (
+                <div className="hjelpetekst">
+                    <Lenkeknapp onClick={onEmailKandidater} className="Email">
+                        <i className="Email__icon" />
+                        <span>Send e-post til kandidatene</span>
+                    </Lenkeknapp>
+                </div>
+            );
+            if (kandidater.filter((kandidat) => (kandidat.markert && kandidat.epost)).length > 0) {
+                return <Enabled />;
+            }
+            return (
+                <HjelpetekstMidt
+                    id="marker-kandidater-epost-hjelpetekst"
+                    anchor={Disabled}
+                >
+                    Du må huke av for kandidatene du ønsker å sende e-post til, og kandidatene må ha en e-postadresse
+                </HjelpetekstMidt>
+            );
+        };
         return (
             <div className="knappe-rad">
-                <div>
+                <div className="knapper-venstre">
                     <Link to={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
                         <i className="FinnKandidater__icon" />
                         <span className="lenke">Finn kandidater</span>
                     </Link>
-                </div>
-                <div>
                     <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
                         <i className="LeggTilKandidat__icon" />
                         Legg til kandidat
                     </Lenkeknapp>
                 </div>
                 <div className="dele-wrapper">
+                    <EpostKnapp />
                     { kanEditere && <DeleKnapp /> }
                 </div>
             </div>
@@ -302,6 +331,7 @@ ListedetaljerView.propTypes = {
     onToggleKandidat: PropTypes.func.isRequired,
     onKandidatStatusChange: PropTypes.func.isRequired,
     onKandidatShare: PropTypes.func.isRequired,
+    onEmailKandidater: PropTypes.func.isRequired,
     onLeggTilKandidat: PropTypes.func.isRequired,
     onNotaterToggle: PropTypes.func.isRequired,
     opprettNotat: PropTypes.func.isRequired,

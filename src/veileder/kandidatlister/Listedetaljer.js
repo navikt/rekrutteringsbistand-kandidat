@@ -159,6 +159,14 @@ class Listedetaljer extends React.Component {
         });
     };
 
+    onEmailKandidater = () => {
+        const epostStreng = this.state.kandidater
+            .filter((kandidat) => (kandidat.markert && kandidat.epost))
+            .map((kandidat) => `${kandidat.fornavn} ${kandidat.etternavn}<${kandidat.epost}>`)
+            .join(',');
+        window.location.href = `mailto:?bcc=${epostStreng}`;
+    };
+
     visSuccessMelding = (tekst) => {
         clearTimeout(this.deleSuksessMeldingCallbackId);
         this.setState({
@@ -221,6 +229,7 @@ class Listedetaljer extends React.Component {
                     }}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
+                    onEmailKandidater={this.onEmailKandidater}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onNotaterToggle={this.onNotaterToggle}
                     opprettNotat={this.props.opprettNotat}

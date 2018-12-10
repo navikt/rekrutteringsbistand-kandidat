@@ -12,6 +12,8 @@ export const Kandidat = {
     }),
     fornavn: PropTypes.string,
     etternavn: PropTypes.string,
+    epost: PropTypes.string,
+    telefon: PropTypes.string,
     fodselsdato: PropTypes.string,
     utfall: PropTypes.string
 };

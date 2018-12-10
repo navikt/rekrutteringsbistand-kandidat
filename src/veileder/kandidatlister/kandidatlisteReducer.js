@@ -309,7 +309,7 @@ function* opprettKandidatlisteForStilling(stillingsnummer, opprinneligError) {
     }
 }
 
-function* hentKandidatListe(action) {
+function* hentKandidatliste(action) {
     const { stillingsnummer } = action;
     try {
         const kandidatliste = yield fetchKandidatliste(stillingsnummer);
@@ -445,7 +445,7 @@ function* sjekkError(action) {
 }
 
 export function* kandidatlisteSaga() {
-    yield takeLatest(HENT_KANDIDATLISTE, hentKandidatListe);
+    yield takeLatest(HENT_KANDIDATLISTE, hentKandidatliste);
     yield takeLatest(PRESENTER_KANDIDATER, presenterKandidater);
     yield takeLatest(ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
     yield takeLatest(HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
