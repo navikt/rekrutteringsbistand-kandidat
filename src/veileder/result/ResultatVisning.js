@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -26,7 +27,8 @@ class ResultatVisning extends React.Component {
         super(props);
         window.scrollTo(0, 0);
         this.state = {
-            suksessmeldingLagreKandidatVises: false
+            suksessmeldingLagreKandidatVises: false,
+            lagreSuksessmeldingText: ''
         };
     }
 
@@ -37,6 +39,17 @@ class ResultatVisning extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            let suksessmeldingText;
+            if (this.props.match.params.stillingsId) {
+                suksessmeldingText = this.props.antallLagredeKandidater > 1
+                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`
+                    : `Kandidaten er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`;
+            } else {
+                suksessmeldingText = this.props.antallLagredeKandidater > 1
+                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til`
+                    : 'Kandidaten er lagt til';
+            }
+            this.setState({ lagreSuksessmeldingText: suksessmeldingText });
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -76,7 +89,7 @@ class ResultatVisning extends React.Component {
     };
 
     render() {
-        const { match, isInitialSearch, stillingsoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent, antallLagredeKandidater } = this.props;
+        const { match, isInitialSearch, stillingsoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent } = this.props;
         const stillingsId = match.params.stillingsId;
 
         const LinkTilMineStillinger = () => (
@@ -122,11 +135,7 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={
-                        antallLagredeKandidater > 1
-                            ? `${antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${stillingsoverskrift}»`
-                            : `Kandidaten er lagt til i kandidatlisten «${stillingsoverskrift}»`
-                    }
+                    tekst={this.state.lagreSuksessmeldingText}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">

@@ -214,3 +214,11 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) => (
     postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, JSON.stringify({ tekst }))
 );
+
+export const fetchEgneKandidatlister = () => (
+    fetchJson(`${KANDIDATLISTE_API}/me/kandidatlister`, true)
+);
+
+export const fetchKandidatlisteMedStillingsnr = (stillingsnummer) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${stillingsnummer}/kandidatliste`, true)
+);

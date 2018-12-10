@@ -237,6 +237,83 @@ a.tilbake--lenke {
   }
 }
 
+.LagreKandidaterModal {
+  width: 640px;
+  .LagreKandidaterModal--wrapper {
+    padding: 1rem;
+    .tittel {
+      margin-bottom: 1.25rem;
+    }
+    .text {
+      margin-bottom: 2.5rem;
+    }
+    .lister--rader {
+      display: flex;
+      margin: 0 0 1rem;
+      padding-bottom: 1rem;
+      border-bottom: solid 2px #d8d8d8;
+      .opprettet__col {
+        flex: 3;
+      }
+      .opprettet--checkbox__col {
+        flex: 1;
+      }
+      .opprettet--dato__col {
+        flex: 2;
+      }
+      .stillingstittel__col {
+        flex: 5;
+      }
+      .arbeidsgiver__col {
+        flex: 4;
+      }
+      .rader--text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-right: 1rem;
+      }
+      .rader--text__dato {
+        line-height: 1.5rem;
+        color: #78706a
+      }
+    }
+    .lister--rad {
+      overflow: hidden;
+      max-height: 1.5rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .hent-stilling--input {
+      margin-top: 2.5rem;
+      .skjemaelement__input {
+        margin-top: 0.5rem;
+      }
+    }
+    .stillingsnummer__search--label {
+      margin: 2.5rem 0 0.5rem;
+    }
+    .stillingsnummer__search {
+      position: relative;
+      max-width: 13.75rem;
+      .skjemaelement__input {
+        width: 13.75rem;
+      }
+    }
+    .hentet-stilling__row {
+      margin: 1rem 0 0;
+      padding-top: 1rem;
+      border-top: solid 2px #d8d8d8;
+    }
+    .lagre--knapp {
+      margin: 2.5rem 1rem 0 0;
+    }
+    .avbryt--knapp {
+      margin-top: 2.5rem;
+    }
+  }
+}
+
 .LagreKandidaterTilStillingModal {
   width: 640px;
   .LagreKandidaterTilStillingModal--wrapper {
