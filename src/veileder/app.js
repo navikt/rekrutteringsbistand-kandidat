@@ -87,8 +87,8 @@ class Sok extends React.Component {
                         <Route exact path="/kandidater/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
-                        <Route component={NotFound} />
                         <Route exact path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr" component={VisKandidatFraLister} />
+                        <Route component={NotFound} />
                     </Switch>
                 </div>
             </BrowserRouter>
