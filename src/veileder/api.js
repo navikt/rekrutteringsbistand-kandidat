@@ -247,3 +247,11 @@ export const putNotat = (kandidatlisteId, kandidatnr, notatId, tekst) => (
 export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) => (
     deleteRequest(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`)
 );
+
+export const fetchEgneKandidatlister = () => (
+    fetchJson(`${KANDIDATLISTE_API}/me/kandidatlister`, true)
+);
+
+export const fetchKandidatlisteMedStillingsnr = (stillingsnummer) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${stillingsnummer}/kandidatliste`, true)
+);

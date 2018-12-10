@@ -12,6 +12,7 @@ import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter'
 import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -39,6 +40,7 @@ class KandidaterVisning extends React.Component {
         super(props);
         this.state = {
             alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
+            lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             kandidater: props.kandidater,
             kandidatlisteId: undefined
@@ -76,7 +78,7 @@ class KandidaterVisning extends React.Component {
             });
         }
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            this.setState({ lagreKandidaterModalTilStillingVises: false });
+            this.setState({ lagreKandidaterModalVises: false, lagreKandidaterModalTilStillingVises: false });
             this.toggleMarkeringAlleKandidater(false);
         }
     }
@@ -132,6 +134,12 @@ class KandidaterVisning extends React.Component {
         this.props.oppdaterMarkerteKandidater(kandidaterMedMarkering);
     };
 
+    toggleLagreKandidaterModal = () => {
+        this.setState({
+            lagreKandidaterModalVises: !this.state.lagreKandidaterModalVises
+        });
+    };
+
     toggleLagreKandidaterTilStillingModal = () => {
         this.setState({
             lagreKandidaterModalTilStillingVises: !this.state.lagreKandidaterModalTilStillingVises
@@ -144,6 +152,14 @@ class KandidaterVisning extends React.Component {
 
         return (
             <div>
+                {this.state.lagreKandidaterModalVises &&
+                <LagreKandidaterModal
+                    vis={this.state.lagreKandidaterModalVises}
+                    onRequestClose={this.toggleLagreKandidaterModal}
+                    onLagre={this.onLagreKandidatlister}
+                    antallMarkerteKandidater={antallMarkert}
+                />
+                }
                 {this.state.lagreKandidaterModalTilStillingVises &&
                 <LagreKandidaterTilStillingModal
                     vis={this.state.lagreKandidaterModalTilStillingVises}
@@ -162,7 +178,7 @@ class KandidaterVisning extends React.Component {
                             mini
                             type="hoved"
                             disabled={antallMarkert === 0}
-                            onClick={this.toggleLagreKandidaterTilStillingModal}
+                            onClick={this.props.stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
                             id="lagre-kandidater-knapp"
                         >
                             {lagreKandidaterTilStillingKnappTekst(antallMarkert)}
