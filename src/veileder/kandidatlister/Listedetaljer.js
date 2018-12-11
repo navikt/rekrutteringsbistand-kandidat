@@ -18,7 +18,7 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
-import ListedetaljerView from './ListedetaljerView';
+import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
 import { Kandidatliste, Notat } from './PropTypes';
 import './Listedetaljer.less';
 
@@ -30,7 +30,8 @@ class Listedetaljer extends React.Component {
             kandidater: props.kandidatliste === undefined ? undefined :
                 props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
-                    markert: false
+                    markert: false,
+                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
                 })),
             deleModalOpen: false,
             leggTilModalOpen: false,
@@ -63,7 +64,7 @@ class Listedetaljer extends React.Component {
                 kandidater: this.props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert: false,
-                    notaterVises: false,
+                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
                     notater: undefined
                 }))
             });
@@ -138,8 +139,8 @@ class Listedetaljer extends React.Component {
         });
     };
 
-    onNotaterToggle = (notatFeltVises, kandidatlisteId, kandidatnr) => {
-        if (!notatFeltVises) {
+    onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
+        if (visningsstatus === VISNINGSSTATUS.VIS_NOTATER) {
             this.props.hentNotater(kandidatlisteId, kandidatnr);
         }
         this.setState({
@@ -148,12 +149,12 @@ class Listedetaljer extends React.Component {
                     if (kandidat.kandidatnr === kandidatnr) {
                         return {
                             ...kandidat,
-                            notaterVises: !notatFeltVises
+                            visningsstatus
                         };
                     }
                     return {
                         ...kandidat,
-                        notaterVises: false
+                        visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
                     };
                 })
         });
@@ -231,7 +232,7 @@ class Listedetaljer extends React.Component {
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
-                    onNotaterToggle={this.onNotaterToggle}
+                    onVisningChange={this.onVisningChange}
                     opprettNotat={this.props.opprettNotat}
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}

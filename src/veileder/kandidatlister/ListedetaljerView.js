@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Sidetittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
@@ -17,6 +17,12 @@ const STATUS = {
     KONTAKTET: 'KONTAKTET',
     AKTUELL: 'AKTUELL',
     UAKTUELL: 'UAKTUELL'
+};
+
+export const VISNINGSSTATUS = {
+    SKJUL_PANEL: 'SKJUL_PANEL',
+    VIS_NOTATER: 'VIS_NOTATER',
+    VIS_MER_INFO: 'VIS_MER_INFO'
 };
 
 const statusToString = (status) => {
@@ -76,7 +82,7 @@ const ListedetaljerView = (props) => {
         onKandidatShare,
         onEmailKandidater,
         onLeggTilKandidat,
-        onNotaterToggle,
+        onVisningChange,
         opprettNotat,
         endreNotat,
         slettNotat
@@ -203,6 +209,7 @@ const ListedetaljerView = (props) => {
                 <div className="kolonne-bred"><Element>Status</Element></div>
                 <div className="kolonne-bred"><Element>Utfall</Element></div>
                 <div className="kolonne-smal"><Element>Notater</Element></div>
+                <div className="kolonne-smal"><Element>Mer info</Element></div>
             </div>
         </div>
     );
@@ -224,7 +231,19 @@ const ListedetaljerView = (props) => {
     const KandidatRad = ({ kandidat }) => { // eslint-disable-line react/prop-types
         const antallNotater = kandidat.notater ? kandidat.notater.length : kandidat.antallNotater;
         const toggleNotater = () => {
-            onNotaterToggle(kandidat.notaterVises, kandidatlisteId, kandidat.kandidatnr);
+            onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
+                ? VISNINGSSTATUS.SKJUL_PANEL
+                : VISNINGSSTATUS.VIS_NOTATER,
+            kandidatlisteId,
+            kandidat.kandidatnr);
+        };
+
+        const toggleMerInfo = () => {
+            onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
+                ? VISNINGSSTATUS.SKJUL_PANEL
+                : VISNINGSSTATUS.VIS_MER_INFO,
+            kandidatlisteId,
+            kandidat.kandidatnr);
         };
 
         const onEndreNotat = (notatId, tekst) => {
@@ -272,11 +291,17 @@ const ListedetaljerView = (props) => {
                         <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
                             <i className="Notat__icon" />
                             {antallNotater}
-                            <NavFrontendChevron type={kandidat.notaterVises ? 'opp' : 'ned'} />
+                            <NavFrontendChevron type={kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER ? 'opp' : 'ned'} />
+                        </Lenkeknapp>
+                    </div>
+                    <div className="kolonne-smal">
+                        <Lenkeknapp onClick={toggleMerInfo} className="legg-til-kandidat MerInfo">
+                            <i className="MerInfo__icon" />
+                            <NavFrontendChevron type={kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO ? 'opp' : 'ned'} />
                         </Lenkeknapp>
                     </div>
                 </div>
-                {kandidat.notaterVises &&
+                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER &&
                     <Notater
                         notater={kandidat.notater}
                         antallNotater={kandidat.notater ? kandidat.notater.length : kandidat.antallNotater}
@@ -286,6 +311,29 @@ const ListedetaljerView = (props) => {
                         onEndreNotat={onEndreNotat}
                         onSletteNotat={onSletteNotat}
                     />
+                }
+                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO &&
+                    <div className="info-under-kandidat">
+                        <div className="info-under-kandidat-content mer-info">
+                            <div className="kontaktinfo-kolonne">
+                                <Element>Kontaktinfo</Element>
+                                <Normaltekst className="tekst">
+                                    E-post: {
+                                        kandidat.epost ? <a className="lenke" href={`mailto:${kandidat.epost}`}>{kandidat.epost}</a> : <span>&mdash;</span>
+                                    }
+                                </Normaltekst>
+                                <Normaltekst className="tekst">
+                                    Telefon: {
+                                        kandidat.telefon ? <a className="lenke" href={`tel:${kandidat.telefon}`}>{kandidat.telefon}</a> : <span>&mdash;</span>
+                                    }
+                                </Normaltekst>
+                            </div>
+                            <div className="innsatsgruppe-kolonne">
+                                <Element>Innsatsgruppe</Element>
+                                <Normaltekst className="tekst">{kandidat.innsatsgruppe}</Normaltekst>
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
         );
@@ -333,7 +381,7 @@ ListedetaljerView.propTypes = {
     onKandidatShare: PropTypes.func.isRequired,
     onEmailKandidater: PropTypes.func.isRequired,
     onLeggTilKandidat: PropTypes.func.isRequired,
-    onNotaterToggle: PropTypes.func.isRequired,
+    onVisningChange: PropTypes.func.isRequired,
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
     slettNotat: PropTypes.func.isRequired
