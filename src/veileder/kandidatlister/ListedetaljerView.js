@@ -20,7 +20,7 @@ const STATUS = {
 };
 
 export const VISNINGSSTATUS = {
-    ENKEL_RAD: 'ENKEL_RAD',
+    SKJUL_PANEL: 'SKJUL_PANEL',
     VIS_NOTATER: 'VIS_NOTATER',
     VIS_MER_INFO: 'VIS_MER_INFO'
 };
@@ -232,7 +232,7 @@ const ListedetaljerView = (props) => {
         const antallNotater = kandidat.notater ? kandidat.notater.length : kandidat.antallNotater;
         const toggleNotater = () => {
             onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
-                ? VISNINGSSTATUS.ENKEL_RAD
+                ? VISNINGSSTATUS.SKJUL_PANEL
                 : VISNINGSSTATUS.VIS_NOTATER,
             kandidatlisteId,
             kandidat.kandidatnr);
@@ -240,7 +240,7 @@ const ListedetaljerView = (props) => {
 
         const toggleMerInfo = () => {
             onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
-                ? VISNINGSSTATUS.ENKEL_RAD
+                ? VISNINGSSTATUS.SKJUL_PANEL
                 : VISNINGSSTATUS.VIS_MER_INFO,
             kandidatlisteId,
             kandidat.kandidatnr);

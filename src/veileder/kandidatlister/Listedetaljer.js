@@ -31,7 +31,7 @@ class Listedetaljer extends React.Component {
                 props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert: false,
-                    visningsstatus: VISNINGSSTATUS.ENKEL_RAD
+                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
                 })),
             deleModalOpen: false,
             leggTilModalOpen: false,
@@ -64,7 +64,7 @@ class Listedetaljer extends React.Component {
                 kandidater: this.props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert: false,
-                    visningsstatus: VISNINGSSTATUS.ENKEL_RAD,
+                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
                     notater: undefined
                 }))
             });
@@ -154,7 +154,7 @@ class Listedetaljer extends React.Component {
                     }
                     return {
                         ...kandidat,
-                        visningsstatus: VISNINGSSTATUS.ENKEL_RAD
+                        visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
                     };
                 })
         });
