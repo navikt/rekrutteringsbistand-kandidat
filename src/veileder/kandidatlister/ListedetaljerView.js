@@ -10,6 +10,7 @@ import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
+import { capitalizeFirstLetter } from '../../felles/sok/utils';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -206,6 +207,9 @@ const ListedetaljerView = (props) => {
             slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
         };
 
+        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn.toLowerCase()) : '';
+        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn.toLowerCase()) : '';
+
         return (
             <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
                 <div className={'liste-rad '}>
@@ -221,7 +225,7 @@ const ListedetaljerView = (props) => {
                     </div>
                     <div className="kolonne-bred">
                         <Link title="Vis profil" className="lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv/${kandidat.kandidatnr}`}>
-                            {kandidat.fornavn} {kandidat.etternavn}
+                            {`${fornavn} ${etternavn}`}
                         </Link></div><div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
                     <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
                     <div className="kolonne-bred">
