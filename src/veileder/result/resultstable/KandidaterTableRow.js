@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
-import { capitalizePoststed } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -18,8 +18,8 @@ class KandidaterTableRow extends React.Component {
     render() {
         const { kandidat, markert, nettoppValgt, setScrollPosition, stillingsId } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
-        const fornavn = kandidat.fornavn;
-        const etternavn = kandidat.etternavn;
+        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn.toLowerCase()) : '';
+        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn.toLowerCase()) : '';
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
