@@ -9,6 +9,7 @@ import { Row, Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import KnappBase from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
+import Lenke from 'nav-frontend-lenker';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
@@ -94,9 +95,9 @@ class ResultatVisning extends React.Component {
 
         const LinkTilMineStillinger = () => (
             <div className="container--header__lenke--mine-stillinger">
-                <Link className="lenke" to="/minestillinger">
+                <Lenke href="/minestillinger">
                     <NavFrontendChevron type="venstre" />Til mine stillinger
-                </Link>
+                </Lenke>
             </div>
         );
 
@@ -107,9 +108,9 @@ class ResultatVisning extends React.Component {
                         <Sidetittel>Søk etter kandidater til stilling</Sidetittel>
                     </Row>
                     <Row className="header__row--veileder">
-                        <Link className="lenke" to={`/stilling/${stillingsId}`}>
+                        <Lenke href={`/stilling/${stillingsId}`}>
                             <span>{stillingsoverskrift}</span>
-                        </Link>
+                        </Lenke>
                     </Row>
                     <Row className="header__row--veileder">
                         <div className="opprettet-av__row">
