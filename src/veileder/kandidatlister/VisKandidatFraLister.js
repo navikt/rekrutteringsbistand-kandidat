@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Lenke from 'nav-frontend-lenker';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV } from '../sok/cv/cvReducer';
@@ -31,6 +32,13 @@ class VisKandidatFraLister extends React.Component {
                     contextRoot="kandidater/lister"
                     appContext="veileder"
                 />
+                <div className="VisKandidat-knapperad">
+                    <div className="content">
+                        <Lenke className="frittstaende-lenke" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}>
+                            Se aktivitetsplan
+                        </Lenke>
+                    </div>
+                </div>
                 <div className="viskandidat-container">
                     <VisKandidatJobbprofil cv={cv} />
                     <VisKandidatCv cv={cv} />
