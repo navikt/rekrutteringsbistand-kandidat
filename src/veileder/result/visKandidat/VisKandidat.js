@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import PropTypes from 'prop-types';
+import Lenke from 'nav-frontend-lenker';
 import cvPropTypes from '../../../felles/PropTypes';
 import { FETCH_CV } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
@@ -9,6 +10,7 @@ import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
+import './VisKandidat.less';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -67,6 +69,13 @@ class VisKandidat extends React.Component {
                     forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)}
                     nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)}
                 />
+                <div className="VisKandidat-knapperad">
+                    <div className="content">
+                        <Lenke className="frittstaende-lenke" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}>
+                            Se aktivitetsplan
+                        </Lenke>
+                    </div>
+                </div>
                 <VisKandidatJobbprofil cv={cv} />
                 <VisKandidatCv cv={cv} />
             </div>
