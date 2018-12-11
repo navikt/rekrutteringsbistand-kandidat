@@ -207,8 +207,8 @@ const ListedetaljerView = (props) => {
             slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
         };
 
-        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn.toLowerCase()) : '';
-        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn.toLowerCase()) : '';
+        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
+        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
 
         return (
             <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>

@@ -18,8 +18,8 @@ class KandidaterTableRow extends React.Component {
     render() {
         const { kandidat, markert, nettoppValgt, setScrollPosition, stillingsId } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
-        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn.toLowerCase()) : '';
-        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn.toLowerCase()) : '';
+        const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
+        const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
