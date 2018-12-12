@@ -163,9 +163,24 @@ export const mapExperienceLevelTilKalenderEnhet = (level) => {
     return 'Over 10 år';
 };
 
-export const capitalizeFirstLetter = (inputString) => (
-    inputString.charAt(0).toUpperCase() + inputString.slice(1).toLowerCase()
-);
+export const capitalizeFirstLetter = (inputString) => {
+    const separators = [' ', '-'];
+
+    if (inputString) {
+        let capitalized = inputString.toLowerCase();
+
+        for (let i = 0; i < separators.length; i += 1) {
+            const fragments = capitalized.split(separators[i]);
+
+            for (let j = 0; j < fragments.length; j += 1) {
+                fragments[j] = fragments[j].charAt(0).toUpperCase() + fragments[j].substr(1);
+            }
+            capitalized = fragments.join(separators[i]);
+        }
+        return capitalized;
+    }
+    return inputString;
+};
 
 export const capitalizePoststed = (poststed) => (
     poststed
