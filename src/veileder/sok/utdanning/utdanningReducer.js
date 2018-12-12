@@ -18,7 +18,7 @@ export const TOGGLE_UTDANNING_PANEL_OPEN = 'TOGGLE_UTDANNING_PANEL_OPEN';
 const initialState = {
     utdanninger: [],
     utdanningsniva: [],
-    utdanningPanelOpen: true
+    utdanningPanelOpen: false
 };
 
 export default function utdanningReducer(state = initialState, action) {

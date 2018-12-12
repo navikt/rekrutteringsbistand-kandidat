@@ -14,7 +14,7 @@ export const TOGGLE_STILLING_PANEL_OPEN = 'TOGGLE_STILLING_PANEL_OPEN';
 
 const initialState = {
     stillinger: [],
-    stillingPanelOpen: true
+    stillingPanelOpen: undefined
 };
 
 export default function stillingReducer(state = initialState, action) {

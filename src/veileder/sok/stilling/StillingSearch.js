@@ -17,7 +17,7 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 const StillingSearch = ({ ...props }) => {
     const { stillinger, typeAheadSuggestionsStilling, totaltAntallTreff, visAlertFaKandidater,
         skjulYrke, panelOpen, search, clearTypeAheadStilling, fetchTypeAheadSuggestions,
-        selectTypeAheadValue, removeStilling, fetchKompetanseSuggestions, togglePanelOpen } = props;
+        selectTypeAheadValue, removeStilling, fetchKompetanseSuggestions, togglePanelOpen, stillingsId } = props;
     return (
         <StillingSearchFelles
             stillinger={stillinger}
@@ -33,8 +33,14 @@ const StillingSearch = ({ ...props }) => {
             removeStilling={removeStilling}
             fetchKompetanseSuggestions={fetchKompetanseSuggestions}
             togglePanelOpen={togglePanelOpen}
+            stillingsId={stillingsId}
         />
     );
+};
+
+StillingSearch.defaultProps = {
+    panelOpen: undefined,
+    stillingsId: undefined
 };
 
 StillingSearch.propTypes = {
@@ -49,8 +55,9 @@ StillingSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulYrke: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    panelOpen: PropTypes.bool,
+    togglePanelOpen: PropTypes.func.isRequired,
+    stillingsId: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
