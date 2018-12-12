@@ -297,12 +297,19 @@ function* search(action = '') {
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
-        const isPaginatedSok = searchQueryHash === state.search.searchQueryHash && fraIndex > 0;
+        const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
+        const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
 
         const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length), fraIndex, antallResultater };
 
-        const response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
+        let response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
+
+        if (!harNyeSokekriterier) {
+            const kandidater = state.search.searchResultat.resultat.kandidater;
+            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({ ...kFraResponse, markert: kandidater.some((k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert) }));
+            response = { ...response, kandidater: kandidaterMedMarkering };
+        }
 
         yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });

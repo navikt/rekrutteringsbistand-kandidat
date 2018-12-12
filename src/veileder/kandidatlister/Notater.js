@@ -104,7 +104,7 @@ class Notater extends React.Component {
             </NavFrontendModal>
         );
         return (
-            <div className="notater">
+            <div className="info-under-kandidat">
                 { this.state.notatSomRedigeres &&
                     <RedigerNotatModal
                         notat={this.state.notatSomRedigeres}
@@ -115,7 +115,7 @@ class Notater extends React.Component {
                 { this.state.notatSomSlettes &&
                     <SletteModal notat={this.state.notatSomSlettes} />
                 }
-                <div className="notater-content">
+                <div className="info-under-kandidat-content">
                     <Element>Notater ({antallNotater})</Element>
                     <Normaltekst className="avsnitt">
                         Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive opplysninger skrives <strong>ikke</strong> her. Ta eventuelt direkte kontakt med aktuell veileder.

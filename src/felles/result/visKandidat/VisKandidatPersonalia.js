@@ -54,11 +54,11 @@ export default class VisKandidatPersonalia extends React.Component {
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
-            fornavnStorForbokstav = capitalizeFirstLetter(cv.fornavn.toLowerCase());
+            fornavnStorForbokstav = capitalizeFirstLetter(cv.fornavn);
         }
         let etternavnStorForbokstav;
         if (cv.etternavn) {
-            etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn.toLowerCase());
+            etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
         }
 
         const lenkeClass = this.props.appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'header--personalia__lenke';

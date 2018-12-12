@@ -15,6 +15,7 @@ export const Kandidat = {
     epost: PropTypes.string,
     telefon: PropTypes.string,
     fodselsdato: PropTypes.string,
+    innsatsgruppe: PropTypes.string,
     utfall: PropTypes.string
 };
 
