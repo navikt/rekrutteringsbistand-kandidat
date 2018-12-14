@@ -23,6 +23,7 @@ import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
+import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class ResultatVisning extends React.Component {
             totalErfaring: [],
             utdanningsniva: [],
             sprak: [],
+            kvalifiseringsgruppeKoder: [],
             maaBoInnenforGeografi: false,
             harHentetStilling: this.props.harHentetStilling
         });
@@ -201,6 +203,7 @@ class ResultatVisning extends React.Component {
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
+                                        <InnsatsgruppeSearch />
                                     </div>
                                 </div>
                             </Column>
