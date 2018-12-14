@@ -350,7 +350,7 @@ function* initialSearch() {
                 urlQuery = {
                     ...urlQuery,
                     geografiListKomplett: geografiKoder.map((sted) =>
-                        ({ geografiKode: sted.id, geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()) }))
+                        ({ geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()), geografiKode: sted.id }))
                 };
             }
             yield put({ type: SET_STATE, query: urlQuery });
