@@ -196,7 +196,7 @@ class ResultatVisning extends React.Component {
                                         </KnappBase>
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
-                                        <StillingSearch />
+                                        <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
