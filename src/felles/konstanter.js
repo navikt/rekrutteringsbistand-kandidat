@@ -33,7 +33,8 @@ export const ALERTTYPE = {
     SPRAK: 'sprak',
     KOMPETANSE: 'kompetanse',
     GEOGRAFI: 'geografi',
-    FORERKORT: 'forerkort'
+    FORERKORT: 'forerkort',
+    INNSATSGRUPPE: 'innsatsgruppe'
 };
 
 
@@ -70,4 +71,11 @@ export const SLETTE_STATUS = {
     SUCCESS: 'SUCCESS',
     FINISHED: 'FINISHED',
     FAILURE: 'FAILURE'
+};
+
+export const INNSATSGRUPPER = {
+    STANDARDINNSATS: { key: 'IKVAL', label: 'Standardinnsats' },
+    SITUASJONSBESTEMT_INNSATS: { key: 'BFORM', label: 'Situasjonsbestemt innsats' },
+    SPESIELT_TILPASSET_INNSATS: { key: 'BATT', label: 'Spesielt tilpasset innsats' },
+    VARIG_TILPASSET: { key: 'VARIG', label: 'Varig tilpasset' }
 };

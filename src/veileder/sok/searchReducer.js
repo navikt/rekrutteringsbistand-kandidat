@@ -1,5 +1,14 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchKandidater, fetchKandidaterES, fetchFeatureToggles, fetchStillingFraListe, fetchDataFraListe, fetchGeografiKode, SearchApiError, fetchInnloggetVeileder } from '../api';
+import {
+    fetchKandidater,
+    fetchKandidaterES,
+    fetchFeatureToggles,
+    fetchStillingFraListe,
+    fetchDataFraListe,
+    fetchGeografiKode,
+    SearchApiError,
+    fetchInnloggetVeileder
+} from '../api';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 
@@ -228,6 +237,7 @@ export const fromUrlQuery = (url) => {
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
     const forerkort = getUrlParameterByName('forerkort', url);
+    const kvalifiseringsgruppeKoder = getUrlParameterByName('kvalifiseringsgruppeKoder', url);
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
     const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
 
@@ -240,6 +250,7 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
+    if (kvalifiseringsgruppeKoder) stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
     return stateFromUrl;
@@ -256,6 +267,7 @@ export const toUrlQuery = (state) => {
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
     if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
+    if (state.innsatsgruppe.kvalifiseringsgruppeKoder && state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0) urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
     return toUrlParams(urlQuery);
@@ -292,6 +304,7 @@ function* search(action = '') {
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
+            kvalifiseringsgruppeKoder: state.innsatsgruppe.kvalifiseringsgruppeKoder,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
             forerkort: forerkortListe
         };

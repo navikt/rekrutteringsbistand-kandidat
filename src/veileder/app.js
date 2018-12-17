@@ -27,6 +27,7 @@ import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
 import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
+import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -39,6 +40,7 @@ const store = createStore(combineReducers({
     forerkort: forerkortReducer,
     geografi: geografiReducer,
     sprakReducer,
+    innsatsgruppe: innsatsgruppeReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer
