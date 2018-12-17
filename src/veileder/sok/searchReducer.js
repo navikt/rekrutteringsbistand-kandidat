@@ -228,6 +228,7 @@ export default function searchReducer(state = initialState, action) {
 
 export const fromUrlQuery = (url) => {
     const stateFromUrl = {};
+    const fritekst = getUrlParameterByName('fritekst', url);
     const stillinger = getUrlParameterByName('stillinger', url);
     const arbeidserfaringer = getUrlParameterByName('arbeidserfaringer', url);
     const kompetanser = getUrlParameterByName('kompetanser', url);
@@ -241,6 +242,7 @@ export const fromUrlQuery = (url) => {
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
     const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
 
+    if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
     if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
     if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
@@ -258,6 +260,7 @@ export const fromUrlQuery = (url) => {
 
 export const toUrlQuery = (state) => {
     const urlQuery = {};
+    if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
     if (state.stilling.stillinger && state.stilling.stillinger.length > 0) urlQuery.stillinger = state.stilling.stillinger.join('_');
     if (state.arbeidserfaring.arbeidserfaringer && state.arbeidserfaring.arbeidserfaringer.length > 0) urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
     if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0) urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
@@ -294,6 +297,7 @@ function* search(action = '') {
             [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
 
         const criteriaValues = {
+            fritekst: state.fritekst.fritekst,
             stillinger: state.stilling.stillinger,
             arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
             utdanninger: state.utdanning.utdanninger,

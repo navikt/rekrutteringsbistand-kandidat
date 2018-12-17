@@ -27,6 +27,7 @@ export const UTDANNING = {
 };
 
 export const ALERTTYPE = {
+    FRITEKST: 'fritekst',
     STILLING: 'stilling',
     UTDANNING: 'utdanning',
     ARBEIDSERFARING: 'arbeidserfaring',

@@ -24,6 +24,7 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
+import FritekstSearch from '../sok/fritekst/FritekstSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -63,6 +64,7 @@ class ResultatVisning extends React.Component {
 
     onRemoveCriteriaClick = () => {
         this.props.resetQuery({
+            fritekst: '',
             stillinger: [],
             arbeidserfaringer: [],
             utdanninger: [],
@@ -154,23 +156,30 @@ class ResultatVisning extends React.Component {
                                         </div>
                                         <div>
                                             <VeilederHeader />
+                                            <FritekstSearch />
                                         </div>
                                     </Container>
                                 ) : (
-                                    <Container className="container--header">
-                                        <LinkTilMineStillinger />
-                                        <VeilederHeader />
-                                        <LinkSeKandidatliste />
-                                    </Container>
+                                    <div>
+                                        <Container className="container--header">
+                                            <LinkTilMineStillinger />
+                                            <VeilederHeader />
+                                            <LinkSeKandidatliste />
+                                        </Container>
+                                        <FritekstSearch />
+                                    </div>
                                 ))
                             }
                         </Media>
                     ) : (
-                        <Container className="container--header--uten-stilling">
-                            <div className="child-item__container--header">
-                                <Sidetittel> Kandidatsøk </Sidetittel>
-                            </div>
-                        </Container>
+                        <div>
+                            <Container className="container--header--uten-stilling">
+                                <div className="child-item__container--header">
+                                    <Sidetittel> Kandidatsøk </Sidetittel>
+                                </div>
+                            </Container>
+                            <FritekstSearch />
+                        </div>
                     )}
                 </div>
                 {isInitialSearch ? (
