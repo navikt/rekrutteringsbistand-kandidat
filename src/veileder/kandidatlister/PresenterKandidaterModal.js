@@ -119,8 +119,8 @@ export default class PresenterKandidaterModal extends React.Component {
                     }
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
-                        De du deler listen med vil motta en e-post med informasjon om antall kandidater,
-                        navn på stilling og link for å logge inn.
+                        De du deler listen med vil motta en e-post om at de har mottatt en kandidatliste fra NAV,
+                        navn på stilling og lenke for å logge inn.
                     </Normaltekst>
                     <div className="mailadresser">
                         { this.state.mailadresser.map((mailadresseFelt) => (
