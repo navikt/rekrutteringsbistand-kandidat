@@ -118,7 +118,8 @@ class Notater extends React.Component {
                 <div className="info-under-kandidat-content">
                     <Element>Notater ({antallNotater})</Element>
                     <Normaltekst className="avsnitt">
-                        Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive opplysninger skrives <strong>ikke</strong> her. Ta eventuelt direkte kontakt med aktuell veileder.
+                        Her skal du kun skrive korte meldinger og statusoppdateringer. Sensitive opplysninger skrives <strong>ikke</strong> her.
+                        Ta direkte kontakt med veileder hvis du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare tilgjengelig via stillingen.
                     </Normaltekst>
                     <Normaltekst className="avsnitt">
                         Notatene vil være synlige for alle veiledere, og blir automatisk slettet etter 3 måneder.

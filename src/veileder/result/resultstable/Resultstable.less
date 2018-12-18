@@ -37,8 +37,8 @@ button.header--aktuelle--kandidater {
 }
 
 .kandidater--row {
-  height: 4rem;
-  display: inline-flex;
+  height: 4.5rem;
+  display: flex;
   align-items: center;
   width: 100%;
   margin-top: 0.5rem;
@@ -46,6 +46,26 @@ button.header--aktuelle--kandidater {
   padding: 0.75rem;
   border: solid 1px #d8d8d8;
   border-radius: 4px;
+  font-family: "Source Sans Pro", Arial, sans-serif;
+
+  .kolonne-tekst {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .kolonne-navn {
+    flex: 3;
+  }
+  .kolonne-innsats {
+    flex: 2;
+  }
+  .kolonne-dato {
+    flex: 1;
+  }
+  .kolonne-bosted {
+    flex: 2;
+  }
 
   &:hover {
     box-shadow: 1px 0 4px 1px #cecac4,
@@ -106,4 +126,58 @@ button.header--aktuelle--kandidater {
   border-left: 1px solid #b7b1a9;
   height: 21px;
   float: left;
+}
+
+.NyKandidaterTableRow {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: white;
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  color: #3e3832;
+  margin-top: 0.5rem;
+  border: 1px solid #d8d8d8;
+  min-width: 25rem;
+  .kandidat-content {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    .kolonne-tekst {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-right: 2rem;
+    }
+    .kolonne-overskrift {
+      font-weight: 600;
+    }
+    .kolonne-checkbox {
+      padding-left: 1.25rem;
+      padding-right: 0.75rem;
+    }
+    .kolonne-lenke {
+      border-bottom: 1px solid @navBla;
+      display: inline-block;
+    }
+    .kolonne-navn {
+      flex: 3;
+    }
+    .kolonne-dato {
+      width: 6rem;
+    }
+    .kolonne-innsatsgruppe {
+      flex: 3;
+    }
+    .kolonne-bosted {
+      flex: 2;
+    }
+  }
+  &.checked {
+    border-color: @navBla;
+  }
+  &.nettopp-valgt {
+    border-color: @navOransje;
+  }
+  &.overskrift {
+    border-color: #78706a;
+  }
 }
