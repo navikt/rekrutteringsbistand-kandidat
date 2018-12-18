@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { SEARCH } from '../searchReducer';
-import { ALERTTYPE } from '../../../felles/konstanter';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import './Fritekst.less';
 
@@ -38,6 +36,7 @@ class FritekstSearch extends React.Component {
                     onChange={this.onInnsatsgruppeChange}
                     onKeyDown={this.onKeyDown}
                     className="skjemaelement__input"
+                    placeholder="Søk"
                 />
                 <Knapp
                     aria-label="søk"
@@ -47,9 +46,6 @@ class FritekstSearch extends React.Component {
                 >
                     <i className="search-button__icon" />
                 </Knapp>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.FRITEKST && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
             </div>
         );
     }
@@ -58,19 +54,15 @@ class FritekstSearch extends React.Component {
 FritekstSearch.propTypes = {
     search: PropTypes.func.isRequired,
     fritekstSokeord: PropTypes.string.isRequired,
-    setFritekstSokeord: PropTypes.func.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired
+    setFritekstSokeord: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    fritekstSokeord: state.fritekst.fritekst,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater
+    fritekstSokeord: state.fritekst.fritekst
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.FRITEKST }),
+    search: () => dispatch({ type: SEARCH }),
     setFritekstSokeord: (fritekstSokeord) => dispatch({ type: SET_FRITEKST_SOKEORD, fritekst: fritekstSokeord })
 });
 

@@ -156,7 +156,6 @@ class ResultatVisning extends React.Component {
                                         </div>
                                         <div>
                                             <VeilederHeader />
-                                            <FritekstSearch />
                                         </div>
                                     </Container>
                                 ) : (
@@ -166,7 +165,6 @@ class ResultatVisning extends React.Component {
                                             <VeilederHeader />
                                             <LinkSeKandidatliste />
                                         </Container>
-                                        <FritekstSearch />
                                     </div>
                                 ))
                             }
@@ -178,7 +176,6 @@ class ResultatVisning extends React.Component {
                                     <Sidetittel> Kandidatsøk </Sidetittel>
                                 </div>
                             </Container>
-                            <FritekstSearch />
                         </div>
                     )}
                 </div>
@@ -202,6 +199,7 @@ class ResultatVisning extends React.Component {
                                         </Flatknapp>
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
+                                        <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch />
                                         <UtdanningSearch />
