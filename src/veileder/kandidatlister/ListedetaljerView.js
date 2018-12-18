@@ -260,7 +260,7 @@ const ListedetaljerView = (props) => {
 
         return (
             <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
-                <div className={'liste-rad '}>
+                <div className="liste-rad">
                     <div className="kolonne-checkboks">
                         <Checkbox
                             label="&#8203;" // <- tegnet for tom streng

@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
@@ -170,21 +169,19 @@ class KandidaterVisning extends React.Component {
                     stillingsoverskrift={this.props.stillingsoverskrift}
                 />
                 }
-                <Row className="resultatvisning">
-                    <div className="resultatvisning--header">
-                        <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
-                        <KnappMedHjelpetekst
-                            hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
-                            mini
-                            type="hoved"
-                            disabled={antallMarkert === 0}
-                            onClick={this.props.stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
-                            id="lagre-kandidater-knapp"
-                        >
-                            {lagreKandidaterTilStillingKnappTekst(antallMarkert)}
-                        </KnappMedHjelpetekst>
-                    </div>
-                </Row>
+                <div className="resultatvisning--header">
+                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
+                    <KnappMedHjelpetekst
+                        hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
+                        mini
+                        type="hoved"
+                        disabled={antallMarkert === 0}
+                        onClick={this.props.stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
+                        id="lagre-kandidater-knapp"
+                    >
+                        {lagreKandidaterTilStillingKnappTekst(antallMarkert)}
+                    </KnappMedHjelpetekst>
+                </div>
                 <KandidaterTabell
                     antallResultater={this.props.antallKandidater}
                     kandidater={this.state.kandidater}

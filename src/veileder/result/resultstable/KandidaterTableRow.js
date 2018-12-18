@@ -1,18 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Column, Row } from 'nav-frontend-grid';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
+import { formatterDato } from '../../../felles/common/dateUtils';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
+    };
+
+    checkedClass = (markert, nettoppValgt) => {
+        if (nettoppValgt) {
+            return 'nettopp-valgt';
+        } else if (markert) {
+            return 'checked';
+        }
+        return '';
     };
 
     render() {
@@ -20,42 +28,39 @@ class KandidaterTableRow extends React.Component {
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
+        const navn = `${fornavn} ${etternavn}`;
         const fodselsdato = kandidat.fodselsdato;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
         return (
-            <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
-                <Column xs="1" md="1">
-                    <Checkbox
-                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                        className="text-hide"
-                        label="."
-                        aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
-                        checked={markert}
-                        onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
-                    />
-                </Column>
-                <Column className="lenke--kandidatnr--wrapper" xs="4" md="4">
-                    <Link
-                        className="lenke--kandidatnr"
-                        to={stillingsId ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}` : `/kandidater/cv?kandidatNr=${kandidatnummer}`}
-                        onClick={() => setScrollPosition(window.pageYOffset)}
-                        aria-label={`Se CV for ${etternavn}, ${fornavn}`}
-                    >
-                        <Normaltekst className="kandidater--row__col--navn">{`${etternavn}, ${fornavn}`}</Normaltekst>
-                    </Link>
-                </Column>
-                <Column xs="2" md="2">
-                    <Normaltekst className="text-overflow kandidater--row__col">{new Date(fodselsdato).toLocaleDateString('NB-no')}</Normaltekst>
-                </Column>
-                <Column xs="3" md="3">
-                    <Normaltekst className="text-overflow kandidater--row__col">{`${innsatsgruppe}`}</Normaltekst>
-                </Column>
-                <Column xs="2" md="2">
-                    <Normaltekst className="bosted text-overflow kandidater--row__col">{`${bosted}`}</Normaltekst>
-                </Column>
-            </Row>
+            <div className={`NyKandidaterTableRow ${this.checkedClass(markert, nettoppValgt)}`}>
+                <div className="kandidat-content">
+                    <div className="kolonne-checkbox">
+                        <Checkbox
+                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                            className="text-hide"
+                            label="."
+                            aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
+                            checked={markert}
+                            onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
+                        />
+                    </div>
+                    <div className="kolonne-navn kolonne-tekst">
+                        <Link
+                            className="kolonne-lenke lenke"
+                            to={stillingsId ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}` : `/kandidater/cv?kandidatNr=${kandidatnummer}`}
+                            onClick={() => setScrollPosition(window.pageYOffset)}
+                            aria-label={`Se CV for ${etternavn}, ${fornavn}`}
+                        >
+                            {navn}
+                        </Link>
+                    </div>
+                    <div className="kolonne-dato kolonne-tekst">{formatterDato(new Date(fodselsdato))}</div>
+                    <div className="kolonne-innsatsgruppe kolonne-tekst">{innsatsgruppe}</div>
+                    <div className="kolonne-bosted kolonne-tekst">{bosted}</div>
+                </div>
+            </div>
         );
     }
 }

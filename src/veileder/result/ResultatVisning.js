@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Media from 'react-media';
-import { Element, Sidetittel, Normaltekst } from 'nav-frontend-typografi';
+import { Sidetittel, Normaltekst } from 'nav-frontend-typografi';
 import { Row, Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import KnappBase from 'nav-frontend-knapper';
+import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Lenke from 'nav-frontend-lenker';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -179,21 +179,18 @@ class ResultatVisning extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <Container className="blokk-s">
-                            <Column xs="12" md="4">
+                        <Container className="blokk-l">
+                            <Column xs="12" sm="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
-                                        <KnappBase
+                                        <Flatknapp
                                             mini
-                                            type="flat"
-                                            className="lenke lenke--slett--kriterier typo-normal"
+                                            className="lenke--slett--kriterier"
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >
-                                            <Element>
-                                                Slett alle kriterier
-                                            </Element>
-                                        </KnappBase>
+                                            Slett alle kriterier
+                                        </Flatknapp>
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch stillingsId={stillingsId} />
@@ -207,7 +204,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                 </div>
                             </Column>
-                            <Column xs="12" md="8">
+                            <Column xs="12" sm="8">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning stillingsId={stillingsId} />
                                 </div>

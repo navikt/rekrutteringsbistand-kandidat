@@ -141,6 +141,11 @@
 
 .sokekriterier--column {
   margin-top: 2.5rem;
+  .knapp-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .kandidatervisning--column {
@@ -168,25 +173,21 @@
 }
 
 .lenke--slett--kriterier {
-  margin-bottom: 2.375rem;
-  float: right;
   border: 2px solid transparent !important;
   &:hover{
     border: 2px solid @navBla !important;
   }
 }
 
-@media (min-width: @screen-md-min) {
-  .resultatvisning {
-    margin: 0 0 0 0;
-  }
+.knapp.lenke--slett--kriterier.knapp--flat.knapp--mini {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .resultatvisning--header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1.55rem;
-  padding-right: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .buttons--kandidatervisning {
