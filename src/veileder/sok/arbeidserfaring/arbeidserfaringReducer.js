@@ -18,7 +18,7 @@ export const TOGGLE_ARBEIDSERFARING_PANEL_OPEN = 'TOGGLE_ARBEIDSERFARING_PANEL_O
 const initialState = {
     arbeidserfaringer: [],
     totalErfaring: [],
-    arbeidserfaringPanelOpen: true
+    arbeidserfaringPanelOpen: false
 };
 
 export default function arbeidserfaringReducer(state = initialState, action) {

@@ -201,3 +201,42 @@ export const formatterStedsnavn = (inputString) => inputString
     .split(' ')
     .map((s) => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
     .join(' ');
+
+
+export const ordToCorrectCase = (ord, listeMedUpperCaseOrd, listeMedLowerCaseOrd) => {
+    if (listeMedUpperCaseOrd.includes(ord)) {
+        return ord.toUpperCase();
+    } else if (!listeMedLowerCaseOrd.includes(ord)) {
+        if (ord[0] !== undefined) {
+            return ord[0].toUpperCase() + ord.substr(1);
+        }
+    }
+    return ord;
+};
+
+export const capitalizeEmployerName = (employerName) => {
+    const separators = [' ', '-', '(', '/'];
+
+    const lowerCaseOrd = [
+        'i', 'og', 'for', 'på', 'avd', 'av'
+    ];
+
+    const upperCaseOrd = [
+        'as', 'ab', 'asa', 'ba', 'sa'
+    ];
+
+    if (employerName) {
+        let text = employerName.toLowerCase();
+
+        for (let i = 0; i < separators.length; i += 1) {
+            const fragments = text.split(separators[i]);
+            for (let j = 0; j < fragments.length; j += 1) {
+                fragments[j] = ordToCorrectCase(fragments[j], upperCaseOrd, lowerCaseOrd);
+            }
+            text = fragments.join(separators[i]);
+        }
+
+        return text;
+    }
+    return employerName;
+};

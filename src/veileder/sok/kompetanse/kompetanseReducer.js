@@ -14,7 +14,7 @@ export const TOGGLE_KOMPETANSE_PANEL_OPEN = 'TOGGLE_KOMPETANSE_PANEL_OPEN';
 
 const initialState = {
     kompetanser: [],
-    kompetansePanelOpen: true
+    kompetansePanelOpen: false
 };
 
 export default function kompetanseReducer(state = initialState, action) {

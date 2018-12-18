@@ -22,6 +22,8 @@ import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE 
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import { capitalizeEmployerName } from '../../felles/sok/utils';
+import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -70,6 +72,7 @@ class ResultatVisning extends React.Component {
             totalErfaring: [],
             utdanningsniva: [],
             sprak: [],
+            kvalifiseringsgruppeKoder: [],
             maaBoInnenforGeografi: false,
             harHentetStilling: this.props.harHentetStilling
         });
@@ -114,7 +117,7 @@ class ResultatVisning extends React.Component {
                     </Row>
                     <Row className="header__row--veileder">
                         <div className="opprettet-av__row">
-                            <Normaltekst>Arbeidsgiver: {`${arbeidsgiver}`}</Normaltekst>
+                            <Normaltekst>Arbeidsgiver: {`${capitalizeEmployerName(arbeidsgiver)}`}</Normaltekst>
                             <Normaltekst>Registrert av: {annonseOpprettetAvNavn} ({annonseOpprettetAvIdent})</Normaltekst>
                         </div>
                     </Row>
@@ -190,13 +193,14 @@ class ResultatVisning extends React.Component {
                                         </Flatknapp>
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
-                                        <StillingSearch />
+                                        <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
+                                        <InnsatsgruppeSearch />
                                     </div>
                                 </div>
                             </Column>

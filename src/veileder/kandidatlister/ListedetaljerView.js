@@ -10,7 +10,7 @@ import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
-import { capitalizeFirstLetter } from '../../felles/sok/utils';
+import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -104,7 +104,7 @@ const ListedetaljerView = (props) => {
                     </div>
                     { arbeidsgiver &&
                     <div className="border-left">
-                        Arbeidsgiver: {arbeidsgiver}
+                        Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
                     </div>
                     }
                     <div className="border-left">

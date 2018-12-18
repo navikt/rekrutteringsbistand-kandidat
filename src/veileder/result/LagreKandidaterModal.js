@@ -11,6 +11,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HENT_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
+import { capitalizeEmployerName } from '../../felles/sok/utils';
 
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
@@ -155,7 +156,7 @@ class LagreKandidaterModal extends React.Component {
                     />
                     <Undertekst className="opprettet--dato__col rader--text rader--text__dato">{`${formatterDato(new Date(liste.opprettetTidspunkt))}`}</Undertekst>
                     <Normaltekst className="stillingstittel__col rader--text">{`${liste.tittel}`}</Normaltekst>
-                    <Normaltekst className="arbeidsgiver__col rader--text">{`${liste.organisasjonNavn}`}</Normaltekst>
+                    <Normaltekst className="arbeidsgiver__col rader--text">{`${capitalizeEmployerName(liste.organisasjonNavn)}`}</Normaltekst>
                 </Row>
             );
         };

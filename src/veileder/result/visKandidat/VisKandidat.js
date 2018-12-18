@@ -71,8 +71,9 @@ class VisKandidat extends React.Component {
                 />
                 <div className="VisKandidat-knapperad">
                     <div className="content">
-                        <Lenke className="frittstaende-lenke" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}>
-                            Se aktivitetsplan
+                        <Lenke className="frittstaende-lenke ForlateSiden" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`} target="_blank">
+                            <span className="lenke">Se aktivitetsplan</span>
+                            <i className="ForlateSiden__icon" />
                         </Lenke>
                     </div>
                 </div>

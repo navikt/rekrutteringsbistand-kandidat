@@ -17,6 +17,9 @@ export default class StillingSearch extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.panelOpen === undefined && this.props.stillingsId) {
+            this.props.togglePanelOpen();
+        }
         this.props.fetchKompetanseSuggestions();
     }
 
@@ -75,7 +78,7 @@ export default class StillingSearch extends React.Component {
                 tittel="Stilling/yrke"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
             >
                 <Element>
                     Hvilken stilling/yrke trenger du en kandidat til?
@@ -141,6 +144,8 @@ export default class StillingSearch extends React.Component {
 }
 
 StillingSearch.defaultProps = {
+    panelOpen: undefined,
+    stillingsId: undefined,
     useJanzz: false
 };
 
@@ -156,7 +161,8 @@ StillingSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulYrke: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
+    panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
+    stillingsId: PropTypes.string,
     useJanzz: PropTypes.bool
 };
