@@ -7,19 +7,13 @@ import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import './Fritekst.less';
 
 class FritekstSearch extends React.Component {
-    onKeyDown = (e) => {
-        switch (e.keyCode) {
-            case 13: // Enter
-                e.preventDefault();
-                this.onSearch();
-                break;
-            default:
-                break;
-        }
-    };
-
     onInnsatsgruppeChange = (e) => {
         this.props.setFritekstSokeord(e.target.value);
+    };
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.onSearch();
     };
 
     onSearch = () => {
@@ -29,12 +23,11 @@ class FritekstSearch extends React.Component {
     render() {
         const { fritekstSokeord } = this.props;
         return (
-            <div className="fritekst__search">
+            <form className="fritekst__search" onSubmit={this.onSubmit}>
                 <input
                     id={'sok-etter-stilling-input'}
                     value={fritekstSokeord}
                     onChange={this.onInnsatsgruppeChange}
-                    onKeyDown={this.onKeyDown}
                     className="skjemaelement__input"
                     placeholder="Søk"
                 />
@@ -46,7 +39,7 @@ class FritekstSearch extends React.Component {
                 >
                     <i className="search-button__icon" />
                 </Knapp>
-            </div>
+            </form>
         );
     }
 }

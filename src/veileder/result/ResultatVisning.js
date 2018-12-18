@@ -159,24 +159,20 @@ class ResultatVisning extends React.Component {
                                         </div>
                                     </Container>
                                 ) : (
-                                    <div>
-                                        <Container className="container--header">
-                                            <LinkTilMineStillinger />
-                                            <VeilederHeader />
-                                            <LinkSeKandidatliste />
-                                        </Container>
-                                    </div>
+                                    <Container className="container--header">
+                                        <LinkTilMineStillinger />
+                                        <VeilederHeader />
+                                        <LinkSeKandidatliste />
+                                    </Container>
                                 ))
                             }
                         </Media>
                     ) : (
-                        <div>
-                            <Container className="container--header--uten-stilling">
-                                <div className="child-item__container--header">
-                                    <Sidetittel> Kandidatsøk </Sidetittel>
-                                </div>
-                            </Container>
-                        </div>
+                        <Container className="container--header--uten-stilling">
+                            <div className="child-item__container--header">
+                                <Sidetittel> Kandidatsøk </Sidetittel>
+                            </div>
+                        </Container>
                     )}
                 </div>
                 {isInitialSearch ? (
