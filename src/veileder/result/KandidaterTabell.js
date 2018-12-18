@@ -19,7 +19,6 @@ export default function KandidaterTabell({
     stillingsId
 }) {
     return (
-
         <div className="resultatvisning">
             <KandidaterTableHeader
                 from={0}

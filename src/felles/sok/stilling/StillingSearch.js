@@ -6,7 +6,6 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
-import './Stilling.less';
 
 export default class StillingSearch extends React.Component {
     constructor(props) {

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Row } from 'nav-frontend-grid';
-import { Element } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
 
@@ -13,56 +11,24 @@ export default class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <Row className="kandidater--header">
-                <Column xs="1" md="1">
-                    <Checkbox
-                        id="marker-alle-kandidater-checkbox"
-                        className="text-hide"
-                        label="."
-                        aria-label="Marker alle kandidater"
-                        checked={this.props.alleKandidaterMarkert}
-                        onChange={this.props.onToggleMarkeringAlleKandidater}
-                    />
-                </Column>
-                <Column className="header--kandidatnr--wrapper" xs="5" sm="4" >
-                    <Element
-                        className="label--resultatvisning"
-                        aria-label="Navn"
-                    >
-                        Navn
-                    </Element>
-                </Column>
-                <Column xs="2" sm="2">
-                    <div className="header--aktuelle--kandidater text-overflow">
-                        <Element
-                            className="label--resultatvisning"
-                            aria-label="Fødselsdato"
-                        >
-                            Fødselsdato
-                        </Element>
+            <div className="NyKandidaterTableRow overskrift">
+                <div className="kandidat-content">
+                    <div className="kolonne-checkbox">
+                        <Checkbox
+                            id="marker-alle-kandidater-checkbox"
+                            className="text-hide"
+                            label="."
+                            aria-label="Marker alle kandidater"
+                            checked={this.props.alleKandidaterMarkert}
+                            onChange={this.props.onToggleMarkeringAlleKandidater}
+                        />
                     </div>
-                </Column>
-                <Column xs="2" sm="3">
-                    <div className="header--aktuelle--kandidater text-overflow">
-                        <Element
-                            className="label--resultatvisning"
-                            aria-label="Innsatsgruppe"
-                        >
-                            Innsatsgruppe
-                        </Element>
-                    </div>
-                </Column>
-                <Column xs="2" sm="2">
-                    <div className="header--aktuelle--kandidater text-overflow">
-                        <Element
-                            className="label--resultatvisning"
-                            aria-label="Bosted"
-                        >
-                            Bosted
-                        </Element>
-                    </div>
-                </Column>
-            </Row>
+                    <div className="kolonne-navn kolonne-tekst kolonne-overskrift">Navn </div>
+                    <div className="kolonne-dato kolonne-tekst kolonne-overskrift">Fødselsdato</div>
+                    <div className="kolonne-innsatsgruppe kolonne-tekst kolonne-overskrift">Innsatsgruppe</div>
+                    <div className="kolonne-bosted kolonne-tekst kolonne-overskrift">Bosted</div>
+                </div>
+            </div>
         );
     }
 }
