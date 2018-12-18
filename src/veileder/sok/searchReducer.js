@@ -196,7 +196,7 @@ export default function searchReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                harHentetStilling: action.query.harHentetStilling
+                harHentetStilling: action.query.harHentetStilling || false
             };
         case SET_LISTEDATA:
             return {
@@ -374,8 +374,9 @@ function* initialSearch(action) {
             const listeData = yield call(fetchDataFraListe, action.stillingsId);
             yield put({ type: SET_LISTEDATA, listeData });
             if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
-                const response = yield call(fetchStillingFraListe, action.stillingsId);
-                urlQuery.stillinger = response.stilling;
+                const { stilling, kommune } = yield call(fetchStillingFraListe, action.stillingsId);
+                urlQuery.stillinger = stilling;
+                urlQuery.geografiList = kommune;
                 urlQuery.harHentetStilling = true;
             }
         }

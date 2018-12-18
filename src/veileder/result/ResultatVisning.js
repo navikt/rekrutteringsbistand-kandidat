@@ -194,7 +194,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch stillingsId={stillingsId} />
-                                        <GeografiSearch />
+                                        <GeografiSearch stillingsId={stillingsId} />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
