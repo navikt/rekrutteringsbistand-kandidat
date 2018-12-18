@@ -24,6 +24,7 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
+import FritekstSearch from '../sok/fritekst/FritekstSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -63,6 +64,7 @@ class ResultatVisning extends React.Component {
 
     onRemoveCriteriaClick = () => {
         this.props.resetQuery({
+            fritekst: '',
             stillinger: [],
             arbeidserfaringer: [],
             utdanninger: [],
@@ -193,6 +195,7 @@ class ResultatVisning extends React.Component {
                                         </Flatknapp>
                                     </div>
                                     <div className="resultatvisning--sokekriterier">
+                                        <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
                                         <UtdanningSearch />

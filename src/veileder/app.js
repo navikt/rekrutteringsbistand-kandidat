@@ -28,11 +28,13 @@ import ErrorSide from './sok/error/ErrorSide';
 import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
+import fritekstReducer from './sok/fritekst/fritekstReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
     search: searchReducer,
     typeahead: typeaheadReducer,
+    fritekst: fritekstReducer,
     stilling: stillingReducer,
     kompetanse: kompetanseReducer,
     arbeidserfaring: arbeidserfaringReducer,
