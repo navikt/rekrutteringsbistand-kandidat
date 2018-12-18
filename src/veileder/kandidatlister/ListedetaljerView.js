@@ -17,7 +17,8 @@ const STATUS = {
     VURDERES: 'VURDERES',
     KONTAKTET: 'KONTAKTET',
     AKTUELL: 'AKTUELL',
-    UAKTUELL: 'UAKTUELL'
+    UAKTUELL: 'UAKTUELL',
+    UINTERESSERT: 'UINTERESSERT'
 };
 
 export const VISNINGSSTATUS = {
@@ -27,31 +28,35 @@ export const VISNINGSSTATUS = {
 };
 
 const statusToString = (status) => {
-    if (status === 'FORESLATT') {
+    if (status === STATUS.FORESLATT) {
         return 'Foreslått';
-    } else if (status === 'VURDERES') {
+    } else if (status === STATUS.VURDERES) {
         return 'Vurderes';
-    } else if (status === 'KONTAKTET') {
+    } else if (status === STATUS.KONTAKTET) {
         return 'Kontaktet';
-    } else if (status === 'AKTUELL') {
+    } else if (status === STATUS.AKTUELL) {
         return 'Aktuell';
-    } else if (status === 'UAKTUELL') {
+    } else if (status === STATUS.UAKTUELL) {
         return 'Ikke aktuell';
+    } else if (status === STATUS.UINTERESSERT) {
+        return 'Ikke interessert';
     }
     return status;
 };
 
 const statusToClassname = (status) => {
-    if (status === 'FORESLATT') {
+    if (status === STATUS.FORESLATT) {
         return 'foreslatt';
-    } else if (status === 'VURDERES') {
+    } else if (status === STATUS.VURDERES) {
         return 'vurderes';
-    } else if (status === 'KONTAKTET') {
+    } else if (status === STATUS.KONTAKTET) {
         return 'kontaktet';
-    } else if (status === 'AKTUELL') {
+    } else if (status === STATUS.AKTUELL) {
         return 'aktuell';
-    } else if (status === 'UAKTUELL') {
+    } else if (status === STATUS.UAKTUELL) {
         return 'uaktuell';
+    } else if (status === STATUS.UINTERESSERT) {
+        return 'uinteressert';
     }
     return '';
 };
@@ -219,7 +224,7 @@ const ListedetaljerView = (props) => {
         <div className="skjemaelement">
             <div className="selectContainer input--s">
                 <select className="skjemaelement__input" value={value} onChange={onChange}>
-                    {[STATUS.FORESLATT, STATUS.VURDERES, STATUS.KONTAKTET, STATUS.AKTUELL, STATUS.UAKTUELL]
+                    {[STATUS.VURDERES, STATUS.KONTAKTET, STATUS.AKTUELL, STATUS.UAKTUELL, STATUS.UINTERESSERT]
                         .map((status) => (
                             <option key={status} value={status}>{statusToString(status)}</option>
                         ))
