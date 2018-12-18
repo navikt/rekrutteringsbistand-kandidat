@@ -18,6 +18,12 @@ class GeografiSearch extends React.Component {
         };
     }
 
+    componentDidMount() {
+        if (this.props.panelOpen === undefined && this.props.stillingsId) {
+            this.props.togglePanelOpen();
+        }
+    }
+
     onToggleMaBoPaGeografi = () => {
         this.props.toggleMaBoPaGeografi();
         this.props.search();
@@ -89,7 +95,7 @@ class GeografiSearch extends React.Component {
                 tittel="Fylke eller kommune"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
             >
                 <Normaltekst className="text--italic">
                     Du vil få treff der arbeidssøker ønsker å jobbe
@@ -153,7 +159,9 @@ class GeografiSearch extends React.Component {
 }
 
 GeografiSearch.defaultProps = {
-    onDisabledChange: undefined
+    panelOpen: undefined,
+    onDisabledChange: undefined,
+    stillingsId: undefined
 };
 
 GeografiSearch.propTypes = {
@@ -174,11 +182,12 @@ GeografiSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSted: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
+    panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,
-    onDisabledChange: PropTypes.func
+    onDisabledChange: PropTypes.func,
+    stillingsId: PropTypes.string
 };
 
 export default GeografiSearch;

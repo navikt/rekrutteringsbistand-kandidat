@@ -16,7 +16,7 @@ const GeografiSearch = ({ ...props }) => {
     const { geografiListKomplett, typeAheadSuggestionsGeografi, typeAheadSuggestionsGeografiKomplett,
         totaltAntallTreff, visAlertFaKandidater, skjulSted, panelOpen, maaBoInnenforGeografi, search,
         removeGeografi, fetchTypeAheadSuggestions, selectTypeAheadValue, clearTypeAheadGeografi,
-        togglePanelOpen, toggleMaBoPaGeografi } = props;
+        togglePanelOpen, toggleMaBoPaGeografi, stillingsId } = props;
     return (
         <GeografiSearchFelles
             geografiListKomplett={geografiListKomplett}
@@ -34,8 +34,14 @@ const GeografiSearch = ({ ...props }) => {
             clearTypeAheadGeografi={clearTypeAheadGeografi}
             togglePanelOpen={togglePanelOpen}
             toggleMaBoPaGeografi={toggleMaBoPaGeografi}
+            stillingsId={stillingsId}
         />
     );
+};
+
+GeografiSearch.defaultProps = {
+    panelOpen: undefined,
+    stillingsId: undefined
 };
 
 GeografiSearch.propTypes = {
@@ -56,10 +62,11 @@ GeografiSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSted: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
+    panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
-    toggleMaBoPaGeografi: PropTypes.func.isRequired
+    toggleMaBoPaGeografi: PropTypes.func.isRequired,
+    stillingsId: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
