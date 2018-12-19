@@ -212,7 +212,7 @@ class KandidatlisteDetalj extends React.Component {
                         <HjelpetekstMidt
                             id="marker-kandidater-hjelpetekst"
                             anchor={DisabledSlettKnapp}
-                            tittel="Slett"
+                            tittel="Slett markerte kandidater"
                         >
                             Du må huke av for kandidatene du ønsker å slette
                         </HjelpetekstMidt>

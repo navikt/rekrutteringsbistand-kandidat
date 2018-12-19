@@ -30,7 +30,7 @@ KnappMedHjelpetekst.propTypes = {
     spinner: PropTypes.bool,
     mini: PropTypes.bool,
     id: PropTypes.string,
-    tittel: PropTypes.string
+    tittel: PropTypes.string.isRequired
 };
 
 KnappMedHjelpetekst.defaultProps = {
@@ -38,8 +38,7 @@ KnappMedHjelpetekst.defaultProps = {
     children: '',
     spinner: false,
     mini: false,
-    id: undefined,
-    tittel: 'Hjelptekst'
+    id: undefined
 };
 
 export default KnappMedHjelpetekst;
