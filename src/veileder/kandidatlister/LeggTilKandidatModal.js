@@ -40,7 +40,7 @@ class LeggTilKandidatModal extends React.Component {
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede()
                 });
             } else if (hentStatus === HENT_STATUS.FINNES_IKKE) {
-                this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummer finnes ikke' });
+                this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummeret er ikke tilgjengelig i denne løsningen' });
             }
         }
     }
