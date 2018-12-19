@@ -11,6 +11,7 @@ import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
+import { formatterDato } from '../../felles/common/dateUtils';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -98,9 +99,7 @@ const ListedetaljerView = (props) => {
             <div className="wrapper">
                 <div className="top">
                     <div className="header-side" />
-                    <div className="tittel">
-                        <Sidetittel>{tittel}</Sidetittel>
-                    </div>
+                    <Sidetittel className="tittel">{tittel}</Sidetittel>
                     <div className="header-side" />
                 </div>
                 <div className="bottom">
@@ -210,7 +209,7 @@ const ListedetaljerView = (props) => {
                     />
                 </div>
                 <div className="kolonne-bred"><Element>Navn</Element></div>
-                <div className="kolonne-smal"><Element>Fødselsdato</Element></div>
+                <div className="kolonne-dato"><Element>Fødselsdato</Element></div>
                 <div className="kolonne-bred"><Element>Lagt til av</Element></div>
                 <div className="kolonne-bred"><Element>Status</Element></div>
                 <div className="kolonne-bred"><Element>Utfall</Element></div>
@@ -276,11 +275,11 @@ const ListedetaljerView = (props) => {
                             }}
                         />
                     </div>
-                    <div className="kolonne-bred">
-                        <Link title="Vis profil" className="lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv/${kandidat.kandidatnr}`}>
+                    <div className="kolonne-bred tabell-tekst">
+                        <Link title="Vis profil" className="lenke tabell-lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv/${kandidat.kandidatnr}`}>
                             {`${fornavn} ${etternavn}`}
-                        </Link></div><div className="kolonne-smal">{new Date(kandidat.fodselsdato).toLocaleDateString('nb-NO')}</div>
-                    <div className="kolonne-bred">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
+                        </Link></div><div className="kolonne-dato">{formatterDato(new Date(kandidat.fodselsdato))}</div>
+                    <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
                     <div className="kolonne-bred">
                         {kanEditere
                             ? <StatusSelect
@@ -295,7 +294,7 @@ const ListedetaljerView = (props) => {
                             </span>
                         }
                     </div>
-                    <div className="kolonne-bred">{utfallToString(kandidat.utfall)}</div>
+                    <div className="kolonne-bred tabell-tekst">{utfallToString(kandidat.utfall)}</div>
                     <div className="kolonne-smal">
                         <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
                             <i className="Notat__icon" />
