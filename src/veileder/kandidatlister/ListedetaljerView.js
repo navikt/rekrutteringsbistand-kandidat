@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
@@ -122,6 +122,20 @@ const ListedetaljerView = (props) => {
         </div>
     );
 
+    const FinnKandidaterLenke = () => (
+        <Link to={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
+            <i className="FinnKandidater__icon" />
+            <span className="lenke">Finn kandidater</span>
+        </Link>
+    );
+
+    const LeggTilKandidatKnapp = () => (
+        <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
+            <i className="LeggTilKandidat__icon" />
+            Legg til kandidat
+        </Lenkeknapp>
+    );
+
     const KnappeRad = () => {
         const DeleKnapp = () => {
             const Disabled = () => (
@@ -182,14 +196,8 @@ const ListedetaljerView = (props) => {
         return (
             <div className="knappe-rad">
                 <div className="knapper-venstre">
-                    <Link to={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
-                        <i className="FinnKandidater__icon" />
-                        <span className="lenke">Finn kandidater</span>
-                    </Link>
-                    <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
-                        <i className="LeggTilKandidat__icon" />
-                        Legg til kandidat
-                    </Lenkeknapp>
+                    <FinnKandidaterLenke />
+                    <LeggTilKandidatKnapp />
                 </div>
                 <div className="dele-wrapper">
                     <EpostKnapp />
@@ -348,18 +356,32 @@ const ListedetaljerView = (props) => {
             </div>
         );
     };
+    const TomListe = () => (
+        <div className="tom-liste">
+            <div className="content">
+                <Undertittel className="tekst">Du har ingen kandidater i kandidatlisten</Undertittel>
+                <div className="knapper">
+                    <FinnKandidaterLenke />
+                    <LeggTilKandidatKnapp />
+                </div>
+            </div>
+        </div>
+    );
     return (
         <div className="Listedetaljer">
             <SideHeader />
-            <div className="detaljer">
-                <div className="wrapper">
-                    <KnappeRad />
-                    <ListeHeader />
-                    {kandidater.map((kandidat) => (
-                        <KandidatRad key={kandidat.kandidatnr} kandidat={kandidat} />
-                    ))}
+            {kandidater.length > 0
+                ? <div className="detaljer">
+                    <div className="wrapper">
+                        <KnappeRad />
+                        <ListeHeader />
+                        {kandidater.map((kandidat) => (
+                            <KandidatRad key={kandidat.kandidatnr} kandidat={kandidat} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+                : <TomListe />
+            }
         </div>
     );
 };
