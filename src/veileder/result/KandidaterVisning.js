@@ -178,6 +178,7 @@ class KandidaterVisning extends React.Component {
                         disabled={antallMarkert === 0}
                         onClick={this.props.stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
                         id="lagre-kandidater-knapp"
+                        tittel={lagreKandidaterTilStillingKnappTekst(antallMarkert)}
                     >
                         {lagreKandidaterTilStillingKnappTekst(antallMarkert)}
                     </KnappMedHjelpetekst>

@@ -145,6 +145,7 @@ const ListedetaljerView = (props) => {
                 <HjelpetekstMidt
                     id="marker-kandidater-presentere-hjelpetekst"
                     anchor={Disabled}
+                    tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                 >
                     Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
                 </HjelpetekstMidt>
@@ -172,6 +173,7 @@ const ListedetaljerView = (props) => {
                 <HjelpetekstMidt
                     id="marker-kandidater-epost-hjelpetekst"
                     anchor={Disabled}
+                    tittel="Send e-post til de markerte kandidatene"
                 >
                     Du må huke av for kandidatene du ønsker å sende e-post til, og kandidatene må ha en e-postadresse
                 </HjelpetekstMidt>
