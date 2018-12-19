@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import KnappBase from 'nav-frontend-knapper';
 import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
 
-const KnappMedHjelpetekst = ({ disabled, onClick, type, children, spinner, mini, hjelpetekst, id }) => {
+const KnappMedHjelpetekst = ({ disabled, onClick, type, children, spinner, mini, hjelpetekst, id, tittel }) => {
     if (disabled) {
         const disabledClasses = 'knapp knapp--disabled knapp--disabled--clickable';
 
@@ -12,6 +12,7 @@ const KnappMedHjelpetekst = ({ disabled, onClick, type, children, spinner, mini,
             <HjelpetekstUnder
                 id="marker-kandidater-hjelpetekst"
                 anchor={DisabledKnapp}
+                tittel={tittel}
             >
                 {hjelpetekst}
             </HjelpetekstUnder>
@@ -28,7 +29,8 @@ KnappMedHjelpetekst.propTypes = {
     children: PropTypes.string,
     spinner: PropTypes.bool,
     mini: PropTypes.bool,
-    id: PropTypes.string
+    id: PropTypes.string,
+    tittel: PropTypes.string
 };
 
 KnappMedHjelpetekst.defaultProps = {
@@ -36,7 +38,8 @@ KnappMedHjelpetekst.defaultProps = {
     children: '',
     spinner: false,
     mini: false,
-    id: undefined
+    id: undefined,
+    tittel: 'Hjelptekst'
 };
 
 export default KnappMedHjelpetekst;
