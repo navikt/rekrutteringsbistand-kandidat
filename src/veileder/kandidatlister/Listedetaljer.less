@@ -3,8 +3,8 @@
   color: #59514b;
   .side-header {
     background-color: #e3edf8;
-    height: 10.75rem;
     padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
     display: flex;
     justify-content: center;
 
@@ -17,9 +17,7 @@
         justify-content: center;
         align-items: center;
         .tittel {
-          flex: 1;
-          display: flex;
-          justify-content: center;
+          text-align: center;
         }
         .header-side {
           width: 10rem;
@@ -54,7 +52,7 @@
       .knappe-rad {
         display: flex;
         align-items: center;
-        margin-top: 1.25rem;
+        margin-top: 2.5rem;
         height: 1.5rem;
         justify-content: space-between;
         .knapper-venstre {
@@ -90,6 +88,15 @@
           height: 4.5rem;
           display: flex;
           align-items: center;
+          .tabell-tekst {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .tabell-lenke {
+            border-bottom: 1px solid #0067c5;
+            display: inline-block;
+          }
           .kolonne-checkboks {
             padding-left: 1.25rem;
             padding-right: 1.25rem;
@@ -101,6 +108,9 @@
           .kolonne-bred {
             margin-right: 1rem;
             flex: 2;
+          }
+          .kolonne-dato {
+            width: 6rem;
           }
           .status {
             display: flex;

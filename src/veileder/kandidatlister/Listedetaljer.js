@@ -22,6 +22,25 @@ import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
 import { Kandidatliste, Notat } from './PropTypes';
 import './Listedetaljer.less';
 
+const initialKandidatTilstand = () => ({
+    markert: false,
+    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
+    notater: undefined
+});
+
+const trekkUtKandidatTilstander = (kandidater = []) => (
+    kandidater.reduce((tilstand, kandidat) => ({
+        ...tilstand,
+        [kandidat.kandidatnr]: {
+            markert: kandidat.markert,
+            visningsstatus: kandidat.visningsstatus,
+            notater: kandidat.notater
+        }
+    }),
+    {}
+    )
+);
+
 class Listedetaljer extends React.Component {
     constructor(props) {
         super(props);
@@ -30,8 +49,7 @@ class Listedetaljer extends React.Component {
             kandidater: props.kandidatliste === undefined ? undefined :
                 props.kandidatliste.kandidater.map((kandidat) => ({
                     ...kandidat,
-                    markert: false,
-                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
+                    ...initialKandidatTilstand()
                 })),
             deleModalOpen: false,
             leggTilModalOpen: false,
@@ -48,9 +66,11 @@ class Listedetaljer extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.deleStatus !== prevProps.deleStatus && this.props.deleStatus === DELE_STATUS.SUCCESS) {
+        const kandidaterHarNettoppBlittPresentert = this.props.deleStatus !== prevProps.deleStatus && this.props.deleStatus === DELE_STATUS.SUCCESS;
+        if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
-            this.visSuccessMelding('Kandidatene er delt med arbeidsgiver');
+            const antallMarkerteKandidater = this.state.kandidater.filter((kandidat) => kandidat.markert).length;
+            this.visSuccessMelding(`${antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'} er delt med arbeidsgiver`);
         }
         if (this.props.leggTilStatus !== prevProps.leggTilStatus && this.props.leggTilStatus === LAGRE_STATUS.SUCCESS) {
             this.visSuccessMelding(`Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`);
@@ -60,13 +80,16 @@ class Listedetaljer extends React.Component {
         }
         if ((!prevProps.kandidatliste && this.props.kandidatliste.kandidater)
             || prevProps.kandidatliste.kandidater !== this.props.kandidatliste.kandidater) {
+            const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
             this.setState({
-                kandidater: this.props.kandidatliste.kandidater.map((kandidat) => ({
-                    ...kandidat,
-                    markert: false,
-                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
-                    notater: undefined
-                }))
+                kandidater: this.props.kandidatliste.kandidater.map((kandidat) => {
+                    const kandidatTilstand = (!kandidaterHarNettoppBlittPresentert && kandidatTilstander[kandidat.kandidatnr]) || initialKandidatTilstand();
+                    return {
+                        ...kandidat,
+                        ...kandidatTilstand
+                    };
+                }),
+                alleMarkert: !kandidaterHarNettoppBlittPresentert && this.state.alleMarkert
             });
         }
         if (this.props.notaterForKandidat && this.props.notaterForKandidat !== prevProps.notaterForKandidat) {
