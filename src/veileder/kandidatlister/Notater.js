@@ -132,6 +132,7 @@ class Notater extends React.Component {
                                     textareaClass="nytt-notat-tekst"
                                     value={this.state.nyttNotatTekst}
                                     onChange={this.oppdaterNyttNotatTekst}
+                                    autoFocus
                                     feil={
                                         this.state.nyttNotatFeil
                                             ? { feilmelding: 'Tekstfeltet kan ikke være tomt' }
