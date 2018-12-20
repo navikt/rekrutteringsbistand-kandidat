@@ -72,7 +72,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             to={tilbakeLink}
                             className={lenkeClass}
                         >
-                            <NavFrontendChevron type="venstre" /> Til {kandidatListe || stillingsId ? 'kandidatlisten' : 'kandidatsøket'}
+                            <NavFrontendChevron type="venstre" /> Til {kandidatListe || (contextRoot === 'kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
 
                         <div className="navigering-forrige-neste">
