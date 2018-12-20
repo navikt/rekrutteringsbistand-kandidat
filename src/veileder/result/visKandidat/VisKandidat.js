@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Lenke from 'nav-frontend-lenker';
+import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
-import { FETCH_CV } from '../../sok/cv/cvReducer';
+import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
@@ -49,10 +50,10 @@ class VisKandidat extends React.Component {
     };
 
     render() {
-        const { cv, isFetchingCv, match } = this.props;
+        const { cv, match, hentStatus } = this.props;
         const stillingsId = match.params.stillingsId;
 
-        if (isFetchingCv) {
+        if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -68,17 +69,31 @@ class VisKandidat extends React.Component {
                     stillingsId={stillingsId}
                     forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)}
                     nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)}
+                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                 />
-                <div className="VisKandidat-knapperad">
-                    <div className="content">
-                        <Lenke className="frittstaende-lenke ForlateSiden" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`} target="_blank">
-                            <span className="lenke">Se aktivitetsplan</span>
-                            <i className="ForlateSiden__icon" />
-                        </Lenke>
+                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                    <div className="cvIkkeFunnet">
+                        <div className="content">
+                            <Undertittel className="tekst">
+                                Du kan ikke se mer informasjon om kandidaten nå.
+                                Årsaken kan være at kandidaten har skiftet status, eller tekniske problemer i søk.
+                            </Undertittel>
+                        </div>
                     </div>
-                </div>
-                <VisKandidatJobbprofil cv={cv} />
-                <VisKandidatCv cv={cv} />
+                ) : (
+                    <div>
+                        <div className="VisKandidat-knapperad">
+                            <div className="content">
+                                <Lenke className="frittstaende-lenke ForlateSiden" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`} target="_blank">
+                                    <span className="lenke">Se aktivitetsplan</span>
+                                    <i className="ForlateSiden__icon" />
+                                </Lenke>
+                            </div>
+                        </div>
+                        <VisKandidatJobbprofil cv={cv} />
+                        <VisKandidatCv cv={cv} />
+                    </div>
+                )}
             </div>
         );
     }
@@ -94,10 +109,10 @@ VisKandidat.defaultProps = {
 
 VisKandidat.propTypes = {
     cv: cvPropTypes.isRequired,
-    isFetchingCv: PropTypes.bool.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     settValgtKandidat: PropTypes.func.isRequired,
+    hentStatus: PropTypes.string.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
             stillingsId: PropTypes.string
@@ -106,9 +121,9 @@ VisKandidat.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv,
-    kandidater: state.search.searchResultat.resultat.kandidater
+    kandidater: state.search.searchResultat.resultat.kandidater,
+    hentStatus: state.cvReducer.hentStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({

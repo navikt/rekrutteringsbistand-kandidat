@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { SearchApiError, fetchCv } from '../../api';
+import { INVALID_RESPONSE_STATUS } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -8,14 +9,19 @@ import { SearchApiError, fetchCv } from '../../api';
 export const FETCH_CV = 'FETCH_CV';
 export const FETCH_CV_BEGIN = 'FETCH_CV_BEGIN';
 export const FETCH_CV_SUCCESS = 'FETCH_CV_SUCCESS';
+export const FETCH_CV_NOT_FOUND = 'FETCH_CV_NOT_FOUND';
 export const FETCH_CV_FAILURE = 'FETCH_CV_FAILURE';
-
-export const OPEN_CV_MODAL = 'OPEN_CV_MODAL';
-export const CLOSE_CV_MODAL = 'CLOSE_CV_MODAL';
 
 /** *********************************************************
  * REDUCER
  ********************************************************* */
+
+export const HENT_CV_STATUS = {
+    IKKE_HENTET: 'IKKE_HENTET',
+    LOADING: 'LOADING',
+    SUCCESS: 'SUCCESS',
+    FINNES_IKKE: 'FINNES_IKKE'
+};
 
 const initialState = {
     cv: {
@@ -25,8 +31,7 @@ const initialState = {
         sertifikater: [],
         sprak: []
     },
-    isCvModalOpen: false,
-    isFetchingCv: false
+    hentStatus: HENT_CV_STATUS.IKKE_HENTET
 };
 
 export default function cvReducer(state = initialState, action) {
@@ -34,30 +39,18 @@ export default function cvReducer(state = initialState, action) {
         case FETCH_CV_BEGIN:
             return {
                 ...state,
-                isFetchingCv: true
+                hentStatus: HENT_CV_STATUS.LOADING
             };
         case FETCH_CV_SUCCESS:
             return {
                 ...state,
-                isFetchingCv: false,
-                cv: action.response
+                cv: action.response,
+                hentStatus: HENT_CV_STATUS.SUCCESS
             };
-        case FETCH_CV_FAILURE:
+        case FETCH_CV_NOT_FOUND:
             return {
                 ...state,
-                isFetchingCv: false,
-                error: action.error
-            };
-        case OPEN_CV_MODAL:
-            return {
-                ...state,
-                isCvModalOpen: true
-            };
-        case CLOSE_CV_MODAL:
-            return {
-                ...state,
-                cv: { ...initialState.cv },
-                isCvModalOpen: false
+                hentStatus: HENT_CV_STATUS.FINNES_IKKE
             };
         default:
             return state;
@@ -76,13 +69,22 @@ function* fetchCvForKandidat(action) {
         yield put({ type: FETCH_CV_SUCCESS, response });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: FETCH_CV_FAILURE, error: e });
+            if (e.status === 404) {
+                yield put({ type: FETCH_CV_NOT_FOUND });
+            } else {
+                yield put({ type: FETCH_CV_FAILURE, error: e });
+            }
         } else {
             throw e;
         }
     }
 }
 
+function* dispatchGenerellErrorAction(action) {
+    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+}
+
 export const cvSaga = function* cvSaga() {
     yield takeLatest(FETCH_CV, fetchCvForKandidat);
+    yield takeLatest(FETCH_CV_FAILURE, dispatchGenerellErrorAction);
 };
