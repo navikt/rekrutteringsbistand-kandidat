@@ -52,12 +52,6 @@ export default function cvReducer(state = initialState, action) {
                 ...state,
                 hentStatus: HENT_CV_STATUS.FINNES_IKKE
             };
-        case FETCH_CV_FAILURE:
-            return {
-                ...state,
-                isFetchingCv: false,
-                error: action.error
-            };
         default:
             return state;
     }
@@ -86,11 +80,11 @@ function* fetchCvForKandidat(action) {
     }
 }
 
-function* sjekkError(action) {
+function* dispatchGenerellErrorAction(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
 
 export const cvSaga = function* cvSaga() {
     yield takeLatest(FETCH_CV, fetchCvForKandidat);
-    yield takeLatest(FETCH_CV_FAILURE, sjekkError);
+    yield takeLatest(FETCH_CV_FAILURE, dispatchGenerellErrorAction);
 };
