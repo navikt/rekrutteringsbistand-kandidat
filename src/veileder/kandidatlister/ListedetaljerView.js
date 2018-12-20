@@ -342,7 +342,7 @@ const ListedetaljerView = (props) => {
                                 </Normaltekst>
                                 <Normaltekst className="tekst">
                                     Telefon: {
-                                        kandidat.telefon ? <a className="lenke" href={`tel:${kandidat.telefon}`}>{kandidat.telefon}</a> : <span>&mdash;</span>
+                                        kandidat.telefon ? kandidat.telefon : <span>&mdash;</span>
                                     }
                                 </Normaltekst>
                             </div>
