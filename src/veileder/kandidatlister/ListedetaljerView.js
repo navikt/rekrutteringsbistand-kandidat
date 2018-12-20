@@ -207,27 +207,52 @@ const ListedetaljerView = (props) => {
         );
     };
 
-    const ListeHeader = () => (
-        <div className="liste-rad-wrapper liste-header">
-            <div className="liste-rad">
-                <div className="kolonne-checkboks">
-                    <Checkbox
-                        label="&#8203;" // <- tegnet for tom streng
-                        className="text-hide"
-                        checked={alleMarkert}
-                        onChange={onCheckAlleKandidater}
-                    />
+    const ListeHeader = () => {
+        const Sporsmalstegn = () => (
+            <span className="Sporsmalstegn">
+                <span className="Sporsmalstegn__icon" />
+            </span>
+        );
+        const StatusHjelpetekst = () => (
+            <HjelpetekstMidt id="sd" anchor={Sporsmalstegn} className="bred-hjelpetekst statusforklaring-stor">
+                <strong>Forklaring til status</strong>
+                <ul className="statusliste">
+                    <li>Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status vurderes</li>
+                    <li>Kontaktet &ndash; Kandidaten er kontaktet, og det ventes på svar</li>
+                    <li>Aktuell &ndash; Kandidaten er vurdert som aktuell for stillingen</li>
+                    <li>Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen</li>
+                    <li>Ikke interessert &ndash; Kandidaten er ikke interessert i stillingen</li>
+                </ul>
+                Statusene er kun synlig internt og vil ikke bli delt med arbeidsgiver.
+            </HjelpetekstMidt>
+        );
+        return (
+            <div className="liste-rad-wrapper liste-header">
+                <div className="liste-rad">
+                    <div className="kolonne-checkboks">
+                        <Checkbox
+                            label="&#8203;" // <- tegnet for tom streng
+                            className="text-hide"
+                            checked={alleMarkert}
+                            onChange={onCheckAlleKandidater}
+                        />
+                    </div>
+                    <div className="kolonne-bred"><Element>Navn</Element></div>
+                    <div className="kolonne-dato"><Element>Fødselsdato</Element></div>
+                    <div className="kolonne-bred"><Element>Lagt til av</Element></div>
+                    <div className="kolonne-bred">
+                        <div className="status-overskrift">
+                            Status
+                            <StatusHjelpetekst />
+                        </div>
+                    </div>
+                    <div className="kolonne-bred"><Element>Utfall</Element></div>
+                    <div className="kolonne-smal"><Element>Notater</Element></div>
+                    <div className="kolonne-smal"><Element>Mer info</Element></div>
                 </div>
-                <div className="kolonne-bred"><Element>Navn</Element></div>
-                <div className="kolonne-dato"><Element>Fødselsdato</Element></div>
-                <div className="kolonne-bred"><Element>Lagt til av</Element></div>
-                <div className="kolonne-bred"><Element>Status</Element></div>
-                <div className="kolonne-bred"><Element>Utfall</Element></div>
-                <div className="kolonne-smal"><Element>Notater</Element></div>
-                <div className="kolonne-smal"><Element>Mer info</Element></div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const StatusSelect = ({ value, onChange }) => ( // eslint-disable-line react/prop-types
         <div className="skjemaelement">
