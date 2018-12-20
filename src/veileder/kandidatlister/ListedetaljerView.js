@@ -339,7 +339,7 @@ const ListedetaljerView = (props) => {
                             </div>
                             <div className="innsatsgruppe-kolonne">
                                 <Normaltekst><strong>Innsatsgruppe:</strong>{` ${kandidat.innsatsgruppe}`}</Normaltekst>
-                                <Lenke className="frittstaende-lenke ForlateSiden tekst" href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnummer}`} target="_blank">
+                                <Lenke className="frittstaende-lenke ForlateSiden tekst" href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`} target="_blank">
                                     <span className="lenke">Se aktivitetsplan</span>
                                     <i className="ForlateSiden__icon" />
                                 </Lenke>
