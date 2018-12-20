@@ -45,6 +45,7 @@ export default class RedigerNotatModal extends React.Component {
                     <Systemtittel className="overskrift">Rediger notat</Systemtittel>
                     <div className="tekstomrade">
                         <Textarea
+                            autoFocus
                             label="Notat"
                             value={notatTekst}
                             onChange={this.onTekstChange}
@@ -52,7 +53,7 @@ export default class RedigerNotatModal extends React.Component {
                             feil={feilmelding ? { feilmelding } : undefined}
                         />
                     </div>
-                    <Hovedknapp className="modalknapp" onClick={this.onLagreKlikk}>Lagre</Hovedknapp>
+                    <Hovedknapp className="modalknapp venstre" onClick={this.onLagreKlikk}>Lagre</Hovedknapp>
                     <Flatknapp className="modalknapp" onClick={onClose}>Avbryt</Flatknapp>
                 </div>
             </NavFrontendModal>
