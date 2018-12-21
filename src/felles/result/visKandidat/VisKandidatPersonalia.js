@@ -99,7 +99,7 @@ export default class VisKandidatPersonalia extends React.Component {
 
                 <Row>
                     <Sidetittel className="header--personalia__overskrift">
-                        {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjon om kandidaten kan ikke vises'}
+                        {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
                     {cv.fodselsdato && (
                         <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
