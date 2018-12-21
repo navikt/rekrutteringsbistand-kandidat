@@ -42,16 +42,21 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const { lagredeKandidatlister, antallLagredeKandidater } = this.props;
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            let suksessmeldingText;
+            let suksessmeldingText = '';
             if (this.props.match.params.stillingsId) {
                 suksessmeldingText = this.props.antallLagredeKandidater > 1
                     ? `${this.props.antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`
                     : `Kandidaten er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`;
-            } else {
-                suksessmeldingText = this.props.antallLagredeKandidater > 1
-                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til`
-                    : 'Kandidaten er lagt til';
+            } else if (lagredeKandidatlister.length === 1 && antallLagredeKandidater === 1) { // 1 liste, 1 kandidat
+                suksessmeldingText = `Kandidaten er lagt til i kandidatlisten ${lagredeKandidatlister[0].tittel}`;
+            } else if (lagredeKandidatlister.length === 1 && antallLagredeKandidater > 1) { // 1 liste, flere kandidater
+                suksessmeldingText = `${antallLagredeKandidater} kandidater er lagt til i kandidatlisten ${lagredeKandidatlister[0].tittel}`;
+            } else if (lagredeKandidatlister.length > 1 && antallLagredeKandidater === 1) { // Flere lister, 1 kandidat
+                suksessmeldingText = `Kandidaten er lagt til i ${lagredeKandidatlister.length} lister`;
+            } else if (lagredeKandidatlister.length > 1 && antallLagredeKandidater > 1) { // Flere lister, flere kandidater
+                suksessmeldingText = `${antallLagredeKandidater} kandidater er lagt til i ${lagredeKandidatlister.length} lister`;
             }
             this.setState({ lagreSuksessmeldingText: suksessmeldingText });
             this.visAlertstripeLagreKandidater();
@@ -240,6 +245,10 @@ ResultatVisning.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
+    lagredeKandidatlister: PropTypes.arrayOf(PropTypes.shape({
+        kandidatlisteId: PropTypes.string,
+        tittel: PropTypes.string
+    })).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
@@ -256,6 +265,7 @@ const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
+    lagredeKandidatlister: state.kandidatlister.leggTilKandidater.lagredeLister,
     harHentetStilling: state.search.harHentetStilling,
     stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,

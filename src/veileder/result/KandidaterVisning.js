@@ -103,8 +103,8 @@ class KandidaterVisning extends React.Component {
         }
     };
 
-    onLagreKandidatlister = (kandidatlisteIder) => {
-        this.props.leggTilKandidaterIKandidatliste(kandidatlisteIder, this.state.kandidater
+    onLagreKandidatlister = (kandidatlister) => {
+        this.props.leggTilKandidaterIKandidatliste(kandidatlister, this.state.kandidater
             .filter((kandidat) => (kandidat.markert))
             .map((kandidat) => ({
                 kandidatnr: kandidat.arenaKandidatnr,
@@ -230,7 +230,7 @@ KandidaterVisning.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidatlisteIder, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatlisteIder, kandidater }); },
+    leggTilKandidaterIKandidatliste: (kandidatlister, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatlister, kandidater }); },
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },

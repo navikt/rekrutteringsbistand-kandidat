@@ -107,9 +107,15 @@ class LagreKandidaterModal extends React.Component {
     };
 
     lagreKandidater = () => {
-        const markerteLister = this.state.kandidatlister.filter((liste) => liste.markert).map((liste) => (liste.kandidatlisteId));
+        const markerteLister = this.state.kandidatlister.filter((liste) => liste.markert).map((liste) => ({
+            kandidatlisteId: liste.kandidatlisteId,
+            tittel: liste.tittel
+        }));
         if (this.state.hentetListe && this.state.hentetListe.markert) {
-            markerteLister.push(this.state.hentetListe.kandidatlisteId);
+            markerteLister.push({
+                kandidatlisteId: this.state.hentetListe.kandidatlisteId,
+                tittel: this.state.hentetListe.tittel
+            });
         }
         if (markerteLister.length === 0) {
             this.setState({ ingenMarkerteListerFeilmelding: 'Vennligst velg én eller flere stillinger, eller søk etter en stilling' });
