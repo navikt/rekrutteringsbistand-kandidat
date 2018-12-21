@@ -83,6 +83,11 @@ export default class PresenterKandidaterModal extends React.Component {
                     ...mailadresseFelt,
                     errorTekst: 'Mailadresse må inneholde @'
                 };
+            } else if (mailadresseFelt.value.trim() && mailadresseFelt.value.split('@').length > 2) {
+                return {
+                    ...mailadresseFelt,
+                    errorTekst: 'Kan ikke legge til flere mailadresser i samme felt, bruk heller "+ Legg til flere"-knappen'
+                };
             }
             return mailadresseFelt;
         });
@@ -144,7 +149,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     />
                     <div>
                         <Hovedknapp onClick={this.validerOgLagre}>Del</Hovedknapp>
-                        <Flatknapp onClick={this.props.onClose}>Avbryt</Flatknapp>
+                        <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>Avbryt</Flatknapp>
                     </div>
                 </div>
             </NavFrontendModal>
