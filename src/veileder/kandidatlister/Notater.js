@@ -100,7 +100,7 @@ class Notater extends React.Component {
                 </div>
                 <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
                 <Hovedknapp onClick={() => { onSletteNotat(notat.notatId); }}>Slett</Hovedknapp>
-                <Flatknapp onClick={this.onCloseSletteModal}>Avbryt</Flatknapp>
+                <Flatknapp className="avbryt--knapp" onClick={this.onCloseSletteModal}>Avbryt</Flatknapp>
             </NavFrontendModal>
         );
         return (
