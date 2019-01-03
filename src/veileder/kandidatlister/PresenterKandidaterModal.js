@@ -124,7 +124,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     }
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
-                        Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling og en lenke for å logge inn.
+                        Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling og lenke for å logge inn.
                         Etter innlogging kan arbeidsgiveren se kandidatlisten.
                     </Normaltekst>
                     <div className="mailadresser">
