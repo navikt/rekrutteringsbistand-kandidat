@@ -83,6 +83,11 @@ export default class PresenterKandidaterModal extends React.Component {
                     ...mailadresseFelt,
                     errorTekst: 'Mailadresse må inneholde @'
                 };
+            } else if (mailadresseFelt.value.trim() && mailadresseFelt.value.split('@').length > 2) {
+                return {
+                    ...mailadresseFelt,
+                    errorTekst: 'Du kan kun skrive én e-postadresse. Bruk "+ Legg til flere" for å dele listen med flere'
+                };
             }
             return mailadresseFelt;
         });
@@ -119,15 +124,15 @@ export default class PresenterKandidaterModal extends React.Component {
                     }
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
-                        De du deler listen med vil motta en e-post om at de har mottatt en kandidatliste fra NAV,
-                        navn på stilling og lenke for å logge inn.
+                        Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling og lenke for å logge inn.
+                        Etter innlogging kan arbeidsgiveren se kandidatlisten.
                     </Normaltekst>
                     <div className="mailadresser">
                         { this.state.mailadresser.map((mailadresseFelt) => (
                             <Input
                                 className={mailadresseFelt.show ? 'show' : undefined}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
-                                label={mailadresseFelt.id === 0 ? 'Mailadresse til arbeidsgiver*' : ''}
+                                label={mailadresseFelt.id === 0 ? 'E-postadresse til arbeidsgiver*' : ''}
                                 placeholder={mailadresseFelt.id === 0 ? 'For eksempel: kari.nordmann@firma.no' : undefined}
                                 value={mailadresseFelt.value}
                                 onChange={this.onMailadresseChange(mailadresseFelt.id)}
@@ -144,7 +149,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     />
                     <div>
                         <Hovedknapp onClick={this.validerOgLagre}>Del</Hovedknapp>
-                        <Flatknapp onClick={this.props.onClose}>Avbryt</Flatknapp>
+                        <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>Avbryt</Flatknapp>
                     </div>
                 </div>
             </NavFrontendModal>

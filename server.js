@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign, no-console */
 const express = require('express');
+const compression = require('compression');
 const proxy = require('express-http-proxy');
 const helmet = require('helmet');
 const path = require('path');
@@ -12,6 +13,7 @@ const jwt = require('jsonwebtoken');
 const currentDirectory = __dirname;
 
 const server = express();
+server.use(compression());
 const port = process.env.PORT || 8080;
 
 const APPS = {

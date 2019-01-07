@@ -52,6 +52,7 @@
   "dependencies": {
     "autotrack": "^2.4.1",
     "babel-runtime": "^6.26.0",
+    "compression": "^1.7.3",
     "express": "^4.16.2",
     "express-http-proxy": "^1.4.0",
     "helmet": "^3.13.0",
@@ -89,7 +90,7 @@
     "nav-frontend-spinner-style": "^0.2.5",
     "nav-frontend-typografi": "^2.0.6",
     "nav-frontend-typografi-style": "^1.0.10",
-    "pam-frontend-header": "^2.1.2",
+    "pam-frontend-header": "^2.2.1",
     "promise": "^8.0.2",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
