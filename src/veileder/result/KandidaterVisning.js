@@ -165,7 +165,7 @@ class KandidaterVisning extends React.Component {
                     onRequestClose={this.toggleLagreKandidaterTilStillingModal}
                     onLagre={this.onLagreKandidatlister}
                     antallMarkerteKandidater={antallMarkert}
-                    kandidatlisteId={this.state.kandidatlisteId}
+                    kandidatliste={this.props.kandidatliste}
                     stillingsoverskrift={this.props.stillingsoverskrift}
                 />
                 }

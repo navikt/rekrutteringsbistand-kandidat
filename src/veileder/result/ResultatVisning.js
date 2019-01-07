@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -42,23 +41,8 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { lagredeKandidatlister, antallLagredeKandidater } = this.props;
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            let suksessmeldingText = '';
-            if (this.props.match.params.stillingsId) {
-                suksessmeldingText = this.props.antallLagredeKandidater > 1
-                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`
-                    : `Kandidaten er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`;
-            } else if (lagredeKandidatlister.length === 1 && antallLagredeKandidater === 1) { // 1 liste, 1 kandidat
-                suksessmeldingText = `Kandidaten er lagt til i kandidatlisten ${lagredeKandidatlister[0].tittel}`;
-            } else if (lagredeKandidatlister.length === 1 && antallLagredeKandidater > 1) { // 1 liste, flere kandidater
-                suksessmeldingText = `${antallLagredeKandidater} kandidater er lagt til i kandidatlisten ${lagredeKandidatlister[0].tittel}`;
-            } else if (lagredeKandidatlister.length > 1 && antallLagredeKandidater === 1) { // Flere lister, 1 kandidat
-                suksessmeldingText = `Kandidaten er lagt til i ${lagredeKandidatlister.length} lister`;
-            } else if (lagredeKandidatlister.length > 1 && antallLagredeKandidater > 1) { // Flere lister, flere kandidater
-                suksessmeldingText = `${antallLagredeKandidater} kandidater er lagt til i ${lagredeKandidatlister.length} lister`;
-            }
-            this.setState({ lagreSuksessmeldingText: suksessmeldingText });
+            this.setSuccessMeldingText();
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -85,6 +69,20 @@ class ResultatVisning extends React.Component {
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
+    };
+
+    setSuccessMeldingText = () => {
+        const { lagredeKandidatlister, antallLagredeKandidater, stillingsoverskrift } = this.props;
+        if (this.props.match.params.stillingsId) {
+            this.setState({
+                lagreSuksessmeldingText: `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`
+            });
+        } else {
+            this.setState({ lagreSuksessmeldingText:
+                `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
+                ${lagredeKandidatlister.length > 1 ? `${lagredeKandidatlister.length} lister` : `kandidatlisten «${lagredeKandidatlister[0].tittel}»`}`
+            });
+        }
     };
 
     visAlertstripeLagreKandidater = () => {

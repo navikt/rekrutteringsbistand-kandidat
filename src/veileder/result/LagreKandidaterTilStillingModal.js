@@ -5,10 +5,10 @@ import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 const LagreKandidaterTilStillingModal = (props) => {
-    const { vis, onLagre, onRequestClose, stillingsoverskrift, antallMarkerteKandidater, kandidatlisteId } = props;
+    const { vis, onLagre, onRequestClose, stillingsoverskrift, antallMarkerteKandidater, kandidatliste } = props;
 
     const lagreKandidater = () => {
-        onLagre([kandidatlisteId]);
+        onLagre([kandidatliste]);
     };
 
     return (
@@ -51,7 +51,9 @@ LagreKandidaterTilStillingModal.propTypes = {
     onRequestClose: PropTypes.func.isRequired,
     stillingsoverskrift: PropTypes.string,
     antallMarkerteKandidater: PropTypes.number.isRequired,
-    kandidatlisteId: PropTypes.string.isRequired
+    kandidatliste: PropTypes.shape({
+        kandidatlisteId: PropTypes.string
+    }).isRequired
 };
 
 export default LagreKandidaterTilStillingModal;
