@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -43,17 +42,7 @@ class ResultatVisning extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            let suksessmeldingText;
-            if (this.props.match.params.stillingsId) {
-                suksessmeldingText = this.props.antallLagredeKandidater > 1
-                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`
-                    : `Kandidaten er lagt til i kandidatlisten «${this.props.stillingsoverskrift}»`;
-            } else {
-                suksessmeldingText = this.props.antallLagredeKandidater > 1
-                    ? `${this.props.antallLagredeKandidater} kandidater er lagt til`
-                    : 'Kandidaten er lagt til';
-            }
-            this.setState({ lagreSuksessmeldingText: suksessmeldingText });
+            this.setSuccessMeldingText();
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -80,6 +69,20 @@ class ResultatVisning extends React.Component {
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
+    };
+
+    setSuccessMeldingText = () => {
+        const { lagredeKandidatlister, antallLagredeKandidater, stillingsoverskrift } = this.props;
+        if (this.props.match.params.stillingsId) {
+            this.setState({
+                lagreSuksessmeldingText: `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`
+            });
+        } else {
+            this.setState({ lagreSuksessmeldingText:
+                `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
+                ${lagredeKandidatlister.length > 1 ? `${lagredeKandidatlister.length} lister` : `kandidatlisten «${lagredeKandidatlister[0].tittel}»`}`
+            });
+        }
     };
 
     visAlertstripeLagreKandidater = () => {
@@ -240,6 +243,10 @@ ResultatVisning.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
+    lagredeKandidatlister: PropTypes.arrayOf(PropTypes.shape({
+        kandidatlisteId: PropTypes.string,
+        tittel: PropTypes.string
+    })).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
@@ -256,6 +263,7 @@ const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
+    lagredeKandidatlister: state.kandidatlister.leggTilKandidater.lagredeLister,
     harHentetStilling: state.search.harHentetStilling,
     stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,
