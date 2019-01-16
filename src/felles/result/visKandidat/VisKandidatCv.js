@@ -66,13 +66,9 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={u.tilDato}
                                         />
                                     </Undertekst>
-                                    <Element>{u.nusKodeUtdanningsnavn}</Element>
-                                    {u.utdannelsessted && (
-                                        <Normaltekst>{u.utdannelsessted}</Normaltekst>
-                                    )}
-                                    {u.alternativtUtdanningsnavn && (
-                                        <Normaltekst>{u.alternativtUtdanningsnavn}</Normaltekst>
-                                    )}
+                                    <Element>{u.alternativtUtdanningsnavn ? u.alternativtUtdanningsnavn : u.nusKodeUtdanningsnavn}</Element>
+                                    {u.utdannelsessted && <Normaltekst>{u.utdannelsessted}</Normaltekst>}
+                                    {u.beskrivelse && <Normaltekst>{u.beskrivelse}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -94,13 +90,32 @@ const VisKandidatCv = ({ cv }) => (
                                             navarende={!a.tilDato}
                                         />
                                     </Undertekst>
-                                    {a.styrkKodeStillingstittel && <Element>{a.styrkKodeStillingstittel}</Element>}
-                                    {a.arbeidsgiver && (
-                                        <Normaltekst>{a.arbeidsgiver}</Normaltekst>
-                                    )}
-                                    {a.alternativStillingstittel && (
-                                        <Normaltekst>{a.alternativStillingstittel}</Normaltekst>
-                                    )}
+                                    {<Element>{a.alternativStillingstittel ? a.alternativStillingstittel : a.styrkKodeStillingstittel}</Element>}
+                                    {a.arbeidsgiver && <Normaltekst>{a.arbeidsgiver}</Normaltekst>}
+                                    {a.beskrivelse && <Normaltekst>{a.beskrivelse}</Normaltekst>}
+                                </Row>
+                            ))}
+                    </Column>
+                </Row>
+            )}
+            {cv.annenErfaring && cv.annenErfaring.length !== 0 && (
+                <Row className="panel--cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Annen erfaring</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {sortByDato(cv.annenErfaring)
+                            .map((a, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...a, index: i })}>
+                                    <Undertekst className="cv--tidsperiode">
+                                        <Tidsperiode
+                                            fradato={a.fraDato}
+                                            tildato={a.tilDato}
+                                            navarende={!a.tilDato}
+                                        />
+                                    </Undertekst>
+                                    {a.rolle && <Element>{a.rolle}</Element>}
+                                    {a.beskrivelse && <Normaltekst>{a.beskrivelse}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -121,12 +136,8 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={k.tilDato}
                                         />
                                     </Undertekst>
-                                    {k.tittel && (
-                                        <Element>{k.tittel}</Element>
-                                    )}
-                                    {k.arrangor && (
-                                        <Normaltekst>{k.arrangor}</Normaltekst>
-                                    )}
+                                    {k.tittel && <Element>{k.tittel}</Element>}
+                                    {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -147,15 +158,8 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={s.tilDato}
                                         />
                                     </Undertekst>
-                                    {s.sertifikatKodeNavn && (
-                                        <Element>{s.sertifikatKodeNavn}</Element>
-                                    )}
-                                    {s.utsteder && (
-                                        <Normaltekst>{s.utsteder}</Normaltekst>
-                                    )}
-                                    {s.alternativtNavn && (
-                                        <Normaltekst>{s.alternativtNavn}</Normaltekst>
-                                    )}
+                                    <Element>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Element>
+                                    {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -176,15 +180,8 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={s.tilDato}
                                         />
                                     </Undertekst>
-                                    {s.sertifikatKodeNavn && (
-                                        <Element>{s.sertifikatKodeNavn}</Element>
-                                    )}
-                                    {s.utsteder && (
-                                        <Normaltekst>{s.utsteder}</Normaltekst>
-                                    )}
-                                    {s.alternativtNavn && (
-                                        <Normaltekst>{s.alternativtNavn}</Normaltekst>
-                                    )}
+                                    <Element>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Element>
+                                    {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -198,15 +195,8 @@ const VisKandidatCv = ({ cv }) => (
                     <Column xs="12" sm="7">
                         {cv.sprak.map((s) => (
                             <Row className="row--kategori" key={JSON.stringify(s)}>
-                                {s.kompetanseKodeTekst && (
-                                    <Element>{s.kompetanseKodeTekst}</Element>
-                                )}
-                                {s.beskrivelse && (
-                                    <Normaltekst>{s.beskrivelse}</Normaltekst>
-                                )}
-                                {s.alternativTekst && (
-                                    <Normaltekst>{s.alternativTekst}</Normaltekst>
-                                )}
+                                <Element>{s.alternativTekst ? s.alternativTekst : s.kompetanseKodeTekst}</Element>
+                                {s.beskrivelse && <Normaltekst>{s.beskrivelse}</Normaltekst>}
                             </Row>
                         ))}
                     </Column>
