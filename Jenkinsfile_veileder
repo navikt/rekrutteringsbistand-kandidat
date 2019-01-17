@@ -37,8 +37,8 @@ node {
         withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088']) {
             // githubAppToken is not a magic secret variable, so mask it manually by disabling shell echo
             // Would be great if withCredentials could be used to mask the value, mark it as secret, or similar
-            println("Repository URL is https://x-access-token:****@github.com/${repo}/${app}.git")
-            sh(script: "set +x; git clone https://x-access-token:${githubAppToken}@github.com/${repo}/${app}.git .")
+            println("Repository URL is https://x-access-token:****@github.com/navikt/${repo}.git")
+            sh(script: "set +x; git clone https://x-access-token:${githubAppToken}@github.com/navikt/${repo}.git .")
         }
 
         commitHashShort = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
