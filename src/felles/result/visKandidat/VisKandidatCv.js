@@ -35,6 +35,14 @@ const fjernDuplikater = (forerkortListe) => {
     return forerkortUtenDuplikater;
 };
 
+const kursOmfang = (omfang) => {
+    if (omfang.enhet === 'TIME') return `${omfang.verdi} ${omfang.verdi > 1 ? 'timer' : 'time'}`;
+    else if (omfang.enhet === 'DAG') return `${omfang.verdi} ${omfang.verdi > 1 ? 'dager' : 'dag'}`;
+    else if (omfang.enhet === 'UKE') return `${omfang.verdi} ${omfang.verdi > 1 ? 'uker' : 'uke'}`;
+    else if (omfang.enhet === 'MND') return `${omfang.verdi} ${omfang.verdi > 1 ? 'måneder' : 'måned'}`;
+    return '';
+};
+
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
@@ -66,8 +74,11 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={u.tilDato}
                                         />
                                     </Undertekst>
-                                    <Element>{u.alternativtUtdanningsnavn ? u.alternativtUtdanningsnavn : u.nusKodeUtdanningsnavn}</Element>
                                     {u.utdannelsessted && <Normaltekst>{u.utdannelsessted}</Normaltekst>}
+                                    <Element>{u.alternativtUtdanningsnavn ? u.alternativtUtdanningsnavn : u.nusKodeUtdanningsnavn}</Element>
+                                    {(u.yrkestatus === 'MESTERBREV' || u.yrkestatus === 'SVENNEBREV_FAGBREV') && (
+                                        <Normaltekst>{u.yrkestatus === 'MESTERBREV' ? 'Mesterbrev' : 'Fagbrev/svennebrev'}</Normaltekst>
+                                    )}
                                     {u.beskrivelse && <Normaltekst>{u.beskrivelse}</Normaltekst>}
                                 </Row>
                             ))}
@@ -90,8 +101,8 @@ const VisKandidatCv = ({ cv }) => (
                                             navarende={!a.tilDato}
                                         />
                                     </Undertekst>
-                                    {<Element>{a.alternativStillingstittel ? a.alternativStillingstittel : a.styrkKodeStillingstittel}</Element>}
                                     {a.arbeidsgiver && <Normaltekst>{a.arbeidsgiver}</Normaltekst>}
+                                    {<Element>{a.alternativStillingstittel ? a.alternativStillingstittel : a.styrkKodeStillingstittel}</Element>}
                                     {a.beskrivelse && <Normaltekst>{a.beskrivelse}</Normaltekst>}
                                 </Row>
                             ))}
@@ -136,8 +147,9 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={k.tilDato}
                                         />
                                     </Undertekst>
-                                    {k.tittel && <Element>{k.tittel}</Element>}
                                     {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
+                                    {k.tittel && <Element>{k.tittel}</Element>}
+                                    {kursOmfang(k.omfang) && <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
@@ -158,8 +170,7 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={s.tilDato}
                                         />
                                     </Undertekst>
-                                    <Element>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Element>
-                                    {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
+                                    <Normaltekst>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Normaltekst>
                                 </Row>
                             ))}
                     </Column>
@@ -180,8 +191,7 @@ const VisKandidatCv = ({ cv }) => (
                                             tildato={s.tilDato}
                                         />
                                     </Undertekst>
-                                    <Element>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Element>
-                                    {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
+                                    <Normaltekst>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Normaltekst>
                                 </Row>
                             ))}
                     </Column>
