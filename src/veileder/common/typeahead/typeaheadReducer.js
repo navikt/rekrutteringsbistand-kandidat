@@ -1,7 +1,7 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
 import { BRANCHNAVN } from '../../../felles/konstanter';
-import alleForerkort from '../../../felles/sok/forerkort/forerkort';
+import alleForerkort, { allePAMForerkort } from '../../../felles/sok/forerkort/forerkort';
 
 /** *********************************************************
  * ACTIONS
@@ -135,11 +135,13 @@ function* fetchTypeAheadSuggestions(action) {
     const branch = action.branch;
     const value = action.value;
     if (branch === BRANCHNAVN.FORERKORT) {
+        const nyKildeForerkort = yield select((state) => state.search.featureToggles['bruk-ny-kilde-forerkort']);
+        const alleForerkortListe = nyKildeForerkort ? allePAMForerkort : alleForerkort;
         let result;
         if (!value) {
-            result = alleForerkort;
+            result = alleForerkortListe;
         } else {
-            result = alleForerkort.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
+            result = alleForerkortListe.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
         }
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
     } else {
