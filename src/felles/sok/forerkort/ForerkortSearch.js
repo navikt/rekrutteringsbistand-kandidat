@@ -7,7 +7,7 @@ import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
-import alleForerkort from './forerkort';
+import alleForerkort, { allePAMForerkort } from './forerkort';
 
 
 const forerkortHeading = (
@@ -46,7 +46,8 @@ class ForerkortSearch extends React.Component {
 
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
-            const forerkort = alleForerkort.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
+            const alleForerkortListe = this.props.nyKildeForerkort ? allePAMForerkort : alleForerkort;
+            const forerkort = alleForerkortListe.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
             if (forerkort !== undefined) {
                 this.props.selectTypeAheadValueForerkort(forerkort);
                 this.props.clearTypeAheadForerkort();
@@ -167,7 +168,8 @@ ForerkortSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    nyKildeForerkort: PropTypes.bool.isRequired
 };
 
 export default ForerkortSearch;
