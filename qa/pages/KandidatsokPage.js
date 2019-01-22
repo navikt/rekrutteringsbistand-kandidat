@@ -71,7 +71,9 @@ module.exports = {
                 self
                     .waitForElementVisible('@leggTilStillingKnapp')
                     .clickElement('@leggTilStillingKnapp', self, 1000, 1000)
-                    .setValue('@leggTilStillingInput', stilling + self.api.Keys.ENTER)
+                    .setValue('@leggTilStillingInput', stilling)
+                    .waitForElementVisible('@leggTilStillingTypeahead')
+                    .setValue('@leggTilStillingInput', self.api.Keys.ENTER)
                     .waitForElementVisible('button[value="' + stilling + '"]')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
@@ -103,7 +105,9 @@ module.exports = {
                 self
                     .waitForElementVisible('@leggTilFagfeltKnapp')
                     .clickElement('@leggTilFagfeltKnapp', self, 1000, 1000)
-                    .setValue('@leggTilFagfeltInput', fagfelt + self.api.Keys.ENTER)
+                    .setValue('@leggTilFagfeltInput', fagfelt)
+                    .waitForElementVisible('@leggTilFagfeltTypeahead')
+                    .setValue('@leggTilFagfeltInput', self.api.Keys.ENTER)
                     .waitForElementVisible('button[value="' + fagfelt + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -116,7 +120,9 @@ module.exports = {
                 self
                     .waitForElementVisible('@leggTilArbeidserfaringKnapp')
                     .clickElement('@leggTilArbeidserfaringKnapp', self, 1000, 1000)
-                    .setValue('@leggTilArbeidserfaringInput', arbeidserfaring + self.api.Keys.ENTER)
+                    .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
+                    .waitForElementVisible('@leggTilArbeidserfaringTypeahead')
+                    .setValue('@leggTilArbeidserfaringInput', self.api.Keys.ENTER)
                     .waitForElementVisible('button[value="' + arbeidserfaring + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -176,7 +182,9 @@ module.exports = {
                 self
                     .waitForElementVisible('@leggTilKompetanseKnapp')
                     .clickElement('@leggTilKompetanseKnapp', self, 1000, 1000)
-                    .setValue('@leggTilKompetanseInput', kompetanse + self.api.Keys.ENTER)
+                    .setValue('@leggTilKompetanseInput', kompetanse)
+                    .waitForElementVisible('@leggTilKompetanseTypeahead')
+                    .setValue('@leggTilKompetanseInput', self.api.Keys.ENTER)
                     .waitForElementVisible('button[value="' + kompetanse + '"]')
                     .click('@antallKandidaterTreff')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);

@@ -20,7 +20,7 @@ module.exports = {
                 .click('@bankIdKnapp')
                 .waitForElementPresent('@bankIdFrame')
                 .switchFrame(0) // feltene ligger i en iframe
-                .waitForElementVisible(inputElement, 60000)
+                .waitForElementVisible(inputElement, 20000)
                 .setValue(inputElement, brukernavn + this.api.Keys.ENTER)
                 .pagePause(2000)
                 .setValue(inputElement, engangspassord + this.api.Keys.ENTER)
