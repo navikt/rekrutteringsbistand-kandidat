@@ -12,7 +12,7 @@ Egenskap: Finne kandidater basert på utdanningsnivå og fagfelt
     Når jeg legger til utdanning "Mastergrad"
     Så skal antall treff øke
 
-  @utdanning @fagfelt @elastic @janzz
+  @utdanning @fagfelt @elastic @janzz @ignore
   Scenario: Søke etter kandidater basert på fagfelt
     Når jeg legger til fagfelt "Pedagogikk"
     Så skal antall treff minke
