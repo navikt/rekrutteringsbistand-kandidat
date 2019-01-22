@@ -40,7 +40,7 @@ class LeggTilKandidatModal extends React.Component {
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede()
                 });
             } else if (hentStatus === HENT_STATUS.FINNES_IKKE) {
-                this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummeret er ikke tilgjengelig i denne løsningen' });
+                this.setState({ showFodselsnummer: false, errorMessage: this.kandidatenFinnesIkke() });
             }
         }
     }
@@ -71,7 +71,7 @@ class LeggTilKandidatModal extends React.Component {
             sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
         }];
         if (hentStatus === HENT_STATUS.SUCCESS && !this.kandidatenFinnesAllerede()) {
-            this.props.leggTilKandidatMedFnr(kandidater, [kandidatliste.kandidatlisteId]);
+            this.props.leggTilKandidatMedFnr(kandidater, [kandidatliste]);
             this.props.onClose();
         } else {
             if (!fodselsnummer) {
@@ -84,6 +84,19 @@ class LeggTilKandidatModal extends React.Component {
             this.input.focus();
         }
     };
+
+    kandidatenFinnesIkke = () => (
+        <div className="skjemaelement__feilmelding">
+            <div className="blokk-xxs">Du kan ikke legge til kandidaten.</div>
+            <div>Mulige årsaker:</div>
+            <ul className="leggTilKandidatModal--feilmelding__ul">
+                <li>Fødselsnummeret er feil</li>
+                <li>Kandidaten har ikke CV</li>
+                <li>Kandidaten har anonym CV</li>
+                <li>{'Kandidaten har status "Fritatt for kandidatsøk"'}</li>
+            </ul>
+        </div>
+    );
 
     render() {
         const { vis, onClose, fodselsnummer, kandidat } = this.props;
@@ -160,7 +173,7 @@ const mapDispatchToProps = (dispatch) => ({
     setFodselsnummer: (fodselsnummer) => { dispatch({ type: SET_FODSELSNUMMER, fodselsnummer }); },
     hentKandidatMedFnr: (fodselsnummer) => { dispatch({ type: HENT_KANDIDAT_MED_FNR, fodselsnummer }); },
     resetHentKandidatMedFnr: () => { dispatch({ type: HENT_KANDIDAT_MED_FNR_RESET }); },
-    leggTilKandidatMedFnr: (kandidater, kandidatlisteIder) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder }); }
+    leggTilKandidatMedFnr: (kandidater, kandidatlister) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlister }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeggTilKandidatModal);

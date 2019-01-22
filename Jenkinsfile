@@ -3,6 +3,21 @@ import deploy
 
 def deployLib = new deploy()
 
+// Obtain ephemeral "installation" API token which can be used for GitHub repository access.
+// A token is valid for one hour after creation.
+githubAppId = '23179'
+githubAppCredentialId = 'teampam-ci'
+def newApiToken() {
+    withEnv(['HTTPS_PROXY=webproxy-internett.nav.no:8088']) {
+        withCredentials([file(credentialsId: githubAppCredentialId, variable: 'KEYFILE')]) {
+            dir('token') {
+                def generatedToken = sh(script: "generate-jwt.sh \$KEYFILE ${githubAppId} | xargs generate-installation-token.sh", returnStdout: true)
+                return generatedToken.trim()
+            }
+        }
+    }
+}
+
 node {
     def commitHashShort, committer, releaseVersion
 
@@ -15,10 +30,17 @@ node {
     def namespace = "q6"
     def policies = "app-policies.xml"
     def notenforced = "not-enforced-urls.txt"
+    def repo = "navikt"
+    def githubAppToken = newApiToken();
 
     stage("checkout") {
-        deleteDir()
-        checkout scm
+        cleanWs()
+        withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088']) {
+            // githubAppToken is not a magic secret variable, so mask it manually by disabling shell echo
+            // Would be great if withCredentials could be used to mask the value, mark it as secret, or similar
+            println("Repository URL is https://x-access-token:****@github.com/${repo}/${app}.git")
+            sh(script: "set +x; git clone https://x-access-token:${githubAppToken}@github.com/${repo}/${app}.git .")
+        }
 
         commitHashShort = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
         committer = sh(script: 'git log -1 --pretty=format:"%an"', returnStdout: true).trim()
@@ -66,12 +88,10 @@ node {
 
     }
 
-    stage('Tag GitHub release') {
-        withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
-            withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
-                sh ("git tag -a ${releaseVersion} -m ${releaseVersion}")
-                sh ("git push -u https://${token}:x-oauth-basic@github.com/navikt/${app}.git --tags")
-            }
+    stage("tag") {
+        withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088']) {
+            sh "git tag -a ${releaseVersion} -m ${releaseVersion}"
+            sh ("git push -q origin --tags")
         }
     }
 
@@ -83,27 +103,31 @@ node {
         stage("Functional acceptance tests") {
             acceptanceTest(qaDir)
         }
-        if (fileExists("${qaDir}/${uuDefinitionFile}")) {
-			stage("UU-tests") {
-				uuTests(qaDir, uuDefinitionFile)
-			}
-		}
+//      if (fileExists("${qaDir}/${uuDefinitionFile}")) {
+//			stage("UU-tests") {
+//				uuTests(qaDir, uuDefinitionFile)
+//			}
+//		}
     }
 }
 
 def acceptanceTest(qaDir) {
     echo "Running QA tests"
     withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
-        try {
-            sh "cd ${qaDir} && npm i -D"
-            sh "cd ${qaDir} && npm run-script cucumber-jenkins -- --skiptags ignore --tag elastic"
-        } catch (Exception e) {
-            sh "cd ${qaDir} && npm run-script cucumber-report "
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
-            throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+        sh "cd ${qaDir} && npm i -D"
+        sauce('sauceconnect') {
+            sauceconnect(options: '--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-pam-kandidatsok --se-port 4445', useLatestSauceConnect: true) {
+                try {
+                    sh "cd ${qaDir} && npm run-script sauce-jenkins-chrome -- --skiptags ignore --tag elastic"
+                } catch (Exception e) {
+                    sh "cd ${qaDir} && npm run-script cucumber-report "
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+                    throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+                }
+                sh "cd ${qaDir} && npm run-script cucumber-report "
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+            }
         }
-        sh "cd ${qaDir} && npm run-script cucumber-report "
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
     }
 }
 

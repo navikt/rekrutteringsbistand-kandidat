@@ -50,7 +50,7 @@ module.exports = {
             }
         },
         q6: {
-            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
+            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
             globals: {
                 environment: 'q6'
             },
@@ -59,7 +59,7 @@ module.exports = {
             }
         },
         'linux-q6': {
-            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
+            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
             globals: {
                 environment: 'q6'
             },
@@ -71,7 +71,7 @@ module.exports = {
             }
         },
         'linux-q0': {
-            launch_url: 'https://tjenester-q0.nav.no/pam-kandidatsok',
+            launch_url: 'https://arbeidsplassen-q.nav.no/kandidater',
             globals: {
                 environment: 'q0'
             },
@@ -83,7 +83,7 @@ module.exports = {
             }
         },
         jenkins: {
-            launch_url: 'https://tjenester-q6.nav.no/pam-kandidatsok',
+            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
             globals: {
                 environment: 'q6'
             },

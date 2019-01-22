@@ -24,9 +24,9 @@ Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) =>
     await client.globals.environment === 'local' 
         ? kandidatsokPage
             .click('@kandidatsokLink')
-            .waitForElementVisible('@velgArbeidsgiverDropdown')
+            .waitForElementVisible('@velgArbeidsgiverDropdown', 20000)
             .setValue('@velgArbeidsgiverDropdown', 'Aust' + client.Keys.ENTER)
-        : idPortenPage.loggInn(brukernavn)
+        : idPortenPage.loggInn(brukernavn);
     await kandidatsokPage
         .waitForElementPresent('@antallKandidaterTreff', 30000)
         .finnAntallKandidater(antallTreff);
@@ -46,6 +46,6 @@ Then(/skal antall treff minke|antall treff skal minke/, async () => {
     await client.assert.equal(antallTreff.nestSiste > antallTreff.siste, true, `Antall treff før ${antallTreff.nestSiste} > ${antallTreff.siste} antall treff etter`);
 });
 
-After(() => {
-    client.end();
+After(async (scenarioContext) => {
+    await client.sauceEnd(scenarioContext);
 });

@@ -26,4 +26,23 @@ const alleForerkort = [
     'Bevis for yrkessjåførkompetanse (YSK)'
 ];
 
+export const allePAMForerkort = [
+    'C1 - Lett lastebil',
+    'C1E - Lett lastebil med tilhenger',
+    'C - Lastebil',
+    'CE - Lastebil med tilhenger',
+    'D1 - Minibuss',
+    'D1E - Minibuss med tilhenger',
+    'D - Buss',
+    'DE - Buss med tilhenger',
+    'AM - Moped',
+    'A1 - Lett motorsykkel',
+    'A2 - Mellomtung motorsykkel',
+    'A - Tung motorsykkel',
+    'B - Personbil',
+    'BE - Personbil med tilhenger',
+    'T - Traktor',
+    'S - Snøscooter'
+];
+
 export default alleForerkort;
