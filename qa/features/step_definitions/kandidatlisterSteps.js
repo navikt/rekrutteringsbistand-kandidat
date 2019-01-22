@@ -18,7 +18,8 @@ When(/jeg oppretter en kandidatliste/, (listeInput) => {
 
 When(/jeg åpner kandidatlisten "(.*)"/, async (listeNavn) => {
     await listerPage.waitForElementVisible('@forsteListe', 20000);
-    await client.useXpath().click(`//h2[text()="${listeNavn}"]`).useCss();
+    await listerPage.waitForElementNotVisible('@listeLagretMelding', 6000);
+    await client.useXpath().clickElement(`//h2[text()="${listeNavn}"]`, undefined, 500).useCss();
     await listePage.waitForElementVisible('@kandidatlisteDetaljer');
 });
 
