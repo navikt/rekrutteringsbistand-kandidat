@@ -40,20 +40,102 @@ module.exports = {
                 tunnelIdentifier: 'jenkins-pam-kandidatsok'
             }
         },
-        firefox: {
+        'chrome-1_W10': {
             desiredCapabilities: {
-                browserName: 'firefox',
-                marionette: true
+                platform: 'Windows 10',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_W10': {
+            desiredCapabilities: {
+                platform: 'Windows 10',
+                browserName: 'chrome',
+                version: 'latest-2'
+            }
+        },
+        'chrome_W8': {
+            desiredCapabilities: {
+                platform: 'Windows 8.1',
+                browserName: 'chrome',
+                version: 'latest'
+            }
+        },
+        'chrome-1_W8': {
+            desiredCapabilities: {
+                platform: 'Windows 8.1',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_W8': {
+            desiredCapabilities: {
+                platform: 'Windows 8.1',
+                browserName: 'chrome',
+                version: 'latest-2'
+            }
+        },
+        'chrome_W7': {
+            desiredCapabilities: {
+                platform: 'Windows 7',
+                browserName: 'chrome',
+                version: 'latest'
+            }
+        },
+        'chrome-1_W7': {
+            desiredCapabilities: {
+                platform: 'Windows 7',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_W7': {
+            desiredCapabilities: {
+                platform: 'Windows 7',
+                browserName: 'chrome',
+                version: 'latest-2'
             }
         },
         edge: {
             desiredCapabilities: {
-                browserName: 'MicrosoftEdge'
+                browserName: 'MicrosoftEdge',
+                version: 'latest'
             }
         },
-        ie: {
+        'edge-1': {
             desiredCapabilities: {
+                browserName: 'MicrosoftEdge',
+                version: 'latest-1'
+            }
+        },
+        'edge-2': {
+            desiredCapabilities: {
+                browserName: 'MicrosoftEdge',
+                version: 'latest-2'
+            }
+        },
+        ie_W10: {
+            desiredCapabilities: {
+                platform: 'Windows 10',
                 browserName: 'internet explorer'
+            }
+        },
+        ie_W8: {
+            desiredCapabilities: {
+                platform: 'Windows 8.1',
+                browserName: 'internet explorer'
+            }
+        },
+        ie_W7: {
+            desiredCapabilities: {
+                platform: 'Windows 7',
+                browserName: 'internet explorer'
+            }
+        },
+        firefox: {
+            desiredCapabilities: {
+                browserName: 'firefox',
+                marionette: true
             }
         },
         safari: {
@@ -69,6 +151,16 @@ module.exports = {
                 deviceName: 'iPhone X',
                 platform: 'OSX 10.14',
                 version: 'latest'
+            }
+        },
+        galaxy_s9_plus_fhd: {
+            desiredCapabilities: {
+                appiumVersion: '1.9.1',
+                deviceName: 'Samsung Galaxy S9 Plus FHD GoogleAPI Emulator',
+                deviceOrientation: 'portrait',
+                browserName: 'chrome',
+                platformVersion: '8.0',
+                platformName: 'Android'
             }
         }
     }

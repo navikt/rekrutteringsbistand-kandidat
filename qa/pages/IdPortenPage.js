@@ -12,21 +12,31 @@ module.exports = {
         loggInn(brukernavn) {
             const engangspassord = 'otp';
             const personligPassord = 'qwer1234';
-            const inputElement = this.api.options.desiredCapabilities.browserName === 'chrome' ? '@inputFeltShadow' : '@inputFelt';
+            const inputElement = this.api.options.desiredCapabilities.browserName.toLowerCase() === 'chrome' ? '@inputFeltShadow' : '@inputFelt';
             return this
                 .waitForElementVisible('@idPortenKnapp', 30000)
                 .click('@idPortenKnapp')
                 .waitForElementVisible('@bankIdKnapp')
                 .click('@bankIdKnapp')
-                .waitForElementPresent('@bankIdFrame')
+                .waitForElementVisible('@bankIdFrame')
+                .pagePause(2000)
                 .switchFrame(0) // feltene ligger i en iframe
                 .waitForElementVisible(inputElement, 20000)
-                .setValue(inputElement, brukernavn + this.api.Keys.ENTER)
-                .pagePause(2000)
-                .setValue(inputElement, engangspassord + this.api.Keys.ENTER)
-                .pagePause(2000)
-                .setValue(inputElement, personligPassord + this.api.Keys.ENTER)
+                .setBankIdInputValue(inputElement, brukernavn)
+                .waitForElementVisible(inputElement)
+                .setBankIdInputValue(inputElement, engangspassord)
+                .waitForElementVisible(inputElement)
+                .setBankIdInputValue(inputElement, personligPassord)
                 .switchFrame(null);
+        },
+
+        setBankIdInputValue(inputElement, inputValue) {
+            const self = this;
+            const shadowDom = this.api.options.desiredCapabilities.browserName.toLowerCase() === 'chrome' ? '.full_width_height::shadow ' : '';
+            return this.getAttribute(inputElement, 'id', (result) => {
+                self.setValue(`${shadowDom}#${result.value}`, inputValue + this.api.Keys.ENTER)
+                    .waitForElementNotPresent(`${shadowDom}#${result.value}`)
+            })
         },
 
         switchFrame(frame) {
