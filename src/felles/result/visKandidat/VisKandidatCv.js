@@ -43,6 +43,14 @@ const kursOmfang = (omfang) => {
     return '';
 };
 
+const SprakLabels = {
+    IKKE_OPPGITT: 'Ikke oppgitt',
+    NYBEGYNNER: 'Nybegynner',
+    GODT: 'Godt',
+    VELDIG_GODT: 'Veldig godt',
+    FOERSTESPRAAK: 'Førstespråk (morsmål)'
+};
+
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
@@ -197,20 +205,37 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.sprak && cv.sprak.length !== 0 && (
+            {cv.sprakferdigheter && cv.sprakferdigheter.length !== 0 ? (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
                         <Undertittel className="cv__overskrift">Språk</Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {cv.sprak.map((s) => (
+                        {cv.sprakferdigheter.map((s) => (
                             <Row className="row--kategori" key={JSON.stringify(s)}>
-                                <Element>{s.alternativTekst ? s.alternativTekst : s.kompetanseKodeTekst}</Element>
-                                {s.beskrivelse && <Normaltekst>{s.beskrivelse}</Normaltekst>}
+                                <Element>{s.sprak}</Element>
+                                {s.ferdighetSkriftlig && <Normaltekst>Skriftlig: {SprakLabels[s.ferdighetSkriftlig]}</Normaltekst>}
+                                {s.ferdighetMuntlig && <Normaltekst>Muntlig: {SprakLabels[s.ferdighetMuntlig]}</Normaltekst>}
                             </Row>
                         ))}
                     </Column>
                 </Row>
+            ) : (
+                cv.sprak && cv.sprak.length !== 0 && (
+                    <Row className="panel--cv__row">
+                        <Column xs="12" sm="5">
+                            <Undertittel className="cv__overskrift">Språk</Undertittel>
+                        </Column>
+                        <Column xs="12" sm="7">
+                            {cv.sprak.map((s) => (
+                                <Row className="row--kategori" key={JSON.stringify(s)}>
+                                    <Element>{s.alternativTekst ? s.alternativTekst : s.kompetanseKodeTekst}</Element>
+                                    {s.beskrivelse && <Normaltekst>{s.beskrivelse}</Normaltekst>}
+                                </Row>
+                            ))}
+                        </Column>
+                    </Row>
+                )
             )}
         </Ekspanderbartpanel>
     </div>
