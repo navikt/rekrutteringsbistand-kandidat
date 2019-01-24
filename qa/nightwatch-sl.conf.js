@@ -132,15 +132,84 @@ module.exports = {
                 browserName: 'internet explorer'
             }
         },
-        firefox: {
+        'chrome_OSX_10.14': {
             desiredCapabilities: {
-                browserName: 'firefox',
-                marionette: true
+                platform: 'OSX 10.14',
+                browserName: 'chrome',
+                version: 'latest'
+            }
+        },
+        'chrome-1_OSX_10.14': {
+            desiredCapabilities: {
+                platform: 'OSX 10.14',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_OSX_10.14': {
+            desiredCapabilities: {
+                platform: 'OSX 10.14',
+                browserName: 'chrome',
+                version: 'latest-2'
+            }
+        },
+        'chrome_OSX_10.13': {
+            desiredCapabilities: {
+                platform: 'OSX 10.13',
+                browserName: 'chrome',
+                version: 'latest'
+            }
+        },
+        'chrome-1_OSX_10.13': {
+            desiredCapabilities: {
+                platform: 'OSX 10.13',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_OSX_10.13': {
+            desiredCapabilities: {
+                platform: 'OSX 10.13',
+                browserName: 'chrome',
+                version: 'latest-2'
+            }
+        },
+        'chrome_OSX_10.12': {
+            desiredCapabilities: {
+                platform: 'OSX 10.12',
+                browserName: 'chrome',
+                version: 'latest'
+            }
+        },
+        'chrome-1_OSX_10.12': {
+            desiredCapabilities: {
+                platform: 'OSX 10.12',
+                browserName: 'chrome',
+                version: 'latest-1'
+            }
+        },
+        'chrome-2_OSX_10.12': {
+            desiredCapabilities: {
+                platform: 'OSX 10.12',
+                browserName: 'chrome',
+                version: 'latest-2'
             }
         },
         safari: {
             desiredCapabilities: {
                 platform: 'OSX 10.14',
+                browserName: 'safari'
+            }
+        },
+        'safari_10.13': {
+            desiredCapabilities: {
+                platform: 'OSX 10.13',
+                browserName: 'safari'
+            }
+        },
+        'safari_10.12': {
+            desiredCapabilities: {
+                platform: 'OSX 10.12',
                 browserName: 'safari'
             }
         },

@@ -21,11 +21,11 @@ module.exports = {
                 .waitForElementVisible('@bankIdFrame')
                 .pagePause(2000)
                 .switchFrame(0) // feltene ligger i en iframe
-                .waitForElementVisible(inputElement, 20000)
+                .waitForElementVisible(inputElement, 30000)
                 .setBankIdInputValue(inputElement, brukernavn)
-                .waitForElementVisible(inputElement)
+                .waitForElementVisible(inputElement, 20000)
                 .setBankIdInputValue(inputElement, engangspassord)
-                .waitForElementVisible(inputElement)
+                .waitForElementVisible(inputElement, 20000)
                 .setBankIdInputValue(inputElement, personligPassord)
                 .switchFrame(null);
         },

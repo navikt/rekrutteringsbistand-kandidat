@@ -118,7 +118,7 @@ def acceptanceTest(qaDir) {
         sauce('sauceconnect') {
             sauceconnect(options: '--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-pam-kandidatsok --se-port 4445', useLatestSauceConnect: true) {
                 try {
-                    sh "cd ${qaDir} && npm run-script sauce-jenkins-chrome -- --skiptags ignore --tag elastic"
+                    sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore --tag elastic"
                 } catch (Exception e) {
                     sh "cd ${qaDir} && npm run-script cucumber-report "
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
