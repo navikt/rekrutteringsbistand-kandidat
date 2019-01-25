@@ -50,7 +50,7 @@ When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandid
     await listerPage.opprettNyListe(`${listeNavn} ${browserName()} ${platform()}`);
 
     await sokPage.waitForElementPresent('@forsteKandidatliste', 20000)
-        .setValue('@forsteKandidatliste', client.Keys.SPACE)
+        .setValue(`input[aria-label="Marker liste ${listeNavn} ${browserName()} ${platform()}"]`, client.Keys.SPACE)
         .clickElement('@lagreKandidaterIListeKnapp', sokPage, 500)
         .waitForElementVisible('@hjelpetekstfading')
         .waitForElementNotVisible('@hjelpetekstfading', 10000)
