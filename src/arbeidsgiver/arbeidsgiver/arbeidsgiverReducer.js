@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchArbeidsgivere, SearchApiError } from '../sok/api';
 
 /** *********************************************************
@@ -14,8 +14,40 @@ export const RESET_ARBEIDSGIVER = 'RESET_ARBEIDSGIVER';
 /** *********************************************************
  * REDUCER
  ********************************************************* */
+
+function hentPersistertValgtArbeidsgiver() {
+    const sessionStorageId = sessionStorage.getItem('orgnr');
+    if (sessionStorageId) {
+        localStorage.setItem('orgnr', sessionStorageId);
+        return sessionStorageId;
+    }
+    const localStorageId = localStorage.getItem('orgnr');
+    if (localStorageId) {
+        sessionStorage.setItem('orgnr', localStorageId);
+        return localStorageId;
+    }
+    return undefined;
+}
+
+function persisterValgtArbeidsgiver(arbeidsgiverId) {
+    if (arbeidsgiverId) {
+        sessionStorage.setItem('orgnr', arbeidsgiverId);
+        localStorage.setItem('orgnr', arbeidsgiverId);
+    } else {
+        sessionStorage.removeItem('orgnr');
+        localStorage.removeItem('orgnr');
+    }
+}
+
+window.onfocus = function () { // eslint-disable-line func-names
+    const sessionStorageId = sessionStorage.getItem('orgnr');
+    if (sessionStorageId) {
+        localStorage.setItem('orgnr', sessionStorageId);
+    }
+};
+
 const initialState = {
-    valgtArbeidsgiverId: sessionStorage.getItem('orgnr') ? sessionStorage.getItem('orgnr') : undefined,
+    valgtArbeidsgiverId: hentPersistertValgtArbeidsgiver(),
     arbeidsgivere: [],
     isFetchingArbeidsgivere: true,
     error: undefined
@@ -32,27 +64,19 @@ const valgtArbeidsgiverIdVedEndring = (arbeidsgivere, valgtArbeidsgiverId) => {
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
-        case HENT_ARBEIDSGIVERE_SUCCESS: // eslint-disable-line no-case-declarations
-            const nyValgtArbeidsgiverId = valgtArbeidsgiverIdVedEndring(action.response, state.valgtArbeidsgiverId);
-            if (nyValgtArbeidsgiverId) {
-                sessionStorage.setItem('orgnr', nyValgtArbeidsgiverId);
-            } else {
-                sessionStorage.removeItem('orgnr');
-            }
+        case HENT_ARBEIDSGIVERE_SUCCESS:
             return {
                 ...state,
                 arbeidsgivere: action.response,
-                valgtArbeidsgiverId: nyValgtArbeidsgiverId,
+                valgtArbeidsgiverId: action.nyValgtArbeidsgiverId,
                 isFetchingArbeidsgivere: false
             };
         case VELG_ARBEIDSGIVER:
-            sessionStorage.setItem('orgnr', action.data);
             return {
                 ...state,
                 valgtArbeidsgiverId: action.data
             };
         case RESET_ARBEIDSGIVER:
-            sessionStorage.removeItem('orgnr');
             return {
                 ...state,
                 valgtArbeidsgiverId: undefined
@@ -80,7 +104,10 @@ export default function reducer(state = initialState, action) {
 function* hentArbeidsgivere() {
     try {
         const response = yield call(fetchArbeidsgivere);
-        yield put({ type: HENT_ARBEIDSGIVERE_SUCCESS, response });
+        const state = yield select();
+        const nyValgtArbeidsgiverId = valgtArbeidsgiverIdVedEndring(response, state.mineArbeidsgivere.valgtArbeidsgiverId);
+        persisterValgtArbeidsgiver(nyValgtArbeidsgiverId);
+        yield put({ type: HENT_ARBEIDSGIVERE_SUCCESS, response, nyValgtArbeidsgiverId });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: HENT_ARBEIDSGIVERE_FAILURE, error: e });
@@ -90,6 +117,16 @@ function* hentArbeidsgivere() {
     }
 }
 
+function velgArbeidsgiver(action) {
+    persisterValgtArbeidsgiver(action.data);
+}
+
+function resetArbeidsgiver() {
+    persisterValgtArbeidsgiver();
+}
+
 export const mineArbeidsgivereSaga = function* mineArbeidsgivereSaga() {
     yield takeLatest(HENT_ARBEIDSGIVERE_BEGIN, hentArbeidsgivere);
+    yield takeLatest(VELG_ARBEIDSGIVER, velgArbeidsgiver);
+    yield takeLatest(RESET_ARBEIDSGIVER, resetArbeidsgiver);
 };
