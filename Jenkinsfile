@@ -120,12 +120,11 @@ def acceptanceTest(qaDir) {
                 try {
                     sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore --tag elastic"
                 } catch (Exception e) {
+                    throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+                } finally {
                     sh "cd ${qaDir} && npm run-script cucumber-report "
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
-                    throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
                 }
-                sh "cd ${qaDir} && npm run-script cucumber-report "
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
             }
         }
     }

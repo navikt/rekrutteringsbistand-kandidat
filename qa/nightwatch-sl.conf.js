@@ -40,60 +40,11 @@ module.exports = {
                 tunnelIdentifier: 'jenkins-pam-kandidatsok'
             }
         },
-        'chrome-1_W10': {
-            desiredCapabilities: {
-                platform: 'Windows 10',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_W10': {
-            desiredCapabilities: {
-                platform: 'Windows 10',
-                browserName: 'chrome',
-                version: 'latest-2'
-            }
-        },
-        'chrome_W8': {
-            desiredCapabilities: {
-                platform: 'Windows 8.1',
-                browserName: 'chrome',
-                version: 'latest'
-            }
-        },
-        'chrome-1_W8': {
-            desiredCapabilities: {
-                platform: 'Windows 8.1',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_W8': {
-            desiredCapabilities: {
-                platform: 'Windows 8.1',
-                browserName: 'chrome',
-                version: 'latest-2'
-            }
-        },
         'chrome_W7': {
             desiredCapabilities: {
                 platform: 'Windows 7',
                 browserName: 'chrome',
                 version: 'latest'
-            }
-        },
-        'chrome-1_W7': {
-            desiredCapabilities: {
-                platform: 'Windows 7',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_W7': {
-            desiredCapabilities: {
-                platform: 'Windows 7',
-                browserName: 'chrome',
-                version: 'latest-2'
             }
         },
         edge: {
@@ -102,27 +53,9 @@ module.exports = {
                 version: 'latest'
             }
         },
-        'edge-1': {
-            desiredCapabilities: {
-                browserName: 'MicrosoftEdge',
-                version: 'latest-1'
-            }
-        },
-        'edge-2': {
-            desiredCapabilities: {
-                browserName: 'MicrosoftEdge',
-                version: 'latest-2'
-            }
-        },
         ie_W10: {
             desiredCapabilities: {
                 platform: 'Windows 10',
-                browserName: 'internet explorer'
-            }
-        },
-        ie_W8: {
-            desiredCapabilities: {
-                platform: 'Windows 8.1',
                 browserName: 'internet explorer'
             }
         },
@@ -132,6 +65,20 @@ module.exports = {
                 browserName: 'internet explorer'
             }
         },
+        firefox_W10: {
+            desiredCapabilities: {
+                platform: 'Windows 10',
+                browserName: 'firefox',
+                marionette: true
+            }
+        },
+        firefox_W7: {
+            desiredCapabilities: {
+                platform: 'Windows 7',
+                browserName: 'firefox',
+                marionette: true
+            }
+        },
         'chrome_OSX_10.14': {
             desiredCapabilities: {
                 platform: 'OSX 10.14',
@@ -139,60 +86,11 @@ module.exports = {
                 version: 'latest'
             }
         },
-        'chrome-1_OSX_10.14': {
-            desiredCapabilities: {
-                platform: 'OSX 10.14',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_OSX_10.14': {
-            desiredCapabilities: {
-                platform: 'OSX 10.14',
-                browserName: 'chrome',
-                version: 'latest-2'
-            }
-        },
         'chrome_OSX_10.13': {
             desiredCapabilities: {
                 platform: 'OSX 10.13',
                 browserName: 'chrome',
                 version: 'latest'
-            }
-        },
-        'chrome-1_OSX_10.13': {
-            desiredCapabilities: {
-                platform: 'OSX 10.13',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_OSX_10.13': {
-            desiredCapabilities: {
-                platform: 'OSX 10.13',
-                browserName: 'chrome',
-                version: 'latest-2'
-            }
-        },
-        'chrome_OSX_10.12': {
-            desiredCapabilities: {
-                platform: 'OSX 10.12',
-                browserName: 'chrome',
-                version: 'latest'
-            }
-        },
-        'chrome-1_OSX_10.12': {
-            desiredCapabilities: {
-                platform: 'OSX 10.12',
-                browserName: 'chrome',
-                version: 'latest-1'
-            }
-        },
-        'chrome-2_OSX_10.12': {
-            desiredCapabilities: {
-                platform: 'OSX 10.12',
-                browserName: 'chrome',
-                version: 'latest-2'
             }
         },
         safari: {
@@ -207,10 +105,18 @@ module.exports = {
                 browserName: 'safari'
             }
         },
-        'safari_10.12': {
+        'firefox_OSX_10.14': {
             desiredCapabilities: {
-                platform: 'OSX 10.12',
-                browserName: 'safari'
+                platform: 'OSX 10.14',
+                browserName: 'firefox',
+                marionette: true
+            }
+        },
+        'firefox_OSX_10.13': {
+            desiredCapabilities: {
+                platform: 'OSX 10.13',
+                browserName: 'firefox',
+                marionette: true
             }
         },
         iphone_x: {

@@ -5,7 +5,7 @@ const listerPage = client.page.KandidatlisterPage();
 const listePage = client.page.KandidatlistePage();
 const sokPage = client.page.KandidatsokPage();
 
-const browserName = () => (`${client.options.desiredCapabilities.browserName}-${client.options.desiredCapabilities.version}`);
+const browserName = () => (`${client.options.desiredCapabilities.browserName}`);
 const platform = () => (client.options.desiredCapabilities.platform);
 
 When(/jeg går til siden for kandidatlister/, () => (listerPage.navigerTilKandidatlister()));

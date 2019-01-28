@@ -14,18 +14,18 @@ module.exports = {
             const personligPassord = 'qwer1234';
             const inputElement = this.api.options.desiredCapabilities.browserName.toLowerCase() === 'chrome' ? '@inputFeltShadow' : '@inputFelt';
             return this
-                .waitForElementVisible('@idPortenKnapp', 30000)
+                .waitForElementVisible('@idPortenKnapp', 60000)
                 .click('@idPortenKnapp')
                 .waitForElementVisible('@bankIdKnapp')
                 .click('@bankIdKnapp')
                 .waitForElementVisible('@bankIdFrame')
                 .pagePause(2000)
                 .switchFrame(0) // feltene ligger i en iframe
-                .waitForElementVisible(inputElement, 30000)
+                .waitForElementVisible(inputElement, 60000)
                 .setBankIdInputValue(inputElement, brukernavn)
-                .waitForElementVisible(inputElement, 20000)
+                .waitForElementVisible(inputElement, 30000)
                 .setBankIdInputValue(inputElement, engangspassord)
-                .waitForElementVisible(inputElement, 20000)
+                .waitForElementVisible(inputElement, 30000)
                 .setBankIdInputValue(inputElement, personligPassord)
                 .switchFrame(null);
         },
