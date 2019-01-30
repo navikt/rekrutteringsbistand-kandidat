@@ -107,6 +107,7 @@
     "redux-form": "^7.4.2",
     "redux-form-saga": "^0.2.0",
     "redux-saga": "^0.16.0",
+    "useragent": "^2.3.0",
     "whatwg-fetch": "^2.0.4"
   }
 }

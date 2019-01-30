@@ -15,6 +15,11 @@ const convertToUrlParams = (query) => Object.keys(query)
     .join('&')
     .replace(/%20/g, '+');
 
+const createCallIdHeader = () => ({
+    'Nav-CallId': Math.random()
+        .toString(16)
+        .substr(2)
+});
 
 export class SearchApiError {
     constructor(error) {
@@ -41,9 +46,12 @@ async function fetchJson(url, includeCredentials) {
     try {
         let response;
         if (includeCredentials) {
-            response = await fetch(url, { credentials: 'include' });
+            response = await fetch(url, {
+                credentials: 'include',
+                headers: createCallIdHeader()
+            });
         } else {
-            response = await fetch(url);
+            response = await fetch(url, { headers: createCallIdHeader() });
         }
         if (response.status === 200 || response.status === 201) {
             return response.json();
@@ -83,7 +91,8 @@ async function postJson(url, bodyString) {
             body: bodyString,
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
@@ -109,7 +118,8 @@ async function putJson(url, bodyString) {
             body: bodyString,
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
@@ -135,7 +145,8 @@ async function deleteReq(url, bodyString) {
             body: bodyString,
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });

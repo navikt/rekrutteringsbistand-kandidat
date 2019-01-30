@@ -9,11 +9,30 @@ const fs = require('fs');
 const Promise = require('promise');
 const { isNullOrUndefined } = require('util');
 const jwt = require('jsonwebtoken');
+const useragent = require('useragent');
 
 const currentDirectory = __dirname;
 
+const browserRegistrator = (req, res, next) => {
+    try {
+        const browserInfo = useragent.lookup(req.headers['user-agent']);
+        console.log(JSON.stringify({
+            browserFamily: browserInfo.family,
+            browserVersionMajor: browserInfo.major,
+            browserVersionMinor: browserInfo.minor,
+            browserVersionPatch: browserInfo.patch,
+            url: req.url,
+            method: req.method,
+            navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined
+        }));
+    } catch (e) {
+        console.log(e);
+    }
+    return next();
+};
+
 const server = express();
-server.use(compression());
+server.use(compression(), browserRegistrator);
 const port = process.env.PORT || 8080;
 
 const APPS = {
