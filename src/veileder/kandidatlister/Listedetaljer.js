@@ -187,7 +187,7 @@ class Listedetaljer extends React.Component {
         const epostStreng = this.state.kandidater
             .filter((kandidat) => (kandidat.markert && kandidat.epost))
             .map((kandidat) => `${kandidat.fornavn} ${kandidat.etternavn}<${kandidat.epost}>`)
-            .join(',');
+            .join(';');
         window.location.href = `mailto:?bcc=${epostStreng}`;
     };
 
