@@ -118,7 +118,7 @@ def acceptanceTest(qaDir) {
         sauce('sauceconnect') {
             sauceconnect(options: '--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-pam-kandidatsok --se-port 4445', useLatestSauceConnect: true) {
                 try {
-                    sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore --tag elastic"
+                    sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore"
                 } catch (Exception e) {
                     throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
                 } finally {
