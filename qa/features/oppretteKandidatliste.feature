@@ -2,7 +2,7 @@
 
 Egenskap: Opprette og slette kandidatlister
 
-    @oppretteliste @elastic @janzz
+    @oppretteliste
     Scenario: Opprette og slette kandidatliste
         Gitt at jeg er logget inn i kandidatsøket som "08044601975"
         Når jeg går til siden for kandidatlister

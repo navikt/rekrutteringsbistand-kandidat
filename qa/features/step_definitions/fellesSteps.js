@@ -21,7 +21,7 @@ Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) =>
     await client
         .url(client.launch_url)
         .maximizeWindow();
-    await client.globals.environment === 'local' 
+    await client.globals.environment === 'local'
         ? kandidatsokPage
             .click('@kandidatsokLink')
             .waitForElementVisible('@velgArbeidsgiverDropdown', 20000)
@@ -30,6 +30,7 @@ Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) =>
     await kandidatsokPage
         .waitForElementPresent('@antallKandidaterTreff', 30000)
         .finnAntallKandidater(antallTreff);
+    await idPortenPage.storeLoginCookie();
 });
 
 When(/^jeg trykker Se kandidatene/, () => {

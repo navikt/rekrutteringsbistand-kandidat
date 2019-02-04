@@ -33,9 +33,18 @@ module.exports = {
                 on_error: true,
                 path: './screenshots'
             },
+            persist_globals: true,
             globals: {
                 waitForConditionTimeout: 5000, // sometimes internet is slow so wait.
-                environment: 'local'
+                environment: 'local',
+                loginCookie: {
+                    domain: '',
+                    secure: '',
+                    value: '',
+                    path: '',
+                    httpOnly: '',
+                    name: ''
+                }
             },
             desiredCapabilities: {
                 browserName: 'chrome'
