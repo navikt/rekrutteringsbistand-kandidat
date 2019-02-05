@@ -130,7 +130,7 @@ const renderSok = () => (
     new Promise((resolve, reject) => {
         server.render(
             app.htmlFil,
-            fasitProperties,
+            { APP_VERSION: process.env.APP_VERSION },
             (err, html) => {
                 if (err) {
                     reject(err);
