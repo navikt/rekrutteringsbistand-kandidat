@@ -29,9 +29,9 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
 const fjernDuplikater = (forerkortListe) => {
     const forerkortAlleredeILista = new Set();
     return forerkortListe.filter((forerkort) => {
-        const forerkortetErAlleredeLagtTil = forerkortAlleredeILista.has(forerkort.sertifikatKodeNavn);
+        const forerkortetErIkkeAlleredeLagtTil = !forerkortAlleredeILista.has(forerkort.sertifikatKodeNavn);
         forerkortAlleredeILista.add(forerkort.sertifikatKodeNavn);
-        return forerkortetErAlleredeLagtTil;
+        return forerkortetErIkkeAlleredeLagtTil;
     });
 };
 
