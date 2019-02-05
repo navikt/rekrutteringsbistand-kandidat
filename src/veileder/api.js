@@ -16,9 +16,18 @@ export class SearchApiError {
     }
 }
 
+const createCallIdHeader = () => ({
+    'Nav-CallId': Math.random()
+        .toString(16)
+        .substr(2)
+});
+
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}/typeahead?${convertToUrlParams(query)}`, { credentials: 'include' }
+        `${SEARCH_API}/typeahead?${convertToUrlParams(query)}`, {
+            credentials: 'include',
+            headers: createCallIdHeader()
+        }
     );
     return resultat.json();
 }
@@ -27,9 +36,12 @@ async function fetchJson(url, includeCredentials) {
     try {
         let response;
         if (includeCredentials) {
-            response = await fetch(url, { credentials: 'include' });
+            response = await fetch(url, {
+                credentials: 'include',
+                headers: createCallIdHeader()
+            });
         } else {
-            response = await fetch(url);
+            response = await fetch(url, { headers: createCallIdHeader() });
         }
         if (response.status >= 200 && response.status < 300) {
             return response.json();
@@ -70,7 +82,8 @@ async function postJson(url, bodyString) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                Accept: 'application/json'
+                Accept: 'application/json',
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
@@ -96,7 +109,8 @@ async function putJson(url, bodyString) {
             body: bodyString,
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
@@ -120,7 +134,8 @@ async function putRequest(url) {
             credentials: 'include',
             method: 'PUT',
             headers: {
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
@@ -145,7 +160,8 @@ async function deleteRequest(url) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader()
             },
             mode: 'cors'
         });
