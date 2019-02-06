@@ -80,3 +80,9 @@ export const INNSATSGRUPPER = {
     SPESIELT_TILPASSET_INNSATS: { key: 'BATT', label: 'Spesielt tilpasset innsats' },
     VARIG_TILPASSET: { key: 'VARIG', label: 'Varig tilpasset' }
 };
+
+export const OPPSTARTSKODER = {
+    LEDIG_NAA: { key: 'LEDIG_NAA', label: 'Ledig nå' },
+    ETTER_TRE_MND: { key: 'ETTER_TRE_MND', label: 'Ledig om 3 måneder' },
+    ETTER_AVTALE: { key: 'ETTER_AVTALE', label: 'Ledig etter avtale' }
+};
