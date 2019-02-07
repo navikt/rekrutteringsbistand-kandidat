@@ -82,7 +82,7 @@ export const INNSATSGRUPPER = {
 };
 
 export const OPPSTARTSKODER = {
-    LEDIG_NAA: { key: 'LEDIG_NAA', label: 'Ledig nå' },
-    ETTER_TRE_MND: { key: 'ETTER_TRE_MND', label: 'Ledig om 3 måneder' },
-    ETTER_AVTALE: { key: 'ETTER_AVTALE', label: 'Ledig etter avtale' }
+    LEDIG_NAA: { key: 'LEDIG_NAA', label: 'Kandidaten er ledig nå' },
+    ETTER_TRE_MND: { key: 'ETTER_TRE_MND', label: 'Kandidaten har 3 måneder oppsigelse' },
+    ETTER_AVTALE: { key: 'ETTER_AVTALE', label: 'Kandidaten er ledig etter avtale' }
 };

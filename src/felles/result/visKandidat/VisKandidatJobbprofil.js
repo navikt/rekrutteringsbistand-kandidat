@@ -125,7 +125,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
             {cv.oppstartKode && cv.oppstartKode.length !== 0 && OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Oppstart</Element>
+                        <Element className="jobbprofil__overskrift">Ledighet</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
