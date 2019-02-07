@@ -128,11 +128,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                         <Element className="jobbprofil__overskrift">Ledighet</Element>
                     </Column>
                     <Column xs="12" sm="8">
-                        <TruncatedTextList
-                            tekstElementer={
-                                [OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label]
-                            }
-                        />
+                        <Normaltekst>{OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label}</Normaltekst>
                     </Column>
                 </Row>
             )}
