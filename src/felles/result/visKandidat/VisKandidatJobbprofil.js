@@ -5,6 +5,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import TruncatedTextList from '../../common/TruncatedTextList';
 import cvPropTypes from '../../PropTypes';
 import './VisKandidat.less';
+import { OPPSTARTSKODER } from '../../konstanter';
 
 const VisKandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">
@@ -118,6 +119,16 @@ const VisKandidatJobbprofil = ({ cv }) => (
                                     ))
                             }
                         />
+                    </Column>
+                </Row>
+            )}
+            {cv.oppstartKode && cv.oppstartKode.length !== 0 && OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
+                <Row className="panel--jobbprofil__row">
+                    <Column xs="12" sm="4">
+                        <Element className="jobbprofil__overskrift">Ledighet</Element>
+                    </Column>
+                    <Column xs="12" sm="8">
+                        <Normaltekst>{OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label}</Normaltekst>
                     </Column>
                 </Row>
             )}
