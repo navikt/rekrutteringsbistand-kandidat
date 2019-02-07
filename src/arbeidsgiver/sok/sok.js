@@ -139,7 +139,7 @@ class Sok extends React.Component {
     };
 
     render() {
-        if (this.props.error && this.props.error.status === 406) {
+        if (this.props.harSamtykket !== undefined && !this.props.harSamtykket) {
             return <GiSamtykke />;
         }
         if (this.props.error) {
@@ -197,13 +197,16 @@ class Sok extends React.Component {
 
 Sok.defaultProps = {
     error: undefined,
-    valgtArbeidsgiverId: undefined
+    valgtArbeidsgiverId: undefined,
+    errorArbeidsgivere: undefined,
+    harSamtykket: undefined
 };
 
 Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
     }),
+    harSamtykket: PropTypes.bool,
     fetchFeatureTogglesOgInitialSearch: PropTypes.func.isRequired,
     arbeidsgivere: PropTypes.arrayOf(PropTypes.shape({
         orgnr: PropTypes.string,
@@ -216,6 +219,7 @@ Sok.propTypes = {
 
 const mapStateToProps = (state) => ({
     error: state.search.error,
+    harSamtykket: state.samtykke.harSamtykket,
     arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
     valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId,
     isFetchingArbeidsgivere: state.mineArbeidsgivere.isFetchingArbeidsgivere
