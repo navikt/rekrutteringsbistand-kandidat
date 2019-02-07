@@ -9,7 +9,7 @@ import {
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
-import { GODTA_VILKAR_SUCCESS } from '../samtykke/samtykkeReducer';
+import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -328,7 +328,11 @@ function* fetchKompetanseSuggestions() {
         }
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
+            if (e.status === 406) {
+                yield put({ type: SETT_MANGLER_SAMTYKKE });
+            } else {
+                yield put({ type: SEARCH_FAILURE, error: e });
+            }
         } else {
             throw e;
         }
