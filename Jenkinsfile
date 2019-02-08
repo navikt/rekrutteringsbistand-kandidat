@@ -112,7 +112,7 @@ node {
     }
 }
 
-def acceptanceTest(qaDir) {
+def acceptanceTest(app, useSauceLabs) {
     echo "Running QA tests"
     withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
         qaDir = "./qa"
@@ -121,7 +121,7 @@ def acceptanceTest(qaDir) {
             sauce('sauceconnect') {
                 sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port 4445", useLatestSauceConnect: true) {
                     try {
-                        sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore"
+                        sh "cd ${qaDir} && npm run-script sauce -- --skiptags ignore"
                     } catch (Exception e) {
                         throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
                     } finally {
