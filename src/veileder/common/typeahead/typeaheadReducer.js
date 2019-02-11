@@ -131,9 +131,8 @@ function* fetchTypeaheadGeografi(value, branch) {
 }
 
 function* fetchTypeAheadSuggestions(action) {
-    const TYPE_AHEAD_MIN_INPUT_LENGTH = 3;
-    const branch = action.branch;
-    const value = action.value;
+    const TYPE_AHEAD_MIN_INPUT_LENGTH = 2;
+    const { branch, value } = action;
     if (branch === BRANCHNAVN.FORERKORT) {
         const nyKildeForerkort = yield select((state) => state.search.featureToggles['bruk-ny-kilde-forerkort']);
         const alleForerkortListe = nyKildeForerkort ? allePAMForerkort : alleForerkort;
