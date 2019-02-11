@@ -112,7 +112,7 @@ node {
     }
 }
 
-def acceptanceTest(app, useSauceLabs) {
+def acceptanceTest(app, useSaucelabs) {
     echo "Running QA tests"
     withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
         qaDir = "./qa"
