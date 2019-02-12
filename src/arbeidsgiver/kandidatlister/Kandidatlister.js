@@ -102,12 +102,12 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
 );
 
 
-const Header = ({ antallKandidater }) => (
+const Header = ({ antallKandidatlister }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
             <div className="header-child" />
             <div className="header-child tittel-wrapper">
-                <Sidetittel>Kandidatlister&nbsp;{antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
+                <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
             </div>
             <div className="header-child knapp-wrapper">
                 <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
@@ -271,7 +271,7 @@ class Kandidatlister extends React.Component {
                     type="suksess"
                     tekst={this.state.successMeldingSlettet}
                 />
-                <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
+                <Header antallKandidatlister={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
                     <div className="Kandidatlister__container Kandidatlister__container-width">
                         <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
@@ -319,7 +319,7 @@ Kandidatlister.defaultProps = {
 };
 
 Header.propTypes = {
-    antallKandidater: PropTypes.number.isRequired
+    antallKandidatlister: PropTypes.number.isRequired
 };
 
 Kandidatlister.propTypes = {
