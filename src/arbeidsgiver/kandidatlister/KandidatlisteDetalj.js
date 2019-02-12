@@ -172,13 +172,22 @@ class KandidatlisteDetalj extends React.Component {
 
         const Header = () => (
             <PageHeader>
-                <div className="KandidatlisteDetalj__header--innhold">
-                    <TilbakeLenke tekst="Til kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
-                    <Sidetittel id="kandidatliste-navn">{tittel}</Sidetittel>
-                    {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
-                    <div className="inforad">
-                        <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length} kandidater</Normaltekst>
-                        <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>
+                <div className="KandidatlisteDetalj__header">
+                    <div className="top-row">
+                        <div className="TilbakeLenke-wrapper">
+                            <TilbakeLenke tekst="Til&nbsp;kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
+                        </div>
+                        <div className="info-kolonne">
+                            <Sidetittel id="kandidatliste-navn" className="tittel">{tittel}</Sidetittel>
+                            {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
+                        </div>
+                        <div className="empty-right-side" />
+                    </div>
+                    <div className="bottom-row">
+                        <div className="inforad">
+                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length} kandidater</Normaltekst>
+                            {oppdragsgiver && <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>}
+                        </div>
                     </div>
                 </div>
             </PageHeader>

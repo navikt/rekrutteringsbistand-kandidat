@@ -109,8 +109,11 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
 const Header = ({ antallKandidater }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
-            <div className="Kandidatlister__header--innhold--indre">
-                <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
+            <div className="header-child" />
+            <div className="header-child tittel-wrapper">
+                <Sidetittel>Kandidatlister&nbsp;{antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
+            </div>
+            <div className="header-child knapp-wrapper">
                 <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
                     <Knapp id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
                 </Link>
