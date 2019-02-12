@@ -1,5 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchArbeidsgivere, SearchApiError } from '../sok/api';
+import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -92,6 +93,11 @@ export default function reducer(state = initialState, action) {
                 isFetchingArbeidsgivere: false,
                 error: action.error
             };
+        case GODTA_VILKAR_SUCCESS:
+            return {
+                ...state,
+                error: undefined
+            };
         default:
             return state;
     }
@@ -110,6 +116,9 @@ function* hentArbeidsgivere() {
         yield put({ type: HENT_ARBEIDSGIVERE_SUCCESS, response, nyValgtArbeidsgiverId });
     } catch (e) {
         if (e instanceof SearchApiError) {
+            if (e.status === 406) {
+                yield put({ type: SETT_MANGLER_SAMTYKKE });
+            }
             yield put({ type: HENT_ARBEIDSGIVERE_FAILURE, error: e });
         } else {
             throw e;

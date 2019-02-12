@@ -17,6 +17,8 @@ export const GODTA_VILKAR = 'GODTA_VILKAR';
 export const GODTA_VILKAR_SUCCESS = 'GODTA_VILKAR_SUCCESS';
 export const GODTA_VILKAR_FAILURE = 'GODTA_VILKAR_FAILURE';
 
+export const SETT_MANGLER_SAMTYKKE = 'SETT_MANGLER_SAMTYKKE';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -24,7 +26,8 @@ export const GODTA_VILKAR_FAILURE = 'GODTA_VILKAR_FAILURE';
 const initialState = {
     isFetchingVilkarstekst: false,
     isSavingVilkar: false,
-    vilkarstekst: undefined
+    vilkarstekst: undefined,
+    harSamtykket: undefined
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -53,12 +56,18 @@ export default function searchReducer(state = initialState, action) {
         case GODTA_VILKAR_SUCCESS:
             return {
                 ...state,
-                isSavingVilkar: false
+                isSavingVilkar: false,
+                harSamtykket: true
             };
         case GODTA_VILKAR_FAILURE:
             return {
                 ...state,
                 isSavingVilkar: false
+            };
+        case SETT_MANGLER_SAMTYKKE:
+            return {
+                ...state,
+                harSamtykket: false
             };
         default:
             return state;

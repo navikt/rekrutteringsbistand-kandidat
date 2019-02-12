@@ -27,12 +27,12 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
 };
 
 const fjernDuplikater = (forerkortListe) => {
-    const forerkortUtenDuplikater = forerkortListe.filter((forerkort, index, self) => index === self.indexOf(forerkortListe.find((fk) => fk.sertifikatKode === forerkort.sertifikatKode)));
-    // Filterer ut Mopedførerbevis hvis kandidat har både Mopedførerbevis og Førerkort: Kl. M (Moped)
-    if (forerkortUtenDuplikater.find((forerkort) => forerkort.sertifikatKode === 'V1.6148') && forerkortUtenDuplikater.find((forerkort) => forerkort.sertifikatKode === 'V1.6190')) {
-        return forerkortUtenDuplikater.filter((forerkort) => forerkort.sertifikatKode !== 'V1.6190');
-    }
-    return forerkortUtenDuplikater;
+    const forerkortAlleredeILista = new Set();
+    return forerkortListe.filter((forerkort) => {
+        const forerkortetErIkkeAlleredeLagtTil = !forerkortAlleredeILista.has(forerkort.sertifikatKodeNavn);
+        forerkortAlleredeILista.add(forerkort.sertifikatKodeNavn);
+        return forerkortetErIkkeAlleredeLagtTil;
+    });
 };
 
 const kursOmfang = (omfang) => {

@@ -32,6 +32,7 @@ node {
     def notenforced = "not-enforced-urls.txt"
     def repo = "navikt"
     def githubAppToken = newApiToken();
+    def useSaucelabs = env.USE_SAUCELABS
 
     stage("checkout") {
         cleanWs()
@@ -101,36 +102,50 @@ node {
     def uuDefinitionFile = "${app}.yml"
     if (folder.exists()) {
         stage("Functional acceptance tests") {
-            acceptanceTest(qaDir)
+            acceptanceTest(app, useSaucelabs)
         }
 //      if (fileExists("${qaDir}/${uuDefinitionFile}")) {
 //			stage("UU-tests") {
-//				uuTests(qaDir, uuDefinitionFile)
+//				uuTests(uuDefinitionFile)
 //			}
 //		}
     }
 }
 
-def acceptanceTest(qaDir) {
+def acceptanceTest(app, useSaucelabs) {
     echo "Running QA tests"
     withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
-        sh "cd ${qaDir} && npm i -D"
-        sauce('sauceconnect') {
-            sauceconnect(options: '--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-pam-kandidatsok --se-port 4445', useLatestSauceConnect: true) {
-                try {
-                    sh "cd ${qaDir} && npm run-script sauce-jenkins-default -- --skiptags ignore"
-                } catch (Exception e) {
-                    throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
-                } finally {
-                    sh "cd ${qaDir} && npm run-script cucumber-report "
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+        qaDir = "./qa"
+        if (useSaucelabs == 'true') {
+            sh "cd ${qaDir} && npm i -D"
+            sauce('sauceconnect') {
+                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port 4445", useLatestSauceConnect: true) {
+                    try {
+                        sh "cd ${qaDir} && npm run-script sauce -- --skiptags ignore"
+                    } catch (Exception e) {
+                        throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+                    } finally {
+                        sh "cd ${qaDir} && npm run-script cucumber-report "
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
+                    }
                 }
+            }
+        } else {
+            sh "cd ${qaDir} && npm i chromedriver selenium-server-standalone-jar -D"
+            try {
+                sh "cd ${qaDir} && npm run-script chrome-jenkins -- --skiptags ignore"
+            } catch (Exception e) {
+                throw new Exception("Cucumber/Nightwatch-tester feilet, se Cucumber Report for detaljer", e)
+            } finally {
+                sh "cd ${qaDir} && npm run-script cucumber-report "
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'qa/reports', reportFiles: 'cucumber_report.html', reportName: 'Cucumber Report'])
             }
         }
     }
 }
 
-def uuTests(qaDir, uuDefinitionFile) {
+def uuTests(uuDefinitionFile) {
+	qaDir = "./qa"
 	withCredentials([string(credentialsId: 'navikt-ci-oauthtoken', variable: 'token')]) {
         withEnv(['HTTPS_PROXY=http://webproxy-utvikler.nav.no:8088']) {
             sh "cd ${qaDir} && git clone https://${token}:x-oauth-basic@github.com/navikt/pus-uu-validator.git"
