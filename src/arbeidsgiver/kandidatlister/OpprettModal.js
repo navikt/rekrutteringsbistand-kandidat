@@ -7,7 +7,6 @@ import '../result/matchforklaring/Matchforklaring.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import './EndreModal.less';
-import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { OPPRETT_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
 
 
@@ -23,7 +22,6 @@ const OpprettModal = ({ opprettKandidatliste, resetStatusTilUnsaved, lagreStatus
         <OpprettKandidatlisteForm
             onSave={opprettKandidatliste}
             onChange={resetStatusTilUnsaved}
-            backLink={`/${CONTEXT_ROOT}/lister`}
             kandidatlisteInfo={tomKandidatlisteInfo()}
             saving={lagreStatus === LAGRE_STATUS.LOADING}
             onAvbrytClick={onAvbrytClick}
