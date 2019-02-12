@@ -19,6 +19,7 @@ import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
+import { formatterDato } from '../../felles/common/dateUtils';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -38,11 +39,6 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSlette
             <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
         ))
     );
-};
-
-const formaterDato = (datoStreng) => {
-    const dato = new Date(datoStreng);
-    return dato.toLocaleDateString('nb-NO');
 };
 
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatliste }) => (
@@ -66,7 +62,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                 </div>
                 {!kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                     </div>
                 }
             </div>
@@ -87,7 +83,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                 </div>
                 {kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                     </div>
                 }
             </div>
