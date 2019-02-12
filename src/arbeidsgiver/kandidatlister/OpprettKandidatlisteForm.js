@@ -11,6 +11,12 @@ const FELTER = {
     OPPDRAGSGIVER: 'OPPDRAGSGIVER'
 };
 
+export const tomKandidatlisteInfo = () => ({
+    tittel: '',
+    beskrivelse: '',
+    oppdragsgiver: ''
+});
+
 export default class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
         super(props);
@@ -87,6 +93,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             }}
                             feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn må være utfylt' } : undefined}
                             inputRef={(input) => { this.input = input; }}
+                            autoComplete="off"
                         />
                     </div>
                     <div className="OpprettKandidatlisteForm__input">

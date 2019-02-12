@@ -20,12 +20,13 @@ const TomListe = ({ children, lenke, lenkeTekst }) => {
 };
 
 TomListe.defaultProps = {
-    lenke: ''
+    lenke: '',
+    lenkeTekst: undefined
 };
 
 TomListe.propTypes = {
     lenke: PropTypes.string,
-    lenkeTekst: PropTypes.string.isRequired,
+    lenkeTekst: PropTypes.string,
     children: PropTypes.string.isRequired
 };
 
