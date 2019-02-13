@@ -10,13 +10,13 @@ import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPe
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import { SLETT_KANDIDATER } from './kandidatlisteReducer';
+import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';
-
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
+import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -30,6 +30,14 @@ class VisKandidatFraLister extends React.Component {
 
     componentDidMount() {
         this.props.hentCvForKandidat(this.props.kandidatnummer, this.props.cv.profilId);
+        this.props.hentKandidatliste(this.props.kandidatlisteId);
+    }
+
+    componentDidUpdate(prevProps) {
+        const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        if (prevProps.kandidatnummer !== currentUrlKandidatnummer && currentUrlKandidatnummer !== undefined) {
+            this.props.hentCvForKandidat(currentUrlKandidatnummer);
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -76,8 +84,37 @@ class VisKandidatFraLister extends React.Component {
         });
     };
 
+    returnerKandidatIndex = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+        if (gjeldendeIndex === -1) {
+            return undefined;
+        }
+        return gjeldendeIndex + 1;
+    };
+
+    returnerForrigeKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+        if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
+            return undefined;
+        }
+        return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
+    };
+
+    returnerNesteKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+        if (gjeldendeIndex === (this.props.kandidatliste.kandidater.length - 1)) {
+            return undefined;
+        }
+        return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
+    };
+
     render() {
-        const { cv, kandidatlisteId, isFetchingCv } = this.props;
+        const { cv, kandidatnummer, kandidatlisteId, isFetchingCv, kandidatliste } = this.props;
+        const kandidatIndex = this.returnerKandidatIndex(kandidatnummer);
+        const forrigeKandidat = this.returnerForrigeKandidatnummerIListen(kandidatnummer);
+        const nesteKandidat = this.returnerNesteKandidatnummerIListen(kandidatnummer);
+        const forrigeKandidatLink = forrigeKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv?kandidatNr=${forrigeKandidat}` : undefined;
+        const nesteKandidatLink = nesteKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv?kandidatNr=${nesteKandidat}` : undefined;
 
         const Knapper = () => (
             <div className="viskandidat__knapperad">
@@ -100,11 +137,29 @@ class VisKandidatFraLister extends React.Component {
         }
         return (
             <div>
-                <VisKandidatPersonalia cv={cv} kandidatListe={kandidatlisteId} contextRoot={CONTEXT_ROOT} appContext={'arbeidsgiver'} />
+                <VisKandidatPersonalia
+                    cv={cv}
+                    kandidatListe={kandidatlisteId}
+                    contextRoot={CONTEXT_ROOT}
+                    appContext={'arbeidsgiver'}
+                    forrigeKandidat={forrigeKandidatLink}
+                    nesteKandidat={nesteKandidatLink}
+                    kandidatIndex={kandidatIndex}
+                    antallKandidater={kandidatliste.antallKandidater}
+                />
                 <div className="viskandidat-container">
                     <Knapper />
                     <VisKandidatJobbprofil cv={cv} />
                     <VisKandidatCv cv={cv} />
+                    <div className="navigering-forrige-neste_wrapper">
+                        <VisKandidatForrigeNeste
+                            lenkeClass={'header--personalia__lenke--veileder'}
+                            forrigeKandidat={forrigeKandidatLink}
+                            nesteKandidat={nesteKandidatLink}
+                            kandidatIndex={kandidatIndex}
+                            antallKandidater={kandidatliste.antallKandidater}
+                        />
+                    </div>
                 </div>
                 <SlettKandidaterModal
                     isOpen={this.state.visSlettKandidatModal}
@@ -120,7 +175,11 @@ class VisKandidatFraLister extends React.Component {
 }
 
 VisKandidatFraLister.defaultProps = {
-    matchforklaring: undefined
+    matchforklaring: undefined,
+    kandidatliste: {
+        antallKandidater: undefined,
+        kandidater: []
+    }
 };
 
 VisKandidatFraLister.propTypes = {
@@ -128,7 +187,16 @@ VisKandidatFraLister.propTypes = {
     cv: cvPropTypes.isRequired,
     isFetchingCv: PropTypes.bool.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
+    hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
+    kandidatliste: PropTypes.shape({
+        antallKandidater: PropTypes.number,
+        kandidater: PropTypes.arrayOf(
+            PropTypes.shape({
+                kandidatnr: PropTypes.string
+            })
+        )
+    }),
     slettKandidater: PropTypes.func.isRequired,
     sletteStatus: PropTypes.string.isRequired
 };
@@ -136,6 +204,7 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     kandidatlisteId: props.match.params.listeid,
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
     isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv,
     sletteStatus: state.kandidatlister.detaljer.sletteStatus,
@@ -144,6 +213,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
 });
 
