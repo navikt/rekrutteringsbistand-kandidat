@@ -19,6 +19,7 @@ import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
+import { formatterDato } from '../../felles/common/dateUtils';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -38,11 +39,6 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSlette
             <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
         ))
     );
-};
-
-const formaterDato = (datoStreng) => {
-    const dato = new Date(datoStreng);
-    return dato.toLocaleDateString('nb-NO');
 };
 
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatliste }) => (
@@ -66,7 +62,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                 </div>
                 {!kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                     </div>
                 }
             </div>
@@ -87,7 +83,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                 </div>
                 {kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formaterDato(kandidatliste.opprettetTidspunkt)}`}</Undertekst>
+                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                     </div>
                 }
             </div>
@@ -106,11 +102,14 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
 );
 
 
-const Header = ({ antallKandidater }) => (
+const Header = ({ antallKandidatlister }) => (
     <PageHeader>
         <div className="Kandidatlister__header--innhold">
-            <div className="Kandidatlister__header--innhold--indre">
-                <Sidetittel>Kandidatlister {antallKandidater > 0 && `(${antallKandidater})`}</Sidetittel>
+            <div className="header-child" />
+            <div className="header-child tittel-wrapper">
+                <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
+            </div>
+            <div className="header-child knapp-wrapper">
                 <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
                     <Knapp id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
                 </Link>
@@ -272,7 +271,7 @@ class Kandidatlister extends React.Component {
                     type="suksess"
                     tekst={this.state.successMeldingSlettet}
                 />
-                <Header antallKandidater={kandidatlister !== undefined ? kandidatlister.length : 0} />
+                <Header antallKandidatlister={kandidatlister !== undefined ? kandidatlister.length : 0} />
                 <Container className="blokk-s container">
                     <div className="Kandidatlister__container Kandidatlister__container-width">
                         <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
@@ -320,7 +319,7 @@ Kandidatlister.defaultProps = {
 };
 
 Header.propTypes = {
-    antallKandidater: PropTypes.number.isRequired
+    antallKandidatlister: PropTypes.number.isRequired
 };
 
 Kandidatlister.propTypes = {
