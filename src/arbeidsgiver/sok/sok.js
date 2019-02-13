@@ -240,8 +240,8 @@ const App = () => (
     <div>
         <Provider store={store}>
             <div>
-                <Feedback />
                 <SokApp />
+                <Feedback />
             </div>
         </Provider>
     </div>

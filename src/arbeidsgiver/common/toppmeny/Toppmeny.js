@@ -25,16 +25,13 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
         orgNummer: arbeidsgiver.orgnr
     }));
     return (
-        <div>
-            <span className="pilot typo-element">Tidlig versjon</span>
-            <ArbeidsgiverHeaderMeny
-                onLoggUt={loggUt}
-                onArbeidsgiverSelect={onArbeidsgiverSelect}
-                arbeidsgivere={mappedeArbeidsgivere}
-                valgtArbeidsgiverId={valgtArbeidsgiverId}
-                activeTabID={activeTabID}
-            />
-        </div>
+        <ArbeidsgiverHeaderMeny
+            onLoggUt={loggUt}
+            onArbeidsgiverSelect={onArbeidsgiverSelect}
+            arbeidsgivere={mappedeArbeidsgivere}
+            valgtArbeidsgiverId={valgtArbeidsgiverId}
+            activeTabID={activeTabID}
+        />
     );
 };
 
