@@ -11,7 +11,6 @@ import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
-import { formatterDato } from '../../felles/common/dateUtils';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -238,7 +237,7 @@ const ListedetaljerView = (props) => {
                         />
                     </div>
                     <div className="kolonne-bred"><Element>Navn</Element></div>
-                    <div className="kolonne-dato"><Element>Fødselsdato</Element></div>
+                    <div className="kolonne-dato"><Element>Fødselsnummer</Element></div>
                     <div className="kolonne-bred"><Element>Lagt til av</Element></div>
                     <div className="kolonne-bred">
                         <div className="status-overskrift">
@@ -313,7 +312,7 @@ const ListedetaljerView = (props) => {
                     <div className="kolonne-bred tabell-tekst">
                         <Link title="Vis profil" className="lenke tabell-lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv/${kandidat.kandidatnr}`}>
                             {`${fornavn} ${etternavn}`}
-                        </Link></div><div className="kolonne-dato">{formatterDato(new Date(kandidat.fodselsdato))}</div>
+                        </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
                     <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
                     <div className="kolonne-bred">
                         {kanEditere
