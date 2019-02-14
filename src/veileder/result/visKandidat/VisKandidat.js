@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,48 +11,91 @@ import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandida
 import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
-import { SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
+import { SETT_KANDIDATNUMMER, LAST_FLERE_KANDIDATER } from '../../sok/searchReducer';
 import './VisKandidat.less';
+import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 
 class VisKandidat extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            gjeldendeKandidat: this.gjeldendeKandidatIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            forrigeKandidat: this.forrigeKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            nesteKandidat: this.nesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href))
+        };
+
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
-        this.kandidater = this.props.kandidater;
     }
+
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
         this.props.settValgtKandidat(this.kandidatnummer);
+
+        if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
+            this.props.lastFlereKandidater();
+        }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.kandidater.length < this.props.kandidater.length) {
+            this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
+        }
+
         const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
         if (this.kandidatnummer !== currentUrlKandidatnummer && currentUrlKandidatnummer !== undefined) {
             this.kandidatnummer = currentUrlKandidatnummer;
             this.props.settValgtKandidat(this.kandidatnummer);
             this.props.hentCvForKandidat(this.kandidatnummer);
+            this.setState({ gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer) });
+        }
+
+        if (this.state.gjeldendeKandidat !== prevState.gjeldendeKandidat) {
+            this.setState({ forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer) });
+            if (this.state.gjeldendeKandidat === this.props.kandidater.length && this.props.kandidater.length < this.props.antallKandidater) {
+                this.props.lastFlereKandidater();
+            } else {
+                this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
+            }
         }
     }
 
-    returnerForrigeKandidatnummerIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+    gjeldendeKandidatIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === -1) {
+            return undefined;
+        }
+        return gjeldendeIndex + 1;
+    };
+
+    forrigeKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
         }
-        return this.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
+        return this.props.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
-    returnerNesteKandidatnummerIListen = (kandidatnummer) => {
+    nesteKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
             return undefined;
         }
-        return this.kandidater[gjeldendeIndex + 1].arenaKandidatnr;
+        return this.props.kandidater[gjeldendeIndex + 1].arenaKandidatnr;
     };
 
     render() {
-        const { cv, match, hentStatus } = this.props;
+        const { cv, match, hentStatus, antallKandidater } = this.props;
         const stillingsId = match.params.stillingsId;
+        let forrigeKandidatLink;
+        let nesteKandidatLink;
+
+        if (stillingsId) {
+            forrigeKandidatLink = this.state.forrigeKandidat ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${this.state.forrigeKandidat}` : undefined;
+            nesteKandidatLink = this.state.nesteKandidat ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${this.state.nesteKandidat}` : undefined;
+        } else {
+            forrigeKandidatLink = this.state.forrigeKandidat ? `/kandidater/cv?kandidatNr=${this.state.forrigeKandidat}` : undefined;
+            nesteKandidatLink = this.state.nesteKandidat ? `/kandidater/cv?kandidatNr=${this.state.nesteKandidat}` : undefined;
+        }
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -67,8 +111,10 @@ class VisKandidat extends React.Component {
                     appContext={'veileder'}
                     contextRoot={'kandidater'}
                     stillingsId={stillingsId}
-                    forrigeKandidat={this.returnerForrigeKandidatnummerIListen(this.kandidatnummer)}
-                    nesteKandidat={this.returnerNesteKandidatnummerIListen(this.kandidatnummer)}
+                    gjeldendeKandidat={this.state.gjeldendeKandidat}
+                    forrigeKandidat={forrigeKandidatLink}
+                    nesteKandidat={nesteKandidatLink}
+                    antallKandidater={antallKandidater}
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
@@ -92,6 +138,15 @@ class VisKandidat extends React.Component {
                         </div>
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
+                        <div className="navigering-forrige-neste_wrapper">
+                            <VisKandidatForrigeNeste
+                                lenkeClass={'header--personalia__lenke--veileder'}
+                                forrigeKandidat={forrigeKandidatLink}
+                                nesteKandidat={nesteKandidatLink}
+                                gjeldendeKandidat={this.state.gjeldendeKandidat}
+                                antallKandidater={antallKandidater}
+                            />
+                        </div>
                     </div>
                 )}
             </div>
@@ -104,13 +159,16 @@ VisKandidat.defaultProps = {
         params: {
             stillingsId: undefined
         }
-    }
+    },
+    antallKandidater: undefined
 };
 
 VisKandidat.propTypes = {
     cv: cvPropTypes.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
+    antallKandidater: PropTypes.number,
+    lastFlereKandidater: PropTypes.func.isRequired,
     settValgtKandidat: PropTypes.func.isRequired,
     hentStatus: PropTypes.string.isRequired,
     match: PropTypes.shape({
@@ -123,11 +181,13 @@ VisKandidat.propTypes = {
 const mapStateToProps = (state) => ({
     cv: state.cvReducer.cv,
     kandidater: state.search.searchResultat.resultat.kandidater,
+    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cvReducer.hentStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer })
 });
 

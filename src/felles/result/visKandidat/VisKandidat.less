@@ -47,16 +47,31 @@
   font-weight: bold;
 }
 
-.header--personalia__lenker--container{
+.header--personalia__lenker--container {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
-  .navigering-forrige-neste{
-    display: inline-flex;
-    justify-content: space-evenly;
-    >:last-child{
-      margin-left: 1.125rem;
-    }
+  .navigering-forrige-neste {
+    margin-top: 0;
+  }
+}
+
+.navigering-forrige-neste_wrapper {
+  text-align: center;
+}
+
+.navigering-forrige-neste {
+  margin-top: 2rem;
+  display: inline-flex;
+  justify-content: space-evenly;
+  >:last-child{
+    margin-left: 1.125rem;
+  }
+  .index {
+    margin-left: 1.25rem;
+  }
+  .typo-normal {
+    padding-bottom: 0.125rem;
   }
 }
 

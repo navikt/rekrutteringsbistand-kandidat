@@ -249,7 +249,9 @@ function* search(action = '') {
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
-        window.history.replaceState('', '', newUrlQuery);
+        if (window.location.pathname !== '/kandidater/cv') {
+            window.history.replaceState('', '', newUrlQuery);
+        }
 
         const fraIndex = action.fraIndex || 0;
         const antallResultater = action.antallResultater ? Math.max(action.antallResultater, state.search.antallVisteKandidater) : state.search.antallVisteKandidater;
