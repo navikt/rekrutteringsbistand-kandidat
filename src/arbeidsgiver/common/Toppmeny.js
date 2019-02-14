@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ArbeidsgiverHeaderMeny, ArbeidsgiverTabId } from 'pam-frontend-header';
 import 'pam-frontend-header/dist/style.css';
-import { LOGOUT_URL } from '../fasitProperties';
-import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
-import './Toppmeny.less';
+import { LOGOUT_URL } from './fasitProperties';
+import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../arbeidsgiver/arbeidsgiverReducer';
 
 const loggUt = () => {
     sessionStorage.removeItem('orgnr');
