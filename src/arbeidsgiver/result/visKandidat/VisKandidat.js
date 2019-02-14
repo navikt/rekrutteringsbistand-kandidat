@@ -27,9 +27,9 @@ class VisKandidat extends React.Component {
         this.state = {
             lagreKandidaterModalVises: false,
             suksessmeldingLagreKandidatVises: false,
-            kandidatIndex: this.returnerKandidatIndex(getUrlParameterByName('kandidatNr', window.location.href)),
-            forrigeKandidat: this.returnerForrigeKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
-            nesteKandidat: this.returnerNesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href))
+            gjeldendeKandidat: this.gjeldendeKandidatIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            forrigeKandidat: this.forrigeKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            nesteKandidat: this.nesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href))
         };
 
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
@@ -41,7 +41,7 @@ class VisKandidat extends React.Component {
         this.props.hentCvForKandidat(this.kandidatnummer, this.profilId, this.sisteSokId);
         this.props.settValgtKandidat(this.kandidatnummer);
 
-        if (this.state.kandidatIndex === this.props.kandidater.length) {
+        if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
     }
@@ -53,7 +53,7 @@ class VisKandidat extends React.Component {
         }
 
         if (prevProps.kandidater.length < this.props.kandidater.length) {
-            this.setState({ nesteKandidat: this.returnerNesteKandidatnummerIListen(this.kandidatnummer) });
+            this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
 
         const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
@@ -61,15 +61,15 @@ class VisKandidat extends React.Component {
             this.kandidatnummer = currentUrlKandidatnummer;
             this.props.settValgtKandidat(this.kandidatnummer);
             this.props.hentCvForKandidat(this.kandidatnummer);
-            this.setState({ kandidatIndex: this.returnerKandidatIndex(this.kandidatnummer) });
+            this.setState({ gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer) });
         }
 
-        if (this.state.kandidatIndex !== prevState.kandidatIndex) {
-            this.setState({ forrigeKandidat: this.returnerForrigeKandidatnummerIListen(this.kandidatnummer) });
-            if (this.state.kandidatIndex === this.props.kandidater.length && this.props.kandidater.length < this.props.antallKandidater) {
+        if (this.state.gjeldendeKandidat !== prevState.gjeldendeKandidat) {
+            this.setState({ forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer) });
+            if (this.state.gjeldendeKandidat === this.props.kandidater.length && this.props.kandidater.length < this.props.antallKandidater) {
                 this.props.lastFlereKandidater();
             } else {
-                this.setState({ nesteKandidat: this.returnerNesteKandidatnummerIListen(this.kandidatnummer) });
+                this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
             }
         }
     }
@@ -116,7 +116,7 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
-    returnerKandidatIndex = (kandidatnummer) => {
+    gjeldendeKandidatIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -124,7 +124,7 @@ class VisKandidat extends React.Component {
         return gjeldendeIndex + 1;
     };
 
-    returnerForrigeKandidatnummerIListen = (kandidatnummer) => {
+    forrigeKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -132,7 +132,7 @@ class VisKandidat extends React.Component {
         return this.props.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
-    returnerNesteKandidatnummerIListen = (kandidatnummer) => {
+    nesteKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
             return undefined;
@@ -168,7 +168,7 @@ class VisKandidat extends React.Component {
                     cv={cv}
                     appContext={'arbeidsgiver'}
                     contextRoot={CONTEXT_ROOT}
-                    kandidatIndex={this.state.kandidatIndex}
+                    gjeldendeKandidat={this.state.gjeldendeKandidat}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
@@ -188,7 +188,7 @@ class VisKandidat extends React.Component {
                 <div className="navigering-forrige-neste_wrapper">
                     <VisKandidatForrigeNeste
                         lenkeClass={'header--personalia__lenke--veileder'}
-                        kandidatIndex={this.state.kandidatIndex}
+                        gjeldendeKandidat={this.state.gjeldendeKandidat}
                         forrigeKandidat={forrigeKandidatLink}
                         nesteKandidat={nesteKandidatLink}
                         antallKandidater={antallKandidater}

@@ -25,7 +25,7 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    returnerKandidatIndex = (kandidatnummer) => {
+    gjeldendeKandidatIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -33,7 +33,7 @@ class VisKandidatFraLister extends React.Component {
         return gjeldendeIndex + 1;
     };
 
-    returnerForrigeKandidatnummerIListen = (kandidatnummer) => {
+    forrigeKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -41,7 +41,7 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    returnerNesteKandidatnummerIListen = (kandidatnummer) => {
+    nesteKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
         if (gjeldendeIndex === (this.props.kandidatliste.kandidater.length - 1)) {
             return undefined;
@@ -51,9 +51,9 @@ class VisKandidatFraLister extends React.Component {
 
     render() {
         const { cv, match, stillingsId, kandidatliste, hentStatus } = this.props;
-        const kandidatIndex = this.returnerKandidatIndex(match.params.kandidatNr);
-        const forrigeKandidat = this.returnerForrigeKandidatnummerIListen(match.params.kandidatNr);
-        const nesteKandidat = this.returnerNesteKandidatnummerIListen(match.params.kandidatNr);
+        const gjeldendeKandidat = this.gjeldendeKandidatIListen(match.params.kandidatNr);
+        const forrigeKandidat = this.forrigeKandidatnummerIListen(match.params.kandidatNr);
+        const nesteKandidat = this.nesteKandidatnummerIListen(match.params.kandidatNr);
         const forrigeKandidatLink = forrigeKandidat ? `/kandidater/lister/detaljer/${stillingsId}/cv/${forrigeKandidat}` : undefined;
         const nesteKandidatLink = nesteKandidat ? `/kandidater/lister/detaljer/${stillingsId}/cv/${nesteKandidat}` : undefined;
 
@@ -74,7 +74,7 @@ class VisKandidatFraLister extends React.Component {
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
-                    kandidatIndex={kandidatIndex}
+                    gjeldendeKandidat={gjeldendeKandidat}
                     antallKandidater={kandidatliste.kandidater.length}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
@@ -105,7 +105,7 @@ class VisKandidatFraLister extends React.Component {
                                     contextRoot={'kandidater'}
                                     forrigeKandidat={forrigeKandidatLink}
                                     nesteKandidat={nesteKandidatLink}
-                                    kandidatIndex={kandidatIndex}
+                                    gjeldendeKandidat={gjeldendeKandidat}
                                     antallKandidater={kandidatliste.kandidater.length}
                                 />
                             </div>

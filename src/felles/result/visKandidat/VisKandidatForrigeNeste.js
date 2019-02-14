@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
-const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, kandidatIndex, antallKandidater }) => {
+const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, gjeldendeKandidat, antallKandidater }) => {
     if (antallKandidater > 1) {
         return (
             <div className="navigering-forrige-neste">
@@ -16,9 +16,7 @@ const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, k
                         <NavFrontendChevron type="venstre" /> Forrige kandidat
                     </Link>
                 }
-                {(forrigeKandidat || nesteKandidat) &&
-                    <Normaltekst className="index">{kandidatIndex} av {antallKandidater}</Normaltekst>
-                }
+                <Normaltekst className="index">{gjeldendeKandidat} av {antallKandidater}</Normaltekst>
                 {nesteKandidat ? (
                     <Link
                         to={nesteKandidat}
@@ -36,7 +34,7 @@ const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, k
 VisKandidatForrigeNeste.defaultProps = {
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
-    kandidatIndex: undefined,
+    gjeldendeKandidat: undefined,
     antallKandidater: undefined
 };
 
@@ -44,7 +42,7 @@ VisKandidatForrigeNeste.propTypes = {
     lenkeClass: PropTypes.string.isRequired,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
-    kandidatIndex: PropTypes.number,
+    gjeldendeKandidat: PropTypes.number,
     antallKandidater: PropTypes.number
 };
 

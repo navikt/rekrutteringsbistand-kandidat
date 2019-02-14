@@ -49,7 +49,7 @@ export default class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const { cv, contextRoot, kandidatListe, antallKandidater, stillingsId, kandidatIndex, forrigeKandidat, nesteKandidat, fantCv } = this.props;
+        const { cv, contextRoot, kandidatListe, antallKandidater, stillingsId, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv } = this.props;
 
         let tilbakeLink;
         if (kandidatListe) {
@@ -88,7 +88,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             lenkeClass={lenkeClass}
                             forrigeKandidat={forrigeKandidat}
                             nesteKandidat={nesteKandidat}
-                            kandidatIndex={kandidatIndex}
+                            gjeldendeKandidat={gjeldendeKandidat}
                             antallKandidater={antallKandidater}
                         />
                     </Column>
@@ -168,7 +168,7 @@ VisKandidatPersonalia.defaultProps = {
     kandidatListe: undefined,
     antallKandidater: undefined,
     stillingsId: undefined,
-    kandidatIndex: undefined,
+    gjeldendeKandidat: undefined,
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
     fantCv: true
@@ -181,7 +181,7 @@ VisKandidatPersonalia.propTypes = {
     kandidatListe: PropTypes.string,
     antallKandidater: PropTypes.number,
     stillingsId: PropTypes.string,
-    kandidatIndex: PropTypes.number,
+    gjeldendeKandidat: PropTypes.number,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
     fantCv: PropTypes.bool
