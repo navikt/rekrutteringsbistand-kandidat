@@ -30,7 +30,7 @@ import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
-import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
+import { KandidatlisteHeader, KandidatsokHeader } from '../common/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import VisKandidat from '../result/visKandidat/VisKandidat';
@@ -240,8 +240,8 @@ const App = () => (
     <div>
         <Provider store={store}>
             <div>
-                <Feedback />
                 <SokApp />
+                <Feedback />
             </div>
         </Provider>
     </div>
