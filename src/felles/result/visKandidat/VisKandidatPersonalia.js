@@ -4,12 +4,21 @@ import { Column, Container, Row } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { formatISOString } from '../../common/dateUtils';
+import { formatISOString, formatterDato } from '../../common/dateUtils';
 import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
 import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
+
+const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
+    if (fodselsdato) {
+        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${fodselsnummer && ` (${fodselsnummer})`}`;
+    } else if (fodselsnummer) {
+        return `Fødselsnummer: ${fodselsnummer}`;
+    }
+    return '';
+};
 
 export default class VisKandidatPersonalia extends React.Component {
     formatTelephoneNumber = (inputString) => {
@@ -101,9 +110,12 @@ export default class VisKandidatPersonalia extends React.Component {
                     <Sidetittel className="header--personalia__overskrift">
                         {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
-                    {cv.fodselsdato && (
-                        <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
-                    )}
+                    {this.props.appContext === 'veileder'
+                        ? <Normaltekst className="header--personalia__fodselsdato">{fodselsdatoForVeileder(cv.fodselsdato, cv.fodselsnummer)}</Normaltekst>
+                        : cv.fodselsdato && (
+                            <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
+                        )
+                    }
                 </Row>
                 {fantCv &&
                     <Row>

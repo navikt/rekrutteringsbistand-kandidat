@@ -7,7 +7,6 @@ import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import { formatterDato } from '../../../felles/common/dateUtils';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -29,7 +28,7 @@ class KandidaterTableRow extends React.Component {
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
         const navn = `${fornavn} ${etternavn}`;
-        const fodselsdato = kandidat.fodselsdato;
+        const fodselsnummer = kandidat.fodselsnummer;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
@@ -56,7 +55,7 @@ class KandidaterTableRow extends React.Component {
                             {navn}
                         </Link>
                     </div>
-                    <div className="kolonne-dato kolonne-tekst">{formatterDato(new Date(fodselsdato))}</div>
+                    <div className="kolonne-dato kolonne-tekst">{fodselsnummer}</div>
                     <div className="kolonne-innsatsgruppe kolonne-tekst">{innsatsgruppe}</div>
                     <div className="kolonne-bosted kolonne-tekst">{bosted}</div>
                 </div>
