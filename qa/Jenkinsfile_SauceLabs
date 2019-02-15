@@ -27,7 +27,7 @@ node {
 		}
     }
 
-    def qaDir = "${env.WORKSPACE}/qa"
+    def qaDir = "./qa"
     def qaFolder = new File(qaDir)
 
     if (qaFolder.exists()) {

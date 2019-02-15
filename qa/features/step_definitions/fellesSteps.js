@@ -2,7 +2,6 @@
 const { client } = require('nightwatch-cucumber');
 const { Before, Given, When, Then, After } = require('cucumber');
 
-const idPortenPage = client.page.IdPortenPage();
 const kandidatsokPage = client.page.KandidatsokPage();
 
 export let antallTreff;
@@ -18,19 +17,8 @@ Before(() => {
 });
 
 Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) => {
-    await client
-        .url(client.launch_url)
-        .maximizeWindow();
-    await client.globals.environment === 'local'
-        ? kandidatsokPage
-            .click('@kandidatsokLink')
-            .waitForElementVisible('@velgArbeidsgiverDropdown', 20000)
-            .setValue('@velgArbeidsgiverDropdown', 'Aust' + client.Keys.ENTER)
-        : idPortenPage.loggInn(brukernavn);
-    await kandidatsokPage
-        .waitForElementPresent('@antallKandidaterTreff', 30000)
-        .finnAntallKandidater(antallTreff);
-    await idPortenPage.storeLoginCookie();
+    await client.loggInn(brukernavn);
+    await kandidatsokPage.finnAntallKandidater(antallTreff);
 });
 
 When(/^jeg trykker Se kandidatene/, () => {
