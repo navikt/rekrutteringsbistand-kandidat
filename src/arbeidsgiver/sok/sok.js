@@ -35,7 +35,6 @@ import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
-import OpprettKandidatliste from '../kandidatlister/OpprettKandidatliste';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
@@ -185,7 +184,6 @@ class Sok extends React.Component {
                         <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
                         <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
                         <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
-                        <Route exact path={`/${CONTEXT_ROOT}/lister/opprett`} component={OpprettKandidatliste} />
                         <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                         <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                     </Switch>

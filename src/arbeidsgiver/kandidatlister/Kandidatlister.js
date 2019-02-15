@@ -20,18 +20,13 @@ import EndreModal from './EndreModal';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { formatterDato } from '../../felles/common/dateUtils';
+import OpprettModal from './OpprettModal';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
-        return <div className="text-center"> <NavFrontendSpinner type="L" /></div>;
+        return <div className="text-center"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
-        return (
-            <TomListe
-                lenke={`/${CONTEXT_ROOT}/lister/opprett`}
-                lenkeTekst="Opprett kandidatliste"
-            >
-                Du har ingen kandidatlister
-            </TomListe>);
+        return <TomListe>Du har ingen kandidatlister</TomListe>;
     }
 
     return (
@@ -39,6 +34,13 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSlette
             <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
         ))
     );
+};
+
+const MODALVISING = {
+    INGEN_MODAL: 'INGEN_MODAL',
+    OPPRETT_MODAL: 'OPPRETT_MODAL',
+    ENDRE_MODAL: 'ENDRE_MODAL',
+    SLETTE_MODAL: 'SLETTE_MODAL'
 };
 
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatliste }) => (
@@ -101,23 +103,6 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
     </div>
 );
 
-
-const Header = ({ antallKandidatlister }) => (
-    <PageHeader>
-        <div className="Kandidatlister__header--innhold">
-            <div className="header-child" />
-            <div className="header-child tittel-wrapper">
-                <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
-            </div>
-            <div className="header-child knapp-wrapper">
-                <Link to={`/${CONTEXT_ROOT}/lister/opprett`}>
-                    <Knapp id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
-                </Link>
-            </div>
-        </div>
-    </PageHeader>
-);
-
 const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteClick, sletteStatus, antallKandidater }) => (
     <NavFrontendModal
         isOpen
@@ -147,8 +132,7 @@ class Kandidatlister extends React.Component {
             visSuccessMeldingSlettet: visSuccessMldSlettet,
             successMelding: successMld,
             successMeldingSlettet: 'Kandidatliste slettet',
-            visEndreModal: false,
-            visSletteModal: false
+            modalstatus: MODALVISING.INGEN_MODAL
         };
     }
 
@@ -188,16 +172,22 @@ class Kandidatlister extends React.Component {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
 
+    onOpprettClick = () => {
+        this.setState({
+            modalstatus: MODALVISING.OPPRETT_MODAL
+        });
+    };
+
     onEndreClick = (kandidatliste) => {
         this.setState({
-            visEndreModal: true,
+            modalstatus: MODALVISING.ENDRE_MODAL,
             kandidatlisteIEndring: kandidatliste
         });
     };
 
     onDeleteClick = (kandidatliste) => {
         this.setState({
-            visSletteModal: true,
+            modalstatus: MODALVISING.SLETTE_MODAL,
             kandidatlisteISletting: kandidatliste,
             successMeldingSlettet: `Kandidatliste "${kandidatliste.tittel}" slettet`
         });
@@ -205,14 +195,14 @@ class Kandidatlister extends React.Component {
 
     onLukkModalClick = () => {
         this.setState({
-            visEndreModal: false,
+            modalstatus: MODALVISING.INGEN_MODAL,
             kandidatlisteIEndring: undefined
         });
     };
 
     onLukkSletteModalClick = () => {
         this.setState({
-            visSletteModal: false,
+            modalstatus: MODALVISING.INGEN_MODAL,
             kandidatlisteISletting: undefined
         });
     };
@@ -249,10 +239,24 @@ class Kandidatlister extends React.Component {
 
     render() {
         const { kandidatlister, fetchingKandidatlister } = this.props;
+        const Header = ({ antallKandidatlister }) => (
+            <PageHeader>
+                <div className="Kandidatlister__header--innhold">
+                    <div className="header-child" />
+                    <div className="header-child tittel-wrapper">
+                        <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
+                    </div>
+                    <div className="header-child knapp-wrapper">
+                        <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
+                    </div>
+                </div>
+            </PageHeader>
+        );
         return (
             <div>
-                {this.state.visEndreModal && <EndreModal kandidatliste={this.state.kandidatlisteIEndring} onAvbrytClick={this.onLukkModalClick} />}
-                {this.state.visSletteModal && <SlettKandidatlisteModal
+                {this.state.modalstatus === MODALVISING.ENDRE_MODAL && <EndreModal kandidatliste={this.state.kandidatlisteIEndring} onAvbrytClick={this.onLukkModalClick} />}
+                {this.state.modalstatus === MODALVISING.OPPRETT_MODAL && <OpprettModal onAvbrytClick={this.onLukkModalClick} />}
+                {this.state.modalstatus === MODALVISING.SLETTE_MODAL && <SlettKandidatlisteModal
                     tittelKandidatliste={this.state.kandidatlisteISletting.tittel}
                     onAvbrytClick={this.onLukkSletteModalClick}
                     onSletteClick={this.onSlettBekreft}
@@ -316,10 +320,6 @@ KandidatlisteRad.propTypes = {
 Kandidatlister.defaultProps = {
     kandidatlister: undefined,
     opprettetTittel: undefined
-};
-
-Header.propTypes = {
-    antallKandidatlister: PropTypes.number.isRequired
 };
 
 Kandidatlister.propTypes = {

@@ -8,8 +8,7 @@ import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import OpprettKandidatlisteForm from '../kandidatlister/OpprettKandidatlisteForm';
-import { tomKandidatlisteInfo } from '../kandidatlister/OpprettKandidatliste';
+import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from '../kandidatlister/OpprettKandidatlisteForm';
 
 const markerKandidatlister = (kandidatlister, markerteIder = []) => (
     kandidatlister ? kandidatlister.map((k) => ({ ...k, markert: markerteIder.includes(k.kandidatlisteId) })) : undefined

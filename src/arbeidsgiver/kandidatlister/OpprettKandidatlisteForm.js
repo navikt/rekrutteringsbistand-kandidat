@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
@@ -10,6 +9,12 @@ const FELTER = {
     BESKRIVELSE: 'BESKRIVELSE',
     OPPDRAGSGIVER: 'OPPDRAGSGIVER'
 };
+
+export const tomKandidatlisteInfo = () => ({
+    tittel: '',
+    beskrivelse: '',
+    oppdragsgiver: ''
+});
 
 export default class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
@@ -69,7 +74,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
     };
 
     render() {
-        const { backLink, saving, knappTekst } = this.props;
+        const { saving, knappTekst } = this.props;
         return (
             <SkjemaGruppe>
                 <div className="OpprettKandidatlisteForm">
@@ -87,6 +92,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             }}
                             feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn må være utfylt' } : undefined}
                             inputRef={(input) => { this.input = input; }}
+                            autoComplete="off"
                         />
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
@@ -118,11 +124,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     <Hovedknapp id="kandidatliste-opprett-knapp" onClick={this.validateAndSave} spinner={saving}>
                         {knappTekst}
                     </Hovedknapp>
-                    {this.props.onAvbrytClick !== undefined ?
-                        <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp> :
-                        (<div className="OpprettKandidatlisteForm__avbryt-lenke-wrapper">
-                            <Link to={backLink} className="lenke">Avbryt</Link>
-                        </div>)}
+                    <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp>
                 </div>
             </SkjemaGruppe>
         );
@@ -132,15 +134,12 @@ export default class OpprettKandidatlisteForm extends React.Component {
 OpprettKandidatlisteForm.defaultProps = {
     saving: false,
     onChange: undefined,
-    onAvbrytClick: undefined,
-    backLink: undefined,
     knappTekst: 'Lagre'
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
     onChange: PropTypes.func,
-    backLink: PropTypes.string,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
@@ -148,6 +147,6 @@ OpprettKandidatlisteForm.propTypes = {
         stillingsId: PropTypes.string
     }).isRequired,
     saving: PropTypes.bool,
-    onAvbrytClick: PropTypes.func,
+    onAvbrytClick: PropTypes.func.isRequired,
     knappTekst: PropTypes.string
 };
