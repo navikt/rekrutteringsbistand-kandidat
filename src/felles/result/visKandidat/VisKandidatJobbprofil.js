@@ -37,6 +37,23 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                 </Row>
             )}
+            {cv.kompetanse && cv.kompetanse.length !== 0 && (
+                <Row className="panel--jobbprofil__row">
+                    <Column xs="12" sm="4">
+                        <Element className="jobbprofil__overskrift">Kompetanse</Element>
+                    </Column>
+                    <Column xs="12" sm="8">
+                        <TruncatedTextList
+                            tekstElementer={
+                                cv.kompetanse
+                                    .map((u) => (
+                                        u.kompetanseKodeTekst
+                                    ))
+                            }
+                        />
+                    </Column>
+                </Row>
+            )}
             {cv.geografiJobbonsker && cv.geografiJobbonsker.length !== 0 && (
                 <Row className="panel--jobbprofil__row">
                     <Column xs="12" sm="4">
