@@ -26,9 +26,9 @@ node {
     def appConfig = "nais_veileder.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
-    def environment = 'q6'
+    def environment = 'q0'
     def zone = 'fss'
-    def namespace = "q6"
+    def namespace = "q0"
     def contextroots = [app]
     def githubAppToken = newApiToken();
 
