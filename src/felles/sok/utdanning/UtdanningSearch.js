@@ -105,9 +105,9 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                 )}
-                <Element className="sokekriterier--margin-top-extra-large">I hvilket fagfelt skal kandidaten ha utdanning?</Element>
-                <Normaltekst className="text--italic">
-                    For eksempel pedagogikk
+                <Element className="sokekriterier--margin-top-extra-large">Hvilken utdanning eller fagområde skal kandidaten ha?</Element>
+                <Normaltekst>
+                    For eksempel: pedagogikk, reiseliv, økonomi, skogbruk
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>
@@ -120,7 +120,7 @@ class UtdanningSearch extends React.Component {
                                 onChange={this.onTypeAheadUtdanningChange}
                                 label=""
                                 name="utdanning"
-                                placeholder="Skriv inn fagfelt"
+                                placeholder="Skriv inn utdanning/fagområde"
                                 suggestions={this.props.typeAheadSuggestionsUtdanning}
                                 value={this.state.typeAheadValue}
                                 id="yrke"
@@ -134,7 +134,7 @@ class UtdanningSearch extends React.Component {
                                 id="leggtil-fagfelt-knapp"
                                 mini
                             >
-                                +Legg til fagfelt
+                                +Legg til utdanning/fagområde
                             </Knapp>
                         )}
                     </div>

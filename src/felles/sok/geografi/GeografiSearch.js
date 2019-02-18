@@ -92,13 +92,13 @@ class GeografiSearch extends React.Component {
         return (
             <Ekspanderbartpanel
                 className="panel--sokekriterier heading--geografi"
-                tittel="Fylke eller kommune"
+                tittel="Fylke/kommune"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
             >
-                <Normaltekst className="text--italic">
-                    Du vil få treff der arbeidssøker ønsker å jobbe
+                <Normaltekst>
+                    Vis bare kandidater som ønsker å jobbe i dette området
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div className="sokefelt--wrapper--geografi">
@@ -111,7 +111,7 @@ class GeografiSearch extends React.Component {
                                 onChange={this.onTypeAheadGeografiChange}
                                 label=""
                                 name="geografi"
-                                placeholder="Skriv inn sted"
+                                placeholder="Skriv inn fylke/kommune"
                                 suggestions={this.props.typeAheadSuggestionsGeografi}
                                 value={this.state.typeAheadValue}
                                 id="typeahead-geografi"
@@ -125,12 +125,12 @@ class GeografiSearch extends React.Component {
                                 id="leggtil-sted-knapp"
                                 mini
                             >
-                                +Legg til fylke, kommune
+                                +Legg til fylke/kommune
                             </Knapp>
                         )}
                         <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"
-                            label="Ønsker kun lokale kandidater (gir treff på kandidatens bosted)"
+                            label="Vis bare kandidater som bor i området"
                             checked={this.props.maaBoInnenforGeografi}
                             value="geografiCheckbox"
                             onChange={this.onToggleMaBoPaGeografi}

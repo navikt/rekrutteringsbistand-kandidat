@@ -81,10 +81,10 @@ export default class StillingSearch extends React.Component {
                 apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
             >
                 <Element>
-                    Hvilken stilling/yrke trenger du en kandidat til?
+                    Hva slags kandidat trenger du?
                 </Element>
-                <Normaltekst className="text--italic">
-                    For eksempel pedagogisk leder
+                <Normaltekst>
+                    For eksempel: pedagogisk leder
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     {/* TODO: Fjerne feature toggle */}
@@ -99,7 +99,7 @@ export default class StillingSearch extends React.Component {
                                 onChange={this.onTypeAheadStillingChange}
                                 label=""
                                 name="stilling"
-                                placeholder="Skriv inn stillingstittel"
+                                placeholder="Skriv inn stilling/yrke"
                                 suggestions={this.props.typeAheadSuggestionsStilling}
                                 value={this.state.typeAheadValue}
                                 id="typeahead-stilling"
@@ -113,7 +113,7 @@ export default class StillingSearch extends React.Component {
                                 id="leggtil-stilling-knapp"
                                 mini
                             >
-                                +Legg til stilling
+                                +Legg til stilling/yrke
                             </Knapp>
                         )}
 

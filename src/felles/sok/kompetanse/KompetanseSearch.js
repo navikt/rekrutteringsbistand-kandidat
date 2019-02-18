@@ -11,7 +11,6 @@ import './Kompetanse.less';
 const kompetanseHeading = (
     <div className="heading--kompetanse ekspanderbartPanel__heading">
         <Undertittel>Kompetanse</Undertittel>
-        <Normaltekst>Sertifikater, kurs, sertifisering, programmer og ferdigheter</Normaltekst>
     </div>
 );
 
@@ -93,10 +92,10 @@ class KompetanseSearch extends React.Component {
                 ariaTittel="Panel Kompetanse"
             >
                 <Element>
-                    Legg til kompetansen du ønsker at en kandidat skal ha
+                    Krav til kompetanse
                 </Element>
-                <Normaltekst className="text--italic">
-                    For eksempel fagbrev, ledelse eller Excel
+                <Normaltekst>
+                    For eksempel: fagbrev, kurs, sertifisering, ferdigheter, propgrammer
                 </Normaltekst>
                 <div className="sokekriterier--kriterier blokk-s">
                     <div>
@@ -142,7 +141,7 @@ class KompetanseSearch extends React.Component {
                     <div>
                         <div className="blokk-s border--bottom--thin" />
                         <Element>
-                            Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
+                            Velg en eller flere kompetanser som hører til stillingen du har valgt
                         </Element>
                         <div className="sokekriterier--kriterier">
                             {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
