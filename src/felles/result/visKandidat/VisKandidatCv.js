@@ -109,7 +109,9 @@ const VisKandidatCv = ({ cv }) => (
                                             navarende={!a.tilDato}
                                         />
                                     </Undertekst>
-                                    {a.arbeidsgiver && <Normaltekst>{a.arbeidsgiver}</Normaltekst>}
+                                    {(a.arbeidsgiver && !a.sted) && <Normaltekst>{a.arbeidsgiver}</Normaltekst>}
+                                    {(a.arbeidsgiver && a.sted) && <Normaltekst>{`${a.arbeidsgiver} | ${a.sted}`}</Normaltekst>}
+                                    {(!a.arbeidsgiver && a.sted) && <Normaltekst>{a.sted}</Normaltekst>}
                                     {<Element>{a.alternativStillingstittel ? a.alternativStillingstittel : a.styrkKodeStillingstittel}</Element>}
                                     {a.beskrivelse && <Normaltekst>{a.beskrivelse}</Normaltekst>}
                                 </Row>
@@ -140,29 +142,6 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.kurs && cv.kurs.length !== 0 && (
-                <Row className="panel--cv__row">
-                    <Column xs="12" sm="5">
-                        <Undertittel className="cv__overskrift">Kurs og sertifiseringer</Undertittel>
-                    </Column>
-                    <Column xs="12" sm="7">
-                        {sortByDato(cv.kurs)
-                            .map((k, i) => (
-                                <Row className="row--kategori" key={JSON.stringify({ ...k, index: i })}>
-                                    <Undertekst className="cv--tidsperiode">
-                                        <Tidsperiode
-                                            fradato={k.fraDato}
-                                            tildato={k.tilDato}
-                                        />
-                                    </Undertekst>
-                                    {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
-                                    {k.tittel && <Element>{k.tittel}</Element>}
-                                    {kursOmfang(k.omfang) && <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>}
-                                </Row>
-                            ))}
-                    </Column>
-                </Row>
-            )}
             {cv.forerkort && cv.forerkort.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
@@ -184,10 +163,33 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
+            {cv.kurs && cv.kurs.length !== 0 && (
+                <Row className="panel--cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Kurs</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {sortByDato(cv.kurs)
+                            .map((k, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...k, index: i })}>
+                                    <Undertekst className="cv--tidsperiode">
+                                        <Tidsperiode
+                                            fradato={k.fraDato}
+                                            tildato={k.tilDato}
+                                        />
+                                    </Undertekst>
+                                    {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
+                                    {k.tittel && <Element>{k.tittel}</Element>}
+                                    {kursOmfang(k.omfang) && <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>}
+                                </Row>
+                            ))}
+                    </Column>
+                </Row>
+            )}
             {cv.sertifikater && cv.sertifikater.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
-                        <Undertittel className="cv__overskrift">Sertifikat</Undertittel>
+                        <Undertittel className="cv__overskrift">Sertifiseringer og sertifikater</Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
                         {sortByDato(cv.sertifikater)
@@ -196,16 +198,21 @@ const VisKandidatCv = ({ cv }) => (
                                     <Undertekst className="cv--tidsperiode">
                                         <Tidsperiode
                                             fradato={s.fraDato}
-                                            tildato={s.tilDato}
                                         />
                                     </Undertekst>
-                                    <Normaltekst>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Normaltekst>
+                                    {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
+                                    <Element>{s.alternativtNavn ? s.alternativtNavn : s.sertifikatKodeNavn}</Element>
+                                    {s.tilDato &&
+                                        <Normaltekst>
+                                            Utløper: <Tidsperiode tildato={s.tilDato} />
+                                        </Normaltekst>
+                                    }
                                 </Row>
                             ))}
                     </Column>
                 </Row>
             )}
-            {cv.sprakferdigheter && cv.sprakferdigheter.length !== 0 ? (
+            {cv.sprakferdigheter && cv.sprakferdigheter.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
                         <Undertittel className="cv__overskrift">Språk</Undertittel>
@@ -220,22 +227,6 @@ const VisKandidatCv = ({ cv }) => (
                         ))}
                     </Column>
                 </Row>
-            ) : (
-                cv.sprak && cv.sprak.length !== 0 && (
-                    <Row className="panel--cv__row">
-                        <Column xs="12" sm="5">
-                            <Undertittel className="cv__overskrift">Språk</Undertittel>
-                        </Column>
-                        <Column xs="12" sm="7">
-                            {cv.sprak.map((s) => (
-                                <Row className="row--kategori" key={JSON.stringify(s)}>
-                                    <Element>{s.alternativTekst ? s.alternativTekst : s.kompetanseKodeTekst}</Element>
-                                    {s.beskrivelse && <Normaltekst>{s.beskrivelse}</Normaltekst>}
-                                </Row>
-                            ))}
-                        </Column>
-                    </Row>
-                )
             )}
         </Ekspanderbartpanel>
     </div>
