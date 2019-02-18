@@ -25,9 +25,9 @@ node {
     def appConfig = "nais.yaml"
     def dockerRepo = "repo.adeo.no:5443"
     def groupId = "nais"
-    def environment = 'q6'
+    def environment = 'q0'
     def zone = 'sbs'
-    def namespace = "q6"
+    def namespace = "q0"
     def policies = "app-policies.xml"
     def notenforced = "not-enforced-urls.txt"
     def repo = "navikt"
