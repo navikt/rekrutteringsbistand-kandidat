@@ -74,7 +74,8 @@ class ArbeidserfaringSearch extends React.Component {
     };
 
     renderTotalErfaring = () => (
-        <SkjemaGruppe title="Totalt antall år med arbeidserfaring - velg en eller flere">
+        <SkjemaGruppe className="ar-med-arbeidserfaring__header" title="Totalt antall år med arbeidserfaring">
+            <Normaltekst>Velg en eller flere</Normaltekst>
             <div className="sokekriterier--kriterier">
                 {this.erfaringer.map((arbeidserfaring) => (
                     <Checkbox
@@ -118,10 +119,10 @@ class ArbeidserfaringSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <Element>
-                    Hvilken arbeidserfaring skal kandidaten ha?
+                    Hvilken erfaring skal kandidaten ha?
                 </Element>
-                <Normaltekst className="text--italic">
-                    For eksempel barnehagelærer
+                <Normaltekst>
+                    For eksempel: barnehagelærer
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
@@ -101,8 +101,9 @@ class ForerkortSearch extends React.Component {
                 apen={this.props.panelOpen}
                 ariaTittel="Panel førerkort"
             >
-                <Normaltekst className="text--italic">
-                    For eksempel: førerkort: kl. B
+                <Element>Krav til førerkort</Element>
+                <Normaltekst>
+                    For eksempel: personbil eller buss
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>

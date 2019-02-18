@@ -74,7 +74,7 @@ class SprakSearch extends React.Component {
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <Element>Krav til språk i jobbsituasjon</Element>
+                <Element>Krav til språk i jobbsituasjonen</Element>
                 <div className="sokekriterier--kriterier">
                     <div>
                         {this.state.showTypeAhead ? (
