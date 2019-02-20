@@ -168,14 +168,14 @@ const ListedetaljerView = (props) => {
             const Disabled = () => (
                 <div className="Lenkeknapp typo-normal Email">
                     <i className="Email__icon" />
-                    Send e-post til kandidatene
+                    Kopier e-post
                 </div>
             );
             const Enabled = () => (
                 <div className="hjelpetekst">
                     <Lenkeknapp onClick={onEmailKandidater} className="Email">
                         <i className="Email__icon" />
-                        <span>Send e-post til kandidatene</span>
+                        <span>Kopier e-post</span>
                     </Lenkeknapp>
                 </div>
             );
@@ -188,7 +188,7 @@ const ListedetaljerView = (props) => {
                     anchor={Disabled}
                     tittel="Send e-post til de markerte kandidatene"
                 >
-                    Du må huke av for kandidatene du ønsker å sende e-post til, og kandidatene må ha en e-postadresse
+                    Du må huke av for kandidatene du ønsker å kopiere e-postadressen til. Kandidatene må ha en e-postadresse
                 </HjelpetekstMidt>
             );
         };
