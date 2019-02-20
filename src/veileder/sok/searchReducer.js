@@ -359,7 +359,8 @@ function* fetchKompetanseSuggestions() {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
             const response = yield call(fetchKandidaterES, { stillinger: state.stilling.stillinger });
-            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: response.aggregeringer[0] ? response.aggregeringer[0].felt : [] });
+            const aggregeringerKompetanse = response.aggregeringer.find((a) => a.navn === 'kompetanse');
+            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: aggregeringerKompetanse ? aggregeringerKompetanse.felt : [] });
         } else {
             yield put({ type: REMOVE_KOMPETANSE_SUGGESTIONS });
         }
