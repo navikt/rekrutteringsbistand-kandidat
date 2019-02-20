@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
 import './Utdanning.less';
+// TODO: Kommenter inn når søk på geografi blir tatt inn igjen
+// import { Element, Normaltekst } from 'nav-frontend-typografi';
+// import { Knapp } from 'nav-frontend-knapper';
+// import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
@@ -105,7 +106,8 @@ class UtdanningSearch extends React.Component {
                         className="checkbox--manglende--arbeidserfaring"
                     />
                 )}
-                <Element className="sokekriterier--margin-top-extra-large">Hvilken utdanning eller fagområde skal kandidaten ha?</Element>
+                {/* TODO: Kommenter inn når søk på geografi blir tatt med igjen */}
+                {/* <Element className="sokekriterier--margin-top-extra-large">Hvilken utdanning eller fagområde skal kandidaten ha?</Element>
                 <Normaltekst>
                     For eksempel: pedagogikk, reiseliv, økonomi, skogbruk
                 </Normaltekst>
@@ -162,7 +164,7 @@ class UtdanningSearch extends React.Component {
                             />
                         </div>
                     )}
-                </div>
+                </div> */}
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
@@ -182,8 +184,6 @@ UtdanningSearch.propTypes = {
     selectTypeAheadValue: PropTypes.func.isRequired,
     checkUtdanningsniva: PropTypes.func.isRequired,
     uncheckUtdanningsniva: PropTypes.func.isRequired,
-    utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
     utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     visManglendeArbeidserfaringBoks: PropTypes.bool,
@@ -191,8 +191,11 @@ UtdanningSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    visIngenUtdanning: PropTypes.bool.isRequired
+    togglePanelOpen: PropTypes.func.isRequired
+    // TODO: Kommenter inn når søk på geografi blir tatt inn igjen
+    // utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // visIngenUtdanning: PropTypes.bool.isRequired
 };
 
 export default UtdanningSearch;
