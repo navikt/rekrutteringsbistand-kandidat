@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
@@ -36,14 +35,23 @@ class KandidaterTableRow extends React.Component {
             <div className={`NyKandidaterTableRow ${this.checkedClass(markert, nettoppValgt)}`}>
                 <div className="kandidat-content">
                     <div className="kolonne-checkbox">
-                        <Checkbox
-                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            className="text-hide"
-                            label="."
-                            aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
-                            checked={markert}
-                            onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
-                        />
+                        <div className="skjemaelement skjemaelement--horisontal text-hide">
+                            <input
+                                type="checkbox"
+                                id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                className="skjemaelement__input checkboks"
+                                aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
+                                checked={markert}
+                                onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
+                            />
+                            <label
+                                className="skjemaelement__label"
+                                htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                aria-hidden="true"
+                            >
+                                .
+                            </label>
+                        </div>
                     </div>
                     <div className="kolonne-navn kolonne-tekst">
                         <Link
