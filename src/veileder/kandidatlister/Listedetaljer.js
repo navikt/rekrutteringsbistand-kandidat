@@ -19,6 +19,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
+import KopierEpostModal from './KopierEpostModal';
 import { Kandidatliste, Notat } from './PropTypes';
 import './Listedetaljer.less';
 
@@ -53,6 +54,7 @@ class Listedetaljer extends React.Component {
                 })),
             deleModalOpen: false,
             leggTilModalOpen: false,
+            kopierEpostModalOpen: false,
             suksessMelding: {
                 vis: false,
                 tekst: ''
@@ -148,6 +150,12 @@ class Listedetaljer extends React.Component {
         });
     };
 
+    onToggleKopierEpostModal = () => {
+        this.setState({
+            kopierEpostModalOpen: !this.state.kopierEpostModalOpen
+        });
+    };
+
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         this.props.presenterKandidater(
             beskjed,
@@ -186,9 +194,21 @@ class Listedetaljer extends React.Component {
     onEmailKandidater = () => {
         const epostStreng = this.state.kandidater
             .filter((kandidat) => (kandidat.markert && kandidat.epost))
-            .map((kandidat) => `${kandidat.fornavn} ${kandidat.etternavn}<${kandidat.epost}>`)
+            .map((kandidat) => `${kandidat.epost}`)
             .join(';');
-        window.location.href = `mailto:?bcc=${epostStreng}`;
+        this.setState({
+            kopierEpostModalOpen: true
+        });
+        this.copyToClipboard(epostStreng);
+    };
+
+    copyToClipboard = (text) => {
+        const textField = document.createElement('textarea');
+        textField.innerText = text;
+        document.body.appendChild(textField);
+        textField.select();
+        document.execCommand('copy');
+        textField.remove();
     };
 
     visSuccessMelding = (tekst) => {
@@ -219,7 +239,7 @@ class Listedetaljer extends React.Component {
         }
 
         const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere } = this.props.kandidatliste;
-        const { kandidater, alleMarkert, deleModalOpen, suksessMelding, leggTilModalOpen } = this.state;
+        const { kandidater, alleMarkert, deleModalOpen, suksessMelding, leggTilModalOpen, kopierEpostModalOpen } = this.state;
         return (
             <div>
                 {deleModalOpen &&
@@ -235,6 +255,12 @@ class Listedetaljer extends React.Component {
                         vis={this.state.leggTilModalOpen}
                         onClose={this.onToggleLeggTilKandidatModal}
                         stillingsId={stillingId}
+                    />
+                }
+                {kopierEpostModalOpen &&
+                    <KopierEpostModal
+                        vis={this.state.kopierEpostModalOpen}
+                        onClose={this.onToggleKopierEpostModal}
                     />
                 }
                 <HjelpetekstFading synlig={suksessMelding.vis} type="suksess" tekst={suksessMelding.tekst} />
