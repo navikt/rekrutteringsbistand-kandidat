@@ -92,8 +92,11 @@ class LeggTilKandidatModal extends React.Component {
             <ul className="leggTilKandidatModal--feilmelding__ul">
                 <li>Fødselsnummeret er feil</li>
                 <li>Kandidaten har ikke CV</li>
+                <li>Kandidaten har ikke jobbprofil</li>
+                <li>Kandidaten har ikke status som arbeidssøker i Arena</li>
+                <li>{'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena'}</li>
+                <li>Kandidaten har ikke lest hjemmel i ny CV-løsning</li>
                 <li>Kandidaten har anonym CV</li>
-                <li>{'Kandidaten har status "Fritatt for kandidatsøk"'}</li>
             </ul>
         </div>
     );
