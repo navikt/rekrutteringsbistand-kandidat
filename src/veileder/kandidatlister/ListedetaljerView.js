@@ -160,7 +160,7 @@ const ListedetaljerView = (props) => {
                     anchor={Disabled}
                     tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                 >
-                    Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver
+                    Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver.
                 </HjelpetekstMidt>
             );
         };
@@ -188,7 +188,7 @@ const ListedetaljerView = (props) => {
                     anchor={Disabled}
                     tittel="Send e-post til de markerte kandidatene"
                 >
-                    Du må huke av for kandidatene du ønsker å kopiere e-postadressen til. Kandidatene må ha en e-postadresse
+                    Du må huke av for kandidatene du ønsker å kopiere e-postadressen til. Kandidatene må ha en e-postadresse.
                 </HjelpetekstMidt>
             );
         };
