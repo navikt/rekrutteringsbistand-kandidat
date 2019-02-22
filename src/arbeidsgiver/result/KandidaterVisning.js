@@ -53,31 +53,33 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
+        const { kandidater, antallKandidater, searchQueryHash, leggTilKandidatStatus } = this.props;
+        const harNyeSokekriterier = (searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
+                kandidater,
                 alleKandidaterMarkert: false
             });
-        } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
+        } else if (!harNyeSokekriterier && kandidater > prevProps.kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
-                antallResultater: this.props.antallKandidater
+                kandidater,
+                antallResultater: antallKandidater
             });
-        } else if (prevProps.antallKandidater !== this.props.antallKandidater) {
+        } else if (prevProps.antallKandidater !== antallKandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                antallResultater: this.props.antallKandidater
+                antallResultater: antallKandidater
             });
-        } else if (prevProps.kandidater !== this.props.kandidater) {
+        } else if (prevProps.kandidater !== kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater
+                kandidater,
+                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallKandidater && k.markert).length === Math.min(antallKandidater, kandidater.length)
             });
         }
-        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
             this.toggleMarkeringAlleKandidater(false);
         }
@@ -85,9 +87,6 @@ class KandidaterVisning extends React.Component {
 
     onKandidatValgt = (checked, kandidatnr) => {
         this.props.oppdaterMarkerteKandidater(this.state.kandidater.map(markereKandidat(kandidatnr, checked)));
-        this.setState({
-            alleKandidaterMarkert: false
-        });
     };
 
     onFlereResultaterClick = () => {
@@ -102,6 +101,9 @@ class KandidaterVisning extends React.Component {
         if (nyttAntall !== this.state.antallResultater) {
             this.props.oppdaterAntallKandidater(nyttAntall);
         }
+        this.setState({
+            alleKandidaterMarkert: false
+        });
     };
 
     onFilterScoreClick = (scoreChevronNed, from, to) => {
