@@ -22,12 +22,6 @@ const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
 };
 
 export default class VisKandidatPersonalia extends React.Component {
-    formatTelephoneNumber = (inputString) => {
-        const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
-        return inputStringNoWhiteSpace.replace(/(\d{2})/g, '$1 ')
-            .replace(/(^\s+|\s+$)/, '');
-    };
-
     formatMobileTelephoneNumber = (inputString) => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         const actualNumber = inputStringNoWhiteSpace.slice(-8);
@@ -123,27 +117,16 @@ export default class VisKandidatPersonalia extends React.Component {
                                     </Normaltekst>
                                 </div>
                             )}
-                            {(cv.telefon || cv.mobiltelefon) && (
+                            {cv.telefon && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
                                         <TelefonIkon color={this.props.appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
                                     </div>
-                                    <Column>
-                                        {cv.mobiltelefon &&
-                                            <Normaltekst className="header--personalia__tekst">
-                                                <strong>
-                                                    {this.formatMobileTelephoneNumber(cv.mobiltelefon)}
-                                                </strong>
-                                            </Normaltekst>
-                                        }
-                                        {cv.telefon &&
-                                            <Normaltekst className="header--personalia__tekst">
-                                                <strong>
-                                                    {this.formatTelephoneNumber(cv.telefon)}
-                                                </strong>
-                                            </Normaltekst>
-                                        }
-                                    </Column>
+                                    <Normaltekst className="header--personalia__tekst">
+                                        <strong>
+                                            {this.formatMobileTelephoneNumber(cv.telefon)}
+                                        </strong>
+                                    </Normaltekst>
                                 </div>
                             )}
                             {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
