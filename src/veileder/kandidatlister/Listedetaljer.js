@@ -91,7 +91,7 @@ class Listedetaljer extends React.Component {
                         ...kandidatTilstand
                     };
                 }),
-                alleMarkert: !kandidaterHarNettoppBlittPresentert && this.state.alleMarkert
+                alleMarkert: !kandidaterHarNettoppBlittPresentert && this.props.kandidatliste.kandidater.filter((k) => !k.markert).length === 0
             });
         }
         if (this.props.notaterForKandidat && this.props.notaterForKandidat !== prevProps.notaterForKandidat) {
@@ -125,7 +125,6 @@ class Listedetaljer extends React.Component {
 
     onToggleKandidat = (kandidatnr) => {
         this.setState({
-            alleMarkert: false,
             kandidater: this.state.kandidater.map((kandidat) => {
                 if (kandidat.kandidatnr === kandidatnr) {
                     return {
