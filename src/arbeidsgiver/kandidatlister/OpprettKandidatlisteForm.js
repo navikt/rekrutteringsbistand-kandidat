@@ -121,7 +121,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             }}
                         />
                     </div>
-                    <Hovedknapp id="kandidatliste-opprett-knapp" onClick={this.validateAndSave} spinner={saving}>
+                    <Hovedknapp id="kandidatliste-opprett-knapp" onClick={this.validateAndSave} spinner={saving} disabled={saving}>
                         {knappTekst}
                     </Hovedknapp>
                     <Flatknapp className="knapp--avbryt" onClick={this.props.onAvbrytClick}>Avbryt</Flatknapp>

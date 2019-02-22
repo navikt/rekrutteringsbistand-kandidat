@@ -148,7 +148,7 @@ class LagreKandidaterModal extends React.Component {
                                 onChange={() => {}}
                                 onDisabledClick={() => {}}
                                 kandidatlisteInfo={tomKandidatlisteInfo()}
-                                saving={this.props.opprettKandidatliste === LAGRE_STATUS.LOADING}
+                                saving={this.props.opprettKandidatlisteStatus === LAGRE_STATUS.LOADING}
                                 onAvbrytClick={this.toggleOpprettNyKandidatlisteVises}
                                 knappTekst="Opprett"
                             />
@@ -177,7 +177,14 @@ class LagreKandidaterModal extends React.Component {
                                 </Flatknapp>
                             </div>
                             <div className="knapperad">
-                                <Hovedknapp onClick={this.lagreKandidaterILister} id="lagre-kandidater-i-liste">Lagre</Hovedknapp>
+                                <Hovedknapp
+                                    onClick={this.lagreKandidaterILister}
+                                    id="lagre-kandidater-i-liste"
+                                    spinner={this.props.leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                                    disabled={this.props.leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                                >
+                                    Lagre
+                                </Hovedknapp>
                                 <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
                             </div>
                         </div>
@@ -223,7 +230,8 @@ LagreKandidaterModal.propTypes = {
     fetchingKandidatlister: PropTypes.bool.isRequired,
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
     opprettKandidatliste: PropTypes.func.isRequired,
-    opprettKandidatlisteStatus: PropTypes.string.isRequired
+    opprettKandidatlisteStatus: PropTypes.string.isRequired,
+    leggTilKandidaterStatus: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -234,7 +242,8 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
     kandidatlister: state.kandidatlister.kandidatlister,
     fetchingKandidatlister: state.kandidatlister.fetchingKandidatlister,
-    opprettKandidatlisteStatus: state.kandidatlister.opprett.lagreStatus
+    opprettKandidatlisteStatus: state.kandidatlister.opprett.lagreStatus,
+    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 
