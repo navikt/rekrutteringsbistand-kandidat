@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
 import { USE_JANZZ } from '../../common/fasitProperties';
 
@@ -25,14 +24,23 @@ export default class KandidaterTableHeader extends React.Component {
         return (
             <Row className="kandidater--header">
                 <Column xs="1" md="1">
-                    <Checkbox
-                        id="marker-alle-kandidater-checkbox"
-                        className="text-hide"
-                        label="."
-                        aria-label="Marker alle kandidater"
-                        checked={this.props.alleKandidaterMarkert}
-                        onChange={this.props.onToggleMarkeringAlleKandidater}
-                    />
+                    <div className="skjemaelement skjemaelement--horisontal text-hide">
+                        <input
+                            type="checkbox"
+                            id="marker-alle-kandidater-checkbox"
+                            className="skjemaelement__input checkboks"
+                            aria-label="Marker alle kandidater"
+                            checked={this.props.alleKandidaterMarkert}
+                            onChange={this.props.onToggleMarkeringAlleKandidater}
+                        />
+                        <label
+                            className="skjemaelement__label"
+                            htmlFor="marker-alle-kandidater-checkbox"
+                            aria-hidden="true"
+                        >
+                            .
+                        </label>
+                    </div>
                 </Column>
                 <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
                     <Element

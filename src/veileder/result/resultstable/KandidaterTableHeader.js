@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'nav-frontend-skjema';
 import './Resultstable.less';
 
 export default class KandidaterTableHeader extends React.Component {
@@ -14,14 +13,23 @@ export default class KandidaterTableHeader extends React.Component {
             <div className="NyKandidaterTableRow overskrift">
                 <div className="kandidat-content">
                     <div className="kolonne-checkbox">
-                        <Checkbox
-                            id="marker-alle-kandidater-checkbox"
-                            className="text-hide"
-                            label="."
-                            aria-label="Marker alle kandidater"
-                            checked={this.props.alleKandidaterMarkert}
-                            onChange={this.props.onToggleMarkeringAlleKandidater}
-                        />
+                        <div className="skjemaelement skjemaelement--horisontal text-hide">
+                            <input
+                                type="checkbox"
+                                id="marker-alle-kandidater-checkbox"
+                                className="skjemaelement__input checkboks"
+                                aria-label="Marker alle kandidater"
+                                checked={this.props.alleKandidaterMarkert}
+                                onChange={this.props.onToggleMarkeringAlleKandidater}
+                            />
+                            <label
+                                className="skjemaelement__label"
+                                htmlFor="marker-alle-kandidater-checkbox"
+                                aria-hidden="true"
+                            >
+                                .
+                            </label>
+                        </div>
                     </div>
                     <div className="kolonne-navn kolonne-tekst kolonne-overskrift">Navn </div>
                     <div className="kolonne-dato kolonne-tekst kolonne-overskrift">Fødselsnummer</div>
