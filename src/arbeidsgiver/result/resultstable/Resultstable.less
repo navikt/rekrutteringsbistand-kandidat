@@ -34,6 +34,13 @@ button.header--aktuelle--kandidater {
 .lenke--kandidatnr {
   color: @navBla;
   display: table;
+  p {
+    margin-right: 0;
+  }
+  &:focus {
+    background-color: @orangeFocus;
+    outline: none;
+  }
 }
 
 .lenke--kandidatnr:visited {
