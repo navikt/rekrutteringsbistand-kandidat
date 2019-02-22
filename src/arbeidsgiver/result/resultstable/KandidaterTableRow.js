@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Column, Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import cvPropTypes from '../../../felles/PropTypes';
 import { UTDANNING } from '../../../felles/konstanter';
@@ -44,14 +43,23 @@ class KandidaterTableRow extends React.Component {
         return (
             <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Column xs="1" md="1">
-                    <Checkbox
-                        id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                        className="text-hide"
-                        label="."
-                        aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                        checked={markert}
-                        onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
-                    />
+                    <div className="skjemaelement skjemaelement--horisontal text-hide">
+                        <input
+                            type="checkbox"
+                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                            className="skjemaelement__input checkboks"
+                            aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                            checked={markert}
+                            onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                        />
+                        <label
+                            className="skjemaelement__label"
+                            htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
+                            aria-hidden="true"
+                        >
+                            .
+                        </label>
+                    </div>
                 </Column>
                 <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
                     <Link
