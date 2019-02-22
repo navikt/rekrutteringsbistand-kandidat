@@ -56,27 +56,29 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const { kandidater, kandidatliste, antallKandidater, leggTilKandidatStatus } = this.props;
         const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
             this.setState({
-                kandidater: this.props.kandidater,
+                kandidater,
                 alleKandidaterMarkert: false
             });
-        } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
+        } else if (!harNyeSokekriterier && kandidater > prevProps.kandidater) {
             this.setState({
-                kandidater: this.props.kandidater
+                kandidater
             });
-        } else if (prevProps.kandidater !== this.props.kandidater) {
+        } else if (prevProps.kandidater !== kandidater) {
             this.setState({
-                kandidater: this.props.kandidater
-            });
-        }
-        if (prevProps.kandidatliste !== this.props.kandidatliste) {
-            this.setState({
-                kandidatlisteId: this.props.kandidatliste.kandidatlisteId
+                kandidater,
+                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallKandidater && k.markert).length === Math.min(antallKandidater, kandidater.length)
             });
         }
-        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (prevProps.kandidatliste !== kandidatliste) {
+            this.setState({
+                kandidatlisteId: kandidatliste.kandidatlisteId
+            });
+        }
+        if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.setState({ lagreKandidaterModalVises: false, lagreKandidaterModalTilStillingVises: false });
             this.toggleMarkeringAlleKandidater(false);
         }
@@ -101,6 +103,9 @@ class KandidaterVisning extends React.Component {
         if (nyttAntall !== this.props.antallKandidater) {
             this.props.oppdaterAntallKandidater(nyttAntall);
         }
+        this.setState({
+            alleKandidaterMarkert: false
+        });
     };
 
     onLagreKandidatlister = (kandidatlister) => {
