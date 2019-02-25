@@ -25,16 +25,16 @@ class FritekstSearch extends React.Component {
         return (
             <form className="fritekst__search" onSubmit={this.onSubmit}>
                 <input
-                    id={'sok-etter-stilling-input'}
+                    id={'fritekstsok-input'}
                     value={fritekstSokeord}
                     onChange={this.onInnsatsgruppeChange}
                     className="skjemaelement__input"
-                    placeholder="Søk"
+                    placeholder="Fritekstsøk"
                 />
                 <Knapp
-                    aria-label="søk"
+                    aria-label="fritekstsøk"
                     className="search-button"
-                    id="sok-etter-stilling-knapp"
+                    id="fritekstsok-knapp"
                     onClick={this.onSearch}
                 >
                     <i className="search-button__icon" />
