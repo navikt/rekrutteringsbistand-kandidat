@@ -39,8 +39,8 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: props.antallKandidater,
-            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
+            antallResultater: props.antallVisteKandidater,
+            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallVisteKandidater && k.markert).length === Math.min(props.antallVisteKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
             kandidater: props.kandidater
         };
@@ -53,7 +53,7 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { kandidater, antallKandidater, searchQueryHash, leggTilKandidatStatus } = this.props;
+        const { kandidater, antallVisteKandidater, searchQueryHash, leggTilKandidatStatus } = this.props;
         const harNyeSokekriterier = (searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
             // eslint-disable-next-line react/no-did-update-set-state
@@ -65,18 +65,18 @@ class KandidaterVisning extends React.Component {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 kandidater,
-                antallResultater: antallKandidater
+                antallResultater: antallVisteKandidater
             });
-        } else if (prevProps.antallKandidater !== antallKandidater) {
+        } else if (prevProps.antallVisteKandidater !== antallVisteKandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                antallResultater: antallKandidater
+                antallResultater: antallVisteKandidater
             });
         } else if (prevProps.kandidater !== kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 kandidater,
-                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallKandidater && k.markert).length === Math.min(antallKandidater, kandidater.length)
+                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallVisteKandidater && k.markert).length === Math.min(antallVisteKandidater, kandidater.length)
             });
         }
         if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
@@ -219,7 +219,7 @@ KandidaterVisning.propTypes = {
     lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     searchQueryHash: PropTypes.string.isRequired,
-    antallKandidater: PropTypes.number.isRequired,
+    antallVisteKandidater: PropTypes.number.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
@@ -249,7 +249,7 @@ const mapStateToProps = (state) => ({
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.antallVisteKandidater,
+    antallVisteKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen
 });
