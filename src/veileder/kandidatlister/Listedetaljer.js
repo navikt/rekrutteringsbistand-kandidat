@@ -125,16 +125,18 @@ class Listedetaljer extends React.Component {
     };
 
     onToggleKandidat = (kandidatnr) => {
+        const kandidater = this.state.kandidater.map((kandidat) => {
+            if (kandidat.kandidatnr === kandidatnr) {
+                return {
+                    ...kandidat,
+                    markert: !kandidat.markert
+                };
+            }
+            return kandidat;
+        });
         this.setState({
-            kandidater: this.state.kandidater.map((kandidat) => {
-                if (kandidat.kandidatnr === kandidatnr) {
-                    return {
-                        ...kandidat,
-                        markert: !kandidat.markert
-                    };
-                }
-                return kandidat;
-            })
+            kandidater,
+            alleMarkert: kandidater.filter((k) => !k.markert).length === 0
         });
     };
 
