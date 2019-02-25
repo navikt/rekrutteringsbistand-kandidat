@@ -12,6 +12,7 @@ import { HENT_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, HENT_STATU
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
+import { LAGRE_STATUS } from '../../felles/konstanter';
 
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
@@ -128,7 +129,8 @@ class LagreKandidaterModal extends React.Component {
         const {
             vis,
             onRequestClose,
-            hentListerStatus
+            hentListerStatus,
+            leggTilKandidaterStatus
         } = this.props;
         const {
             kandidatlister,
@@ -240,8 +242,21 @@ class LagreKandidaterModal extends React.Component {
                         />
                     }
                     <div>
-                        <Hovedknapp className="lagre--knapp" onClick={this.lagreKandidater}>Lagre</Hovedknapp>
-                        <Flatknapp className="avbryt--knapp" onClick={onRequestClose}>Avbryt</Flatknapp>
+                        <Hovedknapp
+                            className="lagre--knapp"
+                            onClick={this.lagreKandidater}
+                            spinner={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                            disabled={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                        >
+                            Lagre
+                        </Hovedknapp>
+                        <Flatknapp
+                            className="avbryt--knapp"
+                            onClick={onRequestClose}
+                            disabled={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                        >
+                            Avbryt
+                        </Flatknapp>
                     </div>
                 </div>
             </Modal>
@@ -263,14 +278,16 @@ LagreKandidaterModal.propTypes = {
     hentKandidatlisteMedStillingsnr: PropTypes.func.isRequired,
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
     hentListeMedStillingsnummerStatus: PropTypes.string.isRequired,
-    kandidatlisteMedStillingsnr: PropTypes.shape(Kandidatliste)
+    kandidatlisteMedStillingsnr: PropTypes.shape(Kandidatliste),
+    leggTilKandidaterStatus: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     egneKandidatlister: state.kandidatlister.egneKandidatlister.liste,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedStillingsnummerStatus: state.kandidatlister.hentListeMedStillingsnummerStatus,
-    kandidatlisteMedStillingsnr: state.kandidatlister.kandidatlisteMedStillingsnr
+    kandidatlisteMedStillingsnr: state.kandidatlister.kandidatlisteMedStillingsnr,
+    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
