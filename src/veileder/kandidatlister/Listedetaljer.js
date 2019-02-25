@@ -83,15 +83,16 @@ class Listedetaljer extends React.Component {
         if ((!prevProps.kandidatliste && this.props.kandidatliste.kandidater)
             || prevProps.kandidatliste.kandidater !== this.props.kandidatliste.kandidater) {
             const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
+            const kandidater = this.props.kandidatliste.kandidater.map((kandidat) => {
+                const kandidatTilstand = (!kandidaterHarNettoppBlittPresentert && kandidatTilstander[kandidat.kandidatnr]) || initialKandidatTilstand();
+                return {
+                    ...kandidat,
+                    ...kandidatTilstand
+                };
+            });
             this.setState({
-                kandidater: this.props.kandidatliste.kandidater.map((kandidat) => {
-                    const kandidatTilstand = (!kandidaterHarNettoppBlittPresentert && kandidatTilstander[kandidat.kandidatnr]) || initialKandidatTilstand();
-                    return {
-                        ...kandidat,
-                        ...kandidatTilstand
-                    };
-                }),
-                alleMarkert: !kandidaterHarNettoppBlittPresentert && this.props.kandidatliste.kandidater.filter((k) => !k.markert).length === 0
+                kandidater,
+                alleMarkert: !kandidaterHarNettoppBlittPresentert && kandidater.filter((k) => !k.markert).length === 0
             });
         }
         if (this.props.notaterForKandidat && this.props.notaterForKandidat !== prevProps.notaterForKandidat) {
