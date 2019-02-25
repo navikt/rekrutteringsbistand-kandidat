@@ -16,7 +16,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from './TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
-import { SLETTE_STATUS } from '../../felles/konstanter';
+import { SLETTE_STATUS, LAGRE_STATUS } from '../../felles/konstanter';
 
 import './kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
@@ -301,7 +301,7 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <SlettKandidaterModal
                     isOpen={visSlettKandidaterModal}
-                    sletterKandidater={this.state.sletterKandidater}
+                    sletterKandidater={this.props.sletteStatus === LAGRE_STATUS.LOADING}
                     lukkModal={this.lukkSlettModal}
                     visFeilmelding={visSlettKandidaterFeilmelding}
                     valgteKandidater={valgteKandidater}
