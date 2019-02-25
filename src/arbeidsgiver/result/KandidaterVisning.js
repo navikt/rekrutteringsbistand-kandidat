@@ -39,8 +39,8 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallResultater: props.antallKandidater,
-            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
+            antallResultater: props.antallVisteKandidater,
+            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallVisteKandidater && k.markert).length === Math.min(props.antallVisteKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
             kandidater: props.kandidater
         };
@@ -53,31 +53,33 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
+        const { kandidater, antallVisteKandidater, searchQueryHash, leggTilKandidatStatus } = this.props;
+        const harNyeSokekriterier = (searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
+                kandidater,
                 alleKandidaterMarkert: false
             });
-        } else if (!harNyeSokekriterier && this.props.kandidater > prevProps.kandidater) {
+        } else if (!harNyeSokekriterier && kandidater > prevProps.kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater,
-                antallResultater: this.props.antallKandidater
+                kandidater,
+                antallResultater: antallVisteKandidater
             });
-        } else if (prevProps.antallKandidater !== this.props.antallKandidater) {
+        } else if (prevProps.antallVisteKandidater !== antallVisteKandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                antallResultater: this.props.antallKandidater
+                antallResultater: antallVisteKandidater
             });
-        } else if (prevProps.kandidater !== this.props.kandidater) {
+        } else if (prevProps.kandidater !== kandidater) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                kandidater: this.props.kandidater
+                kandidater,
+                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallVisteKandidater && k.markert).length === Math.min(antallVisteKandidater, kandidater.length)
             });
         }
-        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
             this.toggleMarkeringAlleKandidater(false);
         }
@@ -85,9 +87,6 @@ class KandidaterVisning extends React.Component {
 
     onKandidatValgt = (checked, kandidatnr) => {
         this.props.oppdaterMarkerteKandidater(this.state.kandidater.map(markereKandidat(kandidatnr, checked)));
-        this.setState({
-            alleKandidaterMarkert: false
-        });
     };
 
     onFlereResultaterClick = () => {
@@ -102,6 +101,9 @@ class KandidaterVisning extends React.Component {
         if (nyttAntall !== this.state.antallResultater) {
             this.props.oppdaterAntallKandidater(nyttAntall);
         }
+        this.setState({
+            alleKandidaterMarkert: false
+        });
     };
 
     onFilterScoreClick = (scoreChevronNed, from, to) => {
@@ -217,7 +219,7 @@ KandidaterVisning.propTypes = {
     lastFlereKandidater: PropTypes.func.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     searchQueryHash: PropTypes.string.isRequired,
-    antallKandidater: PropTypes.number.isRequired,
+    antallVisteKandidater: PropTypes.number.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
@@ -247,7 +249,7 @@ const mapStateToProps = (state) => ({
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.antallVisteKandidater,
+    antallVisteKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen
 });

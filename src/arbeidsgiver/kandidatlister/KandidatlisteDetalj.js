@@ -87,12 +87,18 @@ class KandidatlisteDetalj extends React.Component {
         return null;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.visSlettSuccessMelding) {
             this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
             this.props.nullstillSletteStatus();
         } else if (this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
             clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
+        }
+        if (prevState.kandidater !== this.state.kandidater) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                markerAlleChecked: this.state.kandidater.filter((k) => !k.checked).length === 0
+            });
         }
     }
 
@@ -104,7 +110,6 @@ class KandidatlisteDetalj extends React.Component {
 
     onKandidatCheckboxClicked = (valgtKandidat) => {
         this.setState({
-            markerAlleChecked: false,
             kandidater: this.state.kandidater.map((k) => {
                 if (k.kandidatnr === valgtKandidat.kandidatnr) {
                     return {
