@@ -94,3 +94,4 @@ node {
             sh ("git push -q origin --tags")
         }
     }
+}
