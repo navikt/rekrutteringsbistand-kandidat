@@ -14,6 +14,7 @@ import {
     SET_FODSELSNUMMER
 } from './kandidatlisteReducer';
 import { Kandidatliste } from './PropTypes';
+import { LAGRE_STATUS } from '../../felles/konstanter';
 
 class LeggTilKandidatModal extends React.Component {
     constructor(props) {
@@ -102,7 +103,7 @@ class LeggTilKandidatModal extends React.Component {
     );
 
     render() {
-        const { vis, onClose, fodselsnummer, kandidat } = this.props;
+        const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus } = this.props;
         return (
             <NavFrontendModal
                 contentLabel="Modal legg til kandidat"
@@ -131,8 +132,21 @@ class LeggTilKandidatModal extends React.Component {
                     </div>
                 }
                 <div>
-                    <Hovedknapp className="legg-til--knapp" onClick={this.leggTilKandidat}>Legg til</Hovedknapp>
-                    <Flatknapp className="avbryt--knapp" onClick={onClose}>Avbryt</Flatknapp>
+                    <Hovedknapp
+                        className="legg-til--knapp"
+                        onClick={this.leggTilKandidat}
+                        spinner={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                        disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                    >
+                        Legg til
+                    </Hovedknapp>
+                    <Flatknapp
+                        className="avbryt--knapp"
+                        onClick={onClose}
+                        disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                    >
+                        Avbryt
+                    </Flatknapp>
                 </div>
             </NavFrontendModal>
         );
@@ -162,14 +176,16 @@ LeggTilKandidatModal.propTypes = {
             yrkeserfaringManeder: PropTypes.number
         })
     }).isRequired,
-    hentStatus: PropTypes.string.isRequired
+    hentStatus: PropTypes.string.isRequired,
+    leggTilKandidatStatus: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     hentStatus: state.kandidatlister.hentStatus,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
