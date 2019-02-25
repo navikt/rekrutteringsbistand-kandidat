@@ -185,7 +185,13 @@ class LagreKandidaterModal extends React.Component {
                                 >
                                     Lagre
                                 </Hovedknapp>
-                                <Flatknapp className="knapp--avbryt" onClick={this.props.onRequestClose}>Avbryt</Flatknapp>
+                                <Flatknapp
+                                    className="knapp--avbryt"
+                                    onClick={this.props.onRequestClose}
+                                    disabled={this.props.leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
+                                >
+                                    Avbryt
+                                </Flatknapp>
                             </div>
                         </div>
                     }

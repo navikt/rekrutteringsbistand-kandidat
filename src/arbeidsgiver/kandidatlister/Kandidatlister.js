@@ -121,7 +121,12 @@ const SlettKandidatlisteModal = ({ tittelKandidatliste, onAvbrytClick, onSletteC
             >
                 Slett
             </Hovedknapp>
-            <Flatknapp onClick={onAvbrytClick}>Avbryt</Flatknapp>
+            <Flatknapp
+                onClick={onAvbrytClick}
+                disabled={sletteStatus === SLETTE_STATUS.LOADING}
+            >
+                Avbryt
+            </Flatknapp>
         </div>
     </NavFrontendModal>
 );
