@@ -31,7 +31,13 @@ const SlettKandidaterModal = ({ isOpen, sletterKandidater, lukkModal, valgteKand
         }
         </Normaltekst>
         <div className="knapperad">
-            <Hovedknapp onClick={onDeleteClick}>Slett</Hovedknapp>
+            <Hovedknapp
+                onClick={onDeleteClick}
+                spinner={sletterKandidater}
+                disabled={sletterKandidater}
+            >
+                Slett
+            </Hovedknapp>
             <Flatknapp onClick={lukkModal} disabled={sletterKandidater}>Avbryt</Flatknapp>
         </div>
     </Modal>

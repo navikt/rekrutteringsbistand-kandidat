@@ -306,7 +306,7 @@ class KandidatlisteDetalj extends React.Component {
                 )}
                 <SlettKandidaterModal
                     isOpen={visSlettKandidaterModal}
-                    sletterKandidater={this.state.sletterKandidater}
+                    sletterKandidater={this.props.sletteStatus === SLETTE_STATUS.LOADING}
                     lukkModal={this.lukkSlettModal}
                     visFeilmelding={visSlettKandidaterFeilmelding}
                     valgteKandidater={valgteKandidater}
