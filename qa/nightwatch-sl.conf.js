@@ -9,6 +9,8 @@ require('nightwatch-cucumber')({
     ]
 });
 
+const selenium_port = process.env['RANDOM_SELENIUM_PORT'] ? process.env['RANDOM_SELENIUM_PORT'] : 4445;
+
 module.exports = {
     output_folder: 'reports',
     page_objects_path: 'pages',
@@ -19,8 +21,8 @@ module.exports = {
     },
     test_settings: {
         default: {
-            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
-            selenium_port: 4445,
+            launch_url: 'https://arbeidsplassen-q.nav.no/kandidater',
+            selenium_port: selenium_port,
             username: '${SAUCE_USERNAME}',
             access_key: '${SAUCE_ACCESS_KEY}',
             screenshots: {
@@ -32,7 +34,7 @@ module.exports = {
             persist_globals: true,
             globals: {
                 waitForConditionTimeout: 5000, // sometimes internet is slow so wait.
-                environment: 'q6',
+                environment: 'q0',
                 loginCookie: {
                     domain: '',
                     secure: '',

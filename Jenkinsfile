@@ -114,12 +114,17 @@ node {
 
 def acceptanceTest(app, useSaucelabs) {
     echo "Running QA tests"
-    withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088', 'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081']) {
+    def randomSeleniumPort = sh(script: "shuf -i 4444-4900 -n1", returnStdout: true).trim() // Not allowed to call Math.random() (fixed in newer Jenkins versions)
+    echo "Using Selenium port: ${randomSeleniumPort}"
+
+    withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088', 'HTTP_PROXY=http://webproxy-internett.nav.no:8088',
+             'NO_PROXY=localhost,127.0.0.1,maven.adeo.no', 'NODE_TLS_REJECT_UNAUTHORIZED=0', 'PORT=8081',
+             "RANDOM_SELENIUM_PORT=${randomSeleniumPort}"]) {
         qaDir = "./qa"
         if (useSaucelabs == 'true') {
             sh "cd ${qaDir} && npm i -D"
             sauce('sauceconnect') {
-                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port 4445", useLatestSauceConnect: true) {
+                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port ${randomSeleniumPort}", useLatestSauceConnect: true) {
                     try {
                         sh "cd ${qaDir} && npm run-script sauce -- --skiptags ignore"
                     } catch (Exception e) {
