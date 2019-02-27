@@ -30,8 +30,7 @@ class ResultatVisning extends React.Component {
         super(props);
         window.scrollTo(0, 0);
         this.state = {
-            suksessmeldingLagreKandidatVises: false,
-            lagreSuksessmeldingText: ''
+            suksessmeldingLagreKandidatVises: false
         };
     }
 
@@ -42,7 +41,6 @@ class ResultatVisning extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            this.setSuccessMeldingText();
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -71,34 +69,30 @@ class ResultatVisning extends React.Component {
         this.props.search();
     };
 
-    setSuccessMeldingText = () => {
-        const { lagredeKandidatlister, antallLagredeKandidater, stillingsoverskrift } = this.props;
+    visAlertstripeLagreKandidater = () => {
         if (this.props.match.params.stillingsId) {
+            clearTimeout(this.suksessmeldingCallbackId);
             this.setState({
-                lagreSuksessmeldingText: `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`
+                suksessmeldingLagreKandidatVises: true
             });
-        } else {
-            this.setState({ lagreSuksessmeldingText:
-                `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
-                ${lagredeKandidatlister.length > 1 ? `${lagredeKandidatlister.length} lister` : `kandidatlisten «${lagredeKandidatlister[0].tittel}»`}`
-            });
+            this.suksessmeldingCallbackId = setTimeout(() => {
+                this.setState({
+                    suksessmeldingLagreKandidatVises: false
+                });
+            }, 5000);
         }
     };
 
-    visAlertstripeLagreKandidater = () => {
-        clearTimeout(this.suksessmeldingCallbackId);
-        this.setState({
-            suksessmeldingLagreKandidatVises: true
-        });
-        this.suksessmeldingCallbackId = setTimeout(() => {
-            this.setState({
-                suksessmeldingLagreKandidatVises: false
-            });
-        }, 5000);
-    };
-
     render() {
-        const { match, isInitialSearch, stillingsoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent } = this.props;
+        const {
+            match,
+            isInitialSearch,
+            stillingsoverskrift,
+            arbeidsgiver,
+            annonseOpprettetAvNavn,
+            annonseOpprettetAvIdent,
+            antallLagredeKandidater
+        } = this.props;
         const stillingsId = match.params.stillingsId;
 
         const LinkTilMineStillinger = () => (
@@ -144,7 +138,7 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={this.state.lagreSuksessmeldingText}
+                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
@@ -243,10 +237,10 @@ ResultatVisning.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
-    lagredeKandidatlister: PropTypes.arrayOf(PropTypes.shape({
+    lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         tittel: PropTypes.string
-    })).isRequired,
+    }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
@@ -263,7 +257,7 @@ const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagredeKandidatlister: state.kandidatlister.leggTilKandidater.lagredeLister,
+    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
     stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,

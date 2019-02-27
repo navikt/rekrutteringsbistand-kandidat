@@ -79,8 +79,7 @@ class KandidaterVisning extends React.Component {
             });
         }
         if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            this.setState({ lagreKandidaterModalVises: false, lagreKandidaterModalTilStillingVises: false });
-            this.toggleMarkeringAlleKandidater(false);
+            this.setState({ lagreKandidaterModalTilStillingVises: false });
         }
     }
 
@@ -108,8 +107,8 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    onLagreKandidatlister = (kandidatlister) => {
-        this.props.leggTilKandidaterIKandidatliste(kandidatlister, this.state.kandidater
+    onLagreKandidatliste = (kandidatliste) => {
+        this.props.leggTilKandidaterIKandidatliste(kandidatliste, this.state.kandidater
             .filter((kandidat) => (kandidat.markert))
             .map((kandidat) => ({
                 kandidatnr: kandidat.arenaKandidatnr,
@@ -124,12 +123,7 @@ class KandidaterVisning extends React.Component {
     };
 
     toggleMarkeringAlleKandidater = (checked) => {
-        const kandidaterMedMarkering = this.state.kandidater.map((k, i) => {
-            if (i < this.props.antallKandidater) {
-                return { ...k, markert: checked };
-            }
-            return k;
-        });
+        const kandidaterMedMarkering = this.state.kandidater.map((k, i) => (i < this.props.antallKandidater ? { ...k, markert: checked } : k));
 
         this.setState({
             alleKandidaterMarkert: checked
@@ -160,7 +154,7 @@ class KandidaterVisning extends React.Component {
                 <LagreKandidaterModal
                     vis={this.state.lagreKandidaterModalVises}
                     onRequestClose={this.toggleLagreKandidaterModal}
-                    onLagre={this.onLagreKandidatlister}
+                    onLagre={this.onLagreKandidatliste}
                     antallMarkerteKandidater={antallMarkert}
                 />
                 }
@@ -168,7 +162,7 @@ class KandidaterVisning extends React.Component {
                 <LagreKandidaterTilStillingModal
                     vis={this.state.lagreKandidaterModalTilStillingVises}
                     onRequestClose={this.toggleLagreKandidaterTilStillingModal}
-                    onLagre={this.onLagreKandidatlister}
+                    onLagre={this.onLagreKandidatliste}
                     antallMarkerteKandidater={antallMarkert}
                     kandidatliste={this.props.kandidatliste}
                     stillingsoverskrift={this.props.stillingsoverskrift}
@@ -235,7 +229,7 @@ KandidaterVisning.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidatlister, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatlister, kandidater }); },
+    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatliste, kandidater }); },
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },

@@ -72,7 +72,7 @@ class LeggTilKandidatModal extends React.Component {
             sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
         }];
         if (hentStatus === HENT_STATUS.SUCCESS && !this.kandidatenFinnesAllerede()) {
-            this.props.leggTilKandidatMedFnr(kandidater, [kandidatliste]);
+            this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
             this.props.onClose();
         } else {
             if (!fodselsnummer) {
@@ -192,7 +192,7 @@ const mapDispatchToProps = (dispatch) => ({
     setFodselsnummer: (fodselsnummer) => { dispatch({ type: SET_FODSELSNUMMER, fodselsnummer }); },
     hentKandidatMedFnr: (fodselsnummer) => { dispatch({ type: HENT_KANDIDAT_MED_FNR, fodselsnummer }); },
     resetHentKandidatMedFnr: () => { dispatch({ type: HENT_KANDIDAT_MED_FNR_RESET }); },
-    leggTilKandidatMedFnr: (kandidater, kandidatlister) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlister }); }
+    leggTilKandidatMedFnr: (kandidater, kandidatliste) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatliste }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeggTilKandidatModal);
