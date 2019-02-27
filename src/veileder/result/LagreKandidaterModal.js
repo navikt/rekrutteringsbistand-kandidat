@@ -161,7 +161,7 @@ class LagreKandidaterModal extends React.Component {
                 <Element className="opprettet__col rader--text">Opprettet</Element>
                 <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
-                <Element className="leggTil__col">Legg til kandidat</Element>
+                <Element className="leggTil__col">Lagre kandidat</Element>
             </Row>
         );
 
@@ -180,14 +180,14 @@ class LagreKandidaterModal extends React.Component {
                     {liste.alleredeLagtTil && leggTilKandidaterStatus !== LAGRE_STATUS.FAILURE ? (
                         <div
                             className="ikon__lagtTil"
-                            aria-label={`Lagt til i liste: ${liste.tittel}`}
+                            aria-label={`Lagre i liste: ${liste.tittel}`}
                         />
                     ) : (
                         <Knapp
                             id={id}
                             onClick={onClick}
                             mini
-                            aria-label={`Legg til i liste: ${liste.tittel}`}
+                            aria-label={`Lagre i liste: ${liste.tittel}`}
                         >
                             +
                         </Knapp>
