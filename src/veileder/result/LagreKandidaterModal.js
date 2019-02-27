@@ -161,7 +161,7 @@ class LagreKandidaterModal extends React.Component {
                 <Element className="opprettet__col rader--text">Opprettet</Element>
                 <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
-                <Element className="leggTil__col">Lagre kandidat</Element>
+                <Element className="leggTil__col">Lagre kandidater</Element>
             </Row>
         );
 
@@ -226,7 +226,7 @@ class LagreKandidaterModal extends React.Component {
                         className="LagreKandidaterModal__hjelpetekst"
                     />
                     <div className="LagreKandidaterModal--wrapper">
-                        <Systemtittel className="tittel">Lagre kandidater i kandidatliste</Systemtittel>
+                        <Systemtittel className="tittel">Lagre kandidater</Systemtittel>
                         <Row className="lister--rader">
                             <Element>Mine kandidatlister</Element>
                         </Row>
