@@ -12,6 +12,7 @@ import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class LagreKandidaterModal extends React.Component {
             hentetListe: undefined,
             showHentetListe: false,
             hentListeFeilmelding: undefined,
-            ingenMarkerteListerFeilmelding: undefined
+            ingenMarkerteListerFeilmelding: undefined,
+            visKandidaterLagret: false
         };
     }
 
@@ -64,6 +66,15 @@ class LagreKandidaterModal extends React.Component {
                 this.input.focus();
             }
         }
+        if (prevProps.leggTilKandidaterStatus !== this.props.leggTilKandidaterStatus && this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS) {
+            this.visAlertstripeLagreKandidater();
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.suksessmeldingCallbackId) {
+            clearTimeout(this.suksessmeldingCallbackId);
+        }
     }
 
     onKeyDown = (e) => {
@@ -95,6 +106,18 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
+    visAlertstripeLagreKandidater = () => {
+        clearTimeout(this.suksessmeldingCallbackId);
+        this.setState({
+            visKandidaterLagret: true
+        });
+        this.suksessmeldingCallbackId = setTimeout(() => {
+            this.setState({
+                visKandidaterLagret: false
+            });
+        }, 5000);
+    };
+
     hentListeMedStillingsnr = () => {
         if (!this.state.stillingsnummer) {
             this.setState({
@@ -120,14 +143,17 @@ class LagreKandidaterModal extends React.Component {
             vis,
             onRequestClose,
             hentListerStatus,
-            leggTilKandidaterStatus
+            leggTilKandidaterStatus,
+            lagretKandidatliste,
+            antallLagredeKandidater
         } = this.props;
         const {
             kandidatlister,
             hentetListe,
             showHentetListe,
             antallListerSomVises,
-            hentListeFeilmelding
+            hentListeFeilmelding,
+            visKandidaterLagret
         } = this.state;
 
         const ListerTableHeader = () => (
@@ -139,37 +165,36 @@ class LagreKandidaterModal extends React.Component {
             </Row>
         );
 
-        const ListerTableRow = (props) => {
-            const { liste, onClick, id, className } = props; // eslint-disable-line react/prop-types
-
-            return (
-                <Row className={className}>
-                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
-                        {formatterDato(new Date(liste.opprettetTidspunkt))}
-                    </Undertekst>
-                    <Normaltekst className="stillingstittel__col rader--text">
-                        {liste.tittel}
-                    </Normaltekst>
-                    <Normaltekst className="arbeidsgiver__col rader--text">
-                        {capitalizeEmployerName(liste.organisasjonNavn || '')}
-                    </Normaltekst>
-                    <div className="leggTil__col rowItem">
-                        {liste.alleredeLagtTil && leggTilKandidaterStatus !== LAGRE_STATUS.FAILURE ? (
-                            <div className="ikon__lagtTil" />
-                        ) : (
-                            <Knapp
-                                id={id}
-                                onClick={onClick}
-                                mini
-                                aria-label={`Legg til i liste: ${liste.tittel}`}
-                            >
-                                +
-                            </Knapp>
-                        )}
-                    </div>
-                </Row>
-            );
-        };
+        const ListerTableRow = ({ liste, onClick, id, className }) => (
+            <Row className={className}>
+                <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
+                    {formatterDato(new Date(liste.opprettetTidspunkt))}
+                </Undertekst>
+                <Normaltekst className="stillingstittel__col rader--text">
+                    {liste.tittel}
+                </Normaltekst>
+                <Normaltekst className="arbeidsgiver__col rader--text">
+                    {capitalizeEmployerName(liste.organisasjonNavn || '')}
+                </Normaltekst>
+                <div className="leggTil__col rowItem">
+                    {liste.alleredeLagtTil && leggTilKandidaterStatus !== LAGRE_STATUS.FAILURE ? (
+                        <div
+                            className="ikon__lagtTil"
+                            aria-label={`Lagt til i liste: ${liste.tittel}`}
+                        />
+                    ) : (
+                        <Knapp
+                            id={id}
+                            onClick={onClick}
+                            mini
+                            aria-label={`Legg til i liste: ${liste.tittel}`}
+                        >
+                            +
+                        </Knapp>
+                    )}
+                </div>
+            </Row>
+        );
 
         const ListerTableRows = () => (
             kandidatlister.slice(0, antallListerSomVises).map((liste) => (
@@ -191,65 +216,75 @@ class LagreKandidaterModal extends React.Component {
                 className="LagreKandidaterModal"
                 appElement={document.getElementById('app')}
             >
-                <div className="LagreKandidaterModal--wrapper">
-                    <Systemtittel className="tittel">Legg til kandidater i kandidatliste</Systemtittel>
-                    <Row className="lister--rader">
-                        <Element>Mine kandidatlister</Element>
-                    </Row>
-                    {hentListerStatus === HENT_STATUS.LOADING ? // eslint-disable-line no-nested-ternary
-                        <div className="text-center">
-                            <NavFrontendSpinner type="L" />
-                        </div>
-                        : kandidatlister.length > 0 ?
-                            <div>
-                                <ListerTableHeader />
-                                <ListerTableRows />
+                <div>
+                    <HjelpetekstFading
+                        synlig={visKandidaterLagret}
+                        type="suksess"
+                        tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
+                            ${lagretKandidatliste.length > 1 ? `${lagretKandidatliste.length} lister` : `kandidatlisten «${lagretKandidatliste.tittel}»`}`}
+                        id="hjelpetekstfading"
+                        className="LagreKandidaterModal__hjelpetekst"
+                    />
+                    <div className="LagreKandidaterModal--wrapper">
+                        <Systemtittel className="tittel">Legg til kandidater i kandidatliste</Systemtittel>
+                        <Row className="lister--rader">
+                            <Element>Mine kandidatlister</Element>
+                        </Row>
+                        {hentListerStatus === HENT_STATUS.LOADING ? // eslint-disable-line no-nested-ternary
+                            <div className="text-center">
+                                <NavFrontendSpinner type="L" />
                             </div>
-                            : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
-                    }
-                    {antallListerSomVises < kandidatlister.length &&
-                        <Flatknapp mini onClick={this.onVisFlereListerClick}>Se flere lister</Flatknapp>
-                    }
-                    <Normaltekst className="stillingsnummer__search--label">
-                        Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter annonsenummer
-                    </Normaltekst>
-                    <div className="stillingsnummer__search">
-                        <input
-                            id={'sok-etter-stilling-input'}
-                            value={this.state.value}
-                            onChange={this.onStillingsnummerChange}
-                            onKeyDown={this.onKeyDown}
-                            ref={(input) => { this.input = input; }}
-                            className={hentListeFeilmelding ? 'skjemaelement__input skjemaelement__input--harFeil' : 'skjemaelement__input'}
-                            placeholder="Annonsenummer"
-                        />
-                        <Knapp
-                            aria-label="søk"
-                            className="search-button"
-                            id="sok-etter-stilling-knapp"
-                            onClick={this.hentListeMedStillingsnr}
-                        >
-                            <i className="search-button__icon" />
-                        </Knapp>
-                        {hentListeFeilmelding &&
-                            <Normaltekst className="skjemaelement__feilmelding">{hentListeFeilmelding}</Normaltekst>
+                            : kandidatlister.length > 0 ?
+                                <div>
+                                    <ListerTableHeader />
+                                    <ListerTableRows />
+                                </div>
+                                : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
                         }
-                    </div>
-                    {showHentetListe &&
-                        <ListerTableRow
-                            liste={hentetListe}
-                            id="marker-liste-hentet-med-stillingsnr-checkbox"
-                            className="lister--rader hentet-stilling__row"
-                            onClick={this.lagreKandidat(hentetListe)}
-                        />
-                    }
-                    <div>
-                        <Hovedknapp
-                            className="lagre--knapp"
-                            onClick={onRequestClose}
-                        >
-                            Lukk
-                        </Hovedknapp>
+                        {antallListerSomVises < kandidatlister.length &&
+                            <Flatknapp mini onClick={this.onVisFlereListerClick}>Se flere lister</Flatknapp>
+                        }
+                        <Normaltekst className="stillingsnummer__search--label">
+                            Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter annonsenummer
+                        </Normaltekst>
+                        <div className="stillingsnummer__search">
+                            <input
+                                id={'sok-etter-stilling-input'}
+                                value={this.state.value}
+                                onChange={this.onStillingsnummerChange}
+                                onKeyDown={this.onKeyDown}
+                                ref={(input) => { this.input = input; }}
+                                className={hentListeFeilmelding ? 'skjemaelement__input skjemaelement__input--harFeil' : 'skjemaelement__input'}
+                                placeholder="Annonsenummer"
+                            />
+                            <Knapp
+                                aria-label="søk"
+                                className="search-button"
+                                id="sok-etter-stilling-knapp"
+                                onClick={this.hentListeMedStillingsnr}
+                            >
+                                <i className="search-button__icon" />
+                            </Knapp>
+                            {hentListeFeilmelding &&
+                                <Normaltekst className="skjemaelement__feilmelding">{hentListeFeilmelding}</Normaltekst>
+                            }
+                        </div>
+                        {showHentetListe &&
+                            <ListerTableRow
+                                liste={hentetListe}
+                                id="marker-liste-hentet-med-stillingsnr-checkbox"
+                                className="lister--rader hentet-stilling__row"
+                                onClick={this.lagreKandidat(hentetListe)}
+                            />
+                        }
+                        <div>
+                            <Hovedknapp
+                                className="lagre--knapp"
+                                onClick={onRequestClose}
+                            >
+                                Lukk
+                            </Hovedknapp>
+                        </div>
                     </div>
                 </div>
             </Modal>
@@ -272,7 +307,12 @@ LagreKandidaterModal.propTypes = {
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
     hentListeMedStillingsnummerStatus: PropTypes.string.isRequired,
     kandidatlisteMedStillingsnr: PropTypes.shape(Kandidatliste),
-    leggTilKandidaterStatus: PropTypes.string.isRequired
+    leggTilKandidaterStatus: PropTypes.string.isRequired,
+    antallLagredeKandidater: PropTypes.number.isRequired,
+    lagretKandidatliste: PropTypes.shape({
+        kandidatlisteId: PropTypes.string,
+        tittel: PropTypes.string
+    }).isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -280,7 +320,9 @@ const mapStateToProps = (state) => ({
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedStillingsnummerStatus: state.kandidatlister.hentListeMedStillingsnummerStatus,
     kandidatlisteMedStillingsnr: state.kandidatlister.kandidatlisteMedStillingsnr,
-    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
+    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe
 });
 
 const mapDispatchToProps = (dispatch) => ({

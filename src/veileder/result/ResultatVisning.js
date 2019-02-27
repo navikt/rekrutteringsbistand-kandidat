@@ -30,8 +30,7 @@ class ResultatVisning extends React.Component {
         super(props);
         window.scrollTo(0, 0);
         this.state = {
-            suksessmeldingLagreKandidatVises: false,
-            lagreSuksessmeldingText: ''
+            suksessmeldingLagreKandidatVises: false
         };
     }
 
@@ -42,7 +41,6 @@ class ResultatVisning extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            this.setSuccessMeldingText();
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -71,34 +69,30 @@ class ResultatVisning extends React.Component {
         this.props.search();
     };
 
-    setSuccessMeldingText = () => {
-        const { lagretKandidatliste, antallLagredeKandidater, stillingsoverskrift } = this.props;
+    visAlertstripeLagreKandidater = () => {
         if (this.props.match.params.stillingsId) {
+            clearTimeout(this.suksessmeldingCallbackId);
             this.setState({
-                lagreSuksessmeldingText: `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`
+                suksessmeldingLagreKandidatVises: true
             });
-        } else {
-            this.setState({ lagreSuksessmeldingText:
-                `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
-                ${lagretKandidatliste.length > 1 ? `${lagretKandidatliste.length} lister` : `kandidatlisten «${lagretKandidatliste.tittel}»`}`
-            });
+            this.suksessmeldingCallbackId = setTimeout(() => {
+                this.setState({
+                    suksessmeldingLagreKandidatVises: false
+                });
+            }, 5000);
         }
     };
 
-    visAlertstripeLagreKandidater = () => {
-        clearTimeout(this.suksessmeldingCallbackId);
-        this.setState({
-            suksessmeldingLagreKandidatVises: true
-        });
-        this.suksessmeldingCallbackId = setTimeout(() => {
-            this.setState({
-                suksessmeldingLagreKandidatVises: false
-            });
-        }, 5000);
-    };
-
     render() {
-        const { match, isInitialSearch, stillingsoverskrift, arbeidsgiver, annonseOpprettetAvNavn, annonseOpprettetAvIdent } = this.props;
+        const {
+            match,
+            isInitialSearch,
+            stillingsoverskrift,
+            arbeidsgiver,
+            annonseOpprettetAvNavn,
+            annonseOpprettetAvIdent,
+            antallLagredeKandidater
+        } = this.props;
         const stillingsId = match.params.stillingsId;
 
         const LinkTilMineStillinger = () => (
@@ -144,7 +138,7 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={this.state.lagreSuksessmeldingText}
+                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
