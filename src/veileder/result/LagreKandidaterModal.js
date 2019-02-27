@@ -6,7 +6,6 @@ import Modal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
-import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HENT_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
@@ -32,12 +31,12 @@ class LagreKandidaterModal extends React.Component {
         this.props.hentEgneKandidatlister();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.hentListerStatus !== this.props.hentListerStatus && this.props.hentListerStatus === HENT_STATUS.SUCCESS) {
             this.setState({
                 kandidatlister: this.props.egneKandidatlister.map((liste) => ({
                     ...liste,
-                    markert: false
+                    alleredeLagtTil: false
                 })),
                 antallListerSomVises: this.props.egneKandidatlister.length === 6 ? 6 : this.state.antallListerSomVises
             });
@@ -50,15 +49,20 @@ class LagreKandidaterModal extends React.Component {
                     hentetListe: this.props.kandidatlisteMedStillingsnr
                 });
             } else if (this.props.hentListeMedStillingsnummerStatus === HENT_STATUS.FINNES_IKKE) {
-                this.setState({ hentetListe: undefined, showHentetListe: false, hentListeFeilmelding: 'Stillingen finnes ikke' });
+                this.setState({
+                    hentetListe: undefined,
+                    showHentetListe: false,
+                    hentListeFeilmelding: 'Stillingen finnes ikke'
+                });
                 this.input.focus();
             } else if (this.props.hentListeMedStillingsnummerStatus === HENT_STATUS.FAILURE) {
-                this.setState({ hentetListe: undefined, showHentetListe: false, hentListeFeilmelding: 'En feil oppstod' });
+                this.setState({
+                    hentetListe: undefined,
+                    showHentetListe: false,
+                    hentListeFeilmelding: 'En feil oppstod'
+                });
                 this.input.focus();
             }
-        }
-        if (prevState.kandidatlister !== this.state.kandidatlister || prevState.hentetListe !== this.state.hentetListe) {
-            this.setState({ ingenMarkerteListerFeilmelding: undefined });
         }
     }
 
@@ -73,57 +77,43 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    markerListe = (listeId) => {
-        this.setState({ kandidatlister: this.state.kandidatlister.map((liste) => {
-            if (liste.kandidatlisteId === listeId) {
-                return this.toggleMarkering(liste);
-            }
-            return liste;
-        }) });
+    onStillingsnummerChange = (input) => {
+        this.setState({
+            stillingsnummer: input.target.value
+        });
     };
 
-    toggleMarkering = (liste) => ({
-        ...liste,
-        markert: !liste.markert
-    });
-
-    visFlereLister = () => {
+    onVisFlereListerClick = () => {
         if (this.state.kandidatlister.length === this.state.antallListerSomVises + 6) {
-            this.setState({ antallListerSomVises: this.state.antallListerSomVises + 6 });
+            this.setState({
+                antallListerSomVises: this.state.antallListerSomVises + 6
+            });
         } else {
-            this.setState({ antallListerSomVises: this.state.antallListerSomVises + 5 });
+            this.setState({
+                antallListerSomVises: this.state.antallListerSomVises + 5
+            });
         }
-    };
-
-    oppdaterStillingsnummer = (input) => {
-        this.setState({ stillingsnummer: input.target.value });
     };
 
     hentListeMedStillingsnr = () => {
         if (!this.state.stillingsnummer) {
-            this.setState({ hentetListe: undefined, showHentetListe: false, hentListeFeilmelding: undefined });
+            this.setState({
+                hentetListe: undefined,
+                showHentetListe: false,
+                hentListeFeilmelding: undefined
+            });
         } else {
             this.props.hentKandidatlisteMedStillingsnr(this.state.stillingsnummer);
         }
     };
 
-    lagreKandidater = () => {
-        const markerteLister = this.state.kandidatlister.filter((liste) => liste.markert).map((liste) => ({
-            kandidatlisteId: liste.kandidatlisteId,
-            tittel: liste.tittel
-        }));
-        if (this.state.hentetListe && this.state.hentetListe.markert) {
-            markerteLister.push({
-                kandidatlisteId: this.state.hentetListe.kandidatlisteId,
-                tittel: this.state.hentetListe.tittel
-            });
-        }
-        if (markerteLister.length === 0) {
-            this.setState({ ingenMarkerteListerFeilmelding: 'Vennligst velg én eller flere stillinger, eller søk etter en stilling' });
-        } else {
-            this.props.onLagre(markerteLister);
-        }
-    };
+    lagreKandidat = (kandidatliste) => () => {
+        const kandidatlister = this.state.kandidatlister.map((liste) => (liste.kandidatlisteId === kandidatliste.kandidatlisteId ? { ...liste, alleredeLagtTil: true } : liste));
+        this.setState({
+            kandidatlister
+        });
+        this.props.onLagre(kandidatliste);
+    }
 
     render() {
         const {
@@ -137,34 +127,46 @@ class LagreKandidaterModal extends React.Component {
             hentetListe,
             showHentetListe,
             antallListerSomVises,
-            hentListeFeilmelding,
-            ingenMarkerteListerFeilmelding
+            hentListeFeilmelding
         } = this.state;
 
         const ListerTableHeader = () => (
             <Row className="lister--rader">
                 <Element className="opprettet__col rader--text">Opprettet</Element>
-                <Element className="stillingstittel__col rader--text">Stillingstittel</Element>
+                <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
+                <Element className="leggTil__col">Legg til kandidat</Element>
             </Row>
         );
 
         const ListerTableRow = (props) => {
-            const { liste, onChange, id, className } = props; // eslint-disable-line react/prop-types
+            const { liste, onClick, id, className } = props; // eslint-disable-line react/prop-types
 
             return (
                 <Row className={className}>
-                    <Checkbox
-                        id={id}
-                        aria-label={`Marker liste ${liste.tittel}`}
-                        label="&#8203;" // <- tegnet for tom streng
-                        className="opprettet--checkbox__col text-hide"
-                        checked={liste.markert}
-                        onChange={onChange}
-                    />
-                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">{`${formatterDato(new Date(liste.opprettetTidspunkt))}`}</Undertekst>
-                    <Normaltekst className="stillingstittel__col rader--text">{`${liste.tittel}`}</Normaltekst>
-                    <Normaltekst className="arbeidsgiver__col rader--text">{`${capitalizeEmployerName(liste.organisasjonNavn)}`}</Normaltekst>
+                    <Undertekst className="opprettet--dato__col rader--text rader--text__dato">
+                        {formatterDato(new Date(liste.opprettetTidspunkt))}
+                    </Undertekst>
+                    <Normaltekst className="stillingstittel__col rader--text">
+                        {liste.tittel}
+                    </Normaltekst>
+                    <Normaltekst className="arbeidsgiver__col rader--text">
+                        {capitalizeEmployerName(liste.organisasjonNavn || '')}
+                    </Normaltekst>
+                    <div className="leggTil__col rowItem">
+                        {liste.alleredeLagtTil && leggTilKandidaterStatus !== LAGRE_STATUS.FAILURE ? (
+                            <div className="ikon__lagtTil" />
+                        ) : (
+                            <Knapp
+                                id={id}
+                                onClick={onClick}
+                                mini
+                                aria-label={`Legg til i liste: ${liste.tittel}`}
+                            >
+                                +
+                            </Knapp>
+                        )}
+                    </div>
                 </Row>
             );
         };
@@ -173,9 +175,9 @@ class LagreKandidaterModal extends React.Component {
             kandidatlister.slice(0, antallListerSomVises).map((liste) => (
                 <ListerTableRow
                     liste={liste}
-                    onChange={() => { this.markerListe(liste.kandidatlisteId); }}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
                     className="lister--rader"
+                    onClick={this.lagreKandidat(liste)}
                     key={liste.kandidatlisteId}
                 />
             ))
@@ -190,10 +192,9 @@ class LagreKandidaterModal extends React.Component {
                 appElement={document.getElementById('app')}
             >
                 <div className="LagreKandidaterModal--wrapper">
-                    <Systemtittel className="tittel">Lagre kandidater i en kandidatliste</Systemtittel>
-                    <Normaltekst className="text">Hver stilling har en kandidatliste. Du kan legge kandidatene i en eller flere lister.</Normaltekst>
+                    <Systemtittel className="tittel">Legg til kandidater i kandidatliste</Systemtittel>
                     <Row className="lister--rader">
-                        <Element>Mine stillinger/lister</Element>
+                        <Element>Mine kandidatlister</Element>
                     </Row>
                     {hentListerStatus === HENT_STATUS.LOADING ? // eslint-disable-line no-nested-ternary
                         <div className="text-center">
@@ -201,25 +202,26 @@ class LagreKandidaterModal extends React.Component {
                         </div>
                         : kandidatlister.length > 0 ?
                             <div>
-                                <SkjemaGruppe feil={ingenMarkerteListerFeilmelding && { feilmelding: ingenMarkerteListerFeilmelding }}>
-                                    <ListerTableHeader />
-                                    <ListerTableRows />
-                                </SkjemaGruppe>
+                                <ListerTableHeader />
+                                <ListerTableRows />
                             </div>
-                            : <Normaltekst className="lister--rader">Du har ingen stillinger/kandidatlister</Normaltekst>
+                            : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
                     }
                     {antallListerSomVises < kandidatlister.length &&
-                        <Flatknapp mini onClick={this.visFlereLister}>Se flere stillinger/lister</Flatknapp>
+                        <Flatknapp mini onClick={this.onVisFlereListerClick}>Se flere lister</Flatknapp>
                     }
-                    <Normaltekst className="stillingsnummer__search--label">Fant du ikke stillingen? Søk etter stillingsnummer</Normaltekst>
+                    <Normaltekst className="stillingsnummer__search--label">
+                        Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter annonsenummer
+                    </Normaltekst>
                     <div className="stillingsnummer__search">
                         <input
                             id={'sok-etter-stilling-input'}
                             value={this.state.value}
-                            onChange={this.oppdaterStillingsnummer}
+                            onChange={this.onStillingsnummerChange}
                             onKeyDown={this.onKeyDown}
                             ref={(input) => { this.input = input; }}
                             className={hentListeFeilmelding ? 'skjemaelement__input skjemaelement__input--harFeil' : 'skjemaelement__input'}
+                            placeholder="Annonsenummer"
                         />
                         <Knapp
                             aria-label="søk"
@@ -236,27 +238,18 @@ class LagreKandidaterModal extends React.Component {
                     {showHentetListe &&
                         <ListerTableRow
                             liste={hentetListe}
-                            onChange={() => { this.setState({ hentetListe: this.toggleMarkering(hentetListe) }); }}
                             id="marker-liste-hentet-med-stillingsnr-checkbox"
                             className="lister--rader hentet-stilling__row"
+                            onClick={this.lagreKandidat(hentetListe)}
                         />
                     }
                     <div>
                         <Hovedknapp
                             className="lagre--knapp"
-                            onClick={this.lagreKandidater}
-                            spinner={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
-                            disabled={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
-                        >
-                            Lagre
-                        </Hovedknapp>
-                        <Flatknapp
-                            className="avbryt--knapp"
                             onClick={onRequestClose}
-                            disabled={leggTilKandidaterStatus === LAGRE_STATUS.LOADING}
                         >
-                            Avbryt
-                        </Flatknapp>
+                            Lukk
+                        </Hovedknapp>
                     </div>
                 </div>
             </Modal>

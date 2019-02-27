@@ -8,7 +8,7 @@ const LagreKandidaterTilStillingModal = (props) => {
     const { vis, onLagre, onRequestClose, stillingsoverskrift, antallMarkerteKandidater, kandidatliste } = props;
 
     const lagreKandidater = () => {
-        onLagre([kandidatliste]);
+        onLagre(kandidatliste);
     };
 
     return (

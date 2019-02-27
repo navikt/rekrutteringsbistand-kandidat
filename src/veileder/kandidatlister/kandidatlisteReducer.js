@@ -120,7 +120,7 @@ const initialState = {
     leggTilKandidater: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         antallLagredeKandidater: 0,
-        lagredeLister: []
+        lagretListe: {}
     },
     notater: undefined,
     hentListerStatus: HENT_STATUS.IKKE_HENTET,
@@ -252,7 +252,7 @@ export default function reducer(state = initialState, action) {
                     ...state.leggTilKandidater,
                     lagreStatus: LAGRE_STATUS.SUCCESS,
                     antallLagredeKandidater: action.antallLagredeKandidater,
-                    lagredeLister: action.lagredeLister
+                    lagretListe: action.lagretListe
                 },
                 detaljer: {
                     ...state.detaljer,
@@ -435,15 +435,12 @@ function* hentKandidatMedFnr(action) {
 
 function* leggTilKandidater(action) {
     try {
-        let response;
-        for (let i = 0; i < action.kandidatlister.length; i += 1) {
-            response = yield postKandidaterTilKandidatliste(action.kandidatlister[i].kandidatlisteId, action.kandidater);
-        }
+        const response = yield postKandidaterTilKandidatliste(action.kandidatliste.kandidatlisteId, action.kandidater);
         yield put({
             type: LEGG_TIL_KANDIDATER_SUCCESS,
             kandidatliste: response,
             antallLagredeKandidater: action.kandidater.length,
-            lagredeLister: action.kandidatlister
+            lagretListe: action.kandidatliste
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

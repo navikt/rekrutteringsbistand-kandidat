@@ -72,7 +72,7 @@ class ResultatVisning extends React.Component {
     };
 
     setSuccessMeldingText = () => {
-        const { lagredeKandidatlister, antallLagredeKandidater, stillingsoverskrift } = this.props;
+        const { lagretKandidatliste, antallLagredeKandidater, stillingsoverskrift } = this.props;
         if (this.props.match.params.stillingsId) {
             this.setState({
                 lagreSuksessmeldingText: `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`
@@ -80,7 +80,7 @@ class ResultatVisning extends React.Component {
         } else {
             this.setState({ lagreSuksessmeldingText:
                 `${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
-                ${lagredeKandidatlister.length > 1 ? `${lagredeKandidatlister.length} lister` : `kandidatlisten «${lagredeKandidatlister[0].tittel}»`}`
+                ${lagretKandidatliste.length > 1 ? `${lagretKandidatliste.length} lister` : `kandidatlisten «${lagretKandidatliste.tittel}»`}`
             });
         }
     };
@@ -243,10 +243,10 @@ ResultatVisning.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
-    lagredeKandidatlister: PropTypes.arrayOf(PropTypes.shape({
+    lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         tittel: PropTypes.string
-    })).isRequired,
+    }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
@@ -263,7 +263,7 @@ const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagredeKandidatlister: state.kandidatlister.leggTilKandidater.lagredeLister,
+    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
     stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,
