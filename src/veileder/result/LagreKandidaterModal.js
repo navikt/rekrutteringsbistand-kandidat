@@ -220,13 +220,13 @@ class LagreKandidaterModal extends React.Component {
                     <HjelpetekstFading
                         synlig={visKandidaterLagret}
                         type="suksess"
-                        tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i
+                        tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i
                             ${lagretKandidatliste.length > 1 ? `${lagretKandidatliste.length} lister` : `kandidatlisten «${lagretKandidatliste.tittel}»`}`}
                         id="hjelpetekstfading"
                         className="LagreKandidaterModal__hjelpetekst"
                     />
                     <div className="LagreKandidaterModal--wrapper">
-                        <Systemtittel className="tittel">Legg til kandidater i kandidatliste</Systemtittel>
+                        <Systemtittel className="tittel">Lagre kandidater i kandidatliste</Systemtittel>
                         <Row className="lister--rader">
                             <Element>Mine kandidatlister</Element>
                         </Row>

@@ -19,11 +19,11 @@ const antallKandidaterMarkert = (kandidater) => (
 
 const lagreKandidaterTilStillingKnappTekst = (antall) => {
     if (antall === 0) {
-        return 'Lagre kandidater til stilling';
+        return 'Lagre kandidater i kandidatliste';
     } else if (antall === 1) {
-        return 'Lagre 1 kandidat til stilling';
+        return 'Lagre 1 kandidat i kandidatliste';
     }
-    return `Lagre ${antall} kandidater til stilling`;
+    return `Lagre ${antall} kandidater i kandidatliste`;
 };
 
 const markereKandidat = (kandidatnr, checked) => (k) => {

@@ -138,7 +138,7 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagt til i kandidatlisten «${stillingsoverskrift}»`}
+                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i kandidatlisten «${stillingsoverskrift}»`}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
