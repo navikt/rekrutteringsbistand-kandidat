@@ -161,7 +161,7 @@ class LagreKandidaterModal extends React.Component {
                 <Element className="opprettet__col rader--text">Opprettet</Element>
                 <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
-                <Element className="leggTil__col">Lagre kandidater</Element>
+                <Element className="leggTil__col rader--text">Lagre kandidater</Element>
             </Row>
         );
 
@@ -294,7 +294,8 @@ class LagreKandidaterModal extends React.Component {
 
 LagreKandidaterModal.defaultProps = {
     egneKandidatlister: undefined,
-    kandidatlisteMedStillingsnr: undefined
+    kandidatlisteMedStillingsnr: undefined,
+    lagreStatus: undefined
 };
 
 LagreKandidaterModal.propTypes = {

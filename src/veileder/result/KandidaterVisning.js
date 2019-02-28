@@ -151,22 +151,21 @@ class KandidaterVisning extends React.Component {
         return (
             <div>
                 {this.state.lagreKandidaterModalVises &&
-                <LagreKandidaterModal
-                    vis={this.state.lagreKandidaterModalVises}
-                    onRequestClose={this.toggleLagreKandidaterModal}
-                    onLagre={this.onLagreKandidatliste}
-                    antallMarkerteKandidater={antallMarkert}
-                />
+                    <LagreKandidaterModal
+                        vis={this.state.lagreKandidaterModalVises}
+                        onRequestClose={this.toggleLagreKandidaterModal}
+                        onLagre={this.onLagreKandidatliste}
+                    />
                 }
                 {this.state.lagreKandidaterModalTilStillingVises &&
-                <LagreKandidaterTilStillingModal
-                    vis={this.state.lagreKandidaterModalTilStillingVises}
-                    onRequestClose={this.toggleLagreKandidaterTilStillingModal}
-                    onLagre={this.onLagreKandidatliste}
-                    antallMarkerteKandidater={antallMarkert}
-                    kandidatliste={this.props.kandidatliste}
-                    stillingsoverskrift={this.props.stillingsoverskrift}
-                />
+                    <LagreKandidaterTilStillingModal
+                        vis={this.state.lagreKandidaterModalTilStillingVises}
+                        onRequestClose={this.toggleLagreKandidaterTilStillingModal}
+                        onLagre={this.onLagreKandidatliste}
+                        antallMarkerteKandidater={antallMarkert}
+                        kandidatliste={this.props.kandidatliste}
+                        stillingsoverskrift={this.props.stillingsoverskrift}
+                    />
                 }
                 <div className="resultatvisning--header">
                     <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
