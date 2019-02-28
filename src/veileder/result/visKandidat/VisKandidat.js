@@ -55,6 +55,8 @@ class VisKandidat extends React.Component {
             lastFlereKandidater
         } = this.props;
 
+        const { gjeldendeKandidat } = this.state;
+
         if (prevProps.kandidater.length < kandidater.length) {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
@@ -67,9 +69,9 @@ class VisKandidat extends React.Component {
             this.setState({ gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer) });
         }
 
-        if (this.state.gjeldendeKandidat !== prevState.gjeldendeKandidat) {
+        if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
             this.setState({ forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer) });
-            if (this.state.gjeldendeKandidat === kandidater.length && kandidater.length < antallKandidater) {
+            if (gjeldendeKandidat === kandidater.length && kandidater.length < antallKandidater) {
                 lastFlereKandidater();
             } else {
                 this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
@@ -102,9 +104,10 @@ class VisKandidat extends React.Component {
     }
 
     hentKandidatListe = () => {
-        if (this.props.kandidatliste === undefined) {
-            const stillingsnummer = this.props.match.params.stillingsId;
-            this.props.hentKandidatliste(stillingsnummer);
+        const { kandidatliste, match, hentKandidatliste } = this.props;
+        if (kandidatliste === undefined) {
+            const stillingsnummer = match.params.stillingsId;
+            hentKandidatliste(stillingsnummer);
         }
     }
 
@@ -122,7 +125,8 @@ class VisKandidat extends React.Component {
     };
 
     gjeldendeKandidatIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        const { kandidater } = this.props;
+        const gjeldendeIndex = kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === -1) {
             return undefined;
         }
@@ -130,19 +134,21 @@ class VisKandidat extends React.Component {
     };
 
     forrigeKandidatnummerIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        const { kandidater } = this.props;
+        const gjeldendeIndex = kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
         }
-        return this.props.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
+        return kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
     nesteKandidatnummerIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
-        if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
+        const { kandidater } = this.props;
+        const gjeldendeIndex = kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === (kandidater.length - 1)) {
             return undefined;
         }
-        return this.props.kandidater[gjeldendeIndex + 1].arenaKandidatnr;
+        return kandidater[gjeldendeIndex + 1].arenaKandidatnr;
     };
 
     render() {
