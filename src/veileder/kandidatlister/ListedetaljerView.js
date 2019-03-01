@@ -113,16 +113,18 @@ const ListedetaljerView = (props) => {
                     <div className="border-left">
                         { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
-                    <div className="border-left">
-                        <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
-                    </div>
+                    {stillingsId &&
+                        <div className="border-left">
+                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     );
 
     const FinnKandidaterLenke = () => (
-        <Link to={`/kandidater/stilling/${stillingsId}`} className="finn-kandidater FinnKandidater">
+        <Link to={stillingsId ? `/kandidater/stilling/${stillingsId}` : '/kandidater'} className="finn-kandidater FinnKandidater">
             <i className="FinnKandidater__icon" />
             <span className="lenke">Finn kandidater</span>
         </Link>
@@ -310,7 +312,7 @@ const ListedetaljerView = (props) => {
                         />
                     </div>
                     <div className="kolonne-bred tabell-tekst">
-                        <Link title="Vis profil" className="lenke tabell-lenke" to={`/kandidater/lister/detaljer/${stillingsId}/cv/${kandidat.kandidatnr}`}>
+                        <Link title="Vis profil" className="lenke tabell-lenke" to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}>
                             {`${fornavn} ${etternavn}`}
                         </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
                     <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
@@ -414,7 +416,8 @@ const ListedetaljerView = (props) => {
 };
 
 ListedetaljerView.defaultProps = {
-    arbeidsgiver: undefined
+    arbeidsgiver: undefined,
+    stillingsId: undefined
 };
 
 ListedetaljerView.propTypes = {
@@ -431,7 +434,7 @@ ListedetaljerView.propTypes = {
         navn: PropTypes.string
     }).isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
-    stillingsId: PropTypes.string.isRequired,
+    stillingsId: PropTypes.string,
     kanEditere: PropTypes.bool.isRequired,
     alleMarkert: PropTypes.bool.isRequired,
     onCheckAlleKandidater: PropTypes.func.isRequired,

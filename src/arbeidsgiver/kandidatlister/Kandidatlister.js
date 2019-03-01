@@ -9,7 +9,7 @@ import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import TomListe from './TomListe';
+import TomListe from '../../felles/kandidatlister/TomListe';
 import {
     HENT_KANDIDATLISTER, RESET_LAGRE_STATUS, SLETT_KANDIDATLISTE,
     SLETT_KANDIDATLISTE_RESET_STATUS

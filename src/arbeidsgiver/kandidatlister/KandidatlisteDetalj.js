@@ -13,7 +13,7 @@ import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
-import TomListe from './TomListe';
+import TomListe from '../../felles/kandidatlister/TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';

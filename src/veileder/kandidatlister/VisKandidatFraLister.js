@@ -11,12 +11,12 @@ import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import { HENT_KANDIDATLISTE } from './kandidatlisteReducer';
+import { HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID } from './kandidatlisteReducer';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
         this.props.hentCvForKandidat(this.props.match.params.kandidatNr, this.props.cv.profilId);
-        this.props.hentKandidatliste(this.props.stillingsId);
+        this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
 
     componentDidUpdate(prevProps) {
@@ -50,12 +50,12 @@ class VisKandidatFraLister extends React.Component {
     };
 
     render() {
-        const { cv, match, stillingsId, kandidatliste, hentStatus } = this.props;
+        const { cv, match, kandidatlisteId, kandidatliste, hentStatus } = this.props;
         const gjeldendeKandidat = this.gjeldendeKandidatIListen(match.params.kandidatNr);
         const forrigeKandidat = this.forrigeKandidatnummerIListen(match.params.kandidatNr);
         const nesteKandidat = this.nesteKandidatnummerIListen(match.params.kandidatNr);
-        const forrigeKandidatLink = forrigeKandidat ? `/kandidater/lister/detaljer/${stillingsId}/cv/${forrigeKandidat}` : undefined;
-        const nesteKandidatLink = nesteKandidat ? `/kandidater/lister/detaljer/${stillingsId}/cv/${nesteKandidat}` : undefined;
+        const forrigeKandidatLink = forrigeKandidat ? `/kandidater/lister/detaljer/${kandidatlisteId}/cv/${forrigeKandidat}` : undefined;
+        const nesteKandidatLink = nesteKandidat ? `/kandidater/lister/detaljer/${kandidatlisteId}/cv/${nesteKandidat}` : undefined;
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -68,7 +68,8 @@ class VisKandidatFraLister extends React.Component {
             <div>
                 <VisKandidatPersonalia
                     cv={cv}
-                    stillingsId={stillingsId}
+                    kandidatListe={kandidatlisteId}
+                    stillingsId={kandidatliste.stillingsId}
                     contextRoot="kandidater/lister"
                     appContext="veileder"
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
@@ -133,7 +134,7 @@ VisKandidatFraLister.propTypes = {
     hentStatus: PropTypes.string.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
-    stillingsId: PropTypes.string.isRequired,
+    kandidatlisteId: PropTypes.string.isRequired,
     kandidatliste: PropTypes.shape({
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
@@ -144,7 +145,7 @@ VisKandidatFraLister.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-    stillingsId: props.match.params.listeid,
+    kandidatlisteId: props.match.params.listeid,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste,
     hentStatus: state.cvReducer.hentStatus,
     cv: state.cvReducer.cv
@@ -152,7 +153,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer: stillingsId })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidatFraLister);

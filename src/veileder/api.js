@@ -205,12 +205,20 @@ export function fetchCv(arenaKandidatnr) {
     );
 }
 
-export const fetchKandidatliste = (stillingsId) => (
+export const fetchKandidatlisteMedStillingsId = (stillingsId) => (
     fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
+);
+
+export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) => (
+    fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true)
 );
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
+);
+
+export const postKandidatliste = (kandidatlisteInfo) => (
+    postJson(`${KANDIDATLISTE_API}/me/kandidatlister`, JSON.stringify(kandidatlisteInfo))
 );
 
 export function putKandidatliste(stillingsId) {
@@ -268,6 +276,6 @@ export const fetchEgneKandidatlister = () => (
     fetchJson(`${KANDIDATLISTE_API}/me/kandidatlister`, true)
 );
 
-export const fetchKandidatlisteMedStillingsnr = (stillingsnummer) => (
-    fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${stillingsnummer}/kandidatliste`, true)
+export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) => (
+    fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true)
 );

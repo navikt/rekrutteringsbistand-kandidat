@@ -7,7 +7,6 @@ import {
     DELE_STATUS,
     ENDRE_NOTAT,
     ENDRE_STATUS_KANDIDAT,
-    HENT_KANDIDATLISTE,
     HENT_NOTATER,
     OPPRETT_NOTAT,
     PRESENTER_KANDIDATER,
@@ -60,11 +59,6 @@ class Listedetaljer extends React.Component {
                 tekst: ''
             }
         };
-    }
-
-    componentDidMount() {
-        const { id } = this.props.match.params;
-        this.props.hentKandidatliste(id);
     }
 
     componentDidUpdate(prevProps) {
@@ -306,7 +300,6 @@ Listedetaljer.defaultProps = {
 Listedetaljer.propTypes = {
     fetching: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
-    hentKandidatliste: PropTypes.func.isRequired,
     endreStatusKandidat: PropTypes.func.isRequired,
     presenterKandidater: PropTypes.func.isRequired,
     resetDeleStatus: PropTypes.func.isRequired,
@@ -317,11 +310,6 @@ Listedetaljer.propTypes = {
         fornavn: PropTypes.string,
         etternavn: PropTypes.string
     }),
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            id: PropTypes.string.isRequired
-        })
-    }).isRequired,
     hentNotater: PropTypes.func.isRequired,
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
@@ -334,7 +322,6 @@ Listedetaljer.propTypes = {
 
 const mapStateToProps = (state) => ({
     fetching: state.kandidatlister.detaljer.fetching,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
     deleStatus: state.kandidatlister.detaljer.deleStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
@@ -343,7 +330,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (stillingsnummer) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer }); },
     endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); },
     presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
     resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); },
