@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest, call } from 'redux-saga/effects';
 import {
     SearchApiError,
     fetchKandidatlisteMedStillingsId,
@@ -50,6 +50,10 @@ export const SLETT_KANDIDATER_RESET_STATUS = 'SLETT_KANDIDATER_RESET_STATUS';
 export const LEGG_TIL_KANDIDATER = 'LEGG_TIL_KANDIDATER';
 export const LEGG_TIL_KANDIDATER_SUCCESS = 'LEGG_TIL_KANDIDATER_SUCCESS';
 export const LEGG_TIL_KANDIDATER_FAILURE = 'LEGG_TIL_KANDIDATER_FAILURE';
+
+export const LAGRE_KANDIDAT_I_KANDIDATLISTE = 'LAGRE_KANDIDAT_I_KANDIDATLISTE';
+export const LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS = 'LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS';
+export const LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE = 'LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE';
 
 export const OPPDATER_KANDIDATLISTE = 'OPPDATER_KANDIDATLISTE_BEGIN';
 export const OPPDATER_KANDIDATLISTE_SUCCESS = 'OPPDATER_KANDIDATLISTE_SUCCESS';
@@ -143,7 +147,8 @@ const initialState = {
         liste: []
     },
     hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
-    kandidatlisteMedAnnonsenummer: undefined
+    kandidatlisteMedAnnonsenummer: undefined,
+    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED
 };
 
 export default function reducer(state = initialState, action) {
@@ -319,6 +324,21 @@ export default function reducer(state = initialState, action) {
                     ...state.leggTilKandidater,
                     lagreStatus: LAGRE_STATUS.FAILURE
                 }
+            };
+        case LAGRE_KANDIDAT_I_KANDIDATLISTE:
+            return {
+                ...state,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING
+            };
+        case LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
+            return {
+                ...state,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS
+            };
+        case LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
+            return {
+                ...state,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE
             };
         case HENT_NOTATER:
             return {
@@ -532,6 +552,29 @@ function* leggTilKandidater(action) {
     }
 }
 
+function* lagreKandidatIKandidatliste(action) {
+    try {
+        const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
+        yield call(leggTilKandidater,
+            {
+                kandidatliste: action.kandidatliste,
+                kandidater:
+                [{
+                    kandidatnr: response.arenaKandidatnr,
+                    sisteArbeidserfaring: response.mestRelevanteYrkeserfaring ? response.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
+                }]
+            });
+
+        yield put({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* hentNotater(action) {
     try {
         const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
@@ -632,6 +675,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(SLETT_NOTAT, slettNotat);
     yield takeLatest(HENT_KANDIDATLISTER, hentEgneLister);
     yield takeLatest(HENT_KANDIDATLISTE_MED_ANNONSENUMMER, hentKandidatlisteMedAnnonsenummer);
+    yield takeLatest(LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,
         HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
@@ -644,7 +688,8 @@ export function* kandidatlisteSaga() {
         OPPRETT_NOTAT_FAILURE,
         ENDRE_NOTAT_FAILURE,
         SLETT_NOTAT_FAILURE,
-        HENT_KANDIDATLISTER_FAILURE
+        HENT_KANDIDATLISTER_FAILURE,
+        LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE
     ],
     sjekkError);
 }

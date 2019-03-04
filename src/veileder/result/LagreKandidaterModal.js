@@ -25,7 +25,8 @@ class LagreKandidaterModal extends React.Component {
             showHentetListe: false,
             hentListeFeilmelding: undefined,
             ingenMarkerteListerFeilmelding: undefined,
-            visKandidaterLagret: false
+            visKandidaterLagret: false,
+            visAlertstripeOnSuccess: false
         };
     }
 
@@ -66,7 +67,7 @@ class LagreKandidaterModal extends React.Component {
                 this.input.focus();
             }
         }
-        if (prevProps.leggTilKandidaterStatus !== this.props.leggTilKandidaterStatus && this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS) {
+        if (this.state.visAlertstripeOnSuccess && this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS) {
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -109,7 +110,8 @@ class LagreKandidaterModal extends React.Component {
     visAlertstripeLagreKandidater = () => {
         clearTimeout(this.suksessmeldingCallbackId);
         this.setState({
-            visKandidaterLagret: true
+            visKandidaterLagret: true,
+            visAlertstripeOnSuccess: false
         });
         this.suksessmeldingCallbackId = setTimeout(() => {
             this.setState({
@@ -133,7 +135,8 @@ class LagreKandidaterModal extends React.Component {
     lagreKandidat = (kandidatliste) => () => {
         const kandidatlister = this.state.kandidatlister.map((liste) => (liste.kandidatlisteId === kandidatliste.kandidatlisteId ? { ...liste, alleredeLagtTil: true } : liste));
         this.setState({
-            kandidatlister
+            kandidatlister,
+            visAlertstripeOnSuccess: true
         });
         this.props.onLagre(kandidatliste);
     };
@@ -161,7 +164,7 @@ class LagreKandidaterModal extends React.Component {
                 <Element className="opprettet__col rader--text">Opprettet</Element>
                 <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
-                <Element className="leggTil__col">Lagre kandidater</Element>
+                <Element className="leggTil__col rader--text">Lagre kandidater</Element>
             </Row>
         );
 
@@ -294,7 +297,8 @@ class LagreKandidaterModal extends React.Component {
 
 LagreKandidaterModal.defaultProps = {
     egneKandidatlister: undefined,
-    kandidatlisteMedAnnonsenummer: undefined
+    kandidatlisteMedAnnonsenummer: undefined,
+    lagreStatus: undefined
 };
 
 LagreKandidaterModal.propTypes = {
