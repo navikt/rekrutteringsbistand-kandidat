@@ -211,7 +211,7 @@ class VisKandidat extends React.Component {
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
-                            <Element tag="h3" className="blokk-s">Kandidaten kan ikke vises</Element>
+                            <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
                             <div>
                                 <Normaltekst>Mulige årsaker:</Normaltekst>
                                 <ul>
