@@ -24,24 +24,25 @@ export default class OpprettKandidatlisteForm extends React.Component {
     }
 
     validateAndSave = () => {
-        if (this.tittelValidates() && this.beskrivelseValidates()) {
+        if (this.validerTittel() && this.validerBeskrivelse()) {
             this.props.onSave(this.state.kandidatlisteInfo);
-        } else if (!this.tittelValidates()) {
+        } else if (!this.validerTittel()) {
             this.setState({
                 visValideringsfeilInput: true
             }, () => this.input.focus());
-        } else if (!this.beskrivelseValidates()) {
+        } else if (!this.validerBeskrivelse()) {
             this.textArea.focus();
         }
     };
 
-    tittelValidates = () => this.state.kandidatlisteInfo.tittel !== '';
+    validerTittel = () => this.state.kandidatlisteInfo.tittel !== '';
 
-    beskrivelseValidates = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
+    validerBeskrivelse = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
 
-    updateField = (field, value) => {
-        if (this.props.onChange) {
-            this.props.onChange();
+    updateField = (field) => (event) => {
+        const { value } = event.target;
+        if (this.props.resetStatusTilUnsaved) {
+            this.props.resetStatusTilUnsaved();
         }
         if (field === FELTER.TITTEL) {
             this.setState({
@@ -77,9 +78,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             label="Navn på kandidatliste *"
                             placeholder="For eksempel: Jobbmesse, Oslo, 21.05.2019"
                             value={this.state.kandidatlisteInfo.tittel}
-                            onChange={(event) => {
-                                this.updateField(FELTER.TITTEL, event.target.value);
-                            }}
+                            onChange={this.updateField(FELTER.TITTEL)}
                             feil={this.state.visValideringsfeilInput ? { feilmelding: 'Navn på kandidatliste mangler' } : undefined}
                             inputRef={(input) => { this.input = input; }}
                             autoComplete="off"
@@ -93,9 +92,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={255}
                             feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: '' } : undefined}
-                            onChange={(event) => {
-                                this.updateField(FELTER.BESKRIVELSE, event.target.value);
-                            }}
+                            onChange={this.updateField(FELTER.BESKRIVELSE)}
                             textareaRef={(textArea) => { this.textArea = textArea; }}
                         />
                     </div>
@@ -122,13 +119,13 @@ export default class OpprettKandidatlisteForm extends React.Component {
 
 OpprettKandidatlisteForm.defaultProps = {
     saving: false,
-    onChange: undefined,
+    resetStatusTilUnsaved: undefined,
     knappTekst: 'Lagre'
 };
 
 OpprettKandidatlisteForm.propTypes = {
     onSave: PropTypes.func.isRequired,
-    onChange: PropTypes.func,
+    resetStatusTilUnsaved: PropTypes.func,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string

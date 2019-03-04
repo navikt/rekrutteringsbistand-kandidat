@@ -80,8 +80,7 @@ class Kandidatlister extends React.Component {
         super(props);
         this.state = {
             modalstatus: MODALVISING.INGEN_MODAL,
-            visSuccessMelding: false,
-            successMelding: ''
+            visSuccessMelding: false
         };
     }
 
@@ -92,11 +91,14 @@ class Kandidatlister extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
             this.props.hentKandidatlister();
-            this.visSuccessMelding(`Kandidatliste "${this.props.opprettetTittel}" opprettet`);
+            this.visSuccessMelding();
             this.onLukkModalClick();
-            this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
             this.props.resetLagreStatus();
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
 
     onOpprettClick = () => {
@@ -111,21 +113,17 @@ class Kandidatlister extends React.Component {
         });
     };
 
-    visSuccessMelding = (tekst) => {
-        this.setState({
-            visSuccessMelding: true,
-            successMelding: tekst
-        });
+    visSuccessMelding = () => {
+        this.setState({ visSuccessMelding: true });
+        this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
     };
 
     skjulSuccessMelding = () => {
-        this.setState({
-            visSuccessMelding: false
-        });
+        this.setState({ visSuccessMelding: false });
     };
 
     render() {
-        const { kandidatlister, fetchingKandidatlister } = this.props;
+        const { kandidatlister, fetchingKandidatlister, opprettetTittel } = this.props;
         return (
             <div>
                 {this.state.modalstatus === MODALVISING.OPPRETT_MODAL && <OpprettModal onAvbrytClick={this.onLukkModalClick} />}
@@ -133,14 +131,16 @@ class Kandidatlister extends React.Component {
                     id="kandidatliste-lagret-melding"
                     synlig={this.state.visSuccessMelding}
                     type="suksess"
-                    tekst={this.state.successMelding}
+                    tekst={`Kandidatliste "${opprettetTittel}" opprettet`}
                 />
                 <div className="Kandidatlister">
                     <SideHeader opprettListe={this.onOpprettClick} />
-                    <Systemtittel className="antall-kandidatlister">{`${kandidatlister.length} kandidatlister`}</Systemtittel>
-                    <div className="kandidatlister-table">
-                        <ListeHeader />
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                    <div className="kandidatlister-table__wrapper">
+                        <Systemtittel className="antall-kandidatlister">{`${kandidatlister.length} kandidatlister`}</Systemtittel>
+                        <div className="kandidatlister-table">
+                            <ListeHeader />
+                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                        </div>
                     </div>
                 </div>
             </div>

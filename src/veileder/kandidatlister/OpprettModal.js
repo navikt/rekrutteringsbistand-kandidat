@@ -19,7 +19,7 @@ const OpprettModal = ({ opprettKandidatliste, resetStatusTilUnsaved, lagreStatus
         <Systemtittel className="blokk-s">Opprett kandidatliste</Systemtittel>
         <OpprettKandidatlisteForm
             onSave={opprettKandidatliste}
-            onChange={resetStatusTilUnsaved}
+            resetStatusTilUnsaved={resetStatusTilUnsaved}
             kandidatlisteInfo={tomKandidatlisteInfo()}
             saving={lagreStatus === LAGRE_STATUS.LOADING}
             onAvbrytClick={onAvbrytClick}
