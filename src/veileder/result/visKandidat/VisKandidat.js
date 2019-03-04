@@ -39,7 +39,11 @@ class VisKandidat extends React.Component {
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
         this.props.settValgtKandidat(this.kandidatnummer);
-        this.hentKandidatListe();
+
+        const stillingsId = this.props.match.params.stillingsId;
+        if (stillingsId !== undefined) {
+            this.hentKandidatListe();
+        }
 
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
@@ -77,6 +81,10 @@ class VisKandidat extends React.Component {
                 this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
             }
         }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.suksessmeldingCallbackId);
     }
 
     onLagreKandidatClick = (stillingsId) => () => {
