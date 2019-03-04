@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Lenke from 'nav-frontend-lenker';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
@@ -81,10 +81,14 @@ class VisKandidatFraLister extends React.Component {
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
-                            <Undertittel className="tekst">
-                                Du kan ikke se mer informasjon om kandidaten nå.
-                                Årsaken kan være at kandidaten har skiftet status, eller tekniske problemer i søk.
-                            </Undertittel>
+                            <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
+                            <div>
+                                <Normaltekst>Mulige årsaker:</Normaltekst>
+                                <ul>
+                                    <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
+                                    <li><Normaltekst>Tekniske problemer</Normaltekst></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 ) : (

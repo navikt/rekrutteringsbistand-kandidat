@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Lenke from 'nav-frontend-lenker';
-import { Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
@@ -17,7 +17,7 @@ import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
-import { LAGRE_KANDIDAT_I_KANDIDATLISTE, HENT_KANDIDATLISTE } from '../../kandidatlister/kandidatlisteReducer';
+import { LAGRE_KANDIDAT_I_KANDIDATLISTE, HENT_KANDIDATLISTE_MED_STILLINGS_ID } from '../../kandidatlister/kandidatlisteReducer';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 
@@ -39,11 +39,7 @@ class VisKandidat extends React.Component {
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
         this.props.settValgtKandidat(this.kandidatnummer);
-
-        const stillingsId = this.props.match.params.stillingsId;
-        if (stillingsId !== undefined) {
-            this.hentKandidatListe();
-        }
+        this.hentKandidatListe();
 
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
@@ -115,7 +111,9 @@ class VisKandidat extends React.Component {
         const { kandidatliste, match, hentKandidatliste } = this.props;
         if (kandidatliste === undefined) {
             const stillingsnummer = match.params.stillingsId;
-            hentKandidatliste(stillingsnummer);
+            if (stillingsnummer !== undefined) {
+                hentKandidatliste(stillingsnummer);
+            }
         }
     }
 
@@ -213,10 +211,14 @@ class VisKandidat extends React.Component {
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
-                            <Undertittel className="tekst">
-                                Du kan ikke se mer informasjon om kandidaten nå.
-                                Årsaken kan være at kandidaten har skiftet status, eller tekniske problemer i søk.
-                            </Undertittel>
+                            <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
+                            <div>
+                                <Normaltekst>Mulige årsaker:</Normaltekst>
+                                <ul>
+                                    <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
+                                    <li><Normaltekst>Tekniske problemer</Normaltekst></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 ) : (
@@ -326,7 +328,7 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) => dispatch({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE, kandidatliste, fodselsnummer }),
-    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer: stillingsId })
+    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsnummer: stillingsId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);

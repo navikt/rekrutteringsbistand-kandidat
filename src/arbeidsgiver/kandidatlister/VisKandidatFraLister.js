@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
-import { FETCH_CV } from '../sok/cv/cvReducer';
+import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
 import { getUrlParameterByName } from '../../felles/sok/utils';
 import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
@@ -109,7 +110,7 @@ class VisKandidatFraLister extends React.Component {
     };
 
     render() {
-        const { cv, kandidatnummer, kandidatlisteId, isFetchingCv, kandidatliste } = this.props;
+        const { cv, kandidatnummer, kandidatlisteId, kandidatliste, hentStatus } = this.props;
         const gjeldendeKandidat = this.gjeldendeKandidatIListen(kandidatnummer);
         const forrigeKandidat = this.forrigeKandidatnummerIListen(kandidatnummer);
         const nesteKandidat = this.nesteKandidatnummerIListen(kandidatnummer);
@@ -128,7 +129,7 @@ class VisKandidatFraLister extends React.Component {
         if (this.props.sletteStatus === SLETTE_STATUS.SUCCESS) {
             return <Redirect to={`/kandidater/lister/detaljer/${kandidatlisteId}`} push />;
         }
-        if (isFetchingCv) {
+        if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -146,21 +147,37 @@ class VisKandidatFraLister extends React.Component {
                     nesteKandidat={nesteKandidatLink}
                     gjeldendeKandidat={gjeldendeKandidat}
                     antallKandidater={kandidatliste.antallKandidater}
+                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                 />
-                <div className="viskandidat-container">
-                    <Knapper />
-                    <VisKandidatJobbprofil cv={cv} />
-                    <VisKandidatCv cv={cv} />
-                    <div className="navigering-forrige-neste_wrapper">
-                        <VisKandidatForrigeNeste
-                            lenkeClass={'header--personalia__lenke--veileder'}
-                            forrigeKandidat={forrigeKandidatLink}
-                            nesteKandidat={nesteKandidatLink}
-                            gjeldendeKandidat={gjeldendeKandidat}
-                            antallKandidater={kandidatliste.antallKandidater}
-                        />
+                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                    <div className="cvIkkeFunnet">
+                        <div className="content">
+                            <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
+                            <div>
+                                <Normaltekst>Mulige årsaker:</Normaltekst>
+                                <ul>
+                                    <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
+                                    <li><Normaltekst>Tekniske problemer</Normaltekst></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="viskandidat-container">
+                        <Knapper />
+                        <VisKandidatJobbprofil cv={cv} />
+                        <VisKandidatCv cv={cv} />
+                        <div className="navigering-forrige-neste_wrapper">
+                            <VisKandidatForrigeNeste
+                                lenkeClass={'header--personalia__lenke--veileder'}
+                                forrigeKandidat={forrigeKandidatLink}
+                                nesteKandidat={nesteKandidatLink}
+                                gjeldendeKandidat={gjeldendeKandidat}
+                                antallKandidater={kandidatliste.antallKandidater}
+                            />
+                        </div>
+                    </div>
+                )}
                 <SlettKandidaterModal
                     isOpen={this.state.visSlettKandidatModal}
                     visFeilmelding={this.state.visSlettKandidatFeilmelding}
@@ -185,7 +202,7 @@ VisKandidatFraLister.defaultProps = {
 VisKandidatFraLister.propTypes = {
     kandidatnummer: PropTypes.string.isRequired,
     cv: cvPropTypes.isRequired,
-    isFetchingCv: PropTypes.bool.isRequired,
+    hentStatus: PropTypes.string.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
@@ -205,8 +222,8 @@ const mapStateToProps = (state, props) => ({
     kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     kandidatlisteId: props.match.params.listeid,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste,
-    isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv,
+    hentStatus: state.cvReducer.hentStatus,
     sletteStatus: state.kandidatlister.detaljer.sletteStatus,
     matchforklaring: state.cvReducer.matchforklaring
 });
