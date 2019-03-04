@@ -21,7 +21,8 @@ import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandid
 import feedbackReducer from './feedback/feedbackReducer';
 import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
-import Listedetaljer from './kandidatlister/Listedetaljer';
+import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
+import Kandidatliste from './kandidatlister/Kandidatliste';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
@@ -29,6 +30,7 @@ import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
+import Kandidatlister from './kandidatlister/Kandidatlister';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -90,7 +92,9 @@ class Sok extends React.Component {
                         <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
                         <Route exact path="/kandidater/cv" component={VisKandidat} />
                         <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
-                        <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={Listedetaljer} />
+                        <Route exact path="/kandidater/lister" component={Kandidatlister} />
+                        <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={KandidatlisteFraStilling} />
+                        <Route exact path="/kandidater/lister/detaljer/:listeid" component={Kandidatliste} />
                         <Route exact path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr" component={VisKandidatFraLister} />
                         <Route component={NotFound} />
                     </Switch>

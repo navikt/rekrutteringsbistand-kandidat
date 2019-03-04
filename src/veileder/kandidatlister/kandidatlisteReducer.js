@@ -1,7 +1,8 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 import {
     SearchApiError,
-    fetchKandidatliste,
+    fetchKandidatlisteMedStillingsId,
+    fetchKandidatlisteMedKandidatlisteId,
     postDelteKandidater,
     putStatusKandidat,
     fetchKandidatMedFnr,
@@ -9,10 +10,11 @@ import {
     fetchNotater,
     postNotat,
     putKandidatliste,
+    postKandidatliste,
     putNotat,
     deleteNotat,
     fetchEgneKandidatlister,
-    fetchKandidatlisteMedStillingsnr
+    fetchKandidatlisteMedAnnonsenummer
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -21,10 +23,19 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
  * ACTIONS
  ********************************************************* */
 
-export const HENT_KANDIDATLISTE = 'HENT_KANDIDATLISTE';
-export const HENT_KANDIDATLISTE_SUCCESS = 'HENT_KANDIDATLISTE_SUCCESS';
-export const HENT_KANDIDATLISTE_FAILURE = 'HENT_KANDIDATLISTE_FAILURE';
-export const CLEAR_KANDIDATLISTE = 'CLEAR_KANDIDATLISTE';
+export const OPPRETT_KANDIDATLISTE = 'OPPRETT_KANDIDATLISTE';
+export const OPPRETT_KANDIDATLISTE_SUCCESS = 'OPPRETT_KANDIDATLISTE_SUCCESS';
+export const OPPRETT_KANDIDATLISTE_FAILURE = 'OPPRETT_KANDIDATLISTE_FAILURE';
+
+export const HENT_KANDIDATLISTE_MED_STILLINGS_ID = 'HENT_KANDIDATLISTE_MED_STILLINGS_ID';
+export const HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS = 'HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS';
+export const HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE = 'HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE';
+
+export const HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID';
+export const HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS';
+export const HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE = 'HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE';
+
+export const RESET_LAGRE_STATUS = 'RESET_LAGRE_STATUS';
 
 export const PRESENTER_KANDIDATER = 'PRESENTER_KANDIDATER';
 export const PRESENTER_KANDIDATER_SUCCESS = 'PRESENTER_KANDIDATER_SUCCESS';
@@ -72,10 +83,10 @@ export const HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER';
 export const HENT_KANDIDATLISTER_SUCCESS = 'HENT_KANDIDATLISTER_SUCCESS';
 export const HENT_KANDIDATLISTER_FAILURE = 'HENT_KANDIDATLISTER_FAILURE';
 
-export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER';
-export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS';
-export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_NOT_FOUND = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_NOT_FOUND';
-export const HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_FAILURE = 'HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_FAILURE';
+export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER';
+export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS';
+export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND';
+export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE';
 
 export const ENDRE_NOTAT = 'ENDRE_NOTAT';
 export const ENDRE_NOTAT_SUCCESS = 'ENDRE_NOTAT_SUCCESS';
@@ -110,6 +121,10 @@ const initialState = {
         kandidatliste: undefined,
         deleStatus: DELE_STATUS.IKKE_SPURT
     },
+    opprett: {
+        lagreStatus: LAGRE_STATUS.UNSAVED,
+        opprettetKandidatlisteTittel: undefined
+    },
     fodselsnummer: undefined,
     hentStatus: HENT_STATUS.IKKE_HENTET,
     kandidat: {
@@ -131,14 +146,50 @@ const initialState = {
     egneKandidatlister: {
         liste: []
     },
-    hentListeMedStillingsnummerStatus: HENT_STATUS.IKKE_HENTET,
-    kandidatlisteMedStillingsnr: undefined,
+    hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
+    kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED
 };
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
-        case HENT_KANDIDATLISTE:
+        case OPPRETT_KANDIDATLISTE:
+            return {
+                ...state,
+                opprett: {
+                    ...state.opprett,
+                    lagreStatus: LAGRE_STATUS.LOADING,
+                    opprettetKandidatlisteTittel: undefined
+                }
+            };
+        case OPPRETT_KANDIDATLISTE_SUCCESS:
+            return {
+                ...state,
+                opprett: {
+                    ...state.opprett,
+                    lagreStatus: LAGRE_STATUS.SUCCESS,
+                    opprettetKandidatlisteTittel: action.tittel
+                }
+            };
+        case OPPRETT_KANDIDATLISTE_FAILURE:
+            return {
+                ...state,
+                opprett: {
+                    ...state.opprett,
+                    lagreStatus: LAGRE_STATUS.FAILURE,
+                    opprettetKandidatlisteTittel: undefined
+                }
+            };
+        case RESET_LAGRE_STATUS:
+            return {
+                ...state,
+                opprett: {
+                    ...state.opprett,
+                    lagreStatus: LAGRE_STATUS.UNSAVED
+                }
+            };
+        case HENT_KANDIDATLISTE_MED_STILLINGS_ID:
+        case HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID:
             return {
                 ...state,
                 detaljer: {
@@ -146,7 +197,8 @@ export default function reducer(state = initialState, action) {
                     fetching: true
                 }
             };
-        case HENT_KANDIDATLISTE_SUCCESS:
+        case HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
+        case HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
             return {
                 ...state,
                 detaljer: {
@@ -155,7 +207,8 @@ export default function reducer(state = initialState, action) {
                     fetching: false
                 }
             };
-        case HENT_KANDIDATLISTE_FAILURE:
+        case HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
+        case HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
             return {
                 ...state,
                 detaljer: {
@@ -334,7 +387,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hentListerStatus: HENT_STATUS.SUCCESS,
                 egneKandidatlister: {
-                    liste: action.egneKandidatlister.liste.reverse()
+                    liste: action.egneKandidatlister.liste
                 }
             };
         case HENT_KANDIDATLISTER_FAILURE:
@@ -342,29 +395,29 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hentListerStatus: HENT_STATUS.FAILURE
             };
-        case HENT_KANDIDATLISTE_MED_STILLINGSNUMMER:
+        case HENT_KANDIDATLISTE_MED_ANNONSENUMMER:
             return {
                 ...state,
-                hentListeMedStillingsnummerStatus: HENT_STATUS.LOADING
+                hentListeMedAnnonsenummerStatus: HENT_STATUS.LOADING
             };
-        case HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS:
+        case HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS:
             return {
                 ...state,
-                hentListeMedStillingsnummerStatus: HENT_STATUS.SUCCESS,
-                kandidatlisteMedStillingsnr: {
+                hentListeMedAnnonsenummerStatus: HENT_STATUS.SUCCESS,
+                kandidatlisteMedAnnonsenummer: {
                     ...action.kandidatliste,
                     markert: true
                 }
             };
-        case HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_NOT_FOUND:
+        case HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND:
             return {
                 ...state,
-                hentListeMedStillingsnummerStatus: HENT_STATUS.FINNES_IKKE
+                hentListeMedAnnonsenummerStatus: HENT_STATUS.FINNES_IKKE
             };
-        case HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_FAILURE:
+        case HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
             return {
                 ...state,
-                hentListeMedStillingsnummerStatus: HENT_STATUS.FAILURE
+                hentListeMedAnnonsenummerStatus: HENT_STATUS.FAILURE
             };
         default:
             return state;
@@ -376,32 +429,60 @@ export default function reducer(state = initialState, action) {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* opprettKandidatlisteForStilling(stillingsnummer, opprinneligError) {
+function* opprettKandidatliste(action) {
     try {
-        yield putKandidatliste(stillingsnummer);
-        const kandidatliste = yield fetchKandidatliste(stillingsnummer);
-        yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
+        yield postKandidatliste(action.kandidatlisteInfo);
+        yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
+        yield put({ type: HENT_KANDIDATLISTER });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: opprinneligError });
+            yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });
         } else {
             throw e;
         }
     }
 }
 
-function* hentKandidatliste(action) {
-    const { stillingsnummer } = action;
+function* opprettKandidatlisteForStilling(stillingsId, opprinneligError) {
     try {
-        const kandidatliste = yield fetchKandidatliste(stillingsnummer);
-        yield put({ type: HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
+        yield putKandidatliste(stillingsId);
+        const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
+        yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS, kandidatliste });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE, error: opprinneligError });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* hentKandidatlisteMedStillingsId(action) {
+    const { stillingsId } = action;
+    try {
+        const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
+        yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS, kandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
-                yield opprettKandidatlisteForStilling(stillingsnummer, e);
+                yield opprettKandidatlisteForStilling(stillingsId, e);
             } else {
-                yield put({ type: HENT_KANDIDATLISTE_FAILURE, error: e });
+                yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE, error: e });
             }
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* hentKandidatlisteMedKandidatlisteId(action) {
+    const { kandidatlisteId } = action;
+    try {
+        const kandidatliste = yield fetchKandidatlisteMedKandidatlisteId(kandidatlisteId);
+        yield put({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS, kandidatliste });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -533,16 +614,16 @@ function* hentEgneLister() {
     }
 }
 
-function* hentKandidatlisteMedStillingsnr(action) {
+function* hentKandidatlisteMedAnnonsenummer(action) {
     try {
-        const kandidatliste = yield fetchKandidatlisteMedStillingsnr(action.stillingsnummer);
-        yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_SUCCESS, kandidatliste });
+        const kandidatliste = yield fetchKandidatlisteMedAnnonsenummer(action.annonsenummer);
+        yield put({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS, kandidatliste });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
-                yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_NOT_FOUND });
+                yield put({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND });
             } else {
-                yield put({ type: HENT_KANDIDATLISTE_MED_STILLINGSNUMMER_FAILURE, error: e });
+                yield put({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE, error: e });
             }
         } else {
             throw e;
@@ -581,7 +662,9 @@ function* sjekkError(action) {
 }
 
 export function* kandidatlisteSaga() {
-    yield takeLatest(HENT_KANDIDATLISTE, hentKandidatliste);
+    yield takeLatest(OPPRETT_KANDIDATLISTE, opprettKandidatliste);
+    yield takeLatest(HENT_KANDIDATLISTE_MED_STILLINGS_ID, hentKandidatlisteMedStillingsId);
+    yield takeLatest(HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, hentKandidatlisteMedKandidatlisteId);
     yield takeLatest(PRESENTER_KANDIDATER, presenterKandidater);
     yield takeLatest(ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
     yield takeLatest(HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
@@ -591,10 +674,12 @@ export function* kandidatlisteSaga() {
     yield takeLatest(ENDRE_NOTAT, endreNotat);
     yield takeLatest(SLETT_NOTAT, slettNotat);
     yield takeLatest(HENT_KANDIDATLISTER, hentEgneLister);
-    yield takeLatest(HENT_KANDIDATLISTE_MED_STILLINGSNUMMER, hentKandidatlisteMedStillingsnr);
+    yield takeLatest(HENT_KANDIDATLISTE_MED_ANNONSENUMMER, hentKandidatlisteMedAnnonsenummer);
     yield takeLatest(LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
     yield takeLatest([
-        HENT_KANDIDATLISTE_FAILURE,
+        OPPRETT_KANDIDATLISTE_FAILURE,
+        HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
+        HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE,
         SLETT_KANDIDATER_FAILURE,
         ENDRE_STATUS_KANDIDAT_FAILURE,
         PRESENTER_KANDIDATER_FAILURE,

@@ -1,0 +1,134 @@
+.Kandidatlister {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  color: #59514b;
+
+  .side-header {
+    background-color: #e3edf8;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #d8d8d8;
+
+    .side-header__innhold {
+      max-width: 73.875rem;
+      margin: auto;
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+      display: flex;
+      justify-content: center;
+
+      .header-child {
+        flex: 1;
+      }
+
+      .tittel-wrapper {
+        display: flex;
+        justify-content: center;
+      }
+
+      .knapp-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin: auto;
+      }
+    }
+  }
+
+  .kandidatlister-table__wrapper {
+    max-width: 73.875rem;
+    padding: 0 0.5rem;
+    margin: 0 auto;
+
+    .antall-kandidatlister {
+      margin-top: 2.5rem;
+    }
+
+    .kandidatlister-table {
+      margin-top: 1.25rem;
+
+      .liste-header {
+        border: 1px solid #78706a;
+        padding: 1.25rem 0.75rem;
+      }
+
+      .liste-rad {
+        border: 1px solid #d8d8d8;
+        padding: 1.25rem 0.75rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .liste-rad-innhold {
+        margin-top: 0.5rem;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: white;
+        color: #3e3832;
+        min-width: 25rem;
+        display: flex;
+        justify-content: center;
+
+        .lenke {
+          text-decoration: underline;
+          display: inline-block;
+          border: none;
+        }
+
+        .kolonne-smal {
+          padding: 0 0.5rem;
+          margin: auto 1rem auto 0;
+          flex: 1;
+          overflow: inherit;
+          text-overflow: inherit;
+          white-space: inherit;
+        }
+
+        .kolonne-middels {
+          padding: 0 0.5rem;
+          margin: auto 1rem auto 0;
+          flex: 2;
+          overflow: inherit;
+          text-overflow: inherit;
+          white-space: inherit;
+        }
+
+        .kolonne-bred {
+          padding: 0 0.5rem;
+          margin: auto 1rem auto 0;
+          flex: 4;
+          overflow: inherit;
+          text-overflow: inherit;
+          white-space: inherit;
+        }
+      }
+    }
+  }
+}
+
+.modal--opprett-kandidatliste__veileder {
+  padding: 2rem;
+  width: 40rem;
+
+  .OpprettKandidatlisteForm {
+    input {
+      padding: 0.75rem;
+    }
+
+    textarea {
+      padding: 0.75rem;
+      min-height: 8.25rem;
+    }
+  }
+
+  .OpprettKandidatlisteForm__input {
+    margin-bottom: 2rem;
+
+    .skjemaelement__label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .knapp--avbryt {
+    margin-left: 1rem;
+  }
+}

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
-
-import './kandidatlister.less';
+import './TomListe.less';
 
 const TomListe = ({ children, lenke, lenkeTekst }) => {
     const visLenke = lenke !== undefined && lenke.length > 0;

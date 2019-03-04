@@ -6,7 +6,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import { HENT_KANDIDATLISTE, LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
+import { HENT_KANDIDATLISTE_MED_STILLINGS_ID, LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
@@ -232,7 +232,7 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },
-    hentKandidatliste: (stillingsId) => { dispatch({ type: HENT_KANDIDATLISTE, stillingsnummer: stillingsId }); }
+    hentKandidatliste: (stillingsId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
 });
 
 const mapStateToProps = (state) => ({
