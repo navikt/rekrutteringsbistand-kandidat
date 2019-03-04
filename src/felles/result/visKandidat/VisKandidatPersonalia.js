@@ -78,13 +78,15 @@ export default class VisKandidatPersonalia extends React.Component {
                         >
                             <NavFrontendChevron type="venstre" /> Til {kandidatListe || (contextRoot === 'kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
-                        <VisKandidatForrigeNeste
-                            lenkeClass={lenkeClass}
-                            forrigeKandidat={forrigeKandidat}
-                            nesteKandidat={nesteKandidat}
-                            gjeldendeKandidat={gjeldendeKandidat}
-                            antallKandidater={antallKandidater}
-                        />
+                        {fantCv && (
+                            <VisKandidatForrigeNeste
+                                lenkeClass={lenkeClass}
+                                forrigeKandidat={forrigeKandidat}
+                                nesteKandidat={nesteKandidat}
+                                gjeldendeKandidat={gjeldendeKandidat}
+                                antallKandidater={antallKandidater}
+                            />
+                        )}
                     </Column>
                 </Container>
 

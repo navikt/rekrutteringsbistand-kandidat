@@ -3,9 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Knapp } from 'nav-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
 import cvPropTypes from '../../../felles/PropTypes';
-import { FETCH_CV } from '../../sok/cv/cvReducer';
+import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
 import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
@@ -20,6 +21,7 @@ import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 import { CONTEXT_ROOT } from '../../common/fasitProperties';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import './VisKandidat.less';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -141,11 +143,11 @@ class VisKandidat extends React.Component {
     };
 
     render() {
-        const { cv, isFetchingCv, antallKandidater } = this.props;
+        const { cv, antallKandidater, hentStatus } = this.props;
         const forrigeKandidatLink = this.state.forrigeKandidat ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}` : undefined;
         const nesteKandidatLink = this.state.nesteKandidat ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.nesteKandidat}` : undefined;
 
-        if (isFetchingCv) {
+        if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -172,28 +174,46 @@ class VisKandidat extends React.Component {
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
+                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                 />
-                <div className="container--lagre-knapp">
-                    <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
-                        Lagre kandidaten
-                    </Knapp>
-                </div>
-                {this.props.matchforklaring && (
-                    <div className="match-explanation-container">
-                        <Matchdetaljer matchforklaring={this.props.matchforklaring} />
+                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                    <div className="cvIkkeFunnet">
+                        <div className="content">
+                            <Element tag="h3" className="blokk-s">Kandidaten kan ikke vises</Element>
+                            <div>
+                                <Normaltekst>Mulige årsaker:</Normaltekst>
+                                <ul>
+                                    <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
+                                    <li><Normaltekst>Tekniske problemer</Normaltekst></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div>
+                        <div className="container--lagre-knapp">
+                            <Knapp className="knapp--mini" onClick={this.aapneLagreKandidaterModal}>
+                                Lagre kandidaten
+                            </Knapp>
+                        </div>
+                        {this.props.matchforklaring && (
+                            <div className="match-explanation-container">
+                                <Matchdetaljer matchforklaring={this.props.matchforklaring} />
+                            </div>
+                        )}
+                        <VisKandidatJobbprofil cv={cv} />
+                        <VisKandidatCv cv={cv} />
+                        <div className="navigering-forrige-neste_wrapper">
+                            <VisKandidatForrigeNeste
+                                lenkeClass={'header--personalia__lenke--veileder'}
+                                gjeldendeKandidat={this.state.gjeldendeKandidat}
+                                forrigeKandidat={forrigeKandidatLink}
+                                nesteKandidat={nesteKandidatLink}
+                                antallKandidater={antallKandidater}
+                            />
+                        </div>
                     </div>
                 )}
-                <VisKandidatJobbprofil cv={cv} />
-                <VisKandidatCv cv={cv} />
-                <div className="navigering-forrige-neste_wrapper">
-                    <VisKandidatForrigeNeste
-                        lenkeClass={'header--personalia__lenke--veileder'}
-                        gjeldendeKandidat={this.state.gjeldendeKandidat}
-                        forrigeKandidat={forrigeKandidatLink}
-                        nesteKandidat={nesteKandidatLink}
-                        antallKandidater={antallKandidater}
-                    />
-                </div>
             </div>
         );
     }
@@ -206,7 +226,7 @@ VisKandidat.defaultProps = {
 
 VisKandidat.propTypes = {
     cv: cvPropTypes.isRequired,
-    isFetchingCv: PropTypes.bool.isRequired,
+    hentStatus: PropTypes.string.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
@@ -218,8 +238,8 @@ VisKandidat.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    isFetchingCv: state.cvReducer.isFetchingCv,
     cv: state.cvReducer.cv,
+    hentStatus: state.cvReducer.hentStatus,
     matchforklaring: state.cvReducer.matchforklaring,
     kandidater: state.search.searchResultat.resultat.kandidater,
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
