@@ -328,7 +328,7 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) => dispatch({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE, kandidatliste, fodselsnummer }),
-    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsnummer: stillingsId })
+    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);
