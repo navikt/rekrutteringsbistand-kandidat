@@ -91,7 +91,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             label="Beskrivelse"
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={255}
-                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: '' } : undefined}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: 'Beskrivelsen er for lang' } : undefined}
                             onChange={this.updateField(FELTER.BESKRIVELSE)}
                             textareaRef={(textArea) => { this.textArea = textArea; }}
                         />
