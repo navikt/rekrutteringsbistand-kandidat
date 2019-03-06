@@ -165,6 +165,7 @@ class KandidaterVisning extends React.Component {
                         antallMarkerteKandidater={antallMarkert}
                         kandidatliste={this.props.kandidatliste}
                         stillingsoverskrift={this.props.stillingsoverskrift}
+                        isSaving={this.props.leggTilKandidatStatus === LAGRE_STATUS.LOADING}
                     />
                 }
                 <div className="resultatvisning--header">

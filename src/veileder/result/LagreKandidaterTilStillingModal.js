@@ -5,7 +5,15 @@ import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 const LagreKandidaterTilStillingModal = (props) => {
-    const { vis, onLagre, onRequestClose, stillingsoverskrift, antallMarkerteKandidater, kandidatliste } = props;
+    const {
+        vis,
+        onLagre,
+        onRequestClose,
+        stillingsoverskrift,
+        antallMarkerteKandidater,
+        kandidatliste,
+        isSaving
+    } = props;
 
     const lagreKandidater = () => {
         onLagre(kandidatliste);
@@ -33,8 +41,21 @@ const LagreKandidaterTilStillingModal = (props) => {
                 }
                 </Normaltekst>
                 <div>
-                    <Hovedknapp className="lagre--knapp" onClick={lagreKandidater}>Lagre</Hovedknapp>
-                    <Flatknapp className="avbryt--knapp" onClick={onRequestClose}>Avbryt</Flatknapp>
+                    <Hovedknapp
+                        className="lagre--knapp"
+                        onClick={lagreKandidater}
+                        spinner={isSaving}
+                        disabled={isSaving}
+                    >
+                        Lagre
+                    </Hovedknapp>
+                    <Flatknapp
+                        className="avbryt--knapp"
+                        onClick={onRequestClose}
+                        disabled={isSaving}
+                    >
+                        Avbryt
+                    </Flatknapp>
                 </div>
             </div>
         </Modal>
@@ -53,7 +74,8 @@ LagreKandidaterTilStillingModal.propTypes = {
     antallMarkerteKandidater: PropTypes.number.isRequired,
     kandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    isSaving: PropTypes.bool.isRequired
 };
 
 export default LagreKandidaterTilStillingModal;
