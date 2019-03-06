@@ -68,9 +68,7 @@ class VisKandidatFraLister extends React.Component {
             <div>
                 <VisKandidatPersonalia
                     cv={cv}
-                    kandidatListe={kandidatlisteId}
-                    stillingsId={kandidatliste.stillingsId}
-                    contextRoot="kandidater/lister"
+                    tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                     appContext="veileder"
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                     forrigeKandidat={forrigeKandidatLink}

@@ -22,7 +22,7 @@ class KandidaterTableRow extends React.Component {
     };
 
     render() {
-        const { kandidat, markert, nettoppValgt, setScrollPosition, stillingsId } = this.props;
+        const { kandidat, markert, nettoppValgt, setScrollPosition, kandidatlisteId, stillingsId } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
@@ -30,6 +30,14 @@ class KandidaterTableRow extends React.Component {
         const fodselsnummer = kandidat.fodselsnummer;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
+        const linkTilKandidat = () => {
+            if (kandidatlisteId) {
+                return `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${kandidatnummer}`;
+            } else if (stillingsId) {
+                return `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}`;
+            }
+            return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
+        };
 
         return (
             <div className={`NyKandidaterTableRow ${this.checkedClass(markert, nettoppValgt)}`}>
@@ -56,7 +64,7 @@ class KandidaterTableRow extends React.Component {
                     <div className="kolonne-navn kolonne-tekst">
                         <Link
                             className="kolonne-lenke lenke"
-                            to={stillingsId ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}` : `/kandidater/cv?kandidatNr=${kandidatnummer}`}
+                            to={linkTilKandidat()}
                             onClick={() => setScrollPosition(window.pageYOffset)}
                             aria-label={`Se CV for ${etternavn}, ${fornavn}`}
                         >
@@ -74,6 +82,7 @@ class KandidaterTableRow extends React.Component {
 
 KandidaterTableRow.defaultProps = {
     markert: false,
+    kandidatlisteId: undefined,
     stillingsId: undefined
 };
 
@@ -83,6 +92,7 @@ KandidaterTableRow.propTypes = {
     markert: PropTypes.bool,
     nettoppValgt: PropTypes.bool.isRequired,
     setScrollPosition: PropTypes.func.isRequired,
+    kandidatlisteId: PropTypes.string,
     stillingsId: PropTypes.string
 };
 

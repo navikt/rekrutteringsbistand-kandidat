@@ -16,6 +16,7 @@ export default function KandidaterTabell({
     alleKandidaterMarkert,
     onToggleMarkeringAlleKandidater,
     valgtKandidatNr,
+    kandidatlisteId,
     stillingsId
 }) {
     return (
@@ -36,6 +37,7 @@ export default function KandidaterTabell({
                         markert={kandidat.markert}
                         visCheckbox={false}
                         nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
+                        kandidatlisteId={kandidatlisteId}
                         stillingsId={stillingsId}
                     />
                 ))}
@@ -59,6 +61,7 @@ export default function KandidaterTabell({
 }
 
 KandidaterTabell.defaultProps = {
+    kandidatlisteId: undefined,
     stillingsId: undefined
 };
 
@@ -71,5 +74,6 @@ KandidaterTabell.propTypes = {
     alleKandidaterMarkert: PropTypes.bool.isRequired,
     onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
+    kandidatlisteId: PropTypes.string,
     stillingsId: PropTypes.string
 };

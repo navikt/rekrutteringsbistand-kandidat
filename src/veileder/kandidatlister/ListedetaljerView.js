@@ -124,7 +124,7 @@ const ListedetaljerView = (props) => {
     );
 
     const FinnKandidaterLenke = () => (
-        <Link to={stillingsId ? `/kandidater/stilling/${stillingsId}` : '/kandidater'} className="finn-kandidater FinnKandidater">
+        <Link to={stillingsId ? `/kandidater/stilling/${stillingsId}` : `/kandidater/kandidatliste/${kandidatlisteId}`} className="finn-kandidater FinnKandidater">
             <i className="FinnKandidater__icon" />
             <span className="lenke">Finn kandidater</span>
         </Link>

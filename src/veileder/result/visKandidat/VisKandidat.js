@@ -17,7 +17,11 @@ import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
-import { LAGRE_KANDIDAT_I_KANDIDATLISTE, HENT_KANDIDATLISTE_MED_STILLINGS_ID } from '../../kandidatlister/kandidatlisteReducer';
+import {
+    LAGRE_KANDIDAT_I_KANDIDATLISTE,
+    HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+    HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID
+} from '../../kandidatlister/kandidatlisteReducer';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 
@@ -39,7 +43,18 @@ class VisKandidat extends React.Component {
     componentDidMount() {
         this.props.hentCvForKandidat(this.kandidatnummer);
         this.props.settValgtKandidat(this.kandidatnummer);
-        this.hentKandidatListe();
+
+        const { kandidatliste, match, hentKandidatlisteMedKandidatlisteId, hentKandidatlisteMedStillingsId } = this.props;
+        const kandidatlisteId = match.params.kandidatlisteId;
+        const stillingsId = match.params.stillingsId;
+
+        if (kandidatliste === undefined) {
+            if (kandidatlisteId !== undefined) {
+                hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
+            } else if (stillingsId !== undefined) {
+                hentKandidatlisteMedStillingsId(stillingsId);
+            }
+        }
 
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
@@ -83,39 +98,30 @@ class VisKandidat extends React.Component {
         clearTimeout(this.suksessmeldingCallbackId);
     }
 
-    onLagreKandidatClick = (stillingsId) => () => {
+    onLagreKandidatClick = (kandidatlisteId, stillingsId) => () => {
         this.setState({
-            lagreKandidaterModalVises: stillingsId === undefined,
-            lagreKandidaterModalTilStillingVises: stillingsId !== undefined
+            lagreKandidaterModalVises: kandidatlisteId === undefined && stillingsId === undefined,
+            lagreKandidaterModalTilStillingVises: kandidatlisteId !== undefined || stillingsId !== undefined
         });
-    }
+    };
 
     onCloseLagreKandidaterModal = () => {
         this.setState({
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false
         });
-    }
+    };
 
     onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste, match } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
 
+        const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
-        if (stillingsId) {
+        if (kandidatlisteId || stillingsId) {
             this.visAlertstripeLagreKandidater();
         }
-    }
-
-    hentKandidatListe = () => {
-        const { kandidatliste, match, hentKandidatliste } = this.props;
-        if (kandidatliste === undefined) {
-            const stillingsnummer = match.params.stillingsId;
-            if (stillingsnummer !== undefined) {
-                hentKandidatliste(stillingsnummer);
-            }
-        }
-    }
+    };
 
     visAlertstripeLagreKandidater = () => {
         clearTimeout(this.suksessmeldingCallbackId);
@@ -176,14 +182,22 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises
         } = this.state;
 
+        const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
+        let tilbakeLink;
         let forrigeKandidatLink;
         let nesteKandidatLink;
 
-        if (stillingsId) {
+        if (kandidatlisteId) {
+            tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
+            forrigeKandidatLink = forrigeKandidat ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${forrigeKandidat}` : undefined;
+            nesteKandidatLink = nesteKandidat ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${nesteKandidat}` : undefined;
+        } else if (stillingsId) {
+            tilbakeLink = `/kandidater/stilling/${stillingsId}`;
             forrigeKandidatLink = forrigeKandidat ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${forrigeKandidat}` : undefined;
             nesteKandidatLink = nesteKandidat ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${nesteKandidat}` : undefined;
         } else {
+            tilbakeLink = '/kandidater';
             forrigeKandidatLink = forrigeKandidat ? `/kandidater/cv?kandidatNr=${forrigeKandidat}` : undefined;
             nesteKandidatLink = nesteKandidat ? `/kandidater/cv?kandidatNr=${nesteKandidat}` : undefined;
         }
@@ -200,8 +214,7 @@ class VisKandidat extends React.Component {
                 <VisKandidatPersonalia
                     cv={cv}
                     appContext={'veileder'}
-                    contextRoot={'kandidater'}
-                    stillingsId={stillingsId}
+                    tilbakeLink={tilbakeLink}
                     gjeldendeKandidat={gjeldendeKandidat}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
@@ -230,7 +243,7 @@ class VisKandidat extends React.Component {
                                     <i className="ForlateSiden__icon" />
                                 </Lenke>
                                 <Knapp
-                                    onClick={this.onLagreKandidatClick(stillingsId)}
+                                    onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                                     mini
                                 >
                                     Lagre kandidat i kandidatliste
@@ -264,7 +277,7 @@ class VisKandidat extends React.Component {
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={1}
                         kandidatliste={kandidatliste}
-                        stillingsoverskrift={kandidatliste.tittel}
+                        isSaving={lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.LOADING}
                     />
                 }
                 <HjelpetekstFading
@@ -281,6 +294,7 @@ class VisKandidat extends React.Component {
 VisKandidat.defaultProps = {
     match: {
         params: {
+            kandidatlisteId: undefined,
             stillingsId: undefined
         }
     },
@@ -302,10 +316,12 @@ VisKandidat.propTypes = {
     hentStatus: PropTypes.string.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
+            kandidatlisteId: PropTypes.string,
             stillingsId: PropTypes.string
         })
     }),
-    hentKandidatliste: PropTypes.func.isRequired,
+    hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
+    hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         tittel: PropTypes.string
@@ -328,7 +344,8 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) => dispatch({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE, kandidatliste, fodselsnummer }),
-    hentKandidatliste: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId })
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }),
+    hentKandidatlisteMedStillingsId: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);

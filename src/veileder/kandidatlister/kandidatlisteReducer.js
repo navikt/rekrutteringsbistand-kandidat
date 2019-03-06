@@ -387,7 +387,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hentListerStatus: HENT_STATUS.SUCCESS,
                 egneKandidatlister: {
-                    liste: action.egneKandidatlister.liste.reverse()
+                    liste: action.egneKandidatlister.liste
                 }
             };
         case HENT_KANDIDATLISTER_FAILURE:

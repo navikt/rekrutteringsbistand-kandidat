@@ -9,7 +9,6 @@ const LagreKandidaterTilStillingModal = (props) => {
         vis,
         onLagre,
         onRequestClose,
-        stillingsoverskrift,
         antallMarkerteKandidater,
         kandidatliste,
         isSaving
@@ -17,6 +16,13 @@ const LagreKandidaterTilStillingModal = (props) => {
 
     const lagreKandidater = () => {
         onLagre(kandidatliste);
+    };
+
+    const lagreTekst = () => {
+        if (kandidatliste.stillingId) {
+            return `Ønsker du å lagre kandidaten${antallMarkerteKandidater > 1 ? 'e' : ''} i kandidatlisten til stillingen «${kandidatliste.tittel}»?`;
+        }
+        return `Ønsker du å lagre kandidaten${antallMarkerteKandidater > 1 ? 'e' : ''} i kandidatlisten «${kandidatliste.tittel}»?`;
     };
 
     return (
@@ -28,17 +34,9 @@ const LagreKandidaterTilStillingModal = (props) => {
             appElement={document.getElementById('app')}
         >
             <div className="LagreKandidaterTilStillingModal--wrapper">
-                <Systemtittel className="tittel">{
-                    antallMarkerteKandidater > 1
-                        ? 'Lagre kandidater'
-                        : 'Lagre kandidat'
-                }
+                <Systemtittel className="tittel">{`Lagre kandidat${antallMarkerteKandidater > 1 ? 'er' : ''}`}
                 </Systemtittel>
-                <Normaltekst>{
-                    antallMarkerteKandidater > 1
-                        ? `Ønsker du å lagre kandidatene i kandidatlisten til stillingen «${stillingsoverskrift}»?`
-                        : `Ønsker du å lagre kandidaten i kandidatlisten til stillingen «${stillingsoverskrift}»?`
-                }
+                <Normaltekst>{lagreTekst()}
                 </Normaltekst>
                 <div>
                     <Hovedknapp
@@ -62,18 +60,15 @@ const LagreKandidaterTilStillingModal = (props) => {
     );
 };
 
-LagreKandidaterTilStillingModal.defaultProps = {
-    stillingsoverskrift: undefined
-};
-
 LagreKandidaterTilStillingModal.propTypes = {
     vis: PropTypes.bool.isRequired,
     onLagre: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
-    stillingsoverskrift: PropTypes.string,
     antallMarkerteKandidater: PropTypes.number.isRequired,
     kandidatliste: PropTypes.shape({
-        kandidatlisteId: PropTypes.string
+        kandidatlisteId: PropTypes.string,
+        stillingId: PropTypes.string,
+        tittel: PropTypes.string
     }).isRequired,
     isSaving: PropTypes.bool.isRequired
 };

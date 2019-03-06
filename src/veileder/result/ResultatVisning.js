@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Media from 'react-media';
-import { Sidetittel, Normaltekst } from 'nav-frontend-typografi';
+import { Sidetittel, Normaltekst, Element, Systemtittel } from 'nav-frontend-typografi';
 import { Row, Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp } from 'nav-frontend-knapper';
@@ -70,7 +70,7 @@ class ResultatVisning extends React.Component {
     };
 
     visAlertstripeLagreKandidater = () => {
-        if (this.props.match.params.stillingsId) {
+        if (this.props.match.params.kandidatlisteId || this.props.match.params.stillingsId) {
             clearTimeout(this.suksessmeldingCallbackId);
             this.setState({
                 suksessmeldingLagreKandidatVises: true
@@ -87,12 +87,13 @@ class ResultatVisning extends React.Component {
         const {
             match,
             isInitialSearch,
+            lagretKandidatliste,
             stillingsoverskrift,
             arbeidsgiver,
-            annonseOpprettetAvNavn,
-            annonseOpprettetAvIdent,
+            kandidatliste,
             antallLagredeKandidater
         } = this.props;
+        const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
 
         const LinkTilMineStillinger = () => (
@@ -103,7 +104,28 @@ class ResultatVisning extends React.Component {
             </div>
         );
 
-        const VeilederHeader = () => (
+        const VeilederHeaderKandidatlisteInfo = () => (
+            <div className="child-item__container--header">
+                <div>
+                    <Row className="header__row--veileder">
+                        <Element>Søk etter kandidater til kandidatliste:</Element>
+                    </Row>
+                    <Row className="header__row--veileder">
+                        <Lenke href={`/kandidater/lister/detaljer/${kandidatlisteId}`}>
+                            <Systemtittel>{kandidatliste.tittel}</Systemtittel>
+                        </Lenke>
+                    </Row>
+                    <Row className="header__row--veileder">
+                        <div className="opprettet-av__row">
+                            <Normaltekst>Arbeidsgiver: {`${capitalizeEmployerName(arbeidsgiver)}`}</Normaltekst>
+                            <Normaltekst>Registrert av: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
+                        </div>
+                    </Row>
+                </div>
+            </div>
+        );
+
+        const VeilederHeaderStillingInfo = () => (
             <div className="child-item__container--header">
                 <div>
                     <Row className="header__row--veileder">
@@ -117,7 +139,7 @@ class ResultatVisning extends React.Component {
                     <Row className="header__row--veileder">
                         <div className="opprettet-av__row">
                             <Normaltekst>Arbeidsgiver: {`${capitalizeEmployerName(arbeidsgiver)}`}</Normaltekst>
-                            <Normaltekst>Registrert av: {annonseOpprettetAvNavn} ({annonseOpprettetAvIdent})</Normaltekst>
+                            <Normaltekst>Registrert av: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
                         </div>
                     </Row>
                 </div>
@@ -133,37 +155,41 @@ class ResultatVisning extends React.Component {
             </div>
         );
 
+        const VeilederHeader = () => (
+            <Media query="(max-width: 991px)">
+                {(matches) =>
+                    (matches ? (
+                        <Container className="container--header">
+                            <div className="header--links">
+                                <LinkTilMineStillinger />
+                                {stillingsId && <LinkSeKandidatliste />}
+                            </div>
+                            <div>
+                                {kandidatlisteId ? <VeilederHeaderKandidatlisteInfo /> : <VeilederHeaderStillingInfo />}
+                            </div>
+                        </Container>
+                    ) : (
+                        <Container className="container--header">
+                            <LinkTilMineStillinger />
+                            {kandidatlisteId ? <VeilederHeaderKandidatlisteInfo /> : <VeilederHeaderStillingInfo />}
+                            {stillingsId && <LinkSeKandidatliste />}
+                        </Container>
+                    ))
+                }
+            </Media>
+        );
+
         return (
             <div>
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i kandidatlisten «${stillingsoverskrift}»`}
+                    tekst={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
-                    {stillingsId ? (
-                        <Media query="(max-width: 991px)">
-                            {(matches) =>
-                                (matches ? (
-                                    <Container className="container--header">
-                                        <div className="header--links">
-                                            <LinkTilMineStillinger />
-                                            <LinkSeKandidatliste />
-                                        </div>
-                                        <div>
-                                            <VeilederHeader />
-                                        </div>
-                                    </Container>
-                                ) : (
-                                    <Container className="container--header">
-                                        <LinkTilMineStillinger />
-                                        <VeilederHeader />
-                                        <LinkSeKandidatliste />
-                                    </Container>
-                                ))
-                            }
-                        </Media>
+                    {kandidatlisteId || stillingsId ? (
+                        <VeilederHeader />
                     ) : (
                         <Container className="container--header--uten-stilling">
                             <div className="child-item__container--header">
@@ -206,7 +232,7 @@ class ResultatVisning extends React.Component {
                             </Column>
                             <Column xs="12" sm="8">
                                 <div className="kandidatervisning--column">
-                                    <KandidaterVisning stillingsId={stillingsId} />
+                                    <KandidaterVisning kandidatlisteId={kandidatlisteId} stillingsId={stillingsId} />
                                 </div>
                             </Column>
                         </Container>
@@ -220,10 +246,15 @@ class ResultatVisning extends React.Component {
 ResultatVisning.defaultProps = {
     stillingsoverskrift: undefined,
     arbeidsgiver: undefined,
-    annonseOpprettetAvNavn: undefined,
-    annonseOpprettetAvIdent: undefined,
+    kandidatliste: {
+        opprettetAv: {
+            navn: undefined,
+            ident: undefined
+        }
+    },
     match: {
         params: {
+            kandidatlisteId: undefined,
             stillingsId: undefined
         }
     }
@@ -244,10 +275,15 @@ ResultatVisning.propTypes = {
     harHentetStilling: PropTypes.bool.isRequired,
     stillingsoverskrift: PropTypes.string,
     arbeidsgiver: PropTypes.string,
-    annonseOpprettetAvNavn: PropTypes.string,
-    annonseOpprettetAvIdent: PropTypes.string,
+    kandidatliste: PropTypes.shape({
+        opprettetAv: PropTypes.shape({
+            navn: PropTypes.string,
+            ident: PropTypes.string
+        })
+    }),
     match: PropTypes.shape({
         params: PropTypes.shape({
+            kandidatlisteId: PropTypes.string,
             stillingsId: PropTypes.string
         })
     })
@@ -261,8 +297,7 @@ const mapStateToProps = (state) => ({
     harHentetStilling: state.search.harHentetStilling,
     stillingsoverskrift: state.search.stillingsoverskrift,
     arbeidsgiver: state.search.arbeidsgiver,
-    annonseOpprettetAvNavn: state.search.annonseOpprettetAvNavn,
-    annonseOpprettetAvIdent: state.search.annonseOpprettetAvIdent
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste
 });
 
 const mapDispatchToProps = (dispatch) => ({
