@@ -48,7 +48,7 @@ module.exports = {
                 platform: 'Windows 10',
                 browserName: 'chrome',
                 version: 'latest',
-                tunnelIdentifier: 'ejohansen-pc'
+                tunnelIdentifier: 'jenkins-pam-kandidatsok'
             }
         },
         'chrome_W7': {
