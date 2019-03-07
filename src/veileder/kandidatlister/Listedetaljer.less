@@ -25,19 +25,32 @@
         }
       }
 
+      .antall {
+        text-align: center;
+        margin-top: 1.25rem;
+      }
       .bottom {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-top: 1.25rem;
+        margin-top: 0.5rem;
         .border-left {
           border-left: 1px solid #59514b;
           padding-left: 0.5rem;
           padding-right: 0.5rem;
         }
-        .antall {
-          font-weight: 600;
+        .no-border-left {
           padding-right: 0.5rem;
+        }
+      }
+      .beskrivelse {
+        margin-top: 1.25rem;
+        display: flex;
+        justify-content: center;
+        > p {
+          text-align: center;
+          max-width: 640px;
+          word-break: break-word;
         }
       }
     }

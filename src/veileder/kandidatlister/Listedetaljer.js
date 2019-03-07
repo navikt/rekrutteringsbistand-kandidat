@@ -234,7 +234,7 @@ class Listedetaljer extends React.Component {
             );
         }
 
-        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere } = this.props.kandidatliste;
+        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere, beskrivelse } = this.props.kandidatliste;
         const { kandidater, alleMarkert, deleModalOpen, suksessMelding, leggTilModalOpen, kopierEpostModalOpen } = this.state;
         return (
             <div>
@@ -281,6 +281,7 @@ class Listedetaljer extends React.Component {
                     opprettNotat={this.props.opprettNotat}
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}
+                    beskrivelse={beskrivelse}
                 />
             </div>
         );
