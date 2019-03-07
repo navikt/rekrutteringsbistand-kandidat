@@ -78,7 +78,11 @@ export const INNSATSGRUPPER = {
     STANDARDINNSATS: { key: 'IKVAL', label: 'Standardinnsats' },
     SITUASJONSBESTEMT_INNSATS: { key: 'BFORM', label: 'Situasjonsbestemt innsats' },
     SPESIELT_TILPASSET_INNSATS: { key: 'BATT', label: 'Spesielt tilpasset innsats' },
-    VARIG_TILPASSET: { key: 'VARIG', label: 'Varig tilpasset' }
+    VARIG_TILPASSET: { key: 'VARIG', label: 'Varig tilpasset' },
+    SYKEMELDT_UTEN_ARBEIDSGIVER: { key: 'VURDU', label: 'Sykmeldt uten arbeidsgiver' },
+    SYKEMELDT_OPPFOLGING_ARBEIDSPLASSEN: { key: 'VURDI', label: 'Sykmeldt med oppfølging på arbeidsplassen' },
+    HELSERELATERT_OPPFOLGING_NAV: { key: 'OPPFI', label: 'Helserelatert arbeidsrettet oppfølging i NAV' },
+    ARBEIDSEVNEVURDERING: { key: 'BKART', label: 'Behov for arbeidsevnevurdering' }
 };
 
 export const OPPSTARTSKODER = {
