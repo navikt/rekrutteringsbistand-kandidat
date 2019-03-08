@@ -160,9 +160,7 @@ class ResultatVisning extends React.Component {
                         </Container>
                     ) : (
                         <Container className="container--header--uten-stilling">
-                            <div className="child-item__container--header">
-                                <Sidetittel> Kandidatsøk </Sidetittel>
-                            </div>
+                            <Sidetittel> Kandidatsøk </Sidetittel>
                         </Container>
                     )}
                 </div>
