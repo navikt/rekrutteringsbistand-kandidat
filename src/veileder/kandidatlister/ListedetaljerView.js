@@ -91,7 +91,8 @@ const ListedetaljerView = (props) => {
         onVisningChange,
         opprettNotat,
         endreNotat,
-        slettNotat
+        slettNotat,
+        beskrivelse
     } = props;
     const SideHeader = () => (
         <div className="side-header">
@@ -101,17 +102,17 @@ const ListedetaljerView = (props) => {
                     <Sidetittel className="tittel">{tittel}</Sidetittel>
                     <div className="header-side" />
                 </div>
+                <div className="antall">
+                    <Element>{kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}</Element>
+                </div>
                 <div className="bottom">
-                    <div className="antall">
-                        {kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}
-                    </div>
                     { arbeidsgiver &&
-                    <div className="border-left">
+                    <div className="no-border-left">
                         Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
                     </div>
                     }
-                    <div className="border-left">
-                        { `Registrert av: ${opprettetAv.navn} (${opprettetAv.ident})` }
+                    <div className={`${arbeidsgiver ? 'border-left' : 'no-border-left'}`}>
+                        { `${stillingsId ? 'Registrert av:' : 'Opprettet av:'} ${opprettetAv.navn} (${opprettetAv.ident})` }
                     </div>
                     {stillingsId &&
                         <div className="border-left">
@@ -119,6 +120,11 @@ const ListedetaljerView = (props) => {
                         </div>
                     }
                 </div>
+                {beskrivelse && (
+                    <div className="beskrivelse">
+                        <Normaltekst>{beskrivelse}</Normaltekst>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -202,7 +208,7 @@ const ListedetaljerView = (props) => {
                 </div>
                 <div className="dele-wrapper">
                     <EpostKnapp />
-                    { kanEditere && <DeleKnapp /> }
+                    { kanEditere && stillingsId && <DeleKnapp /> }
                 </div>
             </div>
         );
@@ -247,7 +253,9 @@ const ListedetaljerView = (props) => {
                             <StatusHjelpetekst />
                         </div>
                     </div>
-                    <div className="kolonne-bred"><Element>Utfall</Element></div>
+                    {stillingsId && (
+                        <div className="kolonne-bred"><Element>Utfall</Element></div>
+                    )}
                     <div className="kolonne-smal"><Element>Notater</Element></div>
                     <div className="kolonne-smal"><Element>Mer info</Element></div>
                 </div>
@@ -330,7 +338,9 @@ const ListedetaljerView = (props) => {
                             </span>
                         }
                     </div>
-                    <div className="kolonne-bred tabell-tekst">{utfallToString(kandidat.utfall)}</div>
+                    {stillingsId && (
+                        <div className="kolonne-bred tabell-tekst">{utfallToString(kandidat.utfall)}</div>
+                    )}
                     <div className="kolonne-smal">
                         <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
                             <i className="Notat__icon" />
@@ -417,7 +427,8 @@ const ListedetaljerView = (props) => {
 
 ListedetaljerView.defaultProps = {
     arbeidsgiver: undefined,
-    stillingsId: undefined
+    stillingsId: undefined,
+    beskrivelse: undefined
 };
 
 ListedetaljerView.propTypes = {
@@ -446,7 +457,8 @@ ListedetaljerView.propTypes = {
     onVisningChange: PropTypes.func.isRequired,
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
-    slettNotat: PropTypes.func.isRequired
+    slettNotat: PropTypes.func.isRequired,
+    beskrivelse: PropTypes.string
 };
 
 export default ListedetaljerView;
