@@ -54,7 +54,13 @@ export default class TypeaheadSuggestion extends React.Component {
 TypeaheadSuggestion.propTypes = {
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    item: PropTypes.shape({}).isRequired,
+    item: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            label: PropTypes.shape({}),
+            value: PropTypes.string
+        })
+    ]).isRequired,
     value: PropTypes.string.isRequired,
     match: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,

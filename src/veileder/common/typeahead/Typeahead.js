@@ -196,11 +196,11 @@ export default class Typeahead extends React.Component {
                     {showSuggestions && this.props.suggestions.map((suggestion, i) => (
                         <TypeaheadSuggestion
                             id={`${this.props.id}-item-${i}`}
-                            key={suggestion.key || suggestion.value}
+                            key={suggestion.value ? suggestion.value : suggestion}
                             item={suggestion}
                             index={i}
-                            value={suggestion.value}
-                            label={suggestion.label}
+                            value={suggestion.value ? suggestion.value : suggestion}
+                            label={suggestion.label ? suggestion.label : suggestion}
                             match={this.props.value}
                             active={i === this.state.activeSuggestionIndex}
                             onClick={this.selectSuggestion}
@@ -228,7 +228,7 @@ Typeahead.propTypes = {
     suggestions: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.string).isRequired,
         PropTypes.arrayOf(PropTypes.shape({
-            key: PropTypes.string,
+            label: PropTypes.shape({}),
             value: PropTypes.string
         }))
     ]).isRequired,

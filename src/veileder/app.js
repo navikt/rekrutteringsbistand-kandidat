@@ -31,7 +31,7 @@ import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
-import enhentsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
+import enhetsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -49,7 +49,7 @@ const store = createStore(combineReducers({
     cvReducer,
     kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer,
-    enhetsregister: enhentsregisterReducer
+    enhetsregister: enhetsregisterReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 const HeaderSwitch = ({ innloggetVeileder }) => (
