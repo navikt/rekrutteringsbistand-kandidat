@@ -63,7 +63,7 @@ const isProd = process.env.NODE_ENV !== 'development';
 const fasitProperties = {
     PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
     PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
-    PAM_SEARCH_API_GATEWAY_URL: '/search/enhetsregister',
+    PAM_SEARCH_API_GATEWAY_URL: '/kandidater/api/search/enhetsregister',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
     API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
@@ -97,7 +97,7 @@ const backendHost = () => {
         }
         return host;
     }
-    throw Error('Error: process.env.PAMCVAPI_URL mangler');
+    throw Error('Error: process.env.PAM_SEARCH_API_RESTSERVICE_URL mangler');
 };
 
 const gatewayPrefix = () => {
@@ -187,7 +187,7 @@ const startServer = (html) => {
     );
 
     server.use(
-        '/search/enhetsregister/', proxy(backendHost(), {
+        '/kandidater/api/search/enhetsregister/', proxy(backendHost(), {
             https: true,
             proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
                 ...proxyReqOpts,
@@ -198,7 +198,7 @@ const startServer = (html) => {
                 }
             }),
             proxyReqPathResolver: (req) => {
-                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl.split('/search/enhetsregister/').pop()}`;
+                const convertedPath = `/${gatewayPrefix()}${req.originalUrl.split('/search/enhetsregister/').pop()}`;
                 console.log(convertedPath);
                 return convertedPath;
             }
