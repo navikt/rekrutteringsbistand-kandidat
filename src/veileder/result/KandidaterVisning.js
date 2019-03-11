@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
+import { Kandidatliste } from '../kandidatlister/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
 import {
@@ -203,10 +204,7 @@ class KandidaterVisning extends React.Component {
 
 KandidaterVisning.defaultProps = {
     kandidatlisteId: undefined,
-    stillingsId: undefined,
-    kandidatliste: {
-        tittel: undefined
-    }
+    stillingsId: undefined
 };
 
 KandidaterVisning.propTypes = {
@@ -227,7 +225,7 @@ KandidaterVisning.propTypes = {
     stillingsId: PropTypes.string,
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape()
+    kandidatliste: PropTypes.shape(Kandidatliste).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
