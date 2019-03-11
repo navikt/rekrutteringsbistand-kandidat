@@ -51,11 +51,23 @@ export default class Typeahead extends React.Component {
                     e.preventDefault();
                     activeSuggestionIndex = activeSuggestionIndex - 1 === -2 ? -1 : activeSuggestionIndex - 1;
                     this.setState({ activeSuggestionIndex });
+                    if (activeSuggestionIndex > -1) {
+                        const activeElement = document.getElementById(`${this.props.id}-item-${activeSuggestionIndex}`);
+                        if (activeElement !== null) {
+                            activeElement.scrollIntoViewIfNeeded();
+                        }
+                    }
                     break;
                 case 40: // Arrow down
                     e.preventDefault();
                     activeSuggestionIndex = activeSuggestionIndex + 1 === this.props.suggestions.length ? this.props.suggestions.length - 1 : activeSuggestionIndex + 1;
                     this.setState({ activeSuggestionIndex });
+                    if (activeSuggestionIndex > -1) {
+                        const activeElement = document.getElementById(`${this.props.id}-item-${activeSuggestionIndex}`);
+                        if (activeElement !== null) {
+                            activeElement.scrollIntoViewIfNeeded();
+                        }
+                    }
                     break;
                 default:
                     break;
