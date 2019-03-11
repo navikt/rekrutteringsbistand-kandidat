@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchArbeidsgivereEnhetsregister, fetchArbeidsgivereEnhetsregisterOrgnr } from '../../api';
+import { fetchArbeidsgivereEnhetsregister, fetchArbeidsgivereEnhetsregisterOrgnr, SearchApiError } from '../../api';
 
 /** *********************************************************
  * ACTIONS
@@ -68,7 +68,11 @@ function* fetchTypeAheadSuggestions(action) {
                 query: value
             });
         } catch (e) {
-            throw e;
+            if (e instanceof SearchApiError) {
+                // Do nothing for now
+            } else {
+                throw e;
+            }
         }
     }
 }
