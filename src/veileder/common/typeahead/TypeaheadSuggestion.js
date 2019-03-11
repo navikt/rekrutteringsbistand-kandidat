@@ -10,7 +10,7 @@ export default class TypeaheadSuggestion extends React.Component {
     }
 
     onClick = () => {
-        this.props.onClick(this.value);
+        this.props.onClick(this.props.item);
     };
 
     highlightSuggestion = () => {
@@ -31,7 +31,7 @@ export default class TypeaheadSuggestion extends React.Component {
                 onMouseDown={this.props.avoidBlur}
                 onKeyDown={this.props.avoidBlur}
             >
-                {matchIndex !== -1 && this.props.match !== '' ? (
+                {this.props.shouldHighlightInput && matchIndex !== -1 && this.props.match !== '' ? (
                     <span className={`typetext ${this.props.active && 'active'}`}>
                         {this.value.split('').map((c, i) => {
                             if (i === matchIndex || (i > matchIndex && i < matchIndex + (this.props.match.length))) {
@@ -43,7 +43,7 @@ export default class TypeaheadSuggestion extends React.Component {
                         })}
                     </span>) :
                     (<span className={`typetext typeahead-substring ${this.props.active && 'active'}`}>
-                        {this.value}
+                        {this.props.label}
                     </span>)
                 }
             </li>
@@ -54,10 +54,27 @@ export default class TypeaheadSuggestion extends React.Component {
 TypeaheadSuggestion.propTypes = {
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    item: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            label: PropTypes.oneOfType([
+                PropTypes.arrayOf(PropTypes.node),
+                PropTypes.node,
+                PropTypes.string
+            ]),
+            value: PropTypes.string
+        })
+    ]).isRequired,
     value: PropTypes.string.isRequired,
     match: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     highlightSuggestion: PropTypes.func.isRequired,
-    avoidBlur: PropTypes.func.isRequired
+    avoidBlur: PropTypes.func.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+        PropTypes.string
+    ]).isRequired,
+    shouldHighlightInput: PropTypes.bool.isRequired
 };
