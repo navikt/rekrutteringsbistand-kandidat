@@ -1,7 +1,5 @@
-
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { SearchApiError, fetchArbeidsgivereEnhetsregister, fetchArbeidsgivereEnhetsregisterOrgnr } from '../../api';
-// import { fetchTypeaheadSuggestionsRest, SearchApiError } from '../../api';
 
 /** *********************************************************
  * ACTIONS
