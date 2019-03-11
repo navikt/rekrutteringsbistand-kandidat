@@ -1,12 +1,24 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API } from './common/fasitProperties';
+import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API, PAM_SEARCH_API_GATEWAY_URL } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
     .join('&')
     .replace(/%20/g, '+');
+
+const employerNameCompletionQueryTemplate = (match) => ({
+    query: {
+        match_phrase: {
+            navn_ngram_completion: {
+                query: match,
+                slop: 5
+            }
+        }
+    },
+    size: 50
+});
 
 
 export class SearchApiError {
@@ -279,3 +291,12 @@ export const fetchEgneKandidatlister = () => (
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) => (
     fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true)
 );
+
+export const fetchArbeidsgivereEnhetsregister = (query) => (
+    postJson(`${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search`, JSON.stringify(employerNameCompletionQueryTemplate(query)))
+);
+
+export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
+    const query = orgnr.replace(/\s/g, '');
+    return fetchJson(`${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search?q=organisasjonsnummer:${query}*`);
+};

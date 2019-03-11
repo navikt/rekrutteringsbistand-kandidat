@@ -38,3 +38,9 @@ fasitResources:
       url: LOGINSERVICE_LOGOUT_VEILEDER_URL
   - alias: loadbalancer:pam-kandidatsok-veileder
     resourceType: loadbalancerconfig
+  - alias: pam-kandidatsok-veileder-pam-search-api-restservice-apiKey
+        resourceType: credential
+        propertyMap:
+            password: PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY
+  - alias: pam-search-api-restservice
+    resourceType: restservice

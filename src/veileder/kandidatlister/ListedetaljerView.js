@@ -208,7 +208,7 @@ const ListedetaljerView = (props) => {
                 </div>
                 <div className="dele-wrapper">
                     <EpostKnapp />
-                    { kanEditere && stillingsId && <DeleKnapp /> }
+                    { kanEditere && arbeidsgiver && <DeleKnapp /> }
                 </div>
             </div>
         );

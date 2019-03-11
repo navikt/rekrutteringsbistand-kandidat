@@ -15,6 +15,7 @@ module.exports = merge(common(APP.KANDIDATSOK_VEILEDER), {
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie-isso'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
+            __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",
             __BACKEND_OPPE__: true,
             'process.env.NODE_ENV': "'development'"
         })

@@ -63,8 +63,11 @@ const isProd = process.env.NODE_ENV !== 'development';
 const fasitProperties = {
     PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
     PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
+    PAM_SEARCH_API_GATEWAY_URL: '/search/enhetsregister',
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
-    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL
+    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
+    API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
+    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -72,12 +75,43 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
         `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n`;
+        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
+        `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
 };
+
+const backendHost = () => {
+    if (fasitProperties.API_GATEWAY) {
+        const hostAndPath = fasitProperties.API_GATEWAY.split('://').pop();
+        if (!hostAndPath) {
+            throw Error(
+                `Error: Kunne ikke hente host fra fasitProperties.API_GATEWAY (${fasitProperties.API_GATEWAY})`
+            );
+        }
+        const host = hostAndPath.split('/').shift();
+        if (!host) {
+            throw Error('Error: Kunne ikke hente host fra path');
+        }
+        return host;
+    }
+    throw Error('Error: process.env.PAMCVAPI_URL mangler');
+};
+
+const gatewayPrefix = () => {
+    if (fasitProperties.API_GATEWAY) {
+        const pathUnchecked = fasitProperties.API_GATEWAY.split(backendHost()).pop();
+        const pathFinal = pathUnchecked.replace(/\//g, ''); // replace all / with ''
+        return pathFinal;
+    }
+    throw new Error('Error: error getting gateway prefix');
+};
+
+// proxy til backend
+console.log(`proxy host: ${backendHost()}`);
+console.log(`proxy prefix: ${gatewayPrefix()}`);
 
 const normalizedTokenExpiration = (token) => {
     const expiration = jwt.decode(token).exp;
@@ -150,6 +184,25 @@ const startServer = (html) => {
     server.use(
         '/kandidater/css',
         express.static(path.resolve(__dirname, 'dist/css'))
+    );
+
+    server.use(
+        '/search/enhetsregister/', proxy(backendHost(), {
+            https: true,
+            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
+                ...proxyReqOpts,
+                cookie: srcReq.headers.cookie,
+                headers: {
+                    ...proxyReqOpts.headers,
+                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY
+                }
+            }),
+            proxyReqPathResolver: (req) => {
+                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl.split('/search/enhetsregister/').pop()}`;
+                console.log(convertedPath);
+                return convertedPath;
+            }
+        })
     );
 
     server.get(

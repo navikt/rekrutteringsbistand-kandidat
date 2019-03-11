@@ -2,14 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'nav-frontend-knapper';
+import { Normaltekst } from 'nav-frontend-typografi';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
 
 export default class Typeahead extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
-            value: props.value,
             activeSuggestionIndex: -1,
             shouldShowSuggestions: true,
             hasFocus: false
@@ -17,18 +17,9 @@ export default class Typeahead extends React.Component {
         this.shouldBlur = true;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.value !== nextProps.value) {
-            this.setState({
-                value: nextProps.value
-            });
-        }
-    }
-
     onChange = (e) => {
         const { value } = e.target;
         this.setState({
-            value,
             activeSuggestionIndex: -1,
             shouldShowSuggestions: true
         });
@@ -41,7 +32,7 @@ export default class Typeahead extends React.Component {
      */
     onKeyDown = (e) => {
         let { activeSuggestionIndex } = this.state;
-        const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.state.value;
+        const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.props.value;
         if (this.state.shouldShowSuggestions) {
             switch (e.keyCode) {
                 case 13: // Enter
@@ -147,7 +138,6 @@ export default class Typeahead extends React.Component {
      */
     selectSuggestion = (suggestionValue) => {
         this.setState({
-            value: suggestionValue,
             shouldShowSuggestions: false,
             activeSuggestionIndex: -1
         }, () => {
@@ -160,7 +150,10 @@ export default class Typeahead extends React.Component {
     render() {
         const showSuggestions = this.state.hasFocus && this.state.shouldShowSuggestions && this.props.suggestions.length > 0;
         return (
-            <div className="typeahead">
+            <div className="typeahead typo-normal">
+                {this.props.label && (
+                    <Normaltekst className="skjemaelement__label">{this.props.label}</Normaltekst>
+                )}
                 <input
                     id={this.props.id}
                     role="combobox"
@@ -171,7 +164,7 @@ export default class Typeahead extends React.Component {
                     aria-haspopup={showSuggestions}
                     aria-activedescendant={`${this.props.id}-item-${this.state.activeSuggestionIndex}`}
                     placeholder={this.props.placeholder}
-                    value={this.state.value}
+                    value={this.props.value}
                     autoComplete="off"
                     onChange={this.onChange}
                     onBlur={this.onBlur}
@@ -200,17 +193,20 @@ export default class Typeahead extends React.Component {
                     className={showSuggestions ? '' : 'typeahead-suggestions-hidden'}
                     onMouseLeave={this.resetHighlightingSuggestion}
                 >
-                    {showSuggestions && this.props.suggestions.map((li, i) => (
+                    {showSuggestions && this.props.suggestions.map((suggestion, i) => (
                         <TypeaheadSuggestion
                             id={`${this.props.id}-item-${i}`}
-                            key={li}
+                            key={suggestion.key || suggestion.value}
+                            item={suggestion}
                             index={i}
-                            value={li}
-                            match={this.state.value}
+                            value={suggestion.value}
+                            label={suggestion.label}
+                            match={this.props.value}
                             active={i === this.state.activeSuggestionIndex}
                             onClick={this.selectSuggestion}
                             highlightSuggestion={this.highlightSuggestion}
                             avoidBlur={this.avoidBlur}
+                            shouldHighlightInput={this.props.shouldHighlightInput}
                         />
                     ))}
                 </ul>
@@ -219,13 +215,26 @@ export default class Typeahead extends React.Component {
     }
 }
 
+Typeahead.defaultProps = {
+    label: undefined,
+    shouldHighlightInput: true
+};
+
 Typeahead.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
-    suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    suggestions: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string).isRequired,
+        PropTypes.arrayOf(PropTypes.shape({
+            key: PropTypes.string,
+            value: PropTypes.string
+        }))
+    ]).isRequired,
     value: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    onTypeAheadBlur: PropTypes.func.isRequired
+    onTypeAheadBlur: PropTypes.func.isRequired,
+    label: PropTypes.string,
+    shouldHighlightInput: PropTypes.bool
 };
