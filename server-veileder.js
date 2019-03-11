@@ -198,7 +198,7 @@ const startServer = (html) => {
                 }
             }),
             proxyReqPathResolver: (req) => {
-                const convertedPath = `/${gatewayPrefix()}${req.originalUrl.split('/search/enhetsregister/').pop()}`;
+                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl.split('/search/enhetsregister/').pop()}`;
                 console.log(convertedPath);
                 return convertedPath;
             }
