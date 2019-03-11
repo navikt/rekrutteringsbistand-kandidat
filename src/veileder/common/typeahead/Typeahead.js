@@ -240,7 +240,11 @@ Typeahead.propTypes = {
     suggestions: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.string).isRequired,
         PropTypes.arrayOf(PropTypes.shape({
-            label: PropTypes.shape({}),
+            label: PropTypes.oneOfType([
+                PropTypes.arrayOf(PropTypes.node),
+                PropTypes.node,
+                PropTypes.string
+            ]),
             value: PropTypes.string
         }))
     ]).isRequired,
