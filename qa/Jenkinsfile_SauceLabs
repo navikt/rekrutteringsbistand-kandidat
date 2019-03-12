@@ -35,7 +35,7 @@ node {
 			sh "cd ${qaDir} && npm i -D"
 		}
 		sauce('sauceconnect') {
-			sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port 4445", useLatestSauceConnect: true) {
+			sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port 4445 --rest-url https://eu-central-1.saucelabs.com/rest/v1", useLatestSauceConnect: true) {
 				stage("Testing Chrome, Firefox, Edge, IE and Safari on Windows and MacOS") {
 					acceptanceTests(qaDir)
 				}

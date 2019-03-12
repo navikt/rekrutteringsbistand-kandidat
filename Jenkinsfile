@@ -124,7 +124,7 @@ def acceptanceTest(app, useSaucelabs) {
         if (useSaucelabs == 'true') {
             sh "cd ${qaDir} && npm i -D"
             sauce('sauceconnect') {
-                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port ${randomSeleniumPort}", useLatestSauceConnect: true) {
+                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port ${randomSeleniumPort} --rest-url https://eu-central-1.saucelabs.com/rest/v1", useLatestSauceConnect: true) {
                     try {
                         sh "cd ${qaDir} && npm run-script sauce -- --skiptags ignore"
                     } catch (Exception e) {
