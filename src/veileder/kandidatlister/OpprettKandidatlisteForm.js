@@ -266,7 +266,9 @@ class OpprettKandidatlisteForm extends React.Component {
                             shouldHighlightInput={false}
                         />
                         {bedrift && location &&
-                            <Undertekst>{this.capitalizeEmployerName(bedrift.name)}, {location.address}, {location.postalCode} {this.capitalizeLocation(location.city)}</Undertekst>
+                            <Undertekst className="OpprettKandidatlisteForm__bedrift">
+                                {this.capitalizeEmployerName(bedrift.name)}, {location.address}, {location.postalCode} {this.capitalizeLocation(location.city)}
+                            </Undertekst>
                         }
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
