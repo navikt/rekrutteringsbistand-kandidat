@@ -14,9 +14,6 @@
   border: solid 1px #d8d8d8;
   .container--header {
     display: flex;
-    flex-wrap: wrap;
-    min-height: 12.5rem;
-    align-items: center;
     padding: 0 1.5rem;
   }
   .container--header--uten-stilling {
@@ -24,21 +21,26 @@
     flex-wrap: wrap;
     height: 7.5rem;
     align-items: center;
+    justify-content: center;
     padding: 0 1.5rem;
   }
 
   .child-item__container--header {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    flex: 3;
+    overflow: hidden;
+    white-space: nowrap;
 
     .header__row--veileder {
       display: flex;
-      justify-content: center;
-      margin-bottom: 1.25rem;
-      text-align: center;
+
+      .text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       .opprettet-av__row {
         display: inline-flex;
+        margin-top: 1.25rem;
+        overflow: hidden;
 
         @media (max-width: @screen-sm) {
           flex-direction: column;
@@ -53,6 +55,19 @@
           }
         }
       }
+      .beskrivelse--knapp {
+        padding: 0;
+        .chevron--opp, .chevron--ned {
+          width: 16px;
+        }
+      }
+      .beskrivelse {
+        margin-top: 1.25rem;
+      }
+      .beskrivelse--text {
+        overflow: initial;
+        white-space: initial;
+      }
       &:first-child {
          padding-top: 2.5rem;
       }
@@ -61,65 +76,47 @@
         padding-bottom: 2.5rem;
       }
     }
-
-    .lenke {
-      font-weight: bold;
-      font-family: "Source Sans Pro", Arial, sans-serif;
-    }
-
-    .ikonlenke {
-      display:inline-flex;
-      justify-content: flex-end;
-    }
   }
 
-  .container--header__lenke--mine-stillinger {
-    padding: 52px 0 135px 0;
-    .lenke {
-      border-bottom: none;
-    }
-  }
-
-  .container--header__lenke--kandidatliste {
-    padding: 54px 0 133px 0;
-    .lenke {
-      font-weight: bold;
-    }
-  }
-
-  .lenke--lagrede-kandidatlister {
+  .container--header__lenker {
+    flex: 1;
+    display: flex;
+    margin-top: 4.75rem;
+    align-self: start;
     justify-content: flex-end;
+    .lenke {
+      font-weight: bold;
+    }
   }
 
   @media(max-width: 991px) {
     .container--header {
       display: block;
-      .header--links {
-        display: flex;
-      }
-    }
-    .container--header__lenke--mine-stillinger {
-      flex: auto;
-      padding: 2.5rem 0 0;
     }
     .child-item__container--header {
       padding: 0;
-      .header__row--veileder:first-child {
-        padding-top: 2rem;
+      .header__row--veileder {
+        &:first-child {
+          padding-top: 2rem;
+        }
+        &:last-child {
+          padding-bottom: 1.5rem;
+        }
       }
     }
-    .container--header__lenke--kandidatliste {
-      padding: 2.5rem 0 0;
+    .container--header__lenker {
+      justify-content: flex-start;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      a:first-child {
+        margin-left: 0;
+      }
     }
   }
 
   @media(max-width: 479px) {
-    .container--header__lenke--mine-stillinger {
-      padding-top: 1rem;
-    }
     .child-item__container--header {
       .header__row--veileder {
-        margin-bottom: 1rem;
         &:first-child {
           padding-top: 1rem;
         }
@@ -128,8 +125,8 @@
         }
       }
     }
-    .container--header__lenke--kandidatliste {
-      padding-top: 1rem;
+    .container--header__lenker {
+      margin-bottom: 1rem;
     }
   }
 }

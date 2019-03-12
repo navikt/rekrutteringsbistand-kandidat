@@ -169,7 +169,7 @@ class VisKandidat extends React.Component {
                 <VisKandidatPersonalia
                     cv={cv}
                     appContext={'arbeidsgiver'}
-                    contextRoot={CONTEXT_ROOT}
+                    tilbakeLink={`/${CONTEXT_ROOT}`}
                     gjeldendeKandidat={this.state.gjeldendeKandidat}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}

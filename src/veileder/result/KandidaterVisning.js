@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
+import { Kandidatliste } from '../kandidatlister/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import { HENT_KANDIDATLISTE_MED_STILLINGS_ID, LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
+import {
+    HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+    HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+    LEGG_TIL_KANDIDATER
+} from '../kandidatlister/kandidatlisteReducer';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
@@ -41,14 +46,16 @@ class KandidaterVisning extends React.Component {
             alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
-            kandidater: props.kandidater,
-            kandidatlisteId: undefined
+            kandidater: props.kandidater
         };
     }
 
     componentDidMount() {
+        if (this.props.kandidatlisteId) {
+            this.props.hentKandidatlisteMedKandidatlisteId(this.props.kandidatlisteId);
+        }
         if (this.props.stillingsId) {
-            this.props.hentKandidatliste(this.props.stillingsId);
+            this.props.hentKandidatlisteMedStillingsId(this.props.stillingsId);
         }
         setTimeout(() => {
             window.scrollTo(0, this.props.scrolletFraToppen);
@@ -56,7 +63,7 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { kandidater, kandidatliste, antallKandidater, leggTilKandidatStatus } = this.props;
+        const { kandidater, antallKandidater, leggTilKandidatStatus } = this.props;
         const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
         if (harNyeSokekriterier) {
             this.setState({
@@ -71,11 +78,6 @@ class KandidaterVisning extends React.Component {
             this.setState({
                 kandidater,
                 alleKandidaterMarkert: kandidater.filter((k, i) => i < antallKandidater && k.markert).length === Math.min(antallKandidater, kandidater.length)
-            });
-        }
-        if (prevProps.kandidatliste !== kandidatliste) {
-            this.setState({
-                kandidatlisteId: kandidatliste.kandidatlisteId
             });
         }
         if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
@@ -145,37 +147,38 @@ class KandidaterVisning extends React.Component {
     };
 
     render() {
-        const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
-        const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
+        const { isEmptyQuery, kandidatliste, totaltAntallTreff, kandidatlisteId, stillingsId, antallKandidater, valgtKandidatNr } = this.props;
+        const { kandidater, lagreKandidaterModalVises, lagreKandidaterModalTilStillingVises, alleKandidaterMarkert } = this.state;
+        const panelTekst = isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
+        const antallMarkert = antallKandidaterMarkert(kandidater);
 
         return (
             <div>
-                {this.state.lagreKandidaterModalVises &&
+                {lagreKandidaterModalVises &&
                     <LagreKandidaterModal
-                        vis={this.state.lagreKandidaterModalVises}
+                        vis={lagreKandidaterModalVises}
                         onRequestClose={this.toggleLagreKandidaterModal}
                         onLagre={this.onLagreKandidatliste}
                     />
                 }
-                {this.state.lagreKandidaterModalTilStillingVises &&
+                {lagreKandidaterModalTilStillingVises &&
                     <LagreKandidaterTilStillingModal
-                        vis={this.state.lagreKandidaterModalTilStillingVises}
+                        vis={lagreKandidaterModalTilStillingVises}
                         onRequestClose={this.toggleLagreKandidaterTilStillingModal}
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={antallMarkert}
-                        kandidatliste={this.props.kandidatliste}
-                        stillingsoverskrift={this.props.stillingsoverskrift}
+                        kandidatliste={kandidatliste}
                         isSaving={this.props.leggTilKandidatStatus === LAGRE_STATUS.LOADING}
                     />
                 }
                 <div className="resultatvisning--header">
-                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
+                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{totaltAntallTreff}</strong>{panelTekst}</Undertittel>
                     <KnappMedHjelpetekst
                         hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                         mini
                         type="hoved"
                         disabled={antallMarkert === 0}
-                        onClick={this.props.stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
+                        onClick={kandidatlisteId || stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
                         id="lagre-kandidater-knapp"
                         tittel={lagreKandidaterTilStillingKnappTekst(antallMarkert)}
                     >
@@ -183,15 +186,16 @@ class KandidaterVisning extends React.Component {
                     </KnappMedHjelpetekst>
                 </div>
                 <KandidaterTabell
-                    antallResultater={this.props.antallKandidater}
-                    kandidater={this.state.kandidater}
+                    antallResultater={antallKandidater}
+                    kandidater={kandidater}
                     onFlereResultaterClick={this.onFlereResultaterClick}
-                    totaltAntallTreff={this.props.totaltAntallTreff}
+                    totaltAntallTreff={totaltAntallTreff}
                     onKandidatValgt={this.onKandidatValgt}
-                    alleKandidaterMarkert={this.state.alleKandidaterMarkert}
+                    alleKandidaterMarkert={alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
-                    valgtKandidatNr={this.props.valgtKandidatNr}
-                    stillingsId={this.props.stillingsId}
+                    valgtKandidatNr={valgtKandidatNr}
+                    kandidatlisteId={kandidatlisteId}
+                    stillingsId={stillingsId}
                 />
             </div>
         );
@@ -199,11 +203,8 @@ class KandidaterVisning extends React.Component {
 }
 
 KandidaterVisning.defaultProps = {
-    stillingsId: undefined,
-    kandidatliste: {
-        kandidatlisteId: undefined
-    },
-    stillingsoverskrift: undefined
+    kandidatlisteId: undefined,
+    stillingsId: undefined
 };
 
 KandidaterVisning.propTypes = {
@@ -220,12 +221,11 @@ KandidaterVisning.propTypes = {
     oppdaterAntallKandidater: PropTypes.func.isRequired,
     oppdaterMarkerteKandidater: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
+    kandidatlisteId: PropTypes.string,
     stillingsId: PropTypes.string,
-    hentKandidatliste: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape({
-        kandidatlisteId: PropTypes.string
-    }),
-    stillingsoverskrift: PropTypes.string
+    hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
+    hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
+    kandidatliste: PropTypes.shape(Kandidatliste).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -233,7 +233,8 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },
-    hentKandidatliste: (stillingsId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }); },
+    hentKandidatlisteMedStillingsId: (stillingsId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
 });
 
 const mapStateToProps = (state) => ({
@@ -246,8 +247,7 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
-    stillingsoverskrift: state.search.stillingsoverskrift
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

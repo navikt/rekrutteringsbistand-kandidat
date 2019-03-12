@@ -43,18 +43,7 @@ export default class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const { cv, contextRoot, appContext, kandidatListe, antallKandidater, stillingsId, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv } = this.props;
-
-        let tilbakeLink;
-        if (kandidatListe && appContext === 'veileder') {
-            tilbakeLink = `/${contextRoot}/detaljer/${kandidatListe}`;
-        } else if (kandidatListe) {
-            tilbakeLink = `/${contextRoot}/lister/detaljer/${kandidatListe}`;
-        } else if (stillingsId && (contextRoot !== 'kandidater/lister')) {
-            tilbakeLink = `/${contextRoot}/stilling/${stillingsId}`;
-        } else {
-            tilbakeLink = `/${contextRoot}`;
-        }
+        const { cv, appContext, antallKandidater, tilbakeLink, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv } = this.props;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -76,7 +65,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             to={tilbakeLink}
                             className={lenkeClass}
                         >
-                            <NavFrontendChevron type="venstre" /> Til {kandidatListe || (contextRoot === 'kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
+                            <NavFrontendChevron type="venstre" /> Til {tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
                         {fantCv && (
                             <VisKandidatForrigeNeste
@@ -150,9 +139,7 @@ export default class VisKandidatPersonalia extends React.Component {
 }
 
 VisKandidatPersonalia.defaultProps = {
-    kandidatListe: undefined,
     antallKandidater: undefined,
-    stillingsId: undefined,
     gjeldendeKandidat: undefined,
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
@@ -162,10 +149,8 @@ VisKandidatPersonalia.defaultProps = {
 VisKandidatPersonalia.propTypes = {
     cv: cvPropTypes.isRequired,
     appContext: PropTypes.string.isRequired,
-    contextRoot: PropTypes.string.isRequired,
-    kandidatListe: PropTypes.string,
     antallKandidater: PropTypes.number,
-    stillingsId: PropTypes.string,
+    tilbakeLink: PropTypes.string.isRequired,
     gjeldendeKandidat: PropTypes.number,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
