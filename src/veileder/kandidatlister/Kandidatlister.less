@@ -1,6 +1,5 @@
 .Kandidatlister {
   font-family: "Source Sans Pro", Arial, sans-serif;
-  color: #59514b;
 
   .side-header {
     background-color: #e3edf8;
@@ -9,7 +8,7 @@
     border-bottom: 1px solid #d8d8d8;
 
     .side-header__innhold {
-      max-width: 73.875rem;
+      max-width: 1636px;
       margin: auto;
       padding-right: 0.5rem;
       padding-left: 0.5rem;
@@ -23,23 +22,89 @@
       .tittel-wrapper {
         display: flex;
         justify-content: center;
+        .kandidatlister__sok {
+          position: relative;
+          margin: auto;
+          .skjemaelement__input {
+            width: 640px;
+            height: 3.5rem;
+            padding: 1rem;
+            border: 1px solid #d8d8d8;
+          }
+          .search-button {
+            padding: 18px !important;
+          }
+        }
       }
 
       .knapp-wrapper {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         margin: auto;
+        .nullstill-sok__knapp {
+          margin-left: 1rem;
+        }
       }
     }
   }
 
-  .kandidatlister-table__wrapper {
-    max-width: 73.875rem;
-    padding: 0 0.5rem;
+  .kandidatlister-wrapper {
+    display: flex;
+    max-width: 1636px;
     margin: 0 auto;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
 
-    .antall-kandidatlister {
+  .kandidatlister__filter {
+    margin-top: 5.25rem;
+
+    .skjemaelement {
+      margin-top: 0.5rem;
+    }
+
+    .skjemaelement__sporsmal {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .kandidatlister-table__wrapper {
+    max-width: 1312px;
+    width: 100%;
+    margin-left: auto;
+
+    .kandidatlister-table--top {
       margin-top: 2.5rem;
+      display: flex;
+      justify-content: space-between;
+
+      .kandidatlister-table--top__knapper {
+        &:last-child {
+          margin-left: 4rem;
+        }
+        padding: 0;
+        border: none;
+        background: none;
+
+        .typo-element {
+          color: #0067C5;
+        }
+
+        &:hover {
+          border-bottom: 2px solid #0067C5;
+        }
+      }
+
+      .knapp--aktiv {
+        .typo-element {
+          color: #0c5472;
+          border-bottom: 2px solid #0c5472;
+        }
+
+        &:hover {
+          border-bottom: none;
+        }
+      }
     }
 
     .kandidatlister-table {
@@ -48,6 +113,17 @@
       .liste-header {
         border: 1px solid #78706a;
         padding: 1.25rem 0.75rem;
+      }
+
+      .hent-kandidatlister--spinner {
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .liste-rad__tom {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
       }
 
       .liste-rad {
@@ -87,6 +163,7 @@
           padding: 0 0.5rem;
           margin: auto 1rem auto 0;
           flex: 2;
+          display: flex;
           overflow: inherit;
           text-overflow: inherit;
           white-space: inherit;

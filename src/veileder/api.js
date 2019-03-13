@@ -245,10 +245,6 @@ export const fetchStillingFraListe = (stillingsId) => (
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true)
 );
 
-export const fetchDataFraListe = (stillingsId) => (
-    fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true)
-);
-
 export const fetchKandidatMedFnr = (fnr) => (
     fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true)
 );
@@ -284,8 +280,8 @@ export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) => (
     deleteRequest(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`)
 );
 
-export const fetchEgneKandidatlister = () => (
-    fetchJson(`${KANDIDATLISTE_API}/me/kandidatlister`, true)
+export const fetchKandidatlister = (query = {}) => (
+    fetchJson(`${KANDIDATLISTE_API}/kandidatlister?${convertToUrlParams(query)}`, true)
 );
 
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) => (

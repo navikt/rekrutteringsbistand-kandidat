@@ -4,7 +4,6 @@ import {
     fetchKandidaterES,
     fetchFeatureToggles,
     fetchStillingFraListe,
-    fetchDataFraListe,
     fetchGeografiKode,
     SearchApiError,
     fetchInnloggetVeileder
@@ -46,8 +45,6 @@ export const SETT_KANDIDATNUMMER = 'SETT_KANDIDATNUMMER';
 export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
 export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
-
-export const SET_LISTEDATA = 'SET_LISTEDATA';
 
 export const HENT_INNLOGGET_VEILEDER = 'HENT_INNLOGGET_VEILEDER';
 export const HENT_INNLOGGET_VEILEDER_SUCCESS = 'HENT_INNLOGGET_VEILEDER_SUCCESS';
@@ -197,14 +194,6 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling || false
-            };
-        case SET_LISTEDATA:
-            return {
-                ...state,
-                stillingsoverskrift: action.listeData.tittel,
-                arbeidsgiver: action.listeData.organisasjonNavn,
-                annonseOpprettetAvNavn: action.listeData.opprettetAv.navn,
-                annonseOpprettetAvIdent: action.listeData.opprettetAv.ident
             };
         case HENT_INNLOGGET_VEILEDER_SUCCESS:
             return {
@@ -377,15 +366,11 @@ function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
-        if (action.stillingsId) {
-            const listeData = yield call(fetchDataFraListe, action.stillingsId);
-            yield put({ type: SET_LISTEDATA, listeData });
-            if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
-                const { stilling, kommune } = yield call(fetchStillingFraListe, action.stillingsId);
-                urlQuery.stillinger = stilling;
-                urlQuery.geografiList = kommune;
-                urlQuery.harHentetStilling = true;
-            }
+        if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
+            const { stilling, kommune } = yield call(fetchStillingFraListe, action.stillingsId);
+            urlQuery.stillinger = stilling;
+            urlQuery.geografiList = kommune;
+            urlQuery.harHentetStilling = true;
         }
         if (Object.keys(urlQuery).length > 0) {
             if (urlQuery.geografiList) {

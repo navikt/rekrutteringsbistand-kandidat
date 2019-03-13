@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import {
     SearchApiError,
     fetchKandidatlisteMedStillingsId,
@@ -13,8 +13,8 @@ import {
     postKandidatliste,
     putNotat,
     deleteNotat,
-    fetchEgneKandidatlister,
-    fetchKandidatlisteMedAnnonsenummer
+    fetchKandidatlisteMedAnnonsenummer,
+    fetchKandidatlister
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -143,12 +143,17 @@ const initialState = {
     },
     notater: undefined,
     hentListerStatus: HENT_STATUS.IKKE_HENTET,
-    egneKandidatlister: {
+    kandidatlister: {
         liste: []
     },
     hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED
+    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
+    kandidatlisterSokeKriterier: {
+        query: '',
+        type: '',
+        kunEgne: true
+    }
 };
 
 export default function reducer(state = initialState, action) {
@@ -380,14 +385,19 @@ export default function reducer(state = initialState, action) {
         case HENT_KANDIDATLISTER:
             return {
                 ...state,
-                hentListerStatus: HENT_STATUS.LOADING
+                hentListerStatus: HENT_STATUS.LOADING,
+                kandidatlisterSokeKriterier: {
+                    query: action.query,
+                    type: action.listetype,
+                    kunEgne: action.kunEgne
+                }
             };
         case HENT_KANDIDATLISTER_SUCCESS:
             return {
                 ...state,
                 hentListerStatus: HENT_STATUS.SUCCESS,
-                egneKandidatlister: {
-                    liste: action.egneKandidatlister.liste
+                kandidatlister: {
+                    liste: action.kandidatlister.liste
                 }
             };
         case HENT_KANDIDATLISTER_FAILURE:
@@ -433,7 +443,6 @@ function* opprettKandidatliste(action) {
     try {
         yield postKandidatliste(action.kandidatlisteInfo);
         yield put({ type: OPPRETT_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
-        yield put({ type: HENT_KANDIDATLISTER });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: OPPRETT_KANDIDATLISTE_FAILURE, error: e });
@@ -601,10 +610,11 @@ function* opprettNotat(action) {
     }
 }
 
-function* hentEgneLister() {
+function* hentKandidatlister() {
+    const state = yield select();
     try {
-        const egneKandidatlister = yield fetchEgneKandidatlister();
-        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, egneKandidatlister });
+        const kandidatlister = yield fetchKandidatlister(state.kandidatlister.kandidatlisterSokeKriterier);
+        yield put({ type: HENT_KANDIDATLISTER_SUCCESS, kandidatlister });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: HENT_KANDIDATLISTER_FAILURE, error: e });
@@ -673,7 +683,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(ENDRE_NOTAT, endreNotat);
     yield takeLatest(SLETT_NOTAT, slettNotat);
-    yield takeLatest(HENT_KANDIDATLISTER, hentEgneLister);
+    yield takeLatest(HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(HENT_KANDIDATLISTE_MED_ANNONSENUMMER, hentKandidatlisteMedAnnonsenummer);
     yield takeLatest(LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
     yield takeLatest([

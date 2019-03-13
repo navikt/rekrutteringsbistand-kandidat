@@ -320,7 +320,7 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    egneKandidatlister: state.kandidatlister.egneKandidatlister.liste,
+    egneKandidatlister: state.kandidatlister.kandidatlister.liste,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
@@ -330,7 +330,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentEgneKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
+    hentEgneKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true }); },
     hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); }
 });
 

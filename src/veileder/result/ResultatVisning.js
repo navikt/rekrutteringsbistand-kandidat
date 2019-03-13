@@ -91,7 +91,6 @@ class ResultatVisning extends React.Component {
             match,
             isInitialSearch,
             lagretKandidatliste,
-            arbeidsgiver,
             kandidatliste,
             antallLagredeKandidater
         } = this.props;
@@ -108,7 +107,7 @@ class ResultatVisning extends React.Component {
                 </div>
                 <div className="header__row--veileder">
                     <div className="opprettet-av__row">
-                        {arbeidsgiver && <Normaltekst className="text">Arbeidsgiver: {`${capitalizeEmployerName(arbeidsgiver)}`}</Normaltekst>}
+                        {kandidatliste.organisasjonNavn && <Normaltekst className="text">Arbeidsgiver: {`${capitalizeEmployerName(kandidatliste.organisasjonNavn)}`}</Normaltekst>}
                         <Normaltekst className="text">Registrert av: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
                         {kandidatliste.beskrivelse && (
                             <Flatknapp className="beskrivelse--knapp" mini onClick={this.onToggleVisBeskrivelse}>
@@ -210,7 +209,6 @@ class ResultatVisning extends React.Component {
 }
 
 ResultatVisning.defaultProps = {
-    arbeidsgiver: undefined,
     kandidatliste: {
         opprettetAv: {
             navn: undefined,
@@ -238,7 +236,6 @@ ResultatVisning.propTypes = {
         tittel: PropTypes.string
     }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
-    arbeidsgiver: PropTypes.string,
     kandidatliste: PropTypes.shape({
         opprettetAv: PropTypes.shape({
             navn: PropTypes.string,
@@ -259,7 +256,6 @@ const mapStateToProps = (state) => ({
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
-    arbeidsgiver: state.search.arbeidsgiver,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste
 });
 
