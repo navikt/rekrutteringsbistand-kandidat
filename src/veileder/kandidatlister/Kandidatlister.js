@@ -127,7 +127,7 @@ const KandidatlisteRad = ({ kandidatliste }) => (
         <div className="kolonne-middels"><Normaltekst>{kandidatliste.kandidater.length}</Normaltekst></div>
         <div className="kolonne-bred">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</div>
         <div className="kolonne-middels">
-            <Link to={kandidatliste.stillingId ? `/kandidater/stilling/${kandidatliste.stillingId}` : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`} className="FinnKandidater">
+            <Link aria-label="Finn kandidater til listen" to={kandidatliste.stillingId ? `/kandidater/stilling/${kandidatliste.stillingId}` : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`} className="FinnKandidater">
                 <i className="FinnKandidater__icon" />
             </Link>
         </div>
@@ -350,12 +350,8 @@ KandidatlisterRadioFilter.propTypes = {
     }).isRequired
 };
 
-SokKandidatlisterInput.defaultProps = {
-    sokeOrd: ''
-};
-
 SokKandidatlisterInput.propTypes = {
-    sokeOrd: PropTypes.string,
+    sokeOrd: PropTypes.string.isRequired,
     onSokeOrdChange: PropTypes.func.isRequired,
     onSubmitSokKandidatlister: PropTypes.func.isRequired
 };
