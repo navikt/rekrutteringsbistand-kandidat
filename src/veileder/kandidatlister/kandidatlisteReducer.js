@@ -11,6 +11,7 @@ import {
     postNotat,
     putKandidatliste,
     postKandidatliste,
+    putOppdaterKandidatliste,
     putNotat,
     deleteNotat,
     fetchKandidatlisteMedAnnonsenummer,
@@ -159,6 +160,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case OPPRETT_KANDIDATLISTE:
+        case OPPDATER_KANDIDATLISTE:
             return {
                 ...state,
                 opprett: {
@@ -168,6 +170,7 @@ export default function reducer(state = initialState, action) {
                 }
             };
         case OPPRETT_KANDIDATLISTE_SUCCESS:
+        case OPPDATER_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
                 opprett: {
@@ -177,6 +180,7 @@ export default function reducer(state = initialState, action) {
                 }
             };
         case OPPRETT_KANDIDATLISTE_FAILURE:
+        case OPPDATER_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
                 opprett: {
@@ -667,6 +671,19 @@ function* slettNotat(action) {
     }
 }
 
+function* oppdaterKandidatliste(action) {
+    try {
+        yield putOppdaterKandidatliste(action.kandidatlisteInfo);
+        yield put({ type: OPPDATER_KANDIDATLISTE_SUCCESS, tittel: action.kandidatlisteInfo.tittel });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: OPPDATER_KANDIDATLISTE_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
@@ -686,6 +703,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(HENT_KANDIDATLISTE_MED_ANNONSENUMMER, hentKandidatlisteMedAnnonsenummer);
     yield takeLatest(LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
+    yield takeLatest(OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,
         HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
