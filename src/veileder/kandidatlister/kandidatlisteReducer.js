@@ -84,6 +84,8 @@ export const HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER';
 export const HENT_KANDIDATLISTER_SUCCESS = 'HENT_KANDIDATLISTER_SUCCESS';
 export const HENT_KANDIDATLISTER_FAILURE = 'HENT_KANDIDATLISTER_FAILURE';
 
+export const RESET_KANDIDATLISTER_SOKEKRITERIER = 'RESET_KANDIDATLISTER_SOKEKRITERIER';
+
 export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER';
 export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS';
 export const HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND = 'HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND';
@@ -145,7 +147,8 @@ const initialState = {
     notater: undefined,
     hentListerStatus: HENT_STATUS.IKKE_HENTET,
     kandidatlister: {
-        liste: []
+        liste: [],
+        antall: 0
     },
     hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
     kandidatlisteMedAnnonsenummer: undefined,
@@ -153,7 +156,9 @@ const initialState = {
     kandidatlisterSokeKriterier: {
         query: '',
         type: '',
-        kunEgne: true
+        kunEgne: true,
+        pagenumber: 0,
+        pagesize: 20
     }
 };
 
@@ -393,7 +398,9 @@ export default function reducer(state = initialState, action) {
                 kandidatlisterSokeKriterier: {
                     query: action.query,
                     type: action.listetype,
-                    kunEgne: action.kunEgne
+                    kunEgne: action.kunEgne,
+                    pagenumber: action.pagenumber,
+                    pagesize: action.pagesize
                 }
             };
         case HENT_KANDIDATLISTER_SUCCESS:
@@ -401,13 +408,25 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hentListerStatus: HENT_STATUS.SUCCESS,
                 kandidatlister: {
-                    liste: action.kandidatlister.liste
+                    liste: action.kandidatlister.liste,
+                    antall: action.kandidatlister.antall
                 }
             };
         case HENT_KANDIDATLISTER_FAILURE:
             return {
                 ...state,
                 hentListerStatus: HENT_STATUS.FAILURE
+            };
+        case RESET_KANDIDATLISTER_SOKEKRITERIER:
+            return {
+                ...state,
+                kandidatlisterSokeKriterier: {
+                    query: '',
+                    type: '',
+                    kunEgne: true,
+                    pagenumber: 0,
+                    pagesize: 20
+                }
             };
         case HENT_KANDIDATLISTE_MED_ANNONSENUMMER:
             return {

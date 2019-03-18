@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp, Flatknapp } from 'nav-frontend-knapper';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
@@ -89,7 +90,7 @@ const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange
 );
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste }) => {
-    if (fetching !== 'SUCCESS' || kandidatlister === undefined) {
+    if (fetching !== 'SUCCESS') {
         return <div className="hent-kandidatlister--spinner"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
         return (
@@ -134,8 +135,8 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
                 <i className="FinnKandidater__icon" />
             </Link>
         </div>
-        <div className="kolonne-smal-rediger">
-            <Lenkeknapp aria-label="Endre kandidatliste" onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
+        <div className="kolonne-smal-knapp">
+            <Lenkeknapp aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`} onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
                 <i className="Edit__icon" />
             </Lenkeknapp>
         </div>
@@ -161,6 +162,29 @@ const KandidatlisterKnappeFilter = ({ kandidatlisterSokeKriterier, onVisMineKand
     </div>
 );
 
+const KandidatlisterPaginering = ({ kandidatlisterSokeKriterier, totaltAntallKandidatlister, forrigeSide, nesteSide }) => {
+    const sisteSide = Math.ceil(totaltAntallKandidatlister / kandidatlisterSokeKriterier.pagesize);
+    return (
+        <div className="kandidatlister-table--bottom">
+            <Normaltekst>{`Viser side ${kandidatlisterSokeKriterier.pagenumber + 1} av ${sisteSide}`}</Normaltekst>
+            <div className="kandidatlister-table--bottom__buttons">
+                {kandidatlisterSokeKriterier.pagenumber > 0 &&
+                    <Flatknapp onClick={forrigeSide}>
+                        <NavFrontendChevron type="venstre" />
+                        Forrige
+                    </Flatknapp>
+                }
+                {kandidatlisterSokeKriterier.pagenumber < sisteSide - 1 &&
+                    <Flatknapp onClick={nesteSide}>
+                        Neste
+                        <NavFrontendChevron type="høyre" />
+                    </Flatknapp>
+                }
+            </div>
+        </div>
+    );
+};
+
 class Kandidatlister extends React.Component {
     constructor(props) {
         super(props);
@@ -174,15 +198,15 @@ class Kandidatlister extends React.Component {
     }
 
     componentDidMount() {
-        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
+        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
         this.resetSearchQuery();
-        this.props.hentKandidatlister(query, type, kunEgne);
+        this.props.hentKandidatlister(query, type, kunEgne, pagenumber, 20);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
-            const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne);
+            const { query, type, kunEgne, pagenumber, pagesize } = this.props.kandidatlisterSokeKriterier;
+            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, pagesize);
             this.visSuccessMelding(this.state.kandidatlisteIEndring);
             this.onLukkModalClick();
             this.props.resetLagreStatus();
@@ -195,7 +219,7 @@ class Kandidatlister extends React.Component {
 
     onFilterChange = (e) => {
         const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, e.target.value, kunEgne);
+        this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, 20);
     };
 
     onSokeOrdChange = (e) => {
@@ -205,16 +229,16 @@ class Kandidatlister extends React.Component {
     onSubmitSokKandidatlister = (e) => {
         e.preventDefault();
         const { type, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(this.state.sokeOrd, type, kunEgne);
+        this.props.hentKandidatlister(this.state.sokeOrd, type, kunEgne, 0, 20);
     };
 
     onNullstillSokClick = () => {
-        const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
+        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
         if (this.state.sokeOrd !== '') {
             this.setState({ sokeOrd: '' });
         }
-        if (query !== '' || type !== '' || !kunEgne) {
-            this.props.hentKandidatlister('', '', true);
+        if (query !== '' || type !== '' || !kunEgne || pagenumber !== 0) {
+            this.props.hentKandidatlister('', '', true, 0, 20);
         }
     };
 
@@ -241,15 +265,25 @@ class Kandidatlister extends React.Component {
     onVisMineKandidatlister = () => {
         const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         if (!kunEgne) {
-            this.props.hentKandidatlister(query, type, true);
+            this.props.hentKandidatlister(query, type, true, 0, 20);
         }
     };
 
     onVisAlleKandidatlister = () => {
         const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         if (kunEgne) {
-            this.props.hentKandidatlister(query, type, false);
+            this.props.hentKandidatlister(query, type, false, 0, 20);
         }
+    };
+
+    onHentKandidatlisterForrigeSide = () => {
+        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+        this.props.hentKandidatlister(query, type, kunEgne, Math.max(pagenumber - 1, 0), 20);
+    };
+
+    onHentKandidatlisterNesteSide = () => {
+        const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+        this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, 20);
     };
 
     resetSearchQuery = () => {
@@ -284,7 +318,7 @@ class Kandidatlister extends React.Component {
     };
 
     render() {
-        const { kandidatlister, fetchingKandidatlister, kandidatlisterSokeKriterier } = this.props;
+        const { kandidatlister, totaltAntallKandidatlister, fetchingKandidatlister, kandidatlisterSokeKriterier } = this.props;
         const { modalstatus, kandidatlisteIEndring, visSuccessMelding, successMelding, sokeOrd } = this.state;
         return (
             <div>
@@ -308,7 +342,7 @@ class Kandidatlister extends React.Component {
                         <KandidatlisterRadioFilter kandidatlisterSokeKriterier={kandidatlisterSokeKriterier} onFilterChange={this.onFilterChange} />
                         <div className="kandidatlister-table__wrapper">
                             <div className="kandidatlister-table--top">
-                                <Systemtittel>{`${kandidatlister.length} kandidatliste${kandidatlister.length === 1 ? '' : 'r'}`}</Systemtittel>
+                                <Systemtittel>{`${totaltAntallKandidatlister} kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Systemtittel>
                                 <KandidatlisterKnappeFilter
                                     kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                                     onVisMineKandidatlister={this.onVisMineKandidatlister}
@@ -319,6 +353,14 @@ class Kandidatlister extends React.Component {
                                 <ListeHeader />
                                 <Kandidatlistevisning kandidatlister={kandidatlister} endreKandidatliste={this.onEndreClick} fetching={fetchingKandidatlister} />
                             </div>
+                            {(fetchingKandidatlister === 'SUCCESS' && totaltAntallKandidatlister > 0) &&
+                                <KandidatlisterPaginering
+                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                                    totaltAntallKandidatlister={totaltAntallKandidatlister}
+                                    forrigeSide={this.onHentKandidatlisterForrigeSide}
+                                    nesteSide={this.onHentKandidatlisterNesteSide}
+                                />
+                            }
                         </div>
                     </div>
                 </div>
@@ -331,6 +373,7 @@ const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister.liste,
+    totaltAntallKandidatlister: state.kandidatlister.kandidatlister.antall,
     fetchingKandidatlister: state.kandidatlister.hentListerStatus,
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier
 });
@@ -338,7 +381,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    hentKandidatlister: (query, type, kunEgne) => dispatch({ type: HENT_KANDIDATLISTER, query, listetype: type, kunEgne }),
+    hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) => dispatch({ type: HENT_KANDIDATLISTER, query, listetype: type, kunEgne, pagenumber, pagesize }),
     resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS })
 });
 
@@ -369,7 +412,9 @@ KandidatlisterRadioFilter.propTypes = {
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
         type: PropTypes.string,
-        kunEgne: PropTypes.bool
+        kunEgne: PropTypes.bool,
+        pagenumber: PropTypes.number,
+        pagesize: PropTypes.number
     }).isRequired
 };
 
@@ -383,7 +428,9 @@ KandidatlisterKnappeFilter.propTypes = {
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
         type: PropTypes.string,
-        kunEgne: PropTypes.bool
+        kunEgne: PropTypes.bool,
+        pagenumber: PropTypes.number,
+        pagesize: PropTypes.number
     }).isRequired,
     onVisMineKandidatlister: PropTypes.func.isRequired,
     onVisAlleKandidatlister: PropTypes.func.isRequired
@@ -392,6 +439,19 @@ KandidatlisterKnappeFilter.propTypes = {
 KandidatlisteRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     endreKandidatliste: PropTypes.func.isRequired
+};
+
+KandidatlisterPaginering.propTypes = {
+    kandidatlisterSokeKriterier: PropTypes.shape({
+        query: PropTypes.string,
+        type: PropTypes.string,
+        kunEgne: PropTypes.bool,
+        pagenumber: PropTypes.number,
+        pagesize: PropTypes.number
+    }).isRequired,
+    totaltAntallKandidatlister: PropTypes.number.isRequired,
+    forrigeSide: PropTypes.func.isRequired,
+    nesteSide: PropTypes.func.isRequired
 };
 
 Kandidatlister.defaultProps = {
@@ -405,13 +465,16 @@ Kandidatlister.propTypes = {
     hentKandidatlister: PropTypes.func.isRequired,
     fetchingKandidatlister: PropTypes.string.isRequired,
     kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
+    totaltAntallKandidatlister: PropTypes.number.isRequired,
     lagreStatus: PropTypes.string.isRequired,
     resetLagreStatus: PropTypes.func.isRequired,
     opprettetTittel: PropTypes.string,
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
         type: PropTypes.string,
-        kunEgne: PropTypes.bool
+        kunEgne: PropTypes.bool,
+        pagenumber: PropTypes.number,
+        pagesize: PropTypes.number
     }).isRequired
 };
 
