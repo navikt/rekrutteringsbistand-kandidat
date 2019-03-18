@@ -206,6 +206,7 @@ export const fromUrlQuery = (url) => {
     const totalErfaring = getUrlParameterByName('totalErfaring', url);
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
+    const autorisasjon = getUrlParameterByName('autorisasjon', url);
     const forerkort = getUrlParameterByName('forerkort', url);
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
 
@@ -217,6 +218,7 @@ export const fromUrlQuery = (url) => {
     if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
+    if (autorisasjon) stateFromUrl.autorisasjon = autorisasjon.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     return stateFromUrl;
@@ -232,6 +234,7 @@ export const toUrlQuery = (state) => {
     if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
+    if (state.autorisasjonReducer.autorisasjon && state.autorisasjonReducer.autorisasjon.length > 0) urlQuery.autorisasjon = state.autorisasjonReducer.autorisasjon.join('_');
     if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     return toUrlParams(urlQuery);
@@ -270,6 +273,7 @@ function* search(action = '') {
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
+            autorisasjon: state.autorisasjonReducer.autorisasjon,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
             forerkort: forerkortListe
         };

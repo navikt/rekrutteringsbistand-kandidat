@@ -58,6 +58,8 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
                 return { ...dict, kompetanse: [...dict.kompetanse, obj] };
             } else if (konsepttype === KONSEPTTYPE.ERFARING) {
                 return { ...dict, erfaring: [...dict.erfaring, obj] };
+            } else if (konsepttype === KONSEPTTYPE.AUTORISASJON) {
+                return { ...dict, autorisasjon: [...dict.autorisasjon, obj] };
             } else if (konsepttype === KONSEPTTYPE.SOFT_SKILL) {
                 return { ...dict, softSkills: [...dict.softSkills, obj] };
             }
@@ -68,6 +70,7 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
             yrker: [],
             kompetanse: [],
             erfaring: [],
+            autorisasjon: [],
             softSkills: [],
             andre: []
         }

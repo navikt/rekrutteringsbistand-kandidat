@@ -35,7 +35,8 @@ export const ALERTTYPE = {
     KOMPETANSE: 'kompetanse',
     GEOGRAFI: 'geografi',
     FORERKORT: 'forerkort',
-    INNSATSGRUPPE: 'innsatsgruppe'
+    INNSATSGRUPPE: 'innsatsgruppe',
+    AUTORISASJON: 'autorisasjon'
 };
 
 
@@ -46,7 +47,8 @@ export const KONSEPTTYPE = {
     SOFT_SKILL: 'soft skill',
     ERFARING: 'experience level',
     STED: 'location',
-    FORERKORT: 'license'
+    FORERKORT: 'license',
+    AUTORISASJON: 'authorization'
 };
 
 
@@ -57,7 +59,8 @@ export const BRANCHNAVN = {
     UTDANNING: 'utdanning',
     GEOGRAFI: 'geografi',
     SPRAK: 'sprak',
-    FORERKORT: 'forerkort'
+    FORERKORT: 'forerkort',
+    AUTORISASJON: 'autorisasjon'
 };
 
 export const LAGRE_STATUS = {

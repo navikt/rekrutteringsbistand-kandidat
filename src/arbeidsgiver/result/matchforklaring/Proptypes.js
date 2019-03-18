@@ -13,6 +13,7 @@ export const UnmatchedGroupConceptsPropType = PropTypes.shape({
     yrker: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     erfaring: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     kompetanse: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
+    autorisasjon: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     softSkills: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     andre: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired }))
 });
@@ -22,6 +23,7 @@ export const MatchedGroupConceptsPropType = PropTypes.shape({
     yrker: PropTypes.arrayOf(ConceptMatchPropType),
     erfaring: PropTypes.arrayOf(ConceptMatchPropType),
     kompetanse: PropTypes.arrayOf(ConceptMatchPropType),
+    autorisasjon: PropTypes.arrayOf(ConceptMatchPropType),    
     softSkills: PropTypes.arrayOf(ConceptMatchPropType),
     andre: PropTypes.arrayOf(ConceptMatchPropType)
 });

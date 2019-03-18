@@ -34,6 +34,7 @@ const initialState = {
     geografi: initialTypeaheadState(),
     geografiKomplett: initialTypeaheadState(),
     sprak: initialTypeaheadState(),
+    autorisasjon: initialTypeaheadState(),
     forerkort: initialTypeaheadState()
 };
 
@@ -99,6 +100,7 @@ const getTypeAheadBranch = (type) => {
     else if (type === BRANCHNAVN.KOMPETANSE) return 'komp';
     else if (type === BRANCHNAVN.GEOGRAFI) return 'geo';
     else if (type === BRANCHNAVN.SPRAK) return 'sprak';
+    else if (type === BRANCHNAVN.AUTORISASJON) return 'autorisasjon';
     else if (type === BRANCHNAVN.FORERKORT) return 'forerkort';
     return '';
 };

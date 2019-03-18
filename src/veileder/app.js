@@ -21,6 +21,7 @@ import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandid
 import feedbackReducer from './feedback/feedbackReducer';
 import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
+import autorisasjonReducer from './sok/autorisasjon/autorisasjonReducer';
 import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
 import Kandidatliste from './kandidatlister/Kandidatliste';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
@@ -45,6 +46,7 @@ const store = createStore(combineReducers({
     forerkort: forerkortReducer,
     geografi: geografiReducer,
     sprakReducer,
+    autorisasjonReducer,
     innsatsgruppe: innsatsgruppeReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,

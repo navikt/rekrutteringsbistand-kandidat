@@ -33,6 +33,7 @@ import arbeidsgivervelgerReducer, {
 import { KandidatlisteHeader, KandidatsokHeader } from '../common/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
+import autorisasjonReducer from './autorisasjon/autorisasjonReducer';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
@@ -53,6 +54,7 @@ const store = createStore(combineReducers({
     geografi: geografiReducer,
     forerkort: forerkortReducer,
     sprakReducer,
+    autorisasjonReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
     mineArbeidsgivere: arbeidsgivervelgerReducer,

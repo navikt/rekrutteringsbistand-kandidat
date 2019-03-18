@@ -12,6 +12,7 @@ import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch'
 import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
 import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
+import AutorisasjonSearch from '../sok/autorisasjon/AutorisasjonSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, MATCH_SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
@@ -55,6 +56,7 @@ class ResultatVisning extends React.Component {
             totalErfaring: [],
             utdanningsniva: [],
             sprak: [],
+            autorisasjon: [],
             maaBoInnenforGeografi: false
         });
         this.props.removeKompetanseSuggestions();
@@ -151,9 +153,11 @@ class ResultatVisning extends React.Component {
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
+                                        {USE_JANZZ ? <AutorisasjonSearch /> : ''}
                                         <KompetanseSearch />
                                     </div>
-                                    {USE_JANZZ ? <KnappBase
+                                    {USE_JANZZ ? 
+                                    <KnappBase
                                         type="hoved"
                                         onClick={this.onMatchClickMedScroll}
                                         className="send--sokekriterier--knapp"
