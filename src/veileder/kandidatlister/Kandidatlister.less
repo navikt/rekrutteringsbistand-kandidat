@@ -112,7 +112,12 @@
 
       .liste-header {
         border: 1px solid #78706a;
-        padding: 1.25rem 0.75rem;
+        height: 4rem;
+        padding: 0 1.25rem;
+        .typo-element {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       .hent-kandidatlister--spinner {
@@ -128,10 +133,13 @@
 
       .liste-rad {
         border: 1px solid #d8d8d8;
-        padding: 1.25rem 0.75rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        height: 4rem;
+        padding: 0 1.25rem;
+        .typo-normal {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
 
       .liste-rad-innhold {
@@ -151,31 +159,36 @@
         }
 
         .kolonne-smal {
-          padding: 0 0.5rem;
-          margin: auto 1rem auto 0;
+          margin: auto 2rem auto 0;
           flex: 1;
-          overflow: inherit;
-          text-overflow: inherit;
-          white-space: inherit;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .kolonne-smal-rediger {
+          height: 3rem;
+          border-left: 2px solid #e7e9e9;
+          display: flex;
+          margin: auto 2rem auto 0;
+          flex: 1;
+          .Edit {
+            margin-left: 1rem;
+          }
         }
 
         .kolonne-middels {
-          padding: 0 0.5rem;
-          margin: auto 1rem auto 0;
+          margin: auto 2rem auto 0;
           flex: 2;
           display: flex;
-          overflow: inherit;
-          text-overflow: inherit;
-          white-space: inherit;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .kolonne-bred {
-          padding: 0 0.5rem;
-          margin: auto 1rem auto 0;
+          margin: auto 2rem auto 0;
           flex: 4;
-          overflow: inherit;
-          text-overflow: inherit;
-          white-space: inherit;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }

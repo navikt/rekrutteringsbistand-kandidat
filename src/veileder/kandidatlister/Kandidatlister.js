@@ -10,13 +10,16 @@ import { HENT_KANDIDATLISTER, RESET_LAGRE_STATUS } from './kandidatlisteReducer'
 import { formatterDato } from '../../felles/common/dateUtils';
 import './Kandidatlister.less';
 import OpprettModal from './OpprettModal';
+import EndreModal from './EndreModal';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
-    OPPRETT_MODAL: 'OPPRETT_MODAL'
+    OPPRETT_MODAL: 'OPPRETT_MODAL',
+    ENDRE_MODAL: 'ENDRE_MODAL'
 };
 
 const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
@@ -85,7 +88,7 @@ const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange
     </div>
 );
 
-const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
+const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste }) => {
     if (fetching !== 'SUCCESS' || kandidatlister === undefined) {
         return <div className="hent-kandidatlister--spinner"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
@@ -98,7 +101,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister }) => {
 
     return (
         kandidatlister.map((kandidatliste) => (
-            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} />
+            <KandidatlisteRad kandidatliste={kandidatliste} endreKandidatliste={endreKandidatliste} key={JSON.stringify(kandidatliste)} />
         ))
     );
 };
@@ -110,22 +113,18 @@ const ListeHeader = () => (
         <div className="kolonne-middels"><Element>Antall kandidater</Element></div>
         <div className="kolonne-bred"><Element>Opprettet av</Element></div>
         <div className="kolonne-middels"><Element>Finn kandidater</Element></div>
+        <div className="kolonne-smal"><Element>Rediger</Element></div>
     </div>
 );
 
-const KandidatlisteRad = ({ kandidatliste }) => (
+const KandidatlisteRad = ({ kandidatliste, endreKandidatliste }) => (
     <div className="liste-rad liste-rad-innhold">
         <div className="kolonne-middels"><Normaltekst>{`${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Normaltekst></div>
         <div className="kolonne-bred">
-            <Link
-                to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                className="lenke"
-            >
-                <Normaltekst>{kandidatliste.tittel}</Normaltekst>
-            </Link>
+            <Link to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="typo-normal lenke">{kandidatliste.tittel}</Link>
         </div>
         <div className="kolonne-middels"><Normaltekst>{kandidatliste.kandidater.length}</Normaltekst></div>
-        <div className="kolonne-bred">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</div>
+        <div className="kolonne-bred"><Normaltekst>{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst></div>
         <div className="kolonne-middels">
             <Link
                 aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
@@ -134,6 +133,11 @@ const KandidatlisteRad = ({ kandidatliste }) => (
             >
                 <i className="FinnKandidater__icon" />
             </Link>
+        </div>
+        <div className="kolonne-smal-rediger">
+            <Lenkeknapp aria-label="Endre kandidatliste" onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
+                <i className="Edit__icon" />
+            </Lenkeknapp>
         </div>
     </div>
 );
@@ -163,7 +167,9 @@ class Kandidatlister extends React.Component {
         this.state = {
             modalstatus: MODALVISING.INGEN_MODAL,
             visSuccessMelding: false,
-            sokeOrd: this.props.kandidatlisterSokeKriterier.query
+            successMelding: '',
+            sokeOrd: this.props.kandidatlisterSokeKriterier.query,
+            kandidatlisteIEndring: undefined
         };
     }
 
@@ -177,7 +183,7 @@ class Kandidatlister extends React.Component {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
             const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne);
-            this.visSuccessMelding();
+            this.visSuccessMelding(this.state.kandidatlisteIEndring);
             this.onLukkModalClick();
             this.props.resetLagreStatus();
         }
@@ -218,9 +224,17 @@ class Kandidatlister extends React.Component {
         });
     };
 
+    onEndreClick = (kandidatliste) => {
+        this.setState({
+            modalstatus: MODALVISING.ENDRE_MODAL,
+            kandidatlisteIEndring: kandidatliste
+        });
+    };
+
     onLukkModalClick = () => {
         this.setState({
-            modalstatus: MODALVISING.INGEN_MODAL
+            modalstatus: MODALVISING.INGEN_MODAL,
+            kandidatlisteIEndring: undefined
         });
     };
 
@@ -257,8 +271,11 @@ class Kandidatlister extends React.Component {
         this.props.removeKompetanseSuggestions();
     };
 
-    visSuccessMelding = () => {
-        this.setState({ visSuccessMelding: true });
+    visSuccessMelding = (endring) => {
+        this.setState({
+            visSuccessMelding: true,
+            successMelding: `${endring ? 'Endringene er lagret' : `Kandidatliste "${this.props.opprettetTittel}" opprettet`}`
+        });
         this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
     };
 
@@ -267,19 +284,21 @@ class Kandidatlister extends React.Component {
     };
 
     render() {
-        const { kandidatlister, fetchingKandidatlister, opprettetTittel, kandidatlisterSokeKriterier } = this.props;
+        const { kandidatlister, fetchingKandidatlister, kandidatlisterSokeKriterier } = this.props;
+        const { modalstatus, kandidatlisteIEndring, visSuccessMelding, successMelding, sokeOrd } = this.state;
         return (
             <div>
-                {this.state.modalstatus === MODALVISING.OPPRETT_MODAL && <OpprettModal onAvbrytClick={this.onLukkModalClick} />}
+                {modalstatus === MODALVISING.OPPRETT_MODAL && <OpprettModal onAvbrytClick={this.onLukkModalClick} />}
+                {modalstatus === MODALVISING.ENDRE_MODAL && <EndreModal kandidatliste={kandidatlisteIEndring} onAvbrytClick={this.onLukkModalClick} />}
                 <HjelpetekstFading
                     id="kandidatliste-lagret-melding"
-                    synlig={this.state.visSuccessMelding}
+                    synlig={visSuccessMelding}
                     type="suksess"
-                    tekst={`Kandidatliste "${opprettetTittel}" opprettet`}
+                    tekst={successMelding}
                 />
                 <div className="Kandidatlister">
                     <SideHeader
-                        sokeOrd={this.state.sokeOrd}
+                        sokeOrd={sokeOrd}
                         onSokeOrdChange={this.onSokeOrdChange}
                         onSubmitSokKandidatlister={this.onSubmitSokKandidatlister}
                         nullstillSok={this.onNullstillSokClick}
@@ -298,7 +317,7 @@ class Kandidatlister extends React.Component {
                             </div>
                             <div className="kandidatlister-table">
                                 <ListeHeader />
-                                <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} />
+                                <Kandidatlistevisning kandidatlister={kandidatlister} endreKandidatliste={this.onEndreClick} fetching={fetchingKandidatlister} />
                             </div>
                         </div>
                     </div>
@@ -371,7 +390,8 @@ KandidatlisterKnappeFilter.propTypes = {
 };
 
 KandidatlisteRad.propTypes = {
-    kandidatliste: KandidatlisteBeskrivelse.isRequired
+    kandidatliste: KandidatlisteBeskrivelse.isRequired,
+    endreKandidatliste: PropTypes.func.isRequired
 };
 
 Kandidatlister.defaultProps = {

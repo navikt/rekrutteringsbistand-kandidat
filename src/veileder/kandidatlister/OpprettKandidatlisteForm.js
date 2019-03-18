@@ -19,7 +19,7 @@ class OpprettKandidatlisteForm extends React.Component {
         this.state = {
             kandidatlisteInfo: props.kandidatlisteInfo,
             visValideringsfeilInput: false,
-            typeaheadValue: ''
+            typeaheadValue: props.kandidatlisteInfo.organisasjonNavn
         };
     }
 
@@ -41,7 +41,7 @@ class OpprettKandidatlisteForm extends React.Component {
         if (this.props.resetStatusTilUnsaved) {
             this.props.resetStatusTilUnsaved();
         }
-    }
+    };
 
     onBeskrivelseChange = (event) => {
         const { value } = event.target;
@@ -56,7 +56,7 @@ class OpprettKandidatlisteForm extends React.Component {
         if (this.props.resetStatusTilUnsaved) {
             this.props.resetStatusTilUnsaved();
         }
-    }
+    };
 
     onBedriftChange = (value) => {
         if (value !== '') {
@@ -74,7 +74,7 @@ class OpprettKandidatlisteForm extends React.Component {
                 typeaheadValue: value
             });
         }
-    }
+    };
 
     onBedriftSelect = ({ value }) => {
         const bedrift = this.props.suggestions.find((s) => s.orgnr === value);
@@ -87,16 +87,16 @@ class OpprettKandidatlisteForm extends React.Component {
                 }
             });
         }
-    }
+    };
 
     onBedriftSubmit = (e) => {
         e.preventDefault();
         this.setBedrift();
-    }
+    };
 
     onTypeAheadBlur = () => {
         this.setBedrift();
-    }
+    };
 
     setBedrift = () => {
         const bedrift = this.lookUpEmployer(this.state.typeaheadValue);
@@ -109,7 +109,7 @@ class OpprettKandidatlisteForm extends React.Component {
                 }
             });
         }
-    }
+    };
 
     getEmployerSuggestionLabel = (suggestion) => {
         let commaSeparate = [];
@@ -173,7 +173,7 @@ class OpprettKandidatlisteForm extends React.Component {
             return capitalized;
         }
         return text;
-    }
+    };
 
     capitalizeLocation = (text) => {
         const separators = [
@@ -202,13 +202,13 @@ class OpprettKandidatlisteForm extends React.Component {
             return capitalized;
         }
         return text;
-    }
-
+    };
 
     validateAndSave = () => {
         if (this.validerTittel() && this.validerBeskrivelse()) {
             const { tittel, beskrivelse, bedrift } = this.state.kandidatlisteInfo;
             this.props.onSave({
+                ...this.state.kandidatlisteInfo,
                 tittel,
                 beskrivelse,
                 orgNr: bedrift ? bedrift.orgnr : undefined,
@@ -316,7 +316,8 @@ OpprettKandidatlisteForm.propTypes = {
     resetStatusTilUnsaved: PropTypes.func,
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
-        beskrivelse: PropTypes.string
+        beskrivelse: PropTypes.string,
+        organisasjonNavn: PropTypes.string
     }).isRequired,
     saving: PropTypes.bool,
     onAvbrytClick: PropTypes.func.isRequired,

@@ -237,6 +237,10 @@ export function putKandidatliste(stillingsId) {
     return putRequest(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste/`);
 }
 
+export function putOppdaterKandidatliste(kandidatlisteBeskrivelse) {
+    return putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteBeskrivelse.kandidatlisteId}`, JSON.stringify(kandidatlisteBeskrivelse));
+}
+
 export function fetchGeografiKode(geografiKode) {
     return fetchJson(`${KODEVERK_API}/arenageografikoder/${geografiKode}`, true);
 }
