@@ -344,7 +344,7 @@ class Kandidatlister extends React.Component {
                         <KandidatlisterRadioFilter kandidatlisterSokeKriterier={kandidatlisterSokeKriterier} onFilterChange={this.onFilterChange} />
                         <div className="kandidatlister-table__wrapper">
                             <div className="kandidatlister-table--top">
-                                <Systemtittel>{`${totaltAntallKandidatlister} kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Systemtittel>
+                                <Systemtittel>{`${totaltAntallKandidatlister === undefined ? '0' : totaltAntallKandidatlister} kandidatliste${totaltAntallKandidatlister === 1 ? '' : 'r'}`}</Systemtittel>
                                 <KandidatlisterKnappeFilter
                                     kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                                     onVisMineKandidatlister={this.onVisMineKandidatlister}

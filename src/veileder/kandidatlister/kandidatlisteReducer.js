@@ -148,7 +148,7 @@ const initialState = {
     hentListerStatus: HENT_STATUS.IKKE_HENTET,
     kandidatlister: {
         liste: [],
-        antall: 0
+        antall: undefined
     },
     hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
     kandidatlisteMedAnnonsenummer: undefined,
@@ -420,6 +420,10 @@ export default function reducer(state = initialState, action) {
         case RESET_KANDIDATLISTER_SOKEKRITERIER:
             return {
                 ...state,
+                kandidatlister: {
+                    liste: [],
+                    antall: undefined
+                },
                 kandidatlisterSokeKriterier: {
                     query: '',
                     type: '',
