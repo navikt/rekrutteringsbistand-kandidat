@@ -21,7 +21,6 @@ import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandid
 import feedbackReducer from './feedback/feedbackReducer';
 import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
-import sertifikatReducer from './sok/sertifikat/sertifikatReducer';
 import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
 import Kandidatliste from './kandidatlister/Kandidatliste';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
