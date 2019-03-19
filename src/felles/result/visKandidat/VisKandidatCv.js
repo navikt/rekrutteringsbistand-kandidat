@@ -186,7 +186,7 @@ const VisKandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.wwer && cv.sertifikater.length !== 0 && (
+            {cv.sertifikater && cv.sertifikater.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
                         <Undertittel className="cv__overskrift">Sertifiseringer og sertifikater</Undertittel>
