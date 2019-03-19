@@ -148,13 +148,14 @@ class ResultatVisning extends React.Component {
                                     </KnappBase> : ''}
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
+                                        {USE_JANZZ ? <KompetanseSearch /> : ''}
                                         <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         {USE_JANZZ ? <AutorisasjonSearch /> : ''}
-                                        <KompetanseSearch />
+                                        {!USE_JANZZ ? <KompetanseSearch /> : ''}
                                     </div>
                                     {USE_JANZZ ? 
                                     <KnappBase

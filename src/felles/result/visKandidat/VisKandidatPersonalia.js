@@ -11,6 +11,7 @@ import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
+import { USE_JANZZ } from '../../../arbeidsgiver/common/fasitProperties';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
@@ -58,7 +59,7 @@ export default class VisKandidatPersonalia extends React.Component {
 
         return (
             <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
-
+            { !USE_JANZZ &&
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
                         <Link
@@ -78,6 +79,7 @@ export default class VisKandidatPersonalia extends React.Component {
                         )}
                     </Column>
                 </Container>
+            }
 
                 <Row>
                     <Sidetittel className="header--personalia__overskrift">

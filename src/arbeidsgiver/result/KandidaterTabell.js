@@ -5,6 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../../felles/PropTypes';
+import { USE_JANZZ } from '../../arbeidsgiver/common/fasitProperties';
 
 
 export default function KandidaterTabell({
@@ -41,7 +42,7 @@ export default function KandidaterTabell({
                     />
                 ))}
             </div>
-            <div className="buttons--kandidatervisning">
+            {!USE_JANZZ && <div className="buttons--kandidatervisning">
                 {antallResultater < totaltAntallTreff && (
                     <Knapp
                         type="hoved"
@@ -54,7 +55,7 @@ export default function KandidaterTabell({
                 <Element className="antall-treff-kandidatervisning">
                     Viser {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av {totaltAntallTreff}
                 </Element>
-            </div>
+            </div>}
         </div>
     );
 }
