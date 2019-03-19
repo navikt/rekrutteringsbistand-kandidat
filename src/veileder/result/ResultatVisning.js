@@ -187,7 +187,7 @@ class ResultatVisning extends React.Component {
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
                                         <UtdanningSearch />
-                                        <ArbeidserfaringSearch />www
+                                        <ArbeidserfaringSearch />
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
