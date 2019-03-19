@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { USE_JANZZ } from '../../../arbeidsgiver/common/fasitProperties';
 
 const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, gjeldendeKandidat, antallKandidater }) => {
-    if (antallKandidater > 1 && !USE_JANZZ) {
+    if (antallKandidater > 1) {
         return (
             <div className="navigering-forrige-neste">
                 {forrigeKandidat &&
