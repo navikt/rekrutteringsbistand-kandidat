@@ -21,6 +21,7 @@ import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
 import { CONTEXT_ROOT } from '../../common/fasitProperties';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import { USE_JANZZ } from '../../common/fasitProperties';
 import './VisKandidat.less';
 
 class VisKandidat extends React.Component {
@@ -203,7 +204,7 @@ class VisKandidat extends React.Component {
                         )}
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
-                        <div className="navigering-forrige-neste_wrapper">
+                        {!USE_JANZZ && <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
                                 lenkeClass={'header--personalia__lenke--veileder'}
                                 gjeldendeKandidat={this.state.gjeldendeKandidat}
@@ -211,7 +212,7 @@ class VisKandidat extends React.Component {
                                 nesteKandidat={nesteKandidatLink}
                                 antallKandidater={antallKandidater}
                             />
-                        </div>
+                        </div>}
                     </div>
                 )}
             </div>
