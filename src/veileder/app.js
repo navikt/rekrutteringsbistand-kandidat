@@ -46,7 +46,6 @@ const store = createStore(combineReducers({
     forerkort: forerkortReducer,
     geografi: geografiReducer,
     sprakReducer,
-    sertifikatReducer,
     innsatsgruppe: innsatsgruppeReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
