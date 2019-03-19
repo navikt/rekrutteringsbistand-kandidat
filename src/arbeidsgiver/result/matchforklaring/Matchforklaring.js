@@ -87,7 +87,7 @@ const MatchPanel = ({ matchedeKonsepter, score }) => {
         <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning} />
         <KonsepttypeMedMatch tittel="Yrkeserfaring" konseptmatcher={matchedeKonsepter.erfaring} />
         <KonsepttypeMedMatch tittel="Kompetanse" konseptmatcher={matchedeKonsepter.kompetanse} />
-        <KonsepttypeMedMatch tittel="Autorisasjon" konseptmatcher={matchedeKonsepter.autorisasjon} />
+        <KonsepttypeMedMatch tittel="Sertifikat" konseptmatcher={matchedeKonsepter.sertifikat} />
         <KonsepttypeMedMatch tittel="Soft skills" konseptmatcher={matchedeKonsepter.softSkills} />
         <KonsepttypeMedMatch tittel="Annet" konseptmatcher={matchedeKonsepter.andre} />
     </Row>
@@ -118,7 +118,7 @@ const IkkematchPanel = ({ stillingskonsepter, kandidatkonsepter }) => {
         <KonsepttypeUtenMatch tittel="Utdanning" stillingskonsepter={stillingskonsepter.utdanning} kandidatkonsepter={kandidatkonsepter.utdanning} />
         <KonsepttypeUtenMatch tittel="Yrkeserfaring" stillingskonsepter={stillingskonsepter.erfaring} kandidatkonsepter={kandidatkonsepter.erfaring} />
         <KonsepttypeUtenMatch tittel="Kompetanse" stillingskonsepter={stillingskonsepter.kompetanse} kandidatkonsepter={kandidatkonsepter.kompetanse} />
-        <KonsepttypeUtenMatch tittel="Autorisasjon" stillingskonsepter={stillingskonsepter.autorisasjon} kandidatkonsepter={kandidatkonsepter.autorisasjon} />
+        <KonsepttypeUtenMatch tittel="Sertifikat" stillingskonsepter={stillingskonsepter.sertifikat} kandidatkonsepter={kandidatkonsepter.sertifikat} />
         <KonsepttypeUtenMatch tittel="Soft skills" stillingskonsepter={stillingskonsepter.softSkills} kandidatkonsepter={kandidatkonsepter.softSkills} />
         <KonsepttypeUtenMatch tittel="Andre" stillingskonsepter={stillingskonsepter.andre} kandidatkonsepter={kandidatkonsepter.andre} />
     </Row>

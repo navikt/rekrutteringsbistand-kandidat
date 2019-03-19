@@ -36,7 +36,7 @@ export const ALERTTYPE = {
     GEOGRAFI: 'geografi',
     FORERKORT: 'forerkort',
     INNSATSGRUPPE: 'innsatsgruppe',
-    AUTORISASJON: 'autorisasjon'
+    SERTIFIKAT: 'sertifikat'
 };
 
 
@@ -48,7 +48,7 @@ export const KONSEPTTYPE = {
     ERFARING: 'experience level',
     STED: 'location',
     FORERKORT: 'license',
-    AUTORISASJON: 'authorization'
+    SERTIFIKAT: 'authorization'
 };
 
 
@@ -60,7 +60,7 @@ export const BRANCHNAVN = {
     GEOGRAFI: 'geografi',
     SPRAK: 'sprak',
     FORERKORT: 'forerkort',
-    AUTORISASJON: 'autorisasjon'
+    SERTIFIKAT: 'sertifikat'
 };
 
 export const LAGRE_STATUS = {
