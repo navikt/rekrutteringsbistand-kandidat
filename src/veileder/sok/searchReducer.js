@@ -226,7 +226,6 @@ export const fromUrlQuery = (url) => {
     const totalErfaring = getUrlParameterByName('totalErfaring', url);
     const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
     const sprak = getUrlParameterByName('sprak', url);
-    const sertifikat = getUrlParameterByName('sertifikat', url);
     const forerkort = getUrlParameterByName('forerkort', url);
     const kvalifiseringsgruppeKoder = getUrlParameterByName('kvalifiseringsgruppeKoder', url);
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
@@ -241,7 +240,6 @@ export const fromUrlQuery = (url) => {
     if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
-    if (sertifikat) stateFromUrl.sertifikat = sertifikat.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
     if (kvalifiseringsgruppeKoder) stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
@@ -260,7 +258,6 @@ export const toUrlQuery = (state) => {
     if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
     if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
     if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
-    if (state.sertifikatReducer.sertifikat && state.sertifikatReducer.sertifikat.length > 0) urlQuery.sertifikat = state.sertifikatReducer.sertifikat.join('_');
     if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
     if (state.innsatsgruppe.kvalifiseringsgruppeKoder && state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0) urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
@@ -302,7 +299,6 @@ function* search(action = '') {
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
-            sertifikat: state.sertifikatReducer.sertifikat,
             kvalifiseringsgruppeKoder: state.innsatsgruppe.kvalifiseringsgruppeKoder,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
             forerkort: forerkortListe
