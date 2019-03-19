@@ -108,12 +108,12 @@
     }
 
     .kandidatlister-table {
-      margin-top: 1.25rem;
+      margin: 1.25rem 0 2rem;
 
       .liste-header {
         border: 1px solid #78706a;
         height: 4rem;
-        padding: 0 1.25rem;
+        padding-left: 1.25rem;
         .typo-element {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -128,13 +128,13 @@
       .liste-rad__tom {
         display: flex;
         justify-content: center;
-        margin-top: 2rem;
+        margin-top: 4rem;
       }
 
       .liste-rad {
         border: 1px solid #d8d8d8;
         height: 4rem;
-        padding: 0 1.25rem;
+        padding-left: 1.25rem;
         .typo-normal {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -143,7 +143,7 @@
       }
 
       .liste-rad-innhold {
-        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
         border-radius: 4px;
         overflow: hidden;
         background-color: white;
@@ -159,18 +159,20 @@
         }
 
         .kolonne-smal {
-          margin: auto 2rem auto 0;
-          flex: 1;
+          margin: auto 0.5rem auto 0;
+          flex: 2;
+          min-width: 3.5rem;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
-        .kolonne-smal-rediger {
-          height: 3rem;
-          border-left: 2px solid #e7e9e9;
+        .kolonne-smal-knapp {
+          height: 2.875rem;
+          border-left: 1px solid #d8d8d8;
           display: flex;
-          margin: auto 2rem auto 0;
-          flex: 1;
+          margin: auto 0.5rem auto 0;
+          flex: 2;
+          min-width: 3.5rem;
           .Edit {
             margin-left: 1rem;
           }
@@ -178,7 +180,7 @@
 
         .kolonne-middels {
           margin: auto 2rem auto 0;
-          flex: 2;
+          flex: 5;
           display: flex;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -186,10 +188,18 @@
 
         .kolonne-bred {
           margin: auto 2rem auto 0;
-          flex: 4;
+          flex: 9;
           overflow: hidden;
           text-overflow: ellipsis;
         }
+      }
+    }
+
+    .kandidatlister-table--bottom {
+      text-align: center;
+
+      .kandidatlister-table--bottom__buttons {
+        margin-top: 1rem;
       }
     }
   }

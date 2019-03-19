@@ -16,6 +16,7 @@ import SprakSearch from '../sok/sprak/SprakSearch';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
+import { RESET_KANDIDATLISTER_SOKEKRITERIER } from '../kandidatlister/kandidatlisteReducer';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -36,6 +37,7 @@ class ResultatVisning extends React.Component {
     componentDidMount() {
         const { stillingsId } = this.props.match.params;
         this.props.initialSearch(stillingsId);
+        this.props.resetKandidatlisterSokekriterier();
     }
 
     componentDidUpdate(prevProps) {
@@ -247,7 +249,8 @@ ResultatVisning.propTypes = {
             kandidatlisteId: PropTypes.string,
             stillingsId: PropTypes.string
         })
-    })
+    }),
+    resetKandidatlisterSokekriterier: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -263,7 +266,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId) => { dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId }); }
+    initialSearch: (stillingsId) => { dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId }); },
+    resetKandidatlisterSokekriterier: () => { dispatch({ type: RESET_KANDIDATLISTER_SOKEKRITERIER }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);
