@@ -23,6 +23,8 @@ const MODALVISING = {
     ENDRE_MODAL: 'ENDRE_MODAL'
 };
 
+const PAGINERING_BATCH_SIZE = 20;
+
 const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
     <form className="kandidatlister__sok" onSubmit={onSubmitSokKandidatlister}>
         <input
@@ -200,13 +202,13 @@ class Kandidatlister extends React.Component {
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
         this.resetSearchQuery();
-        this.props.hentKandidatlister(query, type, kunEgne, pagenumber, 20);
+        this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
-            const { query, type, kunEgne, pagenumber, pagesize } = this.props.kandidatlisterSokeKriterier;
-            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, pagesize);
+            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
             this.visSuccessMelding(this.state.kandidatlisteIEndring);
             this.onLukkModalClick();
             this.props.resetLagreStatus();
@@ -219,7 +221,7 @@ class Kandidatlister extends React.Component {
 
     onFilterChange = (e) => {
         const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, 20);
+        this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, PAGINERING_BATCH_SIZE);
     };
 
     onSokeOrdChange = (e) => {
@@ -229,7 +231,7 @@ class Kandidatlister extends React.Component {
     onSubmitSokKandidatlister = (e) => {
         e.preventDefault();
         const { type, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(this.state.sokeOrd, type, kunEgne, 0, 20);
+        this.props.hentKandidatlister(this.state.sokeOrd, type, kunEgne, 0, PAGINERING_BATCH_SIZE);
     };
 
     onNullstillSokClick = () => {
@@ -238,7 +240,7 @@ class Kandidatlister extends React.Component {
             this.setState({ sokeOrd: '' });
         }
         if (query !== '' || type !== '' || !kunEgne || pagenumber !== 0) {
-            this.props.hentKandidatlister('', '', true, 0, 20);
+            this.props.hentKandidatlister('', '', true, 0, PAGINERING_BATCH_SIZE);
         }
     };
 
@@ -265,25 +267,25 @@ class Kandidatlister extends React.Component {
     onVisMineKandidatlister = () => {
         const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         if (!kunEgne) {
-            this.props.hentKandidatlister(query, type, true, 0, 20);
+            this.props.hentKandidatlister(query, type, true, 0, PAGINERING_BATCH_SIZE);
         }
     };
 
     onVisAlleKandidatlister = () => {
         const { query, type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         if (kunEgne) {
-            this.props.hentKandidatlister(query, type, false, 0, 20);
+            this.props.hentKandidatlister(query, type, false, 0, PAGINERING_BATCH_SIZE);
         }
     };
 
     onHentKandidatlisterForrigeSide = () => {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, type, kunEgne, Math.max(pagenumber - 1, 0), 20);
+        this.props.hentKandidatlister(query, type, kunEgne, Math.max(pagenumber - 1, 0), PAGINERING_BATCH_SIZE);
     };
 
     onHentKandidatlisterNesteSide = () => {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, 20);
+        this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, PAGINERING_BATCH_SIZE);
     };
 
     resetSearchQuery = () => {
