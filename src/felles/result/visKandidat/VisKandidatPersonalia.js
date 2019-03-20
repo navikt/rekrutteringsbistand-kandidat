@@ -43,7 +43,7 @@ export default class VisKandidatPersonalia extends React.Component {
     };
 
     render() {
-        const { cv, appContext, antallKandidater, tilbakeLink, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv } = this.props;
+        const { cv, appContext, antallKandidater, tilbakeLink, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv, visNavigasjon } = this.props;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -66,7 +66,7 @@ export default class VisKandidatPersonalia extends React.Component {
                         >
                             <NavFrontendChevron type="venstre" /> Til {tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
-                        {fantCv && (
+                        {fantCv && visNavigasjon && (
                             <VisKandidatForrigeNeste
                                 lenkeClass={lenkeClass}
                                 forrigeKandidat={forrigeKandidat}
@@ -142,7 +142,8 @@ VisKandidatPersonalia.defaultProps = {
     gjeldendeKandidat: undefined,
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
-    fantCv: true
+    fantCv: true,
+    visNavigasjon: true
 };
 
 VisKandidatPersonalia.propTypes = {
@@ -153,5 +154,6 @@ VisKandidatPersonalia.propTypes = {
     gjeldendeKandidat: PropTypes.number,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
-    fantCv: PropTypes.bool
+    fantCv: PropTypes.bool,
+    visNavigasjon: PropTypes.bool
 };

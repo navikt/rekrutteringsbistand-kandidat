@@ -176,6 +176,7 @@ class VisKandidat extends React.Component {
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+                    visNavigasjon={!USE_JANZZ}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
                     <div className="cvIkkeFunnet">
