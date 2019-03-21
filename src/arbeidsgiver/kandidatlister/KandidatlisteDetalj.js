@@ -123,8 +123,9 @@ class KandidatlisteDetalj extends React.Component {
         });
     };
 
-    visSlettKandidaterFeilmelding = () => {
-        this.setState({ visSlettKandidaterFeilmelding: true });
+    onFjernKandidat = (kandidat) => {
+        const enkelKandidatIListe = [kandidat];
+        this.props.slettKandidater(this.props.kandidatlisteId, enkelKandidatIListe);
     };
 
     markerAlleClicked = () => {
@@ -160,6 +161,10 @@ class KandidatlisteDetalj extends React.Component {
         if (this.mounted) {
             this.setState({ visSlettSuccessMelding: false });
         }
+    };
+
+    visSlettKandidaterFeilmelding = () => {
+        this.setState({ visSlettKandidaterFeilmelding: true });
     };
 
     render() {
@@ -307,6 +312,7 @@ class KandidatlisteDetalj extends React.Component {
                 <Knapp
                     className="knapp--fjern-kandidat"
                     mini
+                    onClick={() => this.onFjernKandidat(kandidat)}
                 >
                     Fjern kandidat
                 </Knapp>
