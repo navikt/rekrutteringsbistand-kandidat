@@ -15,7 +15,8 @@ import {
     putNotat,
     deleteNotat,
     fetchKandidatlisteMedAnnonsenummer,
-    fetchKandidatlister
+    fetchKandidatlister,
+    endreEierskapPaKandidatliste
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -99,6 +100,10 @@ export const SLETT_NOTAT = 'SLETT_NOTAT';
 export const SLETT_NOTAT_SUCCESS = 'SLETT_NOTAT_SUCCESS';
 export const SLETT_NOTAT_FAILURE = 'SLETT_NOTAT_FAILURE';
 
+export const MARKER_KANDIDATLISTE_SOM_MIN = 'MARKER_KANDIDATLISTE_SOM_MIN';
+export const MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS';
+export const MARKER_KANDIDATLISTE_SOM_MIN_FAILURE = 'MARKER_KANDIDATLISTE_SOM_MIN';
+
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -114,6 +119,13 @@ export const HENT_STATUS = {
     LOADING: 'LOADING',
     SUCCESS: 'SUCCESS',
     FINNES_IKKE: 'FINNES_IKKE',
+    FAILURE: 'FAILURE'
+};
+
+export const MARKER_SOM_MIN_STATUS = {
+    IKKE_GJORT: 'IKKE_GJORT',
+    LOADING: 'LOADING',
+    SUCCESS: 'SUCCESS',
     FAILURE: 'FAILURE'
 };
 
@@ -159,7 +171,8 @@ const initialState = {
         kunEgne: true,
         pagenumber: 0,
         pagesize: 20
-    }
+    },
+    markerSomMinStatus: MARKER_SOM_MIN_STATUS.IKKE_GJORT
 };
 
 export default function reducer(state = initialState, action) {
@@ -456,6 +469,21 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HENT_STATUS.FAILURE
             };
+        case MARKER_KANDIDATLISTE_SOM_MIN:
+            return {
+                ...state,
+                markerSomMinStatus: MARKER_SOM_MIN_STATUS.LOADING
+            };
+        case MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS:
+            return {
+                ...state,
+                markerSomMinStatus: MARKER_SOM_MIN_STATUS.SUCCESS
+            };
+        case MARKER_KANDIDATLISTE_SOM_MIN_FAILURE:
+            return {
+                ...state,
+                markerSomMinStatus: MARKER_SOM_MIN_STATUS.FAILURE
+            };
         default:
             return state;
     }
@@ -707,6 +735,19 @@ function* oppdaterKandidatliste(action) {
     }
 }
 
+function* markerKandidatlisteSomMin(action) {
+    try {
+        yield endreEierskapPaKandidatliste(action.kandidatlisteId);
+        yield put({ type: MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: MARKER_KANDIDATLISTE_SOM_MIN_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
 }
@@ -727,6 +768,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(HENT_KANDIDATLISTE_MED_ANNONSENUMMER, hentKandidatlisteMedAnnonsenummer);
     yield takeLatest(LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
     yield takeLatest(OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
+    yield takeLatest(MARKER_KANDIDATLISTE_SOM_MIN, markerKandidatlisteSomMin);
     yield takeLatest([
         OPPRETT_KANDIDATLISTE_FAILURE,
         HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
@@ -740,7 +782,8 @@ export function* kandidatlisteSaga() {
         ENDRE_NOTAT_FAILURE,
         SLETT_NOTAT_FAILURE,
         HENT_KANDIDATLISTER_FAILURE,
-        LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE
+        LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
+        MARKER_KANDIDATLISTE_SOM_MIN_FAILURE
     ],
     sjekkError);
 }
