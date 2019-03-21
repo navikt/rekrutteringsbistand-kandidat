@@ -9,6 +9,7 @@ import Modal from 'nav-frontend-modal';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import { Knapp } from 'nav-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -22,7 +23,6 @@ import './kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
-import HjelpetekstBase from 'nav-frontend-hjelpetekst';
 
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
@@ -282,7 +282,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const IkkeSynligKandidatPanel = (kandidat) => (
-            <div className="KandidatlisteDetalj__panel__ikke_synlig" >
+            <Panel className="KandidatlisteDetalj__panel__ikke_synlig" key={JSON.stringify(kandidat)}>
                 <div className="KandidatlisteDetalj__panel--first" >
                     <div className="skjemaelement skjemaelement--horisontal text-hide">
                         <input
@@ -302,21 +302,19 @@ class KandidatlisteDetalj extends React.Component {
                             .
                         </label>
                     </div>
-                    Kandidaten er inaktiv
+                    Kandidaten er inaktiv og ikke aktuell for jobb
                 </div>
-                <HjelpetekstBase
-                    id={kandidat.kandidatnr}
-                    type="auto"
+                <Knapp
+                    className="knapp--fjern-kandidat"
+                    mini
                 >
-                Kandidaten er ikke synlig.
-                </HjelpetekstBase>
-            </div>
+                    Fjern kandidat
+                </Knapp>
+            </Panel>
         );
 
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => {
-                console.log('kandidat.erSynlig: ', kandidat.erSynlig);
-
                 if (kandidat.erSynlig) {
                     return (
                         SynligKandidatPanel(kandidat)
