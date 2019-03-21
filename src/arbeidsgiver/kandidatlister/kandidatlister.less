@@ -311,17 +311,53 @@
           left: 75%;
         }
       }
+
+
+      .hjelpetekst__tooltip {
+        left: 0;
+        transform: translateX(calc(-55%));
+      }
     }
 
-    .hjelpetekst__tooltip {
-      left: 0;
-      transform: translateX(calc(-55%));
-    }
   }
+
 
   .KandidatlisteDetalj__panel__ikke_synlig {
     background-color: @navLysGra;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 1.25rem;
+    min-height: 4rem;
+    border-style: solid;
+    border-color: @borderLys;
+    border-width: 1px;
+
+    .KandidatlisteDetalj__panel--first {
+      display: inline-flex;
+      align-items: center;
+      flex-direction: row;
+      padding-right: 8px;
+
+      @media (min-width: @screen-xs) {
+        flex: 0 1 250px;
+        max-width: 250px;
+      }
+
+      @media (min-width: @screen-md) {
+        flex: 0 1 350px;
+        min-width: 350px;
+      }
+
+      @media (max-width: @screen-xs) {
+        flex: 0 1 150px;
+        max-width: 150px;
+      }
+    }
   }
+
+
   .KandidatlisteDetalj__panel {
     display: flex;
     flex-direction: row;
@@ -361,7 +397,6 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        //background-color: @navLysGra;
       }
 
     }

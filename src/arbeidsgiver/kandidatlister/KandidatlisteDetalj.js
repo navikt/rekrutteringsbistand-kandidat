@@ -22,6 +22,7 @@ import './kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
+import HjelpetekstBase from 'nav-frontend-hjelpetekst';
 
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
@@ -281,7 +282,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const IkkeSynligKandidatPanel = (kandidat) => (
-            <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel__ikke_synlig" >
+            <div className="KandidatlisteDetalj__panel__ikke_synlig" >
                 <div className="KandidatlisteDetalj__panel--first" >
                     <div className="skjemaelement skjemaelement--horisontal text-hide">
                         <input
@@ -303,7 +304,13 @@ class KandidatlisteDetalj extends React.Component {
                     </div>
                     Kandidaten er inaktiv
                 </div>
-            </Panel>
+                <HjelpetekstBase
+                    id={kandidat.kandidatnr}
+                    type="auto"
+                >
+                Kandidaten er ikke synlig.
+                </HjelpetekstBase>
+            </div>
         );
 
         const KandidatListe = () => (
