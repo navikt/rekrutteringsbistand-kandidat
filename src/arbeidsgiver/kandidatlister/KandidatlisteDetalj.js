@@ -292,16 +292,14 @@ class KandidatlisteDetalj extends React.Component {
                     <div className="text-hide">
                         <input
                             type="checkbox"
-                            title="Marker"
-                            id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                            id={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
                             className="skjemaelement__input checkboks"
                             aria-label="Kandidat ikke synlig"
                             disabled
-                            onChange={() => this.onKandidatCheckboxClicked(kandidat)}
                         />
                         <label
                             className="skjemaelement__label"
-                            htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                            htmlFor={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
                             aria-hidden="true"
                         >
                             .
