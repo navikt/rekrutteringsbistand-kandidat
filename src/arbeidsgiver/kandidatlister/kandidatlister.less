@@ -332,7 +332,7 @@
     padding: 1.25rem;
     min-height: 4rem;
     border-style: solid;
-    border-color: @borderLys;
+    border-color: #B7B1A9;
     border-width: 1px;
 
     .KandidatlisteDetalj__panel--first {
@@ -342,18 +342,26 @@
       padding-right: 8px;
 
       @media (min-width: @screen-xs) {
-        flex: 0 1 250px;
-        max-width: 250px;
+        flex: 0 1 375px;
+        max-width: 375px;
       }
 
       @media (min-width: @screen-md) {
         flex: 0 1 350px;
-        min-width: 350px;
+        min-width: 375px;
       }
 
       @media (max-width: @screen-xs) {
         flex: 0 1 150px;
         max-width: 150px;
+      }
+    }
+
+    .skjemaelement__label {
+      padding-left: 3rem;
+
+      @media (max-width: @screen-xs) {
+        padding-left: 2rem;
       }
     }
   }

@@ -289,7 +289,7 @@ class KandidatlisteDetalj extends React.Component {
         const IkkeSynligKandidatPanel = (kandidat) => (
             <Panel className="KandidatlisteDetalj__panel__ikke_synlig" key={JSON.stringify(kandidat)}>
                 <div className="KandidatlisteDetalj__panel--first" >
-                    <div className="skjemaelement skjemaelement--horisontal text-hide">
+                    <div className="text-hide">
                         <input
                             type="checkbox"
                             title="Marker"
