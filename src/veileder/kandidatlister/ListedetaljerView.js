@@ -112,7 +112,7 @@ const ListedetaljerView = (props) => {
                     </div>
                     }
                     <div className={`${arbeidsgiver ? 'border-left' : 'no-border-left'}`}>
-                        { `${stillingsId ? 'Registrert av:' : 'Opprettet av:'} ${opprettetAv.navn} (${opprettetAv.ident})` }
+                        {`Veileder: ${opprettetAv.navn} (${opprettetAv.ident})`}
                     </div>
                     {stillingsId &&
                         <div className="border-left">
