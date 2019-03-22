@@ -114,7 +114,7 @@ const ListeHeader = () => (
         <div className="kolonne-middels"><Element>Dato opprettet</Element></div>
         <div className="kolonne-bred"><Element>Navn på kandidatliste</Element></div>
         <div className="kolonne-middels"><Element>Antall kandidater</Element></div>
-        <div className="kolonne-bred"><Element>Opprettet av</Element></div>
+        <div className="kolonne-bred"><Element>Veileder</Element></div>
         <div className="kolonne-middels"><Element>Finn kandidater</Element></div>
         <div className="kolonne-smal"><Element>Rediger</Element></div>
     </div>
