@@ -135,7 +135,7 @@
         border: 1px solid #d8d8d8;
         height: 4rem;
         padding-left: 1.25rem;
-        .typo-normal {
+        .tekst {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -145,7 +145,6 @@
       .liste-rad-innhold {
         margin-bottom: 0.5rem;
         border-radius: 4px;
-        overflow: hidden;
         background-color: white;
         color: #3e3832;
         min-width: 25rem;
@@ -159,9 +158,9 @@
         }
 
         .kolonne-smal {
-          margin: auto 0.5rem auto 0;
+          margin: auto 0;
           flex: 2;
-          min-width: 3.5rem;
+          min-width: 4rem;
           overflow: hidden;
           text-overflow: ellipsis;
         }
@@ -170,20 +169,39 @@
           height: 2.875rem;
           border-left: 1px solid #d8d8d8;
           display: flex;
-          margin: auto 0.5rem auto 0;
+          margin: auto 0;
           flex: 2;
-          min-width: 3.5rem;
-          .Edit {
-            margin-left: 1rem;
+          min-width: 4rem;
+          justify-content: center;
+          .Edit__icon {
+            margin-right: 0;
+          }
+          .hjelpetekst {
+            padding-left: 0;
+            display: flex;
+
+            .EditDisabled__icon {
+              margin-right: 0;
+            }
           }
         }
 
         .kolonne-middels {
           margin: auto 2rem auto 0;
-          flex: 5;
+          flex: 3;
           display: flex;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+
+        .kolonne-middels__finn-kandidater {
+          margin: auto 2rem auto 0;
+          flex: 3;
+          display: flex;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          justify-content: center;
+          max-width: 5rem;
         }
 
         .kolonne-bred {
@@ -246,4 +264,63 @@
   .knapp--avbryt {
     margin-left: 1rem;
   }
+}
+
+.modal--marker-kandidatliste-som-min {
+  padding: 2rem;
+  width: 640px;
+
+  .marker-som-min__avbryt {
+    margin-left: 1rem;
+  }
+}
+
+.kandidatlister-meny {
+  background: #e3edf8;
+  border: 1px solid #c6c2bf;
+  border-radius: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  position: absolute;
+  transform: translate(calc(-160px), calc(55px));
+  width: 160px;
+  z-index: 1;
+
+  > div {
+    color: #0067c5;
+    margin: 0.5rem 0;
+    padding: 3px;
+    display: list-item;
+
+    &:focus {
+      border: 3px solid #ffbd66;
+      outline: none;
+      padding: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  .marker-hjelpetekst-tekst {
+    color: #59514b;
+  }
+
+  .marker-hjelpetekst {
+    transform: translateX(-120px);
+  }
+}
+
+.arrow-up {
+  position: absolute;
+  transform: rotate(45deg) translate(calc(5px), calc(65px));
+  width: 10px;
+  height: 10px;
+  background: #e3edf8;
+  border-left: 1px solid #c6c2bf;
+  border-top: 1px solid #c6c2bf;
+  z-index: 1;
 }

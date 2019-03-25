@@ -300,3 +300,7 @@ export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
     const query = orgnr.replace(/\s/g, '');
     return fetchJson(`${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search?q=organisasjonsnummer:${query}*`);
 };
+
+export const endreEierskapPaKandidatliste = (kandidatlisteId) => (
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/eierskap`)
+);

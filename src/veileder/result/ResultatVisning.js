@@ -110,7 +110,7 @@ class ResultatVisning extends React.Component {
                 <div className="header__row--veileder">
                     <div className="opprettet-av__row">
                         {kandidatliste.organisasjonNavn && <Normaltekst className="text">Arbeidsgiver: {`${capitalizeEmployerName(kandidatliste.organisasjonNavn)}`}</Normaltekst>}
-                        <Normaltekst className="text">Registrert av: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
+                        <Normaltekst className="text">Veileder: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
                         {kandidatliste.beskrivelse && (
                             <Flatknapp className="beskrivelse--knapp" mini onClick={this.onToggleVisBeskrivelse}>
                                 {this.state.visBeskrivelse ? 'Skjul beskrivelse' : 'Se beskrivelse'}
