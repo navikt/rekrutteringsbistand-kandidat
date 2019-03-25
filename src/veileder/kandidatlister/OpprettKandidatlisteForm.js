@@ -17,9 +17,15 @@ class OpprettKandidatlisteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kandidatlisteInfo: props.kandidatlisteInfo,
+            kandidatlisteInfo: {
+                ...props.kandidatlisteInfo,
+                bedrift: props.kandidatlisteInfo.organisasjonNavn && props.kandidatlisteInfo.organisasjonReferanse ? {
+                    name: props.kandidatlisteInfo.organisasjonNavn,
+                    orgnr: props.kandidatlisteInfo.organisasjonReferanse
+                } : undefined
+            },
             visValideringsfeilInput: false,
-            typeaheadValue: props.kandidatlisteInfo.organisasjonNavn
+            typeaheadValue: props.kandidatlisteInfo.organisasjonNavn ? this.capitalizeEmployerName(props.kandidatlisteInfo.organisasjonNavn) : ''
         };
     }
 
@@ -317,7 +323,8 @@ OpprettKandidatlisteForm.propTypes = {
     kandidatlisteInfo: PropTypes.shape({
         tittel: PropTypes.string,
         beskrivelse: PropTypes.string,
-        organisasjonNavn: PropTypes.string
+        organisasjonNavn: PropTypes.string,
+        organisasjonReferanse: PropTypes.string
     }).isRequired,
     saving: PropTypes.bool,
     onAvbrytClick: PropTypes.func.isRequired,
