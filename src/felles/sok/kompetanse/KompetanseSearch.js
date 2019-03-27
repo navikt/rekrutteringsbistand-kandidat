@@ -95,7 +95,7 @@ class KompetanseSearch extends React.Component {
                     Krav til kompetanse
                 </Element>
                 <Normaltekst>
-                    For eksempel: fagbrev, kurs, sertifisering, ferdigheter, propgrammer
+                    For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer
                 </Normaltekst>
                 <div className="sokekriterier--kriterier blokk-s">
                     <div>

@@ -95,6 +95,7 @@ class LeggTilKandidatModal extends React.Component {
                 <li>Kandidaten har ikke jobbprofil</li>
                 <li>Kandidaten har ikke CV</li>
                 <li>Kandidaten har ikke lest hjemmel i ny CV-løsning</li>
+                <li>Kandidaten er egen ansatt, og du har ikke tilgang</li>
                 <li>{'Kandidaten har "Nei nav.no" i Formidlingsinformasjon i Arena'}</li>
                 <li>{'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena'}</li>
             </ul>

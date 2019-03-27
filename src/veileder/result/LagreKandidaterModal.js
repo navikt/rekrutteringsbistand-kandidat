@@ -7,18 +7,24 @@ import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typ
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { HENT_KANDIDATLISTER, HENT_KANDIDATLISTE_MED_ANNONSENUMMER, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer';
+import {
+    HENT_KANDIDATLISTER,
+    HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
+    HENT_STATUS,
+    RESET_KANDIDATLISTER_SOKEKRITERIER
+} from '../kandidatlister/kandidatlisteReducer';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 
+const PAGINERING_BATCH_SIZE = 5;
+
 class LagreKandidaterModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            antallListerSomVises: 5,
             kandidatlister: [],
             annonsenummer: undefined,
             hentetListe: undefined,
@@ -31,17 +37,19 @@ class LagreKandidaterModal extends React.Component {
     }
 
     componentDidMount() {
-        this.props.hentEgneKandidatlister();
+        this.props.hentEgneKandidatlister(0, PAGINERING_BATCH_SIZE);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.hentListerStatus !== this.props.hentListerStatus && this.props.hentListerStatus === HENT_STATUS.SUCCESS) {
             this.setState({
-                kandidatlister: this.props.egneKandidatlister.map((liste) => ({
-                    ...liste,
-                    alleredeLagtTil: false
-                })),
-                antallListerSomVises: this.props.egneKandidatlister.length === 6 ? 6 : this.state.antallListerSomVises
+                kandidatlister: [
+                    ...this.state.kandidatlister,
+                    ...this.props.egneKandidatlister.map((liste) => ({
+                        ...liste,
+                        alleredeLagtTil: false
+                    }))
+                ]
             });
         }
         if (prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus) {
@@ -76,6 +84,7 @@ class LagreKandidaterModal extends React.Component {
         if (this.suksessmeldingCallbackId) {
             clearTimeout(this.suksessmeldingCallbackId);
         }
+        this.props.resetKandidatlisterSokekriterier();
     }
 
     onKeyDown = (e) => {
@@ -96,15 +105,8 @@ class LagreKandidaterModal extends React.Component {
     };
 
     onVisFlereListerClick = () => {
-        if (this.state.kandidatlister.length === this.state.antallListerSomVises + 6) {
-            this.setState({
-                antallListerSomVises: this.state.antallListerSomVises + 6
-            });
-        } else {
-            this.setState({
-                antallListerSomVises: this.state.antallListerSomVises + 5
-            });
-        }
+        const pagenumber = this.props.kandidatlisterSokeKriterier.pagenumber;
+        this.props.hentEgneKandidatlister(pagenumber + 1, PAGINERING_BATCH_SIZE);
     };
 
     visAlertstripeLagreKandidater = () => {
@@ -146,6 +148,7 @@ class LagreKandidaterModal extends React.Component {
             vis,
             onRequestClose,
             hentListerStatus,
+            antallKandidatlister,
             leggTilKandidaterStatus,
             lagretKandidatliste,
             antallLagredeKandidater
@@ -154,7 +157,6 @@ class LagreKandidaterModal extends React.Component {
             kandidatlister,
             hentetListe,
             showHentetListe,
-            antallListerSomVises,
             hentListeFeilmelding,
             visKandidaterLagret
         } = this.state;
@@ -200,7 +202,7 @@ class LagreKandidaterModal extends React.Component {
         );
 
         const ListerTableRows = () => (
-            kandidatlister.slice(0, antallListerSomVises).map((liste) => (
+            kandidatlister.map((liste) => (
                 <ListerTableRow
                     liste={liste}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
@@ -233,18 +235,24 @@ class LagreKandidaterModal extends React.Component {
                         <Row className="lister--rader">
                             <Element>Mine kandidatlister</Element>
                         </Row>
-                        {hentListerStatus === HENT_STATUS.LOADING ? // eslint-disable-line no-nested-ternary
+                        {(antallKandidatlister === undefined && hentListerStatus === HENT_STATUS.LOADING) &&
                             <div className="text-center">
                                 <NavFrontendSpinner type="L" />
                             </div>
-                            : kandidatlister.length > 0 ?
-                                <div>
-                                    <ListerTableHeader />
-                                    <ListerTableRows />
-                                </div>
-                                : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
                         }
-                        {antallListerSomVises < kandidatlister.length &&
+                        {antallKandidatlister > 0 ?
+                            <div>
+                                <ListerTableHeader />
+                                <ListerTableRows />
+                                {hentListerStatus === HENT_STATUS.LOADING &&
+                                    <div className="text-center">
+                                        <NavFrontendSpinner type="L" />
+                                    </div>
+                                }
+                            </div>
+                            : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
+                        }
+                        {kandidatlister.length < antallKandidatlister &&
                             <Flatknapp mini onClick={this.onVisFlereListerClick}>Se flere lister</Flatknapp>
                         }
                         <Normaltekst className="annonsenummer__search--label">
@@ -307,6 +315,14 @@ LagreKandidaterModal.propTypes = {
     onRequestClose: PropTypes.func.isRequired,
     hentListerStatus: PropTypes.string.isRequired,
     hentEgneKandidatlister: PropTypes.func.isRequired,
+    antallKandidatlister: PropTypes.number.isRequired,
+    kandidatlisterSokeKriterier: PropTypes.shape({
+        query: PropTypes.string,
+        type: PropTypes.string,
+        kunEgne: PropTypes.bool,
+        pagenumber: PropTypes.number,
+        pagesize: PropTypes.number
+    }).isRequired,
     hentKandidatlisteMedAnnonsenummer: PropTypes.func.isRequired,
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
     hentListeMedAnnonsenummerStatus: PropTypes.string.isRequired,
@@ -316,11 +332,14 @@ LagreKandidaterModal.propTypes = {
     lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         tittel: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    resetKandidatlisterSokekriterier: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     egneKandidatlister: state.kandidatlister.kandidatlister.liste,
+    antallKandidatlister: state.kandidatlister.kandidatlister.antall,
+    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
@@ -330,8 +349,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentEgneKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true }); },
-    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); }
+    hentEgneKandidatlister: (pagenumber, pagesize) => { dispatch({ type: HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true, pagenumber, pagesize }); },
+    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); },
+    resetKandidatlisterSokekriterier: () => { dispatch({ type: RESET_KANDIDATLISTER_SOKEKRITERIER }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LagreKandidaterModal);
