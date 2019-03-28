@@ -311,13 +311,62 @@
           left: 75%;
         }
       }
-    }
 
-    .hjelpetekst__tooltip {
-      left: 0;
-      transform: translateX(calc(-55%));
+
+      .hjelpetekst__tooltip {
+        left: 0;
+        transform: translateX(calc(-55%));
+      }
     }
   }
+
+  .KandidatlisteDetalj__panel__ikke_synlig {
+    background-color: @navLysGra;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding-top: 1.0625rem;
+    padding-bottom: 1.0625rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    min-height: 4rem;
+    border-style: solid;
+    border-color: #B7B1A9;
+    border-width: 1px;
+
+    .KandidatlisteDetalj__panel--first {
+      display: inline-flex;
+      align-items: center;
+      flex-direction: row;
+      padding-right: 8px;
+
+      @media (min-width: @screen-xs) {
+        flex: 0 1 375px;
+        max-width: 375px;
+      }
+
+      @media (min-width: @screen-md) {
+        flex: 0 1 350px;
+        min-width: 375px;
+      }
+
+      @media (max-width: @screen-xs) {
+        flex: 0 1 150px;
+        max-width: 150px;
+      }
+    }
+
+    .skjemaelement__label {
+      padding-left: 3rem;
+
+      @media (max-width: @screen-xs) {
+        padding-left: 2rem;
+      }
+    }
+  }
+
 
   .KandidatlisteDetalj__panel {
     display: flex;

@@ -17,7 +17,8 @@ export const Kandidat = {
     fodselsdato: PropTypes.string,
     fodselsnr: PropTypes.string,
     innsatsgruppe: PropTypes.string,
-    utfall: PropTypes.string
+    utfall: PropTypes.string,
+    erSynlig: PropTypes.bool
 };
 
 export const Kandidatliste = {

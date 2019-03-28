@@ -9,6 +9,7 @@ import Modal from 'nav-frontend-modal';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import { Knapp } from 'nav-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -122,8 +123,9 @@ class KandidatlisteDetalj extends React.Component {
         });
     };
 
-    visSlettKandidaterFeilmelding = () => {
-        this.setState({ visSlettKandidaterFeilmelding: true });
+    onFjernKandidat = (kandidat) => {
+        const enkelKandidatIListe = [kandidat];
+        this.props.slettKandidater(this.props.kandidatlisteId, enkelKandidatIListe);
     };
 
     markerAlleClicked = () => {
@@ -159,6 +161,10 @@ class KandidatlisteDetalj extends React.Component {
         if (this.mounted) {
             this.setState({ visSlettSuccessMelding: false });
         }
+    };
+
+    visSlettKandidaterFeilmelding = () => {
+        this.setState({ visSlettKandidaterFeilmelding: true });
     };
 
     render() {
@@ -251,35 +257,75 @@ class KandidatlisteDetalj extends React.Component {
             </Panel>
         );
 
-        const KandidatListe = () => (
-            kandidater && kandidater.map((kandidat) => (
-                <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
-                    <div className="KandidatlisteDetalj__panel--first">
-                        <div className="skjemaelement skjemaelement--horisontal text-hide">
-                            <input
-                                type="checkbox"
-                                title="Marker"
-                                id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                                className="skjemaelement__input checkboks"
-                                aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
-                                checked={kandidat.checked}
-                                onChange={() => this.onKandidatCheckboxClicked(kandidat)}
-                            />
-                            <label
-                                className="skjemaelement__label"
-                                htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                                aria-hidden="true"
-                            >
-                                .
-                            </label>
-                        </div>
-                        <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
-                            {fornavnOgEtternavnFraKandidat(kandidat)}
-                        </Link>
+        const SynligKandidatPanel = (kandidat) => (
+            <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
+                <div className="KandidatlisteDetalj__panel--first">
+                    <div className="skjemaelement skjemaelement--horisontal text-hide">
+                        <input
+                            type="checkbox"
+                            title="Marker"
+                            id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                            className="skjemaelement__input checkboks"
+                            aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
+                            checked={kandidat.checked}
+                            onChange={() => this.onKandidatCheckboxClicked(kandidat)}
+                        />
+                        <label
+                            className="skjemaelement__label"
+                            htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                            aria-hidden="true"
+                        >
+                            .
+                        </label>
                     </div>
-                    <Normaltekst>{kandidat.sisteArbeidserfaring}</Normaltekst>
-                </Panel>
-            ))
+                    <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                        {fornavnOgEtternavnFraKandidat(kandidat)}
+                    </Link>
+                </div>
+                <Normaltekst>{kandidat.sisteArbeidserfaring}</Normaltekst>
+            </Panel>
+        );
+
+        const IkkeSynligKandidatPanel = (kandidat) => (
+            <Panel className="KandidatlisteDetalj__panel__ikke_synlig" key={JSON.stringify(kandidat)}>
+                <div className="KandidatlisteDetalj__panel--first" >
+                    <div className="text-hide">
+                        <input
+                            type="checkbox"
+                            id={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
+                            className="skjemaelement__input checkboks"
+                            aria-label="Kandidat ikke synlig"
+                            disabled
+                        />
+                        <label
+                            className="skjemaelement__label"
+                            htmlFor={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
+                            aria-hidden="true"
+                        >
+                            .
+                        </label>
+                    </div>
+                    Kandidaten er inaktiv og ikke aktuell for jobb
+                </div>
+                <Knapp
+                    className="knapp--fjern-kandidat"
+                    mini
+                    onClick={() => this.onFjernKandidat(kandidat)}
+                >
+                    Fjern kandidat
+                </Knapp>
+            </Panel>
+        );
+
+        const KandidatListe = () => (
+            kandidater && kandidater.map((kandidat) => {
+                if (kandidat.erSynlig) {
+                    return (
+                        SynligKandidatPanel(kandidat)
+                    );
+                }
+                return IkkeSynligKandidatPanel(kandidat);
+            })
         );
 
         return (
@@ -335,7 +381,8 @@ KandidatlisteDetalj.propTypes = {
                 kandidatnr: PropTypes.string,
                 sisteArbeidserfaring: PropTypes.string,
                 fornavn: PropTypes.string,
-                etternavn: PropTypes.string
+                etternavn: PropTypes.string,
+                erSynlig: PropTypes.bool.isRequired
             })
         )
     }),
