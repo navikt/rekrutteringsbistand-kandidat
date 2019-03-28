@@ -97,7 +97,7 @@ async function postJson(url, bodyString) {
             mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
-            return;
+            return response.json();
         }
         throw new SearchApiError({
             status: response.status
@@ -170,8 +170,13 @@ export function fetchFeatureToggles() {
 }
 
 export function fetchKandidater(query = {}) {
+    if(USE_JANZZ) {
+        return postJson(
+            `${SEARCH_API}sokMatch`, JSON.stringify(query)
+        );
+    }
     return fetchJson(
-        `${SEARCH_API}sok${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, true
+        `${SEARCH_API}sok?${convertToUrlParams(query)}`, true
     );
 }
 
