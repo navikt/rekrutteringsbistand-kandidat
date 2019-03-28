@@ -10,6 +10,8 @@ import createSagaMiddleware from 'redux-saga';
 import KnappBase from 'nav-frontend-knapper';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
+import { Footer } from 'pam-frontend-footer';
+import 'pam-frontend-footer/dist/style.css';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
@@ -175,20 +177,23 @@ class Sok extends React.Component {
         }
         return (
             <BrowserRouter>
-                <div>
-                    <Switch>
-                        <Route path={`/${CONTEXT_ROOT}/lister`} component={KandidatlisteHeader} />
-                        <Route component={KandidatsokHeader} />
-                    </Switch>
-                    <Switch>
-                        <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
-                        <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
-                        <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
-                        <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
-                        <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
-                        <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
-                        <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
-                    </Switch>
+                <div className="Application">
+                    <div className="Application__main">
+                        <Switch>
+                            <Route path={`/${CONTEXT_ROOT}/lister`} component={KandidatlisteHeader} />
+                            <Route component={KandidatsokHeader} />
+                        </Switch>
+                        <Switch>
+                            <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
+                            <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
+                            <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
+                            <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
+                        </Switch>
+                    </div>
+                    <Footer />
                 </div>
             </BrowserRouter>
         );
