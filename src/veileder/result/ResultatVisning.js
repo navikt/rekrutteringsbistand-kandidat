@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Sidetittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Flatknapp } from 'nav-frontend-knapper';
+import { Flatknapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Lenke from 'nav-frontend-lenker';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -177,7 +177,6 @@ class ResultatVisning extends React.Component {
                                     <div className="knapp-wrapper">
                                         <Flatknapp
                                             mini
-                                            className="lenke--slett--kriterier"
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >

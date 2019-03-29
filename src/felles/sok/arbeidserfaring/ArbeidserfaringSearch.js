@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -54,8 +55,8 @@ class ArbeidserfaringSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernClick = (e) => {
-        this.props.removeArbeidserfaring(e.target.value);
+    onFjernClick = (erfaring) => {
+        this.props.removeArbeidserfaring(erfaring);
         this.props.search();
     };
 
@@ -154,14 +155,13 @@ class ArbeidserfaringSearch extends React.Component {
                         )}
                     </div>
                     {this.props.arbeidserfaringer.map((arbeidserfaring) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernClick}
                             key={arbeidserfaring}
                             value={arbeidserfaring}
                         >
                             {arbeidserfaring}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 <div className="sokekriterier--margin-top-extra-large">

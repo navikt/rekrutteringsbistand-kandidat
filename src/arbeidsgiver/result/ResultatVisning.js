@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import KnappBase from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
@@ -107,8 +107,8 @@ class ResultatVisning extends React.Component {
                         </div>
                         <div className="child-item__container--header lenke--lagrede-kandidatlister">
                             <div className="ikonlenke">
-                                <ListeIkon fargeKode="white" className="ListeIkon" />
-                                <Link to={`/${CONTEXT_ROOT}/lister`} className="lenke">
+                                <ListeIkon fargeKode="#8C368E" className="ListeIkon" />
+                                <Link to={`/${CONTEXT_ROOT}/lister`} className="link">
                                     <Normaltekst>Lagrede kandidatlister</Normaltekst>
                                 </Link>
                             </div>
@@ -125,27 +125,23 @@ class ResultatVisning extends React.Component {
                             <Column xs="12" md="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
-                                        <KnappBase
+                                        <Flatknapp
                                             mini
-                                            type="flat"
-                                            className="lenke lenke--slett--kriterier typo-normal"
+                                            className="button--slett--kriterier"
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >
-                                            <Element>
                                             Slett alle kriterier
-                                            </Element>
-                                        </KnappBase>
+                                        </Flatknapp>
                                     </div>
-                                    {USE_JANZZ ? <KnappBase
-                                        type="hoved"
+                                    {USE_JANZZ ? <Hovedknapp
                                         onClick={this.onMatchClick}
                                         className="send--sokekriterier--knapp"
                                         id="knapp-send--sokekriterier-knapp"
                                         disabled={this.props.isSearching}
                                     >
                                         Finn kandidater
-                                    </KnappBase> : ''}
+                                    </Hovedknapp> : ''}
                                     <div className="resultatvisning--sokekriterier">
                                         <StillingSearch />
                                         {USE_JANZZ ? <KompetanseSearch /> : ''}
@@ -157,16 +153,15 @@ class ResultatVisning extends React.Component {
                                         {USE_JANZZ ? <SertifikatSearch /> : ''}
                                         {!USE_JANZZ ? <KompetanseSearch /> : ''}
                                     </div>
-                                    {USE_JANZZ ? 
-                                    <KnappBase
-                                        type="hoved"
-                                        onClick={this.onMatchClickMedScroll}
-                                        className="send--sokekriterier--knapp"
-                                        id="knapp-send--sokekriterier-knapp"
-                                        disabled={this.props.isSearching}
-                                    >
-                                        Finn kandidater
-                                    </KnappBase> : ''}
+                                    {USE_JANZZ ?
+                                        <Hovedknapp
+                                            onClick={this.onMatchClickMedScroll}
+                                            className="send--sokekriterier--knapp"
+                                            id="knapp-send--sokekriterier-knapp"
+                                            disabled={this.props.isSearching}
+                                        >
+                                            Finn kandidater
+                                        </Hovedknapp> : ''}
                                 </div>
                             </Column>
                             <Column xs="12" md="8">

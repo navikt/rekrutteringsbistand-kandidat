@@ -32,7 +32,6 @@ button.header--aktuelle--kandidater {
 }
 
 .lenke--kandidatnr {
-  color: @navBla;
   display: table;
   p {
     margin-right: 0;
@@ -43,9 +42,9 @@ button.header--aktuelle--kandidater {
   }
 }
 
-.lenke--kandidatnr:visited {
-  color: @navLilla;
-}
+// .lenke--kandidatnr:visited {
+//   color: @navLilla;
+// }
 
 .kandidater--row {
   height: 4rem;
@@ -55,8 +54,10 @@ button.header--aktuelle--kandidater {
   margin-top: 0.5rem;
   background-color: white;
   padding: 0.75rem;
-  border: solid 1px #d8d8d8;
-  border-radius: 4px;
+
+  &:nth-child(even) {
+    background-color: @gray2;
+  }
 
   &:hover{
     box-shadow: 1px 0 4px 1px #cecac4,
@@ -82,7 +83,8 @@ button.header--aktuelle--kandidater {
 }
 
 .kandidater--row--checked {
-  border-color: @navBla;
+  border: 1px solid @navBla;
+  border-radius: 4px;
 }
 
 .kandidater--row--sett {

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
@@ -48,8 +49,8 @@ export default class StillingSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernClick = (e) => {
-        this.props.removeStilling(e.target.value);
+    onFjernClick = (stilling) => {
+        this.props.removeStilling(stilling);
         this.props.fetchKompetanseSuggestions();
         this.props.search();
     };
@@ -120,14 +121,13 @@ export default class StillingSearch extends React.Component {
                     </div>
                     }
                     {this.props.stillinger.map((stilling) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernClick}
                             key={stilling}
                             value={stilling}
                         >
                             {stilling}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
 

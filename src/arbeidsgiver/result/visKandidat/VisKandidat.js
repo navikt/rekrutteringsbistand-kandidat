@@ -1,7 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
@@ -18,10 +18,9 @@ import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import Matchdetaljer from '../matchforklaring/Matchdetaljer';
 import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
-import { CONTEXT_ROOT } from '../../common/fasitProperties';
+import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import { USE_JANZZ } from '../../common/fasitProperties';
 import './VisKandidat.less';
 
 class VisKandidat extends React.Component {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Lenke from 'nav-frontend-lenker';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';

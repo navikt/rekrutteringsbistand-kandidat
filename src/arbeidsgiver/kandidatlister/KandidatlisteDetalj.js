@@ -9,7 +9,7 @@ import Modal from 'nav-frontend-modal';
 import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';

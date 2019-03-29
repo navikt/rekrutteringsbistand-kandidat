@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import KnappBase from 'nav-frontend-knapper';
+import { Hovedknapp } from 'pam-frontend-knapper';
 
 const KnappMedDisabledFunksjon = ({ disabled, onClick, onDisabledClick, type, children, spinner, mini }) => {
     if (disabled) {
-        const disabledClasses = 'knapp knapp--disabled--clickable';
-        return <button className={mini ? `${disabledClasses} knapp--mini` : disabledClasses} type="submit" onClick={onDisabledClick}>{children}</button>;
+        return <Hovedknapp disabled mini type="submit" onClick={onDisabledClick}>{children}</Hovedknapp>;
     }
-    return <KnappBase mini={mini} spinner={spinner} type={type} onClick={onClick}>{children}</KnappBase>;
+    return <Hovedknapp mini={mini} spinner={spinner} type={type} onClick={onClick}>{children}</Hovedknapp>;
 };
 
 KnappMedDisabledFunksjon.propTypes = {

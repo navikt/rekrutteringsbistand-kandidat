@@ -9,12 +9,11 @@
 }
 
 .ResultatVisning--hovedside--header {
-  background-color: @navBla;
-  color: white;
+  background-color: @gray2;
   .container--header {
     display: flex;
     flex-wrap: wrap;
-    height: 7.5rem;
+    height: 10rem;
     align-items: center;
     padding: 0 1.5rem;
   }
@@ -23,11 +22,6 @@
     flex: 1;
     display: flex;
     justify-content: center;
-
-    .lenke {
-      color: white;
-      border-bottom: 1px solid white;
-    }
 
     .ikonlenke {
       display:inline-flex;
@@ -88,13 +82,9 @@
   }
 }
 
-.lenke--slett--kriterier {
-  margin-bottom: 2.375rem;
+.button--slett--kriterier {
+  margin-bottom: 1.25rem;
   float: right;
-  border: 2px solid transparent !important;
-  &:hover{
-    border: 2px solid @navBla !important;
-  }
 }
 
 @media (min-width: @screen-md-min) {

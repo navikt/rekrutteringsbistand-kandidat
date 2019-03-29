@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
@@ -30,7 +30,7 @@ export default function KandidaterTabell({
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
 
-            <div>
+            <div className="kandidater--rows">
                 {kandidater.slice(0, antallResultater).map((cv) => (
                     <KandidaterTableRow
                         cv={cv}

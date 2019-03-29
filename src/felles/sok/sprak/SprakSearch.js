@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -43,8 +44,8 @@ class SprakSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernClick = (e) => {
-        this.props.removeSprak(e.target.value);
+    onFjernClick = (sprak) => {
+        this.props.removeSprak(sprak);
         this.props.search();
     };
 
@@ -105,14 +106,13 @@ class SprakSearch extends React.Component {
                         )}
                     </div>
                     {this.props.sprak.map((sprak) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernClick}
                             key={sprak}
                             value={sprak}
                         >
                             {sprak}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (

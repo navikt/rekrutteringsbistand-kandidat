@@ -5,6 +5,8 @@
 @import "../../node_modules/nav-frontend-knapper-style/src/index";
 @import "../../node_modules/nav-frontend-skjema-style/src/index";
 @import "../../node_modules/nav-frontend-grid-style/src/index";
+@import "../../node_modules/pam-frontend-knapper/dist/style.css";
+@import "./Variables.less";
 
 @color-green: @navGronn;
 
@@ -19,7 +21,6 @@ body {
   padding-bottom: 10rem;
   min-height: 100%;
   overflow-y: scroll;
-  background: #e9e7e7;
   color: @navMorkGra;
 }
 
@@ -119,8 +120,7 @@ button.lenke {
   width: 100%;
   margin-top: 0.5rem;
   background-color: white;
-  border: solid 1px #78706a;
-  border-radius: 4px;
+  border-bottom: 2px solid @gray3;
   padding: 0.75rem;
   input {
     position: absolute;
@@ -167,20 +167,6 @@ button.lenke {
     margin-left: 4px;
     font-weight: normal;
     text-decoration: none;
-}
-
-.knapp--disabled--clickable {
-  background-color: @navGra60;
-  border: 2px solid @navGra60;
-}
-
-.knapp--disabled--clickable:active {
-  background-color: @navGra60;
-  border: 2px solid @navGra60;
-}
-
-.knapp--disabled--clickable:hover {
-  background-color: @navGra60;
 }
 
 .hjelpetekst__apneknapp:focus {
