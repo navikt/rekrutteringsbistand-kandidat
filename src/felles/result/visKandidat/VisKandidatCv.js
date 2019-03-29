@@ -94,7 +94,7 @@ const VisKandidatCv = ({ cv }) => (
             {cv.fagdokumentasjon && cv.fagdokumentasjon.length !== 0 && (
                 <Row className="panel--cv__row">
                     <Column xs="12" sm="5">
-                        <Undertittel className="cv__overskrift">Fagbrev/Svennebrev, mesterbrev og autorisasjon</Undertittel>
+                        <Undertittel className="cv__overskrift">Fagbrev/svennebrev, mesterbrev og autorisasjon</Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
                         {cv.fagdokumentasjon
