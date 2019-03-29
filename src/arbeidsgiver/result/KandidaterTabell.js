@@ -20,8 +20,7 @@ export default function KandidaterTabell({
     valgtKandidatNr
 }) {
     return (
-
-        <div className="resultatvisning">
+        <div className="table Kandidater-table">
             <KandidaterTableHeader
                 onFilterScoreClick={onFilterScoreClick}
                 from={0}
@@ -30,7 +29,7 @@ export default function KandidaterTabell({
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
 
-            <div className="kandidater--rows">
+            <div className="tbody">
                 {kandidater.slice(0, antallResultater).map((cv) => (
                     <KandidaterTableRow
                         cv={cv}

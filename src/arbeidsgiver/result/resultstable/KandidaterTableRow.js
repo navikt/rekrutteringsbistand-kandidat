@@ -41,53 +41,55 @@ class KandidaterTableRow extends React.Component {
         const bosted = cv.poststed ? capitalizePoststed(cv.poststed) : '-';
         const score = cv.score;
         return (
-            <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
-                <Column xs="1" md="1">
-                    <div className="skjemaelement skjemaelement--horisontal text-hide">
-                        <input
-                            type="checkbox"
-                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            className="skjemaelement__input checkboks"
-                            aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                            checked={markert}
-                            onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
-                        />
-                        <label
-                            className="skjemaelement__label"
-                            htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            aria-hidden="true"
+            <div className="tr">
+                <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+                    <Column xs="1" md="1" className="td">
+                        <div className="skjemaelement skjemaelement--horisontal text-hide">
+                            <input
+                                type="checkbox"
+                                id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                className="skjemaelement__input checkboks"
+                                aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                                checked={markert}
+                                onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                            />
+                            <label
+                                className="skjemaelement__label"
+                                htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                aria-hidden="true"
+                            >
+                                .
+                            </label>
+                        </div>
+                    </Column>
+                    <Column className="lenke--kandidatnr--wrapper td" xs="2" md="2">
+                        <Link
+                            className="lenke--kandidatnr link"
+                            to={`/${CONTEXT_ROOT}/cv?${parametere}`}
+                            aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                            onClick={() => setScrollPosition(window.pageYOffset)}
                         >
-                            .
-                        </label>
-                    </div>
-                </Column>
-                <Column className="lenke--kandidatnr--wrapper" xs="2" md="2">
-                    <Link
-                        className="lenke--kandidatnr link"
-                        to={`/${CONTEXT_ROOT}/cv?${parametere}`}
-                        aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                        onClick={() => setScrollPosition(window.pageYOffset)}
-                    >
-                        <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
-                    </Link>
-                </Column>
+                            <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                        </Link>
+                    </Column>
 
-                {USE_JANZZ ? (
-                    <Column xs="3" md="3">
-                        <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                    {USE_JANZZ ? (
+                        <Column xs="3" md="3" className="td">
+                            <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                        </Column>
+                    ) : (
+                        <Column xs="3" md="3" className="td">
+                            <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
+                        </Column>
+                    )}
+                    <Column xs="4" md="4" className="td">
+                        <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                ) : (
-                    <Column xs="3" md="3">
-                        <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
+                    <Column xs="2" md="2" className="td">
+                        <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                     </Column>
-                )}
-                <Column xs="4" md="4">
-                    <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
-                </Column>
-                <Column xs="2" md="2">
-                    <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
-                </Column>
-            </Row>
+                </Row>
+            </div>
         );
     }
 }

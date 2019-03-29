@@ -127,7 +127,6 @@ class ResultatVisning extends React.Component {
                                     <div className="knapp-wrapper">
                                         <Flatknapp
                                             mini
-                                            className="button--slett--kriterier"
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >

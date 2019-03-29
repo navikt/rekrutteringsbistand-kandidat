@@ -118,6 +118,7 @@ class GeografiSearch extends React.Component {
                                 id="typeahead-geografi"
                                 onSubmit={this.onSubmit}
                                 onTypeAheadBlur={this.onTypeAheadBlur}
+                                className="test"
                             />
                         ) : (
                             <Knapp

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Ingress, Undertittel } from 'nav-frontend-typografi';
+import { Ingress, Element } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
@@ -161,8 +161,6 @@ class KandidaterVisning extends React.Component {
     };
 
     render() {
-        const panelTekst = this.props.isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
-
         if (this.props.isSearching && USE_JANZZ) {
             return (
                 <div>
@@ -180,7 +178,10 @@ class KandidaterVisning extends React.Component {
 
                 <Row className="resultatvisning">
                     <div className="resultatvisning--header">
-                        <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{this.props.totaltAntallTreff}</strong>{panelTekst}</Undertittel>
+                        <div className="resultatvisning--header-left">
+                            <Element>Antall treff:</Element>
+                            <span className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
+                        </div>
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             mini
@@ -213,7 +214,6 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
-    isEmptyQuery: PropTypes.bool.isRequired,
     isSearching: PropTypes.bool.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     lastFlereKandidater: PropTypes.func.isRequired,
@@ -244,7 +244,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    isEmptyQuery: state.search.isEmptyQuery,
     isSearching: state.search.isSearching,
     kandidatlister: state.kandidatlister.kandidatlister,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,

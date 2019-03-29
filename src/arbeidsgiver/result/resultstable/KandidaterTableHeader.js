@@ -22,83 +22,87 @@ export default class KandidaterTableHeader extends React.Component {
 
     render() {
         return (
-            <Row className="kandidater--header">
-                <Column xs="1" md="1">
-                    <div className="skjemaelement skjemaelement--horisontal text-hide">
-                        <input
-                            type="checkbox"
-                            id="marker-alle-kandidater-checkbox"
-                            className="skjemaelement__input checkboks"
-                            aria-label="Marker alle kandidater"
-                            checked={this.props.alleKandidaterMarkert}
-                            onChange={this.props.onToggleMarkeringAlleKandidater}
-                        />
-                        <label
-                            className="skjemaelement__label"
-                            htmlFor="marker-alle-kandidater-checkbox"
-                            aria-hidden="true"
-                        >
-                            .
-                        </label>
-                    </div>
-                </Column>
-                <Column className="header--kandidatnr--wrapper" xs="2" md="2" >
-                    <Element
-                        className="label--resultatvisning"
-                        aria-label="Kandidat"
-                    >
-                            Kandidat
-                    </Element>
-                </Column>
-                {USE_JANZZ ?
-                    (<Column xs="3" md="3">
-                        <button className="header--aktuelle--kandidater text-overflow" onClick={this.onFilterScoreClick}>
+            <div className="thead">
+                <div className="th">
+                    <Row className="kandidater--header">
+                        <Column xs="1" md="1" className="td">
+                            <div className="skjemaelement skjemaelement--horisontal text-hide">
+                                <input
+                                    type="checkbox"
+                                    id="marker-alle-kandidater-checkbox"
+                                    className="skjemaelement__input checkboks"
+                                    aria-label="Marker alle kandidater"
+                                    checked={this.props.alleKandidaterMarkert}
+                                    onChange={this.props.onToggleMarkeringAlleKandidater}
+                                />
+                                <label
+                                    className="skjemaelement__label"
+                                    htmlFor="marker-alle-kandidater-checkbox"
+                                    aria-hidden="true"
+                                >
+                                    .
+                                </label>
+                            </div>
+                        </Column>
+                        <Column className="td" xs="2" md="2" >
                             <Element
                                 className="label--resultatvisning"
-                                aria-label="Sorter på matchscore"
-                                aria-selected={this.state.scoreChevronNed !== undefined}
+                                aria-label="Kandidat"
                             >
-                                Matchscore
+                                    Kandidat
                             </Element>
-                            <NavFrontendChevron
-                                type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
-                            />
-                        </button>
-                    </Column>)
-                    : (
-                        <Column xs="3" md="3">
-                            <div className="header--aktuelle--kandidater text-overflow">
+                        </Column>
+                        {USE_JANZZ ?
+                            (<Column xs="3" md="3" className="td">
+                                <button className="text-overflow" onClick={this.onFilterScoreClick}>
+                                    <Element
+                                        className="label--resultatvisning"
+                                        aria-label="Sorter på matchscore"
+                                        aria-selected={this.state.scoreChevronNed !== undefined}
+                                    >
+                                        Matchscore
+                                    </Element>
+                                    <NavFrontendChevron
+                                        type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
+                                    />
+                                </button>
+                            </Column>)
+                            : (
+                                <Column xs="3" md="3" className="td">
+                                    <div className="text-overflow">
+                                        <Element
+                                            className="label--resultatvisning"
+                                            aria-label="Utdanning"
+                                        >
+                                        Utdanningsnivå
+                                        </Element>
+                                    </div>
+                                </Column>
+                            )}
+                        <Column xs="4" md="4" className="td">
+                            <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
-                                    aria-label="Utdanning"
+                                    aria-label="Arbeidserfaring"
                                 >
-                                Utdanningsnivå
+                                    {USE_JANZZ && 'Siste arbeidserfaring'}
+                                    {!USE_JANZZ && 'Relevant arbeidserfaring'}
                                 </Element>
                             </div>
                         </Column>
-                    )}
-                <Column xs="4" md="4">
-                    <div className="header--aktuelle--kandidater text-overflow">
-                        <Element
-                            className="label--resultatvisning"
-                            aria-label="Arbeidserfaring"
-                        >
-                            {USE_JANZZ && 'Siste arbeidserfaring'}
-                            {!USE_JANZZ && 'Relevant arbeidserfaring'}
-                        </Element>
-                    </div>
-                </Column>
-                <Column xs="2" md="2">
-                    <div className="header--aktuelle--kandidater text-overflow">
-                        <Element
-                            className="label--resultatvisning"
-                            aria-label="Bosted"
-                        >
-                            Bosted
-                        </Element>
-                    </div>
-                </Column>
-            </Row>
+                        <Column xs="2" md="2" className="td">
+                            <div className="text-overflow">
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Bosted"
+                                >
+                                    Bosted
+                                </Element>
+                            </div>
+                        </Column>
+                    </Row>
+                </div>
+            </div>
         );
     }
 }

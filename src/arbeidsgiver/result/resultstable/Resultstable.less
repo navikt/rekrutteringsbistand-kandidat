@@ -1,18 +1,5 @@
 @import '../../../felles/Variables';
 
-.header--aktuelle--kandidater {
-  border: none;
-  padding: 0;
-  background-color: #FFF;
-}
-
-button.header--aktuelle--kandidater {
-  :hover {
-    color: rgb(0, 103, 197);
-    cursor: pointer;
-  }
-}
-
 .label--resultatvisning {
   display: inline-block;
   padding: 0 !important;
@@ -47,32 +34,12 @@ button.header--aktuelle--kandidater {
 // }
 
 .kandidater--row {
-  height: 4rem;
   display: inline-flex;
   align-items: center;
   width: 100%;
-  margin-top: 0.5rem;
-  background-color: white;
-  padding: 0.75rem;
-
-  &:nth-child(even) {
-    background-color: @gray2;
-  }
-
-  &:hover{
-    box-shadow: 1px 0 4px 1px #cecac4,
-    0 1px 4px 1px #cecac4;
-  }
 
   .skjemaelement {
     margin: 0;
-  }
-
-  * > {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    margin-right: 0.5rem;
   }
 
   .utdanning {
@@ -83,8 +50,7 @@ button.header--aktuelle--kandidater {
 }
 
 .kandidater--row--checked {
-  border: 1px solid @navBla;
-  border-radius: 4px;
+  border-color: transparent;
 }
 
 .kandidater--row--sett {
