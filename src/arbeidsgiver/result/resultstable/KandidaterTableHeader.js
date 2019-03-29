@@ -83,7 +83,8 @@ export default class KandidaterTableHeader extends React.Component {
                             className="label--resultatvisning"
                             aria-label="Arbeidserfaring"
                         >
-                                Relevant arbeidserfaring
+                            {USE_JANZZ && 'Siste arbeidserfaring'}
+                            {!USE_JANZZ && 'Relevant arbeidserfaring'}
                         </Element>
                     </div>
                 </Column>

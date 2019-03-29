@@ -319,7 +319,7 @@ class KandidatlisteDetalj extends React.Component {
 
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => {
-                if (kandidat.erSynlig) {
+                if (kandidat.erSynlig || kandidat.erSynlig === undefined) {
                     return (
                         SynligKandidatPanel(kandidat)
                     );
