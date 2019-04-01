@@ -40,6 +40,7 @@ const cvPropTypes = PropTypes.shape({
     tidsstempel: PropTypes.string,
     totalLengdeYrkeserfaring: PropTypes.number,
     utdanning: PropTypes.array,
+    fagdokumentasjon: PropTypes.array,
     verv: PropTypes.array,
     yrkeJobbonsker: PropTypes.array,
     yrkeserfaring: PropTypes.array
