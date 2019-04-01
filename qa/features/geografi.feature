@@ -4,7 +4,7 @@ Egenskap: Finne kandidater basert på geografi
 
   @geografi
   Scenario: Søke etter kandidater basert på geografi
-    Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+    Gitt at jeg er logget inn i kandidatsøket som "10051400971"
     Og jeg legger til sted "Oslo"
     Så skal antall treff minke
     Når jeg legger til sted "Akershus"

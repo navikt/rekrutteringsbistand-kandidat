@@ -4,7 +4,7 @@ Egenskap: Finne kandidater basert på arbeidserfaring
 
   @erfaring
   Scenario: Søke etter kandidater basert på arbeidserfaring
-    Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+    Gitt at jeg er logget inn i kandidatsøket som "10051400971"
     Når jeg legger til arbeidserfaring "Barnehagelærer"
     Så skal kandidatene ha arbeidserfaring som matcher "Barnehagelærer"
     Og antall treff skal minke
