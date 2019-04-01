@@ -3,7 +3,7 @@
 Egenskap: Finne kandidater basert på utdanningsnivå og fagfelt
 
   Bakgrunn: Logge inn
-    Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+    Gitt at jeg er logget inn i kandidatsøket som "10051400971"
 
   @utdanning @utdanningsniva
   Scenario: Søke etter kandidater basert på utdanningsnivå

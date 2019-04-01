@@ -7,6 +7,7 @@ import cvPropTypes from '../../PropTypes';
 import sortByDato from '../../common/SortByDato';
 import Tidsperiode from '../../common/Tidsperiode';
 import './VisKandidat.less';
+import { fagdokumentasjonLabel } from '../../sok/utils';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
     if (beskrivelse.includes('¿')) {
@@ -84,10 +85,22 @@ const VisKandidatCv = ({ cv }) => (
                                     </Undertekst>
                                     {u.utdannelsessted && <Normaltekst>{u.utdannelsessted}</Normaltekst>}
                                     <Element>{u.alternativtUtdanningsnavn ? u.alternativtUtdanningsnavn : u.nusKodeUtdanningsnavn}</Element>
-                                    {(u.yrkestatus === 'MESTERBREV' || u.yrkestatus === 'SVENNEBREV_FAGBREV') && (
-                                        <Normaltekst>{u.yrkestatus === 'MESTERBREV' ? 'Mesterbrev' : 'Fagbrev/svennebrev'}</Normaltekst>
-                                    )}
                                     {u.beskrivelse && <Normaltekst>{u.beskrivelse}</Normaltekst>}
+                                </Row>
+                            ))}
+                    </Column>
+                </Row>
+            )}
+            {cv.fagdokumentasjon && cv.fagdokumentasjon.length !== 0 && (
+                <Row className="panel--cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="cv__overskrift">Fagbrev/svennebrev, mesterbrev og autorisasjon</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {cv.fagdokumentasjon
+                            .map((f, i) => (
+                                <Row className="row--kategori" key={JSON.stringify({ ...f, index: i })}>
+                                    {(f.tittel || f.type) && <Element>{f.tittel ? f.tittel : fagdokumentasjonLabel[f.type]}</Element>}
                                 </Row>
                             ))}
                     </Column>

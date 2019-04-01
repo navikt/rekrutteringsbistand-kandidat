@@ -4,7 +4,7 @@ Egenskap: Opprette og slette kandidatlister
 
     @oppretteliste
     Scenario: Opprette og slette kandidatliste
-        Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+        Gitt at jeg er logget inn i kandidatsøket som "10051400971"
         Når jeg går til siden for kandidatlister
         Og jeg oppretter en kandidatliste
             | Navn        | Beskrivelse              | Oppdragsgiver |
