@@ -6,7 +6,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Undertekst, UndertekstBold, Sidetittel } from 'nav-frontend-typografi';
+import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Knapp } from 'nav-frontend-knapper';
@@ -16,7 +16,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from '../../felles/kandidatlister/TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import { HENT_KANDIDATLISTE, SLETT_KANDIDATER, CLEAR_KANDIDATLISTE, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
+import { CLEAR_KANDIDATLISTE, HENT_KANDIDATLISTE, SLETT_KANDIDATER, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
 import './kandidatlister.less';
@@ -317,9 +317,11 @@ class KandidatlisteDetalj extends React.Component {
             </Panel>
         );
 
+        const erSynligFlaggIkkeSatt = (kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
+
         const KandidatListe = () => (
             kandidater && kandidater.map((kandidat) => {
-                if (kandidat.erSynlig || kandidat.erSynlig === undefined) {
+                if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
                     return (
                         SynligKandidatPanel(kandidat)
                     );
