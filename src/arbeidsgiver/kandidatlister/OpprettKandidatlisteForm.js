@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
 
 const FELTER = {
     TITTEL: 'TITTEL',

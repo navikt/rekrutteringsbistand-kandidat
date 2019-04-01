@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import { fornavnOgEtternavnFraKandidat } from '../../felles/sok/utils';
 
 const SlettKandidaterModal = ({ isOpen, sletterKandidater, lukkModal, valgteKandidater, visFeilmelding, onDeleteClick }) => (
@@ -19,8 +19,8 @@ const SlettKandidaterModal = ({ isOpen, sletterKandidater, lukkModal, valgteKand
         contentLabel={valgteKandidater.length === 1 ? 'Slett kandidat' : 'Slett kandidatene'}
     >
         {visFeilmelding && (
-            <AlertStripeAdvarsel className="feilmleding">Noe gikk galt under sletting av
-                kandidater</AlertStripeAdvarsel>
+            <AlertStripeFeil className="feilmelding">Noe gikk galt under sletting av
+                kandidater</AlertStripeFeil>
         )}
         <Sidetittel
             className="overskrift"

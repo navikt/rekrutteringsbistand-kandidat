@@ -8,14 +8,18 @@
   }
 }
 
-.ResultatVisning--hovedside--header {
-  background-color: @gray2;
-  .container--header {
-    display: flex;
-    flex-wrap: wrap;
-    height: 10rem;
-    align-items: center;
-    padding: 0 1.5rem;
+.PageHeader__container {
+  flex-direction: column;
+
+  .lenke--lagrede-kandidatlister {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: @screen-sm) {
+    flex-direction: row;
+    .lenke--lagrede-kandidatlister {
+      margin-top: 0;
+    }
   }
 
   .child-item__container--header {
@@ -31,12 +35,10 @@
 
   .lenke--lagrede-kandidatlister {
     justify-content: flex-end;
+    align-items: center;
   }
 
   @media(max-width: 991px) {
-
-    height: 12rem;
-
     .no-content {
       flex-grow: 0;
     }
@@ -58,10 +60,6 @@
   margin-top: 2.5rem;
 }
 
-.kandidatervisning--column {
-  margin-top: 2.5rem;
-}
-
 @media (min-width: @screen-md-min) {
   .sokekriterier--column {
     margin-right: 2.5rem;
@@ -80,6 +78,10 @@
   text-align: right;
 }
 
+.kandidatervisning--column {
+  margin-top: 2.5rem;
+}
+
 @media (min-width: @screen-md-min) {
   .resultatvisning {
     margin: 0 0 0 0;
@@ -91,7 +93,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.55rem;
-  padding-right: 1rem;
+  padding: 0 0.5rem;
 }
 
 .resultatvisning--header-left {
@@ -105,12 +107,25 @@
 
 .buttons--kandidatervisning {
   margin-top: 2rem;
+  text-align: center;
+
+  .antall-treff-kandidatervisning {
+    display: block;
+    margin-top: 1rem;
+  }
 }
 
-.antall-treff-kandidatervisning {
-  display: inline;
-  margin-left: 0.5rem !important;
+@media(min-width: @screen-sm-min) {
+  .buttons--kandidatervisning {
+    text-align: left;
+    .antall-treff-kandidatervisning {
+      display: inline;
+      margin-left: 0.5rem !important;
+    }
+  }
 }
+
+
 
 a.tilbake--lenke {
   border-bottom: none;

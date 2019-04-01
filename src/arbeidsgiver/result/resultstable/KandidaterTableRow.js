@@ -41,8 +41,8 @@ class KandidaterTableRow extends React.Component {
         const bosted = cv.poststed ? capitalizePoststed(cv.poststed) : '-';
         const score = cv.score;
         return (
-            <div className="tr">
-                <Row className={`kandidater--row${markert ? ' kandidater--row--checked' : ''}${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+            <div className={`tr${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
+                <Row className="kandidater--row">
                     <Column xs="1" md="1" className="td">
                         <div className="skjemaelement skjemaelement--horisontal text-hide">
                             <input

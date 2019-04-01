@@ -6,19 +6,15 @@
 
 .Kandidatlister__header--innhold {
   display: flex;
-  color: white;
+  align-items: center;
+  width: 100%;
 
   @media (min-width: @screen-sm) {
     flex-direction: row;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
   }
 
   @media (max-width: (@screen-sm - 1)) {
     flex-direction: column;
-    align-items: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
   }
 
   .header-child {
@@ -30,20 +26,12 @@
     justify-content: center;
   }
 
-  .knapp-wrapper {
+  .Kandidatlister__knapp-wrapper {
     display: flex;
     justify-content: flex-end;
 
     @media (max-width: (@screen-sm - 1)) {
-      padding-top: 1rem;
-    }
-
-    .knapp {
-      color: white;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-      border: 2px solid white;
-      border-radius: 4px;
+      margin: 1rem 0;
     }
   }
 }
@@ -171,19 +159,14 @@
 }
 
 .KandidatlisteDetalj__header {
-  @media (min-width: @screen-sm-min) {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-  }
+  width: 100%;
 
   @media (max-width: (@screen-sm - 1)) {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem 0;
   }
 
   .top-row {
     display: flex;
-    color: white;
 
     @media (min-width: @screen-sm-min) {
       flex-direction: row;
@@ -203,11 +186,7 @@
       .TilbakeLenke {
         padding: 0;
         flex: 1;
-
-        > a {
-          color: white;
-          text-decoration: none;
-        }
+        color: @pinkDarken;
       }
     }
 
@@ -272,10 +251,6 @@
         }
       }
 
-      p > a {
-        color: white;
-      }
-
       p:first-child {
         font-weight: bolder;
       }
@@ -321,20 +296,10 @@
   }
 
   .KandidatlisteDetalj__panel__ikke_synlig {
-    background-color: @navLysGra;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
-    padding-top: 1.0625rem;
-    padding-bottom: 1.0625rem;
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
-    min-height: 4rem;
-    border-style: solid;
-    border-color: #B7B1A9;
-    border-width: 1px;
 
     .KandidatlisteDetalj__panel--first {
       display: inline-flex;
@@ -372,12 +337,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 0.5rem;
-    padding: 1.25rem;
-    min-height: 4rem;
-    border-style: solid;
-    border-color: @borderLys;
-    border-width: 1px;
 
     .KandidatlisteDetalj__panel--first {
       display: inline-flex;
@@ -407,6 +366,7 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        font-weight: 400;
       }
 
     }
@@ -434,28 +394,6 @@
         padding-left: 2rem;
       }
     }
-  }
-
-  .KandidatlisteDetalj__panel:hover {
-    box-shadow: 1px 0 4px 1px #cecac4,
-    0 1px 4px 1px #cecac4;
-  }
-
-  .KandidatlisteDetalj__panel--checked {
-    border-color: @navBla;
-  }
-
-  .KandidatlisteDetalj__panel--header {
-    border-radius: 4px;
-    border-width: 1px;
-    border-color: @borderMork;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-    border-style: solid;
-  }
-
-  .KandidatlisteDetalj__panel--header:hover {
-    box-shadow: none;
   }
 
   .KandidatlisteDetalj__knapperad {

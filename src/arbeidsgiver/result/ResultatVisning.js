@@ -21,6 +21,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { CONTEXT_ROOT, USE_JANZZ } from '../common/fasitProperties';
 import ListeIkon from '../../felles/common/ikoner/ListeIkon';
+import PageHeader from '../../felles/common/PageHeaderWrapper';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -97,24 +98,22 @@ class ResultatVisning extends React.Component {
                     tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                     id="hjelpetekstfading"
                 />
-                <div className="ResultatVisning--hovedside--header">
-                    <Container className="container--header">
-                        <div className="child-item__container--header">
-                            <div className="no-content" />
+                <PageHeader>
+                    <div className="child-item__container--header">
+                        <div className="no-content" />
+                    </div>
+                    <div className="child-item__container--header">
+                        <Sidetittel> Kandidatsøk </Sidetittel>
+                    </div>
+                    <div className="child-item__container--header lenke--lagrede-kandidatlister">
+                        <div className="ikonlenke">
+                            <ListeIkon fargeKode="#8C368E" className="ListeIkon" />
+                            <Link to={`/${CONTEXT_ROOT}/lister`} className="link">
+                                <Normaltekst>Lagrede kandidatlister</Normaltekst>
+                            </Link>
                         </div>
-                        <div className="child-item__container--header">
-                            <Sidetittel> Kandidatsøk </Sidetittel>
-                        </div>
-                        <div className="child-item__container--header lenke--lagrede-kandidatlister">
-                            <div className="ikonlenke">
-                                <ListeIkon fargeKode="#8C368E" className="ListeIkon" />
-                                <Link to={`/${CONTEXT_ROOT}/lister`} className="link">
-                                    <Normaltekst>Lagrede kandidatlister</Normaltekst>
-                                </Link>
-                            </div>
-                        </div>
-                    </Container>
-                </div>
+                    </div>
+                </PageHeader>
                 {this.props.isInitialSearch ? (
                     <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />

@@ -11,7 +11,7 @@ const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, g
                 {forrigeKandidat &&
                     <Link
                         to={forrigeKandidat}
-                        className={lenkeClass}
+                        className={`${lenkeClass} link`}
                     >
                         <NavFrontendChevron type="venstre" /> Forrige kandidat
                     </Link>
@@ -20,7 +20,7 @@ const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, g
                 {nesteKandidat ? (
                     <Link
                         to={nesteKandidat}
-                        className={lenkeClass}
+                        className={`${lenkeClass} link`}
                     >
                         Neste kandidat <NavFrontendChevron type="høyre" />
                     </Link>) : (<div className="header--personalia__lenke--placeholder" />

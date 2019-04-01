@@ -168,7 +168,7 @@ class VisKandidatFraLister extends React.Component {
                         <VisKandidatCv cv={cv} />
                         <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
-                                lenkeClass={'header--personalia__lenke--veileder'}
+                                lenkeClass="VisKandidat__ForrigeNeste"
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidat={gjeldendeKandidat}

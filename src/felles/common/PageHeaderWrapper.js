@@ -1,12 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { Container } from 'nav-frontend-grid';
 import './PageHeaderWrapper.less';
 
 const PageHeader = ({ children }) => (
     <div className="PageHeader">
-        <div className="PageHeader__content">
+        <Container className="PageHeader__container">
             { children }
-        </div>
+        </Container>
     </div>
 );
 

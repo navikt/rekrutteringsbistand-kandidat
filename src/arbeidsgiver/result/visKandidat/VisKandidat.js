@@ -206,7 +206,7 @@ class VisKandidat extends React.Component {
                         <VisKandidatCv cv={cv} />
                         {!USE_JANZZ && <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
-                                lenkeClass={'header--personalia__lenke--veileder'}
+                                lenkeClass="VisKandidat__ForrigeNeste"
                                 gjeldendeKandidat={this.state.gjeldendeKandidat}
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}

@@ -54,7 +54,7 @@ export default class VisKandidatPersonalia extends React.Component {
             etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
         }
 
-        const lenkeClass = appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'header--personalia__lenke';
+        const lenkeClass = appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'VisKandidat__ForrigeNeste';
 
         return (
             <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
@@ -62,7 +62,7 @@ export default class VisKandidatPersonalia extends React.Component {
                     <Column className="header--personalia__lenker--container">
                         <Link
                             to={tilbakeLink}
-                            className={lenkeClass}
+                            className={`${lenkeClass} link`}
                         >
                             <NavFrontendChevron type="venstre" /> Til {tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
                         </Link>
@@ -95,7 +95,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             {(cv.epost) && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon" >
-                                        <MailIkon color={appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
+                                        <MailIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <a
@@ -110,7 +110,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             {cv.telefon && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
-                                        <TelefonIkon color={appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
+                                        <TelefonIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <strong>
@@ -122,7 +122,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
 
                                 <div className="personalia--icon">
-                                    <AdresseIkon color={appContext === 'veileder' ? '#3E3832' : '#FFFFFF'} />
+                                    <AdresseIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
                                 </div>
                                 <Normaltekst className="header--personalia__tekst">
                                     {this.formatterAdresse(cv.adresse.adrlinje1, cv.adresse.postnr, cv.adresse.poststednavn)}
