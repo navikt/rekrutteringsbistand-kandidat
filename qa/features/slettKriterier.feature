@@ -4,7 +4,7 @@ Egenskap: Slette alle søkekriterier
 
   @slett
   Scenario: Slette alle søkekriterier
-    Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+    Gitt at jeg er logget inn i kandidatsøket som "10051400971"
     Når jeg legger til stillingen "Ingeniør"
     Og jeg legger til utdanning "Mastergrad"
     Og jeg legger til sted "Oslo"

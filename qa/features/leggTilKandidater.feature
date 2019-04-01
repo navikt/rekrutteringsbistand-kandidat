@@ -4,7 +4,7 @@ Egenskap: Lagre og slette kandidater fra kandidatlister
 
     @leggtilkandidater
     Scenario: Lagre og slette kandidater
-        Gitt at jeg er logget inn i kandidatsøket som "08044601975"
+        Gitt at jeg er logget inn i kandidatsøket som "10051400971"
         Når jeg lagrer "50" kandidater i kandidatlisten "Auto test 2"
         Og jeg går til siden for kandidatlister
         Og jeg åpner kandidatlisten "Auto test 2"
