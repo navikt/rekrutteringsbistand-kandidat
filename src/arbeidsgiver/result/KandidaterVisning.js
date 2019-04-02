@@ -180,7 +180,7 @@ class KandidaterVisning extends React.Component {
                     <div className="resultatvisning--header">
                         <div className="resultatvisning--header-left">
                             <Element>Antall treff:</Element>
-                            <span className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
+                            <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
                         </div>
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
