@@ -5,7 +5,6 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
@@ -116,7 +115,7 @@ const ListedetaljerView = (props) => {
                     </div>
                     {stillingsId &&
                         <div className="border-left">
-                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            <a className="link" href={`/stilling/${stillingsId}`}>Se stillingsannonse</a>
                         </div>
                     }
                 </div>

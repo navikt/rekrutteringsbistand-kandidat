@@ -7,7 +7,7 @@ import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
 import './Utdanning.less';
 // TODO: Kommenter inn når søk på geografi blir tatt inn igjen
 // import { Element, Normaltekst } from 'nav-frontend-typografi';
-// import { Knapp } from 'nav-frontend-knapper';
+// import { Knapp } from 'pam-frontend-knapper';
 // import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 
 class UtdanningSearch extends React.Component {
