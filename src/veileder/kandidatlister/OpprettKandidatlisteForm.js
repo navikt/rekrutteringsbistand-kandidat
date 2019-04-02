@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
 import { connect } from 'react-redux';
 import Typeahead from '../common/typeahead/Typeahead';
 import { FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER, CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER } from '../common/typeahead/enhetsregisterReducer';

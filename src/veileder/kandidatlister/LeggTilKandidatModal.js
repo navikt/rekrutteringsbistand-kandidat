@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import {
     HENT_STATUS,
     HENT_KANDIDAT_MED_FNR,

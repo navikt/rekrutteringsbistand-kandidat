@@ -17,7 +17,7 @@ const NedeSide = () => (
             </Normaltekst>
             <Normaltekst className="feilside">
             Vi takker for tålmodigheten og sier fra så fort kandidatsøket er tilgjengelig igjen, sannsynligvis i begynnelsen av august.
-            Har du spørsmål til dette så ta gjerne kontakt med oss på <a href="mailto:plattform.for.arbeidsmarkedet@nav.no" className="lenke">plattform.for.arbeidsmarkedet@nav.no</a>.
+            Har du spørsmål til dette så ta gjerne kontakt med oss på <a href="mailto:plattform.for.arbeidsmarkedet@nav.no" className="link">plattform.for.arbeidsmarkedet@nav.no</a>.
             </Normaltekst>
         </div>
     </Container>

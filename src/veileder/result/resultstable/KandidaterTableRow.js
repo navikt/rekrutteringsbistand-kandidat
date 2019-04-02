@@ -63,7 +63,7 @@ class KandidaterTableRow extends React.Component {
                     </div>
                     <div className="kolonne-navn kolonne-tekst">
                         <Link
-                            className="kolonne-lenke lenke"
+                            className="kolonne-lenke link"
                             to={linkTilKandidat()}
                             onClick={() => setScrollPosition(window.pageYOffset)}
                             aria-label={`Se CV for ${etternavn}, ${fornavn}`}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'pam-frontend-knapper';
 
 function refreshPage() {
     window.location.reload();

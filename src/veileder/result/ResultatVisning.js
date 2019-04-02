@@ -135,12 +135,12 @@ class ResultatVisning extends React.Component {
                 {stillingsId && (
                     <Lenke className="SeStilling" href={`/stilling/${stillingsId}`}>
                         <i className="SeStilling__icon" />
-                        <span className="lenke">Se stilling</span>
+                        <span className="link">Se stilling</span>
                     </Lenke>
                 )}
                 <Lenke className="TilKandidater" href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}>
                     <i className="TilKandidater__icon" />
-                    <span className="lenke">Se kandidatliste</span>
+                    <span className="link">Se kandidatliste</span>
                 </Lenke>
             </div>
         );

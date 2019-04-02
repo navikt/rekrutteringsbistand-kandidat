@@ -1,3 +1,5 @@
+@import "../../felles/Variables.less";
+
 .Kandidatlister {
   font-family: "Source Sans Pro", Arial, sans-serif;
 
@@ -79,6 +81,7 @@
       justify-content: space-between;
 
       .kandidatlister-table--top__knapper {
+        border-radius: 0;
         &:last-child {
           margin-left: 4rem;
         }
@@ -87,18 +90,18 @@
         background: none;
 
         .typo-element {
-          color: #0067C5;
+          color: @pinkDarken;
         }
 
         &:hover {
-          border-bottom: 2px solid #0067C5;
+          border-bottom: 2px solid @pinkDarken;
         }
       }
 
       .knapp--aktiv {
         .typo-element {
-          color: #0c5472;
-          border-bottom: 2px solid #0c5472;
+          color: @pinkDarken;
+          border-bottom: 2px solid @pinkDarken;
         }
 
         &:hover {
@@ -239,8 +242,8 @@
 
     & .OpprettKandidatlisteForm__typeahead {
       .search-button__icon {
-        width: 34px;
-        height: 34px;
+        width: 28px;
+        height: 28px;
       }
 
       ul {

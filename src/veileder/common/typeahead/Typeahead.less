@@ -1,54 +1,55 @@
 @import '../../../felles/Variables';
 
 .typeahead {
-    position: relative;
+  position: relative;
 
-    ul {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        min-width: 100%;
-        padding: 0;
-        margin: 0;
-        background-color: #fff;
-        border: 1px solid @color-blue;
-        border-top: none;
-        box-shadow: 0 5px 15px -5px @navGra60;
-        overflow: auto;
-    }
+  ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid @pinkDarken;
+    border-top: none;
+    box-shadow: 0 5px 15px -5px @navGra60;
+    overflow: auto;
+    max-height: 26rem;
+  }
 
-    ul li {
-        display: block;
-        clear: both;
-        line-height: 1.15rem;
-        color: #333;
-        font-size: initial;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
-    }
+  ul li {
+    display: block;
+    clear: both;
+    line-height: 1.15rem;
+    color: #333;
+    font-size: initial;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
 
 }
 
 .typeahead-suggestions-hidden {
-    display: none;
+  display: none;
 }
 
 .typeahead .typetext {
-    display: block;
-    width: 100%;
-    padding: 3px 10px;
+  display: block;
+  width: 100%;
+  padding: 3px 10px;
 }
 
 .typeahead .active {
-    color: #fff;
-    background-color: @color-blue;
+  color: #fff;
+  background-color: @pink;
 }
 
 .typeahead-substring {
-    font-weight: bold;
+  font-weight: bold;
 }
 

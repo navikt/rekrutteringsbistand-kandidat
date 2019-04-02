@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'pam-frontend-knapper';
 
 const AvgiSamtykkeRad = ({ ...props }) => (
     <Row>

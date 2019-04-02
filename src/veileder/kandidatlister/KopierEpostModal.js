@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'pam-frontend-knapper';
 
 const KopierEpostModal = ({ vis, onClose }) => (
     <NavFrontendModal
