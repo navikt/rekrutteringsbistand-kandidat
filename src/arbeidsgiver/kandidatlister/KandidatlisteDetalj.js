@@ -195,7 +195,7 @@ class KandidatlisteDetalj extends React.Component {
                     </div>
                     <div className="bottom-row">
                         <div className="inforad">
-                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length} kandidater</Normaltekst>
+                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length !== 1 ? `${kandidater.length} kandidater` : '1 kandidat'}</Normaltekst>
                             {oppdragsgiver && <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>}
                         </div>
                     </div>

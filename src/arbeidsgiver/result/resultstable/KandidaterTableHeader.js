@@ -82,7 +82,7 @@ export default class KandidaterTableHeader extends React.Component {
                                             className="label--resultatvisning"
                                             aria-label="Utdanning"
                                         >
-                                        Utdanningsnivå
+                                            Utdanningsnivå
                                         </Element>
                                     </div>
                                 </Column>
