@@ -6,7 +6,7 @@ module.exports = {
         listeBeskrivelse: '#kandidatliste-beskrivelse',
         listeOppdragsgiver: '#kandidatliste-oppdragsgiver',
         antallKandidater: '#kandidatliste-antall-kandidater',
-        kandidatCheckbox: 'input[id^=marker-kandidat-checkbox-]',
+        kandidatCheckbox: '.KandidatlisteDetalj__panel > div > div > input[id^=marker-kandidat-checkbox-]', // Første kandidat som ikke er inaktiv
         alleKandidaterCheckbox: '#marker-alle-kandidater-checkbox',
         deleteIcon: '.Delete__icon',
         deleteKnappModal: '.knapp--hoved',

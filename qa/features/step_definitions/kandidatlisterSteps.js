@@ -43,7 +43,7 @@ Then(/skal det ikke lenger eksistere kandidatlister med navn "(.*)"/, async (lis
 
 When(/jeg lagrer "(.*)" kandidater i kandidatlisten "(.*)"/, async (antallKandidater, listeNavn) => {
     await sokPage
-        .setValue('@markerAlleKandidaterCheckbox', client.Keys.SPACE)
+        .markerKandidater(antallKandidater)
         .waitForElementVisible('@lagreKandidaterKnapp')
         .click('@lagreKandidaterKnapp');
 

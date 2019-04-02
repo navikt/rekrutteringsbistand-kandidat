@@ -212,6 +212,16 @@ module.exports = {
                     .click('@slettAlleKriterierLenke')
                     .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
+        },
+
+        markerKandidater(antallKandidater) {
+            const self = this;
+            this.api.elements('css selector', 'input[id^="marker-kandidat-"]', (result) => {
+                for (let i = 0; i < antallKandidater; i++) {
+                    self.api.elementIdValue(result.value[i].ELEMENT, self.api.Keys.SPACE);
+                }
+            });
+            return this;
         }
     }]
 };

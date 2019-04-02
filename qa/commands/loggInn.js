@@ -1,5 +1,5 @@
 /* eslint-disable */
-exports.command = function (brukernavn) {
+exports.command = function (brukernavn, loggInnType) {
     const idPortenPage = this.page.IdPortenPage();
     const kandidatsokPage = this.page.KandidatsokPage();
 
@@ -22,7 +22,7 @@ exports.command = function (brukernavn) {
             kandidatsokPage.waitForElementPresent('@antallKandidaterTreff', 30000);
         } else {
             idPortenPage
-                .loggInnIdPorten(brukernavn);
+                .loggInnIdPorten(brukernavn, loggInnType);
         }
     }
 };

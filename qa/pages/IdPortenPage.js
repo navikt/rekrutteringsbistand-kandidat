@@ -2,22 +2,39 @@
 module.exports = {
     elements: {
         idPortenKnapp: '#IdPortenExchange',
+        minIdKnapp: '#MinIDChain',
         bankIdKnapp: '#BankIDJS',
+        minIdFnrFelt: '#input_USERNAME_IDPORTEN',
+        minIdPwdFelt: '#input_PASSWORD_IDPORTEN',
+        minIdNesteKnapp: '#nextbtn',
+        minIdPinKodeFelt: '#input_PINCODE1_IDPORTEN',
         bankIdFrame: 'iframe[title=BankID]',
         inputFelt: 'input[data-bind]', // input-feltet ligger under shadow DOM, må derfor bruke element før og etter ::shadow
         inputFeltShadow: '.full_width_height::shadow input[data-bind]' // input-feltet ligger under shadow DOM, må derfor bruke element før og etter ::shadow
     },
 
     commands: [{
-        loggInnIdPorten(brukernavn) {
-            const engangspassord = 'otp';
-            const personligPassord = 'qwer1234';
-            const inputElement = this.api.options.desiredCapabilities.browserName.toLowerCase() === 'chrome' ? '@inputFeltShadow' : '@inputFelt';
+        loggInnIdPorten(brukernavn, loggInnType) {
             const kandidatsokPage = this.api.page.KandidatsokPage();
 
             this
                 .waitForElementVisible('@idPortenKnapp', 60000)
-                .click('@idPortenKnapp')
+                .click('@idPortenKnapp');
+            if (loggInnType.toLowerCase() === 'bankid') {
+                this.bankIdLogin(brukernavn);
+            } else {
+                this.minIdLogin(brukernavn);
+            }
+            kandidatsokPage.waitForElementPresent('@antallKandidaterTreff', 30000);
+            return this.storeLoginCookie();
+        },
+
+        bankIdLogin(brukernavn) {
+            const engangspassord = 'otp';
+            const personligPassord = 'qwer1234';
+            const inputElement = this.api.options.desiredCapabilities.browserName.toLowerCase() === 'chrome' ? '@inputFeltShadow' : '@inputFelt';
+
+            return this
                 .waitForElementVisible('@bankIdKnapp')
                 .click('@bankIdKnapp')
                 .waitForElementVisible('@bankIdFrame')
@@ -30,8 +47,19 @@ module.exports = {
                 .waitForElementVisible(inputElement, 30000)
                 .setBankIdInputValue(inputElement, personligPassord)
                 .switchFrame(null);
-            kandidatsokPage.waitForElementPresent('@antallKandidaterTreff', 30000);
-            return this.storeLoginCookie();
+        },
+
+        minIdLogin(brukernavn) {
+            return this
+                .waitForElementVisible('@minIdKnapp')
+                .click('@minIdKnapp')
+                .waitForElementVisible('@minIdFnrFelt')
+                .setValue('@minIdFnrFelt', brukernavn)
+                .setValue('@minIdPwdFelt', 'password01')
+                .click('@minIdNesteKnapp')
+                .waitForElementVisible('@minIdPinKodeFelt')
+                .setValue('@minIdPinKodeFelt', '12345')
+                .click('@minIdNesteKnapp')
         },
 
         storeLoginCookie() {

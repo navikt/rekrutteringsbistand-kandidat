@@ -17,7 +17,7 @@ Before(() => {
 });
 
 Given(/^at jeg er logget inn i kandidatsøket som "(.*)"/, async (brukernavn) => {
-    await client.loggInn(brukernavn);
+    await client.loggInn(brukernavn, 'MinID');
     await kandidatsokPage.finnAntallKandidater(antallTreff);
 });
 
