@@ -205,6 +205,7 @@ select {
 
 .ekspanderbartPanel {
   border-top: 2px solid @blueDarken !important;
+  border-radius: 0;
   &:hover {
     box-shadow: none;
   }
@@ -239,4 +240,11 @@ select {
 
 .alertstripe__ikon {
   align-items: center;
+}
+
+.hjelpetekst__tooltip {
+  background-color: @blueDarken;
+  &:before, :after {
+    background-color: @blueDarken;
+  }
 }
