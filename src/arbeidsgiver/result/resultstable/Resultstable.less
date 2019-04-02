@@ -1,15 +1,10 @@
 @import '../../../felles/Variables';
 
-.label--resultatvisning {
+.label--resultatvisning,
+.label--resultatvisning-mobile {
   display: inline-block;
   padding: 0 !important;
   margin: 0 !important;
-}
-
-@media (max-width: @screen-md-max) {
-  .lenke--kandidatnr--wrapper {
-    padding-left: 0 !important;
-  }
 }
 
 .lenke--kandidatnr {
@@ -26,20 +21,73 @@
 // .lenke--kandidatnr:visited {
 //   color: @navLilla;
 // }
+.KandidaterTableRow__kandidatnr--wrapper,
+.KandidaterTableHeader__kandidatnr--wrapper {
+  display: flex;
 
-.kandidater--row {
-  display: inline-flex;
-  align-items: center;
-  width: 100%;
+  .lenke--kandidatnr--wrapper,
+  .KandidaterTableHeader__Checkbox-label {
+    padding-left: 8px;
 
-  .skjemaelement {
-    margin: 0;
+    .label--resultatvisning-mobile {
+      width: 15rem;
+    }
+  }
+}
+
+.kandidater--header .hidden-mobile {
+  display: none;
+}
+
+@media(min-width: @screen-sm-min){
+  .kandidater--row {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+
+    .skjemaelement {
+      margin: 0;
+    }
+
+    .utdanning {
+      overflow: hidden;
+      max-lines: 2;
+      text-overflow: ellipsis;
+    }
+
+    .KandidaterTableRow__Checkbox {
+      flex: 1;
+    }
+
+    .lenke--kandidatnr--wrapper {
+      flex: 2;
+    }
   }
 
-  .utdanning {
-    overflow: hidden;
-    max-lines: 2;
-    text-overflow: ellipsis;
+  .kandidater--header {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+
+    .skjemaelement {
+      margin: 0;
+    }
+
+    .hidden-desktop {
+      display: none;
+    }
+
+    .KandidaterTableHeader__Checkbox {
+      flex: 1;
+    }
+
+    .KandidaterTableHeader__Checkbox-label {
+      flex: 2;
+    }
+  }
+
+  .kandidater--header .hidden-mobile {
+    display: block;
   }
 }
 

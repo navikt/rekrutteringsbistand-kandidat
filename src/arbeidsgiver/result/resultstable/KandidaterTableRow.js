@@ -43,49 +43,51 @@ class KandidaterTableRow extends React.Component {
         return (
             <div className={`tr${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Row className="kandidater--row">
-                    <Column xs="1" md="1" className="td">
-                        <div className="skjemaelement skjemaelement--horisontal text-hide">
-                            <input
-                                type="checkbox"
-                                id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                                className="skjemaelement__input checkboks"
-                                aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
-                                checked={markert}
-                                onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
-                            />
-                            <label
-                                className="skjemaelement__label"
-                                htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
-                                aria-hidden="true"
-                            >
-                                .
-                            </label>
+                    <Column xs="12" md="3" className="KandidaterTableRow__kandidatnr--wrapper">
+                        <div className="td KandidaterTableRow__Checkbox">
+                            <div className="skjemaelement skjemaelement--horisontal text-hide">
+                                <input
+                                    type="checkbox"
+                                    id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                    className="skjemaelement__input checkboks"
+                                    aria-label={`Marker kandidat med nummer ${kandidatnummer}`}
+                                    checked={markert}
+                                    onChange={() => { this.onCheck(cv.arenaKandidatnr); }}
+                                />
+                                <label
+                                    className="skjemaelement__label"
+                                    htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
+                                    aria-hidden="true"
+                                >
+                                    .
+                                </label>
+                            </div>
                         </div>
-                    </Column>
-                    <Column className="lenke--kandidatnr--wrapper td" xs="2" md="2">
-                        <Link
-                            className="lenke--kandidatnr link"
-                            to={`/${CONTEXT_ROOT}/cv?${parametere}`}
-                            aria-label={`Se CV for ${cv.arenaKandidatnr}`}
-                            onClick={() => setScrollPosition(window.pageYOffset)}
-                        >
-                            <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
-                        </Link>
+                        <div className="lenke--kandidatnr--wrapper td">
+                            <Link
+                                className="lenke--kandidatnr link"
+                                to={`/${CONTEXT_ROOT}/cv?${parametere}`}
+                                aria-label={`Se CV for ${cv.arenaKandidatnr}`}
+                                onClick={() => setScrollPosition(window.pageYOffset)}
+                            >
+                                <Normaltekst className="text-overflow" aria-hidden="true">{cv.arenaKandidatnr}</Normaltekst>
+                            </Link>
+                        </div>
                     </Column>
 
                     {USE_JANZZ ? (
-                        <Column xs="3" md="3" className="td">
+                        <Column xs="12" md="3" className="td">
                             <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
                         </Column>
                     ) : (
-                        <Column xs="3" md="3" className="td">
+                        <Column xs="12" md="3" className="td">
                             <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                         </Column>
                     )}
-                    <Column xs="4" md="4" className="td">
+                    <Column xs="12" md="4" className="td">
                         <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                    <Column xs="2" md="2" className="td">
+                    <Column xs="12" md="2" className="td">
                         <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                     </Column>
                 </Row>

@@ -25,35 +25,43 @@ export default class KandidaterTableHeader extends React.Component {
             <div className="thead">
                 <div className="th">
                     <Row className="kandidater--header">
-                        <Column xs="1" md="1" className="td">
-                            <div className="skjemaelement skjemaelement--horisontal text-hide">
-                                <input
-                                    type="checkbox"
-                                    id="marker-alle-kandidater-checkbox"
-                                    className="skjemaelement__input checkboks"
-                                    aria-label="Marker alle kandidater"
-                                    checked={this.props.alleKandidaterMarkert}
-                                    onChange={this.props.onToggleMarkeringAlleKandidater}
-                                />
-                                <label
-                                    className="skjemaelement__label"
-                                    htmlFor="marker-alle-kandidater-checkbox"
-                                    aria-hidden="true"
+                        <Column xs="3" md="3" className="KandidaterTableHeader__kandidatnr--wrapper">
+                            <div className="td KandidaterTableHeader__Checkbox">
+                                <div className="skjemaelement skjemaelement--horisontal text-hide">
+                                    <input
+                                        type="checkbox"
+                                        id="marker-alle-kandidater-checkbox"
+                                        className="skjemaelement__input checkboks"
+                                        aria-label="Marker alle kandidater"
+                                        checked={this.props.alleKandidaterMarkert}
+                                        onChange={this.props.onToggleMarkeringAlleKandidater}
+                                    />
+                                    <label
+                                        className="skjemaelement__label"
+                                        htmlFor="marker-alle-kandidater-checkbox"
+                                        aria-hidden="true"
+                                    >
+                                        .
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="td KandidaterTableHeader__Checkbox-label">
+                                <Element
+                                    className="label--resultatvisning hidden-mobile"
+                                    aria-label="Kandidat"
                                 >
-                                    .
-                                </label>
+                                    Kandidat
+                                </Element>
+                                <Element
+                                    className="label--resultatvisning-mobile hidden-desktop"
+                                    aria-label="Kandidat"
+                                >
+                                    Marker alle kandidater
+                                </Element>
                             </div>
                         </Column>
-                        <Column className="td" xs="2" md="2" >
-                            <Element
-                                className="label--resultatvisning"
-                                aria-label="Kandidat"
-                            >
-                                    Kandidat
-                            </Element>
-                        </Column>
                         {USE_JANZZ ?
-                            (<Column xs="3" md="3" className="td">
+                            (<Column xs="3" md="3" className="td hidden-mobile">
                                 <button className="text-overflow" onClick={this.onFilterScoreClick}>
                                     <Element
                                         className="label--resultatvisning"
@@ -68,7 +76,7 @@ export default class KandidaterTableHeader extends React.Component {
                                 </button>
                             </Column>)
                             : (
-                                <Column xs="3" md="3" className="td">
+                                <Column xs="3" md="3" className="td hidden-mobile">
                                     <div className="text-overflow">
                                         <Element
                                             className="label--resultatvisning"
@@ -79,7 +87,7 @@ export default class KandidaterTableHeader extends React.Component {
                                     </div>
                                 </Column>
                             )}
-                        <Column xs="4" md="4" className="td">
+                        <Column xs="4" md="4" className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -90,7 +98,7 @@ export default class KandidaterTableHeader extends React.Component {
                                 </Element>
                             </div>
                         </Column>
-                        <Column xs="2" md="2" className="td">
+                        <Column xs="2" md="2" className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
