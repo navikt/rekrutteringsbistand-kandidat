@@ -109,6 +109,7 @@ module.exports = {
                     .setValue('@leggTilFagfeltInput', fagfelt)
                     .waitForElementVisible('@leggTilFagfeltTypeahead')
                     .setValue('@leggTilFagfeltInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//span[text()="${fagfelt}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -124,6 +125,7 @@ module.exports = {
                     .setValue('@leggTilArbeidserfaringInput', arbeidserfaring)
                     .waitForElementVisible('@leggTilArbeidserfaringTypeahead')
                     .setValue('@leggTilArbeidserfaringInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//span[text()="${arbeidserfaring}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -157,6 +159,7 @@ module.exports = {
                     .setValue('@leggTilSprakInput', sprak)
                     .waitForElementVisible('@leggTilSprakTypeahead', 30000)
                     .setValue('@leggTilSprakInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//span[text()="${sprak}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -172,6 +175,7 @@ module.exports = {
                     .setValue('@leggTilForerkortInput', forerkort)
                     .waitForElementVisible('@leggTilForerkortTypeahead', 30000)
                     .setValue('@leggTilForerkortInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//span[text()="${forerkort}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
@@ -187,6 +191,7 @@ module.exports = {
                     .setValue('@leggTilKompetanseInput', kompetanse)
                     .waitForElementVisible('@leggTilKompetanseTypeahead')
                     .setValue('@leggTilKompetanseInput', self.api.Keys.ENTER)
+                    .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//span[text()="${kompetanse}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
