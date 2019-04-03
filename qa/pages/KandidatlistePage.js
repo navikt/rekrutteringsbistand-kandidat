@@ -9,7 +9,7 @@ module.exports = {
         kandidatCheckbox: '.KandidatlisteDetalj__panel > div > div > input[id^=marker-kandidat-checkbox-]', // Første kandidat som ikke er inaktiv
         alleKandidaterCheckbox: '#marker-alle-kandidater-checkbox',
         deleteIcon: '.Delete__icon',
-        deleteKnappModal: '.knapp--hoved',
+        deleteKnappModal: '.Knapp--hoved',
         hjelpetekstfading: '.alertstripe__tekst'
     },
 
