@@ -58,9 +58,11 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
             }
             <div className="topp">
                 <div>
-                    <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="link" >
-                        <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
-                    </Link>
+                    <Undertittel className="overskrift">
+                        <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="link" >
+                            {kandidatliste.tittel}
+                        </Link>
+                    </Undertittel>
                 </div>
                 {!kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
