@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { Sidetittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Flatknapp } from 'nav-frontend-knapper';
+import { Flatknapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import Lenke from 'nav-frontend-lenker';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
 import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
@@ -133,15 +132,15 @@ class ResultatVisning extends React.Component {
         const HeaderLinker = () => (
             <div className="container--header__lenker">
                 {stillingsId && (
-                    <Lenke className="SeStilling" href={`/stilling/${stillingsId}`}>
+                    <a className="SeStilling" href={`/stilling/${stillingsId}`}>
                         <i className="SeStilling__icon" />
-                        <span className="lenke">Se stilling</span>
-                    </Lenke>
+                        <span className="link">Se stilling</span>
+                    </a>
                 )}
-                <Lenke className="TilKandidater" href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}>
+                <a className="TilKandidater" href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}>
                     <i className="TilKandidater__icon" />
-                    <span className="lenke">Se kandidatliste</span>
-                </Lenke>
+                    <span className="link">Se kandidatliste</span>
+                </a>
             </div>
         );
 
@@ -177,7 +176,6 @@ class ResultatVisning extends React.Component {
                                     <div className="knapp-wrapper">
                                         <Flatknapp
                                             mini
-                                            className="lenke--slett--kriterier"
                                             id="slett-alle-kriterier-lenke"
                                             onClick={this.onRemoveCriteriaClick}
                                         >

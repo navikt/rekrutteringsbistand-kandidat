@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -72,8 +73,8 @@ class ForerkortSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernForerkortClick = (e) => {
-        this.props.removeForerkort(e.target.value);
+    onFjernForerkortClick = (forerkort) => {
+        this.props.removeForerkort(forerkort);
         this.props.search();
     };
 
@@ -140,14 +141,13 @@ class ForerkortSearch extends React.Component {
                         }
                     </div>
                     {this.props.forerkortList.map((forerkort) => (
-                        <button
-                            onClick={this.onFjernForerkortClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernForerkortClick}
                             key={forerkort}
                             value={forerkort}
                         >
                             {forerkort}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.FORERKORT && (

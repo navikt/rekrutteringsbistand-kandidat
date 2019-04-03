@@ -170,7 +170,7 @@ export function fetchFeatureToggles() {
 }
 
 export function fetchKandidater(query = {}) {
-    if(USE_JANZZ) {
+    if (USE_JANZZ) {
         return postJson(
             `${SEARCH_API}sokMatch`, JSON.stringify(query)
         );

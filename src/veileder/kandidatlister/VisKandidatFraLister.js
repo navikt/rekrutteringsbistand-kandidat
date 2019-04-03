@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Lenke from 'nav-frontend-lenker';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
@@ -93,10 +92,15 @@ class VisKandidatFraLister extends React.Component {
                     <div>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
-                                <Lenke className="frittstaende-lenke ForlateSiden" href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`} target="_blank">
-                                    <span className="lenke">Se aktivitetsplan</span>
+                                <a
+                                    className="frittstaende-lenke ForlateSiden link"
+                                    href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <span className="link">Se aktivitetsplan</span>
                                     <i className="ForlateSiden__icon" />
-                                </Lenke>
+                                </a>
                             </div>
                         </div>
                         <div className="viskandidat-container">

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -48,8 +49,8 @@ class KompetanseSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernKompetanseClick = (e) => {
-        this.props.removeKompetanse(e.target.value);
+    onFjernKompetanseClick = (kompetanse) => {
+        this.props.removeKompetanse(kompetanse);
         this.props.search();
     };
 
@@ -127,14 +128,13 @@ class KompetanseSearch extends React.Component {
                         )}
                     </div>
                     {this.props.kompetanser.map((kompetanse) => (
-                        <button
-                            onClick={this.onFjernKompetanseClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernKompetanseClick}
                             key={kompetanse}
                             value={kompetanse}
                         >
                             {kompetanse}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 {kompetanseSuggestions.length > 0 && (

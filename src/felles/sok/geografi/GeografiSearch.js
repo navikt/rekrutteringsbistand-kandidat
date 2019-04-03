@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
@@ -63,11 +64,11 @@ class GeografiSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernClick = (e) => {
+    onFjernClick = (geografi) => {
         if (this.props.geografiListKomplett && this.props.geografiListKomplett.length === 1 && this.props.maaBoInnenforGeografi) {
             this.props.toggleMaBoPaGeografi();
         }
-        this.props.removeGeografi(e.target.value);
+        this.props.removeGeografi(geografi);
         this.props.search();
     };
 
@@ -140,14 +141,13 @@ class GeografiSearch extends React.Component {
 
                     </div>
                     {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernClick}
                             key={geo.geografiKodeTekst}
                             value={geo.geografiKode}
                         >
                             {geo.geografiKodeTekst}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import './Feedback.less';
 import { HIDE_FEEDBACK } from './feedbackReducer';

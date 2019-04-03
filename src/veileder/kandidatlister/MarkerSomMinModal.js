@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import Lenke from 'nav-frontend-lenker';
+import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 
 const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytClick }) => (
     <NavFrontendModal
@@ -25,7 +24,7 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                     For å markere stillingen og kandidatlisten som din må du gå til stillingen.
                 </Normaltekst>
                 <div>
-                    <Lenke className="typo-element" href={`/stilling/${stillingsId}`}>Gå til stillingen</Lenke>
+                    <a className="typo-element link" href={`/stilling/${stillingsId}`}>Gå til stillingen</a>
                     <Flatknapp mini className="marker-som-min__avbryt" onClick={onAvbrytClick}>Avbryt</Flatknapp>
                 </div>
             </div>

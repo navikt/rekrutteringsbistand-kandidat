@@ -1,12 +1,8 @@
 @nodeModulesPath: './../../';
-@import "../../node_modules/nav-frontend-core/less/core";
-@import "../../node_modules/nav-frontend-lenker-style/src/lenker-style";
 @import "../../node_modules/nav-frontend-paneler-style/src/index";
-@import "../../node_modules/nav-frontend-knapper-style/src/index";
 @import "../../node_modules/nav-frontend-skjema-style/src/index";
 @import "../../node_modules/nav-frontend-grid-style/src/index";
-
-@color-green: @navGronn;
+@import "./Variables.less";
 
 html {
   height: 100%;
@@ -18,8 +14,7 @@ body {
   margin: 0;
   min-height: 100%;
   overflow-y: scroll;
-  background: #e9e7e7;
-  color: @navMorkGra;
+  color: @blueDarken;
 }
 
 button:focus {
@@ -107,30 +102,6 @@ button.lenke {
   border-width: 2px;
 }
 
-.kandidater--header {
-  height: 4rem;
-  display: inline-flex;
-  align-items: center;
-  width: 100%;
-  margin-top: 0.5rem;
-  background-color: white;
-  border: solid 1px #78706a;
-  border-radius: 4px;
-  padding: 0.75rem;
-  input {
-    position: absolute;
-  }
-  .skjemaelement {
-    margin: 0;
-  }
-
-  * > {
-    top: 0;
-    bottom: 0;
-    margin-right: 0.5rem;
-  }
-}
-
 .border--bottom--medium {
   border-bottom: solid 2px rgba(120, 112, 106, 0.5);
   border-radius: 0;
@@ -152,30 +123,16 @@ button.lenke {
 }
 
 .TilbakeLenke {
-    display: flex;
-    align-items: center;
-    padding-left: 1rem;
-    padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
 }
 
 .TilbakeLenke__lenke {
-    margin-left: 4px;
-    font-weight: normal;
-    text-decoration: none;
-}
-
-.knapp--disabled--clickable {
-  background-color: @navGra60;
-  border: 2px solid @navGra60;
-}
-
-.knapp--disabled--clickable:active {
-  background-color: @navGra60;
-  border: 2px solid @navGra60;
-}
-
-.knapp--disabled--clickable:hover {
-  background-color: @navGra60;
+  margin-left: 4px;
+  font-weight: normal;
+  text-decoration: none;
 }
 
 .hjelpetekst__apneknapp:focus {
@@ -235,20 +192,59 @@ button.lenke {
   }
 }
 
-.ekspanderbartPanel__hode {
+select {
   color: @navMorkGra;
-  padding: 1.25rem;
+}
+
+@media (max-width: @screen-xs-max) {
+  .container{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.ekspanderbartPanel {
+  border-top: 2px solid @blueDarken !important;
+  border-radius: 0;
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.ekspanderbartPanel__hode {
+  border-radius: 0!important;
+  padding-top: 0.5rem;
+
+  .ekspanderbartPanel__heading {
+    color: @blueDarken;
+  }
+}
+
+.ekspanderbartPanel--lukket .ekspanderbartPanel__hode:hover {
+  box-shadow: none;
+  background: @gray1;
+}
+
+.ekspanderbartPanel .ekspanderbartPanel__hode:hover .ekspanderbartPanel__heading{
+  color: @pinkDarken;
 }
 
 .ekspanderbartPanel__innhold {
-  color: @navMorkGra;
-  padding-top: 0;
-  padding-bottom: 1.25rem;
-  padding-right: 1.25rem;
-  padding-left: 1.25rem;
-  border-radius: 0 0 4px 4px;
+  padding: 0.25rem 1rem 0;
+
+  @media (min-width: @screen-md-min) {
+    padding: 1rem 1rem 0.5rem;
+    background: @gray2;
+  }
 }
 
-select {
-  color: @navMorkGra;
+.alertstripe__ikon {
+  align-items: center;
+}
+
+.hjelpetekst__tooltip {
+  background-color: @blueDarken;
+  &:before, :after {
+    background-color: @blueDarken;
+  }
 }

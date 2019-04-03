@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import KnappBase, { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Flatknapp, Knapp } from 'pam-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
@@ -144,7 +144,7 @@ class Notater extends React.Component {
                                     <Flatknapp mini onClick={this.toggleNyttNotatVises}>Avbryt</Flatknapp>
                                 </div>
                             </div>
-                            : <KnappBase type="standard" mini onClick={this.toggleNyttNotatVises}>Skriv notat</KnappBase>
+                            : <Knapp mini onClick={this.toggleNyttNotatVises}>Skriv notat</Knapp>
                         }
                     </div>
                     {notater === undefined && antallNotater > 0 &&

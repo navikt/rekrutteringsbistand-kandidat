@@ -8,26 +8,24 @@
   }
 }
 
-.ResultatVisning--hovedside--header {
-  background-color: @navBla;
-  color: white;
-  .container--header {
-    display: flex;
-    flex-wrap: wrap;
-    height: 7.5rem;
-    align-items: center;
-    padding: 0 1.5rem;
+.PageHeader__container {
+  flex-direction: column;
+
+  .lenke--lagrede-kandidatlister {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: @screen-sm) {
+    flex-direction: row;
+    .lenke--lagrede-kandidatlister {
+      margin-top: 0;
+    }
   }
 
   .child-item__container--header {
     flex: 1;
     display: flex;
     justify-content: center;
-
-    .lenke {
-      color: white;
-      border-bottom: 1px solid white;
-    }
 
     .ikonlenke {
       display:inline-flex;
@@ -37,12 +35,10 @@
 
   .lenke--lagrede-kandidatlister {
     justify-content: flex-end;
+    align-items: center;
   }
 
   @media(max-width: 991px) {
-
-    height: 8.75rem;
-
     .no-content {
       flex-grow: 0;
     }
@@ -64,13 +60,10 @@
   margin-top: 2.5rem;
 }
 
-.kandidatervisning--column {
-  margin-top: 2.5rem;
-}
-
 @media (min-width: @screen-md-min) {
   .sokekriterier--column {
     margin-right: 2.5rem;
+    margin-top: 4rem;
   }
 }
 
@@ -80,21 +73,13 @@
   }
 }
 
-.resultatvisning {
-  .spinner {
-      position: absolute;
-      margin-left: 1rem;
-      margin-top: 2px;
-  }
+.knapp-wrapper {
+  margin-bottom: 1.25rem;
+  text-align: right;
 }
 
-.lenke--slett--kriterier {
-  margin-bottom: 2.375rem;
-  float: right;
-  border: 2px solid transparent !important;
-  &:hover{
-    border: 2px solid @navBla !important;
-  }
+.kandidatervisning--column {
+  margin-top: 2.5rem;
 }
 
 @media (min-width: @screen-md-min) {
@@ -106,18 +91,41 @@
 .resultatvisning--header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.55rem;
-  padding-right: 1rem;
+  padding: 0 0.5rem;
+}
+
+.resultatvisning--header-left {
+  flex: 2;
+}
+
+.resultatvisning--header-treff {
+  font-size: 3.125rem;
+  font-weight: bold;
 }
 
 .buttons--kandidatervisning {
   margin-top: 2rem;
+  text-align: center;
+
+  .antall-treff-kandidatervisning {
+    display: block;
+    margin-top: 1rem;
+  }
 }
 
-.antall-treff-kandidatervisning {
-  display: inline;
-  margin-left: 0.5rem !important;
+@media(min-width: @screen-sm-min) {
+  .buttons--kandidatervisning {
+    text-align: left;
+    .antall-treff-kandidatervisning {
+      display: inline;
+      margin-left: 0.5rem !important;
+    }
+  }
 }
+
+
 
 a.tilbake--lenke {
   border-bottom: none;

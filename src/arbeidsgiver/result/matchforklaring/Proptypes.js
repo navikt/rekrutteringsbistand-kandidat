@@ -23,7 +23,7 @@ export const MatchedGroupConceptsPropType = PropTypes.shape({
     yrker: PropTypes.arrayOf(ConceptMatchPropType),
     erfaring: PropTypes.arrayOf(ConceptMatchPropType),
     kompetanse: PropTypes.arrayOf(ConceptMatchPropType),
-    sertifikat: PropTypes.arrayOf(ConceptMatchPropType),    
+    sertifikat: PropTypes.arrayOf(ConceptMatchPropType),
     softSkills: PropTypes.arrayOf(ConceptMatchPropType),
     andre: PropTypes.arrayOf(ConceptMatchPropType)
 });

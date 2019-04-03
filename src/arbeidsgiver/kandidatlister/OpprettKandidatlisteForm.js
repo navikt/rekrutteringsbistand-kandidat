@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SkjemaGruppe, Input, Textarea } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
 
 const FELTER = {
     TITTEL: 'TITTEL',
@@ -100,7 +100,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             id="kandidatliste-beskrivelse-input"
                             textareaClass="OpprettKandidatlisteForm__input__textarea"
                             label="Beskrivelse"
-                            placeholder="Skrive noen ord om stillingen du søker kandidater til"
+                            placeholder="Skriv noen ord om stillingen du søker kandidater til"
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={255}
                             feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: '' } : undefined}

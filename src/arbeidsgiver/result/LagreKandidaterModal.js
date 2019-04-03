@@ -5,7 +5,7 @@ import Modal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from '../kandidatlister/OpprettKandidatlisteForm';

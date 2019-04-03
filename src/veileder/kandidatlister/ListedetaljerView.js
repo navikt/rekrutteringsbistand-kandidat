@@ -5,7 +5,6 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
@@ -116,7 +115,7 @@ const ListedetaljerView = (props) => {
                     </div>
                     {stillingsId &&
                         <div className="border-left">
-                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            <a className="link" href={`/stilling/${stillingsId}`}>Se stillingsannonse</a>
                         </div>
                     }
                 </div>
@@ -132,7 +131,7 @@ const ListedetaljerView = (props) => {
     const FinnKandidaterLenke = () => (
         <Link to={stillingsId ? `/kandidater/stilling/${stillingsId}` : `/kandidater/kandidatliste/${kandidatlisteId}`} className="finn-kandidater FinnKandidater">
             <i className="FinnKandidater__icon" />
-            <span className="lenke">Finn kandidater</span>
+            <span className="link">Finn kandidater</span>
         </Link>
     );
 
@@ -320,7 +319,7 @@ const ListedetaljerView = (props) => {
                         />
                     </div>
                     <div className="kolonne-bred tabell-tekst">
-                        <Link title="Vis profil" className="lenke tabell-lenke" to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}>
+                        <Link title="Vis profil" className="link" to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}>
                             {`${fornavn} ${etternavn}`}
                         </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
                     <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
@@ -373,7 +372,7 @@ const ListedetaljerView = (props) => {
                                 <Element>Kontaktinfo</Element>
                                 <Normaltekst className="tekst">
                                     E-post: {
-                                        kandidat.epost ? <a className="lenke" href={`mailto:${kandidat.epost}`}>{kandidat.epost}</a> : <span>&mdash;</span>
+                                        kandidat.epost ? <a className="link" href={`mailto:${kandidat.epost}`}>{kandidat.epost}</a> : <span>&mdash;</span>
                                     }
                                 </Normaltekst>
                                 <Normaltekst className="tekst">
@@ -384,10 +383,15 @@ const ListedetaljerView = (props) => {
                             </div>
                             <div className="innsatsgruppe-kolonne">
                                 <Normaltekst><strong>Innsatsgruppe:</strong>{` ${kandidat.innsatsgruppe}`}</Normaltekst>
-                                <Lenke className="frittstaende-lenke ForlateSiden tekst" href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`} target="_blank">
-                                    <span className="lenke">Se aktivitetsplan</span>
+                                <a
+                                    className="frittstaende-lenke ForlateSiden link"
+                                    href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <span className="link">Se aktivitetsplan</span>
                                     <i className="ForlateSiden__icon" />
-                                </Lenke>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'pam-frontend-knapper';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Container, Row, Column } from 'nav-frontend-grid';
 import './Feilside.less';

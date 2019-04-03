@@ -204,7 +204,8 @@ class KandidaterVisning extends React.Component {
 
 KandidaterVisning.defaultProps = {
     kandidatlisteId: undefined,
-    stillingsId: undefined
+    stillingsId: undefined,
+    kandidatliste: undefined
 };
 
 KandidaterVisning.propTypes = {
@@ -225,7 +226,7 @@ KandidaterVisning.propTypes = {
     stillingsId: PropTypes.string,
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape(Kandidatliste).isRequired
+    kandidatliste: PropTypes.shape(Kandidatliste)
 };
 
 const mapDispatchToProps = (dispatch) => ({

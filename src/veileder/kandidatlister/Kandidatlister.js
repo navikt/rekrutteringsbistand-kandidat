@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp, Knapp, Flatknapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
 import { HENT_KANDIDATLISTER, MARKER_KANDIDATLISTE_SOM_MIN, RESET_LAGRE_STATUS, MARKER_SOM_MIN_STATUS } from './kandidatlisteReducer';
@@ -136,7 +136,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, onMenyClick, onSk
     <div className="liste-rad liste-rad-innhold">
         <div className="kolonne-middels"><Normaltekst className="tekst">{`${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Normaltekst></div>
         <div className="kolonne-bred">
-            <Link to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="tekst lenke">{kandidatliste.tittel}</Link>
+            <Link to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="tekst link">{kandidatliste.tittel}</Link>
         </div>
         <div className="kolonne-middels"><Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst></div>
         <div className="kolonne-bred"><Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst></div>

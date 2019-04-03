@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
-import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -58,9 +58,11 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
             }
             <div className="topp">
                 <div>
-                    <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="lenke" >
-                        <Undertittel className="overskrift">{kandidatliste.tittel}</Undertittel>
-                    </Link>
+                    <Undertittel className="overskrift">
+                        <Link to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}`} className="link" >
+                            {kandidatliste.tittel}
+                        </Link>
+                    </Undertittel>
                 </div>
                 {!kandidatliste.opprettetAvNav &&
                     <div className="dato-opprettet">
@@ -257,8 +259,8 @@ class Kandidatlister extends React.Component {
                     <div className="header-child tittel-wrapper">
                         <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
                     </div>
-                    <div className="header-child knapp-wrapper">
-                        <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard" className="knapp">Opprett ny</Knapp>
+                    <div className="header-child Kandidatlister__knapp-wrapper">
+                        <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard">Opprett ny</Knapp>
                     </div>
                 </div>
             </PageHeader>

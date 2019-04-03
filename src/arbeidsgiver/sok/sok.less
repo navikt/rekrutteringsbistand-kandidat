@@ -1,22 +1,23 @@
 @import '../../felles/Variables';
 
 .search-button {
-  padding: 7px 0.5rem 7px 0.5rem !important;
+  padding: 10px !important;
   border-radius: 0 !important;
   border: none !important;
   position: absolute;
   right: 0;
+  background: transparent;
 }
 
 .search-button:hover,
 .search-button:active {
-  background-color: @navBla !important;
+  background-color: @pink !important;
 }
 
 .search-button__icon {
   width: 20px;
   height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%230067C5' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cg stroke='%238b368d' stroke-linejoin='round' stroke-miterlimit='10' fill='none'%3E%3Ccircle cx='10' cy='10' r='5.5'/%3E%3Cpath stroke-linecap='round' d='M14.156 14.156l9.344 9.344'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 28px;
   background-repeat: no-repeat;
   background-position: center;
@@ -42,7 +43,7 @@
 }
 
 .panel--sokekriterier {
-  margin: 1rem 0 1rem;
+  margin-top: 2rem;
 }
 
 @media (min-width: @screen-sm-min) {
@@ -55,6 +56,14 @@
   width: 100%;
   margin-top: 1rem;
   margin-bottom: 0;
+
+  .typeahead {
+    max-width: 20rem;
+  }
+
+  > div {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .sokekriterier--margin-top-large {
@@ -67,20 +76,6 @@
 
 .sokekriterier--margin-bottom-medium {
   margin-bottom: 1rem;
-}
-
-.leggtil--sokekriterier--knapp {
-  width: 100%;
-}
-
-.etikett--sokekriterier {
-  border: none;
-  border-radius: 4px;
-  margin-top: 0.5rem;
-  padding: 0.5rem 2rem 0.5rem 1rem;
-  background-color: #cce1f3;
-  color: #3e3832;
-  cursor: pointer;
 }
 
 .etikett--forslag--kompetanse {
@@ -107,30 +102,6 @@
   border: solid 2px #fff;
   border-radius: 8px;
   background-color: #cce1f3;
-}
-
-.kryssicon--sokekriterier {
-  position: relative;
-  box-sizing: border-box;
-  display: inline-block;
-  border: none;
-
-  &:before, &:after {
-    height: 14px;
-    width: 1px;
-    transform: rotate(-45deg);
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0.65rem;
-    right: 1rem;
-    background-color: #0067c5;
-    transition: all 0.2s ease-out;
-  }
-
-  &:after {
-    transform: rotate(45deg);
-  }
 }
 
 @media (min-width: @screen-md-min) {
@@ -171,10 +142,6 @@
 
 .text--italic {
   font-style: italic;
-}
-
-.ekspanderbartPanel__hode {
-  color: rgb(0, 0, 0);
 }
 
 .SesjonUgaarModal {

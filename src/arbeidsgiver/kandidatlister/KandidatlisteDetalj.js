@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Panel } from 'nav-frontend-paneler';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
 import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -196,7 +195,7 @@ class KandidatlisteDetalj extends React.Component {
                     </div>
                     <div className="bottom-row">
                         <div className="inforad">
-                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length} kandidater</Normaltekst>
+                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length !== 1 ? `${kandidater.length} kandidater` : '1 kandidat'}</Normaltekst>
                             {oppdragsgiver && <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>}
                         </div>
                     </div>
@@ -242,24 +241,26 @@ class KandidatlisteDetalj extends React.Component {
         };
 
         const KandidatListeToppRad = () => (
-            <Panel className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header">
-                <div className="KandidatlisteDetalj__panel--first">
-                    <Checkbox
-                        id="marker-alle-kandidater-checkbox"
-                        title="Marker alle"
-                        label="Navn"
-                        aria-label="Marker alle kandidater"
-                        checked={markerAlleChecked}
-                        onChange={this.markerAlleClicked}
-                    />
+            <div className="thead">
+                <div className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header th">
+                    <div className="KandidatlisteDetalj__panel--first td">
+                        <Checkbox
+                            id="marker-alle-kandidater-checkbox"
+                            title="Marker alle"
+                            label="Navn"
+                            aria-label="Marker alle kandidater"
+                            checked={markerAlleChecked}
+                            onChange={this.markerAlleClicked}
+                        />
+                    </div>
+                    <UndertekstBold className="td">Arbeidserfaring</UndertekstBold>
                 </div>
-                <UndertekstBold>Arbeidserfaring</UndertekstBold>
-            </Panel>
+            </div>
         );
 
         const SynligKandidatPanel = (kandidat) => (
-            <Panel className={`KandidatlisteDetalj__panel${kandidat.checked ? ' KandidatlisteDetalj__panel--checked' : ''}`} key={JSON.stringify(kandidat)}>
-                <div className="KandidatlisteDetalj__panel--first">
+            <div className="KandidatlisteDetalj__panel tr" key={JSON.stringify(kandidat)}>
+                <div className="KandidatlisteDetalj__panel--first td">
                     <div className="skjemaelement skjemaelement--horisontal text-hide">
                         <input
                             type="checkbox"
@@ -278,17 +279,17 @@ class KandidatlisteDetalj extends React.Component {
                             .
                         </label>
                     </div>
-                    <Link title="Vis profil" className="lenke" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                    <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
                         {fornavnOgEtternavnFraKandidat(kandidat)}
                     </Link>
                 </div>
                 <Normaltekst>{kandidat.sisteArbeidserfaring}</Normaltekst>
-            </Panel>
+            </div>
         );
 
         const IkkeSynligKandidatPanel = (kandidat) => (
-            <Panel className="KandidatlisteDetalj__panel__ikke_synlig" key={JSON.stringify(kandidat)}>
-                <div className="KandidatlisteDetalj__panel--first" >
+            <div className="KandidatlisteDetalj__panel__ikke_synlig tr" key={JSON.stringify(kandidat)}>
+                <div className="KandidatlisteDetalj__panel--first td" >
                     <div className="text-hide">
                         <input
                             type="checkbox"
@@ -305,7 +306,9 @@ class KandidatlisteDetalj extends React.Component {
                             .
                         </label>
                     </div>
-                    Kandidaten er inaktiv og ikke aktuell for jobb
+                    <Normaltekst>
+                        Kandidaten er inaktiv og ikke aktuell for jobb
+                    </Normaltekst>
                 </div>
                 <Knapp
                     className="knapp--fjern-kandidat"
@@ -314,20 +317,22 @@ class KandidatlisteDetalj extends React.Component {
                 >
                     Fjern kandidat
                 </Knapp>
-            </Panel>
+            </div>
         );
 
         const erSynligFlaggIkkeSatt = (kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
 
         const KandidatListe = () => (
-            kandidater && kandidater.map((kandidat) => {
-                if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
-                    return (
-                        SynligKandidatPanel(kandidat)
-                    );
-                }
-                return IkkeSynligKandidatPanel(kandidat);
-            })
+            <div className="tbody">
+                {kandidater && kandidater.map((kandidat) => {
+                    if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
+                        return (
+                            SynligKandidatPanel(kandidat)
+                        );
+                    }
+                    return IkkeSynligKandidatPanel(kandidat);
+                })}
+            </div>
         );
 
         return (
@@ -341,8 +346,10 @@ class KandidatlisteDetalj extends React.Component {
                 {kandidater.length > 0 ? (
                     <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
                         <Knapper />
-                        <KandidatListeToppRad />
-                        <KandidatListe />
+                        <div className="table">
+                            <KandidatListeToppRad />
+                            <KandidatListe />
+                        </div>
                     </div>
 
                 ) : (
