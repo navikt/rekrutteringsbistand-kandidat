@@ -24,7 +24,7 @@ When(/jeg oppretter en kandidatliste/, (listeInput) => {
 When(/jeg åpner kandidatlisten "(.*)"/, async (listeNavn) => {
     await listerPage.waitForElementVisible('@forsteListe', 20000);
     await listerPage.waitForElementNotVisible('@listeLagretMelding', 6000);
-    await client.useXpath().clickElement(`//h2[text()="${listeNavn} ${browserName()} ${platform()}"]`, undefined, 500).useCss();
+    await client.useXpath().clickElement(`//a[text()="${listeNavn} ${browserName()} ${platform()}"]`, undefined, 500).useCss();
     await listePage.waitForElementVisible('@kandidatlisteDetaljer');
 });
 
@@ -37,7 +37,7 @@ Then(/oppdragsgiver for listen være "(.*)"/, (oppdragsgiver) => listePage.asser
 When(/jeg sletter alle kandidatlister med navn "(.*)"/, (listeNavn) => listerPage.slettKandidatlister(`${listeNavn} ${browserName()} ${platform()}`));
 
 Then(/skal det ikke lenger eksistere kandidatlister med navn "(.*)"/, async (listeNavn) => {
-    await client.useXpath().expect.element(`//h2[text()="${listeNavn} ${browserName()} ${platform()}"]`).to.not.be.present;
+    await client.useXpath().expect.element(`//a[text()="${listeNavn} ${browserName()} ${platform()}"]`).to.not.be.present;
     await client.useCss();
 });
 

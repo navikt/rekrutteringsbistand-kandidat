@@ -8,7 +8,7 @@ module.exports = {
         listeBeskrivelseInput: '#kandidatliste-beskrivelse-input',
         listeOppdragsgiverInput: '#kandidatliste-oppdragsgiver-input',
         listeOpprettKnapp: '#kandidatliste-opprett-knapp',
-        slettKnapp: '.knapp--hoved',
+        slettKnapp: '.Knapp--hoved',
         listeLagretMelding: '#kandidatliste-lagret-melding',
         listeSlettetMelding: '#kandidatliste-slettet-melding'
     },
@@ -37,11 +37,11 @@ module.exports = {
             return this
                 .waitForElementVisible('@forsteListe')
                 .api.useXpath()
-                .elements('xpath', `//h2[text()="${navn}"]`, (result) => {
+                .elements('xpath', `//a[text()="${navn}"]`, (result) => {
                     const antallLister = result.value.length;
                     for (let i = 0; i < antallLister; i++) {
                         self
-                            .clickElement(`//h2[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`, self, 1000)
+                            .clickElement(`//a[text()="${navn}"]/../../../../..//*[@class="Delete__icon"]`, self, 1000)
                             .waitForElementVisible('@slettKnapp')
                             .clickElement('@slettKnapp', self, 1000)
                             .waitForElementVisible('@listeSlettetMelding')
