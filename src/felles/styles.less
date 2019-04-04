@@ -94,7 +94,6 @@ button.lenke {
   height: 24px;
   border-radius: 4px;
   border: solid 2px #c6c2bf;
-  // border-color: @color-green;
 }
 
 .checkboks:hover + .skjemaelement__label:before {
@@ -222,11 +221,14 @@ select {
 
 .ekspanderbartPanel--lukket .ekspanderbartPanel__hode:hover {
   box-shadow: none;
-  background: @gray1;
+  background: @panel-hover;
 }
 
-.ekspanderbartPanel .ekspanderbartPanel__hode:hover .ekspanderbartPanel__heading{
-  color: @pinkDarken;
+.ekspanderbartPanel .ekspanderbartPanel__hode:hover {
+  background: @panel-hover;
+  .ekspanderbartPanel__heading {
+    color: @blueDarken;
+  }
 }
 
 .ekspanderbartPanel__innhold {

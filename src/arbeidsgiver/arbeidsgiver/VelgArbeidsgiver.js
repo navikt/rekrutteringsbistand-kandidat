@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VelgArbeidsgiver } from 'pam-frontend-header';
-import 'pam-frontend-header/dist/style.css';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from './arbeidsgiverReducer';
 import { LOGOUT_URL } from '../common/fasitProperties';
 
