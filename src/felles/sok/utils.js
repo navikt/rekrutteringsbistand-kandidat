@@ -100,12 +100,6 @@ export const oversettUtdanning = (konsepter) => ({
     utdanning: mapUtdanninger(konsepter.utdanning)
 });
 
-export const fagdokumentasjonLabel = {
-    SVENNEBREV_FAGBREV: 'Fagbrev/Svennebrev',
-    MESTERBREV: 'Mesterbrev',
-    AUTORISASJON: 'Autorisasjon'
-};
-
 export const kategoriserMatchKonsepter = (matchforklaring) => ({
     score: {
         snitt: Math.floor((matchforklaring.score12 + matchforklaring.score21) * (100 / 2)),

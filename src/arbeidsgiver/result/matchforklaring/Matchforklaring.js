@@ -71,8 +71,7 @@ const KonsepttypeMedMatch = ({ tittel, konseptmatcher }) => {
     return null;
 };
 
-const MatchPanel = ({ matchedeKonsepter, score }) => {
-    return (
+const MatchPanel = ({ matchedeKonsepter, score }) => (
     <Row className="match-explanation-match blokk-s">
         <div className="match-explanation-title">
             <Systemtittel className="text-center blokk-xs">{`Snittmatch: ${score.snitt} %`} </Systemtittel>
@@ -91,38 +90,39 @@ const MatchPanel = ({ matchedeKonsepter, score }) => {
         <KonsepttypeMedMatch tittel="Soft skills" konseptmatcher={matchedeKonsepter.softSkills} />
         <KonsepttypeMedMatch tittel="Annet" konseptmatcher={matchedeKonsepter.andre} />
     </Row>
-)};
+);
 
 const IkkematchPanel = ({ stillingskonsepter, kandidatkonsepter }) => {
-    console.log('aaa', stillingskonsepter, kandidatkonsepter)
-    return(
-    <Row className="search-result-item">
-        <div className="match-explanation-title">
-            <Systemtittel className="text-center blokk-xs">Ikke match</Systemtittel>
-        </div>
-        <Column className="col-xs-6">
-            <Row>
-                <Column>
-                    <Undertittel>Stillingsprofil</Undertittel>
-                </Column>
-            </Row>
-        </Column>
-        <Column className="col-xs-6">
-            <Row className="match-explanation-right-column">
-                <Column>
-                    <Undertittel>Kandidatprofil</Undertittel>
-                </Column>
-            </Row>
-        </Column>
-        <KonsepttypeUtenMatch tittel="Ønsket yrke" stillingskonsepter={stillingskonsepter.yrker} kandidatkonsepter={kandidatkonsepter.yrker} />
-        <KonsepttypeUtenMatch tittel="Utdanning" stillingskonsepter={stillingskonsepter.utdanning} kandidatkonsepter={kandidatkonsepter.utdanning} />
-        <KonsepttypeUtenMatch tittel="Yrkeserfaring" stillingskonsepter={stillingskonsepter.erfaring} kandidatkonsepter={kandidatkonsepter.erfaring} />
-        <KonsepttypeUtenMatch tittel="Kompetanse" stillingskonsepter={stillingskonsepter.kompetanse} kandidatkonsepter={kandidatkonsepter.kompetanse} />
-        <KonsepttypeUtenMatch tittel="Sertifikat" stillingskonsepter={stillingskonsepter.sertifikat} kandidatkonsepter={kandidatkonsepter.sertifikat} />
-        <KonsepttypeUtenMatch tittel="Soft skills" stillingskonsepter={stillingskonsepter.softSkills} kandidatkonsepter={kandidatkonsepter.softSkills} />
-        <KonsepttypeUtenMatch tittel="Andre" stillingskonsepter={stillingskonsepter.andre} kandidatkonsepter={kandidatkonsepter.andre} />
-    </Row>
-)};
+    console.log('aaa', stillingskonsepter, kandidatkonsepter);
+    return (
+        <Row className="search-result-item">
+            <div className="match-explanation-title">
+                <Systemtittel className="text-center blokk-xs">Ikke match</Systemtittel>
+            </div>
+            <Column className="col-xs-6">
+                <Row>
+                    <Column>
+                        <Undertittel>Stillingsprofil</Undertittel>
+                    </Column>
+                </Row>
+            </Column>
+            <Column className="col-xs-6">
+                <Row className="match-explanation-right-column">
+                    <Column>
+                        <Undertittel>Kandidatprofil</Undertittel>
+                    </Column>
+                </Row>
+            </Column>
+            <KonsepttypeUtenMatch tittel="Ønsket yrke" stillingskonsepter={stillingskonsepter.yrker} kandidatkonsepter={kandidatkonsepter.yrker} />
+            <KonsepttypeUtenMatch tittel="Utdanning" stillingskonsepter={stillingskonsepter.utdanning} kandidatkonsepter={kandidatkonsepter.utdanning} />
+            <KonsepttypeUtenMatch tittel="Yrkeserfaring" stillingskonsepter={stillingskonsepter.erfaring} kandidatkonsepter={kandidatkonsepter.erfaring} />
+            <KonsepttypeUtenMatch tittel="Kompetanse" stillingskonsepter={stillingskonsepter.kompetanse} kandidatkonsepter={kandidatkonsepter.kompetanse} />
+            <KonsepttypeUtenMatch tittel="Sertifikat" stillingskonsepter={stillingskonsepter.sertifikat} kandidatkonsepter={kandidatkonsepter.sertifikat} />
+            <KonsepttypeUtenMatch tittel="Soft skills" stillingskonsepter={stillingskonsepter.softSkills} kandidatkonsepter={kandidatkonsepter.softSkills} />
+            <KonsepttypeUtenMatch tittel="Andre" stillingskonsepter={stillingskonsepter.andre} kandidatkonsepter={kandidatkonsepter.andre} />
+        </Row>
+    );
+};
 
 const Matchforklaring = ({ matchforklaring }) => (
     <div>

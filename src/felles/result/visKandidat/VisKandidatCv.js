@@ -7,7 +7,6 @@ import cvPropTypes from '../../PropTypes';
 import sortByDato from '../../common/SortByDato';
 import Tidsperiode from '../../common/Tidsperiode';
 import './VisKandidat.less';
-import { fagdokumentasjonLabel } from '../../sok/utils';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
     if (beskrivelse.includes('¿')) {
@@ -100,7 +99,7 @@ const VisKandidatCv = ({ cv }) => (
                         {cv.fagdokumentasjon
                             .map((f, i) => (
                                 <Row className="row--kategori" key={JSON.stringify({ ...f, index: i })}>
-                                    {(f.tittel || f.type) && <Element>{f.tittel ? f.tittel : fagdokumentasjonLabel[f.type]}</Element>}
+                                    {(f.tittel || f.type) && <Element>{f.tittel ? f.tittel : f.type}</Element>}
                                 </Row>
                             ))}
                     </Column>
