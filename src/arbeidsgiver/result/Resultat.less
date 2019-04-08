@@ -3,7 +3,7 @@
 .resultatvisning--sokekriterier {
   .checkbox--sokekriterier--unchecked,
   .checkbox--sokekriterier--checked, .etikett--sokekriterier,
-  .leggtil--sokekriterier, .etikett--forslag--kompetanse, .se-flere-forslag {
+  .leggtil--sokekriterier, .se-flere-forslag {
     width: 100%;
   }
 }
@@ -11,15 +11,8 @@
 .PageHeader__container {
   flex-direction: column;
 
-  .lenke--lagrede-kandidatlister {
-    margin-top: 1rem;
-  }
-
   @media (min-width: @screen-sm) {
     flex-direction: row;
-    .lenke--lagrede-kandidatlister {
-      margin-top: 0;
-    }
   }
 
   .child-item__container--header {
@@ -33,20 +26,12 @@
       }
   }
 
-  .lenke--lagrede-kandidatlister {
-    justify-content: flex-end;
-    align-items: center;
-  }
-
   @media(max-width: 991px) {
     .no-content {
       flex-grow: 0;
     }
     .child-item__container--header {
       flex-basis: 100%;
-    }
-    .lenke--lagrede-kandidatlister {
-      justify-content: center;
     }
   }
 }

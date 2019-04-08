@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 class SertifikatSearch extends React.Component {
     constructor(props) {
@@ -97,14 +97,14 @@ class SertifikatSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-sertifikat-knapp"
                                 mini
                             >
                                 +Legg til sertifikat
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
                     </div>
                     {this.props.sertifikat.map((sertifikat) => (

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
@@ -9,6 +8,7 @@ import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
 import alleForerkort, { allePAMForerkort } from './forerkort';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 
 const forerkortHeading = (
@@ -125,14 +125,14 @@ class ForerkortSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilForerkortClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-forerkort-knapp"
                                 mini
                             >
                                 +Legg til førerkort
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
                         {this.state.feil &&
                         <Normaltekst className="skjemaelement__feilmelding">

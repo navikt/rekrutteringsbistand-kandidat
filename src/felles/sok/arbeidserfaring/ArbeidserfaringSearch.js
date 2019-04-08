@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
-import { Knapp } from 'pam-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 import './Arbeidserfaring.less';
 
@@ -144,14 +144,14 @@ class ArbeidserfaringSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-arbeidserfaring-knapp"
                                 mini
                             >
                                 +Legg til arbeidserfaring
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
                     </div>
                     {this.props.arbeidserfaringer.map((arbeidserfaring) => (

@@ -8,6 +8,7 @@ import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Kompetanse.less';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 const kompetanseHeading = (
     <div className="heading--kompetanse ekspanderbartPanel__heading">
@@ -117,14 +118,14 @@ class KompetanseSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilKompetanseClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-kompetanse-knapp"
                                 mini
                             >
                                 +Legg til kompetanse
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
                     </div>
                     {this.props.kompetanser.map((kompetanse) => (
@@ -141,17 +142,17 @@ class KompetanseSearch extends React.Component {
                     <div>
                         <div className="blokk-s border--bottom--thin" />
                         <Element>
-                            Velg en eller flere kompetanser som hører til stillingen du har valgt
+                            Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
                         </Element>
                         <div className="sokekriterier--kriterier">
                             {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
                                 <button
                                     onClick={this.onKompetanseSuggestionsClick}
-                                    className="etikett--forslag--kompetanse"
+                                    className="etikett--forslag--kompetanse KompetanseSearch__etikett"
                                     value={suggestedKompetanse.feltnavn}
                                     key={suggestedKompetanse.feltnavn}
                                 >
-                                    {suggestedKompetanse.feltnavn}
+                                    + {suggestedKompetanse.feltnavn}
                                 </button>
                             ))}
                             {this.state.antallKompetanser < kompetanseSuggestions.length && (
