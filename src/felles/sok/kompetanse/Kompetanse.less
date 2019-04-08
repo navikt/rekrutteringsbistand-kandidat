@@ -7,3 +7,26 @@
 .heading--kompetanse {
   text-align: left;
 }
+
+.KompetanseSearch__etikett {
+  border: 2px solid @gray4;
+  background-color: #fff;
+  color: @blueDarken;
+  margin: 0.5rem 1rem 0 0;
+  padding: 0.5rem;
+  text-align: left;
+  font-weight: 600;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  cursor: pointer;
+
+  &:hover {
+    border-color: @blueDarken;
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .KompetanseSearch__etikett {
+    width: 100%;
+  }
+}

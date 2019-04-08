@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 export default class StillingSearch extends React.Component {
     constructor(props) {
@@ -108,14 +108,14 @@ export default class StillingSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-stilling-knapp"
                                 mini
                             >
                                 +Legg til stilling/yrke
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
 
                     </div>

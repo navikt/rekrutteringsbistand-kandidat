@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
@@ -19,8 +18,7 @@ import './Resultat.less';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import { CONTEXT_ROOT, USE_JANZZ } from '../common/fasitProperties';
-import ListeIkon from '../../felles/common/ikoner/ListeIkon';
+import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 
 class ResultatVisning extends React.Component {
@@ -100,18 +98,7 @@ class ResultatVisning extends React.Component {
                 />
                 <PageHeader>
                     <div className="child-item__container--header">
-                        <div className="no-content" />
-                    </div>
-                    <div className="child-item__container--header">
                         <Sidetittel> Kandidatsøk </Sidetittel>
-                    </div>
-                    <div className="child-item__container--header lenke--lagrede-kandidatlister">
-                        <div className="ikonlenke">
-                            <ListeIkon fargeKode="#8C368E" className="ListeIkon" />
-                            <Link to={`/${CONTEXT_ROOT}/lister`} className="link">
-                                <Normaltekst>Lagrede kandidatlister</Normaltekst>
-                            </Link>
-                        </div>
                     </div>
                 </PageHeader>
                 {this.props.isInitialSearch ? (

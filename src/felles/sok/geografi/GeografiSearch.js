@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
@@ -9,6 +8,7 @@ import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Geografi.less';
 import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
+import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -120,14 +120,14 @@ class GeografiSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp
+                            <LeggtilKnapp
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-sted-knapp"
                                 mini
                             >
                                 +Legg til fylke/kommune
-                            </Knapp>
+                            </LeggtilKnapp>
                         )}
                         <CheckboxMedDisabledFunksjon
                             id="toggle-ma-bo-pa-geografi"

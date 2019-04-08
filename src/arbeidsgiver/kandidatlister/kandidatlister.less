@@ -36,17 +36,21 @@
   }
 }
 
+.Kandidatlister__count {
+  font-size: 3.125rem;
+}
+
 
 .Kandidatliste__panel {
   font-family: "Source Sans Pro", Arial, sans-serif;
-  background-color: white;
-  padding: 20px;
-  border-radius: 0.25rem;
-  border: 1px solid @borderLys;
   max-width: 640px;
 
+  &.tr {
+    padding: 0 !important;
+  }
+
   .beskrivelse {
-    padding-bottom: 16px;
+    padding: 1.25rem;
 
     .delt-fra-nav-rad {
       display: flex;
@@ -117,16 +121,12 @@
     border-top: 1px solid @borderLys;
     display: flex;
     justify-content: flex-end;
-    padding-top: 1rem;
+    padding: 1.25rem;
 
     * {
       margin-left: 0.5rem;
     }
   }
-}
-
-.Kandidatliste__panel:not(:first-child) {
-  margin-top: 1rem;
 }
 
 .Kandidatlister__container {

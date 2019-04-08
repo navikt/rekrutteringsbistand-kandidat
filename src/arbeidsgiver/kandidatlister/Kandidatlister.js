@@ -43,8 +43,17 @@ const MODALVISING = {
     SLETTE_MODAL: 'SLETTE_MODAL'
 };
 
+const KandidatlisteHeader = ({ antallKandidatlister }) => (
+    <div className="thead">
+        <div className="th">
+            <div className="td">Antall lagrede kandidatlister:</div>
+            <div className="Kandidatlister__count td">{antallKandidatlister}</div>
+        </div>
+    </div>
+);
+
 const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatliste }) => (
-    <div className="Kandidatliste__panel">
+    <div className="Kandidatliste__panel tr">
         <div className="beskrivelse">
             {kandidatliste.opprettetAvNav &&
                 <div className="delt-fra-nav-rad">
@@ -252,12 +261,12 @@ class Kandidatlister extends React.Component {
 
     render() {
         const { kandidatlister, fetchingKandidatlister } = this.props;
-        const Header = ({ antallKandidatlister }) => (
+        const Header = () => (
             <PageHeader>
                 <div className="Kandidatlister__header--innhold">
                     <div className="header-child" />
                     <div className="header-child tittel-wrapper">
-                        <Sidetittel>Kandidatlister&nbsp;{antallKandidatlister > 0 && `(${antallKandidatlister})`}</Sidetittel>
+                        <Sidetittel>Kandidatlister</Sidetittel>
                     </div>
                     <div className="header-child Kandidatlister__knapp-wrapper">
                         <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard">Opprett ny</Knapp>
@@ -288,10 +297,15 @@ class Kandidatlister extends React.Component {
                     type="suksess"
                     tekst={this.state.successMeldingSlettet}
                 />
-                <Header antallKandidatlister={kandidatlister !== undefined ? kandidatlister.length : 0} />
+                <Header />
                 <Container className="blokk-s container">
-                    <div className="Kandidatlister__container Kandidatlister__container-width">
-                        <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
+                    <div className="Kandidatlister__container Kandidatlister__container-width table">
+                        {kandidatlister !== undefined && kandidatlister.length > 0 && (
+                            <KandidatlisteHeader antallKandidatlister={kandidatlister.length} />
+                        )}
+                        <div className="tbody">
+                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
+                        </div>
                     </div>
                 </Container>
             </div>
@@ -354,6 +368,10 @@ SlettKandidatlisteModal.propTypes = {
     tittelKandidatliste: PropTypes.string.isRequired,
     sletteStatus: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired
+};
+
+KandidatlisteHeader.propTypes = {
+    antallKandidatlister: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

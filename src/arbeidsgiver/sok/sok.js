@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import KnappBase from 'pam-frontend-knapper';
+import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Footer } from 'pam-frontend-footer';
@@ -268,8 +268,8 @@ const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekun
             </Normaltekst>
         </div>
         <div className="knapperad">
-            <KnappBase onClick={onPrimaerKnappClick} type="hoved">{primaerKnappTekst}</KnappBase>
-            {sekundaerKnapp && <KnappBase onClick={onSekundaerKnappClick} type="flat">{sekundaerKnappTekst}</KnappBase>}
+            <Hovedknapp onClick={onPrimaerKnappClick}>{primaerKnappTekst}</Hovedknapp>
+            {sekundaerKnapp && <Flatknapp onClick={onSekundaerKnappClick}>{sekundaerKnappTekst}</Flatknapp>}
         </div>
     </NavFrontendModal>
 );
