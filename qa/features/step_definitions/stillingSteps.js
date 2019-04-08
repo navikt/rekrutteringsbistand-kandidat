@@ -15,7 +15,7 @@ Then(/^skal stillingen "(.*)" vises/, (stilling) => (
 
 Then(/^det skal være mulig å fjerne stillingen "(.*)"/, (stilling) => (
     client
-        .click('button[class=Merkelapp__slett]')
+        .click(`button[value=${stilling}]`)
         .useXpath()
-        .expect.element(`//span[text()="${stilling}"]`).text.to.not.be.present.before(2000)
+        .expect.element(`//div[text()="${stilling}"]`).text.to.not.be.present.before(2000)
 ));

@@ -75,7 +75,7 @@ module.exports = {
                     .waitForElementVisible('@leggTilStillingTypeahead')
                     .setValue('@leggTilStillingInput', self.api.Keys.ENTER)
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${stilling}"]`)
+                    .waitForElementVisible(`//div[text()="${stilling}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -111,7 +111,7 @@ module.exports = {
                     .setValue('@leggTilFagfeltInput', self.api.Keys.ENTER)
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${fagfelt}"]`)
+                    .waitForElementVisible(`//div[text()="${fagfelt}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -127,7 +127,7 @@ module.exports = {
                     .setValue('@leggTilArbeidserfaringInput', self.api.Keys.ENTER)
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${arbeidserfaring}"]`)
+                    .waitForElementVisible(`//div[text()="${arbeidserfaring}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -161,7 +161,7 @@ module.exports = {
                     .setValue('@leggTilSprakInput', self.api.Keys.ENTER)
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${sprak}"]`)
+                    .waitForElementVisible(`//div[text()="${sprak}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -177,7 +177,7 @@ module.exports = {
                     .setValue('@leggTilForerkortInput', self.api.Keys.ENTER)
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${forerkort}"]`)
+                    .waitForElementVisible(`//div[text()="${forerkort}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
@@ -193,7 +193,7 @@ module.exports = {
                     .setValue('@leggTilKompetanseInput', self.api.Keys.ENTER)
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
-                    .waitForElementVisible(`//span[text()="${kompetanse}"]`)
+                    .waitForElementVisible(`//div[text()="${kompetanse}"]`)
                     .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
