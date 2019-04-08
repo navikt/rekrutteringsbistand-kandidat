@@ -148,7 +148,7 @@ class KompetanseSearch extends React.Component {
                             {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
                                 <button
                                     onClick={this.onKompetanseSuggestionsClick}
-                                    className="etikett--forslag--kompetanse KompetanseSearch__etikett"
+                                    className="KompetanseSearch__etikett"
                                     value={suggestedKompetanse.feltnavn}
                                     key={suggestedKompetanse.feltnavn}
                                 >
