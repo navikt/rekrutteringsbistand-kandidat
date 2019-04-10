@@ -20,6 +20,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
+import FritekstSearch from '../sok/fritekst/FritekstSearch';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -128,6 +129,7 @@ class ResultatVisning extends React.Component {
                                         Finn kandidater
                                     </Hovedknapp> : ''}
                                     <div className="resultatvisning--sokekriterier">
+                                        <FritekstSearch />
                                         <StillingSearch />
                                         {USE_JANZZ ? <KompetanseSearch /> : ''}
                                         <GeografiSearch />

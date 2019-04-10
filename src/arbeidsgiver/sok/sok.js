@@ -44,6 +44,7 @@ import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import GiSamtykke from '../samtykke/GiSamtykke';
+import fritekstReducer from './fritekst/fritekstReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -60,7 +61,8 @@ const store = createStore(combineReducers({
     cvReducer,
     kandidatlister: kandidatlisteReducer,
     mineArbeidsgivere: arbeidsgivervelgerReducer,
-    samtykke: samtykkeReducer
+    samtykke: samtykkeReducer,
+    fritekst: fritekstReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 

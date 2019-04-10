@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../sok/searchReducer';
-import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
+import { SEARCH } from '../../../arbeidsgiver/sok/searchReducer';
+import { SET_FRITEKST_SOKEORD } from '../../../arbeidsgiver/sok/fritekst/fritekstReducer';
 import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
 
 const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord }) => (
