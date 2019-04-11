@@ -9,4 +9,4 @@ When(/^jeg legger til arbeidserfaring "(.*)"/, (arbeidserfaring) => kandidatsokP
 
 When(/^jeg legger til "(.*)" med arbeidserfaring/, (ar) => kandidatsokPage.leggTilArMedArbeidserfaringkriterie(ar, antallTreff));
 
-Then(/ha arbeidserfaring som matcher "(.*)"/, (arbeidserfaring) => client.expect.element('.yrkeserfaring').text.to.contain(arbeidserfaring));
+Then(/ha arbeidserfaring som matcher "(.*)"/, (arbeidserfaring) => client.expect.element('.tbody').text.to.contain(arbeidserfaring));

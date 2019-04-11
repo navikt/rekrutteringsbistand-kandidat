@@ -76,7 +76,8 @@ module.exports = {
                     .setValue('@leggTilStillingInput', self.api.Keys.ENTER)
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${stilling}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -112,7 +113,8 @@ module.exports = {
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${fagfelt}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -128,7 +130,8 @@ module.exports = {
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${arbeidserfaring}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -145,8 +148,7 @@ module.exports = {
                 self
                     .waitForElementPresent(checkboxElement)
                     .click(checkboxElement)
-                    .api.useXpath()
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -162,7 +164,8 @@ module.exports = {
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${sprak}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -178,7 +181,8 @@ module.exports = {
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${forerkort}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -194,7 +198,8 @@ module.exports = {
                     .click('@antallKandidaterTreff')
                     .api.useXpath()
                     .waitForElementVisible(`//div[text()="${kompetanse}"]`)
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .useCss().page.KandidatsokPage()
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 
@@ -217,8 +222,7 @@ module.exports = {
             return this.finnAntallKandidater(antallTreff, function(antallTreffSiste) {
                 self
                     .click('@slettAlleKriterierLenke')
-                    .api.useXpath()
-                    .expect.element('//span[contains(., antall-kandidater-treff)]').text.to.not.equal(antallTreffSiste.toString()).before(30000);
+                    .expect.element('@antallKandidaterTreff').text.to.not.equal(antallTreffSiste.toString()).before(30000);
             });
         },
 

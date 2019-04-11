@@ -8,7 +8,7 @@ Egenskap: Finne kandidater basert på arbeidserfaring
     Når jeg legger til arbeidserfaring "Barnehagelærer"
     Så skal kandidatene ha arbeidserfaring som matcher "Barnehagelærer"
     Og antall treff skal minke
-    Når jeg legger til arbeidserfaring "Førskolelærer"
+    Når jeg legger til arbeidserfaring "Butikkmedarbeider"
     Så skal antall treff minke
     Når jeg legger til "4-9 år" med arbeidserfaring
     Så skal antall treff minke
