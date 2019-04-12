@@ -126,7 +126,7 @@ class Notater extends React.Component {
                     </Normaltekst>
                     <div className="nytt-notat-form">
                         {this.state.nyttNotatVises
-                            ? <div>
+                            ? <div className="skjemaelement--pink">
                                 <Textarea
                                     label="Skriv inn notat"
                                     textareaClass="nytt-notat-tekst"

@@ -37,7 +37,7 @@ class InnsatsgruppeSearch extends React.Component {
                 <div>
                     {this.innsatsgrupper.map((innsatsgruppe) => (
                         <Checkbox
-                            className="checkbox--innsatsgruppe"
+                            className="checkbox--innsatsgruppe skjemaelement--pink"
                             id={`utdanningsniva-${innsatsgruppe.key.toLowerCase()}-checkbox`}
                             label={innsatsgruppe.label}
                             key={innsatsgruppe.key}

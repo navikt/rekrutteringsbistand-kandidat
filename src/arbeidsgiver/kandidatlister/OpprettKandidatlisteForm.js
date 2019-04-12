@@ -83,6 +83,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
+                            className="skjemaelement--pink"
                             id="kandidatliste-navn-input"
                             label="Navn på kandidatliste *"
                             placeholder="For eksempel barnehagelærer, Oslo"
@@ -98,7 +99,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     <div className="OpprettKandidatlisteForm__input">
                         <Textarea
                             id="kandidatliste-beskrivelse-input"
-                            textareaClass="OpprettKandidatlisteForm__input__textarea"
+                            textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
                             label="Beskrivelse"
                             placeholder="Skriv noen ord om stillingen du søker kandidater til"
                             value={this.state.kandidatlisteInfo.beskrivelse}
@@ -112,6 +113,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
+                            className="skjemaelement--pink"
                             id="kandidatliste-oppdragsgiver-input"
                             label="Oppdragsgiver"
                             placeholder="For eksempel NAV"

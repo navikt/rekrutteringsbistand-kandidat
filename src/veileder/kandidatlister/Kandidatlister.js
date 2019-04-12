@@ -64,7 +64,7 @@ const SideHeader = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister, nulls
 );
 
 const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange }) => (
-    <div className="kandidatlister__filter">
+    <div className="kandidatlister__filter skjemaelement--pink">
         <Fieldset legend="Kandidatlister">
             <Radio
                 id="alle-kandidatlister-radio"

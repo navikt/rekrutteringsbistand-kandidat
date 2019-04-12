@@ -265,7 +265,7 @@ class LagreKandidaterModal extends React.Component {
                                 onChange={this.onAnnonsenummerChange}
                                 onKeyDown={this.onKeyDown}
                                 ref={(input) => { this.input = input; }}
-                                className={hentListeFeilmelding ? 'skjemaelement__input skjemaelement__input--harFeil' : 'skjemaelement__input'}
+                                className={`skjemaelement__input skjemaelement--pink${hentListeFeilmelding ? ' skjemaelement__input--harFeil' : ''}`}
                                 placeholder="Annonsenummer"
                             />
                             <Knapp
