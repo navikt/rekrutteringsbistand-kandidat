@@ -13,7 +13,7 @@ const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled })
             Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater.
         </HjelpetekstUnder>
         :
-        <Checkbox className="Checkbox--ma-bo-pa-geografi" id={id} label={label} checked={checked} onChange={onChange} disabled={false} />
+        <Checkbox className="Checkbox--ma-bo-pa-geografi skjemaelement--pink" id={id} label={label} checked={checked} onChange={onChange} disabled={false} />
 );
 
 CheckboxMedDisabledFunksjon.propTypes = {
