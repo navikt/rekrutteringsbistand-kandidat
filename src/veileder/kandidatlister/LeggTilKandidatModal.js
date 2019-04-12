@@ -114,6 +114,7 @@ class LeggTilKandidatModal extends React.Component {
             >
                 <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
                 <Input
+                    className="skjemaelement--pink"
                     onChange={this.onChange}
                     feil={this.state.errorMessage && { feilmelding: this.state.errorMessage }}
                     bredde="S"

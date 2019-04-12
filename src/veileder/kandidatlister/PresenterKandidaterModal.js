@@ -130,7 +130,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     <div className="mailadresser">
                         { this.state.mailadresser.map((mailadresseFelt) => (
                             <Input
-                                className={mailadresseFelt.show ? 'show' : undefined}
+                                className={`skjemaelement--pink${mailadresseFelt.show ? ' show' : ''}`}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
                                 label={mailadresseFelt.id === 0 ? 'E-postadresse til arbeidsgiver*' : ''}
                                 placeholder={mailadresseFelt.id === 0 ? 'For eksempel: kari.nordmann@firma.no' : undefined}
@@ -141,12 +141,14 @@ export default class PresenterKandidaterModal extends React.Component {
                         ))}
                         <Flatknapp mini onClick={this.leggTilMailadressefelt}>+ Legg til flere</Flatknapp>
                     </div>
-                    <Textarea
-                        label="Melding til arbeidsgiver"
-                        textareaClass="beskjed"
-                        value={this.state.beskjed}
-                        onChange={this.onBeskjedChange}
-                    />
+                    <div className="skjemaelement--pink">
+                        <Textarea
+                            label="Melding til arbeidsgiver"
+                            textareaClass="beskjed"
+                            value={this.state.beskjed}
+                            onChange={this.onBeskjedChange}
+                        />
+                    </div>
                     <div>
                         <Hovedknapp onClick={this.validerOgLagre}>Del</Hovedknapp>
                         <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>Avbryt</Flatknapp>
