@@ -42,6 +42,7 @@ const ListeAvKandidatlister = ({ kandidatlister, fetchingKanidatlister, onKandid
                 { kandidatlister && kandidatlister.map((liste) =>
                     (<li key={liste.kandidatlisteId}>
                         <Checkbox
+                            className="skjemaelement--pink"
                             id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
                             aria-label={`Marker liste ${liste.tittel}`}
                             checked={liste.markert}

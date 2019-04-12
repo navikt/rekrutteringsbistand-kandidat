@@ -245,6 +245,7 @@ class KandidatlisteDetalj extends React.Component {
                 <div className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header th">
                     <div className="KandidatlisteDetalj__panel--first td">
                         <Checkbox
+                            className="skjemaelement--pink"
                             id="marker-alle-kandidater-checkbox"
                             title="Marker alle"
                             label="Navn"
@@ -261,7 +262,7 @@ class KandidatlisteDetalj extends React.Component {
         const SynligKandidatPanel = (kandidat) => (
             <div className="KandidatlisteDetalj__panel tr" key={JSON.stringify(kandidat)}>
                 <div className="KandidatlisteDetalj__panel--first td">
-                    <div className="skjemaelement skjemaelement--horisontal text-hide">
+                    <div className="skjemaelement skjemaelement--horisontal text-hide skjemaelement--pink">
                         <input
                             type="checkbox"
                             title="Marker"

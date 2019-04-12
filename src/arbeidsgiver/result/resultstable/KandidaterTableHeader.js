@@ -26,7 +26,7 @@ export default class KandidaterTableHeader extends React.Component {
                 <div className="th">
                     <Row className="kandidater--header">
                         <Column xs="3" md="3" className="KandidaterTableHeader__kandidatnr--wrapper">
-                            <div className="td KandidaterTableHeader__Checkbox">
+                            <div className="td KandidaterTableHeader__Checkbox skjemaelement--pink">
                                 <div className="skjemaelement skjemaelement--horisontal text-hide">
                                     <input
                                         type="checkbox"

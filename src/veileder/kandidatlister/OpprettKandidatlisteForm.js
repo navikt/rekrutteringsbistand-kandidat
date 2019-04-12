@@ -245,6 +245,7 @@ class OpprettKandidatlisteForm extends React.Component {
                     </div>
                     <div className="OpprettKandidatlisteForm__input">
                         <Input
+                            className="skjemaelement--pink"
                             id="kandidatliste-navn-input"
                             label="Navn på kandidatliste *"
                             placeholder="For eksempel: Jobbmesse, Oslo, 21.05.2019"
@@ -280,7 +281,7 @@ class OpprettKandidatlisteForm extends React.Component {
                     <div className="OpprettKandidatlisteForm__input">
                         <Textarea
                             id="kandidatliste-beskrivelse-input"
-                            textareaClass="OpprettKandidatlisteForm__input__textarea"
+                            textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
                             label="Beskrivelse"
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={255}

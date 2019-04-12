@@ -10,6 +10,7 @@ import { OPPSTARTSKODER } from '../../konstanter';
 const VisKandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">
         <Ekspanderbartpanel
+            className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-jobbprofil"
             tittel="Jobbprofil"
             tittelProps="systemtittel"

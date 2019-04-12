@@ -54,6 +54,7 @@ const SprakLabels = {
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
+            className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-cv"
             tittel="CV"
             tittelProps="systemtittel"

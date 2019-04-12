@@ -4,7 +4,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
 
 const DisabledCheckbox = () => (
-    <Checkbox className="Checkbox--ma-bo-pa-geografi-disabled" id={'geografi-checkbox-hjelpetekst-disabled'} label="Vis bare kandidater som bor i området" checked={false} disabled={false} readOnly />
+    <Checkbox className="Checkbox--ma-bo-pa-geografi-disabled skjemaelement--pink" id={'geografi-checkbox-hjelpetekst-disabled'} label="Vis bare kandidater som bor i området" checked={false} disabled={false} readOnly />
 );
 
 const CheckboxMedDisabledFunksjon = ({ id, label, checked, onChange, disabled }) => (

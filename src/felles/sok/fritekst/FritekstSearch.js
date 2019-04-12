@@ -20,7 +20,7 @@ class FritekstSearch extends React.Component {
     render() {
         const { fritekstSokeord } = this.props;
         return (
-            <form className="fritekst__search" onSubmit={this.onSubmit}>
+            <form className="fritekst__search skjemaelement--pink" onSubmit={this.onSubmit}>
                 <input
                     id={'fritekstsok-input'}
                     value={fritekstSokeord}

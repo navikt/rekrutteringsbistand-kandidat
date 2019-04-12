@@ -238,7 +238,7 @@ const ListedetaljerView = (props) => {
                     <div className="kolonne-checkboks">
                         <Checkbox
                             label="&#8203;" // <- tegnet for tom streng
-                            className="text-hide"
+                            className="text-hide skjemaelement--pink"
                             checked={alleMarkert}
                             onChange={onCheckAlleKandidater}
                         />
@@ -263,7 +263,7 @@ const ListedetaljerView = (props) => {
     };
 
     const StatusSelect = ({ value, onChange }) => ( // eslint-disable-line react/prop-types
-        <div className="skjemaelement">
+        <div className="skjemaelement skjemaelement--pink">
             <div className="selectContainer input--s">
                 <select className="skjemaelement__input" value={value} onChange={onChange}>
                     {[STATUS.VURDERES, STATUS.KONTAKTET, STATUS.AKTUELL, STATUS.UAKTUELL, STATUS.UINTERESSERT]
@@ -311,7 +311,7 @@ const ListedetaljerView = (props) => {
                     <div className="kolonne-checkboks">
                         <Checkbox
                             label="&#8203;" // <- tegnet for tom streng
-                            className="text-hide"
+                            className="text-hide skjemaelement--pink"
                             checked={kandidat.markert}
                             onChange={() => {
                                 onToggleKandidat(kandidat.kandidatnr);

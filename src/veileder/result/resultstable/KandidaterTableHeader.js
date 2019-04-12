@@ -12,7 +12,7 @@ export default class KandidaterTableHeader extends React.Component {
         return (
             <div className="NyKandidaterTableRow overskrift">
                 <div className="kandidat-content">
-                    <div className="kolonne-checkbox">
+                    <div className="kolonne-checkbox skjemaelement--pink">
                         <div className="skjemaelement skjemaelement--horisontal text-hide">
                             <input
                                 type="checkbox"

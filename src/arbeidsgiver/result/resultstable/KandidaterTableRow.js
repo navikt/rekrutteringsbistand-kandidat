@@ -44,7 +44,7 @@ class KandidaterTableRow extends React.Component {
             <div className={`tr${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Row className="kandidater--row">
                     <Column xs="12" md="3" className="KandidaterTableRow__kandidatnr--wrapper">
-                        <div className="td KandidaterTableRow__Checkbox">
+                        <div className="td KandidaterTableRow__Checkbox skjemaelement--pink">
                             <div className="skjemaelement skjemaelement--horisontal text-hide">
                                 <input
                                     type="checkbox"
