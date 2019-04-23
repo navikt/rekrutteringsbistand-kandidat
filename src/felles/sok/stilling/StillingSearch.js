@@ -120,15 +120,17 @@ export default class StillingSearch extends React.Component {
 
                     </div>
                     }
-                    {this.props.stillinger.map((stilling) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={stilling}
-                            value={stilling}
-                        >
-                            {stilling}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.stillinger.map((stilling) => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={stilling}
+                                value={stilling}
+                            >
+                                {stilling}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
 
                 {/* TODO: Fjerne feature toggle */}
