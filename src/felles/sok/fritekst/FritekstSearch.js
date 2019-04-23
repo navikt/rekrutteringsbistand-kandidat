@@ -18,7 +18,7 @@ class FritekstSearch extends React.Component {
     };
 
     render() {
-        const { fritekstSokeord } = this.props;
+        const { fritekstSokeord, placeholderTekst } = this.props;
         return (
             <form className="fritekst__search skjemaelement--pink" onSubmit={this.onSubmit}>
                 <input
@@ -26,13 +26,14 @@ class FritekstSearch extends React.Component {
                     value={fritekstSokeord}
                     onChange={this.onFritekstChange}
                     className="skjemaelement__input"
-                    placeholder="Fritekstsøk"
+                    placeholder={placeholderTekst}
                 />
                 <Knapp
                     aria-label="fritekstsøk"
                     className="search-button"
                     id="fritekstsok-knapp"
                     htmlType="submit"
+                    title="Søk"
                 >
                     <i className="search-button__icon" />
                 </Knapp>
@@ -42,6 +43,7 @@ class FritekstSearch extends React.Component {
 }
 
 FritekstSearch.propTypes = {
+    placeholderTekst: PropTypes.string.isRequired,
     search: PropTypes.func.isRequired,
     setFritekstSokeord: PropTypes.func.isRequired,
     fritekstSokeord: PropTypes.string.isRequired

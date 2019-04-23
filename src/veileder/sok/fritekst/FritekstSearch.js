@@ -6,7 +6,12 @@ import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
 
 const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord }) => (
-    <FritekstSearchFelles setFritekstSokeord={setFritekstSokeord} fritekstSokeord={fritekstSokeord} search={search} />
+    <FritekstSearchFelles
+        setFritekstSokeord={setFritekstSokeord}
+        fritekstSokeord={fritekstSokeord}
+        search={search}
+        placeholderTekst="Fritekstsøk"
+    />
 );
 
 FritekstSearch.propTypes = {
