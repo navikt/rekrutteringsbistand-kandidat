@@ -11,7 +11,7 @@ import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPe
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';
@@ -229,8 +229,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId }),
+    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater })
 });
 
 

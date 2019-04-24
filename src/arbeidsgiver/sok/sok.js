@@ -26,7 +26,7 @@ import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
-import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
+import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer.ts';
 import Feilside from './error/Feilside';
 import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,

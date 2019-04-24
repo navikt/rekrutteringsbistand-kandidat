@@ -15,7 +15,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from '../../felles/kandidatlister/TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import { CLEAR_KANDIDATLISTE, HENT_KANDIDATLISTE, SLETT_KANDIDATER, SLETT_KANDIDATER_RESET_STATUS } from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
 import './kandidatlister.less';
@@ -411,10 +411,10 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater }),
-    clearKandidatliste: () => dispatch({ type: CLEAR_KANDIDATLISTE }),
-    nullstillSletteStatus: () => dispatch({ type: SLETT_KANDIDATER_RESET_STATUS })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId }),
+    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater }),
+    clearKandidatliste: () => dispatch({ type: KandidatlisteTypes.CLEAR_KANDIDATLISTE }),
+    nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS })
 });
 
 Modal.setAppElement('#app');

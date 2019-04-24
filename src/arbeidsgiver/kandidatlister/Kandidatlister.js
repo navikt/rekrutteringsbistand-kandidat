@@ -10,10 +10,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import TomListe from '../../felles/kandidatlister/TomListe';
-import {
-    HENT_KANDIDATLISTER, RESET_LAGRE_STATUS, SLETT_KANDIDATLISTE,
-    SLETT_KANDIDATLISTE_RESET_STATUS
-} from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import './kandidatlister.less';
 import EndreModal from './EndreModal';
@@ -323,10 +320,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => dispatch({ type: HENT_KANDIDATLISTER }),
-    resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS }),
-    resetSletteStatus: () => dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }),
-    slettKandidatliste: (id) => dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id })
+    hentKandidatlister: () => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }),
+    resetSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE_RESET_STATUS }),
+    slettKandidatliste: (id) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE, kandidatlisteId: id })
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({
