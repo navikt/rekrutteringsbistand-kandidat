@@ -20,15 +20,15 @@ const common = (app) => ({
         publicPath: app === APP.KANDIDATSOK_VEILEDER ? '/sok' : '/kandidater/'
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.js$/,
+                test: /\.([tj])sx?$/,
                 exclude: /node_modules\/(?!(autotrack|dom-utils))/,
-                loader: 'babel-loader',
-                query: { presets: ['es2015', 'react', 'stage-2'] }
+                use: { loader: 'awesome-typescript-loader' },
+                // query: { presets: ['es2015', 'react', 'stage-2'] }
             }, {
                 test: /\.(png)$/,
-                loader: 'base64-image-loader'
+                use: { loader: 'base64-image-loader' }
             }, {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
@@ -48,7 +48,7 @@ const common = (app) => ({
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: [".ts", ".tsx", ".js", ".jsx"]
     },
     plugins: [
         new ExtractTextPlugin('css/[name].css')
