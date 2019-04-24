@@ -92,7 +92,7 @@
     "pam-frontend-footer": "^1.0.3",
     "pam-frontend-header": "^4.4.3",
     "pam-frontend-knapper": "^1.0.1",
-    "pam-frontend-merkelapper": "^1.0.3",
+    "pam-frontend-merkelapper": "^1.0.4",
     "pam-frontend-typografi": "^1.0.1",
     "promise": "^8.0.2",
     "prop-types": "^15.6.2",
