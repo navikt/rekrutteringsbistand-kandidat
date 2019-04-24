@@ -8,7 +8,7 @@ import {
 } from './api';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import { USE_JANZZ } from '../common/fasitProperties';
+import { USE_JANZZ, CONTEXT_ROOT } from '../common/fasitProperties';
 import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
@@ -255,7 +255,7 @@ function* search(action = '') {
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
-        if (window.location.pathname !== '/kandidater/cv') {
+        if (window.location.pathname !== '/${CONTEXT_ROOT}/cv') {
             window.history.replaceState('', '', newUrlQuery);
         }
 

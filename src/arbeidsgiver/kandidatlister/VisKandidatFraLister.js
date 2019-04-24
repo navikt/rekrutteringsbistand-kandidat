@@ -127,7 +127,7 @@ class VisKandidatFraLister extends React.Component {
         );
 
         if (this.props.sletteStatus === SLETTE_STATUS.SUCCESS) {
-            return <Redirect to={`/kandidater/lister/detaljer/${kandidatlisteId}`} push />;
+            return <Redirect to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`} push />;
         }
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (

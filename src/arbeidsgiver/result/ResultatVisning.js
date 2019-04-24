@@ -129,7 +129,7 @@ class ResultatVisning extends React.Component {
                                         Finn kandidater
                                     </Hovedknapp> : ''}
                                     <div className="resultatvisning--sokekriterier">
-                                        <FritekstSearch />
+                                        {!USE_JANZZ ? <FritekstSearch /> : ''}
                                         <StillingSearch />
                                         {USE_JANZZ ? <KompetanseSearch /> : ''}
                                         <GeografiSearch />

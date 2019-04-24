@@ -49,7 +49,7 @@ const appInfo = (appnavn) => {
         };
     } else if (appnavn === APPS.KANDIDATSOK_NEXT) {
         return {
-            contextRoot: 'pam-kandidatsok-next',
+            contextRoot: 'kandidater-next',
             appNavn: 'pam-kandidatsok-next',
             htmlFil: 'index-next.html'
         };
