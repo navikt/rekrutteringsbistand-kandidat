@@ -105,15 +105,17 @@ class SprakSearch extends React.Component {
                             </LeggtilKnapp>
                         )}
                     </div>
-                    {this.props.sprak.map((sprak) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={sprak}
-                            value={sprak}
-                        >
-                            {sprak}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.sprak.map((sprak) => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={sprak}
+                                value={sprak}
+                            >
+                                {sprak}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

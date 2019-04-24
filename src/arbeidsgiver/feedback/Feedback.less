@@ -1,3 +1,5 @@
+@import '../../felles/Variables.less';
+
 @media (min-width: 768px) {
   .Feedback {
     position: fixed;
@@ -12,17 +14,17 @@
     -ms-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
     transform: rotate(-90deg);
-    background: #e3edf8;
+    background: @greenLighten;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     display: block;
     padding: 0.5rem 1rem;
     text-decoration: none;
-    border: 1px solid #B7B1A9;
+    border: 1px solid @greenDarken;
   }
 
   .Feedback__link:hover {
-    border: 1px solid #0067c5;
+    border: 1px solid @pinkDarken;
   }
 
   .Feedback__link:focus {
@@ -46,7 +48,7 @@
   }
 
   .Feedback__link {
-    color: #0067C5;
+    color: @pinkDarken;
     text-decoration: none;
     border-bottom: solid 1px #B7B1A9;
   }

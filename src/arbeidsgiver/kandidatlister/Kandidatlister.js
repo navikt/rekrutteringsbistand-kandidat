@@ -74,9 +74,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                     </Undertittel>
                 </div>
                 {!kandidatliste.opprettetAvNav &&
-                    <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
-                    </div>
+                    <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                 }
             </div>
             <div className="beskrivelse-rad">
@@ -95,9 +93,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                     }
                 </div>
                 {kandidatliste.opprettetAvNav &&
-                    <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
-                    </div>
+                    <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                 }
             </div>
         </div>

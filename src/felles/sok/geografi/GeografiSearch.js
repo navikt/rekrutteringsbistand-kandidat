@@ -140,15 +140,17 @@ class GeografiSearch extends React.Component {
                         />
 
                     </div>
-                    {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={geo.geografiKodeTekst}
-                            value={geo.geografiKode}
-                        >
-                            {geo.geografiKodeTekst}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={geo.geografiKodeTekst}
+                                value={geo.geografiKode}
+                            >
+                                {geo.geografiKodeTekst}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

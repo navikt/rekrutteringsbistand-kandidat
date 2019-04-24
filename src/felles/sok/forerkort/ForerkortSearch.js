@@ -140,15 +140,17 @@ class ForerkortSearch extends React.Component {
                         </Normaltekst>
                         }
                     </div>
-                    {this.props.forerkortList.map((forerkort) => (
-                        <Merkelapp
-                            onRemove={this.onFjernForerkortClick}
-                            key={forerkort}
-                            value={forerkort}
-                        >
-                            {forerkort}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.forerkortList.map((forerkort) => (
+                            <Merkelapp
+                                onRemove={this.onFjernForerkortClick}
+                                key={forerkort}
+                                value={forerkort}
+                            >
+                                {forerkort}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.FORERKORT && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

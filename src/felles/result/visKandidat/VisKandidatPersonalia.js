@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Container, Row } from 'nav-frontend-grid';
+import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -78,7 +78,7 @@ export default class VisKandidatPersonalia extends React.Component {
                     </Column>
                 </Container>
 
-                <Row>
+                <div>
                     <Sidetittel className="header--personalia__overskrift">
                         {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
@@ -88,9 +88,9 @@ export default class VisKandidatPersonalia extends React.Component {
                             <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
                         )
                     }
-                </Row>
+                </div>
                 {fantCv &&
-                    <Row>
+                    <div>
                         <div className="personalia-container">
                             {(cv.epost) && (
                                 <div className="personalia--item">
@@ -129,7 +129,7 @@ export default class VisKandidatPersonalia extends React.Component {
                                 </Normaltekst>
                             </div>}
                         </div>
-                    </Row>
+                    </div>
                 }
             </div>
 
