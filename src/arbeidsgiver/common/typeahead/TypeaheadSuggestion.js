@@ -35,11 +35,11 @@ export default class TypeaheadSuggestion extends React.Component {
                     <span className={`typetext ${this.props.active && 'active'}`}>
                         {this.value.split('').map((c, i) => {
                             if (i === matchIndex || (i > matchIndex && i < matchIndex + (this.props.match.length))) {
-                                return (<span key={`${c}-${i}`}>
+                                return (<span className="typeahead-substring" key={`${c}-${i}`}>
                                     {c}
                                 </span>);
                             }
-                            return <span key={`${c}-${i}`} className="typeahead-substring">{c}</span>;
+                            return <span key={`${c}-${i}`}>{c}</span>;
                         })}
                     </span>) :
                     (<span className={`typetext typeahead-substring ${this.props.active && 'active'}`}>
