@@ -44,4 +44,4 @@ fasitResources:
         password: PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY
   - alias: pam-search-api-restservice
     resourceType: restservice
-app:veil
+    
