@@ -82,7 +82,7 @@ if (isProd) {
                 "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
             ],
             styleSrc: ["'self'"],
-            fontSrc: ["'self'", 'data:'],
+            fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
             imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
             connectSrc: ["'self'", 'https://www.google-analytics.com']
         }

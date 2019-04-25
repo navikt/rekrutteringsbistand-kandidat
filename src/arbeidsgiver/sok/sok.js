@@ -32,7 +32,7 @@ import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
-import { KandidatlisteHeader, KandidatsokHeader } from '../common/Toppmeny';
+import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import sertifikatReducer from './sertifikat/sertifikatReducer';
@@ -43,7 +43,7 @@ import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
-import GiSamtykke from '../samtykke/GiSamtykke';
+import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -145,7 +145,7 @@ class Sok extends React.Component {
 
     render() {
         if (this.props.harSamtykket !== undefined && !this.props.harSamtykket) {
-            return <GiSamtykke />;
+            return <SamtykkeSide />;
         }
         if (this.props.error) {
             return <Feilside />;
