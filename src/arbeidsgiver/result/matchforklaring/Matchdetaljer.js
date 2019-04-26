@@ -1,6 +1,6 @@
 import React from 'react';
 import { Systemtittel,Normaltekst } from 'nav-frontend-typografi';
-import { MatchexplainProptypesGrouped } from './Proptypes';
+import { MatchexplainProptypes } from './Proptypes';
 import Matchforklaring from './Matchforklaring';
 import './Matchdeltaljer.less';
 
@@ -34,7 +34,7 @@ Matchdetaljer.defaultProps = {
 };
 
 Matchdetaljer.propTypes = {
-    matchforklaring: MatchexplainProptypesGrouped
+    matchforklaring: MatchexplainProptypes
 };
 
 export default Matchdetaljer;

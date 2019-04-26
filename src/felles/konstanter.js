@@ -48,7 +48,8 @@ export const KONSEPTTYPE = {
     ERFARING: 'experience level',
     STED: 'location',
     FORERKORT: 'license',
-    SERTIFIKAT: 'authorization'
+    SERTIFIKAT: 'authorization',
+    SPRAK: 'language'
 };
 
 

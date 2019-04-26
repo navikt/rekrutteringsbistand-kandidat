@@ -15,35 +15,25 @@ export const UnmatchedGroupConceptsPropType = PropTypes.shape({
     kompetanse: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     sertifikat: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     softSkills: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
+    sprak: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
     andre: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired }))
 });
 
 export const MatchedGroupConceptsPropType = PropTypes.shape({
-    utdanning: PropTypes.arrayOf(ConceptMatchPropType),
-    yrker: PropTypes.arrayOf(ConceptMatchPropType),
+    andre: PropTypes.arrayOf(ConceptMatchPropType),
     erfaring: PropTypes.arrayOf(ConceptMatchPropType),
     kompetanse: PropTypes.arrayOf(ConceptMatchPropType),
     sertifikat: PropTypes.arrayOf(ConceptMatchPropType),
     softSkills: PropTypes.arrayOf(ConceptMatchPropType),
-    andre: PropTypes.arrayOf(ConceptMatchPropType)
-});
-
-export const MatchexplainProptypesGrouped = PropTypes.shape({
-    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number }),
-    concepts_matched: ConceptMatchPropType,
-    j1_not_matched: UnmatchedGroupConceptsPropType,
-    j2_not_matched: UnmatchedGroupConceptsPropType,
-    kandidatprofilId: PropTypes.string
+    sprak: PropTypes.arrayOf(ConceptMatchPropType),
+    utdanning: PropTypes.arrayOf(ConceptMatchPropType),
+    yrker: PropTypes.arrayOf(ConceptMatchPropType)
 });
 
 export const MatchexplainProptypes = PropTypes.shape({
-    concepts_matched: PropTypes.arrayOf(ConceptMatchPropType),
-    j1_not_matched: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
-    j2_not_matched: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })),
-    kandidatprofilId: PropTypes.string
+    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number }).isRequired,
+    matchedeKonsepter: MatchedGroupConceptsPropType.isRequired,
+    stillingskonsepterUtenMatch: UnmatchedGroupConceptsPropType.isRequired,
+    kandidatkonsepterUtenMatch: UnmatchedGroupConceptsPropType
 });
 
-export const MatchProptypes = PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number })
-});
