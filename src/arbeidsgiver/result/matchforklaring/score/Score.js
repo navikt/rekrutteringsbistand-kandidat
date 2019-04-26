@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ScoreLimitEnum from './ScoreLimitEnum';
 import './Score.less';
 
 export default function Score({ value }) {
-
-    const limitOneFilled = 20;
-    const limitTwoFilled = 50;
-    const limitThreeFilled = 80;
     return (
         <div className="match-score">
-            <div className={value > limitOneFilled ? 'rectangle--filled' : 'rectangle'} />
-            <div className={value > limitTwoFilled ? 'rectangle--filled' : 'rectangle'} />
-            <div className={value > limitThreeFilled ? 'rectangle--filled' : 'rectangle'} />
+            <div className={value >= ScoreLimitEnum.LIMIT_1 ? 'rectangle--filled' : 'rectangle'} />
+            <div className={value >= ScoreLimitEnum.LIMIT_2 ? 'rectangle--filled' : 'rectangle'} />
+            <div className={value >= ScoreLimitEnum.LIMIT_3 ? 'rectangle--filled' : 'rectangle'} />
+            <div className={value >= ScoreLimitEnum.LIMIT_4 ? 'rectangle--filled' : 'rectangle'} />
+            <div className={value >= ScoreLimitEnum.LIMIT_5 ? 'rectangle--filled' : 'rectangle'} />
         </div>
     );
 }

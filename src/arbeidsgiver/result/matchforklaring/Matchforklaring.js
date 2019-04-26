@@ -1,10 +1,13 @@
 import React from 'react';
-import { Undertittel, Systemtittel } from 'nav-frontend-typografi';
-import { Row, Column } from 'nav-frontend-grid';
 import PropTypes from 'prop-types';
+import { Undertittel, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
+import { Row, Column } from 'nav-frontend-grid';
 import { ConceptMatchPropType, MatchedGroupConceptsPropType, MatchexplainProptypesGrouped, UnmatchedGroupConceptsPropType } from './Proptypes';
 import { KONSEPTTYPE } from '../../../felles/konstanter';
 import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../../felles/sok/utils';
+import ScoreLimitEnum from './score/ScoreLimitEnum';
+import Score from './score/Score';
+import './Matchforklaring.less';
 
 function mapYrkeserfaringStilling(name) {
     if (name.includes(KONSEPTTYPE.ERFARING)) {
@@ -35,6 +38,62 @@ const conceptMatchRad = (conceptMatch) => (
         <Column className="col-xs-5 match-explanation-right-column">{mapYrkeserfaringKandidat(conceptMatch.c2name)}</Column>
     </Row>
 );
+
+
+const rowColor = (match) => {
+    let color = 'color-low-score';
+    if (match >= ScoreLimitEnum.LIMIT_3) {
+        color = 'color-high-score';
+    } else if (match >= ScoreLimitEnum.LIMIT_1) {
+        color = 'color-medium-score';
+    }
+
+    return color;
+};
+
+const matchRad = (conceptMatch) => {
+    return (
+        <div
+            key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}
+            className={`match-row blokk-xxs ${rowColor(conceptMatch.cor * 100)}`}
+        >
+            <Normaltekst>{mapYrkeserfaringStilling(conceptMatch.c1name)}</Normaltekst>
+            <Score value={conceptMatch.cor * 100} />
+            <Normaltekst>{mapYrkeserfaringKandidat(conceptMatch.c2name)}</Normaltekst>
+        </div>
+    );
+};
+
+const noMatchRad = (konseptName) => {
+    return (
+        <div
+            key={konseptName}
+            className="match-row blokk-xxs color-low-score"
+        >
+            <Normaltekst>{mapYrkeserfaringStilling(konseptName)}</Normaltekst>
+            <Score value={0} />
+            <Normaltekst className="no-match-text">Match ikke funnet</Normaltekst>
+        </div>
+    );
+};
+
+
+const Konsepttype = ({ tittel, konseptmatcher, stillingskonsepter }) => {
+    if (stillingskonsepter.length > 0 || konseptmatcher.length > 0) {
+        return (
+            <div className="blokk-s">
+                <Normaltekst className="match-category-title">{tittel}</Normaltekst>
+                {konseptmatcher.length > 0 &&
+                    konseptmatcher.sort((a, b) => (b.cor - a.cor )).map(matchRad)
+                }
+                {stillingskonsepter.length > 0 &&
+                    stillingskonsepter.map((concept) => noMatchRad(concept.name))
+                }
+            </div>
+        );
+    }
+    return null;
+};
 
 const KonsepttypeUtenMatch = ({ tittel, stillingskonsepter, kandidatkonsepter }) => {
     if (stillingskonsepter.length > 0 || kandidatkonsepter.length > 0) {
@@ -71,8 +130,52 @@ const KonsepttypeMedMatch = ({ tittel, konseptmatcher }) => {
     return null;
 };
 
-const MatchPanel = ({ matchedeKonsepter, score }) => (
+
+const MatchPanel = ({ matchedeKonsepter, score, stillingskonsepter, matchScore }) => (
     <Row className="match-explanation-match blokk-s">
+        <Normaltekst className="match-category-title">Total match</Normaltekst>
+        <div className={`match-row blokk-s ${rowColor(matchScore)}`}>
+            <Undertittel>Ditt søk</Undertittel>
+            <Score value={matchScore} />
+            <Undertittel >Kandidaten</Undertittel>
+        </div>
+        <Konsepttype
+            tittel="Stilling/yrke"
+            konseptmatcher={matchedeKonsepter.yrker}
+            stillingskonsepter={stillingskonsepter.yrker}
+        />
+        <Konsepttype
+            tittel="Kompetanse"
+            konseptmatcher={matchedeKonsepter.kompetanse}
+            stillingskonsepter={stillingskonsepter.kompetanse}
+        />
+        <Konsepttype
+            tittel="Utdanning"
+            konseptmatcher={matchedeKonsepter.utdanning}
+            stillingskonsepter={stillingskonsepter.utdanning}
+        />
+        <Konsepttype
+            tittel="Arbeidserfaring"
+            konseptmatcher={matchedeKonsepter.erfaring}
+            stillingskonsepter={stillingskonsepter.erfaring}
+        />
+        <Konsepttype
+            tittel="Sertifikat"
+            konseptmatcher={matchedeKonsepter.sertifikat}
+            stillingskonsepter={stillingskonsepter.sertifikat}
+        />
+        <Konsepttype
+            tittel="Soft skills"
+            konseptmatcher={matchedeKonsepter.softSkills}
+            stillingskonsepter={stillingskonsepter.softSkills}
+        />
+        <Konsepttype
+            tittel="Annet"
+            konseptmatcher={matchedeKonsepter.andre}
+            stillingskonsepter={stillingskonsepter.andre}
+        />
+
+
         <div className="match-explanation-title">
             <Systemtittel className="text-center blokk-xs">{`Snittmatch: ${score.snitt} %`} </Systemtittel>
             <Systemtittel className="text-center blokk-xs">{`Match: ${score.match} %`} </Systemtittel>
@@ -82,7 +185,7 @@ const MatchPanel = ({ matchedeKonsepter, score }) => (
             <Column className="col-xs-6"><Undertittel>Stillingsprofil</Undertittel></Column>
             <Column className="col-xs-6 match-explanation-right-column"><Undertittel>Kandidatprofil</Undertittel></Column>
         </Row>
-        <KonsepttypeMedMatch tittel="Ønsket yrke" konseptmatcher={matchedeKonsepter.yrker} />
+        <KonsepttypeMedMatch tittel="Ønsket yrke" konseptmatcher={matchedeKonsepter.yrker}/>
         <KonsepttypeMedMatch tittel="Utdanning" konseptmatcher={matchedeKonsepter.utdanning} />
         <KonsepttypeMedMatch tittel="Yrkeserfaring" konseptmatcher={matchedeKonsepter.erfaring} />
         <KonsepttypeMedMatch tittel="Kompetanse" konseptmatcher={matchedeKonsepter.kompetanse} />
@@ -93,7 +196,6 @@ const MatchPanel = ({ matchedeKonsepter, score }) => (
 );
 
 const IkkematchPanel = ({ stillingskonsepter, kandidatkonsepter }) => {
-    console.log('aaa', stillingskonsepter, kandidatkonsepter);
     return (
         <Row className="search-result-item">
             <div className="match-explanation-title">
@@ -129,6 +231,9 @@ const Matchforklaring = ({ matchforklaring }) => (
         <MatchPanel
             matchedeKonsepter={matchforklaring.matchedeKonsepter}
             score={matchforklaring.score}
+            matchScore={Math.min(matchforklaring.score.match, 100)}
+            stillingskonsepter={matchforklaring.stillingskonsepterUtenMatch}
+            kandidatkonsepter={matchforklaring.kandidatkonsepterUtenMatch}
         />
         <IkkematchPanel
             stillingskonsepter={matchforklaring.stillingskonsepterUtenMatch}
@@ -146,9 +251,16 @@ KonsepttypeMedMatch.propTypes = {
     konseptmatcher: PropTypes.arrayOf(ConceptMatchPropType).isRequired
 };
 
+Konsepttype.propTypes = {
+    tittel: PropTypes.string.isRequired,
+    konseptmatcher: PropTypes.arrayOf(ConceptMatchPropType).isRequired,
+    stillingskonsepter: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string })).isRequired
+};
+
 MatchPanel.propTypes = {
     score: PropTypes.shape({ snitt: PropTypes.number, match: PropTypes.number, revertertMatch: PropTypes.number }).isRequired,
-    matchedeKonsepter: MatchedGroupConceptsPropType.isRequired
+    matchedeKonsepter: MatchedGroupConceptsPropType.isRequired,
+    stillingskonsepter: UnmatchedGroupConceptsPropType.isRequired
 };
 
 IkkematchPanel.propTypes = {

@@ -198,9 +198,7 @@ class VisKandidat extends React.Component {
                             </Knapp>
                         </div>
                         {this.props.matchforklaring && (
-                            <div className="match-explanation-container">
-                                <Matchdetaljer matchforklaring={this.props.matchforklaring} />
-                            </div>
+                           <Matchdetaljer matchforklaring={this.props.matchforklaring} />
                         )}
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />

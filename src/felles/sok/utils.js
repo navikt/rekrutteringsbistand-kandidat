@@ -53,6 +53,9 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
             if (konsepttype === KONSEPTTYPE.UTDANNING) {
                 return { ...dict, utdanning: [...dict.utdanning, obj] };
             } else if (konsepttype === KONSEPTTYPE.YRKE) {
+                if (obj.c2branch === KONSEPTTYPE.KOMPETANSE) {
+                    return { ...dict, kompetanse: [...dict.kompetanse, obj] };
+                }
                 return { ...dict, yrker: [...dict.yrker, obj] };
             } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
                 return { ...dict, kompetanse: [...dict.kompetanse, obj] };
