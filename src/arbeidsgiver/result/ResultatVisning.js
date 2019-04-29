@@ -115,6 +115,7 @@ class ResultatVisning extends React.Component {
                                         <Flatknapp
                                             mini
                                             id="slett-alle-kriterier-lenke"
+                                            className={USE_JANZZ ? "knapp-slett-alle-kriterier-lenke" : ""}
                                             onClick={this.onRemoveCriteriaClick}
                                         >
                                             Slett alle kriterier
@@ -144,7 +145,7 @@ class ResultatVisning extends React.Component {
                                         <Hovedknapp
                                             onClick={this.onMatchClickMedScroll}
                                             className="send--sokekriterier--knapp"
-                                            id="knapp-send--sokekriterier-knapp"
+                                            id="knapp-send--sokekriterier-knapp2"
                                             disabled={this.props.isSearching}
                                         >
                                             Finn kandidater
