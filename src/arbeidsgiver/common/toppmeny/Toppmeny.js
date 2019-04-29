@@ -6,12 +6,12 @@ import { LOGOUT_URL, LOGIN_URL, USE_JANZZ } from './fasitProperties';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../arbeidsgiver/arbeidsgiverReducer';
 import KandidatsokNextHeader from './KandidatsokNextHeader';
 
-const loggUt = () => {
+export const loggUt = () => {
     sessionStorage.removeItem('orgnr');
     window.location.href = LOGOUT_URL;
 };
 
-const loggInn = () => {
+export const loggInn = () => {
     window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
 };
 
