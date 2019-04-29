@@ -43,7 +43,7 @@ class KandidaterTableRow extends React.Component {
         return (
             <div className={`tr${nettoppValgt ? ' kandidater--row--sett' : ''}`}>
                 <Row className="kandidater--row">
-                    <Column xs="12" md="3" className="KandidaterTableRow__kandidatnr--wrapper">
+                    <Column xs="12" md={USE_JANZZ ? "4" :"3"} className="KandidaterTableRow__kandidatnr--wrapper">
                         <div className="td KandidaterTableRow__Checkbox skjemaelement--pink">
                             <div className="skjemaelement skjemaelement--horisontal text-hide">
                                 <input
@@ -74,22 +74,32 @@ class KandidaterTableRow extends React.Component {
                             </Link>
                         </div>
                     </Column>
-
-                    {USE_JANZZ ? (
-                        <Column xs="12" md="3" className="td">
-                            <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
-                        </Column>
-                    ) : (
+                    {USE_JANZZ &&
+                            <Column xs="12" md="1" className="td hidden-mobile">
+                              
+                            </Column>
+                        }
+                    {!USE_JANZZ && 
                         <Column xs="12" md="3" className="td">
                             <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                         </Column>
-                    )}
+                    }
+                    
+                    {!USE_JANZZ && 
                     <Column xs="12" md="4" className="td">
                         <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                    <Column xs="12" md="2" className="td">
+                    } 
+
+                    <Column xs="12" md={USE_JANZZ ? "5" :"2"} className="td">
                         <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                     </Column>
+
+                    {USE_JANZZ &&
+                        <Column xs="12" md="2" className="td">
+                            <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                        </Column>
+                    }
                 </Row>
             </div>
         );

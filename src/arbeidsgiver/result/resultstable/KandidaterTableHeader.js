@@ -25,7 +25,7 @@ export default class KandidaterTableHeader extends React.Component {
             <div className="thead">
                 <div className="th">
                     <Row className="kandidater--header">
-                        <Column xs="3" md="3" className="KandidaterTableHeader__kandidatnr--wrapper">
+                        <Column xs={USE_JANZZ ? "4" :"3"} md={USE_JANZZ ? "4" :"3"} className="KandidaterTableHeader__kandidatnr--wrapper">
                             <div className="td KandidaterTableHeader__Checkbox skjemaelement--pink">
                                 <div className="skjemaelement skjemaelement--horisontal text-hide">
                                     <input
@@ -60,45 +60,37 @@ export default class KandidaterTableHeader extends React.Component {
                                 </Element>
                             </div>
                         </Column>
-                        {USE_JANZZ ?
-                            (<Column xs="3" md="3" className="td hidden-mobile">
-                                <button className="text-overflow" onClick={this.onFilterScoreClick}>
+                        {USE_JANZZ &&
+                            <Column xs="1" md="1" className="td hidden-mobile">
+                              
+                            </Column>
+                        }
+                        {!USE_JANZZ &&
+                            <Column xs="3" md="3" className="td hidden-mobile">
+                                <div className="text-overflow">
                                     <Element
                                         className="label--resultatvisning"
-                                        aria-label="Sorter på matchscore"
-                                        aria-selected={this.state.scoreChevronNed !== undefined}
+                                        aria-label="Utdanning"
                                     >
-                                        Matchscore
+                                        Utdanningsnivå
                                     </Element>
-                                    <NavFrontendChevron
-                                        type={this.state.scoreChevronNed === undefined || this.state.scoreChevronNed ? 'ned' : 'opp'}
-                                    />
-                                </button>
-                            </Column>)
-                            : (
-                                <Column xs="3" md="3" className="td hidden-mobile">
-                                    <div className="text-overflow">
-                                        <Element
-                                            className="label--resultatvisning"
-                                            aria-label="Utdanning"
-                                        >
-                                            Utdanningsnivå
-                                        </Element>
-                                    </div>
-                                </Column>
-                            )}
+                                </div>
+                            </Column>
+                        }
+                    
+                        {!USE_JANZZ && 
                         <Column xs="4" md="4" className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
                                     aria-label="Arbeidserfaring"
                                 >
-                                    {USE_JANZZ && 'Siste arbeidserfaring'}
-                                    {!USE_JANZZ && 'Relevant arbeidserfaring'}
+                                    Relevant arbeidserfaring
                                 </Element>
                             </div>
                         </Column>
-                        <Column xs="2" md="2" className="td hidden-mobile">
+                        }
+                        <Column xs={USE_JANZZ ? "5" :"2"} md={USE_JANZZ ? "5" :"2"} className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -108,6 +100,18 @@ export default class KandidaterTableHeader extends React.Component {
                                 </Element>
                             </div>
                         </Column>
+                        {USE_JANZZ &&
+                            <Column xs="2" md="2" className="td hidden-mobile">
+                                <div className="text-overflow">
+                                <Element
+                                    className="label--resultatvisning"
+                                    aria-label="Match"
+                                >
+                                    Match
+                                </Element>
+                            </div>
+                            </Column>
+                        }
                     </Row>
                 </div>
             </div>
