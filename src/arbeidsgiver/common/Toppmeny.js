@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ArbeidsgiverTabId, Header, AuthStatus, ArbeidsgiverSelect } from 'pam-frontend-header';
-import { LOGOUT_URL, LOGIN_URL } from './fasitProperties';
+import { LOGOUT_URL, LOGIN_URL, USE_JANZZ } from './fasitProperties';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../arbeidsgiver/arbeidsgiverReducer';
+import KandidatsokNextHeader from './KandidatsokNextHeader';
 
 const loggUt = () => {
     sessionStorage.removeItem('orgnr');
@@ -26,6 +27,9 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
         navn: arbeidsgiver.orgnavn,
         orgNummer: arbeidsgiver.orgnr
     }));
+    if (USE_JANZZ) {
+        return <KandidatsokNextHeader />;
+    }
     return (
         <Header
             onLoginClick={loggInn}
