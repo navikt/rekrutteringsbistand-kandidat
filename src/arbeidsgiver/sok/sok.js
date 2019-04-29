@@ -45,6 +45,7 @@ import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
+import { USE_JANZZ } from '../common/fasitProperties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -195,7 +196,7 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                         </Switch>
                     </div>
-                    <Footer />
+                    {!USE_JANZZ && <Footer /> }
                 </div>
             </BrowserRouter>
         );
