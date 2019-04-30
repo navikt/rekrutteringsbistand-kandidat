@@ -120,8 +120,8 @@ class VisKandidatFraLister extends React.Component {
         const Knapper = () => (
             <div className="viskandidat__knapperad">
                 <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
-                    <i className="Delete__icon" />
                     Slett
+                    <i className="Delete__icon" />
                 </Lenkeknapp>
             </div>
         );
