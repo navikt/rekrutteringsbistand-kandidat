@@ -99,12 +99,12 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
         </div>
         <div className="funksjonsknapp-panel">
             <Lenkeknapp onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
-                <i className="Edit__icon" />
                 Endre
+                <i className="Edit__icon" />
             </Lenkeknapp>
             <Lenkeknapp onClick={() => sletteKandidatliste(kandidatliste)} className="Delete">
-                <i className="Delete__icon" />
                 Slett
+                <i className="Delete__icon" />
             </Lenkeknapp>
         </div>
     </div>

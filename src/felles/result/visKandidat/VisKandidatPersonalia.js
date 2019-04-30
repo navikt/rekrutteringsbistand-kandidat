@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import { Link } from 'react-router-dom';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import { formatISOString, formatterDato } from '../../common/dateUtils';
 import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
@@ -11,6 +9,7 @@ import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
+import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
@@ -60,12 +59,12 @@ export default class VisKandidatPersonalia extends React.Component {
             <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
-                        <Link
+                        <LenkeMedChevron
+                            type="venstre"
                             to={tilbakeLink}
-                            className={`${lenkeClass} link`}
-                        >
-                            <NavFrontendChevron type="venstre" /> Til {tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
-                        </Link>
+                            className={lenkeClass}
+                            text={`Til ${tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}`}
+                        />
                         {fantCv && visNavigasjon && (
                             <VisKandidatForrigeNeste
                                 lenkeClass={lenkeClass}
