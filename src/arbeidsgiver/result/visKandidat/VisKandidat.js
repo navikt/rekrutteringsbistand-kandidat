@@ -17,7 +17,7 @@ import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import Matchdetaljer from '../matchforklaring/Matchdetaljer';
-import { MatchexplainProptypesGrouped } from '../matchforklaring/Proptypes';
+import { MatchexplainProptypes } from '../matchforklaring/Proptypes';
 import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
@@ -198,9 +198,7 @@ class VisKandidat extends React.Component {
                             </Knapp>
                         </div>
                         {this.props.matchforklaring && (
-                            <div className="match-explanation-container">
-                                <Matchdetaljer matchforklaring={this.props.matchforklaring} />
-                            </div>
+                           <Matchdetaljer matchforklaring={this.props.matchforklaring} />
                         )}
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
@@ -233,7 +231,7 @@ VisKandidat.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     antallKandidater: PropTypes.number,
     lastFlereKandidater: PropTypes.func.isRequired,
-    matchforklaring: MatchexplainProptypesGrouped,
+    matchforklaring: MatchexplainProptypes,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     settValgtKandidat: PropTypes.func.isRequired
 };
