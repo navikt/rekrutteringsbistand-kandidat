@@ -24,7 +24,10 @@ const common = (app) => ({
             {
                 test: /\.([tj])sx?$/,
                 exclude: /node_modules\/(?!(autotrack|dom-utils))/,
-                use: { loader: 'awesome-typescript-loader' },
+                use: [
+                    'cache-loader',
+                    { loader: 'awesome-typescript-loader' }
+                ],
                 // query: { presets: ['es2015', 'react', 'stage-2'] }
             }, {
                 test: /\.(png)$/,
