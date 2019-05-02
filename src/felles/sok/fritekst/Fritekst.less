@@ -1,3 +1,5 @@
+@import '../../../../node_modules/pam-frontend-core/less/variables.less';
+
 .fritekst__search {
   position: relative;
   margin: auto;
@@ -6,6 +8,10 @@
     height: 3.4375rem;
     padding: 0.45rem 1.25rem;
     border: 1px solid #d8d8d8;
+
+    &:hover {
+      border-color: @blueDarken;
+    }
   }
   .search-button {
     padding: 1.1rem !important;
