@@ -10,6 +10,7 @@ import { CONTEXT_ROOT, USE_JANZZ } from '../../common/fasitProperties';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizePoststed } from '../../../felles/sok/utils';
+import Score from '../matchforklaring/score/Score';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -75,29 +76,29 @@ class KandidaterTableRow extends React.Component {
                         </div>
                     </Column>
                     {USE_JANZZ &&
-                            <Column xs="12" md="1" className="td hidden-mobile">
-                              
-                            </Column>
-                        }
-                    {!USE_JANZZ && 
+                        <Column xs="12" md="1" className="td hidden-mobile">
+                        </Column>
+                    }
+                    {!USE_JANZZ &&
                         <Column xs="12" md="3" className="td">
                             <Normaltekst className="text-overflow utdanning">{utdanningsNivaa}</Normaltekst>
                         </Column>
                     }
-                    
-                    {!USE_JANZZ && 
+                    {!USE_JANZZ &&
                     <Column xs="12" md="4" className="td">
                         <Normaltekst className="text-overflow yrkeserfaring">{yrkeserfaring}</Normaltekst>
                     </Column>
-                    } 
-
+                    }
                     <Column xs="12" md={USE_JANZZ ? "5" :"2"} className="td">
                         <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                     </Column>
-
                     {USE_JANZZ &&
                         <Column xs="12" md="2" className="td">
-                            <Normaltekst className="text-overflow score">{score >= 10 ? `${score} %` : ''}</Normaltekst>
+                            {!isNaN(score) &&
+                                <div className="score">
+                                    <Score value={score} />
+                                </div>
+                            }
                         </Column>
                     }
                 </Row>
