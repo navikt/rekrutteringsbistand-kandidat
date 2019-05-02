@@ -92,9 +92,13 @@ class KandidaterTableRow extends React.Component {
                     <Column xs="12" md={USE_JANZZ ? "5" :"2"} className="td">
                         <Normaltekst className="text-overflow bosted">{bosted}</Normaltekst>
                     </Column>
-                    {USE_JANZZ && !isNaN(score) &&
+                    {USE_JANZZ &&
                         <Column xs="12" md="2" className="td">
-                            <Score className="text-overflow score" value={score} />
+                            {!isNaN(score) &&
+                                <div className="score">
+                                    <Score value={score} />
+                                </div>
+                            }
                         </Column>
                     }
                 </Row>
