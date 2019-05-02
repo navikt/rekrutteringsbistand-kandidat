@@ -84,7 +84,7 @@ const Matchforklaring = ({ matchforklaring }) => {
             <Normaltekst className="match-category-title">Total match</Normaltekst>
             <div className="match-row blokk-s">
                 <Undertittel>Ditt søk</Undertittel>
-                <Score value={matchScore} />
+                <Score value={matchScore} isTotalScore />
                 <Undertittel >Kandidaten</Undertittel>
             </div>
             <Konsepttype
