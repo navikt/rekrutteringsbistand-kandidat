@@ -185,7 +185,7 @@ export default class Typeahead extends React.Component {
                     ref={(input) => {
                         this.input = input;
                     }}
-                    className="skjemaelement__input input--fullbredde skjemaelement--pink"
+                    className="skjemaelement__input input--fullbredde skjemaelement__blue"
                 />
                 <Knapp
                     aria-label="søk"
