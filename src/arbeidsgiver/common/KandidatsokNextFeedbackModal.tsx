@@ -8,7 +8,9 @@ interface ParentProps {
 }
 
 function redirectTilKandidatsok() {
-    window.location.href = '/kandidater';
+    setTimeout(() => {
+        window.location.href = '/kandidater'
+    }, 0)
 }
 
 const KandidatsokNextFeedbackModal = ({ open, onRequestClose } : ParentProps) => (
