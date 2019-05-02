@@ -25,7 +25,7 @@ export default class KandidaterTableHeader extends React.Component {
             <div className="thead">
                 <div className="th">
                     <Row className="kandidater--header">
-                        <Column xs={USE_JANZZ ? "4" :"3"} md={USE_JANZZ ? "4" :"3"} className="KandidaterTableHeader__kandidatnr--wrapper">
+                        <Column xs="12" md={USE_JANZZ ? "4" :"3"} className="KandidaterTableHeader__kandidatnr--wrapper">
                             <div className="td KandidaterTableHeader__Checkbox skjemaelement--pink">
                                 <div className="skjemaelement skjemaelement--horisontal text-hide">
                                     <input
@@ -61,12 +61,12 @@ export default class KandidaterTableHeader extends React.Component {
                             </div>
                         </Column>
                         {USE_JANZZ &&
-                            <Column xs="1" md="1" className="td hidden-mobile">
+                            <Column xs="12" md="1" className="td hidden-mobile">
                               
                             </Column>
                         }
                         {!USE_JANZZ &&
-                            <Column xs="3" md="3" className="td hidden-mobile">
+                            <Column xs="12" md="3" className="td hidden-mobile">
                                 <div className="text-overflow">
                                     <Element
                                         className="label--resultatvisning"
@@ -79,7 +79,7 @@ export default class KandidaterTableHeader extends React.Component {
                         }
                     
                         {!USE_JANZZ && 
-                        <Column xs="4" md="4" className="td hidden-mobile">
+                        <Column xs="12" md="4" className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -90,7 +90,7 @@ export default class KandidaterTableHeader extends React.Component {
                             </div>
                         </Column>
                         }
-                        <Column xs={USE_JANZZ ? "5" :"2"} md={USE_JANZZ ? "5" :"2"} className="td hidden-mobile">
+                        <Column xs="12" md={USE_JANZZ ? "5" :"2"} className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -101,7 +101,7 @@ export default class KandidaterTableHeader extends React.Component {
                             </div>
                         </Column>
                         {USE_JANZZ &&
-                            <Column xs="2" md="2" className="td hidden-mobile">
+                            <Column xs="12" md="2" className="td hidden-mobile">
                                 <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
