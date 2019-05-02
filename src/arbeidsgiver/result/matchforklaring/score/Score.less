@@ -2,18 +2,18 @@
 
 .match-score {
   div:not(:last-child) {
-    margin-right: 0.15rem;
+    margin-right: 4px;
   }
 }
-.rectangle {
+.scoreIcon {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: solid 1px @pinkDarken;
-  transform: skewX(-20deg);
+  width: 10px;
+  height: 10px;
+  border: solid 1px @blueDarken;
+  transform: rotate(-315deg);
 }
 
-.rectangle--filled {
-  .rectangle;
-  background-color: @pinkDarken;
+.scoreIcon--filled {
+  .scoreIcon;
+  background-color: @blueDarken;
 }

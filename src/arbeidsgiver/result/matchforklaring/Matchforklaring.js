@@ -4,7 +4,6 @@ import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { ConceptMatchPropType, MatchexplainProptypes } from './Proptypes';
 import { KONSEPTTYPE } from '../../../felles/konstanter';
 import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../../felles/sok/utils';
-import ScoreLimitEnum from './score/ScoreLimitEnum';
 import Score from './score/Score';
 import './Matchforklaring.less';
 
@@ -31,22 +30,11 @@ function mapYrkeserfaringKandidat(name) {
 }
 
 
-const rowColor = (match) => {
-    let color = 'color-low-score';
-    if (match >= ScoreLimitEnum.LIMIT_5) {
-        color = 'color-high-score';
-    } else if (match >= ScoreLimitEnum.LIMIT_3) {
-        color = 'color-medium-score';
-    }
-
-    return color;
-};
-
 const matchRad = (conceptMatch) => {
     return (
         <div
             key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}
-            className={`match-row blokk-xxs ${rowColor(conceptMatch.cor * 100)}`}
+            className="match-row blokk-xxs"
         >
             <Normaltekst>{mapYrkeserfaringStilling(conceptMatch.c1name)}</Normaltekst>
             <Score value={conceptMatch.cor * 100} />
@@ -59,11 +47,11 @@ const noMatchRad = (konseptName) => {
     return (
         <div
             key={konseptName}
-            className="match-row blokk-xxs color-low-score"
+            className="match-row blokk-xxs"
         >
             <Normaltekst>{mapYrkeserfaringStilling(konseptName)}</Normaltekst>
             <Score value={0} />
-            <Normaltekst className="no-match-text">Match ikke funnet</Normaltekst>
+            <Normaltekst>(Ikke match)</Normaltekst>
         </div>
     );
 };
@@ -94,7 +82,7 @@ const Matchforklaring = ({ matchforklaring }) => {
     return (
         <div className="blokk-s">
             <Normaltekst className="match-category-title">Total match</Normaltekst>
-            <div className={`match-row blokk-s ${rowColor(matchScore)}`}>
+            <div className="match-row blokk-s">
                 <Undertittel>Ditt søk</Undertittel>
                 <Score value={matchScore} />
                 <Undertittel >Kandidaten</Undertittel>

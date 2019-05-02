@@ -17,10 +17,7 @@ const MatchIcon = () => (
 
 const Matchdetaljer = ({ matchforklaring }) => (
     <div>
-        <div className="matchdetaljer-topLine-wrapper">
-            <div className="matchdetaljer-topLine" />
-            <div className="match-icon"><MatchIcon /></div>
-        </div>
+        <div className="match-icon"><MatchIcon /></div>
         <div className="match-explanation-container">
             <Systemtittel className="matchdetaljer-title">Kandidatmatch</Systemtittel>
             <Normaltekst className="text-center blokk-m">Se hvor godt denne kandidaten matcher ditt søk</Normaltekst>
