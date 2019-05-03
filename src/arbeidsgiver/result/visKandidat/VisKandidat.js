@@ -149,7 +149,7 @@ class VisKandidat extends React.Component {
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
-                <div className="text-center">
+                <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
                 </div>
             );

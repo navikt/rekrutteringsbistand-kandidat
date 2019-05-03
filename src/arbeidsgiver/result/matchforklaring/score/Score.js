@@ -4,18 +4,18 @@ import { TotalScoreLimitEnum, ScoreLimitEnum } from './ScoreLimitEnum';
 import './Score.less';
 
 export default function Score({ value, isTotalScore = false }) {
-    const limitEnumm = isTotalScore ? TotalScoreLimitEnum : ScoreLimitEnum;
-    
-    if (value < limitEnumm.LIMIT_1) {
+    const limitEnum = isTotalScore ? TotalScoreLimitEnum : ScoreLimitEnum;
+
+    if (value < limitEnum.LIMIT_1) {
         return <div />;
     }
     return (
         <div className="match-score">
-            <div className={value >= limitEnumm.LIMIT_1 ? 'scoreIcon--filled' : 'scoreIcon'} />
-            <div className={value >= limitEnumm.LIMIT_2 ? 'scoreIcon--filled' : 'scoreIcon'} />
-            <div className={value >= limitEnumm.LIMIT_3 ? 'scoreIcon--filled' : 'scoreIcon'} />
-            <div className={value >= limitEnumm.LIMIT_4 ? 'scoreIcon--filled' : 'scoreIcon'} />
-            <div className={value >= limitEnumm.LIMIT_5 ? 'scoreIcon--filled' : 'scoreIcon'} />
+            <div className={value >= limitEnum.LIMIT_1 ? 'scoreIcon--filled' : 'scoreIcon'} />
+            <div className={value >= limitEnum.LIMIT_2 ? 'scoreIcon--filled' : 'scoreIcon'} />
+            <div className={value >= limitEnum.LIMIT_3 ? 'scoreIcon--filled' : 'scoreIcon'} />
+            <div className={value >= limitEnum.LIMIT_4 ? 'scoreIcon--filled' : 'scoreIcon'} />
+            <div className={value >= limitEnum.LIMIT_5 ? 'scoreIcon--filled' : 'scoreIcon'} />
         </div>
     );
 }

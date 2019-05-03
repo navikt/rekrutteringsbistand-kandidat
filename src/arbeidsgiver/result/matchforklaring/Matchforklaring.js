@@ -5,6 +5,7 @@ import { ConceptMatchPropType, MatchexplainProptypes } from './Proptypes';
 import { KONSEPTTYPE } from '../../../felles/konstanter';
 import { mapExperienceLevelTilAar, mapExperienceLevelTilKalenderEnhet } from '../../../felles/sok/utils';
 import Score from './score/Score';
+import { TotalScoreLimitEnum, ScoreLimitEnum } from './score/ScoreLimitEnum';
 import './Matchforklaring.less';
 
 function mapYrkeserfaringStilling(name) {
@@ -30,11 +31,21 @@ function mapYrkeserfaringKandidat(name) {
 }
 
 
+const rowColor = (match, isTotalScore = false) => {
+    const limitEnumm = isTotalScore ? TotalScoreLimitEnum : ScoreLimitEnum;
+    let color = 'color-low-score';
+    if (match >= limitEnumm.LIMIT_4) {
+        color = 'color-high-score';
+    }
+
+    return color;
+};
+
 const matchRad = (conceptMatch) => {
     return (
         <div
             key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}
-            className="match-row blokk-xxs"
+            className={`match-row blokk-xxs ${rowColor(conceptMatch.cor * 100)}`}
         >
             <Normaltekst>{mapYrkeserfaringStilling(conceptMatch.c1name)}</Normaltekst>
             <Score value={conceptMatch.cor * 100} />
@@ -47,7 +58,7 @@ const noMatchRad = (konseptName) => {
     return (
         <div
             key={konseptName}
-            className="match-row blokk-xxs"
+            className="match-row color-low-score blokk-xxs"
         >
             <Normaltekst>{mapYrkeserfaringStilling(konseptName)}</Normaltekst>
             <Score value={0} />
@@ -82,7 +93,7 @@ const Matchforklaring = ({ matchforklaring }) => {
     return (
         <div className="blokk-s">
             <Normaltekst className="match-category-title">Total match</Normaltekst>
-            <div className="match-row blokk-s">
+            <div className={`match-row blokk-s ${rowColor(matchScore, true)}`}>
                 <Undertittel>Ditt søk</Undertittel>
                 <Score value={matchScore} isTotalScore />
                 <Undertittel >Kandidaten</Undertittel>
