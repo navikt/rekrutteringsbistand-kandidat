@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element } from 'nav-frontend-typografi';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import './Resultstable.less';
 import { USE_JANZZ } from '../../common/fasitProperties';
 
@@ -25,7 +24,7 @@ export default class KandidaterTableHeader extends React.Component {
             <div className="thead">
                 <div className="th">
                     <Row className="kandidater--header">
-                        <Column xs="12" md={USE_JANZZ ? "4" :"3"} className="KandidaterTableHeader__kandidatnr--wrapper">
+                        <Column xs="12" md={USE_JANZZ ? '4' : '3'} className="KandidaterTableHeader__kandidatnr--wrapper">
                             <div className="td KandidaterTableHeader__Checkbox skjemaelement--pink">
                                 <div className="skjemaelement skjemaelement--horisontal text-hide">
                                     <input
@@ -61,9 +60,7 @@ export default class KandidaterTableHeader extends React.Component {
                             </div>
                         </Column>
                         {USE_JANZZ &&
-                            <Column xs="12" md="1" className="td hidden-mobile">
-                              
-                            </Column>
+                            <Column xs="12" md="1" className="td hidden-mobile" />
                         }
                         {!USE_JANZZ &&
                             <Column xs="12" md="3" className="td hidden-mobile">
@@ -77,8 +74,8 @@ export default class KandidaterTableHeader extends React.Component {
                                 </div>
                             </Column>
                         }
-                    
-                        {!USE_JANZZ && 
+
+                        {!USE_JANZZ &&
                         <Column xs="12" md="4" className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
@@ -90,7 +87,7 @@ export default class KandidaterTableHeader extends React.Component {
                             </div>
                         </Column>
                         }
-                        <Column xs="12" md={USE_JANZZ ? "5" :"2"} className="td hidden-mobile">
+                        <Column xs="12" md={USE_JANZZ ? '5' : '2'} className="td hidden-mobile">
                             <div className="text-overflow">
                                 <Element
                                     className="label--resultatvisning"
@@ -103,13 +100,13 @@ export default class KandidaterTableHeader extends React.Component {
                         {USE_JANZZ &&
                             <Column xs="12" md="2" className="td hidden-mobile">
                                 <div className="text-overflow">
-                                <Element
-                                    className="label--resultatvisning"
-                                    aria-label="Match"
-                                >
+                                    <Element
+                                        className="label--resultatvisning"
+                                        aria-label="Match"
+                                    >
                                     Match
-                                </Element>
-                            </div>
+                                    </Element>
+                                </div>
                             </Column>
                         }
                     </Row>

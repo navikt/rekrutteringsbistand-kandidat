@@ -42,18 +42,11 @@
 }
 
 .sokekriterier--column {
-  margin-top: 2.5rem;
-}
-
-@media (min-width: @screen-md-min) {
-  .sokekriterier--column {
+  margin-bottom: 2.5rem;
+  @media (min-width: @screen-md-min) {
     margin-right: 2.5rem;
-    margin-top: 4rem;
   }
-}
-
-@media (min-width: @screen-lg-min) {
-  .sokekriterier--column {
+  @media (min-width: @screen-lg-min) {
     margin-right: 4rem;
   }
 }
@@ -63,8 +56,13 @@
   text-align: right;
 }
 
-.kandidatervisning--column {
-  margin-top: 2.5rem;
+.ResultatVisning--header-padding {
+  @media (min-width: @screen-sm-min) {
+    margin-bottom: 4rem;
+  }
+  @media (max-width: 767px) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 @media (min-width: @screen-md-min) {

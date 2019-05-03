@@ -13,7 +13,6 @@ import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter'
 import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
-import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -178,7 +177,6 @@ class KandidaterVisning extends React.Component {
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <Row className="resultatvisning">
-                    {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
                     <div className="resultatvisning--header">
                         <div className="resultatvisning--header-left">
                             <Element>Antall treff:</Element>
@@ -225,8 +223,7 @@ KandidaterVisning.propTypes = {
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
-    oppdaterMarkerteKandidater: PropTypes.func.isRequired,
-    visLenkeTilKandidatsokNext: PropTypes.bool.isRequired
+    oppdaterMarkerteKandidater: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -253,8 +250,7 @@ const mapStateToProps = (state) => ({
     searchQueryHash: state.search.searchQueryHash,
     antallVisteKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
-    scrolletFraToppen: state.search.scrolletFraToppen,
-    visLenkeTilKandidatsokNext: state.search.featureToggles['vis-lenke-til-kandidatsok-next']
+    scrolletFraToppen: state.search.scrolletFraToppen
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

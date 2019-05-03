@@ -41,31 +41,27 @@ const rowColor = (match, isTotalScore = false) => {
     return color;
 };
 
-const matchRad = (conceptMatch) => {
-    return (
-        <div
-            key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}
-            className={`match-row blokk-xxs ${rowColor(conceptMatch.cor * 100)}`}
-        >
-            <Normaltekst>{mapYrkeserfaringStilling(conceptMatch.c1name)}</Normaltekst>
-            <Score value={conceptMatch.cor * 100} />
-            <Normaltekst>{mapYrkeserfaringKandidat(conceptMatch.c2name)}</Normaltekst>
-        </div>
-    );
-};
+const matchRad = (conceptMatch) => (
+    <div
+        key={`${conceptMatch.c1id}.${conceptMatch.c2id}`}
+        className={`match-row blokk-xxs ${rowColor(conceptMatch.cor * 100)}`}
+    >
+        <Normaltekst>{mapYrkeserfaringStilling(conceptMatch.c1name)}</Normaltekst>
+        <Score value={conceptMatch.cor * 100} />
+        <Normaltekst>{mapYrkeserfaringKandidat(conceptMatch.c2name)}</Normaltekst>
+    </div>
+);
 
-const noMatchRad = (konseptName) => {
-    return (
-        <div
-            key={konseptName}
-            className="match-row color-low-score blokk-xxs"
-        >
-            <Normaltekst>{mapYrkeserfaringStilling(konseptName)}</Normaltekst>
-            <Score value={0} />
-            <Normaltekst>(Ikke match)</Normaltekst>
-        </div>
-    );
-};
+const noMatchRad = (konseptName) => (
+    <div
+        key={konseptName}
+        className="match-row color-low-score blokk-xxs"
+    >
+        <Normaltekst>{mapYrkeserfaringStilling(konseptName)}</Normaltekst>
+        <Score value={0} />
+        <Normaltekst>(Ikke match)</Normaltekst>
+    </div>
+);
 
 
 const Konsepttype = ({ tittel, konseptmatcher, stillingskonsepter }) => {
@@ -74,7 +70,7 @@ const Konsepttype = ({ tittel, konseptmatcher, stillingskonsepter }) => {
             <div className="blokk-s">
                 <Normaltekst className="match-category-title">{tittel}</Normaltekst>
                 {konseptmatcher.length > 0 &&
-                    konseptmatcher.sort((a, b) => (b.cor - a.cor )).map(matchRad)
+                    konseptmatcher.sort((a, b) => (b.cor - a.cor)).map(matchRad)
                 }
                 {stillingskonsepter.length > 0 &&
                     stillingskonsepter.map((concept) => noMatchRad(concept.name))
