@@ -99,7 +99,7 @@ class ResultatVisning extends React.Component {
                 />
                 <PageHeader>
                     <div className="child-item__container--header">
-                        <Sidetittel> Kandidatsøk </Sidetittel>
+                        <Sidetittel> {USE_JANZZ ? 'Kandidatmatch' : 'Kandidatsøk'} </Sidetittel>
                     </div>
                 </PageHeader>
                 {this.props.isInitialSearch ? (

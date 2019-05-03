@@ -55,6 +55,12 @@ export default class VisKandidatPersonalia extends React.Component {
 
         const lenkeClass = appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'VisKandidat__ForrigeNeste';
 
+        let lenkeText = 'Til kandidatsøket';
+        if (tilbakeLink.includes('kandidater/lister')) {
+            lenkeText = 'Til kandidatlisten';
+        } else if (tilbakeLink.includes('kandidater-next')) {
+            lenkeText = 'Til liste kandidatmatch';
+        }
         return (
             <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
                 <Container className="blokk-s">
@@ -63,7 +69,7 @@ export default class VisKandidatPersonalia extends React.Component {
                             type="venstre"
                             to={tilbakeLink}
                             className={lenkeClass}
-                            text={`Til ${tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}`}
+                            text={lenkeText}
                         />
                         {fantCv && visNavigasjon && (
                             <VisKandidatForrigeNeste

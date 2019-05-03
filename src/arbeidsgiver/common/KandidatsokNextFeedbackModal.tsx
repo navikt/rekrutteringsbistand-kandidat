@@ -1,6 +1,7 @@
 import * as React from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 interface ParentProps {
     open : boolean,
@@ -15,19 +16,22 @@ function redirectTilKandidatsok() {
 
 const KandidatsokNextFeedbackModal = ({ open, onRequestClose } : ParentProps) => (
     <NavFrontendModal contentLabel="te" isOpen={open} onRequestClose={onRequestClose} className="KandidatsokNextFeedbackModal">
-        <h2>Hva syns du om kandidatmatch?</h2>
-        <p>
+        <Undertittel>Hva synes du om kandidatmatch?</Undertittel>
+        <Normaltekst>
             For at kandidatmatch skal bli best mulig, trenger vi din tilbakemelding.
             Hvis du ønsker å hjelpe oss trykk på “Gi tilbakemelding”
             og vi sender deg til en ny fane med et kort tilbakemeldingsskjema du kan fylle ut.
-        </p>
-        { // TODO: Endre til riktig lenke til hotjar-skjema
-        }
-        <a href="https://hotjar.com" target="_blank">
-            <Hovedknapp mini onClick={redirectTilKandidatsok}>Gi tilbakemelding</Hovedknapp>
+        </Normaltekst>
+        <a href="https://surveys.hotjar.com/s?siteId=118350&surveyId=133020"
+           target="_blank"
+           rel="noopener noreferrer"
+           className="link external-link"
+           onClick={redirectTilKandidatsok}
+        >
+            Gi tilbakemelding
         </a>
-        <a href="/kandidater">
-            <Flatknapp mini>Hopp over tilbakemelding</Flatknapp>
+        <a href="/kandidater" className="link">
+            Hopp over tilbakemelding
         </a>
     </NavFrontendModal>
 );
