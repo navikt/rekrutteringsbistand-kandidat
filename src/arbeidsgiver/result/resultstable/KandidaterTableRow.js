@@ -96,7 +96,7 @@ class KandidaterTableRow extends React.Component {
                         <Column xs="12" md="2" className="td">
                             {!isNaN(score) &&
                                 <div className="score">
-                                    <Score value={score} />
+                                    <Score value={score} isTotalScore />
                                 </div>
                             }
                         </Column>
