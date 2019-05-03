@@ -19,11 +19,10 @@ const KandidatsokNextHeader = () => {
                 <div>
                     <h2>Kandidatmatch</h2>
                     <Normaltekst>
-                        Du bruker nå et nytt søk for å finne kandidater. For å gi deg aktuelle kandidater matcher vi
-                        synonymer med det du legger inn av relevante opplysninger. Desto flere kompetanser du legger inn jo
-                        mer treffsikker blir søket. Det nye søket gir stort sett gode treff på yrker og kompetanser, mens
-                        andre søkeresultater kan foreløpig oppleves som litt mangelfulle. Vi jobber med å forbedre
-                        kandidatmatchen, og vil derfor gjerne ha din hjelp.
+                        Du tester nå vår eksperimentelle søkemotor for å finne kandidater.
+                        Den har kunstig intelligens som matcher ditt søk mot kandidater.
+                        Den er fortsatt til umoden, men for hvert søk hjelper du til med forbedre den.
+                        Tusen takk for din hjelp!
                     </Normaltekst>
                 </div>
             </div>
