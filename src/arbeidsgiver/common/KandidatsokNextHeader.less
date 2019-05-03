@@ -1,29 +1,61 @@
+@import '../../felles/Variables.less';
+
 .KandidatsokNextHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #062140;
   color: white;
-  padding: 1.5rem;
+
+  @media (min-width: @screen-sm) {
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 2rem;
+  }
+
+  @media (max-width: (@screen-sm - 1)) {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1.25rem;
+  }
 
   .KandidatsokNextHeader-left {
-    max-width: 900px;
+    max-width: 920px;
+    display: flex;
+    align-items: center;
+
+    .header-icon-wrapper {
+      margin-right: 1rem;
+    }
 
     h2 {
       margin-top: 0;
       margin-bottom: 0.25rem;
       font-weight: normal;
+
+      @media (max-width: (@screen-sm - 1)) {
+        font-size: 20px;
+      }
     }
 
     p {
       margin-bottom: 0;
       margin-top: 0;
+
+      @media (max-width: (@screen-sm - 1)) {
+        font-size: 16px;
+      }
     }
   }
 
   .KandidatsokNextHeader-right {
     button {
-      margin-left: 1rem;
+      @media (min-width: @screen-sm) {
+        margin-left: 1rem;
+      }
+
+      @media (max-width: (@screen-sm - 1)) {
+        margin-top: 1.25rem;
+      }
     }
   }
 }
