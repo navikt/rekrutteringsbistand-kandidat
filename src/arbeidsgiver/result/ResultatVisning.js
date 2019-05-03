@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Media from 'react-media';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -21,6 +22,7 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
+import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext.tsx';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -97,7 +99,7 @@ class ResultatVisning extends React.Component {
                     tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                     id="hjelpetekstfading"
                 />
-                <PageHeader>
+                <PageHeader className="ResultatVisning--header-padding">
                     <div className="child-item__container--header">
                         <Sidetittel> Kandidatsøk </Sidetittel>
                     </div>
@@ -109,13 +111,16 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Container className="blokk-s">
+                            <Media query={{ 'max-width': 991 }}>
+                                {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
+                            </Media>
                             <Column xs="12" md="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
                                         <Flatknapp
                                             mini
                                             id="slett-alle-kriterier-lenke"
-                                            className={USE_JANZZ ? "knapp-slett-alle-kriterier-lenke" : ""}
+                                            className={USE_JANZZ ? 'knapp-slett-alle-kriterier-lenke' : ''}
                                             onClick={this.onRemoveCriteriaClick}
                                         >
                                             Slett alle kriterier
@@ -153,9 +158,10 @@ class ResultatVisning extends React.Component {
                                 </div>
                             </Column>
                             <Column xs="12" md="8">
-                                <div className="kandidatervisning--column">
-                                    <KandidaterVisning />
-                                </div>
+                                <Media query={{ 'min-width': 992 }}>
+                                    {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
+                                </Media>
+                                <KandidaterVisning />
                             </Column>
                         </Container>
                     </div>
@@ -174,14 +180,16 @@ ResultatVisning.propTypes = {
     isInitialSearch: PropTypes.bool.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
-    isSearching: PropTypes.bool.isRequired
+    isSearching: PropTypes.bool.isRequired,
+    visLenkeTilKandidatsokNext: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    isSearching: state.search.isSearching
+    isSearching: state.search.isSearching,
+    visLenkeTilKandidatsokNext: state.search.featureToggles['vis-lenke-til-kandidatsok-next']
 });
 
 const mapDispatchToProps = (dispatch) => ({
