@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Knapp } from 'pam-frontend-knapper';
+import { Normaltekst } from 'nav-frontend-typografi';
 import './KandidatsokNextHeader.less';
 import KandidatsokNextFeedbackModal from './KandidatsokNextFeedbackModal';
 import { MatchIcon } from '../result/matchforklaring/Matchdetaljer';
@@ -17,12 +18,12 @@ const KandidatsokNextHeader = () => {
                 </Media>
                 <div>
                     <h2>Kandidatmatch</h2>
-                    <p>
+                    <Normaltekst>
                         Du tester nå vår eksperimentelle søkemotor for å finne kandidater.
                         Den har kunstig intelligens som matcher ditt søk mot kandidater.
                         Den er fortsatt til umoden, men for hvert søk hjelper du til med forbedre den.
                         Tusen takk for din hjelp!
-                    </p>
+                    </Normaltekst>
                 </div>
             </div>
             <div className="KandidatsokNextHeader-right">
