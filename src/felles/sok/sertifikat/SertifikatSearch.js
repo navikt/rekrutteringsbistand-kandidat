@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
@@ -43,8 +44,8 @@ class SertifikatSearch extends React.Component {
         }, () => this.typeAhead.input.focus());
     };
 
-    onFjernClick = (e) => {
-        this.props.removeSertifikat(e.target.value);
+    onFjernClick = (sertifikat) => {
+        this.props.removeSertifikat(sertifikat);
         this.props.search();
     };
 
@@ -108,14 +109,13 @@ class SertifikatSearch extends React.Component {
                         )}
                     </div>
                     {this.props.sertifikat.map((sertifikat) => (
-                        <button
-                            onClick={this.onFjernClick}
-                            className="etikett--sokekriterier kryssicon--sokekriterier"
+                        <Merkelapp
+                            onRemove={this.onFjernClick}
                             key={sertifikat}
                             value={sertifikat}
                         >
                             {sertifikat}
-                        </button>
+                        </Merkelapp>
                     ))}
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SERTIFIKAT && (
