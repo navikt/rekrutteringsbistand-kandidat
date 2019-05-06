@@ -1,4 +1,4 @@
-@import '../../felles/Variables.less';
+@import '../../../felles/Variables.less';
 
 .externalIcon() {
   &:hover,
@@ -60,6 +60,11 @@
       @media (max-width: (@screen-sm - 1)) {
         font-size: 16px;
       }
+
+      @media (min-width: @screen-sm-min) {
+        display: inline-block;
+        margin-right: 1.5rem;
+      }
     }
   }
 
@@ -74,22 +79,44 @@
       }
     }
   }
+
+  .les-mer-knapp {
+    color: #fff;
+    font-weight: bold;
+
+    @media (max-width: (@screen-sm - 1)) {
+      margin-left: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    &:active {
+      color: #fff;
+    }
+  }
 }
 
-.KandidatsokNextFeedbackModal {
+
+.KandidatsokNextModal {
   width: 40rem;
   padding: 2rem;
   color: #062140;
   h2 {
     margin-bottom: 1.5rem;
-    font-weight: normal;
+    font-weight: 600;
+    font-size: 24px;
   }
   p {
     margin-bottom: 2rem;
   }
 
+}
+
+
+.KandidatsokNextFeedbackModal {
+  .KandidatsokNextModal;
+
   a:not(:last-child) {
-    margin-right: 1rem;
+    margin-right: 2rem;
   }
 
   .external-link {
