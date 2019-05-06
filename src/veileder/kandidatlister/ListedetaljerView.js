@@ -10,6 +10,7 @@ import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
@@ -357,7 +358,7 @@ const ListedetaljerView = (props) => {
                 {kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER &&
                     <Notater
                         notater={kandidat.notater}
-                        antallNotater={kandidat.notater ? kandidat.notater.length : kandidat.antallNotater}
+                        antallNotater={kandidat.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.data.length : kandidat.antallNotater}
                         onOpprettNotat={(tekst) => {
                             opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                         }}
@@ -440,7 +441,10 @@ ListedetaljerView.propTypes = {
         ...Kandidat,
         markert: PropTypes.bool,
         notaterVises: PropTypes.bool,
-        notater: PropTypes.arrayOf(PropTypes.shape(Notat))
+        notater: PropTypes.shape({
+            kind: PropTypes.string,
+            data: PropTypes.arrayOf(PropTypes.shape(Notat))
+        })
     })).isRequired,
     tittel: PropTypes.string.isRequired,
     arbeidsgiver: PropTypes.string,

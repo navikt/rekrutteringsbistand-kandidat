@@ -10,7 +10,8 @@ import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import { HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID } from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -152,14 +153,14 @@ VisKandidatFraLister.propTypes = {
 
 const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
     hentStatus: state.cvReducer.hentStatus,
     cv: state.cvReducer.cv
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidatFraLister);

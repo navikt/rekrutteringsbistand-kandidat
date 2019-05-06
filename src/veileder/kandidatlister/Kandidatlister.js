@@ -8,7 +8,7 @@ import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { HENT_KANDIDATLISTER, MARKER_KANDIDATLISTE_SOM_MIN, RESET_LAGRE_STATUS, MARKER_SOM_MIN_STATUS } from './kandidatlisteReducer';
+import { KandidatlisteTypes, MARKER_SOM_MIN_STATUS } from './kandidatlisteReducer.ts';
 import { formatterDato } from '../../felles/common/dateUtils';
 import './Kandidatlister.less';
 import OpprettModal from './OpprettModal';
@@ -518,9 +518,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) => dispatch({ type: HENT_KANDIDATLISTER, query, listetype: type, kunEgne, pagenumber, pagesize }),
-    resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS }),
-    markerKandidatlisteSomMin: (kandidatlisteId) => { dispatch({ type: MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId }); }
+    hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER, query, listetype: type, kunEgne, pagenumber, pagesize }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }),
+    markerKandidatlisteSomMin: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId }); }
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({

@@ -16,11 +16,7 @@ import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
-import {
-    LAGRE_KANDIDAT_I_KANDIDATLISTE,
-    HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-    HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID
-} from '../../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 
@@ -347,9 +343,9 @@ const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
-    lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) => dispatch({ type: LAGRE_KANDIDAT_I_KANDIDATLISTE, kandidatliste, fodselsnummer }),
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }),
-    hentKandidatlisteMedStillingsId: (stillingsId) => dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId })
+    lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) => dispatch({ type: KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE, kandidatliste, fodselsnummer }),
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }),
+    hentKandidatlisteMedStillingsId: (stillingsId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);

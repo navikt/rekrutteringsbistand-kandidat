@@ -7,12 +7,7 @@ import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typ
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import {
-    HENT_KANDIDATLISTER,
-    HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
-    HENT_STATUS,
-    RESET_KANDIDATLISTER_SOKEKRITERIER
-} from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer.ts';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
@@ -304,6 +299,7 @@ class LagreKandidaterModal extends React.Component {
 }
 
 LagreKandidaterModal.defaultProps = {
+    antallKandidatlister: undefined,
     egneKandidatlister: undefined,
     kandidatlisteMedAnnonsenummer: undefined,
     lagreStatus: undefined
@@ -315,7 +311,7 @@ LagreKandidaterModal.propTypes = {
     onRequestClose: PropTypes.func.isRequired,
     hentListerStatus: PropTypes.string.isRequired,
     hentEgneKandidatlister: PropTypes.func.isRequired,
-    antallKandidatlister: PropTypes.number.isRequired,
+    antallKandidatlister: PropTypes.number,
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
         type: PropTypes.string,
@@ -349,9 +345,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentEgneKandidatlister: (pagenumber, pagesize) => { dispatch({ type: HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true, pagenumber, pagesize }); },
-    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); },
-    resetKandidatlisterSokekriterier: () => { dispatch({ type: RESET_KANDIDATLISTER_SOKEKRITERIER }); }
+    hentEgneKandidatlister: (pagenumber, pagesize) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true, pagenumber, pagesize }); },
+    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); },
+    resetKandidatlisterSokekriterier: () => { dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LagreKandidaterModal);
