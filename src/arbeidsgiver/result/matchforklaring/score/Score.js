@@ -5,10 +5,6 @@ import './Score.less';
 
 export default function Score({ value, isTotalScore = false }) {
     const limitEnum = isTotalScore ? TotalScoreLimitEnum : ScoreLimitEnum;
-
-    if (value < limitEnum.LIMIT_1) {
-        return <div />;
-    }
     return (
         <div className="match-score">
             <div className={value >= limitEnum.LIMIT_1 ? 'scoreIcon--filled' : 'scoreIcon'} />

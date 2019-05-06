@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ArbeidsgiverTabId, Header, AuthStatus, ArbeidsgiverSelect } from 'pam-frontend-header';
 import { LOGOUT_URL, LOGIN_URL, USE_JANZZ } from '../fasitProperties';
 import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
-import KandidatsokNextHeader from '../KandidatsokNextHeader.tsx';
+import KandidatsokNextHeader from '../kandidatsokNextHeader/KandidatsokNextHeader.tsx';
 
 export const loggUt = () => {
     sessionStorage.removeItem('orgnr');
