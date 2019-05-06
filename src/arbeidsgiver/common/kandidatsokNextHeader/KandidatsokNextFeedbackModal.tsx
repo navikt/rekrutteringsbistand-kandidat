@@ -19,8 +19,7 @@ const KandidatsokNextFeedbackModal = ({ open, onRequestClose } : ParentProps) =>
         <Undertittel>Hva synes du om kandidatmatch?</Undertittel>
         <Normaltekst>
             For at kandidatmatch skal bli best mulig, trenger vi din tilbakemelding.
-            Hvis du ønsker å hjelpe oss trykk på “Gi tilbakemelding”
-            og vi sender deg til en ny fane med et kort tilbakemeldingsskjema du kan fylle ut.
+            Klikk på “Gi tilbakemelding” og svar på noen korte spørsmål.
         </Normaltekst>
         <a href="https://surveys.hotjar.com/s?siteId=118350&surveyId=133020"
            target="_blank"
