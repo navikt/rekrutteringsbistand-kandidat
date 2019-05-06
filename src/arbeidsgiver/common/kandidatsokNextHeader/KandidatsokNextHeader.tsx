@@ -9,13 +9,18 @@ import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import { MatchIcon } from '../../result/matchforklaring/Matchdetaljer';
 import './KandidatsokNextHeader.less';
 
+const ModalEnum = {
+    ABOUT_OPEN: 'ABOUT_OPEN',
+    FEEDBACK_OPEN: 'FEEDBACK_OPEN',
+    CLOSED: 'CLOSED'
+};
+
 const KandidatsokNextHeader = () => {
-    const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
-    const [aboutModalOpen, setAboutModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(ModalEnum.CLOSED);
     return (
         <div className="KandidatsokNextHeader">
-            <KandidatsokNextFeedbackModal open={feedbackModalOpen} onRequestClose={() => setFeedbackModalOpen(false)} />
-            <AboutKandidatmatchModal open={aboutModalOpen} onRequestClose={() => setAboutModalOpen(false)} />
+            <KandidatsokNextFeedbackModal open={modalOpen === ModalEnum.FEEDBACK_OPEN} onRequestClose={() => setModalOpen(ModalEnum.CLOSED)} />
+            <AboutKandidatmatchModal open={modalOpen === ModalEnum.ABOUT_OPEN} onRequestClose={() => setModalOpen(ModalEnum.CLOSED)} />
             <div className="KandidatsokNextHeader-left">
                 <Media query={{'min-width': 768}}>
                     <div className="match-icon header-icon-wrapper"><MatchIcon /></div>
@@ -26,7 +31,7 @@ const KandidatsokNextHeader = () => {
                         Du bruker nå ny og spennende teknologi til å finne kandidater.
                     </Normaltekst>
                     <Lenkeknapp
-                        onClick={() => setAboutModalOpen(true)}
+                        onClick={() => setModalOpen(ModalEnum.ABOUT_OPEN)}
                         className="les-mer-knapp"
                     >
                         Les mer om kandidatmatch
@@ -34,7 +39,7 @@ const KandidatsokNextHeader = () => {
                 </div>
             </div>
             <div className="KandidatsokNextHeader-right">
-                <Knapp mini onClick={() => setFeedbackModalOpen(true)}>
+                <Knapp mini onClick={() => setModalOpen(ModalEnum.FEEDBACK_OPEN)}>
                     Avslutt kandidatmatch
                 </Knapp>
             </div>
