@@ -19,15 +19,15 @@ const AboutKandidatmatchModal = ({ open, onRequestClose } : ParentProps) => (
         className="KandidatsokNextModal"
    >
         <Undertittel>Kandidatmatch</Undertittel>
-        <Normaltekst>Kandidatmatch bruker synonymer og nært eller fjernt slektskap mellom kompetanser for å matche dine
-            søkekriterier mot kandidater. Slik finner vi også kandidater som har beskrevet samme kompetanse på en litt
-            annen måte. Du kan altså finne kandidater du tidligere gikk glipp av.
+        <Normaltekst>Kandidatmatch bruker synonymer og slektskap mellom kompetanser for å matche kandidatsøket ditt.
+            Systemet sjekker også hvor nært slektskapet er mellom kompetanser. Slik kan du finne kandidater som har
+            beskrevet kompetansen sin på en litt annen måte. Dette kan være kandidater som du tidligere gikk glipp av.
         </Normaltekst>
         <Normaltekst>
-            Du kan fortsatt oppleve noen mangelfulle søkeresultat, og vi jobber kontinuerlig med å forbedre teknologien.
+            Vi jobber med å utvikle tjenesten. Du kan derfor oppleve at noen søkeresultater er mangelfulle.
         </Normaltekst>
         <Normaltekst>
-            Når du avslutter kandidatmatch kan du fortelle oss hva du mener. Vi setter stor pris på din tilbakemelding.
+            Etter at du har avsluttet Kandidatmatch, setter vi pris på tilbakemelding om hvordan du opplevde tjenesten."
         </Normaltekst>
         <Hovedknapp
             onClick={onRequestClose}

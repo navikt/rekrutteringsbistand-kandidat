@@ -28,7 +28,7 @@ const KandidatsokNextHeader = () => {
                 <div>
                     <h1>Kandidatmatch</h1>
                     <Normaltekst>
-                        Du bruker nå ny og spennende teknologi til å finne kandidater.
+                        Finn kandidater med ny og spennende teknologi.
                     </Normaltekst>
                     <Lenkeknapp
                         onClick={() => setModalOpen(ModalEnum.ABOUT_OPEN)}
