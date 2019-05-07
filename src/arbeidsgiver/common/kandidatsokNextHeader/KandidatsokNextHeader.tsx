@@ -26,7 +26,7 @@ const KandidatsokNextHeader = () => {
                     <div className="match-icon header-icon-wrapper"><MatchIcon /></div>
                 </Media>
                 <div>
-                    <h2>Kandidatmatch</h2>
+                    <h1>Kandidatmatch</h1>
                     <Normaltekst>
                         Du bruker nå ny og spennende teknologi til å finne kandidater.
                     </Normaltekst>
