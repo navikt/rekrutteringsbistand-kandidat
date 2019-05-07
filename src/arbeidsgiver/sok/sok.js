@@ -39,7 +39,7 @@ import sertifikatReducer from './sertifikat/sertifikatReducer';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
-import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
+import KandidatlisteDetaljWrapper from '../kandidatlister/KandidatlisteDetaljWrapper.tsx';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
@@ -189,7 +189,7 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
                             <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
-                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetaljWrapper} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
                             <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />

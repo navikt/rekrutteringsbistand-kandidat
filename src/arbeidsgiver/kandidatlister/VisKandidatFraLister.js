@@ -18,6 +18,7 @@ import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -220,7 +221,7 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
     cv: state.cvReducer.cv,
     hentStatus: state.cvReducer.hentStatus,
     sletteStatus: state.kandidatlister.detaljer.sletteStatus,

@@ -1,18 +1,20 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
+import { put, select, takeLatest } from 'redux-saga/effects';
 import {
-    fetchKandidatlister,
-    postKandidatliste,
-    SearchApiError,
     deleteKandidater,
+    deleteKandidatliste,
     fetchKandidatliste,
+    fetchKandidatlister,
+    postKandidaterTilKandidatliste,
+    postKandidatliste,
     putKandidatliste,
-    postKandidaterTilKandidatliste, deleteKandidatliste
+    SearchApiError
 } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { sortKandidatlisteByDato } from '../../felles/common/SortByDato';
-import { Reducer } from "redux";
-import { Kandidat } from "../../veileder/kandidatlister/PropTypes";
+import { Reducer } from 'redux';
+import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
+import { NotAsked, RemoteData, RemoteDataTypes, Success } from '../../felles/common/remoteData';
 
 /** *********************************************************
  * ACTIONS
@@ -43,7 +45,8 @@ export enum KandidatlisteTypes {
     LEGG_TIL_KANDIDATER_FAILURE = 'LEGG_TIL_KANDIDATER_FAILURE',
     OPPDATER_KANDIDATLISTE = 'OPPDATER_KANDIDATLISTE_BEGIN',
     OPPDATER_KANDIDATLISTE_SUCCESS = 'OPPDATER_KANDIDATLISTE_SUCCESS',
-    OPPDATER_KANDIDATLISTE_FAILURE = 'OPPDATER_KANDIDATLISTE_FAILURE'
+    OPPDATER_KANDIDATLISTE_FAILURE = 'OPPDATER_KANDIDATLISTE_FAILURE',
+    UPDATE_KANDIDATLISTE_VIEW_STATE = 'UPDATE_KANDIDATLISTE_VIEW_STATE'
 }
 
 export interface KandidatlisteInfo {
@@ -99,7 +102,7 @@ export interface HentKandidatlisterFailureAction {
 
 export interface HentKandidatlisteSuccessAction {
     type: KandidatlisteTypes.HENT_KANDIDATLISTE_SUCCESS;
-    kandidatliste: KandidatlisteDetaljer
+    kandidatliste: KandidatlisteDetaljerResponse
 }
 
 export interface HentKandidatlisteFailureAction {
@@ -118,7 +121,7 @@ export interface SlettKandidaterAction {
 
 export interface SlettKandidaterSuccessAction {
     type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS;
-    nyKandidatliste: KandidatlisteDetaljer
+    nyKandidatliste: KandidatlisteDetaljerResponse
 }
 
 export interface SlettKandidaterFailureAction {
@@ -164,6 +167,36 @@ export interface SlettKandidatlisteResetStatusAction {
     type: KandidatlisteTypes.SLETT_KANDIDATLISTE_RESET_STATUS;
 }
 
+export enum UpdateKandidatIListeStateTypes {
+    KANDIDAT_TOGGLE_CHECKED = 'KANDIDAT_TOGGLE_CHECKED',
+    KANDIDAT_SET_VIEW_STATE = 'KANDIDAT_SET_VIEW_STATE',
+    SET_ALL_CHECKED = 'SET_ALL_CHECKED'
+}
+
+interface KandidatToggleChecked {
+    type: UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED,
+    kandidatnr: string
+}
+
+interface KandidatSetViewState {
+    type: UpdateKandidatIListeStateTypes.KANDIDAT_SET_VIEW_STATE,
+    kandidatnr: string,
+    state: KandidatlisteDetaljerKandidatViewState
+}
+
+interface SetAllChecked {
+    type: UpdateKandidatIListeStateTypes.SET_ALL_CHECKED,
+    checked: boolean
+}
+
+type UpdateKandidatIListeState = KandidatToggleChecked | KandidatSetViewState | SetAllChecked;
+
+
+export interface UpdateKandidatlisteViewStateAction {
+    type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE,
+    change: UpdateKandidatIListeState
+}
+
 export type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OppdaterKandidatlisteAction
@@ -189,6 +222,7 @@ export type KandidatlisteAction =
     | SlettKandidatlisteSuccessAction
     | SlettKandidatlisteFailureAction
     | SlettKandidatlisteResetStatusAction
+    | UpdateKandidatlisteViewStateAction
 
 /** *********************************************************
  * REDUCER
@@ -207,7 +241,7 @@ interface KandidatlisteState {
     lagreStatus: string;
     detaljer: {
         sletteStatus: string;
-        kandidatliste?: KandidatlisteDetaljer;
+        kandidatliste: RemoteData<KandidatlisteDetaljer>;
     };
     opprett: {
         lagreStatus: string;
@@ -224,7 +258,7 @@ interface KandidatlisteState {
     kandidatlister?: Array<KandidatlisteBeskrivelse>;
 }
 
-export interface Kandidat {
+export interface KandidatResponse {
     lagtTilAv: string;
     kandidatnr: string;
     sisteArbeidserfaring: string;
@@ -233,19 +267,48 @@ export interface Kandidat {
     erSynlig: boolean;
 }
 
-export interface KandidatlisteDetaljer {
+interface Notat {
+    test: boolean
+}
+
+export enum KandidatlisteDetaljerKandidatViewState {
+    LUKKET = 'LUKKET',
+    NOTATER_VISES = 'NOTATER_VISES'
+}
+
+interface KandidatExtension {
+    notater: RemoteData<Notat>,
+    checked: boolean,
+    viewState: KandidatlisteDetaljerKandidatViewState
+}
+
+export interface KandidatlisteDetaljerBase {
     tittel: string;
     beskrivelse?: string;
     organisasjonNavn?: string;
     oppdragsgiver?: string;
+}
+
+interface KandidatlisteDetaljerResponseExtension {
+    kandidater: Array<KandidatResponse>;
+}
+
+type Kandidat = KandidatResponse & KandidatExtension;
+
+interface KandidatlisteDetaljerExtension {
+    allChecked: boolean;
     kandidater: Array<Kandidat>;
 }
+
+type KandidatlisteDetaljerResponse = KandidatlisteDetaljerBase & KandidatlisteDetaljerResponseExtension;
+
+export type KandidatlisteDetaljer = KandidatlisteDetaljerBase & KandidatlisteDetaljerExtension;
 
 const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
         sletteStatus: SLETTE_STATUS.FINISHED,
-        kandidatliste: undefined
+        kandidatliste: NotAsked()
     },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
@@ -260,6 +323,85 @@ const initialState: KandidatlisteState = {
     },
     fetchingKandidatlister: false,
     kandidatlister: undefined
+};
+
+const overforGammelKandidatlisteState : (forrigeListe: KandidatlisteDetaljer, kandidatliste: KandidatlisteDetaljerResponse) => KandidatlisteDetaljer = (forrigeListe, kandidatliste) => {
+    const kandidaterState: { [index: string]: KandidatExtension } = forrigeListe.kandidater.reduce((dict, kandidat) => ({
+        ...dict,
+        [kandidat.kandidatnr]: {
+            notater: kandidat.notater,
+            checked: kandidat.checked,
+            viewState: kandidat.viewState
+        }
+    }), {});
+    return {
+        ...kandidatliste,
+        allChecked: forrigeListe.allChecked,
+        kandidater: kandidatliste.kandidater.map((kandidat) => {
+            if (kandidaterState[kandidat.kandidatnr]) {
+                return {
+                    ...kandidat,
+                    ...(kandidaterState[kandidat.kandidatnr])
+                }
+            }
+            return {
+                ...kandidat,
+                ...initKandidatFelter(forrigeListe.allChecked)
+            }
+        })
+    };
+};
+
+const initKandidatFelter : ( checked? : boolean ) => KandidatExtension = ( checked = false) => ({
+    notater: NotAsked(),
+    checked: checked,
+    viewState: KandidatlisteDetaljerKandidatViewState.LUKKET
+});
+
+const initKandidatlisteState : (kandidatliste: KandidatlisteDetaljerResponse) => KandidatlisteDetaljer = (kandidatliste) => ({
+    ...kandidatliste,
+    allChecked: false,
+    kandidater: kandidatliste.kandidater.map((kandidat) => ({
+        ...kandidat,
+        ...initKandidatFelter()
+    }))
+});
+
+
+const overforKandidatlisteDetaljerState : (forrigeListe: RemoteData<KandidatlisteDetaljer>, kandidatliste: KandidatlisteDetaljerResponse) => KandidatlisteDetaljer = (forrigeListe, kandidatliste) => {
+    if (forrigeListe.kind === RemoteDataTypes.SUCCESS) {
+        return overforGammelKandidatlisteState(forrigeListe.data, kandidatliste)
+    }
+    return initKandidatlisteState(kandidatliste)
+};
+
+const updateKandidatState : (kandidatliste: RemoteData<KandidatlisteDetaljer>, change: UpdateKandidatIListeState) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, change) => {
+    if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+        return kandidatliste;
+    }
+    return Success({
+        ...kandidatliste.data,
+        allChecked: change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED ? change.checked : kandidatliste.data.allChecked,
+        kandidater: kandidatliste.data.kandidater.map((kandidat) => {
+            if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_SET_VIEW_STATE && kandidat.kandidatnr === change.kandidatnr) {
+                return {
+                    ...kandidat,
+                    viewState: change.state
+                }
+            } else if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED && kandidat.kandidatnr === change.kandidatnr) {
+                return {
+                    ...kandidat,
+                    checked: !kandidat.checked
+                }
+            } else if (change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED) {
+                return {
+                    ...kandidat,
+                    checked: change.checked
+                }
+            }
+            return kandidat;
+        })
+    })
 };
 
 const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (state = initialState, action) => {
@@ -330,14 +472,14 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: action.kandidatliste
+                    kandidatliste: Success(overforKandidatlisteDetaljerState(state.detaljer.kandidatliste, action.kandidatliste))
                 }
             };
         case KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
                 detaljer: {
-                    ...state.kandidatlister,
+                    ...state.detaljer,
                     sletteStatus: SLETTE_STATUS.FAILURE
                 }
             };
@@ -362,7 +504,8 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 detaljer: {
-                    kandidatliste: nyKandidatliste,
+                    ...state.detaljer,
+                    kandidatliste: Success(overforKandidatlisteDetaljerState(state.detaljer.kandidatliste, nyKandidatliste)),
                     sletteStatus: SLETTE_STATUS.SUCCESS
                 }
             };
@@ -439,6 +582,14 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 slett: {
                     ...state.slett,
                     sletteStatus: SLETTE_STATUS.FINISHED
+                }
+            };
+        case KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: updateKandidatState(state.detaljer.kandidatliste, action.change)
                 }
             };
         default:

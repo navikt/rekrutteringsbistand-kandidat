@@ -15,7 +15,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from '../../felles/kandidatlister/TomListe';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import { KandidatlisteTypes, UpdateKandidatIListeStateTypes } from './kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
 import './kandidatlister.less';
@@ -31,8 +31,6 @@ class KandidatlisteDetalj extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markerAlleChecked: false,
-            kandidater: [],
             sletterKandidater: false,
             visSlettKandidaterModal: false,
             visSlettKandidaterFeilmelding: false,
@@ -43,37 +41,18 @@ class KandidatlisteDetalj extends React.Component {
 
     componentDidMount() {
         this.mounted = true;
-        this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
 
     static getDerivedStateFromProps(props, state) {
-        if (props.kandidatliste !== undefined &&
-            state.kandidater.length !== props.kandidatliste.kandidater.length) {
-            return {
-                ...state,
-                kandidater: props.kandidatliste.kandidater.map((k) => ({ ...k, checked: false })),
-                visSlettKandidaterFeilmelding: false,
-                visSlettKandidaterModal: false,
-                sletterKandidater: false,
-                visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
-            };
-        } else if (state.sletterKandidater) {
-            const visSlettKandidaterModal = (
-                state.sletterKandidater &&
-                props.sletteStatus !== SLETTE_STATUS.SUCCESS
-            );
-
-            const visSlettKandidaterFeilmelding = (
-                state.sletterKandidater &&
-                props.sletteStatus === SLETTE_STATUS.FAILURE
-            );
+        if (state.sletterKandidater) {
+            const visSlettKandidaterModal = props.sletteStatus !== SLETTE_STATUS.SUCCESS;
+            const visSlettKandidaterFeilmelding = props.sletteStatus === SLETTE_STATUS.FAILURE;
 
             return {
                 ...state,
-                kandidater: props.kandidatliste.kandidater.map((k) => ({ ...k, checked: false })),
                 visSlettKandidaterModal,
                 visSlettKandidaterFeilmelding,
-                sletterKandidater: false,
+                sletterKandidater: props.sletteStatus !== SLETTE_STATUS.SUCCESS,
                 visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
             };
         } else if (props.sletteStatus === SLETTE_STATUS.SUCCESS && !state.sletterKandidater) {
@@ -87,18 +66,12 @@ class KandidatlisteDetalj extends React.Component {
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         if (this.state.visSlettSuccessMelding) {
             this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
             this.props.nullstillSletteStatus();
         } else if (this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
             clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
-        }
-        if (prevState.kandidater !== this.state.kandidater) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({
-                markerAlleChecked: this.state.kandidater.filter((k) => !k.checked).length === 0
-            });
         }
     }
 
@@ -108,43 +81,21 @@ class KandidatlisteDetalj extends React.Component {
         clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
     }
 
-    onKandidatCheckboxClicked = (valgtKandidat) => {
-        this.setState({
-            kandidater: this.state.kandidater.map((k) => {
-                if (k.kandidatnr === valgtKandidat.kandidatnr) {
-                    return {
-                        ...k,
-                        checked: !k.checked
-                    };
-                }
-                return { ...k };
-            })
-        });
-    };
-
     onFjernKandidat = (kandidat) => {
         const enkelKandidatIListe = [kandidat];
-        this.props.slettKandidater(this.props.kandidatlisteId, enkelKandidatIListe);
-    };
-
-    markerAlleClicked = () => {
-        this.setState({
-            markerAlleChecked: !this.state.markerAlleChecked,
-            kandidater: this.state.kandidater.map((k) => ({ ...k, checked: !this.state.markerAlleChecked }))
-        });
+        this.props.slettKandidater(this.props.kandidatliste.kandidatlisteId, enkelKandidatIListe);
     };
 
     slettMarkerteKandidater = () => {
-        const { kandidatlisteId } = this.props;
-        const kandidater = this.state.kandidater.filter((k) => k.checked);
-
+        const { kandidatlisteId, kandidater } = this.props.kandidatliste;
+        const markerteKandidater = kandidater.filter((k) => k.checked);
         if (this.state.sletterKandidater) {
             return;
         }
 
-        if (kandidatlisteId && kandidater.length > 0) {
-            this.props.slettKandidater(this.props.kandidatlisteId, kandidater);
-            this.setState({ sletterKandidater: true, antallSlettedeKandidater: kandidater.length });
+        if (kandidatlisteId && markerteKandidater.length > 0) {
+            this.props.slettKandidater(kandidatlisteId, markerteKandidater);
+            this.setState({ sletterKandidater: true, antallSlettedeKandidater: markerteKandidater.length });
         }
     };
 
@@ -176,8 +127,8 @@ class KandidatlisteDetalj extends React.Component {
             );
         }
 
-        const { markerAlleChecked, kandidater, visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
-        const { tittel, beskrivelse, oppdragsgiver } = this.props.kandidatliste;
+        const { visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
+        const { tittel, beskrivelse, oppdragsgiver, kandidater } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
         const Header = () => (
@@ -211,8 +162,7 @@ class KandidatlisteDetalj extends React.Component {
         );
 
         const Knapper = () => {
-            const { kandidatlisteId } = this.props;
-
+            const { kandidatlisteId } = this.props.kandidatliste;
             if (kandidatlisteId && valgteKandidater.length > 0) {
                 return (
                     <div className="KandidatlisteDetalj__knapperad">
@@ -250,8 +200,8 @@ class KandidatlisteDetalj extends React.Component {
                             title="Marker alle"
                             label="Navn"
                             aria-label="Marker alle kandidater"
-                            checked={markerAlleChecked}
-                            onChange={this.markerAlleClicked}
+                            checked={this.props.kandidatliste.allChecked}
+                            onChange={() => { this.props.markerAlleClicked(!this.props.kandidatliste.allChecked); }}
                         />
                     </div>
                     <UndertekstBold className="td">Arbeidserfaring</UndertekstBold>
@@ -270,7 +220,7 @@ class KandidatlisteDetalj extends React.Component {
                             className="skjemaelement__input checkboks"
                             aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
                             checked={kandidat.checked}
-                            onChange={() => this.onKandidatCheckboxClicked(kandidat)}
+                            onChange={() => this.props.toggleKandidatChecked(kandidat.kandidatnr)}
                         />
                         <label
                             className="skjemaelement__label"
@@ -280,7 +230,7 @@ class KandidatlisteDetalj extends React.Component {
                             .
                         </label>
                     </div>
-                    <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                    <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
                         {fornavnOgEtternavnFraKandidat(kandidat)}
                     </Link>
                 </div>
@@ -373,18 +323,14 @@ class KandidatlisteDetalj extends React.Component {
     }
 }
 
-KandidatlisteDetalj.defaultProps = {
-    kandidatliste: undefined
-};
-
-
 KandidatlisteDetalj.propTypes = {
-    kandidatlisteId: PropTypes.string.isRequired,
     kandidatliste: PropTypes.shape({
         tittel: PropTypes.string,
+        kandidatlisteId: PropTypes.string,
         beskrivelse: PropTypes.string,
         organisasjonNavn: PropTypes.string,
         oppdragsgiver: PropTypes.string,
+        allChecked: PropTypes.bool,
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
                 lagtTilAv: PropTypes.string,
@@ -392,29 +338,30 @@ KandidatlisteDetalj.propTypes = {
                 sisteArbeidserfaring: PropTypes.string,
                 fornavn: PropTypes.string,
                 etternavn: PropTypes.string,
-                erSynlig: PropTypes.bool.isRequired
+                erSynlig: PropTypes.bool.isRequired,
+                checked: PropTypes.bool
             })
         )
-    }),
+    }).isRequired,
     sletteStatus: PropTypes.string.isRequired,
-    hentKandidatliste: PropTypes.func.isRequired,
     slettKandidater: PropTypes.func.isRequired,
     clearKandidatliste: PropTypes.func.isRequired,
-    nullstillSletteStatus: PropTypes.func.isRequired
+    nullstillSletteStatus: PropTypes.func.isRequired,
+    toggleKandidatChecked: PropTypes.func.isRequired,
+    markerAlleClicked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
     ...props,
-    kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
     sletteStatus: state.kandidatlister.detaljer.sletteStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId }),
     slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater }),
     clearKandidatliste: () => dispatch({ type: KandidatlisteTypes.CLEAR_KANDIDATLISTE }),
-    nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS })
+    nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS }),
+    toggleKandidatChecked: (kandidatnr) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED, kandidatnr } }),
+    markerAlleClicked: (checked) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.SET_ALL_CHECKED, checked } })
 });
 
 Modal.setAppElement('#app');
