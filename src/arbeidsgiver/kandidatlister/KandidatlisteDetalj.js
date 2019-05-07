@@ -39,10 +39,6 @@ class KandidatlisteDetalj extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.mounted = true;
-    }
-
     static getDerivedStateFromProps(props, state) {
         if (state.sletterKandidater) {
             const visSlettKandidaterModal = props.sletteStatus !== SLETTE_STATUS.SUCCESS;
@@ -66,17 +62,18 @@ class KandidatlisteDetalj extends React.Component {
         return null;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.visSlettSuccessMelding) {
-            this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
-            this.props.nullstillSletteStatus();
+            if (this.state.visSlettSuccessMelding !== prevState.visSlettSuccessMelding) {
+                this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
+                this.props.nullstillSletteStatus();
+            }
         } else if (this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
             clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
         }
     }
 
     componentWillUnmount() {
-        this.mounted = false;
         this.props.clearKandidatliste();
         clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
     }
@@ -108,9 +105,7 @@ class KandidatlisteDetalj extends React.Component {
     };
 
     skjulSlettSuccessMelding = () => {
-        if (this.mounted) {
-            this.setState({ visSlettSuccessMelding: false });
-        }
+        this.setState({ visSlettSuccessMelding: false });
     };
 
     visSlettKandidaterFeilmelding = () => {
