@@ -31,7 +31,7 @@ const KandidatsokNextHeader = () => {
                     </Normaltekst>
                     <Flatknapp
                         onClick={() => setModalOpen(ModalEnum.ABOUT_OPEN)}
-                        className="les-mer-knapp"
+                        className="les-mer-knapp Knapp--mini"
                     >
                         Les mer om kandidatmatch
                     </Flatknapp>
