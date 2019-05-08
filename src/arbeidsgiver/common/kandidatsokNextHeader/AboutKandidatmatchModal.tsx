@@ -22,12 +22,13 @@ const AboutKandidatmatchModal = ({ open, onRequestClose } : ParentProps) => (
         <Normaltekst>Kandidatmatch bruker synonymer og slektskap mellom kompetanser for å matche kandidatsøket ditt.
             Systemet sjekker også hvor nært slektskapet er mellom kompetanser. Slik kan du finne kandidater som har
             beskrevet kompetansen sin på en litt annen måte. Dette kan være kandidater som du tidligere gikk glipp av.
+            Ved å legge inn flere kompetanser kan du finjustere matchen.
         </Normaltekst>
         <Normaltekst>
             Vi jobber med å utvikle tjenesten. Du kan derfor oppleve at noen søkeresultater er mangelfulle.
         </Normaltekst>
         <Normaltekst>
-            Etter at du har avsluttet Kandidatmatch, setter vi pris på tilbakemelding om hvordan du opplevde tjenesten."
+            Etter at du har avsluttet Kandidatmatch, setter vi pris på tilbakemelding om hvordan du opplevde tjenesten.
         </Normaltekst>
         <Hovedknapp
             onClick={onRequestClose}

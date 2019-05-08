@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Knapp } from 'pam-frontend-knapper';
+import { Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Media from 'react-media';
 import KandidatsokNextFeedbackModal from './KandidatsokNextFeedbackModal';
 import AboutKandidatmatchModal from './AboutKandidatmatchModal';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import { MatchIcon } from '../../result/matchforklaring/Matchdetaljer';
 import './KandidatsokNextHeader.less';
 
@@ -30,12 +29,12 @@ const KandidatsokNextHeader = () => {
                     <Normaltekst>
                         Finn kandidater med ny og spennende teknologi.
                     </Normaltekst>
-                    <Lenkeknapp
+                    <Flatknapp
                         onClick={() => setModalOpen(ModalEnum.ABOUT_OPEN)}
                         className="les-mer-knapp"
                     >
                         Les mer om kandidatmatch
-                    </Lenkeknapp>
+                    </Flatknapp>
                 </div>
             </div>
             <div className="KandidatsokNextHeader-right">

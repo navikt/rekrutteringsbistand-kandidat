@@ -64,7 +64,7 @@
 
       @media (min-width: @screen-sm-min) {
         display: inline-block;
-        margin-right: 1.5rem;
+        margin-right: 0.5rem;
       }
     }
   }
@@ -90,8 +90,13 @@
       margin-top: 1.25rem;
     }
 
+    &:hover {
+      border-color: #fff;
+    }
+
     &:active {
-      color: #fff;
+      background-color: #fff;
+      color: @pink;
     }
   }
 }
