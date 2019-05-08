@@ -28,7 +28,7 @@ const AboutKandidatmatchModal = ({ open, onRequestClose } : ParentProps) => (
             Vi jobber med å utvikle tjenesten. Du kan derfor oppleve at noen søkeresultater er mangelfulle.
         </Normaltekst>
         <Normaltekst>
-            Etter at du har avsluttet Kandidatmatch, setter vi pris på tilbakemelding om hvordan du opplevde tjenesten.
+            Etter at du har avsluttet Kandidatmatch setter vi pris på tilbakemelding om hvordan du opplevde tjenesten.
         </Normaltekst>
         <Hovedknapp
             onClick={onRequestClose}
