@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Media from 'react-media';
-import { Sidetittel } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
@@ -23,6 +22,7 @@ import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext.tsx';
+import Sidetittel from '../../felles/common/Sidetittel';
 
 class ResultatVisning extends React.Component {
     constructor(props) {

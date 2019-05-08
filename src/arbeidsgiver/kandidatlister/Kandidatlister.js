@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
-import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
+import { Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
@@ -21,6 +21,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
+import Sidetittel from '../../felles/common/Sidetittel';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Knapp } from 'pam-frontend-knapper';
@@ -22,6 +22,7 @@ import './kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
+import Sidetittel from '../../felles/common/Sidetittel';
 
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`

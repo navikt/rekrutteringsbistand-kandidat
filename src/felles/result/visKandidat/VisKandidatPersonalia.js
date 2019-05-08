@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Container } from 'nav-frontend-grid';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { formatISOString, formatterDato } from '../../common/dateUtils';
 import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
@@ -10,6 +10,7 @@ import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
 import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
+import Sidetittel from '../../common/Sidetittel';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
