@@ -4,7 +4,7 @@ import { SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
-import { NotAsked, RemoteData, RemoteDataTypes, ResponseData, Success } from '../../felles/common/remoteData';
+import { Loading, NotAsked, RemoteData, RemoteDataTypes, ResponseData, Success } from '../../felles/common/remoteData';
 
 /** *********************************************************
  * ACTIONS
@@ -179,8 +179,8 @@ export interface KandidatResponse {
 }
 
 export interface Notat {
-    test: boolean
     notatId: string
+    tekst: string
 }
 
 export interface Notater {
@@ -379,6 +379,11 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sletteStatus: SLETTE_STATUS.FINISHED
+            };
+        case KandidatlisteTypes.HENT_NOTATER:
+            return {
+                ...state,
+                kandidatliste: setNotaterForKandidat(state.kandidatliste, action.kandidatnr, Loading())
             };
         case KandidatlisteTypes.HENT_NOTATER_FERDIG:
             return {
