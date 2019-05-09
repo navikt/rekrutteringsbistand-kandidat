@@ -5,7 +5,7 @@ const Sidetittel = ({ children, className, id }) => (
     <h1
         id={id}
         className={`h1 display-1 ${className}`}
-        style={{ fontFamily: 'Source Sans Pro' }}
+        style={{ fontFamily: 'Source Sans Pro, Arial, sans-serif' }}
     >
         {children}
     </h1>
