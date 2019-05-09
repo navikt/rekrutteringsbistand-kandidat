@@ -10,7 +10,7 @@ import './Resultat.less';
 import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
+import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
 
@@ -184,8 +184,6 @@ class KandidaterVisning extends React.Component {
                         </div>
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
-                            mini
-                            type="hoved"
                             disabled={antallMarkert === 0}
                             onClick={this.aapneLagreKandidaterModal}
                             id="lagre-kandidater-knapp"
