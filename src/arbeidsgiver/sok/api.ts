@@ -9,6 +9,9 @@ import {
     KODEVERK_API
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
+import { put } from 'redux-saga/effects';
+import { KandidatlisteTypes, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
+import { Failure, ResponseData, Success } from '../../felles/common/remoteData';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -22,6 +25,8 @@ const createCallIdHeader = () => ({
 });
 
 export class SearchApiError {
+    message: string;
+    status: number;
     constructor(error) {
         this.message = error.message;
         this.status = error.status;
@@ -42,7 +47,7 @@ export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
     return resultat.json();
 }
 
-async function fetchJson(url, includeCredentials) {
+async function fetchJson(url : string, includeCredentials : boolean = false) {
     try {
         let response;
         if (includeCredentials) {
@@ -74,6 +79,19 @@ async function fetchJson(url, includeCredentials) {
             message: e.message,
             status: e.status
         });
+    }
+}
+
+async function fetchJsonMedType<T>(url : string) : Promise<ResponseData<T>> {
+    try {
+        const response : unknown = await fetchJson(url, true);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
     }
 }
 
@@ -224,6 +242,10 @@ export function fetchArbeidsgivere() {
 
 export function fetchKandidatliste(kandidatlisteId) {
     return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+}
+
+export async function fetchNotater(kandidatlisteId : string, kandidatnr : string) : Promise<ResponseData<Array<Notat>>> {
+    return fetchJsonMedType<Array<Notat>>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/${kandidatnr}/notater`);
 }
 
 export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {

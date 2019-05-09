@@ -221,10 +221,10 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
+    kandidatliste: state.kandidatlisteDetaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlisteDetaljer.kandidatliste.data : undefined,
     cv: state.cvReducer.cv,
     hentStatus: state.cvReducer.hentStatus,
-    sletteStatus: state.kandidatlister.detaljer.sletteStatus,
+    sletteStatus: state.kandidatlisteDetaljer.sletteStatus,
     matchforklaring: state.cvReducer.matchforklaring
 });
 

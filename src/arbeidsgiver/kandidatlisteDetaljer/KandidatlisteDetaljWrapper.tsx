@@ -36,7 +36,7 @@ const KandidatlisteDetaljerWrapper: FunctionComponent<Props> = ({ hentKandidatli
 const mapStateToProps = (state, props) => ({
     ...props,
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlisteDetaljer.kandidatliste
 });
 
 const mapDispatchToProps = (dispatch) => ({

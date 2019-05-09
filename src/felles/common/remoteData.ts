@@ -47,3 +47,5 @@ export const Failure = (error: ApiError) : Failure => ({
 });
 
 export type RemoteData<T> = NotAsked | Loading | Failure | Success<T>
+
+export type ResponseData<T> = Failure | Success<T>

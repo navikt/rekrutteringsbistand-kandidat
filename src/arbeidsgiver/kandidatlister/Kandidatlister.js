@@ -28,7 +28,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSlette
 
     return (
         kandidatlister.map((kandidatliste) => (
-            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
+            <KandidatlisteRad kandidatliste={kandidatliste} key={kandidatliste.kandidatlisteId} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
         ))
     );
 };

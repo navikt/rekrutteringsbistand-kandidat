@@ -8,17 +8,20 @@ import Modal from 'nav-frontend-modal';
 import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import TomListe from '../../felles/kandidatlister/TomListe';
+import Notater from './Notater.tsx';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import { KandidatlisteTypes, UpdateKandidatIListeStateTypes } from './kandidatlisteReducer.ts';
+import { KandidatlisteTypes, UpdateKandidatIListeStateTypes, KandidatState } from './kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 
-import './kandidatlister.less';
+import '../kandidatlister/kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
@@ -199,42 +202,76 @@ class KandidatlisteDetalj extends React.Component {
                             onChange={() => { this.props.markerAlleClicked(!this.props.kandidatliste.allChecked); }}
                         />
                     </div>
-                    <UndertekstBold className="td">Arbeidserfaring</UndertekstBold>
+                    <UndertekstBold className="KandidatlisteDetalj__panel--second arbeidserfaring td">Arbeidserfaring</UndertekstBold>
+                    <UndertekstBold className="KandidatlisteDetalj__panel--notater td">Notater</UndertekstBold>
                 </div>
             </div>
         );
 
-        const SynligKandidatPanel = (kandidat) => (
-            <div className="KandidatlisteDetalj__panel tr" key={JSON.stringify(kandidat)}>
-                <div className="KandidatlisteDetalj__panel--first td">
-                    <div className="skjemaelement skjemaelement--horisontal text-hide skjemaelement--pink">
-                        <input
-                            type="checkbox"
-                            title="Marker"
-                            id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                            className="skjemaelement__input checkboks"
-                            aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
-                            checked={kandidat.checked}
-                            onChange={() => this.props.toggleKandidatChecked(kandidat.kandidatnr)}
-                        />
-                        <label
-                            className="skjemaelement__label"
-                            htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                            aria-hidden="true"
-                        >
-                            .
-                        </label>
+        const SynligKandidatPanel = ({ kandidat }) => (
+            <div className="tr">
+                <div className="KandidatlisteDetalj__panel">
+                    <div className="KandidatlisteDetalj__panel--first td">
+                        <div className="skjemaelement skjemaelement--horisontal text-hide skjemaelement--pink">
+                            <input
+                                type="checkbox"
+                                title="Marker"
+                                id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                                className="skjemaelement__input checkboks"
+                                aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
+                                checked={kandidat.checked}
+                                onChange={() => this.props.toggleKandidatChecked(kandidat.kandidatnr)}
+                            />
+                            <label
+                                className="skjemaelement__label"
+                                htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                                aria-hidden="true"
+                            >
+                                .
+                            </label>
+                        </div>
+                        <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                            {fornavnOgEtternavnFraKandidat(kandidat)}
+                        </Link>
                     </div>
-                    <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
-                        {fornavnOgEtternavnFraKandidat(kandidat)}
-                    </Link>
+                    <Normaltekst className="KandidatlisteDetalj__panel--second arbeidserfaring">{kandidat.sisteArbeidserfaring}</Normaltekst>
+                    <div className="KandidatlisteDetalj__panel--notater">
+                        <Lenkeknapp
+                            onClick={() => {
+                                this.props.setViewStateKandidat(
+                                    kandidat.kandidatnr,
+                                    kandidat.viewState === KandidatState.NOTATER_VISES ? KandidatState.LUKKET : KandidatState.NOTATER_VISES
+                                );
+                            }}
+                            className="legg-til-kandidat Notat"
+                        >
+                            <i className="Notat__icon" />
+                            {/* {antallNotater} */}
+                            1
+                            <NavFrontendChevron type={kandidat.viewState === KandidatState.NOTATER_VISES ? 'opp' : 'ned'} />
+                        </Lenkeknapp>
+                    </div>
                 </div>
-                <Normaltekst>{kandidat.sisteArbeidserfaring}</Normaltekst>
+
+                <div className="KandidatlisteDetalj__panel">
+                    <div className="KandidatlisteDetalj__panel--first td" />
+                    <div className="KandidatlisteDetalj__panel--second td">
+                        { kandidat.viewState === KandidatState.NOTATER_VISES &&
+                            <Notater
+                                notater={kandidat.notater}
+                                kandidatlisteId={this.props.kandidatliste.kandidatlisteId}
+                                kandidatnr={kandidat.kandidatnr}
+                                antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : 1}
+                            />
+                        }
+                    </div>
+                    <div className="KandidatlisteDetalj__panel--notater" />
+                </div>
             </div>
         );
 
-        const IkkeSynligKandidatPanel = (kandidat) => (
-            <div className="KandidatlisteDetalj__panel__ikke_synlig tr" key={JSON.stringify(kandidat)}>
+        const IkkeSynligKandidatPanel = ({ kandidat }) => (
+            <div className="KandidatlisteDetalj__panel__ikke_synlig tr">
                 <div className="KandidatlisteDetalj__panel--first td" >
                     <div className="text-hide">
                         <input
@@ -273,10 +310,10 @@ class KandidatlisteDetalj extends React.Component {
                 {kandidater && kandidater.map((kandidat) => {
                     if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
                         return (
-                            SynligKandidatPanel(kandidat)
+                            <SynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-synlig`} />
                         );
                     }
-                    return IkkeSynligKandidatPanel(kandidat);
+                    return <IkkeSynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-ikke`} />;
                 })}
             </div>
         );
@@ -343,12 +380,13 @@ KandidatlisteDetalj.propTypes = {
     clearKandidatliste: PropTypes.func.isRequired,
     nullstillSletteStatus: PropTypes.func.isRequired,
     toggleKandidatChecked: PropTypes.func.isRequired,
+    setViewStateKandidat: PropTypes.func.isRequired,
     markerAlleClicked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => ({
     ...props,
-    sletteStatus: state.kandidatlister.detaljer.sletteStatus
+    sletteStatus: state.kandidatlisteDetaljer.sletteStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -356,6 +394,7 @@ const mapDispatchToProps = (dispatch) => ({
     clearKandidatliste: () => dispatch({ type: KandidatlisteTypes.CLEAR_KANDIDATLISTE }),
     nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS }),
     toggleKandidatChecked: (kandidatnr) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED, kandidatnr } }),
+    setViewStateKandidat: (kandidatnr, state) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.KANDIDAT_SET_VIEW_STATE, kandidatnr, state } }),
     markerAlleClicked: (checked) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.SET_ALL_CHECKED, checked } })
 });
 

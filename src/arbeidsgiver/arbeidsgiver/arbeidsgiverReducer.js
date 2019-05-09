@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchArbeidsgivere, SearchApiError } from '../sok/api';
+import { fetchArbeidsgivere, SearchApiError } from '../sok/api.ts';
 import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
 
 /** *********************************************************
