@@ -184,7 +184,7 @@ class Notater extends React.Component {
                                 </div>
                             </div>
                             : <Knapp mini onClick={this.toggleNyttNotatVises}>Skriv notat</Knapp>
-                        }0401
+                        }
                     </div>
                     <Notatliste />
                 </div>
