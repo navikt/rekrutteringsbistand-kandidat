@@ -20,6 +20,7 @@ import Notater from './Notater.tsx';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { KandidatlisteTypes, UpdateKandidatIListeStateTypes, KandidatState } from './kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
+import { KandidatlisteDetaljerPropType, KandidatPropTypes } from './propTypes';
 
 import '../kandidatlister/kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
@@ -29,6 +30,173 @@ import { capitalizeFirstLetter } from '../../felles/sok/utils';
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
     : kandidat.kandidatnr);
+
+
+const Header = ({ beskrivelse, antallKandidater, oppdragsgiver, tittel }) => (
+    <PageHeader>
+        <div className="KandidatlisteDetalj__header">
+            <div className="top-row">
+                <div className="TilbakeLenke-wrapper">
+                    <TilbakeLenke tekst="Til&nbsp;kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
+                </div>
+                <div className="info-kolonne">
+                    <Sidetittel id="kandidatliste-navn" className="tittel">{tittel}</Sidetittel>
+                    {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
+                </div>
+                <div className="empty-right-side" />
+            </div>
+            <div className="bottom-row">
+                <div className="inforad">
+                    <Normaltekst id="kandidatliste-antall-kandidater">{antallKandidater !== 1 ? `${antallKandidater} kandidater` : '1 kandidat'}</Normaltekst>
+                    {oppdragsgiver && <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>}
+                </div>
+            </div>
+        </div>
+    </PageHeader>
+);
+
+
+Header.defaultProps = {
+    beskrivelse: '',
+    oppdragsgiver: undefined
+};
+
+Header.propTypes = {
+    tittel: PropTypes.string.isRequired,
+    beskrivelse: PropTypes.string,
+    oppdragsgiver: PropTypes.string,
+    antallKandidater: PropTypes.number.isRequired
+};
+
+const erSynligFlaggIkkeSatt = (kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
+
+const KandidatListe = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat }) => (
+    <div className="tbody">
+        {kandidatliste.kandidater && kandidatliste.kandidater.map((kandidat) => {
+            if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
+                return (
+                    <SynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-synlig`} kandidatliste={kandidatliste} toggleKandidatChecked={toggleKandidatChecked} setViewStateKandidat={setViewStateKandidat} />
+                );
+            }
+            return <IkkeSynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-ikke`} onFjernKandidat={onFjernKandidat} />;
+        })}
+    </div>
+);
+
+KandidatListe.propTypes = {
+    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
+    toggleKandidatChecked: PropTypes.func.isRequired,
+    setViewStateKandidat: PropTypes.func.isRequired,
+    onFjernKandidat: PropTypes.func.isRequired
+};
+
+const SynligKandidatPanel = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat }) => (
+    <div className="tr">
+        <div className="KandidatlisteDetalj__panel">
+            <div className="KandidatlisteDetalj__panel--first td">
+                <div className="skjemaelement skjemaelement--horisontal text-hide skjemaelement--pink">
+                    <input
+                        type="checkbox"
+                        title="Marker"
+                        id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                        className="skjemaelement__input checkboks"
+                        aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
+                        checked={kandidat.checked}
+                        onChange={() => toggleKandidatChecked(kandidat.kandidatnr)}
+                    />
+                    <label
+                        className="skjemaelement__label"
+                        htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
+                        aria-hidden="true"
+                    >
+                        .
+                    </label>
+                </div>
+                <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                    {fornavnOgEtternavnFraKandidat(kandidat)}
+                </Link>
+            </div>
+            <Normaltekst className="KandidatlisteDetalj__panel--second arbeidserfaring">{kandidat.sisteArbeidserfaring}</Normaltekst>
+            <div className="KandidatlisteDetalj__panel--notater">
+                <Lenkeknapp
+                    onClick={() => {
+                        setViewStateKandidat(
+                            kandidat.kandidatnr,
+                            kandidat.viewState === KandidatState.NOTATER_VISES ? KandidatState.LUKKET : KandidatState.NOTATER_VISES
+                        );
+                    }}
+                    className="legg-til-kandidat Notat"
+                >
+                    <i className="Notat__icon" />
+                    {/* {antallNotater} */}
+                    1
+                    <NavFrontendChevron type={kandidat.viewState === KandidatState.NOTATER_VISES ? 'opp' : 'ned'} />
+                </Lenkeknapp>
+            </div>
+        </div>
+
+        <div className="KandidatlisteDetalj__panel">
+            <div className="KandidatlisteDetalj__panel--first td" />
+            <div className="KandidatlisteDetalj__panel--second td">
+                { kandidat.viewState === KandidatState.NOTATER_VISES &&
+                <Notater
+                    notater={kandidat.notater}
+                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                    kandidatnr={kandidat.kandidatnr}
+                    antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : 1}
+                />
+                }
+            </div>
+            <div className="KandidatlisteDetalj__panel--notater" />
+        </div>
+    </div>
+);
+
+
+SynligKandidatPanel.propTypes = {
+    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
+    kandidat: KandidatPropTypes.isRequired,
+    toggleKandidatChecked: PropTypes.func.isRequired,
+    setViewStateKandidat: PropTypes.func.isRequired
+};
+
+const IkkeSynligKandidatPanel = ({ kandidat, onFjernKandidat }) => (
+    <div className="KandidatlisteDetalj__panel__ikke_synlig tr">
+        <div className="KandidatlisteDetalj__panel--first td" >
+            <div className="text-hide">
+                <input
+                    type="checkbox"
+                    id={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
+                    className="skjemaelement__input checkboks"
+                    aria-label="Kandidat ikke synlig"
+                    disabled
+                />
+                <label
+                    className="skjemaelement__label"
+                    htmlFor={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
+                    aria-hidden="true"
+                >
+                    .
+                </label>
+            </div>
+            <Normaltekst>
+                Kandidaten er inaktiv og ikke aktuell for jobb
+            </Normaltekst>
+        </div>
+        <Knapp
+            className="knapp--fjern-kandidat"
+            mini
+            onClick={() => onFjernKandidat(kandidat)}
+        >
+            Fjern kandidat
+        </Knapp>
+    </div>
+);
+
+IkkeSynligKandidatPanel.propTypes = {
+    kandidat: KandidatPropTypes.isRequired,
+    onFjernKandidat: PropTypes.func.isRequired
+};
 
 class KandidatlisteDetalj extends React.Component {
     constructor(props) {
@@ -129,28 +297,6 @@ class KandidatlisteDetalj extends React.Component {
         const { tittel, beskrivelse, oppdragsgiver, kandidater } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
 
-        const Header = () => (
-            <PageHeader>
-                <div className="KandidatlisteDetalj__header">
-                    <div className="top-row">
-                        <div className="TilbakeLenke-wrapper">
-                            <TilbakeLenke tekst="Til&nbsp;kandidatlistene" href={`/${CONTEXT_ROOT}/lister`} />
-                        </div>
-                        <div className="info-kolonne">
-                            <Sidetittel id="kandidatliste-navn" className="tittel">{tittel}</Sidetittel>
-                            {beskrivelse && <Undertekst id="kandidatliste-beskrivelse" className="undertittel">{beskrivelse}</Undertekst>}
-                        </div>
-                        <div className="empty-right-side" />
-                    </div>
-                    <div className="bottom-row">
-                        <div className="inforad">
-                            <Normaltekst id="kandidatliste-antall-kandidater">{kandidater.length !== 1 ? `${kandidater.length} kandidater` : '1 kandidat'}</Normaltekst>
-                            {oppdragsgiver && <Normaltekst id="kandidatliste-oppdragsgiver">Oppdragsgiver: {oppdragsgiver}</Normaltekst>}
-                        </div>
-                    </div>
-                </div>
-            </PageHeader>
-        );
 
         const DisabledSlettKnapp = () => (
             <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
@@ -208,119 +354,15 @@ class KandidatlisteDetalj extends React.Component {
             </div>
         );
 
-        const SynligKandidatPanel = ({ kandidat }) => (
-            <div className="tr">
-                <div className="KandidatlisteDetalj__panel">
-                    <div className="KandidatlisteDetalj__panel--first td">
-                        <div className="skjemaelement skjemaelement--horisontal text-hide skjemaelement--pink">
-                            <input
-                                type="checkbox"
-                                title="Marker"
-                                id={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                                className="skjemaelement__input checkboks"
-                                aria-label={`Marker kandidat ${fornavnOgEtternavnFraKandidat(kandidat)}`}
-                                checked={kandidat.checked}
-                                onChange={() => this.props.toggleKandidatChecked(kandidat.kandidatnr)}
-                            />
-                            <label
-                                className="skjemaelement__label"
-                                htmlFor={`marker-kandidat-checkbox-${kandidat.kandidatnr}`}
-                                aria-hidden="true"
-                            >
-                                .
-                            </label>
-                        </div>
-                        <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${this.props.kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
-                            {fornavnOgEtternavnFraKandidat(kandidat)}
-                        </Link>
-                    </div>
-                    <Normaltekst className="KandidatlisteDetalj__panel--second arbeidserfaring">{kandidat.sisteArbeidserfaring}</Normaltekst>
-                    <div className="KandidatlisteDetalj__panel--notater">
-                        <Lenkeknapp
-                            onClick={() => {
-                                this.props.setViewStateKandidat(
-                                    kandidat.kandidatnr,
-                                    kandidat.viewState === KandidatState.NOTATER_VISES ? KandidatState.LUKKET : KandidatState.NOTATER_VISES
-                                );
-                            }}
-                            className="legg-til-kandidat Notat"
-                        >
-                            <i className="Notat__icon" />
-                            {/* {antallNotater} */}
-                            1
-                            <NavFrontendChevron type={kandidat.viewState === KandidatState.NOTATER_VISES ? 'opp' : 'ned'} />
-                        </Lenkeknapp>
-                    </div>
-                </div>
-
-                <div className="KandidatlisteDetalj__panel">
-                    <div className="KandidatlisteDetalj__panel--first td" />
-                    <div className="KandidatlisteDetalj__panel--second td">
-                        { kandidat.viewState === KandidatState.NOTATER_VISES &&
-                            <Notater
-                                notater={kandidat.notater}
-                                kandidatlisteId={this.props.kandidatliste.kandidatlisteId}
-                                kandidatnr={kandidat.kandidatnr}
-                                antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : 1}
-                            />
-                        }
-                    </div>
-                    <div className="KandidatlisteDetalj__panel--notater" />
-                </div>
-            </div>
-        );
-
-        const IkkeSynligKandidatPanel = ({ kandidat }) => (
-            <div className="KandidatlisteDetalj__panel__ikke_synlig tr">
-                <div className="KandidatlisteDetalj__panel--first td" >
-                    <div className="text-hide">
-                        <input
-                            type="checkbox"
-                            id={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
-                            className="skjemaelement__input checkboks"
-                            aria-label="Kandidat ikke synlig"
-                            disabled
-                        />
-                        <label
-                            className="skjemaelement__label"
-                            htmlFor={`marker-kandidat-checkbox-disabled-${kandidat.kandidatnr}`}
-                            aria-hidden="true"
-                        >
-                            .
-                        </label>
-                    </div>
-                    <Normaltekst>
-                        Kandidaten er inaktiv og ikke aktuell for jobb
-                    </Normaltekst>
-                </div>
-                <Knapp
-                    className="knapp--fjern-kandidat"
-                    mini
-                    onClick={() => this.onFjernKandidat(kandidat)}
-                >
-                    Fjern kandidat
-                </Knapp>
-            </div>
-        );
-
-        const erSynligFlaggIkkeSatt = (kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
-
-        const KandidatListe = () => (
-            <div className="tbody">
-                {kandidater && kandidater.map((kandidat) => {
-                    if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
-                        return (
-                            <SynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-synlig`} />
-                        );
-                    }
-                    return <IkkeSynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-ikke`} />;
-                })}
-            </div>
-        );
 
         return (
             <div id="KandidaterDetalj">
-                <Header />
+                <Header
+                    tittel={tittel}
+                    beskrivelse={beskrivelse}
+                    oppdragsgiver={oppdragsgiver}
+                    antallKandidater={kandidater.length}
+                />
                 <HjelpetekstFading
                     synlig={visSlettSuccessMelding}
                     type="suksess"
@@ -331,7 +373,12 @@ class KandidatlisteDetalj extends React.Component {
                         <Knapper />
                         <div className="table">
                             <KandidatListeToppRad />
-                            <KandidatListe />
+                            <KandidatListe
+                                kandidatliste={this.props.kandidatliste}
+                                toggleKandidatChecked={this.props.toggleKandidatChecked}
+                                setViewStateKandidat={this.props.setViewStateKandidat}
+                                onFjernKandidat={this.onFjernKandidat}
+                            />
                         </div>
                     </div>
 
@@ -356,25 +403,7 @@ class KandidatlisteDetalj extends React.Component {
 }
 
 KandidatlisteDetalj.propTypes = {
-    kandidatliste: PropTypes.shape({
-        tittel: PropTypes.string,
-        kandidatlisteId: PropTypes.string,
-        beskrivelse: PropTypes.string,
-        organisasjonNavn: PropTypes.string,
-        oppdragsgiver: PropTypes.string,
-        allChecked: PropTypes.bool,
-        kandidater: PropTypes.arrayOf(
-            PropTypes.shape({
-                lagtTilAv: PropTypes.string,
-                kandidatnr: PropTypes.string,
-                sisteArbeidserfaring: PropTypes.string,
-                fornavn: PropTypes.string,
-                etternavn: PropTypes.string,
-                erSynlig: PropTypes.bool.isRequired,
-                checked: PropTypes.bool
-            })
-        )
-    }).isRequired,
+    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
     sletteStatus: PropTypes.string.isRequired,
     slettKandidater: PropTypes.func.isRequired,
     clearKandidatliste: PropTypes.func.isRequired,
