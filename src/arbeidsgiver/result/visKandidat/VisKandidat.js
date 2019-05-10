@@ -173,8 +173,8 @@ class VisKandidat extends React.Component {
     render() {
         const { cv, antallKandidater, hentStatus, kandidater } = this.props;
 
-        const profilUrlForrigePostfix = USE_JANZZ ? `&profilId=${this.state.forrigeProfil}&sisteSokId=${this.sisteSokId}` : ""
-        const profilUrlNestePostfix = USE_JANZZ ? `&profilId=${this.state.nesteProfil}&sisteSokId=${this.sisteSokId}` : ""
+        const profilUrlForrigePostfix = USE_JANZZ && this.sisteSokId && this.state.forrigeProfil ? `&profilId=${this.state.forrigeProfil}&sisteSokId=${this.sisteSokId}` : ""
+        const profilUrlNestePostfix = USE_JANZZ && this.sisteSokId && this.state.nesteProfil ? `&profilId=${this.state.nesteProfil}&sisteSokId=${this.sisteSokId}` : ""
         const forrigeKandidatLink = 
             this.state.forrigeKandidat 
             ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}${profilUrlForrigePostfix}` 
