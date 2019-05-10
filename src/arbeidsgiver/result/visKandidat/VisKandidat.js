@@ -31,7 +31,10 @@ class VisKandidat extends React.Component {
             suksessmeldingLagreKandidatVises: false,
             gjeldendeKandidat: this.gjeldendeKandidatIListen(getUrlParameterByName('kandidatNr', window.location.href)),
             forrigeKandidat: this.forrigeKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
-            nesteKandidat: this.nesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href))
+            nesteKandidat: this.nesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            nesteProfil: this.nesteProfilIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            forrigeProfil: this.forrigeProfilIListen(getUrlParameterByName('kandidatNr', window.location.href)),
+            
         };
 
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
@@ -40,6 +43,9 @@ class VisKandidat extends React.Component {
     }
 
     componentDidMount() {
+        if(USE_JANZZ) {
+            document.title = "Kandidatmatch - Arbeidsplassen - Cv"
+        }
         this.props.hentCvForKandidat(this.kandidatnummer, this.profilId, this.sisteSokId);
         this.props.settValgtKandidat(this.kandidatnummer);
 
@@ -56,22 +62,28 @@ class VisKandidat extends React.Component {
 
         if (prevProps.kandidater.length < this.props.kandidater.length) {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
+            this.setState({ nesteProfil: this.nesteProfilIListen(this.kandidatnummer) });
         }
 
         const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        const currentUrlSisteSokId = getUrlParameterByName('sisteSokId', window.location.href);
+        const currentUrlProfilId = getUrlParameterByName('profilId', window.location.href);
+
         if (this.kandidatnummer !== currentUrlKandidatnummer && currentUrlKandidatnummer !== undefined) {
             this.kandidatnummer = currentUrlKandidatnummer;
             this.props.settValgtKandidat(this.kandidatnummer);
-            this.props.hentCvForKandidat(this.kandidatnummer);
+            this.props.hentCvForKandidat(this.kandidatnummer, currentUrlProfilId, currentUrlSisteSokId);
             this.setState({ gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer) });
         }
 
         if (this.state.gjeldendeKandidat !== prevState.gjeldendeKandidat) {
             this.setState({ forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer) });
-            if (this.state.gjeldendeKandidat === this.props.kandidater.length && this.props.kandidater.length < this.props.antallKandidater) {
+            this.setState({ forrigeProfil: this.forrigeProfilIListen(this.kandidatnummer) });
+            if (this.state.gjeldendeKandidat === this.props.kandidater.length && this.props.kandidater.length < this.props.antallKandidater && !USE_JANZZ) {
                 this.props.lastFlereKandidater();
             } else {
                 this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
+                this.setState({ nesteProfil: this.nesteProfilIListen(this.kandidatnummer) });
             }
         }
     }
@@ -134,6 +146,14 @@ class VisKandidat extends React.Component {
         return this.props.kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
+    forrigeProfilIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
+            return undefined;
+        }
+        return this.props.kandidater[gjeldendeIndex - 1].profilId;
+    };
+
     nesteKandidatnummerIListen = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
         if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
@@ -142,10 +162,27 @@ class VisKandidat extends React.Component {
         return this.props.kandidater[gjeldendeIndex + 1].arenaKandidatnr;
     };
 
+    nesteProfilIListen = (kandidatnummer) => {
+        const gjeldendeIndex = this.props.kandidater.findIndex((element) => (element.arenaKandidatnr === kandidatnummer));
+        if (gjeldendeIndex === (this.props.kandidater.length - 1)) {
+            return undefined;
+        }
+        return this.props.kandidater[gjeldendeIndex + 1].profilId;
+    };
+
     render() {
-        const { cv, antallKandidater, hentStatus } = this.props;
-        const forrigeKandidatLink = this.state.forrigeKandidat ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}` : undefined;
-        const nesteKandidatLink = this.state.nesteKandidat ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.nesteKandidat}` : undefined;
+        const { cv, antallKandidater, hentStatus, kandidater } = this.props;
+
+        const profilUrlForrigePostfix = USE_JANZZ ? `&profilId=${this.state.forrigeProfil}&sisteSokId=${this.sisteSokId}` : ""
+        const profilUrlNestePostfix = USE_JANZZ ? `&profilId=${this.state.nesteProfil}&sisteSokId=${this.sisteSokId}` : ""
+        const forrigeKandidatLink = 
+            this.state.forrigeKandidat 
+            ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}${profilUrlForrigePostfix}` 
+            : undefined;
+        const nesteKandidatLink = 
+            this.state.nesteKandidat 
+            ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.nesteKandidat}${profilUrlNestePostfix}` 
+            : undefined;
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -173,9 +210,8 @@ class VisKandidat extends React.Component {
                     gjeldendeKandidat={this.state.gjeldendeKandidat}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
-                    antallKandidater={antallKandidater}
+                    antallKandidater={USE_JANZZ ? kandidater.length : antallKandidater}
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
-                    visNavigasjon={!USE_JANZZ}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
                     <div className="cvIkkeFunnet">
@@ -202,15 +238,15 @@ class VisKandidat extends React.Component {
                         )}
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
-                        {!USE_JANZZ && <div className="navigering-forrige-neste_wrapper">
+                       <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
                                 lenkeClass="VisKandidat__ForrigeNeste"
                                 gjeldendeKandidat={this.state.gjeldendeKandidat}
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
-                                antallKandidater={antallKandidater}
+                                antallKandidater={USE_JANZZ ? kandidater.length : antallKandidater}
                             />
-                        </div>}
+                        </div>
                     </div>
                 )}
             </div>
