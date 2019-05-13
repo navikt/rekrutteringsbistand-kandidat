@@ -5,66 +5,120 @@ import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendModal from 'nav-frontend-modal';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
 import { EndreType, KandidatlisteTypes, Notat, Notater } from './kandidatlisteReducer';
+import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import './Notater.less';
 
-const NotatRad: FunctionComponent<{ notat: Notat, setModalState: (ModalState) => void }> = ({ notat, setModalState }) => (
-    <div>
-        <p>{notat.tekst}</p>
-        <button onClick={() => { setModalState(redigereModalState(notat, notat.tekst))}}>Rediger</button>
-        <button onClick={() => { setModalState(sletteModalState(notat))}}>Slett</button>
+const NotatVisning : FunctionComponent<{ notat: Notat }> = ({ notat }) => (
+    <div className="NotatVisning">
+        <span className="typo-undertekst">{`${formatterDato(new Date(notat.lagtTilTidspunkt))} kl. ${formatterTid(new Date(notat.lagtTilTidspunkt))}`}</span>
+        { notat.notatEndret && <span className="typo-undertekst"> - </span>}
+        { notat.notatEndret && <span className="NotatVisning-redigert-tag typo-undertekst">redigert</span>}
+        <Normaltekst className="NotatVisning-tekst">{notat.tekst}</Normaltekst>
     </div>
 );
 
-const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModalState: (ModalState) => void }> = ({ notater, setModalState}) => {
+const NotatRad: FunctionComponent<{ notat: Notat, setModalState: (ModalState) => void }> = ({ notat, setModalState }) => (
+    <div className="NotatRad">
+        <NotatVisning notat={notat} />
+        <div className="NotatRad-knapper">
+            <Lenkeknapp className="Edit " onClick={() => { setModalState(redigereModalState(notat, notat.tekst))}}>
+                <i className="Edit__icon" />
+            </Lenkeknapp>
+            <Lenkeknapp className="Delete" onClick={() => { setModalState(sletteModalState(notat))}}>
+                <i className="Delete__icon" />
+            </Lenkeknapp>
+        </div>
+    </div>
+);
+
+const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModalState: (ModalState) => void, hentNotater: () => void, antallNotater: number}> = ({ notater, setModalState, hentNotater, antallNotater }) => {
     switch (notater.kind) {
         case RemoteDataTypes.SUCCESS:
-            return (
-                <div>
-                    {notater.data.map(notat => <NotatRad key={`notat-${notat.notatId}`} notat={notat} setModalState={setModalState} />)}
-                </div>
-            );
+            if (notater.data.length > 0) {
+                return (
+                    <div className="Notatliste Notatliste-top-border">
+                        {notater.data.map(notat => <NotatRad key={`notat-${notat.notatId}`} notat={notat} setModalState={setModalState} />)}
+                    </div>
+                );
+            }
+            return null;
 
         case RemoteDataTypes.LOADING:
-            return <p>spinner</p>;
+            if (antallNotater > 0) {
+                return (
+                    <div className="Notatliste Notatliste-spinner-wrapper">
+                        <NavFrontendSpinner />
+                    </div>
+                );
+            }
+            return null;
+
+        case RemoteDataTypes.FAILURE:
+            // TODO: Endre design på feilmelding
+            return (
+                <div className="Notatliste">
+                    <Normaltekst>
+                        Beklager, notatene kan ikke vises. Trykk på knappen under for å prøve igjen.
+                    </Normaltekst>
+                    <Knapp onClick={hentNotater}>
+                        Prøv igjen
+                    </Knapp>
+                </div>
+            );
 
         default:
             return null;
     }
 };
 
-type NyttNotatState = { open: false } | { open: true, value: string }
+type NyttNotatState = { open: false } | { open: true, venterPaLagring: boolean, value: string }
 
 const lukketNotatFelt: () => NyttNotatState = () => ({
     open: false
 });
 
-const apentNotatFelt: (string) => NyttNotatState = (value: string) => ({
+const apentNotatFelt: (string, boolean?) => NyttNotatState = (value: string, venterPaLagring = false) => ({
     open: true,
+    venterPaLagring,
     value
 });
 
 const NyttNotat: FunctionComponent<{ opprettNotat: (string) => void, opprettState: RemoteData<undefined> }> = ({ opprettNotat, opprettState }) => {
     const [nyttNotatState, setNyttNotatState] = useState(lukketNotatFelt());
     useEffect(() => {
-        if (opprettState.kind === RemoteDataTypes.SUCCESS && nyttNotatState.open) {
+        if (opprettState.kind === RemoteDataTypes.SUCCESS && nyttNotatState.open && nyttNotatState.venterPaLagring) {
             setNyttNotatState(lukketNotatFelt());
         }
     }, [opprettState, nyttNotatState]);
 
     if (nyttNotatState.open) {
+        const onLagreClick = () => {
+            if (!nyttNotatState.venterPaLagring) {
+                setNyttNotatState(apentNotatFelt(nyttNotatState.value, true));
+                opprettNotat(nyttNotatState.value);
+            }
+        };
         return (
             <div className="RedigerNotat">
                 <Textarea
                     label="Skriv inn notat"
                     value={nyttNotatState.value}
-                    textareaClass="NyttNotat-tekstfelt"
+                    textareaClass="RedigerNotat-tekstfelt"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setNyttNotatState(apentNotatFelt(e.target.value))
                     }}
                 />
-                <Hovedknapp mini onClick={() => { opprettNotat(nyttNotatState.value) }} className="RedigerNotat-hovedknapp">Lagre</Hovedknapp>
+                <Hovedknapp
+                    mini
+                    onClick={onLagreClick}
+                    className="RedigerNotat-hovedknapp"
+                    spinner={nyttNotatState.venterPaLagring}>
+                    Lagre
+                </Hovedknapp>
                 <Flatknapp mini onClick={() => { setNyttNotatState(lukketNotatFelt()) }}>Avbryt</Flatknapp>
             </div>
         )
@@ -80,22 +134,24 @@ enum ModalStateType {
 }
 
 interface LukketModalState { kind : ModalStateType.LUKKET }
-interface RedigereModalState { kind : ModalStateType.REDIGERE_MODAL_AAPEN, notat: Notat, tekst: string }
-interface SletteModalState { kind : ModalStateType.SLETTE_MODAL_AAPEN, notat: Notat }
+interface RedigereModalState { kind : ModalStateType.REDIGERE_MODAL_AAPEN, notat: Notat, tekst: string, venterPaLagring: boolean }
+interface SletteModalState { kind : ModalStateType.SLETTE_MODAL_AAPEN, notat: Notat, venterPaLagring: boolean  }
 
 const lukketModalState : () => ModalState = () => ({
     kind : ModalStateType.LUKKET
 });
 
-const redigereModalState : (Notat, string) => ModalState = (notat, tekst) => ({
+const redigereModalState : (Notat, string, boolean?) => ModalState = (notat, tekst, venterPaLagring = false) => ({
     kind : ModalStateType.REDIGERE_MODAL_AAPEN,
     notat,
-    tekst
+    tekst,
+    venterPaLagring
 });
 
-const sletteModalState : (Notat) => ModalState = (notat) => ({
+const sletteModalState : (Notat, boolean?) => ModalState = (notat, venterPaLagring = false) => ({
     kind : ModalStateType.SLETTE_MODAL_AAPEN,
-    notat
+    notat,
+    venterPaLagring
 });
 
 type ModalState = LukketModalState | RedigereModalState | SletteModalState
@@ -103,57 +159,84 @@ type ModalState = LukketModalState | RedigereModalState | SletteModalState
 interface RedigerNotatModalProps {
     notat: Notat,
     tekst: string,
+    loading: boolean,
     setModalState : (ModalState) => void,
-    redigerNotat: (notatId: string, tekst: string) => void
+    redigerNotat: (notat: Notat, tekst: string) => void
 }
 
-const RedigerNotatModal : FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, setModalState, redigerNotat }) => (
-    <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
-        <div className="NotatModal RedigerNotat">
-            <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
-            <Textarea
-                label="Skriv inn notat"
-                value={tekst}
-                // className="NotatModal-tekstfelt-wrapper"
-                textareaClass="NyttNotat-tekstfelt"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
-            />
-            <Hovedknapp onClick={() => {redigerNotat(notat.notatId, tekst) }} className="RedigerNotat-hovedknapp">Lagre</Hovedknapp>
-            <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
-        </div>
-    </NavFrontendModal>
-);
+const RedigerNotatModal : FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, loading, setModalState, redigerNotat }) => {
+    const onLagreClick = () => {
+        if (!loading) {
+            setModalState(redigereModalState(notat, tekst, true));
+            redigerNotat(notat, tekst);
+        }
+    };
+    return (
+        <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
+            <div className="NotatModal RedigerNotat">
+                <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
+                <Textarea
+                    label="Skriv inn notat"
+                    value={tekst}
+                    textareaClass="RedigerNotat-tekstfelt"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
+                />
+                <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Lagre</Hovedknapp>
+                <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
+            </div>
+        </NavFrontendModal>
+    );
+};
 
 interface SlettNotatModalProps {
     notat: Notat,
+    loading: boolean,
     setModalState : (ModalState) => void,
-    slettNotat: (notatId: string) => void
+    slettNotat: (notat: Notat) => void
 }
 
-const SlettNotatModal : FunctionComponent<SlettNotatModalProps> = ({ notat, setModalState, slettNotat }) => (
-    <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
-        <div className="NotatModal">
-            <Systemtittel className="NotatModal-tittel">Slett notat</Systemtittel>
-            <Normaltekst>Er du sikker på at du ønsker å slette notatet?</Normaltekst>
-            <Hovedknapp onClick={() => {slettNotat(notat.notatId) }} className="RedigerNotat-hovedknapp">Lagre</Hovedknapp>
-            <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
-        </div>
-    </NavFrontendModal>
-);
+const SlettNotatModal : FunctionComponent<SlettNotatModalProps> = ({ notat, loading, setModalState, slettNotat }) => {
+    const onLagreClick = () => {
+        if (!loading) {
+            setModalState(sletteModalState(notat, true));
+            slettNotat(notat)
+        }
+    };
+    return (
+        <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
+            <div className="NotatModal">
+                <Systemtittel className="NotatModal-tittel">Slett notat</Systemtittel>
+                <Normaltekst className="NotatModal-beskrivelse">Er du sikker på at du ønsker å slette notatet?</Normaltekst>
+                <NotatVisning notat={notat}/>
+                <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Slett</Hovedknapp>
+                <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
+            </div>
+        </NavFrontendModal>
+    );
+};
 
 interface ModalerProps {
     modalState: ModalState,
     setModalState: (ModalState) => void
-    redigerNotat: (notatId: string, tekst: string) => void,
-    slettNotat: (notatId: string) => void,
+    redigerNotat: (notat: Notat, tekst: string) => void,
+    slettNotat: (notat: Notat) => void,
+    notater: Notater
 }
 
-const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, redigerNotat, slettNotat  }) => {
+const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, redigerNotat, slettNotat, notater }) => {
+    useEffect(() => {
+        if ((modalState.kind === ModalStateType.REDIGERE_MODAL_AAPEN && modalState.venterPaLagring && notater.redigerState.kind === RemoteDataTypes.SUCCESS)
+            || (modalState.kind === ModalStateType.SLETTE_MODAL_AAPEN && modalState.venterPaLagring && notater.slettState.kind === RemoteDataTypes.SUCCESS)) {
+            setModalState(lukketModalState());
+        }
+    }, [notater, modalState]);
+
     if (modalState.kind === ModalStateType.REDIGERE_MODAL_AAPEN) {
         return (
             <RedigerNotatModal
                 notat={modalState.notat}
                 tekst={modalState.tekst}
+                loading={modalState.venterPaLagring}
                 setModalState={setModalState}
                 redigerNotat={redigerNotat}
             />
@@ -162,6 +245,7 @@ const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, r
         return (
             <SlettNotatModal
                 notat={modalState.notat}
+                loading={modalState.venterPaLagring}
                 setModalState={setModalState}
                 slettNotat={slettNotat}
             />
@@ -177,17 +261,13 @@ interface Props {
     kandidatnr: string,
     hentNotater: () => void,
     opprettNotat: (tekst: string) => void,
-    redigerNotat: (notatId: string, tekst: string) => void,
-    slettNotat: (notatId: string) => void,
+    redigerNotat: (notat: Notat, tekst: string) => void,
+    slettNotat: (notat: Notat) => void,
     resetEndreNotatState: (endreType: EndreType) => void
 }
 
-const Notater : FunctionComponent<Props> = ({ notater, antallNotater, kandidatlisteId, kandidatnr, hentNotater, opprettNotat, redigerNotat, slettNotat }) => {
-    useEffect(() => {
-        if (notater.notater.kind === RemoteDataTypes.NOT_ASKED) {
-            hentNotater()
-        }
-    }, [kandidatlisteId, kandidatnr, notater]);
+const Notater : FunctionComponent<Props> = ({ notater, antallNotater, hentNotater, opprettNotat, redigerNotat, slettNotat }) => {
+    useEffect(() => { hentNotater() }, []);
     const [ modalState, setModalState ] = useState(lukketModalState());
 
     return (
@@ -197,6 +277,7 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, kandidatli
                 setModalState={setModalState}
                 redigerNotat={redigerNotat}
                 slettNotat={slettNotat}
+                notater={notater}
             />
             <div>
                 <Element className="Notater-overskrift">Notater ({antallNotater})</Element>
@@ -208,7 +289,7 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, kandidatli
                 <Normaltekst className="Notater-beskrivelse">Notatene blir automatisk slettet etter 3 måneder.</Normaltekst>
 
                 <NyttNotat opprettNotat={opprettNotat} opprettState={notater.opprettState} />
-                <Notatliste notater={notater.notater} setModalState={setModalState} />
+                <Notatliste notater={notater.notater} setModalState={setModalState} hentNotater={hentNotater} antallNotater={antallNotater} />
             </div>
         </div>
     );
@@ -217,8 +298,8 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, kandidatli
 const mapDispatchToProps = (dispatch, { kandidatlisteId, kandidatnr }) => ({
     hentNotater: () => dispatch({ type: KandidatlisteTypes.HENT_NOTATER, kandidatlisteId, kandidatnr }),
     opprettNotat: (tekst: string) => dispatch({ type: KandidatlisteTypes.OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst}),
-    redigerNotat: (notatId: string, tekst: string) => dispatch({ type: KandidatlisteTypes.REDIGER_NOTAT, kandidatlisteId, kandidatnr, notatId, tekst}),
-    slettNotat: (notatId: string) => dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId}),
+    redigerNotat: (notat: Notat, tekst: string) => dispatch({ type: KandidatlisteTypes.REDIGER_NOTAT, kandidatlisteId, kandidatnr, notat, tekst}),
+    slettNotat: (notat: Notat) => dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notat }),
     resetEndreNotatState: (endreType: EndreType) => dispatch({ type: 'RESET_ENDRE_NOTAT_STATE', kandidatlisteId, kandidatnr, endreType })
 });
 

@@ -1,10 +1,26 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { deleteKandidater, fetchKandidatliste, fetchNotater, SearchApiError } from '../sok/api';
+import {
+    deleteKandidater,
+    deleteNotat,
+    fetchKandidatliste,
+    fetchNotater,
+    postNotat,
+    putNotat,
+    SearchApiError
+} from '../sok/api';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
-import { Loading, NotAsked, RemoteData, RemoteDataTypes, ResponseData, Success } from '../../felles/common/remoteData';
+import {
+    Loading,
+    mapRemoteData,
+    NotAsked,
+    RemoteData,
+    RemoteDataTypes,
+    ResponseData,
+    Success
+} from '../../felles/common/remoteData';
 
 /** *********************************************************
  * ACTIONS
@@ -81,29 +97,42 @@ export interface HentNotaterFerdigAction {
 
 export interface OpprettNotatAction {
     type: KandidatlisteTypes.OPPRETT_NOTAT;
+    kandidatlisteId: string
+    kandidatnr: string
+    tekst: string
 }
 
 export interface OpprettNotatFerdigAction {
     type: KandidatlisteTypes.OPPRETT_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
+    kandidatnr: string
 }
 
 export interface RedigerNotatAction {
     type: KandidatlisteTypes.REDIGER_NOTAT;
+    kandidatlisteId: string
+    kandidatnr: string
+    notat: Notat
+    tekst: string
 }
 
 export interface RedigerNotatFerdigAction {
     type: KandidatlisteTypes.REDIGER_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
+    kandidatnr: string
 }
 
 export interface SlettNotatAction {
     type: KandidatlisteTypes.SLETT_NOTAT;
+    kandidatlisteId: string
+    kandidatnr: string
+    notat: Notat
 }
 
 export interface SlettNotatFerdigAction {
     type: KandidatlisteTypes.SLETT_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
+    kandidatnr: string
 }
 
 export enum UpdateKandidatIListeStateTypes {
@@ -176,18 +205,22 @@ export interface KandidatResponse {
     fornavn: string;
     etternavn: string;
     erSynlig: boolean;
+    antallKandidater: number;
 }
 
 export interface Notat {
     notatId: string
     tekst: string
+    lagtTilTidspunkt: string
+    sistEndretTidspunkt: string
+    notatEndret: boolean
 }
 
 export interface Notater {
     notater: RemoteData<Array<Notat>>,
-    opprettState: RemoteData<undefined>,
-    redigerState: RemoteData<undefined>,
-    slettState: RemoteData<undefined>
+    opprettState: RemoteData<any>,
+    redigerState: RemoteData<any>,
+    slettState: RemoteData<any>
 }
 
 export enum KandidatState {
@@ -287,39 +320,48 @@ const updateKandidatState: (kandidatliste: RemoteData<KandidatlisteDetaljer>, ch
     if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
         return kandidatliste;
     }
-    return Success({
-        ...kandidatliste.data,
-        allChecked: change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED ? change.checked : kandidatliste.data.allChecked,
-        kandidater: kandidatliste.data.kandidater.map((kandidat) => {
-            if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_SET_VIEW_STATE) {
-                if (kandidat.kandidatnr === change.kandidatnr) {
-                    return {
-                        ...kandidat,
-                        viewState: change.state
-                    };
-                } else {
-                    return {
-                        ...kandidat,
-                        viewState: KandidatState.LUKKET
-                    };
-                }
-            } else if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED && kandidat.kandidatnr === change.kandidatnr) {
+    const kandidater = kandidatliste.data.kandidater.map((kandidat) => {
+        if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_SET_VIEW_STATE) {
+            if (kandidat.kandidatnr === change.kandidatnr) {
                 return {
                     ...kandidat,
-                    checked: !kandidat.checked
+                    viewState: change.state
                 };
-            } else if (change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED) {
+            } else {
                 return {
                     ...kandidat,
-                    checked: change.checked
+                    viewState: KandidatState.LUKKET
                 };
             }
-            return kandidat;
-        })
+        } else if (change.type === UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED && kandidat.kandidatnr === change.kandidatnr) {
+            return {
+                ...kandidat,
+                checked: !kandidat.checked
+            };
+        } else if (change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED) {
+            return {
+                ...kandidat,
+                checked: change.checked
+            };
+        }
+        return kandidat;
+    });
+    const allChecked = () => {
+        if (kandidater.filter((kandidat) => !kandidat.checked).length !== 0) {
+            return false;
+        } else if (change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED) {
+            return change.checked
+        }
+        return kandidatliste.data.allChecked;
+    };
+    return Success({
+        ...kandidatliste.data,
+        allChecked: allChecked(),
+        kandidater
     });
 };
 
-const setNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, notater: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, notater: RemoteData<Array<Notat>>) => {
+const mapNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, transform: (Notater) => Notater) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, transform) => {
     if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
         return Success({
             ...kandidatliste.data,
@@ -327,10 +369,7 @@ const setNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>,
                 if (kandidat.kandidatnr === kandidatnr) {
                     return {
                         ...kandidat,
-                        notater: {
-                            ...kandidat.notater,
-                            notater: notater
-                        }
+                        notater: transform(kandidat.notater)
                     }
                 }
                 return kandidat;
@@ -339,6 +378,37 @@ const setNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>,
     }
     return kandidatliste;
 };
+
+const setNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, notatliste: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, notatliste) => (
+    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater : Notater) => ({
+        ...notater,
+        notater: notatliste
+    }))
+);
+
+const oppdaterOpprettNotatStateForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, remoteData: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, remoteData) => (
+    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater: Notater) => ({
+        ...notater,
+        opprettState: remoteData,
+        notater: remoteData.kind === RemoteDataTypes.SUCCESS ? remoteData : notater.notater
+    }))
+);
+
+const oppdaterRedigerNotatStateForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, remoteData: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, remoteData) => (
+    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater: Notater) => ({
+        ...notater,
+        redigerState: remoteData,
+        notater: remoteData.kind === RemoteDataTypes.SUCCESS ? remoteData : notater.notater
+    }))
+);
+
+const oppdaterSlettNotatStateForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, remoteData: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, remoteData) => (
+    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater: Notater) => ({
+        ...notater,
+        slettState: remoteData,
+        notater: remoteData.kind === RemoteDataTypes.SUCCESS ? remoteData : notater.notater
+    }))
+);
 
 const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (state = initialState, action) => {
     switch (action.type) {
@@ -390,6 +460,36 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatliste: setNotaterForKandidat(state.kandidatliste, action.kandidatnr, action.notater)
             };
+        case KandidatlisteTypes.OPPRETT_NOTAT:
+            return {
+                ...state,
+                kandidatliste: oppdaterOpprettNotatStateForKandidat(state.kandidatliste, action.kandidatnr, Loading())
+            };
+        case KandidatlisteTypes.OPPRETT_NOTAT_FERDIG:
+            return {
+                ...state,
+                kandidatliste: oppdaterOpprettNotatStateForKandidat(state.kandidatliste, action.kandidatnr, action.notater)
+            };
+        case KandidatlisteTypes.REDIGER_NOTAT:
+            return {
+                ...state,
+                kandidatliste: oppdaterRedigerNotatStateForKandidat(state.kandidatliste, action.kandidatnr, Loading())
+            };
+        case KandidatlisteTypes.REDIGER_NOTAT_FERDIG:
+            return {
+                ...state,
+                kandidatliste: oppdaterRedigerNotatStateForKandidat(state.kandidatliste, action.kandidatnr, action.notater)
+            };
+        case KandidatlisteTypes.SLETT_NOTAT:
+            return {
+                ...state,
+                kandidatliste: oppdaterSlettNotatStateForKandidat(state.kandidatliste, action.kandidatnr, Loading())
+            };
+        case KandidatlisteTypes.SLETT_NOTAT_FERDIG:
+            return {
+                ...state,
+                kandidatliste: oppdaterSlettNotatStateForKandidat(state.kandidatliste, action.kandidatnr, action.notater)
+            };
         case KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE:
             return {
                 ...state,
@@ -437,7 +537,22 @@ function* slettKandidater(action: SlettKandidaterAction) {
 
 function* hentNotater(action: HentNotaterAction) {
     const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
-    yield put({ type: KandidatlisteTypes.HENT_NOTATER_FERDIG, notater: response, kandidatnr: action.kandidatnr });
+    yield put({ type: KandidatlisteTypes.HENT_NOTATER_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
+}
+
+function* opprettNotat(action: OpprettNotatAction) {
+    const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
+    yield put({ type: KandidatlisteTypes.OPPRETT_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
+}
+
+function* redigerNotat(action: RedigerNotatAction) {
+    const response = yield putNotat(action.kandidatlisteId, action.kandidatnr, action.notat, action.tekst);
+    yield put({ type: KandidatlisteTypes.REDIGER_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
+}
+
+function* slettNotat(action: SlettNotatAction) {
+    const response = yield deleteNotat(action.kandidatlisteId, action.kandidatnr, action.notat);
+    yield put({ type: KandidatlisteTypes.SLETT_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
 function* sjekkError(action) {
@@ -448,6 +563,9 @@ export function* kandidatlisteDetaljerSaga() {
     yield takeLatest(KandidatlisteTypes.HENT_KANDIDATLISTE, hentKandidatListe);
     yield takeLatest(KandidatlisteTypes.SLETT_KANDIDATER, slettKandidater);
     yield takeLatest(KandidatlisteTypes.HENT_NOTATER, hentNotater);
+    yield takeLatest(KandidatlisteTypes.OPPRETT_NOTAT, opprettNotat);
+    yield takeLatest(KandidatlisteTypes.REDIGER_NOTAT, redigerNotat);
+    yield takeLatest(KandidatlisteTypes.SLETT_NOTAT, slettNotat);
     yield takeLatest([
             KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE,
             KandidatlisteTypes.SLETT_KANDIDATER_FAILURE

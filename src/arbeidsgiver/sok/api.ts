@@ -95,6 +95,45 @@ async function fetchJsonMedType<T>(url : string) : Promise<ResponseData<T>> {
     }
 }
 
+async function postJsonMedType<T>(url : string, payload?: string) : Promise<ResponseData<T>> {
+    try {
+        const response : unknown = await postJson(url, payload);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
+async function putJsonMedType<T>(url : string, payload?: string) : Promise<ResponseData<T>> {
+    try {
+        const response : unknown = await putJson(url, payload);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
+async function deleteJsonMedType<T>(url : string) : Promise<ResponseData<T>> {
+    try {
+        const response : unknown = await deleteReq(url, undefined);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
 const getCookie = (name) => {
     const re = new RegExp(`${name}=([^;]+)`);
     const match = re.exec(document.cookie);
@@ -144,7 +183,9 @@ async function putJson(url, bodyString) {
             mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
-            return;
+            return response.json();
+        } else if (response.status === 204) {
+            return undefined;
         }
         throw new SearchApiError({
             status: response.status
@@ -244,9 +285,34 @@ export function fetchKandidatliste(kandidatlisteId) {
     return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
 }
 
-export async function fetchNotater(kandidatlisteId : string, kandidatnr : string) : Promise<ResponseData<Array<Notat>>> {
-    return fetchJsonMedType<Array<Notat>>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/${kandidatnr}/notater`);
+interface NotatResponse {
+    liste: Array<Notat>,
+    antallNotater: number
 }
+
+export async function fetchNotater(kandidatlisteId : string, kandidatnr : string) : Promise<ResponseData<NotatResponse>> {
+    return fetchJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`);
+}
+
+export async function postNotat(kandidatlisteId: string, kandidatnr: string, tekst: string): Promise<ResponseData<NotatResponse>> {
+    return postJsonMedType<NotatResponse>(
+        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`,
+        JSON.stringify({ tekst })
+    );
+}
+
+export async function putNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat, tekst: string): Promise<ResponseData<NotatResponse>> {
+    return putJsonMedType<NotatResponse>(
+        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`,
+        JSON.stringify({ tekst })
+    );
+}
+
+export async function deleteNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat): Promise<ResponseData<NotatResponse>> {
+    return deleteJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`);
+}
+
+
 
 export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
     return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));

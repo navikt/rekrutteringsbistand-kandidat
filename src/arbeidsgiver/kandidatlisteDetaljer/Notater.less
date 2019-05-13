@@ -16,8 +16,43 @@
   .RedigerNotat-tekstfelt {
     min-height: 7rem;
   }
-  .RedigerNotat-hovedknapp {
-    margin-right: 1rem;
+}
+
+.RedigerNotat-hovedknapp {
+  margin-right: 1rem;
+}
+
+.Notatliste {
+  margin-top: 1.25rem;
+  &.Notatliste-top-border {
+    border-top: 1px solid #d8d8d8;
+  }
+  &.Notatliste-spinner-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .NotatRad {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #d8d8d8;
+
+    .NotatRad-knapper {
+      .Edit {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.NotatVisning {
+  color: #062140;
+  .NotatVisning-redigert-tag {
+    color: #c30000;
+  }
+  .NotatVisning-tekst {
+    margin-top: 0.25rem;
   }
 }
 
@@ -29,7 +64,15 @@
     margin-bottom: 2rem;
   }
 
+  .NotatModal-beskrivelse {
+    padding-bottom: 2rem;
+  }
+
   .RedigerNotat-tekstfelt {
     margin-bottom: 2.5rem;
+  }
+
+  .NotatVisning {
+    padding-bottom: 2rem;
   }
 }

@@ -31,7 +31,6 @@ const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandida
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
     : kandidat.kandidatnr);
 
-
 const Header = ({ beskrivelse, antallKandidater, oppdragsgiver, tittel }) => (
     <PageHeader>
         <div className="KandidatlisteDetalj__header">
@@ -128,8 +127,7 @@ const SynligKandidatPanel = ({ kandidat, kandidatliste, toggleKandidatChecked, s
                     className="legg-til-kandidat Notat"
                 >
                     <i className="Notat__icon" />
-                    {/* {antallNotater} */}
-                    1
+                    {kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : kandidat.antallNotater}
                     <NavFrontendChevron type={kandidat.viewState === KandidatState.NOTATER_VISES ? 'opp' : 'ned'} />
                 </Lenkeknapp>
             </div>
@@ -143,7 +141,7 @@ const SynligKandidatPanel = ({ kandidat, kandidatliste, toggleKandidatChecked, s
                     notater={kandidat.notater}
                     kandidatlisteId={kandidatliste.kandidatlisteId}
                     kandidatnr={kandidat.kandidatnr}
-                    antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : 1}
+                    antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : kandidat.antallNotater}
                 />
                 }
             </div>

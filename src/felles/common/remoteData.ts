@@ -49,3 +49,10 @@ export const Failure = (error: ApiError) : Failure => ({
 export type RemoteData<T> = NotAsked | Loading | Failure | Success<T>
 
 export type ResponseData<T> = Failure | Success<T>
+
+export function mapRemoteData<T, U>(remoteData : RemoteData<T>, func : (T) => U) : RemoteData<U> {
+    if (remoteData.kind === RemoteDataTypes.SUCCESS) {
+        return Success(func(remoteData.data));
+    }
+    return remoteData;
+};
