@@ -6,7 +6,6 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
 import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
@@ -195,11 +194,65 @@ const IkkeSynligKandidatPanel : FunctionComponent<IkkeSynligKandidatPanelProps> 
     </div>
 );
 
+const DisabledSlettKnapp = () => (
+    <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
+        <i className="Delete__icon" />
+        Slett
+    </div>
+);
+
+const Knapper : FunctionComponent<{ valgteKandidater: Array<Kandidat>, visSlettKandidaterModal: () => void }> = ({ valgteKandidater, visSlettKandidaterModal }) => {
+    if (valgteKandidater.length > 0) {
+        return (
+            <div className="KandidatlisteDetalj__knapperad">
+                <div className="KandidatlisteDetalj__knapperad--slett" aria-label="Knapp for sletting av markerte kandidater fra listen">
+                    <Lenkeknapp onClick={visSlettKandidaterModal} className="Delete">
+                        <i className="Delete__icon" />
+                        Slett
+                    </Lenkeknapp>
+                </div>
+            </div>
+        );
+    }
+    return (
+        <div className="KandidatlisteDetalj__knapperad">
+            <div className="KandidatlisteDetalj__knapperad--slett">
+                <HjelpetekstMidt
+                    id="marker-kandidater-hjelpetekst"
+                    anchor={DisabledSlettKnapp}
+                    tittel="Slett markerte kandidater"
+                >
+                    Du må huke av for kandidatene du ønsker å slette
+                </HjelpetekstMidt>
+            </div>
+        </div>
+    );
+};
+
+const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleClicked: (boolean) => void }> = ({ allChecked, markerAlleClicked }) => (
+    <div className="thead">
+        <div className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header th">
+            <div className="KandidatlisteDetalj__panel--first td">
+                <Checkbox
+                    className="skjemaelement--pink"
+                    id="marker-alle-kandidater-checkbox"
+                    title="Marker alle"
+                    label="Navn"
+                    aria-label="Marker alle kandidater"
+                    checked={allChecked}
+                    onChange={() => { markerAlleClicked(!allChecked); }}
+                />
+            </div>
+            <UndertekstBold className="KandidatlisteDetalj__panel--second arbeidserfaring td">Arbeidserfaring</UndertekstBold>
+            <UndertekstBold className="KandidatlisteDetalj__panel--notater td">Notater</UndertekstBold>
+        </div>
+    </div>
+);
 
 interface KandidatlisteDetaljProps {
     kandidatliste: KandidatlisteDetaljer,
     sletteStatus: string,
-    slettKandidater: (kandidatlisteId: string, kandidater: Array<{ kandidatnr: string}>) => void,
+    slettKandidater: (kandidater: Array<{ kandidatnr: string}>) => void,
     clearKandidatliste: () => void,
     nullstillSletteStatus:  () => void,
     toggleKandidatChecked: (kandidatnr: string) => void,
@@ -268,21 +321,13 @@ class KandidatlisteDetalj extends React.Component<KandidatlisteDetaljProps, Kand
         clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
     }
 
-    onFjernKandidat = (kandidat) => {
-        const enkelKandidatIListe = [kandidat];
-        this.props.slettKandidater(this.props.kandidatliste.kandidatlisteId, enkelKandidatIListe);
-    };
-
     slettMarkerteKandidater = () => {
-        const { kandidatlisteId, kandidater } = this.props.kandidatliste;
-        const markerteKandidater = kandidater.filter((k) => k.checked);
-        if (this.state.sletterKandidater) {
-            return;
-        }
-
-        if (kandidatlisteId && markerteKandidater.length > 0) {
-            this.props.slettKandidater(kandidatlisteId, markerteKandidater);
-            this.setState({ sletterKandidater: true, antallSlettedeKandidater: markerteKandidater.length });
+        if (!this.state.sletterKandidater) {
+            const markerteKandidater = this.props.kandidatliste.kandidater.filter((k) => k.checked);
+            if (markerteKandidater.length > 0) {
+                this.props.slettKandidater(markerteKandidater);
+                this.setState({ sletterKandidater: true, antallSlettedeKandidater: markerteKandidater.length });
+            }
         }
     };
 
@@ -298,71 +343,10 @@ class KandidatlisteDetalj extends React.Component<KandidatlisteDetaljProps, Kand
         this.setState({ visSlettSuccessMelding: false });
     };
 
-    visSlettKandidaterFeilmelding = () => {
-        this.setState({ visSlettKandidaterFeilmelding: true });
-    };
-
     render() {
         const { visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
         const { tittel, beskrivelse, oppdragsgiver, kandidater } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
-
-        const DisabledSlettKnapp = () => (
-            <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
-                <i className="Delete__icon" />
-                Slett
-            </div>
-        );
-
-        const Knapper = () => {
-            const { kandidatlisteId } = this.props.kandidatliste;
-            if (kandidatlisteId && valgteKandidater.length > 0) {
-                return (
-                    <div className="KandidatlisteDetalj__knapperad">
-                        <div className="KandidatlisteDetalj__knapperad--slett" aria-label="Knapp for sletting av markerte kandidater fra listen">
-                            <Lenkeknapp onClick={this.visSlettKandidaterModal} className="Delete">
-                                <i className="Delete__icon" />
-                                Slett
-                            </Lenkeknapp>
-                        </div>
-                    </div>
-                );
-            }
-            return (
-                <div className="KandidatlisteDetalj__knapperad">
-                    <div className="KandidatlisteDetalj__knapperad--slett">
-                        <HjelpetekstMidt
-                            id="marker-kandidater-hjelpetekst"
-                            anchor={DisabledSlettKnapp}
-                            tittel="Slett markerte kandidater"
-                        >
-                            Du må huke av for kandidatene du ønsker å slette
-                        </HjelpetekstMidt>
-                    </div>
-                </div>
-            );
-        };
-
-        const KandidatListeToppRad = () => (
-            <div className="thead">
-                <div className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header th">
-                    <div className="KandidatlisteDetalj__panel--first td">
-                        <Checkbox
-                            className="skjemaelement--pink"
-                            id="marker-alle-kandidater-checkbox"
-                            title="Marker alle"
-                            label="Navn"
-                            aria-label="Marker alle kandidater"
-                            checked={this.props.kandidatliste.allChecked}
-                            onChange={() => { this.props.markerAlleClicked(!this.props.kandidatliste.allChecked); }}
-                        />
-                    </div>
-                    <UndertekstBold className="KandidatlisteDetalj__panel--second arbeidserfaring td">Arbeidserfaring</UndertekstBold>
-                    <UndertekstBold className="KandidatlisteDetalj__panel--notater td">Notater</UndertekstBold>
-                </div>
-            </div>
-        );
-
 
         return (
             <div id="KandidaterDetalj">
@@ -379,14 +363,20 @@ class KandidatlisteDetalj extends React.Component<KandidatlisteDetaljProps, Kand
                 />
                 {kandidater.length > 0 ? (
                     <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
-                        <Knapper />
+                        <Knapper
+                            valgteKandidater={valgteKandidater}
+                            visSlettKandidaterModal={this.visSlettKandidaterModal}
+                        />
                         <div className="table">
-                            <KandidatListeToppRad />
+                            <KandidatListeToppRad
+                                allChecked={this.props.kandidatliste.allChecked}
+                                markerAlleClicked={this.props.markerAlleClicked}
+                            />
                             <KandidatListe
                                 kandidatliste={this.props.kandidatliste}
                                 toggleKandidatChecked={this.props.toggleKandidatChecked}
                                 setViewStateKandidat={this.props.setViewStateKandidat}
-                                onFjernKandidat={this.onFjernKandidat}
+                                onFjernKandidat={(kandidat) => { this.props.slettKandidater([kandidat]) }}
                             />
                         </div>
                     </div>
@@ -416,8 +406,8 @@ const mapStateToProps = (state, props) => ({
     sletteStatus: state.kandidatlisteDetaljer.sletteStatus
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater }),
+const mapDispatchToProps = (dispatch, { kandidatliste }) => ({
+    slettKandidater: (kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId: kandidatliste.kandidatlisteId, kandidater }),
     clearKandidatliste: () => dispatch({ type: KandidatlisteTypes.CLEAR_KANDIDATLISTE }),
     nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS }),
     toggleKandidatChecked: (kandidatnr) => dispatch({ type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE, change: { type: UpdateKandidatIListeStateTypes.KANDIDAT_TOGGLE_CHECKED, kandidatnr } }),
