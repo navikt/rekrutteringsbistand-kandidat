@@ -11,7 +11,7 @@ import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPe
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import { KandidatlisteTypes } from '../kandidatlisteDetaljer/kandidatlisteReducer.ts';
 import { SLETTE_STATUS } from '../../felles/konstanter';
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';

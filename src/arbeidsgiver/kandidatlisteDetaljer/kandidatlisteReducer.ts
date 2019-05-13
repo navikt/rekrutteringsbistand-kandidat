@@ -205,7 +205,7 @@ export interface KandidatResponse {
     fornavn: string;
     etternavn: string;
     erSynlig: boolean;
-    antallKandidater: number;
+    antallNotater: number;
 }
 
 export interface Notat {
@@ -235,6 +235,7 @@ interface KandidatExtension {
 }
 
 export interface KandidatlisteDetaljerBase {
+    kandidatlisteId: string;
     tittel: string;
     beskrivelse?: string;
     organisasjonNavn?: string;
@@ -245,7 +246,7 @@ interface KandidatlisteDetaljerResponseExtension {
     kandidater: Array<KandidatResponse>;
 }
 
-type Kandidat = KandidatResponse & KandidatExtension;
+export type Kandidat = KandidatResponse & KandidatExtension;
 
 interface KandidatlisteDetaljerExtension {
     allChecked: boolean;

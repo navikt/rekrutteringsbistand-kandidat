@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -10,17 +10,22 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
-import TilbakeLenke from '../common/TilbakeLenke';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
-import PageHeader from '../../felles/common/PageHeaderWrapper';
-import TomListe from '../../felles/kandidatlister/TomListe';
-import Notater from './Notater.tsx';
+import TilbakeLenke from '../common/TilbakeLenke.js';
+import { RemoteDataTypes } from '../../felles/common/remoteData';
+import Lenkeknapp from '../../felles/common/Lenkeknapp.js';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.js';
+import PageHeader from '../../felles/common/PageHeaderWrapper.js';
+import TomListe from '../../felles/kandidatlister/TomListe.js';
+import Notater from './Notater';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
-import { KandidatlisteTypes, UpdateKandidatIListeStateTypes, KandidatState } from './kandidatlisteReducer.ts';
+import {
+    Kandidat,
+    KandidatlisteDetaljer,
+    KandidatlisteTypes,
+    KandidatState,
+    UpdateKandidatIListeStateTypes
+} from './kandidatlisteReducer';
 import { SLETTE_STATUS } from '../../felles/konstanter';
-import { KandidatlisteDetaljerPropType, KandidatPropTypes } from './propTypes';
 
 import '../kandidatlister/kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
@@ -31,7 +36,14 @@ const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandida
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
     : kandidat.kandidatnr);
 
-const Header = ({ beskrivelse, antallKandidater, oppdragsgiver, tittel }) => (
+interface HeaderProps {
+    tittel: string,
+    beskrivelse?: string,
+    oppdragsgiver?: string,
+    antallKandidater: number
+}
+
+const Header : FunctionComponent<HeaderProps> = ({ beskrivelse = '', antallKandidater, oppdragsgiver, tittel }) => (
     <PageHeader>
         <div className="KandidatlisteDetalj__header">
             <div className="top-row">
@@ -54,22 +66,17 @@ const Header = ({ beskrivelse, antallKandidater, oppdragsgiver, tittel }) => (
     </PageHeader>
 );
 
+const erSynligFlaggIkkeSatt = (kandidat: Kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
 
-Header.defaultProps = {
-    beskrivelse: '',
-    oppdragsgiver: undefined
-};
 
-Header.propTypes = {
-    tittel: PropTypes.string.isRequired,
-    beskrivelse: PropTypes.string,
-    oppdragsgiver: PropTypes.string,
-    antallKandidater: PropTypes.number.isRequired
-};
+interface KandidatListeProps {
+    kandidatliste: KandidatlisteDetaljer,
+    toggleKandidatChecked: (kandidatnr: string) => void,
+    setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void,
+    onFjernKandidat: (kandidat: Kandidat) => void
+}
 
-const erSynligFlaggIkkeSatt = (kandidat) => kandidat.erSynlig === undefined || kandidat.erSynlig === null;
-
-const KandidatListe = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat }) => (
+const KandidatListe : FunctionComponent<KandidatListeProps> = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat }) => (
     <div className="tbody">
         {kandidatliste.kandidater && kandidatliste.kandidater.map((kandidat) => {
             if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
@@ -82,14 +89,14 @@ const KandidatListe = ({ kandidatliste, toggleKandidatChecked, setViewStateKandi
     </div>
 );
 
-KandidatListe.propTypes = {
-    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
-    toggleKandidatChecked: PropTypes.func.isRequired,
-    setViewStateKandidat: PropTypes.func.isRequired,
-    onFjernKandidat: PropTypes.func.isRequired
-};
+interface SynligKandidatPanelProps {
+    kandidatliste: KandidatlisteDetaljer,
+    kandidat: Kandidat,
+    toggleKandidatChecked: (kandidatnr: string) => void,
+    setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void
+}
 
-const SynligKandidatPanel = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat }) => (
+const SynligKandidatPanel : FunctionComponent<SynligKandidatPanelProps> = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat }) => (
     <div className="tr">
         <div className="KandidatlisteDetalj__panel">
             <div className="KandidatlisteDetalj__panel--first td">
@@ -150,15 +157,12 @@ const SynligKandidatPanel = ({ kandidat, kandidatliste, toggleKandidatChecked, s
     </div>
 );
 
+interface IkkeSynligKandidatPanelProps {
+    kandidat: Kandidat,
+    onFjernKandidat: (kandidat: Kandidat) => void
+}
 
-SynligKandidatPanel.propTypes = {
-    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
-    kandidat: KandidatPropTypes.isRequired,
-    toggleKandidatChecked: PropTypes.func.isRequired,
-    setViewStateKandidat: PropTypes.func.isRequired
-};
-
-const IkkeSynligKandidatPanel = ({ kandidat, onFjernKandidat }) => (
+const IkkeSynligKandidatPanel : FunctionComponent<IkkeSynligKandidatPanelProps> = ({ kandidat, onFjernKandidat }) => (
     <div className="KandidatlisteDetalj__panel__ikke_synlig tr">
         <div className="KandidatlisteDetalj__panel--first td" >
             <div className="text-hide">
@@ -191,12 +195,29 @@ const IkkeSynligKandidatPanel = ({ kandidat, onFjernKandidat }) => (
     </div>
 );
 
-IkkeSynligKandidatPanel.propTypes = {
-    kandidat: KandidatPropTypes.isRequired,
-    onFjernKandidat: PropTypes.func.isRequired
-};
 
-class KandidatlisteDetalj extends React.Component {
+interface KandidatlisteDetaljProps {
+    kandidatliste: KandidatlisteDetaljer,
+    sletteStatus: string,
+    slettKandidater: (kandidatlisteId: string, kandidater: Array<{ kandidatnr: string}>) => void,
+    clearKandidatliste: () => void,
+    nullstillSletteStatus:  () => void,
+    toggleKandidatChecked: (kandidatnr: string) => void,
+    setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void
+    markerAlleClicked: (checked: boolean) => void
+}
+
+interface KandidatlisteDetaljState {
+    sletterKandidater: boolean,
+    visSlettKandidaterModal: boolean,
+    visSlettKandidaterFeilmelding: boolean,
+    visSlettSuccessMelding: boolean,
+    antallSlettedeKandidater: number
+}
+
+class KandidatlisteDetalj extends React.Component<KandidatlisteDetaljProps, KandidatlisteDetaljState> {
+    skjulSuccessMeldingTimeoutHandle?: number;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -282,19 +303,9 @@ class KandidatlisteDetalj extends React.Component {
     };
 
     render() {
-        if (this.props.kandidatliste === undefined
-            || this.props.kandidatliste.kandidater === undefined) {
-            return (
-                <div className="KandidatlisteDetalj__spinner--wrapper">
-                    <NavFrontendSpinner />
-                </div>
-            );
-        }
-
         const { visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
         const { tittel, beskrivelse, oppdragsgiver, kandidater } = this.props.kandidatliste;
         const valgteKandidater = kandidater.filter((k) => k.checked);
-
 
         const DisabledSlettKnapp = () => (
             <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
@@ -399,17 +410,6 @@ class KandidatlisteDetalj extends React.Component {
         );
     }
 }
-
-KandidatlisteDetalj.propTypes = {
-    kandidatliste: KandidatlisteDetaljerPropType.isRequired,
-    sletteStatus: PropTypes.string.isRequired,
-    slettKandidater: PropTypes.func.isRequired,
-    clearKandidatliste: PropTypes.func.isRequired,
-    nullstillSletteStatus: PropTypes.func.isRequired,
-    toggleKandidatChecked: PropTypes.func.isRequired,
-    setViewStateKandidat: PropTypes.func.isRequired,
-    markerAlleClicked: PropTypes.func.isRequired
-};
 
 const mapStateToProps = (state, props) => ({
     ...props,
