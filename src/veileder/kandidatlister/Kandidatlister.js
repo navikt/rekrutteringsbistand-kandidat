@@ -15,7 +15,7 @@ import OpprettModal from './OpprettModal';
 import EndreModal from './EndreModal';
 import MarkerSomMinModal from './MarkerSomMinModal';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 

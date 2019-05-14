@@ -18,7 +18,7 @@ import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE 
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';

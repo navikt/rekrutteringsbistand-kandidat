@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -10,12 +10,15 @@ import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke.js';
-import { RemoteDataTypes } from '../../felles/common/remoteData';
+import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import Lenkeknapp from '../../felles/common/Lenkeknapp.js';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.js';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper.js';
 import TomListe from '../../felles/kandidatlister/TomListe.js';
 import Notater from './Notater';
+import { capitalizeFirstLetter } from '../../felles/sok/utils';
+import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
+import { AlertStripeType, useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import {
     Kandidat,
@@ -24,12 +27,9 @@ import {
     KandidatState,
     UpdateKandidatIListeStateTypes
 } from './kandidatlisteReducer';
-import { SLETTE_STATUS } from '../../felles/konstanter';
 
-import '../kandidatlister/kandidatlister.less';
 import '../../felles/common/ikoner/ikoner.less';
-import SlettKandidaterModal from '../common/SlettKandidaterModal';
-import { capitalizeFirstLetter } from '../../felles/sok/utils';
+import '../kandidatlister/kandidatlister.less';
 
 const fornavnOgEtternavnFraKandidat = (kandidat) => (kandidat.fornavn && kandidat.etternavn
     ? `${capitalizeFirstLetter(kandidat.fornavn)} ${capitalizeFirstLetter(kandidat.etternavn)}`
@@ -251,7 +251,7 @@ const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleC
 
 interface KandidatlisteDetaljProps {
     kandidatliste: KandidatlisteDetaljer,
-    sletteStatus: string,
+    sletteStatus: RemoteData<{ antallKandidaterSlettet: number }>,
     slettKandidater: (kandidater: Array<{ kandidatnr: string}>) => void,
     clearKandidatliste: () => void,
     nullstillSletteStatus:  () => void,
@@ -260,146 +260,103 @@ interface KandidatlisteDetaljProps {
     markerAlleClicked: (checked: boolean) => void
 }
 
-interface KandidatlisteDetaljState {
-    sletterKandidater: boolean,
-    visSlettKandidaterModal: boolean,
-    visSlettKandidaterFeilmelding: boolean,
-    visSlettSuccessMelding: boolean,
-    antallSlettedeKandidater: number
-}
-
-class KandidatlisteDetalj extends React.Component<KandidatlisteDetaljProps, KandidatlisteDetaljState> {
-    skjulSuccessMeldingTimeoutHandle?: number;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            sletterKandidater: false,
-            visSlettKandidaterModal: false,
-            visSlettKandidaterFeilmelding: false,
-            visSlettSuccessMelding: false,
-            antallSlettedeKandidater: 0
-        };
+const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
+    {
+        kandidatliste,
+        sletteStatus,
+        slettKandidater,
+        clearKandidatliste,
+        nullstillSletteStatus,
+        toggleKandidatChecked,
+        setViewStateKandidat,
+        markerAlleClicked
     }
-
-    static getDerivedStateFromProps(props, state) {
-        if (state.sletterKandidater) {
-            const visSlettKandidaterModal = props.sletteStatus !== SLETTE_STATUS.SUCCESS;
-            const visSlettKandidaterFeilmelding = props.sletteStatus === SLETTE_STATUS.FAILURE;
-
-            return {
-                ...state,
-                visSlettKandidaterModal,
-                visSlettKandidaterFeilmelding,
-                sletterKandidater: props.sletteStatus !== SLETTE_STATUS.SUCCESS,
-                visSlettSuccessMelding: props.sletteStatus === SLETTE_STATUS.SUCCESS
-            };
-        } else if (props.sletteStatus === SLETTE_STATUS.SUCCESS && !state.sletterKandidater) {
-            // kommer tilbake med slett success fra cv-visning
-            return {
-                ...state,
-                visSlettSuccessMelding: true
-            };
-        }
-
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.visSlettSuccessMelding) {
-            if (this.state.visSlettSuccessMelding !== prevState.visSlettSuccessMelding) {
-                this.skjulSuccessMeldingTimeoutHandle = setTimeout(this.skjulSlettSuccessMelding, 3000);
-                this.props.nullstillSletteStatus();
+) => {
+    const [alertStripeState, clearAlertstripeTimouts, setSuccessMelding, setFailureMelding, ] = useTimeoutState();
+    const [sletteModalFailureAlertStripeState, clearModalTimouts, setSletteModalFailureMelding ] = useTimeoutState();
+    const [sletteModalOpen, setSletteModalOpen] = useState<boolean>(false);
+    useEffect(() => {
+        if (sletteStatus.kind === RemoteDataTypes.SUCCESS) {
+            const successMelding = sletteStatus.data.antallKandidaterSlettet > 1 ? `${sletteStatus.data.antallKandidaterSlettet} kandidater er slettet` : 'Kandidaten er slettet';
+            setSuccessMelding(successMelding);
+            nullstillSletteStatus();
+            if (sletteModalOpen) {
+                setSletteModalOpen(false);
             }
-        } else if (this.props.sletteStatus !== SLETTE_STATUS.SUCCESS) {
-            clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
+        } else if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
+            setSletteModalFailureMelding('');
+            nullstillSletteStatus();
         }
-    }
+    }, [sletteStatus]);
 
-    componentWillUnmount() {
-        this.props.clearKandidatliste();
-        clearTimeout(this.skjulSuccessMeldingTimeoutHandle);
-    }
-
-    slettMarkerteKandidater = () => {
-        if (!this.state.sletterKandidater) {
-            const markerteKandidater = this.props.kandidatliste.kandidater.filter((k) => k.checked);
-            if (markerteKandidater.length > 0) {
-                this.props.slettKandidater(markerteKandidater);
-                this.setState({ sletterKandidater: true, antallSlettedeKandidater: markerteKandidater.length });
-            }
+    useEffect(() => {
+        return () => {
+            clearAlertstripeTimouts();
+            clearModalTimouts();
         }
+    }, []);
+
+    const { tittel, beskrivelse, oppdragsgiver, kandidater } = kandidatliste;
+    const valgteKandidater = kandidater.filter((k) => k.checked);
+    const onSlettKandidaterClick = () => {
+        slettKandidater(kandidater.filter((k) => k.checked));
     };
 
-    visSlettKandidaterModal = () => {
-        this.setState({ visSlettKandidaterModal: true });
-    };
-
-    lukkSlettModal = () => {
-        this.setState({ visSlettKandidaterModal: false, visSlettKandidaterFeilmelding: false, sletterKandidater: false });
-    };
-
-    skjulSlettSuccessMelding = () => {
-        this.setState({ visSlettSuccessMelding: false });
-    };
-
-    render() {
-        const { visSlettKandidaterFeilmelding, visSlettKandidaterModal, visSlettSuccessMelding, antallSlettedeKandidater } = this.state;
-        const { tittel, beskrivelse, oppdragsgiver, kandidater } = this.props.kandidatliste;
-        const valgteKandidater = kandidater.filter((k) => k.checked);
-
-        return (
-            <div id="KandidaterDetalj">
-                <Header
-                    tittel={tittel}
-                    beskrivelse={beskrivelse}
-                    oppdragsgiver={oppdragsgiver}
-                    antallKandidater={kandidater.length}
-                />
-                <HjelpetekstFading
-                    synlig={visSlettSuccessMelding}
-                    type="suksess"
-                    tekst={antallSlettedeKandidater > 1 ? `${antallSlettedeKandidater} kandidater er slettet` : 'Kandidaten er slettet'}
-                />
-                {kandidater.length > 0 ? (
-                    <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
-                        <Knapper
-                            valgteKandidater={valgteKandidater}
-                            visSlettKandidaterModal={this.visSlettKandidaterModal}
+    return (
+        <div id="KandidaterDetalj">
+            <Header
+                tittel={tittel}
+                beskrivelse={beskrivelse}
+                oppdragsgiver={oppdragsgiver}
+                antallKandidater={kandidater.length}
+            />
+            <button onClick={() => setFailureMelding('test')} />
+            <HjelpetekstFading
+                synlig={alertStripeState.kind !== AlertStripeType.LUKKET && alertStripeState.synlig}
+                type={alertStripeState.kind === AlertStripeType.SUCCESS ? 'suksess' : 'feil'}
+                tekst={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
+            />
+            {kandidater.length > 0 ? (
+                <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
+                    <Knapper
+                        valgteKandidater={valgteKandidater}
+                        visSlettKandidaterModal={() => setSletteModalOpen(true)}
+                    />
+                    <div className="table">
+                        <KandidatListeToppRad
+                            allChecked={kandidatliste.allChecked}
+                            markerAlleClicked={markerAlleClicked}
                         />
-                        <div className="table">
-                            <KandidatListeToppRad
-                                allChecked={this.props.kandidatliste.allChecked}
-                                markerAlleClicked={this.props.markerAlleClicked}
-                            />
-                            <KandidatListe
-                                kandidatliste={this.props.kandidatliste}
-                                toggleKandidatChecked={this.props.toggleKandidatChecked}
-                                setViewStateKandidat={this.props.setViewStateKandidat}
-                                onFjernKandidat={(kandidat) => { this.props.slettKandidater([kandidat]) }}
-                            />
-                        </div>
+                        <KandidatListe
+                            kandidatliste={kandidatliste}
+                            toggleKandidatChecked={toggleKandidatChecked}
+                            setViewStateKandidat={setViewStateKandidat}
+                            onFjernKandidat={(kandidat) => {
+                                slettKandidater([kandidat]);
+                            }}
+                        />
                     </div>
-
-                ) : (
-                    <Container className="Kandidatlister__container Kandidatlister__container-width">
-                        <TomListe lenke={`/${CONTEXT_ROOT}`} lenkeTekst="Finn kandidater">
-                            Du har ingen kandidater i kandidatlisten
-                        </TomListe>
-                    </Container>
-                )}
-                <SlettKandidaterModal
-                    isOpen={visSlettKandidaterModal}
-                    sletterKandidater={this.props.sletteStatus === SLETTE_STATUS.LOADING}
-                    lukkModal={this.lukkSlettModal}
-                    visFeilmelding={visSlettKandidaterFeilmelding}
-                    valgteKandidater={valgteKandidater}
-                    onDeleteClick={this.slettMarkerteKandidater}
-                />
-            </div>
-        );
-    }
-}
+                </div>
+            ) : (
+                <Container className="Kandidatlister__container Kandidatlister__container-width">
+                    <TomListe lenke={`/${CONTEXT_ROOT}`} lenkeTekst="Finn kandidater">
+                        Du har ingen kandidater i kandidatlisten
+                    </TomListe>
+                </Container>
+            )}
+            <SlettKandidaterModal
+                isOpen={sletteModalOpen}
+                sletterKandidater={sletteStatus.kind === RemoteDataTypes.LOADING}
+                lukkModal={() => {
+                    setSletteModalOpen(false);
+                }}
+                visFeilmelding={sletteModalFailureAlertStripeState.kind === AlertStripeType.FAILURE ? sletteModalFailureAlertStripeState.synlig : false}
+                valgteKandidater={valgteKandidater}
+                onDeleteClick={onSlettKandidaterClick}
+            />
+        </div>
+    );
+};
 
 const mapStateToProps = (state, props) => ({
     ...props,

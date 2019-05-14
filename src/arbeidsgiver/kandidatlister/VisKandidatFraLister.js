@@ -12,7 +12,6 @@ import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import { KandidatlisteTypes } from '../kandidatlisteDetaljer/kandidatlisteReducer.ts';
-import { SLETTE_STATUS } from '../../felles/konstanter';
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
@@ -45,11 +44,11 @@ class VisKandidatFraLister extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if (state.sletterKandidat) {
             const visSlettKandidatModal = (
-                props.sletteStatus !== SLETTE_STATUS.SUCCESS
+                props.sletteStatus.kind !== RemoteDataTypes.SUCCESS
             );
 
             const visSlettKandidatFeilmelding = (
-                props.sletteStatus === SLETTE_STATUS.FAILURE
+                props.sletteStatus.kind === RemoteDataTypes.FAILURE
             );
 
             return {
@@ -127,7 +126,7 @@ class VisKandidatFraLister extends React.Component {
             </div>
         );
 
-        if (this.props.sletteStatus === SLETTE_STATUS.SUCCESS) {
+        if (this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
             return <Redirect to={`/kandidater/lister/detaljer/${kandidatlisteId}`} push />;
         }
         if (hentStatus === HENT_CV_STATUS.LOADING) {
@@ -181,7 +180,7 @@ class VisKandidatFraLister extends React.Component {
                 <SlettKandidaterModal
                     isOpen={this.state.visSlettKandidatModal}
                     visFeilmelding={this.state.visSlettKandidatFeilmelding}
-                    sletterKandidater={this.props.sletteStatus === SLETTE_STATUS.LOADING}
+                    sletterKandidater={this.props.sletteStatus.kind === RemoteDataTypes.LOADING}
                     valgteKandidater={[cv]}
                     lukkModal={this.lukkSlettModal}
                     onDeleteClick={this.slettKandidat}
@@ -215,7 +214,9 @@ VisKandidatFraLister.propTypes = {
         )
     }),
     slettKandidater: PropTypes.func.isRequired,
-    sletteStatus: PropTypes.string.isRequired
+    sletteStatus: PropTypes.shape({
+        kind: PropTypes.string.isRequired
+    }).isRequired
 };
 
 const mapStateToProps = (state, props) => ({

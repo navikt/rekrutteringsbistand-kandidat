@@ -17,7 +17,7 @@ import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandi
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
 import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
-import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 
 class VisKandidat extends React.Component {

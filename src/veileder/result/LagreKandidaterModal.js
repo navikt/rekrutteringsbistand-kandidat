@@ -12,7 +12,7 @@ import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 
 const PAGINERING_BATCH_SIZE = 5;
 

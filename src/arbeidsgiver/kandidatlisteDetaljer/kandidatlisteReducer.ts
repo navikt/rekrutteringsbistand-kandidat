@@ -13,6 +13,7 @@ import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
 import {
+    Failure,
     Loading,
     mapRemoteData,
     NotAsked,
@@ -21,6 +22,7 @@ import {
     ResponseData,
     Success
 } from '../../felles/common/remoteData';
+import { number } from 'prop-types';
 
 /** *********************************************************
  * ACTIONS
@@ -58,6 +60,7 @@ export interface HentKandidatlisteSuccessAction {
 
 export interface HentKandidatlisteFailureAction {
     type: KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE;
+    error: SearchApiError;
 }
 
 export interface ClearKandidatlisteAction {
@@ -72,11 +75,13 @@ export interface SlettKandidaterAction {
 
 export interface SlettKandidaterSuccessAction {
     type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS;
-    nyKandidatliste: KandidatlisteDetaljerResponse
+    nyKandidatliste: KandidatlisteDetaljerResponse;
+    antallKandidaterSlettet: number;
 }
 
 export interface SlettKandidaterFailureAction {
     type: KandidatlisteTypes.SLETT_KANDIDATER_FAILURE;
+    error: SearchApiError;
 }
 
 export interface SlettKandidaterResetStatusAction {
@@ -194,7 +199,7 @@ export type KandidatlisteAction =
  ********************************************************* */
 
 interface KandidatlisteState {
-    sletteStatus: string;
+    sletteStatus: RemoteData<{ antallKandidaterSlettet: number }>;
     kandidatliste: RemoteData<KandidatlisteDetaljer>;
 }
 
@@ -258,7 +263,7 @@ type KandidatlisteDetaljerResponse = KandidatlisteDetaljerBase & KandidatlisteDe
 export type KandidatlisteDetaljer = KandidatlisteDetaljerBase & KandidatlisteDetaljerExtension;
 
 const initialState: KandidatlisteState = {
-    sletteStatus: SLETTE_STATUS.FINISHED,
+    sletteStatus: NotAsked(),
     kandidatliste: NotAsked()
 };
 
@@ -271,21 +276,22 @@ const overforGammelKandidatlisteState: (forrigeListe: KandidatlisteDetaljer, kan
             viewState: kandidat.viewState
         }
     }), {});
-    return {
-        ...kandidatliste,
-        allChecked: forrigeListe.allChecked,
-        kandidater: kandidatliste.kandidater.map((kandidat) => {
-            if (kandidaterState[kandidat.kandidatnr]) {
-                return {
-                    ...kandidat,
-                    ...(kandidaterState[kandidat.kandidatnr])
-                };
-            }
+    const kandidater = kandidatliste.kandidater.map((kandidat) => {
+        if (kandidaterState[kandidat.kandidatnr]) {
             return {
                 ...kandidat,
-                ...initKandidatFelter(forrigeListe.allChecked)
+                ...(kandidaterState[kandidat.kandidatnr])
             };
-        })
+        }
+        return {
+            ...kandidat,
+            ...initKandidatFelter(forrigeListe.allChecked)
+        };
+    });
+    return {
+        ...kandidatliste,
+        allChecked: forrigeListe.allChecked && kandidater.filter(kandidat => kandidat.checked).length === kandidater.length && kandidater.length > 0,
+        kandidater: kandidater
     };
 };
 
@@ -311,7 +317,7 @@ const initKandidatlisteState: (kandidatliste: KandidatlisteDetaljerResponse) => 
 
 
 const overforKandidatlisteDetaljerState: (forrigeListe: RemoteData<KandidatlisteDetaljer>, kandidatliste: KandidatlisteDetaljerResponse) => KandidatlisteDetaljer = (forrigeListe, kandidatliste) => {
-    if (forrigeListe.kind === RemoteDataTypes.SUCCESS) {
+    if (forrigeListe.kind === RemoteDataTypes.SUCCESS && forrigeListe.data.kandidatlisteId === kandidatliste.kandidatlisteId) {
         return overforGammelKandidatlisteState(forrigeListe.data, kandidatliste);
     }
     return initKandidatlisteState(kandidatliste);
@@ -348,7 +354,7 @@ const updateKandidatState: (kandidatliste: RemoteData<KandidatlisteDetaljer>, ch
         return kandidat;
     });
     const allChecked = () => {
-        if (kandidater.filter((kandidat) => !kandidat.checked).length !== 0) {
+        if (kandidater.filter((kandidat) => !kandidat.checked).length !== 0 && kandidater.length > 0) {
             return false;
         } else if (change.type === UpdateKandidatIListeStateTypes.SET_ALL_CHECKED) {
             return change.checked
@@ -421,8 +427,7 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                sletteStatus: SLETTE_STATUS.FAILURE
-
+                kandidatliste: Failure(action.error)
             };
         case KandidatlisteTypes.CLEAR_KANDIDATLISTE:
             return initialState;
@@ -430,7 +435,7 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteTypes.SLETT_KANDIDATER: {
             return {
                 ...state,
-                sletteStatus: SLETTE_STATUS.LOADING
+                sletteStatus: Loading()
             };
         }
         case KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS: {
@@ -438,18 +443,18 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: Success(overforKandidatlisteDetaljerState(state.kandidatliste, nyKandidatliste)),
-                sletteStatus: SLETTE_STATUS.SUCCESS
+                sletteStatus: Success({ antallKandidaterSlettet: action.antallKandidaterSlettet })
             };
         }
         case KandidatlisteTypes.SLETT_KANDIDATER_FAILURE:
             return {
                 ...state,
-                sletteStatus: SLETTE_STATUS.FAILURE
+                sletteStatus: Failure(action.error)
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
             return {
                 ...state,
-                sletteStatus: SLETTE_STATUS.FINISHED
+                sletteStatus: NotAsked()
             };
         case KandidatlisteTypes.HENT_NOTATER:
             return {
@@ -526,7 +531,7 @@ function* slettKandidater(action: SlettKandidaterAction) {
         const { kandidater, kandidatlisteId } = action;
         const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
         const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
-        yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response });
+        yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response, antallKandidaterSlettet: kandidater.length });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_FAILURE, error: e });
@@ -567,10 +572,5 @@ export function* kandidatlisteDetaljerSaga() {
     yield takeLatest(KandidatlisteTypes.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteTypes.REDIGER_NOTAT, redigerNotat);
     yield takeLatest(KandidatlisteTypes.SLETT_NOTAT, slettNotat);
-    yield takeLatest([
-            KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE,
-            KandidatlisteTypes.SLETT_KANDIDATER_FAILURE
-        ],
-        sjekkError);
 }
 

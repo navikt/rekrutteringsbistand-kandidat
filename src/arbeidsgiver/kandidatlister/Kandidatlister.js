@@ -7,7 +7,7 @@ import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import TomListe from '../../felles/kandidatlister/TomListe';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';

@@ -11,7 +11,7 @@ import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandida
 import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
-import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import sortByDato from '../../../felles/common/SortByDato';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';

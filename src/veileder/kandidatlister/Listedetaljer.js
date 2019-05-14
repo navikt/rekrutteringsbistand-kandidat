@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { KandidatlisteTypes, DELE_STATUS } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
