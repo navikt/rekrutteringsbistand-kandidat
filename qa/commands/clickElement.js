@@ -4,7 +4,7 @@
 exports.command = function (element, pageObject, pauseBefore = 100, pauseAfter = 100) {
     const client = (typeof pageObject === 'undefined') ? this : pageObject;
 
-    client.waitForElementVisible(element);
+    client.waitForElementPresent(element);
     this.pause(pauseBefore);
     client.click(element);
     this.pause(pauseAfter);
