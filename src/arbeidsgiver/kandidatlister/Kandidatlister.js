@@ -52,7 +52,14 @@ const KandidatlisteHeader = ({ antallKandidatlister, onOpprettClick }) => (
                 <div className="Kandidatlister__count td">{antallKandidatlister}</div>
             </div>
             <div>
-                <Knapp onClick={onOpprettClick} id="opprett-ny-liste" role="link" type="standard">Opprett ny</Knapp>
+                <Knapp
+                    onClick={onOpprettClick}
+                    id="opprett-ny-liste"
+                    role="link"
+                    type="standard"
+                >
+                    Opprett ny
+                </Knapp>
             </div>
         </div>
     </div>
@@ -297,10 +304,18 @@ class Kandidatlister extends React.Component {
                 <Container className="blokk-s container">
                     <div className="Kandidatlister__container Kandidatlister__container-width table">
                         {kandidatlister !== undefined && kandidatlister.length > 0 && (
-                            <KandidatlisteHeader antallKandidatlister={kandidatlister.length} onOpprettClick={this.onOpprettClick} />
+                            <KandidatlisteHeader
+                                antallKandidatlister={kandidatlister.length}
+                                onOpprettClick={this.onOpprettClick}
+                            />
                         )}
                         <div className="tbody">
-                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
+                            <Kandidatlistevisning
+                                kandidatlister={kandidatlister}
+                                fetching={fetchingKandidatlister}
+                                onEndreClick={this.onEndreClick}
+                                onSletteClick={this.onDeleteClick}
+                            />
                         </div>
                     </div>
                 </Container>
