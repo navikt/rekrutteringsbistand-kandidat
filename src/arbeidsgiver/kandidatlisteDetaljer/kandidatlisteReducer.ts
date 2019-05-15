@@ -12,14 +12,14 @@ import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
 import {
-    Failure,
-    Loading,
-    mapRemoteData,
     NotAsked,
+    Loading,
+    Success,
+    mapRemoteData,
+    mapResponseData,
     RemoteData,
     RemoteDataTypes,
-    ResponseData,
-    Success
+    ResponseData
 } from '../../felles/common/remoteData';
 
 /** *********************************************************
@@ -28,12 +28,10 @@ import {
 
 export enum KandidatlisteTypes {
     HENT_KANDIDATLISTE = 'HENT_KANDIDATLISTE',
-    HENT_KANDIDATLISTE_SUCCESS = 'HENT_KANDIDATLISTE_SUCCESS',
-    HENT_KANDIDATLISTE_FAILURE = 'HENT_KANDIDATLISTE_FAILURE',
+    HENT_KANDIDATLISTE_FERDIG = 'HENT_KANDIDATLISTE_FERDIG',
     CLEAR_KANDIDATLISTE = 'CLEAR_KANDIDATLISTE',
     SLETT_KANDIDATER = 'SLETT_KANDIDATER',
-    SLETT_KANDIDATER_SUCCESS = 'SLETT_KANDIDATER_SUCCESS',
-    SLETT_KANDIDATER_FAILURE = 'SLETT_KANDIDATER_FAILURE',
+    SLETT_KANDIDATER_FERDIG = 'SLETT_KANDIDATER_FERDIG',
     SLETT_KANDIDATER_RESET_STATUS = 'SLETT_KANDIDATER_RESET_STATUS',
     HENT_NOTATER = 'HENT_NOTATER',
     HENT_NOTATER_FERDIG = 'HENT_NOTATER_FERDIG',
@@ -47,72 +45,62 @@ export enum KandidatlisteTypes {
     UPDATE_KANDIDATLISTE_VIEW_STATE = 'UPDATE_KANDIDATLISTE_VIEW_STATE'
 }
 
-export interface HentKandidatlisteAction {
+interface HentKandidatlisteAction {
     type: KandidatlisteTypes.HENT_KANDIDATLISTE;
     kandidatlisteId: string;
 }
 
-export interface HentKandidatlisteSuccessAction {
-    type: KandidatlisteTypes.HENT_KANDIDATLISTE_SUCCESS;
-    kandidatliste: KandidatlisteDetaljerResponse
+interface HentKandidatlisteFerdigAction {
+    type: KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG;
+    kandidatliste: ResponseData<KandidatlisteDetaljerResponse>
 }
 
-export interface HentKandidatlisteFailureAction {
-    type: KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE;
-    error: SearchApiError;
-}
-
-export interface ClearKandidatlisteAction {
+interface ClearKandidatlisteAction {
     type: KandidatlisteTypes.CLEAR_KANDIDATLISTE;
 }
 
-export interface SlettKandidaterAction {
+interface SlettKandidaterAction {
     type: KandidatlisteTypes.SLETT_KANDIDATER;
     kandidater: Array<Kandidat>
     kandidatlisteId: string
 }
 
-export interface SlettKandidaterSuccessAction {
-    type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS;
-    nyKandidatliste: KandidatlisteDetaljerResponse;
+interface SlettKandidaterFerdigAction {
+    type: KandidatlisteTypes.SLETT_KANDIDATER_FERDIG;
+    kandidatliste: ResponseData<KandidatlisteDetaljerResponse>;
     antallKandidaterSlettet: number;
 }
 
-export interface SlettKandidaterFailureAction {
-    type: KandidatlisteTypes.SLETT_KANDIDATER_FAILURE;
-    error: SearchApiError;
-}
-
-export interface SlettKandidaterResetStatusAction {
+interface SlettKandidaterResetStatusAction {
     type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS;
 }
 
-export interface HentNotaterAction {
+interface HentNotaterAction {
     type: KandidatlisteTypes.HENT_NOTATER;
     kandidatlisteId: string;
     kandidatnr: string;
 }
 
-export interface HentNotaterFerdigAction {
+interface HentNotaterFerdigAction {
     type: KandidatlisteTypes.HENT_NOTATER_FERDIG;
     notater: ResponseData<Array<Notat>>,
     kandidatnr: string
 }
 
-export interface OpprettNotatAction {
+interface OpprettNotatAction {
     type: KandidatlisteTypes.OPPRETT_NOTAT;
     kandidatlisteId: string
     kandidatnr: string
     tekst: string
 }
 
-export interface OpprettNotatFerdigAction {
+interface OpprettNotatFerdigAction {
     type: KandidatlisteTypes.OPPRETT_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
     kandidatnr: string
 }
 
-export interface RedigerNotatAction {
+interface RedigerNotatAction {
     type: KandidatlisteTypes.REDIGER_NOTAT;
     kandidatlisteId: string
     kandidatnr: string
@@ -120,20 +108,20 @@ export interface RedigerNotatAction {
     tekst: string
 }
 
-export interface RedigerNotatFerdigAction {
+interface RedigerNotatFerdigAction {
     type: KandidatlisteTypes.REDIGER_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
     kandidatnr: string
 }
 
-export interface SlettNotatAction {
+interface SlettNotatAction {
     type: KandidatlisteTypes.SLETT_NOTAT;
     kandidatlisteId: string
     kandidatnr: string
     notat: Notat
 }
 
-export interface SlettNotatFerdigAction {
+interface SlettNotatFerdigAction {
     type: KandidatlisteTypes.SLETT_NOTAT_FERDIG;
     notater: ResponseData<Array<Notat>>
     kandidatnr: string
@@ -164,7 +152,7 @@ interface SetAllChecked {
 type UpdateKandidatIListeState = KandidatToggleChecked | KandidatSetViewState | SetAllChecked;
 
 
-export interface UpdateKandidatlisteViewStateAction {
+interface UpdateKandidatlisteViewStateAction {
     type: KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE,
     change: UpdateKandidatIListeState
 }
@@ -175,19 +163,18 @@ export enum EndreType {
     SLETT = 'SLETT'
 }
 
-export interface ResetEndreNotatStateAction {
+interface ResetEndreNotatStateAction {
     type: KandidatlisteTypes.RESET_ENDRE_NOTAT_STATE,
     endreType: EndreType,
     kandidatnr: string
 }
 
-export type KandidatlisteAction =
-    | HentKandidatlisteSuccessAction
-    | HentKandidatlisteFailureAction
+type KandidatlisteAction =
+    | HentKandidatlisteAction
+    | HentKandidatlisteFerdigAction
     | ClearKandidatlisteAction
     | SlettKandidaterAction
-    | SlettKandidaterSuccessAction
-    | SlettKandidaterFailureAction
+    | SlettKandidaterFerdigAction
     | SlettKandidaterResetStatusAction
     | HentNotaterAction
     | HentNotaterFerdigAction
@@ -264,7 +251,7 @@ interface KandidatlisteDetaljerExtension {
     kandidater: Array<Kandidat>;
 }
 
-type KandidatlisteDetaljerResponse = KandidatlisteDetaljerBase & KandidatlisteDetaljerResponseExtension;
+export type KandidatlisteDetaljerResponse = KandidatlisteDetaljerBase & KandidatlisteDetaljerResponseExtension;
 
 export type KandidatlisteDetaljer = KandidatlisteDetaljerBase & KandidatlisteDetaljerExtension;
 
@@ -321,12 +308,13 @@ const initKandidatlisteState: (kandidatliste: KandidatlisteDetaljerResponse) => 
     }))
 });
 
-
-const overforKandidatlisteDetaljerState: (forrigeListe: RemoteData<KandidatlisteDetaljer>, kandidatliste: KandidatlisteDetaljerResponse) => KandidatlisteDetaljer = (forrigeListe, kandidatliste) => {
-    if (forrigeListe.kind === RemoteDataTypes.SUCCESS && forrigeListe.data.kandidatlisteId === kandidatliste.kandidatlisteId) {
-        return overforGammelKandidatlisteState(forrigeListe.data, kandidatliste);
+const overforKandidatlisteDetaljerState: (forrigeListe: RemoteData<KandidatlisteDetaljer>, kandidatliste: ResponseData<KandidatlisteDetaljerResponse>) => RemoteData<KandidatlisteDetaljer> = (forrigeListe, kandidatliste) => {
+    if (forrigeListe.kind === RemoteDataTypes.SUCCESS && kandidatliste.kind === RemoteDataTypes.SUCCESS && forrigeListe.data.kandidatlisteId === kandidatliste.data.kandidatlisteId) {
+        return Success(overforGammelKandidatlisteState(forrigeListe.data, kandidatliste.data));
+    } else if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+        return Success(initKandidatlisteState(kandidatliste.data));
     }
-    return initKandidatlisteState(kandidatliste);
+    return kandidatliste;
 };
 
 const updateKandidatState: (kandidatliste: RemoteData<KandidatlisteDetaljer>, change: UpdateKandidatIListeState) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, change) => {
@@ -374,7 +362,7 @@ const updateKandidatState: (kandidatliste: RemoteData<KandidatlisteDetaljer>, ch
     });
 };
 
-const mapNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, transform: (Notater) => Notater) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, transform) => {
+const mapNotaterForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, transform: (Notater) => Notater) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, transform) => {
     if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
         return Success({
             ...kandidatliste.data,
@@ -394,8 +382,8 @@ const mapNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>,
     return kandidatliste;
 };
 
-const setNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, notatliste: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, notatliste) => (
-    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater : Notater) => ({
+const setNotaterForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, notatliste: RemoteData<Array<Notat>>) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, notatliste) => (
+    mapNotaterForKandidat(kandidatliste, kandidatnr, (notater: Notater) => ({
         ...notater,
         notater: notatliste
     }))
@@ -441,37 +429,29 @@ const resetEndreNotatStateForKandidat: (kandidatliste: RemoteData<KandidatlisteD
 
 const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (state = initialState, action) => {
     switch (action.type) {
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteTypes.HENT_KANDIDATLISTE:
             return {
                 ...state,
-                kandidatliste: Success(overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste))
+                kandidatliste: Loading()
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE:
+        case KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG:
             return {
                 ...state,
-                kandidatliste: Failure(action.error)
+                kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste)
             };
         case KandidatlisteTypes.CLEAR_KANDIDATLISTE:
             return initialState;
 
-        case KandidatlisteTypes.SLETT_KANDIDATER: {
+        case KandidatlisteTypes.SLETT_KANDIDATER:
             return {
                 ...state,
                 sletteStatus: Loading()
             };
-        }
-        case KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS: {
-            const { nyKandidatliste } = action;
+        case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
             return {
                 ...state,
-                kandidatliste: Success(overforKandidatlisteDetaljerState(state.kandidatliste, nyKandidatliste)),
-                sletteStatus: Success({ antallKandidaterSlettet: action.antallKandidaterSlettet })
-            };
-        }
-        case KandidatlisteTypes.SLETT_KANDIDATER_FAILURE:
-            return {
-                ...state,
-                sletteStatus: Failure(action.error)
+                kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste),
+                sletteStatus: mapResponseData(action.kandidatliste, () => ({ antallKandidaterSlettet: action.antallKandidaterSlettet }))
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
             return {
@@ -540,32 +520,15 @@ export default kandidatlisteReducer;
  ********************************************************* */
 
 function* hentKandidatListe(action: HentKandidatlisteAction) {
-    const { kandidatlisteId } = action;
-    try {
-        const kandidatliste = yield fetchKandidatliste(kandidatlisteId);
-        yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_SUCCESS, kandidatliste });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
+    const response = yield fetchKandidatliste(action.kandidatlisteId);
+    yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG, kandidatliste: response });
 }
 
 function* slettKandidater(action: SlettKandidaterAction) {
-    try {
-        const { kandidater, kandidatlisteId } = action;
-        const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
-        const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
-        yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_SUCCESS, nyKandidatliste: response, antallKandidaterSlettet: kandidater.length });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
+    const { kandidater, kandidatlisteId } = action;
+    const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
+    const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
+    yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_FERDIG, kandidatliste: response, antallKandidaterSlettet: kandidater.length });
 }
 
 function* hentNotater(action: HentNotaterAction) {
@@ -588,8 +551,34 @@ function* slettNotat(action: SlettNotatAction) {
     yield put({ type: KandidatlisteTypes.SLETT_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
-function* sjekkError(action) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+function* putGenerellErrorVed401(remoteData: ResponseData<any>) {
+    if (remoteData.kind === RemoteDataTypes.FAILURE && remoteData.error.status === 401) {
+        yield put({ type: INVALID_RESPONSE_STATUS, error: remoteData.error });
+    }
+}
+
+type ApiKallFerdigAction =
+    | HentKandidatlisteFerdigAction
+    | SlettKandidaterFerdigAction
+    | HentNotaterFerdigAction
+    | OpprettNotatFerdigAction
+    | RedigerNotatFerdigAction
+    | SlettNotatFerdigAction
+
+function* sjekkError(action: ApiKallFerdigAction) {
+    switch (action.type) {
+        case KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG:
+        case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
+            yield putGenerellErrorVed401(action.kandidatliste);
+            break;
+
+        case KandidatlisteTypes.HENT_NOTATER_FERDIG:
+        case KandidatlisteTypes.OPPRETT_NOTAT_FERDIG:
+        case KandidatlisteTypes.REDIGER_NOTAT_FERDIG:
+        case KandidatlisteTypes.SLETT_NOTAT_FERDIG:
+            yield putGenerellErrorVed401(action.notater);
+            break;
+    }
 }
 
 export function* kandidatlisteDetaljerSaga() {
@@ -599,5 +588,13 @@ export function* kandidatlisteDetaljerSaga() {
     yield takeLatest(KandidatlisteTypes.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteTypes.REDIGER_NOTAT, redigerNotat);
     yield takeLatest(KandidatlisteTypes.SLETT_NOTAT, slettNotat);
+    yield takeLatest([
+            KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG,
+            KandidatlisteTypes.SLETT_KANDIDATER_FERDIG,
+            KandidatlisteTypes.HENT_NOTATER_FERDIG,
+            KandidatlisteTypes.OPPRETT_NOTAT_FERDIG,
+            KandidatlisteTypes.REDIGER_NOTAT_FERDIG,
+            KandidatlisteTypes.SLETT_NOTAT_FERDIG
+        ], sjekkError
+    )
 }
-
