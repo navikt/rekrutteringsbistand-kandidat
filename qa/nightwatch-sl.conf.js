@@ -10,6 +10,7 @@ require('nightwatch-cucumber')({
 });
 
 const selenium_port = process.env['RANDOM_SELENIUM_PORT'] ? process.env['RANDOM_SELENIUM_PORT'] : 4445;
+const tunnel_name = process.env['BUILD_TAG'] ? process.env['BUILD_TAG'] : '${SAUCE_USERNAME}-pc';
 
 module.exports = {
     output_folder: 'reports',
@@ -48,7 +49,7 @@ module.exports = {
                 platform: 'Windows 10',
                 browserName: 'chrome',
                 version: 'latest',
-                tunnelIdentifier: 'jenkins-pam-kandidatsok'
+                tunnelIdentifier: tunnel_name
             }
         },
         'chrome_W7': {
