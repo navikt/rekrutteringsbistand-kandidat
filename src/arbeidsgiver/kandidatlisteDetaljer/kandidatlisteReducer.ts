@@ -8,7 +8,6 @@ import {
     putNotat,
     SearchApiError
 } from '../sok/api';
-import { SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
@@ -22,7 +21,6 @@ import {
     ResponseData,
     Success
 } from '../../felles/common/remoteData';
-import { number } from 'prop-types';
 
 /** *********************************************************
  * ACTIONS
@@ -381,10 +379,12 @@ const mapNotaterForKandidat : (kandidatliste: RemoteData<KandidatlisteDetaljer>,
         return Success({
             ...kandidatliste.data,
             kandidater: kandidatliste.data.kandidater.map((kandidat) => {
+                const notater = transform(kandidat.notater);
                 if (kandidat.kandidatnr === kandidatnr) {
                     return {
                         ...kandidat,
-                        notater: transform(kandidat.notater)
+                        antallNotater: notater.notater.kind === RemoteDataTypes.SUCCESS ? notater.notater.data.length : kandidat.antallNotater,
+                        notater
                     }
                 }
                 return kandidat;
