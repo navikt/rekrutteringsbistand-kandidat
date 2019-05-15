@@ -13,6 +13,6 @@ export default (expiresCallback, expiredCallback) => {
         tokenChecker.current.on('token_expires_soon', expiresCallback);
         tokenChecker.current.on('token_expired', onExpire);
         tokenChecker.current.start();
-        return () => tokenChecker.destroy();
+        return () => tokenChecker.current.destroy();
     }, []);
 };

@@ -104,7 +104,7 @@ class ResultatVisning extends React.Component {
                 />
                 <PageHeader className="ResultatVisning--header-padding">
                     <div className="child-item__container--header">
-                        <Sidetittel> {USE_JANZZ ? 'Kandidatmatch' : 'Kandidatsøk'} </Sidetittel>
+                        <Sidetittel>{USE_JANZZ ? 'Kandidatmatch' : 'Kandidatsøk'}</Sidetittel>
                     </div>
                 </PageHeader>
                 {this.props.isInitialSearch ? (

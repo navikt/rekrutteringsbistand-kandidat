@@ -84,7 +84,6 @@ const Sok = ({
             } else if (error.status === 403) {
                 window.location.href = `/${CONTEXT_ROOT}/altinn`;
             }
-            window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
     }, [error]);
 
