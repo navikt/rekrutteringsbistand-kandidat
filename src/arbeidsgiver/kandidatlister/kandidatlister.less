@@ -7,33 +7,14 @@
 .Kandidatlister__header--innhold {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
+}
 
-  @media (min-width: @screen-sm) {
-    flex-direction: row;
-  }
-
-  @media (max-width: (@screen-sm - 1)) {
-    flex-direction: column;
-  }
-
-  .header-child {
-    flex: 1;
-  }
-
-  .tittel-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-
-  .Kandidatlister__knapp-wrapper {
-    display: flex;
-    justify-content: flex-end;
-
-    @media (max-width: (@screen-sm - 1)) {
-      margin: 1rem 0;
-    }
-  }
+.KandidatlisteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .Kandidatlister__count {
@@ -46,11 +27,15 @@
   max-width: 640px;
 
   &.tr {
-    padding: 0 !important;
+    padding: 1.25rem 1rem !important;
+  }
+  
+  &:nth-child(odd):last-child {
+    border-bottom: 2px solid @gray3;
   }
 
   .beskrivelse {
-    padding: 1.25rem;
+    margin-bottom: 1.25rem;
 
     .delt-fra-nav-rad {
       display: flex;
@@ -114,10 +99,8 @@
   }
 
   .funksjonsknapp-panel {
-    border-top: 1px solid @borderLys;
     display: flex;
     justify-content: flex-end;
-    padding: 1.25rem;
 
     * {
       margin-left: 0.5rem;

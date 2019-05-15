@@ -44,11 +44,23 @@ const MODALVISING = {
     SLETTE_MODAL: 'SLETTE_MODAL'
 };
 
-const KandidatlisteHeader = ({ antallKandidatlister }) => (
+const KandidatlisteHeader = ({ antallKandidatlister, onOpprettClick }) => (
     <div className="thead">
-        <div className="th">
-            <div className="td">Antall lagrede kandidatlister:</div>
-            <div className="Kandidatlister__count td">{antallKandidatlister}</div>
+        <div className="th KandidatlisteHeader">
+            <div>
+                <div className="td">Antall lister:</div>
+                <div className="Kandidatlister__count td">{antallKandidatlister}</div>
+            </div>
+            <div>
+                <Knapp
+                    onClick={onOpprettClick}
+                    id="opprett-ny-liste"
+                    role="link"
+                    type="standard"
+                >
+                    Opprett ny
+                </Knapp>
+            </div>
         </div>
     </div>
 );
@@ -261,13 +273,7 @@ class Kandidatlister extends React.Component {
         const Header = () => (
             <PageHeader>
                 <div className="Kandidatlister__header--innhold">
-                    <div className="header-child" />
-                    <div className="header-child tittel-wrapper">
-                        <Sidetittel>Kandidatlister</Sidetittel>
-                    </div>
-                    <div className="header-child Kandidatlister__knapp-wrapper">
-                        <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard">Opprett ny</Knapp>
-                    </div>
+                    <Sidetittel>Kandidatlister</Sidetittel>
                 </div>
             </PageHeader>
         );
@@ -298,10 +304,18 @@ class Kandidatlister extends React.Component {
                 <Container className="blokk-s container">
                     <div className="Kandidatlister__container Kandidatlister__container-width table">
                         {kandidatlister !== undefined && kandidatlister.length > 0 && (
-                            <KandidatlisteHeader antallKandidatlister={kandidatlister.length} />
+                            <KandidatlisteHeader
+                                antallKandidatlister={kandidatlister.length}
+                                onOpprettClick={this.onOpprettClick}
+                            />
                         )}
                         <div className="tbody">
-                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
+                            <Kandidatlistevisning
+                                kandidatlister={kandidatlister}
+                                fetching={fetchingKandidatlister}
+                                onEndreClick={this.onEndreClick}
+                                onSletteClick={this.onDeleteClick}
+                            />
                         </div>
                     </div>
                 </Container>
@@ -368,7 +382,8 @@ SlettKandidatlisteModal.propTypes = {
 };
 
 KandidatlisteHeader.propTypes = {
-    antallKandidatlister: PropTypes.number.isRequired
+    antallKandidatlister: PropTypes.number.isRequired,
+    onOpprettClick: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
