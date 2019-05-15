@@ -22,7 +22,7 @@ import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext.tsx';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 class ResultatVisning extends React.Component {
     constructor(props) {

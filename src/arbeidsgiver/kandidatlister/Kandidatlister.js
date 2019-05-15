@@ -18,7 +18,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {

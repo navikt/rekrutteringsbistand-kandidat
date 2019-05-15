@@ -22,7 +22,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class ResultatVisning extends React.Component {

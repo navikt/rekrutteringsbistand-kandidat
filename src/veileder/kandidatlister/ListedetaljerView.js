@@ -11,7 +11,7 @@ import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
