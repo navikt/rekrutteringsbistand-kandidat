@@ -51,13 +51,13 @@ module.exports = {
 
         minIdLogin(brukernavn) {
             return this
-                .waitForElementVisible('@minIdKnapp')
+                .waitForElementPresent('@minIdKnapp')
                 .click('@minIdKnapp')
-                .waitForElementVisible('@minIdFnrFelt')
+                .waitForElementPresent('@minIdFnrFelt')
                 .setValue('@minIdFnrFelt', brukernavn)
                 .setValue('@minIdPwdFelt', 'password01')
                 .click('@minIdNesteKnapp')
-                .waitForElementVisible('@minIdPinKodeFelt')
+                .waitForElementPresent('@minIdPinKodeFelt')
                 .setValue('@minIdPinKodeFelt', '12345')
                 .click('@minIdNesteKnapp')
         },
