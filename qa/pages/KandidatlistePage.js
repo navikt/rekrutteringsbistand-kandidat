@@ -18,6 +18,7 @@ module.exports = {
             return this
                 .waitForElementPresent('@kandidatCheckbox')
                 .setValue('@kandidatCheckbox', this.api.Keys.SPACE)
+                .api.execute('scrollTo(0,0);').page.KandidatlistePage()
                 .click('@deleteIcon')
                 .click('@deleteKnappModal')
                 .waitForElementVisible('@hjelpetekstfading')
