@@ -6,7 +6,7 @@ import Media from "react-media";
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Sidetittel, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
@@ -21,6 +21,7 @@ import { capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
 import { AlertStripeType, useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
+import Sidetittel from '../../felles/common/Sidetittel';
 import {
     Kandidat,
     KandidatlisteDetaljer,
@@ -211,8 +212,8 @@ const IkkeSynligKandidatPanel: FunctionComponent<IkkeSynligKandidatPanelProps> =
 
 const DisabledSlettKnapp = () => (
     <div className="Lenkeknapp typo-normal Delete" aria-label="Knapp for sletting av markerte kandidater fra listen">
-        <i className="Delete__icon" />
         Slett
+        <i className="Delete__icon" />
     </div>
 );
 
@@ -222,8 +223,8 @@ const Knapper: FunctionComponent<{ valgteKandidater: Array<Kandidat>, visSlettKa
             <div className="KandidatlisteDetalj__knapperad">
                 <div className="KandidatlisteDetalj__knapperad--slett" aria-label="Knapp for sletting av markerte kandidater fra listen">
                     <Lenkeknapp onClick={visSlettKandidaterModal} className="Delete">
-                        <i className="Delete__icon" />
                         Slett
+                        <i className="Delete__icon" />
                     </Lenkeknapp>
                 </div>
             </div>

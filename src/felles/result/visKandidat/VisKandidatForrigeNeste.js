@@ -1,29 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import NavFrontendChevron from 'nav-frontend-chevron';
+import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
 
 const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, gjeldendeKandidat, antallKandidater }) => {
     if (antallKandidater > 1) {
         return (
             <div className="navigering-forrige-neste">
                 {forrigeKandidat &&
-                    <Link
+                    <LenkeMedChevron
                         to={forrigeKandidat}
-                        className={`${lenkeClass} link`}
-                    >
-                        <NavFrontendChevron type="venstre" /> Forrige kandidat
-                    </Link>
+                        className={lenkeClass}
+                        type="venstre"
+                        text="Forrige kandidat"
+                    />
                 }
                 <Normaltekst className="index">{gjeldendeKandidat} av {antallKandidater}</Normaltekst>
                 {nesteKandidat ? (
-                    <Link
+                    <LenkeMedChevron
                         to={nesteKandidat}
-                        className={`${lenkeClass} link`}
-                    >
-                        Neste kandidat <NavFrontendChevron type="høyre" />
-                    </Link>) : (<div className="header--personalia__lenke--placeholder" />
+                        className={lenkeClass}
+                        type="hoyre"
+                        text="Neste kandidat"
+                    />
+                ) : (
+                    <div className="header--personalia__lenke--placeholder" />
                 )}
             </div>
         );

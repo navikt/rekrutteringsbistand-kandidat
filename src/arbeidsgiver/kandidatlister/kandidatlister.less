@@ -7,33 +7,14 @@
 .Kandidatlister__header--innhold {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
+}
 
-  @media (min-width: @screen-sm) {
-    flex-direction: row;
-  }
-
-  @media (max-width: (@screen-sm - 1)) {
-    flex-direction: column;
-  }
-
-  .header-child {
-    flex: 1;
-  }
-
-  .tittel-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-
-  .Kandidatlister__knapp-wrapper {
-    display: flex;
-    justify-content: flex-end;
-
-    @media (max-width: (@screen-sm - 1)) {
-      margin: 1rem 0;
-    }
-  }
+.KandidatlisteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .Kandidatlister__count {
@@ -46,11 +27,15 @@
   max-width: 640px;
 
   &.tr {
-    padding: 0 !important;
+    padding: 1.25rem 1rem !important;
+  }
+
+  &:nth-child(odd):last-child {
+    border-bottom: 2px solid @gray3;
   }
 
   .beskrivelse {
-    padding: 1.25rem;
+    margin-bottom: 1.25rem;
 
     .delt-fra-nav-rad {
       display: flex;
@@ -81,11 +66,7 @@
       font-size: 1rem;
       text-decoration: underline;
       font-style: normal;
-      font-weight: bold;
-    }
-
-    .dato-opprettet {
-      color: #78706a;
+      font-weight: 600;
     }
 
     .topp {
@@ -118,10 +99,8 @@
   }
 
   .funksjonsknapp-panel {
-    border-top: 1px solid @borderLys;
     display: flex;
     justify-content: flex-end;
-    padding: 1.25rem;
 
     * {
       margin-left: 0.5rem;
@@ -167,6 +146,7 @@
 
   .top-row {
     display: flex;
+    padding-top: 1rem;
 
     @media (min-width: @screen-sm-min) {
       flex-direction: row;
@@ -179,9 +159,7 @@
 
     .TilbakeLenke-wrapper {
       flex: 1;
-      @media (min-width: @screen-sm-min) {
-        padding-top: 0.75rem;
-      }
+      padding-top: 1rem;
 
       .TilbakeLenke {
         padding: 0;
@@ -226,6 +204,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding-bottom: 1rem;
 
     @media (max-width: (@screen-sm - 1)) {
       padding-top: 1rem;
@@ -252,7 +231,7 @@
       }
 
       p:first-child {
-        font-weight: bolder;
+        font-weight: 600;
       }
     }
   }
@@ -375,7 +354,7 @@
 
       .skjemaelement__label {
         padding-left: 3rem;
-        font-weight: bold;
+        font-weight: 600;
 
         @media (max-width: @screen-xs) {
           padding-left: 2rem;

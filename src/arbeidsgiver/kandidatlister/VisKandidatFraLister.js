@@ -120,14 +120,14 @@ class VisKandidatFraLister extends React.Component {
         const Knapper = () => (
             <div className="viskandidat__knapperad">
                 <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
-                    <i className="Delete__icon" />
                     Slett
+                    <i className="Delete__icon" />
                 </Lenkeknapp>
             </div>
         );
 
         if (this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
-            return <Redirect to={`/kandidater/lister/detaljer/${kandidatlisteId}`} push />;
+            return <Redirect to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`} push />;
         }
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
-import { Sidetittel, Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
+import { Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
@@ -18,6 +18,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
+import Sidetittel from '../../felles/common/Sidetittel';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -40,11 +41,23 @@ const MODALVISING = {
     SLETTE_MODAL: 'SLETTE_MODAL'
 };
 
-const KandidatlisteHeader = ({ antallKandidatlister }) => (
+const KandidatlisteHeader = ({ antallKandidatlister, onOpprettClick }) => (
     <div className="thead">
-        <div className="th">
-            <div className="td">Antall lagrede kandidatlister:</div>
-            <div className="Kandidatlister__count td">{antallKandidatlister}</div>
+        <div className="th KandidatlisteHeader">
+            <div>
+                <div className="td">Antall lister:</div>
+                <div className="Kandidatlister__count td">{antallKandidatlister}</div>
+            </div>
+            <div>
+                <Knapp
+                    onClick={onOpprettClick}
+                    id="opprett-ny-liste"
+                    role="link"
+                    type="standard"
+                >
+                    Opprett ny
+                </Knapp>
+            </div>
         </div>
     </div>
 );
@@ -71,9 +84,7 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                     </Undertittel>
                 </div>
                 {!kandidatliste.opprettetAvNav &&
-                    <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
-                    </div>
+                    <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                 }
             </div>
             <div className="beskrivelse-rad">
@@ -92,20 +103,18 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, sletteKandidatlis
                     }
                 </div>
                 {kandidatliste.opprettetAvNav &&
-                    <div className="dato-opprettet">
-                        <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
-                    </div>
+                    <Undertekst>{`Opprettet: ${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Undertekst>
                 }
             </div>
         </div>
         <div className="funksjonsknapp-panel">
             <Lenkeknapp onClick={() => endreKandidatliste(kandidatliste)} className="Edit">
-                <i className="Edit__icon" />
                 Endre
+                <i className="Edit__icon" />
             </Lenkeknapp>
             <Lenkeknapp onClick={() => sletteKandidatliste(kandidatliste)} className="Delete">
-                <i className="Delete__icon" />
                 Slett
+                <i className="Delete__icon" />
             </Lenkeknapp>
         </div>
     </div>
@@ -261,13 +270,7 @@ class Kandidatlister extends React.Component {
         const Header = () => (
             <PageHeader>
                 <div className="Kandidatlister__header--innhold">
-                    <div className="header-child" />
-                    <div className="header-child tittel-wrapper">
-                        <Sidetittel>Kandidatlister</Sidetittel>
-                    </div>
-                    <div className="header-child Kandidatlister__knapp-wrapper">
-                        <Knapp onClick={this.onOpprettClick} id="opprett-ny-liste" role="link" type="standard">Opprett ny</Knapp>
-                    </div>
+                    <Sidetittel>Kandidatlister</Sidetittel>
                 </div>
             </PageHeader>
         );
@@ -298,10 +301,18 @@ class Kandidatlister extends React.Component {
                 <Container className="blokk-s container">
                     <div className="Kandidatlister__container Kandidatlister__container-width table">
                         {kandidatlister !== undefined && kandidatlister.length > 0 && (
-                            <KandidatlisteHeader antallKandidatlister={kandidatlister.length} />
+                            <KandidatlisteHeader
+                                antallKandidatlister={kandidatlister.length}
+                                onOpprettClick={this.onOpprettClick}
+                            />
                         )}
                         <div className="tbody">
-                            <Kandidatlistevisning kandidatlister={kandidatlister} fetching={fetchingKandidatlister} onEndreClick={this.onEndreClick} onSletteClick={this.onDeleteClick} />
+                            <Kandidatlistevisning
+                                kandidatlister={kandidatlister}
+                                fetching={fetchingKandidatlister}
+                                onEndreClick={this.onEndreClick}
+                                onSletteClick={this.onDeleteClick}
+                            />
                         </div>
                     </div>
                 </Container>
@@ -368,7 +379,8 @@ SlettKandidatlisteModal.propTypes = {
 };
 
 KandidatlisteHeader.propTypes = {
-    antallKandidatlister: PropTypes.number.isRequired
+    antallKandidatlister: PropTypes.number.isRequired,
+    onOpprettClick: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

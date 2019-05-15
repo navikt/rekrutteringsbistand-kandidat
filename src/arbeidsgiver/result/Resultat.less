@@ -3,7 +3,7 @@
 .resultatvisning--sokekriterier {
   .checkbox--sokekriterier--unchecked,
   .checkbox--sokekriterier--checked, .etikett--sokekriterier,
-  .leggtil--sokekriterier, .se-flere-forslag {
+  .leggtil--sokekriterier {
     width: 100%;
   }
 }
@@ -42,18 +42,11 @@
 }
 
 .sokekriterier--column {
-  margin-top: 2.5rem;
-}
-
-@media (min-width: @screen-md-min) {
-  .sokekriterier--column {
+  margin-bottom: 2.5rem;
+  @media (min-width: @screen-md-min) {
     margin-right: 2.5rem;
-    margin-top: 4rem;
   }
-}
-
-@media (min-width: @screen-lg-min) {
-  .sokekriterier--column {
+  @media (min-width: @screen-lg-min) {
     margin-right: 4rem;
   }
 }
@@ -63,8 +56,13 @@
   text-align: right;
 }
 
-.kandidatervisning--column {
-  margin-top: 2.5rem;
+.ResultatVisning--header-padding {
+  @media (min-width: @screen-sm-min) {
+    margin-bottom: 4rem;
+  }
+  @media (max-width: 767px) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 @media (min-width: @screen-md-min) {
@@ -87,7 +85,7 @@
 
 .resultatvisning--header-treff {
   font-size: 3.125rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .buttons--kandidatervisning {
@@ -149,4 +147,17 @@ a.tilbake--lenke {
       margin-bottom: 0.75rem;
     }
   }
+}
+
+.send--sokekriterier--knapp,
+.knapp-slett-alle-kriterier-lenke {
+    width: 100%;
+    &#knapp-send--sokekriterier-knapp2 {
+        margin-top: 2rem;
+    }
+}
+
+.spinner--center {
+  top: 7px;
+  left: 0.5rem;
 }

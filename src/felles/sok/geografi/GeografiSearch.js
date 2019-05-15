@@ -7,7 +7,7 @@ import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Geografi.less';
-import CheckboxMedDisabledFunksjon from '../../common/CheckboxMedDisabledFunksjon';
+import CheckboxMedHjelpetekst from '../../common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 class GeografiSearch extends React.Component {
@@ -129,7 +129,7 @@ class GeografiSearch extends React.Component {
                                 +Legg til fylke/kommune
                             </LeggtilKnapp>
                         )}
-                        <CheckboxMedDisabledFunksjon
+                        <CheckboxMedHjelpetekst
                             id="toggle-ma-bo-pa-geografi"
                             label="Vis bare kandidater som bor i området"
                             checked={this.props.maaBoInnenforGeografi}
@@ -137,18 +137,21 @@ class GeografiSearch extends React.Component {
                             onChange={this.onToggleMaBoPaGeografi}
                             disabled={this.props.geografiListKomplett && this.props.geografiListKomplett.length === 0}
                             onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
+                            tittel="Vis bare kandidater som bor i området"
                         />
 
                     </div>
-                    {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={geo.geografiKodeTekst}
-                            value={geo.geografiKode}
-                        >
-                            {geo.geografiKodeTekst}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={geo.geografiKodeTekst}
+                                value={geo.geografiKode}
+                            >
+                                {geo.geografiKodeTekst}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

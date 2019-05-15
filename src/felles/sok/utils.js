@@ -53,6 +53,9 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
             if (konsepttype === KONSEPTTYPE.UTDANNING) {
                 return { ...dict, utdanning: [...dict.utdanning, obj] };
             } else if (konsepttype === KONSEPTTYPE.YRKE) {
+                if (obj.c2branch === KONSEPTTYPE.KOMPETANSE) {
+                    return { ...dict, kompetanse: [...dict.kompetanse, obj] };
+                }
                 return { ...dict, yrker: [...dict.yrker, obj] };
             } else if (konsepttype === KONSEPTTYPE.KOMPETANSE) {
                 return { ...dict, kompetanse: [...dict.kompetanse, obj] };
@@ -62,6 +65,8 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
                 return { ...dict, sertifikat: [...dict.sertifikat, obj] };
             } else if (konsepttype === KONSEPTTYPE.SOFT_SKILL) {
                 return { ...dict, softSkills: [...dict.softSkills, obj] };
+            } else if (konsepttype === KONSEPTTYPE.SPRAK) {
+                return { ...dict, sprak: [...dict.sprak, obj] };
             }
             return { ...dict, andre: [...dict.andre, obj] };
         },
@@ -72,6 +77,7 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
             erfaring: [],
             sertifikat: [],
             softSkills: [],
+            sprak: [],
             andre: []
         }
     );

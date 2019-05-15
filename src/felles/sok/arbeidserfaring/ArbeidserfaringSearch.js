@@ -154,15 +154,17 @@ class ArbeidserfaringSearch extends React.Component {
                             </LeggtilKnapp>
                         )}
                     </div>
-                    {this.props.arbeidserfaringer.map((arbeidserfaring) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={arbeidserfaring}
-                            value={arbeidserfaring}
-                        >
-                            {arbeidserfaring}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.arbeidserfaringer.map((arbeidserfaring) => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={arbeidserfaring}
+                                value={arbeidserfaring}
+                            >
+                                {arbeidserfaring}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 <div className="sokekriterier--margin-top-extra-large">
                     {this.renderTotalErfaring()}

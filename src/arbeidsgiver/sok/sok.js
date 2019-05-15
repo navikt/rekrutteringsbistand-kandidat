@@ -33,7 +33,7 @@ import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
     mineArbeidsgivereSaga
 } from '../arbeidsgiver/arbeidsgiverReducer';
-import { KandidatlisteHeader, KandidatsokHeader } from '../common/Toppmeny';
+import { KandidatlisteHeader, KandidatsokHeader } from '../common/toppmeny/Toppmeny';
 import Feedback from '../feedback/Feedback';
 import sprakReducer from './sprak/sprakReducer';
 import sertifikatReducer from './sertifikat/sertifikatReducer';
@@ -44,8 +44,9 @@ import KandidatlisteDetaljWrapper from '../kandidatlisteDetaljer/KandidatlisteDe
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
-import GiSamtykke from '../samtykke/GiSamtykke';
+import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
+import { USE_JANZZ } from '../common/fasitProperties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -147,7 +148,7 @@ class Sok extends React.Component {
 
     render() {
         if (this.props.harSamtykket !== undefined && !this.props.harSamtykket) {
-            return <GiSamtykke />;
+            return <SamtykkeSide />;
         }
         if (this.props.error) {
             return <Feilside />;
@@ -197,7 +198,7 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                         </Switch>
                     </div>
-                    <Footer />
+                    {!USE_JANZZ && <Footer /> }
                 </div>
             </BrowserRouter>
         );

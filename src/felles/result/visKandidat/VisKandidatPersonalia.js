@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Column, Container, Row } from 'nav-frontend-grid';
-import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
-import { Link } from 'react-router-dom';
-import NavFrontendChevron from 'nav-frontend-chevron';
+import { Column, Container } from 'nav-frontend-grid';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { formatISOString, formatterDato } from '../../common/dateUtils';
 import cvPropTypes from '../../PropTypes';
 import TelefonIkon from '../../common/ikoner/TelefonIkon';
@@ -11,6 +9,8 @@ import MailIkon from '../../common/ikoner/MailIkon';
 import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
+import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
+import Sidetittel from '../../common/Sidetittel';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
@@ -56,16 +56,22 @@ export default class VisKandidatPersonalia extends React.Component {
 
         const lenkeClass = appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'VisKandidat__ForrigeNeste';
 
+        let lenkeText = 'Til kandidatsøket';
+        if (tilbakeLink.includes('kandidater/lister')) {
+            lenkeText = 'Til kandidatlisten';
+        } else if (tilbakeLink.includes('kandidater-next')) {
+            lenkeText = 'Til liste kandidatmatch';
+        }
         return (
             <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
-                        <Link
+                        <LenkeMedChevron
+                            type="venstre"
                             to={tilbakeLink}
-                            className={`${lenkeClass} link`}
-                        >
-                            <NavFrontendChevron type="venstre" /> Til {tilbakeLink.includes('kandidater/lister') ? 'kandidatlisten' : 'kandidatsøket'}
-                        </Link>
+                            className={lenkeClass}
+                            text={lenkeText}
+                        />
                         {fantCv && visNavigasjon && (
                             <VisKandidatForrigeNeste
                                 lenkeClass={lenkeClass}
@@ -78,7 +84,7 @@ export default class VisKandidatPersonalia extends React.Component {
                     </Column>
                 </Container>
 
-                <Row>
+                <div>
                     <Sidetittel className="header--personalia__overskrift">
                         {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
@@ -88,9 +94,9 @@ export default class VisKandidatPersonalia extends React.Component {
                             <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
                         )
                     }
-                </Row>
+                </div>
                 {fantCv &&
-                    <Row>
+                    <div>
                         <div className="personalia-container">
                             {(cv.epost) && (
                                 <div className="personalia--item">
@@ -129,7 +135,7 @@ export default class VisKandidatPersonalia extends React.Component {
                                 </Normaltekst>
                             </div>}
                         </div>
-                    </Row>
+                    </div>
                 }
             </div>
 

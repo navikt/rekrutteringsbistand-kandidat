@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ArbeidsgiverTabId, Header, AuthStatus, ArbeidsgiverSelect } from 'pam-frontend-header';
-import { LOGOUT_URL, LOGIN_URL } from './fasitProperties';
-import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../arbeidsgiver/arbeidsgiverReducer';
+import { LOGOUT_URL, LOGIN_URL, USE_JANZZ } from '../fasitProperties';
+import { RESET_ARBEIDSGIVER, VELG_ARBEIDSGIVER } from '../../arbeidsgiver/arbeidsgiverReducer';
+import KandidatsokNextHeader from '../kandidatsokNextHeader/KandidatsokNextHeader.tsx';
 
-const loggUt = () => {
+export const loggUt = () => {
     sessionStorage.removeItem('orgnr');
     window.location.href = LOGOUT_URL;
 };
 
-const loggInn = () => {
+export const loggInn = () => {
     window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
 };
 
@@ -26,6 +27,9 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
         navn: arbeidsgiver.orgnavn,
         orgNummer: arbeidsgiver.orgnr
     }));
+    if (USE_JANZZ) {
+        return <KandidatsokNextHeader />;
+    }
     return (
         <Header
             onLoginClick={loggInn}

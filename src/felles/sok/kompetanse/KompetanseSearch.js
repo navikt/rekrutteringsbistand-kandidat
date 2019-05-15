@@ -61,8 +61,8 @@ class KompetanseSearch extends React.Component {
         this.typeAhead.input.focus();
     };
 
-    onKompetanseSuggestionsClick = (e) => {
-        this.props.selectTypeAheadValueKompetanse(e.target.value);
+    onKompetanseSuggestionsClick = (kompetanse) => () => {
+        this.props.selectTypeAheadValueKompetanse(kompetanse);
         this.props.search();
     };
 
@@ -128,15 +128,17 @@ class KompetanseSearch extends React.Component {
                             </LeggtilKnapp>
                         )}
                     </div>
-                    {this.props.kompetanser.map((kompetanse) => (
-                        <Merkelapp
-                            onRemove={this.onFjernKompetanseClick}
-                            key={kompetanse}
-                            value={kompetanse}
-                        >
-                            {kompetanse}
-                        </Merkelapp>
-                    ))}
+                    <div className="Merkelapp__wrapper">
+                        {this.props.kompetanser.map((kompetanse) => (
+                            <Merkelapp
+                                onRemove={this.onFjernKompetanseClick}
+                                key={kompetanse}
+                                value={kompetanse}
+                            >
+                                {kompetanse}
+                            </Merkelapp>
+                        ))}
+                    </div>
                 </div>
                 {kompetanseSuggestions.length > 0 && (
                     <div>
@@ -144,15 +146,15 @@ class KompetanseSearch extends React.Component {
                         <Element>
                             Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
                         </Element>
-                        <div className="sokekriterier--kriterier">
+                        <div className="Kompetanseforslag__wrapper">
                             {kompetanseSuggestions.slice(0, this.state.antallKompetanser).map((suggestedKompetanse) => (
                                 <button
-                                    onClick={this.onKompetanseSuggestionsClick}
+                                    onClick={this.onKompetanseSuggestionsClick(suggestedKompetanse.feltnavn)}
                                     className="KompetanseSearch__etikett"
-                                    value={suggestedKompetanse.feltnavn}
                                     key={suggestedKompetanse.feltnavn}
                                 >
-                                    + {suggestedKompetanse.feltnavn}
+                                    <div className="KompetanseSearch__etikett__text">{suggestedKompetanse.feltnavn}</div>
+                                    <i className="KompetanseSearch__etikett__icon" />
                                 </button>
                             ))}
                             {this.state.antallKompetanser < kompetanseSuggestions.length && (

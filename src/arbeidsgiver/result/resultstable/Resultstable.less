@@ -110,23 +110,25 @@
   padding: 0 !important;
 }
 
-.yrkeserfaring, .utdanning, .lengdeYrkeserfaringTekst {
+.yrkeserfaring, .utdanning, .lengdeYrkeserfaringTekst, score {
   padding: 0;
   text-align: left;
-  color: @navMorkGra;
 }
 
 .bosted {
   max-width: 5.543rem;
   padding: 0;
   text-align: left;
-  color: @navMorkGra;
+
+  @media(max-width: @screen-xs-max){
+    max-width: 10rem;
+  }
 }
 
 .score {
-  padding: 0 0.5rem 0 1rem;
-  text-align: left;
-  color: @navMorkGra;
+  @media(max-width: @screen-xs-max){
+    margin-top: 0.5rem;
+  }
 }
 
 .border--vertical {

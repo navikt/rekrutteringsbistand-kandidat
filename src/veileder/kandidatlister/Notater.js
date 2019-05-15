@@ -23,7 +23,7 @@ class Notater extends React.Component {
         };
     }
 
-    onOpenRedigeringsModal = (notat) => {
+    onOpenRedigeringsModal = (notat) => () => {
         this.setState({
             notatSomRedigeres: notat
         });
@@ -35,7 +35,7 @@ class Notater extends React.Component {
         });
     };
 
-    onOpenSletteModal = (notat) => {
+    onOpenSletteModal = (notat) => () => {
         this.setState({
             notatSomSlettes: notat
         });

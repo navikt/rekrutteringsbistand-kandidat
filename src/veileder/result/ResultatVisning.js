@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Sidetittel, Normaltekst, Element } from 'nav-frontend-typografi';
+import { Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp } from 'pam-frontend-knapper';
@@ -22,6 +22,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
+import Sidetittel from '../../felles/common/Sidetittel';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class ResultatVisning extends React.Component {

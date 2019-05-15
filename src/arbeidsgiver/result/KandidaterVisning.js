@@ -10,7 +10,7 @@ import './Resultat.less';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
-import KnappMedHjelpetekst from '../../felles/common/KnappMedHjelpetekst';
+import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import { USE_JANZZ } from '../common/fasitProperties';
 
@@ -172,20 +172,29 @@ class KandidaterVisning extends React.Component {
         }
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
+
+        const { totaltAntallTreff, kandidater } = this.props;
         return (
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <Row className="resultatvisning">
                     <div className="resultatvisning--header">
-                        <div className="resultatvisning--header-left">
-                            <Element>Antall treff:</Element>
-                            <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
-                        </div>
+
+                        {USE_JANZZ ?
+                            <div className="resultatvisning--header-left">
+                                <Element>Viser {kandidater.length > totaltAntallTreff ? totaltAntallTreff : kandidater.length} av {totaltAntallTreff} kandidater</Element>
+                            </div>
+                            :
+
+                            <div className="resultatvisning--header-left">
+                                <Element>Antall treff:</Element>
+                                <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
+                            </div>
+                        }
+
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
-                            mini
-                            type="hoved"
                             disabled={antallMarkert === 0}
                             onClick={this.aapneLagreKandidaterModal}
                             id="lagre-kandidater-knapp"

@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst, Sidetittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Kandidat, Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import '../../felles/common/ikoner/ikoner.less';
 import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import Sidetittel from '../../felles/common/Sidetittel';
 
 const STATUS = {
     FORESLATT: 'FORESLATT',
