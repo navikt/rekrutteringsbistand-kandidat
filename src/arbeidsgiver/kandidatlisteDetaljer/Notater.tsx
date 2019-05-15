@@ -6,17 +6,20 @@ import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendModal from 'nav-frontend-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import AlertStripe from 'nav-frontend-alertstriper';
 import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
 import { EndreType, KandidatlisteTypes, Notat, Notater } from './kandidatlisteReducer';
 import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import { AlertStripeState, useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
+import { FadingAlertStripeLiten } from '../../felles/common/HjelpetekstFading';
 import './Notater.less';
 
-const NotatVisning : FunctionComponent<{ notat: Notat }> = ({ notat }) => (
+const NotatVisning: FunctionComponent<{ notat: Notat }> = ({ notat }) => (
     <div className="NotatVisning">
         <span className="typo-undertekst">{`${formatterDato(new Date(notat.lagtTilTidspunkt))} kl. ${formatterTid(new Date(notat.lagtTilTidspunkt))}`}</span>
-        { notat.notatEndret && <span className="typo-undertekst"> - </span>}
-        { notat.notatEndret && <span className="NotatVisning-redigert-tag typo-undertekst">redigert</span>}
+        {notat.notatEndret && <span className="typo-undertekst"> - </span>}
+        {notat.notatEndret && <span className="NotatVisning-redigert-tag typo-undertekst">redigert</span>}
         <Normaltekst className="NotatVisning-tekst">{notat.tekst}</Normaltekst>
     </div>
 );
@@ -35,13 +38,19 @@ const NotatRad: FunctionComponent<{ notat: Notat, setModalState: (ModalState) =>
     </div>
 );
 
-const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModalState: (ModalState) => void, hentNotater: () => void, antallNotater: number}> = ({ notater, setModalState, hentNotater, antallNotater }) => {
+const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModalState: (ModalState) => void, hentNotater: () => void, antallNotater: number }> = ({ notater, setModalState, hentNotater, antallNotater }) => {
     switch (notater.kind) {
         case RemoteDataTypes.SUCCESS:
             if (notater.data.length > 0) {
                 return (
                     <div className="Notatliste Notatliste-top-border">
-                        {notater.data.map(notat => <NotatRad key={`notat-${notat.notatId}`} notat={notat} setModalState={setModalState} />)}
+                        {notater.data.map(notat => (
+                            <NotatRad
+                                key={`notat-${notat.notatId}`}
+                                notat={notat}
+                                setModalState={setModalState}
+                            />
+                        ))}
                     </div>
                 );
             }
@@ -58,15 +67,14 @@ const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModa
             return null;
 
         case RemoteDataTypes.FAILURE:
-            // TODO: Endre design på feilmelding
             return (
                 <div className="Notatliste">
-                    <Normaltekst>
-                        Beklager, notatene kan ikke vises. Trykk på knappen under for å prøve igjen.
-                    </Normaltekst>
-                    <Knapp onClick={hentNotater}>
-                        Prøv igjen
-                    </Knapp>
+                    <AlertStripe type="feil" solid>
+                        <div className="AlertStripe__med-knapp">
+                            <span>Beklager, notatene kan ikke vises</span>
+                            <Hovedknapp onClick={hentNotater} mini>Prøv på nytt</Hovedknapp>
+                        </div>
+                    </AlertStripe>
                 </div>
             );
 
@@ -75,30 +83,39 @@ const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModa
     }
 };
 
-type NyttNotatState = { open: false } | { open: true, venterPaLagring: boolean, value: string }
+type NyttNotatState = { open: false } | { open: true, value: string }
 
 const lukketNotatFelt: () => NyttNotatState = () => ({
     open: false
 });
 
-const apentNotatFelt: (string, boolean?) => NyttNotatState = (value: string, venterPaLagring = false) => ({
+const apentNotatFelt: (string) => NyttNotatState = (value: string) => ({
     open: true,
-    venterPaLagring,
     value
 });
 
-const NyttNotat: FunctionComponent<{ opprettNotat: (string) => void, opprettState: RemoteData<undefined> }> = ({ opprettNotat, opprettState }) => {
+interface NyttNotatProps {
+    opprettNotat: (string) => void,
+    opprettState: RemoteData<undefined>,
+    setFailureMelding: (string) => void,
+    resetEndreNotatState: (endreType: EndreType) => void
+}
+
+const NyttNotat: FunctionComponent<NyttNotatProps> = ({ opprettNotat, opprettState, setFailureMelding, resetEndreNotatState }) => {
     const [nyttNotatState, setNyttNotatState] = useState(lukketNotatFelt());
     useEffect(() => {
-        if (opprettState.kind === RemoteDataTypes.SUCCESS && nyttNotatState.open && nyttNotatState.venterPaLagring) {
+        if (opprettState.kind === RemoteDataTypes.SUCCESS && nyttNotatState.open) {
             setNyttNotatState(lukketNotatFelt());
+            resetEndreNotatState(EndreType.OPPRETT);
+        } else if (opprettState.kind === RemoteDataTypes.FAILURE && nyttNotatState.open) {
+            setFailureMelding('Det skjedde en feil ved lagring av notatet');
+            resetEndreNotatState(EndreType.OPPRETT);
         }
     }, [opprettState, nyttNotatState]);
 
     if (nyttNotatState.open) {
         const onLagreClick = () => {
-            if (!nyttNotatState.venterPaLagring) {
-                setNyttNotatState(apentNotatFelt(nyttNotatState.value, true));
+            if (opprettState.kind !== RemoteDataTypes.LOADING) {
                 opprettNotat(nyttNotatState.value);
             }
         };
@@ -116,16 +133,16 @@ const NyttNotat: FunctionComponent<{ opprettNotat: (string) => void, opprettStat
                     mini
                     onClick={onLagreClick}
                     className="RedigerNotat-hovedknapp"
-                    spinner={nyttNotatState.venterPaLagring}>
+                    spinner={opprettState.kind === RemoteDataTypes.LOADING}
+                >
                     Lagre
                 </Hovedknapp>
                 <Flatknapp mini onClick={() => { setNyttNotatState(lukketNotatFelt()) }}>Avbryt</Flatknapp>
             </div>
         )
     }
-    return <Hovedknapp mini onClick={() => { setNyttNotatState(apentNotatFelt(''))}}>Skriv notat</Hovedknapp>;
+    return <Knapp mini onClick={() => { setNyttNotatState(apentNotatFelt(''))}}>Skriv notat</Knapp>;
 };
-
 
 enum ModalStateType {
     LUKKET = 'LUKKET',
@@ -133,25 +150,34 @@ enum ModalStateType {
     SLETTE_MODAL_AAPEN = 'SLETTE_MODAL_AAPEN'
 }
 
-interface LukketModalState { kind : ModalStateType.LUKKET }
-interface RedigereModalState { kind : ModalStateType.REDIGERE_MODAL_AAPEN, notat: Notat, tekst: string, venterPaLagring: boolean }
-interface SletteModalState { kind : ModalStateType.SLETTE_MODAL_AAPEN, notat: Notat, venterPaLagring: boolean  }
+interface LukketModalState {
+    kind: ModalStateType.LUKKET
+}
 
-const lukketModalState : () => ModalState = () => ({
-    kind : ModalStateType.LUKKET
+interface RedigereModalState {
+    kind: ModalStateType.REDIGERE_MODAL_AAPEN,
+    notat: Notat,
+    tekst: string
+}
+
+interface SletteModalState {
+    kind: ModalStateType.SLETTE_MODAL_AAPEN,
+    notat: Notat
+}
+
+const lukketModalState: () => ModalState = () => ({
+    kind: ModalStateType.LUKKET
 });
 
-const redigereModalState : (Notat, string, boolean?) => ModalState = (notat, tekst, venterPaLagring = false) => ({
-    kind : ModalStateType.REDIGERE_MODAL_AAPEN,
+const redigereModalState: (Notat, string) => ModalState = (notat, tekst) => ({
+    kind: ModalStateType.REDIGERE_MODAL_AAPEN,
     notat,
-    tekst,
-    venterPaLagring
+    tekst
 });
 
-const sletteModalState : (Notat, boolean?) => ModalState = (notat, venterPaLagring = false) => ({
-    kind : ModalStateType.SLETTE_MODAL_AAPEN,
-    notat,
-    venterPaLagring
+const sletteModalState: (Notat) => ModalState = (notat) => ({
+    kind: ModalStateType.SLETTE_MODAL_AAPEN,
+    notat
 });
 
 type ModalState = LukketModalState | RedigereModalState | SletteModalState
@@ -160,20 +186,21 @@ interface RedigerNotatModalProps {
     notat: Notat,
     tekst: string,
     loading: boolean,
-    setModalState : (ModalState) => void,
-    redigerNotat: (notat: Notat, tekst: string) => void
+    setModalState: (ModalState) => void,
+    redigerNotat: (notat: Notat, tekst: string) => void,
+    alertState: AlertStripeState
 }
 
-const RedigerNotatModal : FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, loading, setModalState, redigerNotat }) => {
+const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, loading, setModalState, redigerNotat, alertState }) => {
     const onLagreClick = () => {
         if (!loading) {
-            setModalState(redigereModalState(notat, tekst, true));
             redigerNotat(notat, tekst);
         }
     };
     return (
-        <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
+        <NavFrontendModal contentLabel="Test" isOpen onRequestClose={() => {setModalState(lukketModalState())}}>
             <div className="NotatModal RedigerNotat">
+                <FadingAlertStripeLiten alertStripeState={alertState} />
                 <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
                 <Textarea
                     label="Skriv inn notat"
@@ -191,20 +218,21 @@ const RedigerNotatModal : FunctionComponent<RedigerNotatModalProps> = ({ notat, 
 interface SlettNotatModalProps {
     notat: Notat,
     loading: boolean,
-    setModalState : (ModalState) => void,
-    slettNotat: (notat: Notat) => void
+    setModalState: (ModalState) => void,
+    slettNotat: (notat: Notat) => void,
+    alertState: AlertStripeState
 }
 
-const SlettNotatModal : FunctionComponent<SlettNotatModalProps> = ({ notat, loading, setModalState, slettNotat }) => {
+const SlettNotatModal: FunctionComponent<SlettNotatModalProps> = ({ notat, loading, setModalState, slettNotat, alertState }) => {
     const onLagreClick = () => {
         if (!loading) {
-            setModalState(sletteModalState(notat, true));
-            slettNotat(notat)
+            slettNotat(notat);
         }
     };
     return (
         <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
             <div className="NotatModal">
+                <FadingAlertStripeLiten alertStripeState={alertState} />
                 <Systemtittel className="NotatModal-tittel">Slett notat</Systemtittel>
                 <Normaltekst className="NotatModal-beskrivelse">Er du sikker på at du ønsker å slette notatet?</Normaltekst>
                 <NotatVisning notat={notat}/>
@@ -220,34 +248,60 @@ interface ModalerProps {
     setModalState: (ModalState) => void
     redigerNotat: (notat: Notat, tekst: string) => void,
     slettNotat: (notat: Notat) => void,
+    resetEndreNotatState: (endreType: EndreType) => void,
     notater: Notater
 }
 
-const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, redigerNotat, slettNotat, notater }) => {
+const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, redigerNotat, slettNotat, notater, resetEndreNotatState }) => {
+    const [redigereAlertState, clearRedigerTimouts, , setRedigerFailureMelding] = useTimeoutState();
+    const [sletteAlertState, clearSletteTimouts, , setSletteFailureMelding] = useTimeoutState();
     useEffect(() => {
-        if ((modalState.kind === ModalStateType.REDIGERE_MODAL_AAPEN && modalState.venterPaLagring && notater.redigerState.kind === RemoteDataTypes.SUCCESS)
-            || (modalState.kind === ModalStateType.SLETTE_MODAL_AAPEN && modalState.venterPaLagring && notater.slettState.kind === RemoteDataTypes.SUCCESS)) {
-            setModalState(lukketModalState());
+        if (modalState.kind === ModalStateType.REDIGERE_MODAL_AAPEN) {
+            if (notater.redigerState.kind === RemoteDataTypes.SUCCESS) {
+                setModalState(lukketModalState());
+                resetEndreNotatState(EndreType.REDIGER);
+            } else if (notater.redigerState.kind === RemoteDataTypes.FAILURE) {
+                setRedigerFailureMelding('Det skjedde en feil ved lagring av notatet');
+                resetEndreNotatState(EndreType.REDIGER);
+            }
+        }
+        if (modalState.kind === ModalStateType.SLETTE_MODAL_AAPEN) {
+            if (notater.slettState.kind === RemoteDataTypes.SUCCESS) {
+                setModalState(lukketModalState());
+                resetEndreNotatState(EndreType.SLETT);
+            } else if (notater.slettState.kind === RemoteDataTypes.FAILURE) {
+                setSletteFailureMelding('Det skjedde en feil ved sletting av notatet');
+                resetEndreNotatState(EndreType.SLETT);
+            }
         }
     }, [notater, modalState]);
+
+    useEffect(() => {
+        return () => {
+            clearRedigerTimouts();
+            clearSletteTimouts();
+        };
+    }, []);
 
     if (modalState.kind === ModalStateType.REDIGERE_MODAL_AAPEN) {
         return (
             <RedigerNotatModal
                 notat={modalState.notat}
                 tekst={modalState.tekst}
-                loading={modalState.venterPaLagring}
+                loading={notater.redigerState.kind === RemoteDataTypes.LOADING}
                 setModalState={setModalState}
                 redigerNotat={redigerNotat}
+                alertState={redigereAlertState}
             />
         );
     } else if (modalState.kind === ModalStateType.SLETTE_MODAL_AAPEN) {
         return (
             <SlettNotatModal
                 notat={modalState.notat}
-                loading={modalState.venterPaLagring}
+                loading={notater.slettState.kind === RemoteDataTypes.LOADING}
                 setModalState={setModalState}
                 slettNotat={slettNotat}
+                alertState={sletteAlertState}
             />
         );
     }
@@ -263,10 +317,11 @@ interface Props {
     opprettNotat: (tekst: string) => void,
     redigerNotat: (notat: Notat, tekst: string) => void,
     slettNotat: (notat: Notat) => void,
-    resetEndreNotatState: (endreType: EndreType) => void
+    resetEndreNotatState: (endreType: EndreType) => void,
+    setFailureMelding: (innhold: string) => void
 }
 
-const Notater : FunctionComponent<Props> = ({ notater, antallNotater, hentNotater, opprettNotat, redigerNotat, slettNotat }) => {
+const Notater: FunctionComponent<Props> = ({ notater, antallNotater, hentNotater, opprettNotat, redigerNotat, slettNotat, setFailureMelding, resetEndreNotatState }) => {
     useEffect(() => { hentNotater() }, []);
     const [ modalState, setModalState ] = useState(lukketModalState());
 
@@ -278,6 +333,7 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, hentNotate
                 redigerNotat={redigerNotat}
                 slettNotat={slettNotat}
                 notater={notater}
+                resetEndreNotatState={resetEndreNotatState}
             />
             <div>
                 <Element className="Notater-overskrift">Notater ({antallNotater})</Element>
@@ -288,7 +344,7 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, hentNotate
                 </Normaltekst>
                 <Normaltekst className="Notater-beskrivelse">Notatene blir automatisk slettet etter 3 måneder.</Normaltekst>
 
-                <NyttNotat opprettNotat={opprettNotat} opprettState={notater.opprettState} />
+                <NyttNotat opprettNotat={opprettNotat} opprettState={notater.opprettState} setFailureMelding={setFailureMelding} resetEndreNotatState={resetEndreNotatState} />
                 <Notatliste notater={notater.notater} setModalState={setModalState} hentNotater={hentNotater} antallNotater={antallNotater} />
             </div>
         </div>
@@ -297,10 +353,10 @@ const Notater : FunctionComponent<Props> = ({ notater, antallNotater, hentNotate
 
 const mapDispatchToProps = (dispatch, { kandidatlisteId, kandidatnr }) => ({
     hentNotater: () => dispatch({ type: KandidatlisteTypes.HENT_NOTATER, kandidatlisteId, kandidatnr }),
-    opprettNotat: (tekst: string) => dispatch({ type: KandidatlisteTypes.OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst}),
-    redigerNotat: (notat: Notat, tekst: string) => dispatch({ type: KandidatlisteTypes.REDIGER_NOTAT, kandidatlisteId, kandidatnr, notat, tekst}),
+    opprettNotat: (tekst: string) => dispatch({ type: KandidatlisteTypes.OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }),
+    redigerNotat: (notat: Notat, tekst: string) => dispatch({ type: KandidatlisteTypes.REDIGER_NOTAT, kandidatlisteId, kandidatnr, notat, tekst }),
     slettNotat: (notat: Notat) => dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notat }),
-    resetEndreNotatState: (endreType: EndreType) => dispatch({ type: 'RESET_ENDRE_NOTAT_STATE', kandidatlisteId, kandidatnr, endreType })
+    resetEndreNotatState: (endreType: EndreType) => dispatch({ type: KandidatlisteTypes.RESET_ENDRE_NOTAT_STATE, kandidatlisteId, kandidatnr, endreType })
 });
 
 export default connect(null, mapDispatchToProps)(Notater);

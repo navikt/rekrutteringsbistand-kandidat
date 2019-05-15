@@ -15,7 +15,7 @@ interface State {
     }
 }
 
-const reducer : (State, any) => State = (state, action) => {
+const reducer: (State, any) => State = (state, action) => {
     switch (action.type) {
         case 'SET_SUKSESS':
             return {
@@ -94,9 +94,9 @@ interface LukketAlertStripeState {
     kind: AlertStripeType.LUKKET
 }
 
-type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
+export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
 
-export const useTimeoutState : () => [AlertStripeState, () => void, (string) => void, (string) => void] = () => {
+export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void] = () => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
             kind: AlertStripeType.LUKKET
@@ -110,24 +110,24 @@ export const useTimeoutState : () => [AlertStripeState, () => void, (string) => 
     const setMelding = (innhold: string, type: string) => {
         dispatch({ type, innhold, id: state.nextId });
         const callback1 = setTimeout(() => {
-            dispatch({ type: "HIDE", id: state.nextId });
+            dispatch({ type: 'HIDE', id: state.nextId });
         }, timeoutMillis);
         const callback2 = setTimeout(() => {
-            dispatch({ type: "CLEAR", id: state.nextId });
+            dispatch({ type: 'CLEAR', id: state.nextId });
         }, timeoutMillis + 1000);
-        dispatch({ type: "SET_CALLBACK_IDS", callbackIds: { callback1, callback2 } });
+        dispatch({ type: 'SET_CALLBACK_IDS', callbackIds: { callback1, callback2 } });
     };
 
     const setSuccessMelding = (innhold: string) => {
-        setMelding(innhold, "SET_SUKSESS");
+        setMelding(innhold, 'SET_SUKSESS');
     };
 
     const setFailureMelding = (innhold: string) => {
-        setMelding(innhold, "SET_FAILURE");
+        setMelding(innhold, 'SET_FAILURE');
     };
 
     const clearTimouts = () => {
-        dispatch({ type: "CLEAR_TIMEOUTS" });
+        dispatch({ type: 'CLEAR_TIMEOUTS' });
     };
     return [state.feilmelding, clearTimouts, setSuccessMelding, setFailureMelding];
 };

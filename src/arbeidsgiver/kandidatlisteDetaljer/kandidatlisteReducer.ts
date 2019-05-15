@@ -45,6 +45,7 @@ export enum KandidatlisteTypes {
     REDIGER_NOTAT_FERDIG = 'REDIGER_NOTAT_FERDIG',
     SLETT_NOTAT = 'SLETT_NOTAT',
     SLETT_NOTAT_FERDIG = 'SLETT_NOTAT_FERDIG',
+    RESET_ENDRE_NOTAT_STATE = 'RESET_ENDRE_NOTAT_STATE',
     UPDATE_KANDIDATLISTE_VIEW_STATE = 'UPDATE_KANDIDATLISTE_VIEW_STATE'
 }
 
@@ -176,6 +177,12 @@ export enum EndreType {
     SLETT = 'SLETT'
 }
 
+export interface ResetEndreNotatStateAction {
+    type: KandidatlisteTypes.RESET_ENDRE_NOTAT_STATE,
+    endreType: EndreType,
+    kandidatnr: string
+}
+
 export type KandidatlisteAction =
     | HentKandidatlisteSuccessAction
     | HentKandidatlisteFailureAction
@@ -193,6 +200,7 @@ export type KandidatlisteAction =
     | SlettNotatAction
     | SlettNotatFerdigAction
     | UpdateKandidatlisteViewStateAction
+    | ResetEndreNotatStateAction
 
 /** *********************************************************
  * REDUCER
@@ -417,6 +425,20 @@ const oppdaterSlettNotatStateForKandidat: (kandidatliste: RemoteData<Kandidatlis
     }))
 );
 
+const resetEndreNotatStateForKandidat: (kandidatliste: RemoteData<KandidatlisteDetaljer>, kandidatnr: string, endreType: EndreType) => RemoteData<KandidatlisteDetaljer> = (kandidatliste, kandidatnr, endreType) => {
+    switch (endreType) {
+        case EndreType.OPPRETT:
+            return oppdaterOpprettNotatStateForKandidat(kandidatliste, kandidatnr, NotAsked());
+
+        case EndreType.REDIGER:
+            return oppdaterRedigerNotatStateForKandidat(kandidatliste, kandidatnr, NotAsked());
+
+        case EndreType.SLETT:
+            return oppdaterSlettNotatStateForKandidat(kandidatliste, kandidatnr, NotAsked());
+    }
+    return kandidatliste;
+};
+
 const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (state = initialState, action) => {
     switch (action.type) {
         case KandidatlisteTypes.HENT_KANDIDATLISTE_SUCCESS:
@@ -495,6 +517,11 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: oppdaterSlettNotatStateForKandidat(state.kandidatliste, action.kandidatnr, action.notater)
+            };
+        case KandidatlisteTypes.RESET_ENDRE_NOTAT_STATE:
+            return {
+                ...state,
+                kandidatliste: resetEndreNotatStateForKandidat(state.kandidatliste, action.kandidatnr, action.endreType)
             };
         case KandidatlisteTypes.UPDATE_KANDIDATLISTE_VIEW_STATE:
             return {

@@ -12,7 +12,7 @@ import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke.js';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import Lenkeknapp from '../../felles/common/Lenkeknapp.js';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import { FadingAlertStripe } from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper.js';
 import TomListe from '../../felles/kandidatlister/TomListe.js';
 import Notater from './Notater';
@@ -42,7 +42,7 @@ interface HeaderProps {
     antallKandidater: number
 }
 
-const Header : FunctionComponent<HeaderProps> = ({ beskrivelse = '', antallKandidater, oppdragsgiver, tittel }) => (
+const Header: FunctionComponent<HeaderProps> = ({ beskrivelse = '', antallKandidater, oppdragsgiver, tittel }) => (
     <PageHeader>
         <div className="KandidatlisteDetalj__header">
             <div className="top-row">
@@ -72,15 +72,23 @@ interface KandidatListeProps {
     kandidatliste: KandidatlisteDetaljer,
     toggleKandidatChecked: (kandidatnr: string) => void,
     setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void,
-    onFjernKandidat: (kandidat: Kandidat) => void
+    onFjernKandidat: (kandidat: Kandidat) => void,
+    setFailureMelding: (innhold: string) => void
 }
 
-const KandidatListe : FunctionComponent<KandidatListeProps> = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat }) => (
+const KandidatListe: FunctionComponent<KandidatListeProps> = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat, setFailureMelding }) => (
     <div className="tbody">
         {kandidatliste.kandidater && kandidatliste.kandidater.map((kandidat) => {
             if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
                 return (
-                    <SynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-synlig`} kandidatliste={kandidatliste} toggleKandidatChecked={toggleKandidatChecked} setViewStateKandidat={setViewStateKandidat} />
+                    <SynligKandidatPanel
+                        kandidat={kandidat}
+                        key={`${kandidat.kandidatnr}-synlig`}
+                        kandidatliste={kandidatliste}
+                        toggleKandidatChecked={toggleKandidatChecked}
+                        setViewStateKandidat={setViewStateKandidat}
+                        setFailureMelding={setFailureMelding}
+                    />
                 );
             }
             return <IkkeSynligKandidatPanel kandidat={kandidat} key={`${kandidat.kandidatnr}-ikke`} onFjernKandidat={onFjernKandidat} />;
@@ -92,10 +100,11 @@ interface SynligKandidatPanelProps {
     kandidatliste: KandidatlisteDetaljer,
     kandidat: Kandidat,
     toggleKandidatChecked: (kandidatnr: string) => void,
-    setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void
+    setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void,
+    setFailureMelding: (innhold: string) => void
 }
 
-const SynligKandidatPanel : FunctionComponent<SynligKandidatPanelProps> = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat }) => (
+const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat, setFailureMelding }) => (
     <div className="tr">
         <div className="KandidatlisteDetalj__panel">
             <div className="KandidatlisteDetalj__panel--first td">
@@ -148,6 +157,7 @@ const SynligKandidatPanel : FunctionComponent<SynligKandidatPanelProps> = ({ kan
                     kandidatlisteId={kandidatliste.kandidatlisteId}
                     kandidatnr={kandidat.kandidatnr}
                     antallNotater={kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : kandidat.antallNotater}
+                    setFailureMelding={setFailureMelding}
                 />
                 }
             </div>
@@ -161,7 +171,7 @@ interface IkkeSynligKandidatPanelProps {
     onFjernKandidat: (kandidat: Kandidat) => void
 }
 
-const IkkeSynligKandidatPanel : FunctionComponent<IkkeSynligKandidatPanelProps> = ({ kandidat, onFjernKandidat }) => (
+const IkkeSynligKandidatPanel: FunctionComponent<IkkeSynligKandidatPanelProps> = ({ kandidat, onFjernKandidat }) => (
     <div className="KandidatlisteDetalj__panel__ikke_synlig tr">
         <div className="KandidatlisteDetalj__panel--first td" >
             <div className="text-hide">
@@ -201,7 +211,7 @@ const DisabledSlettKnapp = () => (
     </div>
 );
 
-const Knapper : FunctionComponent<{ valgteKandidater: Array<Kandidat>, visSlettKandidaterModal: () => void }> = ({ valgteKandidater, visSlettKandidaterModal }) => {
+const Knapper: FunctionComponent<{ valgteKandidater: Array<Kandidat>, visSlettKandidaterModal: () => void }> = ({ valgteKandidater, visSlettKandidaterModal }) => {
     if (valgteKandidater.length > 0) {
         return (
             <div className="KandidatlisteDetalj__knapperad">
@@ -252,9 +262,9 @@ const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleC
 interface KandidatlisteDetaljProps {
     kandidatliste: KandidatlisteDetaljer,
     sletteStatus: RemoteData<{ antallKandidaterSlettet: number }>,
-    slettKandidater: (kandidater: Array<{ kandidatnr: string}>) => void,
+    slettKandidater: (kandidater: Array<{ kandidatnr: string }>) => void,
     clearKandidatliste: () => void,
-    nullstillSletteStatus:  () => void,
+    nullstillSletteStatus: () => void,
     toggleKandidatChecked: (kandidatnr: string) => void,
     setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void
     markerAlleClicked: (checked: boolean) => void
@@ -272,8 +282,8 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
         markerAlleClicked
     }
 ) => {
-    const [alertStripeState, clearAlertstripeTimouts, setSuccessMelding, setFailureMelding, ] = useTimeoutState();
-    const [sletteModalFailureAlertStripeState, clearModalTimouts, setSletteModalFailureMelding ] = useTimeoutState();
+    const [alertStripeState, clearAlertstripeTimouts, setSuccessMelding, setFailureMelding] = useTimeoutState();
+    const [sletteModalFailureAlertStripeState, clearModalTimouts, , setSletteModalFailureMelding] = useTimeoutState();
     const [sletteModalOpen, setSletteModalOpen] = useState<boolean>(false);
     useEffect(() => {
         if (sletteStatus.kind === RemoteDataTypes.SUCCESS) {
@@ -285,7 +295,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
             }
         } else if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
             setSletteModalFailureMelding('');
-            nullstillSletteStatus();
+            nullstillSletteStatus()
         }
     }, [sletteStatus]);
 
@@ -311,11 +321,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 antallKandidater={kandidater.length}
             />
             <button onClick={() => setFailureMelding('test')} />
-            <HjelpetekstFading
-                synlig={alertStripeState.kind !== AlertStripeType.LUKKET && alertStripeState.synlig}
-                type={alertStripeState.kind === AlertStripeType.SUCCESS ? 'suksess' : 'feil'}
-                tekst={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
-            />
+            <FadingAlertStripe alertStripeState={alertStripeState} />
             {kandidater.length > 0 ? (
                 <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
                     <Knapper
@@ -334,6 +340,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                             onFjernKandidat={(kandidat) => {
                                 slettKandidater([kandidat]);
                             }}
+                            setFailureMelding={setFailureMelding}
                         />
                     </div>
                 </div>
