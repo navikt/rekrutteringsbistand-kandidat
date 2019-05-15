@@ -30,7 +30,7 @@ const Feilside = ({ error }) => (
 Feilside.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
-    }).isRequired
+    })
 };
 
 export default Feilside;

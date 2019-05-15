@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -7,13 +7,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
-import NavFrontendModal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Footer } from 'pam-frontend-footer';
 import 'pam-frontend-footer/dist/style.css';
 import ResultatVisning from '../result/ResultatVisning';
-import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL, USE_JANZZ } from '../common/fasitProperties';
+import { LOGIN_URL, CONTEXT_ROOT, USE_JANZZ } from '../common/fasitProperties';
 import '../../felles/styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -41,10 +38,10 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetaljWrapper from '../kandidatlisteDetaljer/KandidatlisteDetaljWrapper.tsx';
 import forerkortReducer from './forerkort/forerkortReducer';
-import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister.tsx';
-import TokenChecker from './tokenCheck';
+import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister';
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
+import SesjonUtgaarModalWrapper from '../common/modal/SesjonUtgaarModalWrapper';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -66,127 +63,57 @@ const store = createStore(combineReducers({
     fritekst: fritekstReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
+const Sok = ({
+    arbeidsgivere,
+    error,
+    fetchArbeidsgivere,
+    fetchFeatureTogglesOgInitialSearch,
+    harSamtykket,
+    isFetchingArbeidsgivere,
+    valgtArbeidsgiverId
+}) => {
+    useEffect(() => {
+        fetchFeatureTogglesOgInitialSearch();
+        fetchArbeidsgivere();
+    }, []);
 
-/*
-Begin class Sok
- */
-class Sok extends React.Component {
-    constructor(props) {
-        super(props);
-        this.tokenChecker = new TokenChecker();
-        this.tokenChecker.on('token_expires_soon', this.visUtloperSnartModal);
-        this.tokenChecker.on('token_expired', this.visSesjonUtgaattModal);
-        this.state = {
-            visSesjonUtloperSnartModal: false,
-            visSesjonHarUtgaattModal: false
-        };
-    }
+    useEffect(() => {
+        if (error) {
+            if (error.status === 401) {
+                window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
+            } else if (error.status === 403) {
+                window.location.href = `/${CONTEXT_ROOT}/altinn`;
+            }
+            window.location.href = `/${CONTEXT_ROOT}/altinn`;
+        }
+    }, [error]);
 
-    componentDidMount() {
-        this.tokenChecker.start();
-        this.props.fetchFeatureTogglesOgInitialSearch();
-        this.props.fetchArbeidsgivere();
+    useEffect(() => {
         localStorage.setItem('innloggetBrukerKontekst', 'arbeidsgiver');
+    }, []);
+
+    if (harSamtykket !== undefined && !harSamtykket) {
+        return <SamtykkeSide />;
     }
 
-    // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
-    // if the error is 401
-    componentWillUpdate(nextProps) {
-        const { error } = nextProps;
-        if (error && error.status === 401) {
-            this.redirectToLogin();
-        }
+    if (error) {
+        return <Feilside />;
     }
 
-    componentWillUnmount() {
-        this.tokenChecker.destroy();
-    }
-
-    visUtloperSnartModal = () => {
-        this.setState({
-            visSesjonUtloperSnartModal: true
-        });
-    };
-
-    visSesjonUtgaattModal = () => {
-        this.setState({
-            visSesjonUtloperSnartModal: false,
-            visSesjonHarUtgaattModal: true
-        });
-        this.tokenChecker.pause();
-    };
-
-    lukkUtloperSnartModal = () => {
-        this.setState({
-            visSesjonUtloperSnartModal: false
-        });
-    };
-
-    lukkSesjonUtgaattModal = () => {
-        this.setState({
-            visSesjonHarUtgaattModal: false
-        });
-        this.tokenChecker.pause();
-    };
-
-    // Redirect to login with Id-Porten
-    redirectToLogin = () => {
-        window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
-    };
-
-    redirectToLoginMedForsideCallback = () => {
-        window.location.href = `${LOGIN_URL}&redirect=${window.location.origin}/${CONTEXT_ROOT}`;
-    };
-
-    loggUt = () => {
-        sessionStorage.clear();
-        window.location.href = LOGOUT_URL;
-    };
-
-    render() {
-        const {
-            error,
-            harSamtykket,
-            isFetchingArbeidsgivere,
-            arbeidsgivere,
-            valgtArbeidsgiverId
-        } = this.props;
-        const { visSesjonHarUtgaattModal, visSesjonUtloperSnartModal } = this.state;
-
-        if (harSamtykket !== undefined && !harSamtykket) {
-            return <SamtykkeSide />;
-        }
-        if (error && error.status !== 401) {
-            return <Feilside error={error} />;
-        } else if (isFetchingArbeidsgivere) {
-            return (
-                <div className="text-center">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        } else if (arbeidsgivere.length > 1 && valgtArbeidsgiverId === undefined) {
-            return <VelgArbeidsgiver />;
-        } else if (visSesjonUtloperSnartModal) {
-            return (<SesjonUtgaarModal
-                tittelTekst={'Du blir snart logget ut'}
-                innholdTekst={'Vil du fortsette å bruke tjenesten?'}
-                primaerKnappTekst={'Forbli innlogget'}
-                onPrimaerKnappClick={this.redirectToLogin}
-                isOpen={visSesjonUtloperSnartModal}
-                sekundaerKnappTekst={'Logg ut'}
-                onSekundaerKnappClick={this.loggUt}
-                sekundaerKnapp
-            />);
-        } else if (visSesjonHarUtgaattModal) {
-            return (<SesjonUtgaarModal
-                tittelTekst={'Du har blitt logget ut'}
-                innholdTekst={'Denne sesjonen har utløpt. Gå til forsiden for å logge inn på nytt.'}
-                primaerKnappTekst={'Til forsiden'}
-                onPrimaerKnappClick={this.redirectToLoginMedForsideCallback}
-                isOpen={visSesjonHarUtgaattModal}
-            />);
-        }
+    if (isFetchingArbeidsgivere) {
         return (
+            <div className="text-center">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
+    }
+
+    if (arbeidsgivere.length > 1 && valgtArbeidsgiverId === undefined) {
+        return <VelgArbeidsgiver />;
+    }
+
+    return (
+        <SesjonUtgaarModalWrapper>
             <BrowserRouter>
                 <div className="Application">
                     <div className="Application__main">
@@ -206,14 +133,13 @@ class Sok extends React.Component {
                     {!USE_JANZZ && <Footer /> }
                 </div>
             </BrowserRouter>
-        );
-    }
-}
+        </SesjonUtgaarModalWrapper>
+    );
+};
 
 Sok.defaultProps = {
     error: undefined,
     valgtArbeidsgiverId: undefined,
-    errorArbeidsgivere: undefined,
     harSamtykket: undefined
 };
 
@@ -244,13 +170,9 @@ const mapDispatchToProps = (dispatch) => ({
     fetchFeatureTogglesOgInitialSearch: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     fetchArbeidsgivere: () => dispatch({ type: HENT_ARBEIDSGIVERE_BEGIN })
 });
-/*
-End class Sok
- */
 
 const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 
-// eslint-disable-next-line no-unused-vars
 const App = () => (
     <div>
         <Provider store={store}>
@@ -261,45 +183,6 @@ const App = () => (
         </Provider>
     </div>
 );
-
-const SesjonUtgaarModal = ({ tittelTekst, innholdTekst, primaerKnappTekst, sekundaerKnappTekst, onPrimaerKnappClick, onSekundaerKnappClick, isOpen, sekundaerKnapp }) => (
-    <NavFrontendModal
-        className="SesjonUgaarModal"
-        closeButton={false}
-        shouldCloseOnOverlayClick={false}
-        isOpen={isOpen}
-        shouldFocusAfterRender
-        onRequestClose={() => {}}
-    >
-        <Systemtittel>{tittelTekst}</Systemtittel>
-        <div className="innhold">
-            <Normaltekst>
-                {innholdTekst}
-            </Normaltekst>
-        </div>
-        <div className="knapperad">
-            <Hovedknapp onClick={onPrimaerKnappClick}>{primaerKnappTekst}</Hovedknapp>
-            {sekundaerKnapp && <Flatknapp onClick={onSekundaerKnappClick}>{sekundaerKnappTekst}</Flatknapp>}
-        </div>
-    </NavFrontendModal>
-);
-
-SesjonUtgaarModal.defaultProps = {
-    sekundaerKnapp: false,
-    onSekundaerKnappClick: () => {},
-    sekundaerKnappTekst: ''
-};
-
-SesjonUtgaarModal.propTypes = {
-    tittelTekst: PropTypes.string.isRequired,
-    innholdTekst: PropTypes.string.isRequired,
-    primaerKnappTekst: PropTypes.string.isRequired,
-    onPrimaerKnappClick: PropTypes.func.isRequired,
-    sekundaerKnappTekst: PropTypes.string,
-    onSekundaerKnappClick: PropTypes.func,
-    sekundaerKnapp: PropTypes.bool,
-    isOpen: PropTypes.bool.isRequired
-};
 
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
@@ -313,4 +196,3 @@ ReactDOM.render(
     <App />,
     document.getElementById('app')
 );
-
