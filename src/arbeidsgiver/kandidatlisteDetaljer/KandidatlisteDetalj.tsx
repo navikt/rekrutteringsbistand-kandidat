@@ -2,6 +2,7 @@ import * as React from 'react';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Media from "react-media";
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
@@ -149,7 +150,9 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
         </div>
 
         <div className="KandidatlisteDetalj__panel">
-            <div className="KandidatlisteDetalj__panel--first td" />
+            <Media query="(min-width: 769px)">
+                <div className="KandidatlisteDetalj__panel--first td" />
+            </Media>
             <div className="KandidatlisteDetalj__panel--second td">
                 { kandidat.viewState === KandidatState.NOTATER_VISES &&
                 <Notater
@@ -161,7 +164,9 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
                 />
                 }
             </div>
-            <div className="KandidatlisteDetalj__panel--notater" />
+            <Media query="(min-width: 769px)">
+                <div className="KandidatlisteDetalj__panel--notater" />
+            </Media>
         </div>
     </div>
 );

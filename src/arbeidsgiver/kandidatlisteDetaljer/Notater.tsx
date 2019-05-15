@@ -198,8 +198,8 @@ const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, t
         }
     };
     return (
-        <NavFrontendModal contentLabel="Test" isOpen onRequestClose={() => {setModalState(lukketModalState())}}>
-            <div className="NotatModal RedigerNotat">
+        <NavFrontendModal className="NotatModal" contentLabel="Test" isOpen onRequestClose={() => {setModalState(lukketModalState())}}>
+            <div className="RedigerNotat">
                 <FadingAlertStripeLiten alertStripeState={alertState} />
                 <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
                 <Textarea
@@ -230,15 +230,13 @@ const SlettNotatModal: FunctionComponent<SlettNotatModalProps> = ({ notat, loadi
         }
     };
     return (
-        <NavFrontendModal contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
-            <div className="NotatModal">
-                <FadingAlertStripeLiten alertStripeState={alertState} />
-                <Systemtittel className="NotatModal-tittel">Slett notat</Systemtittel>
-                <Normaltekst className="NotatModal-beskrivelse">Er du sikker på at du ønsker å slette notatet?</Normaltekst>
-                <NotatVisning notat={notat}/>
-                <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Slett</Hovedknapp>
-                <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
-            </div>
+        <NavFrontendModal  className="NotatModal" contentLabel="Test" isOpen  onRequestClose={() => {setModalState(lukketModalState())}}>
+            <FadingAlertStripeLiten alertStripeState={alertState} />
+            <Systemtittel className="NotatModal-tittel">Slett notat</Systemtittel>
+            <Normaltekst className="NotatModal-beskrivelse">Er du sikker på at du ønsker å slette notatet?</Normaltekst>
+            <NotatVisning notat={notat}/>
+            <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Slett</Hovedknapp>
+            <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
         </NavFrontendModal>
     );
 };
