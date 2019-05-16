@@ -13,7 +13,7 @@ const KopierEpostModal = ({ vis, onClose }) => (
         appElement={document.getElementById('app')}
     >
         <i className="eposter-kopiert__icon" />
-        <Systemtittel>E-postadressene er kopiert</Systemtittel>
+        <Systemtittel>E-postadressene til kandidatene er kopiert</Systemtittel>
         <Normaltekst className="tekst">Lim inn adressene i mailprogrammet, og bruk blindkopi (Bcc) feltet. De som mottar e-posten vil da kun se sin egen adresse.</Normaltekst>
         <Hovedknapp className="lukk--knapp" onClick={onClose}>Lukk</Hovedknapp>
     </NavFrontendModal>

@@ -176,14 +176,14 @@ const ListedetaljerView = (props) => {
             const Disabled = () => (
                 <div className="Lenkeknapp typo-normal Email">
                     <i className="Email__icon" />
-                    Kopier e-post
+                    Kopier e-postadresser
                 </div>
             );
             const Enabled = () => (
                 <div className="hjelpetekst">
                     <Lenkeknapp onClick={onEmailKandidater} className="Email">
                         <i className="Email__icon" />
-                        <span>Kopier e-post</span>
+                        <span>Kopier e-postadresser</span>
                     </Lenkeknapp>
                 </div>
             );
