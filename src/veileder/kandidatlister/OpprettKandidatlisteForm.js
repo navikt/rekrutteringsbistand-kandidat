@@ -285,7 +285,7 @@ class OpprettKandidatlisteForm extends React.Component {
                             label="Beskrivelse"
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={1000}
-                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: 'Beskrivelsen er for lang' } : undefined}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 1000 ? { feilmelding: 'Beskrivelsen er for lang' } : undefined}
                             onChange={this.onBeskrivelseChange}
                             textareaRef={(textArea) => { this.textArea = textArea; }}
                         />

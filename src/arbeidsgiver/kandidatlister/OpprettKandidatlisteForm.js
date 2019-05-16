@@ -104,7 +104,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             placeholder="Skriv noen ord om stillingen du søker kandidater til"
                             value={this.state.kandidatlisteInfo.beskrivelse}
                             maxLength={1000}
-                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: '' } : undefined}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 1000 ? { feilmelding: '' } : undefined}
                             onChange={(event) => {
                                 this.updateField(FELTER.BESKRIVELSE, event.target.value);
                             }}
