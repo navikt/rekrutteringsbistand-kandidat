@@ -231,7 +231,7 @@ class OpprettKandidatlisteForm extends React.Component {
 
     validerTittel = () => this.state.kandidatlisteInfo.tittel !== '';
 
-    validerBeskrivelse = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
+    validerBeskrivelse = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 1000;
 
     render() {
         const { saving, knappTekst, suggestions } = this.props;
@@ -284,8 +284,8 @@ class OpprettKandidatlisteForm extends React.Component {
                             textareaClass="OpprettKandidatlisteForm__input__textarea skjemaelement--pink"
                             label="Beskrivelse"
                             value={this.state.kandidatlisteInfo.beskrivelse}
-                            maxLength={255}
-                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: 'Beskrivelsen er for lang' } : undefined}
+                            maxLength={1000}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 1000 ? { feilmelding: 'Beskrivelsen er for lang' } : undefined}
                             onChange={this.onBeskrivelseChange}
                             textareaRef={(textArea) => { this.textArea = textArea; }}
                         />

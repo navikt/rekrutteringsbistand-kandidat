@@ -39,7 +39,7 @@ export default class OpprettKandidatlisteForm extends React.Component {
 
     tittelValidates = () => this.state.kandidatlisteInfo.tittel !== '';
 
-    beskrivelseValidates = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 255;
+    beskrivelseValidates = () => this.state.kandidatlisteInfo.beskrivelse !== undefined && this.state.kandidatlisteInfo.beskrivelse.length <= 1000;
 
     updateField = (field, value) => {
         if (this.props.onChange) {
@@ -103,8 +103,8 @@ export default class OpprettKandidatlisteForm extends React.Component {
                             label="Beskrivelse"
                             placeholder="Skriv noen ord om stillingen du søker kandidater til"
                             value={this.state.kandidatlisteInfo.beskrivelse}
-                            maxLength={255}
-                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 255 ? { feilmelding: '' } : undefined}
+                            maxLength={1000}
+                            feil={this.state.kandidatlisteInfo.beskrivelse && this.state.kandidatlisteInfo.beskrivelse.length > 1000 ? { feilmelding: '' } : undefined}
                             onChange={(event) => {
                                 this.updateField(FELTER.BESKRIVELSE, event.target.value);
                             }}
