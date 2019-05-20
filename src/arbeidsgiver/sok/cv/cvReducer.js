@@ -35,6 +35,7 @@ const initialState = {
         sprak: []
     },
     hentStatus: HENT_CV_STATUS.IKKE_HENTET,
+    sistHentetKandidatnr: undefined,
     matchforklaring: undefined,
     sisteSokId: undefined
 };
@@ -50,6 +51,7 @@ export default function cvReducer(state = initialState, action) {
             return {
                 ...state,
                 hentStatus: HENT_CV_STATUS.SUCCESS,
+                sistHentetKandidatnr: action.kandidatnr,
                 cv: action.response,
                 matchforklaring: action.matchforklaring
             };
@@ -57,12 +59,14 @@ export default function cvReducer(state = initialState, action) {
             return {
                 ...state,
                 hentStatus: HENT_CV_STATUS.FAILURE,
+                sistHentetKandidatnr: action.kandidatnr,
                 error: action.error
             };
         case FETCH_CV_NOT_FOUND:
             return {
                 ...state,
-                hentStatus: HENT_CV_STATUS.FINNES_IKKE
+                hentStatus: HENT_CV_STATUS.FINNES_IKKE,
+                sistHentetKandidatnr: action.kandidatnr
             };
         case SEARCH_SUCCESS:
             return {
@@ -96,13 +100,13 @@ function* fetchCvForKandidat(action) {
                 kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
             };
         }
-        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst });
+        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst, kandidatnr: action.arenaKandidatnr  });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
-                yield put({ type: FETCH_CV_NOT_FOUND });
+                yield put({ type: FETCH_CV_NOT_FOUND, kandidatnr: action.arenaKandidatnr });
             } else {
-                yield put({ type: FETCH_CV_FAILURE, error: e });
+                yield put({ type: FETCH_CV_FAILURE, error: e, kandidatnr: action.arenaKandidatnr  });
             }
         } else {
             throw e;

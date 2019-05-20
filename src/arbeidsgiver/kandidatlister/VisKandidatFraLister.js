@@ -1,239 +1,209 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
-import { getUrlParameterByName } from '../../felles/sok/utils';
 import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPersonalia';
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import { KandidatlisteTypes } from '../kandidatlisteDetaljer/kandidatlisteReducer.ts';
-import './VisKandidatFraLister.less';
+import { KandidatlisteDetaljer, KandidatlisteTypes } from './kandidatlisteReducer';
 import '../../felles/common/ikoner/ikoner.less';
-import SlettKandidaterModal from '../common/SlettKandidaterModal';
+import SlettKandidaterModal from './SlettKandidaterModal';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
+import { useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
+import './VisKandidatFraLister.less';
 
-class VisKandidatFraLister extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sletterKandidat: false,
-            visSlettKandidatModal: false,
-            visSlettKandidatFeilmelding: false
-        };
-    }
+interface Props {
+    kandidatnummer: string,
+    cv: any,
+    hentStatus: string,
+    kandidatlisteId: string,
+    kandidatliste: KandidatlisteDetaljer,
+    slettKandidat: () => void,
+    sletteStatus: RemoteData<{ antallKandidaterSlettet: number }>;
+    nullstillSletteStatus: () => void
+}
 
-    componentDidMount() {
-        this.props.hentCvForKandidat(this.props.kandidatnummer, this.props.cv.profilId);
-        this.props.hentKandidatliste(this.props.kandidatlisteId);
-    }
+const  VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, kandidatlisteId, kandidatliste, sletteStatus, hentStatus, slettKandidat, nullstillSletteStatus }) => {
+    const [slettKandidatModalOpen, setSlettKandidatModalOpen] = useState<boolean>(false);
+    const [sletteModalFailureAlertStripeState, clearModalTimouts, , setSletteModalFailureMelding] = useTimeoutState();
 
-    componentDidUpdate(prevProps) {
-        const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
-        if (prevProps.kandidatnummer !== currentUrlKandidatnummer && currentUrlKandidatnummer !== undefined) {
-            this.props.hentCvForKandidat(currentUrlKandidatnummer);
+    useEffect(() => {
+        if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
+            setSletteModalFailureMelding('Noe gikk galt under sletting av kandidaten');
+            nullstillSletteStatus()
         }
-    }
+    }, [sletteStatus]);
 
-    static getDerivedStateFromProps(props, state) {
-        if (state.sletterKandidat) {
-            const visSlettKandidatModal = (
-                props.sletteStatus.kind !== RemoteDataTypes.SUCCESS
-            );
-
-            const visSlettKandidatFeilmelding = (
-                props.sletteStatus.kind === RemoteDataTypes.FAILURE
-            );
-
-            return {
-                ...state,
-                visSlettKandidatModal,
-                visSlettKandidatFeilmelding,
-                sletterKandidater: false
-            };
+    useEffect(() => {
+        return () => {
+            clearModalTimouts();
         }
+    }, []);
 
-        return null;
-    }
-
-    visSlettKandidatFeilmelding = () => {
-        this.setState({ visSlettKandidatFeilmelding: true });
-    };
-
-    slettKandidat = () => {
-        const { kandidatlisteId } = this.props;
-        const kandidat = [{ kandidatnr: this.props.kandidatnummer }];
-        this.props.slettKandidater(kandidatlisteId, kandidat);
-        this.setState({ sletterKandidat: true });
-    };
-
-    visSlettKandidatModal = () => {
-        this.setState({ visSlettKandidatModal: true });
-    };
-
-    lukkSlettModal = () => {
-        this.setState({
-            visSlettKandidatModal: false,
-            visSlettKandidatFeilmelding: false,
-            sletterKandidat: false
-        });
-    };
-
-    gjeldendeKandidatIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+    const gjeldendeKandidatIListen = (kandidatnummer) => {
+        const gjeldendeIndex = kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
         if (gjeldendeIndex === -1) {
             return undefined;
         }
         return gjeldendeIndex + 1;
     };
 
-    forrigeKandidatnummerIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+    const forrigeKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
         }
-        return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
+        return kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    nesteKandidatnummerIListen = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
-        if (gjeldendeIndex === (this.props.kandidatliste.kandidater.length - 1)) {
+    const nesteKandidatnummerIListen = (kandidatnummer) => {
+        const gjeldendeIndex = kandidatliste.kandidater.findIndex((element) => (element.kandidatnr === kandidatnummer));
+        if (gjeldendeIndex === (kandidatliste.kandidater.length - 1)) {
             return undefined;
         }
-        return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
+        return kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
     };
 
-    render() {
-        const { cv, kandidatnummer, kandidatlisteId, kandidatliste, hentStatus } = this.props;
-        const gjeldendeKandidat = this.gjeldendeKandidatIListen(kandidatnummer);
-        const forrigeKandidat = this.forrigeKandidatnummerIListen(kandidatnummer);
-        const nesteKandidat = this.nesteKandidatnummerIListen(kandidatnummer);
-        const forrigeKandidatLink = forrigeKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv?kandidatNr=${forrigeKandidat}` : undefined;
-        const nesteKandidatLink = nesteKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv?kandidatNr=${nesteKandidat}` : undefined;
+    const gjeldendeKandidat = gjeldendeKandidatIListen(kandidatnummer);
+    const forrigeKandidat = forrigeKandidatnummerIListen(kandidatnummer);
+    const nesteKandidat = nesteKandidatnummerIListen(kandidatnummer);
+    const forrigeKandidatLink = forrigeKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv/${forrigeKandidat}` : undefined;
+    const nesteKandidatLink = nesteKandidat ? `/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}/cv/${nesteKandidat}` : undefined;
 
-        const Knapper = () => (
-            <div className="viskandidat__knapperad">
-                <Lenkeknapp onClick={this.visSlettKandidatModal} className="Delete">
-                    Slett
-                    <i className="Delete__icon" />
-                </Lenkeknapp>
-            </div>
-        );
+    const Knapper = () => (
+        <div className="viskandidat__knapperad">
+            <Lenkeknapp onClick={() => setSlettKandidatModalOpen(true)} className="Delete">
+                Slett
+                <i className="Delete__icon" />
+            </Lenkeknapp>
+        </div>
+    );
 
-        if (this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
-            return <Redirect to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`} push />;
-        }
-        if (hentStatus === HENT_CV_STATUS.LOADING) {
-            return (
-                <div className="text-center">
-                    <NavFrontendSpinner type="L" />
+    if (sletteStatus.kind === RemoteDataTypes.SUCCESS) {
+        return <Redirect to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`} push />;
+    }
+    return (
+        <div>
+            <VisKandidatPersonalia
+                cv={cv}
+                appContext={'arbeidsgiver'}
+                tilbakeLink={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`}
+                forrigeKandidat={forrigeKandidatLink}
+                nesteKandidat={nesteKandidatLink}
+                gjeldendeKandidat={gjeldendeKandidat}
+                antallKandidater={kandidatliste.kandidater.length}
+                fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+            />
+            {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                <div className="cvIkkeFunnet">
+                    <div className="content">
+                        <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
+                        <div>
+                            <Normaltekst>Mulige årsaker:</Normaltekst>
+                            <ul>
+                                <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
+                                <li><Normaltekst>Tekniske problemer</Normaltekst></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            );
-        }
-        return (
-            <div>
-                <VisKandidatPersonalia
-                    cv={cv}
-                    appContext={'arbeidsgiver'}
-                    tilbakeLink={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`}
-                    forrigeKandidat={forrigeKandidatLink}
-                    nesteKandidat={nesteKandidatLink}
-                    gjeldendeKandidat={gjeldendeKandidat}
-                    antallKandidater={kandidatliste.antallKandidater}
-                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
-                />
-                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
-                    <div className="cvIkkeFunnet">
-                        <div className="content">
-                            <Element tag="h2" className="blokk-s">Kandidaten kan ikke vises</Element>
-                            <div>
-                                <Normaltekst>Mulige årsaker:</Normaltekst>
-                                <ul>
-                                    <li className="blokk-xxs"><Normaltekst>Kandidaten har skiftet status</Normaltekst></li>
-                                    <li><Normaltekst>Tekniske problemer</Normaltekst></li>
-                                </ul>
-                            </div>
-                        </div>
+            ) : (
+                <div className="viskandidat-container">
+                    <Knapper />
+                    <VisKandidatJobbprofil cv={cv} />
+                    <VisKandidatCv cv={cv} />
+                    <div className="navigering-forrige-neste_wrapper">
+                        <VisKandidatForrigeNeste
+                            lenkeClass="VisKandidat__ForrigeNeste"
+                            forrigeKandidat={forrigeKandidatLink}
+                            nesteKandidat={nesteKandidatLink}
+                            gjeldendeKandidat={gjeldendeKandidat}
+                            antallKandidater={kandidatliste.kandidater.length}
+                        />
                     </div>
-                ) : (
-                    <div className="viskandidat-container">
-                        <Knapper />
-                        <VisKandidatJobbprofil cv={cv} />
-                        <VisKandidatCv cv={cv} />
-                        <div className="navigering-forrige-neste_wrapper">
-                            <VisKandidatForrigeNeste
-                                lenkeClass="VisKandidat__ForrigeNeste"
-                                forrigeKandidat={forrigeKandidatLink}
-                                nesteKandidat={nesteKandidatLink}
-                                gjeldendeKandidat={gjeldendeKandidat}
-                                antallKandidater={kandidatliste.antallKandidater}
-                            />
-                        </div>
-                    </div>
-                )}
-                <SlettKandidaterModal
-                    isOpen={this.state.visSlettKandidatModal}
-                    visFeilmelding={this.state.visSlettKandidatFeilmelding}
-                    sletterKandidater={this.props.sletteStatus.kind === RemoteDataTypes.LOADING}
-                    valgteKandidater={[cv]}
-                    lukkModal={this.lukkSlettModal}
-                    onDeleteClick={this.slettKandidat}
-                />
-            </div>
-        );
-    }
-}
-
-VisKandidatFraLister.defaultProps = {
-    matchforklaring: undefined,
-    kandidatliste: {
-        antallKandidater: undefined,
-        kandidater: []
-    }
+                </div>
+            )}
+            <SlettKandidaterModal
+                isOpen={slettKandidatModalOpen}
+                alertState={sletteModalFailureAlertStripeState}
+                sletterKandidater={sletteStatus.kind === RemoteDataTypes.LOADING}
+                valgteKandidater={[cv]}
+                lukkModal={() => setSlettKandidatModalOpen(false)}
+                onDeleteClick={slettKandidat}
+            />
+        </div>
+    );
 };
 
-VisKandidatFraLister.propTypes = {
-    kandidatnummer: PropTypes.string.isRequired,
-    cv: cvPropTypes.isRequired,
-    hentStatus: PropTypes.string.isRequired,
-    hentCvForKandidat: PropTypes.func.isRequired,
-    hentKandidatliste: PropTypes.func.isRequired,
-    kandidatlisteId: PropTypes.string.isRequired,
-    kandidatliste: PropTypes.shape({
-        antallKandidater: PropTypes.number,
-        kandidater: PropTypes.arrayOf(
-            PropTypes.shape({
-                kandidatnr: PropTypes.string
-            })
-        )
-    }),
-    slettKandidater: PropTypes.func.isRequired,
-    sletteStatus: PropTypes.shape({
-        kind: PropTypes.string.isRequired
-    }).isRequired
+interface WrapperProps {
+    kandidatnr: string,
+    sistHentetKandidatnr?: string,
+    cv: any,
+    hentStatus: string,
+    kandidatlisteId: string,
+    kandidatliste: RemoteData<KandidatlisteDetaljer>,
+    hentKandidatliste: () => void,
+    hentCv: () => void,
+    slettKandidat: () => void,
+    sletteStatus: RemoteData<{ antallKandidaterSlettet: number }>;
+    nullstillSletteStatus: () => void
+}
+
+const VisKandidatFraListerWrapper : FunctionComponent<WrapperProps> = ({ kandidatlisteId, kandidatliste, hentKandidatliste, kandidatnr, hentStatus, cv, hentCv, slettKandidat, sletteStatus, sistHentetKandidatnr, nullstillSletteStatus }) => {
+    useEffect(() => {
+        if ( kandidatliste.kind === RemoteDataTypes.NOT_ASKED || (kandidatliste.kind === RemoteDataTypes.SUCCESS && kandidatliste.data.kandidatlisteId !== kandidatlisteId)) {
+            hentKandidatliste();
+        }
+    }, [kandidatlisteId, kandidatliste]);
+    useEffect(() => {
+        if (hentStatus === HENT_CV_STATUS.IKKE_HENTET) {
+            hentCv();
+        } else if (sistHentetKandidatnr && sistHentetKandidatnr !== kandidatnr && (hentStatus === HENT_CV_STATUS.SUCCESS || hentStatus === HENT_CV_STATUS.FAILURE || hentStatus === HENT_CV_STATUS.FINNES_IKKE)) {
+            hentCv();
+        }
+    }, [kandidatnr, hentStatus, cv]);
+    if (kandidatliste.kind === RemoteDataTypes.SUCCESS && (hentStatus === HENT_CV_STATUS.SUCCESS || hentStatus === HENT_CV_STATUS.FINNES_IKKE)) {
+        return <VisKandidatFraLister
+                    cv={cv}
+                    kandidatliste={kandidatliste.data}
+                    kandidatnummer={kandidatnr}
+                    kandidatlisteId={kandidatlisteId}
+                    slettKandidat={slettKandidat}
+                    sletteStatus={sletteStatus}
+                    hentStatus={hentStatus}
+                    nullstillSletteStatus={nullstillSletteStatus}
+            />
+    } else if (kandidatliste.kind === RemoteDataTypes.LOADING || hentStatus === HENT_CV_STATUS.LOADING) {
+        return (
+            <div className="text-center">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
+    }
+    return null;
 };
 
 const mapStateToProps = (state, props) => ({
-    kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
+    kandidatnr: props.match.params.kandidatnr,
+    sistHentetKandidatnr: state.cvReducer.sistHentetKandidatnr,
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlisteDetaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlisteDetaljer.kandidatliste.data : undefined,
+    kandidatliste: state.kandidatlisteDetaljer.kandidatliste,
     cv: state.cvReducer.cv,
     hentStatus: state.cvReducer.hentStatus,
-    sletteStatus: state.kandidatlisteDetaljer.sletteStatus,
-    matchforklaring: state.cvReducer.matchforklaring
+    sletteStatus: state.kandidatlisteDetaljer.sletteStatus
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId }),
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater })
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    hentCv: () => dispatch({ type: FETCH_CV, arenaKandidatnr: ownProps.match.params.kandidatnr }),
+    hentKandidatliste: () => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId: ownProps.match.params.listeid }),
+    slettKandidat: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId: ownProps.match.params.listeid, kandidater: [{ kandidatnr: ownProps.match.params.kandidatnr }] }),
+    nullstillSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS }),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(VisKandidatFraLister);
+export default connect(mapStateToProps, mapDispatchToProps)(VisKandidatFraListerWrapper);

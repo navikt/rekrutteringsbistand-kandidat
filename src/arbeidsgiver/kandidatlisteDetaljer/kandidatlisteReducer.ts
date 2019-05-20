@@ -1,13 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import {
-    deleteKandidater,
-    deleteNotat,
-    fetchKandidatliste,
-    fetchNotater,
-    postNotat,
-    putNotat,
-    SearchApiError
-} from '../sok/api';
+import { deleteKandidater, deleteNotat, fetchKandidatliste, fetchNotater, postNotat, putNotat } from '../sok/api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
 import { Kandidat } from '../../veileder/kandidatlister/PropTypes';
@@ -450,7 +442,7 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
             return {
                 ...state,
-                kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste),
+                kandidatliste: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste) : state.kandidatliste,
                 sletteStatus: mapResponseData(action.kandidatliste, () => ({ antallKandidaterSlettet: action.antallKandidaterSlettet }))
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
