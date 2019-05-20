@@ -123,8 +123,11 @@ def acceptanceTest(app, useSaucelabs) {
         qaDir = "./qa"
         if (useSaucelabs == 'true') {
             sh "cd ${qaDir} && npm i -D"
+            def proxy = "webproxy-internett.nav.no:8088"
+            def tunnelName = "${env.BUILD_TAG}"
+            def region = "https://eu-central-1.saucelabs.com/rest/v1"
             sauce('sauceconnect') {
-                sauceconnect(options: "--proxy webproxy-internett.nav.no:8088 --proxy-tunnel --tunnel-identifier jenkins-${app} --se-port ${randomSeleniumPort} --rest-url https://eu-central-1.saucelabs.com/rest/v1", useLatestSauceConnect: true) {
+                sauceconnect(options: "-p ${proxy} --proxy-tunnel -i ${tunnelName} -P ${randomSeleniumPort} -x ${region}", useLatestSauceConnect: true) {
                     try {
                         sh "cd ${qaDir} && npm run-script sauce -- --skiptags ignore"
                     } catch (Exception e) {
