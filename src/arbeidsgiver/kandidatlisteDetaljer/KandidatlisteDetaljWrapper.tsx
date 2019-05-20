@@ -14,7 +14,9 @@ interface Props {
 
 const KandidatlisteDetaljerWrapper: FunctionComponent<Props> = ({ hentKandidatliste, kandidatlisteId, kandidatliste }) => {
     useEffect(() => {
-        hentKandidatliste(kandidatlisteId);
+        if (kandidatliste.kind === RemoteDataTypes.SUCCESS && kandidatliste.data.kandidatlisteId !== kandidatlisteId || kandidatliste.kind === RemoteDataTypes.NOT_ASKED) {
+            hentKandidatliste(kandidatlisteId);
+        }
     }, [kandidatlisteId]);
 
     switch (kandidatliste.kind) {
