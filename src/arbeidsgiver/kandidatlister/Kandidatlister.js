@@ -7,13 +7,10 @@ import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import TomListe from '../../felles/kandidatlister/TomListe';
-import {
-    HENT_KANDIDATLISTER, RESET_LAGRE_STATUS, SLETT_KANDIDATLISTE,
-    SLETT_KANDIDATLISTE_RESET_STATUS
-} from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import './kandidatlister.less';
 import EndreModal from './EndreModal';
@@ -21,7 +18,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick, onOpprettClick }) => {
     if (fetching || kandidatlister === undefined) {
@@ -39,7 +36,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSlette
 
     return (
         kandidatlister.map((kandidatliste) => (
-            <KandidatlisteRad kandidatliste={kandidatliste} key={JSON.stringify(kandidatliste)} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
+            <KandidatlisteRad kandidatliste={kandidatliste} key={kandidatliste.kandidatlisteId} endreKandidatliste={onEndreClick} sletteKandidatliste={onSletteClick} />
         ))
     );
 };
@@ -342,10 +339,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => dispatch({ type: HENT_KANDIDATLISTER }),
-    resetLagreStatus: () => dispatch({ type: RESET_LAGRE_STATUS }),
-    resetSletteStatus: () => dispatch({ type: SLETT_KANDIDATLISTE_RESET_STATUS }),
-    slettKandidatliste: (id) => dispatch({ type: SLETT_KANDIDATLISTE, kandidatlisteId: id })
+    hentKandidatlister: () => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }),
+    resetSletteStatus: () => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE_RESET_STATUS }),
+    slettKandidatliste: (id) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE, kandidatlisteId: id })
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({

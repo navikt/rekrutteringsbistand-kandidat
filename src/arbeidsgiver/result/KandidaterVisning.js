@@ -7,7 +7,7 @@ import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
@@ -237,7 +237,7 @@ KandidaterVisning.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
-        dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
+        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
     },
     lastFlereKandidater: () => {
         dispatch({ type: LAST_FLERE_KANDIDATER });

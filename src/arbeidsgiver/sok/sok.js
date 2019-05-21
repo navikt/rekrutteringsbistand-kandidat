@@ -26,7 +26,8 @@ import arbeidserfaringReducer from './arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './utdanning/utdanningReducer';
 import geografiReducer from './geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/cvReducer';
-import kandidatlisteReducer, { kandidatlisteSaga } from '../kandidatlister/kandidatlisteReducer';
+import kandidatlisteDetaljerReducer, { kandidatlisteDetaljerSaga } from '../kandidatlisteDetaljer/kandidatlisteReducer.ts';
+import kandidatlisterReducer, { kandidatlisterSaga } from '../kandidatlister/kandidatlisteReducer.ts';
 import Feilside from './error/Feilside';
 import arbeidsgivervelgerReducer, {
     HENT_ARBEIDSGIVERE_BEGIN,
@@ -39,7 +40,7 @@ import sertifikatReducer from './sertifikat/sertifikatReducer';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
-import KandidatlisteDetalj from '../kandidatlister/KandidatlisteDetalj';
+import KandidatlisteDetaljWrapper from '../kandidatlisteDetaljer/KandidatlisteDetaljWrapper.tsx';
 import forerkortReducer from './forerkort/forerkortReducer';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
@@ -59,7 +60,8 @@ const store = createStore(combineReducers({
     sprakReducer,
     sertifikatReducer,
     cvReducer,
-    kandidatlister: kandidatlisteReducer,
+    kandidatlisteDetaljer: kandidatlisteDetaljerReducer,
+    kandidatlister: kandidatlisterReducer,
     mineArbeidsgivere: arbeidsgivervelgerReducer,
     samtykke: samtykkeReducer,
     fritekst: fritekstReducer
@@ -189,7 +191,7 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}`} component={ResultatVisning} />
                             <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
-                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetalj} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetaljWrapper} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
                             <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
@@ -297,7 +299,8 @@ sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(samtykkeSaga);
-sagaMiddleware.run(kandidatlisteSaga);
+sagaMiddleware.run(kandidatlisteDetaljerSaga);
+sagaMiddleware.run(kandidatlisterSaga);
 sagaMiddleware.run(mineArbeidsgivereSaga);
 
 ReactDOM.render(

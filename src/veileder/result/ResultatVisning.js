@@ -15,14 +15,15 @@ import SprakSearch from '../sok/sprak/SprakSearch';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
-import { RESET_KANDIDATLISTER_SOKEKRITERIER } from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -258,7 +259,7 @@ const mapStateToProps = (state) => ({
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -266,7 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     initialSearch: (stillingsId) => { dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId }); },
-    resetKandidatlisterSokekriterier: () => { dispatch({ type: RESET_KANDIDATLISTER_SOKEKRITERIER }); }
+    resetKandidatlisterSokekriterier: () => { dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

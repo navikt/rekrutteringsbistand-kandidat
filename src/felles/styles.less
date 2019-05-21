@@ -184,6 +184,32 @@ button.lenke {
   }
 }
 
+.FadingAlertStripeLiten.alertstripe {
+  .alertstripe__tekst {
+    flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    -webkit-flex: 0 1 auto;
+  }
+  .alertstripe__ikon {
+    margin-right: 0;
+    padding-right: 0;
+    width: 2.2rem;
+  }
+  &.fading {
+    margin-right: 2rem;
+    .alertstripe__tekst {
+      display: none;
+    }
+  }
+
+  &.fading.synlig {
+    margin-bottom: 2rem;
+    .alertstripe__tekst {
+      display: block;
+    }
+  }
+}
+
 .modal--bekreft {
   padding: 1.5rem 2rem 1.5rem 2rem !important;
   .knapp--hoved {

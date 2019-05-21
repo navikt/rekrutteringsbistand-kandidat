@@ -11,10 +11,10 @@ import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandida
 import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
 import LagreKandidaterModal from '../LagreKandidaterModal';
-import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import sortByDato from '../../../felles/common/SortByDato';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
-import { LEGG_TIL_KANDIDATER } from '../../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import Matchdetaljer from '../matchforklaring/Matchdetaljer';
 import { MatchexplainProptypes } from '../matchforklaring/Proptypes';
@@ -283,7 +283,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId, sisteSokId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId, sisteSokId }),
-    leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder }),
+    leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder }),
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) => dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer })
 });

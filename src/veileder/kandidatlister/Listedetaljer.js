@@ -3,29 +3,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import {
-    DELE_STATUS,
-    ENDRE_NOTAT,
-    ENDRE_STATUS_KANDIDAT,
-    HENT_NOTATER,
-    OPPRETT_NOTAT,
-    PRESENTER_KANDIDATER,
-    RESET_DELE_STATUS,
-    SLETT_NOTAT
-} from './kandidatlisteReducer';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { KandidatlisteTypes, DELE_STATUS } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
 import KopierEpostModal from './KopierEpostModal';
-import { Kandidatliste, Notat } from './PropTypes';
+import { Kandidatliste } from './PropTypes';
 import './Listedetaljer.less';
 
 const initialKandidatTilstand = () => ({
     markert: false,
-    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
-    notater: undefined
+    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL
 });
 
 const trekkUtKandidatTilstander = (kandidater = []) => (
@@ -33,8 +24,7 @@ const trekkUtKandidatTilstander = (kandidater = []) => (
         ...tilstand,
         [kandidat.kandidatnr]: {
             markert: kandidat.markert,
-            visningsstatus: kandidat.visningsstatus,
-            notater: kandidat.notater
+            visningsstatus: kandidat.visningsstatus
         }
     }),
     {}
@@ -46,8 +36,8 @@ class Listedetaljer extends React.Component {
         super(props);
         this.state = {
             alleMarkert: false,
-            kandidater: props.kandidatliste === undefined ? undefined :
-                props.kandidatliste.kandidater.map((kandidat) => ({
+            kandidater: props.kandidatliste.kind !== RemoteDataTypes.SUCCESS ? undefined :
+                props.kandidatliste.data.kandidater.map((kandidat) => ({
                     ...kandidat,
                     ...initialKandidatTilstand()
                 })),
@@ -71,13 +61,13 @@ class Listedetaljer extends React.Component {
         if (this.props.leggTilStatus !== prevProps.leggTilStatus && this.props.leggTilStatus === LAGRE_STATUS.SUCCESS) {
             this.visSuccessMelding(`Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`);
         }
-        if (!this.props.kandidatliste) {
+        if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
             return;
         }
-        if ((!prevProps.kandidatliste && this.props.kandidatliste.kandidater)
-            || prevProps.kandidatliste.kandidater !== this.props.kandidatliste.kandidater) {
+        if ((prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS && this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS)
+            || prevProps.kandidatliste.data.kandidater !== this.props.kandidatliste.data.kandidater) {
             const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
-            const kandidater = this.props.kandidatliste.kandidater.map((kandidat) => {
+            const kandidater = this.props.kandidatliste.data.kandidater.map((kandidat) => {
                 const kandidatTilstand = (!kandidaterHarNettoppBlittPresentert && kandidatTilstander[kandidat.kandidatnr]) || initialKandidatTilstand();
                 return {
                     ...kandidat,
@@ -87,19 +77,6 @@ class Listedetaljer extends React.Component {
             this.setState({
                 kandidater,
                 alleMarkert: !kandidaterHarNettoppBlittPresentert && kandidater.filter((k) => !k.markert).length === 0
-            });
-        }
-        if (this.props.notaterForKandidat && this.props.notaterForKandidat !== prevProps.notaterForKandidat) {
-            this.setState({
-                kandidater: this.state.kandidater.map((kandidat) => {
-                    if (kandidat.kandidatnr === this.props.notaterForKandidat.kandidatnr) {
-                        return {
-                            ...kandidat,
-                            notater: this.props.notaterForKandidat.notater
-                        };
-                    }
-                    return kandidat;
-                })
             });
         }
     }
@@ -156,7 +133,7 @@ class Listedetaljer extends React.Component {
         this.props.presenterKandidater(
             beskjed,
             mailadresser,
-            this.props.kandidatliste.kandidatlisteId,
+            this.props.kandidatliste.data.kandidatlisteId,
             this.state.kandidater
                 .filter((kandidat) => kandidat.markert)
                 .map((kandidat) => kandidat.kandidatnr)
@@ -226,15 +203,17 @@ class Listedetaljer extends React.Component {
     };
 
     render() {
-        if (this.props.fetching || !this.props.kandidatliste || !this.state.kandidater) {
+        if (this.props.kandidatliste.kind === RemoteDataTypes.LOADING || !this.state.kandidater) {
             return (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
                 </div>
             );
+        } else if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+            return null;
         }
 
-        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere, beskrivelse } = this.props.kandidatliste;
+        const { tittel, organisasjonNavn, opprettetAv, kandidatlisteId, stillingId, kanEditere, beskrivelse } = this.props.kandidatliste.data;
         const { kandidater, alleMarkert, deleModalOpen, suksessMelding, leggTilModalOpen, kopierEpostModalOpen } = this.state;
         return (
             <div>
@@ -251,6 +230,7 @@ class Listedetaljer extends React.Component {
                         vis={this.state.leggTilModalOpen}
                         onClose={this.onToggleLeggTilKandidatModal}
                         stillingsId={stillingId}
+                        kandidatliste={this.props.kandidatliste.data}
                     />
                 }
                 {kopierEpostModalOpen &&
@@ -294,13 +274,14 @@ Listedetaljer.defaultProps = {
     kandidat: {
         fornavn: '',
         etternavn: ''
-    },
-    notaterForKandidat: undefined
+    }
 };
 
 Listedetaljer.propTypes = {
-    fetching: PropTypes.bool.isRequired,
-    kandidatliste: PropTypes.shape(Kandidatliste),
+    kandidatliste: PropTypes.shape({
+        kind: PropTypes.string,
+        data: PropTypes.shape(Kandidatliste)
+    }),
     endreStatusKandidat: PropTypes.func.isRequired,
     presenterKandidater: PropTypes.func.isRequired,
     resetDeleStatus: PropTypes.func.isRequired,
@@ -314,30 +295,24 @@ Listedetaljer.propTypes = {
     hentNotater: PropTypes.func.isRequired,
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
-    slettNotat: PropTypes.func.isRequired,
-    notaterForKandidat: PropTypes.shape({
-        kandidatnr: PropTypes.string,
-        notater: PropTypes.arrayOf(PropTypes.shape(Notat))
-    })
+    slettNotat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    fetching: state.kandidatlister.detaljer.fetching,
     deleStatus: state.kandidatlister.detaljer.deleStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
-    kandidat: state.kandidatlister.kandidat,
-    notaterForKandidat: state.kandidatlister.notater
+    kandidat: state.kandidatlister.kandidat
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); },
-    presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
-    resetDeleStatus: () => { dispatch({ type: RESET_DELE_STATUS }); },
-    hentNotater: (kandidatlisteId, kandidatnr) => { dispatch({ type: HENT_NOTATER, kandidatlisteId, kandidatnr }); },
-    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => { dispatch({ type: OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }); },
-    endreNotat: (kandidatlisteId, kandidatnr, notatId, tekst) => { dispatch({ type: ENDRE_NOTAT, kandidatlisteId, kandidatnr, notatId, tekst }); },
-    slettNotat: (kandidatlisteId, kandidatnr, notatId) => { dispatch({ type: SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId }); }
+    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => { dispatch({ type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT, status, kandidatlisteId, kandidatnr }); },
+    presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => { dispatch({ type: KandidatlisteTypes.PRESENTER_KANDIDATER, beskjed, mailadresser, kandidatlisteId, kandidatnummerListe }); },
+    resetDeleStatus: () => { dispatch({ type: KandidatlisteTypes.RESET_DELE_STATUS }); },
+    hentNotater: (kandidatlisteId, kandidatnr) => { dispatch({ type: KandidatlisteTypes.HENT_NOTATER, kandidatlisteId, kandidatnr }); },
+    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => { dispatch({ type: KandidatlisteTypes.OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst }); },
+    endreNotat: (kandidatlisteId, kandidatnr, notatId, tekst) => { dispatch({ type: KandidatlisteTypes.ENDRE_NOTAT, kandidatlisteId, kandidatnr, notatId, tekst }); },
+    slettNotat: (kandidatlisteId, kandidatnr, notatId) => { dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);

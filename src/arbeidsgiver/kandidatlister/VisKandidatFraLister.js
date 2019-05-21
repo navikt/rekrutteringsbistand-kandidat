@@ -11,13 +11,13 @@ import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPe
 import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import { HENT_KANDIDATLISTE, SLETT_KANDIDATER } from './kandidatlisteReducer';
-import { SLETTE_STATUS } from '../../felles/konstanter';
+import { KandidatlisteTypes } from '../kandidatlisteDetaljer/kandidatlisteReducer.ts';
 import './VisKandidatFraLister.less';
 import '../../felles/common/ikoner/ikoner.less';
 import SlettKandidaterModal from '../common/SlettKandidaterModal';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 class VisKandidatFraLister extends React.Component {
     constructor(props) {
@@ -44,11 +44,11 @@ class VisKandidatFraLister extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if (state.sletterKandidat) {
             const visSlettKandidatModal = (
-                props.sletteStatus !== SLETTE_STATUS.SUCCESS
+                props.sletteStatus.kind !== RemoteDataTypes.SUCCESS
             );
 
             const visSlettKandidatFeilmelding = (
-                props.sletteStatus === SLETTE_STATUS.FAILURE
+                props.sletteStatus.kind === RemoteDataTypes.FAILURE
             );
 
             return {
@@ -126,7 +126,7 @@ class VisKandidatFraLister extends React.Component {
             </div>
         );
 
-        if (this.props.sletteStatus === SLETTE_STATUS.SUCCESS) {
+        if (this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
             return <Redirect to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatlisteId}`} push />;
         }
         if (hentStatus === HENT_CV_STATUS.LOADING) {
@@ -180,7 +180,7 @@ class VisKandidatFraLister extends React.Component {
                 <SlettKandidaterModal
                     isOpen={this.state.visSlettKandidatModal}
                     visFeilmelding={this.state.visSlettKandidatFeilmelding}
-                    sletterKandidater={this.props.sletteStatus === SLETTE_STATUS.LOADING}
+                    sletterKandidater={this.props.sletteStatus.kind === RemoteDataTypes.LOADING}
                     valgteKandidater={[cv]}
                     lukkModal={this.lukkSlettModal}
                     onDeleteClick={this.slettKandidat}
@@ -214,23 +214,25 @@ VisKandidatFraLister.propTypes = {
         )
     }),
     slettKandidater: PropTypes.func.isRequired,
-    sletteStatus: PropTypes.string.isRequired
+    sletteStatus: PropTypes.shape({
+        kind: PropTypes.string.isRequired
+    }).isRequired
 };
 
 const mapStateToProps = (state, props) => ({
     kandidatnummer: getUrlParameterByName('kandidatNr', window.location.href),
     kandidatlisteId: props.match.params.listeid,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    kandidatliste: state.kandidatlisteDetaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlisteDetaljer.kandidatliste.data : undefined,
     cv: state.cvReducer.cv,
     hentStatus: state.cvReducer.hentStatus,
-    sletteStatus: state.kandidatlister.detaljer.sletteStatus,
+    sletteStatus: state.kandidatlisteDetaljer.sletteStatus,
     matchforklaring: state.cvReducer.matchforklaring
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) => dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: (kandidatlisteId) => dispatch({ type: HENT_KANDIDATLISTE, kandidatlisteId }),
-    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: SLETT_KANDIDATER, kandidatlisteId, kandidater })
+    hentKandidatliste: (kandidatlisteId) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE, kandidatlisteId }),
+    slettKandidater: (kandidatlisteId, kandidater) => dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATER, kandidatlisteId, kandidater })
 });
 
 

@@ -7,7 +7,7 @@ import '../result/matchforklaring/Matchforklaring.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import './EndreModal.less';
-import { OPPDATER_KANDIDATLISTE, RESET_LAGRE_STATUS } from './kandidatlisteReducer';
+import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { KandidatlisteBeskrivelse } from './Kandidatlister';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
@@ -51,8 +51,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    lagreKandidatliste: (kandidatlisteInfo) => { dispatch({ type: OPPDATER_KANDIDATLISTE, kandidatlisteInfo }); },
-    resetStatusTilUnsaved: () => { dispatch({ type: RESET_LAGRE_STATUS }); }
+    lagreKandidatliste: (kandidatlisteInfo) => { dispatch({ type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE, kandidatlisteInfo }); },
+    resetStatusTilUnsaved: () => { dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EndreModal);

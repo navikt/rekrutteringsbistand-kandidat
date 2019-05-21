@@ -1,6 +1,6 @@
 
 import { EventEmitter } from 'events';
-import { sjekkTokenGaarUtSnart, SearchApiError } from './api';
+import { sjekkTokenGaarUtSnart, SearchApiError } from './api.ts';
 
 
 export default class TokenChecker extends EventEmitter {

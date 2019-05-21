@@ -16,13 +16,13 @@ import KandidaterVisning from './KandidaterVisning';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, MATCH_SEARCH, PERFORM_INITIAL_SEARCH, SET_STATE } from '../sok/searchReducer';
 import './Resultat.less';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { USE_JANZZ } from '../common/fasitProperties';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext.tsx';
-import Sidetittel from '../../felles/common/Sidetittel';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 class ResultatVisning extends React.Component {
     constructor(props) {

@@ -10,7 +10,7 @@ import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
 import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
-import Sidetittel from '../../common/Sidetittel';
+import Sidetittel from '../../common/Sidetittel.tsx';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {

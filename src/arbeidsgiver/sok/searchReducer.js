@@ -5,7 +5,7 @@ import {
     fetchFeatureToggles,
     SearchApiError,
     fetchGeografiKode
-} from './api';
+} from './api.ts';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { USE_JANZZ, CONTEXT_ROOT } from '../common/fasitProperties';
