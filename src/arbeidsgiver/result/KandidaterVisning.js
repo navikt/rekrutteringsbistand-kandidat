@@ -173,26 +173,26 @@ class KandidaterVisning extends React.Component {
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
 
-        const {totaltAntallTreff, kandidater } = this.props;
+        const { totaltAntallTreff, kandidater } = this.props;
         return (
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <Row className="resultatvisning">
                     <div className="resultatvisning--header">
-                        
-                        {USE_JANZZ ? 
+
+                        {USE_JANZZ ?
                             <div className="resultatvisning--header-left">
                                 <Element>Viser {kandidater.length > totaltAntallTreff ? totaltAntallTreff : kandidater.length} av {totaltAntallTreff} kandidater</Element>
                             </div>
-                            : 
-                            
+                            :
+
                             <div className="resultatvisning--header-left">
                                 <Element>Antall treff:</Element>
                                 <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
                             </div>
                         }
-                        
+
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             disabled={antallMarkert === 0}

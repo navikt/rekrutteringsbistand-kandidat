@@ -33,8 +33,8 @@ class VisKandidat extends React.Component {
             forrigeKandidat: this.forrigeKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
             nesteKandidat: this.nesteKandidatnummerIListen(getUrlParameterByName('kandidatNr', window.location.href)),
             nesteProfil: this.nesteProfilIListen(getUrlParameterByName('kandidatNr', window.location.href)),
-            forrigeProfil: this.forrigeProfilIListen(getUrlParameterByName('kandidatNr', window.location.href)),
-            
+            forrigeProfil: this.forrigeProfilIListen(getUrlParameterByName('kandidatNr', window.location.href))
+
         };
 
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
@@ -43,8 +43,8 @@ class VisKandidat extends React.Component {
     }
 
     componentDidMount() {
-        if(USE_JANZZ) {
-            document.title = "Kandidatmatch - Arbeidsplassen - Cv"
+        if (USE_JANZZ) {
+            document.title = 'Kandidatmatch - Arbeidsplassen - Cv';
         }
         this.props.hentCvForKandidat(this.kandidatnummer, this.profilId, this.sisteSokId);
         this.props.settValgtKandidat(this.kandidatnummer);
@@ -173,16 +173,16 @@ class VisKandidat extends React.Component {
     render() {
         const { cv, antallKandidater, hentStatus, kandidater } = this.props;
 
-        const profilUrlForrigePostfix = USE_JANZZ && this.sisteSokId && this.state.forrigeProfil ? `&profilId=${this.state.forrigeProfil}&sisteSokId=${this.sisteSokId}` : ""
-        const profilUrlNestePostfix = USE_JANZZ && this.sisteSokId && this.state.nesteProfil ? `&profilId=${this.state.nesteProfil}&sisteSokId=${this.sisteSokId}` : ""
-        const forrigeKandidatLink = 
-            this.state.forrigeKandidat 
-            ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}${profilUrlForrigePostfix}` 
-            : undefined;
-        const nesteKandidatLink = 
-            this.state.nesteKandidat 
-            ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.nesteKandidat}${profilUrlNestePostfix}` 
-            : undefined;
+        const profilUrlForrigePostfix = USE_JANZZ && this.sisteSokId && this.state.forrigeProfil ? `&profilId=${this.state.forrigeProfil}&sisteSokId=${this.sisteSokId}` : '';
+        const profilUrlNestePostfix = USE_JANZZ && this.sisteSokId && this.state.nesteProfil ? `&profilId=${this.state.nesteProfil}&sisteSokId=${this.sisteSokId}` : '';
+        const forrigeKandidatLink =
+            this.state.forrigeKandidat
+                ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.forrigeKandidat}${profilUrlForrigePostfix}`
+                : undefined;
+        const nesteKandidatLink =
+            this.state.nesteKandidat
+                ? `/${CONTEXT_ROOT}/cv?kandidatNr=${this.state.nesteKandidat}${profilUrlNestePostfix}`
+                : undefined;
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -238,7 +238,7 @@ class VisKandidat extends React.Component {
                         )}
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
-                       <div className="navigering-forrige-neste_wrapper">
+                        <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
                                 lenkeClass="VisKandidat__ForrigeNeste"
                                 gjeldendeKandidat={this.state.gjeldendeKandidat}

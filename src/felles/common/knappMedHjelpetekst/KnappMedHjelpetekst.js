@@ -48,7 +48,7 @@ KnappMedHjelpetekst.propTypes = {
     tittel: PropTypes.string.isRequired,
     children: PropTypes.string,
     spinner: PropTypes.bool,
-    id: PropTypes.string,
+    id: PropTypes.string
 };
 
 KnappMedHjelpetekst.defaultProps = {

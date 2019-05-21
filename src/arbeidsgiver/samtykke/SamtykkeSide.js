@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Footer } from 'pam-frontend-footer';
 import { GODTA_VILKAR, HENT_VILKARSTEKST } from './samtykkeReducer';
 import AvgiSamtykke from './avgiSamtykke/AvgiSamtykke';
 import './SamtykkeSide.less';
 import TomToppmeny from '../common/toppmeny/TomToppmeny';
-import { Footer } from 'pam-frontend-footer';
 import SubHeader from '../common/subHeader/SubHeader';
 import Spinner from '../../felles/common/Spinner';
 

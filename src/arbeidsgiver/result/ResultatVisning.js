@@ -34,8 +34,8 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidMount() {
-        if(USE_JANZZ) {
-            document.title = "Kandidatmatch - Arbeidsplassen"
+        if (USE_JANZZ) {
+            document.title = 'Kandidatmatch - Arbeidsplassen';
         }
         this.props.performInitialSearch();
     }
