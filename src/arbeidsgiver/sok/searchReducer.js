@@ -255,7 +255,7 @@ function* search(action = '') {
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
         const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
-        if (window.location.pathname !== '/${CONTEXT_ROOT}/cv') {
+        if (window.location.pathname !== `/${CONTEXT_ROOT}/cv`) {
             window.history.replaceState('', '', newUrlQuery);
         }
 

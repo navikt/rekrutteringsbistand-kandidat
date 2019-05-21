@@ -14,7 +14,7 @@ import { Footer } from 'pam-frontend-footer';
 import 'pam-frontend-footer/dist/style.css';
 import ResultatVisning from '../result/ResultatVisning';
 import ManglerRolleAltinn from './error/ManglerRolleAltinn';
-import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL } from '../common/fasitProperties';
+import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL, USE_JANZZ } from '../common/fasitProperties';
 import '../../felles/styles.less';
 import './sok.less';
 import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, saga } from './searchReducer';
@@ -46,7 +46,6 @@ import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
-import { USE_JANZZ } from '../common/fasitProperties';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
