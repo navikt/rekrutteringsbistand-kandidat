@@ -20,11 +20,18 @@ import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
-const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick }) => {
+const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick, onOpprettClick }) => {
     if (fetching || kandidatlister === undefined) {
         return <div className="text-center"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
-        return <TomListe>Du har ingen kandidatlister</TomListe>;
+        return (
+            <TomListe
+                knappTekst="Opprett kandidatliste"
+                onClick={onOpprettClick}
+            >
+                Du har ingen kandidatlister
+            </TomListe>
+        );
     }
 
     return (
@@ -312,6 +319,7 @@ class Kandidatlister extends React.Component {
                                 fetching={fetchingKandidatlister}
                                 onEndreClick={this.onEndreClick}
                                 onSletteClick={this.onDeleteClick}
+                                onOpprettClick={this.onOpprettClick}
                             />
                         </div>
                     </div>

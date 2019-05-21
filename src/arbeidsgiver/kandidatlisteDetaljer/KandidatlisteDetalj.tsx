@@ -76,9 +76,10 @@ interface KandidatListeProps {
     setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void,
     onFjernKandidat: (kandidat: Kandidat) => void,
     setFailureMelding: (innhold: string) => void
+    visNotater: boolean
 }
 
-const KandidatListe: FunctionComponent<KandidatListeProps> = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat, setFailureMelding }) => (
+const KandidatListe: FunctionComponent<KandidatListeProps> = ({ kandidatliste, toggleKandidatChecked, setViewStateKandidat, onFjernKandidat, setFailureMelding, visNotater }) => (
     <div className="tbody">
         {kandidatliste.kandidater && kandidatliste.kandidater.map((kandidat) => {
             if (erSynligFlaggIkkeSatt(kandidat) || kandidat.erSynlig) {
@@ -90,6 +91,7 @@ const KandidatListe: FunctionComponent<KandidatListeProps> = ({ kandidatliste, t
                         toggleKandidatChecked={toggleKandidatChecked}
                         setViewStateKandidat={setViewStateKandidat}
                         setFailureMelding={setFailureMelding}
+                        visNotater={visNotater}
                     />
                 );
             }
@@ -104,9 +106,10 @@ interface SynligKandidatPanelProps {
     toggleKandidatChecked: (kandidatnr: string) => void,
     setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void,
     setFailureMelding: (innhold: string) => void
+    visNotater: boolean
 }
 
-const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat, setFailureMelding }) => (
+const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kandidat, kandidatliste, toggleKandidatChecked, setViewStateKandidat, setFailureMelding, visNotater }) => (
     <div className="tr">
         <div className="KandidatlisteDetalj__panel">
             <div className="KandidatlisteDetalj__panel--first td">
@@ -133,6 +136,7 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
                 </Link>
             </div>
             <Normaltekst className="KandidatlisteDetalj__panel--second arbeidserfaring">{kandidat.sisteArbeidserfaring}</Normaltekst>
+            {visNotater &&
             <div className="KandidatlisteDetalj__panel--notater">
                 <Lenkeknapp
                     onClick={() => {
@@ -144,10 +148,11 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
                     className="legg-til-kandidat Notat"
                 >
                     <i className="Notat__icon" />
-                    {kandidat.notater.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.notater.data.length : kandidat.antallNotater}
+                    {kandidat.antallNotater}
                     <NavFrontendChevron type={kandidat.viewState === KandidatState.NOTATER_VISES ? 'opp' : 'ned'} />
                 </Lenkeknapp>
             </div>
+            }
         </div>
 
         <div className="KandidatlisteDetalj__panel">
@@ -245,7 +250,7 @@ const Knapper: FunctionComponent<{ valgteKandidater: Array<Kandidat>, visSlettKa
     );
 };
 
-const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleClicked: (boolean) => void }> = ({ allChecked, markerAlleClicked }) => (
+const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleClicked: (boolean) => void, visNotater: boolean }> = ({ allChecked, markerAlleClicked, visNotater }) => (
     <div className="thead">
         <div className="KandidatlisteDetalj__panel KandidatlisteDetalj__panel--header th">
             <div className="KandidatlisteDetalj__panel--first td">
@@ -260,7 +265,9 @@ const KandidatListeToppRad: FunctionComponent<{ allChecked: boolean, markerAlleC
                 />
             </div>
             <UndertekstBold className="KandidatlisteDetalj__panel--second arbeidserfaring td">Arbeidserfaring</UndertekstBold>
+            {visNotater &&
             <UndertekstBold className="KandidatlisteDetalj__panel--notater td">Notater</UndertekstBold>
+            }
         </div>
     </div>
 );
@@ -274,6 +281,7 @@ interface KandidatlisteDetaljProps {
     toggleKandidatChecked: (kandidatnr: string) => void,
     setViewStateKandidat: (kandidatnr: string, state: KandidatState) => void
     markerAlleClicked: (checked: boolean) => void
+    visNotater: boolean
 }
 
 const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
@@ -285,7 +293,8 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
         nullstillSletteStatus,
         toggleKandidatChecked,
         setViewStateKandidat,
-        markerAlleClicked
+        markerAlleClicked,
+        visNotater
     }
 ) => {
     const [alertStripeState, clearAlertstripeTimouts, setSuccessMelding, setFailureMelding] = useTimeoutState();
@@ -338,6 +347,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                         <KandidatListeToppRad
                             allChecked={kandidatliste.allChecked}
                             markerAlleClicked={markerAlleClicked}
+                            visNotater={visNotater}
                         />
                         <KandidatListe
                             kandidatliste={kandidatliste}
@@ -347,6 +357,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                                 slettKandidater([kandidat]);
                             }}
                             setFailureMelding={setFailureMelding}
+                            visNotater={visNotater}
                         />
                     </div>
                 </div>
@@ -373,7 +384,8 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
 
 const mapStateToProps = (state, props) => ({
     ...props,
-    sletteStatus: state.kandidatlisteDetaljer.sletteStatus
+    sletteStatus: state.kandidatlisteDetaljer.sletteStatus,
+    visNotater: state.search.featureToggles['vis-notater-arbeidsgiver']
 });
 
 const mapDispatchToProps = (dispatch, { kandidatliste }) => ({

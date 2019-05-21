@@ -83,7 +83,7 @@ const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModa
     }
 };
 
-type NyttNotatState = { open: false } | { open: true, value: string }
+type NyttNotatState = { open: false } | { open: true, value: string, feil?: { feilmelding: string } }
 
 const lukketNotatFelt: () => NyttNotatState = () => ({
     open: false
@@ -91,7 +91,8 @@ const lukketNotatFelt: () => NyttNotatState = () => ({
 
 const apentNotatFelt: (string) => NyttNotatState = (value: string) => ({
     open: true,
-    value
+    value,
+    feil: value.length > 3000 ? { feilmelding: 'Notatet er for langt' } : undefined
 });
 
 interface NyttNotatProps {
@@ -115,7 +116,7 @@ const NyttNotat: FunctionComponent<NyttNotatProps> = ({ opprettNotat, opprettSta
 
     if (nyttNotatState.open) {
         const onLagreClick = () => {
-            if (opprettState.kind !== RemoteDataTypes.LOADING) {
+            if (opprettState.kind !== RemoteDataTypes.LOADING && !nyttNotatState.feil) {
                 opprettNotat(nyttNotatState.value);
             }
         };
@@ -124,6 +125,8 @@ const NyttNotat: FunctionComponent<NyttNotatProps> = ({ opprettNotat, opprettSta
                 <Textarea
                     label="Skriv inn notat"
                     value={nyttNotatState.value}
+                    feil={nyttNotatState.feil}
+                    maxLength={3000}
                     textareaClass="RedigerNotat-tekstfelt"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                         setNyttNotatState(apentNotatFelt(e.target.value))
@@ -157,7 +160,10 @@ interface LukketModalState {
 interface RedigereModalState {
     kind: ModalStateType.REDIGERE_MODAL_AAPEN,
     notat: Notat,
-    tekst: string
+    tekst: string,
+    feil?: {
+        feilmelding: string
+    }
 }
 
 interface SletteModalState {
@@ -172,7 +178,8 @@ const lukketModalState: () => ModalState = () => ({
 const redigereModalState: (Notat, string) => ModalState = (notat, tekst) => ({
     kind: ModalStateType.REDIGERE_MODAL_AAPEN,
     notat,
-    tekst
+    tekst,
+    feil: tekst.length > 3000 ? { feilmelding: 'Notatet er for langt' } : undefined
 });
 
 const sletteModalState: (Notat) => ModalState = (notat) => ({
@@ -185,15 +192,18 @@ type ModalState = LukketModalState | RedigereModalState | SletteModalState
 interface RedigerNotatModalProps {
     notat: Notat,
     tekst: string,
+    feil?: {
+        feilmelding: string
+    }
     loading: boolean,
     setModalState: (ModalState) => void,
     redigerNotat: (notat: Notat, tekst: string) => void,
     alertState: AlertStripeState
 }
 
-const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, loading, setModalState, redigerNotat, alertState }) => {
+const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, tekst, feil, loading, setModalState, redigerNotat, alertState }) => {
     const onLagreClick = () => {
-        if (!loading) {
+        if (!loading && !feil) {
             redigerNotat(notat, tekst);
         }
     };
@@ -205,6 +215,8 @@ const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, t
                 <Textarea
                     label="Skriv inn notat"
                     value={tekst}
+                    feil={feil}
+                    maxLength={3000}
                     textareaClass="RedigerNotat-tekstfelt"
                     onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
                 />
@@ -286,6 +298,7 @@ const Modaler: FunctionComponent<ModalerProps> = ({ modalState, setModalState, r
             <RedigerNotatModal
                 notat={modalState.notat}
                 tekst={modalState.tekst}
+                feil={modalState.feil}
                 loading={notater.redigerState.kind === RemoteDataTypes.LOADING}
                 setModalState={setModalState}
                 redigerNotat={redigerNotat}
