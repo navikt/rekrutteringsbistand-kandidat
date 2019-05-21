@@ -6,16 +6,16 @@ import Media from 'react-media';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Undertekst, UndertekstBold } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
+import { Panel } from 'nav-frontend-paneler';
 import TilbakeLenke from '../common/TilbakeLenke.js';
 import SlettKandidaterModal from './SlettKandidaterModal';
 import Lenkeknapp from '../../felles/common/Lenkeknapp.js';
 import { FadingAlertStripe } from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper.js';
-import TomListe from '../../felles/kandidatlister/TomListe.js';
 import Notater from './Notater';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
@@ -30,6 +30,7 @@ import {
     UpdateKandidatIListeStateTypes
 } from './kandidatlisteReducer';
 
+import '../common/TomListe.less';
 import '../../felles/common/ikoner/ikoner.less';
 import '../kandidatlister/kandidatlister.less';
 
@@ -363,9 +364,10 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 </div>
             ) : (
                 <Container className="Kandidatlister__container Kandidatlister__container-width">
-                    <TomListe lenke={`/${CONTEXT_ROOT}`} lenkeTekst="Finn kandidater">
-                        Du har ingen kandidater i kandidatlisten
-                    </TomListe>
+                    <Panel className="TomListe">
+                        <Undertittel>Du har ingen kandidater i kandidatlisten</Undertittel>
+                        <Link className="link" to={`/${CONTEXT_ROOT}`}>Finn kandidater</Link>
+                    </Panel>
                 </Container>
             )}
             <SlettKandidaterModal
