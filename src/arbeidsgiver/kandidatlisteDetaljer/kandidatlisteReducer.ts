@@ -5,8 +5,7 @@ import {
     fetchKandidatliste,
     fetchNotater,
     postNotat,
-    putNotat,
-    SearchApiError
+    putNotat
 } from '../sok/api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
@@ -16,7 +15,6 @@ import {
     Loading,
     Success,
     mapRemoteData,
-    mapResponseData,
     RemoteData,
     RemoteDataTypes,
     ResponseData
@@ -448,11 +446,10 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sletteStatus: Loading()
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
-            console.log({ action });
             return {
                 ...state,
                 kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste),
-                sletteStatus: mapResponseData(action.kandidatliste, () => ({ antallKandidaterSlettet: action.antallKandidaterSlettet }))
+                sletteStatus: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? Success({ antallKandidaterSlettet: action.antallKandidaterSlettet }) : action.kandidatliste
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
             return {
