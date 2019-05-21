@@ -448,6 +448,7 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sletteStatus: Loading()
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
+            console.log({ action });
             return {
                 ...state,
                 kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste),
