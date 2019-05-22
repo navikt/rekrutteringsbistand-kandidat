@@ -1,4 +1,4 @@
-import { put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { deleteKandidater, deleteNotat, fetchKandidatliste, fetchNotater, postNotat, putNotat } from '../sok/api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { Reducer } from 'redux';
@@ -8,7 +8,6 @@ import {
     Loading,
     Success,
     mapRemoteData,
-    mapResponseData,
     RemoteData,
     RemoteDataTypes,
     ResponseData
@@ -443,7 +442,7 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste) : state.kandidatliste,
-                sletteStatus: mapResponseData(action.kandidatliste, () => ({ antallKandidaterSlettet: action.antallKandidaterSlettet }))
+                sletteStatus: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? Success({ antallKandidaterSlettet: action.antallKandidaterSlettet }) : action.kandidatliste
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
             return {
@@ -512,34 +511,34 @@ export default kandidatlisteReducer;
  ********************************************************* */
 
 function* hentKandidatListe(action: HentKandidatlisteAction) {
-    const response = yield fetchKandidatliste(action.kandidatlisteId);
+    const response = yield call(fetchKandidatliste, action.kandidatlisteId);
     yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_FERDIG, kandidatliste: response });
 }
 
 function* slettKandidater(action: SlettKandidaterAction) {
     const { kandidater, kandidatlisteId } = action;
     const slettKandidatnr = kandidater.map((k) => k.kandidatnr);
-    const response = yield deleteKandidater(kandidatlisteId, slettKandidatnr);
+    const response = yield call(deleteKandidater, kandidatlisteId, slettKandidatnr);
     yield put({ type: KandidatlisteTypes.SLETT_KANDIDATER_FERDIG, kandidatliste: response, antallKandidaterSlettet: kandidater.length });
 }
 
 function* hentNotater(action: HentNotaterAction) {
-    const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
+    const response = yield call(fetchNotater, action.kandidatlisteId, action.kandidatnr);
     yield put({ type: KandidatlisteTypes.HENT_NOTATER_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
 function* opprettNotat(action: OpprettNotatAction) {
-    const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
+    const response = yield call(postNotat, action.kandidatlisteId, action.kandidatnr, action.tekst);
     yield put({ type: KandidatlisteTypes.OPPRETT_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
 function* redigerNotat(action: RedigerNotatAction) {
-    const response = yield putNotat(action.kandidatlisteId, action.kandidatnr, action.notat, action.tekst);
+    const response = yield call(putNotat, action.kandidatlisteId, action.kandidatnr, action.notat, action.tekst);
     yield put({ type: KandidatlisteTypes.REDIGER_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
 function* slettNotat(action: SlettNotatAction) {
-    const response = yield deleteNotat(action.kandidatlisteId, action.kandidatnr, action.notat);
+    const response = yield call(deleteNotat, action.kandidatlisteId, action.kandidatnr, action.notat);
     yield put({ type: KandidatlisteTypes.SLETT_NOTAT_FERDIG, notater: mapRemoteData(response, ({ liste }) => liste), kandidatnr: action.kandidatnr });
 }
 
