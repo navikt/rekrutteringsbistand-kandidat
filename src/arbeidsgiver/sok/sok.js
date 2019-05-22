@@ -42,7 +42,7 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetaljWrapper from '../kandidatlisteDetaljer/KandidatlisteDetaljWrapper.tsx';
 import forerkortReducer from './forerkort/forerkortReducer';
-import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
+import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister';
 import TokenChecker from './tokenCheck';
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
@@ -192,7 +192,7 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}/cv`} component={VisKandidat} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetaljWrapper} />
-                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv`} component={VisKandidatFraLister} />
+                            <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv/:kandidatnr`} component={VisKandidatFraLister} />
                             <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                         </Switch>
