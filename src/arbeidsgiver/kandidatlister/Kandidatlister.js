@@ -7,12 +7,11 @@ import { Container } from 'nav-frontend-grid';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Undertittel, Element, Undertekst, Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Panel } from 'nav-frontend-paneler';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import TomListe from '../../felles/kandidatlister/TomListe';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
-import './kandidatlister.less';
 import EndreModal from './EndreModal';
 import PageHeader from '../../felles/common/PageHeaderWrapper';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
@@ -20,17 +19,18 @@ import { formatterDato } from '../../felles/common/dateUtils';
 import OpprettModal from './OpprettModal';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
+import '../common/TomListe.less';
+import './kandidatlister.less';
+
 const Kandidatlistevisning = ({ fetching, kandidatlister, onEndreClick, onSletteClick, onOpprettClick }) => {
     if (fetching || kandidatlister === undefined) {
         return <div className="text-center"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
         return (
-            <TomListe
-                knappTekst="Opprett kandidatliste"
-                onClick={onOpprettClick}
-            >
-                Du har ingen kandidatlister
-            </TomListe>
+            <Panel className="TomListe">
+                <Undertittel>Du har ingen kandidatlister</Undertittel>
+                <Hovedknapp id="opprett-ny-liste" className="TomListe-knapp" onClick={onOpprettClick}>Opprett kandidatliste</Hovedknapp>
+            </Panel>
         );
     }
 
