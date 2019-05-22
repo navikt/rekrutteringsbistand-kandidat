@@ -9,10 +9,8 @@ export enum AlertStripeType {
 interface State {
     feilmelding: AlertStripeState,
     nextId: number,
-    callbackIds?: {
-        callback1: number,
-        callback2: number
-    }
+    callbackIdHide?: number,
+    callbackIdClear?: number
 }
 
 const reducer: (State, any) => State = (state, action) => {
@@ -39,8 +37,9 @@ const reducer: (State, any) => State = (state, action) => {
                 },
                 nextId: state.nextId + 1
             };
+
         case 'HIDE':
-            if (state.feilmelding && state.feilmelding.id === action.id) {
+            if (state.feilmelding.id === action.id) {
                 return {
                     ...state,
                     feilmelding: {
@@ -61,21 +60,34 @@ const reducer: (State, any) => State = (state, action) => {
                 };
             }
             return state;
-        case 'SET_CALLBACK_IDS':
-            if (state.callbackIds) {
-                clearTimeout(state.callbackIds.callback1);
-                clearTimeout(state.callbackIds.callback2);
+
+        case 'SET_CALLBACK_ID_HIDE':
+            if (state.callbackIdHide) {
+                clearTimeout(state.callbackIdHide);
             }
             return {
                 ...state,
-                callbackIds: action.callbackIds
+                callbackIdHide: action.callbackId
+            };
+
+        case 'SET_CALLBACK_ID_CLEAR':
+            if (state.callbackIdClear) {
+                clearTimeout(state.callbackIdClear);
+            }
+            return {
+                ...state,
+                callbackIdClear: action.callbackId
             };
 
         case 'CLEAR_TIMEOUTS':
-            if (state.callbackIds) {
-                clearTimeout(state.callbackIds.callback1);
-                clearTimeout(state.callbackIds.callback2);
+            if (state.callbackIdHide) {
+                clearTimeout(state.callbackIdHide);
             }
+
+            if (state.callbackIdClear) {
+                clearTimeout(state.callbackIdClear);
+            }
+
             return state;
 
         default:
@@ -88,6 +100,7 @@ interface ApenAlertStripeState {
     kind: AlertStripeType.SUCCESS | AlertStripeType.FAILURE
     innhold: string;
     synlig: boolean;
+    id: number
 }
 
 interface LukketAlertStripeState {
@@ -96,26 +109,28 @@ interface LukketAlertStripeState {
 
 export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
 
-export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void] = () => {
+export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void, () => void] = () => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
             kind: AlertStripeType.LUKKET
         },
         nextId: 0,
-        callbackIds: undefined
+        callbackIdHide: undefined,
+        callbackIdClear: undefined
     });
 
     const timeoutMillis = 5000;
 
     const setMelding = (innhold: string, type: string) => {
         dispatch({ type, innhold, id: state.nextId });
-        const callback1 = setTimeout(() => {
+        const callbackIdHide = setTimeout(() => {
             dispatch({ type: 'HIDE', id: state.nextId });
         }, timeoutMillis);
-        const callback2 = setTimeout(() => {
+        dispatch({ type: 'SET_CALLBACK_ID_HIDE', callbackId: callbackIdHide });
+        const callbackIdClear = setTimeout(() => {
             dispatch({ type: 'CLEAR', id: state.nextId });
         }, timeoutMillis + 1000);
-        dispatch({ type: 'SET_CALLBACK_IDS', callbackIds: { callback1, callback2 } });
+        dispatch({ type: 'SET_CALLBACK_ID_CLEAR', callbackId: callbackIdClear });
     };
 
     const setSuccessMelding = (innhold: string) => {
@@ -126,8 +141,20 @@ export const useTimeoutState: () => [AlertStripeState, () => void, (string) => v
         setMelding(innhold, 'SET_FAILURE');
     };
 
+    const lukkAlert = () => {
+        if (state.feilmelding.kind === AlertStripeType.SUCCESS || state.feilmelding.kind === AlertStripeType.FAILURE) {
+            const feilmeldingId = state.feilmelding.id;
+            dispatch({ type: 'CLEAR_TIMEOUTS' });
+            dispatch({ type: 'HIDE', id: feilmeldingId });
+            const callbackIdClear = setTimeout(() => {
+                dispatch({ type: 'CLEAR', id: feilmeldingId });
+            }, 1000);
+            dispatch({ type: 'SET_CALLBACK_ID_CLEAR', callbackId: callbackIdClear });
+        }
+    };
+
     const clearTimouts = () => {
         dispatch({ type: 'CLEAR_TIMEOUTS' });
     };
-    return [state.feilmelding, clearTimouts, setSuccessMelding, setFailureMelding];
+    return [state.feilmelding, clearTimouts, setSuccessMelding, setFailureMelding, lukkAlert];
 };
