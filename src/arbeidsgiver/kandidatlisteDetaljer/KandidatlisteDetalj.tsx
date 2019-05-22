@@ -335,7 +335,6 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 oppdragsgiver={oppdragsgiver}
                 antallKandidater={kandidater.length}
             />
-            <button onClick={() => setFailureMelding('test')} />
             <FadingAlertStripe alertStripeState={alertStripeState} />
             {kandidater.length > 0 ? (
                 <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
