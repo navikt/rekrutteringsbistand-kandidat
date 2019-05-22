@@ -439,11 +439,18 @@ const kandidatlisteReducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sletteStatus: Loading()
             };
         case KandidatlisteTypes.SLETT_KANDIDATER_FERDIG:
-            return {
-                ...state,
-                kandidatliste: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste) : state.kandidatliste,
-                sletteStatus: action.kandidatliste.kind === RemoteDataTypes.SUCCESS ? Success({ antallKandidaterSlettet: action.antallKandidaterSlettet }) : action.kandidatliste
-            };
+            if (action.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+                return {
+                    ...state,
+                    kandidatliste: overforKandidatlisteDetaljerState(state.kandidatliste, action.kandidatliste),
+                    sletteStatus: Success({ antallKandidaterSlettet: action.antallKandidaterSlettet })
+                };
+            } else {
+                return {
+                    ...state,
+                    sletteStatus: action.kandidatliste
+                };
+            }
         case KandidatlisteTypes.SLETT_KANDIDATER_RESET_STATUS:
             return {
                 ...state,
