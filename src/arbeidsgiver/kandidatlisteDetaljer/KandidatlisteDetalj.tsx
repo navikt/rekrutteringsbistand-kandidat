@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Media from "react-media";
+import Media from 'react-media';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Container } from 'nav-frontend-grid';
 import Modal from 'nav-frontend-modal';
@@ -11,7 +11,7 @@ import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'pam-frontend-knapper';
 import TilbakeLenke from '../common/TilbakeLenke.js';
-import SlettKandidaterModal from '../common/SlettKandidaterModal';
+import SlettKandidaterModal from './SlettKandidaterModal';
 import Lenkeknapp from '../../felles/common/Lenkeknapp.js';
 import { FadingAlertStripe } from '../../felles/common/HjelpetekstFading';
 import PageHeader from '../../felles/common/PageHeaderWrapper.js';
@@ -19,7 +19,7 @@ import TomListe from '../../felles/kandidatlister/TomListe.js';
 import Notater from './Notater';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteData, RemoteDataTypes } from '../../felles/common/remoteData';
-import { AlertStripeType, useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
+import { useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
 import { CONTEXT_ROOT } from '../common/fasitProperties';
 import Sidetittel from '../../felles/common/Sidetittel';
 import {
@@ -131,7 +131,7 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
                         .
                     </label>
                 </div>
-                <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}/cv?kandidatNr=${kandidat.kandidatnr}`}>
+                <Link title="Vis profil" className="link" to={`/${CONTEXT_ROOT}/lister/detaljer/${kandidatliste.kandidatlisteId}/cv/${kandidat.kandidatnr}`}>
                     {fornavnOgEtternavnFraKandidat(kandidat)}
                 </Link>
             </div>
@@ -309,7 +309,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 setSletteModalOpen(false);
             }
         } else if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
-            setSletteModalFailureMelding('');
+            setSletteModalFailureMelding('Noe gikk galt under sletting av kandidatene');
             nullstillSletteStatus()
         }
     }, [sletteStatus]);
@@ -318,6 +318,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
         return () => {
             clearAlertstripeTimouts();
             clearModalTimouts();
+            clearKandidatliste();
         }
     }, []);
 
@@ -335,7 +336,6 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 oppdragsgiver={oppdragsgiver}
                 antallKandidater={kandidater.length}
             />
-            <button onClick={() => setFailureMelding('test')} />
             <FadingAlertStripe alertStripeState={alertStripeState} />
             {kandidater.length > 0 ? (
                 <div className="KandidatlisteDetalj__container Kandidatlister__container-width-l">
@@ -374,7 +374,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 lukkModal={() => {
                     setSletteModalOpen(false);
                 }}
-                visFeilmelding={sletteModalFailureAlertStripeState.kind === AlertStripeType.FAILURE ? sletteModalFailureAlertStripeState.synlig : false}
+                alertState={sletteModalFailureAlertStripeState}
                 valgteKandidater={valgteKandidater}
                 onDeleteClick={onSlettKandidaterClick}
             />
