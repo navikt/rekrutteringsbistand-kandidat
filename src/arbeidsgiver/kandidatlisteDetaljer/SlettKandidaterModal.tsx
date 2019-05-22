@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import Modal from 'nav-frontend-modal';
 import { Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
+import { Kandidat } from './kandidatlisteReducer';
 import { fornavnOgEtternavnFraKandidat } from '../../felles/sok/utils';
 import { AlertStripeState } from '../../felles/common/hooks/useTimeoutState';
 import { FadingAlertStripeLiten } from '../../felles/common/HjelpetekstFading';
@@ -11,7 +12,7 @@ interface Props {
     isOpen: boolean,
     sletterKandidater: boolean,
     lukkModal: () => void,
-    valgteKandidater?: Array<any>,
+    valgteKandidater: Array<Kandidat>,
     alertState: AlertStripeState,
     onDeleteClick: () => void
 }

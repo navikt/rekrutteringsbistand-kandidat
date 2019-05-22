@@ -318,6 +318,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
         return () => {
             clearAlertstripeTimouts();
             clearModalTimouts();
+            clearKandidatliste();
         }
     }, []);
 
