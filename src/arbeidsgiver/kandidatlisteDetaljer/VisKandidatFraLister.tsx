@@ -31,7 +31,7 @@ interface Props {
 
 const VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, kandidatlisteId, kandidatliste, sletteStatus, hentStatus, slettKandidat, nullstillSletteStatus }) => {
     const [slettKandidatModalOpen, setSlettKandidatModalOpen] = useState<boolean>(false);
-    const [sletteModalFailureAlertStripeState, clearModalTimouts, , setSletteModalFailureMelding, lukkModalAlert] = useTimeoutState();
+    const [sletteModalFailureAlertStripeState, clearModalState, , setSletteModalFailureMelding] = useTimeoutState();
 
     useEffect(() => {
         if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
@@ -42,7 +42,7 @@ const VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, ka
 
     useEffect(() => {
         return () => {
-            clearModalTimouts();
+            clearModalState();
         }
     }, []);
 
@@ -137,7 +137,7 @@ const VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, ka
                 onDeleteClick={slettKandidat}
                 lukkModal={() => {
                     setSlettKandidatModalOpen(false);
-                    lukkModalAlert();
+                    clearModalState();
                 }}
             />
         </div>

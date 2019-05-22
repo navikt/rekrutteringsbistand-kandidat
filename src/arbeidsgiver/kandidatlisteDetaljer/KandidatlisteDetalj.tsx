@@ -298,8 +298,8 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
         visNotater
     }
 ) => {
-    const [alertStripeState, clearAlertstripeTimouts, setSuccessMelding, setFailureMelding] = useTimeoutState();
-    const [sletteModalFailureAlertStripeState, clearModalTimouts, , setSletteModalFailureMelding, lukkModalAlert] = useTimeoutState();
+    const [alertStripeState, clearAlertstripeState, setSuccessMelding, setFailureMelding] = useTimeoutState();
+    const [sletteModalFailureAlertStripeState, clearModalState, , setSletteModalFailureMelding] = useTimeoutState();
     const [sletteModalOpen, setSletteModalOpen] = useState<boolean>(false);
     useEffect(() => {
         if (sletteStatus.kind === RemoteDataTypes.SUCCESS) {
@@ -317,8 +317,8 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
 
     useEffect(() => {
         return () => {
-            clearAlertstripeTimouts();
-            clearModalTimouts();
+            clearAlertstripeState();
+            clearModalState();
             clearKandidatliste();
         }
     }, []);
@@ -375,7 +375,7 @@ const KandidatlisteDetalj: FunctionComponent<KandidatlisteDetaljProps> = (
                 sletterKandidater={sletteStatus.kind === RemoteDataTypes.LOADING}
                 lukkModal={() => {
                     setSletteModalOpen(false);
-                    lukkModalAlert();
+                    clearModalState();
                 }}
                 alertState={sletteModalFailureAlertStripeState}
                 valgteKandidater={valgteKandidater}

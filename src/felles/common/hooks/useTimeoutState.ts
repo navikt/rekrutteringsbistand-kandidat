@@ -79,16 +79,16 @@ const reducer: (State, any) => State = (state, action) => {
                 callbackIdClear: action.callbackId
             };
 
-        case 'CLEAR_TIMEOUTS':
-            if (state.callbackIdHide) {
-                clearTimeout(state.callbackIdHide);
-            }
+        case 'CLEAR_ALL':
+            clearTimeout(state.callbackIdHide);
+            clearTimeout(state.callbackIdClear);
 
-            if (state.callbackIdClear) {
-                clearTimeout(state.callbackIdClear);
-            }
-
-            return state;
+            return {
+                ...state,
+                feilmelding: {
+                    kind: AlertStripeType.LUKKET
+                }
+            };
 
         default:
             return state;
@@ -109,7 +109,7 @@ interface LukketAlertStripeState {
 
 export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
 
-export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void, () => void] = () => {
+export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void] = () => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
             kind: AlertStripeType.LUKKET
@@ -141,20 +141,9 @@ export const useTimeoutState: () => [AlertStripeState, () => void, (string) => v
         setMelding(innhold, 'SET_FAILURE');
     };
 
-    const lukkAlert = () => {
-        if (state.feilmelding.kind === AlertStripeType.SUCCESS || state.feilmelding.kind === AlertStripeType.FAILURE) {
-            const feilmeldingId = state.feilmelding.id;
-            dispatch({ type: 'CLEAR_TIMEOUTS' });
-            dispatch({ type: 'HIDE', id: feilmeldingId });
-            const callbackIdClear = setTimeout(() => {
-                dispatch({ type: 'CLEAR', id: feilmeldingId });
-            }, 1000);
-            dispatch({ type: 'SET_CALLBACK_ID_CLEAR', callbackId: callbackIdClear });
-        }
+    const clearTimoutsAndState = () => {
+        dispatch({ type: 'CLEAR_ALL' });
     };
 
-    const clearTimouts = () => {
-        dispatch({ type: 'CLEAR_TIMEOUTS' });
-    };
-    return [state.feilmelding, clearTimouts, setSuccessMelding, setFailureMelding, lukkAlert];
+    return [state.feilmelding, clearTimoutsAndState, setSuccessMelding, setFailureMelding];
 };
