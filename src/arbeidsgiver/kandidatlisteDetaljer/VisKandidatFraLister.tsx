@@ -29,9 +29,9 @@ interface Props {
     nullstillSletteStatus: () => void
 }
 
-const  VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, kandidatlisteId, kandidatliste, sletteStatus, hentStatus, slettKandidat, nullstillSletteStatus }) => {
+const VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, kandidatlisteId, kandidatliste, sletteStatus, hentStatus, slettKandidat, nullstillSletteStatus }) => {
     const [slettKandidatModalOpen, setSlettKandidatModalOpen] = useState<boolean>(false);
-    const [sletteModalFailureAlertStripeState, clearModalTimouts, , setSletteModalFailureMelding] = useTimeoutState();
+    const [sletteModalFailureAlertStripeState, clearModalState, , setSletteModalFailureMelding] = useTimeoutState();
 
     useEffect(() => {
         if (sletteStatus.kind === RemoteDataTypes.FAILURE) {
@@ -42,7 +42,7 @@ const  VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, k
 
     useEffect(() => {
         return () => {
-            clearModalTimouts();
+            clearModalState();
         }
     }, []);
 
@@ -134,8 +134,11 @@ const  VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, k
                 alertState={sletteModalFailureAlertStripeState}
                 sletterKandidater={sletteStatus.kind === RemoteDataTypes.LOADING}
                 valgteKandidater={[cv]}
-                lukkModal={() => setSlettKandidatModalOpen(false)}
                 onDeleteClick={slettKandidat}
+                lukkModal={() => {
+                    setSlettKandidatModalOpen(false);
+                    clearModalState();
+                }}
             />
         </div>
     );
