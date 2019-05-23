@@ -163,7 +163,9 @@ function* fetchTypeaheadGeografi(value, branch) {
 function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 2;
     const { branch, value } = action;
-    if (branch === BRANCHNAVN.FORERKORT) {
+    if (!value || value < TYPE_AHEAD_MIN_INPUT_LENGTH) {
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch, query: value });
+    } else if (branch === BRANCHNAVN.FORERKORT) {
         const nyKildeForerkort = yield select((state) => state.search.featureToggles['bruk-ny-kilde-forerkort']);
         const alleForerkortListe = nyKildeForerkort ? allePAMForerkort : alleForerkort;
         let result;
@@ -175,26 +177,23 @@ function* fetchTypeAheadSuggestions(action) {
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
     } else {
         const typeAheadBranch = getTypeAheadBranch(branch);
-
-        if (value && value.length >= TYPE_AHEAD_MIN_INPUT_LENGTH) {
-            try {
-                if (branch === BRANCHNAVN.GEOGRAFI) {
-                    yield fetchTypeaheadGeografi(value, branch);
-                } else {
-                    const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-                    yield put({
-                        type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
-                        suggestions: response,
-                        branch,
-                        query: value
-                    });
-                }
-            } catch (e) {
-                if (e instanceof SearchApiError) {
-                    yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
-                } else {
-                    throw e;
-                }
+        try {
+            if (branch === BRANCHNAVN.GEOGRAFI) {
+                yield fetchTypeaheadGeografi(value, branch);
+            } else {
+                const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
+                yield put({
+                    type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+                    suggestions: response,
+                    branch,
+                    query: value
+                });
+            }
+        } catch (e) {
+            if (e instanceof SearchApiError) {
+                yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: e });
+            } else {
+                throw e;
             }
         }
     }
