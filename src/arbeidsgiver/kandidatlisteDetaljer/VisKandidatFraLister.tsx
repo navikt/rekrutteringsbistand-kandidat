@@ -78,7 +78,7 @@ const VisKandidatFraLister: FunctionComponent<Props> = ({ cv, kandidatnummer, ka
 
     const Knapper = () => (
         <div className="viskandidat__knapperad">
-            <Lenkeknapp onClick={() => setSlettKandidatModalOpen(true)} className="Delete">
+            <Lenkeknapp onClick={() => setSlettKandidatModalOpen(true)} className="Delete" tittel="Slett kandidaten fra listen">
                 Slett
                 <i className="Delete__icon" />
             </Lenkeknapp>
