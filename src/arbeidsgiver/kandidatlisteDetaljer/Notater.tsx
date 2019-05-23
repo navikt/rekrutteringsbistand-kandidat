@@ -28,10 +28,10 @@ const NotatRad: FunctionComponent<{ notat: Notat, setModalState: (ModalState) =>
     <div className="NotatRad">
         <NotatVisning notat={notat} />
         <div className="NotatRad-knapper">
-            <Lenkeknapp className="Edit " onClick={() => { setModalState(redigereModalState(notat, notat.tekst))}}>
+            <Lenkeknapp className="Edit " onClick={() => { setModalState(redigereModalState(notat, notat.tekst))}} tittel="Rediger notat">
                 <i className="Edit__icon" />
             </Lenkeknapp>
-            <Lenkeknapp className="Delete" onClick={() => { setModalState(sletteModalState(notat))}}>
+            <Lenkeknapp className="Delete" onClick={() => { setModalState(sletteModalState(notat))}} tittel="Slett notat">
                 <i className="Delete__icon" />
             </Lenkeknapp>
         </div>

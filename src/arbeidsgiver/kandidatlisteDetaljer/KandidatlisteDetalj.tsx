@@ -147,6 +147,7 @@ const SynligKandidatPanel: FunctionComponent<SynligKandidatPanelProps> = ({ kand
                         );
                     }}
                     className="legg-til-kandidat Notat"
+                    tittel={kandidat.viewState === KandidatState.NOTATER_VISES ? 'Skjul notater' : 'Vis notater'}
                 >
                     <i className="Notat__icon" />
                     {kandidat.antallNotater}
