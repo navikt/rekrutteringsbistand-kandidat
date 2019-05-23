@@ -101,6 +101,7 @@ const VisKandidatCv = ({ cv }) => (
                             .map((f, i) => (
                                 <Row className="row--kategori" key={JSON.stringify({ ...f, index: i })}>
                                     {(f.tittel || f.type) && <Element>{f.tittel ? f.tittel : f.type}</Element>}
+                                    {f.beskrivelse && <Normaltekst>{f.beskrivelse}</Normaltekst>}
                                 </Row>
                             ))}
                     </Column>
