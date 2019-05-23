@@ -23,7 +23,7 @@ const KandidatlisteDetaljerWrapper: FunctionComponent<Props> = ({ hentKandidatli
         case RemoteDataTypes.LOADING:
             return (
                 <div className="KandidatlisteDetalj__spinner--wrapper">
-                    <NavFrontendSpinner />
+                    <NavFrontendSpinner type="L" />
                 </div>
             );
         case RemoteDataTypes.SUCCESS:
