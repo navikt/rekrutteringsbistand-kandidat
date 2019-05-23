@@ -47,6 +47,7 @@ node {
         committer = sh(script: 'git log -1 --pretty=format:"%an"', returnStdout: true).trim()
 
         releaseVersion = "0.0.${env.BUILD_NUMBER}-${commitHashShort}"
+        currentBuild.displayName = releaseVersion
 
         echo "release version: ${releaseVersion}"
     }

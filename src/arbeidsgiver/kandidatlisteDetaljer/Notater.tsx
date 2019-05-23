@@ -212,14 +212,16 @@ const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, t
             <div className="RedigerNotat">
                 <FadingAlertStripeLiten alertStripeState={alertState} />
                 <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
-                <Textarea
-                    label="Skriv inn notat"
-                    value={tekst}
-                    feil={feil}
-                    maxLength={3000}
-                    textareaClass="RedigerNotat-tekstfelt"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
-                />
+                <div className="RedigerNotat-tekstfelt-wrapper">
+                    <Textarea
+                        label="Skriv inn notat"
+                        value={tekst}
+                        feil={feil}
+                        maxLength={3000}
+                        textareaClass="RedigerNotat-tekstfelt"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
+                    />
+                </div>
                 <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Lagre</Hovedknapp>
                 <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
             </div>
@@ -353,7 +355,7 @@ const Notater: FunctionComponent<Props> = ({ notater, antallNotater, hentNotater
                     Her skal du kun skrive korte meldinger og statusoppdateringer.
                     Sensitive opplysninger skrives <strong>ikke</strong> her.
                 </Normaltekst>
-                <Normaltekst className="Notater-beskrivelse">Notatene blir automatisk slettet etter 3 måneder.</Normaltekst>
+                <Normaltekst className="Notater-beskrivelse">Alle i bedriften din som har tilgang til tjenesten kan lese, endre og slette notatene.</Normaltekst>
 
                 <NyttNotat opprettNotat={opprettNotat} opprettState={notater.opprettState} setFailureMelding={setFailureMelding} resetEndreNotatState={resetEndreNotatState} />
                 <Notatliste notater={notater.notater} setModalState={setModalState} hentNotater={hentNotater} antallNotater={antallNotater} />

@@ -22,8 +22,7 @@ module.exports = {
 
         opprettNyListe(navn, beskrivelse='', oppdragsgiver='') {
             return this
-                .waitForElementVisible('@opprettNyListeKnapp')
-                .click('@opprettNyListeKnapp')
+                .clickElement('@opprettNyListeKnapp', this, 1000)
                 .waitForElementVisible('@listeNavnInput')
                 .setValue('@listeNavnInput', navn)
                 .setValue('@listeBeskrivelseInput', beskrivelse)
