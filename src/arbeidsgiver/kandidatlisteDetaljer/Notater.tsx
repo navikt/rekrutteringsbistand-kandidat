@@ -212,14 +212,16 @@ const RedigerNotatModal: FunctionComponent<RedigerNotatModalProps> = ({ notat, t
             <div className="RedigerNotat">
                 <FadingAlertStripeLiten alertStripeState={alertState} />
                 <Systemtittel className="NotatModal-tittel">Rediger notat</Systemtittel>
-                <Textarea
-                    label="Skriv inn notat"
-                    value={tekst}
-                    feil={feil}
-                    maxLength={3000}
-                    textareaClass="RedigerNotat-tekstfelt"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
-                />
+                <div className="RedigerNotat-tekstfelt-wrapper">
+                    <Textarea
+                        label="Skriv inn notat"
+                        value={tekst}
+                        feil={feil}
+                        maxLength={3000}
+                        textareaClass="RedigerNotat-tekstfelt"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => { setModalState(redigereModalState(notat, e.target.value))}}
+                    />
+                </div>
                 <Hovedknapp onClick={onLagreClick} className="RedigerNotat-hovedknapp" spinner={loading}>Lagre</Hovedknapp>
                 <Knapp onClick={() => { setModalState(lukketModalState()) }}>Avbryt</Knapp>
             </div>
