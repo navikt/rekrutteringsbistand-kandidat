@@ -29,7 +29,7 @@
   &.tr {
     padding: 1.25rem 1rem !important;
   }
-  
+
   &:nth-child(odd):last-child {
     border-bottom: 2px solid @gray3;
   }
@@ -348,30 +348,43 @@
         font-weight: 400;
       }
 
+      .skjemaelement {
+        margin: 0;
+      }
+
+      .skjemaelement__label {
+        padding-left: 3rem;
+        font-weight: 600;
+
+        @media (max-width: @screen-xs) {
+          padding-left: 2rem;
+        }
+      }
     }
 
-    > :last-child {
+    .KandidatlisteDetalj__panel--second {
       flex: 1;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      &.arbeidserfaring {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .KandidatlisteDetalj__panel--notater {
+      min-width: 4rem;
+      margin-left: 2rem;
+      .Notat__icon {
+        margin-right: 0.5rem;
+      }
+
+      .nav-frontend-chevron {
+        margin-left: 0.375rem;
+      }
     }
 
     .typo-undertekst-bold {
       font-size: 1rem;
-    }
-
-    .skjemaelement {
-      margin: 0;
-    }
-
-    .skjemaelement__label {
-      padding-left: 3rem;
-      font-weight: 600;
-
-      @media (max-width: @screen-xs) {
-        padding-left: 2rem;
-      }
     }
   }
 
@@ -417,10 +430,6 @@
     * > {
       margin-right: 1rem;
     }
-  }
-
-  .alertstripe {
-    margin-bottom: 1rem;
   }
 }
 

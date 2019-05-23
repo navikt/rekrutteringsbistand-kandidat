@@ -6,13 +6,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import {
-    HENT_STATUS,
-    HENT_KANDIDAT_MED_FNR,
-    HENT_KANDIDAT_MED_FNR_RESET,
-    LEGG_TIL_KANDIDATER,
-    SET_FODSELSNUMMER
-} from './kandidatlisteReducer';
+import { KandidatlisteTypes, HENT_STATUS } from './kandidatlisteReducer.ts';
 import { Kandidatliste } from './PropTypes';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 
@@ -185,15 +179,14 @@ const mapStateToProps = (state) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     hentStatus: state.kandidatlister.hentStatus,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setFodselsnummer: (fodselsnummer) => { dispatch({ type: SET_FODSELSNUMMER, fodselsnummer }); },
-    hentKandidatMedFnr: (fodselsnummer) => { dispatch({ type: HENT_KANDIDAT_MED_FNR, fodselsnummer }); },
-    resetHentKandidatMedFnr: () => { dispatch({ type: HENT_KANDIDAT_MED_FNR_RESET }); },
-    leggTilKandidatMedFnr: (kandidater, kandidatliste) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatliste }); }
+    setFodselsnummer: (fodselsnummer) => { dispatch({ type: KandidatlisteTypes.SET_FODSELSNUMMER, fodselsnummer }); },
+    hentKandidatMedFnr: (fodselsnummer) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR, fodselsnummer }); },
+    resetHentKandidatMedFnr: () => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_RESET }); },
+    leggTilKandidatMedFnr: (kandidater, kandidatliste) => { dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatliste }); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeggTilKandidatModal);

@@ -6,6 +6,7 @@ import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
 import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
@@ -103,6 +104,44 @@ class Notater extends React.Component {
                 <Flatknapp className="avbryt--knapp" onClick={this.onCloseSletteModal}>Avbryt</Flatknapp>
             </NavFrontendModal>
         );
+        const Notatliste = () => {
+            switch (notater.kind) {
+                case RemoteDataTypes.LOADING:
+                    return (
+                        <div className="spinner-wrapper">
+                            <NavFrontendSpinner />
+                        </div>
+                    );
+                case RemoteDataTypes.SUCCESS:
+                    if (notater.data.length !== 0) {
+                        return (
+                            <div className="notatliste">
+                                {notater.data.map((notat) => (
+                                    <div className="notatliste-rad" key={notat.notatId}>
+                                        <div className="notat-topprad">
+                                            <NotatInfo notat={notat} />
+                                            {notat.kanEditere &&
+                                            <div className="endre-knapper">
+                                                <Lenkeknapp className="Edit " onClick={() => { this.onOpenRedigeringsModal(notat); }}>
+                                                    <i className="Edit__icon" />
+                                                </Lenkeknapp>
+                                                <Lenkeknapp className="Delete" onClick={() => { this.onOpenSletteModal(notat); }}>
+                                                    <i className="Delete__icon" />
+                                                </Lenkeknapp>
+                                            </div>
+                                            }
+                                        </div>
+                                        <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    }
+                    return null;
+                default:
+                    return null;
+            }
+        };
         return (
             <div className="info-under-kandidat">
                 { this.state.notatSomRedigeres &&
@@ -147,33 +186,7 @@ class Notater extends React.Component {
                             : <Knapp mini onClick={this.toggleNyttNotatVises}>Skriv notat</Knapp>
                         }
                     </div>
-                    {notater === undefined && antallNotater > 0 &&
-                        <div className="spinner-wrapper">
-                            <NavFrontendSpinner />
-                        </div>
-                    }
-                    { notater !== undefined && notater.length > 0 &&
-                        <div className="notatliste">
-                            {notater.map((notat) => (
-                                <div className="notatliste-rad" key={notat.notatId}>
-                                    <div className="notat-topprad">
-                                        <NotatInfo notat={notat} />
-                                        {notat.kanEditere &&
-                                            <div className="endre-knapper">
-                                                <Lenkeknapp className="Edit " onClick={this.onOpenRedigeringsModal(notat)}>
-                                                    <i className="Edit__icon" />
-                                                </Lenkeknapp>
-                                                <Lenkeknapp className="Delete" onClick={this.onOpenSletteModal(notat)}>
-                                                    <i className="Delete__icon" />
-                                                </Lenkeknapp>
-                                            </div>
-                                        }
-                                    </div>
-                                    <Normaltekst className="notat-tekst">{notat.tekst}</Normaltekst>
-                                </div>
-                            ))}
-                        </div>
-                    }
+                    <Notatliste />
                 </div>
             </div>
         );
@@ -186,7 +199,10 @@ Notater.defaultProps = {
 
 Notater.propTypes = {
     antallNotater: PropTypes.number.isRequired,
-    notater: PropTypes.arrayOf(PropTypes.shape(Notat)),
+    notater: PropTypes.shape({
+        kind: PropTypes.string,
+        data: PropTypes.arrayOf(PropTypes.shape(Notat))
+    }),
     onOpprettNotat: PropTypes.func.isRequired,
     onEndreNotat: PropTypes.func.isRequired,
     onSletteNotat: PropTypes.func.isRequired

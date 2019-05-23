@@ -7,16 +7,13 @@ import cvPropTypes from '../../felles/PropTypes';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import {
-    HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-    HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
-    LEGG_TIL_KANDIDATER
-} from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
 import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -228,12 +225,12 @@ KandidaterVisning.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => { dispatch({ type: LEGG_TIL_KANDIDATER, kandidatliste, kandidater }); },
+    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => { dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidatliste, kandidater }); },
     lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
     oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
     oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }); },
-    hentKandidatlisteMedStillingsId: (stillingsId) => { dispatch({ type: HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }); },
+    hentKandidatlisteMedStillingsId: (stillingsId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
 });
 
 const mapStateToProps = (state) => ({
@@ -246,7 +243,7 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

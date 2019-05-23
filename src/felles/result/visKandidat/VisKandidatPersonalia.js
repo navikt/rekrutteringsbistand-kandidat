@@ -10,7 +10,7 @@ import AdresseIkon from '../../common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
 import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
-import Sidetittel from '../../common/Sidetittel';
+import Sidetittel from '../../common/Sidetittel.tsx';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
@@ -21,7 +21,10 @@ const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     return '';
 };
 
-export default class VisKandidatPersonalia extends React.Component {
+class VisKandidatPersonalia extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     formatMobileTelephoneNumber = (inputString) => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         const actualNumber = inputStringNoWhiteSpace.slice(-8);
@@ -163,3 +166,5 @@ VisKandidatPersonalia.propTypes = {
     fantCv: PropTypes.bool,
     visNavigasjon: PropTypes.bool
 };
+
+export default VisKandidatPersonalia;

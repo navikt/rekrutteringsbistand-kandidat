@@ -7,7 +7,7 @@ import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import { LEGG_TIL_KANDIDATER } from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { LAGRE_STATUS, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
@@ -173,26 +173,26 @@ class KandidaterVisning extends React.Component {
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
 
-        const {totaltAntallTreff, kandidater } = this.props;
+        const { totaltAntallTreff, kandidater } = this.props;
         return (
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
 
                 <Row className="resultatvisning">
                     <div className="resultatvisning--header">
-                        
-                        {USE_JANZZ ? 
+
+                        {USE_JANZZ ?
                             <div className="resultatvisning--header-left">
                                 <Element>Viser {kandidater.length > totaltAntallTreff ? totaltAntallTreff : kandidater.length} av {totaltAntallTreff} kandidater</Element>
                             </div>
-                            : 
-                            
+                            :
+
                             <div className="resultatvisning--header-left">
                                 <Element>Antall treff:</Element>
                                 <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
                             </div>
                         }
-                        
+
                         <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             disabled={antallMarkert === 0}
@@ -237,7 +237,7 @@ KandidaterVisning.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidater, kandidatlisteIder) => {
-        dispatch({ type: LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
+        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatlisteIder });
     },
     lastFlereKandidater: () => {
         dispatch({ type: LAST_FLERE_KANDIDATER });

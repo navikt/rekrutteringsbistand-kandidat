@@ -9,6 +9,14 @@ import {
     KODEVERK_API
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
+import { put } from 'redux-saga/effects';
+import {
+    KandidatlisteDetaljer,
+    KandidatlisteDetaljerResponse,
+    KandidatlisteTypes,
+    Notat
+} from '../kandidatlisteDetaljer/kandidatlisteReducer';
+import { Failure, ResponseData, Success } from '../../felles/common/remoteData';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -22,6 +30,8 @@ const createCallIdHeader = () => ({
 });
 
 export class SearchApiError {
+    message: string;
+    status: number;
     constructor(error) {
         this.message = error.message;
         this.status = error.status;
@@ -42,7 +52,7 @@ export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
     return resultat.json();
 }
 
-async function fetchJson(url, includeCredentials) {
+async function fetchJson(url : string, includeCredentials : boolean = false) {
     try {
         let response;
         if (includeCredentials) {
@@ -74,6 +84,58 @@ async function fetchJson(url, includeCredentials) {
             message: e.message,
             status: e.status
         });
+    }
+}
+
+async function fetchJsonMedType<T>(url: string): Promise<ResponseData<T>> {
+    try {
+        const response: unknown = await fetchJson(url, true);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
+async function postJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
+    try {
+        const response: unknown = await postJson(url, payload);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
+async function putJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
+    try {
+        const response: unknown = await putJson(url, payload);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
+    }
+}
+
+async function deleteJsonMedType<T>(url: string, bodyString?: string): Promise<ResponseData<T>> {
+    try {
+        const response: unknown = await deleteReq(url, bodyString);
+        return Success(<T>response);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            return Failure(e);
+        } else {
+            throw e;
+        }
     }
 }
 
@@ -126,7 +188,9 @@ async function putJson(url, bodyString) {
             mode: 'cors'
         });
         if (response.status === 200 || response.status === 201) {
-            return;
+            return response.json();
+        } else if (response.status === 204) {
+            return undefined;
         }
         throw new SearchApiError({
             status: response.status
@@ -222,12 +286,39 @@ export function fetchArbeidsgivere() {
     return fetchJson(`${ORGANISASJON_API}`, true);
 }
 
-export function fetchKandidatliste(kandidatlisteId) {
-    return fetchJson(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`, true);
+export function fetchKandidatliste(kandidatlisteId: string): Promise<ResponseData<KandidatlisteDetaljerResponse>> {
+    return fetchJsonMedType<KandidatlisteDetaljerResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`);
 }
 
-export function deleteKandidater(kandidatlisteId, listeMedKandidatId) {
-    return deleteReq(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
+interface NotatResponse {
+    liste: Array<Notat>,
+    antallNotater: number
+}
+
+export async function fetchNotater(kandidatlisteId: string, kandidatnr: string): Promise<ResponseData<NotatResponse>> {
+    return fetchJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`);
+}
+
+export async function postNotat(kandidatlisteId: string, kandidatnr: string, tekst: string): Promise<ResponseData<NotatResponse>> {
+    return postJsonMedType<NotatResponse>(
+        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`,
+        JSON.stringify({ tekst })
+    );
+}
+
+export async function putNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat, tekst: string): Promise<ResponseData<NotatResponse>> {
+    return putJsonMedType<NotatResponse>(
+        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`,
+        JSON.stringify({ tekst })
+    );
+}
+
+export async function deleteNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat): Promise<ResponseData<NotatResponse>> {
+    return deleteJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`);
+}
+
+export async function deleteKandidater(kandidatlisteId: string, listeMedKandidatId: Array<string>): Promise<ResponseData<KandidatlisteDetaljerResponse>> {
+    return await deleteJsonMedType<KandidatlisteDetaljerResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
 }
 
 export function deleteKandidatliste(kandidatlisteId) {

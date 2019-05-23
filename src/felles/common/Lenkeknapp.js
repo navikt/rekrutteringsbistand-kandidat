@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './Lenkeknapp.less';
 
-export default function Lenkeknapp({ children, onClick, className }) {
+export default function Lenkeknapp({ children, onClick, className, tittel }) {
     return (
         <button
             className={classNames('Lenkeknapp',
                 'typo-normal',
                 className)}
             onClick={onClick}
+            title={tittel}
         >
             {children}
         </button>
@@ -18,7 +19,8 @@ export default function Lenkeknapp({ children, onClick, className }) {
 
 Lenkeknapp.defaultProps = {
     onClick: undefined,
-    className: ''
+    className: '',
+    tittel: undefined
 };
 
 Lenkeknapp.propTypes = {
@@ -26,6 +28,7 @@ Lenkeknapp.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.node, PropTypes.string
     ]).isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    tittel: PropTypes.string
 };
 

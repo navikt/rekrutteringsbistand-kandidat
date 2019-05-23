@@ -17,7 +17,7 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
-import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer';
+import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';

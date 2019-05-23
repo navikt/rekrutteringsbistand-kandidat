@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Element, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import { HENT_KANDIDATLISTER, OPPRETT_KANDIDATLISTE } from '../kandidatlister/kandidatlisteReducer';
+import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from '../kandidatlister/OpprettKandidatlisteForm';
 
@@ -242,8 +242,8 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlister: () => { dispatch({ type: HENT_KANDIDATLISTER }); },
-    opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); }
+    hentKandidatlister: () => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER }); },
+    opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); }
 });
 
 const mapStateToProps = (state) => ({
