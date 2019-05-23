@@ -353,7 +353,7 @@ const Notater: FunctionComponent<Props> = ({ notater, antallNotater, hentNotater
                     Her skal du kun skrive korte meldinger og statusoppdateringer.
                     Sensitive opplysninger skrives <strong>ikke</strong> her.
                 </Normaltekst>
-                <Normaltekst className="Notater-beskrivelse">Notatene blir automatisk slettet etter 3 måneder.</Normaltekst>
+                <Normaltekst className="Notater-beskrivelse">Alle i bedriften din som har tilgang til tjenesten kan lese, endre og slette notatene.</Normaltekst>
 
                 <NyttNotat opprettNotat={opprettNotat} opprettState={notater.opprettState} setFailureMelding={setFailureMelding} resetEndreNotatState={resetEndreNotatState} />
                 <Notatliste notater={notater.notater} setModalState={setModalState} hentNotater={hentNotater} antallNotater={antallNotater} />
