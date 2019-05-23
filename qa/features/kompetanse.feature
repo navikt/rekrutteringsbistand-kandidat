@@ -8,4 +8,4 @@ Egenskap: Finne kandidater basert på kompetanse
     Når jeg legger til kompetanse "Excel"
     Så skal antall treff minke
     Når jeg legger til kompetanse "Ledelse"
-    Så skal antall treff minke
+    Så skal antall treff øke
