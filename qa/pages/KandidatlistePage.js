@@ -22,7 +22,7 @@ module.exports = {
                 .click('@deleteIcon')
                 .click('@deleteKnappModal')
                 .waitForElementVisible('@hjelpetekstfading')
-                .waitForElementNotVisible('@hjelpetekstfading')
+                .waitForElementNotVisible('@hjelpetekstfading', 7000)
                 .pagePause(500);
         }
     }]
