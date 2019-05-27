@@ -96,9 +96,7 @@ class KompetanseSearch extends React.Component {
                 <Element>
                     Krav til kompetanse
                 </Element>
-                <Normaltekst>
-                    For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer
-                </Normaltekst>
+                <Normaltekst>{this.props.kompetanseExamples}</Normaltekst>
                 <div className="sokekriterier--kriterier blokk-s">
                     <div>
                         {this.state.showTypeAheadKompetanse ? (
@@ -177,6 +175,10 @@ class KompetanseSearch extends React.Component {
     }
 }
 
+KompetanseSearch.defaultProps = {
+    kompetanseExamples: 'For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer'
+};
+
 KompetanseSearch.propTypes = {
     search: PropTypes.func.isRequired,
     removeKompetanse: PropTypes.func.isRequired,
@@ -194,7 +196,8 @@ KompetanseSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    kompetanseExamples: PropTypes.string
 };
 
 export default KompetanseSearch;

@@ -140,7 +140,11 @@ class ResultatVisning extends React.Component {
                                     <div className="resultatvisning--sokekriterier">
                                         {!USE_JANZZ ? <FritekstSearch /> : ''}
                                         <StillingSearch />
-                                        {USE_JANZZ ? <KompetanseSearch /> : ''}
+                                        {USE_JANZZ ?
+                                            <KompetanseSearch
+                                                kompetanseExamples="For eksempel: ferdigheter, kunnskap og arbeidsoppgaver"
+                                            /> : ''
+                                        }
                                         <GeografiSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />

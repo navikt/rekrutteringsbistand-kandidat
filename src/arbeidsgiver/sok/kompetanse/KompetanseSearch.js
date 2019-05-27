@@ -14,7 +14,8 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 const KompetanseSearch = ({ ...props }) => {
     const { search, removeKompetanse, fetchTypeAheadSuggestionsKompetanse, selectTypeAheadValueKompetanse,
         kompetanser, kompetanseSuggestions, typeAheadSuggestionsKompetanse, clearTypeAheadKompetanse,
-        totaltAntallTreff, visAlertFaKandidater, skjulKompetanse, panelOpen, togglePanelOpen } = props;
+        totaltAntallTreff, visAlertFaKandidater, skjulKompetanse, panelOpen, togglePanelOpen,
+        kompetanseExamples} = props;
     return (
         <KompetanseSearchFelles
             search={search}
@@ -30,8 +31,13 @@ const KompetanseSearch = ({ ...props }) => {
             skjulKompetanse={skjulKompetanse}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
+            kompetanseExamples={kompetanseExamples}
         />
     );
+};
+
+KompetanseSearch.defaultProps = {
+    kompetanseExamples: undefined
 };
 
 KompetanseSearch.propTypes = {
@@ -51,7 +57,8 @@ KompetanseSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    kompetanseExamples: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
