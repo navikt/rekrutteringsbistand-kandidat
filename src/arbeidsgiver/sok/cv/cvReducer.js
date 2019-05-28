@@ -1,8 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { SearchApiError, fetchCv, fetchMatchExplainFraId } from '../api.ts';
+import { fetchCv, fetchMatchExplainFraId } from '../api.ts';
 import { kategoriserMatchKonsepter, oversettUtdanning } from '../../../felles/sok/utils';
 import { INVALID_RESPONSE_STATUS, SEARCH_SUCCESS } from '../searchReducer';
 import { USE_JANZZ } from '../../common/fasitProperties';
+import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS
@@ -100,13 +101,13 @@ function* fetchCvForKandidat(action) {
                 kandidatkonsepterUtenMatch: oversettUtdanning(omstrukturertForklaring.kandidatkonsepterUtenMatch)
             };
         }
-        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst, kandidatnr: action.arenaKandidatnr  });
+        yield put({ type: FETCH_CV_SUCCESS, response, matchforklaring: medUtdanningstekst, kandidatnr: action.arenaKandidatnr });
     } catch (e) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
                 yield put({ type: FETCH_CV_NOT_FOUND, kandidatnr: action.arenaKandidatnr });
             } else {
-                yield put({ type: FETCH_CV_FAILURE, error: e, kandidatnr: action.arenaKandidatnr  });
+                yield put({ type: FETCH_CV_FAILURE, error: e, kandidatnr: action.arenaKandidatnr });
             }
         } else {
             throw e;

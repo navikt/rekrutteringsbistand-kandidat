@@ -4,13 +4,13 @@ import {
     fetchKandidatlister,
     postKandidaterTilKandidatliste,
     postKandidatliste,
-    putKandidatliste,
-    SearchApiError
+    putKandidatliste
 } from '../sok/api';
 import { LAGRE_STATUS, SLETTE_STATUS } from '../../felles/konstanter';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { sortKandidatlisteByDato } from '../../felles/common/SortByDato';
 import { Reducer } from 'redux';
+import { SearchApiError } from '../../felles/api';
 
 /** *********************************************************
  * ACTIONS

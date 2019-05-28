@@ -9,34 +9,23 @@ import {
     KODEVERK_API
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
-import { put } from 'redux-saga/effects';
+import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
+import { ResponseData } from '../../felles/common/remoteData';
 import {
-    KandidatlisteDetaljer,
-    KandidatlisteDetaljerResponse,
-    KandidatlisteTypes,
-    Notat
-} from '../kandidatlisteDetaljer/kandidatlisteReducer';
-import { Failure, ResponseData, Success } from '../../felles/common/remoteData';
+    deleteJsonMedType,
+    deleteReq,
+    fetchJson,
+    fetchJsonMedType,
+    postJson,
+    postJsonMedType,
+    putJson,
+    putJsonMedType
+} from '../../felles/api';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
     .join('&')
     .replace(/%20/g, '+');
-
-const createCallIdHeader = () => ({
-    'Nav-CallId': Math.random()
-        .toString(16)
-        .substr(2)
-});
-
-export class SearchApiError {
-    message: string;
-    status: number;
-    constructor(error) {
-        this.message = error.message;
-        this.status = error.status;
-    }
-}
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
@@ -50,185 +39,6 @@ export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
         `${SEARCH_API}typeaheadSted${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
-}
-
-async function fetchJson(url : string, includeCredentials : boolean = false) {
-    try {
-        let response;
-        if (includeCredentials) {
-            response = await fetch(url, {
-                credentials: 'include',
-                headers: createCallIdHeader()
-            });
-        } else {
-            response = await fetch(url, { headers: createCallIdHeader() });
-        }
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-        let error;
-        try {
-            error = await response.json();
-        } catch (e) {
-            throw new SearchApiError({
-                status: response.status,
-                message: response.statusText
-            });
-        }
-        throw new SearchApiError({
-            message: error.message,
-            status: error.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function fetchJsonMedType<T>(url: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await fetchJson(url, true);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-async function postJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await postJson(url, payload);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-async function putJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await putJson(url, payload);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-async function deleteJsonMedType<T>(url: string, bodyString?: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await deleteReq(url, bodyString);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-const getCookie = (name) => {
-    const re = new RegExp(`${name}=([^;]+)`);
-    const match = re.exec(document.cookie);
-    return match !== null ? match[1] : '';
-};
-
-async function postJson(url, bodyString) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'POST',
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        } else if (response.status === 204) {
-            return undefined;
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function putJson(url, bodyString) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'PUT',
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        } else if (response.status === 204) {
-            return undefined;
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function deleteReq(url, bodyString) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'DELETE',
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-
-        if (response.status <= 202) {
-            return response.json();
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
 }
 
 export function fetchFeatureToggles() {

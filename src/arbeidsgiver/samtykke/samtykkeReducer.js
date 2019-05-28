@@ -1,9 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import {
-    fetchVilkarstekst, postGodtaGjeldendeVilkar,
-    SearchApiError
-} from '../sok/api.ts';
+import { fetchVilkarstekst, postGodtaGjeldendeVilkar } from '../sok/api.ts';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
+import { SearchApiError } from '../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS

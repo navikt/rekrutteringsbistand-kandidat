@@ -42,7 +42,7 @@ import Kandidatlister from '../kandidatlister/Kandidatlister';
 import VelgArbeidsgiver from '../arbeidsgiver/VelgArbeidsgiver';
 import KandidatlisteDetaljWrapper from '../kandidatlisteDetaljer/KandidatlisteDetaljWrapper.tsx';
 import forerkortReducer from './forerkort/forerkortReducer';
-import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister';
+import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister.tsx';
 import TokenChecker from './tokenCheck';
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
