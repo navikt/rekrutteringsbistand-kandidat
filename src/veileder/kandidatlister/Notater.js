@@ -12,8 +12,8 @@ import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
 
 class Notater extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             nyttNotatVises: false,
             nyttNotatTekst: '',
@@ -122,10 +122,10 @@ class Notater extends React.Component {
                                             <NotatInfo notat={notat} />
                                             {notat.kanEditere &&
                                             <div className="endre-knapper">
-                                                <Lenkeknapp className="Edit " onClick={() => { this.onOpenRedigeringsModal(notat); }}>
+                                                <Lenkeknapp className="Edit " onClick={this.onOpenRedigeringsModal(notat)}>
                                                     <i className="Edit__icon" />
                                                 </Lenkeknapp>
-                                                <Lenkeknapp className="Delete" onClick={() => { this.onOpenSletteModal(notat); }}>
+                                                <Lenkeknapp className="Delete" onClick={this.onOpenSletteModal(notat)}>
                                                     <i className="Delete__icon" />
                                                 </Lenkeknapp>
                                             </div>

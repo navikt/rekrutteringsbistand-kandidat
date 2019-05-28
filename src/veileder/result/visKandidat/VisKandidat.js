@@ -19,6 +19,7 @@ import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal'
 import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -335,7 +336,7 @@ const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cvReducer.hentStatus,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus
 });
 
