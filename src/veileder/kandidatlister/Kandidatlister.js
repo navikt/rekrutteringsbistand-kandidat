@@ -18,11 +18,14 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import SlettKandidatlisteModal from './SlettKandidatlisteModal.tsx';
+import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
     OPPRETT_MODAL: 'OPPRETT_MODAL',
     ENDRE_MODAL: 'ENDRE_MODAL',
+    SLETTE_MODAL: 'SLETTE_MODAL',
     MARKER_SOM_MIN_MODAL: 'MARKER_SOM_MIN_MODAL'
 };
 
@@ -94,7 +97,7 @@ const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange
     </div>
 );
 
-const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste, onMenyClick, onSkjulMeny, visKandidatlisteMeny, markerKandidatlisteSomMin }) => {
+const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste, onMenyClick, onSkjulMeny, visKandidatlisteMeny, markerKandidatlisteSomMin, slettKandidatliste }) => {
     if (fetching !== 'SUCCESS') {
         return <div className="hent-kandidatlister--spinner"><NavFrontendSpinner type="L" /></div>;
     } else if (kandidatlister.length === 0) {
@@ -114,6 +117,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste, on
                 onSkjulMeny={onSkjulMeny}
                 visKandidatlisteMeny={visKandidatlisteMeny}
                 markerKandidatlisteSomMin={markerKandidatlisteSomMin}
+                slettKandidatliste={() => { slettKandidatliste(kandidatliste); }}
                 key={JSON.stringify(kandidatliste)}
             />
         ))
@@ -132,7 +136,7 @@ const ListeHeader = () => (
     </div>
 );
 
-const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, onMenyClick, onSkjulMeny, visKandidatlisteMeny, markerKandidatlisteSomMin }) => (
+const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, onMenyClick, onSkjulMeny, visKandidatlisteMeny, markerKandidatlisteSomMin, slettKandidatliste }) => (
     <div className="liste-rad liste-rad-innhold">
         <div className="kolonne-middels"><Normaltekst className="tekst">{`${formatterDato(new Date(kandidatliste.opprettetTidspunkt))}`}</Normaltekst></div>
         <div className="kolonne-bred">
@@ -169,21 +173,27 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, onMenyClick, onSk
                 kandidatliste={kandidatliste}
                 onSkjulMeny={onSkjulMeny}
                 markerSomMinModal={markerKandidatlisteSomMin}
+                slettKandidatliste={slettKandidatliste}
             />
         )}
     </div>
 );
 
-const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinModal }) => {
+const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinModal, slettKandidatliste }) => {
     const markerRef = useRef(null);
+    const slettRef = useRef(null);
 
     const hasFocus = () => {
         const active = document.activeElement;
         return markerRef.current === active
-            || markerRef.current === active.lastChild
+            || slettRef.current === active
+            || active.lastChild === markerRef.current
+            || active.lastChild === slettRef.current
             || active.className.includes('marker-hjelpetekst')
             || active.className.includes('lukknapp')
-            || active.className.includes('KandidatlisteMeny');
+            || active.className.includes('KandidatlisteMeny')
+            || active.className.includes('slett-hjelpetekst')
+            || active.className.includes('slett-hjelpetekst-lenke');
     };
 
     const handleCloseMenu = () => {
@@ -206,7 +216,12 @@ const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinMo
 
     const handleKeyDown = (event) => {
         if ((event.keyCode === 13 || event.keyCode === 32)) {
-            onMarkerClick();
+            const active = document.activeElement;
+            if (active === markerRef.current) {
+                onMarkerClick();
+            } else if (active === slettRef.current) {
+                slettKandidatliste();
+            }
         }
     };
 
@@ -225,10 +240,33 @@ const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinMo
                         onKeyDown={handleKeyDown}
                         role="button"
                         tabIndex={0}
+                        className="marker-hjelpetekst-tekst"
                         ref={markerRef}
                     >
                         Marker som min
                     </div>
+                }
+                {kandidatliste.kanSlette ?
+                    <div
+                        onClick={slettKandidatliste}
+                        onKeyDown={handleKeyDown}
+                        role="button"
+                        tabIndex={0}
+                        ref={slettRef}
+                    >
+                        Slett
+                    </div>
+                    : <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
+                        {kandidatliste.stillingId ?
+                            <span>
+                                Denne kandidatlisten er knyttet til en stilling.
+                                Gå til <a className="slett-hjelpetekst-lenke" href="/minestillinger">Mine stillinger</a> for å slette stillingen og kandidatlisten.
+                            </span>
+                            : <span>
+                                Denne kandidatlisten tilhører: {kandidatliste.opprettetAv.navn}. Du kan kun slette dine egne lister.
+                            </span>
+                        }
+                    </HjelpetekstVenstre>
                 }
             </ul>
             <div className="arrow-up" />
@@ -301,14 +339,21 @@ class Kandidatlister extends React.Component {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(this.state.kandidatlisteIEndring);
+            this.visSuccessMelding(`Kandidatliste "${this.props.opprettetTittel}" opprettet`);
             this.onLukkModalClick();
             this.props.resetLagreStatus();
+        }
+        if (prevProps.sletteStatus.kind === RemoteDataTypes.LOADING && this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
+            const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
+            this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
+            this.visSuccessMelding(`Kandidatliste "${this.props.sletteStatus.data.slettetTittel}" slettet`);
+            this.onLukkModalClick();
+            this.props.resetSletteStatus();
         }
         if (prevProps.markerSomMinStatus === MARKER_SOM_MIN_STATUS.LOADING && this.props.markerSomMinStatus === MARKER_SOM_MIN_STATUS.SUCCESS) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(this.state.kandidatlisteIEndring);
+            this.visSuccessMelding('Endringene er lagret');
             this.onLukkModalClick();
         }
     }
@@ -374,6 +419,13 @@ class Kandidatlister extends React.Component {
         });
     };
 
+    onVisSlettKandidatlisteModal = (kandidatliste) => {
+        this.setState({
+            modalstatus: MODALVISING.SLETTE_MODAL,
+            kandidatlisteIEndring: kandidatliste
+        });
+    };
+
     onLukkModalClick = () => {
         this.setState({
             modalstatus: MODALVISING.INGEN_MODAL,
@@ -428,10 +480,10 @@ class Kandidatlister extends React.Component {
         this.props.removeKompetanseSuggestions();
     };
 
-    visSuccessMelding = (endring) => {
+    visSuccessMelding = (melding) => {
         this.setState({
             visSuccessMelding: true,
-            successMelding: `${endring ? 'Endringene er lagret' : `Kandidatliste "${this.props.opprettetTittel}" opprettet`}`
+            successMelding: melding
         });
         this.skjulSuccessMeldingCallbackId = setTimeout(this.skjulSuccessMelding, 5000);
     };
@@ -452,6 +504,11 @@ class Kandidatlister extends React.Component {
                     markerKandidatlisteSomMin={this.onMarkerKandidatlisteSomMin}
                     onAvbrytClick={this.onLukkModalClick}
                 />}
+                {modalstatus === MODALVISING.SLETTE_MODAL && <SlettKandidatlisteModal
+                    slettKandidatliste={() => { this.props.slettKandidatliste(kandidatlisteIEndring); }}
+                    onAvbrytClick={this.onLukkModalClick}
+                />
+                }
                 <HjelpetekstFading
                     id="kandidatliste-lagret-melding"
                     synlig={visSuccessMelding}
@@ -485,6 +542,7 @@ class Kandidatlister extends React.Component {
                                     onMenyClick={this.onMenyClick}
                                     onSkjulMeny={this.onSkjulMeny}
                                     markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
+                                    slettKandidatliste={this.onVisSlettKandidatlisteModal}
                                     visKandidatlisteMeny={visKandidatlisteMeny}
                                     fetching={fetchingKandidatlister}
                                 />
@@ -512,7 +570,8 @@ const mapStateToProps = (state) => ({
     totaltAntallKandidatlister: state.kandidatlister.kandidatlister.antall,
     fetchingKandidatlister: state.kandidatlister.hentListerStatus,
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
-    markerSomMinStatus: state.kandidatlister.markerSomMinStatus
+    markerSomMinStatus: state.kandidatlister.markerSomMinStatus,
+    sletteStatus: state.kandidatlister.slettKandidatlisteStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -520,7 +579,9 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) => dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER, query, listetype: type, kunEgne, pagenumber, pagesize }),
     resetLagreStatus: () => dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }),
-    markerKandidatlisteSomMin: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId }); }
+    markerKandidatlisteSomMin: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId }); },
+    slettKandidatliste: (kandidatliste) => { dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE, kandidatliste }); },
+    resetSletteStatus: () => { dispatch({ type: KandidatlisteTypes.RESET_SLETTE_STATUS }); }
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({
@@ -530,7 +591,9 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     opprettetAv: PropTypes.shape({
         navn: PropTypes.string,
         ident: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    stillingId: PropTypes.string,
+    kanSlette: PropTypes.bool.isRequired
 });
 
 SideHeader.defaultProps = {
@@ -584,7 +647,8 @@ KandidatlisteRad.propTypes = {
     onMenyClick: PropTypes.func.isRequired,
     onSkjulMeny: PropTypes.func.isRequired,
     visKandidatlisteMeny: KandidatlisteBeskrivelse,
-    markerKandidatlisteSomMin: PropTypes.func.isRequired
+    markerKandidatlisteSomMin: PropTypes.func.isRequired,
+    slettKandidatliste: PropTypes.func.isRequired
 };
 
 KandidatlisterPaginering.defaultProps = {
@@ -607,7 +671,8 @@ KandidatlisterPaginering.propTypes = {
 KandidatlisterMenyDropdown.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     onSkjulMeny: PropTypes.func.isRequired,
-    markerSomMinModal: PropTypes.func.isRequired
+    markerSomMinModal: PropTypes.func.isRequired,
+    slettKandidatliste: PropTypes.func.isRequired
 };
 
 Kandidatlister.defaultProps = {
@@ -634,7 +699,15 @@ Kandidatlister.propTypes = {
         pagesize: PropTypes.number
     }).isRequired,
     markerKandidatlisteSomMin: PropTypes.func.isRequired,
-    markerSomMinStatus: PropTypes.string.isRequired
+    markerSomMinStatus: PropTypes.string.isRequired,
+    slettKandidatliste: PropTypes.func.isRequired,
+    resetSletteStatus: PropTypes.func.isRequired,
+    sletteStatus: PropTypes.shape({
+        kind: PropTypes.string.isRequired,
+        data: PropTypes.shape({
+            slettetTittel: PropTypes.string
+        })
+    }).isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);

@@ -1,8 +1,9 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, SearchApiError } from '../../sok/api.ts';
+import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest } from '../../sok/api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
 import alleForerkort, { allePAMForerkort } from '../../../felles/sok/forerkort/forerkort';
 import { USE_JANZZ } from '../fasitProperties';
+import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS

@@ -1,5 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
+    deleteKandidatliste,
     deleteNotat,
     endreEierskapPaKandidatliste,
     fetchKandidatlisteMedAnnonsenummer,
@@ -15,8 +16,7 @@ import {
     putKandidatliste,
     putNotat,
     putOppdaterKandidatliste,
-    putStatusKandidat,
-    SearchApiError
+    putStatusKandidat
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -28,9 +28,11 @@ import {
     NotAsked,
     RemoteData,
     RemoteDataTypes,
+    ResponseData,
     Success
 } from '../../felles/common/remoteData';
 import { Kandidat } from './PropTypes';
+import { SearchApiError } from '../../felles/api';
 
 /** *********************************************************
  * ACTIONS
@@ -91,7 +93,10 @@ export enum KandidatlisteTypes {
     SLETT_NOTAT_FAILURE = 'SLETT_NOTAT_FAILURE',
     MARKER_KANDIDATLISTE_SOM_MIN = 'MARKER_KANDIDATLISTE_SOM_MIN',
     MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS',
-    MARKER_KANDIDATLISTE_SOM_MIN_FAILURE = 'MARKER_KANDIDATLISTE_SOM_MIN'
+    MARKER_KANDIDATLISTE_SOM_MIN_FAILURE = 'MARKER_KANDIDATLISTE_SOM_MIN',
+    SLETT_KANDIDATLISTE = 'SLETT_KANDIDATLISTE',
+    SLETT_KANDIDATLISTE_FERDIG = 'SLETT_KANDIDATLISTE_FERDIG',
+    RESET_SLETTE_STATUS = 'RESET_SLETTE_STATUS',
 }
 
 export interface OpprettKandidatlisteAction {
@@ -369,6 +374,24 @@ export interface MarkerKandidatlisteSomMinFailureAction {
     type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE
 }
 
+interface SlettKandidatlisteAction {
+    type: KandidatlisteTypes.SLETT_KANDIDATLISTE,
+    kandidatliste: {
+        tittel: string,
+        kandidatlisteId: string
+    }
+}
+
+interface SlettKandidatlisteFerdigAction {
+    type: KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG,
+    result: ResponseData<any>,
+    kandidatlisteTittel: string
+}
+
+interface ResetSletteStatusAction {
+    type: KandidatlisteTypes.RESET_SLETTE_STATUS
+}
+
 export type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -425,6 +448,9 @@ export type KandidatlisteAction =
     | MarkerKandidatlisteSomMinAction
     | MarkerKandidatlisteSomMinSuccessAction
     | MarkerKandidatlisteSomMinFailureAction
+    | SlettKandidatlisteAction
+    | SlettKandidatlisteFerdigAction
+    | ResetSletteStatusAction
 
 /** *********************************************************
  * REDUCER
@@ -557,7 +583,10 @@ interface KandidatlisteState {
         pagenumber: number,
         pagesize: number
     },
-    markerSomMinStatus: MARKER_SOM_MIN_STATUS
+    markerSomMinStatus: MARKER_SOM_MIN_STATUS,
+    slettKandidatlisteStatus: RemoteData<{
+        slettetTittel: string,
+    }>
 }
 
 const initialState: KandidatlisteState = {
@@ -601,7 +630,8 @@ const initialState: KandidatlisteState = {
         pagenumber: 0,
         pagesize: 20
     },
-    markerSomMinStatus: MARKER_SOM_MIN_STATUS.IKKE_GJORT
+    markerSomMinStatus: MARKER_SOM_MIN_STATUS.IKKE_GJORT,
+    slettKandidatlisteStatus: NotAsked()
 };
 
 const overforNotater: (response: KandidatlisteResponse, prevKandidatliste: Kandidatliste) => Kandidatliste = (response, prevKandidatliste) => {
@@ -944,6 +974,21 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (state = initi
                 ...state,
                 markerSomMinStatus: MARKER_SOM_MIN_STATUS.FAILURE
             };
+        case KandidatlisteTypes.SLETT_KANDIDATLISTE:
+            return {
+                ...state,
+                slettKandidatlisteStatus: Loading()
+            };
+        case KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG:
+            return {
+                ...state,
+                slettKandidatlisteStatus: action.result.kind === RemoteDataTypes.SUCCESS ? Success({ slettetTittel: action.kandidatlisteTittel }) : action.result
+            };
+        case KandidatlisteTypes.RESET_SLETTE_STATUS:
+            return {
+                ...state,
+                slettKandidatlisteStatus: NotAsked()
+            };
         default:
             return state;
     }
@@ -1228,8 +1273,19 @@ function* markerKandidatlisteSomMin(action) {
     }
 }
 
+function* slettKandidatliste(action: SlettKandidatlisteAction) {
+    const response = yield call(deleteKandidatliste, action.kandidatliste.kandidatlisteId);
+    yield put({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG, result: response, kandidatlisteTittel: action.kandidatliste.tittel });
+}
+
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
+}
+
+function* sjekkFerdigActionForError(action : SlettKandidatlisteFerdigAction) {
+    if (action.result.kind === RemoteDataTypes.FAILURE) {
+        yield put({ type: INVALID_RESPONSE_STATUS, error: action.result.error });
+    }
 }
 
 export function* kandidatlisteSaga() {
@@ -1249,6 +1305,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidatIKandidatliste);
     yield takeLatest(KandidatlisteTypes.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, markerKandidatlisteSomMin);
+    yield takeLatest(KandidatlisteTypes.SLETT_KANDIDATLISTE, slettKandidatliste);
     yield takeLatest([
             KandidatlisteTypes.OPPRETT_KANDIDATLISTE_FAILURE,
             KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
@@ -1265,5 +1322,8 @@ export function* kandidatlisteSaga() {
             KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE
         ],
         sjekkError);
+    yield takeLatest([
+        KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG
+    ], sjekkFerdigActionForError)
 }
 

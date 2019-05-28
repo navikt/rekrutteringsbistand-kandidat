@@ -22,9 +22,6 @@ const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
 };
 
 class VisKandidatPersonalia extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     formatMobileTelephoneNumber = (inputString) => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         const actualNumber = inputStringNoWhiteSpace.slice(-8);

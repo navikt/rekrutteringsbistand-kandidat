@@ -2,6 +2,8 @@
 
 import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API, PAM_SEARCH_API_GATEWAY_URL } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
+import { ResponseData } from '../felles/common/remoteData';
+import { createCallIdHeader, deleteJsonMedType, deleteReq, fetchJson, postJson, putJson } from '../felles/api';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
@@ -20,20 +22,6 @@ const employerNameCompletionQueryTemplate = (match) => ({
     size: 50
 });
 
-
-export class SearchApiError {
-    constructor(error) {
-        this.message = error.message;
-        this.status = error.status;
-    }
-}
-
-const createCallIdHeader = () => ({
-    'Nav-CallId': Math.random()
-        .toString(16)
-        .substr(2)
-});
-
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
         `${SEARCH_API}/typeahead?${convertToUrlParams(query)}`, {
@@ -42,153 +30,6 @@ export async function fetchTypeaheadSuggestionsRest(query = {}) {
         }
     );
     return resultat.json();
-}
-
-async function fetchJson(url, includeCredentials) {
-    try {
-        let response;
-        if (includeCredentials) {
-            response = await fetch(url, {
-                credentials: 'include',
-                headers: createCallIdHeader()
-            });
-        } else {
-            response = await fetch(url, { headers: createCallIdHeader() });
-        }
-        if (response.status >= 200 && response.status < 300) {
-            return response.json();
-        }
-        let error;
-        try {
-            error = await response.json();
-        } catch (e) {
-            throw new SearchApiError({
-                status: response.status,
-                message: response.statusText
-            });
-        }
-        throw new SearchApiError({
-            message: error.message,
-            status: error.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-const getCookie = (name) => {
-    const re = new RegExp(`${name}=([^;]+)`);
-    const match = re.exec(document.cookie);
-    return match !== null ? match[1] : '';
-};
-
-async function postJson(url, bodyString) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'POST',
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                Accept: 'application/json',
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function putJson(url, bodyString) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'PUT',
-            body: bodyString,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function putRequest(url) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'PUT',
-            headers: {
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status >= 200 && response.status < 300) {
-            return;
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
-}
-
-async function deleteRequest(url) {
-    try {
-        const response = await fetch(url, {
-            credentials: 'include',
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
-            },
-            mode: 'cors'
-        });
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-        throw new SearchApiError({
-            status: response.status
-        });
-    } catch (e) {
-        throw new SearchApiError({
-            message: e.message,
-            status: e.status
-        });
-    }
 }
 
 export function fetchFeatureToggles() {
@@ -234,7 +75,7 @@ export const postKandidatliste = (kandidatlisteInfo) => (
 );
 
 export function putKandidatliste(stillingsId) {
-    return putRequest(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste/`);
+    return putJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste/`);
 }
 
 export function putOppdaterKandidatliste(kandidatlisteBeskrivelse) {
@@ -281,7 +122,7 @@ export const putNotat = (kandidatlisteId, kandidatnr, notatId, tekst) => (
 );
 
 export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) => (
-    deleteRequest(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`)
+    deleteReq(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`)
 );
 
 export const fetchKandidatlister = (query = {}) => (
@@ -304,3 +145,7 @@ export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
 export const endreEierskapPaKandidatliste = (kandidatlisteId) => (
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/eierskap`)
 );
+
+export async function deleteKandidatliste(kandidatlisteId: string): Promise<ResponseData<any>> {
+    return await deleteJsonMedType<any>(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`);
+}

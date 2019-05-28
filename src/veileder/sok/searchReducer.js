@@ -5,11 +5,11 @@ import {
     fetchFeatureToggles,
     fetchStillingFraListe,
     fetchGeografiKode,
-    SearchApiError,
     fetchInnloggetVeileder
-} from '../api';
+} from '../api.ts';
 import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
 import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
+import { SearchApiError } from '../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS
