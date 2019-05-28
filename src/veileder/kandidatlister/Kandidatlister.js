@@ -240,7 +240,6 @@ const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinMo
                         onKeyDown={handleKeyDown}
                         role="button"
                         tabIndex={0}
-                        className="marker-hjelpetekst-tekst"
                         ref={markerRef}
                     >
                         Marker som min
