@@ -15,7 +15,7 @@ const KompetanseSearch = ({ ...props }) => {
     const { search, removeKompetanse, fetchTypeAheadSuggestionsKompetanse, selectTypeAheadValueKompetanse,
         kompetanser, kompetanseSuggestions, typeAheadSuggestionsKompetanse, clearTypeAheadKompetanse,
         totaltAntallTreff, visAlertFaKandidater, skjulKompetanse, panelOpen, togglePanelOpen,
-        kompetanseExamples} = props;
+        kompetanseExamples } = props;
     return (
         <KompetanseSearchFelles
             search={search}

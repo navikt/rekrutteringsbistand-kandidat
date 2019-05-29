@@ -179,6 +179,52 @@ const KandidatlisteRad = ({ kandidatliste, endreKandidatliste, onMenyClick, onSk
     </div>
 );
 
+const KanSletteEnum = {
+    KAN_SLETTES: 'KAN_SLETTES',
+    ER_IKKE_DIN: 'ER_IKKE_DIN',
+    HAR_STILLING: 'HAR_STILLING',
+    ER_IKKE_DIN_OG_HAR_STILLING: 'ER_IKKE_DIN_OG_HAR_STILLING'
+};
+
+const SlettKandidatlisteMenyValg = ({ kandidatliste, slettRef, handleKeyDown, slettKandidatliste }) => {
+    if (kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES) {
+        return (
+            <div
+                onClick={slettKandidatliste}
+                onKeyDown={handleKeyDown}
+                role="button"
+                tabIndex={0}
+                ref={slettRef}
+            >
+                Slett
+            </div>);
+    } else if (kandidatliste.kanSlette === KanSletteEnum.HAR_STILLING) {
+        return (
+            <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
+                Denne kandidatlisten er knyttet til en stilling.
+                Gå til <a className="slett-hjelpetekst-lenke" href="/minestillinger">Mine stillinger</a> for å slette stillingen og kandidatlisten.
+            </HjelpetekstVenstre>
+        );
+    } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN) {
+        return (
+            <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
+                Denne kandidatlisten tilhører: {kandidatliste.opprettetAv.navn}. Du kan bare slette dine egne lister.
+            </HjelpetekstVenstre>
+        );
+    } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN_OG_HAR_STILLING) {
+        return (
+            <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
+                Du kan ikke slette kandidatlisten fordi den
+                <ul>
+                    <li>tilhører en annen</li>
+                    <li>er knyttet til en stilling</li>
+                </ul>
+            </HjelpetekstVenstre>
+        );
+    }
+    return null;
+};
+
 const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinModal, slettKandidatliste }) => {
     const markerRef = useRef(null);
     const slettRef = useRef(null);
@@ -245,28 +291,7 @@ const KandidatlisterMenyDropdown = ({ kandidatliste, onSkjulMeny, markerSomMinMo
                         Marker som min
                     </div>
                 }
-                {kandidatliste.kanSlette ?
-                    <div
-                        onClick={slettKandidatliste}
-                        onKeyDown={handleKeyDown}
-                        role="button"
-                        tabIndex={0}
-                        ref={slettRef}
-                    >
-                        Slett
-                    </div>
-                    : <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
-                        {kandidatliste.stillingId ?
-                            <span>
-                                Denne kandidatlisten er knyttet til en stilling.
-                                Gå til <a className="slett-hjelpetekst-lenke" href="/minestillinger">Mine stillinger</a> for å slette stillingen og kandidatlisten.
-                            </span>
-                            : <span>
-                                Denne kandidatlisten tilhører: {kandidatliste.opprettetAv.navn}. Du kan kun slette dine egne lister.
-                            </span>
-                        }
-                    </HjelpetekstVenstre>
-                }
+                <SlettKandidatlisteMenyValg kandidatliste={kandidatliste} slettRef={slettRef} handleKeyDown={handleKeyDown} slettKandidatliste={slettKandidatliste} />
             </ul>
             <div className="arrow-up" />
         </div>
@@ -592,7 +617,7 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
         ident: PropTypes.string
     }).isRequired,
     stillingId: PropTypes.string,
-    kanSlette: PropTypes.bool.isRequired
+    kanSlette: PropTypes.string.isRequired
 });
 
 SideHeader.defaultProps = {
@@ -671,6 +696,13 @@ KandidatlisterMenyDropdown.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     onSkjulMeny: PropTypes.func.isRequired,
     markerSomMinModal: PropTypes.func.isRequired,
+    slettKandidatliste: PropTypes.func.isRequired
+};
+
+SlettKandidatlisteMenyValg.propTypes = {
+    kandidatliste: KandidatlisteBeskrivelse.isRequired,
+    slettRef: PropTypes.any.isRequired, // eslint-disable-line
+    handleKeyDown: PropTypes.func.isRequired,
     slettKandidatliste: PropTypes.func.isRequired
 };
 
