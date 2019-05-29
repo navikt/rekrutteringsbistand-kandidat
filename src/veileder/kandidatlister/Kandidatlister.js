@@ -363,14 +363,14 @@ class Kandidatlister extends React.Component {
         if (prevProps.lagreStatus === LAGRE_STATUS.LOADING && this.props.lagreStatus === LAGRE_STATUS.SUCCESS) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(`Kandidatliste "${this.props.opprettetTittel}" opprettet`);
+            this.visSuccessMelding(`Kandidatliste "${this.props.opprettetTittel}" er opprettet`);
             this.onLukkModalClick();
             this.props.resetLagreStatus();
         }
         if (prevProps.sletteStatus.kind === RemoteDataTypes.LOADING && this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(`Kandidatliste "${this.props.sletteStatus.data.slettetTittel}" slettet`);
+            this.visSuccessMelding(`Kandidatliste "${this.props.sletteStatus.data.slettetTittel}" er slettet`);
             this.onLukkModalClick();
             this.props.resetSletteStatus();
         }

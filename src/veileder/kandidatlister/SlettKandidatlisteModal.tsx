@@ -16,13 +16,12 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({ slettKandidatliste,
         onRequestClose={onAvbrytClick}
         className="modal--marker-kandidatliste-som-min"
         closeButton
-        // appElement={document.getElementById('app')}
     >
         <Systemtittel className="blokk-s">Slett kandidatliste</Systemtittel>
         <div>
             <Normaltekst className="blokk-m">
-                Er du sikker på at du vil slette kandidatlisten og alt innholdet i listen?
-                Denne handlingen kan ikke angres.
+                Er du sikker på at du vil slette kandidatlisten med alt innhold?
+                Du kan ikke angre handlingen.
             </Normaltekst>
             <div>
                 <Hovedknapp onClick={slettKandidatliste}>Slett</Hovedknapp>
