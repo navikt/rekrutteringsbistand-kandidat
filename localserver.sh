@@ -8,6 +8,7 @@ PAM_KANDIDATSOK_API_URL="http://localhost:8766/pam-kandidatsok-api/rest/" \
 PAM_KANDIDATSOK_API_PROXY_API_APIKEY="dummy" \
 PROXY_API_KEY="123" \
 USE_JANZZ=false \
+ONTOLOGY_SEARCH_API="http://localhost:9000/ontologi/" \
 NODE_ENV="development" \
 PORT=9009 \
 npm run start-express
