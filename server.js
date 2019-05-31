@@ -110,7 +110,7 @@ const fasitProperties = {
     API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
     USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
-    ONTOLOGY_SEARCH_API: `/${app.contextRoot}/ontologi/`,
+    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -121,7 +121,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
         `window.__CONTEXT_ROOT__="${app.contextRoot}";\n`;
-        `window.ONTOLOGY_SEARCH_API="${fasitProperties.ONTOLOGY_SEARCH_API}";\n`;
+        `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -209,7 +209,7 @@ const startServer = (html) => {
         }
     }));
 
-    server.use(`/${app.contextRoot}/ontologi/`, process.env.ONTOLOGY_SEARCH_API, {
+    server.use(`/${app.contextRoot}/ontologi/`, process.env.ONTOLOGY_SEARCH_API_URL + "/", {
         https: true
     });
 

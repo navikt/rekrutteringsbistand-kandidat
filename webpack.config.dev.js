@@ -16,8 +16,8 @@ module.exports = merge(common(APP.KANDIDATSOK), {
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __CONTEXT_ROOT__: "'kandidater'",
-            __USE_JANZZ__: true,
-            __ONTOLOGY_SEARCH_API__: "'https://pam-search-api.nais.oera-q.local/ontologi/'",
+            __USE_JANZZ__: false,
+            __ONTOLOGY_SEARCH_API_URL__: "'https://pam-search-api.nais.oera-q.local/ontologi'",
             'process.env.NODE_ENV': "'development'"
         })
     ]

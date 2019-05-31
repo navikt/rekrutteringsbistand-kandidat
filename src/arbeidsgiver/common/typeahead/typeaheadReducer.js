@@ -2,7 +2,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, fetchTypeaheadSuggestionsOntology } from '../../sok/api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
 import alleForerkort, { allePAMForerkort } from '../../../felles/sok/forerkort/forerkort';
-import { USE_JANZZ, ONTOLOGY_SEARCH_API } from '../fasitProperties';
+import { USE_JANZZ } from '../fasitProperties';
 import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
@@ -181,7 +181,7 @@ function* fetchTypeAheadSuggestions(action) {
         try {
             if (branch === BRANCHNAVN.GEOGRAFI) {
                 yield fetchTypeaheadGeografi(value, branch);
-            } else if (branch === BRANCHNAVN.STILLING && USE_JANZZ && ONTOLOGY_SEARCH_API) {
+            } else if (branch === BRANCHNAVN.STILLING && USE_JANZZ) {
                 const response = yield call(fetchTypeaheadSuggestionsOntology, { text: value });
                 const titler = response.hits.hits.map(_ => _._source.label)
 
@@ -193,10 +193,8 @@ function* fetchTypeAheadSuggestions(action) {
                 });
             }
             
-            
             else {
                 const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-                console.log("response", JSON.stringify(response))
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
                     suggestions: response,
