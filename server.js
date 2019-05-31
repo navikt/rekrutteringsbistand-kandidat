@@ -109,7 +109,8 @@ const fasitProperties = {
     PAMPORTAL_URL: process.env.PAMPORTAL_URL,
     API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
-    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true'
+    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
+    ONTOLOGY_SEARCH_API: process.env.ONTOLOGY_SEARCH_API
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -120,6 +121,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
         `window.__CONTEXT_ROOT__="${app.contextRoot}";\n`;
+        `window.__ONTOLOGY_SEARCH_API__="${fasitProperties.ONTOLOGY_SEARCH_API}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -197,6 +199,17 @@ const startServer = (html) => {
     const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
 
     server.use(`/${app.contextRoot}/rest/`, proxy(proxyHost, {
+        https: true,
+        proxyReqPathResolver: (req) => (
+            req.originalUrl.replace(new RegExp(app.contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
+        ),
+        proxyReqOptDecorator: (proxyReqOpts) => {
+            proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
+            return proxyReqOpts;
+        }
+    }));
+
+    server.use(`/${app.contextRoot}/ontologi/`, proxy(proxyHost, {
         https: true,
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp(app.contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')

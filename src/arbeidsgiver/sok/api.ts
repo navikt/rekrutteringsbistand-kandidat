@@ -3,6 +3,7 @@
 import {
     KANDIDATLISTE_API,
     SEARCH_API,
+    ONTOLOGY_SEARCH_API,
     ORGANISASJON_API,
     USE_JANZZ,
     SAMTYKKE_API,
@@ -28,8 +29,17 @@ const convertToUrlParams = (query) => Object.keys(query)
     .replace(/%20/g, '+');
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
+    console.log("hggg", query)
     const resultat = await fetch(
         `${SEARCH_API}typeahead${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
+    );
+    return resultat.json();
+}
+
+export async function fetchTypeaheadSuggestionsOntology(query = {}) {
+    console.log("ggg", query)
+    const resultat = await fetch(
+        `${ONTOLOGY_SEARCH_API}stillingstittel?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
