@@ -183,7 +183,7 @@ function* fetchTypeAheadSuggestions(action) {
                 yield fetchTypeaheadGeografi(value, branch);
             } else if (branch === BRANCHNAVN.STILLING && USE_JANZZ) {
                 const response = yield call(fetchTypeaheadSuggestionsOntology, { text: value });
-                const titler = response.hits.hits.map(_ => _._source.label)
+                const titler = response.hits.hits.map(hit => hit._source.label)
 
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
