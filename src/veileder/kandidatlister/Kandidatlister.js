@@ -201,8 +201,7 @@ const SlettKandidatlisteMenyValg = ({ kandidatliste, slettRef, handleKeyDown, sl
     } else if (kandidatliste.kanSlette === KanSletteEnum.HAR_STILLING) {
         return (
             <HjelpetekstVenstre className="slett-hjelpetekst" id="slett-kandidatliste" anchor={() => <div className="slett-hjelpetekst-tekst" ref={slettRef}>Slett</div>}>
-                Denne kandidatlisten er knyttet til en stilling.
-                Gå til <a className="slett-hjelpetekst-lenke" href="/minestillinger">Mine stillinger</a> for å slette stillingen og kandidatlisten.
+                Denne kandidatlisten er knyttet til en stilling og kan ikke slettes.
             </HjelpetekstVenstre>
         );
     } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN) {
