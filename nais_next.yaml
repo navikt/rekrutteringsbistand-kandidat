@@ -1,5 +1,6 @@
 name: pam-kandidatsok-next
 image: repo.adeo.no:5443/pam-kandidatsok-next
+team: teampam
 replicas:
   min: 1
   max: 1
