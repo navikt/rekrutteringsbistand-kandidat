@@ -211,9 +211,11 @@ const startServer = (html) => {
     }));
 
     server.use(`/${app.contextRoot}/ontologi/`, proxy(fasitProperties.ONTOLOGY_SEARCH_API_URL_BACKEND + "/", {
-        proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
-        )
+        proxyReqPathResolver: (req) => {
+            const newUrl = req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
+            console.log({newUrl});
+            return newUrl;
+        }
     }));
 
     server.use(
