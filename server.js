@@ -121,8 +121,10 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__USE_JANZZ__="${fasitProperties.USE_JANZZ}";\n` +
-        `window.__CONTEXT_ROOT__="${app.contextRoot}";\n`;
+        `window.__CONTEXT_ROOT__="${app.contextRoot}";\n` +
         `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n`;
+
+        console.log('************filecontent', fileContent)
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
