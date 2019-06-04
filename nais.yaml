@@ -40,7 +40,3 @@ fasitResources:
       password: PAM_KANDIDATSOK_API_PROXY_API_APIKEY
   - alias: pam-kandidatsok-api
     resourceType: restservice
-  - alias: ontologiservice
-    resourceType: restservice
-    propertyMap:
-      url: ONTOLOGY_SEARCH_API_URL

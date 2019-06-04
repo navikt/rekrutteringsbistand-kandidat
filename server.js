@@ -110,8 +110,7 @@ const fasitProperties = {
     API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
     USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
-    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`,
-    ONTOLOGY_SEARCH_API_URL_BACKEND:process.env.ONTOLOGY_SEARCH_API_URL
+    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -210,7 +209,7 @@ const startServer = (html) => {
         }
     }));
 
-    server.use(`/${app.contextRoot}/ontologi/`, proxy(fasitProperties.ONTOLOGY_SEARCH_API_URL_BACKEND, {
+    server.use(`/${app.contextRoot}/ontologi/`, proxy('http://pam-search-api.default', {
         proxyReqPathResolver: (req) => {
             const newUrl = req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
             console.log({newUrl});
