@@ -124,8 +124,6 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__CONTEXT_ROOT__="${app.contextRoot}";\n` +
         `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n`;
 
-        console.log('************filecontent', fileContent)
-
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
