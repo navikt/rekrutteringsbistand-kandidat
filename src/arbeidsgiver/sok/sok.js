@@ -155,7 +155,7 @@ class Sok extends React.Component {
         if (harSamtykket !== undefined && !harSamtykket) {
             return <SamtykkeSide />;
         }
-        if (error) {
+        if (error && error.status !== 401) {
             return <Feilside error={error} />;
         } else if (isFetchingArbeidsgivere) {
             return (
