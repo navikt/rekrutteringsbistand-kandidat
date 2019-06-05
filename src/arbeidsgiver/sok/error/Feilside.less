@@ -1,3 +1,5 @@
+@import '../../../felles/Variables.less';
+
 .feilside {
   margin-top: 2rem;
 }
@@ -6,4 +8,25 @@
   padding: 2rem 2rem;
   width: 640px;
   margin: 5rem auto;
+}
+
+.Feilmelding__alertstripe {
+  max-width: 640px;
+  margin: auto;
+
+  .alertstripe__tekst {
+    > div {
+      margin-bottom: 1rem;
+    }
+
+    @media(min-width: @screen-sm-min) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > div {
+        margin-bottom: 0
+      }
+    }
+  }
 }
