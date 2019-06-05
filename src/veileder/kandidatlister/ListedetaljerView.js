@@ -279,7 +279,7 @@ const ListedetaljerView = (props) => {
     );
 
     const KandidatRad = ({ kandidat }) => { // eslint-disable-line react/prop-types
-        const antallNotater = kandidat.notater ? kandidat.notater.length : kandidat.antallNotater;
+        const antallNotater = kandidat.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.data.length : kandidat.antallNotater;
         const toggleNotater = () => {
             onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
                 ? VISNINGSSTATUS.SKJUL_PANEL
