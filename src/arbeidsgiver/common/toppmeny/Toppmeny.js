@@ -42,6 +42,8 @@ const Toppmeny = ({ arbeidsgivere, valgtArbeidsgiverId, velgArbeidsgiver, resetA
                     onArbeidsgiverSelect={onArbeidsgiverSelect}
                     arbeidsgivere={mappedeArbeidsgivere}
                     valgtArbeidsgiverId={valgtArbeidsgiverId}
+                    label="Velg arbeidsgiver"
+                    showLabelInline
                 />
             }
         />
