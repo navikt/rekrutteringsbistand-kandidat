@@ -12,11 +12,8 @@ const ManglerRolleAltinn = () => (
             <Row className="blokk-xs text-center">
                 <Ikon kind="info-sirkel-fyll" />
             </Row>
-            <Row className="text-center">
+            <Row className="text-center blokk-s">
                 <Innholdstittel>Du mangler rettigheter i Altinn</Innholdstittel>
-            </Row>
-            <Row className="blokk-xs text-center">
-                <div className="stroke" />
             </Row>
             <Row >
                 <Column xs="12">
