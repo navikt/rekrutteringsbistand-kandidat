@@ -13,7 +13,6 @@ import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Footer } from 'pam-frontend-footer';
 import 'pam-frontend-footer/dist/style.css';
 import ResultatVisning from '../result/ResultatVisning';
-import ManglerRolleAltinn from './error/ManglerRolleAltinn';
 import { LOGIN_URL, CONTEXT_ROOT, LOGOUT_URL, USE_JANZZ } from '../common/fasitProperties';
 import '../../felles/styles.less';
 import './sok.less';
@@ -90,13 +89,11 @@ class Sok extends React.Component {
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
-    // if the error is 401 and to a new page if error is 403
+    // if the error is 401
     componentWillUpdate(nextProps) {
         const { error } = nextProps;
         if (error && error.status === 401) {
             this.redirectToLogin();
-        } else if (error && error.status === 403) {
-            window.location.href = `/${CONTEXT_ROOT}/altinn`;
         }
     }
 
@@ -146,37 +143,46 @@ class Sok extends React.Component {
     };
 
     render() {
-        if (this.props.harSamtykket !== undefined && !this.props.harSamtykket) {
+        const {
+            error,
+            harSamtykket,
+            isFetchingArbeidsgivere,
+            arbeidsgivere,
+            valgtArbeidsgiverId
+        } = this.props;
+        const { visSesjonHarUtgaattModal, visSesjonUtloperSnartModal } = this.state;
+
+        if (harSamtykket !== undefined && !harSamtykket) {
             return <SamtykkeSide />;
         }
-        if (this.props.error) {
-            return <Feilside />;
-        } else if (this.props.isFetchingArbeidsgivere) {
+        if (error && error.status !== 401) {
+            return <Feilside error={error} />;
+        } else if (isFetchingArbeidsgivere) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
                 </div>
             );
-        } else if (this.props.arbeidsgivere.length > 1 && this.props.valgtArbeidsgiverId === undefined) {
+        } else if (arbeidsgivere.length > 1 && valgtArbeidsgiverId === undefined) {
             return <VelgArbeidsgiver />;
-        } else if (this.state.visSesjonUtloperSnartModal) {
+        } else if (visSesjonUtloperSnartModal) {
             return (<SesjonUtgaarModal
                 tittelTekst={'Du blir snart logget ut'}
                 innholdTekst={'Vil du fortsette å bruke tjenesten?'}
                 primaerKnappTekst={'Forbli innlogget'}
                 onPrimaerKnappClick={this.redirectToLogin}
-                isOpen={this.state.visSesjonUtloperSnartModal}
+                isOpen={visSesjonUtloperSnartModal}
                 sekundaerKnappTekst={'Logg ut'}
                 onSekundaerKnappClick={this.loggUt}
                 sekundaerKnapp
             />);
-        } else if (this.state.visSesjonHarUtgaattModal) {
+        } else if (visSesjonHarUtgaattModal) {
             return (<SesjonUtgaarModal
                 tittelTekst={'Du har blitt logget ut'}
                 innholdTekst={'Denne sesjonen har utløpt. Gå til forsiden for å logge inn på nytt.'}
                 primaerKnappTekst={'Til forsiden'}
                 onPrimaerKnappClick={this.redirectToLoginMedForsideCallback}
-                isOpen={this.state.visSesjonHarUtgaattModal}
+                isOpen={visSesjonHarUtgaattModal}
             />);
         }
         return (
@@ -193,7 +199,6 @@ class Sok extends React.Component {
                             <Route exact path={`/${CONTEXT_ROOT}/lister`} component={Kandidatlister} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid`} component={KandidatlisteDetaljWrapper} />
                             <Route exact path={`/${CONTEXT_ROOT}/lister/detaljer/:listeid/cv/:kandidatnr`} component={VisKandidatFraLister} />
-                            <Route exact path={`/${CONTEXT_ROOT}/altinn`} component={ManglerRolleAltinn} />
                             <Route exact path={`/${CONTEXT_ROOT}/feilside`} component={Feilside} />
                         </Switch>
                     </div>
@@ -227,7 +232,7 @@ Sok.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    error: state.search.error,
+    error: state.mineArbeidsgivere.error,
     harSamtykket: state.samtykke.harSamtykket,
     arbeidsgivere: state.mineArbeidsgivere.arbeidsgivere,
     valgtArbeidsgiverId: state.mineArbeidsgivere.valgtArbeidsgiverId,
