@@ -119,7 +119,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
-        `window.__USE_JANZZ__="${fasitProperties.USE_JANZZ}";\n` +
+        `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
         `window.__CONTEXT_ROOT__="${app.contextRoot}";\n` +
         `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n`;
 
@@ -210,11 +210,9 @@ const startServer = (html) => {
     }));
 
     server.use(`/${app.contextRoot}/ontologi/`, proxy('http://pam-search-api.default', {
-        proxyReqPathResolver: (req) => {
-            const newUrl = req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
-            console.log({newUrl});
-            return newUrl;
-        }
+        proxyReqPathResolver: (req) => (
+            req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
+        )
     }));
 
     server.use(
