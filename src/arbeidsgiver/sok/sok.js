@@ -86,6 +86,7 @@ class Sok extends React.Component {
         this.tokenChecker.start();
         this.props.fetchFeatureTogglesOgInitialSearch();
         this.props.fetchArbeidsgivere();
+        localStorage.setItem('innloggetBrukerKontekst', 'arbeidsgiver');
     }
 
     // Have to wait for the error-message to be set in Redux, and redirect to Id-porten
