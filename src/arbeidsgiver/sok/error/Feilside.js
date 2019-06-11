@@ -14,7 +14,7 @@ const Feilside = ({ error }) => (
             <Container className="blokk-s feilside">
                 <Row>
                     <Column>
-                        {error.status === 403 ? (
+                        {error && error.status === 403 ? (
                             <ManglerRolleAltinn />
                         ) : (
                             <Feilmelding />
