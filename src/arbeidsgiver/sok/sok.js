@@ -78,12 +78,8 @@ const Sok = ({
     }, []);
 
     useEffect(() => {
-        if (error) {
-            if (error.status === 401) {
-                window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
-            } else if (error.status === 403) {
-                window.location.href = `/${CONTEXT_ROOT}/altinn`;
-            }
+        if (error && error.status === 401) {
+            window.location.href = `${LOGIN_URL}&redirect=${window.location.href}`;
         }
     }, [error]);
 
@@ -96,7 +92,7 @@ const Sok = ({
     }
 
     if (error) {
-        return <Feilside />;
+        return <Feilside error={error} />;
     }
 
     if (isFetchingArbeidsgivere) {

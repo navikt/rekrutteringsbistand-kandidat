@@ -14,7 +14,7 @@ const Feilside = ({ error }) => (
             <Container className="blokk-s feilside">
                 <Row>
                     <Column>
-                        {error.status === 403 ? (
+                        {error && error.status === 403 ? (
                             <ManglerRolleAltinn />
                         ) : (
                             <Feilmelding />
@@ -30,7 +30,7 @@ const Feilside = ({ error }) => (
 Feilside.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number
-    })
+    }).isRequired
 };
 
 export default Feilside;
