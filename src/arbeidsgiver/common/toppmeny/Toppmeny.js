@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ArbeidsgiverTabId, Header, AuthStatus, ArbeidsgiverSelect } from 'pam-frontend-header';
@@ -77,13 +77,23 @@ const mapDispatchToProps = (dispatch) => ({
     resetArbeidsgiver: () => dispatch({ type: RESET_ARBEIDSGIVER })
 });
 
-const KandidatsokHeaderComponent = (props) => (
-    <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATSOK} />
-);
+const KandidatsokHeaderComponent = (props) => {
+    useEffect(() => {
+        document.title = 'Kandidatsøk - Arbeidsplassen';
+    });
+    return (
+        <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATSOK} />
+    );
+};
 
-const KandidatlisteHeaderComponent = (props) => (
-    <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATLISTER} />
-);
+const KandidatlisteHeaderComponent = (props) => {
+    useEffect(() => {
+        document.title = 'Kandidatlister - Arbeidsplassen';
+    });
+    return (
+        <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATLISTER} />
+    );
+};
 
 export const KandidatsokHeader = connect(mapStateToProps, mapDispatchToProps)(KandidatsokHeaderComponent);
 
