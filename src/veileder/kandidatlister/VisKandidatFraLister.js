@@ -12,6 +12,7 @@ import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../common/fasitProperties';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -93,15 +94,26 @@ class VisKandidatFraLister extends React.Component {
                     <div>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
-                                <a
-                                    className="frittstaende-lenke ForlateSiden link"
-                                    href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <span className="link">Se aktivitetsplan</span>
-                                    <i className="ForlateSiden__icon" />
-                                </a>
+                                <div className="lenker">
+                                    <a
+                                        className="frittstaende-lenke ForlateSiden link"
+                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span className="link">Se aktivitetsplan</span>
+                                        <i className="ForlateSiden__icon" />
+                                    </a>
+                                    <a
+                                        className="frittstaende-lenke LastNed link"
+                                        href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span className="link">Skriv ut CV</span>
+                                        <i className="LastNed__icon" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <div className="viskandidat-container">

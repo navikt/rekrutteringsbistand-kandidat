@@ -20,6 +20,7 @@ import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -234,15 +235,26 @@ class VisKandidat extends React.Component {
                     <div>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
-                                <a
-                                    className="frittstaende-lenke ForlateSiden link"
-                                    href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <span className="link">Se aktivitetsplan</span>
-                                    <i className="ForlateSiden__icon" />
-                                </a>
+                                <div className="lenker">
+                                    <a
+                                        className="frittstaende-lenke ForlateSiden link"
+                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span className="link">Se aktivitetsplan</span>
+                                        <i className="ForlateSiden__icon" />
+                                    </a>
+                                    <a
+                                        className="frittstaende-lenke LastNed link"
+                                        href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span className="link">Skriv ut CV</span>
+                                        <i className="LastNed__icon" />
+                                    </a>
+                                </div>
                                 <Knapp
                                     onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                                     mini
