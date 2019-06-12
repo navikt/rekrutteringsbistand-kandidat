@@ -58,27 +58,6 @@ module.exports = {
                 'webdriver.chrome.driver': './node_modules/chromedriver/lib/chromedriver/chromedriver'
             }
         },
-        q6: {
-            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
-            globals: {
-                environment: 'q6'
-            },
-            chromeOptions: {
-                args: ['--ignore-certificate-errors']
-            }
-        },
-        'linux-q6': {
-            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
-            globals: {
-                environment: 'q6'
-            },
-            chromeOptions: {
-                args: ['--ignore-certificate-errors']
-            },
-            cli_args: {
-                'webdriver.chrome.driver': './node_modules/chromedriver/lib/chromedriver/chromedriver'
-            }
-        },
         'linux-q0': {
             launch_url: 'https://arbeidsplassen-q.nav.no/kandidater',
             globals: {
@@ -92,9 +71,9 @@ module.exports = {
             }
         },
         jenkins: {
-            launch_url: 'https://arbeidsplassen-t.nav.no/kandidater',
+            launch_url: 'https://arbeidsplassen-q.nav.no/kandidater',
             globals: {
-                environment: 'q6'
+                environment: 'q0'
             },
             desiredCapabilities: {
                 browserName: 'chrome',

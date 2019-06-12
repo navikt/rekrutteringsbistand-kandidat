@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Funksjonelle akseptansetester for PAM-kandidatsok",
   "scripts": {
-    "chrome": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env q6",
-    "chrome-debug": "node --inspect node_modules/nightwatch/bin/nightwatch --config nightwatch.conf.js --env q6",
-    "chrome-linux": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-q6",
-    "chrome-linux-q0": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-q0",
+    "chrome": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env q0",
+    "chrome-debug": "node --inspect node_modules/nightwatch/bin/nightwatch --config nightwatch.conf.js --env q0",
+    "chrome-linux": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-q0",
     "chrome-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "chrome-local-debug": "node --inspect node_modules/.bin/nightwatch --config nightwatch.conf.js",
     "chrome-linux-local": "node_modules/.bin/nightwatch --config nightwatch.conf.js --env linux-local",
