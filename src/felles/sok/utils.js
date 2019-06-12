@@ -249,3 +249,7 @@ export const capitalizeEmployerName = (employerName) => {
     }
     return employerName;
 };
+
+export const formatterInt = (number) => (
+    Intl.NumberFormat('nb-NO').format(number)
+);
