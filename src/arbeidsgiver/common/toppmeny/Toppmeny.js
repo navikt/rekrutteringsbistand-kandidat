@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch) => ({
 const KandidatsokHeaderComponent = (props) => {
     useEffect(() => {
         document.title = 'Kandidatsøk - Arbeidsplassen';
-    });
+    }, []);
     return (
         <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATSOK} />
     );
@@ -89,7 +89,7 @@ const KandidatsokHeaderComponent = (props) => {
 const KandidatlisteHeaderComponent = (props) => {
     useEffect(() => {
         document.title = 'Kandidatlister - Arbeidsplassen';
-    });
+    }, []);
     return (
         <Toppmeny {...props} activeTabID={ArbeidsgiverTabId.KANDIDATLISTER} />
     );
