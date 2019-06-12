@@ -11,7 +11,6 @@ const FEATURE_TOGGLES = [
     'skjul-sted',
     'vis-matchforklaring',
     'ingen-utdanning-filter',
-    'bruk-ny-kilde-forerkort',
     'vis-lenke-til-kandidatsok-next',
     'vis-notater-arbeidsgiver'
 ];

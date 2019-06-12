@@ -1,7 +1,7 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadSuggestionsRest } from '../../api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
-import alleForerkort, { allePAMForerkort } from '../../../felles/sok/forerkort/forerkort';
+import { forerkortSuggestions } from '../../../felles/sok/forerkort/forerkort.ts';
 import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
@@ -135,15 +135,7 @@ function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 2;
     const { branch, value } = action;
     if (branch === BRANCHNAVN.FORERKORT) {
-        const nyKildeForerkort = yield select((state) => state.search.featureToggles['bruk-ny-kilde-forerkort']);
-        const alleForerkortListe = nyKildeForerkort ? allePAMForerkort : alleForerkort;
-        let result;
-        if (!value) {
-            result = alleForerkortListe;
-        } else {
-            result = alleForerkortListe.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
-        }
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: forerkortSuggestions(value), branch, query: value });
     } else {
         const typeAheadBranch = getTypeAheadBranch(branch);
 

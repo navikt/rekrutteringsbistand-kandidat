@@ -7,7 +7,6 @@ import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
-import alleForerkort, { allePAMForerkort } from './forerkort';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 
@@ -16,15 +15,6 @@ const forerkortHeading = (
         <Undertittel>Førerkort</Undertittel>
     </div>
 );
-
-const matcherLignendeTekst = (typeaheadVerdi, tekst) => {
-    if (typeaheadVerdi === tekst) {
-        return true;
-    }
-    const tV = typeaheadVerdi.includes('(') ? [...typeaheadVerdi.split('(').shift().split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten() :
-        [...typeaheadVerdi.split(/[:|;|.|,|\s]/).map((v) => v.split(''))].flatten();
-    return JSON.stringify(tV) === JSON.stringify(tekst.split(/[:|;|.|,|\s]/).map((t) => t.split('')).flatten());
-};
 
 class ForerkortSearch extends React.Component {
     constructor(props) {
@@ -47,10 +37,8 @@ class ForerkortSearch extends React.Component {
 
     onTypeAheadForerkortSelect = (value) => {
         if (value !== '') {
-            const alleForerkortListe = this.props.nyKildeForerkort ? allePAMForerkort : alleForerkort;
-            const forerkort = alleForerkortListe.find((fk) => matcherLignendeTekst(fk.toLowerCase(), value.toLowerCase()));
-            if (forerkort !== undefined) {
-                this.props.selectTypeAheadValueForerkort(forerkort);
+            if (value !== undefined) {
+                this.props.selectTypeAheadValueForerkort(value);
                 this.props.clearTypeAheadForerkort();
                 this.setState({
                     typeAheadValueForerkort: ''
@@ -171,8 +159,7 @@ ForerkortSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    nyKildeForerkort: PropTypes.bool.isRequired
+    togglePanelOpen: PropTypes.func.isRequired
 };
 
 export default ForerkortSearch;
