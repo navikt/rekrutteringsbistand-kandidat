@@ -9,9 +9,8 @@
     "allowJs": true,             // allow a partial TypeScript and JavaScript codebase
     "moduleResolution": "node",
     "lib": [
-      "es2015",
-      "dom",
-      "es7"
+      "es7",
+      "dom"
     ]
   },
   "include": [
