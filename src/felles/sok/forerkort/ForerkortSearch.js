@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
+import { erGyldigForerkort } from './forerkort.ts';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
@@ -36,22 +37,20 @@ class ForerkortSearch extends React.Component {
     };
 
     onTypeAheadForerkortSelect = (value) => {
-        if (value !== '') {
-            if (value !== undefined) {
-                this.props.selectTypeAheadValueForerkort(value);
-                this.props.clearTypeAheadForerkort();
-                this.setState({
-                    typeAheadValueForerkort: ''
-                });
-                this.props.search();
-                this.setState({
-                    feil: false
-                });
-            } else {
-                this.setState({
-                    feil: true
-                });
-            }
+        if (erGyldigForerkort(value)) {
+            this.props.selectTypeAheadValueForerkort(value);
+            this.props.clearTypeAheadForerkort();
+            this.setState({
+                typeAheadValueForerkort: ''
+            });
+            this.props.search();
+            this.setState({
+                feil: false
+            });
+        } else {
+            this.setState({
+                feil: true
+            });
         }
     };
 

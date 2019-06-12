@@ -3,7 +3,7 @@ interface Forerkort {
     kode: string
 }
 
-export const allePAMForerkort: Array<Forerkort> = [
+const alleForerkort: Array<Forerkort> = [
     { kode: 'B', tekst: 'B - Personbil'},
     { kode: 'BE', tekst: 'BE - Personbil med tilhenger'},
     { kode: 'C', tekst: 'C - Lastebil'},
@@ -21,6 +21,10 @@ export const allePAMForerkort: Array<Forerkort> = [
     { kode: 'T', tekst: 'T - Traktor'},
     { kode: 'S', tekst: 'S - Snøscooter'},
 ];
+
+export const erGyldigForerkort: (string) => boolean = (value) => (
+    alleForerkort.map(forerkort => forerkort.tekst).includes(value)
+);
 
 const flatten: <T>(listOfLists: T[][]) => T[] = (listOfLists) => (
     listOfLists.reduce((acc, list) => [...acc, ...list], [])
@@ -40,8 +44,8 @@ const erDelvisMatchPaaTekst: (string, Forerkort) => boolean = (query, forerkort)
 
 export const forerkortSuggestions: (string) => Array<string> = (query) => (
     flatten([
-        allePAMForerkort.filter(forerkort => erEksaktMatchPaaKode(query, forerkort)),
-        allePAMForerkort.filter(forerkort => erDelvisMatchPaaKode(query, forerkort)),
-        allePAMForerkort.filter(forerkort => erDelvisMatchPaaTekst(query, forerkort))
+        alleForerkort.filter(forerkort => erEksaktMatchPaaKode(query, forerkort)),
+        alleForerkort.filter(forerkort => erDelvisMatchPaaKode(query, forerkort)),
+        alleForerkort.filter(forerkort => erDelvisMatchPaaTekst(query, forerkort))
     ]).map(forerkort => forerkort.tekst)
 );
