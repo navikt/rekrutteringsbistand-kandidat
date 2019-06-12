@@ -110,7 +110,7 @@ class VisKandidatFraLister extends React.Component {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <span className="link">Skriv ut CV</span>
+                                        <span className="link">Last ned CV</span>
                                         <i className="LastNed__icon" />
                                     </a>
                                 </div>
