@@ -20,15 +20,15 @@ const ManglerRolleAltinn = () => {
                 <Row className="text-center blokk-s">
                     <Innholdstittel>Du mangler rettigheter i Altinn</Innholdstittel>
                 </Row>
-                <Row >
+                <Row>
                     <Column xs="12">
-                        <Normaltekst >
+                        <Normaltekst>
                             Bruk av våre rekrutteringstjenester forutsetter at du har fått tilgang til
                             Altinn-tjenesten Rekruttering for virksomheten du representerer.
                             Disse rollene gir deg automatisk tilgang:
                         </Normaltekst>
                         <ul>
-                            <Normaltekst >
+                            <Normaltekst>
                                 <li>Utfyller/Innsender</li>
                                 <li>Lønn og personalmedarbeider</li>
                             </Normaltekst>
@@ -51,13 +51,14 @@ const ManglerRolleAltinn = () => {
                             daglig leder eller andre fra eiersiden.
                         </Normaltekst>
                         <Normaltekst className="blokk-s">
-                            Mer informasjon om tildeling av roller og rettigheter finnes på:{' '}
+                            Mer informasjon om tildeling av roller og rettigheter finnes på{' '}
                             <a
                                 className="link"
                                 href={LENKE_RETTIGHETER}
                             >
-                                Altinn
+                                altinn.no
                             </a>
+                            .
                         </Normaltekst>
                     </Column>
                 </Row>

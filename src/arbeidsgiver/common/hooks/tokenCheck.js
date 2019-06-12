@@ -1,18 +1,18 @@
 
 import { EventEmitter } from 'events';
-import { sjekkTokenGaarUtSnart } from './api.ts';
-import { SearchApiError } from '../../felles/api.ts';
-
+import { SearchApiError } from '../../../felles/api.ts';
+import { sjekkTokenGaarUtSnart } from '../../sok/api';
 
 export default class TokenChecker extends EventEmitter {
-    // timeout callbackid
     timeoutId = undefined;
-    isPaused = false;
-    interval; // antall ms for hver timeout check
 
-    constructor(interval = 60000) {
+    isPaused = false;
+
+    intervalInMilliseconds;
+
+    constructor(intervalInMilliseconds = 60000) {
         super();
-        this.interval = interval;
+        this.intervalInMilliseconds = intervalInMilliseconds;
     }
 
     start() {
@@ -41,13 +41,13 @@ export default class TokenChecker extends EventEmitter {
         if (this.isPaused) {
             return;
         }
+
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
             this.timeoutId = undefined;
         }
 
-        // async timeout
-        await this.timeout(this.interval);
+        await this.timeout(this.intervalInMilliseconds);
 
         try {
             const gaarUtSnart = await this.gaarTokenUtSnart();
