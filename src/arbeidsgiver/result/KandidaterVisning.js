@@ -5,6 +5,7 @@ import { Ingress, Element } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Row } from 'nav-frontend-grid';
 import cvPropTypes from '../../felles/PropTypes';
+import { formatterInt } from '../../felles/sok/utils';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
@@ -189,7 +190,7 @@ class KandidaterVisning extends React.Component {
 
                             <div className="resultatvisning--header-left">
                                 <Element>Antall treff:</Element>
-                                <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{this.props.totaltAntallTreff}</span>
+                                <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{formatterInt(this.props.totaltAntallTreff)}</span>
                             </div>
                         }
 
