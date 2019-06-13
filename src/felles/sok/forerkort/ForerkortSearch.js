@@ -91,7 +91,7 @@ class ForerkortSearch extends React.Component {
             >
                 <Element>Krav til førerkort</Element>
                 <Normaltekst>
-                    For eksempel: Førerkort: Kl. B
+                    For eksempel: B - Personbil
                 </Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>

@@ -4,23 +4,27 @@ interface Forerkort {
 }
 
 const alleForerkort: Array<Forerkort> = [
-    { kode: 'B', tekst: 'B - Personbil'},
-    { kode: 'BE', tekst: 'BE - Personbil med tilhenger'},
-    { kode: 'C', tekst: 'C - Lastebil'},
-    { kode: 'CE', tekst: 'CE - Lastebil med tilhenger'},
-    { kode: 'C1', tekst: 'C1 - Lett lastebil'},
-    { kode: 'C1E', tekst: 'C1E - Lett lastebil med tilhenger'},
-    { kode: 'D', tekst: 'D - Buss'},
-    { kode: 'DE', tekst: 'DE - Buss med tilhenger'},
-    { kode: 'D1', tekst: 'D1 - Minibuss'},
-    { kode: 'D1E', tekst: 'D1E - Minibuss med tilhenger'},
-    { kode: 'A', tekst: 'A - Tung motorsykkel'},
-    { kode: 'A1', tekst: 'A1 - Lett motorsykkel'},
-    { kode: 'A2', tekst: 'A2 - Mellomtung motorsykkel'},
-    { kode: 'AM', tekst: 'AM - Moped'},
-    { kode: 'T', tekst: 'T - Traktor'},
-    { kode: 'S', tekst: 'S - Snøscooter'},
+    { kode: 'B', tekst: 'Personbil' },
+    { kode: 'BE', tekst: 'Personbil med tilhenger' },
+    { kode: 'C', tekst: 'Lastebil' },
+    { kode: 'CE', tekst: 'Lastebil med tilhenger' },
+    { kode: 'C1', tekst: 'Lett lastebil' },
+    { kode: 'C1E', tekst: 'Lett lastebil med tilhenger' },
+    { kode: 'D', tekst: 'Buss' },
+    { kode: 'DE', tekst: 'Buss med tilhenger' },
+    { kode: 'D1', tekst: 'Minibuss' },
+    { kode: 'D1E', tekst: 'Minibuss med tilhenger' },
+    { kode: 'A', tekst: 'Tung motorsykkel' },
+    { kode: 'A1', tekst: 'Lett motorsykkel' },
+    { kode: 'A2', tekst: 'Mellomtung motorsykkel' },
+    { kode: 'AM', tekst: 'Moped' },
+    { kode: 'T', tekst: 'Traktor' },
+    { kode: 'S', tekst: 'Snøscooter' },
 ];
+
+const visningstekst: (Forerkort) => string = (forerkort) => (
+    `${forerkort.kode} - ${forerkort.tekst}`
+);
 
 export const erGyldigForerkort: (string) => boolean = (value) => (
     alleForerkort.map(forerkort => forerkort.tekst).includes(value)
@@ -38,14 +42,19 @@ const erDelvisMatchPaaKode: (string, Forerkort) => boolean = (query, forerkort) 
     !erEksaktMatchPaaKode(query, forerkort) && forerkort.kode.toLowerCase().includes(query.toLowerCase())
 );
 
+const erMatchPaaStartAvTekst: (string, Forerkort) => boolean = (query, forerkort) => (
+    !erEksaktMatchPaaKode(query, forerkort) && !erDelvisMatchPaaKode(query, forerkort) && forerkort.tekst.toLowerCase().startsWith(query.toLowerCase())
+);
+
 const erDelvisMatchPaaTekst: (string, Forerkort) => boolean = (query, forerkort) => (
-    !erEksaktMatchPaaKode(query, forerkort) && !erDelvisMatchPaaKode(query, forerkort) && forerkort.tekst.toLowerCase().includes(query.toLowerCase())
+    !erEksaktMatchPaaKode(query, forerkort) && !erDelvisMatchPaaKode(query, forerkort) && !erMatchPaaStartAvTekst(query, forerkort) && visningstekst(forerkort).toLowerCase().includes(query.toLowerCase())
 );
 
 export const forerkortSuggestions: (string) => Array<string> = (query) => (
     flatten([
         alleForerkort.filter(forerkort => erEksaktMatchPaaKode(query, forerkort)),
         alleForerkort.filter(forerkort => erDelvisMatchPaaKode(query, forerkort)),
+        alleForerkort.filter(forerkort => erMatchPaaStartAvTekst(query, forerkort)),
         alleForerkort.filter(forerkort => erDelvisMatchPaaTekst(query, forerkort))
-    ]).map(forerkort => forerkort.tekst)
+    ]).map(forerkort => visningstekst(forerkort))
 );
