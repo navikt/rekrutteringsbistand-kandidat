@@ -1,7 +1,7 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, fetchTypeaheadSuggestionsOntology } from '../../sok/api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
-import alleForerkort, { allePAMForerkort } from '../../../felles/sok/forerkort/forerkort';
+import { forerkortSuggestions } from '../../../felles/sok/forerkort/forerkort.ts';
 import { USE_JANZZ } from '../fasitProperties';
 import { SearchApiError } from '../../../felles/api.ts';
 
@@ -167,15 +167,7 @@ function* fetchTypeAheadSuggestions(action) {
     if (!value || value < TYPE_AHEAD_MIN_INPUT_LENGTH) {
         yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch, query: value });
     } else if (branch === BRANCHNAVN.FORERKORT) {
-        const nyKildeForerkort = yield select((state) => state.search.featureToggles['bruk-ny-kilde-forerkort']);
-        const alleForerkortListe = nyKildeForerkort ? allePAMForerkort : alleForerkort;
-        let result;
-        if (!value) {
-            result = alleForerkortListe;
-        } else {
-            result = alleForerkortListe.filter((fk) => fk.toLowerCase().includes(value.toLowerCase()));
-        }
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
+        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: forerkortSuggestions(value), branch, query: value });
     } else {
         const typeAheadBranch = getTypeAheadBranch(branch);
         try {
@@ -183,7 +175,9 @@ function* fetchTypeAheadSuggestions(action) {
                 yield fetchTypeaheadGeografi(value, branch);
             } else if (branch === BRANCHNAVN.STILLING && USE_JANZZ) {
                 const response = yield call(fetchTypeaheadSuggestionsOntology, { text: value });
-                const titler = response.hits.hits.map(hit => hit._source.label)
+
+                // eslint-disable-next-line no-underscore-dangle
+                const titler = response.hits.hits.map((hit) => hit._source.label);
 
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
@@ -191,9 +185,7 @@ function* fetchTypeAheadSuggestions(action) {
                     branch,
                     query: value
                 });
-            }
-            
-            else {
+            } else {
                 const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,

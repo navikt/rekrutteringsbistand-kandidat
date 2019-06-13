@@ -15,7 +15,7 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 const ForerkortSearch = ({ ...props }) => {
     const { search, removeForerkort, fetchTypeAheadSuggestionsForerkort, selectTypeAheadValueForerkort,
         forerkortList, typeAheadSuggestionsForerkort, clearTypeAheadForerkort, totaltAntallTreff,
-        visAlertFaKandidater, panelOpen, togglePanelOpen, nyKildeForerkort } = props;
+        visAlertFaKandidater, panelOpen, togglePanelOpen } = props;
     return (
         <ForerkortSearchFelles
             search={search}
@@ -29,7 +29,6 @@ const ForerkortSearch = ({ ...props }) => {
             visAlertFaKandidater={visAlertFaKandidater}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
-            nyKildeForerkort={nyKildeForerkort}
         />
     );
 };
@@ -45,8 +44,7 @@ ForerkortSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    nyKildeForerkort: PropTypes.bool.isRequired
+    togglePanelOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -54,8 +52,7 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsForerkort: state.typeahead.forerkort.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.forerkort.forerkortPanelOpen,
-    nyKildeForerkort: state.search.featureToggles['bruk-ny-kilde-forerkort']
+    panelOpen: state.forerkort.forerkortPanelOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({

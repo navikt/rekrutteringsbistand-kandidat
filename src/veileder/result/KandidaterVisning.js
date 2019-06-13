@@ -14,6 +14,7 @@ import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } 
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { formatterInt } from '../../felles/sok/utils';
 
 const antallKandidaterMarkert = (kandidater) => (
     kandidater.filter((k) => (k.markert)).length
@@ -169,7 +170,7 @@ class KandidaterVisning extends React.Component {
                     />
                 }
                 <div className="resultatvisning--header">
-                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{totaltAntallTreff}</strong>{panelTekst}</Undertittel>
+                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{formatterInt(totaltAntallTreff)}</strong>{panelTekst}</Undertittel>
                     <KnappMedHjelpetekst
                         hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                         disabled={antallMarkert === 0}
