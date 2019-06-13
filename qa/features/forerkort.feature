@@ -8,4 +8,4 @@ Egenskap: Finne kandidater basert på førerkort
     Når jeg legger til førerkort "B - Personbil"
     Så skal antall treff minke
     Når jeg legger til førerkort "A - Tung motorsykkel"
-    Så skal antall treff minke
+    Så skal antall treff øke
