@@ -27,7 +27,7 @@ const visningstekst: (Forerkort) => string = (forerkort) => (
 );
 
 export const erGyldigForerkort: (string) => boolean = (value) => (
-    alleForerkort.map(forerkort => forerkort.tekst).includes(value)
+    alleForerkort.map(forerkort => visningstekst(forerkort)).includes(value)
 );
 
 const flatten: <T>(listOfLists: T[][]) => T[] = (listOfLists) => (
