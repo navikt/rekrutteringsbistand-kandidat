@@ -104,15 +104,17 @@ class VisKandidatFraLister extends React.Component {
                                         <span className="link">Se aktivitetsplan</span>
                                         <i className="ForlateSiden__icon" />
                                     </a>
-                                    <a
-                                        className="frittstaende-lenke LastNed link"
-                                        href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Last ned CV</span>
-                                        <i className="LastNed__icon" />
-                                    </a>
+                                    {this.props.visLastNedCvLenke &&
+                                        <a
+                                            className="frittstaende-lenke LastNed link"
+                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span className="link">Last ned CV</span>
+                                            <i className="LastNed__icon" />
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -154,6 +156,7 @@ VisKandidatFraLister.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
+    visLastNedCvLenke: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
@@ -167,7 +170,8 @@ const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
     hentStatus: state.cvReducer.hentStatus,
-    cv: state.cvReducer.cv
+    cv: state.cvReducer.cv,
+    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke']
 });
 
 const mapDispatchToProps = (dispatch) => ({

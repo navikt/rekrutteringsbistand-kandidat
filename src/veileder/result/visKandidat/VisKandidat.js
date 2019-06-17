@@ -245,15 +245,17 @@ class VisKandidat extends React.Component {
                                         <span className="link">Se aktivitetsplan</span>
                                         <i className="ForlateSiden__icon" />
                                     </a>
-                                    <a
-                                        className="frittstaende-lenke LastNed link"
-                                        href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Last ned CV</span>
-                                        <i className="LastNed__icon" />
-                                    </a>
+                                    { this.props.visLastNedCvLenke &&
+                                        <a
+                                            className="frittstaende-lenke LastNed link"
+                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span className="link">Last ned CV</span>
+                                            <i className="LastNed__icon" />
+                                        </a>
+                                    }
                                 </div>
                                 <Knapp
                                     onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
@@ -340,6 +342,7 @@ VisKandidat.propTypes = {
         tittel: PropTypes.string
     }),
     lagreKandidatIKandidatliste: PropTypes.func.isRequired,
+    visLastNedCvLenke: PropTypes.bool.isRequired,
     lagreKandidatIKandidatlisteStatus: PropTypes.string.isRequired
 };
 
@@ -349,7 +352,8 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cvReducer.hentStatus,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
-    lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus
+    lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
+    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke']
 });
 
 const mapDispatchToProps = (dispatch) => ({
