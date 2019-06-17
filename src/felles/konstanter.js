@@ -12,7 +12,8 @@ const FEATURE_TOGGLES = [
     'vis-matchforklaring',
     'ingen-utdanning-filter',
     'vis-lenke-til-kandidatsok-next',
-    'vis-notater-arbeidsgiver'
+    'vis-notater-arbeidsgiver',
+    'vis-last-ned-cv-lenke'
 ];
 export default FEATURE_TOGGLES;
 

@@ -19,6 +19,7 @@ const cvPropTypes = PropTypes.shape({
     fodselsdato: PropTypes.string,
     fodselsdatoErDnr: PropTypes.bool,
     fodselsnummer: PropTypes.string,
+    aktorId: PropTypes.string,
     forerkort: PropTypes.array,
     formidlingsgruppekode: PropTypes.string,
     fornavn: PropTypes.string,

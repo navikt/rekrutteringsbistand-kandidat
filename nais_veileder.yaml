@@ -44,4 +44,7 @@ fasitResources:
         password: PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY
   - alias: pam-search-api-restservice
     resourceType: restservice
-    
+  - alias: pam_cv_veileder_last_ned_pdf
+    resourceType: baseurl
+    propertyMap:
+      url: LAST_NED_CV_URL

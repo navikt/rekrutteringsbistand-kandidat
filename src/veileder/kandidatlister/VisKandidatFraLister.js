@@ -12,6 +12,7 @@ import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../common/fasitProperties';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -93,15 +94,28 @@ class VisKandidatFraLister extends React.Component {
                     <div>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
-                                <a
-                                    className="frittstaende-lenke ForlateSiden link"
-                                    href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <span className="link">Se aktivitetsplan</span>
-                                    <i className="ForlateSiden__icon" />
-                                </a>
+                                <div className="lenker">
+                                    <a
+                                        className="frittstaende-lenke ForlateSiden link"
+                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <span className="link">Se aktivitetsplan</span>
+                                        <i className="ForlateSiden__icon" />
+                                    </a>
+                                    {this.props.visLastNedCvLenke &&
+                                        <a
+                                            className="frittstaende-lenke LastNed link"
+                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span className="link">Last ned CV</span>
+                                            <i className="LastNed__icon" />
+                                        </a>
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className="viskandidat-container">
@@ -142,6 +156,7 @@ VisKandidatFraLister.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
+    visLastNedCvLenke: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
@@ -155,7 +170,8 @@ const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined,
     hentStatus: state.cvReducer.hentStatus,
-    cv: state.cvReducer.cv
+    cv: state.cvReducer.cv,
+    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke']
 });
 
 const mapDispatchToProps = (dispatch) => ({
