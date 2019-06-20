@@ -7,7 +7,7 @@ export default () => (
         <a
             className="Feedback__link"
             href={USE_JANZZ ? 'https://surveys.hotjar.com/s?siteId=118350&surveyId=133020'
-                : 'https://in.hotjar.com/s?siteId=118350&surveyId=118054'}
+                : 'https://surveys.hotjar.com/s?siteId=118350&surveyId=133838'}
             target="_blank"
             rel="noopener noreferrer"
         >
