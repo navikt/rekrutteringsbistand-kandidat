@@ -1,45 +1,48 @@
-name: pam-kandidatsok-next
-image: repo.adeo.no:5443/pam-kandidatsok-next
-team: teampam
-replicas:
-  min: 1
-  max: 1
-  cpuThresholdPercentage: 50
-port: 8080
-healthcheck:
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pam-kandidatsok-next
+  namespace: {{{ namespace }}}
+  labels:
+    team: teampam
+spec:
+  image: {{{ image }}}
+  port: 8080
   liveness:
     path: /pam-kandidatsok-next/internal/isAlive
     initialDelay: 60
+    timeout: 1
+    failureThreshold: 2
   readiness:
     path: /pam-kandidatsok-next/internal/isReady
     initialDelay: 60
-prometheus:
-  enabled: false
-  path: /metrics
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 200m
-    memory: 256Mi
-ingress:
-  enabled: true
-fasitResources:
-  used:
-  - alias: loginservice-level-3
-    resourceType: restservice
-    propertyMap:
-      url: LOGINSERVICE_URL
-  - alias: logoutservice
-    resourceType: restservice
-  - alias: pamportal
-    resourceType: restservice
-  - alias: PAM_KANDIDATSOK_PROPERTIES
-    resourceType: applicationproperties
-  - alias: pam-kandidatsok-pam-kandidatsok-api-apiKey
-    resourceType: credential
-    propertyMap:
-      password: PAM_KANDIDATSOK_API_PROXY_API_APIKEY
-  - alias: pam-kandidatsok-api
-    resourceType: restservice
+    timeout: 1
+  replicas:
+    min: 1
+    max: 2
+  cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  vault:
+    enabled: true
+  prometheus:
+    enabled: false
+    path: /metrics
+  ingresses:
+    - {{{ ingress-next }}}
+  env:
+    - name: LOGINSERVICE_URL
+      value: {{{ loginservice }}}
+    - name: LOGOUTSERVICE_URL
+      value: {{{ logoutservice }}}
+    - name: PAMPORTAL_URL
+      value: {{{ pamportal }}}
+    - name: PAM_KANDIDATSOK_API_URL
+      value: {{{ pamkandidatsokapi }}}
+    - name: PAM_KANDIDATSOK_USE_JANZZ
+      value: {{{ usejanzz }}}
