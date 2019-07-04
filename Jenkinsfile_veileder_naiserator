@@ -50,7 +50,6 @@ node {
 
     stage("Build") {
         sh "npm run build"
-        sh "npm run build:server"
         sh "docker build --build-arg version=${releaseVersion} --build-arg app_name=${application} -t ${dockerRepo}/${application}:${releaseVersion} ."
     }
 
