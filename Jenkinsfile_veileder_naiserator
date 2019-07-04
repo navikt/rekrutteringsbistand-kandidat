@@ -61,7 +61,7 @@ node {
     }
 
     stage("Generer nais.yaml") {
-        naiseratorFilePath = "${env.WORKSPACE}/naiserator-${releaseVersion}.yml"
+        naiseratorFilePath = "${env.WORKSPACE}/naiserator-veileder${releaseVersion}.yml"
         sh "docker pull repo.adeo.no:5443/team-aasmund/nais-template"
         sh "docker run -t -v \$PWD:/tmp -e IMAGE=$dockerRepo/$application:$releaseVersion -e TEMPLATE=preprod-$zone-${namespace}.json repo.adeo.no:5443/team-aasmund/nais-template >> $naiseratorFilePath"
     }
