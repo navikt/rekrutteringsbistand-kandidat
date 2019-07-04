@@ -1,5 +1,6 @@
 {
   "name": "pam-kandidatsok",
+  "version": "0.1.0",
   "devDependencies": {
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
