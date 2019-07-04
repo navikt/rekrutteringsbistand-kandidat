@@ -14,7 +14,7 @@ spec:
     timeout: 1
     failureThreshold: 2
   readiness:
-    path: /pam-kandidatsok-veileder/internal/isReadys
+    path: /pam-kandidatsok-veileder/internal/isReady
     initialDelay: 60
     timeout: 1
   replicas:
