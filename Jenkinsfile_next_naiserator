@@ -61,10 +61,9 @@ node {
 
     stage("Generer nais.yaml") {
         def deployDir = "${env.WORKSPACE}/deploy/next"
-        naiseratorFilePath = "${deployDir}/naiserator-${releaseVersion}.yml"
-        sh "cd ${deployDir}"
+        naiseratorFilePath = "${env.WORKSPACE}/naiserator-${releaseVersion}.yml"
         sh "docker pull repo.adeo.no:5443/team-aasmund/nais-template"
-        sh "docker run -t -v \$PWD:/tmp -e IMAGE=$dockerRepo/$application:$releaseVersion -e TEMPLATE=preprod-$zone-${namespace}.json repo.adeo.no:5443/team-aasmund/nais-template >> $naiseratorFilePath"
+        sh "docker run -t -v $deployDir:/tmp -e IMAGE=$dockerRepo/$application:$releaseVersion -e TEMPLATE=preprod-$zone-${namespace}.json repo.adeo.no:5443/team-aasmund/nais-template >> $naiseratorFilePath"
     }
 
     stage("Deploy til preprod") {
