@@ -1,0 +1,46 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pam-kandidatsok
+  namespace: {{{ namespace }}}
+  labels:
+    team: teampam
+spec:
+  image: {{{ image }}}
+  port: 8080
+  liveness:
+    path: /pam-kandidatsok/internal/isAlive
+    initialDelay: 60
+    timeout: 1
+    failureThreshold: 2
+  readiness:
+    path: /pam-kandidatsok/internal/isReady
+    initialDelay: 60
+    timeout: 1
+  replicas:
+    min: 1
+    max: 2
+  cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  vault:
+    enabled: true
+  prometheus:
+    enabled: false
+    path: /metrics
+  ingresses:
+    - {{{ ingress-selvbetjening }}}
+  env:
+    - name: LOGINSERVICE_URL
+      value: {{{ loginservice }}}
+    - name: LOGOUTSERVICE_URL
+      value: {{{ logoutservice }}}
+    - name: PAMPORTAL_URL
+      value: {{{ pamportal }}}
+    - name: PAM_KANDIDATSOK_API_URL
+      value: {{{ pamkandidatsokapi }}}
