@@ -50,7 +50,7 @@ node {
 
     stage("Build") {
         sh "npm run build"
-        sh "docker build --build-arg version=${releaseVersion} --build-arg app_name=${application} -t ${dockerRepo}/${application}:${releaseVersion} ."
+        sh "docker build --build-arg version=${releaseVersion} --build-arg app_name=${application} -t ${dockerRepo}/${application}:${releaseVersion} -f Dockerfile_next ."
     }
 
     stage("Publish") {
