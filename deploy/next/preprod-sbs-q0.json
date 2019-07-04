@@ -1,7 +1,6 @@
 {
   "image": "{{{ image }}}",
   "namespace": "q0",
-  "ingress-selvbetjening": "https://arbeidsplassen-q.nav.no/kandidater",
   "ingress-next": "https://arbeidsplassen.nav.no/kandidater-next",
   "loginservice": "https://loginservice-q.nav.no/login?level=Level3",
   "logoutservice": "https://loginservice-q.nav.no/slo",

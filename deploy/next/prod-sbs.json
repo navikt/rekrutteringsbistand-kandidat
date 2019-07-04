@@ -1,7 +1,6 @@
 {
   "image": "{{{ image }}}",
   "namespace": "default",
-  "ingress-selvbetjening": "https://arbeidsplassen.nav.no/kandidater",
   "ingress-next": "https://arbeidsplassen.nav.no/kandidater-next",
   "loginservice": "https://loginservice.nav.no/login?level=Level3",
   "logoutservice": "https://loginservice.nav.no/slo",
