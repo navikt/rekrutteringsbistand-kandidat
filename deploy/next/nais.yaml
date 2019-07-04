@@ -45,4 +45,4 @@ spec:
     - name: PAM_KANDIDATSOK_API_URL
       value: {{{ pamkandidatsokapi }}}
     - name: PAM_KANDIDATSOK_USE_JANZZ
-      value: {{{ usejanzz }}}
+      value: "true"
