@@ -46,3 +46,5 @@ spec:
       value: {{{ pamkandidatsokapi-veileder }}}
     - name: PAM_SEARCH_API_RESTSERVICE_URL
       value: {{{ pamsearchapi }}}
+    - name: PAMPORTAL_URL
+      value: {{{ pamportal }}}

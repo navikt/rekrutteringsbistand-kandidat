@@ -6,5 +6,6 @@
   "logoutservice-veileder": "https://loginservice.nais.preprod.local/slo",
   "pamkandidatsokapi-veileder": "https://pam-kandidatsok-api-q0.nais.preprod.local/",
   "pamsearchapi": " https://api-gw-q0.adeo.no/pam-search-api/",
-  "lastnedurl": "https://pam-cv-veileder.nais.preprod.local/cv/pdf"
+  "lastnedurl": "https://pam-cv-veileder.nais.preprod.local/cv/pdf",
+  "pamportal": "https://arbeidsplassen-q.nav.no/"
 }
