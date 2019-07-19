@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import * as React from 'react';
 
 export enum AlertStripeType {
     SUCCESS = 'SUCCESS',
@@ -98,7 +99,7 @@ const reducer: (State, any) => State = (state, action) => {
 
 interface ApenAlertStripeState {
     kind: AlertStripeType.SUCCESS | AlertStripeType.FAILURE
-    innhold: string;
+    innhold: string | React.ReactNode;
     synlig: boolean;
     id: number
 }
@@ -109,7 +110,9 @@ interface LukketAlertStripeState {
 
 export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
 
-export const useTimeoutState: () => [AlertStripeState, () => void, (string) => void, (string) => void] = () => {
+type StringOrNode = string | React.ReactNode;
+
+export const useTimeoutState: () => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = () => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
             kind: AlertStripeType.LUKKET

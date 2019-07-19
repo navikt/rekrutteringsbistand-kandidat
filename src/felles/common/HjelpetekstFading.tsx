@@ -6,23 +6,23 @@ import { AlertStripeState, AlertStripeType } from './hooks/useTimeoutState';
 interface Props {
     synlig: boolean,
     type: 'info' | 'suksess' | 'advarsel' | 'feil',
-    tekst: string,
+    innhold: string | React.ReactNode,
     id?: string,
     className?: string
 }
 
-const HjelpetekstFading: FunctionComponent<Props> = ({ synlig, type, tekst, id, className = '' }) => (
+const HjelpetekstFading: FunctionComponent<Props> = ({ synlig, type, innhold, id, className = '' }) => (
     <div aria-live="assertive">
         <AlertStripe id={id} type={type} className={`${className}${synlig ? ' HjelpetekstFading fading synlig' : ' HjelpetekstFading fading'}`} solid>
-            {tekst}
+            {innhold}
         </AlertStripe>
     </div>
 );
 
-const FadingAlertStripeLitenBase: FunctionComponent<Props> = ({ synlig, type, tekst, id }) => (
+const FadingAlertStripeLitenBase: FunctionComponent<Props> = ({ synlig, type, innhold, id }) => (
     <div aria-live="assertive">
         <AlertStripe id={id} type={type} className={`FadingAlertStripeLiten fading ${synlig ? 'synlig' : ''}`} solid>
-            {tekst}
+            {innhold}
         </AlertStripe>
     </div>
 );
@@ -31,7 +31,7 @@ export const FadingAlertStripeLiten: FunctionComponent<{ alertStripeState: Alert
     <FadingAlertStripeLitenBase
         synlig={alertStripeState.kind !== AlertStripeType.LUKKET && alertStripeState.synlig}
         type={alertStripeState.kind === AlertStripeType.SUCCESS ? 'suksess' : 'feil'}
-        tekst={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
+        innhold={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
     />
 );
 
@@ -39,7 +39,7 @@ export const FadingAlertStripe: FunctionComponent<{ alertStripeState: AlertStrip
     <HjelpetekstFading
         synlig={alertStripeState.kind !== AlertStripeType.LUKKET && alertStripeState.synlig}
         type={alertStripeState.kind === AlertStripeType.SUCCESS ? 'suksess' : 'feil'}
-        tekst={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
+        innhold={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
     />
 );
 

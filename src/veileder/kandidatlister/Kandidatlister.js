@@ -536,7 +536,7 @@ class Kandidatlister extends React.Component {
                     id="kandidatliste-lagret-melding"
                     synlig={visSuccessMelding}
                     type="suksess"
-                    tekst={successMelding}
+                    innhold={successMelding}
                 />
                 <div className="Kandidatlister">
                     <SideHeader

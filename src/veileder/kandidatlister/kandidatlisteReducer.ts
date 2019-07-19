@@ -514,7 +514,7 @@ interface KandidatExtension {
     notater: RemoteData<Array<Notat>>
 }
 
-type Kandidat = KandidatResponse & KandidatExtension;
+export type Kandidat = KandidatResponse & KandidatExtension;
 
 interface KandidatlisteBase {
     kandidatlisteId: string

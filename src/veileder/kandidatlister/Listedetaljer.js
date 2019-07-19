@@ -10,7 +10,7 @@ import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
-import KopierEpostModal from './KopierEpostModal';
+import KopierEpostModal from './KopierEpostModal.tsx';
 import { Kandidatliste } from './PropTypes';
 import './Listedetaljer.less';
 
@@ -165,14 +165,9 @@ class Listedetaljer extends React.Component {
     };
 
     onEmailKandidater = () => {
-        const epostStreng = this.state.kandidater
-            .filter((kandidat) => (kandidat.markert && kandidat.epost))
-            .map((kandidat) => `${kandidat.epost}`)
-            .join(';');
         this.setState({
             kopierEpostModalOpen: true
         });
-        this.copyToClipboard(epostStreng);
     };
 
     copyToClipboard = (text) => {
@@ -233,13 +228,15 @@ class Listedetaljer extends React.Component {
                         kandidatliste={this.props.kandidatliste.data}
                     />
                 }
-                {kopierEpostModalOpen &&
-                    <KopierEpostModal
-                        vis={this.state.kopierEpostModalOpen}
-                        onClose={this.onToggleKopierEpostModal}
-                    />
-                }
-                <HjelpetekstFading synlig={suksessMelding.vis} type="suksess" tekst={suksessMelding.tekst} />
+                <KopierEpostModal
+                    vis={kopierEpostModalOpen}
+                    onClose={this.onToggleKopierEpostModal}
+                    kandidater={
+                        this.state.kandidater
+                            .filter((kandidat) => kandidat.markert)
+                    }
+                />
+                <HjelpetekstFading synlig={suksessMelding.vis} type="suksess" innhold={suksessMelding.tekst} />
                 <ListedetaljerView
                     tittel={tittel}
                     arbeidsgiver={organisasjonNavn}

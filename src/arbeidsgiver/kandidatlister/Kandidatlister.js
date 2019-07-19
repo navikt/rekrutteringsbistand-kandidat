@@ -296,13 +296,13 @@ class Kandidatlister extends React.Component {
                     id="kandidatliste-lagret-melding"
                     synlig={this.state.visSuccessMelding}
                     type="suksess"
-                    tekst={this.state.successMelding}
+                    innhold={this.state.successMelding}
                 />
                 <HjelpetekstFading
                     id="kandidatliste-slettet-melding"
                     synlig={this.state.visSuccessMeldingSlettet}
                     type="suksess"
-                    tekst={this.state.successMeldingSlettet}
+                    innhold={this.state.successMeldingSlettet}
                 />
                 <Header />
                 <Container className="blokk-s container">

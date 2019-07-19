@@ -196,7 +196,7 @@ class VisKandidat extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst="Kandidaten er lagt til"
+                    innhold="Kandidaten er lagt til"
                 />
                 {this.state.lagreKandidaterModalVises &&
                 <LagreKandidaterModal

@@ -298,7 +298,7 @@ class VisKandidat extends React.Component {
                 <HjelpetekstFading
                     synlig={visKandidatLagret && lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.SUCCESS}
                     type="suksess"
-                    tekst={`${'Kandidaten'} er lagret i kandidatlisten «${kandidatliste ? kandidatliste.tittel : ''}»`}
+                    innhold={`${'Kandidaten'} er lagret i kandidatlisten «${kandidatliste ? kandidatliste.tittel : ''}»`}
                     id="hjelpetekstfading"
                 />
             </div>
