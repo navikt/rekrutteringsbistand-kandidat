@@ -1,45 +1,13 @@
 @import '../../felles/Variables.less';
 
 .LenkeTilKandidatsokNext {
-  background-color: #062140;
-  border-radius: 0;
-  color: white;
-  font-family: "Source Sans Pro", Arial, sans-serif;
+  background-color: @gray2;
   padding: 1.25rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
 
-  .LenkeTilKandidatsokNext-wrapper {
-    display: flex;
-    align-items: center;
-
-    .LenkeTilKandidatsokNext-ikon {
-      margin-right: 1rem;
-    }
-
-    .LenkeTilKandidatsokNext-tekst {
-      @media (min-width: (@screen-sm)) {
-        margin-right: 2rem;
-      }
-      @media (max-width: (@screen-sm - 1)) {
-        margin-right: 1rem;
-      }
-
-      .LenkeTilKandidatsokNext-header {
-        font-weight: normal;
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-      }
-
-      .LenkeTilKandidatsokNext-body {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-    }
+  .LenkeTilKandidatsokNext-ikon {
+    margin-right: 1rem;
   }
 }
 
-.LenkeTilKandidatsokNext:hover {
-  .LenkeTilKandidatsokNext-header {
-    text-decoration: underline;
-  }
-}

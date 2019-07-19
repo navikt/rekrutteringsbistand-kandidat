@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { LenkepanelBase } from 'nav-frontend-lenkepanel';
-import './LenkeTilKandidatsokNext.less';
+import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { MatchIcon } from './matchforklaring/Matchdetaljer';
+import './LenkeTilKandidatsokNext.less';
 
 const LenkeTilKandidatsokNext = () => (
-    <LenkepanelBase href="/kandidater-next" border={false} className="LenkeTilKandidatsokNext">
-        <div className="LenkeTilKandidatsokNext-wrapper">
-            <div className="match-icon LenkeTilKandidatsokNext-ikon"><MatchIcon /></div>
-            <div className="LenkeTilKandidatsokNext-tekst">
-                <h2 className="LenkeTilKandidatsokNext-header">Kandidatmatch</h2>
-                <p className="LenkeTilKandidatsokNext-body">Vil du prøve en ny måte å finne kandidater? Vi har utviklet et nytt søk med en helt ny teknologi.</p>
-            </div>
+    <article className="LenkeTilKandidatsokNext">
+        <span className="LenkeTilKandidatsokNext-ikon match-icon"><MatchIcon /></span>
+        <div>
+            <Systemtittel>Kandidatmatch</Systemtittel>
+            <Normaltekst className="blokk-xs">Vil du prøve en ny måte å finne kandidater? Vi har utviklet
+                et nytt søk med en helt ny teknologi.</Normaltekst>
+            <a href="/kandidater-next" className="Knapp Knapp--hoved">Prøv kandidatmatch</a>
         </div>
-    </LenkepanelBase>
+    </article>
 );
 
 export default LenkeTilKandidatsokNext;
