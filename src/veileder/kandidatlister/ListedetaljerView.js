@@ -188,7 +188,7 @@ const ListedetaljerView = (props) => {
                     </Lenkeknapp>
                 </div>
             );
-            if (kandidater.filter((kandidat) => (kandidat.markert && kandidat.epost)).length > 0) {
+            if (kandidater.filter((kandidat) => kandidat.markert).length > 0) {
                 return <Enabled />;
             }
             return (
@@ -197,7 +197,7 @@ const ListedetaljerView = (props) => {
                     anchor={Disabled}
                     tittel="Send e-post til de markerte kandidatene"
                 >
-                    Du må huke av for kandidatene du ønsker å kopiere e-postadressen til. Kandidatene må ha en e-postadresse.
+                    Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
                 </HjelpetekstMidt>
             );
         };

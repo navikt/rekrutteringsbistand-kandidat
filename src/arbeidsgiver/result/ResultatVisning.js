@@ -99,7 +99,7 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    tekst={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
+                    innhold={antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater er lagt til` : 'Kandidaten er lagt til'}
                     id="hjelpetekstfading"
                 />
                 <PageHeader className="ResultatVisning--header-padding">
