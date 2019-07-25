@@ -112,7 +112,7 @@ export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
 
 type StringOrNode = string | React.ReactNode;
 
-export const useTimeoutState: () => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = () => {
+export const useTimeoutState: (timeoutMillis?: number) => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = (timeoutMillis = 5000) => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
             kind: AlertStripeType.LUKKET
@@ -121,8 +121,6 @@ export const useTimeoutState: () => [AlertStripeState, () => void, (StringOrNode
         callbackIdHide: undefined,
         callbackIdClear: undefined
     });
-
-    const timeoutMillis = 5000;
 
     const setMelding = (innhold: string, type: string) => {
         dispatch({ type, innhold, id: state.nextId });

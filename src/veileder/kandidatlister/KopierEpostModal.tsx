@@ -27,7 +27,7 @@ function copyToClipboard(text) {
 }
 
 const KopierEpostModal : FunctionComponent<Props> = ({ vis=true, onClose, kandidater }) => {
-    const [alertState, clearTimouts, setSuccessMelding] = useTimeoutState();
+    const [alertState, clearTimouts, setSuccessMelding] = useTimeoutState(10000);
     useEffect(() => {
         if (!vis) {
             clearTimouts();
