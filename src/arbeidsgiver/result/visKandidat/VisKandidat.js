@@ -52,6 +52,7 @@ class VisKandidat extends React.Component {
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
+        window.scrollTo(0, 0);
     }
 
     componentDidUpdate(prevProps, prevState) {
