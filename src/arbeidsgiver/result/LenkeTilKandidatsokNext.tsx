@@ -10,7 +10,7 @@ const LenkeTilKandidatsokNext = () => (
             <Systemtittel>Kandidatmatch</Systemtittel>
             <Normaltekst className="blokk-xs">Vil du prøve en ny måte å finne kandidater? Vi har utviklet
                 et nytt søk med en helt ny teknologi.</Normaltekst>
-            <a href="/kandidater-next" className="Knapp Knapp--hoved">Prøv kandidatmatch</a>
+            <a href="/kandidater-next" className="link">Prøv kandidatmatch</a>
         </div>
     </article>
 );
