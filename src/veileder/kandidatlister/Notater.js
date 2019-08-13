@@ -161,7 +161,7 @@ class Notater extends React.Component {
                         Ta direkte kontakt med veileder hvis du har spørsmål om en kandidat. Notatene følger ikke brukeren og er bare tilgjengelig via stillingen.
                     </Normaltekst>
                     <Normaltekst className="avsnitt">
-                        Notatene vil være synlige for alle veiledere, og blir automatisk slettet etter 3 måneder.
+                        Notatene vil være synlige for alle veiledere.
                     </Normaltekst>
                     <div className="nytt-notat-form">
                         {this.state.nyttNotatVises
