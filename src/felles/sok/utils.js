@@ -192,8 +192,7 @@ export const capitalizeFirstLetter = (inputString) => {
             const fragments = capitalized.split(separators[i]);
 
             for (let j = 0; j < fragments.length; j += 1) {
-                fragments[j] = fragments[j].charAt(0)
-                    .toUpperCase() + fragments[j].substr(1);
+                fragments[j] = fragments[j].charAt(0).toUpperCase() + fragments[j].substr(1);
             }
             capitalized = fragments.join(separators[i]);
         }
@@ -219,8 +218,7 @@ export const fornavnOgEtternavnFraKandidat = (cv) => (cv.fornavn && cv.etternavn
 
 export const formatterStedsnavn = (inputString) => inputString
     .split(' ')
-    .map((s) => (s !== 'i' ? s.charAt(0)
-        .toUpperCase() + s.substring(1) : s))
+    .map((s) => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
     .join(' ');
 
 
@@ -263,6 +261,5 @@ export const capitalizeEmployerName = (employerName) => {
 };
 
 export const formatterInt = (number) => (
-    Intl.NumberFormat('nb-NO')
-        .format(number)
+    Intl.NumberFormat('nb-NO').format(number)
 );
