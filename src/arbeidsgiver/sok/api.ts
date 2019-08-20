@@ -10,8 +10,8 @@ import {
     KODEVERK_API
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
-import {KandidatlisteDetaljerResponse, Notat} from '../kandidatlisteDetaljer/kandidatlisteReducer';
-import {ResponseData} from '../../felles/common/remoteData';
+import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
+import { ResponseData } from '../../felles/common/remoteData';
 import {
     deleteJsonMedType,
     deleteReq,
@@ -25,10 +25,10 @@ import {
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => {
-        if (Array.isArray(query[key])){
+        if (Array.isArray(query[key])) {
             const encodedKey = encodeURIComponent(key);
             return query[key].map(v => `${encodedKey}=${encodeURIComponent(v)}`)
-                .reduce((accumulator, current) => `${accumulator}&${current}` , '');
+                .reduce((accumulator, current) => `${accumulator}&${current}`, '');
         } else {
             return `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
         }
@@ -38,21 +38,21 @@ const convertToUrlParams = (query) => Object.keys(query)
 
 export async function fetchTypeaheadSuggestionsRest(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeahead${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, {credentials: 'include'}
+        `${SEARCH_API}typeahead${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
 
 export async function fetchTypeaheadSuggestionsOntology(query = {}) {
     const resultat = await fetch(
-        `${ONTOLOGY_SEARCH_API_URL}/stillingstittel?${convertToUrlParams(query)}`, {credentials: 'include'}
+        `${ONTOLOGY_SEARCH_API_URL}/stillingstittel?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
 
 export async function fetchTypeaheadJanzzGeografiSuggestions(query = {}) {
     const resultat = await fetch(
-        `${SEARCH_API}typeaheadSted${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, {credentials: 'include'}
+        `${SEARCH_API}typeaheadSted${USE_JANZZ ? 'Match' : ''}?${convertToUrlParams(query)}`, { credentials: 'include' }
     );
     return resultat.json();
 }
@@ -128,14 +128,14 @@ export async function fetchNotater(kandidatlisteId: string, kandidatnr: string):
 export async function postNotat(kandidatlisteId: string, kandidatnr: string, tekst: string): Promise<ResponseData<NotatResponse>> {
     return postJsonMedType<NotatResponse>(
         `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`,
-        JSON.stringify({tekst})
+        JSON.stringify({ tekst })
     );
 }
 
 export async function putNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat, tekst: string): Promise<ResponseData<NotatResponse>> {
     return putJsonMedType<NotatResponse>(
         `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`,
-        JSON.stringify({tekst})
+        JSON.stringify({ tekst })
     );
 }
 
