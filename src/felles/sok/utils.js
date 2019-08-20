@@ -2,19 +2,10 @@ import { KONSEPTTYPE } from '../../felles/konstanter';
 
 export function toUrlParams(query) {
     return Object.keys(query)
-        .map((key) => {
-            // TODO: Clean this up, solution is too messy.
-            const queryString = encodeURIComponent(query[key])
-                .split('_').length > 1 ?
-                encodeURIComponent(query[key])
-                    .split('_')
-                    .map((value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-                    .reduce((curr, acc) => `${curr}&${acc}`, '') :
-                `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`;
-            return queryString;
-        })
+        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
         .join('&')
-        .replace(/%20/g, '+');
+        .replace(/%20/g, '+')
+        .replace(/%2C/g, ',');
 }
 
 export function getHashFromString(string) {
