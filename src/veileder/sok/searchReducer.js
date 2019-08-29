@@ -416,7 +416,6 @@ function* hentFeatureToggles() {
 function* hentInnloggetVeileder() {
     try {
         const data = yield call(fetchInnloggetVeileder);
-        console.log('VEILEDER OBJ', data);
         yield put({ type: HENT_INNLOGGET_VEILEDER_SUCCESS, data });
     } catch (e) {
         if (e instanceof SearchApiError) {

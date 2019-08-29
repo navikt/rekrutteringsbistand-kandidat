@@ -241,10 +241,10 @@ ResultatVisning.propTypes = {
     }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
-        organisasjonNavn: PropTypes.string.isRequired,
-        tittel: PropTypes.string.isRequired,
-        beskrivelse: PropTypes.string.isRequired,
-        kandidatlisteId: PropTypes.string.isRequired,
+        organisasjonNavn: PropTypes.string,
+        tittel: PropTypes.string,
+        beskrivelse: PropTypes.string,
+        kandidatlisteId: PropTypes.string,
         opprettetAv: PropTypes.shape({
             navn: PropTypes.string,
             ident: PropTypes.string
