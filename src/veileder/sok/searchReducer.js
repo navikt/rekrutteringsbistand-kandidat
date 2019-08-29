@@ -245,7 +245,7 @@ export const fromUrlQuery = (url) => {
     if (kvalifiseringsgruppeKoder) stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
-    if (navkontor) stateFromUrl.navkontorer = navkontor.split('_');
+    if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
     return stateFromUrl;
 };
 
@@ -264,7 +264,7 @@ export const toUrlQuery = (state) => {
     if (state.innsatsgruppe.kvalifiseringsgruppeKoder && state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0) urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
-    if (state.navkontorReducer.navkontorer && state.navkontorReducer.navkontorer.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontorer.join('_');
+    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
     return toUrlParams(urlQuery);
 };
 
