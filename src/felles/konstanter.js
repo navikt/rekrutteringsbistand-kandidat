@@ -9,6 +9,7 @@ const FEATURE_TOGGLES = [
     'skjul-arbeidserfaring',
     'skjul-spraak',
     'skjul-sted',
+    'skjul-navkontor',
     'vis-matchforklaring',
     'ingen-utdanning-filter',
     'vis-lenke-til-kandidatsok-next',
@@ -38,7 +39,8 @@ export const ALERTTYPE = {
     GEOGRAFI: 'geografi',
     FORERKORT: 'forerkort',
     INNSATSGRUPPE: 'innsatsgruppe',
-    SERTIFIKAT: 'sertifikat'
+    SERTIFIKAT: 'sertifikat',
+    NAVKONTOR: 'navkontor'
 };
 
 
@@ -63,7 +65,8 @@ export const BRANCHNAVN = {
     GEOGRAFI: 'geografi',
     SPRAK: 'sprak',
     FORERKORT: 'forerkort',
-    SERTIFIKAT: 'sertifikat'
+    SERTIFIKAT: 'sertifikat',
+    NAVKONTOR: 'navkontor'
 };
 
 export const LAGRE_STATUS = {

@@ -34,7 +34,8 @@ const initialState = {
     geografi: initialTypeaheadState(),
     geografiKomplett: initialTypeaheadState(),
     sprak: initialTypeaheadState(),
-    forerkort: initialTypeaheadState()
+    forerkort: initialTypeaheadState(),
+    navkontor: initialTypeaheadState()
 };
 
 export default function typeaheadReducer(state = initialState, action) {
@@ -100,6 +101,7 @@ const getTypeAheadBranch = (type) => {
     else if (type === BRANCHNAVN.GEOGRAFI) return 'geo';
     else if (type === BRANCHNAVN.SPRAK) return 'sprak';
     else if (type === BRANCHNAVN.FORERKORT) return 'forerkort';
+    else if (type === BRANCHNAVN.NAVKONTOR) return 'navkontor';
     return '';
 };
 

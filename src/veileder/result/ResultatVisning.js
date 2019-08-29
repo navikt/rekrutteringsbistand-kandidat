@@ -14,6 +14,7 @@ import GeografiSearch from '../sok/geografi/GeografiSearch';
 import SprakSearch from '../sok/sprak/SprakSearch';
 import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
+import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
@@ -193,6 +194,7 @@ class ResultatVisning extends React.Component {
                                         <SprakSearch />
                                         <ForerkortSearch />
                                         <KompetanseSearch />
+                                        <NavkontorSearch />
                                         <InnsatsgruppeSearch />
                                     </div>
                                 </div>
@@ -239,6 +241,10 @@ ResultatVisning.propTypes = {
     }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
+        organisasjonNavn: PropTypes.string.isRequired,
+        tittel: PropTypes.string.isRequired,
+        beskrivelse: PropTypes.string.isRequired,
+        kandidatlisteId: PropTypes.string.isRequired,
         opprettetAv: PropTypes.shape({
             navn: PropTypes.string,
             ident: PropTypes.string

@@ -230,6 +230,7 @@ export const fromUrlQuery = (url) => {
     const kvalifiseringsgruppeKoder = getUrlParameterByName('kvalifiseringsgruppeKoder', url);
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
     const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
+    const navkontor = getUrlParameterByName('navkontor', url);
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -244,6 +245,7 @@ export const fromUrlQuery = (url) => {
     if (kvalifiseringsgruppeKoder) stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
+    if (navkontor) stateFromUrl.navkontorer = navkontor.split('_');
     return stateFromUrl;
 };
 
@@ -262,6 +264,7 @@ export const toUrlQuery = (state) => {
     if (state.innsatsgruppe.kvalifiseringsgruppeKoder && state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0) urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
+    if (state.navkontorReducer.navkontorer && state.navkontorReducer.navkontorer.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontorer.join('_');
     return toUrlParams(urlQuery);
 };
 
@@ -301,7 +304,8 @@ function* search(action = '') {
             sprak: state.sprakReducer.sprak,
             kvalifiseringsgruppeKoder: state.innsatsgruppe.kvalifiseringsgruppeKoder,
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
-            forerkort: forerkortListe
+            forerkort: forerkortListe,
+            navkontor: state.navkontorReducer.navkontor
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
@@ -412,6 +416,7 @@ function* hentFeatureToggles() {
 function* hentInnloggetVeileder() {
     try {
         const data = yield call(fetchInnloggetVeileder);
+        console.log('VEILEDER OBJ', data);
         yield put({ type: HENT_INNLOGGET_VEILEDER_SUCCESS, data });
     } catch (e) {
         if (e instanceof SearchApiError) {
