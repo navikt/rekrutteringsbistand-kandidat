@@ -87,7 +87,7 @@ class NavkontorSearch extends React.Component {
                                 onChange={this.onTypeAheadNavkontorChange}
                                 label=""
                                 name="navkontor"
-                                placeholder="Skriv inn NAV-kontor eller kontornummer"
+                                placeholder="Skriv inn NAV-kontor"
                                 suggestions={this.props.typeAheadSuggestionsNavkontor}
                                 value={this.state.typeAheadValue}
                                 id="navkontor"
