@@ -28,7 +28,7 @@ class KandidaterTableRow extends React.Component {
             case '6': return UTDANNING.BACHELOR.label;
             case '7': return UTDANNING.MASTER.label;
             case '8': return UTDANNING.DOKTORGRAD.label;
-            default: return 'Ukjent';
+            default: return '-';
         }
     };
 
