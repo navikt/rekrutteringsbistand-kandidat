@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Checkbox } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
@@ -29,26 +29,9 @@ class HovedmalSearch extends React.Component {
         this.props.search();
     };
 
-    renderHovedmal = () => (
-        <SkjemaGruppe className="ar-med-hovedmal__header">
-            <div className="sokekriterier--kriterier">
-                {this.hovedmal.map((hovedmal) => (
-                    <Checkbox
-                        className="checkbox--hovedmal skjemaelement--pink"
-                        id={`hovedmal-${hovedmal.value.toLowerCase()}-checkbox`}
-                        label={hovedmal.label}
-                        key={hovedmal.value}
-                        value={hovedmal.value}
-                        checked={this.props.totaltHovedmal.includes(hovedmal.value)}
-                        onChange={this.onTotalHovedmalChange}
-                    />
-                ))}
-            </div>
-        </SkjemaGruppe>
-    );
-
     render() {
-        if (this.props.skjulHovedmal) {
+        const { skjulHovedmal, togglePanelOpen, panelOpen, totaltHovedmal, totaltAntallTreff, visAlertFaKandidater } = this.props;
+        if (skjulHovedmal) {
             return null;
         }
 
@@ -56,13 +39,25 @@ class HovedmalSearch extends React.Component {
             <Ekspanderbartpanel
                 className="panel--sokekriterier"
                 tittel="Hovedmål"
-                onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                onClick={togglePanelOpen}
+                apen={panelOpen}
             >
-                {this.renderHovedmal()}
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                <div>
+                    {this.hovedmal.map((h) => (
+                        <Checkbox
+                            className="checkbox--hovedmal skjemaelement--pink"
+                            id={`hovedmal-${h.value.toLowerCase()}-checkbox`}
+                            label={h.label}
+                            key={h.value}
+                            value={h.value}
+                            checked={totaltHovedmal.includes(h.value)}
+                            onChange={this.onTotalHovedmalChange}
+                        />
+                    ))}
+                </div>
+                { totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
+                    <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                ) }
             </Ekspanderbartpanel>
         );
     }
