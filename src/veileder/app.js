@@ -33,6 +33,7 @@ import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
 import navkontorReducer from './sok/navkontor/navkontorReducer';
+import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -51,7 +52,8 @@ const store = createStore(combineReducers({
     kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer,
     enhetsregister: enhetsregisterReducer,
-    navkontorReducer
+    navkontorReducer,
+    hovedmal: hovedmalReducer
 }), composeWithDevTools(applyMiddleware(sagaMiddleware)));
 
 const HeaderSwitch = ({ innloggetVeileder }) => (

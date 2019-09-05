@@ -10,6 +10,7 @@ const FEATURE_TOGGLES = [
     'skjul-spraak',
     'skjul-sted',
     'skjul-navkontor',
+    'skjul-hovedmal',
     'vis-matchforklaring',
     'ingen-utdanning-filter',
     'vis-lenke-til-kandidatsok-next',
@@ -40,7 +41,8 @@ export const ALERTTYPE = {
     FORERKORT: 'forerkort',
     INNSATSGRUPPE: 'innsatsgruppe',
     SERTIFIKAT: 'sertifikat',
-    NAVKONTOR: 'navkontor'
+    NAVKONTOR: 'navkontor',
+    HOVEDMAL: 'hovedmal'
 };
 
 
