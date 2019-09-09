@@ -6,6 +6,12 @@ import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Hovedmal.less';
 
+const HovedmalEnum = {
+    SKAFFE_ARBEID: 'SKAFFEA',
+    BEHOLDE_ARBEID: 'BEHOLDEA',
+    OKE_DELTAKELSE: 'OKEDELT'
+};
+
 class HovedmalSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -14,9 +20,9 @@ class HovedmalSearch extends React.Component {
             typeAheadValue: ''
         };
         this.hovedmal = [
-            { label: 'Skaffe arbeid', value: 'SKAFFE_ARBEID' },
-            { label: 'Beholde arbeid', value: 'BEHOLDE_ARBEID' },
-            { label: 'Øke deltakelse', value: 'OKE_DELTAKELSE' }
+            { label: 'Skaffe arbeid', value: HovedmalEnum.SKAFFE_ARBEID },
+            { label: 'Beholde arbeid', value: HovedmalEnum.BEHOLDE_ARBEID },
+            { label: 'Øke deltakelse', value: HovedmalEnum.OKE_DELTAKELSE }
         ];
     }
 
