@@ -34,6 +34,7 @@ const StillingSearch = ({ ...props }) => {
             fetchKompetanseSuggestions={fetchKompetanseSuggestions}
             togglePanelOpen={togglePanelOpen}
             stillingsId={stillingsId}
+            allowOnlyTypeaheadSuggestions
         />
     );
 };
