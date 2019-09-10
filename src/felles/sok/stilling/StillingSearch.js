@@ -106,6 +106,8 @@ export default class StillingSearch extends React.Component {
                                 id="typeahead-stilling"
                                 onSubmit={this.onSubmit}
                                 onTypeAheadBlur={this.onTypeAheadBlur}
+                                allowOnlyTypeaheadSuggestions={this.props.allowOnlyTypeaheadSuggestions}
+                                selectedSuggestions={this.props.stillinger}
                             />
                         ) : (
                             <LeggtilKnapp
@@ -148,7 +150,8 @@ export default class StillingSearch extends React.Component {
 StillingSearch.defaultProps = {
     panelOpen: undefined,
     stillingsId: undefined,
-    useJanzz: false
+    useJanzz: false,
+    allowOnlyTypeaheadSuggestions: false
 };
 
 StillingSearch.propTypes = {
@@ -166,5 +169,6 @@ StillingSearch.propTypes = {
     panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     stillingsId: PropTypes.string,
-    useJanzz: PropTypes.bool
+    useJanzz: PropTypes.bool,
+    allowOnlyTypeaheadSuggestions: PropTypes.bool
 };

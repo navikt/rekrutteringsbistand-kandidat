@@ -41,6 +41,7 @@ export default class Typeahead extends React.Component {
      */
     onKeyDown = (e) => {
         let { activeSuggestionIndex } = this.state;
+        // TODO - Add the handler here
         const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.state.value;
         if (this.state.shouldShowSuggestions) {
             switch (e.keyCode) {
@@ -146,6 +147,9 @@ export default class Typeahead extends React.Component {
      * @param suggestionValue
      */
     selectSuggestion = (suggestionValue) => {
+        if (this.props.allowOnlyTypeaheadSuggestions && !this.props.suggestions.includes(suggestionValue)) {
+            return;
+        }
         this.setState({
             value: suggestionValue,
             shouldShowSuggestions: false,
@@ -200,24 +204,32 @@ export default class Typeahead extends React.Component {
                     className={showSuggestions ? 'typeahead-suggestions-visible' : 'typeahead-suggestions-hidden'}
                     onMouseLeave={this.resetHighlightingSuggestion}
                 >
-                    {showSuggestions && this.props.suggestions.map((li, i) => (
-                        <TypeaheadSuggestion
-                            id={`${this.props.id}-item-${i}`}
-                            key={li}
-                            index={i}
-                            value={li}
-                            match={this.state.value}
-                            active={i === this.state.activeSuggestionIndex}
-                            onClick={this.selectSuggestion}
-                            highlightSuggestion={this.highlightSuggestion}
-                            avoidBlur={this.avoidBlur}
-                        />
-                    ))}
+                    {showSuggestions && this.props.suggestions.map((li, i) => {
+                        if (this.props.selectedSuggestions.includes(li)) return null;
+                        return (
+                            <TypeaheadSuggestion
+                                id={`${this.props.id}-item-${i}`}
+                                key={li}
+                                index={i}
+                                value={li}
+                                match={this.state.value}
+                                active={i === this.state.activeSuggestionIndex}
+                                onClick={this.selectSuggestion}
+                                highlightSuggestion={this.highlightSuggestion}
+                                avoidBlur={this.avoidBlur}
+                            />
+                        );
+                    })}
                 </ul>
             </div>
         );
     }
 }
+
+Typeahead.defaultProps = {
+    allowOnlyTypeaheadSuggestions: false,
+    selectedSuggestions: []
+};
 
 Typeahead.propTypes = {
     onSelect: PropTypes.func.isRequired,
@@ -227,5 +239,7 @@ Typeahead.propTypes = {
     suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
     value: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    onTypeAheadBlur: PropTypes.func.isRequired
+    onTypeAheadBlur: PropTypes.func.isRequired,
+    allowOnlyTypeaheadSuggestions: PropTypes.bool,
+    selectedSuggestions: PropTypes.arrayOf(PropTypes.string)
 };

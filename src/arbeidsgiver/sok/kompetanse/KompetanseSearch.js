@@ -32,6 +32,7 @@ const KompetanseSearch = ({ ...props }) => {
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
             kompetanseExamples={kompetanseExamples}
+            allowOnlyTypeaheadSuggestions
         />
     );
 };
