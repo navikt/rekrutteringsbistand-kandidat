@@ -41,7 +41,6 @@ export default class Typeahead extends React.Component {
      */
     onKeyDown = (e) => {
         let { activeSuggestionIndex } = this.state;
-        // TODO - Add the handler here
         const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.state.value;
         if (this.state.shouldShowSuggestions) {
             switch (e.keyCode) {
