@@ -30,6 +30,7 @@ const KompetanseSearch = ({ ...props }) => {
             skjulKompetanse={skjulKompetanse}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
+            allowOnlyTypeaheadSuggestions
         />
     );
 };

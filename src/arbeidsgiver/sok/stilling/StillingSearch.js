@@ -35,6 +35,7 @@ const StillingSearch = ({ ...props }) => {
             fetchKompetanseSuggestions={fetchKompetanseSuggestions}
             togglePanelOpen={togglePanelOpen}
             useJanzz={USE_JANZZ}
+            allowOnlyTypeaheadSuggestions
         />
     );
 };

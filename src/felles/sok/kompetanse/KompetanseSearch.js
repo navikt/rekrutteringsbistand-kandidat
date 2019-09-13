@@ -114,6 +114,8 @@ class KompetanseSearch extends React.Component {
                                 id="typeahead-kompetanse"
                                 onSubmit={this.onSubmitKompetanse}
                                 onTypeAheadBlur={this.onTypeAheadBlur}
+                                allowOnlyTypeaheadSuggestions={this.props.allowOnlyTypeaheadSuggestions}
+                                selectedSuggestions={this.props.kompetanser}
                             />
                         ) : (
                             <LeggtilKnapp
@@ -176,7 +178,8 @@ class KompetanseSearch extends React.Component {
 }
 
 KompetanseSearch.defaultProps = {
-    kompetanseExamples: 'For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer'
+    kompetanseExamples: 'For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer',
+    allowOnlyTypeaheadSuggestions: false
 };
 
 KompetanseSearch.propTypes = {
@@ -197,7 +200,8 @@ KompetanseSearch.propTypes = {
     skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    kompetanseExamples: PropTypes.string
+    kompetanseExamples: PropTypes.string,
+    allowOnlyTypeaheadSuggestions: PropTypes.bool
 };
 
 export default KompetanseSearch;
