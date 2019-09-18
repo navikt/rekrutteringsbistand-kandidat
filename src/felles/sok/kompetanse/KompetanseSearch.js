@@ -97,7 +97,7 @@ class KompetanseSearch extends React.Component {
                     Krav til kompetanse
                 </Element>
                 <Normaltekst>{this.props.kompetanseExamples}</Normaltekst>
-                <div className="sokekriterier--kriterier blokk-s">
+                <div className="sokekriterier--kriterier">
                     <div>
                         {this.state.showTypeAheadKompetanse ? (
                             <Typeahead
