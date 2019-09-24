@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
+import { Checkbox } from 'nav-frontend-skjema';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 import Typeahead from '../../../veileder/common/typeahead/Typeahead';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
+import './Navkontor.less';
 
 class NavkontorSearch extends React.Component {
     constructor(props) {
@@ -63,6 +65,11 @@ class NavkontorSearch extends React.Component {
         this.typeAhead.input.focus();
     };
 
+    onToggleMineKandidater = () => {
+        this.props.toggleMinekandidater();
+        this.props.search();
+    }
+
     render() {
         if (this.props.skjulNavkontor) {
             return null;
@@ -104,7 +111,17 @@ class NavkontorSearch extends React.Component {
                                 +Legg til NAV-Kontor
                             </LeggtilKnapp>
                         )}
+                        <Checkbox
+                            className="checkbox--minekandidater skjemaelement--pink"
+                            id="minekandidater-checkbox"
+                            label="Vis bare mine brukere"
+                            key="minekandidater"
+                            value={this.props.minekandidater}
+                            checked={this.props.minekandidater}
+                            onChange={this.onToggleMineKandidater}
+                        />
                     </div>
+
                     <div className="Merkelapp__wrapper">
                         {this.props.navkontor.map((nk) => (
                             <Merkelapp
@@ -137,7 +154,9 @@ NavkontorSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulNavkontor: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    minekandidater: PropTypes.bool.isRequired,
+    toggleMinekandidater: PropTypes.func.isRequired
 };
 
 export default NavkontorSearch;

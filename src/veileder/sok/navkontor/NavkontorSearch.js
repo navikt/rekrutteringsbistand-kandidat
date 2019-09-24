@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import NavkontorSearchFelles from '../../../felles/sok/navkontor/NavkontorSearch';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import { SEARCH } from '../searchReducer';
-import { REMOVE_SELECTED_NAVKONTOR, SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, TOGGLE_NAVKONTOR_PANEL_OPEN } from './navkontorReducer';
+import { REMOVE_SELECTED_NAVKONTOR, SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, TOGGLE_MINEKANDIDATER, TOGGLE_NAVKONTOR_PANEL_OPEN } from './navkontorReducer';
 import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
 
 const NavkontorSearch = ({ ...props }) => {
-    const { search, removeNavkontor, fetchTypeAheadSuggestions, selectTypeAheadValue, clearTypeAheadNavkontor,
-        navkontor, typeAheadSuggestionsNavkontor, totaltAntallTreff, visAlertFaKandidater, skjulNavkontor, panelOpen, togglePanelOpen } = props;
+    const {
+        search, removeNavkontor, fetchTypeAheadSuggestions, selectTypeAheadValue, clearTypeAheadNavkontor,
+        navkontor, typeAheadSuggestionsNavkontor, totaltAntallTreff, visAlertFaKandidater, skjulNavkontor,
+        panelOpen, togglePanelOpen, toggleMinekandidater, minekandidater
+    } = props;
     return (
         <NavkontorSearchFelles
             search={search}
@@ -24,6 +27,8 @@ const NavkontorSearch = ({ ...props }) => {
             skjulNavkontor={skjulNavkontor}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
+            minekandidater={minekandidater}
+            toggleMinekandidater={toggleMinekandidater}
         />
     );
 };
@@ -40,7 +45,9 @@ NavkontorSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulNavkontor: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    minekandidater: PropTypes.bool.isRequired,
+    toggleMinekandidater: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -49,7 +56,8 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulNavkontor: state.search.featureToggles['skjul-navkontor'],
-    panelOpen: state.navkontorReducer.navkontorPanelOpen
+    panelOpen: state.navkontorReducer.navkontorPanelOpen,
+    minekandidater: state.navkontorReducer.minekandidater
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -58,7 +66,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR, value }),
     selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),
     removeNavkontor: (value) => dispatch({ type: REMOVE_SELECTED_NAVKONTOR, value }),
-    togglePanelOpen: () => dispatch({ type: TOGGLE_NAVKONTOR_PANEL_OPEN })
+    togglePanelOpen: () => dispatch({ type: TOGGLE_NAVKONTOR_PANEL_OPEN }),
+    toggleMinekandidater: () => dispatch({ type: TOGGLE_MINEKANDIDATER })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavkontorSearch);

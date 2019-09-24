@@ -1,9 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 
-import { SEARCH_API, KANDIDATSOK_API, KANDIDATLISTE_API, KODEVERK_API, PAM_SEARCH_API_GATEWAY_URL } from './common/fasitProperties';
+import {
+    SEARCH_API,
+    KANDIDATSOK_API,
+    KANDIDATLISTE_API,
+    KODEVERK_API,
+    PAM_SEARCH_API_GATEWAY_URL
+} from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
-import { ResponseData } from '../felles/common/remoteData';
-import { createCallIdHeader, deleteJsonMedType, deleteReq, fetchJson, postJson, putJson } from '../felles/api';
+import {ResponseData} from '../felles/common/remoteData';
+import {createCallIdHeader, deleteJsonMedType, deleteReq, fetchJson, postJson, putJson} from '../felles/api';
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => {
@@ -12,7 +18,7 @@ const convertToUrlParams = (query) => Object.keys(query)
             return query[key].map(v => `${encodedKey}=${encodeURIComponent(v)}`)
                 .reduce((accumulator, current) => `${accumulator}&${current}`, '');
         } else {
-            if (query[key]){
+            if (query[key]) {
                 return `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`;
             }
         }
@@ -77,7 +83,7 @@ export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) => (
 );
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) => (
-    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({ status }))
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`, JSON.stringify({status}))
 );
 
 export const postKandidatliste = (kandidatlisteInfo) => (
@@ -124,11 +130,11 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) => (
 );
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) => (
-    postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, JSON.stringify({ tekst }))
+    postJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`, JSON.stringify({tekst}))
 );
 
 export const putNotat = (kandidatlisteId, kandidatnr, notatId, tekst) => (
-    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`, JSON.stringify({ tekst }))
+    putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`, JSON.stringify({tekst}))
 );
 
 export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) => (
