@@ -141,7 +141,7 @@ class KompetanseSearch extends React.Component {
                     </div>
                 </div>
                 {kompetanseSuggestions.length > 0 && (
-                    <div>
+                    <div className="KompetanseSearch__suggestions">
                         <div className="blokk-s border--bottom--thin" />
                         <Element>
                             Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til

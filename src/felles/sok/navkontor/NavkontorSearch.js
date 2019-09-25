@@ -111,15 +111,6 @@ class NavkontorSearch extends React.Component {
                                 +Legg til NAV-Kontor
                             </LeggtilKnapp>
                         )}
-                        <Checkbox
-                            className="checkbox--minekandidater skjemaelement--pink"
-                            id="minekandidater-checkbox"
-                            label="Vis bare mine brukere"
-                            key="minekandidater"
-                            value={this.props.minekandidater}
-                            checked={this.props.minekandidater}
-                            onChange={this.onToggleMineKandidater}
-                        />
                     </div>
 
                     <div className="Merkelapp__wrapper">
@@ -133,6 +124,15 @@ class NavkontorSearch extends React.Component {
                             </Merkelapp>
                         ))}
                     </div>
+                    <Checkbox
+                        className="checkbox--minekandidater skjemaelement--pink"
+                        id="minekandidater-checkbox"
+                        label="Vis bare mine brukere"
+                        key="minekandidater"
+                        value={this.props.minekandidater}
+                        checked={this.props.minekandidater}
+                        onChange={this.onToggleMineKandidater}
+                    />
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />

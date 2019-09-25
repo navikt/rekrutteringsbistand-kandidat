@@ -129,6 +129,17 @@ class GeografiSearch extends React.Component {
                                 +Legg til fylke/kommune
                             </LeggtilKnapp>
                         )}
+                        <div className="Merkelapp__wrapper">
+                            {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
+                                <Merkelapp
+                                    onRemove={this.onFjernClick}
+                                    key={geo.geografiKodeTekst}
+                                    value={geo.geografiKode}
+                                >
+                                    {geo.geografiKodeTekst}
+                                </Merkelapp>
+                            ))}
+                        </div>
                         <CheckboxMedHjelpetekst
                             id="toggle-ma-bo-pa-geografi"
                             label="Vis bare kandidater som bor i området"
@@ -139,18 +150,6 @@ class GeografiSearch extends React.Component {
                             onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
                             tittel="Vis bare kandidater som bor i området"
                         />
-
-                    </div>
-                    <div className="Merkelapp__wrapper">
-                        {this.props.geografiListKomplett && this.props.geografiListKomplett.map((geo) => (
-                            <Merkelapp
-                                onRemove={this.onFjernClick}
-                                key={geo.geografiKodeTekst}
-                                value={geo.geografiKode}
-                            >
-                                {geo.geografiKodeTekst}
-                            </Merkelapp>
-                        ))}
                     </div>
                 </div>
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
