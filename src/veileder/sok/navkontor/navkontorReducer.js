@@ -7,6 +7,7 @@ export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKON
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';
 
 export const TOGGLE_NAVKONTOR_PANEL_OPEN = 'TOGGLE_NAVKONTOR_PANEL_OPEN';
+export const TOGGLE_MINEKANDIDATER = 'TOGGLE_MINEKANDIDATER';
 
 /** *********************************************************
  * REDUCER
@@ -14,7 +15,8 @@ export const TOGGLE_NAVKONTOR_PANEL_OPEN = 'TOGGLE_NAVKONTOR_PANEL_OPEN';
 
 const initialState = {
     navkontor: [],
-    navkontorPanelOpen: false
+    navkontorPanelOpen: false,
+    minekandidater: false
 };
 
 export default function navkontorReducer(state = initialState, action) {
@@ -22,7 +24,8 @@ export default function navkontorReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                navkontor: action.query.navkontor || []
+                navkontor: action.query.navkontor || [],
+                minekandidater: action.query.minekandidater || false
             };
         case SELECT_TYPE_AHEAD_VALUE_NAVKONTOR:
             return {
@@ -43,6 +46,11 @@ export default function navkontorReducer(state = initialState, action) {
             return {
                 ...state,
                 navkontorPanelOpen: !state.navkontorPanelOpen
+            };
+        case TOGGLE_MINEKANDIDATER:
+            return {
+                ...state,
+                minekandidater: !state.minekandidater
             };
         default:
             return state;

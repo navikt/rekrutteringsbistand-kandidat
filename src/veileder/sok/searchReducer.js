@@ -231,6 +231,7 @@ export const fromUrlQuery = (url) => {
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
     const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
     const navkontor = getUrlParameterByName('navkontor', url);
+    const minekandidater = getUrlParameterByName('minekandidater', url);
     const hovedmal = getUrlParameterByName('hovedmal', url);
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
@@ -247,6 +248,7 @@ export const fromUrlQuery = (url) => {
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
     if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
+    if (minekandidater === 'true') stateFromUrl.minekandidater = true;
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
     return stateFromUrl;
 };
@@ -267,6 +269,7 @@ export const toUrlQuery = (state) => {
     if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
     if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
+    if (state.navkontorReducer.minekandidater) urlQuery.minekandidater = state.navkontorReducer.minekandidater;
     if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0) urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
     return toUrlParams(urlQuery);
 };
@@ -309,6 +312,7 @@ function* search(action = '') {
             maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
             forerkort: forerkortListe,
             navkontor: state.navkontorReducer.navkontor,
+            minekandidater: state.navkontorReducer.minekandidater,
             hovedmal: state.hovedmal.totaltHovedmal
         };
 
