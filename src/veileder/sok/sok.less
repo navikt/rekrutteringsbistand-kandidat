@@ -31,6 +31,7 @@
 
 .skjemaelement__input {
   border-radius: 2px;
+
   &::-ms-clear {
     width: 0;
     height: 0;
@@ -44,8 +45,14 @@
 .panel--sokekriterier {
   .ekspanderbartPanel--green();
   margin-top: 2rem;
+
   .ekspanderbartPanel__innhold {
-    padding: 0.5rem 1rem 1.25rem;
+    padding: 0.25rem 1rem 0;
+
+    @media (min-width: @screen-md-min) {
+      padding: 1rem 1rem 1.25rem;
+      background: @gray2;
+    }
   }
 }
 
@@ -65,8 +72,19 @@
   }
 
   .Merkelapp__wrapper {
+    &:empty {
+      display: none;
+    }
+
     display: flex;
     flex-wrap: wrap;
+    margin-top: 0.5rem;
+
+    .Merkelapp {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
@@ -146,21 +164,22 @@
 }
 
 .SesjonUgaarModal {
-    width: 640px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
+  width: 640px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
 
-    .innhold {
-        margin-top: 1.25rem;
-    }
+  .innhold {
+    margin-top: 1.25rem;
+  }
 
-    .knapperad {
-        margin-top: 2.5rem;
-        :not(:first-child) {
-            margin-left: 1rem;
-        }
+  .knapperad {
+    margin-top: 2.5rem;
+
+    :not(:first-child) {
+      margin-left: 1rem;
     }
+  }
 }
 
 #app, .Application {
