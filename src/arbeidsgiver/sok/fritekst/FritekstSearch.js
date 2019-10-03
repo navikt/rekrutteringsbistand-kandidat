@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../../../arbeidsgiver/sok/searchReducer';
 import { SET_FRITEKST_SOKEORD } from '../../../arbeidsgiver/sok/fritekst/fritekstReducer';
 import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
+import './Fritekst.less';
 
 const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord }) => (
     <FritekstSearchFelles

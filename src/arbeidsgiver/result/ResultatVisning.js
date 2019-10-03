@@ -138,7 +138,6 @@ class ResultatVisning extends React.Component {
                                         Finn kandidater
                                     </Hovedknapp> : ''}
                                     <div className="resultatvisning--sokekriterier">
-                                        {!USE_JANZZ ? <FritekstSearch /> : ''}
                                         <StillingSearch />
                                         {USE_JANZZ ?
                                             <KompetanseSearch
@@ -152,6 +151,7 @@ class ResultatVisning extends React.Component {
                                         <ForerkortSearch />
                                         {USE_JANZZ ? <SertifikatSearch /> : ''}
                                         {!USE_JANZZ ? <KompetanseSearch /> : ''}
+                                        {!USE_JANZZ ? <FritekstSearch arbeidsgiver /> : ''}
                                     </div>
                                     {USE_JANZZ ?
                                         <Hovedknapp
