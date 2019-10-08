@@ -4,13 +4,15 @@
 import { SET_STATE } from '../searchReducer';
 
 export const SET_FRITEKST_SOKEORD = 'SET_FRITEKST_SOKEORD';
+export const TOGGLE_FRITEKST_PANEL = 'TOGGLE_FRITEKST_PANEL';
 
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
-    fritekst: ''
+    fritekst: '',
+    panelOpen: true
 };
 
 export default function fritekstReducer(state = initialState, action) {
@@ -24,6 +26,11 @@ export default function fritekstReducer(state = initialState, action) {
             return {
                 ...state,
                 fritekst: action.fritekst
+            };
+        case TOGGLE_FRITEKST_PANEL:
+            return {
+                ...state,
+                panelOpen: !state.panelOpen
             };
         default:
             return state;
