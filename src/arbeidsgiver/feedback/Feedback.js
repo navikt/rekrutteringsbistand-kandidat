@@ -2,7 +2,6 @@ import React from 'react';
 import { USE_JANZZ } from '../common/fasitProperties';
 import './Feedback.less';
 
-// TODO - bytt lenken til survey
 export default () => (
     <div className="Feedback">
         <a
