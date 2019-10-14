@@ -23,7 +23,7 @@ const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord, togglePan
         ariaTittel="Panel Fritekstsøk"
     >
         <Element>
-            Fritekstsøk i kandidatenes CV og jobbprofil
+            Fritekstsøk i kandidatenes CV
         </Element>
         <FritekstSearchFelles
             setFritekstSokeord={setFritekstSokeord}
