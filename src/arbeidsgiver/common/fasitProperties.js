@@ -10,3 +10,4 @@ export const PAMPORTAL_URL = __PAMPORTAL_URL__;
 export const CONTEXT_ROOT = __CONTEXT_ROOT__;
 export const USE_JANZZ = __USE_JANZZ__;
 export const ONTOLOGY_SEARCH_API_URL = __ONTOLOGY_SEARCH_API_URL__;
+export const METRICS_SUPPORT_URL = __METRICS_SUPPORT_URL__;

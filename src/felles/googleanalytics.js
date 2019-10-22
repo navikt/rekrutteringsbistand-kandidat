@@ -12,3 +12,7 @@ ga('create', 'UA-9127381-24', 'auto');
 ga('set', 'anonymizeIp', true);
 ga('require', 'urlChangeTracker', { trackReplaceState: true });
 ga('send', 'pageview');
+
+export function registerCompanyMetrics(orgClass) {
+    ga('set', 'dimension1', orgClass);
+}

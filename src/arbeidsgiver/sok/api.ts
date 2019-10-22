@@ -7,12 +7,14 @@ import {
     ORGANISASJON_API,
     USE_JANZZ,
     SAMTYKKE_API,
-    KODEVERK_API
+    KODEVERK_API,
+    METRICS_SUPPORT_URL
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
 import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
 import { ResponseData } from '../../felles/common/remoteData';
 import {
+    createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
     fetchJson,
@@ -22,6 +24,7 @@ import {
     putJson,
     putJsonMedType
 } from '../../felles/api';
+import {registerCompanyMetrics} from "../../felles/googleanalytics";
 
 const convertToUrlParams = (query) => Object.keys(query)
     .map((key) => {
@@ -166,3 +169,18 @@ export function postGodtaGjeldendeVilkar() {
 export function fetchGeografiKode(geografiKode) {
     return fetchJson(`${KODEVERK_API}arenageografikoder/${geografiKode}`, true);
 }
+
+export function fetchArbeidsgiverClass(orgNummer) {
+    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`);
+}
+
+export function logArbeidsgiverMetrics(arbeidsgiver, orgNummer) {
+    if (arbeidsgiver.klasse !== "Udefinert") registerCompanyMetrics(arbeidsgiver.klasse);
+    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/metrics/companyLoggedIn`, {
+        method: 'POST',
+        body: JSON.stringify(arbeidsgiver),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};

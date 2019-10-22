@@ -110,7 +110,8 @@ const fasitProperties = {
     API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
     USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
-    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`
+    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`,
+    METRICS_SUPPORT_URL: `/${app.contextRoot}/metrics-support`
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -121,7 +122,8 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
         `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
         `window.__CONTEXT_ROOT__="${app.contextRoot}";\n` +
-        `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n`;
+        `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n` +
+        `window.__METRICS_SUPPORT_URL__="${fasitProperties.METRICS_SUPPORT_URL}";`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -212,6 +214,12 @@ const startServer = (html) => {
     server.use(`/${app.contextRoot}/ontologi/`, proxy('http://pam-search-api.default', {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
+        )
+    }));
+
+    server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support', {
+        proxyReqPathResolver: (req) => (
+            req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-suport`), 'metrics-support')
         )
     }));
 

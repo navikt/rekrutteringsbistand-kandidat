@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchArbeidsgivere } from '../sok/api.ts';
+import { fetchArbeidsgivere, fetchArbeidsgiverClass, logArbeidsgiverMetrics } from '../sok/api.ts';
 import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
 import { SearchApiError } from '../../felles/api.ts';
 
@@ -31,8 +31,30 @@ function hentPersistertValgtArbeidsgiver() {
     return undefined;
 }
 
-function persisterValgtArbeidsgiver(arbeidsgiverId) {
+function logValgAvArbeidsgiver(arbeidsgiver) {
+    if (!arbeidsgiver) return;
+    fetchArbeidsgiverClass(arbeidsgiver.orgnr)
+        .then((r) => r.body.getReader()
+            .read()
+            .then(async (cls) => {
+                const jsonResponse = JSON.parse(String.fromCharCode.apply(null, cls.value));
+                const agPayload = {
+                    navn: arbeidsgiver.navn,
+                    organizationNumber: arbeidsgiver.orgnr,
+                    type: arbeidsgiver.type || 'BEDR',
+                    klasse: jsonResponse.companyClass,
+                    antallAnsatte: jsonResponse.antallAnsatte
+                };
+                logArbeidsgiverMetrics(agPayload, arbeidsgiver.orgnr);
+            }));
+}
+
+function persisterValgtArbeidsgiver(arbeidsgiverId, arbeidsgivere) {
     if (arbeidsgiverId) {
+        if (arbeidsgivere) {
+            const arbeidsgiver = arbeidsgivere.filter((ag) => ag.orgnr === arbeidsgiverId)[0] || undefined;
+            logValgAvArbeidsgiver(arbeidsgiver);
+        }
         sessionStorage.setItem('orgnr', arbeidsgiverId);
         localStorage.setItem('orgnr', arbeidsgiverId);
     } else {
@@ -58,11 +80,13 @@ const initialState = {
 const valgtArbeidsgiverIdVedEndring = (arbeidsgivere, valgtArbeidsgiverId) => {
     if (arbeidsgivere.length === 1) {
         return arbeidsgivere[0].orgnr;
-    } else if (valgtArbeidsgiverId && arbeidsgivere.map((arbeidsgiver) => (arbeidsgiver.orgnr)).includes(valgtArbeidsgiverId)) {
+    } else if (valgtArbeidsgiverId && arbeidsgivere.map((arbeidsgiver) => (arbeidsgiver.orgnr))
+        .includes(valgtArbeidsgiverId)) {
         return valgtArbeidsgiverId;
     }
     return undefined;
 };
+
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -74,6 +98,7 @@ export default function reducer(state = initialState, action) {
                 isFetchingArbeidsgivere: false
             };
         case VELG_ARBEIDSGIVER:
+            logValgAvArbeidsgiver(state.arbeidsgivere.filter((ag) => ag.orgnr === action.data)[0] || undefined);
             return {
                 ...state,
                 valgtArbeidsgiverId: action.data
@@ -113,7 +138,7 @@ function* hentArbeidsgivere() {
         const response = yield call(fetchArbeidsgivere);
         const state = yield select();
         const nyValgtArbeidsgiverId = valgtArbeidsgiverIdVedEndring(response, state.mineArbeidsgivere.valgtArbeidsgiverId);
-        persisterValgtArbeidsgiver(nyValgtArbeidsgiverId);
+        persisterValgtArbeidsgiver(nyValgtArbeidsgiverId, response);
         yield put({ type: HENT_ARBEIDSGIVERE_SUCCESS, response, nyValgtArbeidsgiverId });
     } catch (e) {
         if (e instanceof SearchApiError) {
