@@ -111,7 +111,7 @@ const fasitProperties = {
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
     USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
     ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`,
-    METRICS_SUPPORT_URL: `/${app.contextRoot}/metrics-support`
+    METRICS_SUPPORT_URL: `/${app.contextRoot}/metrics-support/`
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -217,7 +217,7 @@ const startServer = (html) => {
         )
     }));
 
-    server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support', {
+    server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support.nais.oera-q.local', {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-suport`), 'metrics-support')
         )
