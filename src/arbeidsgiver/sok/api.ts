@@ -171,7 +171,13 @@ export function fetchGeografiKode(geografiKode) {
 }
 
 export function fetchArbeidsgiverClass(orgNummer) {
-    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`);
+    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+    );
 }
 
 export function logArbeidsgiverMetrics(arbeidsgiver, orgNummer) {
