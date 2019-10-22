@@ -217,7 +217,7 @@ const startServer = (html) => {
         )
     }));
 
-    server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support.nais.oera-q.local', {
+    server.use(`/${app.contextRoot}/metrics-support/`, proxy('https://pam-metrics-support.nais.oera-q.local', {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-suport`), 'metrics-support')
         )
