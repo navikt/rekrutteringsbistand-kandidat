@@ -172,9 +172,13 @@ export function fetchGeografiKode(geografiKode) {
 
 export function fetchArbeidsgiverClass(orgNummer) {
     return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`, {
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Nav-CallId': Math.random()
+                    .toString(16)
+                    .substr(2)
             }
         }
     );
