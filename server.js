@@ -219,7 +219,7 @@ const startServer = (html) => {
 
     server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support.default', {
         proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-suport`), 'metrics-support')
+            req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-support`), 'metrics-support')
         )
     }));
 
