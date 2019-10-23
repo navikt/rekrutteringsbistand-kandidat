@@ -14,7 +14,6 @@ import FEATURE_TOGGLES from '../../felles/konstanter';
 import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
 import { ResponseData } from '../../felles/common/remoteData';
 import {
-    createCallIdHeader,
     deleteJsonMedType,
     deleteReq,
     fetchJson,
@@ -171,17 +170,7 @@ export function fetchGeografiKode(geografiKode) {
 }
 
 export function fetchArbeidsgiverClass(orgNummer) {
-    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Nav-CallId': Math.random()
-                    .toString(16)
-                    .substr(2)
-            }
-        }
-    );
+    return fetch(`${METRICS_SUPPORT_URL}companies/${orgNummer}/classification`);
 }
 
 export function logArbeidsgiverMetrics(arbeidsgiver, orgNummer) {
