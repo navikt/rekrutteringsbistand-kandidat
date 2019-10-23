@@ -29,6 +29,7 @@ const NavkontorSearch = ({ ...props }) => {
             togglePanelOpen={togglePanelOpen}
             minekandidater={minekandidater}
             toggleMinekandidater={toggleMinekandidater}
+            showMineKandidater
         />
     );
 };
