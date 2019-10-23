@@ -45,7 +45,7 @@ function logValgAvArbeidsgiver(arbeidsgiver) {
                         type: arbeidsgiver.type || 'BEDR',
                         klasse: jsonResponse.companyClass,
                         antallAnsatte: jsonResponse.antallAnsatte,
-                        orginApp: 'pam-kandidatsok'
+                        originApp: 'pam-kandidatsok'
                     };
                     logArbeidsgiverMetrics(agPayload, arbeidsgiver.orgnr);
                 } catch (e) {
