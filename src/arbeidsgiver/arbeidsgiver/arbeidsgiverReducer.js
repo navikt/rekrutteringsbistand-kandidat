@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchArbeidsgivere, fetchArbeidsgiverClass, logArbeidsgiverMetrics } from '../sok/api.ts';
 import { GODTA_VILKAR_SUCCESS, SETT_MANGLER_SAMTYKKE } from '../samtykke/samtykkeReducer';
-import { SearchApiError } from '../../felles/api.ts';
+import { SearchApiError, MetricsSupportError } from '../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS
@@ -37,15 +37,22 @@ function logValgAvArbeidsgiver(arbeidsgiver) {
         .then((r) => r.body.getReader()
             .read()
             .then(async (cls) => {
-                const jsonResponse = JSON.parse(String.fromCharCode.apply(null, cls.value));
-                const agPayload = {
-                    navn: arbeidsgiver.navn,
-                    organizationNumber: arbeidsgiver.orgnr,
-                    type: arbeidsgiver.type || 'BEDR',
-                    klasse: jsonResponse.companyClass,
-                    antallAnsatte: jsonResponse.antallAnsatte
-                };
-                logArbeidsgiverMetrics(agPayload, arbeidsgiver.orgnr);
+                try {
+                    const jsonResponse = JSON.parse(String.fromCharCode.apply(null, cls.value));
+                    const agPayload = {
+                        navn: arbeidsgiver.navn,
+                        organizationNumber: arbeidsgiver.orgnr,
+                        type: arbeidsgiver.type || 'BEDR',
+                        klasse: jsonResponse.companyClass,
+                        antallAnsatte: jsonResponse.antallAnsatte
+                    };
+                    logArbeidsgiverMetrics(agPayload, arbeidsgiver.orgnr);
+                } catch (e) {
+                    throw new MetricsSupportError({
+                        message: 'Feil ved tilkobling til metrics-support service.',
+                        status: e.status
+                    });
+                }
             }));
 }
 

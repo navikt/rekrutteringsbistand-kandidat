@@ -15,6 +15,14 @@ export class SearchApiError {
     }
 }
 
+export class MetricsSupportError {
+    message: string;
+    status: number;
+    constructor(error) {
+        this.message = error.message;
+        this.status = error.status;
+    }
+}
 
 export async function fetchJson(url : string, includeCredentials : boolean = false) {
     try {
