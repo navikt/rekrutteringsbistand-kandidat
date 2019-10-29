@@ -16,6 +16,7 @@ import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
+import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch';
 import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
@@ -198,6 +199,7 @@ class ResultatVisning extends React.Component {
                                         <NavkontorSearch />
                                         <HovedmalSearch />
                                         <InnsatsgruppeSearch />
+                                        <TilretteleggingsbehovSearch />
                                     </div>
                                 </div>
                             </Column>
