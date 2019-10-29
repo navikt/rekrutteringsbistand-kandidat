@@ -13,43 +13,46 @@ import {
 import Infoikon from '../../../felles/common/ikoner/Infoikon';
 import './Tilretteleggingsbehov.less';
 
-class TilretteleggingsbehovSearch extends React.Component {
-    onTilretteleggingsbehovChange = (e) => {
-        this.props.toggleTilretteleggingsbehov(e.target.checked);
-        this.props.search();
+const TilretteleggingsbehovSearch = (props) => {
+    const {
+        search,
+        toggleTilretteleggingsbehov,
+        togglePanelOpen,
+        panelOpen,
+        harTilretteleggingsbehov
+    } = props;
+
+    const onTilretteleggingsbehovChange = (e) => {
+        toggleTilretteleggingsbehov(e.target.checked);
+        search();
     };
 
-    render() {
-        const { togglePanelOpen, panelOpen, harTilretteleggingsbehov } = this.props;
-
-        return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
-                tittel="Tilretteleggingsbehov"
-                tittelProps="undertittel"
-                onClick={togglePanelOpen}
-                apen={panelOpen}
-            >
-                <Checkbox
-                    className="skjemaelement--pink"
-                    id="tilretteleggingsbehov-checkbox"
-                    label="Vis kandidater med tilretteleggingsbehov"
-                    key="HAR_TILRETTELEGGINGSBEHOV"
-                    value="HAR_TILRETTELEGGINGSBEHOV"
-                    checked={harTilretteleggingsbehov}
-                    onChange={this.onTilretteleggingsbehovChange}
-                />
-                <div className="tilretteleggingsbehov__informasjon">
-                    <Infoikon />
-                    <Normaltekst>
-                        Denne funksjonen er under testing og foreløpig kun tilgjengelig for enkelte
-                        NAV-kontorer
-                    </Normaltekst>
-                </div>
-            </Ekspanderbartpanel>
-        );
-    }
-}
+    return (
+        <Ekspanderbartpanel
+            className="panel--sokekriterier"
+            tittel="Tilretteleggingsbehov"
+            tittelProps="undertittel"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <Checkbox
+                className="skjemaelement--pink"
+                id="tilretteleggingsbehov-checkbox"
+                label="Vis kandidater med tilretteleggingsbehov"
+                key="HAR_TILRETTELEGGINGSBEHOV"
+                checked={harTilretteleggingsbehov}
+                onChange={onTilretteleggingsbehovChange}
+            />
+            <div className="tilretteleggingsbehov__informasjon">
+                <Infoikon />
+                <Normaltekst>
+                    Denne funksjonen er under testing og foreløpig kun tilgjengelig for enkelte
+                    NAV-kontorer
+                </Normaltekst>
+            </div>
+        </Ekspanderbartpanel>
+    );
+};
 
 TilretteleggingsbehovSearch.propTypes = {
     search: PropTypes.func.isRequired,
