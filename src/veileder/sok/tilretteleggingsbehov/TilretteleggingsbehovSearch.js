@@ -43,7 +43,7 @@ class TilretteleggingsbehovSearch extends React.Component {
                     <Infoikon />
                     <Normaltekst>
                         Denne funksjonen er under testing og foreløpig kun tilgjengelig for enkelte
-                        NAV-kontorer.
+                        NAV-kontorer
                     </Normaltekst>
                 </div>
             </Ekspanderbartpanel>
