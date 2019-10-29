@@ -46,6 +46,7 @@ function logValgAvArbeidsgiver(arbeidsgiver) {
                         klasse: jsonResponse.companyClass,
                         antallAnsatte: jsonResponse.antallAnsatte,
                         geography: jsonResponse.geography,
+                        countyCode: jsonResponse.countyCode,
                         originApp: 'pam-kandidatsok'
                     };
                     logArbeidsgiverMetrics(agPayload, arbeidsgiver.orgnr);
