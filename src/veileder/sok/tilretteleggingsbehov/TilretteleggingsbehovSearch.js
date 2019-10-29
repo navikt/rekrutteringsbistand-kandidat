@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Checkbox } from 'nav-frontend-skjema';
+import { connect } from 'react-redux';
+import { Normaltekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import { SEARCH } from '../searchReducer';
@@ -9,6 +10,8 @@ import {
     TOGGLE_TILRETTELEGGINGSBEHOV,
     TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN
 } from './tilretteleggingsbehovReducer';
+import Infoikon from '../../../felles/common/ikoner/Infoikon';
+import './Tilretteleggingsbehov.less';
 
 class TilretteleggingsbehovSearch extends React.Component {
     onTilretteleggingsbehovChange = (e) => {
@@ -28,7 +31,7 @@ class TilretteleggingsbehovSearch extends React.Component {
                 apen={panelOpen}
             >
                 <Checkbox
-                    className="skjemaelement-pink"
+                    className="skjemaelement--pink"
                     id="tilretteleggingsbehov-checkbox"
                     label="Vis kandidater med tilretteleggingsbehov"
                     key="HAR_TILRETTELEGGINGSBEHOV"
@@ -36,6 +39,13 @@ class TilretteleggingsbehovSearch extends React.Component {
                     checked={harTilretteleggingsbehov}
                     onChange={this.onTilretteleggingsbehovChange}
                 />
+                <div className="tilretteleggingsbehov__informasjon">
+                    <Infoikon />
+                    <Normaltekst>
+                        Denne funksjonen er under testing og foreløpig kun tilgjengelig for enkelte
+                        NAV-kontorer.
+                    </Normaltekst>
+                </div>
             </Ekspanderbartpanel>
         );
     }
