@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
 
 import { SEARCH } from '../searchReducer';
 import {
@@ -13,7 +12,15 @@ import {
 import Infoikon from '../../../felles/common/ikoner/Infoikon';
 import './Tilretteleggingsbehov.less';
 
-const TilretteleggingsbehovSearch = (props) => {
+interface TilretteleggingsbehovSearchProps {
+    search: () => void;
+    harTilretteleggingsbehov: boolean;
+    toggleTilretteleggingsbehov: (harTilretteleggingsbehov: boolean) => void;
+    panelOpen: boolean;
+    togglePanelOpen: () => void;
+}
+
+const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) => {
     const {
         search,
         toggleTilretteleggingsbehov,
@@ -22,16 +29,15 @@ const TilretteleggingsbehovSearch = (props) => {
         harTilretteleggingsbehov
     } = props;
 
-    const onTilretteleggingsbehovChange = (e) => {
-        toggleTilretteleggingsbehov(e.target.checked);
+    const onTilretteleggingsbehovChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        toggleTilretteleggingsbehov(event.target.checked);
         search();
     };
 
     return (
-        <Ekspanderbartpanel
+        <EkspanderbartpanelBasePure
             className="panel--sokekriterier"
-            tittel="Tilretteleggingsbehov"
-            tittelProps="undertittel"
+            heading={<Undertittel>Tilretteleggingsbehov</Undertittel>}
             onClick={togglePanelOpen}
             apen={panelOpen}
         >
@@ -50,16 +56,8 @@ const TilretteleggingsbehovSearch = (props) => {
                     NAV-kontorer
                 </Normaltekst>
             </div>
-        </Ekspanderbartpanel>
+        </EkspanderbartpanelBasePure>
     );
-};
-
-TilretteleggingsbehovSearch.propTypes = {
-    search: PropTypes.func.isRequired,
-    harTilretteleggingsbehov: PropTypes.bool.isRequired,
-    toggleTilretteleggingsbehov: PropTypes.func.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -69,7 +67,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    toggleTilretteleggingsbehov: (harTilretteleggingsbehov) =>
+    toggleTilretteleggingsbehov: (harTilretteleggingsbehov: boolean) =>
         dispatch({ type: TOGGLE_TILRETTELEGGINGSBEHOV, harTilretteleggingsbehov }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN })
 });
