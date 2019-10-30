@@ -48,3 +48,5 @@ spec:
       value: {{{ pamsearchapi }}}
     - name: PAMPORTAL_URL
       value: {{{ pamportal }}}
+    - name: FINN_KANDIDAT_URL
+      value: {{{ finnkandidaturl }}}

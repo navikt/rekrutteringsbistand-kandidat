@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { FINN_KANDIDAT_URL } from '../../common/fasitProperties';
 import './VisKandidatTilretteleggingsbehov.less';
 
 interface VisKandidatTilretteleggingsbehovProps {
@@ -11,7 +10,7 @@ interface VisKandidatTilretteleggingsbehovProps {
 const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggingsbehovProps) => {
     const [apen, toggleApen] = React.useState<boolean>(true);
 
-    const lenkeTilFinnKandidat = `${FINN_KANDIDAT_URL}/kandidat/${aktorId}?inngang=kandidatsok`;
+    const lenkeTilFinnKandidat = `/kandidater/finn-kandidat/kandidat/${aktorId}`;
 
     return (
         <div className="panel--tilretteleggingsbehov">

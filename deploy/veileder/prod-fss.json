@@ -7,5 +7,6 @@
   "pamkandidatsokapi-veileder": "https://pam-kandidatsok-api.nais.adeo.no/",
   "pamsearchapi": "https://api-gw.adeo.no/pam-search-api/",
   "lastnedurl": "https://pam-cv-veileder.nais.adeo.no/cv/pdf",
-  "pamportal": "https://arbeidsplassen.nav.no/"
+  "pamportal": "https://arbeidsplassen.nav.no/",
+  "finnkandidaturl": "https://arbeidsgiver.nais.adeo.no/finn-kandidat"
 }
