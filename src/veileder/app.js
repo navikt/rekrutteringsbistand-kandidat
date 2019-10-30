@@ -29,6 +29,7 @@ import ErrorSide from './sok/error/ErrorSide';
 import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
+import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
@@ -48,6 +49,7 @@ const store = createStore(combineReducers({
     geografi: geografiReducer,
     sprakReducer,
     innsatsgruppe: innsatsgruppeReducer,
+    tilretteleggingsbehov: tilretteleggingsbehovReducer,
     cvReducer,
     kandidatlister: kandidatlisteReducer,
     feedback: feedbackReducer,

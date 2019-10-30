@@ -233,6 +233,7 @@ export const fromUrlQuery = (url) => {
     const navkontor = getUrlParameterByName('navkontor', url);
     const minekandidater = getUrlParameterByName('minekandidater', url);
     const hovedmal = getUrlParameterByName('hovedmal', url);
+    const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -250,6 +251,7 @@ export const fromUrlQuery = (url) => {
     if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
     if (minekandidater === 'true') stateFromUrl.minekandidater = true;
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
+    if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     return stateFromUrl;
 };
 
@@ -271,6 +273,7 @@ export const toUrlQuery = (state) => {
     if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
     if (state.navkontorReducer.minekandidater) urlQuery.minekandidater = state.navkontorReducer.minekandidater;
     if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0) urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
+    if (state.tilretteleggingsbehov.harTilretteleggingsbehov) urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
     return toUrlParams(urlQuery);
 };
 
@@ -313,7 +316,8 @@ function* search(action = '') {
             forerkort: forerkortListe,
             navkontor: state.navkontorReducer.navkontor,
             minekandidater: state.navkontorReducer.minekandidater,
-            hovedmal: state.hovedmal.totaltHovedmal
+            hovedmal: state.hovedmal.totaltHovedmal,
+            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
