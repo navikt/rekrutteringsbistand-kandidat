@@ -15,7 +15,7 @@ const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggin
     const lenkeTilEksternTjeneste = `${URL_TILRETTELEGGEREN}/kandidat/${aktorId}`;
 
     return (
-        <div className="visKandidatTilretteleggingsbehov panel--cv">
+        <div className="panel--tilretteleggingsbehov">
             <EkspanderbartpanelBasePure
                 apen={apen}
                 onClick={() => toggleApen(!apen)}
@@ -26,14 +26,14 @@ const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggin
                     </Systemtittel>
                 }
             >
-                <div className="visKandidatTilretteleggingsbehov__innhold">
-                    <Normaltekst className="visKandidatTilretteleggingsbehov__informasjon">
+                <div className="panel--tilretteleggingsbehov__innhold">
+                    <Normaltekst className="panel--tilretteleggingsbehov__informasjon">
                         Kandidaten trenger tilrettelegging
                     </Normaltekst>
-                    <Normaltekst className="visKandidatTilretteleggingsbehov__lenke">
+                    <Normaltekst className="panel--tilretteleggingsbehov__lenkeWrapper">
                         <a
                             href={lenkeTilEksternTjeneste}
-                            className=" frittstaende-lenke ForlateSiden link"
+                            className="frittstaende-lenke ForlateSiden link"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
