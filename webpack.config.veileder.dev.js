@@ -18,6 +18,7 @@ module.exports = merge(common(APP.KANDIDATSOK_VEILEDER), {
             __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",
             __BACKEND_OPPE__: true,
             __LAST_NED_CV_URL__: "'https://pam-cv-veileder.nais.preprod.local/cv/pdf'",
+            __FINN_KANDIDAT_URL__: "'https://arbeidsgiver.nais.preprod.local/finn-kandidat'",
             'process.env.NODE_ENV': "'development'"
         })
     ]

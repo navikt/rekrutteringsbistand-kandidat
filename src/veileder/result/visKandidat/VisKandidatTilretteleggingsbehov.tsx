@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { FINN_KANDIDAT_URL } from '../../common/fasitProperties';
 import './VisKandidatTilretteleggingsbehov.less';
-
-const URL_TILRETTELEGGEREN = 'http://finn-kandidat.herokuapp.com/finn-kandidat';
 
 interface VisKandidatTilretteleggingsbehovProps {
     aktorId: string;
@@ -12,7 +11,7 @@ interface VisKandidatTilretteleggingsbehovProps {
 const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggingsbehovProps) => {
     const [apen, toggleApen] = React.useState<boolean>(true);
 
-    const lenkeTilEksternTjeneste = `${URL_TILRETTELEGGEREN}/kandidat/${aktorId}`;
+    const lenkeTilFinnKandidat = `${FINN_KANDIDAT_URL}/kandidat/${aktorId}`;
 
     return (
         <div className="panel--tilretteleggingsbehov">
@@ -32,7 +31,7 @@ const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggin
                     </Normaltekst>
                     <Normaltekst className="panel--tilretteleggingsbehov__lenkeWrapper">
                         <a
-                            href={lenkeTilEksternTjeneste}
+                            href={lenkeTilFinnKandidat}
                             className="frittstaende-lenke ForlateSiden link"
                             target="_blank"
                             rel="noopener noreferrer"
