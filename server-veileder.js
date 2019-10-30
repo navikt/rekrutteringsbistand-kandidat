@@ -173,6 +173,11 @@ const startServer = (html) => {
     server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
     server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
 
+    server.get('/kandidater/finn-kandidat/kandidat/:aktorId', (req, res) => {
+        const url = `${process.env.FINN_KANDIDAT_URL}/kandidat/${req.params.aktorId}?inngang=kandidatsok`;
+        res.redirect(url);
+    });
+
     server.use('/kandidater/rest/', proxy('http://pam-kandidatsok-api', {
         proxyReqPathResolver: (req) => (
             req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')

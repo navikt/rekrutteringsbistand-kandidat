@@ -21,6 +21,7 @@ import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
+import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -267,6 +268,9 @@ class VisKandidat extends React.Component {
                         </div>
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
+                        {cv.tilretteleggingsbehov && (
+                            <VisKandidatTilretteleggingsbehov aktorId={cv.aktorId} />
+                        )}
                         <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
                                 lenkeClass={'header--personalia__lenke--veileder'}
