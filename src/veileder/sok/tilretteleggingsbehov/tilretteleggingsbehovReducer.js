@@ -1,3 +1,5 @@
+import { SET_STATE } from '../searchReducer';
+
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
@@ -16,6 +18,11 @@ const initialState = {
 
 export default function tilretteleggingsbehovReducer(state = initialState, action) {
     switch (action.type) {
+        case SET_STATE:
+            return {
+                ...state,
+                harTilretteleggingsbehov: action.query.tilretteleggingsbehov || false
+            };
         case TOGGLE_TILRETTELEGGINGSBEHOV:
             return {
                 ...state,
