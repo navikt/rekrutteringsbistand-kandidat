@@ -11,7 +11,7 @@ interface VisKandidatTilretteleggingsbehovProps {
 const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggingsbehovProps) => {
     const [apen, toggleApen] = React.useState<boolean>(true);
 
-    const lenkeTilFinnKandidat = `${FINN_KANDIDAT_URL}/kandidat/${aktorId}`;
+    const lenkeTilFinnKandidat = `${FINN_KANDIDAT_URL}/kandidat/${aktorId}?inngang=kandidatsok`;
 
     return (
         <div className="panel--tilretteleggingsbehov">
@@ -26,20 +26,16 @@ const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggin
                 }
             >
                 <div className="panel--tilretteleggingsbehov__innhold">
-                    <Normaltekst className="panel--tilretteleggingsbehov__informasjon">
-                        Kandidaten trenger tilrettelegging
-                    </Normaltekst>
-                    <Normaltekst className="panel--tilretteleggingsbehov__lenkeWrapper">
-                        <a
-                            href={lenkeTilFinnKandidat}
-                            className="frittstaende-lenke ForlateSiden link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span className="link">Se behov for tilrettelegging</span>
-                            <i className="ForlateSiden__icon" />
-                        </a>
-                    </Normaltekst>
+                    <Normaltekst>Kandidaten trenger tilrettelegging</Normaltekst>
+                    <a
+                        href={lenkeTilFinnKandidat}
+                        className="panel--tilretteleggingsbehov__lenke ForlateSiden link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span className="link">Se behov for tilrettelegging</span>
+                        <i className="ForlateSiden__icon" />
+                    </a>
                 </div>
             </EkspanderbartpanelBasePure>
         </div>
