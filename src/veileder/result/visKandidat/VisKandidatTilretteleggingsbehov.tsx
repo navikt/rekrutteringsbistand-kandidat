@@ -32,7 +32,10 @@ const VisKandidatTilretteleggingsbehov = ({ aktorId }: VisKandidatTilretteleggin
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <span className="link">Se behov for tilrettelegging</span>
+                        <span className="link">
+                            Se behov for tilrettelegging. Bare noen NAV-kontor vil se denne
+                            informasjonen.
+                        </span>
                         <i className="ForlateSiden__icon" />
                     </a>
                 </div>
