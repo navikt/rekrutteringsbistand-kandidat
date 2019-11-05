@@ -52,8 +52,8 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
             <div className="tilretteleggingsbehov__informasjon">
                 <Infoikon />
                 <Normaltekst>
-                    Vi tester ut ny funksjonalitet. Kandidater med behov for tilrettelegging er kun
-                    tilgjengelig for noen NAV-kontorer.
+                    Vi tester ut ny funksjonalitet. Du vil kun få treff på noen få kandidater som
+                    har denne informasjonen.
                 </Normaltekst>
             </div>
         </EkspanderbartpanelBasePure>
