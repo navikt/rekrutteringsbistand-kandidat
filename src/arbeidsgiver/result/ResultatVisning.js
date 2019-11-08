@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Media from 'react-media';
-import { Column, Container } from 'nav-frontend-grid';
+import { Column, Container, Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import StillingSearch from '../sok/stilling/StillingSearch';
@@ -23,6 +23,7 @@ import PageHeader from '../../felles/common/PageHeaderWrapper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import LenkeTilKandidatsokNext from './LenkeTilKandidatsokNext.tsx';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
+import Feilmelding from '../sok/error/Feilmelding';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -93,7 +94,22 @@ class ResultatVisning extends React.Component {
     };
 
     render() {
-        const { antallLagredeKandidater } = this.props;
+        const { antallLagredeKandidater, error } = this.props;
+        const overskrift = 'Ustabilitet i rekrutteringstjenestene';
+        // eslint-disable-next-line max-len
+        const message = 'Det er en teknisk feil i rekrutteringstjenestene for arbeidsgivere på arbeidsplassen.no. Feilen fører til ustabilitet i kandidatsøket, kandidatmatch og kandidatlister. Det jobbes med å rette feilen. Vi beklager ulempene dette medfører.';
+        if (error) {
+            return (
+                <Container className="blokk-s feilside">
+                    <Row>
+                        <Column>
+                            <Feilmelding overskrift={overskrift} melding={message} />
+                        </Column>
+                    </Row>
+                </Container>
+            );
+        }
+
         return (
             <div>
                 <HjelpetekstFading
@@ -178,6 +194,10 @@ class ResultatVisning extends React.Component {
     }
 }
 
+ResultatVisning.defaultProps = {
+    error: undefined
+};
+
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
@@ -188,7 +208,8 @@ ResultatVisning.propTypes = {
     leggTilKandidatStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
     isSearching: PropTypes.bool.isRequired,
-    visLenkeTilKandidatsokNext: PropTypes.bool.isRequired
+    visLenkeTilKandidatsokNext: PropTypes.bool.isRequired,
+    error: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
@@ -196,6 +217,7 @@ const mapStateToProps = (state) => ({
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     isSearching: state.search.isSearching,
+    error: state.search.error,
     visLenkeTilKandidatsokNext: state.search.featureToggles['vis-lenke-til-kandidatsok-next']
 });
 
