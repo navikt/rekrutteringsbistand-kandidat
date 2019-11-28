@@ -92,6 +92,7 @@
       width: 74rem;
       padding-left: 0.5rem;
       padding-right: 0.5rem;
+      overflow: hidden;
       .knappe-rad {
         display: flex;
         align-items: center;
@@ -175,35 +176,8 @@
             flex: 1.4;
             padding-right: 1rem;
           }
-          .status {
-            display: flex;
-            align-items: center;
-            .sirkel {
-              width: 0.5rem;
-              height: 0.5rem;
-              margin-right: 0.5rem;
-              -webkit-border-radius: 0.25rem;
-              -moz-border-radius: 0.25rem;
-              border-radius: 0.25rem;
-            }
-            .foreslatt {
-              background-color: rgba(62, 56, 50, 0.6);;
-            }
-            .vurderes {
-              background-color: rgba(62, 56, 50, 0.6);
-            }
-            .kontaktet {
-              background-color: #ffd200;
-            }
-            .aktuell {
-              background-color: #ff9100;
-            }
-            .uaktuell {
-              background-color: #c30000;
-            }
-            .uinteressert {
-              background-color: #c30000;
-            }
+          .kolonne-checkboks, .kolonne-smal, .kolonne-bred, .kolonne-dato {
+            overflow: hidden;
           }
         }
         .info-under-kandidat {
