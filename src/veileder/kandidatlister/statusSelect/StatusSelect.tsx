@@ -75,9 +75,7 @@ interface StatusvisningProps {
 const Statusvisning: FunctionComponent<StatusvisningProps> = ({ status }) => (
     <span className="StatusSelect__status">
         <span
-            className={`StatusSelect__status__sirkel StatusSelect__status__sirkel--${statusToClassname(
-                status
-            )}`}
+            className={`StatusSelect__sirkel StatusSelect__sirkel--${statusToClassname(status)}`}
         />
         <Normaltekst>{statusToDisplayName(status)}</Normaltekst>
     </span>
