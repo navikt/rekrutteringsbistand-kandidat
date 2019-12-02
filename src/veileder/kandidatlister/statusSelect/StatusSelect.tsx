@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import * as React from 'react';
 import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button';
 import { Normaltekst } from 'nav-frontend-typografi';
 import '@reach/menu-button/styles.css';
@@ -38,7 +38,7 @@ interface Props {
     onChange: (status: Status) => void;
 }
 
-const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange }) => {
+const StatusSelect: React.FunctionComponent<Props> = ({ kanEditere, value, onChange }) => {
     if (!kanEditere) {
         return <Statusvisning status={value} />;
     }
@@ -72,7 +72,7 @@ interface StatusvisningProps {
     status: Status;
 }
 
-const Statusvisning: FunctionComponent<StatusvisningProps> = ({ status }) => (
+const Statusvisning: React.FunctionComponent<StatusvisningProps> = ({ status }) => (
     <span className="StatusSelect__status">
         <span
             className={`StatusSelect__sirkel StatusSelect__sirkel--${statusToClassname(status)}`}
