@@ -12,54 +12,12 @@ import Notater from './Notater';
 import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
-
-const STATUS = {
-    FORESLATT: 'FORESLATT',
-    VURDERES: 'VURDERES',
-    KONTAKTET: 'KONTAKTET',
-    AKTUELL: 'AKTUELL',
-    UAKTUELL: 'UAKTUELL',
-    UINTERESSERT: 'UINTERESSERT'
-};
+import StatusSelect from './statusSelect/StatusSelect.tsx';
 
 export const VISNINGSSTATUS = {
     SKJUL_PANEL: 'SKJUL_PANEL',
     VIS_NOTATER: 'VIS_NOTATER',
     VIS_MER_INFO: 'VIS_MER_INFO'
-};
-
-const statusToString = (status) => {
-    if (status === STATUS.FORESLATT) {
-        return 'Foreslått';
-    } else if (status === STATUS.VURDERES) {
-        return 'Vurderes';
-    } else if (status === STATUS.KONTAKTET) {
-        return 'Kontaktet';
-    } else if (status === STATUS.AKTUELL) {
-        return 'Aktuell';
-    } else if (status === STATUS.UAKTUELL) {
-        return 'Ikke aktuell';
-    } else if (status === STATUS.UINTERESSERT) {
-        return 'Ikke interessert';
-    }
-    return status;
-};
-
-const statusToClassname = (status) => {
-    if (status === STATUS.FORESLATT) {
-        return 'foreslatt';
-    } else if (status === STATUS.VURDERES) {
-        return 'vurderes';
-    } else if (status === STATUS.KONTAKTET) {
-        return 'kontaktet';
-    } else if (status === STATUS.AKTUELL) {
-        return 'aktuell';
-    } else if (status === STATUS.UAKTUELL) {
-        return 'uaktuell';
-    } else if (status === STATUS.UINTERESSERT) {
-        return 'uinteressert';
-    }
-    return '';
 };
 
 const utfallToString = (utfall) => {
@@ -264,20 +222,6 @@ const ListedetaljerView = (props) => {
         );
     };
 
-    const StatusSelect = ({ value, onChange }) => ( // eslint-disable-line react/prop-types
-        <div className="skjemaelement skjemaelement--pink">
-            <div className="selectContainer input--s">
-                <select className="skjemaelement__input" value={value} onChange={onChange}>
-                    {[STATUS.VURDERES, STATUS.KONTAKTET, STATUS.AKTUELL, STATUS.UAKTUELL, STATUS.UINTERESSERT]
-                        .map((status) => (
-                            <option key={status} value={status}>{statusToString(status)}</option>
-                        ))
-                    }
-                </select>
-            </div>
-        </div>
-    );
-
     const KandidatRad = ({ kandidat }) => { // eslint-disable-line react/prop-types
         const antallNotater = kandidat.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.data.length : kandidat.antallNotater;
         const toggleNotater = () => {
@@ -326,18 +270,13 @@ const ListedetaljerView = (props) => {
                         </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
                     <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
                     <div className="kolonne-bred">
-                        {kanEditere
-                            ? <StatusSelect
-                                value={kandidat.status}
-                                onChange={(e) => {
-                                    onKandidatStatusChange(e.target.value, kandidatlisteId, kandidat.kandidatnr);
-                                }}
-                            />
-                            : <span className="status">
-                                <span className={`sirkel ${statusToClassname(kandidat.status)}`} />
-                                {statusToString(kandidat.status)}
-                            </span>
-                        }
+                        <StatusSelect
+                            kanEditere={kanEditere}
+                            value={kandidat.status}
+                            onChange={(status) => {
+                                onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
+                            }}
+                        />
                     </div>
                     {stillingsId && (
                         <div className="kolonne-bred tabell-tekst">{utfallToString(kandidat.utfall)}</div>

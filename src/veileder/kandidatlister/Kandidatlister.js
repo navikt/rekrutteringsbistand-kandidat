@@ -118,7 +118,7 @@ const Kandidatlistevisning = ({ fetching, kandidatlister, endreKandidatliste, on
                 visKandidatlisteMeny={visKandidatlisteMeny}
                 markerKandidatlisteSomMin={markerKandidatlisteSomMin}
                 slettKandidatliste={() => { slettKandidatliste(kandidatliste); }}
-                key={JSON.stringify(kandidatliste)}
+                key={kandidatliste.id}
             />
         ))
     );
