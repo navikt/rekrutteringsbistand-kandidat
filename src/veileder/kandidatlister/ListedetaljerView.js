@@ -206,7 +206,7 @@ const ListedetaljerView = (props) => {
                     <div className="kolonne-bred"><Element>Navn</Element></div>
                     <div className="kolonne-dato"><Element>Fødselsnummer</Element></div>
                     <div className="kolonne-bred"><Element>Lagt til av</Element></div>
-                    <div className="kolonne-bred">
+                    <div className="kolonne-middels">
                         <div className="status-overskrift">
                             Status
                             <StatusHjelpetekst />
@@ -269,7 +269,7 @@ const ListedetaljerView = (props) => {
                             {`${fornavn} ${etternavn}`}
                         </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
                     <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
-                    <div className="kolonne-bred">
+                    <div className="kolonne-middels">
                         <StatusSelect
                             kanEditere={kanEditere}
                             value={kandidat.status}
