@@ -43,7 +43,8 @@ class KandidaterVisning extends React.Component {
             antallResultater: props.antallVisteKandidater,
             alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallVisteKandidater && k.markert).length === Math.min(props.antallVisteKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
-            kandidater: props.kandidater
+            kandidater: props.kandidater,
+            initialState: true
         };
     }
 
@@ -83,6 +84,12 @@ class KandidaterVisning extends React.Component {
         if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
             this.toggleMarkeringAlleKandidater(false);
+        }
+        if (this.state.initialState) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({
+                initialState: false
+            });
         }
     }
 
@@ -160,7 +167,6 @@ class KandidaterVisning extends React.Component {
         });
         this.props.oppdaterMarkerteKandidater([...markerteKandidater, ...this.state.kandidater.filter((kandidat, i) => i >= this.state.antallResultater)]);
     };
-
     render() {
         if (this.props.isSearching && USE_JANZZ) {
             return (
@@ -215,6 +221,8 @@ class KandidaterVisning extends React.Component {
                     alleKandidaterMarkert={this.state.alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
                     valgtKandidatNr={this.props.valgtKandidatNr}
+                    urlQuery={this.props.urlQuery}
+                    initialState={this.state.initialState}
                 />
             </div>
         );
@@ -233,7 +241,8 @@ KandidaterVisning.propTypes = {
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
-    oppdaterMarkerteKandidater: PropTypes.func.isRequired
+    oppdaterMarkerteKandidater: PropTypes.func.isRequired,
+    urlQuery: PropTypes.oneOfType([PropTypes.object]).isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -260,7 +269,8 @@ const mapStateToProps = (state) => ({
     searchQueryHash: state.search.searchQueryHash,
     antallVisteKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
-    scrolletFraToppen: state.search.scrolletFraToppen
+    scrolletFraToppen: state.search.scrolletFraToppen,
+    urlQuery: state.search.urlQuery
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

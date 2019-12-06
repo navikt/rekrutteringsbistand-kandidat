@@ -17,7 +17,9 @@ export default function KandidaterTabell({
     onKandidatValgt,
     alleKandidaterMarkert,
     onToggleMarkeringAlleKandidater,
-    valgtKandidatNr
+    valgtKandidatNr,
+    urlQuery,
+    initialState
 }) {
     return (
         <div className="table Kandidater-table">
@@ -29,7 +31,7 @@ export default function KandidaterTabell({
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
 
-            <div className="tbody">
+            {(!initialState || Object.entries(urlQuery).length > 0) && <div className="tbody">
                 {kandidater.slice(0, antallResultater).map((cv) => (
                     <KandidaterTableRow
                         cv={cv}
@@ -40,8 +42,8 @@ export default function KandidaterTabell({
                         nettoppValgt={valgtKandidatNr === cv.arenaKandidatnr}
                     />
                 ))}
-            </div>
-            {!USE_JANZZ && <div className="buttons--kandidatervisning">
+            </div>}
+            {(!initialState || Object.entries(urlQuery).length > 0) && !USE_JANZZ && <div className="buttons--kandidatervisning">
                 {antallResultater < totaltAntallTreff && (
                     <Knapp
                         type="hoved"
@@ -68,5 +70,7 @@ KandidaterTabell.propTypes = {
     onKandidatValgt: PropTypes.func.isRequired,
     alleKandidaterMarkert: PropTypes.bool.isRequired,
     onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
-    valgtKandidatNr: PropTypes.string.isRequired
+    valgtKandidatNr: PropTypes.string.isRequired,
+    urlQuery: PropTypes.oneOfType([PropTypes.object]).isRequired,
+    initialState: PropTypes.bool.isRequired
 };
