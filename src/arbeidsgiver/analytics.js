@@ -22,8 +22,6 @@ const EVENT_CATEGORY_SEARCH = 'Kandidatsøk > Søk';
 const ignoreFurther = [];
 
 function track(...props) {
-    console.log(...props);
-
     if (window.ga) {
         window.ga(...props);
     }
