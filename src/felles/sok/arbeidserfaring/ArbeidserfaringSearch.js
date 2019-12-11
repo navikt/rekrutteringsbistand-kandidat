@@ -11,6 +11,9 @@ import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 import './Arbeidserfaring.less';
 
+export const aarMedErfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-47' },
+    { label: '4-9 år', value: '48-119' }, { label: 'Over 10 år', value: '120-' }];
+
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -18,8 +21,6 @@ class ArbeidserfaringSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: ''
         };
-        this.erfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-47' },
-            { label: '4-9 år', value: '48-119' }, { label: 'Over 10 år', value: '120-' }];
     }
 
     onTotalErfaringChange = (e) => {
@@ -78,7 +79,7 @@ class ArbeidserfaringSearch extends React.Component {
         <SkjemaGruppe className="ar-med-arbeidserfaring__header" title="Totalt antall år med arbeidserfaring">
             <Normaltekst>Velg en eller flere</Normaltekst>
             <div className="sokekriterier--kriterier">
-                {this.erfaringer.map((arbeidserfaring) => (
+                {aarMedErfaringer.map((arbeidserfaring) => (
                     <Checkbox
                         className="checkbox--arbeidserfaring skjemaelement--pink"
                         id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}

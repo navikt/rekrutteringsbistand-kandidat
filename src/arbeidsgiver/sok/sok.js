@@ -42,6 +42,7 @@ import VisKandidatFraLister from '../kandidatlisteDetaljer/VisKandidatFraLister'
 import SamtykkeSide from '../samtykke/SamtykkeSide';
 import fritekstReducer from './fritekst/fritekstReducer';
 import SesjonUtgaarModalWrapper from '../common/modal/SesjonUtgaarModalWrapper';
+import analyticsSaga from '../analytics';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -186,6 +187,7 @@ sagaMiddleware.run(samtykkeSaga);
 sagaMiddleware.run(kandidatlisteDetaljerSaga);
 sagaMiddleware.run(kandidatlisterSaga);
 sagaMiddleware.run(mineArbeidsgivereSaga);
+sagaMiddleware.run(analyticsSaga);
 
 ReactDOM.render(
     <App />,
