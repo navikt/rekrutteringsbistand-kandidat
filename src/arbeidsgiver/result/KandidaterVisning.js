@@ -180,7 +180,7 @@ class KandidaterVisning extends React.Component {
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
 
-        const { totaltAntallTreff, kandidater } = this.props;
+        const { totaltAntallTreff, kandidater, urlQuery } = this.props;
         return (
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
@@ -195,12 +195,12 @@ class KandidaterVisning extends React.Component {
                             :
 
                             <div className="resultatvisning--header-left">
-                                <Element>Antall treff:</Element>
+                                <Element>Antall kandidater:</Element>
                                 <span id="antall-kandidater-treff" className="resultatvisning--header-treff">{formatterInt(this.props.totaltAntallTreff)}</span>
                             </div>
                         }
 
-                        <KnappMedHjelpetekst
+                        {(!this.state.initialState || Object.entries(urlQuery).length > 0) && <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             disabled={antallMarkert === 0}
                             onClick={this.aapneLagreKandidaterModal}
@@ -208,7 +208,7 @@ class KandidaterVisning extends React.Component {
                             tittel={lagreKandidaterKnappTekst(antallMarkert)}
                         >
                             {lagreKandidaterKnappTekst(antallMarkert)}
-                        </KnappMedHjelpetekst>
+                        </KnappMedHjelpetekst>}
                     </div>
                 </Row>
                 <KandidaterTabell
@@ -221,7 +221,7 @@ class KandidaterVisning extends React.Component {
                     alleKandidaterMarkert={this.state.alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
                     valgtKandidatNr={this.props.valgtKandidatNr}
-                    urlQuery={this.props.urlQuery}
+                    urlQuery={urlQuery}
                     initialState={this.state.initialState}
                 />
             </div>
