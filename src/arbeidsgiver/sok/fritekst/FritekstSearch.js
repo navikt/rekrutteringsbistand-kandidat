@@ -14,12 +14,12 @@ const fritekstHeading = (
     </div>
 );
 
-const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord, togglePanelOpen, panelOpen }) => (
+const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord, togglePanelOpen }) => (
     <EkspanderbartpanelBase
         heading={fritekstHeading}
         className="panel--sokekriterier"
         onClick={togglePanelOpen}
-        apen={panelOpen}
+        apen={false}
         ariaTittel="Panel Fritekstsøk"
     >
         <Element>
@@ -38,8 +38,7 @@ FritekstSearch.propTypes = {
     search: PropTypes.func.isRequired,
     fritekstSokeord: PropTypes.string.isRequired,
     setFritekstSokeord: PropTypes.func.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    panelOpen: PropTypes.bool.isRequired
+    togglePanelOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({

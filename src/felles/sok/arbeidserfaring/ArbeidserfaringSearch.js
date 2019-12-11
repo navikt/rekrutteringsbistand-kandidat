@@ -105,7 +105,7 @@ class ArbeidserfaringSearch extends React.Component {
                     tittel="Arbeidserfaring"
                     tittelProps="undertittel"
                     onClick={this.props.togglePanelOpen}
-                    apen={this.props.panelOpen}
+                    apen={false}
                 >
                     {this.renderTotalErfaring()}
                 </Ekspanderbartpanel>
@@ -117,7 +117,7 @@ class ArbeidserfaringSearch extends React.Component {
                 tittel="Arbeidserfaring"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={false}
             >
                 <Element>
                     Hvilken erfaring skal kandidaten ha?
@@ -195,7 +195,6 @@ ArbeidserfaringSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulArbeidserfaring: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     useJanzz: PropTypes.bool
 };
