@@ -82,7 +82,7 @@ class UtdanningSearch extends React.Component {
                 tittel="Utdanning"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={false}
 
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
@@ -190,7 +190,6 @@ UtdanningSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
     // TODO: Kommenter inn når søk på geografi blir tatt inn igjen
     // utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,

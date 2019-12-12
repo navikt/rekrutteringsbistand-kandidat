@@ -90,7 +90,7 @@ class KompetanseSearch extends React.Component {
                 heading={kompetanseHeading}
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={false}
                 ariaTittel="Panel Kompetanse"
             >
                 <Element>
@@ -198,7 +198,6 @@ KompetanseSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulKompetanse: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     kompetanseExamples: PropTypes.string,
     allowOnlyTypeaheadSuggestions: PropTypes.bool

@@ -73,7 +73,7 @@ class SprakSearch extends React.Component {
                 tittel="Språk"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={false}
             >
                 <Element>Krav til språk i jobbsituasjonen</Element>
                 <div className="sokekriterier--kriterier">
@@ -136,7 +136,6 @@ SprakSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSprak: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
 

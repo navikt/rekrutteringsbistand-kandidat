@@ -96,7 +96,7 @@ class GeografiSearch extends React.Component {
                 tittel="Fylke/kommune"
                 tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
+                apen={false}
             >
                 <Normaltekst>
                     Vis bare kandidater som ønsker å jobbe i dette området

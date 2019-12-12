@@ -86,7 +86,7 @@ class ForerkortSearch extends React.Component {
                 heading={forerkortHeading}
                 className="panel--sokekriterier"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen}
+                apen={false}
                 ariaTittel="Panel førerkort"
             >
                 <Element>Krav til førerkort</Element>
@@ -157,7 +157,6 @@ ForerkortSearch.propTypes = {
     clearTypeAheadForerkort: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired
 };
 
