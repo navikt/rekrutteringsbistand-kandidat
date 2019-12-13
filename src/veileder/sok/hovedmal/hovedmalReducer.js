@@ -37,7 +37,7 @@ export default function hovedmalReducer(state = initialState, action) {
         case TOGGLE_HOVEDMAL_PANEL_OPEN:
             return {
                 ...state,
-                hovedmalPanelOpen: !state.hovedmalPanelOpen
+                panelOpen: !state.panelOpen
             };
         default:
             return state;

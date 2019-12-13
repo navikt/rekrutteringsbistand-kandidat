@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
+import { Normaltekst } from 'nav-frontend-typografi';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 
 import { SEARCH } from '../searchReducer';
 import {
@@ -35,9 +35,9 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
     };
 
     return (
-        <EkspanderbartpanelBasePure
-            className="panel--sokekriterier"
-            heading={<Undertittel>Tilretteleggingsbehov</Undertittel>}
+        <SokekriteriePanel
+            id="Tilretteleggingsbehov__SokekriteriePanel"
+            tittel="Tilretteleggingsbehov"
             onClick={togglePanelOpen}
             apen={panelOpen}
         >
@@ -56,7 +56,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                     har denne informasjonen.
                 </Normaltekst>
             </div>
-        </EkspanderbartpanelBasePure>
+        </SokekriteriePanel>
     );
 };
 

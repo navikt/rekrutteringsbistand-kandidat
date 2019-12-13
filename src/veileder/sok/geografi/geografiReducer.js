@@ -17,7 +17,7 @@ export const TOGGLE_MA_BO_INNENFOR_GEOGRAFI = 'TOGGLE_MA_BO_INNENFOR_GEOGRAFI';
 const initialState = {
     geografiList: [],
     geografiListKomplett: [],
-    geografiPanelOpen: undefined,
+    geografiPanelOpen: false,
     maaBoInnenforGeografi: false
 };
 

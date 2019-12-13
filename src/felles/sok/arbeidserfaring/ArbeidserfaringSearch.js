@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { SkjemaGruppe, Checkbox } from 'nav-frontend-skjema';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
@@ -101,24 +101,22 @@ class ArbeidserfaringSearch extends React.Component {
 
         if (this.props.useJanzz) {
             return (
-                <Ekspanderbartpanel
-                    className="panel--sokekriterier"
+                <SokekriteriePanel
+                    id="ArbeidserfaringSearch__SokekriteriePanel"
                     tittel="Arbeidserfaring"
-                    tittelProps="undertittel"
                     onClick={this.props.togglePanelOpen}
-                    apen={false}
+                    apen={this.props.panelOpen}
                 >
                     {this.renderTotalErfaring()}
-                </Ekspanderbartpanel>
+                </SokekriteriePanel>
             );
         }
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="ArbeidserfaringSearch__SokekriteriePanel"
                 tittel="Arbeidserfaring"
-                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={false}
+                apen={this.props.panelOpen}
             >
                 <Element>
                     Hvilken erfaring skal kandidaten ha?
@@ -173,7 +171,7 @@ class ArbeidserfaringSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }
@@ -197,6 +195,7 @@ ArbeidserfaringSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulArbeidserfaring: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
     useJanzz: PropTypes.bool
 };
 
