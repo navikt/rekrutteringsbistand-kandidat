@@ -14,7 +14,7 @@ export const TOGGLE_FORERKORT_PANEL_OPEN = 'TOGGLE_FORERKORT_PANEL_OPEN';
 
 const initialState = {
     forerkortList: [],
-    forerkortPanelOpen: true
+    forerkortPanelOpen: false
 };
 
 export default function forerkortReducer(state = initialState, action) {

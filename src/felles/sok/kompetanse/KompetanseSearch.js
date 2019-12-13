@@ -1,20 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Kompetanse.less';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
-
-const kompetanseHeading = (
-    <div className="heading--kompetanse ekspanderbartPanel__heading">
-        <Undertittel>Kompetanse</Undertittel>
-    </div>
-);
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
@@ -86,12 +80,11 @@ class KompetanseSearch extends React.Component {
         }
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter((k) => !this.props.kompetanser.includes(k.feltnavn));
         return (
-            <EkspanderbartpanelBase
-                heading={kompetanseHeading}
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Kompetanse__SokekriteriePanel"
+                tittel="Kompetanse"
                 onClick={this.props.togglePanelOpen}
-                apen={false}
-                ariaTittel="Panel Kompetanse"
+                apen={this.props.panelOpen}
             >
                 <Element>
                     Krav til kompetanse
@@ -172,7 +165,7 @@ class KompetanseSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </EkspanderbartpanelBase>
+            </SokekriteriePanel>
         );
     }
 }
@@ -199,6 +192,7 @@ KompetanseSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulKompetanse: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
     kompetanseExamples: PropTypes.string,
     allowOnlyTypeaheadSuggestions: PropTypes.bool
 };

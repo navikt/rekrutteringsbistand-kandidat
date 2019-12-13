@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Merkelapp } from 'pam-frontend-merkelapper';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
@@ -91,12 +91,11 @@ class GeografiSearch extends React.Component {
             return null;
         }
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier heading--geografi"
+            <SokekriteriePanel
+                id="Geografi__SokekriteriePanel"
                 tittel="Fylke/kommune"
-                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={false}
+                apen={this.props.panelOpen}
             >
                 <Normaltekst>
                     Vis bare kandidater som ønsker å jobbe i dette området
@@ -155,7 +154,7 @@ class GeografiSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }
@@ -184,7 +183,7 @@ GeografiSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSted: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool,
+    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 import Typeahead from '../../../veileder/common/typeahead/Typeahead';
 import { ALERTTYPE } from '../../konstanter';
@@ -75,10 +75,9 @@ class NavkontorSearch extends React.Component {
             return null;
         }
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="NavKontor__SokekriteriePanel"
                 tittel="NAV-kontor"
-                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
@@ -140,7 +139,7 @@ class NavkontorSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }

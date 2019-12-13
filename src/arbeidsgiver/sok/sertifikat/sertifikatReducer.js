@@ -14,7 +14,7 @@ export const TOGGLE_SERTIFIKAT_PANEL_OPEN = 'TOGGLE_SERTIFIKAT_PANEL_OPEN';
 
 const initialState = {
     sertifikat: [],
-    sertifikatPanelOpen: true
+    sertifikatPanelOpen: false
 };
 
 export default function sertifikatReducer(state = initialState, action) {

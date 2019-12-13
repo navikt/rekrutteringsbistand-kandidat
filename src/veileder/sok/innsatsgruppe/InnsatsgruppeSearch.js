@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Checkbox } from 'nav-frontend-skjema';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { SEARCH } from '../searchReducer';
 import { ALERTTYPE, INNSATSGRUPPER } from '../../../felles/konstanter';
@@ -27,10 +27,9 @@ class InnsatsgruppeSearch extends React.Component {
     render() {
         const { togglePanelOpen, panelOpen, innsatsgrupper, totaltAntallTreff, visAlertFaKandidater } = this.props;
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Innsatsgruppe__SokekriteriePanel"
                 tittel="Innsatsgruppe"
-                tittelProps="undertittel"
                 onClick={togglePanelOpen}
                 apen={panelOpen}
             >
@@ -50,7 +49,7 @@ class InnsatsgruppeSearch extends React.Component {
                 {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.INNSATSGRUPPE && (
                     <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }

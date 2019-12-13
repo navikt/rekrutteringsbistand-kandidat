@@ -14,7 +14,7 @@ export const TOGGLE_SPRAK_PANEL_OPEN = 'TOGGLE_SPRAK_PANEL_OPEN';
 
 const initialState = {
     sprak: [],
-    sprakPanelOpen: true
+    sprakPanelOpen: false
 };
 
 export default function sprakReducer(state = initialState, action) {

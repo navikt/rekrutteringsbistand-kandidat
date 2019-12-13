@@ -12,7 +12,7 @@ export const TOGGLE_FRITEKST_PANEL = 'TOGGLE_FRITEKST_PANEL';
 
 const initialState = {
     fritekst: '',
-    panelOpen: true
+    panelOpen: false
 };
 
 export default function fritekstReducer(state = initialState, action) {
