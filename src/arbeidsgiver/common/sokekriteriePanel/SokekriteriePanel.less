@@ -1,0 +1,44 @@
+@import '../../../felles/Variables';
+
+.SokekriteriePanel {
+  margin: 2rem 0 0;
+}
+
+.SokekriteriePanel__hode {
+  margin: 0;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.5625rem;
+  font-weight: 600;
+  color: @blueDarken;
+  border: none;
+  padding: 0.5rem 1rem 1rem;
+  width: 100%;
+  border-top: 2px solid @blueDarken;
+
+  &:hover {
+    background-color: @greenLighten;
+    text-decoration: underline;
+    outline: none;
+  }
+
+  &:focus {
+    border-top: 2px solid transparent;
+    outline: 3px solid @blueDarken;
+  }
+}
+
+.SokekriteriePanel__flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SokekriteriePanel__innhold {
+  padding: 0.25rem 1rem 0;
+
+  @media (min-width: @screen-md-min) {
+    padding: 1rem 1rem 1.25rem;
+    background: @gray2;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
 import './Utdanning.less';
@@ -77,12 +77,11 @@ class UtdanningSearch extends React.Component {
             return null;
         }
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Utdanning__SokekriteriePanel"
                 tittel="Utdanning"
-                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
-                apen={false}
+                apen={this.props.panelOpen}
 
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
@@ -168,7 +167,7 @@ class UtdanningSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }
@@ -190,7 +189,8 @@ UtdanningSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired
     // TODO: Kommenter inn når søk på geografi blir tatt inn igjen
     // utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
     // typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,

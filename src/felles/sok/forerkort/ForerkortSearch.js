@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import { erGyldigForerkort } from './forerkort.ts';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -10,12 +10,6 @@ import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
-
-const forerkortHeading = (
-    <div className="heading--forerkort ekspanderbartPanel__heading">
-        <Undertittel>Førerkort</Undertittel>
-    </div>
-);
 
 class ForerkortSearch extends React.Component {
     constructor(props) {
@@ -82,12 +76,11 @@ class ForerkortSearch extends React.Component {
 
     render() {
         return (
-            <EkspanderbartpanelBase
-                heading={forerkortHeading}
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Forerkort__SokekriteriePanel"
+                tittel="Førerkort"
                 onClick={this.props.togglePanelOpen}
-                apen={false}
-                ariaTittel="Panel førerkort"
+                apen={this.props.panelOpen}
             >
                 <Element>Krav til førerkort</Element>
                 <Normaltekst>
@@ -142,7 +135,7 @@ class ForerkortSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.FORERKORT && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </EkspanderbartpanelBase>
+            </SokekriteriePanel>
         );
     }
 }
@@ -157,7 +150,8 @@ ForerkortSearch.propTypes = {
     clearTypeAheadForerkort: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired
 };
 
 export default ForerkortSearch;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'nav-frontend-skjema';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Hovedmal.less';
@@ -42,8 +42,8 @@ class HovedmalSearch extends React.Component {
         }
 
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Hovedmaal__SokekriteriePanel"
                 tittel="Hovedmål"
                 onClick={togglePanelOpen}
                 apen={panelOpen}
@@ -64,7 +64,7 @@ class HovedmalSearch extends React.Component {
                 { totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
                     <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
                 ) }
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }
