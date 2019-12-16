@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
 import './Utdanning.less';

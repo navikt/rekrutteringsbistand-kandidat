@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
 import { erGyldigForerkort } from './forerkort.ts';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';

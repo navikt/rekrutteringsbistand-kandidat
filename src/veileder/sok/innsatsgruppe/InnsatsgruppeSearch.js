@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Checkbox } from 'nav-frontend-skjema';
-import SokekriteriePanel from '../../../arbeidsgiver/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { SEARCH } from '../searchReducer';
 import { ALERTTYPE, INNSATSGRUPPER } from '../../../felles/konstanter';

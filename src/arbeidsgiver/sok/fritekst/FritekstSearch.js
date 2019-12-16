@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
-import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { SEARCH } from '../../../arbeidsgiver/sok/searchReducer';
 import { SET_FRITEKST_SOKEORD, TOGGLE_FRITEKST_PANEL } from '../../../arbeidsgiver/sok/fritekst/fritekstReducer';
 import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
