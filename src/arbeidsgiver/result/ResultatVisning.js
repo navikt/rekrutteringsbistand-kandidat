@@ -130,9 +130,6 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Container className="blokk-s">
-                            <Media query={{ 'max-width': 991 }}>
-                                {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
-                            </Media>
                             <Column xs="12" md="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
@@ -178,10 +175,13 @@ class ResultatVisning extends React.Component {
                                         >
                                             Finn kandidater
                                         </Hovedknapp> : ''}
+                                    <Media query={{ 'min-width': 992 }}>
+                                        {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
+                                    </Media>
                                 </div>
                             </Column>
                             <Column xs="12" md="8">
-                                <Media query={{ 'min-width': 992 }}>
+                                <Media query={{ 'max-width': 991 }}>
                                     {this.props.visLenkeTilKandidatsokNext && !USE_JANZZ && <LenkeTilKandidatsokNext />}
                                 </Media>
                                 <KandidaterVisning />

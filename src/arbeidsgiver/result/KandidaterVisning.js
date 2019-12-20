@@ -43,8 +43,7 @@ class KandidaterVisning extends React.Component {
             antallResultater: props.antallVisteKandidater,
             alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallVisteKandidater && k.markert).length === Math.min(props.antallVisteKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
-            kandidater: props.kandidater,
-            initialState: true
+            kandidater: props.kandidater
         };
     }
 
@@ -84,12 +83,6 @@ class KandidaterVisning extends React.Component {
         if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.lukkeLagreKandidaterModal();
             this.toggleMarkeringAlleKandidater(false);
-        }
-        if (this.state.initialState) {
-            // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({
-                initialState: false
-            });
         }
     }
 
@@ -180,7 +173,7 @@ class KandidaterVisning extends React.Component {
 
         const antallMarkert = antallKandidaterMarkert(this.state.kandidater);
 
-        const { totaltAntallTreff, kandidater, urlQuery } = this.props;
+        const { totaltAntallTreff, kandidater } = this.props;
         return (
             <div>
                 {this.state.lagreKandidaterModalVises && <LagreKandidaterModal onRequestClose={this.lukkeLagreKandidaterModal} onLagre={this.onLagreKandidatlister} />}
@@ -200,7 +193,7 @@ class KandidaterVisning extends React.Component {
                             </div>
                         }
 
-                        {(!this.state.initialState || Object.entries(urlQuery).length > 0) && <KnappMedHjelpetekst
+                        <KnappMedHjelpetekst
                             hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                             disabled={antallMarkert === 0}
                             onClick={this.aapneLagreKandidaterModal}
@@ -208,7 +201,7 @@ class KandidaterVisning extends React.Component {
                             tittel={lagreKandidaterKnappTekst(antallMarkert)}
                         >
                             {lagreKandidaterKnappTekst(antallMarkert)}
-                        </KnappMedHjelpetekst>}
+                        </KnappMedHjelpetekst>
                     </div>
                 </Row>
                 <KandidaterTabell
@@ -221,8 +214,6 @@ class KandidaterVisning extends React.Component {
                     alleKandidaterMarkert={this.state.alleKandidaterMarkert}
                     onToggleMarkeringAlleKandidater={this.onToggleMarkeringAlleKandidater}
                     valgtKandidatNr={this.props.valgtKandidatNr}
-                    urlQuery={urlQuery}
-                    initialState={this.state.initialState}
                 />
             </div>
         );
@@ -241,8 +232,7 @@ KandidaterVisning.propTypes = {
     valgtKandidatNr: PropTypes.string.isRequired,
     scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
-    oppdaterMarkerteKandidater: PropTypes.func.isRequired,
-    urlQuery: PropTypes.oneOfType([PropTypes.object]).isRequired
+    oppdaterMarkerteKandidater: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -269,8 +259,7 @@ const mapStateToProps = (state) => ({
     searchQueryHash: state.search.searchQueryHash,
     antallVisteKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
-    scrolletFraToppen: state.search.scrolletFraToppen,
-    urlQuery: state.search.urlQuery
+    scrolletFraToppen: state.search.scrolletFraToppen
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
