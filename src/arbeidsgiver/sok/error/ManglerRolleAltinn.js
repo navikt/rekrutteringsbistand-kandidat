@@ -4,12 +4,14 @@ import { Column, Container, Row } from 'nav-frontend-grid';
 import Ikon from 'nav-frontend-ikoner-assets';
 import { Panel } from 'nav-frontend-paneler';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { recordNoRightsEvent } from '../../../felles/googleanalytics';
 
 const LENKE_RETTIGHETER = 'https://altinn.no/hjelp/profil/roller-og-rettigheter/';
 
 const ManglerRolleAltinn = () => {
     useEffect(() => {
         localStorage.setItem('innloggetBrukerKontekst', 'ingen-arbeidsgivertilgang');
+        recordNoRightsEvent();
     }, []);
 
     return (

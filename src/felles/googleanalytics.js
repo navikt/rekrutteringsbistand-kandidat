@@ -16,3 +16,11 @@ ga('send', 'pageview');
 export function registerCompanyMetrics(orgClass) {
     ga('set', 'dimension1', orgClass);
 }
+
+export const recordNoRightsEvent = () => {
+    ga('send', 'event', {
+        eventCategory: 'Interaksjon',
+        eventAction: 'Login',
+        eventLabel: 'mangler-arbeidsgiver-rettigheter'
+    });
+}
