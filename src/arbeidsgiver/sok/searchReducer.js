@@ -85,12 +85,6 @@ const initialState = {
 
 export default function searchReducer(state = initialState, action) {
     switch (action.type) {
-        case PERFORM_INITIAL_SEARCH:
-            return {
-                ...state,
-                // eslint-disable-next-line no-use-before-define
-                urlQuery: fromUrlQuery(window.location.href)
-            };
         case SEARCH_BEGIN:
             return {
                 ...state,
