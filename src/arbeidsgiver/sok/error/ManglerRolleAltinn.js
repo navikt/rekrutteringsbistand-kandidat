@@ -3,16 +3,29 @@ import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import Ikon from 'nav-frontend-ikoner-assets';
 import { Panel } from 'nav-frontend-paneler';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { recordNoRightsEvent } from '../../../felles/googleanalytics';
 
 const LENKE_RETTIGHETER = 'https://altinn.no/hjelp/profil/roller-og-rettigheter/';
 
 const ManglerRolleAltinn = () => {
     useEffect(() => {
         localStorage.setItem('innloggetBrukerKontekst', 'ingen-arbeidsgivertilgang');
+        recordNoRightsEvent();
     }, []);
 
     return (
         <Container className="container-arbeidsgiver">
+            <AlertStripeAdvarsel className="blokk-xs alertstripe--solid">
+                <div>
+                    <Element>Nedetid for arbeidsgivertjenestene 1. januar</Element>
+                    <Normaltekst>
+                        Onsdag 1. januar kl. 17:00 til 23:00 kan du ikke benytte arbeidsgivertjenestene
+                        på arbeidsplassen.no. Det er på grunn av nedetid i Altinn relatert til
+                        Kommune- og fylkessammenslåingen.
+                    </Normaltekst>
+                </div>
+            </AlertStripeAdvarsel>
             <Panel className="blokk-l">
                 <Row className="blokk-xs text-center">
                     <Ikon kind="info-sirkel-fyll" />

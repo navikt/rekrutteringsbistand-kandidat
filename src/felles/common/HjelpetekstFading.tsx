@@ -13,7 +13,7 @@ interface Props {
 
 const HjelpetekstFading: FunctionComponent<Props> = ({ synlig, type, innhold, id, className = '' }) => (
     <div aria-live="assertive">
-        <AlertStripe id={id} type={type} className={`${className}${synlig ? ' HjelpetekstFading fading synlig' : ' HjelpetekstFading fading'}`} solid>
+        <AlertStripe id={id} type={type} className={`${className}${synlig ? ' HjelpetekstFading fading synlig' : ' HjelpetekstFading fading'}`} >
             {innhold}
         </AlertStripe>
     </div>
@@ -21,7 +21,7 @@ const HjelpetekstFading: FunctionComponent<Props> = ({ synlig, type, innhold, id
 
 const FadingAlertStripeLitenBase: FunctionComponent<Props> = ({ synlig, type, innhold, id }) => (
     <div aria-live="assertive">
-        <AlertStripe id={id} type={type} className={`FadingAlertStripeLiten fading ${synlig ? 'synlig' : ''}`} solid>
+        <AlertStripe id={id} type={type} className={`FadingAlertStripeLiten fading ${synlig ? 'synlig' : ''}`} >
             {innhold}
         </AlertStripe>
     </div>

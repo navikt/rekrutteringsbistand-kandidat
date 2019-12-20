@@ -69,7 +69,7 @@ const Notatliste: FunctionComponent<{ notater: RemoteData<Array<Notat>>, setModa
         case RemoteDataTypes.FAILURE:
             return (
                 <div className="Notatliste">
-                    <AlertStripe type="feil" solid>
+                    <AlertStripe type="feil">
                         <div className="AlertStripe__med-knapp">
                             <span>Beklager, notatene kan ikke vises</span>
                             <Hovedknapp onClick={hentNotater} mini>Prøv på nytt</Hovedknapp>
