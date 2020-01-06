@@ -234,6 +234,7 @@ export const fromUrlQuery = (url) => {
     const minekandidater = getUrlParameterByName('minekandidater', url);
     const hovedmal = getUrlParameterByName('hovedmal', url);
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
+    const kategorier = getUrlParameterByName('kategorier', url);
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -252,6 +253,7 @@ export const fromUrlQuery = (url) => {
     if (minekandidater === 'true') stateFromUrl.minekandidater = true;
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
+    if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     return stateFromUrl;
 };
 
@@ -274,6 +276,7 @@ export const toUrlQuery = (state) => {
     if (state.navkontorReducer.minekandidater) urlQuery.minekandidater = state.navkontorReducer.minekandidater;
     if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0) urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
     if (state.tilretteleggingsbehov.harTilretteleggingsbehov) urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
+    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0) urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
     return toUrlParams(urlQuery);
 };
 

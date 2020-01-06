@@ -49,6 +49,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                 ? kategorier.filter((k) => k !== kategori)
                 : [...kategorier, kategori]
         );
+        search();
     };
 
     return (
