@@ -20,6 +20,7 @@ interface TilretteleggingsbehovSearchProps {
     toggleTilretteleggingsbehov: (harTilretteleggingsbehov: boolean) => void;
     panelOpen: boolean;
     togglePanelOpen: () => void;
+    visKategorier: boolean;
     kategorier: Kategori[];
     changeTilretteleggingsbehovKategorier: (kategorier: Kategori[]) => void;
 }
@@ -31,6 +32,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
         togglePanelOpen,
         panelOpen,
         harValgtTilretteleggingsbehov,
+        visKategorier,
         kategorier,
         changeTilretteleggingsbehovKategorier
     } = props;
@@ -66,7 +68,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                 checked={harValgtTilretteleggingsbehov}
                 onChange={onTilretteleggingsbehovChange}
             />
-            {harValgtTilretteleggingsbehov && (
+            {visKategorier && harValgtTilretteleggingsbehov && (
                 <fieldset
                     aria-label="Kategorier for tilretteleggingsbehov"
                     className="tilretteleggingsbehov__kategorier"
@@ -101,6 +103,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
 
 const mapStateToProps = (state) => ({
     harValgtTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
+    visKategorier: state.search.featureToggles['vis-tilretteleggingsbehov-kategorier'],
     kategorier: state.tilretteleggingsbehov.kategorier,
     panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen
 });
