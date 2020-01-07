@@ -16,7 +16,7 @@ import Kategori, { getKategoriLabel } from './Kategori';
 
 interface TilretteleggingsbehovSearchProps {
     search: () => void;
-    harTilretteleggingsbehov: boolean;
+    harValgtTilretteleggingsbehov: boolean;
     toggleTilretteleggingsbehov: (harTilretteleggingsbehov: boolean) => void;
     panelOpen: boolean;
     togglePanelOpen: () => void;
@@ -30,7 +30,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
         toggleTilretteleggingsbehov,
         togglePanelOpen,
         panelOpen,
-        harTilretteleggingsbehov,
+        harValgtTilretteleggingsbehov,
         kategorier,
         changeTilretteleggingsbehovKategorier
     } = props;
@@ -63,10 +63,10 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                 className="skjemaelement--pink"
                 id="tilretteleggingsbehov-checkbox"
                 label="Vis kandidater med tilretteleggingsbehov"
-                checked={harTilretteleggingsbehov}
+                checked={harValgtTilretteleggingsbehov}
                 onChange={onTilretteleggingsbehovChange}
             />
-            {harTilretteleggingsbehov && (
+            {harValgtTilretteleggingsbehov && (
                 <fieldset
                     aria-label="Kategorier for tilretteleggingsbehov"
                     className="tilretteleggingsbehov__kategorier"
@@ -100,15 +100,18 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
 };
 
 const mapStateToProps = (state) => ({
-    harTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
+    harValgtTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
     kategorier: state.tilretteleggingsbehov.kategorier,
     panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    toggleTilretteleggingsbehov: (harTilretteleggingsbehov: boolean) =>
-        dispatch({ type: TOGGLE_TILRETTELEGGINGSBEHOV, harTilretteleggingsbehov }),
+    toggleTilretteleggingsbehov: (harValgtTilretteleggingsbehov: boolean) =>
+        dispatch({
+            type: TOGGLE_TILRETTELEGGINGSBEHOV,
+            harTilretteleggingsbehov: harValgtTilretteleggingsbehov
+        }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN }),
     changeTilretteleggingsbehovKategorier: (kategorier: Kategori[]) =>
         dispatch({ type: CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER, kategorier })

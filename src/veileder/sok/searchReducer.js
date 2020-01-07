@@ -320,7 +320,8 @@ function* search(action = '') {
             navkontor: state.navkontorReducer.navkontor,
             minekandidater: state.navkontorReducer.minekandidater,
             hovedmal: state.hovedmal.totaltHovedmal,
-            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov
+            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
+            kategorier: state.tilretteleggingsbehov.kategorier
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
