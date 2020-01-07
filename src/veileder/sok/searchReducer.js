@@ -387,10 +387,18 @@ function* initialSearch(action) {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
         if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
-            const { stilling, kommune } = yield call(fetchStillingFraListe, action.stillingsId);
-            urlQuery.stillinger = stilling;
-            urlQuery.geografiList = kommune;
+            const stilling = yield call(fetchStillingFraListe, action.stillingsId);
+
+            urlQuery.stillinger = stilling.stilling;
+            urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
+
+            if (state.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
+                const { tilretteleggingsbehov, kategorier } = stilling;
+
+                urlQuery.tilretteleggingsbehov = tilretteleggingsbehov;
+                urlQuery.kategorier = kategorier;
+            }
         }
         if (Object.keys(urlQuery).length > 0) {
             if (urlQuery.geografiList) {
