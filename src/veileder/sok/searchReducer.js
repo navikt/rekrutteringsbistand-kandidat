@@ -394,10 +394,8 @@ function* initialSearch(action) {
             urlQuery.harHentetStilling = true;
 
             if (state.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
-                const { tilretteleggingsbehov, kategorier } = stilling;
-
-                urlQuery.tilretteleggingsbehov = tilretteleggingsbehov;
-                urlQuery.kategorier = kategorier;
+                urlQuery.tilretteleggingsbehov = stilling.tilretteleggingsbehov;
+                urlQuery.kategorier = stilling.kategorier;
             }
         }
         if (Object.keys(urlQuery).length > 0) {
