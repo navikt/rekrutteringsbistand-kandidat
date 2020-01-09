@@ -3,7 +3,7 @@ import { Innholdstittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 import Ikon from 'nav-frontend-ikoner-assets';
 import { Panel } from 'nav-frontend-paneler';
-import { recordNoRightsEvent } from '../../../felles/googleanalytics';
+import { recordHelpWithLoginRights, recordNoRightsEvent } from '../../../felles/googleanalytics';
 
 const LENKE_RETTIGHETER = 'https://altinn.no/hjelp/profil/roller-og-rettigheter/';
 
@@ -55,6 +55,7 @@ const ManglerRolleAltinn = () => {
                         <Normaltekst className="blokk-s">
                             Mer informasjon om tildeling av roller og rettigheter finnes på{' '}
                             <a
+                                onClick={recordHelpWithLoginRights}
                                 className="link"
                                 href={LENKE_RETTIGHETER}
                             >
