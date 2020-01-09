@@ -59,7 +59,7 @@ const ManglerRolleAltinn = () => {
                                 className="link"
                                 href={LENKE_RETTIGHETER}
                             >
-                                altinn.no
+                                arbeidsplassen.no
                             </a>
                             .
                         </Normaltekst>
