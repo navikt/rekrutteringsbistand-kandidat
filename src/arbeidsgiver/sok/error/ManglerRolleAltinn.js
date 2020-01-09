@@ -56,6 +56,7 @@ const ManglerRolleAltinn = () => {
                             Mer informasjon om tildeling av roller og rettigheter finnes på siden{' '}
                             <a
                                 onClick={recordHelpWithLoginRights}
+                                className="link"
                                 href={LENKE_RETTIGHETER}
                             >
                                 arbeidsgivertjenester
