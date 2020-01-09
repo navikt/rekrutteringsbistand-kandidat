@@ -23,4 +23,12 @@ export const recordNoRightsEvent = () => {
         eventAction: 'Login',
         eventLabel: 'mangler-arbeidsgiver-rettigheter'
     });
-}
+};
+
+export const recordHelpWithLoginRights = () => {
+    ga('send', 'event', {
+        eventCategory: 'Interaksjon',
+        eventAction: 'Login',
+        eventLabel: 'hjelp-til-innlogging'
+    });
+};
