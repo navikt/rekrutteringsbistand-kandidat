@@ -5,7 +5,7 @@ import Ikon from 'nav-frontend-ikoner-assets';
 import { Panel } from 'nav-frontend-paneler';
 import { recordHelpWithLoginRights, recordNoRightsEvent } from '../../../felles/googleanalytics';
 
-const LENKE_RETTIGHETER = 'https://altinn.no/hjelp/profil/roller-og-rettigheter/';
+const LENKE_RETTIGHETER = 'https://arbeidsplassen.nav.no/arbeidsgivertjenester';
 
 const ManglerRolleAltinn = () => {
     useEffect(() => {
@@ -59,7 +59,7 @@ const ManglerRolleAltinn = () => {
                                 className="link"
                                 href={LENKE_RETTIGHETER}
                             >
-                                altinn.no
+                                Arbeidsplassen.no
                             </a>
                             .
                         </Normaltekst>
