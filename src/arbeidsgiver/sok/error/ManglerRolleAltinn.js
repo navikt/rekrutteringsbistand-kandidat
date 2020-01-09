@@ -53,13 +53,12 @@ const ManglerRolleAltinn = () => {
                             daglig leder eller andre fra eiersiden.
                         </Normaltekst>
                         <Normaltekst className="blokk-s">
-                            Mer informasjon om tildeling av roller og rettigheter finnes på{' '}
+                            Mer informasjon om tildeling av roller og rettigheter finnes på siden{' '}
                             <a
                                 onClick={recordHelpWithLoginRights}
-                                className="link"
                                 href={LENKE_RETTIGHETER}
                             >
-                                Arbeidsplassen.no
+                                arbeidsgivertjenester
                             </a>
                             .
                         </Normaltekst>
