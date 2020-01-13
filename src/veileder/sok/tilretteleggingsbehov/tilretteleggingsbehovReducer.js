@@ -21,7 +21,10 @@ export default function tilretteleggingsbehovReducer(state = initialState, actio
         case SET_STATE:
             return {
                 ...state,
-                harTilretteleggingsbehov: action.query.tilretteleggingsbehov || false
+                harTilretteleggingsbehov: action.query.tilretteleggingsbehov || false,
+                tilretteleggingsbehovPanelOpen:
+                    action.query.tilretteleggingsbehov ||
+                    state.tilretteleggingsbehovPanelOpen
             };
         case TOGGLE_TILRETTELEGGINGSBEHOV:
             return {

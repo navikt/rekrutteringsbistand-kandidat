@@ -438,6 +438,8 @@ function* hentInnloggetVeileder() {
     }
 }
 
+export const anyOf = (...arrays) => arrays.some((array) => array !== undefined && array.length > 0);
+
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);

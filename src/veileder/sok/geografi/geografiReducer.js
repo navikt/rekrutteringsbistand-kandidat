@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, anyOf } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
@@ -28,7 +28,11 @@ export default function geografiReducer(state = initialState, action) {
                 ...state,
                 geografiList: action.query.geografiList || [],
                 geografiListKomplett: action.query.geografiListKomplett || [],
-                maaBoInnenforGeografi: action.query.maaBoInnenforGeografi || false
+                maaBoInnenforGeografi: action.query.maaBoInnenforGeografi || false,
+                geografiPanelOpen:
+                    anyOf(action.query.geografiList, action.query.geografiListKomplett) ||
+                    action.query.maaBoInnenforGeografi ||
+                    state.geografiPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
             return {

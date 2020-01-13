@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, anyOf } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
 export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';
@@ -22,7 +22,8 @@ export default function stillingReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                stillinger: action.query.stillinger || []
+                stillinger: action.query.stillinger || [],
+                stillingPanelOpen: anyOf(action.query.stillinger) || state.stillingPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_STILLING:
             return {

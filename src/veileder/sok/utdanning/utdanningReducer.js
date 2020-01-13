@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, anyOf } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
@@ -27,7 +27,8 @@ export default function utdanningReducer(state = initialState, action) {
             return {
                 ...state,
                 utdanninger: action.query.utdanninger || [],
-                utdanningsniva: action.query.utdanningsniva || []
+                utdanningsniva: action.query.utdanningsniva || [],
+                utdanningPanelOpen: anyOf(action.query.utdanningsniva) || state.utdanningPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_UTDANNING:
             return {

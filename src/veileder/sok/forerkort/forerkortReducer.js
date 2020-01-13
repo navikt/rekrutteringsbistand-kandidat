@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, anyOf } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_FORERKORT = 'SELECT_TYPE_AHEAD_VALUE_FORERKORT';
 export const REMOVE_SELECTED_FORERKORT = 'REMOVE_SELECTED_FORERKORT';
@@ -22,7 +22,9 @@ export default function forerkortReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                forerkortList: action.query.forerkort || []
+                forerkortList: action.query.forerkort || [],
+                forerkortPanelOpen:
+                    anyOf(action.query.forerkort) || state.forerkortPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_FORERKORT:
             return {
