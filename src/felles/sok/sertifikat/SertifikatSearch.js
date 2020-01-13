@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
 
 class SertifikatSearch extends React.Component {
     constructor(props) {
@@ -68,10 +68,9 @@ class SertifikatSearch extends React.Component {
             return null;
         }
         return (
-            <Ekspanderbartpanel
-                className="panel--sokekriterier"
+            <SokekriteriePanel
+                id="Sertifisering__SokekriteriePanel"
                 tittel="Sertifisering"
-                tittelProps="undertittel"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
@@ -121,7 +120,7 @@ class SertifikatSearch extends React.Component {
                 {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SERTIFIKAT && (
                     <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
                 )}
-            </Ekspanderbartpanel>
+            </SokekriteriePanel>
         );
     }
 }
