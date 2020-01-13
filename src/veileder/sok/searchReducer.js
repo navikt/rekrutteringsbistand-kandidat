@@ -386,6 +386,7 @@ function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
+
         if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
             const stilling = yield call(fetchStillingFraListe, action.stillingsId);
 
@@ -393,7 +394,7 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
-            if (state.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
+            if (state.search.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
                 urlQuery.tilretteleggingsbehov = stilling.tilretteleggingsbehov;
                 urlQuery.kategorier = stilling.kategorier;
             }

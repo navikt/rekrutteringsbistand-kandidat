@@ -1,8 +1,8 @@
 enum Kategori {
-    Fysisk = 'FYSISK',
-    Arbeidstid = 'ARBEIDSTID',
-    Arbeidsmiljø = 'ARBEIDSMILJØ',
-    Grunnleggende = 'GRUNNLEGGENDE'
+    Fysisk = 'fysisk',
+    Arbeidstid = 'arbeidstid',
+    Arbeidsmiljø = 'arbeidsmiljo',
+    Grunnleggende = 'grunnleggende'
 }
 
 export const getKategoriLabel = (kategori: Kategori) => {
