@@ -22,8 +22,8 @@ export default function hovedmalReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                totaltHovedmal: action.query.totaltHovedmal || [],
-                panelOpen: anyOf(action.query.totaltHovedmal) || state.panelOpen
+                totaltHovedmal: action.query.hovedmal || [],
+                panelOpen: anyOf(action.query.hovedmal) || state.panelOpen
             };
         case CHECK_TOTAL_HOVEDMAL:
             return {
