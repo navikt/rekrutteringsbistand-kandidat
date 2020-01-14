@@ -234,6 +234,7 @@ export const fromUrlQuery = (url) => {
     const minekandidater = getUrlParameterByName('minekandidater', url);
     const hovedmal = getUrlParameterByName('hovedmal', url);
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
+    const kategorier = getUrlParameterByName('kategorier', url);
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -252,6 +253,7 @@ export const fromUrlQuery = (url) => {
     if (minekandidater === 'true') stateFromUrl.minekandidater = true;
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
+    if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     return stateFromUrl;
 };
 
@@ -274,6 +276,7 @@ export const toUrlQuery = (state) => {
     if (state.navkontorReducer.minekandidater) urlQuery.minekandidater = state.navkontorReducer.minekandidater;
     if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0) urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
     if (state.tilretteleggingsbehov.harTilretteleggingsbehov) urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
+    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0) urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
     return toUrlParams(urlQuery);
 };
 
@@ -317,7 +320,8 @@ function* search(action = '') {
             navkontor: state.navkontorReducer.navkontor,
             minekandidater: state.navkontorReducer.minekandidater,
             hovedmal: state.hovedmal.totaltHovedmal,
-            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov
+            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
+            kategorier: state.tilretteleggingsbehov.kategorier
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
@@ -382,11 +386,18 @@ function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
+
         if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
-            const { stilling, kommune } = yield call(fetchStillingFraListe, action.stillingsId);
-            urlQuery.stillinger = stilling;
-            urlQuery.geografiList = kommune;
+            const stilling = yield call(fetchStillingFraListe, action.stillingsId);
+
+            urlQuery.stillinger = stilling.stilling;
+            urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
+
+            if (state.search.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
+                urlQuery.tilretteleggingsbehov = stilling.tilretteleggingsbehov;
+                urlQuery.kategorier = stilling.kategorier;
+            }
         }
         if (Object.keys(urlQuery).length > 0) {
             if (urlQuery.geografiList) {
