@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, anyOf } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_KOMPETANSE = 'SELECT_TYPE_AHEAD_VALUE_KOMPETANSE';
 export const REMOVE_SELECTED_KOMPETANSE = 'REMOVE_SELECTED_KOMPETANSE';
@@ -24,7 +24,7 @@ export default function kompetanseReducer(state = initialState, action) {
                 ...state,
                 kompetanser: action.query.kompetanser || [],
                 kompetansePanelOpen:
-                    anyOf(action.query.kompetanser) ||
+                    harEnParameter(action.query.kompetanser) ||
                     state.kompetansePanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_KOMPETANSE:

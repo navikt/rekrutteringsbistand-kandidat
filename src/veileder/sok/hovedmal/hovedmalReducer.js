@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, anyOf } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const CHECK_TOTAL_HOVEDMAL = 'CHECK_TOTAL_HOVEDMAL';
 export const UNCHECK_TOTAL_HOVEDMAL = 'UNCHECK_TOTAL_HOVEDMAL';
@@ -23,7 +23,7 @@ export default function hovedmalReducer(state = initialState, action) {
             return {
                 ...state,
                 totaltHovedmal: action.query.hovedmal || [],
-                panelOpen: anyOf(action.query.hovedmal) || state.panelOpen
+                panelOpen: harEnParameter(action.query.hovedmal) || state.panelOpen
             };
         case CHECK_TOTAL_HOVEDMAL:
             return {

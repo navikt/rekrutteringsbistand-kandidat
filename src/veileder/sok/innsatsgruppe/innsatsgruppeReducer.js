@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, anyOf } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';
@@ -24,7 +24,7 @@ export default function innsatsgruppeReducer(state = initialState, action) {
                 ...state,
                 kvalifiseringsgruppeKoder: action.query.kvalifiseringsgruppeKoder || [],
                 innsatsgruppePanelOpen:
-                    anyOf(action.query.kvalifiseringsgruppeKoder) ||
+                    harEnParameter(action.query.kvalifiseringsgruppeKoder) ||
                     state.innsatsgruppePanelOpen
             };
         case CHECK_INNSATSGRUPPE:

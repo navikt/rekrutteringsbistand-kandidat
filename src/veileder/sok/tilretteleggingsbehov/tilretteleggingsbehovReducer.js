@@ -1,4 +1,4 @@
-import { SET_STATE, anyOf } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -28,7 +28,7 @@ export default function tilretteleggingsbehovReducer(state = initialState, actio
                 harTilretteleggingsbehov: tilretteleggingsbehov || false,
                 kategorier: kategorier || [],
                 tilretteleggingsbehovPanelOpen:
-                    anyOf(kategorier) ||
+                    harEnParameter(kategorier) ||
                     tilretteleggingsbehov ||
                     state.tilretteleggingsbehovPanelOpen
             };

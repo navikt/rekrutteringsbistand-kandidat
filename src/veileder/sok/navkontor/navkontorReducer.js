@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, anyOf } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKONTOR';
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';
@@ -27,7 +27,7 @@ export default function navkontorReducer(state = initialState, action) {
                 navkontor: action.query.navkontor || [],
                 minekandidater: action.query.minekandidater || false,
                 navkontorPanelOpen:
-                    anyOf(action.query.navkontor) ||
+                    harEnParameter(action.query.navkontor) ||
                     action.query.minekandidater ||
                     state.navkontorPanelOpen
             };
