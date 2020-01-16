@@ -35,7 +35,7 @@ jobs:
                   repo: navikt/rekrutteringsbistand-kandidat
                   image: docker.pkg.github.com/navikt/rekrutteringsbistand-kandidat/rekrutteringsbistand-kandidat
                   github-app-id: 43789
-                  nais-template: setup/veileder/nais-preprod.yaml
+                  nais-template: deploy/veileder/nais-preprod.yaml
                   environment: dev-fss
                   team: teamtag
 
@@ -51,7 +51,7 @@ jobs:
                   repo: navikt/rekrutteringsbistand-kandidat
                   image: docker.pkg.github.com/navikt/rekrutteringsbistand-kandidat/rekrutteringsbistand-kandidat
                   github-app-id: 43789
-                  nais-template: setup/veileder/nais-prod.yaml
+                  nais-template: deploy/veileder/nais-prod.yaml
                   environment: prod-fss
                   team: teamtag
 
