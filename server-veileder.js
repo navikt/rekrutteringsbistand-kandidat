@@ -170,8 +170,8 @@ const renderSok = () => (
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.get('/pam-kandidatsok-veileder/internal/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/pam-kandidatsok-veileder/internal/isReady', (req, res) => res.sendStatus(200));
+    server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) => res.sendStatus(200));
+    server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) => res.sendStatus(200));
 
     server.get('/kandidater/finn-kandidat/kandidat/:aktorId', (req, res) => {
         const url = `${process.env.FINN_KANDIDAT_URL}/kandidat/${req.params.aktorId}?inngang=kandidatsok`;
