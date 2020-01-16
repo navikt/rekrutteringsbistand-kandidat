@@ -1,9 +1,0 @@
-{
-  "image": "{{{ image }}}",
-  "namespace": "q0",
-  "ingress-selvbetjening": "https://arbeidsplassen-q.nav.no/kandidater",
-  "loginservice": "https://loginservice-q.nav.no/login?level=Level3",
-  "logoutservice": "https://loginservice-q.nav.no/slo",
-  "pamportal": "https://arbeidsplassen-q.nav.no/",
-  "pamkandidatsokapi": "https://api-gw-q0.oera.no/pam-kandidatsok-api/"
-}
