@@ -4,9 +4,9 @@ metadata:
     name: rekrutteringsbistand-kandidat
     namespace: q0
     labels:
-        team: teampam
+        team: teamtag
 spec:
-    image: {{{ image }}}
+    image: { { image } }
     port: 8080
     liveness:
         path: /rekrutteringsbistand-kandidat/internal/isAlive
