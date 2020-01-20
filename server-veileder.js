@@ -179,9 +179,12 @@ const startServer = (html) => {
     });
 
     server.use('/kandidater/rest/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')
-        )
+        proxyReqPathResolver: (req) => {
+            const newRequest = req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api');
+            console.warn('# Request via proxy mot /kandidater/rest/:', newRequest);
+
+            return newRequest;
+        }
     }));
 
     server.use(
