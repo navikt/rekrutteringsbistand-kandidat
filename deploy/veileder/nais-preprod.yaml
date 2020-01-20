@@ -2,7 +2,7 @@ apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
     name: rekrutteringsbistand-kandidat
-    namespace: default
+    namespace: q0
     labels:
         team: {{ team }}
 spec:
@@ -42,10 +42,8 @@ spec:
           value: https://loginservice.nais.preprod.local/slo
         - name: LAST_NED_CV_URL
           value: https://pam-cv-veileder.nais.preprod.local/cv/pdf
-#        - name: PAM_KANDIDATSOK_API_URL
-#          value: https://pam-kandidatsok-api-q0.nais.preprod.local/
         - name: PAM_KANDIDATSOK_API_URL
-          value: https://pam-kandidatsok-api.q0.svc.nais.local/
+          value: https://pam-kandidatsok-api-q0.nais.preprod.local/
         - name: PAM_SEARCH_API_RESTSERVICE_URL
           value: https://api-gw-q0.adeo.no/pam-search-api/
         - name: PAMPORTAL_URL
