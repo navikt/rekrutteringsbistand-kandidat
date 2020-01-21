@@ -1,4 +1,4 @@
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -20,12 +20,19 @@ const initialState = {
 
 export default function tilretteleggingsbehovReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_STATE:
+        case SET_STATE: {
+            const { tilretteleggingsbehov, kategorier } = action.query;
+
             return {
                 ...state,
-                harTilretteleggingsbehov: action.query.tilretteleggingsbehov || false,
-                kategorier: action.query.kategorier || []
+                harTilretteleggingsbehov: tilretteleggingsbehov || false,
+                kategorier: kategorier || [],
+                tilretteleggingsbehovPanelOpen:
+                    harEnParameter(kategorier) ||
+                    tilretteleggingsbehov ||
+                    state.tilretteleggingsbehovPanelOpen
             };
+        }
         case TOGGLE_TILRETTELEGGINGSBEHOV:
             return {
                 ...state,

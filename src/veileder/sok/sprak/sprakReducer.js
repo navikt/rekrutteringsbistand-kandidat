@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
 export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
@@ -22,7 +22,8 @@ export default function sprakReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                sprak: action.query.sprak || []
+                sprak: action.query.sprak || [],
+                sprakPanelOpen: harEnParameter(action.query.sprak) || state.sprakPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_SPRAK:
             return {

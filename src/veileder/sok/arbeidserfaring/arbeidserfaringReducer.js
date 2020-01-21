@@ -1,7 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE } from '../searchReducer';
+import { SET_STATE, harEnParameter } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING = 'SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING';
 export const REMOVE_SELECTED_ARBEIDSERFARING = 'REMOVE_SELECTED_ARBEIDSERFARING';
@@ -27,7 +27,10 @@ export default function arbeidserfaringReducer(state = initialState, action) {
             return {
                 ...state,
                 arbeidserfaringer: action.query.arbeidserfaringer || [],
-                totalErfaring: action.query.totalErfaring || []
+                totalErfaring: action.query.totalErfaring || [],
+                arbeidserfaringPanelOpen:
+                    harEnParameter(action.query.arbeidserfaringer, action.query.totalErfaring) ||
+                    state.arbeidserfaringPanelOpen
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
             return {
