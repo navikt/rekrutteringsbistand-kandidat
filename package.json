@@ -57,8 +57,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run lint-staged",
-      "commit-msg": "bash ./scripts/commit-msg.sh"
+      "pre-commit": "npm run lint-staged"
     }
   },
   "dependencies": {
