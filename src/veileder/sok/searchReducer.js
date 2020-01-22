@@ -418,6 +418,7 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
+            console.warn('Hei, jeg heter initialSearch og våre verdier er:', state, urlQuery, 'TOGGLE:', state.search.featureToggles['preutfyll-tilretteleggingsbehov']);
             if (state.search.featureToggles['preutfyll-tilretteleggingsbehov'] && stilling.tag.length > 0) {
                 urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
             }
