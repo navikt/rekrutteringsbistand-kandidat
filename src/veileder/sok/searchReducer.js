@@ -382,6 +382,30 @@ function* fetchKompetanseSuggestions() {
     }
 }
 
+const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
+    const nyQuery = { ...urlQuery };
+
+    nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
+    if (!nyQuery.tilretteleggingsbehov) {
+        return nyQuery;
+    }
+
+    nyQuery.kategorier = [];
+
+    const tilretteleggingsmuligheterTilBehov = {
+        INKLUDERING__ARBEIDSTID: 'arbeidstid',
+        INKLUDERING__ARBEIDSMILJØ: 'arbeidsmiljo',
+        INKLUDERING__FYSISK: 'fysisk',
+        INKLUDERING__GRUNNLEGGENDE: 'grunnleggende'
+    };
+
+    nyQuery.kategorier = tag
+        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
+
+    return nyQuery;
+};
+
 function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
@@ -394,9 +418,8 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
-            if (state.search.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
-                urlQuery.tilretteleggingsbehov = stilling.tilretteleggingsbehov;
-                urlQuery.kategorier = stilling.kategorier;
+            if (state.search.featureToggles['preutfyll-tilretteleggingsbehov'] && stilling.tag.length > 0) {
+                urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
             }
         }
         if (Object.keys(urlQuery).length > 0) {
