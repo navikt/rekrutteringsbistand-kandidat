@@ -9,6 +9,7 @@
     "__SESSION_TIMEOUT_WARNING_MINUTES__": true
   },
   "rules": {
+    "react/prop-types": "off",
     "jsx-a11y/href-no-hash": "off", // denne bør legges inn igjen, men er tatt vekk nå pga issue https://github.com/facebookincubator/create-react-app/issues/2631
     "no-unused-vars": [2, { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
     "no-unused-expressions": [2, {"allowTernary": true}],
