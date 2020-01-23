@@ -73,6 +73,7 @@ const initialState = {
         .reduce((dict, key) => (
             { ...dict, [key]: false }
         ), {}),
+    harHentetFeatureToggles: false,
     isEmptyQuery: true,
     visAlertFaKandidater: '',
     valgtKandidatNr: '',
@@ -157,6 +158,7 @@ export default function searchReducer(state = initialState, action) {
         case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
                 ...state,
+                harHentetFeatureToggles: true,
                 featureToggles: FEATURE_TOGGLES
                     .reduce((dict, key) => (
                         {
@@ -169,6 +171,7 @@ export default function searchReducer(state = initialState, action) {
         case FETCH_FEATURE_TOGGLES_FAILURE:
             return {
                 ...state,
+                harHentetFeatureToggles: true,
                 featureToggles: FEATURE_TOGGLES
                     .reduce((dict, key) => (
                         { ...dict, [key]: false }
@@ -418,7 +421,7 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
-            if (stilling.tag.length > 0) {
+            if (state.search.featureToggles['preutfyll-tilretteleggingsbehov'] && stilling.tag.length > 0) {
                 urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
             }
         }
