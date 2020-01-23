@@ -34,118 +34,86 @@ const browserRegistrator = (req, res, next) => {
 const server = express();
 server.use(compression(), browserRegistrator);
 const port = process.env.PORT || 8080;
-
-const APPS = {
-    KANDIDATSOK: 'kandidatsok',
-    KANDIDATSOK_NEXT: 'kandidatsok-next'
-};
-
-const appInfo = (appnavn) => {
-    if (appnavn === APPS.KANDIDATSOK) {
-        return {
-            contextRoot: 'kandidater',
-            appNavn: 'pam-kandidatsok',
-            htmlFil: 'index.html'
-        };
-    } else if (appnavn === APPS.KANDIDATSOK_NEXT) {
-        return {
-            contextRoot: 'kandidater-next',
-            appNavn: 'pam-kandidatsok-next',
-            htmlFil: 'index-next.html'
-        };
-    }
-    throw new Error('server.js krever en miljøvariabel med navn APP_NAME som matcher en av disse: ' +
-        `${Object
-            .values(APPS)
-            .map((app) => (
-                `"${app}"`
-            ))
-            .join(', ')}`);
-};
-
-const app = appInfo(process.env.APP_NAME);
-const isProd = process.env.NODE_ENV !== 'development';
-
 server.set('port', port);
 
 server.disable('x-powered-by');
 server.use(helmet({ xssFilter: false }));
 
-
-if (isProd) {
-    server.use(helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'none'"],
-            scriptSrc: [
-                "'self'",
-                'https://www.google-analytics.com',
-                "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
-            ],
-            styleSrc: ["'self'"],
-            fontSrc: ["'self'", 'data:', 'https://fonts.gstatic.com'],
-            imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-            connectSrc: ["'self'", 'https://www.google-analytics.com']
-        }
-    }));
-}
-
-const dirExists = (dir) => fs.existsSync(path.join(__dirname, dir));
-
-const getViewsDir = () => {
-    if (process.env.NODE_ENV === 'development' && dirExists('viewsDev')) {
-        return 'viewsDev';
+server.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'none'"],
+        scriptSrc: [
+            "'self'",
+            'https://www.google-analytics.com',
+            "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
+        ],
+        styleSrc: ["'self'"],
+        fontSrc: ["'self'", 'data:'],
+        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
+        connectSrc: ["'self'", 'https://www.google-analytics.com']
     }
-    return 'views';
-};
+}));
 
-server.set('views', `${currentDirectory}/${getViewsDir()}`);
+server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
+const isProd = process.env.NODE_ENV !== 'development';
+
 const fasitProperties = {
-    PAM_KANDIDATSOK_API_URL: `/${app.contextRoot}/rest/`,
-    LOGIN_URL: process.env.LOGINSERVICE_URL,
-    LOGOUT_URL: process.env.LOGOUTSERVICE_URL,
-    PAMPORTAL_URL: process.env.PAMPORTAL_URL,
-    API_GATEWAY: process.env.PAM_KANDIDATSOK_API_URL,
-    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_API_PROXY_API_APIKEY,
-    USE_JANZZ: process.env.PAM_KANDIDATSOK_USE_JANZZ === 'true',
-    ONTOLOGY_SEARCH_API_URL: `/${app.contextRoot}/ontologi`,
-    METRICS_SUPPORT_URL: `/${app.contextRoot}/metrics-support/`
+    PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
+    PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
+    PAM_SEARCH_API_GATEWAY_URL: '/kandidater/api/search/enhetsregister',
+    LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
+    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
+    API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
+    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
+    LAST_NED_CV_URL: process.env.LAST_NED_CV_URL
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
+        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
-        `window.__PAMPORTAL_URL__="${fasitProperties.PAMPORTAL_URL}";\n` +
-        `window.__USE_JANZZ__=${fasitProperties.USE_JANZZ};\n` +
-        `window.__CONTEXT_ROOT__="${app.contextRoot}";\n` +
-        `window.__ONTOLOGY_SEARCH_API_URL__="${fasitProperties.ONTOLOGY_SEARCH_API_URL}";\n` +
-        `window.__METRICS_SUPPORT_URL__="${fasitProperties.METRICS_SUPPORT_URL}";`;
+        `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
+        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
 };
 
-const renderSok = () => (
-    new Promise((resolve, reject) => {
-        server.render(
-            app.htmlFil,
-            { APP_VERSION: process.env.APP_VERSION },
-            (err, html) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(html);
-                }
-            }
-        );
-    })
-);
+const backendHost = () => {
+    if (fasitProperties.API_GATEWAY) {
+        const hostAndPath = fasitProperties.API_GATEWAY.split('://').pop();
+        if (!hostAndPath) {
+            throw Error(
+                `Error: Kunne ikke hente host fra fasitProperties.API_GATEWAY (${fasitProperties.API_GATEWAY})`
+            );
+        }
+        const host = hostAndPath.split('/').shift();
+        if (!host) {
+            throw Error('Error: Kunne ikke hente host fra path');
+        }
+        return host;
+    }
+    throw Error('Error: process.env.PAM_SEARCH_API_RESTSERVICE_URL mangler');
+};
 
+const gatewayPrefix = () => {
+    if (fasitProperties.API_GATEWAY) {
+        const pathUnchecked = fasitProperties.API_GATEWAY.split(backendHost()).pop();
+        const pathFinal = pathUnchecked.replace(/\//g, ''); // replace all / with ''
+        return pathFinal;
+    }
+    throw new Error('Error: error getting gateway prefix');
+};
+
+// proxy til backend
+console.log(`proxy host: ${backendHost()}`);
+console.log(`proxy prefix: ${gatewayPrefix()}`);
 
 const normalizedTokenExpiration = (token) => {
     const expiration = jwt.decode(token).exp;
@@ -177,85 +145,88 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}&redirect=${protocol}://${req.get('host')}/${app.contextRoot}`;
+        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get('host')}/kandidater`;
         return res.redirect(redirectUrl);
     }
     return next();
 };
 
-const urlHost = (miljo) => {
-    if (miljo.toUpperCase() === 'Q0') {
-        return 'https://arbeidsplassen-q.nav.no';
-    } else if (miljo.toUpperCase() === 'Q6') {
-        return 'https://arbeidsplassen-t.nav.no';
-    }
-    return 'https://arbeidsplassen.nav.no';
-};
+const renderSok = () => (
+    new Promise((resolve, reject) => {
+        server.render(
+            'index.html',
+            fasitProperties,
+            (err, html) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(html);
+                }
+            }
+        );
+    })
+);
 
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
-    server.get(`/${app.appNavn}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`/${app.appNavn}/internal/isReady`, (req, res) => res.sendStatus(200));
+    server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) => res.sendStatus(200));
+    server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) => res.sendStatus(200));
 
-    const proxyHost = fasitProperties.API_GATEWAY.split('://').pop().split('/')[0];
+    server.get('/kandidater/finn-kandidat/kandidat/:aktorId', (req, res) => {
+        const url = `${process.env.FINN_KANDIDAT_URL}/kandidat/${req.params.aktorId}?inngang=kandidatsok`;
+        res.redirect(url);
+    });
 
-    server.use(`/${app.contextRoot}/rest/`, proxy(proxyHost, {
-        https: true,
+    server.use('/kandidater/rest/', proxy('http://pam-kandidatsok-api', {
         proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(app.contextRoot), 'pam-kandidatsok-api/pam-kandidatsok-api')
-        ),
-        proxyReqOptDecorator: (proxyReqOpts) => {
-            proxyReqOpts.headers['x-nav-apiKey'] = fasitProperties.PROXY_API_KEY;
-            return proxyReqOpts;
-        }
-    }));
-
-    server.use(`/${app.contextRoot}/ontologi/`, proxy('http://pam-search-api.default', {
-        proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(`${app.contextRoot}/ontologi`), 'ontologi')
-        )
-    }));
-
-    server.use(`/${app.contextRoot}/metrics-support/`, proxy('http://pam-metrics-support.default', {
-        proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp(`${app.contextRoot}/metrics-support`), 'metrics-support')
+            req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')
         )
     }));
 
     server.use(
-        `/${app.contextRoot}/js`,
+        '/kandidater/js',
         express.static(path.resolve(__dirname, 'dist/js'))
     );
     server.use(
-        `/${app.contextRoot}/css`,
+        '/kandidater/css',
         express.static(path.resolve(__dirname, 'dist/css'))
     );
 
+    server.use(
+        '/kandidater/api/search/enhetsregister/', proxy(backendHost(), {
+            https: true,
+            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
+                ...proxyReqOpts,
+                cookie: srcReq.headers.cookie,
+                headers: {
+                    ...proxyReqOpts.headers,
+                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY
+                }
+            }),
+            proxyReqPathResolver: (req) => {
+                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl.split('/search/enhetsregister/').pop()}`;
+                console.log(convertedPath);
+                return convertedPath;
+            }
+        })
+    );
+
     server.get(
-        [`/${app.contextRoot}`, `/${app.contextRoot}/*`],
+        ['/kandidater', '/kandidater/*'],
         tokenValidator,
         (req, res) => {
             res.send(html);
         }
     );
 
-    server.get(
-        ['/pam-kandidatsok', '/pam-kandidatsok/*'],
-        (req, res) => {
-            const host = urlHost(process.env.FASIT_ENVIRONMENT_NAME);
-            const urlPath = req.url.replace(new RegExp('pam-kandidatsok'), 'kandidater');
-            res.redirect(`${host}${urlPath}`);
-        }
-    );
-
     server.listen(port, () => {
-        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/ contextRoot:${app.contextRoot}`);
+        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/`);
+        console.log(`Versjon: ${process.env.APP_VERSION}`);
     });
 };
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 renderSok()
-    .then(startServer)
-    .catch((error) => logError('Failed to render app', error));
+    .then(startServer, (error) => logError('Failed to render app', error));

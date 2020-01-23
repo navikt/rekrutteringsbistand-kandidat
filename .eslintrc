@@ -1,28 +1,28 @@
 {
-  "env": {
-    "browser": true,
-    "jest": true
-  },
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "globals": {
-    "__SESSION_TIMEOUT_WARNING_MINUTES__": true
-  },
-  "rules": {
-    "react/prop-types": "off",
-    "jsx-a11y/href-no-hash": "off", // denne bør legges inn igjen, men er tatt vekk nå pga issue https://github.com/facebookincubator/create-react-app/issues/2631
-    "no-unused-vars": [2, { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-    "no-unused-expressions": [2, {"allowTernary": true}],
-    "indent": [2, 4, { "SwitchCase": 1 }],
-    "max-len": [2, 240, 4],
-    "comma-dangle": [2, "never"],
-    "no-underscore-dangle": [2, { "allow": ["_links", "_embedded"] }],
-    "arrow-parens": [2, "always"],
-    "import/no-extraneous-dependencies": ["error", { "peerDependencies": true }],
-    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
-    "react/jsx-indent-props": [2, 4],
-    "react/jsx-indent": [2, 4],
-    "linebreak-style": 0,
-    "jsx-a11y/label-has-for": "off"
-  }
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "globals": {
+        "__SESSION_TIMEOUT_WARNING_MINUTES__": true
+    },
+    "rules": {
+        "react/proptypes": "off",
+        "jsx-a11y/href-no-hash": "off", // denne bør legges inn igjen, men er tatt vekk nå pga issue https://github.com/facebookincubator/create-react-app/issues/2631
+        "no-unused-vars": [2, { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+        "no-unused-expressions": [2, { "allowTernary": true }],
+        "indent": [2, 4, { "SwitchCase": 1 }],
+        "max-len": [2, 240, 4],
+        "comma-dangle": [2, "never"],
+        "no-underscore-dangle": [2, { "allow": ["_links", "_embedded"] }],
+        "arrow-parens": [2, "always"],
+        "import/no-extraneous-dependencies": ["error", { "peerDependencies": true }],
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-indent-props": [2, 4],
+        "react/jsx-indent": [2, 4],
+        "linebreak-style": 0,
+        "jsx-a11y/label-has-for": "off"
+    }
 }

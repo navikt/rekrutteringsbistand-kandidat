@@ -1,23 +1,18 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const APP = {
-    KANDIDATSOK: 'KANDIDATSOK',
-    KANDIDATSOK_VEILEDER: 'KANDIDATSOK_VEILEDER'
-};
-
-const common = (app) => ({
+const common = () => ({
     entry: {
         sok: [
             'babel-polyfill',
             'whatwg-fetch',
-            app === APP.KANDIDATSOK_VEILEDER ? './src/veileder/app.js' : './src/arbeidsgiver/sok/sok.js'
+            './src/veileder/app.js'
         ],
         googleanalytics: ['./src/felles/googleanalytics.js']
     },
     output: {
         path: `${__dirname}/dist`,
         filename: 'js/[name].js',
-        publicPath: app === APP.KANDIDATSOK_VEILEDER ? '/sok' : '/kandidater/'
+        publicPath: '/sok'
     },
     module: {
         rules: [
@@ -27,7 +22,7 @@ const common = (app) => ({
                 use: [
                     'cache-loader',
                     { loader: 'awesome-typescript-loader' }
-                ],
+                ]
                 // query: { presets: ['es2015', 'react', 'stage-2'] }
             }, {
                 test: /\.(png)$/,
@@ -51,7 +46,7 @@ const common = (app) => ({
         ]
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"]
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     plugins: [
         new ExtractTextPlugin('css/[name].css')
@@ -59,6 +54,5 @@ const common = (app) => ({
 });
 
 module.exports = (() => ({
-    APP,
     common
 }))();
