@@ -8,7 +8,7 @@ import { SEARCH } from '../searchReducer';
 import {
     TOGGLE_TILRETTELEGGINGSBEHOV,
     TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN,
-    CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER
+    CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
 } from './tilretteleggingsbehovReducer';
 import Infoikon from '../../../felles/common/ikoner/Infoikon';
 import './Tilretteleggingsbehov.less';
@@ -34,7 +34,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
         harValgtTilretteleggingsbehov,
         visKategorier,
         kategorier,
-        changeTilretteleggingsbehovKategorier
+        changeTilretteleggingsbehovKategorier,
     } = props;
 
     const onTilretteleggingsbehovChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
         const kategori = event.target.name as Kategori;
         changeTilretteleggingsbehovKategorier(
             kategorier.includes(kategori)
-                ? kategorier.filter((k) => k !== kategori)
+                ? kategorier.filter(k => k !== kategori)
                 : [...kategorier, kategori]
         );
         search();
@@ -73,7 +73,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                     aria-label="Kategorier for tilretteleggingsbehov"
                     className="tilretteleggingsbehov__kategorier"
                 >
-                    {Object.keys(Kategori).map((key) => {
+                    {Object.keys(Kategori).map(key => {
                         const kategori = Kategori[key];
 
                         return (
@@ -101,23 +101,23 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     harValgtTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
     visKategorier: state.search.featureToggles['vis-tilretteleggingsbehov-kategorier'],
     kategorier: state.tilretteleggingsbehov.kategorier,
-    panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen
+    panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     search: () => dispatch({ type: SEARCH }),
     toggleTilretteleggingsbehov: (harValgtTilretteleggingsbehov: boolean) =>
         dispatch({
             type: TOGGLE_TILRETTELEGGINGSBEHOV,
-            harTilretteleggingsbehov: harValgtTilretteleggingsbehov
+            harTilretteleggingsbehov: harValgtTilretteleggingsbehov,
         }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN }),
     changeTilretteleggingsbehovKategorier: (kategorier: Kategori[]) =>
-        dispatch({ type: CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER, kategorier })
+        dispatch({ type: CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER, kategorier }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TilretteleggingsbehovSearch);
