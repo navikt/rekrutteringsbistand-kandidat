@@ -11,7 +11,6 @@ import {
     METRICS_SUPPORT_URL
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
-import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
 import { ResponseData } from '../../felles/common/remoteData';
 import {
     deleteJsonMedType,
