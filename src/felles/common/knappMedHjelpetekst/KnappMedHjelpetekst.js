@@ -4,15 +4,7 @@ import { Hovedknapp } from 'pam-frontend-knapper';
 import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import './KnappMedHjelpetekst.less';
 
-const KnappMedHjelpetekst = ({
-    disabled,
-    onClick,
-    children,
-    spinner,
-    hjelpetekst,
-    id,
-    tittel
-}) => {
+const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) => {
     if (disabled) {
         const DisabledKnapp = () => (
             <div className={'Knapp Knapp--disabled Knapp--mini'}>{children}</div>
@@ -30,12 +22,7 @@ const KnappMedHjelpetekst = ({
     }
 
     return (
-        <Hovedknapp
-            mini
-            spinner={spinner}
-            onClick={onClick}
-            id={id}
-        >
+        <Hovedknapp mini spinner={spinner} onClick={onClick} id={id}>
             {children}
         </Hovedknapp>
     );
@@ -48,13 +35,13 @@ KnappMedHjelpetekst.propTypes = {
     tittel: PropTypes.string.isRequired,
     children: PropTypes.string,
     spinner: PropTypes.bool,
-    id: PropTypes.string
+    id: PropTypes.string,
 };
 
 KnappMedHjelpetekst.defaultProps = {
     children: '',
     spinner: false,
-    id: undefined
+    id: undefined,
 };
 
 export default KnappMedHjelpetekst;

@@ -14,7 +14,8 @@ import Sidetittel from '../../common/Sidetittel.tsx';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
-        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${fodselsnummer && ` (${fodselsnummer})`}`;
+        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${fodselsnummer &&
+            ` (${fodselsnummer})`}`;
     } else if (fodselsnummer) {
         return `Fødselsnummer: ${fodselsnummer}`;
     }
@@ -22,7 +23,7 @@ const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
 };
 
 class VisKandidatPersonalia extends React.Component {
-    formatMobileTelephoneNumber = (inputString) => {
+    formatMobileTelephoneNumber = inputString => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         const actualNumber = inputStringNoWhiteSpace.slice(-8);
         const countryCode = inputStringNoWhiteSpace.slice(-99, -8);
@@ -35,15 +36,23 @@ class VisKandidatPersonalia extends React.Component {
 
     formatterAdresse = (gate, postnummer, poststed) => {
         const sisteDel = [postnummer, poststed ? capitalizePoststed(poststed) : null]
-            .filter((string) => string)
+            .filter(string => string)
             .join(' ');
-        return [gate, sisteDel]
-            .filter((string) => string)
-            .join(', ');
+        return [gate, sisteDel].filter(string => string).join(', ');
     };
 
     render() {
-        const { cv, appContext, antallKandidater, tilbakeLink, gjeldendeKandidat, forrigeKandidat, nesteKandidat, fantCv, visNavigasjon } = this.props;
+        const {
+            cv,
+            appContext,
+            antallKandidater,
+            tilbakeLink,
+            gjeldendeKandidat,
+            forrigeKandidat,
+            nesteKandidat,
+            fantCv,
+            visNavigasjon,
+        } = this.props;
 
         let fornavnStorForbokstav;
         if (cv.fornavn) {
@@ -54,7 +63,10 @@ class VisKandidatPersonalia extends React.Component {
             etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
         }
 
-        const lenkeClass = appContext === 'veileder' ? 'header--personalia__lenke--veileder' : 'VisKandidat__ForrigeNeste';
+        const lenkeClass =
+            appContext === 'veileder'
+                ? 'header--personalia__lenke--veileder'
+                : 'VisKandidat__ForrigeNeste';
 
         let lenkeText = 'Til kandidatsøket';
         if (tilbakeLink.includes('kandidater/lister')) {
@@ -63,7 +75,14 @@ class VisKandidatPersonalia extends React.Component {
             lenkeText = 'Til liste kandidatmatch';
         }
         return (
-            <div className={appContext === 'arbeidsgiver' ? 'header--bakgrunn__arbeidsgiver' : 'header--bakgrunn__veileder'} id="bakgrunn-personalia">
+            <div
+                className={
+                    appContext === 'arbeidsgiver'
+                        ? 'header--bakgrunn__arbeidsgiver'
+                        : 'header--bakgrunn__veileder'
+                }
+                id="bakgrunn-personalia"
+            >
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
                         <LenkeMedChevron
@@ -86,27 +105,42 @@ class VisKandidatPersonalia extends React.Component {
 
                 <div>
                     <Sidetittel className="header--personalia__overskrift">
-                        {fantCv ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}` : 'Informasjonen om kandidaten kan ikke vises'}
+                        {fantCv
+                            ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
+                            : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
-                    {appContext === 'veileder'
-                        ? <Normaltekst className="header--personalia__fodselsdato">{fodselsdatoForVeileder(cv.fodselsdato, cv.fodselsnummer)}</Normaltekst>
-                        : cv.fodselsdato && (
-                            <Normaltekst className="header--personalia__fodselsdato">Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}</Normaltekst>
+                    {appContext === 'veileder' ? (
+                        <Normaltekst className="header--personalia__fodselsdato">
+                            {fodselsdatoForVeileder(cv.fodselsdato, cv.fodselsnummer)}
+                        </Normaltekst>
+                    ) : (
+                        cv.fodselsdato && (
+                            <Normaltekst className="header--personalia__fodselsdato">
+                                Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}
+                            </Normaltekst>
                         )
-                    }
+                    )}
                 </div>
-                {fantCv &&
+                {fantCv && (
                     <div>
                         <div className="personalia-container">
-                            {(cv.epost) && (
+                            {cv.epost && (
                                 <div className="personalia--item">
-                                    <div className="personalia--icon" >
-                                        <MailIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
+                                    <div className="personalia--icon">
+                                        <MailIkon
+                                            color={
+                                                appContext === 'veileder' ? '#3E3832' : '#062140'
+                                            }
+                                        />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <a
                                             href={`mailto:${cv.epost}`}
-                                            className={appContext === 'arbeidsgiver' ? 'header--personalia__mail' : 'header--personalia__mail--veileder'}
+                                            className={
+                                                appContext === 'arbeidsgiver'
+                                                    ? 'header--personalia__mail'
+                                                    : 'header--personalia__mail--veileder'
+                                            }
                                         >
                                             {cv.epost}
                                         </a>
@@ -116,7 +150,11 @@ class VisKandidatPersonalia extends React.Component {
                             {cv.telefon && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
-                                        <TelefonIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
+                                        <TelefonIkon
+                                            color={
+                                                appContext === 'veileder' ? '#3E3832' : '#062140'
+                                            }
+                                        />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <strong>
@@ -125,20 +163,28 @@ class VisKandidatPersonalia extends React.Component {
                                     </Normaltekst>
                                 </div>
                             )}
-                            {cv.adresse && cv.adresse.adrlinje1 && <div className="personalia--item">
-
-                                <div className="personalia--icon">
-                                    <AdresseIkon color={appContext === 'veileder' ? '#3E3832' : '#062140'} />
+                            {cv.adresse && cv.adresse.adrlinje1 && (
+                                <div className="personalia--item">
+                                    <div className="personalia--icon">
+                                        <AdresseIkon
+                                            color={
+                                                appContext === 'veileder' ? '#3E3832' : '#062140'
+                                            }
+                                        />
+                                    </div>
+                                    <Normaltekst className="header--personalia__tekst">
+                                        {this.formatterAdresse(
+                                            cv.adresse.adrlinje1,
+                                            cv.adresse.postnr,
+                                            cv.adresse.poststednavn
+                                        )}
+                                    </Normaltekst>
                                 </div>
-                                <Normaltekst className="header--personalia__tekst">
-                                    {this.formatterAdresse(cv.adresse.adrlinje1, cv.adresse.postnr, cv.adresse.poststednavn)}
-                                </Normaltekst>
-                            </div>}
+                            )}
                         </div>
                     </div>
-                }
+                )}
             </div>
-
         );
     }
 }
@@ -149,7 +195,7 @@ VisKandidatPersonalia.defaultProps = {
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
     fantCv: true,
-    visNavigasjon: true
+    visNavigasjon: true,
 };
 
 VisKandidatPersonalia.propTypes = {
@@ -161,7 +207,7 @@ VisKandidatPersonalia.propTypes = {
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
     fantCv: PropTypes.bool,
-    visNavigasjon: PropTypes.bool
+    visNavigasjon: PropTypes.bool,
 };
 
 export default VisKandidatPersonalia;

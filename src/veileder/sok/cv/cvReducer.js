@@ -21,7 +21,7 @@ export const HENT_CV_STATUS = {
     IKKE_HENTET: 'IKKE_HENTET',
     LOADING: 'LOADING',
     SUCCESS: 'SUCCESS',
-    FINNES_IKKE: 'FINNES_IKKE'
+    FINNES_IKKE: 'FINNES_IKKE',
 };
 
 const initialState = {
@@ -30,9 +30,9 @@ const initialState = {
         yrkeserfaring: [],
         kurs: [],
         sertifikater: [],
-        sprak: []
+        sprak: [],
     },
-    hentStatus: HENT_CV_STATUS.IKKE_HENTET
+    hentStatus: HENT_CV_STATUS.IKKE_HENTET,
 };
 
 export default function cvReducer(state = initialState, action) {
@@ -40,18 +40,18 @@ export default function cvReducer(state = initialState, action) {
         case FETCH_CV_BEGIN:
             return {
                 ...state,
-                hentStatus: HENT_CV_STATUS.LOADING
+                hentStatus: HENT_CV_STATUS.LOADING,
             };
         case FETCH_CV_SUCCESS:
             return {
                 ...state,
                 cv: action.response,
-                hentStatus: HENT_CV_STATUS.SUCCESS
+                hentStatus: HENT_CV_STATUS.SUCCESS,
             };
         case FETCH_CV_NOT_FOUND:
             return {
                 ...state,
-                hentStatus: HENT_CV_STATUS.FINNES_IKKE
+                hentStatus: HENT_CV_STATUS.FINNES_IKKE,
             };
         default:
             return state;

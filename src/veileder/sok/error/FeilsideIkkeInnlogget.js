@@ -8,17 +8,18 @@ function refreshPage() {
     window.location.href = '/kandidater';
 }
 
-
 const FeilsideIkkeInnlogget = () => (
     <Container className="blokk-s feilside">
         <Row>
             <Column>
                 <AlertStripeAdvarsel type="advarsel" className="blokk-xs">
                     <div className="blokk-xs">
-                        <strong>Du er ikke innlogget.</strong> Du må være logget inn for å få tilgang til kandidatsøket.
-                        Forsøk å logge inn og laste siden på nytt.
+                        <strong>Du er ikke innlogget.</strong> Du må være logget inn for å få
+                        tilgang til kandidatsøket. Forsøk å logge inn og laste siden på nytt.
                     </div>
-                    <Hovedknapp mini onClick={refreshPage}>Last siden på nytt</Hovedknapp>
+                    <Hovedknapp mini onClick={refreshPage}>
+                        Last siden på nytt
+                    </Hovedknapp>
                 </AlertStripeAdvarsel>
             </Column>
         </Row>

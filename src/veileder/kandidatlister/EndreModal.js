@@ -8,14 +8,20 @@ import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { KandidatlisteBeskrivelse } from './Kandidatlister';
 
-const kandidatlisteInfoWrapper = (kandidatliste) => ({
+const kandidatlisteInfoWrapper = kandidatliste => ({
     ...kandidatliste,
     tittel: kandidatliste.tittel || '',
     beskrivelse: kandidatliste.beskrivelse || '',
-    oppdragsgiver: kandidatliste.oppdragsgiver || ''
+    oppdragsgiver: kandidatliste.oppdragsgiver || '',
 });
 
-const EndreModal = ({ oppdaterKandidatliste, resetStatusTilUnsaved, lagreStatus, kandidatliste, onAvbrytClick }) => (
+const EndreModal = ({
+    oppdaterKandidatliste,
+    resetStatusTilUnsaved,
+    lagreStatus,
+    kandidatliste,
+    onAvbrytClick,
+}) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal endre kandidatliste"
@@ -41,16 +47,20 @@ EndreModal.propTypes = {
     resetStatusTilUnsaved: PropTypes.func.isRequired,
     lagreStatus: PropTypes.string.isRequired,
     onAvbrytClick: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape(KandidatlisteBeskrivelse).isRequired
+    kandidatliste: PropTypes.shape(KandidatlisteBeskrivelse).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus
+const mapStateToProps = state => ({
+    lagreStatus: state.kandidatlister.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    oppdaterKandidatliste: (kandidatlisteInfo) => { dispatch({ type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE, kandidatlisteInfo }); },
-    resetStatusTilUnsaved: () => { dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }); }
+const mapDispatchToProps = dispatch => ({
+    oppdaterKandidatliste: kandidatlisteInfo => {
+        dispatch({ type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
+    },
+    resetStatusTilUnsaved: () => {
+        dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EndreModal);

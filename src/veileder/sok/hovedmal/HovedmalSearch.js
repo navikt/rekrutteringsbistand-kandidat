@@ -6,15 +6,21 @@ import { SEARCH } from '../searchReducer';
 import {
     CHECK_TOTAL_HOVEDMAL,
     UNCHECK_TOTAL_HOVEDMAL,
-    TOGGLE_HOVEDMAL_PANEL_OPEN
+    TOGGLE_HOVEDMAL_PANEL_OPEN,
 } from './hovedmalReducer';
 import { ALERTTYPE } from '../../../felles/konstanter';
 
 const HovedmalSearch = ({ ...props }) => {
     const {
-        search, checkHovedmal, uncheckHovedmal, totaltHovedmal,
-        totaltAntallTreff, visAlertFaKandidater, skjulHovedmal,
-        panelOpen, togglePanelOpen
+        search,
+        checkHovedmal,
+        uncheckHovedmal,
+        totaltHovedmal,
+        totaltAntallTreff,
+        visAlertFaKandidater,
+        skjulHovedmal,
+        panelOpen,
+        togglePanelOpen,
     } = props;
 
     return (
@@ -41,22 +47,22 @@ HovedmalSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulHovedmal: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     totaltHovedmal: state.hovedmal.totaltHovedmal,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     skjulHovedmal: state.search.featureToggles['skjul-hovedmal'],
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.hovedmal.panelOpen
+    panelOpen: state.hovedmal.panelOpen,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.HOVEDMAL }),
-    checkHovedmal: (value) => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
-    uncheckHovedmal: (value) => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
-    togglePanelOpen: () => dispatch({ type: TOGGLE_HOVEDMAL_PANEL_OPEN })
+    checkHovedmal: value => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
+    uncheckHovedmal: value => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
+    togglePanelOpen: () => dispatch({ type: TOGGLE_HOVEDMAL_PANEL_OPEN }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HovedmalSearch);

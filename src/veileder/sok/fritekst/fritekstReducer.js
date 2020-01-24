@@ -10,7 +10,7 @@ export const SET_FRITEKST_SOKEORD = 'SET_FRITEKST_SOKEORD';
  ********************************************************* */
 
 const initialState = {
-    fritekst: ''
+    fritekst: '',
 };
 
 export default function fritekstReducer(state = initialState, action) {
@@ -18,12 +18,12 @@ export default function fritekstReducer(state = initialState, action) {
         case SET_STATE:
             return {
                 ...state,
-                fritekst: action.query.fritekst || ''
+                fritekst: action.query.fritekst || '',
             };
         case SET_FRITEKST_SOKEORD:
             return {
                 ...state,
-                fritekst: action.fritekst
+                fritekst: action.fritekst,
             };
         default:
             return state;

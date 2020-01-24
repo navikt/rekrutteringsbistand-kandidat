@@ -17,10 +17,10 @@ import StatusSelect from './statusSelect/StatusSelect.tsx';
 export const VISNINGSSTATUS = {
     SKJUL_PANEL: 'SKJUL_PANEL',
     VIS_NOTATER: 'VIS_NOTATER',
-    VIS_MER_INFO: 'VIS_MER_INFO'
+    VIS_MER_INFO: 'VIS_MER_INFO',
 };
 
-const utfallToString = (utfall) => {
+const utfallToString = utfall => {
     if (utfall === 'IKKE_PRESENTERT') {
         return 'Ikke presentert';
     } else if (utfall === 'PRESENTERT') {
@@ -31,7 +31,7 @@ const utfallToString = (utfall) => {
     return utfall;
 };
 
-const ListedetaljerView = (props) => {
+const ListedetaljerView = props => {
     const {
         kandidater,
         tittel,
@@ -51,7 +51,7 @@ const ListedetaljerView = (props) => {
         opprettNotat,
         endreNotat,
         slettNotat,
-        beskrivelse
+        beskrivelse,
     } = props;
     const SideHeader = () => (
         <div className="side-header">
@@ -62,22 +62,26 @@ const ListedetaljerView = (props) => {
                     <div className="header-side" />
                 </div>
                 <div className="antall">
-                    <Element>{kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}</Element>
+                    <Element>
+                        {kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}
+                    </Element>
                 </div>
                 <div className="bottom">
-                    { arbeidsgiver &&
-                    <div className="no-border-left">
-                        Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
-                    </div>
-                    }
+                    {arbeidsgiver && (
+                        <div className="no-border-left">
+                            Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
+                        </div>
+                    )}
                     <div className={`${arbeidsgiver ? 'border-left' : 'no-border-left'}`}>
                         {`Veileder: ${opprettetAv.navn} (${opprettetAv.ident})`}
                     </div>
-                    {stillingsId &&
+                    {stillingsId && (
                         <div className="border-left">
-                            <a className="link" href={`/stilling/${stillingsId}`}>Se stillingsannonse</a>
+                            <a className="link" href={`/stilling/${stillingsId}`}>
+                                Se stillingsannonse
+                            </a>
                         </div>
-                    }
+                    )}
                 </div>
                 {beskrivelse && (
                     <div className="beskrivelse">
@@ -89,7 +93,14 @@ const ListedetaljerView = (props) => {
     );
 
     const FinnKandidaterLenke = () => (
-        <Link to={stillingsId ? `/kandidater/stilling/${stillingsId}` : `/kandidater/kandidatliste/${kandidatlisteId}`} className="finn-kandidater FinnKandidater">
+        <Link
+            to={
+                stillingsId
+                    ? `/kandidater/stilling/${stillingsId}`
+                    : `/kandidater/kandidatliste/${kandidatlisteId}`
+            }
+            className="finn-kandidater FinnKandidater"
+        >
             <i className="FinnKandidater__icon" />
             <span className="link">Finn kandidater</span>
         </Link>
@@ -118,7 +129,7 @@ const ListedetaljerView = (props) => {
                     </Lenkeknapp>
                 </div>
             );
-            if (kandidater.filter((kandidat) => kandidat.markert).length > 0) {
+            if (kandidater.filter(kandidat => kandidat.markert).length > 0) {
                 return <Enabled />;
             }
             return (
@@ -146,7 +157,7 @@ const ListedetaljerView = (props) => {
                     </Lenkeknapp>
                 </div>
             );
-            if (kandidater.filter((kandidat) => kandidat.markert).length > 0) {
+            if (kandidater.filter(kandidat => kandidat.markert).length > 0) {
                 return <Enabled />;
             }
             return (
@@ -167,7 +178,7 @@ const ListedetaljerView = (props) => {
                 </div>
                 <div className="dele-wrapper">
                     <EpostKnapp />
-                    { kanEditere && arbeidsgiver && <DeleKnapp /> }
+                    {kanEditere && arbeidsgiver && <DeleKnapp />}
                 </div>
             </div>
         );
@@ -180,13 +191,22 @@ const ListedetaljerView = (props) => {
             </span>
         );
         const StatusHjelpetekst = () => (
-            <HjelpetekstMidt id="sd" anchor={Sporsmalstegn} className="bred-hjelpetekst statusforklaring-stor">
+            <HjelpetekstMidt
+                id="sd"
+                anchor={Sporsmalstegn}
+                className="bred-hjelpetekst statusforklaring-stor"
+            >
                 <strong>Forklaring til status</strong>
                 <ul className="statusliste">
-                    <li>Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status vurderes</li>
+                    <li>
+                        Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status
+                        vurderes
+                    </li>
                     <li>Kontaktet &ndash; Kandidaten er kontaktet, og det ventes på svar</li>
                     <li>Aktuell &ndash; Kandidaten er vurdert som aktuell for stillingen</li>
-                    <li>Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen</li>
+                    <li>
+                        Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen
+                    </li>
                     <li>Ikke interessert &ndash; Kandidaten er ikke interessert i stillingen</li>
                 </ul>
                 Statusene er kun synlig internt og vil ikke bli delt med arbeidsgiver.
@@ -203,9 +223,15 @@ const ListedetaljerView = (props) => {
                             onChange={onCheckAlleKandidater}
                         />
                     </div>
-                    <div className="kolonne-bred"><Element>Navn</Element></div>
-                    <div className="kolonne-dato"><Element>Fødselsnummer</Element></div>
-                    <div className="kolonne-bred"><Element>Lagt til av</Element></div>
+                    <div className="kolonne-bred">
+                        <Element>Navn</Element>
+                    </div>
+                    <div className="kolonne-dato">
+                        <Element>Fødselsnummer</Element>
+                    </div>
+                    <div className="kolonne-bred">
+                        <Element>Lagt til av</Element>
+                    </div>
                     <div className="kolonne-middels">
                         <div className="status-overskrift">
                             Status
@@ -213,38 +239,52 @@ const ListedetaljerView = (props) => {
                         </div>
                     </div>
                     {stillingsId && (
-                        <div className="kolonne-bred"><Element>Utfall</Element></div>
+                        <div className="kolonne-bred">
+                            <Element>Utfall</Element>
+                        </div>
                     )}
-                    <div className="kolonne-smal"><Element>Notater</Element></div>
-                    <div className="kolonne-smal"><Element>Mer info</Element></div>
+                    <div className="kolonne-smal">
+                        <Element>Notater</Element>
+                    </div>
+                    <div className="kolonne-smal">
+                        <Element>Mer info</Element>
+                    </div>
                 </div>
             </div>
         );
     };
 
-    const KandidatRad = ({ kandidat }) => { // eslint-disable-line react/prop-types
-        const antallNotater = kandidat.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.data.length : kandidat.antallNotater;
+    const KandidatRad = ({ kandidat }) => {
+        // eslint-disable-line react/prop-types
+        const antallNotater =
+            kandidat.notater.kind === RemoteDataTypes.SUCCESS
+                ? kandidat.notater.data.length
+                : kandidat.antallNotater;
         const toggleNotater = () => {
-            onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
-                ? VISNINGSSTATUS.SKJUL_PANEL
-                : VISNINGSSTATUS.VIS_NOTATER,
-            kandidatlisteId,
-            kandidat.kandidatnr);
+            onVisningChange(
+                kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
+                    ? VISNINGSSTATUS.SKJUL_PANEL
+                    : VISNINGSSTATUS.VIS_NOTATER,
+                kandidatlisteId,
+                kandidat.kandidatnr
+            );
         };
 
         const toggleMerInfo = () => {
-            onVisningChange(kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
-                ? VISNINGSSTATUS.SKJUL_PANEL
-                : VISNINGSSTATUS.VIS_MER_INFO,
-            kandidatlisteId,
-            kandidat.kandidatnr);
+            onVisningChange(
+                kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
+                    ? VISNINGSSTATUS.SKJUL_PANEL
+                    : VISNINGSSTATUS.VIS_MER_INFO,
+                kandidatlisteId,
+                kandidat.kandidatnr
+            );
         };
 
         const onEndreNotat = (notatId, tekst) => {
             endreNotat(kandidatlisteId, kandidat.kandidatnr, notatId, tekst);
         };
 
-        const onSletteNotat = (notatId) => {
+        const onSletteNotat = notatId => {
             slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
         };
 
@@ -252,7 +292,11 @@ const ListedetaljerView = (props) => {
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
 
         return (
-            <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
+            <div
+                className={`liste-rad-wrapper kandidat ${
+                    kandidat.markert ? 'checked' : 'unchecked'
+                }`}
+            >
                 <div className="liste-rad">
                     <div className="kolonne-checkboks">
                         <Checkbox
@@ -265,65 +309,102 @@ const ListedetaljerView = (props) => {
                         />
                     </div>
                     <div className="kolonne-bred tabell-tekst">
-                        <Link title="Vis profil" className="link" to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}>
+                        <Link
+                            title="Vis profil"
+                            className="link"
+                            to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
+                        >
                             {`${fornavn} ${etternavn}`}
-                        </Link></div><div className="kolonne-dato">{kandidat.fodselsnr}</div>
-                    <div className="kolonne-bred tabell-tekst">{kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})</div>
+                        </Link>
+                    </div>
+                    <div className="kolonne-dato">{kandidat.fodselsnr}</div>
+                    <div className="kolonne-bred tabell-tekst">
+                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                    </div>
                     <div className="kolonne-middels">
                         <StatusSelect
                             kanEditere={kanEditere}
                             value={kandidat.status}
-                            onChange={(status) => {
-                                onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
+                            onChange={status => {
+                                onKandidatStatusChange(
+                                    status,
+                                    kandidatlisteId,
+                                    kandidat.kandidatnr
+                                );
                             }}
                         />
                     </div>
                     {stillingsId && (
-                        <div className="kolonne-bred tabell-tekst">{utfallToString(kandidat.utfall)}</div>
+                        <div className="kolonne-bred tabell-tekst">
+                            {utfallToString(kandidat.utfall)}
+                        </div>
                     )}
                     <div className="kolonne-smal">
                         <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
                             <i className="Notat__icon" />
                             {antallNotater}
-                            <NavFrontendChevron type={kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER ? 'opp' : 'ned'} />
+                            <NavFrontendChevron
+                                type={
+                                    kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
+                                        ? 'opp'
+                                        : 'ned'
+                                }
+                            />
                         </Lenkeknapp>
                     </div>
                     <div className="kolonne-smal">
                         <Lenkeknapp onClick={toggleMerInfo} className="legg-til-kandidat MerInfo">
                             <i className="MerInfo__icon" />
-                            <NavFrontendChevron type={kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO ? 'opp' : 'ned'} />
+                            <NavFrontendChevron
+                                type={
+                                    kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
+                                        ? 'opp'
+                                        : 'ned'
+                                }
+                            />
                         </Lenkeknapp>
                     </div>
                 </div>
-                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER &&
+                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER && (
                     <Notater
                         notater={kandidat.notater}
-                        antallNotater={kandidat.notater.kind === RemoteDataTypes.SUCCESS ? kandidat.notater.data.length : kandidat.antallNotater}
-                        onOpprettNotat={(tekst) => {
+                        antallNotater={
+                            kandidat.notater.kind === RemoteDataTypes.SUCCESS
+                                ? kandidat.notater.data.length
+                                : kandidat.antallNotater
+                        }
+                        onOpprettNotat={tekst => {
                             opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                         }}
                         onEndreNotat={onEndreNotat}
                         onSletteNotat={onSletteNotat}
                     />
-                }
-                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO &&
+                )}
+                {kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO && (
                     <div className="info-under-kandidat">
                         <div className="info-under-kandidat-content mer-info">
                             <div className="kontaktinfo-kolonne">
                                 <Element>Kontaktinfo</Element>
                                 <Normaltekst className="tekst">
-                                    E-post: {
-                                        kandidat.epost ? <a className="link" href={`mailto:${kandidat.epost}`}>{kandidat.epost}</a> : <span>&mdash;</span>
-                                    }
+                                    E-post:{' '}
+                                    {kandidat.epost ? (
+                                        <a className="link" href={`mailto:${kandidat.epost}`}>
+                                            {kandidat.epost}
+                                        </a>
+                                    ) : (
+                                        <span>&mdash;</span>
+                                    )}
                                 </Normaltekst>
                                 <Normaltekst className="tekst">
-                                    Telefon: {
-                                        kandidat.telefon ? kandidat.telefon : <span>&mdash;</span>
-                                    }
+                                    Telefon:{' '}
+                                    {kandidat.telefon ? kandidat.telefon : <span>&mdash;</span>}
                                 </Normaltekst>
                             </div>
                             <div className="innsatsgruppe-kolonne">
-                                <Normaltekst><strong>Innsatsgruppe:</strong>{` ${kandidat.innsatsgruppe}`}</Normaltekst>
+                                <Normaltekst>
+                                    <strong>Innsatsgruppe:</strong>
+                                    {` ${kandidat.innsatsgruppe}`}
+                                </Normaltekst>
                                 <a
                                     className="frittstaende-lenke ForlateSiden link"
                                     href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`}
@@ -336,14 +417,16 @@ const ListedetaljerView = (props) => {
                             </div>
                         </div>
                     </div>
-                }
+                )}
             </div>
         );
     };
     const TomListe = () => (
         <div className="tom-liste">
             <div className="content">
-                <Undertittel className="tekst">Du har ingen kandidater i kandidatlisten</Undertittel>
+                <Undertittel className="tekst">
+                    Du har ingen kandidater i kandidatlisten
+                </Undertittel>
                 <div className="knapper">
                     <FinnKandidaterLenke />
                     <LeggTilKandidatKnapp />
@@ -354,18 +437,19 @@ const ListedetaljerView = (props) => {
     return (
         <div className="Listedetaljer">
             <SideHeader />
-            {kandidater.length > 0
-                ? <div className="detaljer">
+            {kandidater.length > 0 ? (
+                <div className="detaljer">
                     <div className="wrapper">
                         <KnappeRad />
                         <ListeHeader />
-                        {kandidater.map((kandidat) => (
+                        {kandidater.map(kandidat => (
                             <KandidatRad key={kandidat.kandidatnr} kandidat={kandidat} />
                         ))}
                     </div>
                 </div>
-                : <TomListe />
-            }
+            ) : (
+                <TomListe />
+            )}
         </div>
     );
 };
@@ -373,24 +457,26 @@ const ListedetaljerView = (props) => {
 ListedetaljerView.defaultProps = {
     arbeidsgiver: undefined,
     stillingsId: undefined,
-    beskrivelse: undefined
+    beskrivelse: undefined,
 };
 
 ListedetaljerView.propTypes = {
-    kandidater: PropTypes.arrayOf(PropTypes.shape({
-        ...Kandidat,
-        markert: PropTypes.bool,
-        notaterVises: PropTypes.bool,
-        notater: PropTypes.shape({
-            kind: PropTypes.string,
-            data: PropTypes.arrayOf(PropTypes.shape(Notat))
+    kandidater: PropTypes.arrayOf(
+        PropTypes.shape({
+            ...Kandidat,
+            markert: PropTypes.bool,
+            notaterVises: PropTypes.bool,
+            notater: PropTypes.shape({
+                kind: PropTypes.string,
+                data: PropTypes.arrayOf(PropTypes.shape(Notat)),
+            }),
         })
-    })).isRequired,
+    ).isRequired,
     tittel: PropTypes.string.isRequired,
     arbeidsgiver: PropTypes.string,
     opprettetAv: PropTypes.shape({
         ident: PropTypes.string,
-        navn: PropTypes.string
+        navn: PropTypes.string,
     }).isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
     stillingsId: PropTypes.string,
@@ -406,7 +492,7 @@ ListedetaljerView.propTypes = {
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
     slettNotat: PropTypes.func.isRequired,
-    beskrivelse: PropTypes.string
+    beskrivelse: PropTypes.string,
 };
 
 export default ListedetaljerView;

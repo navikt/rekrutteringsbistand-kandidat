@@ -17,16 +17,17 @@ const FritekstSearch = ({ fritekstSokeord, search, setFritekstSokeord }) => (
 FritekstSearch.propTypes = {
     search: PropTypes.func.isRequired,
     fritekstSokeord: PropTypes.string.isRequired,
-    setFritekstSokeord: PropTypes.func.isRequired
+    setFritekstSokeord: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    fritekstSokeord: state.fritekst.fritekst
+const mapStateToProps = state => ({
+    fritekstSokeord: state.fritekst.fritekst,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     search: () => dispatch({ type: SEARCH }),
-    setFritekstSokeord: (fritekstSokeord) => dispatch({ type: SET_FRITEKST_SOKEORD, fritekst: fritekstSokeord })
+    setFritekstSokeord: fritekstSokeord =>
+        dispatch({ type: SET_FRITEKST_SOKEORD, fritekst: fritekstSokeord }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FritekstSearch);

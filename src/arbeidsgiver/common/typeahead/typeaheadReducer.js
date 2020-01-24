@@ -1,5 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchTypeaheadJanzzGeografiSuggestions, fetchTypeaheadSuggestionsRest, fetchTypeaheadSuggestionsOntology } from '../../sok/api.ts';
+import {
+    fetchTypeaheadJanzzGeografiSuggestions,
+    fetchTypeaheadSuggestionsRest,
+    fetchTypeaheadSuggestionsOntology,
+} from '../../sok/api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
 import { forerkortSuggestions } from '../../../felles/sok/forerkort/forerkort.ts';
 import { USE_JANZZ } from '../fasitProperties';
@@ -17,14 +21,13 @@ export const SET_KOMPLETT_GEOGRAFI = 'SET_KOMPLETT_GEOGRAFI';
 
 export const CLEAR_TYPE_AHEAD_SUGGESTIONS = 'CLEAR_TYPE_AHEAD_SUGGESTIONS';
 
-
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialTypeaheadState = () => ({
     value: '',
-    suggestions: []
+    suggestions: [],
 });
 
 const initialState = {
@@ -36,7 +39,7 @@ const initialState = {
     geografiKomplett: initialTypeaheadState(),
     sprak: initialTypeaheadState(),
     sertifikat: initialTypeaheadState(),
-    forerkort: initialTypeaheadState()
+    forerkort: initialTypeaheadState(),
 };
 
 export default function typeaheadReducer(state = initialState, action) {
@@ -45,18 +48,18 @@ export default function typeaheadReducer(state = initialState, action) {
             return {
                 ...state,
                 [action.branch]: {
-                    ...(state[action.branch]),
-                    value: action.value
-                }
+                    ...state[action.branch],
+                    value: action.value,
+                },
             };
         case FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS:
             if (action.query === state[action.branch].value) {
                 return {
                     ...state,
                     [action.branch]: {
-                        ...(state[action.branch]),
-                        suggestions: action.suggestions
-                    }
+                        ...state[action.branch],
+                        suggestions: action.suggestions,
+                    },
                 };
             }
             return state;
@@ -64,37 +67,37 @@ export default function typeaheadReducer(state = initialState, action) {
             return {
                 ...state,
                 geografiKomplett: {
-                    ...(state.geografiKomplett),
-                    suggestions: action.value
-                }
+                    ...state.geografiKomplett,
+                    suggestions: action.value,
+                },
             };
         case CLEAR_TYPE_AHEAD_SUGGESTIONS:
             if (action.branch === BRANCHNAVN.GEOGRAFI) {
                 return {
                     ...state,
                     geografi: {
-                        ...(state.geografi),
-                        suggestions: []
+                        ...state.geografi,
+                        suggestions: [],
                     },
                     geografiKomplett: {
-                        ...(state.geografiKomplett),
-                        suggestions: []
-                    }
+                        ...state.geografiKomplett,
+                        suggestions: [],
+                    },
                 };
             }
             return {
                 ...state,
                 [action.branch]: {
-                    ...(state[action.branch]),
-                    suggestions: []
-                }
+                    ...state[action.branch],
+                    suggestions: [],
+                },
             };
         default:
             return state;
     }
 }
 
-const getTypeAheadBranch = (type) => {
+const getTypeAheadBranch = type => {
     if (type === BRANCHNAVN.STILLING) return 'sti';
     else if (type === BRANCHNAVN.ARBEIDSERFARING) return 'yrke';
     else if (type === BRANCHNAVN.UTDANNING) return 'utd';
@@ -114,19 +117,26 @@ function* fetchTypeaheadGeografiES(value, branch) {
     const typeAheadBranch = getTypeAheadBranch(branch);
     try {
         const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-        const totalSuggestions = response.map((r) => (
-            JSON.parse(r)
-        ));
-        const totalSuggestionsUtenBydelerOgLand = totalSuggestions.filter((s) =>
-            !s.geografiKodeTekst.toLowerCase().includes('bydel') &&
+        const totalSuggestions = response.map(r => JSON.parse(r));
+        const totalSuggestionsUtenBydelerOgLand = totalSuggestions.filter(
+            s =>
+                !s.geografiKodeTekst.toLowerCase().includes('bydel') &&
                 s.geografiKode.substring(0, 2).toUpperCase() === 'NO'
         );
-        const suggestions = totalSuggestionsUtenBydelerOgLand.map((r) => r.geografiKodeTekst);
+        const suggestions = totalSuggestionsUtenBydelerOgLand.map(r => r.geografiKodeTekst);
         yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestionsUtenBydelerOgLand });
 
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions, branch, query: value });
+        yield put({
+            type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+            suggestions,
+            branch,
+            query: value,
+        });
     } catch (e) {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: e.message }) });
+        yield put({
+            type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
+            error: new SearchApiError({ message: e.message }),
+        });
     }
 }
 
@@ -135,21 +145,31 @@ function* fetchTypeaheadGeografiJanzz(value, branch) {
         const response = yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value });
 
         if (response._embedded) {
-            const totalResult = response._embedded.lokasjonList.map((sted) => (
-                { geografiKode: sted.code, geografiKodeTekst: sted.label }
-            ));
+            const totalResult = response._embedded.lokasjonList.map(sted => ({
+                geografiKode: sted.code,
+                geografiKodeTekst: sted.label,
+            }));
 
-            const result = response._embedded.lokasjonList.map((sted) => (
-                sted.label
-            ));
+            const result = response._embedded.lokasjonList.map(sted => sted.label);
 
             yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: result, branch, query: value });
+            yield put({
+                type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+                suggestions: result,
+                branch,
+                query: value,
+            });
         } else {
-            yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }) });
+            yield put({
+                type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
+                error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }),
+            });
         }
     } catch (e) {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE, error: new SearchApiError({ message: e.message }) });
+        yield put({
+            type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
+            error: new SearchApiError({ message: e.message }),
+        });
     }
 }
 
@@ -165,9 +185,19 @@ function* fetchTypeAheadSuggestions(action) {
     const TYPE_AHEAD_MIN_INPUT_LENGTH = 2;
     const { branch, value } = action;
     if (!value || value < TYPE_AHEAD_MIN_INPUT_LENGTH) {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: [], branch, query: value });
+        yield put({
+            type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+            suggestions: [],
+            branch,
+            query: value,
+        });
     } else if (branch === BRANCHNAVN.FORERKORT) {
-        yield put({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS, suggestions: forerkortSuggestions(value), branch, query: value });
+        yield put({
+            type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
+            suggestions: forerkortSuggestions(value),
+            branch,
+            query: value,
+        });
     } else {
         const typeAheadBranch = getTypeAheadBranch(branch);
         try {
@@ -177,21 +207,23 @@ function* fetchTypeAheadSuggestions(action) {
                 const response = yield call(fetchTypeaheadSuggestionsOntology, { text: value });
 
                 // eslint-disable-next-line no-underscore-dangle
-                const titler = response.hits.hits.map((hit) => hit._source.label);
+                const titler = response.hits.hits.map(hit => hit._source.label);
 
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
                     suggestions: titler,
                     branch,
-                    query: value
+                    query: value,
                 });
             } else {
-                const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
+                const response = yield call(fetchTypeaheadSuggestionsRest, {
+                    [typeAheadBranch]: value,
+                });
                 yield put({
                     type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
                     suggestions: response,
                     branch,
-                    query: value
+                    query: value,
                 });
             }
         } catch (e) {

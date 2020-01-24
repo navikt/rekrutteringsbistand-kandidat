@@ -44,7 +44,7 @@ const cvPropTypes = PropTypes.shape({
     fagdokumentasjon: PropTypes.array,
     verv: PropTypes.array,
     yrkeJobbonsker: PropTypes.array,
-    yrkeserfaring: PropTypes.array
+    yrkeserfaring: PropTypes.array,
 });
 
 export default cvPropTypes;

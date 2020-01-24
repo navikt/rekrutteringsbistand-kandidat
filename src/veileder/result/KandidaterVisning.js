@@ -10,17 +10,19 @@ import './Resultat.less';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
-import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
+import {
+    LAST_FLERE_KANDIDATER,
+    MARKER_KANDIDATER,
+    OPPDATER_ANTALL_KANDIDATER,
+} from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
 
-const antallKandidaterMarkert = (kandidater) => (
-    kandidater.filter((k) => (k.markert)).length
-);
+const antallKandidaterMarkert = kandidater => kandidater.filter(k => k.markert).length;
 
-const lagreKandidaterTilStillingKnappTekst = (antall) => {
+const lagreKandidaterTilStillingKnappTekst = antall => {
     if (antall === 0) {
         return 'Lagre kandidater i kandidatliste';
     } else if (antall === 1) {
@@ -29,7 +31,7 @@ const lagreKandidaterTilStillingKnappTekst = (antall) => {
     return `Lagre ${antall} kandidater i kandidatliste`;
 };
 
-const markereKandidat = (kandidatnr, checked) => (k) => {
+const markereKandidat = (kandidatnr, checked) => k => {
     if (k.arenaKandidatnr === kandidatnr) {
         return { ...k, markert: checked };
     }
@@ -41,10 +43,12 @@ class KandidaterVisning extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            alleKandidaterMarkert: props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert).length === Math.min(props.antallKandidater, props.kandidater.length),
+            alleKandidaterMarkert:
+                props.kandidater.filter((k, i) => i < props.antallKandidater && k.markert)
+                    .length === Math.min(props.antallKandidater, props.kandidater.length),
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
-            kandidater: props.kandidater
+            kandidater: props.kandidater,
         };
     }
 
@@ -62,31 +66,38 @@ class KandidaterVisning extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { kandidater, antallKandidater, leggTilKandidatStatus } = this.props;
-        const harNyeSokekriterier = (this.props.searchQueryHash !== prevProps.searchQueryHash);
+        const harNyeSokekriterier = this.props.searchQueryHash !== prevProps.searchQueryHash;
         if (harNyeSokekriterier) {
             this.setState({
                 kandidater,
-                alleKandidaterMarkert: false
+                alleKandidaterMarkert: false,
             });
         } else if (!harNyeSokekriterier && kandidater > prevProps.kandidater) {
             this.setState({
-                kandidater
+                kandidater,
             });
         } else if (prevProps.kandidater !== kandidater) {
             this.setState({
                 kandidater,
-                alleKandidaterMarkert: kandidater.filter((k, i) => i < antallKandidater && k.markert).length === Math.min(antallKandidater, kandidater.length)
+                alleKandidaterMarkert:
+                    kandidater.filter((k, i) => i < antallKandidater && k.markert).length ===
+                    Math.min(antallKandidater, kandidater.length),
             });
         }
-        if (prevProps.leggTilKandidatStatus !== leggTilKandidatStatus && leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (
+            prevProps.leggTilKandidatStatus !== leggTilKandidatStatus &&
+            leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
+        ) {
             this.setState({ lagreKandidaterModalTilStillingVises: false });
         }
     }
 
     onKandidatValgt = (checked, kandidatnr) => {
-        this.props.oppdaterMarkerteKandidater(this.state.kandidater.map(markereKandidat(kandidatnr, checked)));
+        this.props.oppdaterMarkerteKandidater(
+            this.state.kandidater.map(markereKandidat(kandidatnr, checked))
+        );
         this.setState({
-            alleKandidaterMarkert: false
+            alleKandidaterMarkert: false,
         });
     };
 
@@ -94,7 +105,10 @@ class KandidaterVisning extends React.Component {
         if (this.props.isSearching) {
             return;
         }
-        const nyttAntall = Math.min(this.props.antallKandidater + KANDIDATLISTE_CHUNK_SIZE, this.props.totaltAntallTreff);
+        const nyttAntall = Math.min(
+            this.props.antallKandidater + KANDIDATLISTE_CHUNK_SIZE,
+            this.props.totaltAntallTreff
+        );
         if (nyttAntall > this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
@@ -103,17 +117,21 @@ class KandidaterVisning extends React.Component {
             this.props.oppdaterAntallKandidater(nyttAntall);
         }
         this.setState({
-            alleKandidaterMarkert: false
+            alleKandidaterMarkert: false,
         });
     };
 
-    onLagreKandidatliste = (kandidatliste) => {
-        this.props.leggTilKandidaterIKandidatliste(kandidatliste, this.state.kandidater
-            .filter((kandidat) => (kandidat.markert))
-            .map((kandidat) => ({
-                kandidatnr: kandidat.arenaKandidatnr,
-                sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
-            }))
+    onLagreKandidatliste = kandidatliste => {
+        this.props.leggTilKandidaterIKandidatliste(
+            kandidatliste,
+            this.state.kandidater
+                .filter(kandidat => kandidat.markert)
+                .map(kandidat => ({
+                    kandidatnr: kandidat.arenaKandidatnr,
+                    sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
+                        ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
+                        : '',
+                }))
         );
     };
 
@@ -122,11 +140,13 @@ class KandidaterVisning extends React.Component {
         this.toggleMarkeringAlleKandidater(checked);
     };
 
-    toggleMarkeringAlleKandidater = (checked) => {
-        const kandidaterMedMarkering = this.state.kandidater.map((k, i) => (i < this.props.antallKandidater ? { ...k, markert: checked } : k));
+    toggleMarkeringAlleKandidater = checked => {
+        const kandidaterMedMarkering = this.state.kandidater.map((k, i) =>
+            i < this.props.antallKandidater ? { ...k, markert: checked } : k
+        );
 
         this.setState({
-            alleKandidaterMarkert: checked
+            alleKandidaterMarkert: checked,
         });
 
         this.props.oppdaterMarkerteKandidater(kandidaterMedMarkering);
@@ -134,32 +154,45 @@ class KandidaterVisning extends React.Component {
 
     toggleLagreKandidaterModal = () => {
         this.setState({
-            lagreKandidaterModalVises: !this.state.lagreKandidaterModalVises
+            lagreKandidaterModalVises: !this.state.lagreKandidaterModalVises,
         });
     };
 
     toggleLagreKandidaterTilStillingModal = () => {
         this.setState({
-            lagreKandidaterModalTilStillingVises: !this.state.lagreKandidaterModalTilStillingVises
+            lagreKandidaterModalTilStillingVises: !this.state.lagreKandidaterModalTilStillingVises,
         });
     };
 
     render() {
-        const { isEmptyQuery, kandidatliste, totaltAntallTreff, kandidatlisteId, stillingsId, antallKandidater, valgtKandidatNr } = this.props;
-        const { kandidater, lagreKandidaterModalVises, lagreKandidaterModalTilStillingVises, alleKandidaterMarkert } = this.state;
+        const {
+            isEmptyQuery,
+            kandidatliste,
+            totaltAntallTreff,
+            kandidatlisteId,
+            stillingsId,
+            antallKandidater,
+            valgtKandidatNr,
+        } = this.props;
+        const {
+            kandidater,
+            lagreKandidaterModalVises,
+            lagreKandidaterModalTilStillingVises,
+            alleKandidaterMarkert,
+        } = this.state;
         const panelTekst = isEmptyQuery ? ' kandidater' : ' treff på aktuelle kandidater';
         const antallMarkert = antallKandidaterMarkert(kandidater);
 
         return (
             <div>
-                {lagreKandidaterModalVises &&
+                {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
                         vis={lagreKandidaterModalVises}
                         onRequestClose={this.toggleLagreKandidaterModal}
                         onLagre={this.onLagreKandidatliste}
                     />
-                }
-                {lagreKandidaterModalTilStillingVises &&
+                )}
+                {lagreKandidaterModalTilStillingVises && (
                     <LagreKandidaterTilStillingModal
                         vis={lagreKandidaterModalTilStillingVises}
                         onRequestClose={this.toggleLagreKandidaterTilStillingModal}
@@ -168,13 +201,22 @@ class KandidaterVisning extends React.Component {
                         kandidatliste={kandidatliste}
                         isSaving={this.props.leggTilKandidatStatus === LAGRE_STATUS.LOADING}
                     />
-                }
+                )}
                 <div className="resultatvisning--header">
-                    <Undertittel className="text--left inline"><strong id="antall-kandidater-treff">{formatterInt(totaltAntallTreff)}</strong>{panelTekst}</Undertittel>
+                    <Undertittel className="text--left inline">
+                        <strong id="antall-kandidater-treff">
+                            {formatterInt(totaltAntallTreff)}
+                        </strong>
+                        {panelTekst}
+                    </Undertittel>
                     <KnappMedHjelpetekst
                         hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."
                         disabled={antallMarkert === 0}
-                        onClick={kandidatlisteId || stillingsId ? this.toggleLagreKandidaterTilStillingModal : this.toggleLagreKandidaterModal}
+                        onClick={
+                            kandidatlisteId || stillingsId
+                                ? this.toggleLagreKandidaterTilStillingModal
+                                : this.toggleLagreKandidaterModal
+                        }
                         id="lagre-kandidater-knapp"
                         tittel={lagreKandidaterTilStillingKnappTekst(antallMarkert)}
                     >
@@ -201,7 +243,7 @@ class KandidaterVisning extends React.Component {
 KandidaterVisning.defaultProps = {
     kandidatlisteId: undefined,
     stillingsId: undefined,
-    kandidatliste: undefined
+    kandidatliste: undefined,
 };
 
 KandidaterVisning.propTypes = {
@@ -222,19 +264,34 @@ KandidaterVisning.propTypes = {
     stillingsId: PropTypes.string,
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape(Kandidatliste)
+    kandidatliste: PropTypes.shape(Kandidatliste),
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => { dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidatliste, kandidater }); },
-    lastFlereKandidater: () => { dispatch({ type: LAST_FLERE_KANDIDATER }); },
-    oppdaterAntallKandidater: (antallKandidater) => { dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater }); },
-    oppdaterMarkerteKandidater: (markerteKandidater) => { dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater }); },
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }); },
-    hentKandidatlisteMedStillingsId: (stillingsId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
+const mapDispatchToProps = dispatch => ({
+    leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => {
+        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
+    },
+    lastFlereKandidater: () => {
+        dispatch({ type: LAST_FLERE_KANDIDATER });
+    },
+    oppdaterAntallKandidater: antallKandidater => {
+        dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater });
+    },
+    oppdaterMarkerteKandidater: markerteKandidater => {
+        dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater });
+    },
+    hentKandidatlisteMedKandidatlisteId: kandidatlisteId => {
+        dispatch({
+            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            kandidatlisteId,
+        });
+    },
+    hentKandidatlisteMedStillingsId: stillingsId => {
+        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId });
+    },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.search.isEmptyQuery,
@@ -244,7 +301,10 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.antallVisteKandidater,
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined
+    kandidatliste:
+        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+            ? state.kandidatlister.detaljer.kandidatliste.data
+            : undefined,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

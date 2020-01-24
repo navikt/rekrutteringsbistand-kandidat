@@ -11,19 +11,23 @@ import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
 import './Arbeidserfaring.less';
 
-export const aarMedErfaringer = [{ label: 'Under 1 år', value: '0-11' }, { label: '1-3 år', value: '12-47' },
-    { label: '4-9 år', value: '48-119' }, { label: 'Over 10 år', value: '120-' }];
+export const aarMedErfaringer = [
+    { label: 'Under 1 år', value: '0-11' },
+    { label: '1-3 år', value: '12-47' },
+    { label: '4-9 år', value: '48-119' },
+    { label: 'Over 10 år', value: '120-' },
+];
 
 class ArbeidserfaringSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
     }
 
-    onTotalErfaringChange = (e) => {
+    onTotalErfaringChange = e => {
         if (e.target.checked) {
             this.props.checkTotalErfaring(e.target.value);
         } else {
@@ -32,31 +36,34 @@ class ArbeidserfaringSearch extends React.Component {
         this.props.search();
     };
 
-    onTypeAheadArbeidserfaringChange = (value) => {
+    onTypeAheadArbeidserfaringChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadArbeidserfaringSelect = (value) => {
+    onTypeAheadArbeidserfaringSelect = value => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadArbeidserfaring();
             this.setState({
-                typeAheadValue: ''
+                typeAheadValue: '',
             });
             this.props.search();
         }
     };
 
     onLeggTilClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernClick = (erfaring) => {
+    onFjernClick = erfaring => {
         this.props.removeArbeidserfaring(erfaring);
         this.props.search();
     };
@@ -64,22 +71,25 @@ class ArbeidserfaringSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadArbeidserfaring();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
     };
 
     renderTotalErfaring = () => (
-        <SkjemaGruppe className="ar-med-arbeidserfaring__header" title="Totalt antall år med arbeidserfaring">
+        <SkjemaGruppe
+            className="ar-med-arbeidserfaring__header"
+            title="Totalt antall år med arbeidserfaring"
+        >
             <Normaltekst>Velg en eller flere</Normaltekst>
             <div className="sokekriterier--kriterier">
-                {aarMedErfaringer.map((arbeidserfaring) => (
+                {aarMedErfaringer.map(arbeidserfaring => (
                     <Checkbox
                         className="checkbox--arbeidserfaring skjemaelement--pink"
                         id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
@@ -118,17 +128,13 @@ class ArbeidserfaringSearch extends React.Component {
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <Element>
-                    Hvilken erfaring skal kandidaten ha?
-                </Element>
-                <Normaltekst>
-                    For eksempel: barnehagelærer
-                </Normaltekst>
+                <Element>Hvilken erfaring skal kandidaten ha?</Element>
+                <Normaltekst>For eksempel: barnehagelærer</Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={(typeAhead) => {
+                                ref={typeAhead => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadArbeidserfaringSelect}
@@ -154,7 +160,7 @@ class ArbeidserfaringSearch extends React.Component {
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.arbeidserfaringer.map((arbeidserfaring) => (
+                        {this.props.arbeidserfaringer.map(arbeidserfaring => (
                             <Merkelapp
                                 onRemove={this.onFjernClick}
                                 key={arbeidserfaring}
@@ -168,16 +174,17 @@ class ArbeidserfaringSearch extends React.Component {
                 <div className="sokekriterier--margin-top-extra-large">
                     {this.renderTotalErfaring()}
                 </div>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
 }
 
 ArbeidserfaringSearch.defaultProps = {
-    useJanzz: false
+    useJanzz: false,
 };
 
 ArbeidserfaringSearch.propTypes = {
@@ -196,7 +203,7 @@ ArbeidserfaringSearch.propTypes = {
     skjulArbeidserfaring: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    useJanzz: PropTypes.bool
+    useJanzz: PropTypes.bool,
 };
 
 export default ArbeidserfaringSearch;

@@ -12,7 +12,7 @@ export default class Typeahead extends React.Component {
             value: props.value,
             activeSuggestionIndex: -1,
             shouldShowSuggestions: true,
-            hasFocus: false
+            hasFocus: false,
         };
         this.shouldBlur = true;
     }
@@ -20,17 +20,17 @@ export default class Typeahead extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.state.value !== nextProps.value) {
             this.setState({
-                value: nextProps.value
+                value: nextProps.value,
             });
         }
     }
 
-    onChange = (e) => {
+    onChange = e => {
         const { value } = e.target;
         this.setState({
             value,
             activeSuggestionIndex: -1,
-            shouldShowSuggestions: true
+            shouldShowSuggestions: true,
         });
         this.props.onChange(value);
     };
@@ -39,9 +39,11 @@ export default class Typeahead extends React.Component {
      * Key handler for tastaturnavigasjon i suggestion-listen.
      * @param e
      */
-    onKeyDown = (e) => {
+    onKeyDown = e => {
         let { activeSuggestionIndex } = this.state;
-        const value = this.props.suggestions[activeSuggestionIndex] ? this.props.suggestions[activeSuggestionIndex] : this.state.value;
+        const value = this.props.suggestions[activeSuggestionIndex]
+            ? this.props.suggestions[activeSuggestionIndex]
+            : this.state.value;
         if (this.state.shouldShowSuggestions) {
             switch (e.keyCode) {
                 case 13: // Enter
@@ -52,18 +54,22 @@ export default class Typeahead extends React.Component {
                     if (this.state.shouldShowSuggestions) {
                         e.preventDefault();
                         this.setState({
-                            shouldShowSuggestions: false
+                            shouldShowSuggestions: false,
                         });
                     }
                     break;
                 case 38: // Arrow up
                     e.preventDefault();
-                    activeSuggestionIndex = activeSuggestionIndex - 1 === -2 ? -1 : activeSuggestionIndex - 1;
+                    activeSuggestionIndex =
+                        activeSuggestionIndex - 1 === -2 ? -1 : activeSuggestionIndex - 1;
                     this.setState({ activeSuggestionIndex });
                     break;
                 case 40: // Arrow down
                     e.preventDefault();
-                    activeSuggestionIndex = activeSuggestionIndex + 1 === this.props.suggestions.length ? this.props.suggestions.length - 1 : activeSuggestionIndex + 1;
+                    activeSuggestionIndex =
+                        activeSuggestionIndex + 1 === this.props.suggestions.length
+                            ? this.props.suggestions.length - 1
+                            : activeSuggestionIndex + 1;
                     this.setState({ activeSuggestionIndex });
                     break;
                 default:
@@ -75,7 +81,7 @@ export default class Typeahead extends React.Component {
     onFocus = () => {
         this.setState({
             hasFocus: true,
-            activeSuggestionIndex: -1
+            activeSuggestionIndex: -1,
         });
         this.clearBlurDelay();
     };
@@ -89,22 +95,28 @@ export default class Typeahead extends React.Component {
     onBlur = () => {
         this.blurDelay = setTimeout(() => {
             if (this.shouldBlur) {
-                this.setState({
-                    hasFocus: false
-                }, () => {
-                    this.props.onTypeAheadBlur();
-                });
+                this.setState(
+                    {
+                        hasFocus: false,
+                    },
+                    () => {
+                        this.props.onTypeAheadBlur();
+                    }
+                );
             }
         }, 10);
     };
 
     onSearchButtonBlur = () => {
         this.blurDelay = setTimeout(() => {
-            this.setState({
-                hasFocus: false
-            }, () => {
-                this.props.onTypeAheadBlur();
-            });
+            this.setState(
+                {
+                    hasFocus: false,
+                },
+                () => {
+                    this.props.onTypeAheadBlur();
+                }
+            );
         }, 10);
     };
 
@@ -125,9 +137,9 @@ export default class Typeahead extends React.Component {
      * eller når man bruker fører musen over en suggestion.
      * @param index
      */
-    highlightSuggestion = (index) => {
+    highlightSuggestion = index => {
         this.setState({
-            activeSuggestionIndex: index
+            activeSuggestionIndex: index,
         });
         this.clearBlurDelay();
     };
@@ -137,7 +149,7 @@ export default class Typeahead extends React.Component {
      */
     resetHighlightingSuggestion = () => {
         this.setState({
-            activeSuggestionIndex: -1
+            activeSuggestionIndex: -1,
         });
     };
 
@@ -145,23 +157,32 @@ export default class Typeahead extends React.Component {
      * Setter valgt suggestion, og skjuler suggestion-listen.
      * @param suggestionValue
      */
-    selectSuggestion = (suggestionValue) => {
-        if (this.props.allowOnlyTypeaheadSuggestions && !this.props.suggestions.includes(suggestionValue)) {
+    selectSuggestion = suggestionValue => {
+        if (
+            this.props.allowOnlyTypeaheadSuggestions &&
+            !this.props.suggestions.includes(suggestionValue)
+        ) {
             return;
         }
-        this.setState({
-            value: suggestionValue,
-            shouldShowSuggestions: false,
-            activeSuggestionIndex: -1
-        }, () => {
-            this.input.focus();
-        });
+        this.setState(
+            {
+                value: suggestionValue,
+                shouldShowSuggestions: false,
+                activeSuggestionIndex: -1,
+            },
+            () => {
+                this.input.focus();
+            }
+        );
         this.clearBlurDelay();
         this.props.onSelect(suggestionValue);
     };
 
     render() {
-        const showSuggestions = this.state.hasFocus && this.state.shouldShowSuggestions && this.props.suggestions.length > 0;
+        const showSuggestions =
+            this.state.hasFocus &&
+            this.state.shouldShowSuggestions &&
+            this.props.suggestions.length > 0;
         return (
             <div className="typeahead">
                 <input
@@ -180,7 +201,7 @@ export default class Typeahead extends React.Component {
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
                     onFocus={this.onFocus}
-                    ref={(input) => {
+                    ref={input => {
                         this.input = input;
                     }}
                     className="skjemaelement__input input--fullbredde skjemaelement--blue"
@@ -200,25 +221,30 @@ export default class Typeahead extends React.Component {
                 <ul
                     id={`${this.props.id}-suggestions`}
                     role="listbox"
-                    className={showSuggestions ? 'typeahead-suggestions-visible' : 'typeahead-suggestions-hidden'}
+                    className={
+                        showSuggestions
+                            ? 'typeahead-suggestions-visible'
+                            : 'typeahead-suggestions-hidden'
+                    }
                     onMouseLeave={this.resetHighlightingSuggestion}
                 >
-                    {showSuggestions && this.props.suggestions.map((li, i) => {
-                        if (this.props.selectedSuggestions.includes(li)) return null;
-                        return (
-                            <TypeaheadSuggestion
-                                id={`${this.props.id}-item-${i}`}
-                                key={li}
-                                index={i}
-                                value={li}
-                                match={this.state.value}
-                                active={i === this.state.activeSuggestionIndex}
-                                onClick={this.selectSuggestion}
-                                highlightSuggestion={this.highlightSuggestion}
-                                avoidBlur={this.avoidBlur}
-                            />
-                        );
-                    })}
+                    {showSuggestions &&
+                        this.props.suggestions.map((li, i) => {
+                            if (this.props.selectedSuggestions.includes(li)) return null;
+                            return (
+                                <TypeaheadSuggestion
+                                    id={`${this.props.id}-item-${i}`}
+                                    key={li}
+                                    index={i}
+                                    value={li}
+                                    match={this.state.value}
+                                    active={i === this.state.activeSuggestionIndex}
+                                    onClick={this.selectSuggestion}
+                                    highlightSuggestion={this.highlightSuggestion}
+                                    avoidBlur={this.avoidBlur}
+                                />
+                            );
+                        })}
                 </ul>
             </div>
         );
@@ -227,7 +253,7 @@ export default class Typeahead extends React.Component {
 
 Typeahead.defaultProps = {
     allowOnlyTypeaheadSuggestions: false,
-    selectedSuggestions: []
+    selectedSuggestions: [],
 };
 
 Typeahead.propTypes = {
@@ -240,5 +266,5 @@ Typeahead.propTypes = {
     id: PropTypes.string.isRequired,
     onTypeAheadBlur: PropTypes.func.isRequired,
     allowOnlyTypeaheadSuggestions: PropTypes.bool,
-    selectedSuggestions: PropTypes.arrayOf(PropTypes.string)
+    selectedSuggestions: PropTypes.arrayOf(PropTypes.string),
 };

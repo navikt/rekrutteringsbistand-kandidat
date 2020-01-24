@@ -15,12 +15,12 @@ class UtdanningSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
-        this.utdanningsnivaKategorier = Object.keys(UTDANNING).map((key) => UTDANNING[key]);
+        this.utdanningsnivaKategorier = Object.keys(UTDANNING).map(key => UTDANNING[key]);
     }
 
-    onUtdanningsnivaChange = (e) => {
+    onUtdanningsnivaChange = e => {
         if (e.target.checked) {
             this.props.checkUtdanningsniva(e.target.value);
         } else {
@@ -29,31 +29,34 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
-    onTypeAheadUtdanningChange = (value) => {
+    onTypeAheadUtdanningChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadUtdanningSelect = (value) => {
+    onTypeAheadUtdanningSelect = value => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadUtdanning();
             this.setState({
-                typeAheadValue: ''
+                typeAheadValue: '',
             });
             this.props.search();
         }
     };
 
     onLeggTilClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernClick = (e) => {
+    onFjernClick = e => {
         this.props.removeUtdanning(e.target.value);
         this.props.search();
     };
@@ -61,12 +64,12 @@ class UtdanningSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadUtdanning();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -82,11 +85,10 @@ class UtdanningSearch extends React.Component {
                 tittel="Utdanning"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
-
             >
                 <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
                     <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
-                        {this.utdanningsnivaKategorier.map((utdanning) => (
+                        {this.utdanningsnivaKategorier.map(utdanning => (
                             <Checkbox
                                 className="checkbox--utdanningsniva skjemaelement--pink"
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
@@ -164,16 +166,17 @@ class UtdanningSearch extends React.Component {
                         </div>
                     )}
                 </div> */}
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
 }
 
 UtdanningSearch.defaultProps = {
-    visManglendeArbeidserfaringBoks: false
+    visManglendeArbeidserfaringBoks: false,
 };
 
 UtdanningSearch.propTypes = {
@@ -190,7 +193,7 @@ UtdanningSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    panelOpen: PropTypes.bool.isRequired
+    panelOpen: PropTypes.bool.isRequired,
     // TODO: Kommenter inn når søk på geografi blir tatt inn igjen
     // utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
     // typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,

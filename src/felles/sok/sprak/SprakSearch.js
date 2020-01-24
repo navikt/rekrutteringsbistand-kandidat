@@ -13,25 +13,27 @@ class SprakSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
     }
 
-    onTypeAheadSprakChange = (value) => {
+    onTypeAheadSprakChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadSprakSelect = (value) => {
+    onTypeAheadSprakSelect = value => {
         if (value !== '') {
-            const sprak = this.props.typeAheadSuggestionsSprak.find((s) => s.toLowerCase() === value.toLowerCase());
+            const sprak = this.props.typeAheadSuggestionsSprak.find(
+                s => s.toLowerCase() === value.toLowerCase()
+            );
             if (sprak !== undefined) {
                 this.props.selectTypeAheadValue(sprak);
                 this.props.clearTypeAheadSprak();
                 this.setState({
-                    typeAheadValue: ''
+                    typeAheadValue: '',
                 });
                 this.props.search();
             }
@@ -39,12 +41,15 @@ class SprakSearch extends React.Component {
     };
 
     onLeggTilClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernClick = (sprak) => {
+    onFjernClick = sprak => {
         this.props.removeSprak(sprak);
         this.props.search();
     };
@@ -52,12 +57,12 @@ class SprakSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadSprak();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadSprakSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -79,7 +84,7 @@ class SprakSearch extends React.Component {
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={(typeAhead) => {
+                                ref={typeAhead => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadSprakSelect}
@@ -105,20 +110,17 @@ class SprakSearch extends React.Component {
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.sprak.map((sprak) => (
-                            <Merkelapp
-                                onRemove={this.onFjernClick}
-                                key={sprak}
-                                value={sprak}
-                            >
+                        {this.props.sprak.map(sprak => (
+                            <Merkelapp onRemove={this.onFjernClick} key={sprak} value={sprak}>
                                 {sprak}
                             </Merkelapp>
                         ))}
                     </div>
                 </div>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.SPRAK && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
@@ -136,7 +138,7 @@ SprakSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSprak: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    panelOpen: PropTypes.bool.isRequired
+    panelOpen: PropTypes.bool.isRequired,
 };
 
 export default SprakSearch;

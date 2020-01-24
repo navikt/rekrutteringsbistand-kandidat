@@ -13,14 +13,7 @@ const DisabledCheckbox = () => (
     />
 );
 
-const CheckboxMedHjelpetekst = ({
-    id,
-    label,
-    checked,
-    onChange,
-    disabled,
-    tittel
-}) => (
+const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel }) =>
     disabled ? (
         <HjelpetekstUnder
             id="geografi-checkbox-hjelpetekst"
@@ -39,8 +32,7 @@ const CheckboxMedHjelpetekst = ({
             onChange={onChange}
             disabled={false}
         />
-    )
-);
+    );
 
 CheckboxMedHjelpetekst.propTypes = {
     id: PropTypes.string.isRequired,
@@ -48,7 +40,7 @@ CheckboxMedHjelpetekst.propTypes = {
     disabled: PropTypes.bool.isRequired,
     checked: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
-    tittel: PropTypes.string.isRequired
+    tittel: PropTypes.string.isRequired,
 };
 
 export default CheckboxMedHjelpetekst;

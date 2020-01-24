@@ -5,19 +5,17 @@ import './PageHeaderWrapper.less';
 
 const PageHeader = ({ children, className }) => (
     <div className={`PageHeader${className ? ` ${className}` : ''}`}>
-        <Container className="PageHeader__container">
-            { children }
-        </Container>
+        <Container className="PageHeader__container">{children}</Container>
     </div>
 );
 
 PageHeader.defaultProps = {
-    className: undefined
+    className: undefined,
 };
 
 PageHeader.propTypes = {
     children: PropTypes.node.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
 };
 
 export default PageHeader;
