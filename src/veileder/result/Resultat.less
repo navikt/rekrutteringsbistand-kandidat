@@ -1,348 +1,350 @@
 @import '../../felles/Variables';
 
 .resultatvisning--sokekriterier {
-  .checkbox--sokekriterier--unchecked,
-  .checkbox--sokekriterier--checked, .etikett--sokekriterier,
-  .leggtil--sokekriterier {
-    width: 100%;
-  }
+    .checkbox--sokekriterier--unchecked,
+    .checkbox--sokekriterier--checked,
+    .etikett--sokekriterier,
+    .leggtil--sokekriterier {
+        width: 100%;
+    }
 }
 
 .ResultatVisning--hovedside--header {
-  background-color: #e3edf8;
-  color: @navMorkGra;
-  border: solid 1px #d8d8d8;
-  .container--header {
-    display: flex;
-    padding: 0 1.5rem;
-  }
-  .container--header--uten-stilling {
-    display: flex;
-    flex-wrap: wrap;
-    height: 7.5rem;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1.5rem;
-  }
-
-  .child-item__container--header {
-    flex: 3;
-    overflow: hidden;
-    white-space: nowrap;
-
-    .header__row--veileder {
-      display: flex;
-
-      .text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .opprettet-av__row {
-        display: inline-flex;
-        margin-top: 1.25rem;
-        overflow: hidden;
-
-        @media (max-width: @screen-sm) {
-          flex-direction: column;
-        }
-
-        @media (min-width: @screen-sm) {
-          flex-direction: row;
-          p:not(:last-child):after {
-            content: '|';
-            margin-left: 1rem;
-            margin-right: 1rem;
-          }
-        }
-      }
-      .beskrivelse--knapp {
-        padding: 0;
-        .chevron--opp, .chevron--ned {
-          width: 16px;
-        }
-      }
-      .beskrivelse {
-        margin-top: 1.25rem;
-      }
-      .beskrivelse--text {
-        overflow: initial;
-        white-space: initial;
-      }
-      &:first-child {
-         padding-top: 2.5rem;
-      }
-      &:last-child {
-        margin-bottom: 0;
-        padding-bottom: 2.5rem;
-      }
-    }
-  }
-
-  .container--header__lenker {
-    flex: 1;
-    display: flex;
-    margin-top: 4.75rem;
-    align-self: start;
-    justify-content: flex-end;
-    a {
-      border: none;
-    }
-    .lenke {
-      font-weight: 600;
-    }
-  }
-
-  @media(max-width: 991px) {
+    background-color: #e3edf8;
+    color: @navMorkGra;
+    border: solid 1px #d8d8d8;
     .container--header {
-      display: block;
+        display: flex;
+        padding: 0 1.5rem;
     }
-    .child-item__container--header {
-      padding: 0;
-      .header__row--veileder {
-        &:first-child {
-          padding-top: 2rem;
-        }
-        &:last-child {
-          padding-bottom: 1.5rem;
-        }
-      }
+    .container--header--uten-stilling {
+        display: flex;
+        flex-wrap: wrap;
+        height: 7.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1.5rem;
     }
-    .container--header__lenker {
-      justify-content: flex-start;
-      margin-top: 0;
-      margin-bottom: 2rem;
-      a:first-child {
-        margin-left: 0;
-      }
-    }
-  }
 
-  @media(max-width: 479px) {
     .child-item__container--header {
-      .header__row--veileder {
-        &:first-child {
-          padding-top: 1rem;
+        flex: 3;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .header__row--veileder {
+            display: flex;
+
+            .text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .opprettet-av__row {
+                display: inline-flex;
+                margin-top: 1.25rem;
+                overflow: hidden;
+
+                @media (max-width: @screen-sm) {
+                    flex-direction: column;
+                }
+
+                @media (min-width: @screen-sm) {
+                    flex-direction: row;
+                    p:not(:last-child):after {
+                        content: '|';
+                        margin-left: 1rem;
+                        margin-right: 1rem;
+                    }
+                }
+            }
+            .beskrivelse--knapp {
+                padding: 0;
+                .chevron--opp,
+                .chevron--ned {
+                    width: 16px;
+                }
+            }
+            .beskrivelse {
+                margin-top: 1.25rem;
+            }
+            .beskrivelse--text {
+                overflow: initial;
+                white-space: initial;
+            }
+            &:first-child {
+                padding-top: 2.5rem;
+            }
+            &:last-child {
+                margin-bottom: 0;
+                padding-bottom: 2.5rem;
+            }
         }
-        &:last-child {
-          padding-bottom: 1rem;
-        }
-      }
     }
+
     .container--header__lenker {
-      margin-bottom: 1rem;
+        flex: 1;
+        display: flex;
+        margin-top: 4.75rem;
+        align-self: start;
+        justify-content: flex-end;
+        a {
+            border: none;
+        }
+        .lenke {
+            font-weight: 600;
+        }
     }
-  }
+
+    @media (max-width: 991px) {
+        .container--header {
+            display: block;
+        }
+        .child-item__container--header {
+            padding: 0;
+            .header__row--veileder {
+                &:first-child {
+                    padding-top: 2rem;
+                }
+                &:last-child {
+                    padding-bottom: 1.5rem;
+                }
+            }
+        }
+        .container--header__lenker {
+            justify-content: flex-start;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            a:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+
+    @media (max-width: 479px) {
+        .child-item__container--header {
+            .header__row--veileder {
+                &:first-child {
+                    padding-top: 1rem;
+                }
+                &:last-child {
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+        .container--header__lenker {
+            margin-bottom: 1rem;
+        }
+    }
 }
 
 .fullscreen-spinner {
-  text-align: center;
-  padding-top: 2.5rem;
+    text-align: center;
+    padding-top: 2.5rem;
 }
 
 .sokekriterier--column {
-  margin-top: 2.5rem;
-  .knapp-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1.5rem;
-  }
+    margin-top: 2.5rem;
+    .knapp-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .kandidatervisning--column {
-  margin-top: 2.5rem;
+    margin-top: 2.5rem;
 }
 
 @media (min-width: @screen-md-min) {
-  .sokekriterier--column {
-    margin-right: 2.5rem;
-  }
+    .sokekriterier--column {
+        margin-right: 2.5rem;
+    }
 }
 
 @media (min-width: @screen-lg-min) {
-  .sokekriterier--column {
-    margin-right: 4rem;
-  }
+    .sokekriterier--column {
+        margin-right: 4rem;
+    }
 }
 
 .resultatvisning {
-  .spinner {
-    position: absolute;
-    margin-left: 1rem;
-    margin-top: 2px;
-  }
+    .spinner {
+        position: absolute;
+        margin-left: 1rem;
+        margin-top: 2px;
+    }
 }
 
 .knapp.lenke--slett--kriterier.knapp--flat.knapp--mini {
-  padding-left: 0;
-  padding-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .resultatvisning--header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
 }
 
 .buttons--kandidatervisning {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .antall-treff-kandidatervisning {
-  display: inline;
-  margin-left: 0.5rem !important;
+    display: inline;
+    margin-left: 0.5rem !important;
 }
 
 a.tilbake--lenke {
-  border-bottom: none;
-  font-weight: 600;
-  padding: 0.5rem 0.5rem 0.5rem 0;
+    border-bottom: none;
+    font-weight: 600;
+    padding: 0.5rem 0.5rem 0.5rem 0;
 
-  &:hover .tekst--tilbake--lenke {
-    border-bottom: solid 1px;
-  }
+    &:hover .tekst--tilbake--lenke {
+        border-bottom: solid 1px;
+    }
 }
 
 .LagreKandidaterModal {
-  width: 40rem;
+    width: 40rem;
 
-  .LagreKandidaterModal--wrapper {
-    padding: 1rem;
+    .LagreKandidaterModal--wrapper {
+        padding: 1rem;
 
-    .overskrift {
-      margin-bottom: 1.25rem;
-    }
-    .knapperad {
-      margin-top: 2rem;
-    }
+        .overskrift {
+            margin-bottom: 1.25rem;
+        }
+        .knapperad {
+            margin-top: 2rem;
+        }
 
-    .ny-liste-overskrift {
-      margin-bottom: 1.25rem;
-    }
+        .ny-liste-overskrift {
+            margin-bottom: 1.25rem;
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 0.625rem;
-    }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 0.625rem;
+        }
 
-    li:not(:last-child) {
-      margin-bottom: 0.75rem;
+        li:not(:last-child) {
+            margin-bottom: 0.75rem;
+        }
     }
-  }
 }
 
 .LagreKandidaterModal {
-  width: 800px;
-  .LagreKandidaterModal--wrapper {
-    padding: 1rem;
-    .tittel {
-      margin-bottom: 1.25rem;
-    }
-    .text {
-      margin-bottom: 2.5rem;
-    }
-    .lister--rader {
-      display: flex;
-      margin: 0 0 1rem;
-      padding-bottom: 1rem;
-      border-bottom: solid 2px #d8d8d8;
-      .opprettet__col {
-        flex: 2;
-      }
-      .leggTil__col {
-        flex: 3;
-        white-space: nowrap;
-        text-align: right;
-        &.rowItem {
-          height: 30px;
+    width: 800px;
+    .LagreKandidaterModal--wrapper {
+        padding: 1rem;
+        .tittel {
+            margin-bottom: 1.25rem;
         }
-        &.rader--text {
-          padding-right: 0;
+        .text {
+            margin-bottom: 2.5rem;
         }
-      }
-      .opprettet--dato__col {
-        flex: 2;
-      }
-      .stillingstittel__col {
-        flex: 7;
-      }
-      .arbeidsgiver__col {
-        flex: 4;
-      }
-      .rader--text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        padding-right: 1rem;
-      }
-      .rader--text__dato {
-        line-height: 1.5rem;
-        color: #78706a
-      }
-      .ikon__lagtTil {
-        background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M12 0C5.383 0 0 5.384 0 12s5.383 12 12 12c6.616 0 12-5.384 12-12S18.616 0 12 0zm5.341 8.866l-7.5 7a.502.502 0 0 1-.695-.012l-2.5-2.5a.5.5 0 0 1 .707-.707l2.158 2.158 7.147-6.67a.5.5 0 1 1 .683.731z' fill='%239BD0B0' fill-rule='nonzero'/%3E%3Cpath d='M17.341 8.866l-7.5 7a.502.502 0 0 1-.695-.012l-2.5-2.5a.5.5 0 0 1 .707-.707l2.158 2.158 7.147-6.67a.5.5 0 1 1 .683.731z' fill='%233E3832'/%3E%3C/g%3E%3C/svg%3E");
-        height: 24px;
-        width: 24px;
-        background-size: 24px;
-        background-repeat: no-repeat;
-        display: block;
-        margin-right: 1rem;
-        float: right;
-      }
+        .lister--rader {
+            display: flex;
+            margin: 0 0 1rem;
+            padding-bottom: 1rem;
+            border-bottom: solid 2px #d8d8d8;
+            .opprettet__col {
+                flex: 2;
+            }
+            .leggTil__col {
+                flex: 3;
+                white-space: nowrap;
+                text-align: right;
+                &.rowItem {
+                    height: 30px;
+                }
+                &.rader--text {
+                    padding-right: 0;
+                }
+            }
+            .opprettet--dato__col {
+                flex: 2;
+            }
+            .stillingstittel__col {
+                flex: 7;
+            }
+            .arbeidsgiver__col {
+                flex: 4;
+            }
+            .rader--text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-right: 1rem;
+            }
+            .rader--text__dato {
+                line-height: 1.5rem;
+                color: #78706a;
+            }
+            .ikon__lagtTil {
+                background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M12 0C5.383 0 0 5.384 0 12s5.383 12 12 12c6.616 0 12-5.384 12-12S18.616 0 12 0zm5.341 8.866l-7.5 7a.502.502 0 0 1-.695-.012l-2.5-2.5a.5.5 0 0 1 .707-.707l2.158 2.158 7.147-6.67a.5.5 0 1 1 .683.731z' fill='%239BD0B0' fill-rule='nonzero'/%3E%3Cpath d='M17.341 8.866l-7.5 7a.502.502 0 0 1-.695-.012l-2.5-2.5a.5.5 0 0 1 .707-.707l2.158 2.158 7.147-6.67a.5.5 0 1 1 .683.731z' fill='%233E3832'/%3E%3C/g%3E%3C/svg%3E");
+                height: 24px;
+                width: 24px;
+                background-size: 24px;
+                background-repeat: no-repeat;
+                display: block;
+                margin-right: 1rem;
+                float: right;
+            }
+        }
+        .lister--rad {
+            overflow: hidden;
+            max-height: 1.5rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .hent-stilling--input {
+            margin-top: 2.5rem;
+            .skjemaelement__input {
+                margin-top: 0.5rem;
+            }
+        }
+        .annonsenummer__search--label {
+            margin: 2.5rem 0 0.5rem;
+        }
+        .annonsenummer__search {
+            position: relative;
+            max-width: 13.75rem;
+            .skjemaelement__input {
+                width: 13.75rem;
+            }
+        }
+        .hentet-stilling__row {
+            margin: 1rem 0 0;
+            padding-top: 1rem;
+            border-top: solid 2px #d8d8d8;
+        }
+        .lagre--knapp {
+            margin: 2.5rem 1rem 0 0;
+        }
+        .avbryt--knapp {
+            margin-top: 2.5rem;
+        }
     }
-    .lister--rad {
-      overflow: hidden;
-      max-height: 1.5rem;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .LagreKandidaterModal__hjelpetekst {
+        position: absolute;
+        left: 0;
+        height: 60px;
     }
-    .hent-stilling--input {
-      margin-top: 2.5rem;
-      .skjemaelement__input {
-        margin-top: 0.5rem;
-      }
-    }
-    .annonsenummer__search--label {
-      margin: 2.5rem 0 0.5rem;
-    }
-    .annonsenummer__search {
-      position: relative;
-      max-width: 13.75rem;
-      .skjemaelement__input {
-        width: 13.75rem;
-      }
-    }
-    .hentet-stilling__row {
-      margin: 1rem 0 0;
-      padding-top: 1rem;
-      border-top: solid 2px #d8d8d8;
-    }
-    .lagre--knapp {
-      margin: 2.5rem 1rem 0 0;
-    }
-    .avbryt--knapp {
-      margin-top: 2.5rem;
-    }
-  }
-  .LagreKandidaterModal__hjelpetekst {
-    position: absolute;
-    left: 0;
-    height: 60px;
-  }
 }
 
 .LagreKandidaterTilStillingModal {
-  width: 640px;
-  .LagreKandidaterTilStillingModal--wrapper {
-    padding: 1rem;
-  }
-  .tittel {
-    margin-bottom: 1.25rem;
-  }
-  .lagre--knapp {
-    margin: 2.5rem 1rem 0 0;
-  }
-  .avbryt--knapp {
-    margin-top: 2.5rem;
-  }
+    width: 640px;
+    .LagreKandidaterTilStillingModal--wrapper {
+        padding: 1rem;
+    }
+    .tittel {
+        margin-bottom: 1.25rem;
+    }
+    .lagre--knapp {
+        margin: 2.5rem 1rem 0 0;
+    }
+    .avbryt--knapp {
+        margin-top: 2.5rem;
+    }
 }

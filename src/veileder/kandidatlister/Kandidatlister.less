@@ -1,347 +1,347 @@
-@import "../../felles/Variables.less";
+@import '../../felles/Variables.less';
 
 .Kandidatlister {
-  font-family: "Source Sans Pro", Arial, sans-serif;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
 
-  .side-header {
-    background-color: #e3edf8;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid #d8d8d8;
+    .side-header {
+        background-color: #e3edf8;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid #d8d8d8;
 
-    .side-header__innhold {
-      max-width: 1636px;
-      margin: auto;
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-      display: flex;
-      justify-content: center;
-
-      .header-child {
-        flex: 1;
-      }
-
-      .tittel-wrapper {
-        display: flex;
-        justify-content: center;
-        .kandidatlister__sok {
-          position: relative;
-          margin: auto;
-          .skjemaelement__input {
-            width: 640px;
-            height: 3.5rem;
-            padding: 1rem;
-            border: 1px solid #d8d8d8;
-          }
-          .search-button {
-            padding: 18px !important;
-          }
-        }
-      }
-
-      .knapp-wrapper {
-        display: flex;
-        justify-content: space-between;
-        margin: auto;
-        .nullstill-sok__knapp {
-          margin-left: 1rem;
-        }
-      }
-    }
-  }
-
-  .kandidatlister-wrapper {
-    display: flex;
-    max-width: 1636px;
-    margin: 0 auto;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
-
-  .kandidatlister__filter {
-    margin-top: 5.25rem;
-
-    .skjemaelement {
-      margin-top: 0.5rem;
-    }
-
-    .skjemaelement__sporsmal {
-      margin-bottom: 0.75rem;
-    }
-  }
-
-  .kandidatlister-table__wrapper {
-    max-width: 1312px;
-    width: 100%;
-    margin-left: auto;
-
-    .kandidatlister-table--top {
-      margin-top: 2.5rem;
-      display: flex;
-      justify-content: space-between;
-
-      .kandidatlister-table--top__knapper {
-        border-radius: 0;
-        &:last-child {
-          margin-left: 4rem;
-        }
-        padding: 0;
-        border: none;
-        background: none;
-
-        .typo-element {
-          color: @pinkDarken;
-        }
-
-        &:hover {
-          border-bottom: 2px solid @pinkDarken;
-        }
-      }
-
-      .knapp--aktiv {
-        .typo-element {
-          color: @pinkDarken;
-          border-bottom: 2px solid @pinkDarken;
-        }
-
-        &:hover {
-          border-bottom: none;
-        }
-      }
-    }
-
-    .kandidatlister-table {
-      margin: 1.25rem 0 2rem;
-
-      .liste-header {
-        border: 1px solid #78706a;
-        height: 4rem;
-        padding-left: 1.25rem;
-        .typo-element {
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      .hent-kandidatlister--spinner {
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .liste-rad__tom {
-        display: flex;
-        justify-content: center;
-        margin-top: 4rem;
-      }
-
-      .liste-rad {
-        border: 1px solid #d8d8d8;
-        height: 4rem;
-        padding-left: 1.25rem;
-        .tekst {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-
-      .liste-rad-innhold {
-        margin-bottom: 0.5rem;
-        border-radius: 4px;
-        background-color: white;
-        color: #3e3832;
-        min-width: 25rem;
-        display: flex;
-        justify-content: center;
-
-        .lenke {
-          text-decoration: underline;
-          display: inline-block;
-          border: none;
-        }
-
-        .kolonne-smal {
-          margin: auto 0;
-          flex: 2;
-          min-width: 4rem;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .kolonne-smal-knapp {
-          height: 2.875rem;
-          border-left: 1px solid #d8d8d8;
-          display: flex;
-          margin: auto 0;
-          flex: 2;
-          min-width: 4rem;
-          justify-content: center;
-          .Edit__icon {
-            margin-left: 0;
-          }
-          .hjelpetekst {
-            padding-left: 0;
+        .side-header__innhold {
+            max-width: 1636px;
+            margin: auto;
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
             display: flex;
+            justify-content: center;
 
-            .EditDisabled__icon {
-              margin-right: 0;
+            .header-child {
+                flex: 1;
             }
-          }
-        }
 
-        .kolonne-middels {
-          margin: auto 2rem auto 0;
-          flex: 3;
-          display: flex;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+            .tittel-wrapper {
+                display: flex;
+                justify-content: center;
+                .kandidatlister__sok {
+                    position: relative;
+                    margin: auto;
+                    .skjemaelement__input {
+                        width: 640px;
+                        height: 3.5rem;
+                        padding: 1rem;
+                        border: 1px solid #d8d8d8;
+                    }
+                    .search-button {
+                        padding: 18px !important;
+                    }
+                }
+            }
 
-        .kolonne-middels__finn-kandidater {
-          margin: auto 2rem auto 0;
-          flex: 3;
-          display: flex;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          justify-content: center;
-          max-width: 5rem;
+            .knapp-wrapper {
+                display: flex;
+                justify-content: space-between;
+                margin: auto;
+                .nullstill-sok__knapp {
+                    margin-left: 1rem;
+                }
+            }
         }
-
-        .kolonne-bred {
-          margin: auto 2rem auto 0;
-          flex: 9;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
     }
 
-    .kandidatlister-table--bottom {
-      text-align: center;
-
-      .kandidatlister-table--bottom__buttons {
-        margin-top: 1rem;
-      }
+    .kandidatlister-wrapper {
+        display: flex;
+        max-width: 1636px;
+        margin: 0 auto;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
     }
-  }
+
+    .kandidatlister__filter {
+        margin-top: 5.25rem;
+
+        .skjemaelement {
+            margin-top: 0.5rem;
+        }
+
+        .skjemaelement__sporsmal {
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    .kandidatlister-table__wrapper {
+        max-width: 1312px;
+        width: 100%;
+        margin-left: auto;
+
+        .kandidatlister-table--top {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+
+            .kandidatlister-table--top__knapper {
+                border-radius: 0;
+                &:last-child {
+                    margin-left: 4rem;
+                }
+                padding: 0;
+                border: none;
+                background: none;
+
+                .typo-element {
+                    color: @pinkDarken;
+                }
+
+                &:hover {
+                    border-bottom: 2px solid @pinkDarken;
+                }
+            }
+
+            .knapp--aktiv {
+                .typo-element {
+                    color: @pinkDarken;
+                    border-bottom: 2px solid @pinkDarken;
+                }
+
+                &:hover {
+                    border-bottom: none;
+                }
+            }
+        }
+
+        .kandidatlister-table {
+            margin: 1.25rem 0 2rem;
+
+            .liste-header {
+                border: 1px solid #78706a;
+                height: 4rem;
+                padding-left: 1.25rem;
+                .typo-element {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            .hent-kandidatlister--spinner {
+                text-align: center;
+                margin-top: 2rem;
+            }
+
+            .liste-rad__tom {
+                display: flex;
+                justify-content: center;
+                margin-top: 4rem;
+            }
+
+            .liste-rad {
+                border: 1px solid #d8d8d8;
+                height: 4rem;
+                padding-left: 1.25rem;
+                .tekst {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+
+            .liste-rad-innhold {
+                margin-bottom: 0.5rem;
+                border-radius: 4px;
+                background-color: white;
+                color: #3e3832;
+                min-width: 25rem;
+                display: flex;
+                justify-content: center;
+
+                .lenke {
+                    text-decoration: underline;
+                    display: inline-block;
+                    border: none;
+                }
+
+                .kolonne-smal {
+                    margin: auto 0;
+                    flex: 2;
+                    min-width: 4rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .kolonne-smal-knapp {
+                    height: 2.875rem;
+                    border-left: 1px solid #d8d8d8;
+                    display: flex;
+                    margin: auto 0;
+                    flex: 2;
+                    min-width: 4rem;
+                    justify-content: center;
+                    .Edit__icon {
+                        margin-left: 0;
+                    }
+                    .hjelpetekst {
+                        padding-left: 0;
+                        display: flex;
+
+                        .EditDisabled__icon {
+                            margin-right: 0;
+                        }
+                    }
+                }
+
+                .kolonne-middels {
+                    margin: auto 2rem auto 0;
+                    flex: 3;
+                    display: flex;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .kolonne-middels__finn-kandidater {
+                    margin: auto 2rem auto 0;
+                    flex: 3;
+                    display: flex;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    justify-content: center;
+                    max-width: 5rem;
+                }
+
+                .kolonne-bred {
+                    margin: auto 2rem auto 0;
+                    flex: 9;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+
+        .kandidatlister-table--bottom {
+            text-align: center;
+
+            .kandidatlister-table--bottom__buttons {
+                margin-top: 1rem;
+            }
+        }
+    }
 }
 
 .modal--opprett-kandidatliste__veileder {
-  padding: 2rem;
-  width: 40rem;
+    padding: 2rem;
+    width: 40rem;
 
-  .OpprettKandidatlisteForm {
-    input {
-      padding: 0.75rem;
+    .OpprettKandidatlisteForm {
+        input {
+            padding: 0.75rem;
+        }
+
+        textarea {
+            padding: 0.75rem;
+            min-height: 8.25rem;
+        }
+
+        & .OpprettKandidatlisteForm__typeahead {
+            .search-button__icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            ul {
+                max-height: 17rem;
+            }
+
+            .OpprettKandidatlisteForm__bedrift {
+                margin-top: 0.5rem;
+            }
+        }
     }
 
-    textarea {
-      padding: 0.75rem;
-      min-height: 8.25rem;
+    .OpprettKandidatlisteForm__input {
+        margin-bottom: 2rem;
+
+        .skjemaelement__label {
+            margin-bottom: 0.5rem;
+        }
     }
 
-    & .OpprettKandidatlisteForm__typeahead {
-      .search-button__icon {
-        width: 28px;
-        height: 28px;
-      }
-
-      ul {
-        max-height: 17rem;
-      }
-
-      .OpprettKandidatlisteForm__bedrift {
-        margin-top: 0.5rem;
-      }
+    .knapp--avbryt {
+        margin-left: 1rem;
     }
-  }
-
-  .OpprettKandidatlisteForm__input {
-    margin-bottom: 2rem;
-
-    .skjemaelement__label {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .knapp--avbryt {
-    margin-left: 1rem;
-  }
 }
 
 .modal--marker-kandidatliste-som-min {
-  padding: 2rem;
-  width: 640px;
+    padding: 2rem;
+    width: 640px;
 
-  .marker-som-min__avbryt {
-    margin-left: 1rem;
-  }
+    .marker-som-min__avbryt {
+        margin-left: 1rem;
+    }
 }
 
 .kandidatlister-meny {
-  background: #e3edf8;
-  border: 1px solid #c6c2bf;
-  border-radius: 4px;
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem;
-  position: absolute;
-  transform: translate(calc(-160px), calc(55px));
-  width: 160px;
-  z-index: 1;
+    background: #e3edf8;
+    border: 1px solid #c6c2bf;
+    border-radius: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    position: absolute;
+    transform: translate(calc(-160px), calc(55px));
+    width: 160px;
+    z-index: 1;
 
-  > div {
-    color: #0067c5;
-    margin: 0.5rem 0;
-    padding: 3px;
-    display: list-item;
+    > div {
+        color: #0067c5;
+        margin: 0.5rem 0;
+        padding: 3px;
+        display: list-item;
 
-    &:focus {
-      border: 3px solid #ffbd66;
-      outline: none;
-      padding: 0;
+        &:focus {
+            border: 3px solid #ffbd66;
+            outline: none;
+            padding: 0;
+        }
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
     }
 
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
+    .marker-hjelpetekst-tekst {
+        color: #59514b;
     }
-  }
 
-  .marker-hjelpetekst-tekst {
-    color: #59514b;
-  }
-
-  .marker-hjelpetekst {
-    transform: translateX(-120px);
-  }
-
-  .slett-hjelpetekst-tekst {
-    color: #59514b;
-  }
-
-  .slett-hjelpetekst {
-    transform: translateX(-120px);
-    .slett-hjelpetekst-lenke {
-      color: white;
+    .marker-hjelpetekst {
+        transform: translateX(-120px);
     }
-    ul {
-      padding-left: 1.5rem;
-      list-style-type: disc;
-      li {
-        padding-top: 0.25rem;
-      }
+
+    .slett-hjelpetekst-tekst {
+        color: #59514b;
     }
-  }
+
+    .slett-hjelpetekst {
+        transform: translateX(-120px);
+        .slett-hjelpetekst-lenke {
+            color: white;
+        }
+        ul {
+            padding-left: 1.5rem;
+            list-style-type: disc;
+            li {
+                padding-top: 0.25rem;
+            }
+        }
+    }
 }
 
 .arrow-up {
-  position: absolute;
-  transform: rotate(45deg) translate(calc(5px), calc(65px));
-  width: 10px;
-  height: 10px;
-  background: #e3edf8;
-  border-left: 1px solid #c6c2bf;
-  border-top: 1px solid #c6c2bf;
-  z-index: 1;
+    position: absolute;
+    transform: rotate(45deg) translate(calc(5px), calc(65px));
+    width: 10px;
+    height: 10px;
+    background: #e3edf8;
+    border-left: 1px solid #c6c2bf;
+    border-top: 1px solid #c6c2bf;
+    z-index: 1;
 }
