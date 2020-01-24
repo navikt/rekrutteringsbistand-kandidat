@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const { APP, common } = require('./webpack.common.js');
+const { common } = require('./webpack.common.js');
 
 const PATH = {
     production: "'/'",
@@ -12,7 +12,7 @@ module.exports = () => {
     const environment = 'production';
 
     return (
-        merge(common(APP.KANDIDATSOK), {
+        merge(common(), {
             devtool: 'source-map',
             plugins: [
                 new webpack.DefinePlugin({

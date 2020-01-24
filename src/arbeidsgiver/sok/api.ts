@@ -11,17 +11,11 @@ import {
     METRICS_SUPPORT_URL
 } from '../common/fasitProperties';
 import FEATURE_TOGGLES from '../../felles/konstanter';
-import { KandidatlisteDetaljerResponse, Notat } from '../kandidatlisteDetaljer/kandidatlisteReducer';
-import { ResponseData } from '../../felles/common/remoteData';
 import {
-    deleteJsonMedType,
     deleteReq,
     fetchJson,
-    fetchJsonMedType,
     postJson,
-    postJsonMedType,
     putJson,
-    putJsonMedType
 } from '../../felles/api';
 import {registerCompanyMetrics} from "../../felles/googleanalytics";
 
@@ -112,41 +106,6 @@ export function putKandidatliste(kandidatlisteBeskrivelse) {
 
 export function fetchArbeidsgivere() {
     return fetchJson(`${ORGANISASJON_API}`, true);
-}
-
-export function fetchKandidatliste(kandidatlisteId: string): Promise<ResponseData<KandidatlisteDetaljerResponse>> {
-    return fetchJsonMedType<KandidatlisteDetaljerResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}`);
-}
-
-interface NotatResponse {
-    liste: Array<Notat>,
-    antallNotater: number
-}
-
-export async function fetchNotater(kandidatlisteId: string, kandidatnr: string): Promise<ResponseData<NotatResponse>> {
-    return fetchJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`);
-}
-
-export async function postNotat(kandidatlisteId: string, kandidatnr: string, tekst: string): Promise<ResponseData<NotatResponse>> {
-    return postJsonMedType<NotatResponse>(
-        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`,
-        JSON.stringify({ tekst })
-    );
-}
-
-export async function putNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat, tekst: string): Promise<ResponseData<NotatResponse>> {
-    return putJsonMedType<NotatResponse>(
-        `${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`,
-        JSON.stringify({ tekst })
-    );
-}
-
-export async function deleteNotat(kandidatlisteId: string, kandidatnr: string, notat: Notat): Promise<ResponseData<NotatResponse>> {
-    return deleteJsonMedType<NotatResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notat.notatId}`);
-}
-
-export async function deleteKandidater(kandidatlisteId: string, listeMedKandidatId: Array<string>): Promise<ResponseData<KandidatlisteDetaljerResponse>> {
-    return await deleteJsonMedType<KandidatlisteDetaljerResponse>(`${KANDIDATLISTE_API}kandidatlister/${kandidatlisteId}/kandidater`, JSON.stringify(listeMedKandidatId));
 }
 
 export function deleteKandidatliste(kandidatlisteId) {
