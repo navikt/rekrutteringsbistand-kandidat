@@ -1,0 +1,168 @@
+{
+    "aktorId": "1000102960567",
+    "fodselsdato": "2019-09-16",
+    "etternavn": "Nordmann",
+    "fornavn": "Ola",
+    "statsborgerskap": "PH",
+    "samtykkeDato": "2019-09-16",
+    "samtykkeStatus": "G",
+    "disponererBil": false,
+    "beskrivelse": "",
+    "epost": "spammenot@mailinator.com",
+    "mobiltelefon": null,
+    "telefon": "(+47) 123456789",
+    "adresse": {
+        "landkode": "NO",
+        "postnr": "0557",
+        "poststednavn": "Oslo",
+        "kommunenr": 301,
+        "adrlinje1": "Arbeids- og velferdsdirektoratet, Sannergata 2",
+        "adrlinje2": "",
+        "adrlinje3": ""
+    },
+    "kandidatnummer": "DC294105",
+    "sistEndret": "2019-09-16T23:53:18.561",
+    "oppstartKode": null,
+    "utdanning": [
+        {
+            "utdannelsessted": "STI College",
+            "alternativtUtdanningsnavn": "Fagskoleutdanning, IT- og nettverksadministrasjon, toårig",
+            "nusKode": "554113",
+            "nusKodeUtdanningsnavn": null,
+            "fraDato": "2007-06-02",
+            "tilDato": "2010-03-02",
+            "beskrivelse": ""
+        },
+        {
+            "utdannelsessted": "Andres Bonifacio Integrated School",
+            "alternativtUtdanningsnavn": "Grunnskole på ungdomstrinnet",
+            "nusKode": "201103",
+            "nusKodeUtdanningsnavn": null,
+            "fraDato": "2002-06-02",
+            "tilDato": "2006-03-02",
+            "beskrivelse": ""
+        },
+        {
+            "utdannelsessted": "Andres Bonifacio Integrated School",
+            "alternativtUtdanningsnavn": "Grunnskole på barneskolenivå",
+            "nusKode": "101101",
+            "nusKodeUtdanningsnavn": null,
+            "fraDato": "1996-06-02",
+            "tilDato": "2002-03-02",
+            "beskrivelse": ""
+        }
+    ],
+    "fagdokumentasjon": [],
+    "yrkeserfaring": [
+        {
+            "arbeidsgiver": "Familievirksomhet",
+            "alternativStillingstittel": "Butikkinnehaver (liten butikk)",
+            "styrkKode": "5221.01",
+            "styrkKodeStillingstittel": "Butikkinnehavere (liten butikk)",
+            "utelukketForFremtiden": false,
+            "fraDato": "2014-09-02",
+            "tilDato": "2016-11-02",
+            "beskrivelse": ""
+        },
+        {
+            "arbeidsgiver": "Expert Global Solutions",
+            "alternativStillingstittel": "Kundebehandler (kundesenter)",
+            "styrkKode": "4222.02",
+            "styrkKodeStillingstittel": "Kundebehandler",
+            "utelukketForFremtiden": false,
+            "fraDato": "2014-06-02",
+            "tilDato": "2015-08-02",
+            "beskrivelse": ""
+        },
+        {
+            "arbeidsgiver": "Centra Refrigeration Company",
+            "alternativStillingstittel": "Sekretær",
+            "styrkKode": "4110.05",
+            "styrkKodeStillingstittel": "Organisasjonssekretær",
+            "utelukketForFremtiden": false,
+            "fraDato": "2011-01-02",
+            "tilDato": "2014-01-02",
+            "beskrivelse": ""
+        },
+        {
+            "arbeidsgiver": "Division Office- Pasig",
+            "alternativStillingstittel": "Kontormedarbeider",
+            "styrkKode": "4110.02",
+            "styrkKodeStillingstittel": "Saksbehandler",
+            "utelukketForFremtiden": false,
+            "fraDato": "2009-12-02",
+            "tilDato": "2010-03-02",
+            "beskrivelse": ""
+        }
+    ],
+    "sertifikater": [],
+    "forerkort": [],
+    "kompetanse": [],
+    "sprak": [
+        {
+            "kompetanseKode": null,
+            "kompetanseKodeTekst": "Filipino/Tagalog",
+            "alternativTekst": "Filipino/Tagalog",
+            "beskrivelse": "Muntlig: GODT Skriftlig: GODT",
+            "fraDato": null
+        },
+        {
+            "kompetanseKode": null,
+            "kompetanseKodeTekst": "Engelsk",
+            "alternativTekst": "Engelsk",
+            "beskrivelse": "Muntlig: GODT Skriftlig: GODT",
+            "fraDato": null
+        },
+        {
+            "kompetanseKode": null,
+            "kompetanseKodeTekst": "Bokmål",
+            "alternativTekst": "Bokmål",
+            "beskrivelse": "Muntlig: GODT Skriftlig: GODT",
+            "fraDato": null
+        }
+    ],
+    "sprakferdigheter": [
+        { "sprak": "Filipino/Tagalog", "ferdighetSkriftlig": "GODT", "ferdighetMuntlig": "GODT" },
+        { "sprak": "Engelsk", "ferdighetSkriftlig": "GODT", "ferdighetMuntlig": "GODT" },
+        { "sprak": "Bokmål", "ferdighetSkriftlig": "GODT", "ferdighetMuntlig": "GODT" }
+    ],
+    "kurs": [],
+    "verv": [],
+    "geografiJobbonsker": [
+        { "geografiKode": "NO02", "geografiKodeTekst": "Akershus" },
+        { "geografiKode": "NO03.03012", "geografiKodeTekst": "Oslo/Bydel Grünerløkka" },
+        { "geografiKode": "NO03.0301", "geografiKodeTekst": "Oslo" }
+    ],
+    "yrkeJobbonsker": [
+        {
+            "styrkKode": null,
+            "styrkBeskrivelse": "Datakonsulent (support)",
+            "primaertJobbonske": false
+        },
+        { "styrkKode": null, "styrkBeskrivelse": "Kundestøtte (IKT)", "primaertJobbonske": false },
+        {
+            "styrkKode": null,
+            "styrkBeskrivelse": "Dataregistreringsoperatør",
+            "primaertJobbonske": false
+        }
+    ],
+    "omfangJobbprofil": [
+        { "heltidDeltidKode": "DELTID", "heltidDeltidKodeTekst": "Deltid" },
+        { "heltidDeltidKode": "HELTID", "heltidDeltidKodeTekst": "Heltid" }
+    ],
+    "ansettelsesformJobbprofil": [
+        { "ansettelsesformKode": "VIKARIAT", "ansettelsesformKodeTekst": "Vikariat" },
+        { "ansettelsesformKode": "FAST", "ansettelsesformKodeTekst": "Fast" },
+        { "ansettelsesformKode": "FERIEJOBB", "ansettelsesformKodeTekst": "Feriejobb" },
+        { "ansettelsesformKode": "SESONG", "ansettelsesformKodeTekst": "Sesong" }
+    ],
+    "arbeidsdagerJobbprofil": [],
+    "arbeidstidsordningJobbprofil": [],
+    "arbeidstidJobbprofil": [
+        { "arbeidstidKode": "DAGTID", "arbeidstidKodeTekst": "Dagtid" },
+        { "arbeidstidKode": "KVELD", "arbeidstidKodeTekst": "Kveld" }
+    ],
+    "annenErfaring": [],
+    "fodselsnummer": "17118926005",
+    "tilretteleggingsbehov": true
+}

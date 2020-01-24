@@ -18,6 +18,10 @@ import {
     putJson,
 } from '../felles/api';
 
+if (__MOCK_API__) {
+    require('./mock/api.ts');
+}
+
 const convertToUrlParams = query =>
     Object.keys(query)
         .map(key => {

@@ -11,6 +11,7 @@ module.exports = merge(common(), {
     },
     plugins: [
         new webpack.DefinePlugin({
+            __MOCK_API__: true,
             __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/pam-kandidatsok-api/rest'",
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie-isso'",
             __LOGOUT_URL__: "'#'",
