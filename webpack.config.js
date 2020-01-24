@@ -5,24 +5,22 @@ const { common } = require('./webpack.common.js');
 
 const PATH = {
     production: "'/'",
-    development: "'/'"
+    development: "'/'",
 };
 
 module.exports = () => {
     const environment = 'production';
 
-    return (
-        merge(common(), {
-            devtool: 'source-map',
-            plugins: [
-                new webpack.DefinePlugin({
-                    __PATH__: PATH[environment],
-                    'process.env.NODE_ENV': JSON.stringify('production')
-                }),
-                /* Optimize bundle load time */
-                new webpack.optimize.ModuleConcatenationPlugin(),
-                new UglifyJSPlugin({ sourceMap: true })
-            ]
-        })
-    );
+    return merge(common(), {
+        devtool: 'source-map',
+        plugins: [
+            new webpack.DefinePlugin({
+                __PATH__: PATH[environment],
+                'process.env.NODE_ENV': JSON.stringify('production'),
+            }),
+            /* Optimize bundle load time */
+            new webpack.optimize.ModuleConcatenationPlugin(),
+            new UglifyJSPlugin({ sourceMap: true }),
+        ],
+    });
 };
