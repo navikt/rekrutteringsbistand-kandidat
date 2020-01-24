@@ -3,7 +3,7 @@ import { Failure, ResponseData, Success } from './common/remoteData';
 export const createCallIdHeader = () => ({
     'Nav-CallId': Math.random()
         .toString(16)
-        .substr(2)
+        .substr(2),
 });
 
 export class SearchApiError {
@@ -24,13 +24,13 @@ export class MetricsSupportError {
     }
 }
 
-export async function fetchJson(url : string, includeCredentials : boolean = false) {
+export async function fetchJson(url: string, includeCredentials: boolean = false) {
     try {
         let response;
         if (includeCredentials) {
             response = await fetch(url, {
                 credentials: 'include',
-                headers: createCallIdHeader()
+                headers: createCallIdHeader(),
             });
         } else {
             response = await fetch(url, { headers: createCallIdHeader() });
@@ -44,17 +44,17 @@ export async function fetchJson(url : string, includeCredentials : boolean = fal
         } catch (e) {
             throw new SearchApiError({
                 status: response.status,
-                message: response.statusText
+                message: response.statusText,
             });
         }
         throw new SearchApiError({
             message: error.message,
-            status: error.status
+            status: error.status,
         });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: e.status
+            status: e.status,
         });
     }
 }
@@ -98,7 +98,10 @@ export async function putJsonMedType<T>(url: string, payload?: string): Promise<
     }
 }
 
-export async function deleteJsonMedType<T>(url: string, bodyString?: string): Promise<ResponseData<T>> {
+export async function deleteJsonMedType<T>(
+    url: string,
+    bodyString?: string
+): Promise<ResponseData<T>> {
     try {
         const response: unknown = await deleteReq(url, bodyString);
         return Success(<T>response);
@@ -111,7 +114,7 @@ export async function deleteJsonMedType<T>(url: string, bodyString?: string): Pr
     }
 }
 
-const getCookie = (name) => {
+const getCookie = name => {
     const re = new RegExp(`${name}=([^;]+)`);
     const match = re.exec(document.cookie);
     return match !== null ? match[1] : '';
@@ -126,9 +129,9 @@ export async function postJson(url, bodyString) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
+                ...createCallIdHeader(),
             },
-            mode: 'cors'
+            mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
             return response.json();
@@ -136,12 +139,12 @@ export async function postJson(url, bodyString) {
             return undefined;
         }
         throw new SearchApiError({
-            status: response.status
+            status: response.status,
         });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: e.status
+            status: e.status,
         });
     }
 }
@@ -155,9 +158,9 @@ export async function putJson(url, bodyString?: string) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
+                ...createCallIdHeader(),
             },
-            mode: 'cors'
+            mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
             return response.json();
@@ -165,12 +168,12 @@ export async function putJson(url, bodyString?: string) {
             return undefined;
         }
         throw new SearchApiError({
-            status: response.status
+            status: response.status,
         });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: e.status
+            status: e.status,
         });
     }
 }
@@ -184,9 +187,9 @@ export async function deleteReq(url: string, bodyString?: string) {
             headers: {
                 'Content-Type': 'application/json',
                 'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                ...createCallIdHeader()
+                ...createCallIdHeader(),
             },
-            mode: 'cors'
+            mode: 'cors',
         });
 
         if (response.status <= 202) {
@@ -195,12 +198,12 @@ export async function deleteReq(url: string, bodyString?: string) {
             return null;
         }
         throw new SearchApiError({
-            status: response.status
+            status: response.status,
         });
     } catch (e) {
         throw new SearchApiError({
             message: e.message,
-            status: e.status
+            status: e.status,
         });
     }
 }
