@@ -22,7 +22,9 @@ export default class TypeaheadSuggestion extends React.Component {
         return (
             <li
                 id={this.props.id}
-                ref={(node) => { this.node = node; }}
+                ref={node => {
+                    this.node = node;
+                }}
                 role="option"
                 aria-selected={this.props.active}
                 onClick={this.onClick}
@@ -34,18 +36,26 @@ export default class TypeaheadSuggestion extends React.Component {
                 {this.props.shouldHighlightInput && matchIndex !== -1 && this.props.match !== '' ? (
                     <span className={`typetext ${this.props.active && 'active'}`}>
                         {this.value.split('').map((c, i) => {
-                            if (i === matchIndex || (i > matchIndex && i < matchIndex + (this.props.match.length))) {
-                                return (<span className="typeahead-substring" key={`${c}-${i}`}>
-                                    {c}
-                                </span>);
+                            if (
+                                i === matchIndex ||
+                                (i > matchIndex && i < matchIndex + this.props.match.length)
+                            ) {
+                                return (
+                                    <span className="typeahead-substring" key={`${c}-${i}`}>
+                                        {c}
+                                    </span>
+                                );
                             }
                             return <span key={`${c}-${i}`}>{c}</span>;
                         })}
-                    </span>) :
-                    (<span className={`typetext typeahead-substring ${this.props.active && 'active'}`}>
+                    </span>
+                ) : (
+                    <span
+                        className={`typetext typeahead-substring ${this.props.active && 'active'}`}
+                    >
                         {this.props.label}
-                    </span>)
-                }
+                    </span>
+                )}
             </li>
         );
     }
@@ -60,10 +70,10 @@ TypeaheadSuggestion.propTypes = {
             label: PropTypes.oneOfType([
                 PropTypes.arrayOf(PropTypes.node),
                 PropTypes.node,
-                PropTypes.string
+                PropTypes.string,
             ]),
-            value: PropTypes.string
-        })
+            value: PropTypes.string,
+        }),
     ]).isRequired,
     value: PropTypes.string.isRequired,
     match: PropTypes.string.isRequired,
@@ -74,7 +84,7 @@ TypeaheadSuggestion.propTypes = {
     label: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,
-        PropTypes.string
+        PropTypes.string,
     ]).isRequired,
-    shouldHighlightInput: PropTypes.bool.isRequired
+    shouldHighlightInput: PropTypes.bool.isRequired,
 };

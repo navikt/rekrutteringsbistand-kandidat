@@ -4,11 +4,11 @@ import { Knapp } from 'pam-frontend-knapper';
 import './Fritekst.less';
 
 class FritekstSearch extends React.Component {
-    onFritekstChange = (e) => {
+    onFritekstChange = e => {
         this.props.setFritekstSokeord(e.target.value);
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onSearch();
     };
@@ -46,7 +46,7 @@ FritekstSearch.propTypes = {
     placeholderTekst: PropTypes.string.isRequired,
     search: PropTypes.func.isRequired,
     setFritekstSokeord: PropTypes.func.isRequired,
-    fritekstSokeord: PropTypes.string.isRequired
+    fritekstSokeord: PropTypes.string.isRequired,
 };
 
 export default FritekstSearch;

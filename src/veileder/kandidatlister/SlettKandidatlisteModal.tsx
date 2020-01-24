@@ -5,11 +5,14 @@ import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import { FunctionComponent } from 'react';
 
 interface Props {
-    slettKandidatliste: () => void,
-    onAvbrytClick: () => void,
+    slettKandidatliste: () => void;
+    onAvbrytClick: () => void;
 }
 
-const SlettKandidatlisteModal: FunctionComponent<Props> = ({ slettKandidatliste, onAvbrytClick }) => (
+const SlettKandidatlisteModal: FunctionComponent<Props> = ({
+    slettKandidatliste,
+    onAvbrytClick,
+}) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal opprett kandidatliste"
@@ -20,12 +23,14 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({ slettKandidatliste,
         <Systemtittel className="blokk-s">Slett kandidatliste</Systemtittel>
         <div>
             <Normaltekst className="blokk-m">
-                Er du sikker på at du vil slette kandidatlisten med alt innhold?
-                Du kan ikke angre handlingen.
+                Er du sikker på at du vil slette kandidatlisten med alt innhold? Du kan ikke angre
+                handlingen.
             </Normaltekst>
             <div>
                 <Hovedknapp onClick={slettKandidatliste}>Slett</Hovedknapp>
-                <Flatknapp className="marker-som-min__avbryt" onClick={onAvbrytClick}>Avbryt</Flatknapp>
+                <Flatknapp className="marker-som-min__avbryt" onClick={onAvbrytClick}>
+                    Avbryt
+                </Flatknapp>
             </div>
         </div>
     </NavFrontendModal>

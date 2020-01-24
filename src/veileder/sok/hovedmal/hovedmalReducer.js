@@ -14,7 +14,7 @@ export const TOGGLE_HOVEDMAL_PANEL_OPEN = 'TOGGLE_HOVEDMAL_PANEL_OPEN';
 
 const initialState = {
     totaltHovedmal: [],
-    panelOpen: false
+    panelOpen: false,
 };
 
 export default function hovedmalReducer(state = initialState, action) {
@@ -23,22 +23,22 @@ export default function hovedmalReducer(state = initialState, action) {
             return {
                 ...state,
                 totaltHovedmal: action.query.hovedmal || [],
-                panelOpen: harEnParameter(action.query.hovedmal) || state.panelOpen
+                panelOpen: harEnParameter(action.query.hovedmal) || state.panelOpen,
             };
         case CHECK_TOTAL_HOVEDMAL:
             return {
                 ...state,
-                totaltHovedmal: [...state.totaltHovedmal, action.value]
+                totaltHovedmal: [...state.totaltHovedmal, action.value],
             };
         case UNCHECK_TOTAL_HOVEDMAL:
             return {
                 ...state,
-                totaltHovedmal: state.totaltHovedmal.filter((th) => th !== action.value)
+                totaltHovedmal: state.totaltHovedmal.filter(th => th !== action.value),
             };
         case TOGGLE_HOVEDMAL_PANEL_OPEN:
             return {
                 ...state,
-                panelOpen: !state.panelOpen
+                panelOpen: !state.panelOpen,
             };
         default:
             return state;

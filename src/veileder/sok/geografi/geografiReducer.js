@@ -18,7 +18,7 @@ const initialState = {
     geografiList: [],
     geografiListKomplett: [],
     geografiPanelOpen: false,
-    maaBoInnenforGeografi: false
+    maaBoInnenforGeografi: false,
 };
 
 export default function geografiReducer(state = initialState, action) {
@@ -32,41 +32,38 @@ export default function geografiReducer(state = initialState, action) {
                 geografiPanelOpen:
                     harEnParameter(action.query.geografiList, action.query.geografiListKomplett) ||
                     action.query.maaBoInnenforGeografi ||
-                    state.geografiPanelOpen
+                    state.geografiPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_GEOGRAFI:
             return {
                 ...state,
-                geografiList: state.geografiList.includes(action.value.geografiKode) ?
-                    state.geografiList :
-                    [
-                        ...state.geografiList,
-                        action.value.geografiKode
-                    ],
-                geografiListKomplett: state.geografiListKomplett
-                    .find((v) => v.geografiKode === action.value.geografiKode) !== undefined ?
-                    state.geografiListKomplett :
-                    [
-                        ...state.geografiListKomplett,
-                        action.value
-                    ]
+                geografiList: state.geografiList.includes(action.value.geografiKode)
+                    ? state.geografiList
+                    : [...state.geografiList, action.value.geografiKode],
+                geografiListKomplett:
+                    state.geografiListKomplett.find(
+                        v => v.geografiKode === action.value.geografiKode
+                    ) !== undefined
+                        ? state.geografiListKomplett
+                        : [...state.geografiListKomplett, action.value],
             };
         case REMOVE_SELECTED_GEOGRAFI:
             return {
                 ...state,
-                geografiList: state.geografiList.filter((g) => g !== action.value),
-                geografiListKomplett: state.geografiListKomplett
-                    .filter((g) => g.geografiKode !== action.value)
+                geografiList: state.geografiList.filter(g => g !== action.value),
+                geografiListKomplett: state.geografiListKomplett.filter(
+                    g => g.geografiKode !== action.value
+                ),
             };
         case TOGGLE_GEOGRAFI_PANEL_OPEN:
             return {
                 ...state,
-                geografiPanelOpen: !state.geografiPanelOpen
+                geografiPanelOpen: !state.geografiPanelOpen,
             };
         case TOGGLE_MA_BO_INNENFOR_GEOGRAFI:
             return {
                 ...state,
-                maaBoInnenforGeografi: !state.maaBoInnenforGeografi
+                maaBoInnenforGeografi: !state.maaBoInnenforGeografi,
             };
         default:
             return state;

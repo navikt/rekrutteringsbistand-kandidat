@@ -3,18 +3,33 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import KompetanseSearchFelles from '../../../felles/sok/kompetanse/KompetanseSearch';
 import { SEARCH } from '../searchReducer';
-import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import {
+    CLEAR_TYPE_AHEAD_SUGGESTIONS,
+    FETCH_TYPE_AHEAD_SUGGESTIONS,
+} from '../../common/typeahead/typeaheadReducer';
 import {
     REMOVE_SELECTED_KOMPETANSE,
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
-    TOGGLE_KOMPETANSE_PANEL_OPEN
+    TOGGLE_KOMPETANSE_PANEL_OPEN,
 } from './kompetanseReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 
 const KompetanseSearch = ({ ...props }) => {
-    const { search, removeKompetanse, fetchTypeAheadSuggestionsKompetanse, selectTypeAheadValueKompetanse,
-        kompetanser, kompetanseSuggestions, typeAheadSuggestionsKompetanse, clearTypeAheadKompetanse,
-        totaltAntallTreff, visAlertFaKandidater, skjulKompetanse, panelOpen, togglePanelOpen } = props;
+    const {
+        search,
+        removeKompetanse,
+        fetchTypeAheadSuggestionsKompetanse,
+        selectTypeAheadValueKompetanse,
+        kompetanser,
+        kompetanseSuggestions,
+        typeAheadSuggestionsKompetanse,
+        clearTypeAheadKompetanse,
+        totaltAntallTreff,
+        visAlertFaKandidater,
+        skjulKompetanse,
+        panelOpen,
+        togglePanelOpen,
+    } = props;
     return (
         <KompetanseSearchFelles
             search={search}
@@ -41,37 +56,42 @@ KompetanseSearch.propTypes = {
     fetchTypeAheadSuggestionsKompetanse: PropTypes.func.isRequired,
     selectTypeAheadValueKompetanse: PropTypes.func.isRequired,
     kompetanser: PropTypes.arrayOf(PropTypes.string).isRequired,
-    kompetanseSuggestions: PropTypes.arrayOf(PropTypes.shape({
-        feltnavn: PropTypes.string,
-        antall: PropTypes.number,
-        subfelt: PropTypes.array
-    })).isRequired,
+    kompetanseSuggestions: PropTypes.arrayOf(
+        PropTypes.shape({
+            feltnavn: PropTypes.string,
+            antall: PropTypes.number,
+            subfelt: PropTypes.array,
+        })
+    ).isRequired,
     typeAheadSuggestionsKompetanse: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
     typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulKompetanse: state.search.featureToggles['skjul-kompetanse'],
-    panelOpen: state.kompetanse.kompetansePanelOpen
+    panelOpen: state.kompetanse.kompetansePanelOpen,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
-    clearTypeAheadKompetanse: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
-    fetchTypeAheadSuggestionsKompetanse: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
-    selectTypeAheadValueKompetanse: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
-    removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
-    togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN })
+    clearTypeAheadKompetanse: () =>
+        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
+    fetchTypeAheadSuggestionsKompetanse: value =>
+        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
+    selectTypeAheadValueKompetanse: value =>
+        dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
+    removeKompetanse: value => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
+    togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KompetanseSearch);

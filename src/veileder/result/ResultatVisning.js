@@ -17,7 +17,12 @@ import KandidaterVisning from './KandidaterVisning';
 import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
 import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch.tsx';
-import { INITIAL_SEARCH_BEGIN, REMOVE_KOMPETANSE_SUGGESTIONS, SEARCH, SET_STATE } from '../sok/searchReducer';
+import {
+    INITIAL_SEARCH_BEGIN,
+    REMOVE_KOMPETANSE_SUGGESTIONS,
+    SEARCH,
+    SET_STATE,
+} from '../sok/searchReducer';
 import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -34,7 +39,7 @@ class ResultatVisning extends React.Component {
         window.scrollTo(0, 0);
         this.state = {
             suksessmeldingLagreKandidatVises: false,
-            visBeskrivelse: false
+            visBeskrivelse: false,
         };
     }
 
@@ -45,7 +50,10 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus && this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (
+            prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus &&
+            this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
+        ) {
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -72,7 +80,7 @@ class ResultatVisning extends React.Component {
             sprak: [],
             kvalifiseringsgruppeKoder: [],
             maaBoInnenforGeografi: false,
-            harHentetStilling: this.props.harHentetStilling
+            harHentetStilling: this.props.harHentetStilling,
         });
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -82,11 +90,11 @@ class ResultatVisning extends React.Component {
         if (this.props.match.params.kandidatlisteId || this.props.match.params.stillingsId) {
             clearTimeout(this.suksessmeldingCallbackId);
             this.setState({
-                suksessmeldingLagreKandidatVises: true
+                suksessmeldingLagreKandidatVises: true,
             });
             this.suksessmeldingCallbackId = setTimeout(() => {
                 this.setState({
-                    suksessmeldingLagreKandidatVises: false
+                    suksessmeldingLagreKandidatVises: false,
                 });
             }, 5000);
         }
@@ -98,7 +106,7 @@ class ResultatVisning extends React.Component {
             isInitialSearch,
             lagretKandidatliste,
             kandidatliste,
-            antallLagredeKandidater
+            antallLagredeKandidater,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -106,19 +114,35 @@ class ResultatVisning extends React.Component {
         const VeilederHeaderInfo = () => (
             <div className="child-item__container--header">
                 <div className="header__row--veileder">
-                    <Element className="text">{`Finn kandidater til ${stillingsId ? 'stilling/' : ''}kandidatliste:`}</Element>
+                    <Element className="text">{`Finn kandidater til ${
+                        stillingsId ? 'stilling/' : ''
+                    }kandidatliste:`}</Element>
                 </div>
                 <div className="header__row--veileder">
                     <Sidetittel className="text">{kandidatliste.tittel}</Sidetittel>
                 </div>
                 <div className="header__row--veileder">
                     <div className="opprettet-av__row">
-                        {kandidatliste.organisasjonNavn && <Normaltekst className="text">Arbeidsgiver: {`${capitalizeEmployerName(kandidatliste.organisasjonNavn)}`}</Normaltekst>}
-                        <Normaltekst className="text">Veileder: {kandidatliste.opprettetAv.navn} ({kandidatliste.opprettetAv.ident})</Normaltekst>
+                        {kandidatliste.organisasjonNavn && (
+                            <Normaltekst className="text">
+                                Arbeidsgiver:{' '}
+                                {`${capitalizeEmployerName(kandidatliste.organisasjonNavn)}`}
+                            </Normaltekst>
+                        )}
+                        <Normaltekst className="text">
+                            Veileder: {kandidatliste.opprettetAv.navn} (
+                            {kandidatliste.opprettetAv.ident})
+                        </Normaltekst>
                         {kandidatliste.beskrivelse && (
-                            <Flatknapp className="beskrivelse--knapp" mini onClick={this.onToggleVisBeskrivelse}>
+                            <Flatknapp
+                                className="beskrivelse--knapp"
+                                mini
+                                onClick={this.onToggleVisBeskrivelse}
+                            >
                                 {this.state.visBeskrivelse ? 'Skjul beskrivelse' : 'Se beskrivelse'}
-                                <NavFrontendChevron type={this.state.visBeskrivelse ? 'opp' : 'ned'} />
+                                <NavFrontendChevron
+                                    type={this.state.visBeskrivelse ? 'opp' : 'ned'}
+                                />
                             </Flatknapp>
                         )}
                     </div>
@@ -127,7 +151,9 @@ class ResultatVisning extends React.Component {
                     <div className="header__row--veileder">
                         <div>
                             <Element className="beskrivelse">Beskrivelse</Element>
-                            <Normaltekst className="beskrivelse--text">{kandidatliste.beskrivelse}</Normaltekst>
+                            <Normaltekst className="beskrivelse--text">
+                                {kandidatliste.beskrivelse}
+                            </Normaltekst>
                         </div>
                     </div>
                 )}
@@ -142,7 +168,10 @@ class ResultatVisning extends React.Component {
                         <span className="link">Se stilling</span>
                     </a>
                 )}
-                <a className="TilKandidater" href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}>
+                <a
+                    className="TilKandidater"
+                    href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
+                >
                     <i className="TilKandidater__icon" />
                     <span className="link">Se kandidatliste</span>
                 </a>
@@ -154,7 +183,11 @@ class ResultatVisning extends React.Component {
                 <HjelpetekstFading
                     synlig={this.state.suksessmeldingLagreKandidatVises}
                     type="suksess"
-                    innhold={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
+                    innhold={`${
+                        antallLagredeKandidater > 1
+                            ? `${antallLagredeKandidater} kandidater`
+                            : 'Kandidaten'
+                    } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
                     id="hjelpetekstfading"
                 />
                 <div className="ResultatVisning--hovedside--header">
@@ -205,7 +238,10 @@ class ResultatVisning extends React.Component {
                             </Column>
                             <Column xs="12" sm="8">
                                 <div className="kandidatervisning--column">
-                                    <KandidaterVisning kandidatlisteId={kandidatlisteId} stillingsId={stillingsId} />
+                                    <KandidaterVisning
+                                        kandidatlisteId={kandidatlisteId}
+                                        stillingsId={stillingsId}
+                                    />
                                 </div>
                             </Column>
                         </Container>
@@ -220,15 +256,15 @@ ResultatVisning.defaultProps = {
     kandidatliste: {
         opprettetAv: {
             navn: undefined,
-            ident: undefined
-        }
+            ident: undefined,
+        },
     },
     match: {
         params: {
             kandidatlisteId: undefined,
-            stillingsId: undefined
-        }
-    }
+            stillingsId: undefined,
+        },
+    },
 };
 
 ResultatVisning.propTypes = {
@@ -241,7 +277,7 @@ ResultatVisning.propTypes = {
     antallLagredeKandidater: PropTypes.number.isRequired,
     lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
-        tittel: PropTypes.string
+        tittel: PropTypes.string,
     }).isRequired,
     harHentetStilling: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
@@ -251,33 +287,40 @@ ResultatVisning.propTypes = {
         kandidatlisteId: PropTypes.string,
         opprettetAv: PropTypes.shape({
             navn: PropTypes.string,
-            ident: PropTypes.string
-        })
+            ident: PropTypes.string,
+        }),
     }),
     match: PropTypes.shape({
         params: PropTypes.shape({
             kandidatlisteId: PropTypes.string,
-            stillingsId: PropTypes.string
-        })
+            stillingsId: PropTypes.string,
+        }),
     }),
-    resetKandidatlisterSokekriterier: PropTypes.func.isRequired
+    resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isInitialSearch: state.search.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS ? state.kandidatlister.detaljer.kandidatliste.data : undefined
+    kandidatliste:
+        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+            ? state.kandidatlister.detaljer.kandidatliste.data
+            : undefined,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = dispatch => ({
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId) => { dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId }); },
-    resetKandidatlisterSokekriterier: () => { dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER }); }
+    initialSearch: stillingsId => {
+        dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
+    },
+    resetKandidatlisterSokekriterier: () => {
+        dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

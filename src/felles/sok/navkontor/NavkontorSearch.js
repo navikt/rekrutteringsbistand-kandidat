@@ -15,25 +15,27 @@ class NavkontorSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
     }
 
-    onTypeAheadNavkontorChange = (value) => {
+    onTypeAheadNavkontorChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadNavkontorSelect = (value) => {
+    onTypeAheadNavkontorSelect = value => {
         if (value !== '') {
-            const navkontor = this.props.typeAheadSuggestionsNavkontor.find((n) => n.toLowerCase() === value.toLowerCase());
+            const navkontor = this.props.typeAheadSuggestionsNavkontor.find(
+                n => n.toLowerCase() === value.toLowerCase()
+            );
             if (navkontor !== undefined) {
                 this.props.selectTypeAheadValue(navkontor);
                 this.props.clearTypeAheadNavkontor();
                 this.setState({
-                    typeAheadValue: ''
+                    typeAheadValue: '',
                 });
                 this.props.search();
             }
@@ -43,23 +45,26 @@ class NavkontorSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadNavkontor();
     };
 
     onAddClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onRemoveClick = (navkontor) => {
+    onRemoveClick = navkontor => {
         this.props.removeNavkontor(navkontor);
         this.props.search();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadNavkontorSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -86,7 +91,7 @@ class NavkontorSearch extends React.Component {
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={(typeAhead) => {
+                                ref={typeAhead => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadNavkontorSelect}
@@ -113,12 +118,8 @@ class NavkontorSearch extends React.Component {
                     </div>
 
                     <div className="Merkelapp__wrapper">
-                        {this.props.navkontor.map((nk) => (
-                            <Merkelapp
-                                onRemove={this.onRemoveClick}
-                                key={nk}
-                                value={nk}
-                            >
+                        {this.props.navkontor.map(nk => (
+                            <Merkelapp onRemove={this.onRemoveClick} key={nk} value={nk}>
                                 {nk}
                             </Merkelapp>
                         ))}
@@ -133,19 +134,19 @@ class NavkontorSearch extends React.Component {
                             checked={this.props.minekandidater}
                             onChange={this.onToggleMineKandidater}
                         />
-                    ) : null
-                    }
+                    ) : null}
                 </div>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
 }
 
 NavkontorSearch.defaultProps = {
-    showMineKandidater: false
+    showMineKandidater: false,
 };
 
 NavkontorSearch.propTypes = {
@@ -163,7 +164,7 @@ NavkontorSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     minekandidater: PropTypes.bool.isRequired,
     toggleMinekandidater: PropTypes.func.isRequired,
-    showMineKandidater: PropTypes.bool
+    showMineKandidater: PropTypes.bool,
 };
 
 export default NavkontorSearch;

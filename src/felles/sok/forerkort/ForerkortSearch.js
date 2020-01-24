@@ -10,7 +10,6 @@ import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 
-
 class ForerkortSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -18,48 +17,51 @@ class ForerkortSearch extends React.Component {
             showTypeAheadForerkort: false,
             typeAheadValueForerkort: '',
             antallForerkort: 4,
-            feil: false
+            feil: false,
         };
     }
 
-    onTypeAheadForerkortChange = (value) => {
+    onTypeAheadForerkortChange = value => {
         this.props.fetchTypeAheadSuggestionsForerkort(value);
         this.setState({
             typeAheadValueForerkort: value,
-            feil: false
+            feil: false,
         });
     };
 
-    onTypeAheadForerkortSelect = (value) => {
+    onTypeAheadForerkortSelect = value => {
         if (erGyldigForerkort(value)) {
             this.props.selectTypeAheadValueForerkort(value);
             this.props.clearTypeAheadForerkort();
             this.setState({
-                typeAheadValueForerkort: ''
+                typeAheadValueForerkort: '',
             });
             this.props.search();
             this.setState({
-                feil: false
+                feil: false,
             });
         } else {
             this.setState({
-                feil: true
+                feil: true,
             });
         }
     };
 
     onLeggTilForerkortClick = () => {
-        this.setState({
-            showTypeAheadForerkort: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAheadForerkort: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernForerkortClick = (forerkort) => {
+    onFjernForerkortClick = forerkort => {
         this.props.removeForerkort(forerkort);
         this.props.search();
     };
 
-    onSubmitForerkort = (e) => {
+    onSubmitForerkort = e => {
         e.preventDefault();
         this.onTypeAheadForerkortSelect(this.state.typeAheadValueForerkort);
         this.typeAhead.input.focus();
@@ -69,7 +71,7 @@ class ForerkortSearch extends React.Component {
         this.setState({
             typeAheadValueForerkort: '',
             showTypeAheadForerkort: false,
-            feil: false
+            feil: false,
         });
         this.props.clearTypeAheadForerkort();
     };
@@ -83,14 +85,12 @@ class ForerkortSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <Element>Krav til førerkort</Element>
-                <Normaltekst>
-                    For eksempel: B - Personbil
-                </Normaltekst>
+                <Normaltekst>For eksempel: B - Personbil</Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>
                         {this.state.showTypeAheadForerkort ? (
                             <Typeahead
-                                ref={(typeAhead) => {
+                                ref={typeAhead => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadForerkortSelect}
@@ -114,14 +114,14 @@ class ForerkortSearch extends React.Component {
                                 +Legg til førerkort
                             </LeggtilKnapp>
                         )}
-                        {this.state.feil &&
-                        <Normaltekst className="skjemaelement__feilmelding">
-                            Ordet du har skrevet inn gir ingen treff
-                        </Normaltekst>
-                        }
+                        {this.state.feil && (
+                            <Normaltekst className="skjemaelement__feilmelding">
+                                Ordet du har skrevet inn gir ingen treff
+                            </Normaltekst>
+                        )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.forerkortList.map((forerkort) => (
+                        {this.props.forerkortList.map(forerkort => (
                             <Merkelapp
                                 onRemove={this.onFjernForerkortClick}
                                 key={forerkort}
@@ -132,9 +132,10 @@ class ForerkortSearch extends React.Component {
                         ))}
                     </div>
                 </div>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.FORERKORT && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.FORERKORT && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
@@ -151,7 +152,7 @@ ForerkortSearch.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    panelOpen: PropTypes.bool.isRequired
+    panelOpen: PropTypes.bool.isRequired,
 };
 
 export default ForerkortSearch;

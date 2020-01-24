@@ -16,15 +16,17 @@ const currentDirectory = __dirname;
 const browserRegistrator = (req, res, next) => {
     try {
         const browserInfo = useragent.lookup(req.headers['user-agent']);
-        console.log(JSON.stringify({
-            browserFamily: browserInfo.family,
-            browserVersionMajor: browserInfo.major,
-            browserVersionMinor: browserInfo.minor,
-            browserVersionPatch: browserInfo.patch,
-            url: req.url,
-            method: req.method,
-            navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined
-        }));
+        console.log(
+            JSON.stringify({
+                browserFamily: browserInfo.family,
+                browserVersionMajor: browserInfo.major,
+                browserVersionMinor: browserInfo.minor,
+                browserVersionPatch: browserInfo.patch,
+                url: req.url,
+                method: req.method,
+                navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined,
+            })
+        );
     } catch (e) {
         console.log(e);
     }
@@ -39,20 +41,22 @@ server.set('port', port);
 server.disable('x-powered-by');
 server.use(helmet({ xssFilter: false }));
 
-server.use(helmet.contentSecurityPolicy({
-    directives: {
-        defaultSrc: ["'none'"],
-        scriptSrc: [
-            "'self'",
-            'https://www.google-analytics.com',
-            "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='" // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
-        ],
-        styleSrc: ["'self'"],
-        fontSrc: ["'self'", 'data:'],
-        imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-        connectSrc: ["'self'", 'https://www.google-analytics.com']
-    }
-}));
+server.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'none'"],
+            scriptSrc: [
+                "'self'",
+                'https://www.google-analytics.com',
+                "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='", // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
+            ],
+            styleSrc: ["'self'"],
+            fontSrc: ["'self'", 'data:'],
+            imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
+            connectSrc: ["'self'", 'https://www.google-analytics.com'],
+        },
+    })
+);
 
 server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
@@ -68,7 +72,7 @@ const fasitProperties = {
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
     API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
-    LAST_NED_CV_URL: process.env.LAST_NED_CV_URL
+    LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -80,7 +84,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
         `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
 
-    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
+    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, err => {
         if (err) throw err;
     });
 };
@@ -115,7 +119,7 @@ const gatewayPrefix = () => {
 console.log(`proxy host: ${backendHost()}`);
 console.log(`proxy prefix: ${gatewayPrefix()}`);
 
-const normalizedTokenExpiration = (token) => {
+const normalizedTokenExpiration = token => {
     const expiration = jwt.decode(token).exp;
     if (expiration.toString().length === 10) {
         return expiration * 1000;
@@ -123,7 +127,7 @@ const normalizedTokenExpiration = (token) => {
     return expiration;
 };
 
-const unsafeTokenIsExpired = (token) => {
+const unsafeTokenIsExpired = token => {
     if (token) {
         const normalizedExpirationTime = normalizedTokenExpiration(token);
         return normalizedExpirationTime - Date.now() < 0;
@@ -131,11 +135,17 @@ const unsafeTokenIsExpired = (token) => {
     return true;
 };
 
-const extractTokenFromCookie = (cookie) => {
+const extractTokenFromCookie = cookie => {
     if (cookie !== undefined) {
-        const token = cookie.split(';').filter((s) => s && s.indexOf('-idtoken') !== -1).pop();
+        const token = cookie
+            .split(';')
+            .filter(s => s && s.indexOf('-idtoken') !== -1)
+            .pop();
         if (token) {
-            return token.split('=').pop().trim();
+            return token
+                .split('=')
+                .pop()
+                .trim();
         }
     }
     return null;
@@ -145,80 +155,76 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get('host')}/kandidater`;
+        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get(
+            'host'
+        )}/kandidater`;
         return res.redirect(redirectUrl);
     }
     return next();
 };
 
-const renderSok = () => (
+const renderSok = () =>
     new Promise((resolve, reject) => {
-        server.render(
-            'index.html',
-            fasitProperties,
-            (err, html) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(html);
-                }
+        server.render('index.html', fasitProperties, (err, html) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(html);
             }
-        );
-    })
-);
+        });
+    });
 
-const startServer = (html) => {
+const startServer = html => {
     writeEnvironmentVariablesToFile();
 
-    server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) => res.sendStatus(200));
-    server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) => res.sendStatus(200));
+    server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) =>
+        res.sendStatus(200)
+    );
+    server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) =>
+        res.sendStatus(200)
+    );
 
     server.get('/kandidater/finn-kandidat/kandidat/:aktorId', (req, res) => {
         const url = `${process.env.FINN_KANDIDAT_URL}/kandidat/${req.params.aktorId}?inngang=kandidatsok`;
         res.redirect(url);
     });
 
-    server.use('/kandidater/rest/', proxy('http://pam-kandidatsok-api', {
-        proxyReqPathResolver: (req) => (
-            req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api')
-        )
-    }));
-
     server.use(
-        '/kandidater/js',
-        express.static(path.resolve(__dirname, 'dist/js'))
-    );
-    server.use(
-        '/kandidater/css',
-        express.static(path.resolve(__dirname, 'dist/css'))
+        '/kandidater/rest/',
+        proxy('http://pam-kandidatsok-api', {
+            proxyReqPathResolver: req =>
+                req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api'),
+        })
     );
 
+    server.use('/kandidater/js', express.static(path.resolve(__dirname, 'dist/js')));
+    server.use('/kandidater/css', express.static(path.resolve(__dirname, 'dist/css')));
+
     server.use(
-        '/kandidater/api/search/enhetsregister/', proxy(backendHost(), {
+        '/kandidater/api/search/enhetsregister/',
+        proxy(backendHost(), {
             https: true,
             proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
                 ...proxyReqOpts,
                 cookie: srcReq.headers.cookie,
                 headers: {
                     ...proxyReqOpts.headers,
-                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY
-                }
+                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY,
+                },
             }),
-            proxyReqPathResolver: (req) => {
-                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl.split('/search/enhetsregister/').pop()}`;
+            proxyReqPathResolver: req => {
+                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl
+                    .split('/search/enhetsregister/')
+                    .pop()}`;
                 console.log(convertedPath);
                 return convertedPath;
-            }
+            },
         })
     );
 
-    server.get(
-        ['/kandidater', '/kandidater/*'],
-        tokenValidator,
-        (req, res) => {
-            res.send(html);
-        }
-    );
+    server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
+        res.send(html);
+    });
 
     server.listen(port, () => {
         console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/`);
@@ -228,5 +234,4 @@ const startServer = (html) => {
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
-renderSok()
-    .then(startServer, (error) => logError('Failed to render app', error));
+renderSok().then(startServer, error => logError('Failed to render app', error));

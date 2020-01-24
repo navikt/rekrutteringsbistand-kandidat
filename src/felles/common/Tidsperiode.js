@@ -7,30 +7,37 @@ export default function Tidsperiode({ fradato, tildato, navarende }) {
     const tildatoFormatted = formatISOString(tildato);
     if (fradatoFormatted && tildatoFormatted) {
         return (
-            <span>{fradatoFormatted} - {tildatoFormatted}{navarende && ' (Nåværende)'}</span>
+            <span>
+                {fradatoFormatted} - {tildatoFormatted}
+                {navarende && ' (Nåværende)'}
+            </span>
         );
     } else if (fradatoFormatted) {
         return (
-            <span>{fradatoFormatted}{navarende && ' - (Nåværende)'}</span>
+            <span>
+                {fradatoFormatted}
+                {navarende && ' - (Nåværende)'}
+            </span>
         );
     } else if (tildatoFormatted) {
         return (
-            <span>{tildatoFormatted}{navarende && ' (Nåværende)'}</span>
+            <span>
+                {tildatoFormatted}
+                {navarende && ' (Nåværende)'}
+            </span>
         );
     }
-    return (
-        <span>{navarende && 'Nåværende'}</span>
-    );
+    return <span>{navarende && 'Nåværende'}</span>;
 }
 
 Tidsperiode.defaultProps = {
     navarende: false,
     fradato: undefined,
-    tildato: undefined
+    tildato: undefined,
 };
 
 Tidsperiode.propTypes = {
     fradato: PropTypes.string,
     tildato: PropTypes.string,
-    navarende: PropTypes.bool
+    navarende: PropTypes.bool,
 };

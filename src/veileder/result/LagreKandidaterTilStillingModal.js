@@ -4,14 +4,14 @@ import Modal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 
-const LagreKandidaterTilStillingModal = (props) => {
+const LagreKandidaterTilStillingModal = props => {
     const {
         vis,
         onLagre,
         onRequestClose,
         antallMarkerteKandidater,
         kandidatliste,
-        isSaving
+        isSaving,
     } = props;
 
     const lagreKandidater = () => {
@@ -20,9 +20,13 @@ const LagreKandidaterTilStillingModal = (props) => {
 
     const lagreTekst = () => {
         if (kandidatliste.stillingId) {
-            return `Ønsker du å lagre kandidaten${antallMarkerteKandidater > 1 ? 'e' : ''} i kandidatlisten til stillingen «${kandidatliste.tittel}»?`;
+            return `Ønsker du å lagre kandidaten${
+                antallMarkerteKandidater > 1 ? 'e' : ''
+            } i kandidatlisten til stillingen «${kandidatliste.tittel}»?`;
         }
-        return `Ønsker du å lagre kandidaten${antallMarkerteKandidater > 1 ? 'e' : ''} i kandidatlisten «${kandidatliste.tittel}»?`;
+        return `Ønsker du å lagre kandidaten${
+            antallMarkerteKandidater > 1 ? 'e' : ''
+        } i kandidatlisten «${kandidatliste.tittel}»?`;
     };
 
     return (
@@ -34,10 +38,10 @@ const LagreKandidaterTilStillingModal = (props) => {
             appElement={document.getElementById('app')}
         >
             <div className="LagreKandidaterTilStillingModal--wrapper">
-                <Systemtittel className="tittel">{`Lagre kandidat${antallMarkerteKandidater > 1 ? 'er' : ''}`}
+                <Systemtittel className="tittel">
+                    {`Lagre kandidat${antallMarkerteKandidater > 1 ? 'er' : ''}`}
                 </Systemtittel>
-                <Normaltekst>{lagreTekst()}
-                </Normaltekst>
+                <Normaltekst>{lagreTekst()}</Normaltekst>
                 <div>
                     <Hovedknapp
                         className="lagre--knapp"
@@ -68,9 +72,9 @@ LagreKandidaterTilStillingModal.propTypes = {
     kandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         stillingId: PropTypes.string,
-        tittel: PropTypes.string
+        tittel: PropTypes.string,
     }).isRequired,
-    isSaving: PropTypes.bool.isRequired
+    isSaving: PropTypes.bool.isRequired,
 };
 
 export default LagreKandidaterTilStillingModal;

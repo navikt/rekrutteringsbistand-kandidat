@@ -24,7 +24,7 @@ class KandidatlisteFraStilling extends React.Component {
 }
 
 KandidatlisteFraStilling.defaultProps = {
-    kandidatliste: undefined
+    kandidatliste: undefined,
 };
 
 KandidatlisteFraStilling.propTypes = {
@@ -33,18 +33,20 @@ KandidatlisteFraStilling.propTypes = {
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            id: PropTypes.string.isRequired
-        })
-    }).isRequired
+            id: PropTypes.string.isRequired,
+        }),
+    }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     fetching: state.kandidatlister.detaljer.fetching,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (stillingsId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }); }
+const mapDispatchToProps = dispatch => ({
+    hentKandidatliste: stillingsId => {
+        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteFraStilling);

@@ -11,20 +11,20 @@ export default class RedigerNotatModal extends React.Component {
         super(props);
         this.state = {
             notatTekst: props.notat.tekst,
-            feilmelding: undefined
+            feilmelding: undefined,
         };
     }
 
-    onTekstChange = (e) => {
+    onTekstChange = e => {
         this.setState({
-            notatTekst: e.target.value
+            notatTekst: e.target.value,
         });
     };
 
     onLagreKlikk = () => {
         if (this.state.notatTekst.trim().length === 0) {
             this.setState({
-                feilmelding: 'Notattekst må være utfylt'
+                feilmelding: 'Notattekst må være utfylt',
             });
         } else {
             this.props.onSave(this.props.notat.notatId, this.state.notatTekst);
@@ -53,8 +53,12 @@ export default class RedigerNotatModal extends React.Component {
                             feil={feilmelding ? { feilmelding } : undefined}
                         />
                     </div>
-                    <Hovedknapp className="modalknapp venstre" onClick={this.onLagreKlikk}>Lagre</Hovedknapp>
-                    <Flatknapp className="modalknapp" onClick={onClose}>Avbryt</Flatknapp>
+                    <Hovedknapp className="modalknapp venstre" onClick={this.onLagreKlikk}>
+                        Lagre
+                    </Hovedknapp>
+                    <Flatknapp className="modalknapp" onClick={onClose}>
+                        Avbryt
+                    </Flatknapp>
                 </div>
             </NavFrontendModal>
         );
@@ -64,5 +68,5 @@ export default class RedigerNotatModal extends React.Component {
 RedigerNotatModal.propTypes = {
     notat: PropTypes.shape(Notat).isRequired,
     onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
 };

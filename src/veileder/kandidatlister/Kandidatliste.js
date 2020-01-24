@@ -24,28 +24,33 @@ class Kandidatliste extends React.Component {
 }
 
 Kandidatliste.defaultProps = {
-    kandidatliste: undefined
+    kandidatliste: undefined,
 };
 
 Kandidatliste.propTypes = {
     kandidatliste: PropTypes.shape({
         kind: PropTypes.string,
-        data: PropTypes.shape(kandidatlisteProps)
+        data: PropTypes.shape(kandidatlisteProps),
     }),
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            listeid: PropTypes.string.isRequired
-        })
-    }).isRequired
+            listeid: PropTypes.string.isRequired,
+        }),
+    }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste
+const mapStateToProps = state => ({
+    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentKandidatliste: (kandidatlisteId) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID, kandidatlisteId }); }
+const mapDispatchToProps = dispatch => ({
+    hentKandidatliste: kandidatlisteId => {
+        dispatch({
+            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            kandidatlisteId,
+        });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatliste);

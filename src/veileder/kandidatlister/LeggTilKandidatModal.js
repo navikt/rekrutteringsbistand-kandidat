@@ -16,7 +16,7 @@ class LeggTilKandidatModal extends React.Component {
         this.state = {
             showFodselsnummer: false,
             showAlleredeLagtTilWarning: false,
-            errorMessage: undefined
+            errorMessage: undefined,
         };
     }
 
@@ -32,47 +32,70 @@ class LeggTilKandidatModal extends React.Component {
                 this.setState({
                     showFodselsnummer: true,
                     errorMessage: undefined,
-                    showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede()
+                    showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
             } else if (hentStatus === HENT_STATUS.FINNES_IKKE) {
-                this.setState({ showFodselsnummer: false, errorMessage: this.kandidatenFinnesIkke() });
+                this.setState({
+                    showFodselsnummer: false,
+                    errorMessage: this.kandidatenFinnesIkke(),
+                });
             }
         }
     }
 
-    onChange = (input) => {
+    onChange = input => {
         const fnr = input.target.value;
         this.props.setFodselsnummer(fnr);
         if (fnr.length === 11) {
             this.props.hentKandidatMedFnr(fnr);
         } else if (fnr.length > 11) {
             this.props.resetHentKandidatMedFnr();
-            this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummeret er for langt', showAlleredeLagtTilWarning: false });
+            this.setState({
+                showFodselsnummer: false,
+                errorMessage: 'Fødselsnummeret er for langt',
+                showAlleredeLagtTilWarning: false,
+            });
         } else {
             this.props.resetHentKandidatMedFnr();
-            this.setState({ showFodselsnummer: false, errorMessage: undefined, showAlleredeLagtTilWarning: false });
+            this.setState({
+                showFodselsnummer: false,
+                errorMessage: undefined,
+                showAlleredeLagtTilWarning: false,
+            });
         }
     };
 
     kandidatenFinnesAllerede = () => {
-        const kandidat = this.props.kandidatliste.kandidater.filter((k) => (this.props.kandidat.arenaKandidatnr === k.kandidatnr));
+        const kandidat = this.props.kandidatliste.kandidater.filter(
+            k => this.props.kandidat.arenaKandidatnr === k.kandidatnr
+        );
         return kandidat.length > 0;
     };
 
     leggTilKandidat = () => {
         const { kandidat, kandidatliste, hentStatus, fodselsnummer } = this.props;
-        const kandidater = [{
-            kandidatnr: kandidat.arenaKandidatnr,
-            sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel : ''
-        }];
+        const kandidater = [
+            {
+                kandidatnr: kandidat.arenaKandidatnr,
+                sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
+                    ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
+                    : '',
+            },
+        ];
         if (hentStatus === HENT_STATUS.SUCCESS && !this.kandidatenFinnesAllerede()) {
             this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
             this.props.onClose();
         } else {
             if (!fodselsnummer) {
-                this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummer må fylles inn' });
+                this.setState({
+                    showFodselsnummer: false,
+                    errorMessage: 'Fødselsnummer må fylles inn',
+                });
             } else if (fodselsnummer.length < 11) {
-                this.setState({ showFodselsnummer: false, errorMessage: 'Fødselsnummeret er for kort' });
+                this.setState({
+                    showFodselsnummer: false,
+                    errorMessage: 'Fødselsnummeret er for kort',
+                });
             } else if (this.kandidatenFinnesAllerede()) {
                 this.setState({ errorMessage: 'Kandidaten er allerede lagt til i listen' });
             }
@@ -113,19 +136,21 @@ class LeggTilKandidatModal extends React.Component {
                     feil={this.state.errorMessage && { feilmelding: this.state.errorMessage }}
                     bredde="S"
                     label="Fødselsnummer på kandidaten (11 siffer)"
-                    inputRef={(input) => { this.input = input; }}
+                    inputRef={input => {
+                        this.input = input;
+                    }}
                 />
-                {this.state.showFodselsnummer &&
+                {this.state.showFodselsnummer && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
-                }
-                {this.state.showAlleredeLagtTilWarning &&
+                )}
+                {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
                         <Element>
                             <i className="advarsel__icon" />
                             Kandidaten er allerede lagt til i listen
                         </Element>
                     </div>
-                }
+                )}
                 <div>
                     <Hovedknapp
                         className="legg-til--knapp"
@@ -150,7 +175,7 @@ class LeggTilKandidatModal extends React.Component {
 LeggTilKandidatModal.defaultProps = {
     vis: true,
     fodselsnummer: undefined,
-    kandidatliste: undefined
+    kandidatliste: undefined,
 };
 
 LeggTilKandidatModal.propTypes = {
@@ -168,25 +193,33 @@ LeggTilKandidatModal.propTypes = {
         etternavn: PropTypes.string,
         mestRelevanteYrkeserfaring: PropTypes.shape({
             styrkKodeStillingstittel: PropTypes.string,
-            yrkeserfaringManeder: PropTypes.number
-        })
+            yrkeserfaringManeder: PropTypes.number,
+        }),
     }).isRequired,
     hentStatus: PropTypes.string.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired
+    leggTilKandidatStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     hentStatus: state.kandidatlister.hentStatus,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus
+    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setFodselsnummer: (fodselsnummer) => { dispatch({ type: KandidatlisteTypes.SET_FODSELSNUMMER, fodselsnummer }); },
-    hentKandidatMedFnr: (fodselsnummer) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR, fodselsnummer }); },
-    resetHentKandidatMedFnr: () => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_RESET }); },
-    leggTilKandidatMedFnr: (kandidater, kandidatliste) => { dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatliste }); }
+const mapDispatchToProps = dispatch => ({
+    setFodselsnummer: fodselsnummer => {
+        dispatch({ type: KandidatlisteTypes.SET_FODSELSNUMMER, fodselsnummer });
+    },
+    hentKandidatMedFnr: fodselsnummer => {
+        dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR, fodselsnummer });
+    },
+    resetHentKandidatMedFnr: () => {
+        dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_RESET });
+    },
+    leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
+        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LeggTilKandidatModal);

@@ -18,7 +18,7 @@ export const TOGGLE_UTDANNING_PANEL_OPEN = 'TOGGLE_UTDANNING_PANEL_OPEN';
 const initialState = {
     utdanninger: [],
     utdanningsniva: [],
-    utdanningPanelOpen: false
+    utdanningPanelOpen: false,
 };
 
 export default function utdanningReducer(state = initialState, action) {
@@ -28,37 +28,35 @@ export default function utdanningReducer(state = initialState, action) {
                 ...state,
                 utdanninger: action.query.utdanninger || [],
                 utdanningsniva: action.query.utdanningsniva || [],
-                utdanningPanelOpen: harEnParameter(action.query.utdanningsniva) || state.utdanningPanelOpen
+                utdanningPanelOpen:
+                    harEnParameter(action.query.utdanningsniva) || state.utdanningPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_UTDANNING:
             return {
                 ...state,
-                utdanninger: state.utdanninger.includes(action.value) ?
-                    state.utdanninger :
-                    [
-                        ...state.utdanninger,
-                        action.value
-                    ]
+                utdanninger: state.utdanninger.includes(action.value)
+                    ? state.utdanninger
+                    : [...state.utdanninger, action.value],
             };
         case REMOVE_SELECTED_UTDANNING:
             return {
                 ...state,
-                utdanninger: state.utdanninger.filter((u) => u !== action.value)
+                utdanninger: state.utdanninger.filter(u => u !== action.value),
             };
         case CHECK_UTDANNINGSNIVA:
             return {
                 ...state,
-                utdanningsniva: [...state.utdanningsniva, action.value]
+                utdanningsniva: [...state.utdanningsniva, action.value],
             };
         case UNCHECK_UTDANNINGSNIVA:
             return {
                 ...state,
-                utdanningsniva: state.utdanningsniva.filter((u) => u !== action.value)
+                utdanningsniva: state.utdanningsniva.filter(u => u !== action.value),
             };
         case TOGGLE_UTDANNING_PANEL_OPEN:
             return {
                 ...state,
-                utdanningPanelOpen: !state.utdanningPanelOpen
+                utdanningPanelOpen: !state.utdanningPanelOpen,
             };
         default:
             return state;

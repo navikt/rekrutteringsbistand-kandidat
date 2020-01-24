@@ -14,7 +14,7 @@ export const TOGGLE_SPRAK_PANEL_OPEN = 'TOGGLE_SPRAK_PANEL_OPEN';
 
 const initialState = {
     sprak: [],
-    sprakPanelOpen: false
+    sprakPanelOpen: false,
 };
 
 export default function sprakReducer(state = initialState, action) {
@@ -23,27 +23,24 @@ export default function sprakReducer(state = initialState, action) {
             return {
                 ...state,
                 sprak: action.query.sprak || [],
-                sprakPanelOpen: harEnParameter(action.query.sprak) || state.sprakPanelOpen
+                sprakPanelOpen: harEnParameter(action.query.sprak) || state.sprakPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_SPRAK:
             return {
                 ...state,
-                sprak: state.sprak.includes(action.value) ?
-                    state.sprak :
-                    [
-                        ...state.sprak,
-                        action.value
-                    ]
+                sprak: state.sprak.includes(action.value)
+                    ? state.sprak
+                    : [...state.sprak, action.value],
             };
         case REMOVE_SELECTED_SPRAK:
             return {
                 ...state,
-                sprak: state.sprak.filter((s) => s !== action.value)
+                sprak: state.sprak.filter(s => s !== action.value),
             };
         case TOGGLE_SPRAK_PANEL_OPEN:
             return {
                 ...state,
-                sprakPanelOpen: !state.sprakPanelOpen
+                sprakPanelOpen: !state.sprakPanelOpen,
             };
         default:
             return state;

@@ -8,7 +8,7 @@ import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 
 class KandidaterTableRow extends React.Component {
-    onCheck = (kandidatnr) => {
+    onCheck = kandidatnr => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
@@ -22,7 +22,14 @@ class KandidaterTableRow extends React.Component {
     };
 
     render() {
-        const { kandidat, markert, nettoppValgt, setScrollPosition, kandidatlisteId, stillingsId } = this.props;
+        const {
+            kandidat,
+            markert,
+            nettoppValgt,
+            setScrollPosition,
+            kandidatlisteId,
+            stillingsId,
+        } = this.props;
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
@@ -50,7 +57,9 @@ class KandidaterTableRow extends React.Component {
                                 className="skjemaelement__input checkboks"
                                 aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
                                 checked={markert}
-                                onChange={() => { this.onCheck(kandidat.arenaKandidatnr); }}
+                                onChange={() => {
+                                    this.onCheck(kandidat.arenaKandidatnr);
+                                }}
                             />
                             <label
                                 className="skjemaelement__label"
@@ -83,7 +92,7 @@ class KandidaterTableRow extends React.Component {
 KandidaterTableRow.defaultProps = {
     markert: false,
     kandidatlisteId: undefined,
-    stillingsId: undefined
+    stillingsId: undefined,
 };
 
 KandidaterTableRow.propTypes = {
@@ -93,15 +102,16 @@ KandidaterTableRow.propTypes = {
     nettoppValgt: PropTypes.bool.isRequired,
     setScrollPosition: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string
+    stillingsId: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
-    query: state.query
+const mapStateToProps = state => ({
+    query: state.query,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (scrollPosisjon) => dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon })
+const mapDispatchToProps = dispatch => ({
+    setScrollPosition: scrollPosisjon =>
+        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);

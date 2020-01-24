@@ -9,7 +9,12 @@ import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
 import './sok/sok.less';
-import searchReducer, { FETCH_FEATURE_TOGGLES_BEGIN, FJERN_ERROR, HENT_INNLOGGET_VEILEDER, saga } from './sok/searchReducer';
+import searchReducer, {
+    FETCH_FEATURE_TOGGLES_BEGIN,
+    FJERN_ERROR,
+    HENT_INNLOGGET_VEILEDER,
+    saga,
+} from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
@@ -32,45 +37,53 @@ import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
-import enhetsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
+import enhetsregisterReducer, {
+    enhetsregisterSaga,
+} from './common/typeahead/enhetsregisterReducer';
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(combineReducers({
-    search: searchReducer,
-    typeahead: typeaheadReducer,
-    fritekst: fritekstReducer,
-    stilling: stillingReducer,
-    kompetanse: kompetanseReducer,
-    arbeidserfaring: arbeidserfaringReducer,
-    utdanning: utdanningReducer,
-    forerkort: forerkortReducer,
-    geografi: geografiReducer,
-    sprakReducer,
-    innsatsgruppe: innsatsgruppeReducer,
-    tilretteleggingsbehov: tilretteleggingsbehovReducer,
-    cvReducer,
-    kandidatlister: kandidatlisteReducer,
-    feedback: feedbackReducer,
-    enhetsregister: enhetsregisterReducer,
-    navkontorReducer,
-    hovedmal: hovedmalReducer
-}), composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const store = createStore(
+    combineReducers({
+        search: searchReducer,
+        typeahead: typeaheadReducer,
+        fritekst: fritekstReducer,
+        stilling: stillingReducer,
+        kompetanse: kompetanseReducer,
+        arbeidserfaring: arbeidserfaringReducer,
+        utdanning: utdanningReducer,
+        forerkort: forerkortReducer,
+        geografi: geografiReducer,
+        sprakReducer,
+        innsatsgruppe: innsatsgruppeReducer,
+        tilretteleggingsbehov: tilretteleggingsbehovReducer,
+        cvReducer,
+        kandidatlister: kandidatlisteReducer,
+        feedback: feedbackReducer,
+        enhetsregister: enhetsregisterReducer,
+        navkontorReducer,
+        hovedmal: hovedmalReducer,
+    }),
+    composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
 
 const HeaderSwitch = ({ innloggetVeileder }) => (
     <Switch>
-        <Route path="/kandidater/lister" render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />} />
+        <Route
+            path="/kandidater/lister"
+            render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />}
+        />
         <Route render={() => <KandidatsokHeader innloggetVeileder={innloggetVeileder} />} />
     </Switch>
 );
 
 HeaderSwitch.defaultProps = {
-    innloggetVeileder: ''
+    innloggetVeileder: '',
 };
 
 HeaderSwitch.propTypes = {
-    innloggetVeileder: PropTypes.string
+    innloggetVeileder: PropTypes.string,
 };
 
 class Sok extends React.Component {
@@ -98,15 +111,43 @@ class Sok extends React.Component {
                         <HeaderSwitch innloggetVeileder={innloggetVeileder} />
                         <Switch>
                             <Route exact path="/kandidater" component={ResultatVisning} />
-                            <Route exact path="/kandidater/kandidatliste/:kandidatlisteId" component={ResultatVisning} />
-                            <Route exact path="/kandidater/stilling/:stillingsId" component={ResultatVisning} />
+                            <Route
+                                exact
+                                path="/kandidater/kandidatliste/:kandidatlisteId"
+                                component={ResultatVisning}
+                            />
+                            <Route
+                                exact
+                                path="/kandidater/stilling/:stillingsId"
+                                component={ResultatVisning}
+                            />
                             <Route exact path="/kandidater/cv" component={VisKandidat} />
-                            <Route exact path="/kandidater/kandidatliste/:kandidatlisteId/cv" component={VisKandidat} />
-                            <Route exact path="/kandidater/stilling/:stillingsId/cv" component={VisKandidat} />
+                            <Route
+                                exact
+                                path="/kandidater/kandidatliste/:kandidatlisteId/cv"
+                                component={VisKandidat}
+                            />
+                            <Route
+                                exact
+                                path="/kandidater/stilling/:stillingsId/cv"
+                                component={VisKandidat}
+                            />
                             <Route exact path="/kandidater/lister" component={Kandidatlister} />
-                            <Route exact path="/kandidater/lister/stilling/:id/detaljer" component={KandidatlisteFraStilling} />
-                            <Route exact path="/kandidater/lister/detaljer/:listeid" component={Kandidatliste} />
-                            <Route exact path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr" component={VisKandidatFraLister} />
+                            <Route
+                                exact
+                                path="/kandidater/lister/stilling/:id/detaljer"
+                                component={KandidatlisteFraStilling}
+                            />
+                            <Route
+                                exact
+                                path="/kandidater/lister/detaljer/:listeid"
+                                component={Kandidatliste}
+                            />
+                            <Route
+                                exact
+                                path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr"
+                                component={VisKandidatFraLister}
+                            />
                             <Route component={NotFound} />
                         </Switch>
                     </div>
@@ -118,28 +159,28 @@ class Sok extends React.Component {
 
 Sok.defaultProps = {
     error: undefined,
-    innloggetVeileder: undefined
+    innloggetVeileder: undefined,
 };
 
 Sok.propTypes = {
     error: PropTypes.shape({
-        status: PropTypes.number
+        status: PropTypes.number,
     }),
     innloggetVeileder: PropTypes.string,
     fetchFeatureToggles: PropTypes.func.isRequired,
     hentInnloggetVeileder: PropTypes.func.isRequired,
-    fjernError: PropTypes.func.isRequired
+    fjernError: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     error: state.search.error,
-    innloggetVeileder: state.search.innloggetVeileder
+    innloggetVeileder: state.search.innloggetVeileder,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
-    fjernError: () => dispatch({ type: FJERN_ERROR })
+    fjernError: () => dispatch({ type: FJERN_ERROR }),
 });
 /*
 End class Sok
@@ -164,8 +205,4 @@ sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
-
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -8,7 +8,7 @@ export const Kandidat = {
     lagtTilTidspunkt: PropTypes.string,
     lagtTilAv: PropTypes.shape({
         ident: PropTypes.string,
-        navn: PropTypes.string
+        navn: PropTypes.string,
     }),
     fornavn: PropTypes.string,
     etternavn: PropTypes.string,
@@ -18,7 +18,7 @@ export const Kandidat = {
     fodselsnr: PropTypes.string,
     innsatsgruppe: PropTypes.string,
     utfall: PropTypes.string,
-    erSynlig: PropTypes.bool
+    erSynlig: PropTypes.bool,
 };
 
 export const Kandidatliste = {
@@ -30,10 +30,10 @@ export const Kandidatliste = {
     stillingId: PropTypes.string,
     opprettetAv: PropTypes.shape({
         ident: PropTypes.string,
-        navn: PropTypes.string
+        navn: PropTypes.string,
     }),
     opprettetTidspunkt: PropTypes.string,
-    kandidater: PropTypes.arrayOf(PropTypes.shape(Kandidat))
+    kandidater: PropTypes.arrayOf(PropTypes.shape(Kandidat)),
 };
 
 export const Notat = {
@@ -44,6 +44,6 @@ export const Notat = {
     kanEditere: PropTypes.bool,
     lagtTilAv: PropTypes.shape({
         navn: PropTypes.string,
-        ident: PropTypes.string
-    })
+        ident: PropTypes.string,
+    }),
 };

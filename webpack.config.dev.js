@@ -6,8 +6,8 @@ module.exports = merge(common(), {
     devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: {
-            index: './viewsDev/index.html'
-        }
+            index: './viewsDev/index.html',
+        },
     },
     plugins: [
         new webpack.DefinePlugin({
@@ -18,7 +18,7 @@ module.exports = merge(common(), {
             __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",
             __BACKEND_OPPE__: true,
             __LAST_NED_CV_URL__: "'https://pam-cv-veileder.nais.preprod.local/cv/pdf'",
-            'process.env.NODE_ENV': "'development'"
-        })
-    ]
+            'process.env.NODE_ENV': "'development'",
+        }),
+    ],
 });

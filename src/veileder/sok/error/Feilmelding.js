@@ -11,7 +11,9 @@ const Feilmelding = () => (
         <div className="blokk-xs">
             <strong>Det oppstod en feil.</strong> Forsøk å laste siden på nytt.
         </div>
-        <Hovedknapp mini onClick={refreshPage}>Last siden på nytt</Hovedknapp>
+        <Hovedknapp mini onClick={refreshPage}>
+            Last siden på nytt
+        </Hovedknapp>
     </AlertStripeFeil>
 );
 

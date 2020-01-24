@@ -6,7 +6,12 @@ export default () => (
     <Container className="blokk-s">
         <Row>
             <Column className="text-center feilside">
-                <Innholdstittel>Finner ikke siden <span role="img" aria-label="confused emoji">😕</span></Innholdstittel>
+                <Innholdstittel>
+                    Finner ikke siden{' '}
+                    <span role="img" aria-label="confused emoji">
+                        😕
+                    </span>
+                </Innholdstittel>
             </Column>
         </Row>
     </Container>

@@ -13,7 +13,7 @@ export default class StillingSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
     }
 
@@ -24,19 +24,19 @@ export default class StillingSearch extends React.Component {
         this.props.fetchKompetanseSuggestions();
     }
 
-    onTypeAheadStillingChange = (value) => {
+    onTypeAheadStillingChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadStillingSelect = (value) => {
+    onTypeAheadStillingSelect = value => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadStilling();
             this.setState({
-                typeAheadValue: ''
+                typeAheadValue: '',
             });
             this.props.fetchKompetanseSuggestions();
             this.props.search();
@@ -44,12 +44,15 @@ export default class StillingSearch extends React.Component {
     };
 
     onLeggTilClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernClick = (stilling) => {
+    onFjernClick = stilling => {
         this.props.removeStilling(stilling);
         this.props.fetchKompetanseSuggestions();
         this.props.search();
@@ -58,12 +61,12 @@ export default class StillingSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadStilling();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadStillingSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -78,56 +81,53 @@ export default class StillingSearch extends React.Component {
                 id="Stilling__SokekriteriePanel"
                 tittel="Stilling/yrke"
                 onClick={this.props.togglePanelOpen}
-                apen={this.props.panelOpen === undefined && this.props.stillingsId ? true : this.props.panelOpen}
+                apen={
+                    this.props.panelOpen === undefined && this.props.stillingsId
+                        ? true
+                        : this.props.panelOpen
+                }
             >
-                <Element>
-                    Hva slags kandidat trenger du?
-                </Element>
-                <Normaltekst>
-                    For eksempel: pedagogisk leder
-                </Normaltekst>
+                <Element>Hva slags kandidat trenger du?</Element>
+                <Normaltekst>For eksempel: pedagogisk leder</Normaltekst>
                 <div className="sokekriterier--kriterier">
                     {/* TODO: Fjerne feature toggle */}
-                    {!(this.props.useJanzz && this.props.stillinger.length > 0) &&
-                    <div>
-                        {this.state.showTypeAhead ? (
-                            <Typeahead
-                                ref={(typeAhead) => {
-                                    this.typeAhead = typeAhead;
-                                }}
-                                onSelect={this.onTypeAheadStillingSelect}
-                                onChange={this.onTypeAheadStillingChange}
-                                label=""
-                                name="stilling"
-                                placeholder="Skriv inn stilling/yrke"
-                                suggestions={this.props.typeAheadSuggestionsStilling}
-                                value={this.state.typeAheadValue}
-                                id="typeahead-stilling"
-                                onSubmit={this.onSubmit}
-                                onTypeAheadBlur={this.onTypeAheadBlur}
-                                allowOnlyTypeaheadSuggestions={this.props.allowOnlyTypeaheadSuggestions}
-                                selectedSuggestions={this.props.stillinger}
-                            />
-                        ) : (
-                            <LeggtilKnapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                                id="leggtil-stilling-knapp"
-                                mini
-                            >
-                                +Legg til stilling/yrke
-                            </LeggtilKnapp>
-                        )}
-
-                    </div>
-                    }
+                    {!(this.props.useJanzz && this.props.stillinger.length > 0) && (
+                        <div>
+                            {this.state.showTypeAhead ? (
+                                <Typeahead
+                                    ref={typeAhead => {
+                                        this.typeAhead = typeAhead;
+                                    }}
+                                    onSelect={this.onTypeAheadStillingSelect}
+                                    onChange={this.onTypeAheadStillingChange}
+                                    label=""
+                                    name="stilling"
+                                    placeholder="Skriv inn stilling/yrke"
+                                    suggestions={this.props.typeAheadSuggestionsStilling}
+                                    value={this.state.typeAheadValue}
+                                    id="typeahead-stilling"
+                                    onSubmit={this.onSubmit}
+                                    onTypeAheadBlur={this.onTypeAheadBlur}
+                                    allowOnlyTypeaheadSuggestions={
+                                        this.props.allowOnlyTypeaheadSuggestions
+                                    }
+                                    selectedSuggestions={this.props.stillinger}
+                                />
+                            ) : (
+                                <LeggtilKnapp
+                                    onClick={this.onLeggTilClick}
+                                    className="leggtil--sokekriterier--knapp knapp--sokekriterier"
+                                    id="leggtil-stilling-knapp"
+                                    mini
+                                >
+                                    +Legg til stilling/yrke
+                                </LeggtilKnapp>
+                            )}
+                        </div>
+                    )}
                     <div className="Merkelapp__wrapper">
-                        {this.props.stillinger.map((stilling) => (
-                            <Merkelapp
-                                onRemove={this.onFjernClick}
-                                key={stilling}
-                                value={stilling}
-                            >
+                        {this.props.stillinger.map(stilling => (
+                            <Merkelapp onRemove={this.onFjernClick} key={stilling} value={stilling}>
                                 {stilling}
                             </Merkelapp>
                         ))}
@@ -135,12 +135,15 @@ export default class StillingSearch extends React.Component {
                 </div>
 
                 {/* TODO: Fjerne feature toggle */}
-                { this.props.useJanzz &&
-                <Normaltekst className="blokk-xs">Du kan kun legge til én stilling/yrke</Normaltekst>
-                }
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                {this.props.useJanzz && (
+                    <Normaltekst className="blokk-xs">
+                        Du kan kun legge til én stilling/yrke
+                    </Normaltekst>
                 )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.STILLING && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
@@ -150,7 +153,7 @@ StillingSearch.defaultProps = {
     panelOpen: undefined,
     stillingsId: undefined,
     useJanzz: false,
-    allowOnlyTypeaheadSuggestions: false
+    allowOnlyTypeaheadSuggestions: false,
 };
 
 StillingSearch.propTypes = {
@@ -169,5 +172,5 @@ StillingSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     stillingsId: PropTypes.string,
     useJanzz: PropTypes.bool,
-    allowOnlyTypeaheadSuggestions: PropTypes.bool
+    allowOnlyTypeaheadSuggestions: PropTypes.bool,
 };
