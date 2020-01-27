@@ -1,6 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const common = () => ({
+const commonConfig = {
     entry: {
         sok: ['babel-polyfill', 'whatwg-fetch', './src/veileder/app.js'],
         googleanalytics: ['./src/felles/googleanalytics.js'],
@@ -45,8 +45,12 @@ const common = () => ({
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     plugins: [new ExtractTextPlugin('css/[name].css')],
-});
+};
 
+module.exports = commonConfig;
+
+/*
 module.exports = (() => ({
     common,
 }))();
+*/

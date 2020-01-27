@@ -17,8 +17,9 @@ import {
     postJson,
     putJson,
 } from '../felles/api';
+import { MOCK_API } from '../arbeidsgiver/common/fasitProperties';
 
-if (__MOCK_API__) {
+if (MOCK_API) {
     require('./mock/api.ts');
 }
 

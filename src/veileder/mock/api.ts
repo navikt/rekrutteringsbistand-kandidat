@@ -20,8 +20,6 @@ const alleCver = {
     CD430805,
 };
 
-console.log('hlejdkslajdklsajdklasjkld');
-
 // Veileder
 const meUrl = `${veilederUrl}/me`;
 const kandidatlisteUrl = `${veilederUrl}/kandidatlister/bf6877fa-5c82-4610-8cf7-ff7a0df18e29`;

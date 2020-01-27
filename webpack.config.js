@@ -11,7 +11,7 @@ const PATH = {
 module.exports = () => {
     const environment = 'production';
 
-    return merge(common(), {
+    return merge(common, {
         devtool: 'source-map',
         plugins: [
             new webpack.DefinePlugin({

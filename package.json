@@ -54,9 +54,9 @@
         "build:dev:express": "npm run build:dev && sh localserver.sh",
         "start-express": "node ./server.js",
         "start": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.dev.js",
+        "mock": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.mock.js",
         "lint": "eslint \"./src/**/*.{js,jsx}\" --fix",
-        "lint-staged": "bash ./scripts/pre-commit.sh",
-        "mock": "MOCK_API=true && npm run start"
+        "lint-staged": "bash ./scripts/pre-commit.sh"
     },
     "config": {
         "ghooks": {
