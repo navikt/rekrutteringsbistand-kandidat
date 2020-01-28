@@ -17,9 +17,11 @@ import {
     postJson,
     putJson,
 } from '../felles/api';
-import { MOCK_API } from '../arbeidsgiver/common/fasitProperties';
 
-if (MOCK_API) {
+declare const __MOCK_API__: boolean;
+const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
+
+if (appIsMocked) {
     require('./mock/api.ts');
 }
 
