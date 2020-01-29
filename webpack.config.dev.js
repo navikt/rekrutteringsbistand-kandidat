@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const { common } = require('./webpack.common.js');
+const commonConfig = require('./webpack.common.js');
 
-module.exports = merge(common(), {
+const devOverride = {
     devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: {
@@ -21,4 +21,8 @@ module.exports = merge(common(), {
             'process.env.NODE_ENV': "'development'",
         }),
     ],
-});
+};
+
+const devConfig = merge(commonConfig, devOverride);
+
+module.exports = devConfig;

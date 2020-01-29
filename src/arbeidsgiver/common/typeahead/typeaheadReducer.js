@@ -1,12 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import {
-    fetchTypeaheadJanzzGeografiSuggestions,
-    fetchTypeaheadSuggestionsRest,
-    fetchTypeaheadSuggestionsOntology,
-} from '../../sok/api.ts';
+import { fetchTypeaheadSuggestionsRest } from '../../sok/api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
 import { forerkortSuggestions } from '../../../felles/sok/forerkort/forerkort.ts';
-import { USE_JANZZ } from '../fasitProperties';
 import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
@@ -140,45 +135,8 @@ function* fetchTypeaheadGeografiES(value, branch) {
     }
 }
 
-function* fetchTypeaheadGeografiJanzz(value, branch) {
-    try {
-        const response = yield call(fetchTypeaheadJanzzGeografiSuggestions, { lokasjon: value });
-
-        if (response._embedded) {
-            const totalResult = response._embedded.lokasjonList.map(sted => ({
-                geografiKode: sted.code,
-                geografiKodeTekst: sted.label,
-            }));
-
-            const result = response._embedded.lokasjonList.map(sted => sted.label);
-
-            yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalResult });
-            yield put({
-                type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
-                suggestions: result,
-                branch,
-                query: value,
-            });
-        } else {
-            yield put({
-                type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
-                error: new SearchApiError({ message: 'Forventet at response hadde embedded felt' }),
-            });
-        }
-    } catch (e) {
-        yield put({
-            type: FETCH_TYPE_AHEAD_SUGGESTIONS_FAILURE,
-            error: new SearchApiError({ message: e.message }),
-        });
-    }
-}
-
 function* fetchTypeaheadGeografi(value, branch) {
-    if (USE_JANZZ) {
-        yield fetchTypeaheadGeografiJanzz(value, branch);
-    } else {
-        yield fetchTypeaheadGeografiES(value, branch);
-    }
+    yield fetchTypeaheadGeografiES(value, branch);
 }
 
 function* fetchTypeAheadSuggestions(action) {
@@ -203,18 +161,6 @@ function* fetchTypeAheadSuggestions(action) {
         try {
             if (branch === BRANCHNAVN.GEOGRAFI) {
                 yield fetchTypeaheadGeografi(value, branch);
-            } else if (branch === BRANCHNAVN.STILLING && USE_JANZZ) {
-                const response = yield call(fetchTypeaheadSuggestionsOntology, { text: value });
-
-                // eslint-disable-next-line no-underscore-dangle
-                const titler = response.hits.hits.map(hit => hit._source.label);
-
-                yield put({
-                    type: FETCH_TYPE_AHEAD_SUGGESTIONS_SUCCESS,
-                    suggestions: titler,
-                    branch,
-                    query: value,
-                });
             } else {
                 const response = yield call(fetchTypeaheadSuggestionsRest, {
                     [typeAheadBranch]: value,

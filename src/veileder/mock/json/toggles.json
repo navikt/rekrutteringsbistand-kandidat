@@ -1,0 +1,17 @@
+{
+    "vis-manglende-arbeidserfaring-boks": false,
+    "skjul-yrke": false,
+    "skjul-kompetanse": false,
+    "skjul-utdanning": false,
+    "skjul-arbeidserfaring": false,
+    "skjul-spraak": false,
+    "skjul-sted": false,
+    "skjul-navkontor": false,
+    "skjul-hovedmal": false,
+    "vis-matchforklaring": true,
+    "ingen-utdanning-filter": false,
+    "vis-lenke-til-kandidatsok-next": true,
+    "vis-notater-arbeidsgiver": true,
+    "vis-last-ned-cv-lenke": true,
+    "vis-tilretteleggingsbehov-kategorier": true
+}
