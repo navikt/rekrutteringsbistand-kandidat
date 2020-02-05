@@ -108,7 +108,6 @@ const VisKandidatCv = ({ cv }) => (
                                 {(f.tittel || f.type) && (
                                     <Element>{f.tittel ? f.tittel : f.type}</Element>
                                 )}
-                                {f.beskrivelse && <Normaltekst>{f.beskrivelse}</Normaltekst>}
                             </Row>
                         ))}
                     </Column>
