@@ -317,7 +317,7 @@ class VisKandidat extends React.Component {
                         <VisKandidatJobbprofil cv={cv} />
                         <VisKandidatCv cv={cv} />
                         {cv.tilretteleggingsbehov && (
-                            <VisKandidatTilretteleggingsbehov aktorId={cv.aktorId} />
+                            <VisKandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />
                         )}
                         <div className="navigering-forrige-neste_wrapper">
                             <VisKandidatForrigeNeste
