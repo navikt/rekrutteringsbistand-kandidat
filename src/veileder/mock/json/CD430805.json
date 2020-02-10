@@ -518,5 +518,5 @@
         { "fraDato": "2004-01-02", "tilDato": null, "rolle": "ss", "beskrivelse": "sas" }
     ],
     "fodselsnummer": "21067630103",
-    "tilretteleggingsbehov": false
+    "tilretteleggingsbehov": true
 }
