@@ -263,6 +263,7 @@ export const fromUrlQuery = url => {
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
+
     return stateFromUrl;
 };
 

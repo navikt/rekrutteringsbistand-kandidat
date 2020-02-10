@@ -32,6 +32,7 @@ import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -242,6 +243,7 @@ class ResultatVisning extends React.Component {
                                         kandidatlisteId={kandidatlisteId}
                                         stillingsId={stillingsId}
                                     />
+                                    <FantFåKandidater />
                                 </div>
                             </Column>
                         </Container>

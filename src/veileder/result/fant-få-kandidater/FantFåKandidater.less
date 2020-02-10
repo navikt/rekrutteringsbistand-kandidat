@@ -1,0 +1,59 @@
+.fant-få-kandidater {
+    background-color: #e6f4ef;
+    padding: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &__ikon {
+        margin-bottom: 2rem;
+    }
+
+    &__overskrift {
+        margin-bottom: 1rem;
+    }
+
+    &__ingress {
+        margin-bottom: 4rem;
+    }
+
+    &__ikon,
+    &__overskrift,
+    &__ingress {
+        align-self: center;
+    }
+
+    &__valgte-kriterier {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    &__kriterie {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 2.625rem;
+        background-color: white;
+        border: 2px solid #98f1d7;
+
+        margin-top: 1rem;
+        &:not(:last-child) {
+            margin-right: 1rem;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            svg circle {
+                stroke: #98f1d7;
+                fill: #98f1d7;
+            }
+        }
+    }
+
+    &__kriterie-label {
+        margin-right: 1rem;
+    }
+}
