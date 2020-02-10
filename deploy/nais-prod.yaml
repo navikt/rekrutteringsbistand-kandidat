@@ -48,5 +48,5 @@ spec:
           value: https://api-gw.adeo.no/pam-search-api/
         - name: PAMPORTAL_URL
           value: https://arbeidsplassen.nav.no/
-        - name: FINN_KANDIDAT_URL
-          value: https://arbeidsgiver.nais.adeo.no/finn-kandidat
+        - name: ARBEIDSRETTET_OPPFOLGING_URL
+          value: https://app.adeo.no/veilarbpersonflatefs

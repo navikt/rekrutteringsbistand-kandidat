@@ -73,6 +73,7 @@ const fasitProperties = {
     API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
+    ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -82,6 +83,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
+        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
         `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, err => {
@@ -183,11 +185,6 @@ const startServer = html => {
     server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) =>
         res.sendStatus(200)
     );
-
-    server.get('/kandidater/finn-kandidat/kandidat/:aktorId', (req, res) => {
-        const url = `${process.env.FINN_KANDIDAT_URL}/kandidat/${req.params.aktorId}?inngang=kandidatsok`;
-        res.redirect(url);
-    });
 
     server.use(
         '/kandidater/rest/',
