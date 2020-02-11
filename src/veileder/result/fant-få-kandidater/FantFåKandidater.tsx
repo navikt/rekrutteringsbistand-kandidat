@@ -77,7 +77,7 @@ const FantFåKandidater = (props: Props) => {
         props.search();
     };
 
-    const kriterier = useKriterier(
+    const [kriterier, kriterierInnenTilretteleggingsbehov] = useKriterier(
         props.stillinger,
         props.geografiListKomplett,
         props.kategorier,
@@ -111,6 +111,14 @@ const FantFåKandidater = (props: Props) => {
                         Disse kriteriene er tatt med fra:
                     </Normaltekst>
                     <ValgteKriterier kriterier={kriterier} />
+                </>
+            )}
+            {kriterierInnenTilretteleggingsbehov.length > 0 && (
+                <>
+                    <Normaltekst className="fant-få-kandidater__valgte-kriterier-tittel">
+                        Disse kriteriene er valgt for tilretteleggingsbehov:
+                    </Normaltekst>
+                    <ValgteKriterier kriterier={kriterierInnenTilretteleggingsbehov} />
                 </>
             )}
             <Knapp onClick={fjernAlleKriterier}>Slett alle kriterier</Knapp>

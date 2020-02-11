@@ -20,8 +20,11 @@ const useKriterier = (
     onRemoveGeografi: (geografi: Geografi) => void,
     onRemoveTilretteleggingsbehov: () => void,
     onRemoveKategori: (kategori: Kategori) => void
-): Kriterie[] => {
+): [Kriterie[], Kriterie[]] => {
     const [kriterier, setKriterier] = useState<Kriterie[]>([]);
+    const [kriterierInnenTilretteleggingsbehov, setKriterierInnenTilretteleggingsbehov] = useState<
+        Kriterie[]
+    >([]);
 
     useEffect(() => {
         const stillingKriterier = stillinger.map(stilling => ({
@@ -48,7 +51,7 @@ const useKriterier = (
 
         const kategoriKriterier = kategorier.map(kategori => ({
             value: kategori,
-            label: `Behov: ${getKortKategoriLabel(kategori)}`,
+            label: getKortKategoriLabel(kategori),
             onRemove: onRemoveKategori,
         }));
 
@@ -56,8 +59,9 @@ const useKriterier = (
             ...stillingKriterier,
             ...geografiKriterier,
             ...tilretteleggingsbehovKriterier,
-            ...kategoriKriterier,
         ]);
+
+        setKriterierInnenTilretteleggingsbehov([...kategoriKriterier]);
     }, [
         stillinger,
         geografi,
@@ -69,7 +73,7 @@ const useKriterier = (
         onRemoveKategori,
     ]);
 
-    return kriterier;
+    return [kriterier, kriterierInnenTilretteleggingsbehov];
 };
 
 export default useKriterier;
