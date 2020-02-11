@@ -2,40 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './FantFåKandidater.less';
 import { Innholdstittel, Normaltekst, Ingress } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper';
-import { Merkelapp } from 'pam-frontend-merkelapper';
 import { connect } from 'react-redux';
 import { SEARCH, SET_STATE, REMOVE_KOMPETANSE_SUGGESTIONS } from '../../sok/searchReducer';
 import {
     TOGGLE_TILRETTELEGGINGSBEHOV,
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
 } from '../../sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
-import Kategori from '../../sok/tilretteleggingsbehov/Kategori';
+import Kategori, { getKortKategoriLabel } from '../../sok/tilretteleggingsbehov/Kategori';
 import { hentQueryUtenKriterier } from '../ResultatVisning';
 import Forstørrelsesglass from './Forstørrelsesglass';
-
-type Kriterie = {
-    value: any;
-    label: string;
-    onRemove: () => void;
-};
-
-const ValgteKriterier = ({ kriterier }: { kriterier: Kriterie[] }) => {
-    return (
-        <div className="fant-få-kandidater__valgte-kriterier">
-            {kriterier.map(kriterie => {
-                return (
-                    <Merkelapp
-                        key={kriterie.label}
-                        value={kriterie.value}
-                        onRemove={kriterie.onRemove}
-                    >
-                        {kriterie.label}
-                    </Merkelapp>
-                );
-            })}
-        </div>
-    );
-};
+import ValgteKriterier, { Kriterie } from './ValgteKriterier';
 
 type Props = {
     antallKandidater: number;
@@ -83,7 +59,7 @@ const FantFåKandidater = (props: Props) => {
 
         const kategoriKriterier = kategorier.map(kategori => ({
             value: kategori,
-            label: storForbokstav(kategori),
+            label: getKortKategoriLabel(kategori),
             onRemove: () => {
                 changeTilretteleggingsbehovKategorier(kategorier.filter(k => k !== kategori));
                 search();
