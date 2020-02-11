@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react';
 
 interface Props {
-    children: string,
-    className?: string,
-    id?: string
+    children: string;
+    className?: string;
+    id?: string;
 }
 
 const Sidetittel: FunctionComponent<Props> = ({ children, className = '', id = 'sidetittel' }) => (

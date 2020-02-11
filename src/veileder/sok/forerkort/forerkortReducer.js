@@ -14,7 +14,7 @@ export const TOGGLE_FORERKORT_PANEL_OPEN = 'TOGGLE_FORERKORT_PANEL_OPEN';
 
 const initialState = {
     forerkortList: [],
-    forerkortPanelOpen: false
+    forerkortPanelOpen: false,
 };
 
 export default function forerkortReducer(state = initialState, action) {
@@ -24,27 +24,24 @@ export default function forerkortReducer(state = initialState, action) {
                 ...state,
                 forerkortList: action.query.forerkort || [],
                 forerkortPanelOpen:
-                    harEnParameter(action.query.forerkort) || state.forerkortPanelOpen
+                    harEnParameter(action.query.forerkort) || state.forerkortPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_FORERKORT:
             return {
                 ...state,
-                forerkortList: state.forerkortList.includes(action.value) ?
-                    state.forerkortList :
-                    [
-                        ...state.forerkortList,
-                        action.value
-                    ]
+                forerkortList: state.forerkortList.includes(action.value)
+                    ? state.forerkortList
+                    : [...state.forerkortList, action.value],
             };
         case REMOVE_SELECTED_FORERKORT:
             return {
                 ...state,
-                forerkortList: state.forerkortList.filter((k) => k !== action.value)
+                forerkortList: state.forerkortList.filter(k => k !== action.value),
             };
         case TOGGLE_FORERKORT_PANEL_OPEN:
             return {
                 ...state,
-                forerkortPanelOpen: !state.forerkortPanelOpen
+                forerkortPanelOpen: !state.forerkortPanelOpen,
             };
         default:
             return state;

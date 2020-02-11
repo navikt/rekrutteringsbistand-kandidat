@@ -6,7 +6,6 @@ import KandidaterTableRow from './resultstable/KandidaterTableRow';
 import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
 import cvPropTypes from '../../felles/PropTypes';
 
-
 export default function KandidaterTabell({
     antallResultater,
     onFlereResultaterClick,
@@ -17,7 +16,7 @@ export default function KandidaterTabell({
     onToggleMarkeringAlleKandidater,
     valgtKandidatNr,
     kandidatlisteId,
-    stillingsId
+    stillingsId,
 }) {
     return (
         <div className="resultatvisning">
@@ -29,7 +28,7 @@ export default function KandidaterTabell({
             />
 
             <div>
-                {kandidater.slice(0, antallResultater).map((kandidat) => (
+                {kandidater.slice(0, antallResultater).map(kandidat => (
                     <KandidaterTableRow
                         kandidat={kandidat}
                         key={kandidat.arenaKandidatnr}
@@ -44,16 +43,14 @@ export default function KandidaterTabell({
             </div>
             <div className="buttons--kandidatervisning">
                 {antallResultater < totaltAntallTreff && (
-                    <Knapp
-                        type="hoved"
-                        mini
-                        onClick={onFlereResultaterClick}
-                    >
+                    <Knapp type="hoved" mini onClick={onFlereResultaterClick}>
                         Se flere kandidater
                     </Knapp>
                 )}
                 <Element className="antall-treff-kandidatervisning">
-                    Viser {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av {totaltAntallTreff}
+                    Viser{' '}
+                    {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av{' '}
+                    {totaltAntallTreff}
                 </Element>
             </div>
         </div>
@@ -62,7 +59,7 @@ export default function KandidaterTabell({
 
 KandidaterTabell.defaultProps = {
     kandidatlisteId: undefined,
-    stillingsId: undefined
+    stillingsId: undefined,
 };
 
 KandidaterTabell.propTypes = {
@@ -75,5 +72,5 @@ KandidaterTabell.propTypes = {
     onToggleMarkeringAlleKandidater: PropTypes.func.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
     kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string
+    stillingsId: PropTypes.string,
 };

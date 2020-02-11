@@ -14,7 +14,7 @@ export const TOGGLE_STILLING_PANEL_OPEN = 'TOGGLE_STILLING_PANEL_OPEN';
 
 const initialState = {
     stillinger: [],
-    stillingPanelOpen: false
+    stillingPanelOpen: false,
 };
 
 export default function stillingReducer(state = initialState, action) {
@@ -23,27 +23,25 @@ export default function stillingReducer(state = initialState, action) {
             return {
                 ...state,
                 stillinger: action.query.stillinger || [],
-                stillingPanelOpen: harEnParameter(action.query.stillinger) || state.stillingPanelOpen
+                stillingPanelOpen:
+                    harEnParameter(action.query.stillinger) || state.stillingPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_STILLING:
             return {
                 ...state,
-                stillinger: state.stillinger.includes(action.value) ?
-                    state.stillinger :
-                    [
-                        ...state.stillinger,
-                        action.value
-                    ]
+                stillinger: state.stillinger.includes(action.value)
+                    ? state.stillinger
+                    : [...state.stillinger, action.value],
             };
         case REMOVE_SELECTED_STILLING:
             return {
                 ...state,
-                stillinger: state.stillinger.filter((y) => y !== action.value)
+                stillinger: state.stillinger.filter(y => y !== action.value),
             };
         case TOGGLE_STILLING_PANEL_OPEN:
             return {
                 ...state,
-                stillingPanelOpen: !state.stillingPanelOpen
+                stillingPanelOpen: !state.stillingPanelOpen,
             };
         default:
             return state;

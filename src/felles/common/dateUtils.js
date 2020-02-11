@@ -1,5 +1,17 @@
-export const months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September',
-    'Oktober', 'November', 'Desember'];
+export const months = [
+    'Januar',
+    'Februar',
+    'Mars',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+];
 
 const ISO_8601_DATE = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d\d\d)|Z)?)?)?)?$/i;
 
@@ -24,24 +36,17 @@ export function toIsoDateString(year, month) {
     return isoDateString;
 }
 
-const doubleDigits = (s) => (
-    s.length === 1 ? `0${s}` : s
-);
+const doubleDigits = s => (s.length === 1 ? `0${s}` : s);
 
-export const formatterDato = (date) => (
+export const formatterDato = date =>
     [
         doubleDigits(`${date.getDate()}`),
         doubleDigits(`${date.getMonth() + 1}`),
-        `${date.getFullYear()}`
-    ].join('.')
-);
+        `${date.getFullYear()}`,
+    ].join('.');
 
-export const formatterTid = (datetime) => (
-    [
-        doubleDigits(`${datetime.getHours()}`),
-        doubleDigits(`${datetime.getMinutes()}`)
-    ].join('.')
-);
+export const formatterTid = datetime =>
+    [doubleDigits(`${datetime.getHours()}`), doubleDigits(`${datetime.getMinutes()}`)].join('.');
 
 export function formatISOString(isoString, format = 'MMMM YYYY') {
     if (isValidISOString(isoString)) {

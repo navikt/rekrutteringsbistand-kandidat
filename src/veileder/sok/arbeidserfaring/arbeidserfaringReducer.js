@@ -18,7 +18,7 @@ export const TOGGLE_ARBEIDSERFARING_PANEL_OPEN = 'TOGGLE_ARBEIDSERFARING_PANEL_O
 const initialState = {
     arbeidserfaringer: [],
     totalErfaring: [],
-    arbeidserfaringPanelOpen: false
+    arbeidserfaringPanelOpen: false,
 };
 
 export default function arbeidserfaringReducer(state = initialState, action) {
@@ -30,37 +30,34 @@ export default function arbeidserfaringReducer(state = initialState, action) {
                 totalErfaring: action.query.totalErfaring || [],
                 arbeidserfaringPanelOpen:
                     harEnParameter(action.query.arbeidserfaringer, action.query.totalErfaring) ||
-                    state.arbeidserfaringPanelOpen
+                    state.arbeidserfaringPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
             return {
                 ...state,
-                arbeidserfaringer: state.arbeidserfaringer.includes(action.value) ?
-                    state.arbeidserfaringer :
-                    [
-                        ...state.arbeidserfaringer,
-                        action.value
-                    ]
+                arbeidserfaringer: state.arbeidserfaringer.includes(action.value)
+                    ? state.arbeidserfaringer
+                    : [...state.arbeidserfaringer, action.value],
             };
         case REMOVE_SELECTED_ARBEIDSERFARING:
             return {
                 ...state,
-                arbeidserfaringer: state.arbeidserfaringer.filter((y) => y !== action.value)
+                arbeidserfaringer: state.arbeidserfaringer.filter(y => y !== action.value),
             };
         case CHECK_TOTAL_ERFARING:
             return {
                 ...state,
-                totalErfaring: [...state.totalErfaring, action.value]
+                totalErfaring: [...state.totalErfaring, action.value],
             };
         case UNCHECK_TOTAL_ERFARING:
             return {
                 ...state,
-                totalErfaring: state.totalErfaring.filter((te) => te !== action.value)
+                totalErfaring: state.totalErfaring.filter(te => te !== action.value),
             };
         case TOGGLE_ARBEIDSERFARING_PANEL_OPEN:
             return {
                 ...state,
-                arbeidserfaringPanelOpen: !state.arbeidserfaringPanelOpen
+                arbeidserfaringPanelOpen: !state.arbeidserfaringPanelOpen,
             };
         default:
             return state;

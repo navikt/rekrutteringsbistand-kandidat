@@ -4,14 +4,14 @@ import * as React from 'react';
 export enum AlertStripeType {
     SUCCESS = 'SUCCESS',
     FAILURE = 'FAILURE',
-    LUKKET = 'LUKKET'
+    LUKKET = 'LUKKET',
 }
 
 interface State {
-    feilmelding: AlertStripeState,
-    nextId: number,
-    callbackIdHide?: number,
-    callbackIdClear?: number
+    feilmelding: AlertStripeState;
+    nextId: number;
+    callbackIdHide?: number;
+    callbackIdClear?: number;
 }
 
 const reducer: (State, any) => State = (state, action) => {
@@ -23,9 +23,9 @@ const reducer: (State, any) => State = (state, action) => {
                     innhold: action.innhold,
                     kind: AlertStripeType.SUCCESS,
                     synlig: true,
-                    id: action.id
+                    id: action.id,
                 },
-                nextId: state.nextId + 1
+                nextId: state.nextId + 1,
             };
         case 'SET_FAILURE':
             return {
@@ -34,9 +34,9 @@ const reducer: (State, any) => State = (state, action) => {
                     innhold: action.innhold,
                     kind: AlertStripeType.FAILURE,
                     synlig: true,
-                    id: action.id
+                    id: action.id,
                 },
-                nextId: state.nextId + 1
+                nextId: state.nextId + 1,
             };
 
         case 'HIDE':
@@ -45,8 +45,8 @@ const reducer: (State, any) => State = (state, action) => {
                     ...state,
                     feilmelding: {
                         ...state.feilmelding,
-                        synlig: false
-                    }
+                        synlig: false,
+                    },
                 };
             }
             return state;
@@ -56,8 +56,8 @@ const reducer: (State, any) => State = (state, action) => {
                 return {
                     ...state,
                     feilmelding: {
-                        kind: AlertStripeType.LUKKET
-                    }
+                        kind: AlertStripeType.LUKKET,
+                    },
                 };
             }
             return state;
@@ -68,7 +68,7 @@ const reducer: (State, any) => State = (state, action) => {
             }
             return {
                 ...state,
-                callbackIdHide: action.callbackId
+                callbackIdHide: action.callbackId,
             };
 
         case 'SET_CALLBACK_ID_CLEAR':
@@ -77,7 +77,7 @@ const reducer: (State, any) => State = (state, action) => {
             }
             return {
                 ...state,
-                callbackIdClear: action.callbackId
+                callbackIdClear: action.callbackId,
             };
 
         case 'CLEAR_ALL':
@@ -87,39 +87,42 @@ const reducer: (State, any) => State = (state, action) => {
             return {
                 ...state,
                 feilmelding: {
-                    kind: AlertStripeType.LUKKET
-                }
+                    kind: AlertStripeType.LUKKET,
+                },
             };
 
         default:
             return state;
-
     }
 };
 
 interface ApenAlertStripeState {
-    kind: AlertStripeType.SUCCESS | AlertStripeType.FAILURE
+    kind: AlertStripeType.SUCCESS | AlertStripeType.FAILURE;
     innhold: string | React.ReactNode;
     synlig: boolean;
-    id: number
+    id: number;
 }
 
 interface LukketAlertStripeState {
-    kind: AlertStripeType.LUKKET
+    kind: AlertStripeType.LUKKET;
 }
 
-export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState
+export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState;
 
 type StringOrNode = string | React.ReactNode;
 
-export const useTimeoutState: (timeoutMillis?: number) => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = (timeoutMillis = 5000) => {
+export const useTimeoutState: (
+    timeoutMillis?: number
+) => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = (
+    timeoutMillis = 5000
+) => {
     const [state, dispatch] = useReducer(reducer, {
         feilmelding: {
-            kind: AlertStripeType.LUKKET
+            kind: AlertStripeType.LUKKET,
         },
         nextId: 0,
         callbackIdHide: undefined,
-        callbackIdClear: undefined
+        callbackIdClear: undefined,
     });
 
     const setMelding = (innhold: string, type: string) => {

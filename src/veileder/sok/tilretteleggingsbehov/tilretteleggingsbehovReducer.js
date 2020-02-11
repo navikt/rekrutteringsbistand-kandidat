@@ -15,7 +15,7 @@ export const TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN = 'TOGGLE_TILRETTELEGGINGSB
 const initialState = {
     harTilretteleggingsbehov: false,
     tilretteleggingsbehovPanelOpen: false,
-    kategorier: []
+    kategorier: [],
 };
 
 export default function tilretteleggingsbehovReducer(state = initialState, action) {
@@ -30,25 +30,25 @@ export default function tilretteleggingsbehovReducer(state = initialState, actio
                 tilretteleggingsbehovPanelOpen:
                     harEnParameter(kategorier) ||
                     tilretteleggingsbehov ||
-                    state.tilretteleggingsbehovPanelOpen
+                    state.tilretteleggingsbehovPanelOpen,
             };
         }
         case TOGGLE_TILRETTELEGGINGSBEHOV:
             return {
                 ...state,
                 harTilretteleggingsbehov: action.harTilretteleggingsbehov,
-                kategorier: []
+                kategorier: [],
             };
         case TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN:
             return {
                 ...state,
-                tilretteleggingsbehovPanelOpen: !state.tilretteleggingsbehovPanelOpen
+                tilretteleggingsbehovPanelOpen: !state.tilretteleggingsbehovPanelOpen,
             };
         case CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER:
             return {
                 ...state,
                 kategorier: action.kategorier,
-                harTilretteleggingsbehov: true
+                harTilretteleggingsbehov: true,
             };
         default:
             return state;

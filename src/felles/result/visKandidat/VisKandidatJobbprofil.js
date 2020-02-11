@@ -18,7 +18,9 @@ const VisKandidatJobbprofil = ({ cv }) => (
         >
             <Row className="panel--jobbprofil__row">
                 <Column xs="12">
-                    <Normaltekst>Kandidatens jobbprofil inneholder ønsker og krav for fremtidige jobber.</Normaltekst>
+                    <Normaltekst>
+                        Kandidatens jobbprofil inneholder ønsker og krav for fremtidige jobber.
+                    </Normaltekst>
                 </Column>
             </Row>
             {cv.yrkeJobbonsker && cv.yrkeJobbonsker.length !== 0 && (
@@ -28,12 +30,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.yrkeJobbonsker
-                                    .map((u) => (
-                                        u.styrkBeskrivelse
-                                    ))
-                            }
+                            tekstElementer={cv.yrkeJobbonsker.map(u => u.styrkBeskrivelse)}
                         />
                     </Column>
                 </Row>
@@ -45,12 +42,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.kompetanse
-                                    .map((u) => (
-                                        u.kompetanseKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.kompetanse.map(u => u.kompetanseKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -62,12 +54,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.geografiJobbonsker
-                                    .map((u) => (
-                                        u.geografiKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.geografiJobbonsker.map(u => u.geografiKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -79,12 +66,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.omfangJobbprofil
-                                    .map((u) => (
-                                        u.heltidDeltidKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.omfangJobbprofil.map(u => u.heltidDeltidKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -96,12 +78,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.arbeidstidJobbprofil
-                                    .map((u) => (
-                                        u.arbeidstidKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.arbeidstidJobbprofil.map(u => u.arbeidstidKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -113,12 +90,9 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.arbeidstidsordningJobbprofil
-                                    .map((u) => (
-                                        u.arbeidstidsordningKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.arbeidstidsordningJobbprofil.map(
+                                u => u.arbeidstidsordningKodeTekst
+                            )}
                         />
                     </Column>
                 </Row>
@@ -130,34 +104,36 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={
-                                cv.ansettelsesformJobbprofil
-                                    .map((u) => (
-                                        u.ansettelsesformKodeTekst
-                                    ))
-                            }
+                            tekstElementer={cv.ansettelsesformJobbprofil.map(
+                                u => u.ansettelsesformKodeTekst
+                            )}
                         />
                     </Column>
                 </Row>
             )}
-            {cv.oppstartKode && cv.oppstartKode.length !== 0 && OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
-                <Row className="panel--jobbprofil__row">
-                    <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Når er kandidaten <br />ledig for ny jobb:</Element>
-                    </Column>
-                    <Column xs="12" sm="8">
-                        <Normaltekst>{OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label}</Normaltekst>
-                    </Column>
-                </Row>
-            )}
+            {cv.oppstartKode &&
+                cv.oppstartKode.length !== 0 &&
+                OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
+                    <Row className="panel--jobbprofil__row">
+                        <Column xs="12" sm="4">
+                            <Element className="jobbprofil__overskrift">
+                                Når er kandidaten <br />
+                                ledig for ny jobb:
+                            </Element>
+                        </Column>
+                        <Column xs="12" sm="8">
+                            <Normaltekst>
+                                {OPPSTARTSKODER[cv.oppstartKode.toUpperCase()].label}
+                            </Normaltekst>
+                        </Column>
+                    </Row>
+                )}
         </Ekspanderbartpanel>
     </div>
 );
 
-
 VisKandidatJobbprofil.propTypes = {
-    cv: cvPropTypes.isRequired
+    cv: cvPropTypes.isRequired,
 };
 
 export default VisKandidatJobbprofil;
-

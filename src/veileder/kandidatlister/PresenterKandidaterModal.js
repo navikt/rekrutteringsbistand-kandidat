@@ -7,12 +7,14 @@ import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 
 const initalState = () => ({
     beskjed: '',
-    mailadresser: [{
-        id: 0,
-        value: '',
-        errorTekst: undefined,
-        show: true
-    }]
+    mailadresser: [
+        {
+            id: 0,
+            value: '',
+            errorTekst: undefined,
+            show: true,
+        },
+    ],
 });
 
 export default class PresenterKandidaterModal extends React.Component {
@@ -21,40 +23,38 @@ export default class PresenterKandidaterModal extends React.Component {
         this.state = initalState();
     }
 
-    onMailadresseChange = (id) => (
-        (e) => {
-            this.setState({
-                mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
-                    if (mailadresseFelt.id === id) {
-                        return {
-                            ...mailadresseFelt,
-                            value: e.target.value,
-                            errorTekst: undefined
-                        };
-                    }
-                    return mailadresseFelt;
-                })
-            });
-        }
-    );
-
-    onBeskjedChange = (e) => {
+    onMailadresseChange = id => e => {
         this.setState({
-            beskjed: e.target.value
-        });
-    };
-
-    showInputFelt = (id) => {
-        this.setState({
-            mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
+            mailadresser: this.state.mailadresser.map(mailadresseFelt => {
                 if (mailadresseFelt.id === id) {
                     return {
                         ...mailadresseFelt,
-                        show: true
+                        value: e.target.value,
+                        errorTekst: undefined,
                     };
                 }
                 return mailadresseFelt;
-            })
+            }),
+        });
+    };
+
+    onBeskjedChange = e => {
+        this.setState({
+            beskjed: e.target.value,
+        });
+    };
+
+    showInputFelt = id => {
+        this.setState({
+            mailadresser: this.state.mailadresser.map(mailadresseFelt => {
+                if (mailadresseFelt.id === id) {
+                    return {
+                        ...mailadresseFelt,
+                        show: true,
+                    };
+                }
+                return mailadresseFelt;
+            }),
         });
     };
 
@@ -65,43 +65,51 @@ export default class PresenterKandidaterModal extends React.Component {
                 id,
                 value: '',
                 errorTekst: undefined,
-                show: false
-            })
+                show: false,
+            }),
         });
-        setTimeout(() => { this.showInputFelt(id); }, 10);
+        setTimeout(() => {
+            this.showInputFelt(id);
+        }, 10);
     };
 
     validerOgLagre = () => {
-        const validerteMailadresser = this.state.mailadresser.map((mailadresseFelt) => {
+        const validerteMailadresser = this.state.mailadresser.map(mailadresseFelt => {
             if (mailadresseFelt.id === 0 && !mailadresseFelt.value.trim()) {
                 return {
                     ...mailadresseFelt,
-                    errorTekst: 'Feltet er påkrevd'
+                    errorTekst: 'Feltet er påkrevd',
                 };
             } else if (mailadresseFelt.value.trim() && !mailadresseFelt.value.includes('@')) {
                 return {
                     ...mailadresseFelt,
-                    errorTekst: 'Mailadresse må inneholde @'
+                    errorTekst: 'Mailadresse må inneholde @',
                 };
-            } else if (mailadresseFelt.value.trim() && mailadresseFelt.value.split('@').length > 2) {
+            } else if (
+                mailadresseFelt.value.trim() &&
+                mailadresseFelt.value.split('@').length > 2
+            ) {
                 return {
                     ...mailadresseFelt,
-                    errorTekst: 'Du kan kun skrive én e-postadresse. Bruk "+ Legg til flere" for å dele listen med flere'
+                    errorTekst:
+                        'Du kan kun skrive én e-postadresse. Bruk "+ Legg til flere" for å dele listen med flere',
                 };
             }
             return mailadresseFelt;
         });
 
-        if (validerteMailadresser.filter((mailadresseFelt) => mailadresseFelt.errorTekst).length !== 0) {
+        if (
+            validerteMailadresser.filter(mailadresseFelt => mailadresseFelt.errorTekst).length !== 0
+        ) {
             this.setState({
-                mailadresser: validerteMailadresser
+                mailadresser: validerteMailadresser,
             });
         } else {
             this.props.onSubmit(
                 this.state.beskjed,
                 this.state.mailadresser
-                    .map((mailadresseFelt) => mailadresseFelt.value)
-                    .filter((mailadresse) => mailadresse.trim())
+                    .map(mailadresseFelt => mailadresseFelt.value)
+                    .filter(mailadresse => mailadresse.trim())
             );
         }
     };
@@ -117,29 +125,46 @@ export default class PresenterKandidaterModal extends React.Component {
                 appElement={document.getElementById('app')}
             >
                 <div className="wrapper">
-                    {
-                        antallKandidater === 1
-                            ? <Systemtittel>Del 1 kandidat med arbeidsgiver</Systemtittel>
-                            : <Systemtittel>{`Del ${antallKandidater} kandidater med arbeidsgiver`}</Systemtittel>
-                    }
+                    {antallKandidater === 1 ? (
+                        <Systemtittel>Del 1 kandidat med arbeidsgiver</Systemtittel>
+                    ) : (
+                        <Systemtittel>{`Del ${antallKandidater} kandidater med arbeidsgiver`}</Systemtittel>
+                    )}
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
-                        Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling og lenke for å logge inn.
-                        Etter innlogging kan arbeidsgiveren se kandidatlisten.
+                        Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling
+                        og lenke for å logge inn. Etter innlogging kan arbeidsgiveren se
+                        kandidatlisten.
                     </Normaltekst>
                     <div className="mailadresser">
-                        { this.state.mailadresser.map((mailadresseFelt) => (
+                        {this.state.mailadresser.map(mailadresseFelt => (
                             <Input
-                                className={`skjemaelement--pink${mailadresseFelt.show ? ' show' : ''}`}
+                                className={`skjemaelement--pink${
+                                    mailadresseFelt.show ? ' show' : ''
+                                }`}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
-                                label={mailadresseFelt.id === 0 ? 'E-postadresse til arbeidsgiver*' : ''}
-                                placeholder={mailadresseFelt.id === 0 ? 'For eksempel: kari.nordmann@firma.no' : undefined}
+                                label={
+                                    mailadresseFelt.id === 0
+                                        ? 'E-postadresse til arbeidsgiver*'
+                                        : ''
+                                }
+                                placeholder={
+                                    mailadresseFelt.id === 0
+                                        ? 'For eksempel: kari.nordmann@firma.no'
+                                        : undefined
+                                }
                                 value={mailadresseFelt.value}
                                 onChange={this.onMailadresseChange(mailadresseFelt.id)}
-                                feil={mailadresseFelt.errorTekst && { feilmelding: mailadresseFelt.errorTekst }}
+                                feil={
+                                    mailadresseFelt.errorTekst && {
+                                        feilmelding: mailadresseFelt.errorTekst,
+                                    }
+                                }
                             />
                         ))}
-                        <Flatknapp mini onClick={this.leggTilMailadressefelt}>+ Legg til flere</Flatknapp>
+                        <Flatknapp mini onClick={this.leggTilMailadressefelt}>
+                            + Legg til flere
+                        </Flatknapp>
                     </div>
                     <div className="skjemaelement--pink">
                         <Textarea
@@ -151,7 +176,9 @@ export default class PresenterKandidaterModal extends React.Component {
                     </div>
                     <div>
                         <Hovedknapp onClick={this.validerOgLagre}>Del</Hovedknapp>
-                        <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>Avbryt</Flatknapp>
+                        <Flatknapp className="avbryt--knapp" onClick={this.props.onClose}>
+                            Avbryt
+                        </Flatknapp>
                     </div>
                 </div>
             </NavFrontendModal>
@@ -159,12 +186,12 @@ export default class PresenterKandidaterModal extends React.Component {
     }
 }
 PresenterKandidaterModal.defaultProps = {
-    vis: true
+    vis: true,
 };
 
 PresenterKandidaterModal.propTypes = {
     vis: PropTypes.bool,
     antallKandidater: PropTypes.number.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
 };

@@ -38,11 +38,11 @@ class ErrorSide extends React.Component {
 ErrorSide.propTypes = {
     fjernError: PropTypes.func.isRequired,
     error: PropTypes.shape({
-        status: PropTypes.number
+        status: PropTypes.number,
     }).isRequired,
     location: PropTypes.shape({
-        pathname: PropTypes.string
-    }).isRequired
+        pathname: PropTypes.string,
+    }).isRequired,
 };
 
 export default withRouter(ErrorSide);

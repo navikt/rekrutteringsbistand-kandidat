@@ -14,9 +14,7 @@ const SokekriteriePanel = ({ children, tittel, apen, onClick, id }) => {
                 onClick={onClick}
             >
                 <div className="SokekriteriePanel__flex-wrapper">
-                    <span className="SokekriteriePanel__heading">
-                        {tittel}
-                    </span>
+                    <span className="SokekriteriePanel__heading">{tittel}</span>
                     <NavFrontendChevron type={apen ? 'opp' : 'ned'} />
                 </div>
             </button>
@@ -34,7 +32,7 @@ SokekriteriePanel.propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]).isRequired,
     tittel: PropTypes.string.isRequired,
     apen: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
 };
 
 export default SokekriteriePanel;

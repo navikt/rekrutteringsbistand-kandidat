@@ -1,23 +1,28 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchArbeidsgivereEnhetsregister, fetchArbeidsgivereEnhetsregisterOrgnr } from '../../api.ts';
+import {
+    fetchArbeidsgivereEnhetsregister,
+    fetchArbeidsgivereEnhetsregisterOrgnr,
+} from '../../api.ts';
 import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
 
-export const FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER = 'FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER';
-export const FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS = 'FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS';
+export const FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER =
+    'FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER';
+export const FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS =
+    'FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS';
 
-export const CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER = 'CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER';
-
+export const CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER =
+    'CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER';
 
 /** *********************************************************
  * REDUCER
  ********************************************************* */
 
 const initialState = {
-    suggestions: []
+    suggestions: [],
 };
 
 export default function enhetsregisterReducer(state = initialState, action) {
@@ -25,12 +30,12 @@ export default function enhetsregisterReducer(state = initialState, action) {
         case FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS:
             return {
                 ...state,
-                suggestions: action.suggestions
+                suggestions: action.suggestions,
             };
         case CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER:
             return {
                 ...state,
-                suggestions: []
+                suggestions: [],
             };
         default:
             return state;
@@ -54,19 +59,21 @@ function* fetchTypeAheadSuggestions(action) {
             } else {
                 searchResponse = yield call(fetchArbeidsgivereEnhetsregister, value);
             }
-            const response = searchResponse.hits.hits.map((employer) => ({
+            const response = searchResponse.hits.hits.map(employer => ({
                 name: employer._source.navn,
                 orgnr: employer._source.organisasjonsnummer,
-                location: (employer._source.adresse ? {
-                    address: employer._source.adresse.adresse,
-                    postalCode: employer._source.adresse.postnummer,
-                    city: employer._source.adresse.poststed
-                } : undefined)
+                location: employer._source.adresse
+                    ? {
+                          address: employer._source.adresse.adresse,
+                          postalCode: employer._source.adresse.postnummer,
+                          city: employer._source.adresse.poststed,
+                      }
+                    : undefined,
             }));
             yield put({
                 type: FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER_SUCCESS,
                 suggestions: response,
-                query: value
+                query: value,
             });
         } catch (e) {
             if (e instanceof SearchApiError) {

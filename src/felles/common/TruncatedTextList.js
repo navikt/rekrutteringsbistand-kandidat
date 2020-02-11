@@ -9,13 +9,13 @@ class TruncatedTextList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hideText: true
+            hideText: true,
         };
     }
 
     hideTextToggle = () => {
         this.setState({
-            hideText: !this.state.hideText
+            hideText: !this.state.hideText,
         });
     };
 
@@ -25,15 +25,20 @@ class TruncatedTextList extends React.Component {
                 <div>
                     <Row className="row--truncatedTextList">
                         <Normaltekst type="normaltekst">
-                            {this.state.hideText ?
-                                this.props.tekstElementer.slice(0, this.props.antallElementerSomVisesMinimert)
-                                    .join(', ')
-                                : this.props.tekstElementer.join(', ')
-                            }
+                            {this.state.hideText
+                                ? this.props.tekstElementer
+                                      .slice(0, this.props.antallElementerSomVisesMinimert)
+                                      .join(', ')
+                                : this.props.tekstElementer.join(', ')}
                         </Normaltekst>
                     </Row>
                     <Row>
-                        <Knapp className="knapp--seAlle" type="standard" mini onClick={this.hideTextToggle}>
+                        <Knapp
+                            className="knapp--seAlle"
+                            type="standard"
+                            mini
+                            onClick={this.hideTextToggle}
+                        >
                             {this.state.hideText ? 'Se alle' : 'Skjul'}
                         </Knapp>
                     </Row>
@@ -53,12 +58,12 @@ class TruncatedTextList extends React.Component {
 }
 
 TruncatedTextList.defaultProps = {
-    antallElementerSomVisesMinimert: 10
+    antallElementerSomVisesMinimert: 10,
 };
 
 TruncatedTextList.propTypes = {
     tekstElementer: PropTypes.arrayOf(String).isRequired,
-    antallElementerSomVisesMinimert: PropTypes.number
+    antallElementerSomVisesMinimert: PropTypes.number,
 };
 
 export default TruncatedTextList;

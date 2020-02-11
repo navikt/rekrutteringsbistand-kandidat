@@ -16,7 +16,7 @@ export const TOGGLE_MINEKANDIDATER = 'TOGGLE_MINEKANDIDATER';
 const initialState = {
     navkontor: [],
     navkontorPanelOpen: false,
-    minekandidater: false
+    minekandidater: false,
 };
 
 export default function navkontorReducer(state = initialState, action) {
@@ -29,32 +29,29 @@ export default function navkontorReducer(state = initialState, action) {
                 navkontorPanelOpen:
                     harEnParameter(action.query.navkontor) ||
                     action.query.minekandidater ||
-                    state.navkontorPanelOpen
+                    state.navkontorPanelOpen,
             };
         case SELECT_TYPE_AHEAD_VALUE_NAVKONTOR:
             return {
                 ...state,
-                navkontor: state.navkontor.includes(action.value) ?
-                    state.navkontor :
-                    [
-                        ...state.navkontor,
-                        action.value
-                    ]
+                navkontor: state.navkontor.includes(action.value)
+                    ? state.navkontor
+                    : [...state.navkontor, action.value],
             };
         case REMOVE_SELECTED_NAVKONTOR:
             return {
                 ...state,
-                navkontor: state.navkontor.filter((s) => s !== action.value)
+                navkontor: state.navkontor.filter(s => s !== action.value),
             };
         case TOGGLE_NAVKONTOR_PANEL_OPEN:
             return {
                 ...state,
-                navkontorPanelOpen: !state.navkontorPanelOpen
+                navkontorPanelOpen: !state.navkontorPanelOpen,
             };
         case TOGGLE_MINEKANDIDATER:
             return {
                 ...state,
-                minekandidater: !state.minekandidater
+                minekandidater: !state.minekandidater,
             };
         default:
             return state;

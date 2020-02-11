@@ -7,7 +7,12 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 
-const OpprettModal = ({ opprettKandidatliste, resetStatusTilUnsaved, lagreStatus, onAvbrytClick }) => (
+const OpprettModal = ({
+    opprettKandidatliste,
+    resetStatusTilUnsaved,
+    lagreStatus,
+    onAvbrytClick,
+}) => (
     <NavFrontendModal
         isOpen
         contentLabel="modal opprett kandidatliste"
@@ -32,17 +37,20 @@ OpprettModal.propTypes = {
     opprettKandidatliste: PropTypes.func.isRequired,
     resetStatusTilUnsaved: PropTypes.func.isRequired,
     lagreStatus: PropTypes.string.isRequired,
-    onAvbrytClick: PropTypes.func.isRequired
+    onAvbrytClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus
+const mapStateToProps = state => ({
+    lagreStatus: state.kandidatlister.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    opprettKandidatliste: (kandidatlisteInfo) => { dispatch({ type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE, kandidatlisteInfo }); },
-    resetStatusTilUnsaved: () => { dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }); }
+const mapDispatchToProps = dispatch => ({
+    opprettKandidatliste: kandidatlisteInfo => {
+        dispatch({ type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE, kandidatlisteInfo });
+    },
+    resetStatusTilUnsaved: () => {
+        dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OpprettModal);
-

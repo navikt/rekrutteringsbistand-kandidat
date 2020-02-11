@@ -1,7 +1,7 @@
 export const HIDE_FEEDBACK = 'HIDE_FEEDBACK';
 
 const initialState = {
-    shouldShowFeedback: true
+    shouldShowFeedback: true,
 };
 
 export default function feedbackReducer(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function feedbackReducer(state = initialState, action) {
         case HIDE_FEEDBACK:
             return {
                 ...state,
-                shouldShowFeedback: false
+                shouldShowFeedback: false,
             };
         default:
             return state;

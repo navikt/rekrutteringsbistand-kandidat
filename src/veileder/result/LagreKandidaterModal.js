@@ -27,7 +27,7 @@ class LagreKandidaterModal extends React.Component {
             hentListeFeilmelding: undefined,
             ingenMarkerteListerFeilmelding: undefined,
             visKandidaterLagret: false,
-            visAlertstripeOnSuccess: false
+            visAlertstripeOnSuccess: false,
         };
     }
 
@@ -36,41 +36,49 @@ class LagreKandidaterModal extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.hentListerStatus !== this.props.hentListerStatus && this.props.hentListerStatus === HENT_STATUS.SUCCESS) {
+        if (
+            prevProps.hentListerStatus !== this.props.hentListerStatus &&
+            this.props.hentListerStatus === HENT_STATUS.SUCCESS
+        ) {
             this.setState({
                 kandidatlister: [
                     ...this.state.kandidatlister,
-                    ...this.props.egneKandidatlister.map((liste) => ({
+                    ...this.props.egneKandidatlister.map(liste => ({
                         ...liste,
-                        alleredeLagtTil: false
-                    }))
-                ]
+                        alleredeLagtTil: false,
+                    })),
+                ],
             });
         }
-        if (prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus) {
+        if (
+            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus
+        ) {
             if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.SUCCESS) {
                 this.setState({
                     showHentetListe: true,
                     hentListeFeilmelding: undefined,
-                    hentetListe: this.props.kandidatlisteMedAnnonsenummer
+                    hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
             } else if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.FINNES_IKKE) {
                 this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen finnes ikke'
+                    hentListeFeilmelding: 'Stillingen finnes ikke',
                 });
                 this.input.focus();
             } else if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.FAILURE) {
                 this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
-                    hentListeFeilmelding: 'En feil oppstod'
+                    hentListeFeilmelding: 'En feil oppstod',
                 });
                 this.input.focus();
             }
         }
-        if (this.state.visAlertstripeOnSuccess && this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS) {
+        if (
+            this.state.visAlertstripeOnSuccess &&
+            this.props.leggTilKandidaterStatus === LAGRE_STATUS.SUCCESS
+        ) {
             this.visAlertstripeLagreKandidater();
         }
     }
@@ -82,7 +90,7 @@ class LagreKandidaterModal extends React.Component {
         this.props.resetKandidatlisterSokekriterier();
     }
 
-    onKeyDown = (e) => {
+    onKeyDown = e => {
         switch (e.keyCode) {
             case 13: // Enter
                 e.preventDefault();
@@ -93,9 +101,9 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    onAnnonsenummerChange = (input) => {
+    onAnnonsenummerChange = input => {
         this.setState({
-            annonsenummer: input.target.value
+            annonsenummer: input.target.value,
         });
     };
 
@@ -108,11 +116,11 @@ class LagreKandidaterModal extends React.Component {
         clearTimeout(this.suksessmeldingCallbackId);
         this.setState({
             visKandidaterLagret: true,
-            visAlertstripeOnSuccess: false
+            visAlertstripeOnSuccess: false,
         });
         this.suksessmeldingCallbackId = setTimeout(() => {
             this.setState({
-                visKandidaterLagret: false
+                visKandidaterLagret: false,
             });
         }, 5000);
     };
@@ -122,18 +130,22 @@ class LagreKandidaterModal extends React.Component {
             this.setState({
                 hentetListe: undefined,
                 showHentetListe: false,
-                hentListeFeilmelding: undefined
+                hentListeFeilmelding: undefined,
             });
         } else {
             this.props.hentKandidatlisteMedAnnonsenummer(this.state.annonsenummer);
         }
     };
 
-    lagreKandidat = (kandidatliste) => () => {
-        const kandidatlister = this.state.kandidatlister.map((liste) => (liste.kandidatlisteId === kandidatliste.kandidatlisteId ? { ...liste, alleredeLagtTil: true } : liste));
+    lagreKandidat = kandidatliste => () => {
+        const kandidatlister = this.state.kandidatlister.map(liste =>
+            liste.kandidatlisteId === kandidatliste.kandidatlisteId
+                ? { ...liste, alleredeLagtTil: true }
+                : liste
+        );
         this.setState({
             kandidatlister,
-            visAlertstripeOnSuccess: true
+            visAlertstripeOnSuccess: true,
         });
         this.props.onLagre(kandidatliste);
     };
@@ -146,20 +158,22 @@ class LagreKandidaterModal extends React.Component {
             antallKandidatlister,
             leggTilKandidaterStatus,
             lagretKandidatliste,
-            antallLagredeKandidater
+            antallLagredeKandidater,
         } = this.props;
         const {
             kandidatlister,
             hentetListe,
             showHentetListe,
             hentListeFeilmelding,
-            visKandidaterLagret
+            visKandidaterLagret,
         } = this.state;
 
         const ListerTableHeader = () => (
             <Row className="lister--rader">
                 <Element className="opprettet__col rader--text">Opprettet</Element>
-                <Element className="stillingstittel__col rader--text">Tittel på kandidatliste</Element>
+                <Element className="stillingstittel__col rader--text">
+                    Tittel på kandidatliste
+                </Element>
                 <Element className="arbeidsgiver__col rader--text">Arbeidsgiver</Element>
                 <Element className="leggTil__col rader--text">Lagre kandidater</Element>
             </Row>
@@ -196,8 +210,8 @@ class LagreKandidaterModal extends React.Component {
             </Row>
         );
 
-        const ListerTableRows = () => (
-            kandidatlister.map((liste) => (
+        const ListerTableRows = () =>
+            kandidatlister.map(liste => (
                 <ListerTableRow
                     liste={liste}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
@@ -205,8 +219,7 @@ class LagreKandidaterModal extends React.Component {
                     onClick={this.lagreKandidat(liste)}
                     key={liste.kandidatlisteId}
                 />
-            ))
-        );
+            ));
 
         return (
             <Modal
@@ -220,8 +233,16 @@ class LagreKandidaterModal extends React.Component {
                     <HjelpetekstFading
                         synlig={visKandidaterLagret}
                         type="suksess"
-                        innhold={`${antallLagredeKandidater > 1 ? `${antallLagredeKandidater} kandidater` : 'Kandidaten'} er lagret i
-                            ${lagretKandidatliste.length > 1 ? `${lagretKandidatliste.length} lister` : `kandidatlisten «${lagretKandidatliste.tittel}»`}`}
+                        innhold={`${
+                            antallLagredeKandidater > 1
+                                ? `${antallLagredeKandidater} kandidater`
+                                : 'Kandidaten'
+                        } er lagret i
+                            ${
+                                lagretKandidatliste.length > 1
+                                    ? `${lagretKandidatliste.length} lister`
+                                    : `kandidatlisten «${lagretKandidatliste.tittel}»`
+                            }`}
                         id="hjelpetekstfading"
                         className="LagreKandidaterModal__hjelpetekst"
                     />
@@ -230,28 +251,35 @@ class LagreKandidaterModal extends React.Component {
                         <Row className="lister--rader">
                             <Element>Mine kandidatlister</Element>
                         </Row>
-                        {(antallKandidatlister === undefined && hentListerStatus === HENT_STATUS.LOADING) &&
-                            <div className="text-center">
-                                <NavFrontendSpinner type="L" />
-                            </div>
-                        }
-                        {antallKandidatlister > 0 ?
+                        {antallKandidatlister === undefined &&
+                            hentListerStatus === HENT_STATUS.LOADING && (
+                                <div className="text-center">
+                                    <NavFrontendSpinner type="L" />
+                                </div>
+                            )}
+                        {antallKandidatlister > 0 ? (
                             <div>
                                 <ListerTableHeader />
                                 <ListerTableRows />
-                                {hentListerStatus === HENT_STATUS.LOADING &&
+                                {hentListerStatus === HENT_STATUS.LOADING && (
                                     <div className="text-center">
                                         <NavFrontendSpinner type="L" />
                                     </div>
-                                }
+                                )}
                             </div>
-                            : <Normaltekst className="lister--rader">Du har ingen kandidatlister</Normaltekst>
-                        }
-                        {kandidatlister.length < antallKandidatlister &&
-                            <Flatknapp mini onClick={this.onVisFlereListerClick}>Se flere lister</Flatknapp>
-                        }
+                        ) : (
+                            <Normaltekst className="lister--rader">
+                                Du har ingen kandidatlister
+                            </Normaltekst>
+                        )}
+                        {kandidatlister.length < antallKandidatlister && (
+                            <Flatknapp mini onClick={this.onVisFlereListerClick}>
+                                Se flere lister
+                            </Flatknapp>
+                        )}
                         <Normaltekst className="annonsenummer__search--label">
-                            Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter annonsenummer
+                            Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter
+                            annonsenummer
                         </Normaltekst>
                         <div className="annonsenummer__search">
                             <input
@@ -259,8 +287,12 @@ class LagreKandidaterModal extends React.Component {
                                 value={this.state.value}
                                 onChange={this.onAnnonsenummerChange}
                                 onKeyDown={this.onKeyDown}
-                                ref={(input) => { this.input = input; }}
-                                className={`skjemaelement__input skjemaelement--pink${hentListeFeilmelding ? ' skjemaelement__input--harFeil' : ''}`}
+                                ref={input => {
+                                    this.input = input;
+                                }}
+                                className={`skjemaelement__input skjemaelement--pink${
+                                    hentListeFeilmelding ? ' skjemaelement__input--harFeil' : ''
+                                }`}
                                 placeholder="Annonsenummer"
                             />
                             <Knapp
@@ -271,23 +303,22 @@ class LagreKandidaterModal extends React.Component {
                             >
                                 <i className="search-button__icon" />
                             </Knapp>
-                            {hentListeFeilmelding &&
-                                <Normaltekst className="skjemaelement__feilmelding">{hentListeFeilmelding}</Normaltekst>
-                            }
+                            {hentListeFeilmelding && (
+                                <Normaltekst className="skjemaelement__feilmelding">
+                                    {hentListeFeilmelding}
+                                </Normaltekst>
+                            )}
                         </div>
-                        {showHentetListe &&
+                        {showHentetListe && (
                             <ListerTableRow
                                 liste={hentetListe}
                                 id="marker-liste-hentet-med-annonsenummer-checkbox"
                                 className="lister--rader hentet-stilling__row"
                                 onClick={this.lagreKandidat(hentetListe)}
                             />
-                        }
+                        )}
                         <div>
-                            <Hovedknapp
-                                className="lagre--knapp"
-                                onClick={onRequestClose}
-                            >
+                            <Hovedknapp className="lagre--knapp" onClick={onRequestClose}>
                                 Lukk
                             </Hovedknapp>
                         </div>
@@ -302,7 +333,7 @@ LagreKandidaterModal.defaultProps = {
     antallKandidatlister: undefined,
     egneKandidatlister: undefined,
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreStatus: undefined
+    lagreStatus: undefined,
 };
 
 LagreKandidaterModal.propTypes = {
@@ -317,7 +348,7 @@ LagreKandidaterModal.propTypes = {
         type: PropTypes.string,
         kunEgne: PropTypes.bool,
         pagenumber: PropTypes.number,
-        pagesize: PropTypes.number
+        pagesize: PropTypes.number,
     }).isRequired,
     hentKandidatlisteMedAnnonsenummer: PropTypes.func.isRequired,
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
@@ -327,12 +358,12 @@ LagreKandidaterModal.propTypes = {
     antallLagredeKandidater: PropTypes.number.isRequired,
     lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
-        tittel: PropTypes.string
+        tittel: PropTypes.string,
     }).isRequired,
-    resetKandidatlisterSokekriterier: PropTypes.func.isRequired
+    resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     egneKandidatlister: state.kandidatlister.kandidatlister.liste,
     antallKandidatlister: state.kandidatlister.kandidatlister.antall,
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
@@ -341,13 +372,26 @@ const mapStateToProps = (state) => ({
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
     leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe
+    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hentEgneKandidatlister: (pagenumber, pagesize) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTER, query: '', listetype: '', kunEgne: true, pagenumber, pagesize }); },
-    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => { dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer }); },
-    resetKandidatlisterSokekriterier: () => { dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER }); }
+const mapDispatchToProps = dispatch => ({
+    hentEgneKandidatlister: (pagenumber, pagesize) => {
+        dispatch({
+            type: KandidatlisteTypes.HENT_KANDIDATLISTER,
+            query: '',
+            listetype: '',
+            kunEgne: true,
+            pagenumber,
+            pagesize,
+        });
+    },
+    hentKandidatlisteMedAnnonsenummer: annonsenummer => {
+        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer });
+    },
+    resetKandidatlisterSokekriterier: () => {
+        dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LagreKandidaterModal);

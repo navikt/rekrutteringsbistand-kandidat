@@ -9,7 +9,7 @@ import './Hovedmal.less';
 const HovedmalEnum = {
     SKAFFE_ARBEID: 'SKAFFEA',
     BEHOLDE_ARBEID: 'BEHOLDEA',
-    OKE_DELTAKELSE: 'OKEDELT'
+    OKE_DELTAKELSE: 'OKEDELT',
 };
 
 class HovedmalSearch extends React.Component {
@@ -17,16 +17,16 @@ class HovedmalSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
         this.hovedmal = [
             { label: 'Skaffe arbeid', value: HovedmalEnum.SKAFFE_ARBEID },
             { label: 'Beholde arbeid', value: HovedmalEnum.BEHOLDE_ARBEID },
-            { label: 'Øke deltakelse', value: HovedmalEnum.OKE_DELTAKELSE }
+            { label: 'Øke deltakelse', value: HovedmalEnum.OKE_DELTAKELSE },
         ];
     }
 
-    onTotalHovedmalChange = (e) => {
+    onTotalHovedmalChange = e => {
         if (e.target.checked) {
             this.props.checkHovedmal(e.target.value);
         } else {
@@ -36,7 +36,14 @@ class HovedmalSearch extends React.Component {
     };
 
     render() {
-        const { skjulHovedmal, togglePanelOpen, panelOpen, totaltHovedmal, totaltAntallTreff, visAlertFaKandidater } = this.props;
+        const {
+            skjulHovedmal,
+            togglePanelOpen,
+            panelOpen,
+            totaltHovedmal,
+            totaltAntallTreff,
+            visAlertFaKandidater,
+        } = this.props;
         if (skjulHovedmal) {
             return null;
         }
@@ -49,7 +56,7 @@ class HovedmalSearch extends React.Component {
                 apen={panelOpen}
             >
                 <div>
-                    {this.hovedmal.map((h) => (
+                    {this.hovedmal.map(h => (
                         <Checkbox
                             className="checkbox--hovedmal skjemaelement--pink"
                             id={`hovedmal-${h.value.toLowerCase()}-checkbox`}
@@ -61,9 +68,9 @@ class HovedmalSearch extends React.Component {
                         />
                     ))}
                 </div>
-                { totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
+                {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
                     <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
-                ) }
+                )}
             </SokekriteriePanel>
         );
     }
@@ -78,7 +85,7 @@ HovedmalSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulHovedmal: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
 };
 
 export default HovedmalSearch;

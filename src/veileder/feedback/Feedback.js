@@ -13,19 +13,24 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
                 <div className="container">
                     <div role="alert" className="Feedback typo-normal">
                         <Element className="blokk-xxs">
-                            Dette er en tidlig versjon av kandidatsøket.
-                            I denne versjonen er det ikke mulig å lagre lister med kandidater.
-                            Dette kommer i en senere versjon.
+                            Dette er en tidlig versjon av kandidatsøket. I denne versjonen er det
+                            ikke mulig å lagre lister med kandidater. Dette kommer i en senere
+                            versjon.
                         </Element>
                         <Normaltekst className="blokk-xxs">
                             Vi trenger din tilbakemelding for å bli bedre
                         </Normaltekst>
                         <Normaltekst className="blokk-xxs">
-                            <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                            <a
+                                href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090"
+                                className="lenke"
+                            >
                                 Gi tilbakemelding her
                             </a>
                         </Normaltekst>
-                        <Knapp mini onClick={hideFeedback}>Skjul</Knapp>
+                        <Knapp mini onClick={hideFeedback}>
+                            Skjul
+                        </Knapp>
                     </div>
                 </div>
             </div>
@@ -36,7 +41,10 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
             <div className="container">
                 <div role="alert" className="Feedback--link typo-normal">
                     <Normaltekst className="blokk-xxs">
-                        <a href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090" className="lenke">
+                        <a
+                            href="https://insights.hotjar.com/s?siteId=118350&surveyId=70090"
+                            className="lenke"
+                        >
                             Gi tilbakemelding her
                         </a>
                     </Normaltekst>
@@ -48,15 +56,15 @@ function Feedback({ shouldShowFeedback, hideFeedback }) {
 
 Feedback.propTypes = {
     shouldShowFeedback: PropTypes.bool.isRequired,
-    hideFeedback: PropTypes.func.isRequired
+    hideFeedback: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    shouldShowFeedback: state.feedback.shouldShowFeedback
+const mapStateToProps = state => ({
+    shouldShowFeedback: state.feedback.shouldShowFeedback,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    hideFeedback: () => dispatch({ type: HIDE_FEEDBACK })
+const mapDispatchToProps = dispatch => ({
+    hideFeedback: () => dispatch({ type: HIDE_FEEDBACK }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

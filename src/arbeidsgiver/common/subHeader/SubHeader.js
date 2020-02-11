@@ -12,9 +12,7 @@ const SubHeader = ({ backLink, backLinkText, title }) => (
             {backLink && (
                 <React.Fragment>
                     <Chevron type="venstre" />
-                    <a href={backLink}>
-                        {backLinkText}
-                    </a>
+                    <a href={backLink}>{backLinkText}</a>
                 </React.Fragment>
             )}
         </Column>
@@ -27,13 +25,13 @@ const SubHeader = ({ backLink, backLinkText, title }) => (
 
 SubHeader.defaultProps = {
     backLink: undefined,
-    backLinkText: undefined
+    backLinkText: undefined,
 };
 
 SubHeader.propTypes = {
     backLink: Proptypes.string,
     backLinkText: Proptypes.string,
-    title: Proptypes.string.isRequired
+    title: Proptypes.string.isRequired,
 };
 
 export default SubHeader;

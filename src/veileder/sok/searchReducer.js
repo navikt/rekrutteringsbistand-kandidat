@@ -5,10 +5,18 @@ import {
     fetchFeatureToggles,
     fetchStillingFraListe,
     fetchGeografiKode,
-    fetchInnloggetVeileder
+    fetchInnloggetVeileder,
 } from '../api.ts';
-import { getUrlParameterByName, toUrlParams, getHashFromString, formatterStedsnavn } from '../../felles/sok/utils';
-import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE, KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
+import {
+    getUrlParameterByName,
+    toUrlParams,
+    getHashFromString,
+    formatterStedsnavn,
+} from '../../felles/sok/utils';
+import FEATURE_TOGGLES, {
+    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+    KANDIDATLISTE_CHUNK_SIZE,
+} from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 
 /** *********************************************************
@@ -60,20 +68,17 @@ const initialState = {
         resultat: {
             kandidater: [],
             aggregeringer: [],
-            totaltAntallTreff: 0
+            totaltAntallTreff: 0,
         },
-        kompetanseSuggestions: []
+        kompetanseSuggestions: [],
     },
     antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
     searchQueryHash: '',
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
-    featureToggles: FEATURE_TOGGLES
-        .reduce((dict, key) => (
-            { ...dict, [key]: false }
-        ), {}),
     harHentetFeatureToggles: false,
+    featureToggles: FEATURE_TOGGLES.reduce((dict, key) => ({ ...dict, [key]: false }), {}),
     isEmptyQuery: true,
     visAlertFaKandidater: '',
     valgtKandidatNr: '',
@@ -84,7 +89,7 @@ const initialState = {
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
-    innloggetVeileder: undefined
+    innloggetVeileder: undefined,
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -92,7 +97,7 @@ export default function searchReducer(state = initialState, action) {
         case SEARCH_BEGIN:
             return {
                 ...state,
-                isSearching: true
+                isSearching: true,
             };
         case SEARCH_SUCCESS: {
             const { isPaginatedSok } = action;
@@ -105,19 +110,23 @@ export default function searchReducer(state = initialState, action) {
                 isEmptyQuery: action.isEmptyQuery,
                 searchResultat: {
                     ...state.searchResultat,
-                    resultat: !isPaginatedSok ? action.response :
-                        {
-                            ...state.searchResultat.resultat,
-                            kandidater: [...state.searchResultat.resultat.kandidater, ...action.response.kandidater]
-                        }
-                }
+                    resultat: !isPaginatedSok
+                        ? action.response
+                        : {
+                              ...state.searchResultat.resultat,
+                              kandidater: [
+                                  ...state.searchResultat.resultat.kandidater,
+                                  ...action.response.kandidater,
+                              ],
+                          },
+                },
             };
         }
         case SEARCH_FAILURE:
             return {
                 ...state,
                 isSearching: false,
-                error: action.error
+                error: action.error,
             };
         case MARKER_KANDIDATER:
             return {
@@ -126,99 +135,98 @@ export default function searchReducer(state = initialState, action) {
                     ...state.searchResultat,
                     resultat: {
                         ...state.searchResultat.resultat,
-                        kandidater: action.kandidater
-                    }
-                }
+                        kandidater: action.kandidater,
+                    },
+                },
             };
         case OPPDATER_ANTALL_KANDIDATER:
             return {
                 ...state,
-                antallVisteKandidater: action.antall
+                antallVisteKandidater: action.antall,
             };
         case SETT_KANDIDATNUMMER:
             return {
                 ...state,
-                valgtKandidatNr: action.kandidatnr
+                valgtKandidatNr: action.kandidatnr,
             };
         case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
             return {
-                ...state
+                ...state,
             };
         case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
             return {
                 ...state,
                 isSearching: false,
-                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response },
             };
         case REMOVE_KOMPETANSE_SUGGESTIONS:
             return {
                 ...state,
-                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] }
+                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] },
             };
         case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
                 ...state,
                 harHentetFeatureToggles: true,
-                featureToggles: FEATURE_TOGGLES
-                    .reduce((dict, key) => (
-                        {
-                            ...dict,
-                            [key]: Object.keys(action.data)
-                                .includes(key) && action.data[key]
-                        }
-                    ), {})
+                featureToggles: FEATURE_TOGGLES.reduce(
+                    (dict, key) => ({
+                        ...dict,
+                        [key]: Object.keys(action.data).includes(key) && action.data[key],
+                    }),
+                    {}
+                ),
             };
         case FETCH_FEATURE_TOGGLES_FAILURE:
             return {
                 ...state,
                 harHentetFeatureToggles: true,
-                featureToggles: FEATURE_TOGGLES
-                    .reduce((dict, key) => (
-                        { ...dict, [key]: false }
-                    ), {}),
-                error: action.error
+                featureToggles: FEATURE_TOGGLES.reduce(
+                    (dict, key) => ({ ...dict, [key]: false }),
+                    {}
+                ),
+                error: action.error,
             };
         case SET_ALERT_TYPE_FAA_KANDIDATER:
             return {
                 ...state,
-                visAlertFaKandidater: action.value
+                visAlertFaKandidater: action.value,
             };
         case INVALID_RESPONSE_STATUS:
             return {
                 ...state,
-                error: action.error
+                error: action.error,
             };
         case SET_SCROLL_POSITION:
             return {
                 ...state,
-                scrolletFraToppen: action.scrolletFraToppen
+                scrolletFraToppen: action.scrolletFraToppen,
             };
         case SET_STATE:
             return {
                 ...state,
-                harHentetStilling: action.query.harHentetStilling || false
+                harHentetStilling: action.query.harHentetStilling || false,
             };
         case HENT_INNLOGGET_VEILEDER_SUCCESS:
             return {
                 ...state,
-                innloggetVeileder: action.data.navn
+                innloggetVeileder: action.data.navn,
             };
         case HENT_INNLOGGET_VEILEDER_FAILURE:
             return {
                 ...state,
-                error: action.error
+                error: action.error,
             };
         case FJERN_ERROR:
             return {
                 ...state,
-                error: undefined
+                error: undefined,
             };
         default:
             return state;
     }
 }
 
-export const fromUrlQuery = (url) => {
+export const fromUrlQuery = url => {
     const stateFromUrl = {};
     const fritekst = getUrlParameterByName('fritekst', url);
     const stillinger = getUrlParameterByName('stillinger', url);
@@ -249,7 +257,8 @@ export const fromUrlQuery = (url) => {
     if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
     if (sprak) stateFromUrl.sprak = sprak.split('_');
     if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
-    if (kvalifiseringsgruppeKoder) stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
+    if (kvalifiseringsgruppeKoder)
+        stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
     if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
     if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
@@ -260,26 +269,50 @@ export const fromUrlQuery = (url) => {
     return stateFromUrl;
 };
 
-export const toUrlQuery = (state) => {
+export const toUrlQuery = state => {
     const urlQuery = {};
     if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
-    if (state.stilling.stillinger && state.stilling.stillinger.length > 0) urlQuery.stillinger = state.stilling.stillinger.join('_');
-    if (state.arbeidserfaring.arbeidserfaringer && state.arbeidserfaring.arbeidserfaringer.length > 0) urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
-    if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0) urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
-    if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0) urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
-    if (state.geografi.geografiList && state.geografi.geografiList.length > 0) urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0) urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
-    if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0) urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
-    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0) urlQuery.sprak = state.sprakReducer.sprak.join('_');
-    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0) urlQuery.forerkort = state.forerkort.forerkortList.join('_');
-    if (state.innsatsgruppe.kvalifiseringsgruppeKoder && state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0) urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join('_');
-    if (state.geografi.maaBoInnenforGeografi) urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
+    if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
+        urlQuery.stillinger = state.stilling.stillinger.join('_');
+    if (
+        state.arbeidserfaring.arbeidserfaringer &&
+        state.arbeidserfaring.arbeidserfaringer.length > 0
+    )
+        urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
+    if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0)
+        urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
+    if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0)
+        urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
+    if (state.geografi.geografiList && state.geografi.geografiList.length > 0)
+        urlQuery.geografiList = state.geografi.geografiList.join('_');
+    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0)
+        urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
+    if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0)
+        urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
+    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0)
+        urlQuery.sprak = state.sprakReducer.sprak.join('_');
+    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0)
+        urlQuery.forerkort = state.forerkort.forerkortList.join('_');
+    if (
+        state.innsatsgruppe.kvalifiseringsgruppeKoder &&
+        state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
+    )
+        urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join(
+            '_'
+        );
+    if (state.geografi.maaBoInnenforGeografi)
+        urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
     if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
-    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0) urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
-    if (state.navkontorReducer.minekandidater) urlQuery.minekandidater = state.navkontorReducer.minekandidater;
-    if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0) urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
-    if (state.tilretteleggingsbehov.harTilretteleggingsbehov) urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
-    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0) urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
+    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0)
+        urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
+    if (state.navkontorReducer.minekandidater)
+        urlQuery.minekandidater = state.navkontorReducer.minekandidater;
+    if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0)
+        urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
+    if (state.tilretteleggingsbehov.harTilretteleggingsbehov)
+        urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
+    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
+        urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
     return toUrlParams(urlQuery);
 };
 
@@ -294,16 +327,20 @@ function* search(action = '') {
 
         // Update browser url to reflect current search query
         const urlQuery = toUrlQuery(state);
-        const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
+        const newUrlQuery =
+            urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
         if (!window.location.pathname.includes('/cv')) {
             window.history.replaceState('', '', newUrlQuery);
         }
 
         const fraIndex = action.fraIndex || 0;
-        const antallResultater = action.antallResultater ? Math.max(action.antallResultater, state.search.antallVisteKandidater) : state.search.antallVisteKandidater;
+        const antallResultater = action.antallResultater
+            ? Math.max(action.antallResultater, state.search.antallVisteKandidater)
+            : state.search.antallVisteKandidater;
 
-        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)') ?
-            [...state.forerkort.forerkortList, 'Mopedførerbevis'] : state.forerkort.forerkortList;
+        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)')
+            ? [...state.forerkort.forerkortList, 'Mopedførerbevis']
+            : state.forerkort.forerkortList;
 
         const criteriaValues = {
             fritekst: state.fritekst.fritekst,
@@ -313,7 +350,9 @@ function* search(action = '') {
             kompetanser: state.kompetanse.kompetanser,
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
-            lokasjoner: [...state.geografi.geografiListKomplett].map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`),
+            lokasjoner: [...state.geografi.geografiListKomplett].map(
+                sted => `${sted.geografiKodeTekst}:${sted.geografiKode}`
+            ),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
             sprak: state.sprakReducer.sprak,
@@ -324,25 +363,42 @@ function* search(action = '') {
             minekandidater: state.navkontorReducer.minekandidater,
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-            kategorier: state.tilretteleggingsbehov.kategorier
+            kategorier: state.tilretteleggingsbehov.kategorier,
         };
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
 
-        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
-        const criteria = { ...criteriaValues, hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length), fraIndex, antallResultater };
+        const harCriteria = Object.values(criteriaValues).some(v => Array.isArray(v) && v.length);
+        const criteria = {
+            ...criteriaValues,
+            hasValues: Object.values(criteriaValues).some(v => Array.isArray(v) && v.length),
+            fraIndex,
+            antallResultater,
+        };
 
         let response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
 
         if (!harNyeSokekriterier) {
             const kandidater = state.search.searchResultat.resultat.kandidater;
-            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({ ...kFraResponse, markert: kandidater.some((k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert) }));
+            const kandidaterMedMarkering = response.kandidater.map(kFraResponse => ({
+                ...kFraResponse,
+                markert: kandidater.some(
+                    k => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
+                ),
+            }));
             response = { ...response, kandidater: kandidaterMedMarkering };
         }
 
-        yield put({ type: SEARCH_SUCCESS, response, isEmptyQuery: !criteria.hasValues, isPaginatedSok, searchQueryHash, antallResultater });
+        yield put({
+            type: SEARCH_SUCCESS,
+            response,
+            isEmptyQuery: !criteria.hasValues,
+            isPaginatedSok,
+            searchQueryHash,
+            antallResultater,
+        });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -370,9 +426,16 @@ function* fetchKompetanseSuggestions() {
         if (state.stilling.stillinger.length !== 0) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
-            const response = yield call(fetchKandidaterES, { stillinger: state.stilling.stillinger });
-            const aggregeringerKompetanse = response.aggregeringer.find((a) => a.navn === 'kompetanse');
-            yield put({ type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS, response: aggregeringerKompetanse ? aggregeringerKompetanse.felt : [] });
+            const response = yield call(fetchKandidaterES, {
+                stillinger: state.stilling.stillinger,
+            });
+            const aggregeringerKompetanse = response.aggregeringer.find(
+                a => a.navn === 'kompetanse'
+            );
+            yield put({
+                type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS,
+                response: aggregeringerKompetanse ? aggregeringerKompetanse.felt : [],
+            });
         } else {
             yield put({ type: REMOVE_KOMPETANSE_SUGGESTIONS });
         }
@@ -399,12 +462,12 @@ const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
         INKLUDERING__ARBEIDSTID: 'arbeidstid',
         INKLUDERING__ARBEIDSMILJØ: 'arbeidsmiljo',
         INKLUDERING__FYSISK: 'fysisk',
-        INKLUDERING__GRUNNLEGGENDE: 'grunnleggende'
+        INKLUDERING__GRUNNLEGGENDE: 'grunnleggende',
     };
 
     nyQuery.kategorier = tag
-        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
-        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
+        .filter(t => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map(t => tilretteleggingsmuligheterTilBehov[t]);
 
     return nyQuery;
 };
@@ -414,7 +477,11 @@ function* initialSearch(action) {
         let urlQuery = fromUrlQuery(window.location.href);
         const state = yield select();
 
-        if (action.stillingsId && Object.keys(urlQuery).length === 0 && !state.search.harHentetStilling) {
+        if (
+            action.stillingsId &&
+            Object.keys(urlQuery).length === 0 &&
+            !state.search.harHentetStilling
+        ) {
             const stilling = yield call(fetchStillingFraListe, action.stillingsId);
 
             urlQuery.stillinger = stilling.stilling;
@@ -433,8 +500,10 @@ function* initialSearch(action) {
                 }
                 urlQuery = {
                     ...urlQuery,
-                    geografiListKomplett: geografiKoder.map((sted) =>
-                        ({ geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()), geografiKode: sted.id }))
+                    geografiListKomplett: geografiKoder.map(sted => ({
+                        geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()),
+                        geografiKode: sted.id,
+                    })),
                 };
             }
             yield put({ type: SET_STATE, query: urlQuery });
@@ -475,7 +544,8 @@ function* hentInnloggetVeileder() {
     }
 }
 
-export const harEnParameter = (...arrays) => arrays.some((array) => array !== undefined && array.length > 0);
+export const harEnParameter = (...arrays) =>
+    arrays.some(array => array !== undefined && array.length > 0);
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);

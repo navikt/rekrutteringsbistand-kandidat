@@ -13,25 +13,27 @@ class SertifikatSearch extends React.Component {
         super(props);
         this.state = {
             showTypeAhead: false,
-            typeAheadValue: ''
+            typeAheadValue: '',
         };
     }
 
-    onTypeAheadSertifikatChange = (value) => {
+    onTypeAheadSertifikatChange = value => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
-            typeAheadValue: value
+            typeAheadValue: value,
         });
     };
 
-    onTypeAheadSertifikatSelect = (value) => {
+    onTypeAheadSertifikatSelect = value => {
         if (value !== '') {
-            const sertifikat = this.props.typeAheadSuggestionsSertifikat.find((s) => s.toLowerCase() === value.toLowerCase());
+            const sertifikat = this.props.typeAheadSuggestionsSertifikat.find(
+                s => s.toLowerCase() === value.toLowerCase()
+            );
             if (sertifikat !== undefined) {
                 this.props.selectTypeAheadValue(sertifikat);
                 this.props.clearTypeAheadSertifikat();
                 this.setState({
-                    typeAheadValue: ''
+                    typeAheadValue: '',
                 });
                 this.props.search();
             }
@@ -39,12 +41,15 @@ class SertifikatSearch extends React.Component {
     };
 
     onLeggTilClick = () => {
-        this.setState({
-            showTypeAhead: true
-        }, () => this.typeAhead.input.focus());
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
     };
 
-    onFjernClick = (sertifikat) => {
+    onFjernClick = sertifikat => {
         this.props.removeSertifikat(sertifikat);
         this.props.search();
     };
@@ -52,12 +57,12 @@ class SertifikatSearch extends React.Component {
     onTypeAheadBlur = () => {
         this.setState({
             typeAheadValue: '',
-            showTypeAhead: false
+            showTypeAhead: false,
         });
         this.props.clearTypeAheadSertifikat();
     };
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadSertifikatSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -75,14 +80,12 @@ class SertifikatSearch extends React.Component {
                 apen={this.props.panelOpen}
             >
                 <Element>Krav til sertifisering/sertifikat i jobbsituasjonen</Element>
-                <Normaltekst>
-                    For eksempel: Truckførerbevis T1
-                </Normaltekst>
+                <Normaltekst>For eksempel: Truckførerbevis T1</Normaltekst>
                 <div className="sokekriterier--kriterier">
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={(typeAhead) => {
+                                ref={typeAhead => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadSertifikatSelect}
@@ -107,19 +110,16 @@ class SertifikatSearch extends React.Component {
                             </LeggtilKnapp>
                         )}
                     </div>
-                    {this.props.sertifikat.map((sertifikat) => (
-                        <Merkelapp
-                            onRemove={this.onFjernClick}
-                            key={sertifikat}
-                            value={sertifikat}
-                        >
+                    {this.props.sertifikat.map(sertifikat => (
+                        <Merkelapp onRemove={this.onFjernClick} key={sertifikat} value={sertifikat}>
                             {sertifikat}
                         </Merkelapp>
                     ))}
                 </div>
-                {this.props.totaltAntallTreff <= 10 && this.props.visAlertFaKandidater === ALERTTYPE.SERTIFIKAT && (
-                    <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
-                )}
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.SERTIFIKAT && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
             </SokekriteriePanel>
         );
     }
@@ -137,7 +137,7 @@ SertifikatSearch.propTypes = {
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulSertifikat: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired
+    togglePanelOpen: PropTypes.func.isRequired,
 };
 
 export default SertifikatSearch;

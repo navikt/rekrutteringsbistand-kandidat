@@ -2,7 +2,7 @@ import { KONSEPTTYPE } from '../../felles/konstanter';
 
 export function toUrlParams(query) {
     return Object.keys(query)
-        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
         .join('&')
         .replace(/%20/g, '+')
         .replace(/%2C/g, ',');
@@ -16,7 +16,7 @@ export function getHashFromString(string) {
     for (i = 0; i < string.length; i += 1) {
         chr = string.charCodeAt(i);
         // eslint-disable-next-line no-bitwise
-        hash = ((hash << 5) - hash) + chr;
+        hash = (hash << 5) - hash + chr;
         // eslint-disable-next-line no-bitwise
         hash |= 0; // Convert to 32bit integer
     }
@@ -33,12 +33,12 @@ export function getUrlParameterByName(name, url = window.location.href) {
 }
 
 export function leggMerInfoTilKandidaterOgSorter(kandidater, kandidaterMedInfo) {
-    const kandidaterMedAlleFelter = kandidater.map((kandidat) => {
-        const kandidatMedInfo = kandidaterMedInfo.find((k) => k.id === kandidat.id);
+    const kandidaterMedAlleFelter = kandidater.map(kandidat => {
+        const kandidatMedInfo = kandidaterMedInfo.find(k => k.id === kandidat.id);
         if (kandidatMedInfo) {
             return {
                 ...kandidat,
-                ...kandidatMedInfo
+                ...kandidatMedInfo,
             };
         }
         return kandidat;
@@ -79,7 +79,7 @@ const kategoriserKonsepter = (konsepter, konsepttypeFunksjon) =>
             sertifikat: [],
             softSkills: [],
             sprak: [],
-            andre: []
+            andre: [],
         }
     );
 
@@ -94,31 +94,41 @@ const utdanningtekst = {
     [`${EducationLevelPrefix}5`]: 'Bachelor',
     [`${EducationLevelPrefix}6`]: 'Master',
     [`${EducationLevelPrefix}7`]: 'Doktorgrad',
-    default: 'Annen utdanning'
+    default: 'Annen utdanning',
 };
 
-const mapUtdanning = (leveltekst) => utdanningtekst[leveltekst] || utdanningtekst.default;
+const mapUtdanning = leveltekst => utdanningtekst[leveltekst] || utdanningtekst.default;
 
-const mapUtdanninger = (utdanninger) =>
-    utdanninger.map((u) => (u.name ? { ...u, name: mapUtdanning(u.name) } : { ...u, c1name: mapUtdanning(u.c1name), c2name: mapUtdanning(u.c2name) }));
+const mapUtdanninger = utdanninger =>
+    utdanninger.map(u =>
+        u.name
+            ? { ...u, name: mapUtdanning(u.name) }
+            : { ...u, c1name: mapUtdanning(u.c1name), c2name: mapUtdanning(u.c2name) }
+    );
 
-export const oversettUtdanning = (konsepter) => ({
+export const oversettUtdanning = konsepter => ({
     ...konsepter,
-    utdanning: mapUtdanninger(konsepter.utdanning)
+    utdanning: mapUtdanninger(konsepter.utdanning),
 });
 
-export const kategoriserMatchKonsepter = (matchforklaring) => ({
+export const kategoriserMatchKonsepter = matchforklaring => ({
     score: {
         snitt: Math.floor((matchforklaring.score12 + matchforklaring.score21) * (100 / 2)),
         match: Math.floor(matchforklaring.score12 * 100),
-        revertertMatch: Math.floor(matchforklaring.score21 * 100)
+        revertertMatch: Math.floor(matchforklaring.score21 * 100),
     },
-    matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, (obj) => obj.c1branch),
-    stillingskonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j1_not_matched, (obj) => obj.branch),
-    kandidatkonsepterUtenMatch: kategoriserKonsepter(matchforklaring.j2_not_matched, (obj) => obj.branch)
+    matchedeKonsepter: kategoriserKonsepter(matchforklaring.concepts_matched, obj => obj.c1branch),
+    stillingskonsepterUtenMatch: kategoriserKonsepter(
+        matchforklaring.j1_not_matched,
+        obj => obj.branch
+    ),
+    kandidatkonsepterUtenMatch: kategoriserKonsepter(
+        matchforklaring.j2_not_matched,
+        obj => obj.branch
+    ),
 });
 
-export const mapExperienceLevelTilAar = (level) => {
+export const mapExperienceLevelTilAar = level => {
     switch (level) {
         case 1:
         case 2:
@@ -147,7 +157,7 @@ export const mapExperienceLevelTilAar = (level) => {
     }
 };
 
-export const mapExperienceLevelTilKalenderEnhet = (level) => {
+export const mapExperienceLevelTilKalenderEnhet = level => {
     if (level <= 7) {
         switch (level) {
             case 1:
@@ -173,7 +183,7 @@ export const mapExperienceLevelTilKalenderEnhet = (level) => {
     return 'Over 10 år';
 };
 
-export const capitalizeFirstLetter = (inputString) => {
+export const capitalizeFirstLetter = inputString => {
     const separators = [' ', '-'];
 
     if (inputString) {
@@ -192,26 +202,24 @@ export const capitalizeFirstLetter = (inputString) => {
     return inputString;
 };
 
-export const capitalizePoststed = (poststed) => (
+export const capitalizePoststed = poststed =>
     poststed
         .split(' ')
-        .map((ord) => (
-            ['I', 'PÅ'].includes(ord.toUpperCase())
-                ? ord.toLowerCase()
-                : capitalizeFirstLetter(ord)
-        ))
-        .join(' ')
-);
+        .map(ord =>
+            ['I', 'PÅ'].includes(ord.toUpperCase()) ? ord.toLowerCase() : capitalizeFirstLetter(ord)
+        )
+        .join(' ');
 
-export const fornavnOgEtternavnFraKandidat = (cv) => (cv.fornavn && cv.etternavn
-    ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
-    : cv.kandidatnr);
+export const fornavnOgEtternavnFraKandidat = cv =>
+    cv.fornavn && cv.etternavn
+        ? `${capitalizeFirstLetter(cv.fornavn)} ${capitalizeFirstLetter(cv.etternavn)}`
+        : cv.kandidatnr;
 
-export const formatterStedsnavn = (inputString) => inputString
-    .split(' ')
-    .map((s) => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
-    .join(' ');
-
+export const formatterStedsnavn = inputString =>
+    inputString
+        .split(' ')
+        .map(s => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
+        .join(' ');
 
 export const ordToCorrectCase = (ord, listeMedUpperCaseOrd, listeMedLowerCaseOrd) => {
     if (listeMedUpperCaseOrd.includes(ord)) {
@@ -224,16 +232,12 @@ export const ordToCorrectCase = (ord, listeMedUpperCaseOrd, listeMedLowerCaseOrd
     return ord;
 };
 
-export const capitalizeEmployerName = (employerName) => {
+export const capitalizeEmployerName = employerName => {
     const separators = [' ', '-', '(', '/'];
 
-    const lowerCaseOrd = [
-        'i', 'og', 'for', 'på', 'avd', 'av'
-    ];
+    const lowerCaseOrd = ['i', 'og', 'for', 'på', 'avd', 'av'];
 
-    const upperCaseOrd = [
-        'as', 'ab', 'asa', 'ba', 'sa'
-    ];
+    const upperCaseOrd = ['as', 'ab', 'asa', 'ba', 'sa'];
 
     if (employerName) {
         let text = employerName.toLowerCase();
@@ -251,6 +255,4 @@ export const capitalizeEmployerName = (employerName) => {
     return employerName;
 };
 
-export const formatterInt = (number) => (
-    Intl.NumberFormat('nb-NO').format(number)
-);
+export const formatterInt = number => Intl.NumberFormat('nb-NO').format(number);

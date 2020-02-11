@@ -3,19 +3,27 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
 
-const VisKandidatForrigeNeste = ({ lenkeClass, forrigeKandidat, nesteKandidat, gjeldendeKandidat, antallKandidater }) => {
+const VisKandidatForrigeNeste = ({
+    lenkeClass,
+    forrigeKandidat,
+    nesteKandidat,
+    gjeldendeKandidat,
+    antallKandidater,
+}) => {
     if (antallKandidater > 1) {
         return (
             <div className="navigering-forrige-neste">
-                {forrigeKandidat &&
+                {forrigeKandidat && (
                     <LenkeMedChevron
                         to={forrigeKandidat}
                         className={lenkeClass}
                         type="venstre"
                         text="Forrige kandidat"
                     />
-                }
-                <Normaltekst className="index">{gjeldendeKandidat} av {antallKandidater}</Normaltekst>
+                )}
+                <Normaltekst className="index">
+                    {gjeldendeKandidat} av {antallKandidater}
+                </Normaltekst>
                 {nesteKandidat ? (
                     <LenkeMedChevron
                         to={nesteKandidat}
@@ -36,7 +44,7 @@ VisKandidatForrigeNeste.defaultProps = {
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
     gjeldendeKandidat: undefined,
-    antallKandidater: undefined
+    antallKandidater: undefined,
 };
 
 VisKandidatForrigeNeste.propTypes = {
@@ -44,7 +52,7 @@ VisKandidatForrigeNeste.propTypes = {
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
     gjeldendeKandidat: PropTypes.number,
-    antallKandidater: PropTypes.number
+    antallKandidater: PropTypes.number,
 };
 
 export default VisKandidatForrigeNeste;

@@ -3,20 +3,37 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GeografiSearchFelles from '../../../felles/sok/geografi/GeografiSearch';
 import { SEARCH } from '../searchReducer';
-import { CLEAR_TYPE_AHEAD_SUGGESTIONS, FETCH_TYPE_AHEAD_SUGGESTIONS } from '../../common/typeahead/typeaheadReducer';
+import {
+    CLEAR_TYPE_AHEAD_SUGGESTIONS,
+    FETCH_TYPE_AHEAD_SUGGESTIONS,
+} from '../../common/typeahead/typeaheadReducer';
 import {
     REMOVE_SELECTED_GEOGRAFI,
     SELECT_TYPE_AHEAD_VALUE_GEOGRAFI,
     TOGGLE_GEOGRAFI_PANEL_OPEN,
-    TOGGLE_MA_BO_INNENFOR_GEOGRAFI
+    TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from './geografiReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 
 const GeografiSearch = ({ ...props }) => {
-    const { geografiListKomplett, typeAheadSuggestionsGeografi, typeAheadSuggestionsGeografiKomplett,
-        totaltAntallTreff, visAlertFaKandidater, skjulSted, panelOpen, maaBoInnenforGeografi, search,
-        removeGeografi, fetchTypeAheadSuggestions, selectTypeAheadValue, clearTypeAheadGeografi,
-        togglePanelOpen, toggleMaBoPaGeografi, stillingsId } = props;
+    const {
+        geografiListKomplett,
+        typeAheadSuggestionsGeografi,
+        typeAheadSuggestionsGeografiKomplett,
+        totaltAntallTreff,
+        visAlertFaKandidater,
+        skjulSted,
+        panelOpen,
+        maaBoInnenforGeografi,
+        search,
+        removeGeografi,
+        fetchTypeAheadSuggestions,
+        selectTypeAheadValue,
+        clearTypeAheadGeografi,
+        togglePanelOpen,
+        toggleMaBoPaGeografi,
+        stillingsId,
+    } = props;
     return (
         <GeografiSearchFelles
             geografiListKomplett={geografiListKomplett}
@@ -41,7 +58,7 @@ const GeografiSearch = ({ ...props }) => {
 
 GeografiSearch.defaultProps = {
     panelOpen: undefined,
-    stillingsId: undefined
+    stillingsId: undefined,
 };
 
 GeografiSearch.propTypes = {
@@ -49,15 +66,19 @@ GeografiSearch.propTypes = {
     removeGeografi: PropTypes.func.isRequired,
     fetchTypeAheadSuggestions: PropTypes.func.isRequired,
     selectTypeAheadValue: PropTypes.func.isRequired,
-    geografiListKomplett: PropTypes.arrayOf(PropTypes.shape({
-        geografiKodeTekst: PropTypes.string,
-        geografiKode: PropTypes.string
-    })).isRequired,
+    geografiListKomplett: PropTypes.arrayOf(
+        PropTypes.shape({
+            geografiKodeTekst: PropTypes.string,
+            geografiKode: PropTypes.string,
+        })
+    ).isRequired,
     typeAheadSuggestionsGeografi: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsGeografiKomplett: PropTypes.arrayOf(PropTypes.shape({
-        geografiKodeTekst: PropTypes.string,
-        geografiKode: PropTypes.string
-    })).isRequired,
+    typeAheadSuggestionsGeografiKomplett: PropTypes.arrayOf(
+        PropTypes.shape({
+            geografiKodeTekst: PropTypes.string,
+            geografiKode: PropTypes.string,
+        })
+    ).isRequired,
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
@@ -66,10 +87,10 @@ GeografiSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,
-    stillingsId: PropTypes.string
+    stillingsId: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     geografiListKomplett: state.geografi.geografiListKomplett,
     typeAheadSuggestionsGeografi: state.typeahead.geografi.suggestions,
     typeAheadSuggestionsGeografiKomplett: state.typeahead.geografiKomplett.suggestions,
@@ -77,17 +98,19 @@ const mapStateToProps = (state) => ({
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     skjulSted: state.search.featureToggles['skjul-sted'],
     panelOpen: state.geografi.geografiPanelOpen,
-    maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi
+    maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.GEOGRAFI }),
-    clearTypeAheadGeografi: () => dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI }),
-    fetchTypeAheadSuggestions: (value) => dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
-    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
-    removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
+    clearTypeAheadGeografi: () =>
+        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI }),
+    fetchTypeAheadSuggestions: value =>
+        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
+    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
+    removeGeografi: value => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN }),
-    toggleMaBoPaGeografi: () => dispatch({ type: TOGGLE_MA_BO_INNENFOR_GEOGRAFI })
+    toggleMaBoPaGeografi: () => dispatch({ type: TOGGLE_MA_BO_INNENFOR_GEOGRAFI }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeografiSearch);

@@ -8,7 +8,9 @@ export default function ManglerRolle() {
             <Container className="blokk-s">
                 <Row>
                     <Column className="text-center feilside">
-                        <Innholdstittel>Ups, det ser ut som du mangler korrekt rolle.</Innholdstittel>
+                        <Innholdstittel>
+                            Ups, det ser ut som du mangler korrekt rolle.
+                        </Innholdstittel>
                     </Column>
                 </Row>
             </Container>

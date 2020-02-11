@@ -14,7 +14,7 @@ export const TOGGLE_INNSATSGRUPPE_PANEL_OPEN = 'TOGGLE_INNSATSGRUPPE_PANEL_OPEN'
 
 const initialState = {
     kvalifiseringsgruppeKoder: [],
-    innsatsgruppePanelOpen: false
+    innsatsgruppePanelOpen: false,
 };
 
 export default function innsatsgruppeReducer(state = initialState, action) {
@@ -25,22 +25,24 @@ export default function innsatsgruppeReducer(state = initialState, action) {
                 kvalifiseringsgruppeKoder: action.query.kvalifiseringsgruppeKoder || [],
                 innsatsgruppePanelOpen:
                     harEnParameter(action.query.kvalifiseringsgruppeKoder) ||
-                    state.innsatsgruppePanelOpen
+                    state.innsatsgruppePanelOpen,
             };
         case CHECK_INNSATSGRUPPE:
             return {
                 ...state,
-                kvalifiseringsgruppeKoder: [...state.kvalifiseringsgruppeKoder, action.value]
+                kvalifiseringsgruppeKoder: [...state.kvalifiseringsgruppeKoder, action.value],
             };
         case UNCHECK_INNSATSGRUPPE:
             return {
                 ...state,
-                kvalifiseringsgruppeKoder: state.kvalifiseringsgruppeKoder.filter((u) => u !== action.value)
+                kvalifiseringsgruppeKoder: state.kvalifiseringsgruppeKoder.filter(
+                    u => u !== action.value
+                ),
             };
         case TOGGLE_INNSATSGRUPPE_PANEL_OPEN:
             return {
                 ...state,
-                innsatsgruppePanelOpen: !state.innsatsgruppePanelOpen
+                innsatsgruppePanelOpen: !state.innsatsgruppePanelOpen,
             };
         default:
             return state;
