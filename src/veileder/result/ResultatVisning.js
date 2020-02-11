@@ -248,7 +248,9 @@ class ResultatVisning extends React.Component {
                                         kandidatlisteId={kandidatlisteId}
                                         stillingsId={stillingsId}
                                     />
-                                    {visFantFåKandidater && <FantFåKandidater />}
+                                    {(kandidatlisteId || stillingsId) && visFantFåKandidater && (
+                                        <FantFåKandidater />
+                                    )}
                                 </div>
                             </Column>
                         </Container>

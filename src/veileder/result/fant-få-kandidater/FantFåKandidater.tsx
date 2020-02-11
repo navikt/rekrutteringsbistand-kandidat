@@ -77,7 +77,7 @@ const FantFåKandidater = (props: Props) => {
         props.search();
     };
 
-    const [kriterier, kriterierInnenTilretteleggingsbehov] = useKriterier(
+    const [andreKriterier, kategorikriterier] = useKriterier(
         props.stillinger,
         props.geografiListKomplett,
         props.kategorier,
@@ -88,7 +88,7 @@ const FantFåKandidater = (props: Props) => {
         onRemoveKategori
     );
 
-    const fjernAlleKriterier = () => {
+    const slettAlleKriterier = () => {
         props.resetQuery(hentQueryUtenKriterier(props.harHentetStilling));
         props.removeKompetanseSuggestions();
         props.search();
@@ -105,23 +105,23 @@ const FantFåKandidater = (props: Props) => {
             <Ingress className="fant-få-kandidater__ingress">
                 For å få treff på flere kandidater, fjern et eller flere kriterier.
             </Ingress>
-            {kriterier.length > 0 && (
+            {andreKriterier.length > 0 && (
                 <>
                     <Normaltekst className="fant-få-kandidater__valgte-kriterier-tittel">
-                        Disse kriteriene er tatt med fra:
+                        Disse kriteriene er tatt med fra stillingen/kandidatlisten:
                     </Normaltekst>
-                    <ValgteKriterier kriterier={kriterier} />
+                    <ValgteKriterier kriterier={andreKriterier} />
                 </>
             )}
-            {kriterierInnenTilretteleggingsbehov.length > 0 && (
+            {kategorikriterier.length > 0 && (
                 <>
                     <Normaltekst className="fant-få-kandidater__valgte-kriterier-tittel">
                         Disse kriteriene er valgt for tilretteleggingsbehov:
                     </Normaltekst>
-                    <ValgteKriterier kriterier={kriterierInnenTilretteleggingsbehov} />
+                    <ValgteKriterier kriterier={kategorikriterier} />
                 </>
             )}
-            <Knapp onClick={fjernAlleKriterier}>Slett alle kriterier</Knapp>
+            <Knapp onClick={slettAlleKriterier}>Slett alle kriterier</Knapp>
         </div>
     );
 };
