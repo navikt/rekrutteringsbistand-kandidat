@@ -42,6 +42,7 @@ import enhetsregisterReducer, {
 } from './common/typeahead/enhetsregisterReducer';
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -106,7 +107,7 @@ class Sok extends React.Component {
         }
         return (
             <BrowserRouter>
-                <div className="Application">
+                <Normaltekst tag="div" className="Application">
                     <div className="Application__main">
                         <HeaderSwitch innloggetVeileder={innloggetVeileder} />
                         <Switch>
@@ -151,7 +152,7 @@ class Sok extends React.Component {
                             <Route component={NotFound} />
                         </Switch>
                     </div>
-                </div>
+                </Normaltekst>
             </BrowserRouter>
         );
     }
