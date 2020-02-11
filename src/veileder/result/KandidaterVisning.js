@@ -224,6 +224,7 @@ class KandidaterVisning extends React.Component {
                     </KnappMedHjelpetekst>
                 </div>
                 <KandidaterTabell
+                    skjulPaginering={this.props.skjulPaginering}
                     antallResultater={antallKandidater}
                     kandidater={kandidater}
                     onFlereResultaterClick={this.onFlereResultaterClick}
@@ -247,6 +248,7 @@ KandidaterVisning.defaultProps = {
 };
 
 KandidaterVisning.propTypes = {
+    skjulPaginering: PropTypes.bool.isRequired,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired,

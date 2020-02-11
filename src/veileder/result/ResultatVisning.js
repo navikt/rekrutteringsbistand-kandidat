@@ -181,6 +181,8 @@ class ResultatVisning extends React.Component {
             </div>
         );
 
+        const visFantFåKandidater = this.props.totaltAntallTreff < 5;
+
         return (
             <div>
                 <HjelpetekstFading
@@ -242,10 +244,11 @@ class ResultatVisning extends React.Component {
                             <Column xs="12" sm="8">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning
+                                        skjulPaginering={visFantFåKandidater}
                                         kandidatlisteId={kandidatlisteId}
                                         stillingsId={stillingsId}
                                     />
-                                    <FantFåKandidater />
+                                    {visFantFåKandidater && <FantFåKandidater />}
                                 </div>
                             </Column>
                         </Container>
@@ -274,6 +277,7 @@ ResultatVisning.defaultProps = {
 ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     initialSearch: PropTypes.func.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
@@ -305,6 +309,7 @@ ResultatVisning.propTypes = {
 
 const mapStateToProps = state => ({
     isInitialSearch: state.search.isInitialSearch,
+    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,

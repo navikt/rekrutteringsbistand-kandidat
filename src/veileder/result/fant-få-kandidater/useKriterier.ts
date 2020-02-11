@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Kategori, { getKortKategoriLabel } from '../../sok/tilretteleggingsbehov/Kategori';
+import { Geografi } from './FantFåKandidater';
 
 const storForbokstav = (kriterie: string) =>
     kriterie.length < 2 ? kriterie : kriterie[0].toUpperCase() + kriterie.substr(1);
@@ -11,14 +12,30 @@ export type Kriterie = {
 };
 
 const useKriterier = (
+    stillinger: string[],
+    geografi: Geografi[],
     kategorier: Kategori[],
     tilretteleggingsbehov: boolean,
+    onRemoveStillingEllerYrke: (stilling: string) => void,
+    onRemoveGeografi: (geografi: Geografi) => void,
     onRemoveTilretteleggingsbehov: () => void,
     onRemoveKategori: (kategori: Kategori) => void
 ): Kriterie[] => {
     const [kriterier, setKriterier] = useState<Kriterie[]>([]);
 
     useEffect(() => {
+        const stillingKriterier = stillinger.map(stilling => ({
+            value: stilling,
+            label: stilling,
+            onRemove: onRemoveStillingEllerYrke,
+        }));
+
+        const geografiKriterier = geografi.map(geografi => ({
+            value: geografi.geografiKode,
+            label: geografi.geografiKodeTekst,
+            onRemove: onRemoveGeografi,
+        }));
+
         const tilretteleggingsbehovKriterier = tilretteleggingsbehov
             ? [
                   {
@@ -31,12 +48,26 @@ const useKriterier = (
 
         const kategoriKriterier = kategorier.map(kategori => ({
             value: kategori,
-            label: getKortKategoriLabel(kategori),
+            label: `Behov: ${getKortKategoriLabel(kategori)}`,
             onRemove: onRemoveKategori,
         }));
 
-        setKriterier([...tilretteleggingsbehovKriterier, ...kategoriKriterier]);
-    }, [kategorier, tilretteleggingsbehov, onRemoveTilretteleggingsbehov, onRemoveKategori]);
+        setKriterier([
+            ...stillingKriterier,
+            ...geografiKriterier,
+            ...tilretteleggingsbehovKriterier,
+            ...kategoriKriterier,
+        ]);
+    }, [
+        stillinger,
+        geografi,
+        kategorier,
+        tilretteleggingsbehov,
+        onRemoveStillingEllerYrke,
+        onRemoveGeografi,
+        onRemoveTilretteleggingsbehov,
+        onRemoveKategori,
+    ]);
 
     return kriterier;
 };
