@@ -421,7 +421,7 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
-            if (state.search.featureToggles['preutfyll-tilretteleggingsbehov'] && stilling.tag.length > 0) {
+            if (stilling.tag.length > 0) {
                 urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
             }
         }

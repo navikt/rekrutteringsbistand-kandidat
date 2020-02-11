@@ -35,7 +35,6 @@ import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, { enhetsregisterSaga } from './common/typeahead/enhetsregisterReducer';
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
-import Spinner from '../felles/common/Spinner';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combineReducers({
@@ -81,7 +80,7 @@ class Sok extends React.Component {
     }
 
     render() {
-        const { error, innloggetVeileder, fjernError, harHentetFeatureToggles } = this.props;
+        const { error, innloggetVeileder, fjernError } = this.props;
 
         if (error) {
             return (
@@ -98,8 +97,6 @@ class Sok extends React.Component {
                 <div className="Application">
                     <div className="Application__main">
                         <HeaderSwitch innloggetVeileder={innloggetVeileder} />
-
-                        {harHentetFeatureToggles ? (
                             <Switch>
                                 <Route exact path="/kandidater" component={ResultatVisning} />
                                 <Route exact path="/kandidater/kandidatliste/:kandidatlisteId" component={ResultatVisning} />
@@ -113,7 +110,6 @@ class Sok extends React.Component {
                                 <Route exact path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr" component={VisKandidatFraLister} />
                                 <Route component={NotFound} />
                             </Switch>
-                        ) : <Spinner />}
                     </div>
                 </div>
             </BrowserRouter>
@@ -123,8 +119,7 @@ class Sok extends React.Component {
 
 Sok.defaultProps = {
     error: undefined,
-    innloggetVeileder: undefined,
-    harHentetFeatureToggles: false
+    innloggetVeileder: undefined
 };
 
 Sok.propTypes = {
@@ -133,14 +128,12 @@ Sok.propTypes = {
     }),
     innloggetVeileder: PropTypes.string,
     fetchFeatureToggles: PropTypes.func.isRequired,
-    harHentetFeatureToggles: PropTypes.bool.isRequired,
     hentInnloggetVeileder: PropTypes.func.isRequired,
     fjernError: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
     error: state.search.error,
-    harHentetFeatureToggles: state.search.harHentetFeatureToggles,
     innloggetVeileder: state.search.innloggetVeileder
 });
 

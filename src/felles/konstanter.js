@@ -16,8 +16,7 @@ const FEATURE_TOGGLES = [
     'vis-lenke-til-kandidatsok-next',
     'vis-notater-arbeidsgiver',
     'vis-last-ned-cv-lenke',
-    'vis-tilretteleggingsbehov-kategorier',
-    'preutfyll-tilretteleggingsbehov'
+    'vis-tilretteleggingsbehov-kategorier'
 ];
 export default FEATURE_TOGGLES;
 
