@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './FantFåKandidater.less';
 import { Innholdstittel, Normaltekst, Ingress } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper';
@@ -8,10 +8,11 @@ import {
     TOGGLE_TILRETTELEGGINGSBEHOV,
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
 } from '../../sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
-import Kategori, { getKortKategoriLabel } from '../../sok/tilretteleggingsbehov/Kategori';
 import { hentQueryUtenKriterier } from '../ResultatVisning';
 import Forstørrelsesglass from './Forstørrelsesglass';
-import ValgteKriterier, { Kriterie } from './ValgteKriterier';
+import ValgteKriterier from './ValgteKriterier';
+import useKriterier from './useKriterier';
+import Kategori from '../../sok/tilretteleggingsbehov/Kategori';
 
 type Props = {
     antallKandidater: number;
@@ -24,9 +25,6 @@ type Props = {
     disableTilretteleggingsbehov: () => void;
     changeTilretteleggingsbehovKategorier: (kategorier: Kategori[]) => void;
 };
-
-const storForbokstav = (kriterie: string) =>
-    kriterie.length < 2 ? kriterie : kriterie[0].toUpperCase() + kriterie.substr(1);
 
 const FantFåKandidater = (props: Props) => {
     const {
@@ -41,39 +39,22 @@ const FantFåKandidater = (props: Props) => {
         tilretteleggingsbehov,
     } = props;
 
-    const [kriterier, setKriterier] = useState<Kriterie[]>([]);
+    const onRemoveTilretteleggingsbehov = () => {
+        disableTilretteleggingsbehov();
+        search();
+    };
 
-    useEffect(() => {
-        const tilretteleggingsbehovKriterier = tilretteleggingsbehov
-            ? [
-                  {
-                      value: tilretteleggingsbehov,
-                      label: storForbokstav('tilretteleggingsbehov'),
-                      onRemove: () => {
-                          disableTilretteleggingsbehov();
-                          search();
-                      },
-                  },
-              ]
-            : [];
+    const onRemoveKategori = (kategori: Kategori) => {
+        changeTilretteleggingsbehovKategorier(kategorier.filter(k => k !== kategori));
+        search();
+    };
 
-        const kategoriKriterier = kategorier.map(kategori => ({
-            value: kategori,
-            label: getKortKategoriLabel(kategori),
-            onRemove: () => {
-                changeTilretteleggingsbehovKategorier(kategorier.filter(k => k !== kategori));
-                search();
-            },
-        }));
-
-        setKriterier([...tilretteleggingsbehovKriterier, ...kategoriKriterier]);
-    }, [
+    const kriterier = useKriterier(
         kategorier,
         tilretteleggingsbehov,
-        changeTilretteleggingsbehovKategorier,
-        disableTilretteleggingsbehov,
-        search,
-    ]);
+        onRemoveTilretteleggingsbehov,
+        onRemoveKategori
+    );
 
     const fjernAlleKriterier = () => {
         resetQuery(hentQueryUtenKriterier(harHentetStilling));
@@ -95,7 +76,7 @@ const FantFåKandidater = (props: Props) => {
             {kriterier.length > 0 && (
                 <>
                     <Normaltekst className="fant-få-kandidater__valgte-kriterier-tittel">
-                        Disse kriteriene er valgt for tilretteleggingsbehov:
+                        Disse kriteriene er tatt med fra:
                     </Normaltekst>
                     <ValgteKriterier kriterier={kriterier} />
                 </>
