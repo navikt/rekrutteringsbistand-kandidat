@@ -1,5 +1,5 @@
 {
-    "totaltAntallTreff": 10,
+    "totaltAntallTreff": 4,
     "kandidater": [
         {
             "arenaKandidatnr": "CD430805",
@@ -67,111 +67,6 @@
             },
             "servicebehov": "Standardinnsats",
             "innsatsgruppe": "Standardinnsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "JF873508",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "12077918556",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 225,
-            "hoyesteUtdanning": { "nusKode": "401101", "nusKodeGrad": null },
-            "mestRelevanteYrkeserfaring": {
-                "styrkKodeStillingstittel": "Konditor",
-                "yrkeserfaringManeder": 31
-            },
-            "servicebehov": "Standardinnsats",
-            "innsatsgruppe": "Standardinnsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "FK993402",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "22119749836",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 0,
-            "hoyesteUtdanning": { "nusKode": "635106", "nusKodeGrad": null },
-            "mestRelevanteYrkeserfaring": null,
-            "servicebehov": "Spesielt tilpasset innsats",
-            "innsatsgruppe": "Spesielt tilpasset innsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "GF004504",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "01038215430",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 34,
-            "hoyesteUtdanning": null,
-            "mestRelevanteYrkeserfaring": {
-                "styrkKodeStillingstittel": "Assistent (barnepark)Frivillig",
-                "yrkeserfaringManeder": 34
-            },
-            "servicebehov": "Spesielt tilpasset innsats",
-            "innsatsgruppe": "Spesielt tilpasset innsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "AJ923606",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "26066914886",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 421,
-            "hoyesteUtdanning": { "nusKode": "101101", "nusKodeGrad": null },
-            "mestRelevanteYrkeserfaring": {
-                "styrkKodeStillingstittel": "Omsorgsarbeider",
-                "yrkeserfaringManeder": 2
-            },
-            "servicebehov": "Spesielt tilpasset innsats",
-            "innsatsgruppe": "Spesielt tilpasset innsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "HI813307",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "13106340786",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 344,
-            "hoyesteUtdanning": { "nusKode": "641104", "nusKodeGrad": null },
-            "mestRelevanteYrkeserfaring": {
-                "styrkKodeStillingstittel": "Daglig leder (privat virksomhet)",
-                "yrkeserfaringManeder": 9
-            },
-            "servicebehov": "Situasjonsbestemt innsats",
-            "innsatsgruppe": "Situasjonsbestemt innsats",
-            "score": "NaN",
-            "poststed": "Oslo"
-        },
-        {
-            "arenaKandidatnr": "EG663502",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
-            "fodselsdato": "2019-09-16",
-            "fodselsnummer": "02085427108",
-            "erFodselsdatoDnr": false,
-            "totalLengdeYrkeserfaring": 550,
-            "hoyesteUtdanning": { "nusKode": "101999", "nusKodeGrad": null },
-            "mestRelevanteYrkeserfaring": {
-                "styrkKodeStillingstittel": "Annen montør",
-                "yrkeserfaringManeder": 88
-            },
-            "servicebehov": "Spesielt tilpasset innsats",
-            "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo"
         }

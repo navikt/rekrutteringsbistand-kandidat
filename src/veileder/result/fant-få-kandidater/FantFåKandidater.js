@@ -1,7 +1,8 @@
 import React from 'react';
 import './FantFåKandidater.less';
-import { Innholdstittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
+import { Innholdstittel, Normaltekst, Ingress } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
 
 const KRITERIER_TMP = {
     utdanningsniva: ['Videregaende'],
@@ -10,30 +11,24 @@ const KRITERIER_TMP = {
     kategorier: ['arbeidstid'],
 };
 
-const Kriterie = ({ label, verdi, onFjernKriterie }) => {
-    return (
-        <button onClick={onFjernKriterie} type="button" className="fant-få-kandidater__kriterie">
-            <Element className="fant-få-kandidater__kriterie-label">{`${label}: ${verdi}`}</Element>
-            <svg height="18" width="18">
-                <circle cx="9" cy="9" r="8" stroke="black" strokeWidth="1" fill="none" />
-            </svg>
-        </button>
-    );
-};
-
 const ValgteKriterier = ({ kriterier }) => {
     return (
         <div className="fant-få-kandidater__valgte-kriterier">
-            {Object.entries(kriterier).map(([key, value]) => (
-                <Kriterie
-                    key={`${key}-${value}`}
-                    label={key}
-                    verdi={value}
-                    onFjernKriterie={() => {
-                        console.log('Fjerner', key, value);
-                    }}
-                />
-            ))}
+            {Object.entries(kriterier).map(([key, value]) => {
+                const uniqueKey = `${key}-${value}`;
+
+                return (
+                    <Merkelapp
+                        key={uniqueKey}
+                        value={uniqueKey}
+                        onRemove={() => {
+                            console.log('Fjerner', key, value);
+                        }}
+                    >
+                        {`${key}: ${value}`}
+                    </Merkelapp>
+                );
+            })}
         </div>
     );
 };
@@ -68,7 +63,7 @@ const FantFåKandidater = ({ antallKandidater = 0 }) => {
                     : `Fant kun ${antallKandidater} kandidater`}
             </Innholdstittel>
             <Ingress className="fant-få-kandidater__ingress">
-                For å få treff på flere kandidater, fjern et eller flere kriterier,´.
+                For å få treff på flere kandidater, fjern et eller flere kriterier.
             </Ingress>
             <Normaltekst className="fant-få-kandidater__valgte-kriterier-tittel">
                 Disse kriteriene er valgt:
