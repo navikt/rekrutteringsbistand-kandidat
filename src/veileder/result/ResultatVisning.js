@@ -32,7 +32,23 @@ import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
+
+export const hentQueryUtenKriterier = harHentetStilling => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+    harHentetStilling: harHentetStilling,
+});
 
 class ResultatVisning extends React.Component {
     constructor(props) {
@@ -68,21 +84,7 @@ class ResultatVisning extends React.Component {
     };
 
     onRemoveCriteriaClick = () => {
-        this.props.resetQuery({
-            fritekst: '',
-            stillinger: [],
-            arbeidserfaringer: [],
-            utdanninger: [],
-            kompetanser: [],
-            geografiList: [],
-            geografiListKomplett: [],
-            totalErfaring: [],
-            utdanningsniva: [],
-            sprak: [],
-            kvalifiseringsgruppeKoder: [],
-            maaBoInnenforGeografi: false,
-            harHentetStilling: this.props.harHentetStilling,
-        });
+        this.props.resetQuery(hentQueryUtenKriterier(this.props.harHentetStilling));
         this.props.removeKompetanseSuggestions();
         this.props.search();
     };
