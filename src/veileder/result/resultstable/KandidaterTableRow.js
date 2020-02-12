@@ -33,7 +33,7 @@ class KandidaterTableRow extends React.Component {
         const kandidatnummer = kandidat.arenaKandidatnr;
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
         const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
-        const navn = `${fornavn} ${etternavn}`;
+        const navn = `${etternavn}, ${fornavn}`;
         const fodselsnummer = kandidat.fodselsnummer;
         const innsatsgruppe = kandidat.servicebehov;
         const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
@@ -55,7 +55,7 @@ class KandidaterTableRow extends React.Component {
                                 type="checkbox"
                                 id={`marker-kandidat-${kandidatnummer}-checkbox`}
                                 className="skjemaelement__input checkboks"
-                                aria-label={`Marker kandidat med navn ${etternavn}, ${fornavn}`}
+                                aria-label={`Marker kandidat med navn ${navn}`}
                                 checked={markert}
                                 onChange={() => {
                                     this.onCheck(kandidat.arenaKandidatnr);
@@ -75,7 +75,7 @@ class KandidaterTableRow extends React.Component {
                             className="kolonne-lenke link"
                             to={linkTilKandidat()}
                             onClick={() => setScrollPosition(window.pageYOffset)}
-                            aria-label={`Se CV for ${etternavn}, ${fornavn}`}
+                            aria-label={`Se CV for ${navn}`}
                         >
                             {navn}
                         </Link>

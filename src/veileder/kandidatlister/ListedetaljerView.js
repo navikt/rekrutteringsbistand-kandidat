@@ -314,7 +314,7 @@ const ListedetaljerView = props => {
                             className="link"
                             to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
                         >
-                            {`${fornavn} ${etternavn}`}
+                            {`${etternavn}, ${fornavn}`}
                         </Link>
                     </div>
                     <div className="kolonne-dato">{kandidat.fodselsnr}</div>

@@ -115,6 +115,7 @@ class LeggTilKandidatModal extends React.Component {
                 <li>Kandidaten er egen ansatt, og du har ikke tilgang</li>
                 <li>{'Kandidaten har "Nei nav.no" i Formidlingsinformasjon i Arena'}</li>
                 <li>{'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena'}</li>
+                <li>{'Kandidaten er sperret "Egen ansatt"'}</li>
             </ul>
         </div>
     );
