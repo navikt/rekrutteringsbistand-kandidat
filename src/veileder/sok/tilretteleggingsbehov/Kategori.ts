@@ -5,6 +5,19 @@ enum Kategori {
     Grunnleggende = 'grunnleggende',
 }
 
+export const getKortKategoriLabel = (kategori: Kategori) => {
+    switch (kategori) {
+        case Kategori.Fysisk:
+            return 'Fysisk';
+        case Kategori.Arbeidstid:
+            return 'Arbeidstid';
+        case Kategori.Arbeidsmiljø:
+            return 'Arbeidsmiljø';
+        case Kategori.Grunnleggende:
+            return 'Grunnleggende ferdigheter';
+    }
+};
+
 export const getKategoriLabel = (kategori: Kategori) => {
     switch (kategori) {
         case Kategori.Fysisk:

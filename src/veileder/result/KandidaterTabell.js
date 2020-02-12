@@ -8,6 +8,7 @@ import cvPropTypes from '../../felles/PropTypes';
 
 export default function KandidaterTabell({
     antallResultater,
+    skjulPaginering,
     onFlereResultaterClick,
     kandidater,
     totaltAntallTreff,
@@ -47,11 +48,15 @@ export default function KandidaterTabell({
                         Se flere kandidater
                     </Knapp>
                 )}
-                <Element className="antall-treff-kandidatervisning">
-                    Viser{' '}
-                    {antallResultater > totaltAntallTreff ? totaltAntallTreff : antallResultater} av{' '}
-                    {totaltAntallTreff}
-                </Element>
+                {!skjulPaginering && (
+                    <Element className="antall-treff-kandidatervisning">
+                        Viser{' '}
+                        {antallResultater > totaltAntallTreff
+                            ? totaltAntallTreff
+                            : antallResultater}{' '}
+                        av {totaltAntallTreff}
+                    </Element>
+                )}
             </div>
         </div>
     );
@@ -64,6 +69,7 @@ KandidaterTabell.defaultProps = {
 
 KandidaterTabell.propTypes = {
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
+    skjulPaginering: PropTypes.bool.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     antallResultater: PropTypes.number.isRequired,
     onFlereResultaterClick: PropTypes.func.isRequired,

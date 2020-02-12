@@ -7,6 +7,7 @@ import * as sok from './json/sok.json';
 import * as notater from './json/notater.json';
 import * as sokeord from './json/sokeord.json';
 import * as arenageografikoder from './json/arenageografikoder.json';
+import * as typeaheadgeo from './json/typeaheadgeo.json';
 
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
@@ -14,6 +15,7 @@ import * as CD430805 from './json/CD430805.json';
 import { SEARCH_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
+const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';
 
 const alleCver = {
     DC294105,
@@ -25,14 +27,17 @@ const meUrl = `${veilederUrl}/me`;
 const kandidatlisteUrl = `${veilederUrl}/kandidatlister/bf6877fa-5c82-4610-8cf7-ff7a0df18e29`;
 const kandidatlisteKandidaterUrl = `${kandidatlisteUrl}/kandidater`;
 const hentCvUrl = `${veilederUrl}/kandidatsok/hentcv`;
+const typeaheadGeoUrl = `${veilederUrl}/kandidatsok/typeahead?geo=`;
 const alleKandidatlisterUrl = `${veilederUrl}/kandidatlister`;
 const sokUrl = `${veilederUrl}/kandidatsok/sok`;
 const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
+const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/bf6877fa-5c82-4610-8cf7-ff7a0df18e29/kandidatliste`;
 
 // Kodeverk
-const sokeordUrl = `${veilederUrl}/stilling/sokeord`;
-const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/bf6877fa-5c82-4610-8cf7-ff7a0df18e29/kandidatliste`;
 const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/kodeverk/arenageografikoder`;
+
+// Kandidatsøk
+const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -70,6 +75,7 @@ fetchMock
     .get(meUrl, me)
     .get(kandidatlisteUrl, kandidatliste)
     .get(stillingsKandidatlisteUrl, kandidatliste)
+    .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
     .get((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
