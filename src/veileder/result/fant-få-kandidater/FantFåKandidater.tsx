@@ -100,7 +100,9 @@ const FantFåKandidater = (props: Props) => {
             <Innholdstittel className="fant-få-kandidater__overskrift">
                 {props.totaltAntallTreff === 0
                     ? 'Fant ingen kandidater'
-                    : `Fant kun ${props.totaltAntallTreff} kandidater`}
+                    : `Fant kun ${props.totaltAntallTreff} ${
+                          props.totaltAntallTreff > 1 ? 'kandidater' : 'kandidat'
+                      }`}
             </Innholdstittel>
             <Ingress className="fant-få-kandidater__ingress">
                 For å få treff på flere kandidater, fjern et eller flere kriterier.
