@@ -97,6 +97,7 @@ class Sok extends React.Component {
 
     render() {
         const { error, innloggetVeileder, fjernError } = this.props;
+
         if (error) {
             return (
                 <BrowserRouter>

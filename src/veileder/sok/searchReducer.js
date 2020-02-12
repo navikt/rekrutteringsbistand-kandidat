@@ -77,6 +77,7 @@ const initialState = {
     isSearching: false,
     isInitialSearch: true,
     error: undefined,
+    harHentetFeatureToggles: false,
     featureToggles: FEATURE_TOGGLES.reduce((dict, key) => ({ ...dict, [key]: false }), {}),
     isEmptyQuery: true,
     visAlertFaKandidater: '',
@@ -166,6 +167,7 @@ export default function searchReducer(state = initialState, action) {
         case FETCH_FEATURE_TOGGLES_SUCCESS:
             return {
                 ...state,
+                harHentetFeatureToggles: true,
                 featureToggles: FEATURE_TOGGLES.reduce(
                     (dict, key) => ({
                         ...dict,
@@ -177,6 +179,7 @@ export default function searchReducer(state = initialState, action) {
         case FETCH_FEATURE_TOGGLES_FAILURE:
             return {
                 ...state,
+                harHentetFeatureToggles: true,
                 featureToggles: FEATURE_TOGGLES.reduce(
                     (dict, key) => ({ ...dict, [key]: false }),
                     {}
@@ -446,6 +449,30 @@ function* fetchKompetanseSuggestions() {
     }
 }
 
+const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
+    const nyQuery = { ...urlQuery };
+
+    nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
+    if (!nyQuery.tilretteleggingsbehov) {
+        return nyQuery;
+    }
+
+    nyQuery.kategorier = [];
+
+    const tilretteleggingsmuligheterTilBehov = {
+        INKLUDERING__ARBEIDSTID: 'arbeidstid',
+        INKLUDERING__ARBEIDSMILJØ: 'arbeidsmiljo',
+        INKLUDERING__FYSISK: 'fysisk',
+        INKLUDERING__GRUNNLEGGENDE: 'grunnleggende',
+    };
+
+    nyQuery.kategorier = tag
+        .filter(t => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map(t => tilretteleggingsmuligheterTilBehov[t]);
+
+    return nyQuery;
+};
+
 function* initialSearch(action) {
     try {
         let urlQuery = fromUrlQuery(window.location.href);
@@ -462,9 +489,8 @@ function* initialSearch(action) {
             urlQuery.geografiList = stilling.kommune;
             urlQuery.harHentetStilling = true;
 
-            if (state.search.featureToggles['vis-tilretteleggingsbehov-kategorier']) {
-                urlQuery.tilretteleggingsbehov = stilling.tilretteleggingsbehov;
-                urlQuery.kategorier = stilling.kategorier;
+            if (stilling.tag.length > 0) {
+                urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
             }
         }
         if (Object.keys(urlQuery).length > 0) {
