@@ -181,7 +181,7 @@ class ResultatVisning extends React.Component {
             </div>
         );
 
-        const visFantFåKandidater = this.props.totaltAntallTreff < 5;
+        const visFantFåKandidater = stillingsId && this.props.maksAntallTreff < 5;
 
         return (
             <div>
@@ -248,9 +248,7 @@ class ResultatVisning extends React.Component {
                                         kandidatlisteId={kandidatlisteId}
                                         stillingsId={stillingsId}
                                     />
-                                    {(kandidatlisteId || stillingsId) && visFantFåKandidater && (
-                                        <FantFåKandidater />
-                                    )}
+                                    {visFantFåKandidater && <FantFåKandidater />}
                                 </div>
                             </Column>
                         </Container>
@@ -280,6 +278,7 @@ ResultatVisning.propTypes = {
     resetQuery: PropTypes.func.isRequired,
     initialSearch: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
+    maksAntallTreff: PropTypes.number.isRequired,
     search: PropTypes.func.isRequired,
     removeKompetanseSuggestions: PropTypes.func.isRequired,
     isInitialSearch: PropTypes.bool.isRequired,
@@ -312,6 +311,7 @@ ResultatVisning.propTypes = {
 const mapStateToProps = state => ({
     isInitialSearch: state.search.isInitialSearch,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+    maksAntallTreff: state.search.maksAntallTreff,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
