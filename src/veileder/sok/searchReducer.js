@@ -72,6 +72,7 @@ const initialState = {
         },
         kompetanseSuggestions: [],
     },
+    maksAntallTreff: 0,
     antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
     searchQueryHash: '',
     isSearching: false,
@@ -120,6 +121,7 @@ export default function searchReducer(state = initialState, action) {
                               ],
                           },
                 },
+                maksAntallTreff: Math.max(state.maksAntallTreff, action.response.totaltAntallTreff),
             };
         }
         case SEARCH_FAILURE:
