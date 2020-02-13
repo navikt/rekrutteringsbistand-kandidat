@@ -60,6 +60,14 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
     };
 
+    onKandidatStatusChange = status => {
+        this.props.endreStatusKandidat(
+            status,
+            this.props.kandidatlisteId,
+            this.props.cv.kandidatnummer
+        );
+    };
+
     render() {
         const { cv, match, kandidatlisteId, kandidatliste, hentStatus } = this.props;
         const gjeldendeKandidat = this.gjeldendeKandidatIListen(match.params.kandidatNr);
@@ -71,6 +79,7 @@ class VisKandidatFraLister extends React.Component {
         const nesteKandidatLink = nesteKandidat
             ? `/kandidater/lister/detaljer/${kandidatlisteId}/cv/${nesteKandidat}`
             : undefined;
+        const kandidat = kandidatliste.kandidater[gjeldendeKandidat];
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -139,10 +148,8 @@ class VisKandidatFraLister extends React.Component {
                                 {gjeldendeKandidat && (
                                     <StatusSelect
                                         kanEditere={kandidatliste.kanEditere}
-                                        value={kandidatliste.kandidater[gjeldendeKandidat].status}
-                                        onChange={status => {
-                                            console.log('Status endret til:', status);
-                                        }}
+                                        value={kandidat.status}
+                                        onChange={this.onKandidatStatusChange}
                                     />
                                 )}
                             </div>
@@ -193,6 +200,7 @@ VisKandidatFraLister.propTypes = {
             })
         ),
     }),
+    endreStatusKandidat: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -213,6 +221,13 @@ const mapDispatchToProps = dispatch => ({
         dispatch({
             type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
+        }),
+    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) =>
+        dispatch({
+            type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT,
+            status,
+            kandidatlisteId,
+            kandidatnr,
         }),
 });
 
