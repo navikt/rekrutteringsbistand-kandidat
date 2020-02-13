@@ -95,6 +95,11 @@ const initialState = {
 
 export default function searchReducer(state = initialState, action) {
     switch (action.type) {
+        case INITIAL_SEARCH_BEGIN:
+            return {
+                ...state,
+                maksAntallTreff: 0,
+            };
         case SEARCH_BEGIN:
             return {
                 ...state,
