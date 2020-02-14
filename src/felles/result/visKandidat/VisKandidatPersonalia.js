@@ -47,7 +47,7 @@ class VisKandidatPersonalia extends React.Component {
             appContext,
             antallKandidater,
             tilbakeLink,
-            gjeldendeKandidat,
+            gjeldendeKandidatIndex,
             forrigeKandidat,
             nesteKandidat,
             fantCv,
@@ -96,7 +96,7 @@ class VisKandidatPersonalia extends React.Component {
                                 lenkeClass={lenkeClass}
                                 forrigeKandidat={forrigeKandidat}
                                 nesteKandidat={nesteKandidat}
-                                gjeldendeKandidat={gjeldendeKandidat}
+                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                                 antallKandidater={antallKandidater}
                             />
                         )}
@@ -191,7 +191,7 @@ class VisKandidatPersonalia extends React.Component {
 
 VisKandidatPersonalia.defaultProps = {
     antallKandidater: undefined,
-    gjeldendeKandidat: undefined,
+    gjeldendeKandidatIndex: undefined,
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
     fantCv: true,
@@ -203,7 +203,7 @@ VisKandidatPersonalia.propTypes = {
     appContext: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number,
     tilbakeLink: PropTypes.string.isRequired,
-    gjeldendeKandidat: PropTypes.number,
+    gjeldendeKandidatIndex: PropTypes.number,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
     fantCv: PropTypes.bool,

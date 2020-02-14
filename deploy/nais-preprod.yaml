@@ -10,12 +10,12 @@ spec:
     port: 8080
     liveness:
         path: /rekrutteringsbistand-kandidat/internal/isAlive
-        initialDelay: 60
+        initialDelay: 5
         timeout: 1
         failureThreshold: 2
     readiness:
         path: /rekrutteringsbistand-kandidat/internal/isReady
-        initialDelay: 60
+        initialDelay: 5
         timeout: 1
     replicas:
         min: 1
