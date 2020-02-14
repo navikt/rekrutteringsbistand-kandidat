@@ -7,7 +7,7 @@ const VisKandidatForrigeNeste = ({
     lenkeClass,
     forrigeKandidat,
     nesteKandidat,
-    gjeldendeKandidat,
+    gjeldendeKandidatIndex,
     antallKandidater,
 }) => {
     if (antallKandidater > 1) {
@@ -22,7 +22,7 @@ const VisKandidatForrigeNeste = ({
                     />
                 )}
                 <Normaltekst className="index">
-                    {gjeldendeKandidat} av {antallKandidater}
+                    {gjeldendeKandidatIndex + 1} av {antallKandidater}
                 </Normaltekst>
                 {nesteKandidat ? (
                     <LenkeMedChevron
@@ -43,7 +43,7 @@ const VisKandidatForrigeNeste = ({
 VisKandidatForrigeNeste.defaultProps = {
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
-    gjeldendeKandidat: undefined,
+    gjeldendeKandidatIndex: undefined,
     antallKandidater: undefined,
 };
 
@@ -51,7 +51,7 @@ VisKandidatForrigeNeste.propTypes = {
     lenkeClass: PropTypes.string.isRequired,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,
-    gjeldendeKandidat: PropTypes.number,
+    gjeldendeKandidatIndex: PropTypes.number,
     antallKandidater: PropTypes.number,
 };
 

@@ -13,6 +13,7 @@ import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidat
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
+import StatusSelect from './statusSelect/StatusSelect';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -29,17 +30,17 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    gjeldendeKandidatIListen = kandidatnummer => {
+    hentGjeldendeKandidatIndex = kandidatnummer => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
             element => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === -1) {
             return undefined;
         }
-        return gjeldendeIndex + 1;
+        return gjeldendeIndex;
     };
 
-    forrigeKandidatnummerIListen = kandidatnummer => {
+    hentForrigeKandidatNummer = kandidatnummer => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
             element => element.kandidatnr === kandidatnummer
         );
@@ -49,7 +50,7 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    nesteKandidatnummerIListen = kandidatnummer => {
+    hentNesteKandidatNummer = kandidatnummer => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
             element => element.kandidatnr === kandidatnummer
         );
@@ -59,17 +60,29 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
     };
 
+    onKandidatStatusChange = status => {
+        this.props.endreStatusKandidat(
+            status,
+            this.props.kandidatlisteId,
+            this.props.cv.kandidatnummer
+        );
+    };
+
+    hentLenkeTilKandidat = kandidatnummer =>
+        kandidatnummer
+            ? `/kandidater/lister/detaljer/${this.props.kandidatlisteId}/cv/${kandidatnummer}`
+            : undefined;
+
     render() {
         const { cv, match, kandidatlisteId, kandidatliste, hentStatus } = this.props;
-        const gjeldendeKandidat = this.gjeldendeKandidatIListen(match.params.kandidatNr);
-        const forrigeKandidat = this.forrigeKandidatnummerIListen(match.params.kandidatNr);
-        const nesteKandidat = this.nesteKandidatnummerIListen(match.params.kandidatNr);
-        const forrigeKandidatLink = forrigeKandidat
-            ? `/kandidater/lister/detaljer/${kandidatlisteId}/cv/${forrigeKandidat}`
-            : undefined;
-        const nesteKandidatLink = nesteKandidat
-            ? `/kandidater/lister/detaljer/${kandidatlisteId}/cv/${nesteKandidat}`
-            : undefined;
+
+        const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(match.params.kandidatNr);
+        const nesteKandidatNummer = this.hentNesteKandidatNummer(match.params.kandidatNr);
+        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(match.params.kandidatNr);
+        const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
+        const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
+
+        const gjeldendeKandidat = kandidatliste.kandidater[gjeldendeKandidatIndex];
 
         if (hentStatus === HENT_CV_STATUS.LOADING) {
             return (
@@ -87,7 +100,7 @@ class VisKandidatFraLister extends React.Component {
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
-                    gjeldendeKandidat={gjeldendeKandidat}
+                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     antallKandidater={kandidatliste.kandidater.length}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
@@ -135,6 +148,16 @@ class VisKandidatFraLister extends React.Component {
                                         </a>
                                     )}
                                 </div>
+                                {gjeldendeKandidat && (
+                                    <div className="VisKandidat-knapperad__statusSelect">
+                                        <span>Status:</span>
+                                        <StatusSelect
+                                            kanEditere={kandidatliste.kanEditere}
+                                            value={gjeldendeKandidat.status}
+                                            onChange={this.onKandidatStatusChange}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="viskandidat-container">
@@ -146,7 +169,7 @@ class VisKandidatFraLister extends React.Component {
                                     contextRoot={'kandidater'}
                                     forrigeKandidat={forrigeKandidatLink}
                                     nesteKandidat={nesteKandidatLink}
-                                    gjeldendeKandidat={gjeldendeKandidat}
+                                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                                     antallKandidater={kandidatliste.kandidater.length}
                                 />
                             </div>
@@ -183,6 +206,7 @@ VisKandidatFraLister.propTypes = {
             })
         ),
     }),
+    endreStatusKandidat: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -203,6 +227,13 @@ const mapDispatchToProps = dispatch => ({
         dispatch({
             type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
+        }),
+    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) =>
+        dispatch({
+            type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT,
+            status,
+            kandidatlisteId,
+            kandidatnr,
         }),
 });
 
