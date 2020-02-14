@@ -146,11 +146,14 @@ class VisKandidatFraLister extends React.Component {
                                     )}
                                 </div>
                                 {gjeldendeKandidat && (
-                                    <StatusSelect
-                                        kanEditere={kandidatliste.kanEditere}
-                                        value={kandidat.status}
-                                        onChange={this.onKandidatStatusChange}
-                                    />
+                                    <div className="VisKandidat-knapperad__statusSelect">
+                                        <span>Status:</span>
+                                        <StatusSelect
+                                            kanEditere={kandidatliste.kanEditere}
+                                            value={kandidat.status}
+                                            onChange={this.onKandidatStatusChange}
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </div>
