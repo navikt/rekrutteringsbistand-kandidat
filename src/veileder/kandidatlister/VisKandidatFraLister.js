@@ -145,7 +145,7 @@ class VisKandidatFraLister extends React.Component {
                                         </a>
                                     )}
                                 </div>
-                                {gjeldendeKandidat && (
+                                {kandidat && (
                                     <div className="VisKandidat-knapperad__statusSelect">
                                         <span>Status:</span>
                                         <StatusSelect
