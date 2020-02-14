@@ -1,11 +1,14 @@
 .VisKandidat-knapperad {
     display: flex;
+    width: 40rem;
+    margin: 0 auto;
     justify-content: center;
     font-family: 'Source Sans Pro', Arial, sans-serif;
     .content {
-        width: 40rem;
+        width: 100%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         margin-bottom: 1.25rem;
         .lenker {
             display: flex;
@@ -13,6 +16,15 @@
                 padding-bottom: 2px;
                 margin-right: 2rem;
             }
+        }
+    }
+
+    &__statusSelect {
+        display: flex;
+        align-items: center;
+
+        .StatusSelect {
+            margin-left: 0.5rem;
         }
     }
 }
