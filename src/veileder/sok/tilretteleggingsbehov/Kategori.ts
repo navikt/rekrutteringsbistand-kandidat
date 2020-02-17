@@ -1,7 +1,7 @@
 enum Kategori {
     Fysisk = 'fysisk',
     Arbeidstid = 'arbeidstid',
-    Arbeidsmiljø = 'arbeidsmiljo',
+    Arbeidshverdagen = 'arbeidshverdagen',
     Grunnleggende = 'grunnleggende',
 }
 
@@ -11,8 +11,8 @@ export const getKortKategoriLabel = (kategori: Kategori) => {
             return 'Fysisk';
         case Kategori.Arbeidstid:
             return 'Arbeidstid';
-        case Kategori.Arbeidsmiljø:
-            return 'Arbeidsmiljø';
+        case Kategori.Arbeidshverdagen:
+            return 'Arbeidshverdagen';
         case Kategori.Grunnleggende:
             return 'Grunnleggende ferdigheter';
     }
@@ -24,8 +24,8 @@ export const getKategoriLabel = (kategori: Kategori) => {
             return 'Fysisk tilrettelegging av arbeidsplassen';
         case Kategori.Arbeidstid:
             return 'Tilrettelelagt arbeidstid';
-        case Kategori.Arbeidsmiljø:
-            return 'Tilrettelegging av arbeidsmiljøet';
+        case Kategori.Arbeidshverdagen:
+            return 'Tilrettelegging av arbeidshverdagen';
         case Kategori.Grunnleggende:
             return 'Få krav til grunnleggende ferdigheter som språk, regning eller tallforståelse';
     }
