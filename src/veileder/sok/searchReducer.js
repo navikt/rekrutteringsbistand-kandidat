@@ -468,7 +468,7 @@ const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
 
     const tilretteleggingsmuligheterTilBehov = {
         INKLUDERING__ARBEIDSTID: 'arbeidstid',
-        INKLUDERING__ARBEIDSHVERDAGEN: 'arbeidshverdagen',
+        INKLUDERING__ARBEIDSMILJØ: 'arbeidsmiljo',
         INKLUDERING__FYSISK: 'fysisk',
         INKLUDERING__GRUNNLEGGENDE: 'grunnleggende',
     };
