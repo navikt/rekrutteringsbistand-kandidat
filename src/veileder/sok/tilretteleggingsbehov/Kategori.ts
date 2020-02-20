@@ -23,7 +23,7 @@ export const getKategoriLabel = (kategori: Kategori) => {
         case Kategori.Fysisk:
             return 'Fysisk tilrettelegging på arbeidsplassen';
         case Kategori.Arbeidstid:
-            return 'Tilrettelagt arbeidstid';
+            return 'Tilrettelegging av arbeidstid';
         case Kategori.Arbeidshverdagen:
             return 'Tilpasninger i arbeidshverdagen';
         case Kategori.UtfordringerMedNorsk:
