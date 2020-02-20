@@ -1,8 +1,8 @@
 enum Kategori {
-    Fysisk = 'fysisk',
     Arbeidstid = 'arbeidstid',
-    Arbeidsmiljø = 'arbeidsmiljo',
-    Grunnleggende = 'grunnleggende',
+    Fysisk = 'fysisk',
+    Arbeidshverdagen = 'arbeidsmiljo',
+    UtfordringerMedNorsk = 'grunnleggende',
 }
 
 export const getKortKategoriLabel = (kategori: Kategori) => {
@@ -11,23 +11,23 @@ export const getKortKategoriLabel = (kategori: Kategori) => {
             return 'Fysisk';
         case Kategori.Arbeidstid:
             return 'Arbeidstid';
-        case Kategori.Arbeidsmiljø:
-            return 'Arbeidsmiljø';
-        case Kategori.Grunnleggende:
-            return 'Grunnleggende ferdigheter';
+        case Kategori.Arbeidshverdagen:
+            return 'Arbeidshverdagen';
+        case Kategori.UtfordringerMedNorsk:
+            return 'Utfordringer med norsk';
     }
 };
 
 export const getKategoriLabel = (kategori: Kategori) => {
     switch (kategori) {
         case Kategori.Fysisk:
-            return 'Fysisk tilrettelegging av arbeidsplassen';
+            return 'Fysisk tilrettelegging på arbeidsplassen';
         case Kategori.Arbeidstid:
-            return 'Tilrettelelagt arbeidstid';
-        case Kategori.Arbeidsmiljø:
-            return 'Tilrettelegging av arbeidsmiljøet';
-        case Kategori.Grunnleggende:
-            return 'Få krav til grunnleggende ferdigheter som språk, regning eller tallforståelse';
+            return 'Tilrettelegging av arbeidstid';
+        case Kategori.Arbeidshverdagen:
+            return 'Tilpasninger i arbeidshverdagen';
+        case Kategori.UtfordringerMedNorsk:
+            return 'Utfordringer med norsk';
     }
 };
 
