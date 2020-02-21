@@ -214,7 +214,7 @@ sagaMiddleware.run(enhetsregisterSaga);
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
-    enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
+    // enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
 });
 
 ReactDOM.render(<App />, document.getElementById('app'));
