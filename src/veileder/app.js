@@ -53,6 +53,7 @@ Sentry.init({
     environment: getMiljø(),
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
 });
+Sentry.captureException(new Error('testfeil'));
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
