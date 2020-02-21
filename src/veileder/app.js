@@ -48,6 +48,12 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import * as Sentry from '@sentry/browser';
 import { getMiljø } from '../felles/common/miljøUtils';
 
+Sentry.init({
+    dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
+    environment: getMiljø(),
+    enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
+});
+
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
     combineReducers({
@@ -210,11 +216,5 @@ sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
-
-Sentry.init({
-    dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
-    environment: getMiljø(),
-    // enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
-});
 
 ReactDOM.render(<App />, document.getElementById('app'));
