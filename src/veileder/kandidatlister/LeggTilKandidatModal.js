@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
-import { Input } from 'nav-frontend-skjema';
+import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import { KandidatlisteTypes, HENT_STATUS } from './kandidatlisteReducer.ts';
 import { Kandidatliste } from './PropTypes';
 import { LAGRE_STATUS } from '../../felles/konstanter';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 class LeggTilKandidatModal extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class LeggTilKandidatModal extends React.Component {
 
     componentDidMount() {
         this.props.setFodselsnummer(undefined);
+        this.props.setNotat('');
         this.props.resetHentKandidatMedFnr();
     }
 
@@ -65,6 +67,10 @@ class LeggTilKandidatModal extends React.Component {
         }
     };
 
+    onNotatChange = event => {
+        this.props.setNotat(event.target.value);
+    }
+
     kandidatenFinnesAllerede = () => {
         const kandidat = this.props.kandidatliste.kandidater.filter(
             k => this.props.kandidat.arenaKandidatnr === k.kandidatnr
@@ -73,16 +79,17 @@ class LeggTilKandidatModal extends React.Component {
     };
 
     leggTilKandidat = () => {
-        const { kandidat, kandidatliste, hentStatus, fodselsnummer } = this.props;
+        const { kandidat, kandidatliste, hentStatus, fodselsnummer, notat } = this.props;
         const kandidater = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
+                notat,
                 sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
                     ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
                     : '',
             },
         ];
-        if (hentStatus === HENT_STATUS.SUCCESS && !this.kandidatenFinnesAllerede()) {
+        if (hentStatus === HENT_STATUS.SUCCESS && !this.kandidatenFinnesAllerede() && notat.length <= 2000) {
             this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
             this.props.onClose();
         } else {
@@ -91,15 +98,17 @@ class LeggTilKandidatModal extends React.Component {
                     showFodselsnummer: false,
                     errorMessage: 'Fødselsnummer må fylles inn',
                 });
+                this.input.focus();
             } else if (fodselsnummer.length < 11) {
                 this.setState({
                     showFodselsnummer: false,
                     errorMessage: 'Fødselsnummeret er for kort',
                 });
+                this.input.focus();
             } else if (this.kandidatenFinnesAllerede()) {
                 this.setState({ errorMessage: 'Kandidaten er allerede lagt til i listen' });
-            }
-            this.input.focus();
+                this.input.focus();
+            } 
         }
     };
 
@@ -121,7 +130,7 @@ class LeggTilKandidatModal extends React.Component {
     );
 
     render() {
-        const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus } = this.props;
+        const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus, notat } = this.props;
         return (
             <NavFrontendModal
                 contentLabel="Modal legg til kandidat"
@@ -131,8 +140,9 @@ class LeggTilKandidatModal extends React.Component {
                 appElement={document.getElementById('app')}
             >
                 <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
+                <AlertStripeAdvarsel>Avklar kandidaten før du legger han eller hun til listen</AlertStripeAdvarsel>
                 <Input
-                    className="skjemaelement--pink"
+                    className="skjemaelement--pink legg-til-kandidat__input__fodselsnummer"
                     onChange={this.onChange}
                     feil={this.state.errorMessage && { feilmelding: this.state.errorMessage }}
                     bredde="S"
@@ -152,6 +162,27 @@ class LeggTilKandidatModal extends React.Component {
                         </Element>
                     </div>
                 )}
+                <Element className="legg-til-kandidat__input__overskrift">Notat om kandidaten</Element>
+                <div className="legg-til-kandidat__input">
+                    <Textarea
+                    id="legg-til-kandidat-notat-input"
+                    textareaClass="legg-til-kandidat__input__textarea skjemaelement--pink"
+                    label="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
+                    placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
+                    value={notat || ''}
+                    maxLength={2000}
+                    feil={
+                        notat &&
+                        notat.length > 2000
+                            ? { feilmelding: 'Notatet er for langt' }
+                            : undefined
+                    }
+                    onChange={this.onNotatChange}
+                    textareaRef={textArea => {
+                        this.textArea = textArea;
+                    }}
+                    />
+                </div>
                 <div>
                     <Hovedknapp
                         className="legg-til--knapp"
@@ -206,6 +237,7 @@ const mapStateToProps = state => ({
     kandidat: state.kandidatlister.kandidat,
     hentStatus: state.kandidatlister.hentStatus,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    notat: state.kandidatlister.notat,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -220,6 +252,9 @@ const mapDispatchToProps = dispatch => ({
     },
     leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
         dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
+    },
+    setNotat: notat => {
+        dispatch({ type: KandidatlisteTypes.SET_NOTAT, notat })
     },
 });
 
