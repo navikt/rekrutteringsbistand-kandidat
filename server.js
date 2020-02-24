@@ -39,24 +39,25 @@ const port = process.env.PORT || 8080;
 server.set('port', port);
 
 server.disable('x-powered-by');
-server.use(helmet({ xssFilter: false }));
+// TODO: slå på helmet igjen
+// server.use(helmet({ xssFilter: false }));
 
-server.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'none'"],
-            scriptSrc: [
-                "'self'",
-                'https://www.google-analytics.com',
-                "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='", // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
-            ],
-            styleSrc: ["'self'"],
-            fontSrc: ["'self'", 'data:'],
-            imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-            connectSrc: ["'self'", 'https://www.google-analytics.com', 'https://sentry.gc.nav.no'],
-        },
-    })
-);
+// server.use(
+//     helmet.contentSecurityPolicy({
+//         directives: {
+//             defaultSrc: ["'none'"],
+//             scriptSrc: [
+//                 "'self'",
+//                 'https://www.google-analytics.com',
+//                 "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='", // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
+//             ],
+//             styleSrc: ["'self'"],
+//             fontSrc: ["'self'", 'data:'],
+//             imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
+//             connectSrc: ["'self'", 'https://www.google-analytics.com', 'https://sentry.gc.nav.no'],
+//         },
+//     })
+// );
 
 server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
