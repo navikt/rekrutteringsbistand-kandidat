@@ -53,7 +53,7 @@ server.use(
             styleSrc: ["'self'"],
             fontSrc: ["'self'", 'data:'],
             imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-            connectSrc: ["'self'", 'https://www.google-analytics.com'],
+            connectSrc: ["'self'", 'https://www.google-analytics.com', 'https://sentry.gc.nav.no'],
         },
     })
 );
