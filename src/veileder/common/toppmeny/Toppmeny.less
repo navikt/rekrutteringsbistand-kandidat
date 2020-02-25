@@ -1,65 +1,19 @@
-.body {
-    margin: 0;
-    padding: 0;
-    overflow-y: scroll;
-}
+.top-menu {
+    position: relative;
 
-.header {
-    padding: 0.4rem 2rem 1rem 80px;
-    background: #fff;
-}
+    &__nyheter {
+        position: absolute;
+        bottom: 0.25rem;
+        right: 2rem;
 
-.header__row {
-    margin-top: 1rem;
-}
+        .nytt__knapp {
+            svg {
+                filter: invert() brightness(120%);
+            }
 
-.header__logo .logo {
-    color: #3e3832;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    stroke: none;
-    text-decoration: none;
-}
-
-@media (max-width: 767px) {
-    .header__logo {
-        width: 32px;
-        margin-bottom: 1rem;
-    }
-
-    .knapp--loggut {
-        margin-top: 0.5rem;
-    }
-}
-
-.header__auth .lenke:not(:last-child) {
-    margin-right: 2rem;
-}
-
-.pilot {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 272.5px;
-    transform: rotate(-45deg);
-    text-align: center;
-    color: #3e3832;
-    background-color: #ff9100;
-    position: absolute;
-    top: 37px;
-    left: -102px;
-    padding: 2px 20px 4px 46px;
-    z-index: 9999;
-    font-size: 90%;
-}
-
-.pull {
-    float: right;
-}
-
-@media (max-width: @screen-xs-max) {
-    .pull {
-        float: none;
+            &:focus {
+                box-shadow: 0 0 0 2.5px #ffbd66;
+            }
+        }
     }
 }

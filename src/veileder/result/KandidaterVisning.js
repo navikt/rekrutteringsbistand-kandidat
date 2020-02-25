@@ -245,10 +245,11 @@ KandidaterVisning.defaultProps = {
     kandidatlisteId: undefined,
     stillingsId: undefined,
     kandidatliste: undefined,
+    skjulPaginering: false,
 };
 
 KandidaterVisning.propTypes = {
-    skjulPaginering: PropTypes.bool.isRequired,
+    skjulPaginering: PropTypes.bool,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     isEmptyQuery: PropTypes.bool.isRequired,
