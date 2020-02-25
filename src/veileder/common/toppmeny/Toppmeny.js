@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { VeilederHeaderMeny } from 'pam-frontend-header';
 import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
 import '../../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import './Toppmeny.less';
-import { connect } from 'react-redux';
 
-const KandidatsokHeader = ({ innloggetVeileder, activeTabID, visNyheter }) => (
-    <div className="top-menu">
+const Toppmeny = ({ innloggetVeileder, activeTabID, visNyheter }) => (
+    <div className="toppmeny">
         <VeilederHeaderMeny activeTabID={activeTabID} innloggetBruker={innloggetVeileder} />
         {visNyheter && (
-            <div className="top-menu__nyheter">
+            <div className="toppmeny__nyheter">
                 <NyttIRekrutteringsbistand orientering="under-hoyre" />
             </div>
         )}
     </div>
 );
 
-KandidatsokHeader.propTypes = {
+Toppmeny.propTypes = {
     visNyheter: PropTypes.bool.isRequired,
     activeTabID: PropTypes.string.isRequired,
     innloggetVeileder: PropTypes.string.isRequired,
@@ -28,4 +28,4 @@ export default connect(
         visNyheter: state.search.featureToggles['vis-nyheter'],
     }),
     () => ({})
-)(KandidatsokHeader);
+)(Toppmeny);
