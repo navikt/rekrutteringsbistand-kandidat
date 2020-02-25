@@ -26,7 +26,7 @@ import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
-import { KandidatsokHeader, KandidatlisteHeader } from './common/toppmeny/Toppmeny';
+import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
 import Kandidatliste from './kandidatlister/Kandidatliste';
@@ -45,6 +45,7 @@ import enhetsregisterReducer, {
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { VeilederTabId } from 'pam-frontend-header';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -75,9 +76,21 @@ const HeaderSwitch = ({ innloggetVeileder }) => (
     <Switch>
         <Route
             path="/kandidater/lister"
-            render={() => <KandidatlisteHeader innloggetVeileder={innloggetVeileder} />}
+            render={() => (
+                <Toppmeny
+                    innloggetVeileder={innloggetVeileder}
+                    activeTabID={VeilederTabId.KANDIDATLISTER}
+                />
+            )}
         />
-        <Route render={() => <KandidatsokHeader innloggetVeileder={innloggetVeileder} />} />
+        <Route
+            render={() => (
+                <Toppmeny
+                    innloggetVeileder={innloggetVeileder}
+                    activeTabID={VeilederTabId.KANDIDATSOK}
+                />
+            )}
+        />
     </Switch>
 );
 

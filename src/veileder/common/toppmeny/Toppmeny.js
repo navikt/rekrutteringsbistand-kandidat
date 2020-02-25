@@ -1,24 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VeilederHeaderMeny, VeilederTabId } from 'pam-frontend-header';
+import { connect } from 'react-redux';
+import { VeilederHeaderMeny } from 'pam-frontend-header';
+import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
+import '../../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
+import './Toppmeny.less';
 
-export const KandidatsokHeader = ({ innloggetVeileder }) => (
-    <VeilederHeaderMeny
-        activeTabID={VeilederTabId.KANDIDATSOK}
-        innloggetBruker={innloggetVeileder}
-    />
+const Toppmeny = ({ innloggetVeileder, activeTabID, visNyheter }) => (
+    <div className="toppmeny">
+        <VeilederHeaderMeny activeTabID={activeTabID} innloggetBruker={innloggetVeileder} />
+        {visNyheter && (
+            <div className="toppmeny__nyheter">
+                <NyttIRekrutteringsbistand orientering="under-hoyre" />
+            </div>
+        )}
+    </div>
 );
 
-export const KandidatlisteHeader = ({ innloggetVeileder }) => (
-    <VeilederHeaderMeny
-        activeTabID={VeilederTabId.KANDIDATLISTER}
-        innloggetBruker={innloggetVeileder}
-    />
-);
-
-const propTypes = {
+Toppmeny.propTypes = {
+    visNyheter: PropTypes.bool.isRequired,
+    activeTabID: PropTypes.string.isRequired,
     innloggetVeileder: PropTypes.string.isRequired,
 };
 
-KandidatsokHeader.propTypes = propTypes;
-KandidatlisteHeader.propTypes = propTypes;
+export default connect(
+    state => ({
+        visNyheter: state.search.featureToggles['vis-nyheter'],
+    }),
+    () => ({})
+)(Toppmeny);
