@@ -26,7 +26,7 @@ import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
 import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
-import { KandidatsokHeader } from './common/toppmeny/Toppmeny';
+import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
 import Kandidatliste from './kandidatlister/Kandidatliste';
@@ -77,7 +77,7 @@ const HeaderSwitch = ({ innloggetVeileder }) => (
         <Route
             path="/kandidater/lister"
             render={() => (
-                <KandidatsokHeader
+                <Toppmeny
                     innloggetVeileder={innloggetVeileder}
                     activeTabID={VeilederTabId.KANDIDATLISTER}
                 />
@@ -85,7 +85,7 @@ const HeaderSwitch = ({ innloggetVeileder }) => (
         />
         <Route
             render={() => (
-                <KandidatsokHeader
+                <Toppmeny
                     innloggetVeileder={innloggetVeileder}
                     activeTabID={VeilederTabId.KANDIDATSOK}
                 />
