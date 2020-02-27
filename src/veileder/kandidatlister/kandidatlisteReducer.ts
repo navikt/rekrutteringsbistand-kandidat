@@ -66,6 +66,7 @@ export enum KandidatlisteTypes {
     ENDRE_STATUS_KANDIDAT_SUCCESS = 'ENDRE_STATUS_KANDIDAT_SUCCESS',
     ENDRE_STATUS_KANDIDAT_FAILURE = 'ENDRE_STATUS_KANDIDAT_FAILURE',
     SET_FODSELSNUMMER = 'SET_FODSELSNUMMER',
+    SET_NOTAT = 'SET_NOTAT',
     HENT_KANDIDAT_MED_FNR = 'HENT_KANDIDAT_MED_FNR',
     HENT_KANDIDAT_MED_FNR_SUCCESS = 'HENT_KANDIDAT_MED_FNR_SUCCESS',
     HENT_KANDIDAT_MED_FNR_NOT_FOUND = 'HENT_KANDIDAT_MED_FNR_NOT_FOUND',
@@ -179,6 +180,7 @@ export interface LeggTilKandidaterAction {
     };
     kandidater: Array<{
         kandidatnr: string;
+        notat: string;
         sisteArbeidserfaring: string;
     }>;
 }
@@ -238,6 +240,11 @@ export interface EndreStatusKandidatFailureAction {
 export interface SetFodselsnummerAction {
     type: KandidatlisteTypes.SET_FODSELSNUMMER;
     fodselsnummer: string;
+}
+
+export interface SetNotatAction {
+    type: KandidatlisteTypes.SET_NOTAT;
+    notat: string;
 }
 
 export interface HentKandidatMedFnrAction {
@@ -420,6 +427,7 @@ export type KandidatlisteAction =
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
     | SetFodselsnummerAction
+    | SetNotatAction
     | HentKandidatMedFnrAction
     | HentKandidatMedFnrSuccessAction
     | HentKandidatMedFnrNotFoundAction
@@ -831,6 +839,11 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 fodselsnummer: action.fodselsnummer,
             };
         }
+        case KandidatlisteTypes.SET_NOTAT:
+            return {
+                ...state,
+                notat: action.notat,
+            };
         case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR: {
             return {
                 ...state,
@@ -1206,10 +1219,12 @@ function* lagreKandidatIKandidatliste(action) {
     try {
         const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
         yield call(leggTilKandidater, {
+            type: KandidatlisteTypes.LEGG_TIL_KANDIDATER,
             kandidatliste: action.kandidatliste,
             kandidater: [
                 {
                     kandidatnr: response.arenaKandidatnr,
+                    notat: action.notat,
                     sisteArbeidserfaring: response.mestRelevanteYrkeserfaring
                         ? response.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
                         : '',
