@@ -5,7 +5,6 @@ import '@reach/menu-button/styles.css';
 import './StatusSelect.less';
 
 enum Status {
-    Foreslått = 'FORESLATT',
     Vurderes = 'VURDERES',
     Kontaktet = 'KONTAKTET',
     Aktuell = 'AKTUELL',
@@ -15,8 +14,6 @@ enum Status {
 
 const statusToDisplayName = (status: Status) => {
     switch (status) {
-        case Status.Foreslått:
-            return 'Foreslått';
         case Status.Vurderes:
             return 'Vurderes';
         case Status.Kontaktet:
