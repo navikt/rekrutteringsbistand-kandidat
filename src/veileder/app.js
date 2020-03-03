@@ -52,11 +52,6 @@ Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no//20',
     environment: getMiljø(),
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
-    transportOptions: {
-        httpsProxy: 'webproxy-nais.nav.no:8088',
-        httpProxy: 'webproxy-nais.nav.no:8088',
-        dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no//20',
-    },
 });
 Sentry.captureException(new Error('testfeil'));
 
