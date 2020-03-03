@@ -49,6 +49,7 @@ import * as Sentry from '@sentry/browser';
 import { getMiljø } from '../felles/common/miljøUtils';
 
 Sentry.init({
+    dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no//20',
     environment: getMiljø(),
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
     transportOptions: {
