@@ -154,6 +154,13 @@ export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) =>
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`
     );
 
+export function putSlettet(kandidatlisteId: string, kandidatNr: string, slettet: boolean) {
+    return putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/slettet`,
+        JSON.stringify(slettet)
+    );
+}
+
 export const fetchKandidatlister = (query = {}) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister?${convertToUrlParams(query)}`, true);
 

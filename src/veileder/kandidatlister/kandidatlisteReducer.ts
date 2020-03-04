@@ -17,6 +17,7 @@ import {
     putNotat,
     putOppdaterKandidatliste,
     putStatusKandidat,
+    putSlettet,
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -92,6 +93,9 @@ export enum KandidatlisteTypes {
     SLETT_NOTAT = 'SLETT_NOTAT',
     SLETT_NOTAT_SUCCESS = 'SLETT_NOTAT_SUCCESS',
     SLETT_NOTAT_FAILURE = 'SLETT_NOTAT_FAILURE',
+    SET_SLETTET = 'SET_SLETTET',
+    SET_SLETTET_SUCCESS = 'SET_SLETTET_SUCCESS',
+    SET_SLETTET_FAILURE = 'SET_SLETTET_FAILURE',
     MARKER_KANDIDATLISTE_SOM_MIN = 'MARKER_KANDIDATLISTE_SOM_MIN',
     MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS = 'MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS',
     MARKER_KANDIDATLISTE_SOM_MIN_FAILURE = 'MARKER_KANDIDATLISTE_SOM_MIN',
@@ -1363,6 +1367,22 @@ function* slettNotat(action) {
     }
 }
 
+function* slettKandidat(action) {
+    try {
+        yield putSlettet(action.kandidatlisteId, action.kandidatnr, action.slettet);
+        yield put({
+            type: KandidatlisteTypes.SET_SLETTET_SUCCESS,
+            kandidatnr: action.kandidatnr,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteTypes.SET_SLETTET_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* oppdaterKandidatliste(action) {
     try {
         yield putOppdaterKandidatliste(action.kandidatlisteInfo);
@@ -1429,6 +1449,7 @@ export function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteTypes.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteTypes.ENDRE_NOTAT, endreNotat);
     yield takeLatest(KandidatlisteTypes.SLETT_NOTAT, slettNotat);
+    yield takeLatest(KandidatlisteTypes.SET_SLETTET, slettKandidat);
     yield takeLatest(KandidatlisteTypes.HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(
         KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
@@ -1452,6 +1473,7 @@ export function* kandidatlisteSaga() {
             KandidatlisteTypes.LEGG_TIL_KANDIDATER_FAILURE,
             KandidatlisteTypes.OPPRETT_NOTAT_FAILURE,
             KandidatlisteTypes.ENDRE_NOTAT_FAILURE,
+            KandidatlisteTypes.SET_SLETTET_FAILURE,
             KandidatlisteTypes.SLETT_NOTAT_FAILURE,
             KandidatlisteTypes.HENT_KANDIDATLISTER_FAILURE,
             KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,

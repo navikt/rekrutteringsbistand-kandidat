@@ -296,6 +296,7 @@ class Listedetaljer extends React.Component {
                     opprettNotat={this.props.opprettNotat}
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}
+                    setSlettet={this.props.setSlettet}
                     beskrivelse={beskrivelse}
                 />
             </div>
@@ -331,6 +332,7 @@ Listedetaljer.propTypes = {
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
     slettNotat: PropTypes.func.isRequired,
+    setSlettet: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -378,6 +380,9 @@ const mapDispatchToProps = dispatch => ({
     },
     slettNotat: (kandidatlisteId, kandidatnr, notatId) => {
         dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId });
+    },
+    setSlettet: (kandidatlisteId, kandidatnr, slettet) => {
+        dispatch({ type: KandidatlisteTypes.SET_SLETTET, kandidatlisteId, kandidatnr, slettet });
     },
 });
 

@@ -51,6 +51,7 @@ const ListedetaljerView = props => {
         opprettNotat,
         endreNotat,
         slettNotat,
+        setSlettet,
         beskrivelse,
     } = props;
     const SideHeader = () => (
@@ -249,6 +250,9 @@ const ListedetaljerView = props => {
                     <div className="kolonne-smal">
                         <Element>Mer info</Element>
                     </div>
+                    <div className="kolonne-smal">
+                        <Element>Slett</Element>
+                    </div>
                 </div>
             </div>
         );
@@ -286,6 +290,10 @@ const ListedetaljerView = props => {
 
         const onSletteNotat = notatId => {
             slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
+        };
+
+        const onSetSlettet = () => {
+            setSlettet(kandidatlisteId, kandidat.kandidatnr, true);
         };
 
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
@@ -362,6 +370,11 @@ const ListedetaljerView = props => {
                                         : 'ned'
                                 }
                             />
+                        </Lenkeknapp>
+                    </div>
+                    <div className="kolonne-smal">
+                        <Lenkeknapp onClick={onSetSlettet} className="legg-til-kandidat MerInfo">
+                            <div className="MerInfo__icon" />
                         </Lenkeknapp>
                     </div>
                 </div>
@@ -492,6 +505,7 @@ ListedetaljerView.propTypes = {
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
     slettNotat: PropTypes.func.isRequired,
+    slettKandidat: PropTypes.func.isRequired,
     beskrivelse: PropTypes.string,
 };
 
