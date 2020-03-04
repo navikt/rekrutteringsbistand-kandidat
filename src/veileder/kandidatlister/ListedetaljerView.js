@@ -51,7 +51,7 @@ const ListedetaljerView = props => {
         opprettNotat,
         endreNotat,
         slettNotat,
-        setSlettet,
+        toggleErSlettet,
         beskrivelse,
     } = props;
     const SideHeader = () => (
@@ -292,8 +292,8 @@ const ListedetaljerView = props => {
             slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
         };
 
-        const onSetSlettet = () => {
-            setSlettet(kandidatlisteId, kandidat.kandidatnr, true);
+        const onToggleErSlettet = () => {
+            toggleErSlettet(kandidatlisteId, kandidat.kandidatnr, true);
         };
 
         const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
@@ -373,7 +373,10 @@ const ListedetaljerView = props => {
                         </Lenkeknapp>
                     </div>
                     <div className="kolonne-smal">
-                        <Lenkeknapp onClick={onSetSlettet} className="legg-til-kandidat MerInfo">
+                        <Lenkeknapp
+                            onClick={onToggleErSlettet}
+                            className="legg-til-kandidat MerInfo"
+                        >
                             <div className="MerInfo__icon" />
                         </Lenkeknapp>
                     </div>
