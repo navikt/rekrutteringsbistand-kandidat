@@ -3,15 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import { KandidatlisteTypes, DELE_STATUS } from './kandidatlisteReducer.ts';
-import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
-import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
+import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
+import { KandidatlisteTypes, DELE_STATUS } from '../kandidatlisteReducer.ts';
+import { LAGRE_STATUS } from '../../../felles/konstanter';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
+import PresenterKandidaterModal from '../modaler/PresenterKandidaterModal';
+import LeggTilKandidatModal from '../modaler/LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
-import KopierEpostModal from './modaler/KopierEpostModal.tsx';
-import { Kandidatliste } from './PropTypes';
+import KopierEpostModal from '../modaler/KopierEpostModal.tsx';
+import { Kandidatliste } from '../PropTypes';
 import './Listedetaljer.less';
 
 const initialKandidatTilstand = () => ({

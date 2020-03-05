@@ -3,9 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './Listedetaljer';
+import Listedetaljer from './kandidatliste/Listedetaljer';
 import { Kandidatliste } from './PropTypes';
-import './Listedetaljer.less';
 
 class KandidatlisteFraStilling extends React.Component {
     componentDidMount() {

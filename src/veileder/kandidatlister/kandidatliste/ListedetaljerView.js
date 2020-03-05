@@ -5,14 +5,14 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Kandidat, Notat } from './PropTypes';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import '../../felles/common/ikoner/ikoner.less';
-import Notater from './Notater';
-import { capitalizeEmployerName, capitalizeFirstLetter } from '../../felles/sok/utils';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import Sidetittel from '../../felles/common/Sidetittel.tsx';
-import StatusSelect from './statusSelect/StatusSelect.tsx';
+import { Kandidat, Notat } from '../PropTypes';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import '../../../felles/common/ikoner/ikoner.less';
+import Notater from '../Notater';
+import { capitalizeEmployerName, capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
+import Sidetittel from '../../../felles/common/Sidetittel.tsx';
+import StatusSelect from '../statusSelect/StatusSelect.tsx';
 
 export const VISNINGSSTATUS = {
     SKJUL_PANEL: 'SKJUL_PANEL',

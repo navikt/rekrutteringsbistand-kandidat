@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './Listedetaljer';
+import Listedetaljer from './kandidatliste/Listedetaljer';
 import { Kandidatliste as kandidatlisteProps } from './PropTypes';
-import './Listedetaljer.less';
 
-class Kandidatliste extends React.Component {
+class KandidatlisteUtenStilling extends React.Component {
     componentDidMount() {
         const { listeid } = this.props.match.params;
         this.props.hentKandidatliste(listeid);
@@ -23,11 +22,11 @@ class Kandidatliste extends React.Component {
     }
 }
 
-Kandidatliste.defaultProps = {
+KandidatlisteUtenStilling.defaultProps = {
     kandidatliste: undefined,
 };
 
-Kandidatliste.propTypes = {
+KandidatlisteUtenStilling.propTypes = {
     kandidatliste: PropTypes.shape({
         kind: PropTypes.string,
         data: PropTypes.shape(kandidatlisteProps),
@@ -53,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Kandidatliste);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteUtenStilling);
