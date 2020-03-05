@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Kandidatliste from './kandidatliste/Kandidatlisteside';
+import Kandidatlisteside from './kandidatliste/Kandidatlisteside';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
 class KandidatlisteFraStilling extends React.Component {
@@ -16,7 +16,7 @@ class KandidatlisteFraStilling extends React.Component {
         const { kandidatliste, fetching } = this.props;
         return (
             <div>
-                <Kandidatliste kandidatliste={kandidatliste} fetching={fetching} />
+                <Kandidatlisteside kandidatliste={kandidatliste} fetching={fetching} />
             </div>
         );
     }

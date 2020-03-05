@@ -1,26 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
-import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 
 type Props = {
-    kandidatlisteId: string;
-    stillingsId: string;
-    onLeggTilKandidat: () => void;
+    children: ReactNode;
 };
 
-const TomListe: FunctionComponent<Props> = ({
-    kandidatlisteId,
-    stillingsId,
-    onLeggTilKandidat,
-}) => (
+const TomListe: FunctionComponent<Props> = ({ children }) => (
     <div className="tom-liste">
         <div className="content">
             <Undertittel className="tekst">Du har ingen kandidater i kandidatlisten</Undertittel>
-            <div className="knapper">
-                <FinnKandidaterLenke kandidatlisteId={kandidatlisteId} stillingsId={stillingsId} />
-                <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
-            </div>
+            <div className="knapper">{children}</div>
         </div>
     </div>
 );

@@ -536,9 +536,9 @@ interface KandidatExtension {
 export type Kandidat = KandidatResponse & KandidatExtension;
 
 export type KandidatIKandidatliste = Kandidat & {
-    markert: boolean;
     notaterVises: boolean;
     antallNotater: number;
+    markert: boolean;
     visningsstatus: string;
 };
 

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-    stillingsId: string;
+    stillingsId?: string;
     kandidatlisteId: string;
 };
 

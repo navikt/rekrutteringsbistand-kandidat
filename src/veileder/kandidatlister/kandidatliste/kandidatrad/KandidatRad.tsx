@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { RemoteDataTypes } from '../../../../felles/common/remoteData';
-import { VISNINGSSTATUS } from '../Kandidatliste';
+import { Visningsstatus } from '../Kandidatliste';
 import { KandidatIKandidatliste } from '../../kandidatlisteReducer';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -25,14 +25,18 @@ const utfallToString = (utfall: string) => {
 type Props = {
     kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
-    stillingsId: string;
+    stillingsId?: string;
     endreNotat: any;
     slettNotat: any;
     opprettNotat: any;
     toggleErSlettet: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
-    onVisningChange: (visningsstatus: string, kandidatlisteId: string, kandidatnr: string) => void;
+    onVisningChange: (
+        visningsstatus: Visningsstatus,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
     onKandidatStatusChange: any;
 };
 
@@ -56,9 +60,9 @@ const KandidatRad: FunctionComponent<Props> = ({
             : kandidat.antallNotater;
     const toggleNotater = () => {
         onVisningChange(
-            kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
-                ? VISNINGSSTATUS.SKJUL_PANEL
-                : VISNINGSSTATUS.VIS_NOTATER,
+            kandidat.visningsstatus === Visningsstatus.VisNotater
+                ? Visningsstatus.SkjulPanel
+                : Visningsstatus.VisNotater,
             kandidatlisteId,
             kandidat.kandidatnr
         );
@@ -66,9 +70,9 @@ const KandidatRad: FunctionComponent<Props> = ({
 
     const toggleMerInfo = () => {
         onVisningChange(
-            kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
-                ? VISNINGSSTATUS.SKJUL_PANEL
-                : VISNINGSSTATUS.VIS_MER_INFO,
+            kandidat.visningsstatus === Visningsstatus.VisMerInfo
+                ? Visningsstatus.SkjulPanel
+                : Visningsstatus.VisMerInfo,
             kandidatlisteId,
             kandidat.kandidatnr
         );
@@ -135,7 +139,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         {antallNotater}
                         <NavFrontendChevron
                             type={
-                                kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER
+                                kandidat.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -147,7 +151,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
                             type={
-                                kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO
+                                kandidat.visningsstatus === Visningsstatus.VisMerInfo
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -160,7 +164,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
             </div>
-            {kandidat.visningsstatus === VISNINGSSTATUS.VIS_NOTATER && (
+            {kandidat.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
                     notater={kandidat.notater}
                     antallNotater={
@@ -175,7 +179,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     onSletteNotat={onSletteNotat}
                 />
             )}
-            {kandidat.visningsstatus === VISNINGSSTATUS.VIS_MER_INFO && (
+            {kandidat.visningsstatus === Visningsstatus.VisMerInfo && (
                 <div className="info-under-kandidat">
                     <div className="info-under-kandidat-content mer-info">
                         <div className="kontaktinfo-kolonne">

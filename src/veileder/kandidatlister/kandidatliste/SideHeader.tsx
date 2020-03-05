@@ -3,7 +3,7 @@ import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import { KandidatIKandidatliste } from '../kandidatlisteReducer';
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 
-type OpprettetAv = {
+export type OpprettetAv = {
     ident: string;
     navn: string;
 };
@@ -13,7 +13,7 @@ type Props = {
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
-    stillingsId: string;
+    stillingsId?: string;
     beskrivelse?: string;
 };
 

@@ -9,7 +9,7 @@ import { LAGRE_STATUS } from '../../../felles/konstanter';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
-import ListedetaljerView, { VISNINGSSTATUS } from './Kandidatliste';
+import Kandidatliste, { VISNINGSSTATUS } from './Kandidatliste.tsx';
 import KopierEpostModal from './KopierEpostModal.tsx';
 import { Kandidatliste as KandidatlistePropType } from '../PropTypes';
 import './Kandidatliste.less';
@@ -275,7 +275,7 @@ class Kandidatlisteside extends React.Component {
                     type="suksess"
                     innhold={suksessMelding.tekst}
                 />
-                <ListedetaljerView
+                <Kandidatliste
                     tittel={tittel}
                     arbeidsgiver={organisasjonNavn}
                     opprettetAv={opprettetAv}

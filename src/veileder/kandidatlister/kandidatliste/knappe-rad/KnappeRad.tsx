@@ -1,9 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlisteReducer';
-import FinnKandidaterLenke from './FinnKandidaterLenke';
-import LeggTilKandidatKnapp from './LeggTilKandidatKnapp';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -11,20 +9,19 @@ type Props = {
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     kanEditere: boolean;
-    arbeidsgiver: string;
+    arbeidsgiver?: string;
     kandidatlisteId: string;
-    stillingsId: string;
+    stillingsId?: string;
+    children: ReactNode;
 };
 
 const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
     onKandidatShare,
     onEmailKandidater,
-    onLeggTilKandidat,
     kanEditere,
     arbeidsgiver,
-    kandidatlisteId,
-    stillingsId,
+    children,
 }) => {
     const DeleKnapp = () => {
         const Disabled = () => (
@@ -84,10 +81,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     };
     return (
         <div className="knappe-rad">
-            <div className="knapper-venstre">
-                <FinnKandidaterLenke kandidatlisteId={kandidatlisteId} stillingsId={stillingsId} />
-                <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
-            </div>
+            <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
                 <EpostKnapp />
                 {kanEditere && arbeidsgiver && <DeleKnapp />}

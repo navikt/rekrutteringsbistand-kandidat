@@ -4,7 +4,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 interface Props {
-    stillingsId: string;
+    stillingsId?: string;
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
 }
