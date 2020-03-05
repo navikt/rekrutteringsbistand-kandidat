@@ -7,12 +7,12 @@ import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { KandidatlisteTypes, DELE_STATUS } from '../kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
-import PresenterKandidaterModal from '../modaler/PresenterKandidaterModal';
-import LeggTilKandidatModal from '../modaler/LeggTilKandidatModal';
-import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
-import KopierEpostModal from '../modaler/KopierEpostModal.tsx';
-import { Kandidatliste } from '../PropTypes';
-import './Listedetaljer.less';
+import PresenterKandidaterModal from './PresenterKandidaterModal';
+import LeggTilKandidatModal from './LeggTilKandidatModal';
+import ListedetaljerView, { VISNINGSSTATUS } from './Kandidatliste';
+import KopierEpostModal from './KopierEpostModal.tsx';
+import { Kandidatliste as KandidatlistePropType } from '../PropTypes';
+import './Kandidatliste.less';
 
 const initialKandidatTilstand = () => ({
     markert: false,
@@ -31,7 +31,7 @@ const trekkUtKandidatTilstander = (kandidater = []) =>
         {}
     );
 
-class Listedetaljer extends React.Component {
+class Kandidatlisteside extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -304,7 +304,7 @@ class Listedetaljer extends React.Component {
     }
 }
 
-Listedetaljer.defaultProps = {
+Kandidatlisteside.defaultProps = {
     kandidatliste: undefined,
     fodselsnummer: undefined,
     kandidat: {
@@ -313,10 +313,10 @@ Listedetaljer.defaultProps = {
     },
 };
 
-Listedetaljer.propTypes = {
+Kandidatlisteside.propTypes = {
     kandidatliste: PropTypes.shape({
         kind: PropTypes.string,
-        data: PropTypes.shape(Kandidatliste),
+        data: PropTypes.shape(KandidatlistePropType),
     }),
     endreStatusKandidat: PropTypes.func.isRequired,
     presenterKandidater: PropTypes.func.isRequired,
@@ -391,4 +391,4 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Listedetaljer);
+export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlisteside);

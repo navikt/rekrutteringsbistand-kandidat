@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './kandidatliste/Listedetaljer';
-import { Kandidatliste as kandidatlisteProps } from './PropTypes';
+import Kandidatlisteside from './kandidatliste/Kandidatlisteside';
+import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
 class KandidatlisteUtenStilling extends React.Component {
     componentDidMount() {
@@ -16,7 +16,7 @@ class KandidatlisteUtenStilling extends React.Component {
         const { kandidatliste } = this.props;
         return (
             <div>
-                <Listedetaljer kandidatliste={kandidatliste} />
+                <Kandidatlisteside kandidatliste={kandidatliste} />
             </div>
         );
     }
@@ -29,7 +29,7 @@ KandidatlisteUtenStilling.defaultProps = {
 KandidatlisteUtenStilling.propTypes = {
     kandidatliste: PropTypes.shape({
         kind: PropTypes.string,
-        data: PropTypes.shape(kandidatlisteProps),
+        data: PropTypes.shape(KandidatlistePropType),
     }),
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({

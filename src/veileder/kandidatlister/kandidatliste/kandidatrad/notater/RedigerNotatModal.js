@@ -4,7 +4,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import { Notat } from '../PropTypes';
+import { Notat } from '../../../PropTypes';
 
 export default class RedigerNotatModal extends React.Component {
     constructor(props) {

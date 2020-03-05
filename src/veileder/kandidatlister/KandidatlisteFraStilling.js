@@ -3,8 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './kandidatliste/Listedetaljer';
-import { Kandidatliste } from './PropTypes';
+import Kandidatliste from './kandidatliste/Kandidatlisteside';
+import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
 class KandidatlisteFraStilling extends React.Component {
     componentDidMount() {
@@ -16,7 +16,7 @@ class KandidatlisteFraStilling extends React.Component {
         const { kandidatliste, fetching } = this.props;
         return (
             <div>
-                <Listedetaljer kandidatliste={kandidatliste} fetching={fetching} />
+                <Kandidatliste kandidatliste={kandidatliste} fetching={fetching} />
             </div>
         );
     }
@@ -28,7 +28,7 @@ KandidatlisteFraStilling.defaultProps = {
 
 KandidatlisteFraStilling.propTypes = {
     fetching: PropTypes.bool.isRequired,
-    kandidatliste: PropTypes.shape(Kandidatliste),
+    kandidatliste: PropTypes.shape(KandidatlistePropType),
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({

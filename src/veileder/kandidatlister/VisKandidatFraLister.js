@@ -13,7 +13,7 @@ import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidat
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
-import StatusSelect from './statusSelect/StatusSelect';
+import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {

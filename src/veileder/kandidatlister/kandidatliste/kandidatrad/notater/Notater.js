@@ -5,11 +5,11 @@ import { Hovedknapp, Flatknapp, Knapp } from 'pam-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
-import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import { Notat } from './PropTypes';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import RedigerNotatModal from './modaler/RedigerNotatModal';
+import { formatterDato, formatterTid } from '../../../../../felles/common/dateUtils';
+import { RemoteDataTypes } from '../../../../../felles/common/remoteData.ts';
+import { Notat } from '../../../PropTypes';
+import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
+import RedigerNotatModal from './RedigerNotatModal';
 
 class Notater extends React.Component {
     constructor(props) {
