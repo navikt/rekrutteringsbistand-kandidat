@@ -9,7 +9,7 @@ import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { Notat } from './PropTypes';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import RedigerNotatModal from './RedigerNotatModal';
+import RedigerNotatModal from './modaler/RedigerNotatModal';
 
 class Notater extends React.Component {
     constructor(props) {

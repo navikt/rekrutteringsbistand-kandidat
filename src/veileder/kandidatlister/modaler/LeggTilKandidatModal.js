@@ -6,9 +6,9 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import { KandidatlisteTypes, HENT_STATUS } from './kandidatlisteReducer.ts';
-import { Kandidatliste } from './PropTypes';
-import { LAGRE_STATUS } from '../../felles/konstanter';
+import { KandidatlisteTypes, HENT_STATUS } from '../kandidatlisteReducer.ts';
+import { Kandidatliste } from '../PropTypes';
+import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const NOTATLENGDE = 2000;

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { LAGRE_STATUS } from '../../felles/konstanter';
-import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import { LAGRE_STATUS } from '../../../felles/konstanter';
+import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from '../OpprettKandidatlisteForm';
+import { KandidatlisteTypes } from '../kandidatlisteReducer.ts';
 
 const OpprettModal = ({
     opprettKandidatliste,

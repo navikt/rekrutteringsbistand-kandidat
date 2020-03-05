@@ -11,14 +11,14 @@ import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpe
 import { KandidatlisteTypes, MARKER_SOM_MIN_STATUS } from './kandidatlisteReducer.ts';
 import { formatterDato } from '../../felles/common/dateUtils';
 import './Kandidatlister.less';
-import OpprettModal from './OpprettModal';
-import EndreModal from './EndreModal';
-import MarkerSomMinModal from './MarkerSomMinModal';
+import OpprettModal from './modaler/OpprettModal';
+import EndreModal from './modaler/EndreModal';
+import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import SlettKandidatlisteModal from './SlettKandidatlisteModal.tsx';
+import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 
 const MODALVISING = {

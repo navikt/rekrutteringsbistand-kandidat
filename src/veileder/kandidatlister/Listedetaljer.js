@@ -7,10 +7,10 @@ import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { KandidatlisteTypes, DELE_STATUS } from './kandidatlisteReducer.ts';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import PresenterKandidaterModal from './PresenterKandidaterModal';
-import LeggTilKandidatModal from './LeggTilKandidatModal';
+import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
+import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import ListedetaljerView, { VISNINGSSTATUS } from './ListedetaljerView';
-import KopierEpostModal from './KopierEpostModal.tsx';
+import KopierEpostModal from './modaler/KopierEpostModal.tsx';
 import { Kandidatliste } from './PropTypes';
 import './Listedetaljer.less';
 
