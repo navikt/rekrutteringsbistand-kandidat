@@ -17,7 +17,7 @@ import {
     putNotat,
     putOppdaterKandidatliste,
     putStatusKandidat,
-    putSlettet,
+    putErSlettet,
 } from '../api';
 import { INVALID_RESPONSE_STATUS } from '../sok/searchReducer';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -403,6 +403,12 @@ interface ResetSletteStatusAction {
     type: KandidatlisteTypes.RESET_SLETTE_STATUS;
 }
 
+interface ToggleErSlettetSuccessAction {
+    type: KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS;
+    kandidatnr: string;
+    erSlettet: boolean;
+}
+
 export type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -462,7 +468,8 @@ export type KandidatlisteAction =
     | MarkerKandidatlisteSomMinFailureAction
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
-    | ResetSletteStatusAction;
+    | ResetSletteStatusAction
+    | ToggleErSlettetSuccessAction;
 
 /** *********************************************************
  * REDUCER
@@ -720,6 +727,34 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     return state;
 };
 
+const oppdaterErSlettetIKandidatlisteDetaljer: (
+    state: KandidatlisteState,
+    kandidatnr: string,
+    erSlettet: boolean
+) => KandidatlisteState = (state, kandidatnr, erSlettet) => {
+    if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+        return {
+            ...state,
+            detaljer: {
+                ...state.detaljer,
+                kandidatliste: {
+                    ...state.detaljer.kandidatliste,
+                    kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
+                        if (kandidat.kandidatnr === kandidatnr) {
+                            return {
+                                ...kandidat,
+                                erSlettet,
+                            };
+                        }
+                        return kandidat;
+                    }),
+                },
+            },
+        };
+    }
+    return state;
+};
+
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     state = initialState,
     action
@@ -952,6 +987,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 state,
                 action.kandidatnr,
                 Success(action.notater)
+            );
+        case KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS:
+            return oppdaterErSlettetIKandidatlisteDetaljer(
+                state,
+                action.kandidatnr,
+                action.erSlettet
             );
         case KandidatlisteTypes.HENT_KANDIDATLISTER:
             return {
@@ -1369,10 +1410,11 @@ function* slettNotat(action) {
 
 function* toggleErSlettet(action) {
     try {
-        yield putSlettet(action.kandidatlisteId, action.kandidatnr, action.erSlettet);
+        yield putErSlettet(action.kandidatlisteId, action.kandidatnr, action.erSlettet);
         yield put({
             type: KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS,
             kandidatnr: action.kandidatnr,
+            erSlettet: action.erSlettet,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

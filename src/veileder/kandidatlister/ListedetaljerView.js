@@ -450,6 +450,7 @@ const ListedetaljerView = props => {
             </div>
         </div>
     );
+
     return (
         <div className="Listedetaljer">
             <SideHeader />
@@ -508,7 +509,7 @@ ListedetaljerView.propTypes = {
     opprettNotat: PropTypes.func.isRequired,
     endreNotat: PropTypes.func.isRequired,
     slettNotat: PropTypes.func.isRequired,
-    slettKandidat: PropTypes.func.isRequired,
+    toggleErSlettet: PropTypes.func.isRequired,
     beskrivelse: PropTypes.string,
 };
 

@@ -154,10 +154,10 @@ export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) =>
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`
     );
 
-export function putSlettet(kandidatlisteId: string, kandidatNr: string, slettet: boolean) {
+export function putErSlettet(kandidatlisteId: string, kandidatNr: string, erSlettet: boolean) {
     return putJson(
-        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/slettet`,
-        JSON.stringify(slettet)
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/erSlettet`,
+        JSON.stringify(erSlettet)
     );
 }
 
