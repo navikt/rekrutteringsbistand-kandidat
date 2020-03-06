@@ -1,5 +1,4 @@
-/* eslint-disable react/no-did-update-set-state */
-import React from 'react';
+import React, { FunctionComponent, useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
@@ -18,6 +17,7 @@ import {
     KandidatIKandidatliste,
     Delestatus,
     Kandidatliste as Kandidatlistetype,
+    Kandidat,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 
@@ -57,120 +57,145 @@ type Props = {
     toggleErSlettet: any;
 };
 
-class Kandidatlisteside extends React.Component<Props> {
-    deleSuksessMeldingCallbackId: any;
+type Suksessmelding = {
+    vis: boolean;
+    tekst: string;
+};
 
-    static defaultProps: Partial<Props> = {
-        kandidat: {
+const initialiserKandidater = (kandidatliste: RemoteData<Kandidatlistetype>) => {
+    return kandidatliste.kind !== RemoteDataTypes.SUCCESS
+        ? undefined
+        : kandidatliste.data.kandidater.map((kandidat: Kandidat) => ({
+              ...kandidat,
+              ...initialKandidatTilstand(),
+          }));
+};
+
+const Kandidatlisteside: FunctionComponent<Props> = props => {
+    const {
+        kandidat = {
             fornavn: '',
             etternavn: '',
         },
-    };
+        deleStatus,
+        resetDeleStatus,
+        leggTilStatus,
+        fodselsnummer,
+        kandidatliste,
+    } = props;
 
-    state: {
-        alleMarkert: boolean;
-        kandidater: any;
-        deleModalOpen: boolean;
-        leggTilModalOpen: boolean;
-        kopierEpostModalOpen: boolean;
-        suksessMelding: {
-            vis: boolean;
-            tekst: string;
-        };
-    };
+    const [alleMarkert, setAlleMarkert] = useState<boolean>(false);
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            alleMarkert: false,
-            kandidater:
-                props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
-                    ? undefined
-                    : props.kandidatliste.data.kandidater.map(kandidat => ({
-                          ...kandidat,
-                          ...initialKandidatTilstand(),
-                      })),
-            deleModalOpen: false,
-            leggTilModalOpen: false,
-            kopierEpostModalOpen: false,
-            suksessMelding: {
-                vis: false,
-                tekst: '',
-            },
-        };
-    }
+    const [deleSuksessMeldingCallbackId, setDeleSuksessMeldingCallbackId] = useState<any>();
+    const [kandidater, setKandidater] = useState<any>(initialiserKandidater(props.kandidatliste));
+    const [deleModalOpen, setDeleModalOpen] = useState<boolean>(false);
+    const [leggTilModalOpen, setLeggTilModalOpen] = useState<boolean>(false);
+    const [kopierEpostModalOpen, setKopierEpostModalOpen] = useState<boolean>(false);
+    const [suksessMelding, setSuksessMelding] = useState<Suksessmelding>({
+        vis: false,
+        tekst: '',
+    });
 
-    componentDidUpdate(prevProps: Props) {
-        const kandidaterHarNettoppBlittPresentert =
-            this.props.deleStatus !== prevProps.deleStatus &&
-            this.props.deleStatus === Delestatus.Success;
-        if (kandidaterHarNettoppBlittPresentert) {
-            this.props.resetDeleStatus();
-            const antallMarkerteKandidater = this.state.kandidater.filter(
-                kandidat => kandidat.markert
-            ).length;
-            this.visSuccessMelding(
-                `${
-                    antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
-                } er delt med arbeidsgiver`
-            );
-        }
-        if (
-            this.props.leggTilStatus !== prevProps.leggTilStatus &&
-            this.props.leggTilStatus === LAGRE_STATUS.SUCCESS
-        ) {
-            this.visSuccessMelding(
-                `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
-            );
-        }
-        if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
-            return;
-        }
+    const visSuccessMelding = useCallback(
+        (tekst: string) => {
+            if (deleSuksessMeldingCallbackId) {
+                clearTimeout(deleSuksessMeldingCallbackId);
+            }
 
-        if (
-            (prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS &&
-                this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) ||
-            (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
-                this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
-                prevProps.kandidatliste.data.kandidater !==
-                    this.props.kandidatliste.data.kandidater)
-        ) {
-            const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
-            const kandidater = this.props.kandidatliste.data.kandidater.map(kandidat => {
+            setSuksessMelding({
+                vis: true,
+                tekst,
+            });
+
+            const timeout = setTimeout(() => {
+                setSuksessMelding({
+                    vis: false,
+                    tekst: '',
+                });
+            }, 5000);
+
+            setDeleSuksessMeldingCallbackId(timeout);
+        },
+        [deleSuksessMeldingCallbackId]
+    );
+
+    const vedDelteKandidater = useCallback(() => {
+        resetDeleStatus();
+
+        const antallMarkerteKandidater = kandidater.filter(kandidat => kandidat.markert).length;
+
+        visSuccessMelding(
+            `${
+                antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
+            } er delt med arbeidsgiver`
+        );
+    }, [resetDeleStatus, visSuccessMelding, kandidater]);
+
+    const vedLagtTilKandidat = useCallback(() => {
+        visSuccessMelding(
+            `Kandidat ${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer}) er lagt til`
+        );
+    }, [kandidat, fodselsnummer, visSuccessMelding]);
+
+    const vedKandidatlisteSuccess = useCallback(
+        (kandidatliste: any) => {
+            const kandidatTilstander = trekkUtKandidatTilstander(kandidater);
+            const nyeKandidater = kandidatliste.data.kandidater.map(kandidat => {
                 const kandidatTilstand =
-                    (!kandidaterHarNettoppBlittPresentert &&
-                        kandidatTilstander[kandidat.kandidatnr]) ||
-                    initialKandidatTilstand();
+                    kandidatTilstander[kandidat.kandidatnr] || initialKandidatTilstand();
                 return {
                     ...kandidat,
                     ...kandidatTilstand,
                 };
             });
-            this.setState({
-                kandidater,
-                alleMarkert:
-                    !kandidaterHarNettoppBlittPresentert &&
-                    kandidater.filter(k => !k.markert).length === 0,
-            });
+
+            setKandidater(nyeKandidater);
+            setAlleMarkert(nyeKandidater.filter(k => !k.markert).length === 0);
+        },
+        [kandidater]
+    );
+
+    useEffect(() => {
+        if (deleStatus === Delestatus.Success) {
+            vedDelteKandidater();
         }
-    }
+    }, [deleStatus, vedDelteKandidater]);
 
-    componentWillUnmount() {
-        clearTimeout(this.deleSuksessMeldingCallbackId);
-    }
+    useEffect(() => {
+        if (leggTilStatus === LAGRE_STATUS.SUCCESS) {
+            vedLagtTilKandidat();
+        }
+    }, [leggTilStatus, vedLagtTilKandidat]);
 
-    onCheckAlleKandidater = markert => {
-        this.setState({
-            alleMarkert: markert,
-            kandidater: this.state.kandidater.map(kandidat => ({
+    const kandidaterFraListe =
+        kandidatliste.kind !== RemoteDataTypes.SUCCESS ? undefined : kandidatliste.data.kandidater;
+
+    useEffect(() => {
+        if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            vedKandidatlisteSuccess(kandidatliste);
+        }
+    }, [kandidatliste, kandidaterFraListe, vedKandidatlisteSuccess]);
+
+    useEffect(() => {
+        return () => {
+            if (deleSuksessMeldingCallbackId) {
+                clearTimeout(deleSuksessMeldingCallbackId);
+            }
+        };
+    });
+
+    const onCheckAlleKandidater = markert => {
+        setAlleMarkert(markert);
+        setKandidater(
+            kandidater.map(kandidat => ({
                 ...kandidat,
                 markert,
-            })),
-        });
+            }))
+        );
     };
 
-    onToggleKandidat = (kandidatnr: string) => {
-        const kandidater = this.state.kandidater.map(kandidat => {
+    const onToggleKandidat = (kandidatnr: string) => {
+        const nyeKandidater = kandidater.map(kandidat => {
             if (kandidat.kandidatnr === kandidatnr) {
                 return {
                     ...kandidat,
@@ -179,183 +204,136 @@ class Kandidatlisteside extends React.Component<Props> {
             }
             return kandidat;
         });
-        this.setState({
-            kandidater,
-            alleMarkert: kandidater.filter(k => !k.markert).length === 0,
-        });
+
+        setKandidater(nyeKandidater);
+        setAlleMarkert(kandidater.filter(k => !k.markert).length === 0);
     };
 
-    onToggleDeleModal = () => {
-        this.setState({
-            deleModalOpen: !this.state.deleModalOpen,
-        });
+    const onToggleDeleModal = () => {
+        setDeleModalOpen(!deleModalOpen);
     };
 
-    onToggleLeggTilKandidatModal = () => {
-        this.setState({
-            leggTilModalOpen: !this.state.leggTilModalOpen,
-        });
+    const onToggleLeggTilKandidatModal = () => {
+        setLeggTilModalOpen(!leggTilModalOpen);
     };
 
-    onToggleKopierEpostModal = () => {
-        this.setState({
-            kopierEpostModalOpen: !this.state.kopierEpostModalOpen,
-        });
+    const onToggleKopierEpostModal = () => {
+        setKopierEpostModalOpen(!kopierEpostModalOpen);
     };
 
-    onDelMedArbeidsgiver = (beskjed, mailadresser) => {
-        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
-            this.props.presenterKandidater(
+    const onDelMedArbeidsgiver = (beskjed, mailadresser) => {
+        if (props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            props.presenterKandidater(
                 beskjed,
                 mailadresser,
-                this.props.kandidatliste.data.kandidatlisteId,
-                this.state.kandidater
-                    .filter(kandidat => kandidat.markert)
-                    .map(kandidat => kandidat.kandidatnr)
+                props.kandidatliste.data.kandidatlisteId,
+                kandidater.filter(kandidat => kandidat.markert).map(kandidat => kandidat.kandidatnr)
             );
-            this.setState({
-                deleModalOpen: false,
-            });
+
+            setDeleModalOpen(false);
         }
     };
 
-    onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
+    const onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
         if (visningsstatus === Visningsstatus.VisNotater) {
-            this.props.hentNotater(kandidatlisteId, kandidatnr);
+            props.hentNotater(kandidatlisteId, kandidatnr);
         }
-        this.setState({
-            kandidater: this.state.kandidater.map(kandidat => {
-                if (kandidat.kandidatnr === kandidatnr) {
-                    return {
-                        ...kandidat,
-                        visningsstatus,
-                    };
-                }
+
+        const nyeKandidater = kandidater.map(kandidat => {
+            if (kandidat.kandidatnr === kandidatnr) {
                 return {
                     ...kandidat,
-                    visningsstatus: Visningsstatus.SkjulPanel,
+                    visningsstatus,
                 };
-            }),
+            }
+            return {
+                ...kandidat,
+                visningsstatus: Visningsstatus.SkjulPanel,
+            };
         });
+
+        setKandidater(nyeKandidater);
     };
 
-    onEmailKandidater = () => {
-        this.setState({
-            kopierEpostModalOpen: true,
-        });
+    const onEmailKandidater = () => {
+        setKopierEpostModalOpen(true);
     };
 
-    copyToClipboard = (text: string) => {
-        const textField = document.createElement('textarea');
-        textField.innerText = text;
-        document.body.appendChild(textField);
-        textField.select();
-        document.execCommand('copy');
-        textField.remove();
-    };
-
-    visSuccessMelding = (tekst: string) => {
-        clearTimeout(this.deleSuksessMeldingCallbackId);
-        this.setState({
-            suksessMelding: {
-                vis: true,
-                tekst,
-            },
-        });
-        this.deleSuksessMeldingCallbackId = setTimeout(() => {
-            this.setState({
-                suksessMelding: {
-                    vis: false,
-                    tekst: '',
-                },
-            });
-        }, 5000);
-    };
-
-    render() {
-        if (this.props.kandidatliste.kind === RemoteDataTypes.LOADING || !this.state.kandidater) {
-            return (
-                <div className="fullscreen-spinner">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        } else if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
-            return null;
-        }
-
-        const {
-            tittel,
-            organisasjonNavn,
-            opprettetAv,
-            kandidatlisteId,
-            stillingId,
-            kanEditere,
-            beskrivelse,
-        } = this.props.kandidatliste.data;
-        const {
-            kandidater,
-            alleMarkert,
-            deleModalOpen,
-            suksessMelding,
-            leggTilModalOpen,
-            kopierEpostModalOpen,
-        } = this.state;
+    if (kandidatliste.kind === RemoteDataTypes.LOADING || !kandidater) {
         return (
-            <div>
-                {deleModalOpen && (
-                    <PresenterKandidaterModal
-                        vis={this.state.deleModalOpen}
-                        onClose={this.onToggleDeleModal}
-                        onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
-                    />
-                )}
-                {leggTilModalOpen && (
-                    <LeggTilKandidatModal
-                        vis={this.state.leggTilModalOpen}
-                        onClose={this.onToggleLeggTilKandidatModal}
-                        stillingsId={stillingId}
-                        kandidatliste={this.props.kandidatliste.data}
-                    />
-                )}
-                <KopierEpostModal
-                    vis={kopierEpostModalOpen}
-                    onClose={this.onToggleKopierEpostModal}
-                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
-                />
-                <HjelpetekstFading
-                    synlig={suksessMelding.vis}
-                    type="suksess"
-                    innhold={suksessMelding.tekst}
-                />
-                <Kandidatliste
-                    tittel={tittel}
-                    arbeidsgiver={organisasjonNavn}
-                    opprettetAv={opprettetAv}
-                    kandidatlisteId={kandidatlisteId}
-                    stillingsId={stillingId}
-                    kanEditere={kanEditere}
-                    kandidater={kandidater}
-                    alleMarkert={alleMarkert}
-                    onToggleKandidat={this.onToggleKandidat}
-                    onCheckAlleKandidater={() => {
-                        this.onCheckAlleKandidater(!alleMarkert);
-                    }}
-                    onKandidatStatusChange={this.props.endreStatusKandidat}
-                    onKandidatShare={this.onToggleDeleModal}
-                    onEmailKandidater={this.onEmailKandidater}
-                    onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
-                    onVisningChange={this.onVisningChange}
-                    opprettNotat={this.props.opprettNotat}
-                    endreNotat={this.props.endreNotat}
-                    slettNotat={this.props.slettNotat}
-                    toggleErSlettet={this.props.toggleErSlettet}
-                    beskrivelse={beskrivelse}
-                />
+            <div className="fullscreen-spinner">
+                <NavFrontendSpinner type="L" />
             </div>
         );
+    } else if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+        return null;
     }
-}
+
+    const {
+        tittel,
+        organisasjonNavn,
+        opprettetAv,
+        kandidatlisteId,
+        stillingId,
+        kanEditere,
+        beskrivelse,
+    } = kandidatliste.data;
+
+    return (
+        <div>
+            {deleModalOpen && (
+                <PresenterKandidaterModal
+                    vis={deleModalOpen}
+                    onClose={onToggleDeleModal}
+                    onSubmit={onDelMedArbeidsgiver}
+                    antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
+                />
+            )}
+            {leggTilModalOpen && (
+                <LeggTilKandidatModal
+                    vis={leggTilModalOpen}
+                    onClose={onToggleLeggTilKandidatModal}
+                    stillingsId={stillingId}
+                    kandidatliste={kandidatliste.data}
+                />
+            )}
+            <KopierEpostModal
+                vis={kopierEpostModalOpen}
+                onClose={onToggleKopierEpostModal}
+                kandidater={kandidater.filter(kandidat => kandidat.markert)}
+            />
+            <HjelpetekstFading
+                synlig={suksessMelding.vis}
+                type="suksess"
+                innhold={suksessMelding.tekst}
+            />
+            <Kandidatliste
+                tittel={tittel}
+                arbeidsgiver={organisasjonNavn}
+                opprettetAv={opprettetAv}
+                kandidatlisteId={kandidatlisteId}
+                stillingsId={stillingId}
+                kanEditere={kanEditere}
+                kandidater={kandidater}
+                alleMarkert={alleMarkert}
+                onToggleKandidat={onToggleKandidat}
+                onCheckAlleKandidater={() => {
+                    onCheckAlleKandidater(!alleMarkert);
+                }}
+                onKandidatStatusChange={props.endreStatusKandidat}
+                onKandidatShare={onToggleDeleModal}
+                onEmailKandidater={onEmailKandidater}
+                onLeggTilKandidat={onToggleLeggTilKandidatModal}
+                onVisningChange={onVisningChange}
+                opprettNotat={props.opprettNotat}
+                endreNotat={props.endreNotat}
+                slettNotat={props.slettNotat}
+                toggleErSlettet={props.toggleErSlettet}
+                beskrivelse={beskrivelse}
+            />
+        </div>
+    );
+};
 
 const mapStateToProps = (state: any) => ({
     deleStatus: state.kandidatlister.detaljer.deleStatus,
