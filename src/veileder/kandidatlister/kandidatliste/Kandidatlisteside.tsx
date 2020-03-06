@@ -3,11 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import {
-    Kandidat,
-    KandidatIKandidatliste,
-    KandidatlisteAction,
-} from '../reducer/kandidatlisteReducer';
+import { Kandidat, KandidatIKandidatliste } from '../reducer/kandidatlisteReducer';
 import { DELE_STATUS } from '../reducer/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { OpprettetAv } from './SideHeader';
@@ -21,6 +17,7 @@ import LeggTilKandidatModal from './LeggTilKandidatModal';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import './Kandidatliste.less';
 import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
+import KandidatlisteAction from '../reducer/KandidatlisteAction';
 
 const initialKandidatTilstand = () => ({
     markert: false,
