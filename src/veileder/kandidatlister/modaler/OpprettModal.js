@@ -5,7 +5,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from '../OpprettKandidatlisteForm';
-import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 
 const OpprettModal = ({
     opprettKandidatliste,
@@ -46,10 +46,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     opprettKandidatliste: kandidatlisteInfo => {
-        dispatch({ type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE, kandidatlisteInfo });
+        dispatch({ type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS });
+        dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS });
     },
 });
 

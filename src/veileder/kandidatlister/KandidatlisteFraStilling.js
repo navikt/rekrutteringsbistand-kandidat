@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import KandidatlisteTypes from './reducer/KandidatlisteTypes.ts';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
@@ -44,7 +44,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     hentKandidatliste: stillingsId => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId });
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        });
     },
 });
 

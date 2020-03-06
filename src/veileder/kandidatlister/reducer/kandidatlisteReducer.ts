@@ -1,40 +1,4 @@
-import KandidatlisteAction, {
-    SlettKandidatlisteAction,
-    SlettKandidatlisteFerdigAction,
-    OpprettKandidatlisteAction,
-    HentKandidatlisteMedStillingsIdAction,
-    HentKandidatlisteMedKandidatlisteIdAction,
-    PresenterKandidaterAction,
-    EndreStatusKandidatAction,
-    HentKandidatMedFnrAction,
-    LeggTilKandidaterAction,
-    HentNotaterAction,
-    OpprettNotatAction,
-    EndreNotatAction,
-} from './KandidatlisteAction';
-import KandidatlisteTypes from './KandidatlisteTypes';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import {
-    deleteKandidatliste,
-    deleteNotat,
-    endreEierskapPaKandidatliste,
-    fetchKandidatlisteMedAnnonsenummer,
-    fetchKandidatlisteMedKandidatlisteId,
-    fetchKandidatlisteMedStillingsId,
-    fetchKandidatlister,
-    fetchKandidatMedFnr,
-    fetchNotater,
-    postDelteKandidater,
-    postKandidaterTilKandidatliste,
-    postKandidatliste,
-    postNotat,
-    putKandidatliste,
-    putNotat,
-    putOppdaterKandidatliste,
-    putStatusKandidat,
-    putErSlettet,
-} from '../../api';
-import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
+import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
@@ -45,117 +9,28 @@ import {
     RemoteDataTypes,
     Success,
 } from '../../../felles/common/remoteData';
-import { SearchApiError } from '../../../felles/api';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
-
-export enum DELE_STATUS {
-    IKKE_SPURT = 'IKKE_SPURT',
-    LOADING = 'LOADING',
-    SUCCESS = 'SUCCESS',
-}
-
-export enum HENT_STATUS {
-    IKKE_HENTET = 'IKKE_HENTET',
-    LOADING = 'LOADING',
-    SUCCESS = 'SUCCESS',
-    FINNES_IKKE = 'FINNES_IKKE',
-    FAILURE = 'FAILURE',
-}
-
-export enum MARKER_SOM_MIN_STATUS {
-    IKKE_GJORT = 'IKKE_GJORT',
-    LOADING = 'LOADING',
-    SUCCESS = 'SUCCESS',
-    FAILURE = 'FAILURE',
-}
-
-export interface KandidatResponse {
-    kandidatId: string;
-    kandidatnr: string;
-    sisteArbeidserfaring: string;
-    status: string;
-    lagtTilTidspunkt: string;
-    lagtTilAv: {
-        ident: string;
-        navn: string;
-    };
-    fornavn: string;
-    etternavn: string;
-    epost?: string;
-    telefon?: string;
-    fodselsdato: string;
-    fodselsnr: string;
-    innsatsgruppe: string;
-    utfall: string;
-    erSynlig: boolean;
-}
-
-export interface Notat {
-    tekst: string;
-    notatId: string;
-    lagtTilTidspunkt: string;
-    notatEndret: boolean;
-    kanEditere: boolean;
-    lagtTilAv: {
-        navn: string;
-        ident: string;
-    };
-}
-
-interface KandidatExtension {
-    notater: RemoteData<Array<Notat>>;
-}
-
-export type Kandidat = KandidatResponse & KandidatExtension;
-
-export type KandidatIKandidatliste = Kandidat & {
-    notaterVises: boolean;
-    antallNotater: number;
-    markert: boolean;
-    visningsstatus: string;
-};
-
-interface KandidatlisteBase {
-    kandidatlisteId: string;
-    tittel: string;
-    beskrivelse: string;
-    organisasjonReferanse: string;
-    organisasjonNavn: string;
-    stillingId: string;
-    opprettetAv: {
-        ident: string;
-        navn: string;
-    };
-    opprettetTidspunkt: string;
-}
-
-interface KandidatlisteResponseExtension {
-    kandidater: Array<KandidatResponse>;
-}
-
-interface KandidatlisteExtension {
-    kandidater: Array<Kandidat>;
-}
-
-export type KandidatlisteResponse = KandidatlisteBase & KandidatlisteResponseExtension;
-
-type Kandidatliste = KandidatlisteBase & KandidatlisteExtension;
+import KandidatlisteAction from './KandidatlisteAction';
+import {
+    Kandidatliste,
+    Delestatus,
+    HentStatus,
+    MarkerSomMinStatus,
+    KandidatlisteResponse,
+    Notat,
+} from '../kandidatlistetyper';
 
 interface KandidatlisteState {
     lagreStatus: string;
     detaljer: {
         kandidatliste: RemoteData<Kandidatliste>;
-        deleStatus: DELE_STATUS;
+        deleStatus: Delestatus;
     };
     opprett: {
         lagreStatus: string;
         opprettetKandidatlisteTittel?: string;
     };
     fodselsnummer?: string;
-    hentStatus: HENT_STATUS;
+    hentStatus: HentStatus;
     kandidat: {
         arenaKandidatnr?: string;
         fornavn?: string;
@@ -170,12 +45,12 @@ interface KandidatlisteState {
         antallLagredeKandidater: number;
         lagretListe: {};
     };
-    hentListerStatus: HENT_STATUS;
+    hentListerStatus: HentStatus;
     kandidatlister: {
         liste: Array<any>;
         antall?: number;
     };
-    hentListeMedAnnonsenummerStatus: HENT_STATUS;
+    hentListeMedAnnonsenummerStatus: HentStatus;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatIKandidatlisteStatus: string;
     kandidatlisterSokeKriterier: {
@@ -185,7 +60,7 @@ interface KandidatlisteState {
         pagenumber: number;
         pagesize: number;
     };
-    markerSomMinStatus: MARKER_SOM_MIN_STATUS;
+    markerSomMinStatus: MarkerSomMinStatus;
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
     }>;
@@ -195,14 +70,14 @@ const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
         kandidatliste: NotAsked(),
-        deleStatus: DELE_STATUS.IKKE_SPURT,
+        deleStatus: Delestatus.IkkeSpurt,
     },
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         opprettetKandidatlisteTittel: undefined,
     },
     fodselsnummer: undefined,
-    hentStatus: HENT_STATUS.IKKE_HENTET,
+    hentStatus: HentStatus.IkkeHentet,
     kandidat: {
         arenaKandidatnr: undefined,
         fornavn: undefined,
@@ -217,12 +92,12 @@ const initialState: KandidatlisteState = {
         antallLagredeKandidater: 0,
         lagretListe: {},
     },
-    hentListerStatus: HENT_STATUS.IKKE_HENTET,
+    hentListerStatus: HentStatus.IkkeHentet,
     kandidatlister: {
         liste: [],
         antall: undefined,
     },
-    hentListeMedAnnonsenummerStatus: HENT_STATUS.IKKE_HENTET,
+    hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
     kandidatlisterSokeKriterier: {
@@ -232,7 +107,7 @@ const initialState: KandidatlisteState = {
         pagenumber: 0,
         pagesize: 20,
     },
-    markerSomMinStatus: MARKER_SOM_MIN_STATUS.IKKE_GJORT,
+    markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
     slettKandidatlisteStatus: NotAsked(),
 };
 
@@ -343,8 +218,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     action
 ) => {
     switch (action.type) {
-        case KandidatlisteTypes.OPPRETT_KANDIDATLISTE:
-        case KandidatlisteTypes.OPPDATER_KANDIDATLISTE:
+        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE:
+        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE:
             return {
                 ...state,
                 opprett: {
@@ -353,8 +228,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
-        case KandidatlisteTypes.OPPRETT_KANDIDATLISTE_SUCCESS:
-        case KandidatlisteTypes.OPPDATER_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
                 opprett: {
@@ -363,8 +238,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: action.tittel,
                 },
             };
-        case KandidatlisteTypes.OPPRETT_KANDIDATLISTE_FAILURE:
-        case KandidatlisteTypes.OPPDATER_KANDIDATLISTE_FAILURE:
+        case KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE:
+        case KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
                 opprett: {
@@ -373,7 +248,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     opprettetKandidatlisteTittel: undefined,
                 },
             };
-        case KandidatlisteTypes.RESET_LAGRE_STATUS:
+        case KandidatlisteActionType.RESET_LAGRE_STATUS:
             return {
                 ...state,
                 opprett: {
@@ -381,8 +256,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.UNSAVED,
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID:
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID:
             return {
                 ...state,
                 detaljer: {
@@ -390,8 +265,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     kandidatliste: Loading(),
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
             return {
                 ...state,
                 detaljer: {
@@ -401,8 +276,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ),
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
             return {
                 ...state,
                 detaljer: {
@@ -410,7 +285,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     kandidatliste: Failure(action.error),
                 },
             };
-        case KandidatlisteTypes.ENDRE_STATUS_KANDIDAT_SUCCESS:
+        case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
             return {
                 ...state,
                 detaljer: {
@@ -420,15 +295,15 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ),
                 },
             };
-        case KandidatlisteTypes.PRESENTER_KANDIDATER:
+        case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    deleStatus: DELE_STATUS.LOADING,
+                    deleStatus: Delestatus.Loading,
                 },
             };
-        case KandidatlisteTypes.PRESENTER_KANDIDATER_SUCCESS:
+        case KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS:
             return {
                 ...state,
                 detaljer: {
@@ -436,69 +311,69 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     kandidatliste: Success(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
-                    deleStatus: DELE_STATUS.SUCCESS,
+                    deleStatus: Delestatus.Success,
                 },
             };
-        case KandidatlisteTypes.PRESENTER_KANDIDATER_FAILURE:
+        case KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE:
             return {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    deleStatus: DELE_STATUS.IKKE_SPURT,
+                    deleStatus: Delestatus.IkkeSpurt,
                 },
             };
-        case KandidatlisteTypes.RESET_DELE_STATUS:
+        case KandidatlisteActionType.RESET_Delestatus:
             return {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    deleStatus: DELE_STATUS.IKKE_SPURT,
+                    deleStatus: Delestatus.IkkeSpurt,
                 },
             };
-        case KandidatlisteTypes.SET_FODSELSNUMMER: {
+        case KandidatlisteActionType.SET_FODSELSNUMMER: {
             return {
                 ...state,
                 fodselsnummer: action.fodselsnummer,
             };
         }
-        case KandidatlisteTypes.SET_NOTAT:
+        case KandidatlisteActionType.SET_NOTAT:
             return {
                 ...state,
                 notat: action.notat,
             };
-        case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR: {
+        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR: {
             return {
                 ...state,
-                hentStatus: HENT_STATUS.LOADING,
+                hentStatus: HentStatus.Loading,
             };
         }
-        case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_SUCCESS: {
+        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS: {
             return {
                 ...state,
-                hentStatus: HENT_STATUS.SUCCESS,
+                hentStatus: HentStatus.Success,
                 kandidat: action.kandidat,
             };
         }
-        case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_NOT_FOUND: {
+        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_NOT_FOUND: {
             return {
                 ...state,
-                hentStatus: HENT_STATUS.FINNES_IKKE,
+                hentStatus: HentStatus.FinnesIkke,
             };
         }
-        case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_FAILURE: {
+        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE: {
             return {
                 ...state,
-                hentStatus: HENT_STATUS.FAILURE,
+                hentStatus: HentStatus.Failure,
             };
         }
-        case KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_RESET: {
+        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET: {
             return {
                 ...state,
-                hentStatus: HENT_STATUS.IKKE_HENTET,
+                hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
             };
         }
-        case KandidatlisteTypes.LEGG_TIL_KANDIDATER:
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -506,7 +381,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.LOADING,
                 },
             };
-        case KandidatlisteTypes.LEGG_TIL_KANDIDATER_SUCCESS:
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -522,7 +397,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ),
                 },
             };
-        case KandidatlisteTypes.LEGG_TIL_KANDIDATER_FAILURE:
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE:
             return {
                 ...state,
                 leggTilKandidater: {
@@ -530,57 +405,57 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.FAILURE,
                 },
             };
-        case KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE:
+        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING,
             };
-        case KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
+        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS,
             };
-        case KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
+        case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
-        case KandidatlisteTypes.HENT_NOTATER:
+        case KandidatlisteActionType.HENT_NOTATER:
             return oppdaterNotaterIKandidatlisteDetaljer(state, action.kandidatnr, Loading());
-        case KandidatlisteTypes.HENT_NOTATER_SUCCESS:
+        case KandidatlisteActionType.HENT_NOTATER_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteTypes.OPPRETT_NOTAT_SUCCESS:
+        case KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteTypes.ENDRE_NOTAT_SUCCESS:
+        case KandidatlisteActionType.ENDRE_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteTypes.SLETT_NOTAT_SUCCESS:
+        case KandidatlisteActionType.SLETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS:
+        case KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS:
             return oppdaterErSlettetIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
                 action.erSlettet
             );
-        case KandidatlisteTypes.HENT_KANDIDATLISTER:
+        case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
                 ...state,
-                hentListerStatus: HENT_STATUS.LOADING,
+                hentListerStatus: HentStatus.Loading,
                 kandidatlisterSokeKriterier: {
                     query: action.query,
                     type: action.listetype,
@@ -589,21 +464,21 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     pagesize: action.pagesize,
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTER_SUCCESS:
+        case KandidatlisteActionType.HENT_KANDIDATLISTER_SUCCESS:
             return {
                 ...state,
-                hentListerStatus: HENT_STATUS.SUCCESS,
+                hentListerStatus: HentStatus.Success,
                 kandidatlister: {
                     liste: action.kandidatlister.liste,
                     antall: action.kandidatlister.antall,
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTER_FAILURE:
+        case KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE:
             return {
                 ...state,
-                hentListerStatus: HENT_STATUS.FAILURE,
+                hentListerStatus: HentStatus.Failure,
             };
-        case KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER:
+        case KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER:
             return {
                 ...state,
                 kandidatlister: {
@@ -618,51 +493,51 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     pagesize: 20,
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HENT_STATUS.LOADING,
+                hentListeMedAnnonsenummerStatus: HentStatus.Loading,
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HENT_STATUS.SUCCESS,
+                hentListeMedAnnonsenummerStatus: HentStatus.Success,
                 kandidatlisteMedAnnonsenummer: {
                     ...action.kandidatliste,
                     markert: true,
                 },
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HENT_STATUS.FINNES_IKKE,
+                hentListeMedAnnonsenummerStatus: HentStatus.FinnesIkke,
             };
-        case KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
             return {
                 ...state,
-                hentListeMedAnnonsenummerStatus: HENT_STATUS.FAILURE,
+                hentListeMedAnnonsenummerStatus: HentStatus.Failure,
             };
-        case KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN:
+        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN:
             return {
                 ...state,
-                markerSomMinStatus: MARKER_SOM_MIN_STATUS.LOADING,
+                markerSomMinStatus: MarkerSomMinStatus.Loading,
             };
-        case KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS:
+        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS:
             return {
                 ...state,
-                markerSomMinStatus: MARKER_SOM_MIN_STATUS.SUCCESS,
+                markerSomMinStatus: MarkerSomMinStatus.Success,
             };
-        case KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE:
+        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE:
             return {
                 ...state,
-                markerSomMinStatus: MARKER_SOM_MIN_STATUS.FAILURE,
+                markerSomMinStatus: MarkerSomMinStatus.Failure,
             };
-        case KandidatlisteTypes.SLETT_KANDIDATLISTE:
+        case KandidatlisteActionType.SLETT_KANDIDATLISTE:
             return {
                 ...state,
                 slettKandidatlisteStatus: Loading(),
             };
-        case KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG:
+        case KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG:
             return {
                 ...state,
                 slettKandidatlisteStatus:
@@ -670,7 +545,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         ? Success({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
-        case KandidatlisteTypes.RESET_SLETTE_STATUS:
+        case KandidatlisteActionType.RESET_SLETTE_STATUS:
             return {
                 ...state,
                 slettKandidatlisteStatus: NotAsked(),
@@ -681,430 +556,3 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
 };
 
 export default reducer;
-
-/** *********************************************************
- * ASYNC ACTIONS
- ********************************************************* */
-
-function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
-    try {
-        yield postKandidatliste(action.kandidatlisteInfo);
-        yield put({
-            type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE_SUCCESS,
-            tittel: action.kandidatlisteInfo.tittel,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.OPPRETT_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* opprettKandidatlisteForStilling(stillingsId, opprinneligError) {
-    try {
-        yield putKandidatliste(stillingsId);
-        const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
-        yield put({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS,
-            kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
-                error: opprinneligError,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatlisteMedStillingsId(action: HentKandidatlisteMedStillingsIdAction) {
-    const { stillingsId } = action;
-    try {
-        const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
-        yield put({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS,
-            kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            if (e.status === 404) {
-                yield opprettKandidatlisteForStilling(stillingsId, e);
-            } else {
-                yield put({
-                    type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
-                    error: e,
-                });
-            }
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatlisteMedKandidatlisteId(action: HentKandidatlisteMedKandidatlisteIdAction) {
-    const { kandidatlisteId } = action;
-    try {
-        const kandidatliste = yield fetchKandidatlisteMedKandidatlisteId(kandidatlisteId);
-        yield put({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS,
-            kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE,
-                error: e,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* presenterKandidater(action: PresenterKandidaterAction) {
-    try {
-        const { beskjed, mailadresser, kandidatlisteId, kandidatnummerListe } = action;
-        const response = yield postDelteKandidater(
-            beskjed,
-            mailadresser,
-            kandidatlisteId,
-            kandidatnummerListe
-        );
-        yield put({
-            type: KandidatlisteTypes.PRESENTER_KANDIDATER_SUCCESS,
-            kandidatliste: response,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.PRESENTER_KANDIDATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* endreKandidatstatus(action: EndreStatusKandidatAction) {
-    const { status, kandidatlisteId, kandidatnr } = action;
-    try {
-        const response = yield putStatusKandidat(status, kandidatlisteId, kandidatnr);
-        yield put({
-            type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT_SUCCESS,
-            kandidatliste: response,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
-    try {
-        const response = yield fetchKandidatMedFnr(action.fodselsnummer);
-        yield put({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_SUCCESS, kandidat: response });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            if (e.status === 404) {
-                yield put({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_NOT_FOUND });
-            } else {
-                yield put({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_FAILURE, error: e });
-            }
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* leggTilKandidater(action: LeggTilKandidaterAction) {
-    try {
-        const response = yield postKandidaterTilKandidatliste(
-            action.kandidatliste.kandidatlisteId,
-            action.kandidater
-        );
-        yield put({
-            type: KandidatlisteTypes.LEGG_TIL_KANDIDATER_SUCCESS,
-            kandidatliste: response,
-            antallLagredeKandidater: action.kandidater.length,
-            lagretListe: action.kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* lagreKandidatIKandidatliste(action) {
-    try {
-        const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
-        yield call(leggTilKandidater, {
-            type: KandidatlisteTypes.LEGG_TIL_KANDIDATER,
-            kandidatliste: action.kandidatliste,
-            kandidater: [
-                {
-                    kandidatnr: response.arenaKandidatnr,
-                    notat: action.notat,
-                    sisteArbeidserfaring: response.mestRelevanteYrkeserfaring
-                        ? response.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
-                        : '',
-                },
-            ],
-        });
-
-        yield put({ type: KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
-                error: e,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentNotater(action: HentNotaterAction) {
-    try {
-        const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
-        yield put({
-            type: KandidatlisteTypes.HENT_NOTATER_SUCCESS,
-            notater: response.liste,
-            kandidatnr: action.kandidatnr,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.HENT_NOTATER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* opprettNotat(action: OpprettNotatAction) {
-    try {
-        const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
-        yield put({
-            type: KandidatlisteTypes.OPPRETT_NOTAT_SUCCESS,
-            notater: response.liste,
-            kandidatnr: action.kandidatnr,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.OPPRETT_NOTAT_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatlister() {
-    const state = yield select();
-    try {
-        const kandidatlister = yield fetchKandidatlister(
-            state.kandidatlister.kandidatlisterSokeKriterier
-        );
-        yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTER_SUCCESS, kandidatlister });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.HENT_KANDIDATLISTER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* hentKandidatlisteMedAnnonsenummer(action) {
-    try {
-        const kandidatliste = yield fetchKandidatlisteMedAnnonsenummer(action.annonsenummer);
-        yield put({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS,
-            kandidatliste,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            if (e.status === 404) {
-                yield put({
-                    type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND,
-                });
-            } else {
-                yield put({
-                    type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE,
-                    error: e,
-                });
-            }
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* endreNotat(action: EndreNotatAction) {
-    try {
-        const response = yield putNotat(
-            action.kandidatlisteId,
-            action.kandidatnr,
-            action.notatId,
-            action.tekst
-        );
-        yield put({
-            type: KandidatlisteTypes.ENDRE_NOTAT_SUCCESS,
-            notater: response.liste,
-            kandidatnr: action.kandidatnr,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.ENDRE_NOTAT_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* slettNotat(action) {
-    try {
-        const response = yield deleteNotat(
-            action.kandidatlisteId,
-            action.kandidatnr,
-            action.notatId
-        );
-        yield put({
-            type: KandidatlisteTypes.SLETT_NOTAT_SUCCESS,
-            notater: response.liste,
-            kandidatnr: action.kandidatnr,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.SLETT_NOTAT_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* toggleErSlettet(action) {
-    try {
-        yield putErSlettet(action.kandidatlisteId, action.kandidatnr, action.erSlettet);
-        yield put({
-            type: KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS,
-            kandidatnr: action.kandidatnr,
-            erSlettet: action.erSlettet,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.TOGGLE_ER_SLETTET_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* oppdaterKandidatliste(action) {
-    try {
-        yield putOppdaterKandidatliste(action.kandidatlisteInfo);
-        yield put({
-            type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE_SUCCESS,
-            tittel: action.kandidatlisteInfo.tittel,
-        });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* markerKandidatlisteSomMin(action) {
-    try {
-        yield endreEierskapPaKandidatliste(action.kandidatlisteId);
-        yield put({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* slettKandidatliste(action: SlettKandidatlisteAction) {
-    const response = yield call(deleteKandidatliste, action.kandidatliste.kandidatlisteId);
-    yield put({
-        type: KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG,
-        result: response,
-        kandidatlisteTittel: action.kandidatliste.tittel,
-    });
-}
-
-function* sjekkError(action) {
-    yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
-}
-
-function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
-    if (action.result.kind === RemoteDataTypes.FAILURE) {
-        yield put({ type: INVALID_RESPONSE_STATUS, error: action.result.error });
-    }
-}
-
-export function* kandidatlisteSaga() {
-    yield takeLatest(KandidatlisteTypes.OPPRETT_KANDIDATLISTE, opprettKandidatliste);
-    yield takeLatest(
-        KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-        hentKandidatlisteMedStillingsId
-    );
-    yield takeLatest(
-        KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
-        hentKandidatlisteMedKandidatlisteId
-    );
-    yield takeLatest(KandidatlisteTypes.PRESENTER_KANDIDATER, presenterKandidater);
-    yield takeLatest(KandidatlisteTypes.ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
-    yield takeLatest(KandidatlisteTypes.HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
-    yield takeLatest(KandidatlisteTypes.LEGG_TIL_KANDIDATER, leggTilKandidater);
-    yield takeLatest(KandidatlisteTypes.HENT_NOTATER, hentNotater);
-    yield takeLatest(KandidatlisteTypes.OPPRETT_NOTAT, opprettNotat);
-    yield takeLatest(KandidatlisteTypes.ENDRE_NOTAT, endreNotat);
-    yield takeLatest(KandidatlisteTypes.SLETT_NOTAT, slettNotat);
-    yield takeLatest(KandidatlisteTypes.TOGGLE_ER_SLETTET, toggleErSlettet);
-    yield takeLatest(KandidatlisteTypes.HENT_KANDIDATLISTER, hentKandidatlister);
-    yield takeLatest(
-        KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
-        hentKandidatlisteMedAnnonsenummer
-    );
-    yield takeLatest(
-        KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE,
-        lagreKandidatIKandidatliste
-    );
-    yield takeLatest(KandidatlisteTypes.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
-    yield takeLatest(KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, markerKandidatlisteSomMin);
-    yield takeLatest(KandidatlisteTypes.SLETT_KANDIDATLISTE, slettKandidatliste);
-    yield takeLatest(
-        [
-            KandidatlisteTypes.OPPRETT_KANDIDATLISTE_FAILURE,
-            KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE,
-            KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE,
-            KandidatlisteTypes.ENDRE_STATUS_KANDIDAT_FAILURE,
-            KandidatlisteTypes.PRESENTER_KANDIDATER_FAILURE,
-            KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_FAILURE,
-            KandidatlisteTypes.LEGG_TIL_KANDIDATER_FAILURE,
-            KandidatlisteTypes.OPPRETT_NOTAT_FAILURE,
-            KandidatlisteTypes.ENDRE_NOTAT_FAILURE,
-            KandidatlisteTypes.TOGGLE_ER_SLETTET_FAILURE,
-            KandidatlisteTypes.SLETT_NOTAT_FAILURE,
-            KandidatlisteTypes.HENT_KANDIDATLISTER_FAILURE,
-            KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
-            KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
-        ],
-        sjekkError
-    );
-    yield takeLatest([KandidatlisteTypes.SLETT_KANDIDATLISTE_FERDIG], sjekkFerdigActionForError);
-}

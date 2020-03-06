@@ -18,7 +18,7 @@ import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidat
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
-import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 
 const antallKandidaterMarkert = kandidater => kandidater.filter(k => k.markert).length;
 
@@ -272,7 +272,7 @@ KandidaterVisning.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
     leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => {
-        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
+        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
     },
     lastFlereKandidater: () => {
         dispatch({ type: LAST_FLERE_KANDIDATER });
@@ -285,12 +285,15 @@ const mapDispatchToProps = dispatch => ({
     },
     hentKandidatlisteMedKandidatlisteId: kandidatlisteId => {
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         });
     },
     hentKandidatlisteMedStillingsId: stillingsId => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId });
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        });
     },
 });
 

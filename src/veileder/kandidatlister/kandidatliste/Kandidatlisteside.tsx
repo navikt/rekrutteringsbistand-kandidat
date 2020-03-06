@@ -3,8 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { Kandidat, KandidatIKandidatliste } from '../reducer/kandidatlisteReducer';
-import { DELE_STATUS } from '../reducer/kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { OpprettetAv } from './SideHeader';
 import { RemoteDataTypes } from '../../../felles/common/remoteData';
@@ -15,9 +13,10 @@ import Kandidatliste from './Kandidatliste';
 import KopierEpostModal from './KopierEpostModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
-import './Kandidatliste.less';
-import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
+import { Kandidat, KandidatIKandidatliste, Delestatus } from '../kandidatlistetyper';
+import './Kandidatliste.less';
 
 const initialKandidatTilstand = () => ({
     markert: false,
@@ -119,7 +118,7 @@ class Kandidatlisteside extends React.Component<Props> {
     componentDidUpdate(prevProps: Props) {
         const kandidaterHarNettoppBlittPresentert =
             this.props.deleStatus !== prevProps.deleStatus &&
-            this.props.deleStatus === DELE_STATUS.SUCCESS;
+            this.props.deleStatus === Delestatus.Success;
         if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
             const antallMarkerteKandidater = this.state.kandidater.filter(
@@ -377,7 +376,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
     endreStatusKandidat: (status: Status, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
-            type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT,
+            type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,
             kandidatlisteId,
             kandidatnr,
@@ -390,7 +389,7 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         kandidatnummerListe: Array<string>
     ) => {
         dispatch({
-            type: KandidatlisteTypes.PRESENTER_KANDIDATER,
+            type: KandidatlisteActionType.PRESENTER_KANDIDATER,
             beskjed,
             mailadresser,
             kandidatlisteId,
@@ -398,17 +397,22 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         });
     },
     resetDeleStatus: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_DELE_STATUS });
+        dispatch({ type: KandidatlisteActionType.RESET_Delestatus });
     },
     hentNotater: (kandidatlisteId, kandidatnr) => {
-        dispatch({ type: KandidatlisteTypes.HENT_NOTATER, kandidatlisteId, kandidatnr });
+        dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
     },
     opprettNotat: (kandidatlisteId, kandidatnr, tekst) => {
-        dispatch({ type: KandidatlisteTypes.OPPRETT_NOTAT, kandidatlisteId, kandidatnr, tekst });
+        dispatch({
+            type: KandidatlisteActionType.OPPRETT_NOTAT,
+            kandidatlisteId,
+            kandidatnr,
+            tekst,
+        });
     },
     endreNotat: (kandidatlisteId, kandidatnr, notatId, tekst) => {
         dispatch({
-            type: KandidatlisteTypes.ENDRE_NOTAT,
+            type: KandidatlisteActionType.ENDRE_NOTAT,
             kandidatlisteId,
             kandidatnr,
             notatId,
@@ -416,11 +420,16 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         });
     },
     slettNotat: (kandidatlisteId, kandidatnr, notatId) => {
-        dispatch({ type: KandidatlisteTypes.SLETT_NOTAT, kandidatlisteId, kandidatnr, notatId });
+        dispatch({
+            type: KandidatlisteActionType.SLETT_NOTAT,
+            kandidatlisteId,
+            kandidatnr,
+            notatId,
+        });
     },
     toggleErSlettet: (kandidatlisteId, kandidatnr, erSlettet) => {
         dispatch({
-            type: KandidatlisteTypes.TOGGLE_ER_SLETTET,
+            type: KandidatlisteActionType.TOGGLE_ER_SLETTET,
             kandidatlisteId,
             kandidatnr,
             erSlettet,

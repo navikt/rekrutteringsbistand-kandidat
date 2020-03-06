@@ -10,7 +10,7 @@ import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import KandidatlisteTypes from './reducer/KandidatlisteTypes.ts';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
@@ -225,12 +225,12 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
     hentKandidatliste: kandidatlisteId =>
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
     endreStatusKandidat: (status, kandidatlisteId, kandidatnr) =>
         dispatch({
-            type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT,
+            type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,
             kandidatlisteId,
             kandidatnr,

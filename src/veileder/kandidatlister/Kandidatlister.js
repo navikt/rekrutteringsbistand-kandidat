@@ -1,26 +1,27 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { MARKER_SOM_MIN_STATUS } from './reducer/kandidatlisteReducer.ts';
+import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
+import { Link } from 'react-router-dom';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import PropTypes from 'prop-types';
+
 import { formatterDato } from '../../felles/common/dateUtils';
-import './Kandidatlister.less';
-import OpprettModal from './modaler/OpprettModal';
-import EndreModal from './modaler/EndreModal';
-import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
-import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import KandidatlisteTypes from './reducer/KandidatlisteTypes';
+import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
+import EndreModal from './modaler/EndreModal';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType';
+import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import MarkerSomMinModal from './modaler/MarkerSomMinModal';
+import OpprettModal from './modaler/OpprettModal';
+import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
+import { MarkerSomMinStatus } from './kandidatlistetyper';
+import './Kandidatlister.less';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -527,8 +528,8 @@ class Kandidatlister extends React.Component {
             this.props.resetSletteStatus();
         }
         if (
-            prevProps.markerSomMinStatus === MARKER_SOM_MIN_STATUS.LOADING &&
-            this.props.markerSomMinStatus === MARKER_SOM_MIN_STATUS.SUCCESS
+            prevProps.markerSomMinStatus === MarkerSomMinStatus.Loading &&
+            this.props.markerSomMinStatus === MarkerSomMinStatus.Success
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
@@ -798,22 +799,22 @@ const mapDispatchToProps = dispatch => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTER,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
             query,
             listetype: type,
             kunEgne,
             pagenumber,
             pagesize,
         }),
-    resetLagreStatus: () => dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
     markerKandidatlisteSomMin: kandidatlisteId => {
-        dispatch({ type: KandidatlisteTypes.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
+        dispatch({ type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
     slettKandidatliste: kandidatliste => {
-        dispatch({ type: KandidatlisteTypes.SLETT_KANDIDATLISTE, kandidatliste });
+        dispatch({ type: KandidatlisteActionType.SLETT_KANDIDATLISTE, kandidatliste });
     },
     resetSletteStatus: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_SLETTE_STATUS });
+        dispatch({ type: KandidatlisteActionType.RESET_SLETTE_STATUS });
     },
 });
 

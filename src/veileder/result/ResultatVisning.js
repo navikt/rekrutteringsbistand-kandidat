@@ -32,7 +32,7 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
-import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -330,7 +330,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
 });
 

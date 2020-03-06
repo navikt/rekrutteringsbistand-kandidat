@@ -24,9 +24,7 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
-import kandidatlisteReducer, {
-    kandidatlisteSaga,
-} from './kandidatlister/reducer/kandidatlisteReducer.ts';
+import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
@@ -48,6 +46,7 @@ import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
+import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { RemoteDataTypes } from '../../../../felles/common/remoteData';
 import { Visningsstatus } from '../Kandidatliste';
-import { KandidatIKandidatliste } from '../../reducer/kandidatlisteReducer';
+import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';

@@ -6,7 +6,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm from '../OpprettKandidatlisteForm';
 import { KandidatlisteBeskrivelse } from '../Kandidatlister';
-import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 
 const kandidatlisteInfoWrapper = kandidatliste => ({
     ...kandidatliste,
@@ -56,10 +56,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     oppdaterKandidatliste: kandidatlisteInfo => {
-        dispatch({ type: KandidatlisteTypes.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
+        dispatch({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_LAGRE_STATUS });
+        dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS });
     },
 });
 

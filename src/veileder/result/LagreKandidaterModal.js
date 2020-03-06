@@ -7,13 +7,13 @@ import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typ
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { HENT_STATUS } from '../kandidatlister/reducer/kandidatlisteReducer.ts';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import { HentStatus } from '../kandidatlister/kandidatlistetyper';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -39,7 +39,7 @@ class LagreKandidaterModal extends React.Component {
     componentDidUpdate(prevProps) {
         if (
             prevProps.hentListerStatus !== this.props.hentListerStatus &&
-            this.props.hentListerStatus === HENT_STATUS.SUCCESS
+            this.props.hentListerStatus === HentStatus.Success
         ) {
             this.setState({
                 kandidatlister: [
@@ -54,20 +54,20 @@ class LagreKandidaterModal extends React.Component {
         if (
             prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus
         ) {
-            if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.SUCCESS) {
+            if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
                 this.setState({
                     showHentetListe: true,
                     hentListeFeilmelding: undefined,
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
-            } else if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.FINNES_IKKE) {
+            } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
                 this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
                     hentListeFeilmelding: 'Stillingen finnes ikke',
                 });
                 this.input.focus();
-            } else if (this.props.hentListeMedAnnonsenummerStatus === HENT_STATUS.FAILURE) {
+            } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Failure) {
                 this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
@@ -253,7 +253,7 @@ class LagreKandidaterModal extends React.Component {
                             <Element>Mine kandidatlister</Element>
                         </Row>
                         {antallKandidatlister === undefined &&
-                            hentListerStatus === HENT_STATUS.LOADING && (
+                            hentListerStatus === HentStatus.Loading && (
                                 <div className="text-center">
                                     <NavFrontendSpinner type="L" />
                                 </div>
@@ -262,7 +262,7 @@ class LagreKandidaterModal extends React.Component {
                             <div>
                                 <ListerTableHeader />
                                 <ListerTableRows />
-                                {hentListerStatus === HENT_STATUS.LOADING && (
+                                {hentListerStatus === HentStatus.Loading && (
                                     <div className="text-center">
                                         <NavFrontendSpinner type="L" />
                                     </div>
@@ -379,7 +379,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTER,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
             query: '',
             listetype: '',
             kunEgne: true,
@@ -388,10 +388,13 @@ const mapDispatchToProps = dispatch => ({
         });
     },
     hentKandidatlisteMedAnnonsenummer: annonsenummer => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_ANNONSENUMMER, annonsenummer });
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
+            annonsenummer,
+        });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
 });
 

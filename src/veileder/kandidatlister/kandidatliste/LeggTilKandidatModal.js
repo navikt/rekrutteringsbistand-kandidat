@@ -6,11 +6,11 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import { HENT_STATUS } from '../reducer/kandidatlisteReducer.ts';
 import { Kandidatliste } from '../PropTypes';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import { HentStatus } from '../kandidatlistetyper';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {
@@ -32,13 +32,13 @@ class LeggTilKandidatModal extends React.Component {
     componentDidUpdate(prevProps) {
         const { hentStatus } = this.props;
         if (prevProps.hentStatus !== hentStatus) {
-            if (hentStatus === HENT_STATUS.SUCCESS) {
+            if (hentStatus === HentStatus.Success) {
                 this.setState({
                     showFodselsnummer: true,
                     errorMessage: undefined,
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
-            } else if (hentStatus === HENT_STATUS.FINNES_IKKE) {
+            } else if (hentStatus === HentStatus.FinnesIkke) {
                 this.setState({
                     showFodselsnummer: false,
                     errorMessage: this.kandidatenFinnesIkke(),
@@ -92,7 +92,7 @@ class LeggTilKandidatModal extends React.Component {
             },
         ];
         if (
-            hentStatus === HENT_STATUS.SUCCESS &&
+            hentStatus === HentStatus.Success &&
             !this.kandidatenFinnesAllerede() &&
             notat.length <= NOTATLENGDE
         ) {
@@ -251,19 +251,19 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setFodselsnummer: fodselsnummer => {
-        dispatch({ type: KandidatlisteTypes.SET_FODSELSNUMMER, fodselsnummer });
+        dispatch({ type: KandidatlisteActionType.SET_FODSELSNUMMER, fodselsnummer });
     },
     hentKandidatMedFnr: fodselsnummer => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR, fodselsnummer });
+        dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
     },
     resetHentKandidatMedFnr: () => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDAT_MED_FNR_RESET });
+        dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET });
     },
     leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
-        dispatch({ type: KandidatlisteTypes.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
+        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
     },
     setNotat: notat => {
-        dispatch({ type: KandidatlisteTypes.SET_NOTAT, notat });
+        dispatch({ type: KandidatlisteActionType.SET_NOTAT, notat });
     },
 });
 

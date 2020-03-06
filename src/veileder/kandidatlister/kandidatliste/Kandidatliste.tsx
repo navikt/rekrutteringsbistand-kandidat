@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 
-import { KandidatIKandidatliste } from '../reducer/kandidatlisteReducer';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
@@ -9,6 +8,7 @@ import ListeHeader from './liste-header/ListeHeader';
 import SideHeader, { OpprettetAv } from './SideHeader';
 import TomListe from './TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
+import { KandidatIKandidatliste } from '../kandidatlistetyper';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
