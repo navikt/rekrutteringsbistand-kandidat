@@ -7,12 +7,13 @@ import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typ
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { KandidatlisteTypes, HENT_STATUS } from '../kandidatlister/kandidatlisteReducer.ts';
+import { HENT_STATUS } from '../kandidatlister/reducer/kandidatlisteReducer.ts';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
 
 const PAGINERING_BATCH_SIZE = 5;
 

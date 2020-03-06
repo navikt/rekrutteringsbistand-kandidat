@@ -23,7 +23,6 @@ import {
     SEARCH,
     SET_STATE,
 } from '../sok/searchReducer';
-import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
@@ -33,6 +32,7 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
+import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',

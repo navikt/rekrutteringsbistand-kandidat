@@ -10,7 +10,7 @@ import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
 import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import KandidatlisteTypes from './reducer/KandidatlisteTypes.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';

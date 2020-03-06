@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
+import KandidatlisteTypes from './reducer/KandidatlisteTypes.ts';
 import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 

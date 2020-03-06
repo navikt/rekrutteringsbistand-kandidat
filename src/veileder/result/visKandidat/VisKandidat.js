@@ -16,12 +16,12 @@ import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
-import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
+import KandidatlisteTypes from '../../kandidatlister/reducer/KandidatlisteTypes';
 
 class VisKandidat extends React.Component {
     constructor(props) {

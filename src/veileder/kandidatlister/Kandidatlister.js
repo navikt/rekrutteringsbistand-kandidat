@@ -8,7 +8,7 @@ import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { KandidatlisteTypes, MARKER_SOM_MIN_STATUS } from './kandidatlisteReducer.ts';
+import { MARKER_SOM_MIN_STATUS } from './reducer/kandidatlisteReducer.ts';
 import { formatterDato } from '../../felles/common/dateUtils';
 import './Kandidatlister.less';
 import OpprettModal from './modaler/OpprettModal';
@@ -20,6 +20,7 @@ import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import KandidatlisteTypes from './reducer/KandidatlisteTypes';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',

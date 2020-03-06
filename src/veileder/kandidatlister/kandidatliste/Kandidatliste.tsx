@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { KandidatIKandidatliste } from '../kandidatlisteReducer';
+import { KandidatIKandidatliste } from '../reducer/kandidatlisteReducer';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';

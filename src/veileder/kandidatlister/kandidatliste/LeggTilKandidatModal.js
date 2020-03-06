@@ -6,10 +6,11 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
-import { KandidatlisteTypes, HENT_STATUS } from '../kandidatlisteReducer.ts';
+import { HENT_STATUS } from '../reducer/kandidatlisteReducer.ts';
 import { Kandidatliste } from '../PropTypes';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import KandidatlisteTypes from '../reducer/KandidatlisteTypes';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {

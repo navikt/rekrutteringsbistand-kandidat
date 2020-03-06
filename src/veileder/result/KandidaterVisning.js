@@ -7,7 +7,6 @@ import cvPropTypes from '../../felles/PropTypes';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
 import KandidaterTabell from './KandidaterTabell';
 import './Resultat.less';
-import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
@@ -19,6 +18,7 @@ import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidat
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
+import KandidatlisteTypes from '../kandidatlister/reducer/KandidatlisteTypes';
 
 const antallKandidaterMarkert = kandidater => kandidater.filter(k => k.markert).length;
 

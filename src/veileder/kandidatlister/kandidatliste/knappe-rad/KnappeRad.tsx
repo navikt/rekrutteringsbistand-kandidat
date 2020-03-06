@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
-import { KandidatIKandidatliste } from '../../kandidatlisteReducer';
+import { KandidatIKandidatliste } from '../../reducer/kandidatlisteReducer';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
