@@ -16,12 +16,6 @@ export enum Visningsstatus {
     VisMerInfo = 'VIS_MER_INFO',
 }
 
-export const VISNINGSSTATUS = {
-    SKJUL_PANEL: 'SKJUL_PANEL',
-    VIS_NOTATER: 'VIS_NOTATER',
-    VIS_MER_INFO: 'VIS_MER_INFO',
-};
-
 type Props = {
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
@@ -42,7 +36,7 @@ type Props = {
     endreNotat: any;
     slettNotat: any;
     toggleErSlettet: any;
-    beskrivelse: string;
+    beskrivelse?: string;
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {

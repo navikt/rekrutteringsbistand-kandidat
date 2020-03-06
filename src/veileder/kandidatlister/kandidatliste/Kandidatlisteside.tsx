@@ -1,27 +1,30 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
-import { KandidatlisteTypes, DELE_STATUS } from '../kandidatlisteReducer.ts';
+
+import { Kandidat, KandidatIKandidatliste, KandidatlisteAction } from '../kandidatlisteReducer';
+import { KandidatlisteTypes, DELE_STATUS } from '../kandidatlisteReducer';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
-import PresenterKandidaterModal from './PresenterKandidaterModal';
+import { OpprettetAv } from './SideHeader';
+import { RemoteDataTypes } from '../../../felles/common/remoteData';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
+import { Visningsstatus } from './Kandidatliste';
+import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
+import Kandidatliste from './Kandidatliste';
+import KopierEpostModal from './KopierEpostModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
-import Kandidatliste, { VISNINGSSTATUS } from './Kandidatliste.tsx';
-import KopierEpostModal from './KopierEpostModal.tsx';
-import { Kandidatliste as KandidatlistePropType } from '../PropTypes';
+import PresenterKandidaterModal from './PresenterKandidaterModal';
 import './Kandidatliste.less';
 
 const initialKandidatTilstand = () => ({
     markert: false,
-    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
+    visningsstatus: Visningsstatus.SkjulPanel,
 });
 
 const trekkUtKandidatTilstander = (kandidater = []) =>
     kandidater.reduce(
-        (tilstand, kandidat) => ({
+        (tilstand: any, kandidat: KandidatIKandidatliste) => ({
             ...tilstand,
             [kandidat.kandidatnr]: {
                 markert: kandidat.markert,
@@ -31,8 +34,66 @@ const trekkUtKandidatTilstander = (kandidater = []) =>
         {}
     );
 
-class Kandidatlisteside extends React.Component {
-    constructor(props) {
+type Kandidatliste = {
+    kandidatlisteId: string;
+    tittel: string;
+    beskrivelse?: string;
+    organisasjonReferanse?: string;
+    organisasjonNavn?: string;
+    stillingId?: string;
+    opprettetAv: OpprettetAv;
+    opprettetTidspunkt?: string;
+    kandidater: Kandidat[];
+    kanEditere: boolean;
+};
+
+type RemoteKandidatliste = {
+    kind: RemoteDataTypes;
+    data: Kandidatliste;
+};
+
+type Props = {
+    kandidatliste: RemoteKandidatliste;
+    endreStatusKandidat: any;
+    presenterKandidater: any;
+    resetDeleStatus: any;
+    deleStatus: string;
+    leggTilStatus: string;
+    fodselsnummer?: string;
+    kandidat: {
+        fornavn?: string;
+        etternavn?: string;
+    };
+    hentNotater: any;
+    opprettNotat: any;
+    endreNotat: any;
+    slettNotat: any;
+    toggleErSlettet: any;
+};
+
+class Kandidatlisteside extends React.Component<Props> {
+    deleSuksessMeldingCallbackId: any;
+
+    static defaultProps: Partial<Props> = {
+        kandidat: {
+            fornavn: '',
+            etternavn: '',
+        },
+    };
+
+    state: {
+        alleMarkert: boolean;
+        kandidater: any;
+        deleModalOpen: boolean;
+        leggTilModalOpen: boolean;
+        kopierEpostModalOpen: boolean;
+        suksessMelding: {
+            vis: boolean;
+            tekst: string;
+        };
+    };
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             alleMarkert: false,
@@ -53,7 +114,7 @@ class Kandidatlisteside extends React.Component {
         };
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const kandidaterHarNettoppBlittPresentert =
             this.props.deleStatus !== prevProps.deleStatus &&
             this.props.deleStatus === DELE_STATUS.SUCCESS;
@@ -118,7 +179,7 @@ class Kandidatlisteside extends React.Component {
         });
     };
 
-    onToggleKandidat = kandidatnr => {
+    onToggleKandidat = (kandidatnr: string) => {
         const kandidater = this.state.kandidater.map(kandidat => {
             if (kandidat.kandidatnr === kandidatnr) {
                 return {
@@ -167,7 +228,7 @@ class Kandidatlisteside extends React.Component {
     };
 
     onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
-        if (visningsstatus === VISNINGSSTATUS.VIS_NOTATER) {
+        if (visningsstatus === Visningsstatus.VisNotater) {
             this.props.hentNotater(kandidatlisteId, kandidatnr);
         }
         this.setState({
@@ -180,7 +241,7 @@ class Kandidatlisteside extends React.Component {
                 }
                 return {
                     ...kandidat,
-                    visningsstatus: VISNINGSSTATUS.SKJUL_PANEL,
+                    visningsstatus: Visningsstatus.SkjulPanel,
                 };
             }),
         });
@@ -192,7 +253,7 @@ class Kandidatlisteside extends React.Component {
         });
     };
 
-    copyToClipboard = text => {
+    copyToClipboard = (text: string) => {
         const textField = document.createElement('textarea');
         textField.innerText = text;
         document.body.appendChild(textField);
@@ -201,7 +262,7 @@ class Kandidatlisteside extends React.Component {
         textField.remove();
     };
 
-    visSuccessMelding = tekst => {
+    visSuccessMelding = (tekst: string) => {
         clearTimeout(this.deleSuksessMeldingCallbackId);
         this.setState({
             suksessMelding: {
@@ -304,46 +365,15 @@ class Kandidatlisteside extends React.Component {
     }
 }
 
-Kandidatlisteside.defaultProps = {
-    kandidatliste: undefined,
-    fodselsnummer: undefined,
-    kandidat: {
-        fornavn: '',
-        etternavn: '',
-    },
-};
-
-Kandidatlisteside.propTypes = {
-    kandidatliste: PropTypes.shape({
-        kind: PropTypes.string,
-        data: PropTypes.shape(KandidatlistePropType),
-    }),
-    endreStatusKandidat: PropTypes.func.isRequired,
-    presenterKandidater: PropTypes.func.isRequired,
-    resetDeleStatus: PropTypes.func.isRequired,
-    deleStatus: PropTypes.string.isRequired,
-    leggTilStatus: PropTypes.string.isRequired,
-    fodselsnummer: PropTypes.string,
-    kandidat: PropTypes.shape({
-        fornavn: PropTypes.string,
-        etternavn: PropTypes.string,
-    }),
-    hentNotater: PropTypes.func.isRequired,
-    opprettNotat: PropTypes.func.isRequired,
-    endreNotat: PropTypes.func.isRequired,
-    slettNotat: PropTypes.func.isRequired,
-    toggleErSlettet: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
     deleStatus: state.kandidatlister.detaljer.deleStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
 });
 
-const mapDispatchToProps = dispatch => ({
-    endreStatusKandidat: (status, kandidatlisteId, kandidatnr) => {
+const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
+    endreStatusKandidat: (status: Status, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
             type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT,
             status,
@@ -351,7 +381,12 @@ const mapDispatchToProps = dispatch => ({
             kandidatnr,
         });
     },
-    presenterKandidater: (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) => {
+    presenterKandidater: (
+        beskjed: string,
+        mailadresser: Array<string>,
+        kandidatlisteId: string,
+        kandidatnummerListe: Array<string>
+    ) => {
         dispatch({
             type: KandidatlisteTypes.PRESENTER_KANDIDATER,
             beskjed,

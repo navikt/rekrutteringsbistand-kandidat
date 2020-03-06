@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Kandidatlisteside from './kandidatliste/Kandidatlisteside';
+import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
 class KandidatlisteFraStilling extends React.Component {

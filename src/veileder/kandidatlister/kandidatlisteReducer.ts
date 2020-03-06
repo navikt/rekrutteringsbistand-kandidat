@@ -1,3 +1,4 @@
+import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
     deleteKandidatliste,
@@ -227,7 +228,7 @@ export interface OppdaterKandidatlisteFailureAction {
 
 export interface EndreStatusKandidatAction {
     type: KandidatlisteTypes.ENDRE_STATUS_KANDIDAT;
-    status: string;
+    status: Status;
     kandidatlisteId: string;
     kandidatnr: string;
 }
@@ -291,6 +292,9 @@ export interface HentNotaterFailureAction {
 
 export interface OpprettNotatAction {
     type: KandidatlisteTypes.OPPRETT_NOTAT;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    tekst: string;
 }
 
 export interface OpprettNotatSuccessAction {
@@ -347,6 +351,10 @@ export interface HentKandidatlisteMedAnnonsenummerFailureAction {
 
 export interface EndreNotatAction {
     type: KandidatlisteTypes.ENDRE_NOTAT;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    notatId: string;
+    tekst: string;
 }
 
 export interface EndreNotatSuccessAction {
@@ -361,6 +369,9 @@ export interface EndreNotatFailureAction {
 
 export interface SlettNotatAction {
     type: KandidatlisteTypes.SLETT_NOTAT;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    notatId: string;
 }
 
 export interface SlettNotatSuccessAction {
@@ -403,10 +414,21 @@ interface ResetSletteStatusAction {
     type: KandidatlisteTypes.RESET_SLETTE_STATUS;
 }
 
+interface ToggleErSlettetAction {
+    type: KandidatlisteTypes.TOGGLE_ER_SLETTET;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    erSlettet: boolean;
+}
+
 interface ToggleErSlettetSuccessAction {
     type: KandidatlisteTypes.TOGGLE_ER_SLETTET_SUCCESS;
     kandidatnr: string;
     erSlettet: boolean;
+}
+
+interface ToggleErSlettetFailureAction {
+    type: KandidatlisteTypes.TOGGLE_ER_SLETTET_FAILURE;
 }
 
 export type KandidatlisteAction =
@@ -469,7 +491,9 @@ export type KandidatlisteAction =
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
     | ResetSletteStatusAction
-    | ToggleErSlettetSuccessAction;
+    | ToggleErSlettetAction
+    | ToggleErSlettetSuccessAction
+    | ToggleErSlettetFailureAction;
 
 /** *********************************************************
  * REDUCER
@@ -1314,7 +1338,7 @@ function* hentNotater(action: HentNotaterAction) {
     }
 }
 
-function* opprettNotat(action) {
+function* opprettNotat(action: OpprettNotatAction) {
     try {
         const response = yield postNotat(action.kandidatlisteId, action.kandidatnr, action.tekst);
         yield put({
@@ -1372,7 +1396,7 @@ function* hentKandidatlisteMedAnnonsenummer(action) {
     }
 }
 
-function* endreNotat(action) {
+function* endreNotat(action: EndreNotatAction) {
     try {
         const response = yield putNotat(
             action.kandidatlisteId,
