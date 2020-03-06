@@ -1,12 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
-
-export type OpprettetAv = {
-    ident: string;
-    navn: string;
-};
 
 type Props = {
     tittel: string;

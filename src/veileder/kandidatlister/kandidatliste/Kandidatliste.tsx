@@ -5,10 +5,10 @@ import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
-import SideHeader, { OpprettetAv } from './SideHeader';
+import SideHeader from './SideHeader';
 import TomListe from './TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',

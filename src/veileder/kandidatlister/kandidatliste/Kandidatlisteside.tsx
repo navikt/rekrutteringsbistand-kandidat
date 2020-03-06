@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import { OpprettetAv } from './SideHeader';
-import { RemoteDataTypes } from '../../../felles/common/remoteData';
+import { RemoteDataTypes, RemoteData } from '../../../felles/common/remoteData';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { Visningsstatus } from './Kandidatliste';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
@@ -15,7 +14,11 @@ import LeggTilKandidatModal from './LeggTilKandidatModal';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
-import { Kandidat, KandidatIKandidatliste, Delestatus } from '../kandidatlistetyper';
+import {
+    KandidatIKandidatliste,
+    Delestatus,
+    Kandidatliste as Kandidatlistetype,
+} from '../kandidatlistetyper';
 import './Kandidatliste.less';
 
 const initialKandidatTilstand = () => ({
@@ -35,26 +38,8 @@ const trekkUtKandidatTilstander = (kandidater = []) =>
         {}
     );
 
-type Kandidatliste = {
-    kandidatlisteId: string;
-    tittel: string;
-    beskrivelse?: string;
-    organisasjonReferanse?: string;
-    organisasjonNavn?: string;
-    stillingId?: string;
-    opprettetAv: OpprettetAv;
-    opprettetTidspunkt?: string;
-    kandidater: Kandidat[];
-    kanEditere: boolean;
-};
-
-type RemoteKandidatliste = {
-    kind: RemoteDataTypes;
-    data: Kandidatliste;
-};
-
 type Props = {
-    kandidatliste: RemoteKandidatliste;
+    kandidatliste: RemoteData<Kandidatlistetype>;
     endreStatusKandidat: any;
     presenterKandidater: any;
     resetDeleStatus: any;
@@ -141,10 +126,14 @@ class Kandidatlisteside extends React.Component<Props> {
         if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
             return;
         }
+
         if (
             (prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS &&
                 this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) ||
-            prevProps.kandidatliste.data.kandidater !== this.props.kandidatliste.data.kandidater
+            (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+                this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+                prevProps.kandidatliste.data.kandidater !==
+                    this.props.kandidatliste.data.kandidater)
         ) {
             const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
             const kandidater = this.props.kandidatliste.data.kandidater.map(kandidat => {
@@ -215,17 +204,19 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
-        this.props.presenterKandidater(
-            beskjed,
-            mailadresser,
-            this.props.kandidatliste.data.kandidatlisteId,
-            this.state.kandidater
-                .filter(kandidat => kandidat.markert)
-                .map(kandidat => kandidat.kandidatnr)
-        );
-        this.setState({
-            deleModalOpen: false,
-        });
+        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            this.props.presenterKandidater(
+                beskjed,
+                mailadresser,
+                this.props.kandidatliste.data.kandidatlisteId,
+                this.state.kandidater
+                    .filter(kandidat => kandidat.markert)
+                    .map(kandidat => kandidat.kandidatnr)
+            );
+            this.setState({
+                deleModalOpen: false,
+            });
+        }
     };
 
     onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {

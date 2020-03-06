@@ -67,6 +67,11 @@ export type KandidatIKandidatliste = Kandidat & {
     visningsstatus: string;
 };
 
+export type OpprettetAv = {
+    ident: string;
+    navn: string;
+};
+
 interface KandidatlisteBase {
     kandidatlisteId: string;
     tittel: string;
@@ -74,11 +79,9 @@ interface KandidatlisteBase {
     organisasjonReferanse: string;
     organisasjonNavn: string;
     stillingId: string;
-    opprettetAv: {
-        ident: string;
-        navn: string;
-    };
+    opprettetAv: OpprettetAv;
     opprettetTidspunkt: string;
+    kanEditere: boolean;
 }
 
 interface KandidatlisteResponseExtension {
