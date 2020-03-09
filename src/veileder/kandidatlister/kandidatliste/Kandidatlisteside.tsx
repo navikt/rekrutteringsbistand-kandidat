@@ -18,15 +18,20 @@ import {
     Delestatus,
     Kandidatliste as Kandidatlistetype,
     Kandidat,
+    Kandidattilstand,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 
-const initialKandidatTilstand = () => ({
+const initialKandidatTilstand = (): Kandidattilstand => ({
     markert: false,
     visningsstatus: Visningsstatus.SkjulPanel,
 });
 
-const trekkUtKandidatTilstander = (kandidater = []) =>
+const trekkUtKandidatTilstander = (
+    kandidater: KandidatIKandidatliste[] = []
+): {
+    [kandidatnr: string]: Kandidattilstand;
+} =>
     kandidater.reduce(
         (tilstand: any, kandidat: KandidatIKandidatliste) => ({
             ...tilstand,
@@ -63,13 +68,25 @@ type Suksessmelding = {
 };
 
 const initialiserKandidater = (kandidatliste: RemoteData<Kandidatlistetype>) => {
-    return kandidatliste.kind !== RemoteDataTypes.SUCCESS
-        ? undefined
-        : kandidatliste.data.kandidater.map((kandidat: Kandidat) => ({
-              ...kandidat,
-              ...initialKandidatTilstand(),
-          }));
+    if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+        return [];
+    }
+
+    const filtrerteKandidater = filtrerSlettedeKandidater(kandidatliste.data.kandidater, false);
+
+    console.log('FØR FILTER:', kandidatliste.data.kandidater);
+    console.log('ETTER FILTER:', filtrerteKandidater);
+
+    return filtrerteKandidater.map((kandidat: Kandidat) => ({
+        ...kandidat,
+        ...initialKandidatTilstand(),
+    }));
 };
+
+const filtrerSlettedeKandidater = (
+    kandidater: Kandidat[] | KandidatIKandidatliste[],
+    beholdSlettede: boolean
+) => kandidater.filter(kandidat => kandidat.erSlettet === beholdSlettede);
 
 const Kandidatlisteside: FunctionComponent<Props> = props => {
     const {
@@ -84,10 +101,16 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
         kandidatliste,
     } = props;
 
+    const kandidaterFraListe =
+        kandidatliste.kind === RemoteDataTypes.SUCCESS ? kandidatliste.data.kandidater : undefined;
+
     const [alleMarkert, setAlleMarkert] = useState<boolean>(false);
 
     const [deleSuksessMeldingCallbackId, setDeleSuksessMeldingCallbackId] = useState<any>();
-    const [kandidater, setKandidater] = useState<any>(initialiserKandidater(props.kandidatliste));
+    const [kandidater, setKandidater] = useState<KandidatIKandidatliste[]>(
+        initialiserKandidater(props.kandidatliste)
+    );
+
     const [deleModalOpen, setDeleModalOpen] = useState<boolean>(false);
     const [leggTilModalOpen, setLeggTilModalOpen] = useState<boolean>(false);
     const [kopierEpostModalOpen, setKopierEpostModalOpen] = useState<boolean>(false);
@@ -138,9 +161,11 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
     }, [kandidat, fodselsnummer, visSuccessMelding]);
 
     const vedKandidatlisteSuccess = useCallback(
-        (kandidatliste: any) => {
+        (kandidaterFraListe: Kandidat[]) => {
+            console.log('dshjlajdksaljdklas');
             const kandidatTilstander = trekkUtKandidatTilstander(kandidater);
-            const nyeKandidater = kandidatliste.data.kandidater.map(kandidat => {
+
+            const nyeKandidater = kandidaterFraListe.map((kandidat: Kandidat) => {
                 const kandidatTilstand =
                     kandidatTilstander[kandidat.kandidatnr] || initialKandidatTilstand();
                 return {
@@ -149,7 +174,9 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
                 };
             });
 
-            setKandidater(nyeKandidater);
+            const nyeFiltrerteKandidater = nyeKandidater.filter(kandidat => !kandidat.erSlettet);
+
+            setKandidater(nyeFiltrerteKandidater);
             setAlleMarkert(nyeKandidater.filter(k => !k.markert).length === 0);
         },
         [kandidater]
@@ -167,14 +194,11 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
         }
     }, [leggTilStatus, vedLagtTilKandidat]);
 
-    const kandidaterFraListe =
-        kandidatliste.kind !== RemoteDataTypes.SUCCESS ? undefined : kandidatliste.data.kandidater;
-
     useEffect(() => {
-        if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
-            vedKandidatlisteSuccess(kandidatliste);
+        if (kandidaterFraListe) {
+            vedKandidatlisteSuccess(kandidaterFraListe);
         }
-    }, [kandidatliste, kandidaterFraListe, vedKandidatlisteSuccess]);
+    }, [kandidaterFraListe]);
 
     useEffect(() => {
         return () => {
@@ -184,7 +208,7 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
         };
     });
 
-    const onCheckAlleKandidater = markert => {
+    const onCheckAlleKandidater = (markert: boolean) => {
         setAlleMarkert(markert);
         setKandidater(
             kandidater.map(kandidat => ({
