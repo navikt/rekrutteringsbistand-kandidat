@@ -2,7 +2,6 @@
 const express = require('express');
 const compression = require('compression');
 const proxy = require('express-http-proxy');
-// const helmet = require('helmet');
 const path = require('path');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
@@ -10,6 +9,7 @@ const Promise = require('promise');
 const { isNullOrUndefined } = require('util');
 const jwt = require('jsonwebtoken');
 const useragent = require('useragent');
+const helmet = require('helmet');
 
 const currentDirectory = __dirname;
 
@@ -39,25 +39,7 @@ const port = process.env.PORT || 8080;
 server.set('port', port);
 
 server.disable('x-powered-by');
-// TODO: slå på helmet igjen
-// server.use(helmet({ xssFilter: false }));
-
-// server.use(
-//     helmet.contentSecurityPolicy({
-//         directives: {
-//             defaultSrc: ["'none'"],
-//             scriptSrc: [
-//                 "'self'",
-//                 'https://www.google-analytics.com',
-//                 "'sha256-3ivVSOxwW5BHJHQdTkksJZIVc1FWOa3/VmxIvm60o2Y='", // sha'en er for at frontend-loggeren skal kunne kjøre som inline-script
-//             ],
-//             styleSrc: ["'self'"],
-//             fontSrc: ["'self'", 'data:'],
-//             imgSrc: ["'self'", 'data:', 'https://www.google-analytics.com'],
-//             connectSrc: ["'self'", 'https://www.google-analytics.com', 'https://sentry.gc.nav.no'],
-//         },
-//     })
-// );
+server.use(helmet());
 
 server.set('views', `${currentDirectory}/views`);
 server.set('view engine', 'mustache');
