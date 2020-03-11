@@ -12,7 +12,7 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
 
-import { SEARCH_API } from '../common/fasitProperties';
+import { SEARCH_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
 const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';

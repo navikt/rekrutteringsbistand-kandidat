@@ -53,4 +53,14 @@ export const FadingAlertStripeLiten: FunctionComponent<{ alertStripeState: Alert
     />
 );
 
+export const FadingAlertStripe: FunctionComponent<{ alertStripeState: AlertStripeState }> = ({
+    alertStripeState,
+}) => (
+    <HjelpetekstFading
+        synlig={alertStripeState.kind !== AlertStripeType.LUKKET && alertStripeState.synlig}
+        type={alertStripeState.kind === AlertStripeType.SUCCESS ? 'suksess' : 'feil'}
+        innhold={alertStripeState.kind !== AlertStripeType.LUKKET ? alertStripeState.innhold : ''}
+    />
+);
+
 export default HjelpetekstFading;

@@ -26,6 +26,16 @@ export function toDate(isoString) {
     return new Date(isoString);
 }
 
+export function toIsoDateString(year, month) {
+    const monthAsInteger = parseInt(month, 10);
+    const zeroPaddedMonth = monthAsInteger > 9 ? monthAsInteger : `0${monthAsInteger}`;
+    const isoDateString = `${year}-${zeroPaddedMonth}`;
+    if (!isValidISOString(isoDateString)) {
+        throw Error(`One or more args are invalid: year=${year} month=${month}`);
+    }
+    return isoDateString;
+}
+
 const doubleDigits = s => (s.length === 1 ? `0${s}` : s);
 
 export const formatterDato = date =>
@@ -51,3 +61,5 @@ export function formatISOString(isoString, format = 'MMMM YYYY') {
     }
     return '';
 }
+
+export default toDate;
