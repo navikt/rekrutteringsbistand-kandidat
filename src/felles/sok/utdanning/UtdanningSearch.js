@@ -29,13 +29,6 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
-    onTypeAheadUtdanningChange = value => {
-        this.props.fetchTypeAheadSuggestions(value);
-        this.setState({
-            typeAheadValue: value,
-        });
-    };
-
     onTypeAheadUtdanningSelect = value => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
@@ -45,20 +38,6 @@ class UtdanningSearch extends React.Component {
             });
             this.props.search();
         }
-    };
-
-    onLeggTilClick = () => {
-        this.setState(
-            {
-                showTypeAhead: true,
-            },
-            () => this.typeAhead.input.focus()
-        );
-    };
-
-    onFjernClick = e => {
-        this.props.removeUtdanning(e.target.value);
-        this.props.search();
     };
 
     onTypeAheadBlur = () => {
