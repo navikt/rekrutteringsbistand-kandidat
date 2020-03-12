@@ -17,6 +17,7 @@ const FEATURE_TOGGLES = [
     'vis-last-ned-cv-lenke',
     'vis-tilretteleggingsbehov-kategorier',
     'vis-nyheter',
+    'ny-dekorator',
 ];
 export default FEATURE_TOGGLES;
 

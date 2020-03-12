@@ -14,5 +14,6 @@
     "vis-notater-arbeidsgiver": true,
     "vis-last-ned-cv-lenke": true,
     "vis-tilretteleggingsbehov-kategorier": true,
-    "vis-nyheter": true
+    "vis-nyheter": true,
+    "ny-dekorator": true
 }

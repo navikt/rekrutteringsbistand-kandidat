@@ -12,6 +12,10 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
 
+import * as aktivEnhet from './json/dekoratør/aktivenhet.json';
+import * as aktivBruker from './json/dekoratør/aktivbruker.json';
+import * as decorator from './json/dekoratør/decorator.json';
+
 import { SEARCH_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
@@ -38,6 +42,13 @@ const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/ko
 
 // Kandidatsøk
 const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
+
+// Modia context holder
+const modiacontextholderApiUrl = '/modiacontextholder/api';
+const modiacontextholderAktivEnhetUrl = `${modiacontextholderApiUrl}/context/aktivenhet`;
+const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/aktivbruker`;
+const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
+const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -83,4 +94,8 @@ fetchMock
     .get((url: string) => url.startsWith(sokUrl), sok)
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
-    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder);
+    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
+    .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
+    .get(modiacontextholderAktivBrukerUrl, aktivBruker)
+    .get(modiacontextholderDecoratorUrl, decorator)
+    .post(modiacontextholderContextUrl, 200);
