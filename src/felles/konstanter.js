@@ -45,18 +45,6 @@ export const ALERTTYPE = {
     HOVEDMAL: 'hovedmal',
 };
 
-export const KONSEPTTYPE = {
-    UTDANNING: 'education level',
-    YRKE: 'occupation',
-    KOMPETANSE: 'skill',
-    SOFT_SKILL: 'soft skill',
-    ERFARING: 'experience level',
-    STED: 'location',
-    FORERKORT: 'license',
-    SERTIFIKAT: 'authorization',
-    SPRAK: 'language',
-};
-
 export const BRANCHNAVN = {
     KOMPETANSE: 'kompetanse',
     STILLING: 'stilling',

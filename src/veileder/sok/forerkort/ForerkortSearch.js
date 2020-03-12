@@ -45,7 +45,7 @@ const ForerkortSearch = ({ ...props }) => {
     );
 };
 
-ForerkortSearch.propTypes = {
+export const førerkortProptypes = {
     search: PropTypes.func.isRequired,
     removeForerkort: PropTypes.func.isRequired,
     fetchTypeAheadSuggestionsForerkort: PropTypes.func.isRequired,
@@ -55,9 +55,11 @@ ForerkortSearch.propTypes = {
     clearTypeAheadForerkort: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
 };
+
+ForerkortSearch.propTypes = førerkortProptypes;
 
 const mapStateToProps = state => ({
     forerkortList: state.forerkort.forerkortList,
