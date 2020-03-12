@@ -81,18 +81,10 @@ workflows:
                       branches:
                           only:
                               - master
-            - godkjenn-til-prod:
-                  type: approval
-                  requires:
-                      - build
-                  filters:
-                      branches:
-                          only:
-                              - master
             - deploy-til-prod:
                   context: tag-ci
                   requires:
-                      - godkjenn-til-prod
+                      - build
                   filters:
                       branches:
                           only:

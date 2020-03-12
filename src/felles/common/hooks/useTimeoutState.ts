@@ -109,8 +109,6 @@ interface LukketAlertStripeState {
 
 export type AlertStripeState = ApenAlertStripeState | LukketAlertStripeState;
 
-type StringOrNode = string | React.ReactNode;
-
 export const useTimeoutState: (
     timeoutMillis?: number
 ) => [AlertStripeState, () => void, (StringOrNode) => void, (StringOrNode) => void] = (

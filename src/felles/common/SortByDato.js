@@ -41,12 +41,3 @@ export default function sortByDato(items) {
         return 0;
     });
 }
-
-export function sortKandidatlisteByDato(kandidatlister) {
-    return kandidatlister.concat().sort((a, b) => {
-        if (isValidISOString(a.opprettetTidspunkt) && isValidISOString(b.opprettetTidspunkt)) {
-            return toDate(b.opprettetTidspunkt).getTime() - toDate(a.opprettetTidspunkt).getTime();
-        }
-        return 0;
-    });
-}
