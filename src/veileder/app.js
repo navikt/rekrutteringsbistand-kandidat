@@ -46,7 +46,7 @@ import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
-import Dekoratør from './sok/dekoratør/Dekoratør';
+import Dekoratør from './dekoratør/Dekoratør';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -69,6 +69,7 @@ const store = createStore(
         enhetsregister: enhetsregisterReducer,
         navkontorReducer,
         hovedmal: hovedmalReducer,
+        navKontor: navkontorReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
