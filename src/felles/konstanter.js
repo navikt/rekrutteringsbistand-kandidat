@@ -76,13 +76,6 @@ export const LAGRE_STATUS = {
     FAILURE: 'FAILURE',
 };
 
-export const SLETTE_STATUS = {
-    LOADING: 'LOADING',
-    SUCCESS: 'SUCCESS',
-    FINISHED: 'FINISHED',
-    FAILURE: 'FAILURE',
-};
-
 export const INNSATSGRUPPER = {
     STANDARDINNSATS: { key: 'IKVAL', label: 'Standardinnsats' },
     SITUASJONSBESTEMT_INNSATS: { key: 'BFORM', label: 'Situasjonsbestemt innsats' },
