@@ -60,12 +60,12 @@ interface KandidatExtension {
 
 export type Kandidat = KandidatResponse & KandidatExtension;
 
-export type KandidatIKandidatliste = Kandidat & {
-    notaterVises: boolean;
-    antallNotater: number;
+export type Kandidattilstand = {
     markert: boolean;
     visningsstatus: string;
 };
+
+export type KandidatIKandidatliste = Kandidat & Kandidattilstand;
 
 export type OpprettetAv = {
     ident: string;
