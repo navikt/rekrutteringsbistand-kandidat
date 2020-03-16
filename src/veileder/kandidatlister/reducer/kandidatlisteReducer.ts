@@ -446,12 +446,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS:
-            return oppdaterErSlettetIKandidatlisteDetaljer(
-                state,
-                action.kandidatnr,
-                action.erSlettet
-            );
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
                 ...state,

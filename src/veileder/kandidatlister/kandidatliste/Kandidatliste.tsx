@@ -35,7 +35,6 @@ type Props = {
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
-    toggleErSlettet: any;
     beskrivelse?: string;
 };
 
@@ -87,7 +86,6 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 onVisningChange={props.onVisningChange}
                                 opprettNotat={props.opprettNotat}
                                 slettNotat={props.slettNotat}
-                                toggleErSlettet={props.toggleErSlettet}
                             />
                         ))}
                     </div>

@@ -54,7 +54,6 @@ type Props = {
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
-    toggleErSlettet: any;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -349,7 +348,6 @@ class Kandidatlisteside extends React.Component<Props> {
                     opprettNotat={this.props.opprettNotat}
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}
-                    toggleErSlettet={this.props.toggleErSlettet}
                     beskrivelse={beskrivelse}
                 />
             </div>
@@ -416,14 +414,6 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatlisteId,
             kandidatnr,
             notatId,
-        });
-    },
-    toggleErSlettet: (kandidatlisteId, kandidatnr, erSlettet) => {
-        dispatch({
-            type: KandidatlisteActionType.TOGGLE_ER_SLETTET,
-            kandidatlisteId,
-            kandidatnr,
-            erSlettet,
         });
     },
 });

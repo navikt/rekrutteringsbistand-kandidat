@@ -75,9 +75,6 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <div className="kolonne-smal">
                     <Element>Mer info</Element>
                 </div>
-                <div className="kolonne-smal">
-                    <Element>Slett</Element>
-                </div>
             </div>
         </div>
     );

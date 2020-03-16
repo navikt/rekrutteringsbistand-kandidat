@@ -19,7 +19,6 @@ export const Kandidat = {
     innsatsgruppe: PropTypes.string,
     utfall: PropTypes.string,
     erSynlig: PropTypes.bool,
-    erSlettet: PropTypes.bool,
 };
 
 export const Kandidatliste = {

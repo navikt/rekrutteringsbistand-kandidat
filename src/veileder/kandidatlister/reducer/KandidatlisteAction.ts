@@ -313,23 +313,6 @@ export interface ResetSletteStatusAction {
     type: KandidatlisteActionType.RESET_SLETTE_STATUS;
 }
 
-export interface ToggleErSlettetAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET;
-    kandidatlisteId: string;
-    kandidatnr: string;
-    erSlettet: boolean;
-}
-
-export interface ToggleErSlettetSuccessAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS;
-    kandidatnr: string;
-    erSlettet: boolean;
-}
-
-export interface ToggleErSlettetFailureAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET_FAILURE;
-}
-
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -389,9 +372,6 @@ type KandidatlisteAction =
     | MarkerKandidatlisteSomMinFailureAction
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
-    | ResetSletteStatusAction
-    | ToggleErSlettetAction
-    | ToggleErSlettetSuccessAction
-    | ToggleErSlettetFailureAction;
+    | ResetSletteStatusAction;
 
 export default KandidatlisteAction;
