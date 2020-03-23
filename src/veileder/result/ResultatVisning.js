@@ -33,6 +33,7 @@ import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import Kritiskeyrker from './kritiskeyrker/Kritiskeyrker'
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -210,10 +211,12 @@ class ResultatVisning extends React.Component {
                 {isInitialSearch ? (
                     <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />
+
                     </div>
                 ) : (
                     <div>
                         <Container className="blokk-l">
+                            <Kritiskeyrker/>
                             <Column xs="12" sm="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
