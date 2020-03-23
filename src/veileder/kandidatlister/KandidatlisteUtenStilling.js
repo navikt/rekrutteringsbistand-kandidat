@@ -2,12 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './Listedetaljer';
-import { Kandidatliste as kandidatlisteProps } from './PropTypes';
-import './Listedetaljer.less';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
+import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
+import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
-class Kandidatliste extends React.Component {
+class KandidatlisteUtenStilling extends React.Component {
     componentDidMount() {
         const { listeid } = this.props.match.params;
         this.props.hentKandidatliste(listeid);
@@ -17,20 +16,20 @@ class Kandidatliste extends React.Component {
         const { kandidatliste } = this.props;
         return (
             <div>
-                <Listedetaljer kandidatliste={kandidatliste} />
+                <Kandidatlisteside kandidatliste={kandidatliste} />
             </div>
         );
     }
 }
 
-Kandidatliste.defaultProps = {
+KandidatlisteUtenStilling.defaultProps = {
     kandidatliste: undefined,
 };
 
-Kandidatliste.propTypes = {
+KandidatlisteUtenStilling.propTypes = {
     kandidatliste: PropTypes.shape({
         kind: PropTypes.string,
-        data: PropTypes.shape(kandidatlisteProps),
+        data: PropTypes.shape(KandidatlistePropType),
     }),
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({
@@ -47,10 +46,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     hentKandidatliste: kandidatlisteId => {
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         });
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Kandidatliste);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteUtenStilling);

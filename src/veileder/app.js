@@ -24,12 +24,12 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
-import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer.ts';
+import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
-import Kandidatliste from './kandidatlister/Kandidatliste';
+import KandidatlisteUtenStilling from './kandidatlister/KandidatlisteUtenStilling';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
@@ -46,6 +46,7 @@ import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
+import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -158,7 +159,7 @@ class Sok extends React.Component {
                             <Route
                                 exact
                                 path="/kandidater/lister/detaljer/:listeid"
-                                component={Kandidatliste}
+                                component={KandidatlisteUtenStilling}
                             />
                             <Route
                                 exact

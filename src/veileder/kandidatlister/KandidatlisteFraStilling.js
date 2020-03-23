@@ -2,10 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { KandidatlisteTypes } from './kandidatlisteReducer.ts';
-import Listedetaljer from './Listedetaljer';
-import { Kandidatliste } from './PropTypes';
-import './Listedetaljer.less';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
+import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
+import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
 class KandidatlisteFraStilling extends React.Component {
     componentDidMount() {
@@ -17,7 +16,7 @@ class KandidatlisteFraStilling extends React.Component {
         const { kandidatliste, fetching } = this.props;
         return (
             <div>
-                <Listedetaljer kandidatliste={kandidatliste} fetching={fetching} />
+                <Kandidatlisteside kandidatliste={kandidatliste} fetching={fetching} />
             </div>
         );
     }
@@ -29,7 +28,7 @@ KandidatlisteFraStilling.defaultProps = {
 
 KandidatlisteFraStilling.propTypes = {
     fetching: PropTypes.bool.isRequired,
-    kandidatliste: PropTypes.shape(Kandidatliste),
+    kandidatliste: PropTypes.shape(KandidatlistePropType),
     hentKandidatliste: PropTypes.func.isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
@@ -45,7 +44,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     hentKandidatliste: stillingsId => {
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId });
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        });
     },
 });
 
