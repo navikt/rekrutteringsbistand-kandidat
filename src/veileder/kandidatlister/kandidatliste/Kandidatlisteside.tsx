@@ -20,6 +20,7 @@ import {
     Kandidatliste as Kandidatlistetype,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
+import SendSmsModal from '../modaler/SendSmsModal';
 
 const initialKandidatTilstand = () => ({
     markert: false,
@@ -72,6 +73,7 @@ class Kandidatlisteside extends React.Component<Props> {
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
+        sendSmsModalOpen: boolean;
         suksessMelding: {
             vis: boolean;
             tekst: string;
@@ -92,6 +94,7 @@ class Kandidatlisteside extends React.Component<Props> {
             deleModalOpen: false,
             leggTilModalOpen: false,
             kopierEpostModalOpen: false,
+            sendSmsModalOpen: false,
             suksessMelding: {
                 vis: false,
                 tekst: '',
@@ -202,6 +205,12 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
+    onToggleSendSmsModal = () => {
+        this.setState({
+            sendSmsModalOpen: !this.state.sendSmsModalOpen,
+        });
+    };
+
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
             this.props.presenterKandidater(
@@ -241,6 +250,12 @@ class Kandidatlisteside extends React.Component<Props> {
     onEmailKandidater = () => {
         this.setState({
             kopierEpostModalOpen: true,
+        });
+    };
+
+    onSmsKandidater = () => {
+        this.setState({
+            sendSmsModalOpen: true,
         });
     };
 
@@ -308,6 +323,11 @@ class Kandidatlisteside extends React.Component<Props> {
                         kandidatliste={this.props.kandidatliste.data}
                     />
                 )}
+                <SendSmsModal
+                    vis={this.state.sendSmsModalOpen}
+                    onClose={this.onToggleSendSmsModal}
+                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
+                />
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
@@ -334,6 +354,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
+                    onSmsKandidater={this.onSmsKandidater}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
                     opprettNotat={this.props.opprettNotat}

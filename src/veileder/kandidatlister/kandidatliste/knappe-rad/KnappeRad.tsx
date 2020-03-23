@@ -2,12 +2,14 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import SendSmsIkon from './SendSmsIkon';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
     onKandidatShare: () => void;
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
+    onSmsKandidater: () => void;
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
@@ -15,17 +17,42 @@ type Props = {
     children: ReactNode;
 };
 
-const EpostknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Email">
+const SmsKnapp: FunctionComponent = () => (
+    <>
+        <SendSmsIkon />
+        <span>Send SMS</span>
+    </>
+);
+
+const Epostknapp: FunctionComponent = () => (
+    <>
         <i className="Email__icon" />
         Kopier e-postadresser
+    </>
+);
+
+const Deleknapp: FunctionComponent = () => (
+    <>
+        <i className="Share__icon" />
+        <span>Del med arbeidsgiver (presenter)</span>
+    </>
+);
+
+const SmsKnappMedHjelpetekst: FunctionComponent = () => (
+    <div className="Lenkeknapp typo-normal Sms">
+        <SmsKnapp />
+    </div>
+);
+
+const EpostknappMedHjelpetekst: FunctionComponent = () => (
+    <div className="Lenkeknapp typo-normal Email">
+        <Epostknapp />
     </div>
 );
 
 const DeleknappMedHjelpetekst: FunctionComponent = () => (
     <div className="Lenkeknapp typo-normal Share">
-        <i className="Share__icon" />
-        <span>Del med arbeidsgiver (presenter)</span>
+        <Deleknapp />
     </div>
 );
 
@@ -33,6 +60,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
     onKandidatShare,
     onEmailKandidater,
+    onSmsKandidater,
     kanEditere,
     arbeidsgiver,
     children,
@@ -43,11 +71,25 @@ const KnappeRad: FunctionComponent<Props> = ({
         <div className="knappe-rad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
+                {kanEditere && minstEnKandidatErMarkert ? (
+                    <div className="hjelpetekst">
+                        <Lenkeknapp onClick={onSmsKandidater} className="Sms">
+                            <SmsKnapp />
+                        </Lenkeknapp>
+                    </div>
+                ) : (
+                    <HjelpetekstMidt
+                        id="marker-kandidater-sms-hjelpetekst"
+                        anchor={SmsKnappMedHjelpetekst}
+                        tittel="Send SMS til de markerte kandidatene"
+                    >
+                        Du må huke av for kandidatene du ønsker å sende SMS til.
+                    </HjelpetekstMidt>
+                )}
                 {minstEnKandidatErMarkert ? (
                     <div className="hjelpetekst">
                         <Lenkeknapp onClick={onEmailKandidater} className="Email">
-                            <i className="Email__icon" />
-                            <span>Kopier e-postadresser</span>
+                            <Epostknapp />
                         </Lenkeknapp>
                     </div>
                 ) : (
@@ -64,8 +106,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                     (minstEnKandidatErMarkert ? (
                         <div className="hjelpetekst">
                             <Lenkeknapp onClick={onKandidatShare} className="Share">
-                                <i className="Share__icon" />
-                                <span>Del med arbeidsgiver (presenter)</span>
+                                <Deleknapp />
                             </Lenkeknapp>
                         </div>
                     ) : (
