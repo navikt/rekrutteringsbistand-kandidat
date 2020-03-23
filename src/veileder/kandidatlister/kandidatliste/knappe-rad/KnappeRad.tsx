@@ -64,6 +64,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     kanEditere,
     arbeidsgiver,
     children,
+    stillingsId,
 }) => {
     const minstEnKandidatErMarkert = kandidater.filter(kandidat => kandidat.markert).length > 0;
 
@@ -71,7 +72,7 @@ const KnappeRad: FunctionComponent<Props> = ({
         <div className="knappe-rad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
-                {kanEditere && minstEnKandidatErMarkert ? (
+                {kanEditere && stillingsId && minstEnKandidatErMarkert ? (
                     <div className="hjelpetekst">
                         <Lenkeknapp onClick={onSmsKandidater} className="Sms">
                             <SmsKnapp />

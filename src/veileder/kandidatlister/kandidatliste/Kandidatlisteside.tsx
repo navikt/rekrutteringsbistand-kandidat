@@ -253,10 +253,14 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    onSmsKandidater = () => {
+    onVisSendSmsTilKandidater = () => {
         this.setState({
             sendSmsModalOpen: true,
         });
+    };
+
+    onSendSmsTilKandidater = (melding: string) => {
+        console.log('Melding:', melding);
     };
 
     visSuccessMelding = (tekst: string) => {
@@ -323,11 +327,15 @@ class Kandidatlisteside extends React.Component<Props> {
                         kandidatliste={this.props.kandidatliste.data}
                     />
                 )}
-                <SendSmsModal
-                    vis={this.state.sendSmsModalOpen}
-                    onClose={this.onToggleSendSmsModal}
-                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
-                />
+                {stillingId && (
+                    <SendSmsModal
+                        vis={this.state.sendSmsModalOpen}
+                        onClose={this.onToggleSendSmsModal}
+                        onSendSms={this.onSendSmsTilKandidater}
+                        kandidater={this.state.kandidater}
+                        stillingId={stillingId}
+                    />
+                )}
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
@@ -354,7 +362,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
-                    onSmsKandidater={this.onSmsKandidater}
+                    onSmsKandidater={this.onVisSendSmsTilKandidater}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
                     opprettNotat={this.props.opprettNotat}
