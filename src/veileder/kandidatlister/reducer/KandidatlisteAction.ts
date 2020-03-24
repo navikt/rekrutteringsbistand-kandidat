@@ -74,7 +74,7 @@ export interface PresenterKandidaterFailureAction {
 }
 
 export interface ResetDeleStatusAction {
-    type: KandidatlisteActionType.RESET_Delestatus;
+    type: KandidatlisteActionType.RESET_DELESTATUS;
 }
 
 export interface LeggTilKandidaterAction {
@@ -313,6 +313,25 @@ export interface ResetSletteStatusAction {
     type: KandidatlisteActionType.RESET_SLETTE_STATUS;
 }
 
+export interface SendSmsAction {
+    type: KandidatlisteActionType.SEND_SMS;
+    melding: string;
+    kandidater: string[];
+    kandidatlisteId: string;
+}
+
+export interface SendSmsSuccessAction {
+    type: KandidatlisteActionType.SEND_SMS_SUCCESS;
+}
+
+export interface SendSmsFailureAction {
+    type: KandidatlisteActionType.SEND_SMS_FAILURE;
+}
+
+export interface ResetSendSmsStatusAction {
+    type: KandidatlisteActionType.RESET_SEND_SMS_STATUS;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -372,6 +391,10 @@ type KandidatlisteAction =
     | MarkerKandidatlisteSomMinFailureAction
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
-    | ResetSletteStatusAction;
+    | ResetSletteStatusAction
+    | SendSmsAction
+    | SendSmsSuccessAction
+    | SendSmsFailureAction
+    | ResetSendSmsStatusAction;
 
 export default KandidatlisteAction;

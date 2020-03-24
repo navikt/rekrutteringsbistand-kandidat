@@ -14,6 +14,13 @@ export enum HentStatus {
     Failure = 'FAILURE',
 }
 
+export enum SmsStatus {
+    IkkeSendt = 'IKKE_SENDT',
+    UnderInnsending = 'UNDER_INNSENDING',
+    Sendt = 'SENDT',
+    Feil = 'FEIL',
+}
+
 export enum MarkerSomMinStatus {
     IkkeGjort = 'IKKE_GJORT',
     Loading = 'LOADING',

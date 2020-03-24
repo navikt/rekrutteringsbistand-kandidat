@@ -18,9 +18,11 @@ import {
     KandidatIKandidatliste,
     Delestatus,
     Kandidatliste as Kandidatlistetype,
+    SmsStatus,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
+import AppState from '../../AppState';
 
 const initialKandidatTilstand = () => ({
     markert: false,
@@ -45,6 +47,8 @@ type Props = {
     presenterKandidater: any;
     resetDeleStatus: any;
     deleStatus: string;
+    smsSendStatus: SmsStatus;
+    resetSmsSendStatus: () => void;
     leggTilStatus: string;
     fodselsnummer?: string;
     kandidat: {
@@ -111,6 +115,7 @@ class Kandidatlisteside extends React.Component<Props> {
             const antallMarkerteKandidater = this.state.kandidater.filter(
                 kandidat => kandidat.markert
             ).length;
+            this.onCheckAlleKandidater(false);
             this.visSuccessMelding(
                 `${
                     antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
@@ -125,6 +130,19 @@ class Kandidatlisteside extends React.Component<Props> {
                 `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
         }
+
+        const smsErNettoppSendtTilKandidater =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Sendt;
+        if (smsErNettoppSendtTilKandidater) {
+            this.props.resetSmsSendStatus();
+            this.visSuccessMelding('SMS-en er sendt');
+            this.onCheckAlleKandidater(false);
+            this.setState({
+                sendSmsModalOpen: false,
+            });
+        }
+
         if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
             return;
         }
@@ -259,10 +277,6 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    onSendSmsTilKandidater = (melding: string) => {
-        console.log('Melding:', melding);
-    };
-
     visSuccessMelding = (tekst: string) => {
         clearTimeout(this.deleSuksessMeldingCallbackId);
         this.setState({
@@ -331,7 +345,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     <SendSmsModal
                         vis={this.state.sendSmsModalOpen}
                         onClose={this.onToggleSendSmsModal}
-                        onSendSms={this.onSendSmsTilKandidater}
+                        kandidatlisteId={kandidatlisteId}
                         kandidater={this.state.kandidater}
                         stillingId={stillingId}
                     />
@@ -375,8 +389,9 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppState) => ({
     deleStatus: state.kandidatlister.detaljer.deleStatus,
+    smsSendStatus: state.kandidatlister.sms.sendStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
@@ -406,7 +421,10 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         });
     },
     resetDeleStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_Delestatus });
+        dispatch({ type: KandidatlisteActionType.RESET_DELESTATUS });
+    },
+    resetSmsSendStatus: () => {
+        dispatch({ type: KandidatlisteActionType.RESET_SEND_SMS_STATUS });
     },
     hentNotater: (kandidatlisteId, kandidatnr) => {
         dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });

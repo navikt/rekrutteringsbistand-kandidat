@@ -1,3 +1,4 @@
+import { postSmsTilKandidater } from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
@@ -15,6 +16,7 @@ import {
     HentNotaterAction,
     OpprettNotatAction,
     EndreNotatAction,
+    SendSmsAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -399,6 +401,23 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
     }
 }
 
+function* sendSmsTilKandidater(action: SendSmsAction) {
+    console.log('Action:', action);
+    try {
+        yield call(postSmsTilKandidater, action.melding, action.kandidater, action.kandidatlisteId);
+        yield put({
+            type: KandidatlisteActionType.SEND_SMS_SUCCESS,
+        });
+    } catch (e) {
+        console.log('error?:', e);
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OPPRETT_KANDIDATLISTE, opprettKandidatliste);
     yield takeLatest(
@@ -454,6 +473,7 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG],
         sjekkFerdigActionForError
     );
+    yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
 }
 
 export default kandidatlisteSaga;

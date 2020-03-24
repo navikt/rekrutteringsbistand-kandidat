@@ -72,7 +72,7 @@ const getCookie = name => {
     return match !== null ? match[1] : '';
 };
 
-export async function postJson(url, bodyString) {
+export async function postJson(url, bodyString, ikkeParseJson?: boolean) {
     try {
         const response = await fetch(url, {
             credentials: 'include',
@@ -85,11 +85,13 @@ export async function postJson(url, bodyString) {
             },
             mode: 'cors',
         });
+
         if (response.status === 200 || response.status === 201) {
-            return response.json();
+            return ikkeParseJson ? response.status : response.json();
         } else if (response.status === 204) {
             return undefined;
         }
+
         throw new SearchApiError({
             status: response.status,
         });

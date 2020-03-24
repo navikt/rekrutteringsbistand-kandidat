@@ -1,20 +1,32 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
-import Modal from 'nav-frontend-modal';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
-import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { Select } from 'nav-frontend-skjema';
-import './SendSmsModal.less';
-import Lenke from 'nav-frontend-lenker';
+import { connect } from 'react-redux';
 import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
+import { Select } from 'nav-frontend-skjema';
+import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
+import Lenke from 'nav-frontend-lenker';
+import Modal from 'nav-frontend-modal';
 
-type Props = {
+import { KandidatIKandidatliste, SmsStatus } from '../kandidatlistetyper';
+import KandidatlisteAction from '../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import './SendSmsModal.less';
+import AppState from '../../AppState';
+
+type OwnProps = {
     vis: boolean;
     onClose: () => void;
-    onSendSms: (melding: string) => void;
     kandidater: KandidatIKandidatliste[];
+    kandidatlisteId: string;
     stillingId: string;
 };
+
+type ConnectedProps = {
+    sendStatus: SmsStatus;
+    sendSmsTilKandidater: (melding: string, kandidater: string[], kandidatlisteId: string) => void;
+};
+
+type Props = OwnProps & ConnectedProps;
 
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
@@ -38,14 +50,31 @@ const genererMelding = (valgtMal: Meldingsmal, stillingId: string) => {
 };
 
 const SendSmsModal: FunctionComponent<Props> = props => {
-    const { vis, onClose, onSendSms, kandidater, stillingId } = props;
+    const {
+        vis,
+        onClose,
+        kandidater,
+        kandidatlisteId,
+        stillingId,
+        sendStatus,
+        sendSmsTilKandidater,
+    } = props;
 
     const markerteMandidater = kandidater.filter(kandidat => kandidat.markert);
-
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
 
     const [valgtMal, setValgtMal] = useState<Meldingsmal>(Meldingsmal.VurdertSomAktuell);
+
+    const onSendSms = () => {
+        const melding = genererMelding(valgtMal, stillingId);
+
+        sendSmsTilKandidater(
+            melding,
+            markerteMandidater.map(kandidat => kandidat.fodselsnr),
+            kandidatlisteId
+        );
+    };
 
     return (
         <Modal
@@ -90,7 +119,7 @@ const SendSmsModal: FunctionComponent<Props> = props => {
                 <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
             </div>
             <div className="send-sms-modal__knapper">
-                <Hovedknapp onClick={() => onSendSms(genererMelding(valgtMal, stillingId))}>
+                <Hovedknapp spinner={sendStatus === SmsStatus.UnderInnsending} onClick={onSendSms}>
                     Send SMS
                 </Hovedknapp>
                 <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
@@ -99,4 +128,17 @@ const SendSmsModal: FunctionComponent<Props> = props => {
     );
 };
 
-export default SendSmsModal;
+export default connect(
+    (state: AppState) => ({
+        sendStatus: state.kandidatlister.sms.sendStatus,
+    }),
+    (dispatch: (action: KandidatlisteAction) => void) => ({
+        sendSmsTilKandidater: (melding: string, kandidater: string[], kandidatlisteId: string) =>
+            dispatch({
+                type: KandidatlisteActionType.SEND_SMS,
+                melding,
+                kandidater,
+                kandidatlisteId,
+            }),
+    })
+)(SendSmsModal);

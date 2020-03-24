@@ -1,3 +1,4 @@
+import { SmsStatus } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
@@ -19,7 +20,7 @@ import {
     Notat,
 } from '../kandidatlistetyper';
 
-interface KandidatlisteState {
+export interface KandidatlisteState {
     lagreStatus: string;
     detaljer: {
         kandidatliste: RemoteData<Kandidatliste>;
@@ -64,6 +65,9 @@ interface KandidatlisteState {
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
     }>;
+    sms: {
+        sendStatus: SmsStatus;
+    };
 }
 
 const initialState: KandidatlisteState = {
@@ -109,6 +113,9 @@ const initialState: KandidatlisteState = {
     },
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
     slettKandidatlisteStatus: NotAsked(),
+    sms: {
+        sendStatus: SmsStatus.IkkeSendt,
+    },
 };
 
 const overforNotater: (
@@ -322,7 +329,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     deleStatus: Delestatus.IkkeSpurt,
                 },
             };
-        case KandidatlisteActionType.RESET_Delestatus:
+        case KandidatlisteActionType.RESET_DELESTATUS:
             return {
                 ...state,
                 detaljer: {
@@ -543,6 +550,34 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 slettKandidatlisteStatus: NotAsked(),
+            };
+        case KandidatlisteActionType.SEND_SMS:
+            return {
+                ...state,
+                sms: {
+                    sendStatus: SmsStatus.UnderInnsending,
+                },
+            };
+        case KandidatlisteActionType.SEND_SMS_SUCCESS:
+            return {
+                ...state,
+                sms: {
+                    sendStatus: SmsStatus.Sendt,
+                },
+            };
+        case KandidatlisteActionType.SEND_SMS_FAILURE:
+            return {
+                ...state,
+                sms: {
+                    sendStatus: SmsStatus.Feil,
+                },
+            };
+        case KandidatlisteActionType.RESET_SEND_SMS_STATUS:
+            return {
+                ...state,
+                sms: {
+                    sendStatus: SmsStatus.IkkeSendt,
+                },
             };
         default:
             return state;

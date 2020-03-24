@@ -4,6 +4,7 @@ import {
     SEARCH_API,
     KANDIDATSOK_API,
     KANDIDATLISTE_API,
+    SMS_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
 } from './common/fasitProperties';
@@ -179,3 +180,18 @@ export const endreEierskapPaKandidatliste = kandidatlisteId =>
 export async function deleteKandidatliste(kandidatlisteId: string): Promise<ResponseData<any>> {
     return await deleteJsonMedType<any>(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`);
 }
+
+export const postSmsTilKandidater = (
+    melding: string,
+    kandidater: string[],
+    kandidatlisteId: string
+) =>
+    postJson(
+        `${SMS_API}/sms/${kandidatlisteId}`,
+        JSON.stringify({
+            melding,
+            fnr: kandidater,
+            kandidatlisteId,
+        }),
+        true
+    );

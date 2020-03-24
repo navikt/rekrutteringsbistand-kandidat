@@ -12,7 +12,7 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
 
-import { SEARCH_API } from '../common/fasitProperties.js';
+import { SEARCH_API, SMS_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
 const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';
@@ -38,6 +38,9 @@ const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/ko
 
 // Kandidatsøk
 const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
+
+// Sms-API
+const smsUrl = `${SMS_API}/sms`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -86,4 +89,9 @@ fetchMock
     .get((url: string) => url.startsWith(sokUrl), sok)
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
-    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder);
+    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
+    .post(
+        (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
+        kandidatliste
+    )
+    .post((url: string) => url.startsWith(smsUrl), 201);
