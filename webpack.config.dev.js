@@ -19,7 +19,6 @@ const devOverride = {
             __BACKEND_OPPE__: true,
             __LAST_NED_CV_URL__: "'https://pam-cv-veileder.nais.preprod.local/cv/pdf'",
             __ARBEIDSRETTET_OPPFOLGING_URL__: "'#'",
-            __SMS_API__: "'http://localhost:8080/rekrutteringsbistand-sms'",
             'process.env.NODE_ENV': "'development'",
         }),
     ],

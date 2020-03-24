@@ -4,7 +4,6 @@ import {
     SEARCH_API,
     KANDIDATSOK_API,
     KANDIDATLISTE_API,
-    SMS_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
 } from './common/fasitProperties';
@@ -21,6 +20,8 @@ import {
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
+
+const SMS_API = '/kandidater/api/sms';
 
 if (appIsMocked) {
     require('./mock/api.ts');
@@ -187,7 +188,7 @@ export const postSmsTilKandidater = (
     kandidatlisteId: string
 ) =>
     postJson(
-        `${SMS_API}/sms`,
+        `${SMS_API}`,
         JSON.stringify({
             melding,
             fnr: kandidater,

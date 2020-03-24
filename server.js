@@ -85,8 +85,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
         `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n` +
-        `window.__SMS_API__="${fasitProperties.SMS_API}";\n`;
+        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, err => {
         if (err) throw err;
@@ -220,6 +219,8 @@ const startServer = html => {
             },
         })
     );
+
+    server.use('/kandidater/api/sms', proxy(fasitProperties.SMS_API));
 
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
         res.send(html);
