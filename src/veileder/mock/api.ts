@@ -94,4 +94,4 @@ fetchMock
         (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
         kandidatliste
     )
-    .post((url: string) => url.startsWith(smsUrl), 201);
+    .post((url: string) => url.startsWith(smsUrl), [201, 'SMS lagret']);

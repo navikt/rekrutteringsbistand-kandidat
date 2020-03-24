@@ -192,6 +192,5 @@ export const postSmsTilKandidater = (
             melding,
             fnr: kandidater,
             kandidatlisteId,
-        }),
-        true
+        })
     );
