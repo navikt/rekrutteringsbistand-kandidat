@@ -220,7 +220,7 @@ const startServer = html => {
         })
     );
 
-    const [, , smsHost, smsPath] = fasitProperties.SMS_API.split('/').reverse();
+    const [, , smsHost, smsPath] = fasitProperties.SMS_API.split('/');
     server.use(
         '/kandidater/api/sms',
         proxy(smsHost, {
