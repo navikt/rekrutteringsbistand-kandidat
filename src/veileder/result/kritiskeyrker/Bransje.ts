@@ -17,6 +17,6 @@ export interface Yrker {
     sok: Sok[];
 }
 
-export interface Bransjeresponse {
+export interface FerdigutfylteStillinger {
     bransjer: Bransje[];
 }

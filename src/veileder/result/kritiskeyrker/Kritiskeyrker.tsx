@@ -5,22 +5,19 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import './Kritiskeyrker.less';
 import KritiskeyrkerIkon from './Kritiskeyrkerikon';
 import Bransjevelger from './Bransjevelger';
-import {HENT_FERDIGUTFYLTE_STILLINGER} from '../../sok/searchReducer';
-import { Bransjer } from './Bransje';
-
+import { HENT_FERDIGUTFYLTE_STILLINGER } from '../../sok/searchReducer';
+import { FerdigutfylteStillinger } from './Bransje';
 
 interface KritiskeyrkerProps {
     hentFerdigutfylteStillinger: () => void;
-    ferdigutfylteStillinger: Bransjer
+    ferdigutfylteStillinger: FerdigutfylteStillinger;
 }
 
 const Kritiskeyrker = (props: KritiskeyrkerProps) => {
-
     useEffect(() => {
         props.hentFerdigutfylteStillinger();
     }, []);
-    const ferdigutfylteStillinger: Bransjer = props.ferdigutfylteStillinger;
-
+    const ferdigutfylteStillinger: FerdigutfylteStillinger = props.ferdigutfylteStillinger;
 
     return (
         <Ekspanderbartpanel
@@ -28,7 +25,6 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
             id="ekspanderbartpanel-kritiskeyrker"
             tittel={
                 <div className="ekspanderbartpanel-kritiskeyrker-tittel">
-
                     <div className="ekspanderbartpanel-kritiskeyrker--sirkel">
                         <KritiskeyrkerIkon />
                     </div>
@@ -43,13 +39,16 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
             }
             apen
         >
-            {ferdigutfylteStillinger && ferdigutfylteStillinger.bransjer.map(_ => <Bransjevelger key={_.navn} bransje={_} />)}
+            {ferdigutfylteStillinger &&
+                ferdigutfylteStillinger.bransjer.map(_ => (
+                    <Bransjevelger key={_.navn} bransje={_} />
+                ))}
         </Ekspanderbartpanel>
     );
-}
+};
 
 const mapDispatchToProps = dispatch => ({
-    hentFerdigutfylteStillinger: () =>  dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER}),
+    hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
 });
 
 const mapStateToProps = state => ({
