@@ -74,6 +74,7 @@ const fasitProperties = {
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
+    SMS_API: process.env.SMS_API,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -84,7 +85,8 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
         `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
+        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n` +
+        `window.__SMS_API__=${fasitProperties.SMS_API}\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, err => {
         if (err) throw err;
