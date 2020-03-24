@@ -86,7 +86,10 @@ export async function postJson(url, bodyString) {
             mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
-            return response.json();
+            const contentType = response.headers.get('content-type');
+            return contentType && contentType.includes('application/json')
+                ? response.json()
+                : response.text();
         } else if (response.status === 204) {
             return undefined;
         }
