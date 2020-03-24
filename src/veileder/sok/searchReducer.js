@@ -235,7 +235,6 @@ export default function searchReducer(state = initialState, action) {
                 error: undefined,
             };
         case HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS:
-            console.log('d2', action.data)
             return {
                 ...state,
                 ferdigutfylteStillinger: action.data
