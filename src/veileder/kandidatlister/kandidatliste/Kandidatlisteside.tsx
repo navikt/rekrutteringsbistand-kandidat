@@ -131,10 +131,12 @@ class Kandidatlisteside extends React.Component<Props> {
             );
         }
 
+        console.log('Sendstatus:', prevProps.smsSendStatus, this.props.smsSendStatus);
         const smsErNettoppSendtTilKandidater =
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Sendt;
         if (smsErNettoppSendtTilKandidater) {
+            console.log('Jippi-jay ...');
             this.props.resetSmsSendStatus();
             this.visSuccessMelding('SMS-en er sendt');
             this.onCheckAlleKandidater(false);
