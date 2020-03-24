@@ -72,21 +72,23 @@ const KnappeRad: FunctionComponent<Props> = ({
         <div className="knappe-rad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
-                {kanEditere && stillingsId && minstEnKandidatErMarkert ? (
-                    <div className="hjelpetekst">
-                        <Lenkeknapp onClick={onSmsKandidater} className="Sms">
-                            <SmsKnapp />
-                        </Lenkeknapp>
-                    </div>
-                ) : (
-                    <HjelpetekstMidt
-                        id="marker-kandidater-sms-hjelpetekst"
-                        anchor={SmsKnappMedHjelpetekst}
-                        tittel="Send SMS til de markerte kandidatene"
-                    >
-                        Du må huke av for kandidatene du ønsker å sende SMS til.
-                    </HjelpetekstMidt>
-                )}
+                {kanEditere &&
+                    stillingsId &&
+                    (minstEnKandidatErMarkert ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onSmsKandidater} className="Sms">
+                                <SmsKnapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstMidt
+                            id="marker-kandidater-sms-hjelpetekst"
+                            anchor={SmsKnappMedHjelpetekst}
+                            tittel="Send SMS til de markerte kandidatene"
+                        >
+                            Du må huke av for kandidatene du ønsker å sende SMS til.
+                        </HjelpetekstMidt>
+                    ))}
                 {minstEnKandidatErMarkert ? (
                     <div className="hjelpetekst">
                         <Lenkeknapp onClick={onEmailKandidater} className="Email">
