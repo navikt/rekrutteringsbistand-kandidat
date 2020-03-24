@@ -6,6 +6,7 @@ import {
     fetchStillingFraListe,
     fetchGeografiKode,
     fetchInnloggetVeileder,
+    fetchFerdigutfylteStillinger,
 } from '../api.ts';
 import {
     getUrlParameterByName,
@@ -58,6 +59,10 @@ export const HENT_INNLOGGET_VEILEDER = 'HENT_INNLOGGET_VEILEDER';
 export const HENT_INNLOGGET_VEILEDER_SUCCESS = 'HENT_INNLOGGET_VEILEDER_SUCCESS';
 export const HENT_INNLOGGET_VEILEDER_FAILURE = 'HENT_INNLOGGET_VEILEDER_FAILURE';
 
+export const HENT_FERDIGUTFYLTE_STILLINGER = 'HENT_FERDIGUTFYLTE_STILLINGER';
+export const HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS = 'HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS';
+export const HENT_FERDIGUTFYLTE_STILLINGER_FAILURE = 'HENT_FERDIGUTFYLTE_STILLINGER_FAILURE';
+
 export const FJERN_ERROR = 'FJERN_ERROR';
 
 /** *********************************************************
@@ -80,6 +85,7 @@ const initialState = {
     error: undefined,
     harHentetFeatureToggles: false,
     featureToggles: FEATURE_TOGGLES.reduce((dict, key) => ({ ...dict, [key]: false }), {}),
+    ferdigutfylteStillinger: undefined,
     isEmptyQuery: true,
     visAlertFaKandidater: '',
     valgtKandidatNr: '',
@@ -228,6 +234,17 @@ export default function searchReducer(state = initialState, action) {
                 ...state,
                 error: undefined,
             };
+        case HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS:
+            console.log('d2', action.data)
+            return {
+                ...state,
+                ferdigutfylteStillinger: action.data
+            }
+        case HENT_FERDIGUTFYLTE_STILLINGER_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            }
         default:
             return state;
     }
@@ -552,6 +569,19 @@ function* hentInnloggetVeileder() {
     }
 }
 
+function* hentFerdigutfylteStillinger() {
+    try {
+        const data = yield call(fetchFerdigutfylteStillinger);
+        yield put({ type: HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS, data });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: HENT_FERDIGUTFYLTE_STILLINGER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 export const harEnParameter = (...arrays) =>
     arrays.some(array => array !== undefined && array.length > 0);
 
@@ -562,4 +592,5 @@ export const saga = function* saga() {
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
     yield takeLatest(HENT_INNLOGGET_VEILEDER, hentInnloggetVeileder);
+    yield takeLatest(HENT_FERDIGUTFYLTE_STILLINGER, hentFerdigutfylteStillinger)
 };
