@@ -316,7 +316,7 @@ export interface ResetSletteStatusAction {
 export interface SendSmsAction {
     type: KandidatlisteActionType.SEND_SMS;
     melding: string;
-    kandidater: string[];
+    fnr: string[];
     kandidatlisteId: string;
 }
 

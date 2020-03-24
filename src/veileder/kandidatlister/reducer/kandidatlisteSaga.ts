@@ -402,14 +402,12 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
 }
 
 function* sendSmsTilKandidater(action: SendSmsAction) {
-    console.log('Action:', action);
     try {
-        yield call(postSmsTilKandidater, action.melding, action.kandidater, action.kandidatlisteId);
+        yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
         yield put({
             type: KandidatlisteActionType.SEND_SMS_SUCCESS,
         });
     } catch (e) {
-        console.log('error?:', e);
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
         } else {

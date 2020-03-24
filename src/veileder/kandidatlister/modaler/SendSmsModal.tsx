@@ -23,7 +23,7 @@ type OwnProps = {
 
 type ConnectedProps = {
     sendStatus: SmsStatus;
-    sendSmsTilKandidater: (melding: string, kandidater: string[], kandidatlisteId: string) => void;
+    sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) => void;
 };
 
 type Props = OwnProps & ConnectedProps;
@@ -133,11 +133,11 @@ export default connect(
         sendStatus: state.kandidatlister.sms.sendStatus,
     }),
     (dispatch: (action: KandidatlisteAction) => void) => ({
-        sendSmsTilKandidater: (melding: string, kandidater: string[], kandidatlisteId: string) =>
+        sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) =>
             dispatch({
                 type: KandidatlisteActionType.SEND_SMS,
                 melding,
-                kandidater,
+                fnr,
                 kandidatlisteId,
             }),
     })

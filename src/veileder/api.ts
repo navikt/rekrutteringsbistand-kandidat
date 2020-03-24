@@ -187,7 +187,7 @@ export const postSmsTilKandidater = (
     kandidatlisteId: string
 ) =>
     postJson(
-        `${SMS_API}/sms/${kandidatlisteId}`,
+        `${SMS_API}/sms`,
         JSON.stringify({
             melding,
             fnr: kandidater,
