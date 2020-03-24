@@ -224,6 +224,7 @@ const startServer = html => {
     server.use(
         '/kandidater/api/sms',
         proxy(smsHost, {
+            https: true,
             proxyReqPathResolver: request =>
                 request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
         })
