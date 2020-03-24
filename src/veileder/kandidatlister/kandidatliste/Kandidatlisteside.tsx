@@ -223,9 +223,9 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    onToggleSendSmsModal = () => {
+    onToggleSendSmsModal = (vis: boolean = !this.state.sendSmsModalOpen) => {
         this.setState({
-            sendSmsModalOpen: !this.state.sendSmsModalOpen,
+            sendSmsModalOpen: vis,
         });
     };
 
@@ -268,12 +268,6 @@ class Kandidatlisteside extends React.Component<Props> {
     onEmailKandidater = () => {
         this.setState({
             kopierEpostModalOpen: true,
-        });
-    };
-
-    onVisSendSmsTilKandidater = () => {
-        this.setState({
-            sendSmsModalOpen: true,
         });
     };
 
@@ -344,7 +338,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 {stillingId && (
                     <SendSmsModal
                         vis={this.state.sendSmsModalOpen}
-                        onClose={this.onToggleSendSmsModal}
+                        onClose={() => this.onToggleSendSmsModal(false)}
                         kandidatlisteId={kandidatlisteId}
                         kandidater={this.state.kandidater}
                         stillingId={stillingId}
@@ -376,7 +370,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
-                    onSmsKandidater={this.onVisSendSmsTilKandidater}
+                    onSmsKandidater={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
                     opprettNotat={this.props.opprettNotat}
