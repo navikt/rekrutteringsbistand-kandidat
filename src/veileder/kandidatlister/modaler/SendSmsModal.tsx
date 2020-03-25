@@ -119,7 +119,7 @@ const SendSmsModal: FunctionComponent<Props> = props => {
                 <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
             </div>
             <div className="send-sms-modal__knapper">
-                <Hovedknapp spinner={sendStatus === SmsStatus.UnderInnsending} onClick={onSendSms}>
+                <Hovedknapp spinner={sendStatus === SmsStatus.UnderUtsending} onClick={onSendSms}>
                     Send SMS
                 </Hovedknapp>
                 <Flatknapp onClick={onClose}>Avbryt</Flatknapp>

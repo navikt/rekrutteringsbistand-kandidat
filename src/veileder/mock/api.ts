@@ -11,6 +11,7 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
+import * as sms from './json/sms.json';
 
 import { SEARCH_API } from '../common/fasitProperties.js';
 
@@ -91,6 +92,7 @@ fetchMock
         (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
         kandidatliste
     )
+    .get((url: string) => url.startsWith(smsUrl), sms)
     .post(
         (url: string) => url.startsWith(smsUrl),
         new Response('SMS er lagret', {

@@ -16,7 +16,7 @@ export enum HentStatus {
 
 export enum SmsStatus {
     IkkeSendt = 'IKKE_SENDT',
-    UnderInnsending = 'UNDER_INNSENDING',
+    UnderUtsending = 'UNDER_UTSENDING',
     Sendt = 'SENDT',
     Feil = 'FEIL',
 }
@@ -26,6 +26,13 @@ export enum MarkerSomMinStatus {
     Loading = 'LOADING',
     Success = 'SUCCESS',
     Failure = 'FAILURE',
+}
+
+export interface Sms {
+    fnr: string;
+    opprettet: string;
+    sendt: string;
+    status: SmsStatus;
 }
 
 export interface KandidatResponse {

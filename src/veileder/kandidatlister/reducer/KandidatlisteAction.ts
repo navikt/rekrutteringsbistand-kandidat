@@ -1,6 +1,6 @@
 import { SearchApiError } from './../../../felles/api';
 import { ResponseData } from './../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat } from '../kandidatlistetyper';
+import { KandidatlisteResponse, Notat, Sms } from '../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { ApiError } from '../../../felles/common/remoteData';
@@ -334,6 +334,21 @@ export interface ResetSendSmsStatusAction {
     type: KandidatlisteActionType.RESET_SEND_SMS_STATUS;
 }
 
+export interface HentSendteMeldingerAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER;
+    kandidatlisteId: string;
+}
+
+export interface HentSendteMeldingerSuccessAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS;
+    sendteMeldinger: Sms[];
+}
+
+export interface HentSendteMeldingerFailureAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE;
+    error: SearchApiError;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -397,6 +412,9 @@ type KandidatlisteAction =
     | SendSmsAction
     | SendSmsSuccessAction
     | SendSmsFailureAction
-    | ResetSendSmsStatusAction;
+    | ResetSendSmsStatusAction
+    | HentSendteMeldingerAction
+    | HentSendteMeldingerSuccessAction
+    | HentSendteMeldingerFailureAction;
 
 export default KandidatlisteAction;

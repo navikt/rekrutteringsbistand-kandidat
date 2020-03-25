@@ -1,4 +1,4 @@
-import { postSmsTilKandidater } from './../../api';
+import { postSmsTilKandidater, fetchSendteMeldinger } from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
@@ -17,6 +17,7 @@ import {
     OpprettNotatAction,
     EndreNotatAction,
     SendSmsAction,
+    HentSendteMeldingerAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -401,6 +402,21 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
     }
 }
 
+function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
+    try {
+        yield call(fetchSendteMeldinger, action.kandidatlisteId);
+        yield put({
+            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* sendSmsTilKandidater(action: SendSmsAction) {
     try {
         yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
@@ -472,6 +488,7 @@ function* kandidatlisteSaga() {
         sjekkFerdigActionForError
     );
     yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
+    yield takeLatest(KandidatlisteActionType.HENT_SENDTE_MELDINGER, hentSendteMeldinger);
 }
 
 export default kandidatlisteSaga;

@@ -182,6 +182,9 @@ export async function deleteKandidatliste(kandidatlisteId: string): Promise<Resp
     return await deleteJsonMedType<any>(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`);
 }
 
+export const fetchSendteMeldinger = (kandidatlisteId: string) =>
+    fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
+
 export const postSmsTilKandidater = (
     melding: string,
     kandidater: string[],

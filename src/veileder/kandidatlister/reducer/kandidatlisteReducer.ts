@@ -1,5 +1,5 @@
 import { SearchApiError } from './../../../felles/api';
-import { SmsStatus } from './../kandidatlistetyper';
+import { SmsStatus, Sms } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
@@ -68,6 +68,7 @@ export interface KandidatlisteState {
     }>;
     sms: {
         sendStatus: SmsStatus;
+        sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
 }
@@ -117,6 +118,7 @@ const initialState: KandidatlisteState = {
     slettKandidatlisteStatus: NotAsked(),
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
+        sendteMeldinger: NotAsked(),
     },
 };
 
@@ -557,13 +559,15 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sms: {
-                    sendStatus: SmsStatus.UnderInnsending,
+                    ...state.sms,
+                    sendStatus: SmsStatus.UnderUtsending,
                 },
             };
         case KandidatlisteActionType.SEND_SMS_SUCCESS:
             return {
                 ...state,
                 sms: {
+                    ...state.sms,
                     sendStatus: SmsStatus.Sendt,
                 },
             };
@@ -571,6 +575,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sms: {
+                    ...state.sms,
                     sendStatus: SmsStatus.Feil,
                     error: action.error,
                 },
@@ -579,7 +584,32 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sms: {
+                    ...state.sms,
                     sendStatus: SmsStatus.IkkeSendt,
+                },
+            };
+        case KandidatlisteActionType.HENT_SENDTE_MELDINGER:
+            return {
+                ...state,
+                sms: {
+                    ...state.sms,
+                    sendteMeldinger: Loading(),
+                },
+            };
+        case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
+            return {
+                ...state,
+                sms: {
+                    ...state.sms,
+                    sendteMeldinger: Success<Sms[]>(action.sendteMeldinger),
+                },
+            };
+        case KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE:
+            return {
+                ...state,
+                sms: {
+                    ...state.sms,
+                    sendteMeldinger: Failure(action.error),
                 },
             };
         default:
