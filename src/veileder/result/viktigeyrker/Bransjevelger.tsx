@@ -43,6 +43,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     const { bransje, resetQuery, search } = props;
 
     const onLenkeKlikk = (sok: Sok) => {
+
         const query = {
             fritekst: '',
             stillinger: sok.jobbonsker,
