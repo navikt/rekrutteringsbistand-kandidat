@@ -8,12 +8,13 @@ import './Bransjevelger.less';
 import {
     SEARCH,
     SET_STATE,
+    TOGGLE_VIKTIGE_YRKER_APEN
 } from '../../sok/searchReducer';
-
 interface BransjevelgerProps {
     bransje: Bransje;
-    resetQuery: Function;
-    search: Function;
+    setQuery: () => void;
+    search: () => void;
+    toggleViktigeYrkerApen: () => void
 }
 
 export const hentQueryUtenKriterier = () => ({
@@ -40,7 +41,7 @@ const linkurl = (sok: Sok) => {
 };
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const { bransje, resetQuery, search } = props;
+    const { bransje, setQuery, search, toggleViktigeYrkerApen } = props;
 
     const onLenkeKlikk = (sok: Sok) => {
 
@@ -67,8 +68,9 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 
         }
 
-        resetQuery(query);
+        setQuery(query);
         search();
+        toggleViktigeYrkerApen()
     
     }
     return (
@@ -94,8 +96,9 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    setQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
+    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN})
 });
 
 const mapStateToProps = state => ({});

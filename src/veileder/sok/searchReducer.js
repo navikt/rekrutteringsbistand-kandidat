@@ -63,6 +63,8 @@ export const HENT_FERDIGUTFYLTE_STILLINGER = 'HENT_FERDIGUTFYLTE_STILLINGER';
 export const HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS = 'HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS';
 export const HENT_FERDIGUTFYLTE_STILLINGER_FAILURE = 'HENT_FERDIGUTFYLTE_STILLINGER_FAILURE';
 
+export const TOGGLE_VIKTIGE_YRKER_APEN = 'TOGGLE_VIKTIGE_YRKER_APEN';
+
 export const FJERN_ERROR = 'FJERN_ERROR';
 
 /** *********************************************************
@@ -243,6 +245,11 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error
+            }
+        case TOGGLE_VIKTIGE_YRKER_APEN:
+            return {
+                ...state,
+                viktigeYrkerApen: !state.viktigeYrkerApen
             }
         default:
             return state;

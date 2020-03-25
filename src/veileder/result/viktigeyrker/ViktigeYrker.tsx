@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import {EkspanderbartpanelPure} from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
-import { HENT_FERDIGUTFYLTE_STILLINGER } from '../../sok/searchReducer';
+import { HENT_FERDIGUTFYLTE_STILLINGER, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
 import { FerdigutfylteStillinger } from './Bransje';
 
 interface ViktigeYrkerProps {
     hentFerdigutfylteStillinger: () => void;
     ferdigutfylteStillinger: FerdigutfylteStillinger;
+    viktigeYrkerApen: boolean
+    toggleViktigeYrkerApen: () => void;
 }
 
 const ViktigeYrker = (props: ViktigeYrkerProps) => {
@@ -20,8 +22,10 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
     const ferdigutfylteStillinger: FerdigutfylteStillinger = props.ferdigutfylteStillinger;
 
     return (
-        <Ekspanderbartpanel
+        <EkspanderbartpanelPure
+            apen={props.viktigeYrkerApen}
             className="viktigeYrker"
+            onClick={props.toggleViktigeYrkerApen}
             tittel={
                 <div className="viktigeYrker__tittel">
                     <div className="viktigeYrker__tittel--ikon">
@@ -43,16 +47,18 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                     <Bransjevelger key={_.navn} bransje={_} />
                 ))}
             </div>
-        </Ekspanderbartpanel>
+        </EkspanderbartpanelPure>
     );
 };
 
 const mapDispatchToProps = dispatch => ({
     hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
+    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN})
 });
 
 const mapStateToProps = state => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
+    viktigeYrkerApen: state.search.viktigeYrkerApen
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);
