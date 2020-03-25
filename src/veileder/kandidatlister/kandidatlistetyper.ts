@@ -70,6 +70,7 @@ export interface Notat {
 
 interface KandidatExtension {
     notater: RemoteData<Array<Notat>>;
+    antallNotater?: number;
 }
 
 export type Kandidat = KandidatResponse & KandidatExtension;
@@ -77,6 +78,7 @@ export type Kandidat = KandidatResponse & KandidatExtension;
 export type Kandidattilstand = {
     markert: boolean;
     visningsstatus: string;
+    sms?: Sms;
 };
 
 export type KandidatIKandidatliste = Kandidat & Kandidattilstand;

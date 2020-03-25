@@ -3,7 +3,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
-import {
+import KandidatlisteAction, {
     SlettKandidatlisteAction,
     SlettKandidatlisteFerdigAction,
     OpprettKandidatlisteAction,
@@ -404,9 +404,10 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
 
 function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
     try {
-        yield call(fetchSendteMeldinger, action.kandidatlisteId);
+        const sendteMeldinger = yield call(fetchSendteMeldinger, action.kandidatlisteId);
         yield put({
             type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS,
+            sendteMeldinger,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

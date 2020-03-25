@@ -19,19 +19,25 @@ import {
     Delestatus,
     Kandidatliste as Kandidatlistetype,
     SmsStatus,
+    Sms,
+    Kandidattilstand,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
 import AppState from '../../AppState';
 
-const initialKandidatTilstand = () => ({
+const initialKandidatTilstand = (): Kandidattilstand => ({
     markert: false,
     visningsstatus: Visningsstatus.SkjulPanel,
 });
 
-const trekkUtKandidatTilstander = (kandidater = []) =>
+type Kandidattilstander = {
+    [kandidatnr: string]: Kandidattilstand;
+};
+
+const trekkUtKandidatTilstander = (kandidater: KandidatIKandidatliste[] = []): Kandidattilstander =>
     kandidater.reduce(
-        (tilstand: any, kandidat: KandidatIKandidatliste) => ({
+        (tilstand: Kandidattilstander, kandidat: KandidatIKandidatliste) => ({
             ...tilstand,
             [kandidat.kandidatnr]: {
                 markert: kandidat.markert,
@@ -43,6 +49,7 @@ const trekkUtKandidatTilstander = (kandidater = []) =>
 
 type Props = {
     kandidatliste: RemoteData<Kandidatlistetype>;
+    sendteMeldinger: RemoteData<Sms[]>;
     endreStatusKandidat: any;
     presenterKandidater: any;
     resetDeleStatus: any;
@@ -59,6 +66,7 @@ type Props = {
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
+    hentSendteMeldinger: (kandidatlisteId: string) => void;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -73,7 +81,7 @@ class Kandidatlisteside extends React.Component<Props> {
 
     state: {
         alleMarkert: boolean;
-        kandidater: any;
+        kandidater: KandidatIKandidatliste[];
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
@@ -91,7 +99,7 @@ class Kandidatlisteside extends React.Component<Props> {
             alleMarkert: false,
             kandidater:
                 props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
-                    ? undefined
+                    ? []
                     : props.kandidatliste.data.kandidater.map(kandidat => ({
                           ...kandidat,
                           ...initialKandidatTilstand(),
@@ -112,11 +120,31 @@ class Kandidatlisteside extends React.Component<Props> {
         const kandidaterHarNettoppBlittPresentert =
             this.props.deleStatus !== prevProps.deleStatus &&
             this.props.deleStatus === Delestatus.Success;
+
+        const smsErNettoppSendtTilKandidater =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Sendt;
+
+        const kandidaterHarNettoppBlittLagtTil =
+            this.props.leggTilStatus !== prevProps.leggTilStatus &&
+            this.props.leggTilStatus === LAGRE_STATUS.SUCCESS;
+
+        const feilMedSmsUtsending =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Feil;
+
+        const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+
+        const kandidatlistenVarIkkeLastet =
+            prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+
         if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
-            const antallMarkerteKandidater = this.state.kandidater.filter(
+
+            const antallMarkerteKandidater = (this.state.kandidater || []).filter(
                 kandidat => kandidat.markert
             ).length;
+
             this.onCheckAlleKandidater(false);
             this.visInfobanner(
                 `${
@@ -124,18 +152,12 @@ class Kandidatlisteside extends React.Component<Props> {
                 } er delt med arbeidsgiver`
             );
         }
-        if (
-            this.props.leggTilStatus !== prevProps.leggTilStatus &&
-            this.props.leggTilStatus === LAGRE_STATUS.SUCCESS
-        ) {
+        if (kandidaterHarNettoppBlittLagtTil) {
             this.visInfobanner(
                 `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
         }
 
-        const smsErNettoppSendtTilKandidater =
-            this.props.smsSendStatus !== prevProps.smsSendStatus &&
-            this.props.smsSendStatus === SmsStatus.Sendt;
         if (smsErNettoppSendtTilKandidater) {
             this.props.resetSmsSendStatus();
             this.visInfobanner('SMS-en er sendt');
@@ -145,9 +167,6 @@ class Kandidatlisteside extends React.Component<Props> {
             });
         }
 
-        const feilMedSmsUtsending =
-            this.props.smsSendStatus !== prevProps.smsSendStatus &&
-            this.props.smsSendStatus === SmsStatus.Feil;
         if (feilMedSmsUtsending) {
             this.props.resetSmsSendStatus();
             this.visInfobanner('Det skjedde en feil', 'feil');
@@ -156,29 +175,57 @@ class Kandidatlisteside extends React.Component<Props> {
             });
         }
 
-        if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+        if (kandidatlisteErIkkeLastet) {
             return;
         }
 
         if (
-            (prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS &&
-                this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) ||
-            (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
-                this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
-                prevProps.kandidatliste.data.kandidater !==
-                    this.props.kandidatliste.data.kandidater)
+            kandidatlistenVarIkkeLastet &&
+            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS
         ) {
-            const kandidatTilstander = trekkUtKandidatTilstander(this.state.kandidater);
-            const kandidater = this.props.kandidatliste.data.kandidater.map(kandidat => {
-                const kandidatTilstand =
-                    (!kandidaterHarNettoppBlittPresentert &&
-                        kandidatTilstander[kandidat.kandidatnr]) ||
-                    initialKandidatTilstand();
-                return {
-                    ...kandidat,
-                    ...kandidatTilstand,
-                };
-            });
+            this.props.hentSendteMeldinger(this.props.kandidatliste.data.kandidatlisteId);
+        }
+
+        const sendteMeldingerErNettoppLastet =
+            prevProps.sendteMeldinger.kind === RemoteDataTypes.LOADING &&
+            this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS;
+
+        if (
+            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            (kandidatlistenVarIkkeLastet ||
+                sendteMeldingerErNettoppLastet ||
+                (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+                    prevProps.kandidatliste.data.kandidater !==
+                        this.props.kandidatliste.data.kandidater))
+        ) {
+            const kandidatTilstander: Kandidattilstander = trekkUtKandidatTilstander(
+                this.state.kandidater
+            );
+
+            const sendteMeldinger =
+                this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS
+                    ? this.props.sendteMeldinger.data
+                    : [];
+
+            const kandidater: KandidatIKandidatliste[] = this.props.kandidatliste.data.kandidater.map(
+                kandidat => {
+                    const kandidatTilstand =
+                        (!kandidaterHarNettoppBlittPresentert &&
+                            kandidatTilstander[kandidat.kandidatnr]) ||
+                        initialKandidatTilstand();
+
+                    const sendtMelding = sendteMeldinger.find(
+                        melding => melding.fnr === kandidat.fodselsnr
+                    );
+
+                    return {
+                        ...kandidat,
+                        ...kandidatTilstand,
+                        sms: sendtMelding,
+                    };
+                }
+            );
+
             this.setState({
                 kandidater,
                 alleMarkert:
@@ -192,7 +239,7 @@ class Kandidatlisteside extends React.Component<Props> {
         clearTimeout(this.infobannerCallbackId);
     }
 
-    onCheckAlleKandidater = markert => {
+    onCheckAlleKandidater = (markert: boolean) => {
         this.setState({
             alleMarkert: markert,
             kandidater: this.state.kandidater.map(kandidat => ({
@@ -403,6 +450,7 @@ const mapStateToProps = (state: AppState) => ({
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
+    sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
@@ -460,6 +508,12 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatlisteId,
             kandidatnr,
             notatId,
+        });
+    },
+    hentSendteMeldinger: (kandidatlisteId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
+            kandidatlisteId,
         });
     },
 });

@@ -597,6 +597,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
+            console.log('SENDTE:', action.sendteMeldinger);
             return {
                 ...state,
                 sms: {

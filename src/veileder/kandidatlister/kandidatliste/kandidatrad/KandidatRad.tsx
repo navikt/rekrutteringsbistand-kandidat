@@ -9,6 +9,9 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
+import { KandidatIKandidatliste, SmsStatus } from '../../kandidatlistetyper';
+import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
+import SendSmsIkon from '../knappe-rad/SendSmsIkon';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -22,7 +25,7 @@ const utfallToString = (utfall: string) => {
 };
 
 type Props = {
-    kandidat: any;
+    kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
     stillingsId?: string;
     endreNotat: any;
@@ -98,7 +101,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         }}
                     />
                 </div>
-                <div className="kolonne-bred tabell-tekst">
+                <div className="kolonne-bred kolonne-med-sms">
                     <Link
                         title="Vis profil"
                         className="link"
@@ -106,10 +109,22 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
+                    {kandidat.sms && kandidat.sms.status === SmsStatus.Sendt && (
+                        <HjelpetekstUnder
+                            className="sms-status-popup"
+                            id="hjelpetekst-sms-status"
+                            anchor={SendSmsIkon}
+                        >
+                            <p>{new Date(kandidat.sms.sendt).toLocaleDateString()} </p>
+                            <p>En SMS har blitt sendt til kandidaten.</p>
+                        </HjelpetekstUnder>
+                    )}
                 </div>
                 <div className="kolonne-dato">{kandidat.fodselsnr}</div>
-                <div className="kolonne-bred tabell-tekst">
-                    {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                <div className="kolonne-bred">
+                    <span className="tabell-tekst">
+                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                    </span>
                 </div>
                 <div className="kolonne-middels">
                     <StatusSelect
