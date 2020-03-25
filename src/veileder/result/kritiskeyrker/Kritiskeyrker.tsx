@@ -39,10 +39,12 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
             }
             apen
         >
+            <div className="kritiskeyrker__bransjer">
             {ferdigutfylteStillinger &&
                 ferdigutfylteStillinger.bransjer.map(_ => (
                     <Bransjevelger key={_.navn} bransje={_} />
                 ))}
+            </div>
         </Ekspanderbartpanel>
     );
 };
