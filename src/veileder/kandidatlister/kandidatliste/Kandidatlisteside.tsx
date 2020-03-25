@@ -62,7 +62,7 @@ type Props = {
 };
 
 class Kandidatlisteside extends React.Component<Props> {
-    deleSuksessMeldingCallbackId: any;
+    infobannerCallbackId: any;
 
     static defaultProps: Partial<Props> = {
         kandidat: {
@@ -78,9 +78,10 @@ class Kandidatlisteside extends React.Component<Props> {
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
         sendSmsModalOpen: boolean;
-        suksessMelding: {
+        infobanner: {
             vis: boolean;
             tekst: string;
+            type: 'info' | 'suksess' | 'advarsel' | 'feil';
         };
     };
 
@@ -99,9 +100,10 @@ class Kandidatlisteside extends React.Component<Props> {
             leggTilModalOpen: false,
             kopierEpostModalOpen: false,
             sendSmsModalOpen: false,
-            suksessMelding: {
+            infobanner: {
                 vis: false,
                 tekst: '',
+                type: 'info',
             },
         };
     }
@@ -116,7 +118,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 kandidat => kandidat.markert
             ).length;
             this.onCheckAlleKandidater(false);
-            this.visSuccessMelding(
+            this.visInfobanner(
                 `${
                     antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
                 } er delt med arbeidsgiver`
@@ -126,7 +128,7 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.leggTilStatus !== prevProps.leggTilStatus &&
             this.props.leggTilStatus === LAGRE_STATUS.SUCCESS
         ) {
-            this.visSuccessMelding(
+            this.visInfobanner(
                 `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
         }
@@ -136,8 +138,19 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.smsSendStatus === SmsStatus.Sendt;
         if (smsErNettoppSendtTilKandidater) {
             this.props.resetSmsSendStatus();
-            this.visSuccessMelding('SMS-en er sendt');
+            this.visInfobanner('SMS-en er sendt');
             this.onCheckAlleKandidater(false);
+            this.setState({
+                sendSmsModalOpen: false,
+            });
+        }
+
+        const feilMedSmsUtsending =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Feil;
+        if (feilMedSmsUtsending) {
+            this.props.resetSmsSendStatus();
+            this.visInfobanner('Det skjedde en feil', 'feil');
             this.setState({
                 sendSmsModalOpen: false,
             });
@@ -176,7 +189,7 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.deleSuksessMeldingCallbackId);
+        clearTimeout(this.infobannerCallbackId);
     }
 
     onCheckAlleKandidater = markert => {
@@ -271,17 +284,18 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    visSuccessMelding = (tekst: string) => {
-        clearTimeout(this.deleSuksessMeldingCallbackId);
+    visInfobanner = (tekst: string, type = 'suksess') => {
+        clearTimeout(this.infobannerCallbackId);
         this.setState({
-            suksessMelding: {
+            infobanner: {
                 vis: true,
                 tekst,
+                type,
             },
         });
-        this.deleSuksessMeldingCallbackId = setTimeout(() => {
+        this.infobannerCallbackId = setTimeout(() => {
             this.setState({
-                suksessMelding: {
+                infobanner: {
                     vis: false,
                     tekst: '',
                 },
@@ -313,7 +327,7 @@ class Kandidatlisteside extends React.Component<Props> {
             kandidater,
             alleMarkert,
             deleModalOpen,
-            suksessMelding,
+            infobanner,
             leggTilModalOpen,
             kopierEpostModalOpen,
         } = this.state;
@@ -350,9 +364,9 @@ class Kandidatlisteside extends React.Component<Props> {
                     kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
                 />
                 <HjelpetekstFading
-                    synlig={suksessMelding.vis}
-                    type="suksess"
-                    innhold={suksessMelding.tekst}
+                    synlig={infobanner.vis}
+                    type={infobanner.type}
+                    innhold={infobanner.tekst}
                 />
                 <Kandidatliste
                     tittel={tittel}

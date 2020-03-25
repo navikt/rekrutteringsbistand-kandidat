@@ -79,10 +79,7 @@ fetchMock
     .get(kandidatlisteUrl, kandidatliste)
     .get(stillingsKandidatlisteUrl, kandidatliste)
     .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
-    .get((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .put((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .post((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .delete((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
+    .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
@@ -94,4 +91,9 @@ fetchMock
         (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
         kandidatliste
     )
-    .post((url: string) => url.startsWith(smsUrl), [201, 'SMS lagret']);
+    .post(
+        (url: string) => url.startsWith(smsUrl),
+        new Response('SMS er lagret', {
+            status: 201,
+        })
+    );

@@ -1,3 +1,4 @@
+import { SearchApiError } from './../../../felles/api';
 import { ResponseData } from './../../../felles/common/remoteData';
 import { KandidatlisteResponse, Notat } from '../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
@@ -326,6 +327,7 @@ export interface SendSmsSuccessAction {
 
 export interface SendSmsFailureAction {
     type: KandidatlisteActionType.SEND_SMS_FAILURE;
+    error: SearchApiError;
 }
 
 export interface ResetSendSmsStatusAction {

@@ -1,3 +1,4 @@
+import { SearchApiError } from './../../../felles/api';
 import { SmsStatus } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
@@ -67,6 +68,7 @@ export interface KandidatlisteState {
     }>;
     sms: {
         sendStatus: SmsStatus;
+        error?: SearchApiError;
     };
 }
 
@@ -570,6 +572,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     sendStatus: SmsStatus.Feil,
+                    error: action.error,
                 },
             };
         case KandidatlisteActionType.RESET_SEND_SMS_STATUS:
