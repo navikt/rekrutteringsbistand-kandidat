@@ -92,7 +92,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setQuery: query => dispatch({ type: SET_STATE, query }),
+    setQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
 });
