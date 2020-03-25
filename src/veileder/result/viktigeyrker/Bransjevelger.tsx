@@ -5,16 +5,12 @@ import { Bransje, Sok } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import './Bransjevelger.less';
-import {
-    SEARCH,
-    SET_STATE,
-    TOGGLE_VIKTIGE_YRKER_APEN
-} from '../../sok/searchReducer';
+import { SEARCH, SET_STATE, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
 interface BransjevelgerProps {
     bransje: Bransje;
     setQuery: () => void;
     search: () => void;
-    toggleViktigeYrkerApen: () => void
+    toggleViktigeYrkerApen: () => void;
 }
 
 export const hentQueryUtenKriterier = () => ({
@@ -44,7 +40,6 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     const { bransje, setQuery, search, toggleViktigeYrkerApen } = props;
 
     const onLenkeKlikk = (sok: Sok) => {
-
         const query = {
             fritekst: '',
             stillinger: sok.jobbonsker,
@@ -63,16 +58,13 @@ const Bransjevelger = (props: BransjevelgerProps) => {
             navkontor: undefined,
             hovedmal: undefined,
             tilretteleggingsbehov: undefined,
-            kategorier: undefined
-
-
-        }
+            kategorier: undefined,
+        };
 
         setQuery(query);
         search();
-        toggleViktigeYrkerApen()
-    
-    }
+        toggleViktigeYrkerApen();
+    };
     return (
         <div className="bransjevelger">
             <Ekspanderbartpanel className="bransjevelger__bransje" tittel={bransje.navn}>
@@ -83,9 +75,13 @@ const Bransjevelger = (props: BransjevelgerProps) => {
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
                             {_.sok.map(_ => (
-                                    <Lenke href={linkurl(_)} key={_.tittel} onClick={() => onLenkeKlikk(_)}>
-                                        {linktekst(_)}
-                                    </Lenke>
+                                <Lenke
+                                    href={linkurl(_)}
+                                    key={_.tittel}
+                                    onClick={() => onLenkeKlikk(_)}
+                                >
+                                    {linktekst(_)}
+                                </Lenke>
                             ))}
                         </div>
                     ))}
@@ -98,7 +94,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 const mapDispatchToProps = dispatch => ({
     setQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
-    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN})
+    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
 });
 
 const mapStateToProps = state => ({});

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
-import {EkspanderbartpanelPure} from 'nav-frontend-ekspanderbartpanel';
+import { EkspanderbartpanelPure } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
@@ -11,7 +11,7 @@ import { FerdigutfylteStillinger } from './Bransje';
 interface ViktigeYrkerProps {
     hentFerdigutfylteStillinger: () => void;
     ferdigutfylteStillinger: FerdigutfylteStillinger;
-    viktigeYrkerApen: boolean
+    viktigeYrkerApen: boolean;
     toggleViktigeYrkerApen: () => void;
 }
 
@@ -34,7 +34,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                     <div className="viktigeYrker__tittel--tekst">
                         <Element>Finn kandidater til viktige yrker</Element>
                         <Normaltekst>
-                            Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til 
+                            Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til
                             viktige oppgave i samfunnet.
                         </Normaltekst>
                     </div>
@@ -42,10 +42,10 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
             }
         >
             <div>
-            {ferdigutfylteStillinger &&
-                ferdigutfylteStillinger.bransjer.map(_ => (
-                    <Bransjevelger key={_.navn} bransje={_} />
-                ))}
+                {ferdigutfylteStillinger &&
+                    ferdigutfylteStillinger.bransjer.map(_ => (
+                        <Bransjevelger key={_.navn} bransje={_} />
+                    ))}
             </div>
         </EkspanderbartpanelPure>
     );
@@ -53,12 +53,12 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
 
 const mapDispatchToProps = dispatch => ({
     hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
-    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN})
+    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
 });
 
 const mapStateToProps = state => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
-    viktigeYrkerApen: state.search.viktigeYrkerApen
+    viktigeYrkerApen: state.search.viktigeYrkerApen,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);
