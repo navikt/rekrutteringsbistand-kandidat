@@ -5,10 +5,31 @@ import { Bransje, Sok } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import './Bransjevelger.less';
+import {
+    SEARCH,
+    SET_STATE,
+} from '../../sok/searchReducer';
 
 interface BransjevelgerProps {
     bransje: Bransje;
+    resetQuery: Function;
+    search: Function;
 }
+
+export const hentQueryUtenKriterier = () => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+});
 
 const linktekst = (sok: Sok) => {
     return `${sok.tittel} (${sok.antallTreff})`;
@@ -19,7 +40,36 @@ const linkurl = (sok: Sok) => {
 };
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const { bransje } = props;
+    const { bransje, resetQuery, search } = props;
+
+    const onLenkeKlikk = (sok: Sok) => {
+        const query = {
+            fritekst: '',
+            stillinger: sok.jobbonsker,
+            arbeidserfaringer: sok.yrkeserfaring,
+            utdanninger: [],
+            kompetanser: sok.kompetanser,
+            forerkort: sok.forerkort,
+            geografiList: [],
+            geografiListKomplett: [],
+            totalErfaring: [],
+            utdanningsniva: [],
+            sprak: [],
+            kvalifiseringsgruppeKoder: [],
+            maaBoInnenforGeografi: false,
+            lokasjoner: [],
+            navkontor: undefined,
+            hovedmal: undefined,
+            tilretteleggingsbehov: undefined,
+            kategorier: undefined
+
+
+        }
+
+        resetQuery(query);
+        search();
+    
+    }
     return (
         <div className="bransjevelger">
             <Ekspanderbartpanel className="bransjevelger__bransje" tittel={bransje.navn}>
@@ -30,7 +80,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
                             {_.sok.map(_ => (
-                                    <Lenke href={linkurl(_)} key={_.tittel}>
+                                    <Lenke href={linkurl(_)} key={_.tittel} onClick={() => onLenkeKlikk(_)}>
                                         {linktekst(_)}
                                     </Lenke>
                             ))}
@@ -42,7 +92,10 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     );
 };
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    search: () => dispatch({ type: SEARCH }),
+});
 
 const mapStateToProps = state => ({});
 

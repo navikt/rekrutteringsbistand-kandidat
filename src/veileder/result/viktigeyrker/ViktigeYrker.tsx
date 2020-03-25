@@ -36,7 +36,6 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                     </div>
                 </div>
             }
-            apen
         >
             <div>
             {ferdigutfylteStillinger &&
