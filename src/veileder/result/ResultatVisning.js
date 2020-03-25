@@ -32,9 +32,8 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker'
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -212,12 +211,11 @@ class ResultatVisning extends React.Component {
                 {isInitialSearch ? (
                     <div className="fullscreen-spinner">
                         <NavFrontendSpinner type="L" />
-
                     </div>
                 ) : (
                     <div>
                         <Container className="blokk-l">
-                            <ViktigeYrker/>
+                            <ViktigeYrker />
                             <Column xs="12" sm="4">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
