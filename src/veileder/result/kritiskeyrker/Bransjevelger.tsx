@@ -17,13 +17,17 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     const { bransje } = props;
     return (
         <div className="bransjevelger">
-            <Ekspanderbartpanel className="ekspanderbartPanel--bransje" tittel={bransje.navn}>
+            <Ekspanderbartpanel className="bransjevelger__bransje" tittel={bransje.navn}>
                 <div className="bransjevelger__bransjer">
                     {bransje.yrker.map(_ => (
-                        <div key={_.tittel} className="bransjevelger__bransje">
+                        <div key={_.tittel} className="bransjevelger__bransje__innhold">
                             <Element>{_.tittel}</Element>
                             <Normaltekst>Se kandidater som har:</Normaltekst>
-                            {_.sok.map(_ => <Normaltekst className="bransjevelger__linktekst" key={_.tittel}>{linktekst(_)}</Normaltekst>)}
+                            {_.sok.map(_ => (
+                                <Normaltekst className="bransjevelger__linktekst" key={_.tittel}>
+                                    {linktekst(_)}
+                                </Normaltekst>
+                            ))}
                             <div></div>
                         </div>
                     ))}

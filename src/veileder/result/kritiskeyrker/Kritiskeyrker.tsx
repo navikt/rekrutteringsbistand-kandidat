@@ -21,14 +21,13 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
 
     return (
         <Ekspanderbartpanel
-            className="ekspanderbartPanel--kritiskeyrker"
-            id="ekspanderbartpanel-kritiskeyrker"
+            className="kritiskeyrker"
             tittel={
-                <div className="ekspanderbartpanel-kritiskeyrker-tittel">
-                    <div className="ekspanderbartpanel-kritiskeyrker--sirkel">
+                <div className="kritiskeyrker__tittel">
+                    <div className="kritiskeyrker__tittel--ikon">
                         <KritiskeyrkerIkon />
                     </div>
-                    <div className="ekspanderbartpanel-kritiskeyrker--tekst">
+                    <div className="kritiskeyrker__tittel--tekst">
                         <Element>Finn kandidater til kritiske yrker</Element>
                         <Normaltekst>
                             På grunn av coronaviruset kan vi risikere at det blir mangel på
@@ -39,7 +38,7 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
             }
             apen
         >
-            <div className="kritiskeyrker__bransjer">
+            <div>
             {ferdigutfylteStillinger &&
                 ferdigutfylteStillinger.bransjer.map(_ => (
                     <Bransjevelger key={_.navn} bransje={_} />

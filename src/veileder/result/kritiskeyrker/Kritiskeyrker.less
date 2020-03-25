@@ -1,33 +1,30 @@
 @import '../../../felles/Variables.less';
 
-.ekspanderbartPanel--kritiskeyrker {
+.kritiskeyrker {
     margin: 2rem 0;
     padding: 2rem;
     background-color: #e3edf8;
 
-    >.ekspanderbartPanel__hode {
+    > .ekspanderbartPanel__hode {
         background-color: #e3edf8;
         &:hover {
             .ekspanderbartPanel__heading {
                 text-decoration: none;
-                color: @navMorkGra;      
+                color: @navMorkGra;
             }
         }
-        >.ekspanderbartPanel__flex-wrapper {
-            >.ekspanderbartPanel__indikator {
-                color:@navBla;
+        > .ekspanderbartPanel__flex-wrapper {
+            > .ekspanderbartPanel__indikator {
+                color: @navBla;
                 zoom: 1.5;
             }
         }
     }
-    
 
-    .ekspanderbartpanel-kritiskeyrker-tittel {
+    &__tittel {
         display: flex;
 
-
-        .ekspanderbartpanel-kritiskeyrker--tekst {
-
+        &--tekst {
             margin: 0 2rem 0 2rem;
 
             .typo-element {
@@ -40,8 +37,7 @@
             }
         }
 
-        .ekspanderbartpanel-kritiskeyrker--sirkel {
-        
+        &--sirkel {
             width: 100px;
             height: 100px;
             line-height: 100px;
@@ -51,16 +47,7 @@
             font-size: 16px;
             text-transform: uppercase;
             font-weight: 700;
-            background-color: #99BDCD;
+            background-color: #99bdcd;
         }
     }
-
-    .ekspanderbartPanel__innhold {
-        padding: 1rem;
-    }
-
-    .ekspanderbartPanel--bransje {
-        margin-bottom: 1rem;
-    }
-
 }
