@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-const KritiskeyrkerIkon = ({ color }) => (
+const ViktigeYrkerIkon = ({ color }) => (
     <svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1">
 <g id="-----↳-Kandidatsøk---predefinerte" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="Kandidatsøk_helseogomsorg" transform="translate(-421.000000, -368.000000)">
@@ -22,12 +22,12 @@ const KritiskeyrkerIkon = ({ color }) => (
     </svg>
 );
 
-KritiskeyrkerIkon.defaultProps = {
+ViktigeYrkerIkon.defaultProps = {
     color: '#FFFFFF',
 };
 
-KritiskeyrkerIkon.propTypes = {
+ViktigeYrkerIkon.propTypes = {
     color: PropTypes.string,
 };
 
-export default KritiskeyrkerIkon;
+export default ViktigeYrkerIkon;

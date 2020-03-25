@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import './Kritiskeyrker.less';
-import KritiskeyrkerIkon from './Kritiskeyrkerikon';
+import './ViktigeYrker.less';
+import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
 import { HENT_FERDIGUTFYLTE_STILLINGER } from '../../sok/searchReducer';
 import { FerdigutfylteStillinger } from './Bransje';
 
-interface KritiskeyrkerProps {
+interface ViktigeYrkerProps {
     hentFerdigutfylteStillinger: () => void;
     ferdigutfylteStillinger: FerdigutfylteStillinger;
 }
 
-const Kritiskeyrker = (props: KritiskeyrkerProps) => {
+const ViktigeYrker = (props: ViktigeYrkerProps) => {
     useEffect(() => {
         props.hentFerdigutfylteStillinger();
     }, []);
@@ -21,17 +21,17 @@ const Kritiskeyrker = (props: KritiskeyrkerProps) => {
 
     return (
         <Ekspanderbartpanel
-            className="kritiskeyrker"
+            className="viktigeYrker"
             tittel={
-                <div className="kritiskeyrker__tittel">
-                    <div className="kritiskeyrker__tittel--ikon">
-                        <KritiskeyrkerIkon />
+                <div className="viktigeYrker__tittel">
+                    <div className="viktigeYrker__tittel--ikon">
+                        <ViktigeYrkerIkon />
                     </div>
-                    <div className="kritiskeyrker__tittel--tekst">
-                        <Element>Finn kandidater til kritiske yrker</Element>
+                    <div className="viktigeYrker__tittel--tekst">
+                        <Element>Finn kandidater til viktige yrker</Element>
                         <Normaltekst>
-                            På grunn av coronaviruset kan vi risikere at det blir mangel på
-                            arbeidskraft innenfor kritiske samfunnsfunksjoner
+                            Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til 
+                            viktige oppgave i samfunnet.
                         </Normaltekst>
                     </div>
                 </div>
@@ -56,4 +56,4 @@ const mapStateToProps = state => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Kritiskeyrker);
+export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);
