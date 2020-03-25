@@ -28,7 +28,7 @@ import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
-import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
+import KandidatlisteMedStilling from './kandidatlister/KandidatlisteMedStilling';
 import KandidatlisteUtenStilling from './kandidatlister/KandidatlisteUtenStilling';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
@@ -154,7 +154,7 @@ class Sok extends React.Component {
                             <Route
                                 exact
                                 path="/kandidater/lister/stilling/:id/detaljer"
-                                component={KandidatlisteFraStilling}
+                                component={KandidatlisteMedStilling}
                             />
                             <Route
                                 exact

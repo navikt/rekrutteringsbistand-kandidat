@@ -81,7 +81,7 @@ class Kandidatlisteside extends React.Component<Props> {
         infobanner: {
             vis: boolean;
             tekst: string;
-            type: 'info' | 'suksess' | 'advarsel' | 'feil';
+            type: 'suksess' | 'feil';
         };
     };
 
@@ -103,7 +103,7 @@ class Kandidatlisteside extends React.Component<Props> {
             infobanner: {
                 vis: false,
                 tekst: '',
-                type: 'info',
+                type: 'suksess',
             },
         };
     }
