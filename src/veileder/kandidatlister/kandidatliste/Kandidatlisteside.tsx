@@ -432,7 +432,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
-                    onSmsKandidater={() => this.onToggleSendSmsModal(true)}
+                    onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
                     opprettNotat={this.props.opprettNotat}
