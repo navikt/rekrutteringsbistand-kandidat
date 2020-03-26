@@ -37,6 +37,7 @@ type Props = {
     endreNotat: any;
     slettNotat: any;
     beskrivelse?: string;
+    visSendSms?: boolean;
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {
@@ -63,6 +64,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             kandidatlisteId={props.kandidatlisteId}
                             onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
+                            visSendSms={props.visSendSms}
                         >
                             <FinnKandidaterLenke
                                 kandidatlisteId={props.kandidatlisteId}
@@ -88,6 +90,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 onVisningChange={props.onVisningChange}
                                 opprettNotat={props.opprettNotat}
                                 slettNotat={props.slettNotat}
+                                visSendSms={props.visSendSms}
                             />
                         ))}
                     </div>

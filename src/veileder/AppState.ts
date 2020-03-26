@@ -2,6 +2,7 @@ import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReduce
 
 type AppState = {
     kandidatlister: KandidatlisteState;
+    search: any;
 };
 
 export default AppState;

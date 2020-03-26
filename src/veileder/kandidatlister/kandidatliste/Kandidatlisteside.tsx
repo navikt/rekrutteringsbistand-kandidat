@@ -67,6 +67,7 @@ type Props = {
     endreNotat: any;
     slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
+    visSendSms?: boolean;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -438,6 +439,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}
                     beskrivelse={beskrivelse}
+                    visSendSms={this.props.visSendSms}
                 />
             </div>
         );
@@ -451,6 +453,7 @@ const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
+    visSendSms: state.search.featureToggles['vis-send-sms'],
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

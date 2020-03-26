@@ -39,6 +39,7 @@ type Props = {
         kandidatnr: string
     ) => void;
     onKandidatStatusChange: any;
+    visSendSms?: boolean;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -52,6 +53,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     onVisningChange,
     kanEditere,
     onKandidatStatusChange,
+    visSendSms,
 }) => {
     const antallNotater =
         kandidat.notater.kind === RemoteDataTypes.SUCCESS
@@ -109,7 +111,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
-                    {kandidat.sms && kandidat.sms.status === SmsStatus.Sendt && (
+                    {visSendSms && kandidat.sms && kandidat.sms.status === SmsStatus.Sendt && (
                         <HjelpetekstUnder
                             className="sms-status-popup"
                             id="hjelpetekst-sms-status"
