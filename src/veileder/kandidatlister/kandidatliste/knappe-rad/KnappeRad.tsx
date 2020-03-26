@@ -66,15 +66,18 @@ const KnappeRad: FunctionComponent<Props> = ({
     children,
     stillingsId,
 }) => {
-    const minstEnKandidatErMarkert = kandidater.filter(kandidat => kandidat.markert).length > 0;
+    const skalViseSendSms = kanEditere && stillingsId;
+
+    const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
+    const minstEnKandidatErMarkert = markerteKandidater.length > 0;
+    const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
 
     return (
         <div className="knappe-rad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
-                {kanEditere &&
-                    stillingsId &&
-                    (minstEnKandidatErMarkert ? (
+                {skalViseSendSms &&
+                    (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
                         <div className="hjelpetekst">
                             <Lenkeknapp onClick={onSmsKandidater} className="Sms">
                                 <SmsKnapp />
@@ -86,7 +89,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                             anchor={SmsKnappMedHjelpetekst}
                             tittel="Send SMS til de markerte kandidatene"
                         >
-                            Du må huke av for kandidatene du ønsker å sende SMS til.
+                            {minstEnKandidatErMarkert
+                                ? 'Alle markerte kandidater har allerede fått en SMS.'
+                                : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
                         </HjelpetekstMidt>
                     ))}
                 {minstEnKandidatErMarkert ? (
