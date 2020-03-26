@@ -2,10 +2,11 @@
 
 .viktigeYrker {
     margin: 2rem 0;
-    padding: 2rem;
+    padding: 1rem 3rem 1rem 3rem;
     background-color: #e3edf8;
 
     > .ekspanderbartPanel__hode {
+        padding: 1rem 0.75rem 1rem 1rem;
         background-color: #e3edf8;
         &:hover {
             .ekspanderbartPanel__heading {
@@ -16,9 +17,13 @@
         > .ekspanderbartPanel__flex-wrapper {
             > .ekspanderbartPanel__indikator {
                 color: @navBla;
-                zoom: 1.5;
+                zoom: 2;
             }
         }
+    }
+
+    > .ReactCollapse--collapse {
+        padding-bottom: 1rem;
     }
 
     &__tittel {
