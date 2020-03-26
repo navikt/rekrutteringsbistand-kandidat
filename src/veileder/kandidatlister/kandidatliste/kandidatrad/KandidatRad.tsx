@@ -121,13 +121,13 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
-                    {visSendSms && kandidat.sms && kandidat.sms.status === SmsStatus.Sendt && (
+                    {visSendSms && kandidat.sms && kandidat.sms.status !== SmsStatus.IkkeSendt && (
                         <HjelpetekstUnder
                             className="sms-status-popup"
                             id="hjelpetekst-sms-status"
                             anchor={SendSmsIkon}
                         >
-                            {formaterSendtDato(new Date(kandidat.sms.sendt))}
+                            {formaterSendtDato(new Date(kandidat.sms.opprettet))}
                             <br />
                             En SMS har blitt sendt til kandidaten.
                         </HjelpetekstUnder>
