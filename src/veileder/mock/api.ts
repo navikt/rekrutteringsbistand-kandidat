@@ -11,6 +11,7 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
+import * as sms from './json/sms.json';
 
 import { SEARCH_API } from '../common/fasitProperties.js';
 
@@ -38,6 +39,9 @@ const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/ko
 
 // Kandidatsøk
 const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
+
+// Sms-API
+const smsUrl = `/kandidater/api/sms`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -76,14 +80,22 @@ fetchMock
     .get(kandidatlisteUrl, kandidatliste)
     .get(stillingsKandidatlisteUrl, kandidatliste)
     .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
-    .get((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .put((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .post((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .delete((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
+    .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
     .get((url: string) => url.startsWith(sokUrl), sok)
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
-    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder);
+    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
+    .post(
+        (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
+        kandidatliste
+    )
+    .get((url: string) => url.startsWith(smsUrl), sms)
+    .post(
+        (url: string) => url.startsWith(smsUrl),
+        new Response('SMS er lagret', {
+            status: 201,
+        })
+    );

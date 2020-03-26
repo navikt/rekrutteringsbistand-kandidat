@@ -6,7 +6,7 @@ import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
 
-class KandidatlisteFraStilling extends React.Component {
+class KandidatlisteMedStilling extends React.Component {
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.hentKandidatliste(id);
@@ -22,11 +22,11 @@ class KandidatlisteFraStilling extends React.Component {
     }
 }
 
-KandidatlisteFraStilling.defaultProps = {
+KandidatlisteMedStilling.defaultProps = {
     kandidatliste: undefined,
 };
 
-KandidatlisteFraStilling.propTypes = {
+KandidatlisteMedStilling.propTypes = {
     fetching: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape(KandidatlistePropType),
     hentKandidatliste: PropTypes.func.isRequired,
@@ -51,4 +51,4 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteFraStilling);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatlisteMedStilling);

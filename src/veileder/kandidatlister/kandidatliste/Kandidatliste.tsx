@@ -30,12 +30,14 @@ type Props = {
     onKandidatStatusChange: any;
     onKandidatShare: any;
     onEmailKandidater: any;
+    onSendSmsClick: any;
     onLeggTilKandidat: any;
     onVisningChange: any;
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
     beskrivelse?: string;
+    visSendSms?: boolean;
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {
@@ -57,10 +59,12 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             kanEditere={props.kanEditere}
                             kandidater={props.kandidater}
                             onEmailKandidater={props.onEmailKandidater}
+                            onSendSmsClick={props.onSendSmsClick}
                             onKandidatShare={props.onKandidatShare}
                             kandidatlisteId={props.kandidatlisteId}
                             onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
+                            visSendSms={props.visSendSms}
                         >
                             <FinnKandidaterLenke
                                 kandidatlisteId={props.kandidatlisteId}
@@ -86,6 +90,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 onVisningChange={props.onVisningChange}
                                 opprettNotat={props.opprettNotat}
                                 slettNotat={props.slettNotat}
+                                visSendSms={props.visSendSms}
                             />
                         ))}
                     </div>

@@ -8,24 +8,51 @@ type Props = {
     onKandidatShare: () => void;
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
+    onSendSmsClick: () => void;
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
     stillingsId?: string;
     children: ReactNode;
+    visSendSms?: boolean;
 };
+
+const SmsKnapp: FunctionComponent = () => (
+    <>
+        <i className="Sms__icon" />
+        <span>Send SMS</span>
+    </>
+);
+
+const Epostknapp: FunctionComponent = () => (
+    <>
+        <i className="Email__icon" />
+        Kopier e-postadresser
+    </>
+);
+
+const Deleknapp: FunctionComponent = () => (
+    <>
+        <i className="Share__icon" />
+        <span>Del med arbeidsgiver (presenter)</span>
+    </>
+);
+
+const SmsKnappMedHjelpetekst: FunctionComponent = () => (
+    <div className="Lenkeknapp typo-normal Sms">
+        <SmsKnapp />
+    </div>
+);
 
 const EpostknappMedHjelpetekst: FunctionComponent = () => (
     <div className="Lenkeknapp typo-normal Email">
-        <i className="Email__icon" />
-        Kopier e-postadresser
+        <Epostknapp />
     </div>
 );
 
 const DeleknappMedHjelpetekst: FunctionComponent = () => (
     <div className="Lenkeknapp typo-normal Share">
-        <i className="Share__icon" />
-        <span>Del med arbeidsgiver (presenter)</span>
+        <Deleknapp />
     </div>
 );
 
@@ -33,21 +60,45 @@ const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
     onKandidatShare,
     onEmailKandidater,
+    onSendSmsClick,
     kanEditere,
     arbeidsgiver,
     children,
+    stillingsId,
+    visSendSms,
 }) => {
-    const minstEnKandidatErMarkert = kandidater.filter(kandidat => kandidat.markert).length > 0;
+    const skalViseSendSms = visSendSms && kanEditere && stillingsId;
+
+    const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
+    const minstEnKandidatErMarkert = markerteKandidater.length > 0;
+    const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
 
     return (
         <div className="knappe-rad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
+                {skalViseSendSms &&
+                    (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onSendSmsClick} className="Sms">
+                                <SmsKnapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstMidt
+                            id="marker-kandidater-sms-hjelpetekst"
+                            anchor={SmsKnappMedHjelpetekst}
+                            tittel="Send SMS til de markerte kandidatene"
+                        >
+                            {minstEnKandidatErMarkert
+                                ? 'Du har allerede sendt SMS til alle markerte kandidater.'
+                                : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
+                        </HjelpetekstMidt>
+                    ))}
                 {minstEnKandidatErMarkert ? (
                     <div className="hjelpetekst">
                         <Lenkeknapp onClick={onEmailKandidater} className="Email">
-                            <i className="Email__icon" />
-                            <span>Kopier e-postadresser</span>
+                            <Epostknapp />
                         </Lenkeknapp>
                     </div>
                 ) : (
@@ -64,8 +115,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                     (minstEnKandidatErMarkert ? (
                         <div className="hjelpetekst">
                             <Lenkeknapp onClick={onKandidatShare} className="Share">
-                                <i className="Share__icon" />
-                                <span>Del med arbeidsgiver (presenter)</span>
+                                <Deleknapp />
                             </Lenkeknapp>
                         </div>
                     ) : (

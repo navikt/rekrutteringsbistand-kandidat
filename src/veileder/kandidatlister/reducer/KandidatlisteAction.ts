@@ -1,5 +1,6 @@
+import { SearchApiError } from './../../../felles/api';
 import { ResponseData } from './../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat } from '../kandidatlistetyper';
+import { KandidatlisteResponse, Notat, Sms } from '../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { ApiError } from '../../../felles/common/remoteData';
@@ -74,7 +75,7 @@ export interface PresenterKandidaterFailureAction {
 }
 
 export interface ResetDeleStatusAction {
-    type: KandidatlisteActionType.RESET_Delestatus;
+    type: KandidatlisteActionType.RESET_DELESTATUS;
 }
 
 export interface LeggTilKandidaterAction {
@@ -313,6 +314,41 @@ export interface ResetSletteStatusAction {
     type: KandidatlisteActionType.RESET_SLETTE_STATUS;
 }
 
+export interface SendSmsAction {
+    type: KandidatlisteActionType.SEND_SMS;
+    melding: string;
+    fnr: string[];
+    kandidatlisteId: string;
+}
+
+export interface SendSmsSuccessAction {
+    type: KandidatlisteActionType.SEND_SMS_SUCCESS;
+}
+
+export interface SendSmsFailureAction {
+    type: KandidatlisteActionType.SEND_SMS_FAILURE;
+    error: SearchApiError;
+}
+
+export interface ResetSendSmsStatusAction {
+    type: KandidatlisteActionType.RESET_SEND_SMS_STATUS;
+}
+
+export interface HentSendteMeldingerAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER;
+    kandidatlisteId: string;
+}
+
+export interface HentSendteMeldingerSuccessAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS;
+    sendteMeldinger: Sms[];
+}
+
+export interface HentSendteMeldingerFailureAction {
+    type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE;
+    error: SearchApiError;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -372,6 +408,13 @@ type KandidatlisteAction =
     | MarkerKandidatlisteSomMinFailureAction
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
-    | ResetSletteStatusAction;
+    | ResetSletteStatusAction
+    | SendSmsAction
+    | SendSmsSuccessAction
+    | SendSmsFailureAction
+    | ResetSendSmsStatusAction
+    | HentSendteMeldingerAction
+    | HentSendteMeldingerSuccessAction
+    | HentSendteMeldingerFailureAction;
 
 export default KandidatlisteAction;

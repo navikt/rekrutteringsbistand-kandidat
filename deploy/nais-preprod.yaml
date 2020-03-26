@@ -36,6 +36,8 @@ spec:
     ingresses:
         - https://rekrutteringsbistand.nais.preprod.local/kandidater
     env:
+        - name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/ca-bundle.pem
         - name: LOGINSERVICE_VEILEDER_URL
           value: https://loginservice.nais.preprod.local/login
         - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
@@ -50,3 +52,5 @@ spec:
           value: https://arbeidsplassen-q.nav.no/
         - name: ARBEIDSRETTET_OPPFOLGING_URL
           value: https://app-q0.adeo.no/veilarbpersonflatefs
+        - name: SMS_API
+          value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms
