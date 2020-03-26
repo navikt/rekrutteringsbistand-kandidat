@@ -26,6 +26,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
             apen={props.viktigeYrkerApen}
             className="viktigeYrker"
             onClick={props.toggleViktigeYrkerApen}
+            // @ts-ignore
             tittel={
                 <div className="viktigeYrker__tittel">
                     <div className="viktigeYrker__tittel--ikon">
