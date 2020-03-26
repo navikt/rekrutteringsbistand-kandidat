@@ -24,6 +24,16 @@ const utfallToString = (utfall: string) => {
     return utfall;
 };
 
+const formaterSendtDato = (dato: Date) => {
+    return `${dato.toLocaleString('no-NB', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    })}`;
+};
+
 type Props = {
     kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
@@ -117,8 +127,9 @@ const KandidatRad: FunctionComponent<Props> = ({
                             id="hjelpetekst-sms-status"
                             anchor={SendSmsIkon}
                         >
-                            <p>{new Date(kandidat.sms.sendt).toLocaleDateString()} </p>
-                            <p>En SMS har blitt sendt til kandidaten.</p>
+                            {formaterSendtDato(new Date(kandidat.sms.sendt))}
+                            <br />
+                            En SMS har blitt sendt til kandidaten.
                         </HjelpetekstUnder>
                     )}
                 </div>
