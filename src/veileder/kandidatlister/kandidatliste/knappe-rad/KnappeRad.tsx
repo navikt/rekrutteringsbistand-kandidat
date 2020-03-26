@@ -2,7 +2,6 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
-import SendSmsIkon from './SendSmsIkon';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -20,7 +19,7 @@ type Props = {
 
 const SmsKnapp: FunctionComponent = () => (
     <>
-        <SendSmsIkon />
+        <i className="Sms__icon" />
         <span>Send SMS</span>
     </>
 );

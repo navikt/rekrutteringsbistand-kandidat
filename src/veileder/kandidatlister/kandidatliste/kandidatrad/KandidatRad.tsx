@@ -11,7 +11,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import { KandidatIKandidatliste, SmsStatus } from '../../kandidatlistetyper';
 import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
-import SendSmsIkon from '../knappe-rad/SendSmsIkon';
+import SendSmsIkon from './SendSmsIkon';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
