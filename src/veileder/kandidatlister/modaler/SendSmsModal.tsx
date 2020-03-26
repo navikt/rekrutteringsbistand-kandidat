@@ -62,6 +62,7 @@ const SendSmsModal: FunctionComponent<Props> = props => {
 
     const markerteMandidater = kandidater.filter(kandidat => kandidat.markert);
     const kandidaterSomHarFåttSms = markerteMandidater.filter(kandidat => kandidat.sms);
+    const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter(kandidat => !kandidat.sms);
 
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
@@ -70,7 +71,6 @@ const SendSmsModal: FunctionComponent<Props> = props => {
 
     const onSendSms = () => {
         const melding = genererMelding(valgtMal, stillingId);
-        const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter(kandidat => !kandidat.sms);
 
         sendSmsTilKandidater(
             melding,
@@ -89,15 +89,17 @@ const SendSmsModal: FunctionComponent<Props> = props => {
         >
             {kandidaterSomHarFåttSms.length > 0 && (
                 <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
-                    Du har allerede sendt SMS til {kandidaterSomHarFåttSms.length} av de{' '}
-                    {markerteMandidater.length} valgte kandidatene. Disse kandidatene vil ikke motta
-                    en ny SMS.
+                    {kandidaterSomHarFåttSms.length === 1
+                        ? `Du har allerede sendt SMS til én av kandidatene. Kandidaten vil ikke motta stillingen.`
+                        : `Du har allerede sendt SMS til ${kandidaterSomHarFåttSms.length} av de{' '}
+                        ${markerteMandidater.length} valgte kandidatene. Disse kandidatene vil ikke motta
+                        en ny SMS.`}
                 </AlertStripeAdvarsel>
             )}
             <div className="send-sms-modal__innhold">
                 <Systemtittel className="send-sms-modal__tittel">Send SMS</Systemtittel>
                 <Ingress className="send-sms-modal__ingress">
-                    Det vil bli sendt SMS til <b>{markerteMandidater.length}</b> av{' '}
+                    Det vil bli sendt SMS til <b>{kandidaterSomIkkeHarFåttSms.length}</b> av{' '}
                     <b>{kandidater.length}</b> kandidater
                 </Ingress>
                 <Normaltekst className="send-sms-modal__ingressbeskrivelse">
