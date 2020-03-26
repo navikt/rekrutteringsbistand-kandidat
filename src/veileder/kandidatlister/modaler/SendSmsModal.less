@@ -1,6 +1,13 @@
 .send-sms-modal {
-    padding: 1.25rem 2rem 2rem;
     max-width: 40rem;
+
+    &.modal {
+        padding: 0;
+    }
+
+    &__innhold {
+        padding: 1.25rem 2rem 2rem;
+    }
 
     &__tittel {
         margin-bottom: 1.25rem;
@@ -32,7 +39,7 @@
         }
     }
 
-    .alertstripe {
+    &__kontortid-advarsel {
         border: none;
         background: none;
         padding: 0;
@@ -41,6 +48,11 @@
         .typo-normal {
             font-weight: 600;
         }
+    }
+
+    &__allerede-sendt-advarsel {
+        border-radius: 0.25rem 0.25rem 0 0;
+        padding-right: 4rem;
     }
 
     .skjemaelement__label {

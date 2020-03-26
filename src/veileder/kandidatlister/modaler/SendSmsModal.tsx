@@ -61,6 +61,8 @@ const SendSmsModal: FunctionComponent<Props> = props => {
     } = props;
 
     const markerteMandidater = kandidater.filter(kandidat => kandidat.markert);
+    const kandidaterSomHarFåttSms = markerteMandidater.filter(kandidat => kandidat.sms);
+
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
 
@@ -84,45 +86,57 @@ const SendSmsModal: FunctionComponent<Props> = props => {
             contentLabel={`Send SMS til ${kandidater.length} kandidater`}
             closeButton
         >
-            <Systemtittel className="send-sms-modal__tittel">Send SMS</Systemtittel>
-            <Ingress className="send-sms-modal__ingress">
-                Det vil bli sendt SMS til <b>{markerteMandidater.length}</b> av{' '}
-                <b>{kandidater.length}</b> kandidater
-            </Ingress>
-            <Normaltekst className="send-sms-modal__ingressbeskrivelse">
-                Telefonnummerene blir hentet fra Kontakt- og reservasjonsregisteret.
-            </Normaltekst>
-            <AlertStripeAdvarsel className="send-sms-modal__kontortid-advarsel">
-                SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
-            </AlertStripeAdvarsel>
+            {kandidaterSomHarFåttSms.length > 0 && (
+                <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
+                    Du har allerede sendt SMS til {kandidaterSomHarFåttSms.length} av de{' '}
+                    {markerteMandidater.length} valgte kandidatene. Disse kandidatene vil ikke motta
+                    en ny SMS.
+                </AlertStripeAdvarsel>
+            )}
+            <div className="send-sms-modal__innhold">
+                <Systemtittel className="send-sms-modal__tittel">Send SMS</Systemtittel>
+                <Ingress className="send-sms-modal__ingress">
+                    Det vil bli sendt SMS til <b>{markerteMandidater.length}</b> av{' '}
+                    <b>{kandidater.length}</b> kandidater
+                </Ingress>
+                <Normaltekst className="send-sms-modal__ingressbeskrivelse">
+                    Telefonnummerene blir hentet fra Kontakt- og reservasjonsregisteret.
+                </Normaltekst>
+                <AlertStripeAdvarsel className="send-sms-modal__kontortid-advarsel">
+                    SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
+                </AlertStripeAdvarsel>
 
-            <Select
-                className="send-sms-modal__velg-mal"
-                label="Velg beskjed som skal vises i SMS-en*"
-                onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                    setValgtMal(e.target.value as Meldingsmal);
-                }}
-            >
-                <option value={Meldingsmal.VurdertSomAktuell}>
-                    Send stilling til en aktuell kandidat
-                </option>
-                <option value={Meldingsmal.EtterspurtPgaKorona}>
-                    Koronavirus og behov for arbeidskraft
-                </option>
-            </Select>
+                <Select
+                    className="send-sms-modal__velg-mal"
+                    label="Velg beskjed som skal vises i SMS-en*"
+                    onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                        setValgtMal(e.target.value as Meldingsmal);
+                    }}
+                >
+                    <option value={Meldingsmal.VurdertSomAktuell}>
+                        Send stilling til en aktuell kandidat
+                    </option>
+                    <option value={Meldingsmal.EtterspurtPgaKorona}>
+                        Koronavirus og behov for arbeidskraft
+                    </option>
+                </Select>
 
-            <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
-                Meldingen som vil bli sendt til kandidatene
-            </label>
-            <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning typo-normal">
-                <span>{genererMeldingUtenLenke(valgtMal)} </span>
-                <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
-            </div>
-            <div className="send-sms-modal__knapper">
-                <Hovedknapp spinner={sendStatus === SmsStatus.UnderUtsending} onClick={onSendSms}>
-                    Send SMS
-                </Hovedknapp>
-                <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
+                <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
+                    Meldingen som vil bli sendt til kandidatene
+                </label>
+                <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning typo-normal">
+                    <span>{genererMeldingUtenLenke(valgtMal)} </span>
+                    <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
+                </div>
+                <div className="send-sms-modal__knapper">
+                    <Hovedknapp
+                        spinner={sendStatus === SmsStatus.UnderUtsending}
+                        onClick={onSendSms}
+                    >
+                        Send SMS
+                    </Hovedknapp>
+                    <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
+                </div>
             </div>
         </Modal>
     );

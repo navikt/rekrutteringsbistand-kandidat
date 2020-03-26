@@ -90,7 +90,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                             tittel="Send SMS til de markerte kandidatene"
                         >
                             {minstEnKandidatErMarkert
-                                ? 'Alle markerte kandidater har allerede fått en SMS.'
+                                ? 'Du har allerede sendt SMS til alle markerte kandidater.'
                                 : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
                         </HjelpetekstMidt>
                     ))}
