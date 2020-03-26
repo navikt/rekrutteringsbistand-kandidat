@@ -185,16 +185,12 @@ export async function deleteKandidatliste(kandidatlisteId: string): Promise<Resp
 export const fetchSendteMeldinger = (kandidatlisteId: string) =>
     fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
 
-export const postSmsTilKandidater = (
-    melding: string,
-    kandidater: string[],
-    kandidatlisteId: string
-) =>
+export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) =>
     postJson(
         `${SMS_API}`,
         JSON.stringify({
             melding,
-            fnr: kandidater,
+            fnr,
             kandidatlisteId,
         })
     );
