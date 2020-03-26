@@ -70,10 +70,11 @@ const SendSmsModal: FunctionComponent<Props> = props => {
 
     const onSendSms = () => {
         const melding = genererMelding(valgtMal, stillingId);
+        const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter(kandidat => !kandidat.sms);
 
         sendSmsTilKandidater(
             melding,
-            markerteMandidater.map(kandidat => kandidat.fodselsnr),
+            kandidaterSomIkkeHarFåttSms.map(kandidat => kandidat.fodselsnr),
             kandidatlisteId
         );
     };
