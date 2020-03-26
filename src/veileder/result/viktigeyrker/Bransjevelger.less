@@ -1,5 +1,9 @@
+@import '../../../felles/Variables.less';
+
 .bransjevelger {
-    margin-top: 1rem;
+    margin: 1rem 3rem 0 3rem;
+    border: 1px solid @navMorkGra;
+
     &__bransjer {
         display: flex;
         flex-wrap: wrap;
@@ -11,19 +15,20 @@
     }
 
     &__bransje {
-        margin-bottom: 1rem;
-
         &__innhold {
-            margin: 0.5rem 1rem 1rem 0;
+            margin: 0.5rem 1rem 0.5rem 0;
             .typo-element {
                 margin-bottom: 0.75rem;
+                color: @navMorkGra;
             }
             .typo-normal {
                 line-height: 1.75rem;
+                color: @navMorkGra;
             }
             a {
                 display: block;
                 line-height: 1.75rem;
+                color: #8c368e;
             }
         }
     }
