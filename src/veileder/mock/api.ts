@@ -13,6 +13,8 @@ import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
 import * as sms from './json/sms.json';
 
+import * as ferdigutfyltesok from './json/ferdigutfyltesok.json';
+
 import { SEARCH_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
@@ -33,6 +35,7 @@ const alleKandidatlisterUrl = `${veilederUrl}/kandidatlister`;
 const sokUrl = `${veilederUrl}/kandidatsok/sok`;
 const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
 const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/bf6877fa-5c82-4610-8cf7-ff7a0df18e29/kandidatliste`;
+const ferdigutfyltesokurl = `${veilederUrl}/ferdigutfyltesok`;
 
 // Kodeverk
 const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/kodeverk/arenageografikoder`;
@@ -79,6 +82,7 @@ fetchMock
     .get(meUrl, me)
     .get(kandidatlisteUrl, kandidatliste)
     .get(stillingsKandidatlisteUrl, kandidatliste)
+    .get((url: string) => url.startsWith(ferdigutfyltesokurl), ferdigutfyltesok)
     .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
     .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
