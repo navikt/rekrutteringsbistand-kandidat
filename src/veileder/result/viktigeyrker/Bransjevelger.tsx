@@ -8,7 +8,7 @@ import './Bransjevelger.less';
 import { SEARCH, SET_STATE, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
 interface BransjevelgerProps {
     bransje: Bransje;
-    setQuery: () => void;
+    setQuery: (query) => void;
     search: () => void;
     toggleViktigeYrkerApen: () => void;
 }
