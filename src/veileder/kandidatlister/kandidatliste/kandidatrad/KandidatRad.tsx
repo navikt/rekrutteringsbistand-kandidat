@@ -129,7 +129,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         >
                             {formaterSendtDato(new Date(kandidat.sms.opprettet))}
                             <br />
-                            En SMS har blitt sendt til kandidaten.
+                            En SMS blir sendt til kandidaten.
                         </HjelpetekstUnder>
                     )}
                 </div>
