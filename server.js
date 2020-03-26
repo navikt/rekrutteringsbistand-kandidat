@@ -224,14 +224,6 @@ const startServer = html => {
     server.use(
         '/kandidater/api/sms',
         proxy(smsHost, {
-            https: true,
-            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
-                ...proxyReqOpts,
-                cookie: srcReq.headers.cookie,
-                headers: {
-                    ...proxyReqOpts.headers,
-                },
-            }),
             proxyReqPathResolver: request =>
                 request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
         })
