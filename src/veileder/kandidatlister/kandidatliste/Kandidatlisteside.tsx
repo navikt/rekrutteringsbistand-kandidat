@@ -181,8 +181,8 @@ class Kandidatlisteside extends React.Component<Props> {
         }
 
         if (
-            kandidatlistenVarIkkeLastet &&
-            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS
+            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            (kandidatlistenVarIkkeLastet || smsErNettoppSendtTilKandidater)
         ) {
             this.props.hentSendteMeldinger(this.props.kandidatliste.data.kandidatlisteId);
         }
