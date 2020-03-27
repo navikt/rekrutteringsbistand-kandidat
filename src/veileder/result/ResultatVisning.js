@@ -34,6 +34,7 @@ import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -85,6 +86,7 @@ class ResultatVisning extends React.Component {
     };
 
     onRemoveCriteriaClick = () => {
+        this.props.lukkAlleSokepanel();
         this.props.resetQuery(hentQueryUtenKriterier(this.props.harHentetStilling));
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -216,7 +218,7 @@ class ResultatVisning extends React.Component {
                     <div>
                         <Container className="blokk-l">
                             <ViktigeYrker />
-                            <Column xs="12" sm="4">
+                            <Column xs="12" sm="4" id="sokekriterier">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
                                         <Flatknapp
@@ -334,6 +336,7 @@ const mapDispatchToProps = dispatch => ({
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

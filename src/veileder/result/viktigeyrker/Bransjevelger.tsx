@@ -4,13 +4,17 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import './Bransjevelger.less';
 import { SEARCH, SET_STATE, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../../sok/konstanter';
+
+import './Bransjevelger.less';
+
 interface BransjevelgerProps {
     bransje: Bransje;
     setQuery: (query) => void;
     search: () => void;
     toggleViktigeYrkerApen: () => void;
+    lukkAlleSokepanel: () => void;
 }
 
 export const hentQueryUtenKriterier = () => ({
@@ -33,11 +37,11 @@ const linktekst = (sok: Sok) => {
 };
 
 const linkurl = (sok: Sok) => {
-    return '#';
+    return '#sokekriterier';
 };
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const { bransje, setQuery, search, toggleViktigeYrkerApen } = props;
+    const { bransje, setQuery, search, toggleViktigeYrkerApen, lukkAlleSokepanel } = props;
 
     const onLenkeKlikk = (sok: Sok) => {
         const query = {
@@ -61,6 +65,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
             kategorier: undefined,
         };
 
+        lukkAlleSokepanel();
         setQuery(query);
         search();
         toggleViktigeYrkerApen();
@@ -95,6 +100,7 @@ const mapDispatchToProps = dispatch => ({
     setQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
 const mapStateToProps = state => ({});

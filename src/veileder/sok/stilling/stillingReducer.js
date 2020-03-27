@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_STILLING = 'SELECT_TYPE_AHEAD_VALUE_STILLING';
 export const REMOVE_SELECTED_STILLING = 'REMOVE_SELECTED_STILLING';
@@ -42,6 +43,11 @@ export default function stillingReducer(state = initialState, action) {
             return {
                 ...state,
                 stillingPanelOpen: !state.stillingPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                stillingPanelOpen: false,
             };
         default:
             return state;
