@@ -13,6 +13,7 @@ interface ViktigeYrkerProps {
     ferdigutfylteStillinger: FerdigutfylteStillinger;
     viktigeYrkerApen: boolean;
     toggleViktigeYrkerApen: () => void;
+    visViktigeYrker: boolean;
 }
 
 const ViktigeYrker = (props: ViktigeYrkerProps) => {
@@ -20,7 +21,8 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         props.hentFerdigutfylteStillinger();
     }, []);
     const ferdigutfylteStillinger: FerdigutfylteStillinger = props.ferdigutfylteStillinger;
-
+    if(!props.visViktigeYrker) return <div/>;
+ 
     return (
         <EkspanderbartpanelPure
             apen={props.viktigeYrkerApen}
@@ -36,7 +38,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                         <Element>Finn kandidater til viktige yrker</Element>
                         <Normaltekst>
                             Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til
-                            viktige oppgave i samfunnet.
+                            viktige oppgaver i samfunnet.
                         </Normaltekst>
                     </div>
                 </div>
@@ -60,6 +62,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
     viktigeYrkerApen: state.search.viktigeYrkerApen,
+    visViktigeYrker: state.search.featureToggles['vis-viktige-yrker-lenker'],
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);
