@@ -4,7 +4,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { SEARCH, SET_STATE, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
+import { SEARCH, SET_STATE } from '../../sok/searchReducer';
 import { LUKK_ALLE_SOKEPANEL } from '../../sok/konstanter';
 
 import './Bransjevelger.less';
@@ -13,7 +13,6 @@ interface BransjevelgerProps {
     bransje: Bransje;
     setQuery: (query) => void;
     search: () => void;
-    toggleViktigeYrkerApen: () => void;
     lukkAlleSokepanel: () => void;
 }
 
@@ -36,12 +35,10 @@ const linktekst = (sok: Sok) => {
     return `${sok.tittel} (${sok.antallTreff})`;
 };
 
-const linkurl = (sok: Sok) => {
-    return '#sokekriterier';
-};
+const linkurl = '#sokekriterier';
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const { bransje, setQuery, search, toggleViktigeYrkerApen, lukkAlleSokepanel } = props;
+    const { bransje, setQuery, search, lukkAlleSokepanel } = props;
 
     const onLenkeKlikk = (sok: Sok) => {
         const query = {
@@ -68,7 +65,6 @@ const Bransjevelger = (props: BransjevelgerProps) => {
         lukkAlleSokepanel();
         setQuery(query);
         search();
-        toggleViktigeYrkerApen();
     };
     return (
         <div className="bransjevelger">
@@ -81,7 +77,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 
                             {bransje.sok.map(sok => (
                                 <Lenke
-                                    href={linkurl(sok)}
+                                    href={linkurl}
                                     key={sok.tittel}
                                     onClick={() => onLenkeKlikk(sok)}
                                 >
@@ -99,7 +95,6 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 const mapDispatchToProps = dispatch => ({
     setQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
-    toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
