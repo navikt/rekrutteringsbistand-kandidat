@@ -1,5 +1,3 @@
-import '../../node_modules/nav-frontend-typografi-style/src/Source-Sans-Pro-300.less';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
