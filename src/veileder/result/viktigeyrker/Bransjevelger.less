@@ -6,12 +6,8 @@
 
     &__bransjer {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         justify-content: space-between;
-    }
-
-    &__bransjer {
-        width: 90%;
     }
 
     &__bransje {
@@ -19,21 +15,27 @@
             flex: 1;
             min-width: 15rem;
 
-            margin: 0.5rem 1rem 0.5rem 0;
+            &:not(:last-child) {
+                margin-bottom: 1rem;
+            }
+
             .typo-element {
                 margin-bottom: 0.75rem;
                 color: @navMorkGra;
             }
+
             .typo-normal {
                 line-height: 1.75rem;
                 color: @navMorkGra;
             }
+
             a {
                 display: block;
                 line-height: 1.75rem;
                 color: #8c368e;
             }
         }
+
         .ekspanderbartPanel__hode {
             &:hover {
                 .ekspanderbartPanel__heading {
@@ -45,5 +47,20 @@
 
     &__linktekst {
         white-space: nowrap;
+    }
+
+    @media (min-width: @screen-sm) {
+        margin: 1rem 3rem 0 3rem;
+
+        &__bransjer {
+            flex-direction: row;
+        }
+
+        &__bransje__innhold {
+            &:not(:last-child) {
+                margin-bottom: 0rem;
+                margin-right: 1rem;
+            }
+        }
     }
 }
