@@ -79,13 +79,13 @@ const Bransjevelger = (props: BransjevelgerProps) => {
                             <Element>{bransje.tittel}</Element>
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
-                            {bransje.sok.map(url => (
+                            {bransje.sok.map(sok => (
                                 <Lenke
-                                    href={linkurl(url)}
-                                    key={bransje.tittel}
-                                    onClick={() => onLenkeKlikk(url)}
+                                    href={linkurl(sok)}
+                                    key={sok.tittel}
+                                    onClick={() => onLenkeKlikk(sok)}
                                 >
-                                    {linktekst(url)}
+                                    {linktekst(sok)}
                                 </Lenke>
                             ))}
                         </div>
