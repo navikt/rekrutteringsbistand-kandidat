@@ -8,9 +8,12 @@
     }
 
     &__lenke {
-        display: inline-block;
-        line-height: 1.75rem;
+        display: block;
         color: #8c368e;
+
+        &:not(:last-child) {
+            margin-bottom: 0.25rem;
+        }
     }
 
     &__bransje {
