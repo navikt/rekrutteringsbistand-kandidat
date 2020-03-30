@@ -336,7 +336,7 @@ const mapDispatchToProps = dispatch => ({
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
-    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL })
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

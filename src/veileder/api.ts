@@ -196,4 +196,4 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
     );
 export const fetchFerdigutfylteStillinger = bransjer => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
-}
+};

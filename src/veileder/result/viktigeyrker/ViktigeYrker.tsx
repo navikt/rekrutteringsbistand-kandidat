@@ -21,8 +21,8 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         props.hentFerdigutfylteStillinger();
     }, []);
     const ferdigutfylteStillinger: FerdigutfylteStillinger = props.ferdigutfylteStillinger;
-    if(!props.visViktigeYrker) return <div/>;
- 
+    if (!props.visViktigeYrker) return <div />;
+
     return (
         <EkspanderbartpanelPure
             apen={props.viktigeYrkerApen}

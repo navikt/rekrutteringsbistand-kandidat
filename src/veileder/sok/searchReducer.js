@@ -239,18 +239,18 @@ export default function searchReducer(state = initialState, action) {
         case HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS:
             return {
                 ...state,
-                ferdigutfylteStillinger: action.data
-            }
+                ferdigutfylteStillinger: action.data,
+            };
         case HENT_FERDIGUTFYLTE_STILLINGER_FAILURE:
             return {
                 ...state,
-                error: action.error
-            }
+                error: action.error,
+            };
         case TOGGLE_VIKTIGE_YRKER_APEN:
             return {
                 ...state,
-                viktigeYrkerApen: !state.viktigeYrkerApen
-            }
+                viktigeYrkerApen: !state.viktigeYrkerApen,
+            };
         default:
             return state;
     }
@@ -598,5 +598,5 @@ export const saga = function* saga() {
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
     yield takeLatest(HENT_INNLOGGET_VEILEDER, hentInnloggetVeileder);
-    yield takeLatest(HENT_FERDIGUTFYLTE_STILLINGER, hentFerdigutfylteStillinger)
+    yield takeLatest(HENT_FERDIGUTFYLTE_STILLINGER, hentFerdigutfylteStillinger);
 };
