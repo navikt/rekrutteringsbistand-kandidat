@@ -74,18 +74,18 @@ const Bransjevelger = (props: BransjevelgerProps) => {
         <div className="bransjevelger">
             <Ekspanderbartpanel border className="bransjevelger__bransje" tittel={bransje.navn}>
                 <div className="bransjevelger__bransjer">
-                    {bransje.yrker.map(_ => (
-                        <div key={_.tittel} className="bransjevelger__bransje__innhold">
-                            <Element>{_.tittel}</Element>
+                    {bransje.yrker.map(bransje => (
+                        <div key={bransje.tittel} className="bransjevelger__bransje__innhold">
+                            <Element>{bransje.tittel}</Element>
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
-                            {_.sok.map(_ => (
+                            {bransje.sok.map(url => (
                                 <Lenke
-                                    href={linkurl(_)}
-                                    key={_.tittel}
-                                    onClick={() => onLenkeKlikk(_)}
+                                    href={linkurl(url)}
+                                    key={bransje.tittel}
+                                    onClick={() => onLenkeKlikk(url)}
                                 >
-                                    {linktekst(_)}
+                                    {linktekst(url)}
                                 </Lenke>
                             ))}
                         </div>

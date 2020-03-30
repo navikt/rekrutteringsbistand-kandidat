@@ -17,18 +17,26 @@ interface ViktigeYrkerProps {
 }
 
 const ViktigeYrker = (props: ViktigeYrkerProps) => {
+    const {
+        hentFerdigutfylteStillinger,
+        ferdigutfylteStillinger,
+        viktigeYrkerApen,
+        toggleViktigeYrkerApen,
+        visViktigeYrker,
+    } = props;
+
     useEffect(() => {
-        props.hentFerdigutfylteStillinger();
-    }, []);
-    const ferdigutfylteStillinger: FerdigutfylteStillinger = props.ferdigutfylteStillinger;
-    if (!props.visViktigeYrker) return <div />;
+        hentFerdigutfylteStillinger();
+    }, [hentFerdigutfylteStillinger]);
+
+    if (!visViktigeYrker) return <div />;
 
     return (
         <EkspanderbartpanelPure
             border
-            apen={props.viktigeYrkerApen}
+            apen={viktigeYrkerApen}
             className="viktigeYrker"
-            onClick={props.toggleViktigeYrkerApen}
+            onClick={toggleViktigeYrkerApen}
             // @ts-ignore
             tittel={
                 <div className="viktigeYrker__tittel">
@@ -45,12 +53,10 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                 </div>
             }
         >
-            <div>
-                {ferdigutfylteStillinger &&
-                    ferdigutfylteStillinger.bransjer.map(_ => (
-                        <Bransjevelger key={_.navn} bransje={_} />
-                    ))}
-            </div>
+            {ferdigutfylteStillinger &&
+                ferdigutfylteStillinger.bransjer.map(bransje => (
+                    <Bransjevelger key={bransje.navn} bransje={bransje} />
+                ))}
         </EkspanderbartpanelPure>
     );
 };
