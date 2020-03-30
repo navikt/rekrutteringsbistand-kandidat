@@ -7,41 +7,37 @@
         justify-content: space-between;
     }
 
-    &__lenke {
-        display: block;
+    .ekspanderbartPanel__innhold {
+        padding: 0 1.25rem 2.5rem;
+    }
+
+    &__bransje .ekspanderbartPanel__hode:hover .ekspanderbartPanel__heading,
+    &__lenke .lenke {
         color: #8c368e;
+    }
+
+    &__yrke {
+        flex: 1;
+        min-width: 15rem;
 
         &:not(:last-child) {
-            margin-bottom: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .typo-element {
+            margin-bottom: 0.75rem;
+        }
+
+        .typo-normal {
+            margin-bottom: 0.5rem;
         }
     }
 
-    &__bransje {
-        &__innhold {
-            flex: 1;
-            min-width: 15rem;
+    &__lenke {
+        display: block;
 
-            &:not(:last-child) {
-                margin-bottom: 1rem;
-            }
-
-            .typo-element {
-                margin-bottom: 0.75rem;
-                color: @navMorkGra;
-            }
-
-            .typo-normal {
-                line-height: 1.75rem;
-                color: @navMorkGra;
-            }
-        }
-
-        .ekspanderbartPanel__hode {
-            &:hover {
-                .ekspanderbartPanel__heading {
-                    color: #8c368e;
-                }
-            }
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
         }
     }
 
@@ -54,11 +50,9 @@
             flex-direction: row;
         }
 
-        &__bransje__innhold {
-            &:not(:last-child) {
-                margin-bottom: 0rem;
-                margin-right: 1rem;
-            }
+        &__yrke:not(:last-child) {
+            margin-bottom: 0rem;
+            margin-right: 1rem;
         }
     }
 }

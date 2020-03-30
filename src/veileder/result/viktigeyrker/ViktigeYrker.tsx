@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Normaltekst, Systemtittel, Ingress } from 'nav-frontend-typografi';
 import { EkspanderbartpanelPure } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
@@ -34,29 +34,32 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
     return (
         <EkspanderbartpanelPure
             border
+            tag="section"
             apen={viktigeYrkerApen}
-            className="viktigeYrker"
+            className="viktige-yrker"
             onClick={toggleViktigeYrkerApen}
             // @ts-ignore
             tittel={
-                <div className="viktigeYrker__tittel">
-                    <div className="viktigeYrker__tittel--ikon">
+                <div className="viktige-yrker__tittel-og-ikon">
+                    <div className="viktige-yrker__ikon">
                         <ViktigeYrkerIkon />
                     </div>
-                    <div className="viktigeYrker__tittel--tekst">
-                        <Element>Finn kandidater til viktige yrker</Element>
-                        <Normaltekst>
+                    <div className="viktige-yrker__tittel">
+                        <Systemtittel>Finn kandidater til viktige yrker</Systemtittel>
+                        <Ingress>
                             Koronasituasjonen gjør at vi kan risikere mangel på arbeidskraft til
                             viktige oppgaver i samfunnet.
-                        </Normaltekst>
+                        </Ingress>
                     </div>
                 </div>
             }
         >
-            {ferdigutfylteStillinger &&
-                ferdigutfylteStillinger.bransjer.map(bransje => (
-                    <Bransjevelger key={bransje.navn} bransje={bransje} />
-                ))}
+            <div className="viktige-yrker__innhold">
+                {ferdigutfylteStillinger &&
+                    ferdigutfylteStillinger.bransjer.map(bransje => (
+                        <Bransjevelger key={bransje.navn} bransje={bransje} />
+                    ))}
+            </div>
         </EkspanderbartpanelPure>
     );
 };

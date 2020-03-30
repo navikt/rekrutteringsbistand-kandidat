@@ -245,7 +245,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                 </div>
                             </Column>
-                            <Column xs="12" sm="8">
+                            <Column xs="12" sm="8" id="sokeresultat">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning
                                         skjulPaginering={visFantFåKandidater}

@@ -35,7 +35,7 @@ const linktekst = (sok: Sok) => {
     return `${sok.tittel} (${sok.antallTreff})`;
 };
 
-const linkurl = '#sokekriterier';
+const linkurl = '#sokeresultat';
 
 const Bransjevelger = (props: BransjevelgerProps) => {
     const { bransje, setQuery, search, lukkAlleSokepanel } = props;
@@ -68,14 +68,19 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     };
     return (
         <div className="bransjevelger">
-            <Ekspanderbartpanel border className="bransjevelger__bransje" tittel={bransje.navn}>
+            <Ekspanderbartpanel
+                tag="h3"
+                border
+                className="bransjevelger__bransje"
+                tittel={bransje.navn}
+            >
                 <div className="bransjevelger__bransjer">
-                    {bransje.yrker.map(bransje => (
-                        <div key={bransje.tittel} className="bransjevelger__bransje__innhold">
-                            <Element>{bransje.tittel}</Element>
+                    {bransje.yrker.map(yrke => (
+                        <div key={yrke.tittel} className="bransjevelger__yrke">
+                            <Element tag="h4">{yrke.tittel}</Element>
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
-                            {bransje.sok.map(sok => (
+                            {yrke.sok.map(sok => (
                                 <div key={sok.tittel} className="bransjevelger__lenke">
                                     <Lenke href={linkurl} onClick={() => onLenkeKlikk(sok)}>
                                         {linktekst(sok)}
