@@ -234,7 +234,7 @@ const startServer = html => {
         process.env.NAIS_CLUSTER_NAME === 'prod-fss'
             ? 'https://frontendlogger.nais.adeo.no/frontendlogger/logger.js'
             : 'https://app-q0.adeo.no/frontendlogger/logger.js';
-    server.use('/frontendlogger/logger.js', proxy(frontendloggerUrl));
+    server.use('/kandidater/frontendlogger/logger.js', proxy(frontendloggerUrl));
 
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
         res.send(html);
