@@ -77,6 +77,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
 
                             {bransje.sok.map(sok => (
                                 <Lenke
+                                    className="bransjevelger__lenke"
                                     href={linkurl}
                                     key={sok.tittel}
                                     onClick={() => onLenkeKlikk(sok)}
