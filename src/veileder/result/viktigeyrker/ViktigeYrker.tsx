@@ -25,6 +25,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
 
     return (
         <EkspanderbartpanelPure
+            border
             apen={props.viktigeYrkerApen}
             className="viktigeYrker"
             onClick={props.toggleViktigeYrkerApen}

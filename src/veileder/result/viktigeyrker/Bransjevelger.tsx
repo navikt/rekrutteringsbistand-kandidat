@@ -72,7 +72,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     };
     return (
         <div className="bransjevelger">
-            <Ekspanderbartpanel className="bransjevelger__bransje" tittel={bransje.navn}>
+            <Ekspanderbartpanel border className="bransjevelger__bransje" tittel={bransje.navn}>
                 <div className="bransjevelger__bransjer">
                     {bransje.yrker.map(_ => (
                         <div key={_.tittel} className="bransjevelger__bransje__innhold">

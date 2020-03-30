@@ -2,23 +2,27 @@
 
 .viktigeYrker {
     margin: 2rem 0.5rem 0 0.5rem;
-    border: 1px solid @navMorkGra;
-
     background-color: #cce1f3;
 
+    .bransjevelger:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
     > .ekspanderbartPanel__hode {
-        padding: 2rem 3.75rem 2rem 4rem;
+        padding: 1.5rem 2rem;
         background-color: #cce1f3;
+
         &:hover {
             .ekspanderbartPanel__heading {
                 text-decoration: none;
                 color: @navMorkGra;
             }
         }
+
         > .ekspanderbartPanel__flex-wrapper {
             > .ekspanderbartPanel__indikator {
                 color: @navBla;
-                zoom: 2;
+                transform: scale(1.25);
             }
         }
     }
@@ -31,15 +35,18 @@
 
     &__tittel {
         display: flex;
+        flex-direction: column;
+        align-items: center;
 
         &--tekst {
-            margin: 0 2rem 0 2rem;
+            margin-right: 1rem;
             max-width: 40rem;
 
             .typo-element {
                 font-size: 1.5rem;
-                margin: 1rem 0 1rem 0;
+                margin: 0 0 1rem;
             }
+
             .typo-normal {
                 font-size: 1.25rem;
                 margin-top: 1rem;
@@ -48,16 +55,59 @@
         }
 
         &--ikon {
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             text-align: center;
             color: white;
-            font-size: 16px;
-            text-transform: uppercase;
-            font-weight: 700;
             background-color: #99bdcd;
+            margin-bottom: 1rem;
+            display: none;
+        }
+    }
+
+    @media (min-width: @screen-sm) {
+        > .ekspanderbartPanel__hode {
+            padding: 2rem;
+
+            > .ekspanderbartPanel__flex-wrapper {
+                > .ekspanderbartPanel__indikator {
+                    transform: scale(1.5);
+                }
+            }
+        }
+
+        &__tittel {
+            flex-direction: row;
+
+            &--tekst {
+                margin: 0 2rem;
+            }
+
+            &--ikon {
+                width: 75px;
+                height: 75px;
+                margin-bottom: 0rem;
+                display: block;
+            }
+        }
+    }
+
+    @media (min-width: @screen-md-max) {
+        .bransjevelger {
+            margin: 0 3rem;
+        }
+
+        &__tittel {
+            &--ikon {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        > .ekspanderbartPanel__hode {
+            padding: 2rem 3.75rem 2rem 4rem;
         }
     }
 }
