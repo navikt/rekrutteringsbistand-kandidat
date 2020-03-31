@@ -17,6 +17,7 @@ import {
     postJson,
     putJson,
 } from '../felles/api';
+import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -194,6 +195,13 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
             kandidatlisteId,
         })
     );
+
 export const fetchFerdigutfylteStillinger = bransjer => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
+
+export const postFerdigutfylteStillingerKlikk = (ferdigutfylteStillingerKlikk:FerdigutfylteStillingerKlikk) =>
+    postJson(
+        `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
+        JSON.stringify(ferdigutfylteStillingerKlikk)
+    );

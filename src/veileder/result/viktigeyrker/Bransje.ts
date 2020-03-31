@@ -20,3 +20,8 @@ export interface Yrker {
 export interface FerdigutfylteStillinger {
     bransjer: Bransje[];
 }
+
+export interface FerdigutfylteStillingerKlikk {
+    bransje: string;
+    linktekst: string;
+}

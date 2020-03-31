@@ -5,8 +5,12 @@ import { EkspanderbartpanelPure } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
-import { HENT_FERDIGUTFYLTE_STILLINGER, TOGGLE_VIKTIGE_YRKER_APEN } from '../../sok/searchReducer';
-import { FerdigutfylteStillinger } from './Bransje';
+import {
+    HENT_FERDIGUTFYLTE_STILLINGER,
+    TOGGLE_VIKTIGE_YRKER_APEN,
+    FERDIGUTFYLTESTILLINGER_KLIKK,
+} from '../../sok/searchReducer';
+import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
 
 interface ViktigeYrkerProps {
     hentFerdigutfylteStillinger: () => void;
@@ -14,6 +18,9 @@ interface ViktigeYrkerProps {
     viktigeYrkerApen: boolean;
     toggleViktigeYrkerApen: () => void;
     visViktigeYrker: boolean;
+    ferdigutfylteStillingerKlikk: (
+        FerdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
+    ) => void;
 }
 
 const ViktigeYrker = (props: ViktigeYrkerProps) => {
@@ -23,11 +30,19 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         viktigeYrkerApen,
         toggleViktigeYrkerApen,
         visViktigeYrker,
+        ferdigutfylteStillingerKlikk,
     } = props;
 
     useEffect(() => {
         hentFerdigutfylteStillinger();
     }, [hentFerdigutfylteStillinger]);
+
+    const onViktigeYrkerKlikk = () => {
+        if (!viktigeYrkerApen) {
+            ferdigutfylteStillingerKlikk({ bransje: '', linktekst: '' });
+        }
+        toggleViktigeYrkerApen();
+    };
 
     if (!visViktigeYrker) return <div />;
 
@@ -36,8 +51,8 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
             border
             tag="section"
             apen={viktigeYrkerApen}
-            className="viktige-yrker"
-            onClick={toggleViktigeYrkerApen}
+            className="viktigeYrker"
+            onClick={onViktigeYrkerKlikk}
             // @ts-ignore
             tittel={
                 <div className="viktige-yrker__tittel-og-ikon">
@@ -67,6 +82,8 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
 const mapDispatchToProps = dispatch => ({
     hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
     toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
+    ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
+        dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
 const mapStateToProps = state => ({

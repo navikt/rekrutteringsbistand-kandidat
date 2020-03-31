@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Bransje, Sok } from './Bransje';
+import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { SEARCH, SET_STATE } from '../../sok/searchReducer';
+import {
+    SEARCH,
+    SET_STATE,
+    FERDIGUTFYLTESTILLINGER_KLIKK,
+} from '../../sok/searchReducer';
 import { LUKK_ALLE_SOKEPANEL } from '../../sok/konstanter';
 
 import './Bransjevelger.less';
@@ -14,6 +18,9 @@ interface BransjevelgerProps {
     setQuery: (query) => void;
     search: () => void;
     lukkAlleSokepanel: () => void;
+    ferdigutfylteStillingerKlikk: (
+        FerdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
+    ) => void;
 }
 
 export const hentQueryUtenKriterier = () => ({
@@ -38,7 +45,17 @@ const linktekst = (sok: Sok) => {
 const linkurl = '#sokeresultat';
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const { bransje, setQuery, search, lukkAlleSokepanel } = props;
+    const {
+        bransje,
+        setQuery,
+        search,
+        lukkAlleSokepanel,
+        ferdigutfylteStillingerKlikk,
+    } = props;
+
+    const onBransjeKlikk = () => {
+        props.ferdigutfylteStillingerKlikk({ bransje: bransje.navn, linktekst: '' });
+    };
 
     const onLenkeKlikk = (sok: Sok) => {
         const query = {
@@ -65,6 +82,8 @@ const Bransjevelger = (props: BransjevelgerProps) => {
         lukkAlleSokepanel();
         setQuery(query);
         search();
+
+        ferdigutfylteStillingerKlikk({ bransje: bransje.navn, linktekst: sok.tittel });
     };
     return (
         <div className="bransjevelger">
@@ -73,6 +92,7 @@ const Bransjevelger = (props: BransjevelgerProps) => {
                 border
                 className="bransjevelger__bransje"
                 tittel={bransje.navn}
+                onClick={onBransjeKlikk}
             >
                 <div className="bransjevelger__bransjer">
                     {bransje.yrker.map(yrke => (
@@ -99,6 +119,8 @@ const mapDispatchToProps = dispatch => ({
     setQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
+        dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
 const mapStateToProps = state => ({});
