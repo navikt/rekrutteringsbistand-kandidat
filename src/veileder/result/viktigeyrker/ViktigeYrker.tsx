@@ -51,7 +51,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
             border
             tag="section"
             apen={viktigeYrkerApen}
-            className="viktigeYrker"
+            className="viktige-yrker"
             onClick={onViktigeYrkerKlikk}
             // @ts-ignore
             tittel={
