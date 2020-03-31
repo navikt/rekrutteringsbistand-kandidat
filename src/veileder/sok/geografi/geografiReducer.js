@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';
@@ -60,6 +61,13 @@ export default function geografiReducer(state = initialState, action) {
                 ...state,
                 geografiPanelOpen: !state.geografiPanelOpen,
             };
+
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                geografiPanelOpen: false,
+            };
+
         case TOGGLE_MA_BO_INNENFOR_GEOGRAFI:
             return {
                 ...state,

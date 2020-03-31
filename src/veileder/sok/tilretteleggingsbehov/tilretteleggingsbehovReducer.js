@@ -1,4 +1,5 @@
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 /** *********************************************************
  * ACTIONS
@@ -43,6 +44,11 @@ export default function tilretteleggingsbehovReducer(state = initialState, actio
             return {
                 ...state,
                 tilretteleggingsbehovPanelOpen: !state.tilretteleggingsbehovPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                tilretteleggingsbehovPanelOpen: false,
             };
         case CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER:
             return {

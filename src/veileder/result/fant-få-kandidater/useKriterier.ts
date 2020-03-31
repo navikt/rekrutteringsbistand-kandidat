@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Kategori, { getKortKategoriLabel } from '../../sok/tilretteleggingsbehov/Kategori';
 import { Geografi } from './FantFåKandidater';
 
@@ -26,51 +26,58 @@ const useKriterier = (
         Kriterie[]
     >([]);
 
-    useEffect(() => {
-        const stillingKriterier = stillinger.map(stilling => ({
-            value: stilling,
-            label: stilling,
-            onRemove: onRemoveStillingEllerYrke,
-        }));
+    const oppdaterKriterier = useCallback(
+        (
+            stillinger: string[],
+            geografi: Geografi[],
+            kategorier: Kategori[],
+            tilretteleggingsbehov: boolean
+        ) => {
+            const stillingKriterier = stillinger.map(stilling => ({
+                value: stilling,
+                label: stilling,
+                onRemove: onRemoveStillingEllerYrke,
+            }));
 
-        const geografiKriterier = geografi.map(geografi => ({
-            value: geografi.geografiKode,
-            label: geografi.geografiKodeTekst,
-            onRemove: onRemoveGeografi,
-        }));
+            const geografiKriterier = geografi.map(geografi => ({
+                value: geografi.geografiKode,
+                label: geografi.geografiKodeTekst,
+                onRemove: onRemoveGeografi,
+            }));
 
-        const tilretteleggingsbehovKriterier = tilretteleggingsbehov
-            ? [
-                  {
-                      value: tilretteleggingsbehov,
-                      label: storForbokstav('tilretteleggingsbehov'),
-                      onRemove: onRemoveTilretteleggingsbehov,
-                  },
-              ]
-            : [];
+            const tilretteleggingsbehovKriterier = tilretteleggingsbehov
+                ? [
+                      {
+                          value: tilretteleggingsbehov,
+                          label: storForbokstav('tilretteleggingsbehov'),
+                          onRemove: onRemoveTilretteleggingsbehov,
+                      },
+                  ]
+                : [];
 
-        const kategoriKriterier = kategorier.map(kategori => ({
-            value: kategori,
-            label: getKortKategoriLabel(kategori),
-            onRemove: onRemoveKategori,
-        }));
+            const kategoriKriterier = kategorier.map(kategori => ({
+                value: kategori,
+                label: getKortKategoriLabel(kategori),
+                onRemove: onRemoveKategori,
+            }));
 
-        setKriterier([
-            ...stillingKriterier,
-            ...geografiKriterier,
-            ...tilretteleggingsbehovKriterier,
-        ]);
+            setKriterier([
+                ...stillingKriterier,
+                ...geografiKriterier,
+                ...tilretteleggingsbehovKriterier,
+            ]);
 
-        setKriterierInnenTilretteleggingsbehov([...kategoriKriterier]);
-    }, [
+            setKriterierInnenTilretteleggingsbehov([...kategoriKriterier]);
+        },
+        []
+    );
+
+    useEffect(() => oppdaterKriterier(stillinger, geografi, kategorier, tilretteleggingsbehov), [
         stillinger,
         geografi,
         kategorier,
         tilretteleggingsbehov,
-        onRemoveStillingEllerYrke,
-        onRemoveGeografi,
-        onRemoveTilretteleggingsbehov,
-        onRemoveKategori,
+        oppdaterKriterier,
     ]);
 
     return [kriterier, kriterierInnenTilretteleggingsbehov];

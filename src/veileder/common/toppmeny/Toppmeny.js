@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VeilederHeaderMeny } from 'pam-frontend-header';
 import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
-import '../../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import './Toppmeny.less';
 
 const Toppmeny = ({ innloggetVeileder, activeTabID, visNyheter }) => (

@@ -18,6 +18,7 @@ const FEATURE_TOGGLES = [
     'vis-tilretteleggingsbehov-kategorier',
     'vis-nyheter',
     'vis-send-sms',
+    'vis-viktige-yrker-lenker',
 ];
 export default FEATURE_TOGGLES;
 

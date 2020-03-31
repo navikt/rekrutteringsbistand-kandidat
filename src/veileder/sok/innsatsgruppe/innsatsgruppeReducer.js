@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';
@@ -43,6 +44,11 @@ export default function innsatsgruppeReducer(state = initialState, action) {
             return {
                 ...state,
                 innsatsgruppePanelOpen: !state.innsatsgruppePanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                innsatsgruppePanelOpen: false,
             };
         default:
             return state;
