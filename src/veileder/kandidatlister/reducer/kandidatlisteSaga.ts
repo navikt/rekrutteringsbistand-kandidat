@@ -410,11 +410,7 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
             sendteMeldinger,
         });
     } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
+        yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
     }
 }
 
@@ -425,11 +421,7 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
             type: KandidatlisteActionType.SEND_SMS_SUCCESS,
         });
     } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
-        } else {
-            throw e;
-        }
+        yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
     }
 }
 
