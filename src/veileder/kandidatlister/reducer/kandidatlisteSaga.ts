@@ -410,7 +410,17 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
             sendteMeldinger,
         });
     } catch (e) {
-        yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
+        } else {
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
+        }
     }
 }
 
@@ -421,7 +431,17 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
             type: KandidatlisteActionType.SEND_SMS_SUCCESS,
         });
     } catch (e) {
-        yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
+        } else {
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
+        }
     }
 }
 
