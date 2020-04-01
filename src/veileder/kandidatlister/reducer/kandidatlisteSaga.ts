@@ -411,9 +411,15 @@ function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
         } else {
-            throw e;
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
         }
     }
 }
@@ -428,7 +434,13 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
         } else {
-            throw e;
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
         }
     }
 }

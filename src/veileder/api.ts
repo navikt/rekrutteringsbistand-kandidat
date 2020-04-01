@@ -200,7 +200,9 @@ export const fetchFerdigutfylteStillinger = bransjer => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
 
-export const postFerdigutfylteStillingerKlikk = (ferdigutfylteStillingerKlikk:FerdigutfylteStillingerKlikk) =>
+export const postFerdigutfylteStillingerKlikk = (
+    ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
+) =>
     postJson(
         `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
         JSON.stringify(ferdigutfylteStillingerKlikk)
