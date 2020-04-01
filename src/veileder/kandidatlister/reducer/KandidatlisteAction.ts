@@ -314,20 +314,20 @@ export interface ResetSletteStatusAction {
     type: KandidatlisteActionType.RESET_SLETTE_STATUS;
 }
 
-export interface ToggleErSlettetAction {
+export interface ToggleArkivertAction {
     type: KandidatlisteActionType.TOGGLE_ER_SLETTET;
     kandidatlisteId: string;
     kandidatnr: string;
-    erSlettet: boolean;
+    arkivert: boolean;
 }
 
-export interface ToggleErSlettetSuccessAction {
+export interface ToggleArkivertSuccessAction {
     type: KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS;
     kandidatnr: string;
-    erSlettet: boolean;
+    arkivert: boolean;
 }
 
-export interface ToggleErSlettetFailureAction {
+export interface ToggleArkivertFailureAction {
     type: KandidatlisteActionType.TOGGLE_ER_SLETTET_FAILURE;
 }
 
@@ -426,9 +426,9 @@ type KandidatlisteAction =
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
     | ResetSletteStatusAction
-    | ToggleErSlettetAction
-    | ToggleErSlettetSuccessAction
-    | ToggleErSlettetFailureAction
+    | ToggleArkivertAction
+    | ToggleArkivertSuccessAction
+    | ToggleArkivertFailureAction
     | SendSmsAction
     | SendSmsSuccessAction
     | SendSmsFailureAction

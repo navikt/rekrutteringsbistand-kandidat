@@ -67,7 +67,7 @@ type Props = {
     endreNotat: any;
     slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
-    toggleErSlettet: (kandidatlisteId: string, kandidatnr: string, erSlettet: boolean) => void;
+    toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     visSendSms?: boolean;
 };
 
@@ -441,7 +441,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     slettNotat={this.props.slettNotat}
                     beskrivelse={beskrivelse}
                     visSendSms={this.props.visSendSms}
-                    toggleErSlettet={this.props.toggleErSlettet}
+                    toggleArkivert={this.props.toggleArkivert}
                 />
             </div>
         );
@@ -515,12 +515,12 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             notatId,
         });
     },
-    toggleErSlettet: (kandidatlisteId, kandidatnr, erSlettet) => {
+    toggleArkivert: (kandidatlisteId, kandidatnr, arkivert) => {
         dispatch({
             type: KandidatlisteActionType.TOGGLE_ER_SLETTET,
             kandidatlisteId,
             kandidatnr,
-            erSlettet,
+            arkivert,
         });
     },
     hentSendteMeldinger: (kandidatlisteId: string) => {

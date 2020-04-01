@@ -36,7 +36,7 @@ type Props = {
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
-    toggleErSlettet: any;
+    toggleArkivert: any;
     beskrivelse?: string;
     visSendSms?: boolean;
 };
@@ -91,7 +91,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 onVisningChange={props.onVisningChange}
                                 opprettNotat={props.opprettNotat}
                                 slettNotat={props.slettNotat}
-                                toggleErSlettet={props.toggleErSlettet}
+                                toggleArkivert={props.toggleArkivert}
                                 visSendSms={props.visSendSms}
                             />
                         ))}

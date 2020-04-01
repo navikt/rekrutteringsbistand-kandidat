@@ -41,7 +41,7 @@ type Props = {
     endreNotat: any;
     slettNotat: any;
     opprettNotat: any;
-    toggleErSlettet: any;
+    toggleArkivert: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (
@@ -60,7 +60,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     endreNotat,
     slettNotat,
     opprettNotat,
-    toggleErSlettet,
+    toggleArkivert,
     onToggleKandidat,
     onVisningChange,
     kanEditere,
@@ -99,8 +99,8 @@ const KandidatRad: FunctionComponent<Props> = ({
         slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
     };
 
-    const onToggleErSlettet = () => {
-        toggleErSlettet(kandidatlisteId, kandidat.kandidatnr, true);
+    const onToggleArkivert = () => {
+        toggleArkivert(kandidatlisteId, kandidat.kandidatnr, true);
     };
 
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
@@ -185,8 +185,8 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 <div className="kolonne-smal">
-                    <Lenkeknapp onClick={onToggleErSlettet} className="legg-til-kandidat MerInfo">
-                        <div className="MerInfo__icon" />
+                    <Lenkeknapp onClick={onToggleArkivert} className="legg-til-kandidat Delete">
+                        <div className="Delete__icon" />
                     </Lenkeknapp>
                 </div>
             </div>

@@ -54,7 +54,7 @@ export interface KandidatResponse {
     innsatsgruppe: string;
     utfall: string;
     erSynlig: boolean;
-    erSlettet: boolean;
+    arkivert: boolean;
 }
 
 export interface Notat {

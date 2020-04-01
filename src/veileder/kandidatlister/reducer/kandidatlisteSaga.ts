@@ -18,6 +18,7 @@ import {
     EndreNotatAction,
     SendSmsAction,
     HentSendteMeldingerAction,
+    ToggleArkivertAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -37,7 +38,7 @@ import {
     putNotat,
     putOppdaterKandidatliste,
     putStatusKandidat,
-    putErSlettet,
+    putArkivert,
 } from '../../api';
 import { RemoteDataTypes } from '../../../felles/common/remoteData';
 
@@ -352,13 +353,13 @@ function* slettNotat(action) {
     }
 }
 
-function* toggleErSlettet(action) {
+function* toggleArkivert(action: ToggleArkivertAction) {
     try {
-        yield putErSlettet(action.kandidatlisteId, action.kandidatnr, action.erSlettet);
+        yield putArkivert(action.kandidatlisteId, action.kandidatnr, action.arkivert);
         yield put({
             type: KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS,
             kandidatnr: action.kandidatnr,
-            erSlettet: action.erSlettet,
+            arkivert: action.arkivert,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -481,7 +482,7 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteActionType.ENDRE_NOTAT, endreNotat);
     yield takeLatest(KandidatlisteActionType.SLETT_NOTAT, slettNotat);
-    yield takeLatest(KandidatlisteActionType.TOGGLE_ER_SLETTET, toggleErSlettet);
+    yield takeLatest(KandidatlisteActionType.TOGGLE_ER_SLETTET, toggleArkivert);
     yield takeLatest(KandidatlisteActionType.HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,

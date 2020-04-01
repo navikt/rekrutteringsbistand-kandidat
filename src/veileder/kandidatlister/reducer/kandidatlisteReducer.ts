@@ -196,11 +196,11 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     return state;
 };
 
-const oppdaterErSlettetIKandidatlisteDetaljer: (
+const oppdaterArkivertIKandidatlisteDetaljer: (
     state: KandidatlisteState,
     kandidatnr: string,
-    erSlettet: boolean
-) => KandidatlisteState = (state, kandidatnr, erSlettet) => {
+    arkivert: boolean
+) => KandidatlisteState = (state, kandidatnr, arkivert) => {
     if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
         return {
             ...state,
@@ -212,7 +212,7 @@ const oppdaterErSlettetIKandidatlisteDetaljer: (
                         if (kandidat.kandidatnr === kandidatnr) {
                             return {
                                 ...kandidat,
-                                erSlettet,
+                                arkivert,
                             };
                         }
                         return kandidat;
@@ -458,10 +458,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 Success(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS:
-            return oppdaterErSlettetIKandidatlisteDetaljer(
+            return oppdaterArkivertIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                action.erSlettet
+                action.arkivert
             );
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
