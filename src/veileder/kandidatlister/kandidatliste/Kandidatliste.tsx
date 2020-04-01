@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import KandidatRad from './kandidatrad/KandidatRad';
@@ -9,6 +9,7 @@ import SideHeader from './SideHeader';
 import TomListe from './TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
+import { Checkbox } from 'nav-frontend-skjema';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -19,7 +20,7 @@ export enum Visningsstatus {
 type Props = {
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
-    stillingsId?: string;
+    stillingsId: string | null;
     tittel: string;
     opprettetAv: OpprettetAv;
     kandidatlisteId: string;
@@ -43,16 +44,30 @@ type Props = {
 
 const Kandidatliste: FunctionComponent<Props> = props => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
+        props.kandidater
+    );
+
+    useEffect(() => {
+        setFiltrerteKandidater(
+            props.kandidater.filter(kandidat => kandidat.arkivert === visArkiverte)
+        );
+    }, [props.kandidater, visArkiverte]);
 
     return (
         <div className="Kandidatliste">
             <SideHeader
-                kandidater={props.kandidater}
+                kandidater={filtrerteKandidater}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
+            />
+            <Checkbox
+                label="Vis kun slettede"
+                checked={visArkiverte}
+                onChange={() => toggleVisArkiverte(!visArkiverte)}
             />
             {props.kandidater.length > 0 ? (
                 <div className="detaljer">
@@ -60,7 +75,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                         <KnappeRad
                             arbeidsgiver={props.arbeidsgiver}
                             kanEditere={props.kanEditere}
-                            kandidater={props.kandidater}
+                            kandidater={filtrerteKandidater}
                             onEmailKandidater={props.onEmailKandidater}
                             onSendSmsClick={props.onSendSmsClick}
                             onKandidatShare={props.onKandidatShare}
@@ -81,7 +96,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             stillingsId={props.stillingsId}
                             visArkiveringskolonne={!visArkiverte}
                         />
-                        {props.kandidater.map((kandidat: KandidatIKandidatliste) => (
+                        {filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
                             <KandidatRad
                                 key={kandidat.kandidatnr}
                                 kandidat={kandidat}

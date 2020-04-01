@@ -140,7 +140,25 @@
                     grid-gap: 1rem;
                     grid-template-columns:
                         minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+                        minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+
+                    &--vis-arkivering {
+                        grid-template-columns:
+                            minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                            minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+                    }
+
+                    &--vis-utfall {
+                        grid-template-columns:
+                            minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                            minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+                    }
+
+                    &--vis-utfall-og-arkivering {
+                        grid-template-columns:
+                            minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                            minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+                    }
 
                     .status-overskrift {
                         font-weight: 600;

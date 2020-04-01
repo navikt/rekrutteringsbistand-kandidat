@@ -12,7 +12,7 @@ type Props = {
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
-    stillingsId?: string;
+    stillingsId: string | null;
     children: ReactNode;
     visSendSms?: boolean;
 };

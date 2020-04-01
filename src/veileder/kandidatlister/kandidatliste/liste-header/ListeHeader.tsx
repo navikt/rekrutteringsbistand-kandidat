@@ -4,11 +4,24 @@ import { Element } from 'nav-frontend-typografi';
 import StatusHjelpetekst from './StatusHjelpetekst';
 
 interface Props {
-    stillingsId?: string;
+    stillingsId: string | null;
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
 }
+
+export const modifierTilListeradGrid = (
+    visUtfallskolonne: boolean,
+    visArkiveringskolonne: boolean
+) => {
+    if (visUtfallskolonne) {
+        return visArkiveringskolonne
+            ? ' liste-rad--vis-utfall-og-arkivering'
+            : ' liste-rad--vis-utfall';
+    } else {
+        return visArkiveringskolonne ? ' liste-rad--vis-arkivering' : '';
+    }
+};
 
 const ListeHeader: FunctionComponent<Props> = ({
     stillingsId,
@@ -16,9 +29,12 @@ const ListeHeader: FunctionComponent<Props> = ({
     onCheckAlleKandidater,
     visArkiveringskolonne,
 }) => {
+    const klassenavnForListerad =
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+
     return (
         <div className="liste-rad-wrapper liste-header">
-            <div className="liste-rad">
+            <div className={klassenavnForListerad}>
                 <div className="kolonne-checkboks">
                     <Checkbox
                         label="&#8203;" // <- tegnet for tom streng

@@ -4,13 +4,14 @@ import { Visningsstatus } from '../Kandidatliste';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
-import StatusSelect, { Status } from './statusSelect/StatusSelect';
+import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import { KandidatIKandidatliste, SmsStatus } from '../../kandidatlistetyper';
 import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
+import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import SendSmsIkon from './SendSmsIkon';
 
 const utfallToString = (utfall: string) => {
@@ -37,7 +38,7 @@ const formaterSendtDato = (dato: Date) => {
 type Props = {
     kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
-    stillingsId?: string;
+    stillingsId: string | null;
     endreNotat: any;
     slettNotat: any;
     opprettNotat: any;
@@ -108,9 +109,12 @@ const KandidatRad: FunctionComponent<Props> = ({
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
 
+    const klassenavnForListerad =
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+
     return (
         <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
-            <div className="liste-rad">
+            <div className={klassenavnForListerad}>
                 <div className="kolonne-checkboks">
                     <Checkbox
                         label="&#8203;" // <- tegnet for tom streng
@@ -148,13 +152,21 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </span>
                 </div>
                 <div className="kolonne-middels">
-                    <StatusSelect
-                        kanEditere={kanEditere}
-                        value={kandidat.status as Status}
-                        onChange={status => {
-                            onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
-                        }}
-                    />
+                    {visArkiveringskolonne ? (
+                        <StatusSelect
+                            kanEditere={kanEditere}
+                            value={kandidat.status as Status}
+                            onChange={status => {
+                                onKandidatStatusChange(
+                                    status,
+                                    kandidatlisteId,
+                                    kandidat.kandidatnr
+                                );
+                            }}
+                        />
+                    ) : (
+                        <Statusvisning status={kandidat.status as Status} />
+                    )}
                 </div>
                 {stillingsId && (
                     <div className="kolonne-bred tabell-tekst">

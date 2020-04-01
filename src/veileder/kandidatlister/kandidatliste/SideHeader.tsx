@@ -8,7 +8,7 @@ type Props = {
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
-    stillingsId?: string;
+    stillingsId: string | null;
     beskrivelse?: string;
 };
 
