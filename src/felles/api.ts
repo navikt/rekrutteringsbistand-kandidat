@@ -15,15 +15,6 @@ export class SearchApiError {
     }
 }
 
-export class MetricsSupportError {
-    message: string;
-    status: number;
-    constructor(error) {
-        this.message = error.message;
-        this.status = error.status;
-    }
-}
-
 export async function fetchJson(url: string, includeCredentials: boolean = false) {
     try {
         let response;
@@ -56,45 +47,6 @@ export async function fetchJson(url: string, includeCredentials: boolean = false
             message: e.message,
             status: e.status,
         });
-    }
-}
-
-export async function fetchJsonMedType<T>(url: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await fetchJson(url, true);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-export async function postJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await postJson(url, payload);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
-    }
-}
-
-export async function putJsonMedType<T>(url: string, payload?: string): Promise<ResponseData<T>> {
-    try {
-        const response: unknown = await putJson(url, payload);
-        return Success(<T>response);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            return Failure(e);
-        } else {
-            throw e;
-        }
     }
 }
 
@@ -134,7 +86,10 @@ export async function postJson(url, bodyString) {
             mode: 'cors',
         });
         if (response.status === 200 || response.status === 201) {
-            return response.json();
+            const contentType = response.headers.get('content-type');
+            return contentType && contentType.includes('application/json')
+                ? response.json()
+                : response.text();
         } else if (response.status === 204) {
             return undefined;
         }

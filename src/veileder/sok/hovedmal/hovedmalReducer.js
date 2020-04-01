@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const CHECK_TOTAL_HOVEDMAL = 'CHECK_TOTAL_HOVEDMAL';
 export const UNCHECK_TOTAL_HOVEDMAL = 'UNCHECK_TOTAL_HOVEDMAL';
@@ -39,6 +40,11 @@ export default function hovedmalReducer(state = initialState, action) {
             return {
                 ...state,
                 panelOpen: !state.panelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                panelOpen: false,
             };
         default:
             return state;

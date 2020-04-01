@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState, useEffect, useCallback } from 'react';
+/* eslint-disable react/no-did-update-set-state */
+import React from 'react';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
@@ -17,23 +18,26 @@ import {
     KandidatIKandidatliste,
     Delestatus,
     Kandidatliste as Kandidatlistetype,
-    Kandidat,
+    SmsStatus,
+    Sms,
     Kandidattilstand,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
+import SendSmsModal from '../modaler/SendSmsModal';
+import AppState from '../../AppState';
 
 const initialKandidatTilstand = (): Kandidattilstand => ({
     markert: false,
     visningsstatus: Visningsstatus.SkjulPanel,
 });
 
-const trekkUtKandidatTilstander = (
-    kandidater: KandidatIKandidatliste[] = []
-): {
+type Kandidattilstander = {
     [kandidatnr: string]: Kandidattilstand;
-} =>
+};
+
+const trekkUtKandidatTilstander = (kandidater: KandidatIKandidatliste[] = []): Kandidattilstander =>
     kandidater.reduce(
-        (tilstand: any, kandidat: KandidatIKandidatliste) => ({
+        (tilstand: Kandidattilstander, kandidat: KandidatIKandidatliste) => ({
             ...tilstand,
             [kandidat.kandidatnr]: {
                 markert: kandidat.markert,
@@ -45,10 +49,13 @@ const trekkUtKandidatTilstander = (
 
 type Props = {
     kandidatliste: RemoteData<Kandidatlistetype>;
+    sendteMeldinger: RemoteData<Sms[]>;
     endreStatusKandidat: any;
     presenterKandidater: any;
     resetDeleStatus: any;
     deleStatus: string;
+    smsSendStatus: SmsStatus;
+    resetSmsSendStatus: () => void;
     leggTilStatus: string;
     fodselsnummer?: string;
     kandidat: {
@@ -59,167 +66,193 @@ type Props = {
     opprettNotat: any;
     endreNotat: any;
     slettNotat: any;
-    toggleErSlettet: any;
+    hentSendteMeldinger: (kandidatlisteId: string) => void;
+    toggleErSlettet: (kandidatlisteId: string, kandidatnr: string, erSlettet: boolean) => void;
+    visSendSms?: boolean;
 };
 
-type Suksessmelding = {
-    vis: boolean;
-    tekst: string;
-};
+class Kandidatlisteside extends React.Component<Props> {
+    infobannerCallbackId: any;
 
-const initialiserKandidater = (kandidatliste: RemoteData<Kandidatlistetype>) => {
-    if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
-        return [];
-    }
-
-    const filtrerteKandidater = filtrerSlettedeKandidater(kandidatliste.data.kandidater, false);
-
-    console.log('FØR FILTER:', kandidatliste.data.kandidater);
-    console.log('ETTER FILTER:', filtrerteKandidater);
-
-    return filtrerteKandidater.map((kandidat: Kandidat) => ({
-        ...kandidat,
-        ...initialKandidatTilstand(),
-    }));
-};
-
-const filtrerSlettedeKandidater = (
-    kandidater: Kandidat[] | KandidatIKandidatliste[],
-    beholdSlettede: boolean
-) => kandidater.filter(kandidat => kandidat.erSlettet === beholdSlettede);
-
-const Kandidatlisteside: FunctionComponent<Props> = props => {
-    const {
-        kandidat = {
+    static defaultProps: Partial<Props> = {
+        kandidat: {
             fornavn: '',
             etternavn: '',
         },
-        deleStatus,
-        resetDeleStatus,
-        leggTilStatus,
-        fodselsnummer,
-        kandidatliste,
-    } = props;
-
-    const kandidaterFraListe =
-        kandidatliste.kind === RemoteDataTypes.SUCCESS ? kandidatliste.data.kandidater : undefined;
-
-    const [alleMarkert, setAlleMarkert] = useState<boolean>(false);
-
-    const [deleSuksessMeldingCallbackId, setDeleSuksessMeldingCallbackId] = useState<any>();
-    const [kandidater, setKandidater] = useState<KandidatIKandidatliste[]>(
-        initialiserKandidater(props.kandidatliste)
-    );
-
-    const [deleModalOpen, setDeleModalOpen] = useState<boolean>(false);
-    const [leggTilModalOpen, setLeggTilModalOpen] = useState<boolean>(false);
-    const [kopierEpostModalOpen, setKopierEpostModalOpen] = useState<boolean>(false);
-    const [suksessMelding, setSuksessMelding] = useState<Suksessmelding>({
-        vis: false,
-        tekst: '',
-    });
-
-    const visSuccessMelding = useCallback(
-        (tekst: string) => {
-            if (deleSuksessMeldingCallbackId) {
-                clearTimeout(deleSuksessMeldingCallbackId);
-            }
-
-            setSuksessMelding({
-                vis: true,
-                tekst,
-            });
-
-            const timeout = setTimeout(() => {
-                setSuksessMelding({
-                    vis: false,
-                    tekst: '',
-                });
-            }, 5000);
-
-            setDeleSuksessMeldingCallbackId(timeout);
-        },
-        [deleSuksessMeldingCallbackId]
-    );
-
-    const vedDelteKandidater = useCallback(() => {
-        resetDeleStatus();
-
-        const antallMarkerteKandidater = kandidater.filter(kandidat => kandidat.markert).length;
-
-        visSuccessMelding(
-            `${
-                antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
-            } er delt med arbeidsgiver`
-        );
-    }, [resetDeleStatus, visSuccessMelding, kandidater]);
-
-    const vedLagtTilKandidat = useCallback(() => {
-        visSuccessMelding(
-            `Kandidat ${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer}) er lagt til`
-        );
-    }, [kandidat, fodselsnummer, visSuccessMelding]);
-
-    const vedKandidatlisteSuccess = useCallback(
-        (kandidaterFraListe: Kandidat[]) => {
-            console.log('dshjlajdksaljdklas');
-            const kandidatTilstander = trekkUtKandidatTilstander(kandidater);
-
-            const nyeKandidater = kandidaterFraListe.map((kandidat: Kandidat) => {
-                const kandidatTilstand =
-                    kandidatTilstander[kandidat.kandidatnr] || initialKandidatTilstand();
-                return {
-                    ...kandidat,
-                    ...kandidatTilstand,
-                };
-            });
-
-            const nyeFiltrerteKandidater = nyeKandidater.filter(kandidat => !kandidat.erSlettet);
-
-            setKandidater(nyeFiltrerteKandidater);
-            setAlleMarkert(nyeKandidater.filter(k => !k.markert).length === 0);
-        },
-        [kandidater]
-    );
-
-    useEffect(() => {
-        if (deleStatus === Delestatus.Success) {
-            vedDelteKandidater();
-        }
-    }, [deleStatus, vedDelteKandidater]);
-
-    useEffect(() => {
-        if (leggTilStatus === LAGRE_STATUS.SUCCESS) {
-            vedLagtTilKandidat();
-        }
-    }, [leggTilStatus, vedLagtTilKandidat]);
-
-    useEffect(() => {
-        if (kandidaterFraListe) {
-            vedKandidatlisteSuccess(kandidaterFraListe);
-        }
-    }, [kandidaterFraListe]);
-
-    useEffect(() => {
-        return () => {
-            if (deleSuksessMeldingCallbackId) {
-                clearTimeout(deleSuksessMeldingCallbackId);
-            }
-        };
-    });
-
-    const onCheckAlleKandidater = (markert: boolean) => {
-        setAlleMarkert(markert);
-        setKandidater(
-            kandidater.map(kandidat => ({
-                ...kandidat,
-                markert,
-            }))
-        );
     };
 
-    const onToggleKandidat = (kandidatnr: string) => {
-        const nyeKandidater = kandidater.map(kandidat => {
+    state: {
+        alleMarkert: boolean;
+        kandidater: KandidatIKandidatliste[];
+        deleModalOpen: boolean;
+        leggTilModalOpen: boolean;
+        kopierEpostModalOpen: boolean;
+        sendSmsModalOpen: boolean;
+        infobanner: {
+            vis: boolean;
+            tekst: string;
+            type: 'suksess' | 'feil';
+        };
+    };
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            alleMarkert: false,
+            kandidater:
+                props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
+                    ? []
+                    : props.kandidatliste.data.kandidater.map(kandidat => ({
+                          ...kandidat,
+                          ...initialKandidatTilstand(),
+                      })),
+            deleModalOpen: false,
+            leggTilModalOpen: false,
+            kopierEpostModalOpen: false,
+            sendSmsModalOpen: false,
+            infobanner: {
+                vis: false,
+                tekst: '',
+                type: 'suksess',
+            },
+        };
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        const kandidaterHarNettoppBlittPresentert =
+            this.props.deleStatus !== prevProps.deleStatus &&
+            this.props.deleStatus === Delestatus.Success;
+
+        const smsErNettoppSendtTilKandidater =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Sendt;
+
+        const kandidaterHarNettoppBlittLagtTil =
+            this.props.leggTilStatus !== prevProps.leggTilStatus &&
+            this.props.leggTilStatus === LAGRE_STATUS.SUCCESS;
+
+        const feilMedSmsUtsending =
+            this.props.smsSendStatus !== prevProps.smsSendStatus &&
+            this.props.smsSendStatus === SmsStatus.Feil;
+
+        const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+
+        const kandidatlistenVarIkkeLastet =
+            prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+
+        if (kandidaterHarNettoppBlittPresentert) {
+            this.props.resetDeleStatus();
+
+            const antallMarkerteKandidater = (this.state.kandidater || []).filter(
+                kandidat => kandidat.markert
+            ).length;
+
+            this.onCheckAlleKandidater(false);
+            this.visInfobanner(
+                `${
+                    antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
+                } er delt med arbeidsgiver`
+            );
+        }
+        if (kandidaterHarNettoppBlittLagtTil) {
+            this.visInfobanner(
+                `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
+            );
+        }
+
+        if (smsErNettoppSendtTilKandidater) {
+            this.props.resetSmsSendStatus();
+            this.visInfobanner('SMS-en er sendt');
+            this.onCheckAlleKandidater(false);
+            this.setState({
+                sendSmsModalOpen: false,
+            });
+        }
+
+        if (feilMedSmsUtsending) {
+            this.props.resetSmsSendStatus();
+            this.visInfobanner('Det skjedde en feil', 'feil');
+            this.setState({
+                sendSmsModalOpen: false,
+            });
+        }
+
+        if (kandidatlisteErIkkeLastet) {
+            return;
+        }
+
+        if (
+            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            (kandidatlistenVarIkkeLastet || smsErNettoppSendtTilKandidater)
+        ) {
+            this.props.hentSendteMeldinger(this.props.kandidatliste.data.kandidatlisteId);
+        }
+
+        const sendteMeldingerErNettoppLastet =
+            prevProps.sendteMeldinger.kind === RemoteDataTypes.LOADING &&
+            this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS;
+
+        if (
+            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            (kandidatlistenVarIkkeLastet ||
+                sendteMeldingerErNettoppLastet ||
+                (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+                    prevProps.kandidatliste.data.kandidater !==
+                        this.props.kandidatliste.data.kandidater))
+        ) {
+            const kandidatTilstander: Kandidattilstander = trekkUtKandidatTilstander(
+                this.state.kandidater
+            );
+
+            const sendteMeldinger =
+                this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS
+                    ? this.props.sendteMeldinger.data
+                    : [];
+
+            const kandidater: KandidatIKandidatliste[] = this.props.kandidatliste.data.kandidater.map(
+                kandidat => {
+                    const kandidatTilstand =
+                        (!kandidaterHarNettoppBlittPresentert &&
+                            kandidatTilstander[kandidat.kandidatnr]) ||
+                        initialKandidatTilstand();
+
+                    const sendtMelding = sendteMeldinger.find(
+                        melding => melding.fnr === kandidat.fodselsnr
+                    );
+
+                    return {
+                        ...kandidat,
+                        ...kandidatTilstand,
+                        sms: sendtMelding,
+                    };
+                }
+            );
+
+            this.setState({
+                kandidater,
+                alleMarkert:
+                    !kandidaterHarNettoppBlittPresentert &&
+                    kandidater.filter(k => !k.markert).length === 0,
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.infobannerCallbackId);
+    }
+
+    onCheckAlleKandidater = (markert: boolean) => {
+        this.setState({
+            alleMarkert: markert,
+            kandidater: this.state.kandidater.map(kandidat => ({
+                ...kandidat,
+                markert,
+            })),
+        });
+    };
+
+    onToggleKandidat = (kandidatnr: string) => {
+        const kandidater = this.state.kandidater.map(kandidat => {
             if (kandidat.kandidatnr === kandidatnr) {
                 return {
                     ...kandidat,
@@ -228,142 +261,201 @@ const Kandidatlisteside: FunctionComponent<Props> = props => {
             }
             return kandidat;
         });
-
-        setKandidater(nyeKandidater);
-        setAlleMarkert(kandidater.filter(k => !k.markert).length === 0);
+        this.setState({
+            kandidater,
+            alleMarkert: kandidater.filter(k => !k.markert).length === 0,
+        });
     };
 
-    const onToggleDeleModal = () => {
-        setDeleModalOpen(!deleModalOpen);
+    onToggleDeleModal = () => {
+        this.setState({
+            deleModalOpen: !this.state.deleModalOpen,
+        });
     };
 
-    const onToggleLeggTilKandidatModal = () => {
-        setLeggTilModalOpen(!leggTilModalOpen);
+    onToggleLeggTilKandidatModal = () => {
+        this.setState({
+            leggTilModalOpen: !this.state.leggTilModalOpen,
+        });
     };
 
-    const onToggleKopierEpostModal = () => {
-        setKopierEpostModalOpen(!kopierEpostModalOpen);
+    onToggleKopierEpostModal = () => {
+        this.setState({
+            kopierEpostModalOpen: !this.state.kopierEpostModalOpen,
+        });
     };
 
-    const onDelMedArbeidsgiver = (beskjed, mailadresser) => {
-        if (props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
-            props.presenterKandidater(
+    onToggleSendSmsModal = (vis: boolean = !this.state.sendSmsModalOpen) => {
+        this.setState({
+            sendSmsModalOpen: vis,
+        });
+    };
+
+    onDelMedArbeidsgiver = (beskjed, mailadresser) => {
+        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            this.props.presenterKandidater(
                 beskjed,
                 mailadresser,
-                props.kandidatliste.data.kandidatlisteId,
-                kandidater.filter(kandidat => kandidat.markert).map(kandidat => kandidat.kandidatnr)
+                this.props.kandidatliste.data.kandidatlisteId,
+                this.state.kandidater
+                    .filter(kandidat => kandidat.markert)
+                    .map(kandidat => kandidat.kandidatnr)
             );
-
-            setDeleModalOpen(false);
+            this.setState({
+                deleModalOpen: false,
+            });
         }
     };
 
-    const onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
+    onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
         if (visningsstatus === Visningsstatus.VisNotater) {
-            props.hentNotater(kandidatlisteId, kandidatnr);
+            this.props.hentNotater(kandidatlisteId, kandidatnr);
         }
-
-        const nyeKandidater = kandidater.map(kandidat => {
-            if (kandidat.kandidatnr === kandidatnr) {
+        this.setState({
+            kandidater: this.state.kandidater.map(kandidat => {
+                if (kandidat.kandidatnr === kandidatnr) {
+                    return {
+                        ...kandidat,
+                        visningsstatus,
+                    };
+                }
                 return {
                     ...kandidat,
-                    visningsstatus,
+                    visningsstatus: Visningsstatus.SkjulPanel,
                 };
-            }
-            return {
-                ...kandidat,
-                visningsstatus: Visningsstatus.SkjulPanel,
-            };
+            }),
         });
-
-        setKandidater(nyeKandidater);
     };
 
-    const onEmailKandidater = () => {
-        setKopierEpostModalOpen(true);
+    onEmailKandidater = () => {
+        this.setState({
+            kopierEpostModalOpen: true,
+        });
     };
 
-    if (kandidatliste.kind === RemoteDataTypes.LOADING || !kandidater) {
+    visInfobanner = (tekst: string, type = 'suksess') => {
+        clearTimeout(this.infobannerCallbackId);
+        this.setState({
+            infobanner: {
+                vis: true,
+                tekst,
+                type,
+            },
+        });
+        this.infobannerCallbackId = setTimeout(() => {
+            this.setState({
+                infobanner: {
+                    vis: false,
+                    tekst: '',
+                },
+            });
+        }, 5000);
+    };
+
+    render() {
+        if (this.props.kandidatliste.kind === RemoteDataTypes.LOADING || !this.state.kandidater) {
+            return (
+                <div className="fullscreen-spinner">
+                    <NavFrontendSpinner type="L" />
+                </div>
+            );
+        } else if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+            return null;
+        }
+
+        const {
+            tittel,
+            organisasjonNavn,
+            opprettetAv,
+            kandidatlisteId,
+            stillingId,
+            kanEditere,
+            beskrivelse,
+        } = this.props.kandidatliste.data;
+        const {
+            kandidater,
+            alleMarkert,
+            deleModalOpen,
+            infobanner,
+            leggTilModalOpen,
+            kopierEpostModalOpen,
+        } = this.state;
         return (
-            <div className="fullscreen-spinner">
-                <NavFrontendSpinner type="L" />
+            <div>
+                {deleModalOpen && (
+                    <PresenterKandidaterModal
+                        vis={this.state.deleModalOpen}
+                        onClose={this.onToggleDeleModal}
+                        onSubmit={this.onDelMedArbeidsgiver}
+                        antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
+                    />
+                )}
+                {leggTilModalOpen && (
+                    <LeggTilKandidatModal
+                        vis={this.state.leggTilModalOpen}
+                        onClose={this.onToggleLeggTilKandidatModal}
+                        stillingsId={stillingId}
+                        kandidatliste={this.props.kandidatliste.data}
+                    />
+                )}
+                {stillingId && (
+                    <SendSmsModal
+                        vis={this.state.sendSmsModalOpen}
+                        onClose={() => this.onToggleSendSmsModal(false)}
+                        kandidatlisteId={kandidatlisteId}
+                        kandidater={this.state.kandidater}
+                        stillingId={stillingId}
+                    />
+                )}
+                <KopierEpostModal
+                    vis={kopierEpostModalOpen}
+                    onClose={this.onToggleKopierEpostModal}
+                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
+                />
+                <HjelpetekstFading
+                    synlig={infobanner.vis}
+                    type={infobanner.type}
+                    innhold={infobanner.tekst}
+                />
+                <Kandidatliste
+                    tittel={tittel}
+                    arbeidsgiver={organisasjonNavn}
+                    opprettetAv={opprettetAv}
+                    kandidatlisteId={kandidatlisteId}
+                    stillingsId={stillingId}
+                    kanEditere={kanEditere}
+                    kandidater={kandidater}
+                    alleMarkert={alleMarkert}
+                    onToggleKandidat={this.onToggleKandidat}
+                    onCheckAlleKandidater={() => {
+                        this.onCheckAlleKandidater(!alleMarkert);
+                    }}
+                    onKandidatStatusChange={this.props.endreStatusKandidat}
+                    onKandidatShare={this.onToggleDeleModal}
+                    onEmailKandidater={this.onEmailKandidater}
+                    onSendSmsClick={() => this.onToggleSendSmsModal(true)}
+                    onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
+                    onVisningChange={this.onVisningChange}
+                    opprettNotat={this.props.opprettNotat}
+                    endreNotat={this.props.endreNotat}
+                    slettNotat={this.props.slettNotat}
+                    beskrivelse={beskrivelse}
+                    visSendSms={this.props.visSendSms}
+                    toggleErSlettet={this.props.toggleErSlettet}
+                />
             </div>
         );
-    } else if (kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
-        return null;
     }
+}
 
-    const {
-        tittel,
-        organisasjonNavn,
-        opprettetAv,
-        kandidatlisteId,
-        stillingId,
-        kanEditere,
-        beskrivelse,
-    } = kandidatliste.data;
-
-    return (
-        <div>
-            {deleModalOpen && (
-                <PresenterKandidaterModal
-                    vis={deleModalOpen}
-                    onClose={onToggleDeleModal}
-                    onSubmit={onDelMedArbeidsgiver}
-                    antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
-                />
-            )}
-            {leggTilModalOpen && (
-                <LeggTilKandidatModal
-                    vis={leggTilModalOpen}
-                    onClose={onToggleLeggTilKandidatModal}
-                    stillingsId={stillingId}
-                    kandidatliste={kandidatliste.data}
-                />
-            )}
-            <KopierEpostModal
-                vis={kopierEpostModalOpen}
-                onClose={onToggleKopierEpostModal}
-                kandidater={kandidater.filter(kandidat => kandidat.markert)}
-            />
-            <HjelpetekstFading
-                synlig={suksessMelding.vis}
-                type="suksess"
-                innhold={suksessMelding.tekst}
-            />
-            <Kandidatliste
-                tittel={tittel}
-                arbeidsgiver={organisasjonNavn}
-                opprettetAv={opprettetAv}
-                kandidatlisteId={kandidatlisteId}
-                stillingsId={stillingId}
-                kanEditere={kanEditere}
-                kandidater={kandidater}
-                alleMarkert={alleMarkert}
-                onToggleKandidat={onToggleKandidat}
-                onCheckAlleKandidater={() => {
-                    onCheckAlleKandidater(!alleMarkert);
-                }}
-                onKandidatStatusChange={props.endreStatusKandidat}
-                onKandidatShare={onToggleDeleModal}
-                onEmailKandidater={onEmailKandidater}
-                onLeggTilKandidat={onToggleLeggTilKandidatModal}
-                onVisningChange={onVisningChange}
-                opprettNotat={props.opprettNotat}
-                endreNotat={props.endreNotat}
-                slettNotat={props.slettNotat}
-                toggleErSlettet={props.toggleErSlettet}
-                beskrivelse={beskrivelse}
-            />
-        </div>
-    );
-};
-
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppState) => ({
     deleStatus: state.kandidatlister.detaljer.deleStatus,
+    smsSendStatus: state.kandidatlister.sms.sendStatus,
     leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
+    sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
+    visSendSms: state.search.featureToggles['vis-send-sms'],
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
@@ -390,7 +482,10 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         });
     },
     resetDeleStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_Delestatus });
+        dispatch({ type: KandidatlisteActionType.RESET_DELESTATUS });
+    },
+    resetSmsSendStatus: () => {
+        dispatch({ type: KandidatlisteActionType.RESET_SEND_SMS_STATUS });
     },
     hentNotater: (kandidatlisteId, kandidatnr) => {
         dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
@@ -426,6 +521,12 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatlisteId,
             kandidatnr,
             erSlettet,
+        });
+    },
+    hentSendteMeldinger: (kandidatlisteId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
+            kandidatlisteId,
         });
     },
 });

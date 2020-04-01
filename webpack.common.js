@@ -3,7 +3,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const commonConfig = {
     entry: {
         sok: ['babel-polyfill', 'whatwg-fetch', './src/veileder/app.js'],
-        googleanalytics: ['./src/felles/googleanalytics.js'],
     },
     output: {
         path: `${__dirname}/dist`,

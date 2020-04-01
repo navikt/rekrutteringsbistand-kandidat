@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_UTDANNING = 'SELECT_TYPE_AHEAD_VALUE_UTDANNING';
 export const REMOVE_SELECTED_UTDANNING = 'REMOVE_SELECTED_UTDANNING';
@@ -57,6 +58,11 @@ export default function utdanningReducer(state = initialState, action) {
             return {
                 ...state,
                 utdanningPanelOpen: !state.utdanningPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                utdanningPanelOpen: false,
             };
         default:
             return state;

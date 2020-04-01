@@ -175,5 +175,10 @@
             "score": "NaN",
             "poststed": "Oslo"
         }
-    ]
+    ],
+    "aggregeringer": [
+        { "navn": "listefyll", "felt": [] },
+        { "navn": "kompetanse", "felt": [] }
+    ],
+    "cver": []
 }

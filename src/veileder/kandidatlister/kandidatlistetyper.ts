@@ -14,11 +14,25 @@ export enum HentStatus {
     Failure = 'FAILURE',
 }
 
+export enum SmsStatus {
+    IkkeSendt = 'IKKE_SENDT',
+    UnderUtsending = 'UNDER_UTSENDING',
+    Sendt = 'SENDT',
+    Feil = 'FEIL',
+}
+
 export enum MarkerSomMinStatus {
     IkkeGjort = 'IKKE_GJORT',
     Loading = 'LOADING',
     Success = 'SUCCESS',
     Failure = 'FAILURE',
+}
+
+export interface Sms {
+    fnr: string;
+    opprettet: string;
+    sendt: string;
+    status: SmsStatus;
 }
 
 export interface KandidatResponse {
@@ -57,6 +71,7 @@ export interface Notat {
 
 interface KandidatExtension {
     notater: RemoteData<Array<Notat>>;
+    antallNotater?: number;
 }
 
 export type Kandidat = KandidatResponse & KandidatExtension;
@@ -64,6 +79,7 @@ export type Kandidat = KandidatResponse & KandidatExtension;
 export type Kandidattilstand = {
     markert: boolean;
     visningsstatus: string;
+    sms?: Sms;
 };
 
 export type KandidatIKandidatliste = Kandidat & Kandidattilstand;

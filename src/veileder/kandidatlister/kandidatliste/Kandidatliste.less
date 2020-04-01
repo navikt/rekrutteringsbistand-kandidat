@@ -85,6 +85,10 @@
         }
     }
 
+    .sms-status-popup {
+        left: -1rem;
+    }
+
     .detaljer {
         display: flex;
         justify-content: center;
@@ -107,6 +111,9 @@
                 }
                 .hjelpetekst {
                     line-height: 1;
+                    padding: 0;
+                    margin-left: 2rem;
+
                     button {
                         &:focus {
                             .Share__icon {
@@ -128,14 +135,20 @@
                 background-color: white;
                 .liste-rad {
                     height: 4.5rem;
-                    display: flex;
-                    align-items: center;
+                    display: grid;
+                    padding: 0 1.25rem;
+                    grid-gap: 1rem;
+                    grid-template-columns:
+                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+
                     .status-overskrift {
                         font-weight: 600;
                         width: 10.25rem;
                         max-width: 10.25rem;
                         display: flex;
                         align-items: center;
+
                         .hjelpetekst {
                             margin-left: -0.75rem;
                             .bred-hjelpetekst {
@@ -151,35 +164,37 @@
                             }
                         }
                     }
+
+                    > * {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .kolonne-med-sms {
+                        .link {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+
+                        .hjelpetekst {
+                            padding-left: 0.5rem;
+                        }
+                    }
+
                     .tabell-tekst {
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
+
                     .kolonne-checkboks {
-                        padding-left: 1.25rem;
                         padding-right: 1.25rem;
                         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
                             .skjemaelement {
                                 padding-bottom: 1.5rem;
                             }
                         }
-                    }
-                    .kolonne-smal {
-                        margin-right: 1rem;
-                        flex: 0.7;
-                    }
-                    .kolonne-bred {
-                        margin-right: 1rem;
-                        flex: 2;
-                    }
-                    .kolonne-middels {
-                        margin-right: 1rem;
-                        flex: 1.8;
-                    }
-                    .kolonne-dato {
-                        flex: 1.4;
-                        padding-right: 1rem;
                     }
                 }
                 .info-under-kandidat {

@@ -11,16 +11,24 @@ import { Notat } from '../../../PropTypes';
 import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
 
+const initialState = {
+    nyttNotatVises: false,
+    nyttNotatTekst: '',
+    nyttNotatFeil: false,
+    notatSomRedigeres: undefined,
+    notatSomSlettes: undefined,
+};
+
 class Notater extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            nyttNotatVises: false,
-            nyttNotatTekst: '',
-            nyttNotatFeil: false,
-            notatSomRedigeres: undefined,
-            notatSomSlettes: undefined,
-        };
+        this.state = initialState;
+    }
+
+    componentDidUpdate(nextProps) {
+        if (nextProps.notater !== this.props.notater) {
+            this.setState(initialState);
+        }
     }
 
     onOpenRedigeringsModal = notat => () => {

@@ -9,6 +9,9 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
+import { KandidatIKandidatliste, SmsStatus } from '../../kandidatlistetyper';
+import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
+import SendSmsIkon from './SendSmsIkon';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -21,8 +24,18 @@ const utfallToString = (utfall: string) => {
     return utfall;
 };
 
+const formaterSendtDato = (dato: Date) => {
+    return `${dato.toLocaleString('no-NB', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    })}`;
+};
+
 type Props = {
-    kandidat: any;
+    kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
     stillingsId?: string;
     endreNotat: any;
@@ -37,6 +50,7 @@ type Props = {
         kandidatnr: string
     ) => void;
     onKandidatStatusChange: any;
+    visSendSms?: boolean;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -51,6 +65,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     onVisningChange,
     kanEditere,
     onKandidatStatusChange,
+    visSendSms,
 }) => {
     const antallNotater =
         kandidat.notater.kind === RemoteDataTypes.SUCCESS
@@ -104,7 +119,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         }}
                     />
                 </div>
-                <div className="kolonne-bred tabell-tekst">
+                <div className="kolonne-bred kolonne-med-sms">
                     <Link
                         title="Vis profil"
                         className="link"
@@ -112,10 +127,23 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
+                    {visSendSms && kandidat.sms && kandidat.sms.status !== SmsStatus.IkkeSendt && (
+                        <HjelpetekstUnder
+                            className="sms-status-popup"
+                            id="hjelpetekst-sms-status"
+                            anchor={SendSmsIkon}
+                        >
+                            {formaterSendtDato(new Date(kandidat.sms.opprettet))}
+                            <br />
+                            En SMS blir sendt til kandidaten.
+                        </HjelpetekstUnder>
+                    )}
                 </div>
                 <div className="kolonne-dato">{kandidat.fodselsnr}</div>
-                <div className="kolonne-bred tabell-tekst">
-                    {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                <div className="kolonne-bred">
+                    <span className="tabell-tekst">
+                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                    </span>
                 </div>
                 <div className="kolonne-middels">
                     <StatusSelect

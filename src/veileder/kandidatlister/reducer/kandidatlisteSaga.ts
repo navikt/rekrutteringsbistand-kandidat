@@ -1,3 +1,4 @@
+import { postSmsTilKandidater, fetchSendteMeldinger } from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
@@ -15,6 +16,8 @@ import {
     HentNotaterAction,
     OpprettNotatAction,
     EndreNotatAction,
+    SendSmsAction,
+    HentSendteMeldingerAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -417,6 +420,49 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
     }
 }
 
+function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
+    try {
+        const sendteMeldinger = yield call(fetchSendteMeldinger, action.kandidatlisteId);
+        yield put({
+            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS,
+            sendteMeldinger,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE, error: e });
+        } else {
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
+        }
+    }
+}
+
+function* sendSmsTilKandidater(action: SendSmsAction) {
+    try {
+        yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
+        yield put({
+            type: KandidatlisteActionType.SEND_SMS_SUCCESS,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.SEND_SMS_FAILURE, error: e });
+        } else {
+            yield put({
+                type: KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE,
+                error: {
+                    message: 'Det skjedde noe galt',
+                    status: 0,
+                },
+            });
+        }
+    }
+}
+
 function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OPPRETT_KANDIDATLISTE, opprettKandidatliste);
     yield takeLatest(
@@ -474,6 +520,8 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG],
         sjekkFerdigActionForError
     );
+    yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
+    yield takeLatest(KandidatlisteActionType.HENT_SENDTE_MELDINGER, hentSendteMeldinger);
 }
 
 export default kandidatlisteSaga;
