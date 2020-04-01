@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import KandidatRad from './kandidatrad/KandidatRad';
@@ -42,6 +42,8 @@ type Props = {
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {
+    const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+
     return (
         <div className="Kandidatliste">
             <SideHeader
@@ -77,6 +79,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             alleMarkert={props.alleMarkert}
                             onCheckAlleKandidater={props.onCheckAlleKandidater}
                             stillingsId={props.stillingsId}
+                            visArkiveringskolonne={!visArkiverte}
                         />
                         {props.kandidater.map((kandidat: KandidatIKandidatliste) => (
                             <KandidatRad
@@ -93,6 +96,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 slettNotat={props.slettNotat}
                                 toggleArkivert={props.toggleArkivert}
                                 visSendSms={props.visSendSms}
+                                visArkiveringskolonne={!visArkiverte}
                             />
                         ))}
                     </div>

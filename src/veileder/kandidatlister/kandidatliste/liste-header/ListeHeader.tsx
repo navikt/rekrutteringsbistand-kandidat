@@ -1,43 +1,21 @@
 import React, { FunctionComponent } from 'react';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import StatusHjelpetekst from './StatusHjelpetekst';
 
 interface Props {
     stillingsId?: string;
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
+    visArkiveringskolonne: boolean;
 }
 
 const ListeHeader: FunctionComponent<Props> = ({
     stillingsId,
     alleMarkert,
     onCheckAlleKandidater,
+    visArkiveringskolonne,
 }) => {
-    const Sporsmalstegn = () => (
-        <span className="Sporsmalstegn">
-            <span className="Sporsmalstegn__icon" />
-        </span>
-    );
-    const StatusHjelpetekst = () => (
-        <HjelpetekstMidt
-            id="sd"
-            anchor={Sporsmalstegn}
-            className="bred-hjelpetekst statusforklaring-stor"
-        >
-            <strong>Forklaring til status</strong>
-            <ul className="statusliste">
-                <li>
-                    Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status vurderes
-                </li>
-                <li>Kontaktet &ndash; Kandidaten er kontaktet, og det ventes på svar</li>
-                <li>Aktuell &ndash; Kandidaten er vurdert som aktuell for stillingen</li>
-                <li>Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen</li>
-                <li>Ikke interessert &ndash; Kandidaten er ikke interessert i stillingen</li>
-            </ul>
-            Statusene er kun synlig internt og vil ikke bli delt med arbeidsgiver.
-        </HjelpetekstMidt>
-    );
     return (
         <div className="liste-rad-wrapper liste-header">
             <div className="liste-rad">
@@ -75,9 +53,11 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <div className="kolonne-smal">
                     <Element>Mer info</Element>
                 </div>
-                <div className="kolonne-smal">
-                    <Element>Slett</Element>
-                </div>
+                {visArkiveringskolonne && (
+                    <div className="kolonne-smal">
+                        <Element>Slett</Element>
+                    </div>
+                )}
             </div>
         </div>
     );

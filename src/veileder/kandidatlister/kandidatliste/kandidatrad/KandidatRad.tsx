@@ -51,6 +51,7 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visSendSms?: boolean;
+    visArkiveringskolonne: boolean;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -66,6 +67,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     kanEditere,
     onKandidatStatusChange,
     visSendSms,
+    visArkiveringskolonne,
 }) => {
     const antallNotater =
         kandidat.notater.kind === RemoteDataTypes.SUCCESS
@@ -184,11 +186,13 @@ const KandidatRad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
-                <div className="kolonne-smal">
-                    <Lenkeknapp onClick={onToggleArkivert} className="legg-til-kandidat Delete">
-                        <div className="Delete__icon" />
-                    </Lenkeknapp>
-                </div>
+                {visArkiveringskolonne && (
+                    <div className="kolonne-smal">
+                        <Lenkeknapp onClick={onToggleArkivert} className="legg-til-kandidat Delete">
+                            <div className="Delete__icon" />
+                        </Lenkeknapp>
+                    </div>
+                )}
             </div>
             {kandidat.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
