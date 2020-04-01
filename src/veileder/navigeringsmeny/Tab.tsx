@@ -11,7 +11,7 @@ export type TabConfig = {
 type Props = {
     config: TabConfig;
     erAktiv: boolean;
-    onClick: (event: React.MouseEvent<HTMLElement>) => void;
+    onClick: () => void;
 };
 
 const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {

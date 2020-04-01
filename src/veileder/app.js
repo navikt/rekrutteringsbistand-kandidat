@@ -47,6 +47,7 @@ import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
+import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -114,7 +115,10 @@ class Sok extends React.Component {
         const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
 
         const header = nyDekoratør ? (
-            <Dekoratør />
+            <>
+                <Dekoratør />
+                <Navigeringsmeny />
+            </>
         ) : (
             <HeaderSwitch innloggetVeileder={innloggetVeileder} />
         );

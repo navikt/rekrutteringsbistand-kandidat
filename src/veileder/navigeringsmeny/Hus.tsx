@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 type Props = {
     href: string;
     erAktiv: boolean;
-    onClick: (event: React.MouseEvent<HTMLElement>) => void;
+    onClick: () => void;
 };
 
 const Hus: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {

@@ -1,13 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import { Location } from 'history';
-import { useLocation } from 'react-router-dom';
+import React, { FunctionComponent, useState } from 'react';
 import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
 
 import Tab, { TabConfig } from './Tab';
 import Hus from './Hus';
-import { useSelector, useDispatch } from 'react-redux';
 
-import '../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
+import '../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import 'pam-frontend-header/dist/style.css';
 import './Navigeringsmeny.less';
 
@@ -15,50 +12,41 @@ const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
         href: '/stillinger',
-        erSammeApp: true,
+        erSammeApp: false,
     },
     {
         tittel: 'Mine stillinger',
         href: '/minestillinger',
-        erSammeApp: true,
+        erSammeApp: false,
     },
     {
         tittel: 'Kandidatsøk',
         href: '/kandidater',
-        erSammeApp: false,
+        erSammeApp: true,
     },
     {
         tittel: 'Kandidatlister',
         href: '/kandidater/lister',
-        erSammeApp: false,
+        erSammeApp: true,
     },
 ];
 
 const Navigeringsmeny: FunctionComponent = () => {
-    const { pathname }: Location = useLocation();
-    const { hasChanges } = useSelector((state: any) => state.ad);
-    const dispatch = useDispatch();
-
-    const visForlatSidenModal = (leaveUrl: String) =>
-        dispatch({ type: SHOW_HAS_CHANGES_MODAL, leaveUrl });
-
-    const onClickTab = (href: string) => (event: React.MouseEvent<HTMLElement>) => {
-        if (hasChanges) {
-            event.preventDefault();
-            visForlatSidenModal(href);
-        }
-    };
-
+    const [aktivTabIndeks, setAktivTabIndeks] = useState<number>(-1);
     return (
         <div className="navigeringsmeny">
             <nav className="navigeringsmeny__tabs">
-                <Hus href="/" erAktiv={pathname === '/'} onClick={onClickTab('/')} />
-                {tabs.map(tab => (
+                <Hus
+                    href="/"
+                    erAktiv={aktivTabIndeks === -1}
+                    onClick={() => setAktivTabIndeks(-1)}
+                />
+                {tabs.map((tab, indeks) => (
                     <Tab
                         key={tab.href}
                         config={tab}
-                        erAktiv={pathname.startsWith(tab.href)}
-                        onClick={onClickTab(tab.href)}
+                        erAktiv={indeks === aktivTabIndeks}
+                        onClick={() => setAktivTabIndeks(indeks)}
                     />
                 ))}
             </nav>
