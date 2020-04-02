@@ -71,6 +71,7 @@ export interface KandidatlisteState {
         sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
+    arkiveringsstatus: RemoteDataTypes;
 }
 
 const initialState: KandidatlisteState = {
@@ -120,6 +121,7 @@ const initialState: KandidatlisteState = {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: NotAsked(),
     },
+    arkiveringsstatus: RemoteDataTypes.NOT_ASKED,
 };
 
 const overforNotater: (
@@ -460,8 +462,21 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 action.kandidatnr,
                 Success(action.notater)
             );
+        case KandidatlisteActionType.TOGGLE_ARKIVERT:
+            return {
+                ...state,
+                arkiveringsstatus: RemoteDataTypes.LOADING,
+            };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
-            return oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat);
+            return {
+                ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
+                arkiveringsstatus: RemoteDataTypes.SUCCESS,
+            };
+        case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
+            return {
+                ...state,
+                arkiveringsstatus: RemoteDataTypes.FAILURE,
+            };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
                 ...state,

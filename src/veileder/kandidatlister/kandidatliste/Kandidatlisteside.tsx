@@ -68,6 +68,7 @@ type Props = {
     slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
+    arkiveringsstatus: RemoteDataTypes;
     visSendSms?: boolean;
 };
 
@@ -137,6 +138,13 @@ class Kandidatlisteside extends React.Component<Props> {
 
         const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
 
+        const enKandidatErNettoppArkivert =
+            prevProps.arkiveringsstatus === RemoteDataTypes.LOADING &&
+            this.props.arkiveringsstatus === RemoteDataTypes.SUCCESS;
+        const arkiveringFeiletNettopp =
+            prevProps.arkiveringsstatus === RemoteDataTypes.LOADING &&
+            this.props.arkiveringsstatus === RemoteDataTypes.FAILURE;
+
         const kandidatlistenVarIkkeLastet =
             prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
 
@@ -158,6 +166,14 @@ class Kandidatlisteside extends React.Component<Props> {
             this.visInfobanner(
                 `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
+        }
+
+        if (enKandidatErNettoppArkivert) {
+            this.visInfobanner(`Kandidaten ble slettet`);
+        }
+
+        if (arkiveringFeiletNettopp) {
+            this.visInfobanner(`Det skjedde noe galt under sletting av kandidaten`, 'feil');
         }
 
         if (smsErNettoppSendtTilKandidater) {
@@ -453,6 +469,7 @@ const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
+    arkiveringsstatus: state.kandidatlister.arkiveringsstatus,
     visSendSms: state.search.featureToggles['vis-send-sms'],
 });
 
