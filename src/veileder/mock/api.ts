@@ -15,6 +15,10 @@ import * as sms from './json/sms.json';
 
 import * as ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
+import * as aktivEnhet from './json/dekoratør/aktivenhet.json';
+import * as aktivBruker from './json/dekoratør/aktivbruker.json';
+import * as decorator from './json/dekoratør/decorator.json';
+
 import { SEARCH_API } from '../common/fasitProperties.js';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
@@ -42,6 +46,13 @@ const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/ko
 
 // Kandidatsøk
 const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
+
+// Modia context holder
+const modiacontextholderApiUrl = '/modiacontextholder/api';
+const modiacontextholderAktivEnhetUrl = `${modiacontextholderApiUrl}/context/aktivenhet`;
+const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/aktivbruker`;
+const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
+const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 
 // Sms-API
 const smsUrl = `/kandidater/api/sms`;
@@ -102,4 +113,9 @@ fetchMock
         new Response('SMS er lagret', {
             status: 201,
         })
-    );
+    )
+    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
+    .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
+    .get(modiacontextholderAktivBrukerUrl, aktivBruker)
+    .get(modiacontextholderDecoratorUrl, decorator)
+    .post(modiacontextholderContextUrl, 200);

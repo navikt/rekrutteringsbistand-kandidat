@@ -44,6 +44,8 @@ import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
+import Dekoratør from './dekoratør/Dekoratør';
+import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -67,6 +69,7 @@ const store = createStore(
         enhetsregister: enhetsregisterReducer,
         navkontorReducer,
         hovedmal: hovedmalReducer,
+        navKontor: navkontorReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
@@ -108,13 +111,22 @@ class Sok extends React.Component {
     }
 
     render() {
-        const { error, innloggetVeileder, fjernError } = this.props;
+        const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
+
+        const header = nyDekoratør ? (
+            <>
+                <Dekoratør />
+                <Navigeringsmeny />
+            </>
+        ) : (
+            <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+        );
 
         if (error) {
             return (
                 <BrowserRouter>
                     <div>
-                        <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+                        {header}
                         <ErrorSide error={error} fjernError={fjernError} />
                     </div>
                 </BrowserRouter>
@@ -124,7 +136,7 @@ class Sok extends React.Component {
             <BrowserRouter>
                 <Normaltekst tag="div" className="Application">
                     <div className="Application__main">
-                        <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+                        {header}
                         <Switch>
                             <Route exact path="/kandidater" component={ResultatVisning} />
                             <Route
@@ -186,11 +198,13 @@ Sok.propTypes = {
     fetchFeatureToggles: PropTypes.func.isRequired,
     hentInnloggetVeileder: PropTypes.func.isRequired,
     fjernError: PropTypes.func.isRequired,
+    nyDekoratør: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
     error: state.search.error,
     innloggetVeileder: state.search.innloggetVeileder,
+    nyDekoratør: state.search.featureToggles['ny-dekorator'],
 });
 
 const mapDispatchToProps = dispatch => ({

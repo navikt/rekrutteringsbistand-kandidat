@@ -4,11 +4,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import {
-    SEARCH,
-    SET_STATE,
-    FERDIGUTFYLTESTILLINGER_KLIKK,
-} from '../../sok/searchReducer';
+import { SEARCH, SET_STATE, FERDIGUTFYLTESTILLINGER_KLIKK } from '../../sok/searchReducer';
 import { LUKK_ALLE_SOKEPANEL } from '../../sok/konstanter';
 
 import './Bransjevelger.less';
@@ -45,13 +41,7 @@ const linktekst = (sok: Sok) => {
 const linkurl = '#sokeresultat';
 
 const Bransjevelger = (props: BransjevelgerProps) => {
-    const {
-        bransje,
-        setQuery,
-        search,
-        lukkAlleSokepanel,
-        ferdigutfylteStillingerKlikk,
-    } = props;
+    const { bransje, setQuery, search, lukkAlleSokepanel, ferdigutfylteStillingerKlikk } = props;
 
     const onBransjeKlikk = () => {
         props.ferdigutfylteStillingerKlikk({ bransje: bransje.navn, linktekst: '' });
