@@ -64,32 +64,35 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
             />
-            <Checkbox
-                label="Vis kun slettede"
-                checked={visArkiverte}
-                onChange={() => toggleVisArkiverte(!visArkiverte)}
-            />
             {props.kandidater.length > 0 ? (
-                <div className="detaljer">
-                    <div className="wrapper">
-                        <KnappeRad
-                            arbeidsgiver={props.arbeidsgiver}
-                            kanEditere={props.kanEditere}
-                            kandidater={filtrerteKandidater}
-                            onEmailKandidater={props.onEmailKandidater}
-                            onSendSmsClick={props.onSendSmsClick}
-                            onKandidatShare={props.onKandidatShare}
+                <div className="Kandidatliste__container">
+                    <KnappeRad
+                        arbeidsgiver={props.arbeidsgiver}
+                        kanEditere={props.kanEditere}
+                        kandidater={filtrerteKandidater}
+                        onEmailKandidater={props.onEmailKandidater}
+                        onSendSmsClick={props.onSendSmsClick}
+                        onKandidatShare={props.onKandidatShare}
+                        kandidatlisteId={props.kandidatlisteId}
+                        onLeggTilKandidat={props.onLeggTilKandidat}
+                        stillingsId={props.stillingsId}
+                        visSendSms={props.visSendSms}
+                    >
+                        <FinnKandidaterLenke
                             kandidatlisteId={props.kandidatlisteId}
-                            onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
-                            visSendSms={props.visSendSms}
-                        >
-                            <FinnKandidaterLenke
-                                kandidatlisteId={props.kandidatlisteId}
-                                stillingsId={props.stillingsId}
-                            />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
-                        </KnappeRad>
+                        />
+                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                    </KnappeRad>
+
+                    <aside className="Kandidatliste__filter">
+                        <Checkbox
+                            label="Vis kun slettede"
+                            checked={visArkiverte}
+                            onChange={() => toggleVisArkiverte(!visArkiverte)}
+                        />
+                    </aside>
+                    <div className="Kandidatliste__liste">
                         <ListeHeader
                             alleMarkert={props.alleMarkert}
                             onCheckAlleKandidater={props.onCheckAlleKandidater}
