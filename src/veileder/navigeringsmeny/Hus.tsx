@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 
 type Props = {
     href: string;
@@ -15,7 +14,7 @@ const Hus: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {
     }
 
     return (
-        <Link className={className} to={href} onClick={onClick}>
+        <a className={className} href={href} onClick={onClick}>
             <svg viewBox="0 0 24 23" xmlns="http://www.w3.org/2000/svg">
                 <title>Hus</title>
                 <path
@@ -24,7 +23,7 @@ const Hus: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {
                     fillRule="evenodd"
                 />
             </svg>
-        </Link>
+        </a>
     );
 };
 
