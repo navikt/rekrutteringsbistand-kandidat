@@ -200,7 +200,11 @@ const KandidatRad: FunctionComponent<Props> = ({
                 </div>
                 {visArkiveringskolonne && (
                     <div className="kolonne-smal">
-                        <Lenkeknapp onClick={onToggleArkivert} className="legg-til-kandidat Delete">
+                        <Lenkeknapp
+                            tittel="Slett kandidat"
+                            onClick={onToggleArkivert}
+                            className="legg-til-kandidat Delete"
+                        >
                             <div className="Delete__icon" />
                         </Lenkeknapp>
                     </div>
