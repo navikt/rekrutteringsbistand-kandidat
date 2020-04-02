@@ -23,7 +23,6 @@ import {
     SEARCH,
     SET_STATE,
 } from '../sok/searchReducer';
-import { KandidatlisteTypes } from '../kandidatlister/kandidatlisteReducer.ts';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
@@ -33,6 +32,9 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -84,6 +86,7 @@ class ResultatVisning extends React.Component {
     };
 
     onRemoveCriteriaClick = () => {
+        this.props.lukkAlleSokepanel();
         this.props.resetQuery(hentQueryUtenKriterier(this.props.harHentetStilling));
         this.props.removeKompetanseSuggestions();
         this.props.search();
@@ -214,7 +217,8 @@ class ResultatVisning extends React.Component {
                 ) : (
                     <div>
                         <Container className="blokk-l">
-                            <Column xs="12" sm="4">
+                            <ViktigeYrker />
+                            <Column xs="12" sm="4" id="sokekriterier">
                                 <div className="sokekriterier--column">
                                     <div className="knapp-wrapper">
                                         <Flatknapp
@@ -241,7 +245,7 @@ class ResultatVisning extends React.Component {
                                     </div>
                                 </div>
                             </Column>
-                            <Column xs="12" sm="8">
+                            <Column xs="12" sm="8" id="sokeresultat">
                                 <div className="kandidatervisning--column">
                                     <KandidaterVisning
                                         skjulPaginering={visFantFåKandidater}
@@ -330,8 +334,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteTypes.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultatVisning);

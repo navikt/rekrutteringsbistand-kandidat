@@ -57,6 +57,7 @@ const fasitProperties = {
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
+    SMS_API: process.env.SMS_API,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -199,6 +200,16 @@ const startServer = html => {
                 console.log(convertedPath);
                 return convertedPath;
             },
+        })
+    );
+
+    const [, , smsHost, smsPath] = fasitProperties.SMS_API.split('/');
+    server.use(
+        '/kandidater/api/sms',
+        proxy(smsHost, {
+            https: true,
+            proxyReqPathResolver: request =>
+                request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
         })
     );
 

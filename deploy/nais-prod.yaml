@@ -10,12 +10,12 @@ spec:
     port: 8080
     liveness:
         path: /rekrutteringsbistand-kandidat/internal/isAlive
-        initialDelay: 60
+        initialDelay: 5
         timeout: 1
         failureThreshold: 2
     readiness:
         path: /rekrutteringsbistand-kandidat/internal/isReady
-        initialDelay: 60
+        initialDelay: 5
         timeout: 1
     replicas:
         min: 1
@@ -36,6 +36,8 @@ spec:
     ingresses:
         - https://rekrutteringsbistand.nais.adeo.no/kandidater
     env:
+        - name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/ca-bundle.pem
         - name: LOGINSERVICE_VEILEDER_URL
           value: https://loginservice.nais.adeo.no/login
         - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
@@ -50,3 +52,5 @@ spec:
           value: https://arbeidsplassen.nav.no/
         - name: ARBEIDSRETTET_OPPFOLGING_URL
           value: https://app.adeo.no/veilarbpersonflatefs
+        - name: SMS_API
+          value: https://arbeidsgiver.nais.adeo.no/rekrutteringsbistand-sms

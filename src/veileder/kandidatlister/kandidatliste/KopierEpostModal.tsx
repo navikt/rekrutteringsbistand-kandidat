@@ -1,13 +1,14 @@
 import * as React from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
-import { Knapp, Flatknapp } from 'pam-frontend-knapper';
 import { FunctionComponent, useEffect } from 'react';
-import { Kandidat } from './kandidatlisteReducer';
-import { capitalizeFirstLetter } from '../../felles/sok/utils';
-import { FadingAlertStripeLiten } from '../../felles/common/HjelpetekstFading';
-import { useTimeoutState } from '../../felles/common/hooks/useTimeoutState';
+import { Knapp, Flatknapp } from 'pam-frontend-knapper';
+import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
+import NavFrontendModal from 'nav-frontend-modal';
+
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { FadingAlertStripeLiten } from '../../../felles/common/HjelpetekstFading';
+import { Kandidat } from '../kandidatlistetyper';
+import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';
 
 NavFrontendModal.setAppElement('#app');
 

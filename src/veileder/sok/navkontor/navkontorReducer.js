@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKONTOR';
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';
@@ -47,6 +48,11 @@ export default function navkontorReducer(state = initialState, action) {
             return {
                 ...state,
                 navkontorPanelOpen: !state.navkontorPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                navkontorPanelOpen: false,
             };
         case TOGGLE_MINEKANDIDATER:
             return {

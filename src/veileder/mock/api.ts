@@ -11,6 +11,9 @@ import * as typeaheadgeo from './json/typeaheadgeo.json';
 
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
+import * as sms from './json/sms.json';
+
+import * as ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
 import * as aktivEnhet from './json/dekoratør/aktivenhet.json';
 import * as aktivBruker from './json/dekoratør/aktivbruker.json';
@@ -36,6 +39,7 @@ const alleKandidatlisterUrl = `${veilederUrl}/kandidatlister`;
 const sokUrl = `${veilederUrl}/kandidatsok/sok`;
 const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
 const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/bf6877fa-5c82-4610-8cf7-ff7a0df18e29/kandidatliste`;
+const ferdigutfyltesokurl = `${veilederUrl}/ferdigutfyltesok`;
 
 // Kodeverk
 const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/kodeverk/arenageografikoder`;
@@ -49,6 +53,9 @@ const modiacontextholderAktivEnhetUrl = `${modiacontextholderApiUrl}/context/akt
 const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/aktivbruker`;
 const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
 const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
+
+// Sms-API
+const smsUrl = `/kandidater/api/sms`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -86,14 +93,27 @@ fetchMock
     .get(meUrl, me)
     .get(kandidatlisteUrl, kandidatliste)
     .get(stillingsKandidatlisteUrl, kandidatliste)
+    .get((url: string) => url.startsWith(ferdigutfyltesokurl), ferdigutfyltesok)
     .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
-    .get((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
+    .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
     .get((url: string) => url.startsWith(sokUrl), sok)
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
+    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
+    .post(
+        (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
+        kandidatliste
+    )
+    .get((url: string) => url.startsWith(smsUrl), sms)
+    .post(
+        (url: string) => url.startsWith(smsUrl),
+        new Response('SMS er lagret', {
+            status: 201,
+        })
+    )
     .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
     .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
     .get(modiacontextholderAktivBrukerUrl, aktivBruker)

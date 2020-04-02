@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_FORERKORT = 'SELECT_TYPE_AHEAD_VALUE_FORERKORT';
 export const REMOVE_SELECTED_FORERKORT = 'REMOVE_SELECTED_FORERKORT';
@@ -42,6 +43,11 @@ export default function forerkortReducer(state = initialState, action) {
             return {
                 ...state,
                 forerkortPanelOpen: !state.forerkortPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                forerkortPanelOpen: false,
             };
         default:
             return state;

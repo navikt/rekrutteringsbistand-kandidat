@@ -1,5 +1,3 @@
-import '../../node_modules/nav-frontend-typografi-style/src/Source-Sans-Pro-300.less';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -24,12 +22,12 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './sok/cv/cvReducer';
-import kandidatlisteReducer, { kandidatlisteSaga } from './kandidatlister/kandidatlisteReducer.ts';
+import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
-import KandidatlisteFraStilling from './kandidatlister/KandidatlisteFraStilling';
-import Kandidatliste from './kandidatlister/Kandidatliste';
+import KandidatlisteMedStilling from './kandidatlister/KandidatlisteMedStilling';
+import KandidatlisteUtenStilling from './kandidatlister/KandidatlisteUtenStilling';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
@@ -48,6 +46,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
+import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -165,12 +164,12 @@ class Sok extends React.Component {
                             <Route
                                 exact
                                 path="/kandidater/lister/stilling/:id/detaljer"
-                                component={KandidatlisteFraStilling}
+                                component={KandidatlisteMedStilling}
                             />
                             <Route
                                 exact
                                 path="/kandidater/lister/detaljer/:listeid"
-                                component={Kandidatliste}
+                                component={KandidatlisteUtenStilling}
                             />
                             <Route
                                 exact

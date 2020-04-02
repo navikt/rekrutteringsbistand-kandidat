@@ -2,6 +2,7 @@
  * ACTIONS
  ********************************************************* */
 import { SET_STATE, harEnParameter } from '../searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export const SELECT_TYPE_AHEAD_VALUE_SPRAK = 'SELECT_TYPE_AHEAD_VALUE_SPRAK';
 export const REMOVE_SELECTED_SPRAK = 'REMOVE_SELECTED_SPRAK';
@@ -41,6 +42,11 @@ export default function sprakReducer(state = initialState, action) {
             return {
                 ...state,
                 sprakPanelOpen: !state.sprakPanelOpen,
+            };
+        case LUKK_ALLE_SOKEPANEL:
+            return {
+                ...state,
+                sprakPanelOpen: false,
             };
         default:
             return state;

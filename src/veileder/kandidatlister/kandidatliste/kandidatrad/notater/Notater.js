@@ -5,22 +5,30 @@ import { Hovedknapp, Flatknapp, Knapp } from 'pam-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
-import { formatterDato, formatterTid } from '../../felles/common/dateUtils';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
-import { Notat } from './PropTypes';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import { formatterDato, formatterTid } from '../../../../../felles/common/dateUtils';
+import { RemoteDataTypes } from '../../../../../felles/common/remoteData.ts';
+import { Notat } from '../../../PropTypes';
+import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
+
+const initialState = {
+    nyttNotatVises: false,
+    nyttNotatTekst: '',
+    nyttNotatFeil: false,
+    notatSomRedigeres: undefined,
+    notatSomSlettes: undefined,
+};
 
 class Notater extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            nyttNotatVises: false,
-            nyttNotatTekst: '',
-            nyttNotatFeil: false,
-            notatSomRedigeres: undefined,
-            notatSomSlettes: undefined,
-        };
+        this.state = initialState;
+    }
+
+    componentDidUpdate(nextProps) {
+        if (nextProps.notater !== this.props.notater) {
+            this.setState(initialState);
+        }
     }
 
     onOpenRedigeringsModal = notat => () => {

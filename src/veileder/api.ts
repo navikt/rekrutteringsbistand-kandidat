@@ -17,9 +17,12 @@ import {
     postJson,
     putJson,
 } from '../felles/api';
+import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
+
+const SMS_API = '/kandidater/api/sms';
 
 if (appIsMocked) {
     require('./mock/api.ts');
@@ -179,3 +182,28 @@ export const endreEierskapPaKandidatliste = kandidatlisteId =>
 export async function deleteKandidatliste(kandidatlisteId: string): Promise<ResponseData<any>> {
     return await deleteJsonMedType<any>(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`);
 }
+
+export const fetchSendteMeldinger = (kandidatlisteId: string) =>
+    fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
+
+export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) =>
+    postJson(
+        `${SMS_API}`,
+        JSON.stringify({
+            melding,
+            fnr,
+            kandidatlisteId,
+        })
+    );
+
+export const fetchFerdigutfylteStillinger = bransjer => {
+    return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
+};
+
+export const postFerdigutfylteStillingerKlikk = (
+    ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
+) =>
+    postJson(
+        `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
+        JSON.stringify(ferdigutfylteStillingerKlikk)
+    );

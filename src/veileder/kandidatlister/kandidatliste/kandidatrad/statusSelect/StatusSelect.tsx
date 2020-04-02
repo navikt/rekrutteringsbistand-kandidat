@@ -4,7 +4,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import '@reach/menu-button/styles.css';
 import './StatusSelect.less';
 
-enum Status {
+export enum Status {
     Vurderes = 'VURDERES',
     Kontaktet = 'KONTAKTET',
     Aktuell = 'AKTUELL',

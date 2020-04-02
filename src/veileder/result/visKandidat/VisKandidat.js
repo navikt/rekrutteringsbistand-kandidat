@@ -16,12 +16,12 @@ import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
-import { KandidatlisteTypes } from '../../kandidatlister/kandidatlisteReducer.ts';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
+import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -423,17 +423,20 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) =>
         dispatch({
-            type: KandidatlisteTypes.LAGRE_KANDIDAT_I_KANDIDATLISTE,
+            type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
             kandidatliste,
             fodselsnummer,
         }),
     hentKandidatlisteMedKandidatlisteId: kandidatlisteId =>
         dispatch({
-            type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
     hentKandidatlisteMedStillingsId: stillingsId =>
-        dispatch({ type: KandidatlisteTypes.HENT_KANDIDATLISTE_MED_STILLINGS_ID, stillingsId }),
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VisKandidat);
