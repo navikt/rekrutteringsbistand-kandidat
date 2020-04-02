@@ -6,7 +6,7 @@ import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
-import TomListe from './TomListe';
+import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import { Checkbox } from 'nav-frontend-skjema';
