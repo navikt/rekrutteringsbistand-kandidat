@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
-import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import { capitalizeEmployerName } from '../../../felles/sok/utils';
+import { KandidatIKandidatliste, OpprettetAv } from '../../kandidatlistetyper';
+import { capitalizeEmployerName } from '../../../../felles/sok/utils';
+import './SideHeader.less';
 
 type Props = {
     tittel: string;
@@ -21,28 +22,34 @@ const SideHeader: FunctionComponent<Props> = ({
     beskrivelse,
 }) => (
     <div className="side-header">
-        <div className="wrapper">
-            <div className="top">
-                <div className="header-side" />
+        <div className="side-header__wrapper">
+            <div className="side-header__top">
+                <div className="side-header__header-side" />
                 <Sidetittel className="tittel">{tittel}</Sidetittel>
-                <div className="header-side" />
+                <div className="side-header__header-side" />
             </div>
-            <div className="antall">
+            <div className="side-header__antall">
                 <Element>
                     {kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}
                 </Element>
             </div>
-            <div className="bottom">
+            <div className="side-header__bottom">
                 {arbeidsgiver && (
-                    <div className="no-border-left">
+                    <div className="side-header__bottom--no-border-left">
                         Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
                     </div>
                 )}
-                <div className={`${arbeidsgiver ? 'border-left' : 'no-border-left'}`}>
+                <div
+                    className={`${
+                        arbeidsgiver
+                            ? 'side-header__bottom--border-left'
+                            : 'side-header__bottom--no-border-left'
+                    }`}
+                >
                     {`Veileder: ${opprettetAv.navn} (${opprettetAv.ident})`}
                 </div>
                 {stillingsId && (
-                    <div className="border-left">
+                    <div className="side-header__bottom--border-left">
                         <a className="link" href={`/stilling/${stillingsId}`}>
                             Se stillingsannonse
                         </a>
@@ -50,7 +57,7 @@ const SideHeader: FunctionComponent<Props> = ({
                 )}
             </div>
             {beskrivelse && (
-                <div className="beskrivelse">
+                <div className="side-header__beskrivelse">
                     <Normaltekst>{beskrivelse}</Normaltekst>
                 </div>
             )}

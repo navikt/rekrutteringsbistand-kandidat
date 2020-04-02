@@ -5,7 +5,7 @@ import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
-import SideHeader from './SideHeader';
+import SideHeader from './side-header/SideHeader';
 import TomListe from './TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
