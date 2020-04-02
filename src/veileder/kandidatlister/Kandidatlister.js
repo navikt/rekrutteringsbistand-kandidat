@@ -148,7 +148,7 @@ const Kandidatlistevisning = ({
             slettKandidatliste={() => {
                 slettKandidatliste(kandidatliste);
             }}
-            key={kandidatliste.id}
+            key={kandidatliste.kandidatlisteId}
         />
     ));
 };
