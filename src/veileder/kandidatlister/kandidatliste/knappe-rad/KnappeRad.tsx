@@ -74,7 +74,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
 
     return (
-        <div className="Kandidatliste__knapperad">
+        <div className="kandidatliste__knapperad">
             <div className="knapper-venstre">{children}</div>
             <div className="dele-wrapper">
                 {skalViseSendSms &&

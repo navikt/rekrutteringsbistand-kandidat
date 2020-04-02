@@ -1,5 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Checkbox } from 'nav-frontend-skjema';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
+import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
@@ -8,8 +11,6 @@ import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
-import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import { Checkbox } from 'nav-frontend-skjema';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -42,8 +43,16 @@ type Props = {
     visSendSms?: boolean;
 };
 
+const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
+    return kandidater.filter(kandidat => kandidat.arkivert).length;
+};
+
 const Kandidatliste: FunctionComponent<Props> = props => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [antallArkiverte, setAntallArkiverte] = useState<number>(
+        hentAntallArkiverte(props.kandidater)
+    );
+
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
         props.kandidater
     );
@@ -54,8 +63,12 @@ const Kandidatliste: FunctionComponent<Props> = props => {
         );
     }, [props.kandidater, visArkiverte]);
 
+    useEffect(() => {
+        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
+    }, [props.kandidater]);
+
     return (
-        <div className="Kandidatliste">
+        <div className="kandidatliste">
             <SideHeader
                 kandidater={filtrerteKandidater}
                 opprettetAv={props.opprettetAv}
@@ -65,7 +78,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                 beskrivelse={props.beskrivelse}
             />
             {props.kandidater.length > 0 ? (
-                <div className="Kandidatliste__container">
+                <div className="kandidatliste__container">
                     <KnappeRad
                         arbeidsgiver={props.arbeidsgiver}
                         kanEditere={props.kanEditere}
@@ -85,14 +98,16 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                         <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
                     </KnappeRad>
 
-                    <aside className="Kandidatliste__filter">
-                        <Checkbox
-                            label="Vis kun slettede"
-                            checked={visArkiverte}
-                            onChange={() => toggleVisArkiverte(!visArkiverte)}
-                        />
+                    <aside className="kandidatliste__filter">
+                        <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">
+                            <Checkbox
+                                label={`Vis kun slettede (${antallArkiverte})`}
+                                checked={visArkiverte}
+                                onChange={() => toggleVisArkiverte(!visArkiverte)}
+                            />
+                        </Ekspanderbartpanel>
                     </aside>
-                    <div className="Kandidatliste__liste">
+                    <div className="kandidatliste__liste">
                         <ListeHeader
                             alleMarkert={props.alleMarkert}
                             onCheckAlleKandidater={props.onCheckAlleKandidater}
