@@ -1,5 +1,5 @@
 import { ApiError } from '../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat, Sms } from '../kandidatlistetyper';
+import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
 import { ResponseData } from './../../../felles/common/remoteData';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
@@ -323,8 +323,7 @@ export interface ToggleArkivertAction {
 
 export interface ToggleArkivertSuccessAction {
     type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS;
-    kandidatnr: string;
-    arkivert: boolean;
+    kandidat: Kandidat;
 }
 
 export interface ToggleArkivertFailureAction {

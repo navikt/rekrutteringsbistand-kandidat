@@ -19,6 +19,7 @@ import {
     SendSmsAction,
     HentSendteMeldingerAction,
     ToggleArkivertAction,
+    ToggleArkivertSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -355,11 +356,14 @@ function* slettNotat(action) {
 
 function* toggleArkivert(action: ToggleArkivertAction) {
     try {
-        yield putArkivert(action.kandidatlisteId, action.kandidatnr, action.arkivert);
-        yield put({
+        const arkivertKandidat = yield putArkivert(
+            action.kandidatlisteId,
+            action.kandidatnr,
+            action.arkivert
+        );
+        yield put<ToggleArkivertSuccessAction>({
             type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
-            kandidatnr: action.kandidatnr,
-            arkivert: action.arkivert,
+            kandidat: arkivertKandidat,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

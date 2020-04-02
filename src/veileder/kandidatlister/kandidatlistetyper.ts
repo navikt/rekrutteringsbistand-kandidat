@@ -54,7 +54,9 @@ export interface KandidatResponse {
     innsatsgruppe: string;
     utfall: string;
     erSynlig: boolean;
+    antallNotater?: number;
     arkivert: boolean;
+    arkivertTidspunkt?: string;
 }
 
 export interface Notat {
@@ -71,7 +73,6 @@ export interface Notat {
 
 interface KandidatExtension {
     notater: RemoteData<Array<Notat>>;
-    antallNotater?: number;
 }
 
 export type Kandidat = KandidatResponse & KandidatExtension;

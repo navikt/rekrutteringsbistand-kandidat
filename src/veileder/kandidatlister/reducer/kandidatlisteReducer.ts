@@ -1,5 +1,5 @@
 import { SearchApiError } from './../../../felles/api';
-import { SmsStatus, Sms } from './../kandidatlistetyper';
+import { SmsStatus, Sms, Kandidat } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
@@ -196,27 +196,30 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     return state;
 };
 
-const oppdaterArkivertIKandidatlisteDetaljer: (
+const oppdaterArkivertIKandidatlisteDetaljer = (
     state: KandidatlisteState,
-    kandidatnr: string,
-    arkivert: boolean
-) => KandidatlisteState = (state, kandidatnr, arkivert) => {
-    if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    kandidat: Kandidat
+): KandidatlisteState => {
+    const kandidatliste = state.detaljer.kandidatliste;
+    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
         return {
             ...state,
             detaljer: {
                 ...state.detaljer,
                 kandidatliste: {
-                    ...state.detaljer.kandidatliste,
-                    kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
-                        if (kandidat.kandidatnr === kandidatnr) {
-                            return {
-                                ...kandidat,
-                                arkivert,
-                            };
-                        }
-                        return kandidat;
-                    }),
+                    ...kandidatliste,
+                    data: {
+                        ...kandidatliste.data,
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                            utdatertKandidat.kandidatnr === kandidat.kandidatnr
+                                ? {
+                                      ...utdatertKandidat,
+                                      arkivert: kandidat.arkivert,
+                                      arkivertTidspunkt: kandidat.arkivertTidspunkt,
+                                  }
+                                : utdatertKandidat
+                        ),
+                    },
                 },
             },
         };
@@ -458,11 +461,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 Success(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
-            return oppdaterArkivertIKandidatlisteDetaljer(
-                state,
-                action.kandidatnr,
-                action.arkivert
-            );
+            return oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat);
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
                 ...state,
