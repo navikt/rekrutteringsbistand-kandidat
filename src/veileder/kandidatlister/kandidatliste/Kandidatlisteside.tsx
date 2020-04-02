@@ -427,9 +427,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     kandidater={kandidater}
                     alleMarkert={alleMarkert}
                     onToggleKandidat={this.onToggleKandidat}
-                    onCheckAlleKandidater={() => {
-                        this.onCheckAlleKandidater(!alleMarkert);
-                    }}
+                    onCheckAlleKandidater={this.onCheckAlleKandidater}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}

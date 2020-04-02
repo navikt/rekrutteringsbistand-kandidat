@@ -27,7 +27,7 @@ type Props = {
     kandidatlisteId: string;
     kanEditere: boolean;
     alleMarkert: boolean;
-    onCheckAlleKandidater: any;
+    onCheckAlleKandidater: (markert: boolean) => void;
     onToggleKandidat: any;
     onKandidatStatusChange: any;
     onKandidatShare: any;
@@ -52,6 +52,11 @@ const Kandidatliste: FunctionComponent<Props> = props => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
     );
+
+    const toggleVisArkiverteOgFjernMarkering = () => {
+        toggleVisArkiverte(!visArkiverte);
+        props.onCheckAlleKandidater(false);
+    };
 
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
         props.kandidater
@@ -103,7 +108,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             <Checkbox
                                 label={`Vis kun slettede (${antallArkiverte})`}
                                 checked={visArkiverte}
-                                onChange={() => toggleVisArkiverte(!visArkiverte)}
+                                onChange={toggleVisArkiverteOgFjernMarkering}
                             />
                         </Ekspanderbartpanel>
                     </aside>
