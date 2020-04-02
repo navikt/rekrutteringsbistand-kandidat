@@ -315,20 +315,20 @@ export interface ResetSletteStatusAction {
 }
 
 export interface ToggleArkivertAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET;
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT;
     kandidatlisteId: string;
     kandidatnr: string;
     arkivert: boolean;
 }
 
 export interface ToggleArkivertSuccessAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS;
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS;
     kandidatnr: string;
     arkivert: boolean;
 }
 
 export interface ToggleArkivertFailureAction {
-    type: KandidatlisteActionType.TOGGLE_ER_SLETTET_FAILURE;
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE;
 }
 
 export interface SendSmsAction {

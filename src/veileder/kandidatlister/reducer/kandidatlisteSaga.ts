@@ -357,13 +357,13 @@ function* toggleArkivert(action: ToggleArkivertAction) {
     try {
         yield putArkivert(action.kandidatlisteId, action.kandidatnr, action.arkivert);
         yield put({
-            type: KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS,
+            type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
             kandidatnr: action.kandidatnr,
             arkivert: action.arkivert,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.TOGGLE_ER_SLETTET_FAILURE, error: e });
+            yield put({ type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -482,7 +482,7 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteActionType.ENDRE_NOTAT, endreNotat);
     yield takeLatest(KandidatlisteActionType.SLETT_NOTAT, slettNotat);
-    yield takeLatest(KandidatlisteActionType.TOGGLE_ER_SLETTET, toggleArkivert);
+    yield takeLatest(KandidatlisteActionType.TOGGLE_ARKIVERT, toggleArkivert);
     yield takeLatest(KandidatlisteActionType.HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
@@ -509,7 +509,7 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE,
             KandidatlisteActionType.OPPRETT_NOTAT_FAILURE,
             KandidatlisteActionType.ENDRE_NOTAT_FAILURE,
-            KandidatlisteActionType.TOGGLE_ER_SLETTET_FAILURE,
+            KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE,
             KandidatlisteActionType.SLETT_NOTAT_FAILURE,
             KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE,
             KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,

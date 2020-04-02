@@ -457,7 +457,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 action.kandidatnr,
                 Success(action.notater)
             );
-        case KandidatlisteActionType.TOGGLE_ER_SLETTET_SUCCESS:
+        case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
             return oppdaterArkivertIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,

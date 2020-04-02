@@ -517,7 +517,7 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
     },
     toggleArkivert: (kandidatlisteId, kandidatnr, arkivert) => {
         dispatch({
-            type: KandidatlisteActionType.TOGGLE_ER_SLETTET,
+            type: KandidatlisteActionType.TOGGLE_ARKIVERT,
             kandidatlisteId,
             kandidatnr,
             arkivert,
