@@ -11,10 +11,9 @@ export type TabConfig = {
 type Props = {
     config: TabConfig;
     erAktiv: boolean;
-    onClick: () => void;
 };
 
-const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
+const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
     const { tittel, href, erSammeApp } = config;
 
     let className = 'navigeringsmeny__tab';
@@ -24,11 +23,11 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
     }
 
     return erSammeApp ? (
-        <Link className={className} to={href} onClick={onClick}>
+        <Link className={className} to={href}>
             <Normaltekst>{tittel}</Normaltekst>
         </Link>
     ) : (
-        <a className={className} href={href} onClick={onClick}>
+        <a className={className} href={href}>
             <Normaltekst>{tittel}</Normaltekst>
         </a>
     );

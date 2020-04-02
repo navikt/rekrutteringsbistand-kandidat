@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
+import { useLocation } from 'react-router-dom';
 
 import Tab, { TabConfig } from './Tab';
 import Hus from './Hus';
@@ -7,6 +8,18 @@ import Hus from './Hus';
 import '../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import 'pam-frontend-header/dist/style.css';
 import './Navigeringsmeny.less';
+
+const kandidatsøkTab = {
+    tittel: 'Kandidatsøk',
+    href: '/kandidater',
+    erSammeApp: true,
+};
+
+const kandidatlisterTab = {
+    tittel: 'Kandidatlister',
+    href: '/kandidater/lister',
+    erSammeApp: true,
+};
 
 const tabs: TabConfig[] = [
     {
@@ -19,35 +32,26 @@ const tabs: TabConfig[] = [
         href: '/minestillinger',
         erSammeApp: false,
     },
-    {
-        tittel: 'Kandidatsøk',
-        href: '/kandidater',
-        erSammeApp: true,
-    },
-    {
-        tittel: 'Kandidatlister',
-        href: '/kandidater/lister',
-        erSammeApp: true,
-    },
+    kandidatsøkTab,
+    kandidatlisterTab,
 ];
 
+const aktivTab = (pathname: string): TabConfig => {
+    if (pathname.startsWith('/kandidater/lister')) {
+        return kandidatlisterTab;
+    } else {
+        return kandidatsøkTab;
+    }
+};
+
 const Navigeringsmeny: FunctionComponent = () => {
-    const [aktivTabIndeks, setAktivTabIndeks] = useState<number>(-1);
+    const { pathname }: Location = useLocation();
     return (
         <div className="navigeringsmeny">
             <nav className="navigeringsmeny__tabs">
-                <Hus
-                    href="/"
-                    erAktiv={aktivTabIndeks === -1}
-                    onClick={() => setAktivTabIndeks(-1)}
-                />
-                {tabs.map((tab, indeks) => (
-                    <Tab
-                        key={tab.href}
-                        config={tab}
-                        erAktiv={indeks === aktivTabIndeks}
-                        onClick={() => setAktivTabIndeks(indeks)}
-                    />
+                <Hus href="/" />
+                {tabs.map(tab => (
+                    <Tab key={tab.href} config={tab} erAktiv={tab === aktivTab(pathname)} />
                 ))}
             </nav>
             <div className="navigeringsmeny__nyheter">

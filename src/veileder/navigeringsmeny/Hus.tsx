@@ -2,19 +2,11 @@ import React, { FunctionComponent } from 'react';
 
 type Props = {
     href: string;
-    erAktiv: boolean;
-    onClick: () => void;
 };
 
-const Hus: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {
-    let className = 'navigeringsmeny__forside';
-
-    if (erAktiv) {
-        className += ' navigeringsmeny__forside--aktiv';
-    }
-
+const Hus: FunctionComponent<Props> = ({ href }) => {
     return (
-        <a className={className} href={href} onClick={onClick}>
+        <a className={'navigeringsmeny__forside'} href={href}>
             <svg viewBox="0 0 24 23" xmlns="http://www.w3.org/2000/svg">
                 <title>Hus</title>
                 <path
