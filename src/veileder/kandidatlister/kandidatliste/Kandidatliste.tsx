@@ -8,7 +8,8 @@ import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './SideHeader';
 import TomListe from './TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
-import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, OpprettetAv, SmsStatus } from '../kandidatlistetyper';
+import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -41,6 +42,9 @@ type Props = {
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {
+    const minstEnSmsFeilet = props.kandidater.some(
+        kandidat => kandidat.sms && kandidat.sms.status === SmsStatus.Feil
+    );
     return (
         <div className="Kandidatliste">
             <SideHeader
@@ -54,6 +58,9 @@ const Kandidatliste: FunctionComponent<Props> = props => {
             {props.kandidater.length > 0 ? (
                 <div className="detaljer">
                     <div className="wrapper">
+                        {props.kanEditere && minstEnSmsFeilet && (
+                            <SmsFeilAlertStripe kandidater={props.kandidater} />
+                        )}
                         <KnappeRad
                             arbeidsgiver={props.arbeidsgiver}
                             kanEditere={props.kanEditere}
