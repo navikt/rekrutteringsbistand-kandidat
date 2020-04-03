@@ -174,9 +174,12 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </div>
                 )}
                 <div className="kolonne-smal">
-                    <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
+                    <Lenkeknapp
+                        onClick={toggleNotater}
+                        className="Notat liste-rad__ekspanderbar-knapp"
+                    >
                         <i className="Notat__icon" />
-                        {antallNotater}
+                        <span className="liste-rad__antall-notater">{antallNotater}</span>
                         <NavFrontendChevron
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisNotater
@@ -187,7 +190,10 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 <div className="kolonne-smal">
-                    <Lenkeknapp onClick={toggleMerInfo} className="legg-til-kandidat MerInfo">
+                    <Lenkeknapp
+                        onClick={toggleMerInfo}
+                        className="MerInfo liste-rad__ekspanderbar-knapp"
+                    >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
                             type={
@@ -203,7 +209,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         <Lenkeknapp
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className="legg-til-kandidat Delete"
+                            className="Delete"
                         >
                             <div className="Delete__icon" />
                         </Lenkeknapp>
