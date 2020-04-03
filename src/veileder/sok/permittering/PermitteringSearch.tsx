@@ -5,6 +5,8 @@ import AppState from '../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
+import './PermitteringSearch.less';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     permittert: boolean;
@@ -44,10 +46,13 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             tittel="Permittert"
             onClick={() => setÅpen(!åpen)}
         >
-            <SkjemaGruppe title="Brukere som har oppgitt at de er permittert i registreringen.">
+            <Normaltekst className="permittering-search__beskrivelse">
+                Brukere som har oppgitt at de er permittert i registreringen.
+            </Normaltekst>
+            <SkjemaGruppe>
                 <Checkbox
                     id="permittering-permittert-checkbox"
-                    className="skjemaelement--pink"
+                    className="permittering-search__checkbox skjemaelement--pink"
                     label="Permittert"
                     value={Permitteringsverdi.Permittert}
                     checked={permittert}
@@ -55,7 +60,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
                 />
                 <Checkbox
                     id="permittering-ikke-permittert-checkbox"
-                    className="skjemaelement--pink"
+                    className="permittering-search__checkbox skjemaelement--pink"
                     label="Ikke permittert"
                     value={Permitteringsverdi.IkkePermittert}
                     checked={ikkePermittert}
