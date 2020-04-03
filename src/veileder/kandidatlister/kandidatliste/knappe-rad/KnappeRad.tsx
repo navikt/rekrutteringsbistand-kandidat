@@ -2,6 +2,7 @@ import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt, HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import './KnappeRad.less';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -91,9 +92,9 @@ const KnappeRad: FunctionComponent<Props> = ({
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
 
     return (
-        <div className="kandidatliste__knapperad">
-            <div className="knapper-venstre">{children}</div>
-            <div className="dele-wrapper">
+        <div className="kandidatlisteknapper">
+            <div className="kandidatlisteknapper__venstre">{children}</div>
+            <div className="kandidatlisteknapper__høyre">
                 {skalViseSendSms &&
                     (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
                         <div className="hjelpetekst">
