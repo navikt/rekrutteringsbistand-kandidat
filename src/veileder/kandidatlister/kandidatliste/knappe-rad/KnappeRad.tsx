@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import { HjelpetekstMidt, HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 
 type Props = {
@@ -84,7 +84,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     visSendSms,
     visArkiverte,
 }) => {
-    const skalViseSendSms = visSendSms && kanEditere && stillingsId;
+    const skalViseSendSms = visSendSms && kanEditere && stillingsId && !visArkiverte;
 
     const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
@@ -112,22 +112,24 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
                         </HjelpetekstMidt>
                     ))}
-                {minstEnKandidatErMarkert ? (
-                    <div className="hjelpetekst">
-                        <Lenkeknapp onClick={onEmailKandidater} className="Email">
-                            <Epostknapp />
-                        </Lenkeknapp>
-                    </div>
-                ) : (
-                    <HjelpetekstMidt
-                        id="marker-kandidater-epost-hjelpetekst"
-                        anchor={EpostknappMedHjelpetekst}
-                        tittel="Send e-post til de markerte kandidatene"
-                    >
-                        Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
-                    </HjelpetekstMidt>
-                )}
+                {!visArkiverte &&
+                    (minstEnKandidatErMarkert ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onEmailKandidater} className="Email">
+                                <Epostknapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstUnderVenstre
+                            id="marker-kandidater-epost-hjelpetekst"
+                            anchor={EpostknappMedHjelpetekst}
+                            tittel="Send e-post til de markerte kandidatene"
+                        >
+                            Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
+                        </HjelpetekstUnderVenstre>
+                    ))}
                 {kanEditere &&
+                    !visArkiverte &&
                     arbeidsgiver &&
                     (minstEnKandidatErMarkert ? (
                         <div className="hjelpetekst">
@@ -152,13 +154,13 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </Lenkeknapp>
                         </div>
                     ) : (
-                        <HjelpetekstMidt
+                        <HjelpetekstUnderVenstre
                             id="marker-kandidater-angre-arkivering-hjelpetekst"
                             anchor={SletteknappMedHjelpetekst}
                             tittel="Angre arkivering for de markerte kandidatene"
                         >
                             Du må huke av for kandidatene du ønsker å angre arkivering for.
-                        </HjelpetekstMidt>
+                        </HjelpetekstUnderVenstre>
                     ))}
             </div>
         </div>

@@ -17,6 +17,10 @@
 
     &__filter {
         grid-area: filter;
+
+        .ekspanderbartPanel__innhold {
+            padding-bottom: 1.25rem;
+        }
     }
 
     &__container {
@@ -41,6 +45,10 @@
         align-items: center;
         height: 1.5rem;
         justify-content: space-between;
+
+        .Lenkeknapp i {
+            margin-right: 0.5rem;
+        }
 
         .knapper-venstre {
             display: flex;
@@ -81,24 +89,28 @@
                 grid-gap: 1rem;
                 grid-template-columns:
                     minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                    minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+                    minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
                         minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+                        minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
                         minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
                         minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                }
+
+                .StatusSelect {
+                    max-width: 11rem;
                 }
 
                 .status-overskrift {
@@ -155,10 +167,6 @@
                             padding-bottom: 1.5rem;
                         }
                     }
-                }
-
-                .kolonne-smal {
-                    justify-content: flex-end;
                 }
             }
             .info-under-kandidat {
