@@ -52,6 +52,9 @@ const Kandidatliste: FunctionComponent<Props> = props => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
     );
+    const [antallIkkeArkiverte, setAntallIkkeArkiverte] = useState<number>(
+        props.kandidater.length - hentAntallArkiverte(props.kandidater)
+    );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -69,13 +72,17 @@ const Kandidatliste: FunctionComponent<Props> = props => {
     }, [props.kandidater, visArkiverte]);
 
     useEffect(() => {
-        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
+        const antallArkiverte = hentAntallArkiverte(props.kandidater);
+        const totaltAntallKandidater = props.kandidater.length;
+
+        setAntallArkiverte(antallArkiverte);
+        setAntallIkkeArkiverte(totaltAntallKandidater - antallArkiverte);
     }, [props.kandidater]);
 
     return (
         <div className="kandidatliste">
             <SideHeader
-                kandidater={filtrerteKandidater}
+                antallKandidater={antallIkkeArkiverte}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}

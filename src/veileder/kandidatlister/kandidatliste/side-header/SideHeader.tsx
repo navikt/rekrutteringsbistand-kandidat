@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
-import { KandidatIKandidatliste, OpprettetAv } from '../../kandidatlistetyper';
+import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
 
 type Props = {
     tittel: string;
-    kandidater: KandidatIKandidatliste[];
+    antallKandidater: number;
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
     stillingsId: string | null;
@@ -15,7 +15,7 @@ type Props = {
 
 const SideHeader: FunctionComponent<Props> = ({
     tittel,
-    kandidater,
+    antallKandidater,
     arbeidsgiver,
     opprettetAv,
     stillingsId,
@@ -30,7 +30,7 @@ const SideHeader: FunctionComponent<Props> = ({
             </div>
             <div className="side-header__antall">
                 <Element>
-                    {kandidater.length === 1 ? '1 kandidat' : `${kandidater.length} kandidater`}
+                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
                 </Element>
             </div>
             <div className="side-header__bottom">
