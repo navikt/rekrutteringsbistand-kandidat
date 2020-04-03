@@ -48,6 +48,7 @@ import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION } from './sok/searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from './sok/konstanter';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -113,6 +114,7 @@ class Sok extends React.Component {
 
     navigeringKlikk = () => {
         this.props.setScrollPosition(0);
+        this.props.lukkAlleSokepanel();
     };
 
     render() {
@@ -126,7 +128,9 @@ class Sok extends React.Component {
                 </div>
             </>
         ) : (
-            <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+            <div onClick={this.navigeringKlikk}>
+                <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+            </div>
         );
 
         if (error) {
@@ -220,6 +224,7 @@ const mapDispatchToProps = dispatch => ({
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     setScrollPosition: scrollPosisjon =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 /*
 End class Sok
