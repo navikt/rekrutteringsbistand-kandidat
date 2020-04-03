@@ -26,13 +26,11 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
               'En mulig årsak kan være ugyldig telefonnummer i Kontakt- og reservasjonsregisteret.'
             : 'En SMS blir sendt til kandidaten.';
 
+    const ikon = () => <SendSmsIkon feil={sms.status === SmsStatus.Feil} />;
+
     // TODO flytte classname inn i denne pakken
     return (
-        <HjelpetekstUnder
-            className="sms-status-popup"
-            id="hjelpetekst-sms-status"
-            anchor={SendSmsIkon}
-        >
+        <HjelpetekstUnder className="sms-status-popup" id="hjelpetekst-sms-status" anchor={ikon}>
             {formaterSendtDato(new Date(sms.opprettet))}
             <br />
             {/*TODO sjekk status*/}
