@@ -9,7 +9,7 @@ type Props = {
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     onSendSmsClick: () => void;
-    onKandidatAngreArkivering: () => void;
+    onKandidaterAngreArkivering: () => void;
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
@@ -76,7 +76,7 @@ const KnappeRad: FunctionComponent<Props> = ({
     onKandidatShare,
     onEmailKandidater,
     onSendSmsClick,
-    onKandidatAngreArkivering,
+    onKandidaterAngreArkivering,
     kanEditere,
     arbeidsgiver,
     children,
@@ -147,7 +147,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                 {visArkiverte &&
                     (minstEnKandidatErMarkert ? (
                         <div className="hjelpetekst">
-                            <Lenkeknapp onClick={onKandidatAngreArkivering} className="Delete">
+                            <Lenkeknapp onClick={onKandidaterAngreArkivering} className="Delete">
                                 <Sletteknapp />
                             </Lenkeknapp>
                         </div>

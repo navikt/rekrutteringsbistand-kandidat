@@ -1,4 +1,8 @@
-import { postSmsTilKandidater, fetchSendteMeldinger } from './../../api';
+import {
+    postSmsTilKandidater,
+    fetchSendteMeldinger,
+    putArkivertForFlereKandidater,
+} from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
@@ -20,6 +24,8 @@ import {
     HentSendteMeldingerAction,
     ToggleArkivertAction,
     ToggleArkivertSuccessAction,
+    AngreArkiveringAction,
+    AngreArkiveringSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -374,6 +380,28 @@ function* toggleArkivert(action: ToggleArkivertAction) {
     }
 }
 
+function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
+    try {
+        const kandidatnumre: Array<string | null> = yield call(
+            putArkivertForFlereKandidater,
+            action.kandidatlisteId,
+            action.kandidatnumre,
+            false
+        );
+
+        const dearkiverteKandidater = kandidatnumre.filter(
+            kandidatNr => kandidatNr !== null
+        ) as string[];
+
+        yield put<AngreArkiveringSuccessAction>({
+            type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS,
+            kandidatnumre: dearkiverteKandidater,
+        });
+    } catch (e) {
+        yield put({ type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE });
+    }
+}
+
 function* oppdaterKandidatliste(action) {
     try {
         yield putOppdaterKandidatliste(action.kandidatlisteInfo);
@@ -502,6 +530,7 @@ function* kandidatlisteSaga() {
         markerKandidatlisteSomMin
     );
     yield takeLatest(KandidatlisteActionType.SLETT_KANDIDATLISTE, slettKandidatliste);
+    yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
         [
             KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE,

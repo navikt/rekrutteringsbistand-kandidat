@@ -332,6 +332,7 @@ export interface ToggleArkivertFailureAction {
 
 export interface AngreArkiveringAction {
     type: KandidatlisteActionType.ANGRE_ARKIVERING;
+    kandidatlisteId: string;
     kandidatnumre: string[];
 }
 

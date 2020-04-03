@@ -68,7 +68,7 @@ type Props = {
     slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
-    angreArkiveringForKandidater: (kandidatnumre: string[]) => void;
+    angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     arkiveringsstatus: RemoteDataTypes;
     visSendSms?: boolean;
 };
@@ -324,9 +324,10 @@ class Kandidatlisteside extends React.Component<Props> {
         }
     };
 
-    onKandidatAngreArkivering = () => {
+    onKandidaterAngreArkivering = () => {
         if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
             this.props.angreArkiveringForKandidater(
+                this.props.kandidatliste.data.kandidatlisteId,
                 this.state.kandidater
                     .filter(kandidat => kandidat.markert)
                     .map(kandidat => kandidat.kandidatnr)
@@ -458,7 +459,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
-                    onKandidatAngreArkivering={this.onKandidatAngreArkivering}
+                    onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
@@ -556,9 +557,10 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatlisteId,
         });
     },
-    angreArkiveringForKandidater: (kandidatnumre: string[]) => {
+    angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => {
         dispatch({
             type: KandidatlisteActionType.ANGRE_ARKIVERING,
+            kandidatlisteId,
             kandidatnumre,
         });
     },

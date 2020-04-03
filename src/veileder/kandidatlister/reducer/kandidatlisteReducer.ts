@@ -229,6 +229,37 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
     return state;
 };
 
+const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
+    state: KandidatlisteState,
+    kandidatnumre: string[]
+): KandidatlisteState => {
+    const kandidatliste = state.detaljer.kandidatliste;
+    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+        return {
+            ...state,
+            detaljer: {
+                ...state.detaljer,
+                kandidatliste: {
+                    ...kandidatliste,
+                    data: {
+                        ...kandidatliste.data,
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                            kandidatnumre.includes(utdatertKandidat.kandidatnr)
+                                ? {
+                                      ...utdatertKandidat,
+                                      arkivert: false,
+                                      arkivertTidspunkt: undefined,
+                                  }
+                                : utdatertKandidat
+                        ),
+                    },
+                },
+            },
+        };
+    }
+    return state;
+};
+
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     state = initialState,
     action
@@ -463,6 +494,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 Success(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ARKIVERT:
+        case KandidatlisteActionType.ANGRE_ARKIVERING:
             return {
                 ...state,
                 arkiveringsstatus: RemoteDataTypes.LOADING,
@@ -473,9 +505,16 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 arkiveringsstatus: RemoteDataTypes.SUCCESS,
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
+        case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
             return {
                 ...state,
                 arkiveringsstatus: RemoteDataTypes.FAILURE,
+            };
+
+        case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
+            return {
+                ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
+                arkiveringsstatus: RemoteDataTypes.SUCCESS,
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
