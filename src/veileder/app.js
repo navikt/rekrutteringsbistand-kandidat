@@ -118,7 +118,7 @@ class Sok extends React.Component {
     render() {
         const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
 
-        const header = !nyDekoratør ? (
+        const header = nyDekoratør ? (
             <>
                 <Dekoratør />
                 <div onClick={this.navigeringKlikk}>
