@@ -35,6 +35,7 @@ import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
+import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -233,6 +234,7 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
+                                        <PermitteringSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
