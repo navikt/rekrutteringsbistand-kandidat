@@ -47,6 +47,7 @@ import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
+import { SET_SCROLL_POSITION } from './sok/searchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -110,13 +111,19 @@ class Sok extends React.Component {
         this.props.hentInnloggetVeileder();
     }
 
+    navigeringKlikk = () => {
+        this.props.setScrollPosition(0);
+    };
+
     render() {
         const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
 
-        const header = nyDekoratør ? (
+        const header = !nyDekoratør ? (
             <>
                 <Dekoratør />
-                <Navigeringsmeny />
+                <div onClick={this.navigeringKlikk}>
+                    <Navigeringsmeny />
+                </div>
             </>
         ) : (
             <HeaderSwitch innloggetVeileder={innloggetVeileder} />
@@ -211,6 +218,8 @@ const mapDispatchToProps = dispatch => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
+    setScrollPosition: scrollPosisjon =>
+        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
 });
 /*
 End class Sok
