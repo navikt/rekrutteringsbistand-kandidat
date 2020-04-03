@@ -9,12 +9,14 @@ type Props = {
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     onSendSmsClick: () => void;
+    onKandidatAngreArkivering: () => void;
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
     stillingsId: string | null;
     children: ReactNode;
     visSendSms?: boolean;
+    visArkiverte: boolean;
 };
 
 const SmsKnapp: FunctionComponent = () => (
@@ -38,6 +40,13 @@ const Deleknapp: FunctionComponent = () => (
     </>
 );
 
+const Sletteknapp: FunctionComponent = () => (
+    <>
+        <i className="Delete__icon" />
+        <span>Angre sletting</span>
+    </>
+);
+
 const SmsKnappMedHjelpetekst: FunctionComponent = () => (
     <div className="Lenkeknapp typo-normal Sms">
         <SmsKnapp />
@@ -56,16 +65,24 @@ const DeleknappMedHjelpetekst: FunctionComponent = () => (
     </div>
 );
 
+const SletteknappMedHjelpetekst: FunctionComponent = () => (
+    <div className="Lenkeknapp typo-normal Delete">
+        <Sletteknapp />
+    </div>
+);
+
 const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
     onKandidatShare,
     onEmailKandidater,
     onSendSmsClick,
+    onKandidatAngreArkivering,
     kanEditere,
     arbeidsgiver,
     children,
     stillingsId,
     visSendSms,
+    visArkiverte,
 }) => {
     const skalViseSendSms = visSendSms && kanEditere && stillingsId;
 
@@ -125,6 +142,22 @@ const KnappeRad: FunctionComponent<Props> = ({
                             tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                         >
                             Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver.
+                        </HjelpetekstMidt>
+                    ))}
+                {visArkiverte &&
+                    (minstEnKandidatErMarkert ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onKandidatAngreArkivering} className="Delete">
+                                <Sletteknapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstMidt
+                            id="marker-kandidater-angre-arkivering-hjelpetekst"
+                            anchor={SletteknappMedHjelpetekst}
+                            tittel="Angre arkivering for de markerte kandidatene"
+                        >
+                            Du må huke av for kandidatene du ønsker å angre arkivering for.
                         </HjelpetekstMidt>
                     ))}
             </div>

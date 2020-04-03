@@ -32,6 +32,7 @@ type Props = {
     onKandidatStatusChange: any;
     onKandidatShare: any;
     onEmailKandidater: any;
+    onKandidatAngreArkivering: any;
     onSendSmsClick: any;
     onLeggTilKandidat: any;
     onVisningChange: any;
@@ -98,10 +99,12 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                         onEmailKandidater={props.onEmailKandidater}
                         onSendSmsClick={props.onSendSmsClick}
                         onKandidatShare={props.onKandidatShare}
+                        onKandidatAngreArkivering={props.onKandidatAngreArkivering}
                         kandidatlisteId={props.kandidatlisteId}
                         onLeggTilKandidat={props.onLeggTilKandidat}
                         stillingsId={props.stillingsId}
                         visSendSms={props.visSendSms}
+                        visArkiverte={visArkiverte}
                     >
                         <FinnKandidaterLenke
                             kandidatlisteId={props.kandidatlisteId}

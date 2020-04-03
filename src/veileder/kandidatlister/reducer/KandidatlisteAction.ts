@@ -330,6 +330,20 @@ export interface ToggleArkivertFailureAction {
     type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE;
 }
 
+export interface AngreArkiveringAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING;
+    kandidatnumre: string[];
+}
+
+export interface AngreArkiveringSuccessAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS;
+    kandidatnumre: string[];
+}
+
+export interface AngreArkiveringFailureAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE;
+}
+
 export interface SendSmsAction {
     type: KandidatlisteActionType.SEND_SMS;
     melding: string;
@@ -434,6 +448,9 @@ type KandidatlisteAction =
     | ResetSendSmsStatusAction
     | HentSendteMeldingerAction
     | HentSendteMeldingerSuccessAction
-    | HentSendteMeldingerFailureAction;
+    | HentSendteMeldingerFailureAction
+    | AngreArkiveringAction
+    | AngreArkiveringSuccessAction
+    | AngreArkiveringFailureAction;
 
 export default KandidatlisteAction;

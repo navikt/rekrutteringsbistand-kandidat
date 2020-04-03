@@ -68,6 +68,7 @@ type Props = {
     slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
+    angreArkiveringForKandidater: (kandidatnumre: string[]) => void;
     arkiveringsstatus: RemoteDataTypes;
     visSendSms?: boolean;
 };
@@ -323,6 +324,16 @@ class Kandidatlisteside extends React.Component<Props> {
         }
     };
 
+    onKandidatAngreArkivering = () => {
+        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            this.props.angreArkiveringForKandidater(
+                this.state.kandidater
+                    .filter(kandidat => kandidat.markert)
+                    .map(kandidat => kandidat.kandidatnr)
+            );
+        }
+    };
+
     onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
         if (visningsstatus === Visningsstatus.VisNotater) {
             this.props.hentNotater(kandidatlisteId, kandidatnr);
@@ -447,6 +458,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
+                    onKandidatAngreArkivering={this.onKandidatAngreArkivering}
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
@@ -542,6 +554,12 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         dispatch({
             type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
             kandidatlisteId,
+        });
+    },
+    angreArkiveringForKandidater: (kandidatnumre: string[]) => {
+        dispatch({
+            type: KandidatlisteActionType.ANGRE_ARKIVERING,
+            kandidatnumre,
         });
     },
 });
