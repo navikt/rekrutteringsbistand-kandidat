@@ -47,7 +47,7 @@ import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
-import { SET_SCROLL_POSITION } from './sok/searchReducer';
+import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import { LUKK_ALLE_SOKEPANEL } from './sok/konstanter';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -106,6 +106,22 @@ HeaderSwitch.propTypes = {
     innloggetVeileder: PropTypes.string,
 };
 
+export const hentQueryUtenKriterier = harHentetStilling => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+    harHentetStilling: harHentetStilling,
+});
+
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
@@ -115,6 +131,8 @@ class Sok extends React.Component {
     navigeringKlikk = () => {
         this.props.setScrollPosition(0);
         this.props.lukkAlleSokepanel();
+        this.props.resetQuery(hentQueryUtenKriterier(false));
+        this.props.initialSearch();
     };
 
     render() {
@@ -225,6 +243,10 @@ const mapDispatchToProps = dispatch => ({
     setScrollPosition: scrollPosisjon =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    initialSearch: () => {
+        dispatch({ type: INITIAL_SEARCH_BEGIN });
+    },
 });
 /*
 End class Sok
