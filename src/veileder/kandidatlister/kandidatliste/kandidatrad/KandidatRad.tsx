@@ -9,9 +9,8 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
-import { KandidatIKandidatliste, SmsStatus } from '../../kandidatlistetyper';
-import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
-import SendSmsIkon from './SendSmsIkon';
+import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -22,16 +21,6 @@ const utfallToString = (utfall: string) => {
         return 'Fått jobben';
     }
     return utfall;
-};
-
-const formaterSendtDato = (dato: Date) => {
-    return `${dato.toLocaleString('no-NB', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-    })}`;
 };
 
 type Props = {
@@ -121,17 +110,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
-                    {visSendSms && kandidat.sms && kandidat.sms.status !== SmsStatus.IkkeSendt && (
-                        <HjelpetekstUnder
-                            className="sms-status-popup"
-                            id="hjelpetekst-sms-status"
-                            anchor={SendSmsIkon}
-                        >
-                            {formaterSendtDato(new Date(kandidat.sms.opprettet))}
-                            <br />
-                            En SMS blir sendt til kandidaten.
-                        </HjelpetekstUnder>
-                    )}
+                    {visSendSms && kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
                 <div className="kolonne-dato">{kandidat.fodselsnr}</div>
                 <div className="kolonne-bred">
