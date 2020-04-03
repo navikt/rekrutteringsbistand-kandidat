@@ -46,9 +46,6 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             tittel="Permittert"
             onClick={() => setÅpen(!åpen)}
         >
-            <Normaltekst className="permittering-search__beskrivelse">
-                Brukere som har oppgitt at de er permittert i registreringen.
-            </Normaltekst>
             <SkjemaGruppe>
                 <Checkbox
                     id="permittering-permittert-checkbox"
