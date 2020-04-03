@@ -69,8 +69,6 @@ export const FERDIGUTFYLTESTILLINGER_KLIKK = 'FERDIGUTFYLTESTILLINGER_KLIKK';
 
 export const FJERN_ERROR = 'FJERN_ERROR';
 
-export const SET_PERMITTERT = 'SET_PERMITTERT';
-
 /** *********************************************************
  * REDUCER
  ********************************************************* */
@@ -103,10 +101,6 @@ const initialState = {
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
     innloggetVeileder: undefined,
-    permittering: {
-        permittert: false,
-        ikkePermittert: false,
-    },
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -228,12 +222,6 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling || false,
-                permittering: {
-                    permittert:
-                        action.query.permittert === true ? true : state.permittering.permittert,
-                    ikkePermittert:
-                        action.query.permittert === false ? false : state.permittering.permittert,
-                },
             };
         case HENT_INNLOGGET_VEILEDER_SUCCESS:
             return {
@@ -264,14 +252,6 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 viktigeYrkerApen: !state.viktigeYrkerApen,
-            };
-        case SET_PERMITTERT:
-            return {
-                ...state,
-                permittering: {
-                    permittert: action.permittert,
-                    ikkePermittert: action.ikkePermittert,
-                },
             };
         default:
             return state;
@@ -368,8 +348,8 @@ export const toUrlQuery = state => {
         urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
     if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
         urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
-    if (state.search.permittering.permittert !== state.search.permittering.ikkePermittert)
-        urlQuery.permittert = state.search.permittering.permittert;
+    if (state.permittering.permittert !== state.permittering.ikkePermittert)
+        urlQuery.permittert = state.permittering.permittert;
 
     return toUrlParams(urlQuery);
 };
@@ -424,11 +404,9 @@ function* search(action = '') {
             kategorier: state.tilretteleggingsbehov.kategorier,
         };
 
-        if (state.search.permittering.permittert !== state.search.permittering.ikkePermittert) {
-            criteriaValues.permittert = state.search.permittering.permittert;
+        if (state.permittering.permittert !== state.permittering.ikkePermittert) {
+            criteriaValues.permittert = state.permittering.permittert;
         }
-
-        console.log('VALUES:', criteriaValues);
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;

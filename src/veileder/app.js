@@ -35,6 +35,7 @@ import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
+import permitteringReducer from './sok/permittering/permitteringReducer.ts';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, {
@@ -63,6 +64,7 @@ const store = createStore(
         sprakReducer,
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
+        permittering: permitteringReducer,
         cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,

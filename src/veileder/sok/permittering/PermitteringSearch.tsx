@@ -3,7 +3,8 @@ import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/Sokekrit
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
-import { SEARCH, SET_PERMITTERT } from '../searchReducer';
+import { SEARCH } from '../searchReducer';
+import { PermitteringActionType } from './permitteringReducer';
 
 interface Props {
     permittert: boolean;
@@ -67,14 +68,14 @@ const PermitteringSearch: FunctionComponent<Props> = ({
 
 export default connect(
     (state: AppState) => ({
-        permittert: state.search.permittering.permittert,
-        ikkePermittert: state.search.permittering.ikkePermittert,
+        permittert: state.permittering.permittert,
+        ikkePermittert: state.permittering.ikkePermittert,
     }),
     (dispatch: (action: any) => void) => ({
         search: () => dispatch({ type: SEARCH }),
         setPermittert: (permittert: boolean, ikkePermittert: boolean) =>
             dispatch({
-                type: SET_PERMITTERT,
+                type: PermitteringActionType.SET_PERMITTERT,
                 permittert,
                 ikkePermittert,
             }),
