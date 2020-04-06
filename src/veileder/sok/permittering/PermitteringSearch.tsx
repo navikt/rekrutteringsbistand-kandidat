@@ -6,13 +6,14 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     permittert: boolean;
     ikkePermittert: boolean;
     setPermittert: (permittert: boolean, ikkePermittert: boolean) => void;
     search: () => void;
+    panelOpen: boolean;
+    togglePanel: () => void;
 }
 
 enum Permitteringsverdi {
@@ -25,9 +26,9 @@ const PermitteringSearch: FunctionComponent<Props> = ({
     ikkePermittert,
     setPermittert,
     search,
+    panelOpen,
+    togglePanel,
 }) => {
-    const [åpen, setÅpen] = useState<boolean>(false);
-
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const verdi = e.currentTarget.value as Permitteringsverdi;
 
@@ -41,10 +42,10 @@ const PermitteringSearch: FunctionComponent<Props> = ({
 
     return (
         <SokekriteriePanel
-            apen={åpen}
+            apen={panelOpen}
             id="Permittering__SokekriteriePanel"
             tittel="Permittert"
-            onClick={() => setÅpen(!åpen)}
+            onClick={togglePanel}
         >
             <SkjemaGruppe>
                 <Checkbox
@@ -72,6 +73,7 @@ export default connect(
     (state: AppState) => ({
         permittert: state.permittering.permittert,
         ikkePermittert: state.permittering.ikkePermittert,
+        panelOpen: state.permittering.panelOpen,
     }),
     (dispatch: (action: any) => void) => ({
         search: () => dispatch({ type: SEARCH }),
@@ -81,5 +83,6 @@ export default connect(
                 permittert,
                 ikkePermittert,
             }),
+        togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PANEL }),
     })
 )(PermitteringSearch);
