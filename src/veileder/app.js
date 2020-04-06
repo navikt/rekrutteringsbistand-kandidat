@@ -50,6 +50,7 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import { LUKK_ALLE_SOKEPANEL } from './sok/konstanter';
+import oppstartstidspunktReducer from './sok/oppstardstidspunkt/oppstartstidspunktReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -67,6 +68,7 @@ const store = createStore(
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
+        oppstartstidspunkt: oppstartstidspunktReducer,
         cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
