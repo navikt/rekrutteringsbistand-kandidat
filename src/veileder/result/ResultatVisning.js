@@ -36,6 +36,7 @@ import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActi
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
+import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -235,7 +236,8 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
-                                        {visPermitteringsfilter && <PermitteringSearch />}
+                                        {<PermitteringSearch /> /*TODO Ta tilbake feature toggle*/}
+                                        <OppstartstidspunktSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
