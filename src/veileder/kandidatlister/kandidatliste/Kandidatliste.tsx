@@ -42,13 +42,14 @@ type Props = {
     toggleArkivert: any;
     beskrivelse?: string;
     visSendSms?: boolean;
+    arkiveringErEnabled?: boolean;
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
+    return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
-const Kandidatliste: FunctionComponent<Props> = props => {
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
@@ -68,7 +69,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
 
     useEffect(() => {
         setFiltrerteKandidater(
-            props.kandidater.filter(kandidat => kandidat.arkivert === visArkiverte)
+            props.kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte)
         );
     }, [props.kandidater, visArkiverte]);
 
@@ -128,7 +129,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             alleMarkert={props.alleMarkert}
                             onCheckAlleKandidater={props.onCheckAlleKandidater}
                             stillingsId={props.stillingsId}
-                            visArkiveringskolonne={!visArkiverte}
+                            visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                         />
                         {filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
                             <KandidatRad
@@ -145,7 +146,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 slettNotat={props.slettNotat}
                                 toggleArkivert={props.toggleArkivert}
                                 visSendSms={props.visSendSms}
-                                visArkiveringskolonne={!visArkiverte}
+                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                             />
                         ))}
                     </div>

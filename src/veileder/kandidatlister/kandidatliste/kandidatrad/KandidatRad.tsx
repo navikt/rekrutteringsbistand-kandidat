@@ -98,7 +98,7 @@ const KandidatRad: FunctionComponent<Props> = ({
         endreNotat(kandidatlisteId, kandidat.kandidatnr, notatId, tekst);
     };
 
-    const onSletteNotat = notatId => {
+    const onSletteNotat = (notatId) => {
         slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
     };
 
@@ -156,7 +156,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         <StatusSelect
                             kanEditere={kanEditere}
                             value={kandidat.status as Status}
-                            onChange={status => {
+                            onChange={(status) => {
                                 onKandidatStatusChange(
                                     status,
                                     kandidatlisteId,
@@ -224,7 +224,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                             ? kandidat.notater.data.length
                             : kandidat.antallNotater
                     }
-                    onOpprettNotat={tekst => {
+                    onOpprettNotat={(tekst) => {
                         opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                     }}
                     onEndreNotat={onEndreNotat}
