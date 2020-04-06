@@ -29,6 +29,7 @@
             "telefon": "(+47) 123456789",
             "epost": "spammenot@mailinator.com",
             "innsatsgruppe": "Situasjonsbestemt innsats",
+            "arkivert": false,
             "antallNotater": 1
         },
         {
@@ -49,6 +50,7 @@
             "telefon": "91333532",
             "epost": "anostoga@gmail.com",
             "innsatsgruppe": "Varig tilpasset innsats",
+            "arkivert": true,
             "antallNotater": 1
         }
     ],

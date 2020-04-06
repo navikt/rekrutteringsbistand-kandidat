@@ -157,6 +157,27 @@ export const deleteNotat = (kandidatlisteId, kandidatnr, notatId) =>
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater/${notatId}/`
     );
 
+export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkivert: boolean) => {
+    return putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatNr}/arkivert`,
+        JSON.stringify(arkivert)
+    );
+};
+
+export const putArkivertForFlereKandidater = (
+    kandidatlisteId: string,
+    kandidatnumre: string[],
+    arkivert: boolean
+): Promise<Array<string | null>> => {
+    return Promise.all(
+        kandidatnumre.map(kandidatNr =>
+            putArkivert(kandidatlisteId, kandidatNr, arkivert)
+                .then(kandidat => kandidat.kandidatnr)
+                .catch(() => null)
+        )
+    );
+};
+
 export const fetchKandidatlister = (query = {}) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister?${convertToUrlParams(query)}`, true);
 

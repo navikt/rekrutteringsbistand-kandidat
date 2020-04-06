@@ -1,80 +1,59 @@
 import React, { FunctionComponent } from 'react';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import StatusHjelpetekst from './StatusHjelpetekst';
 
 interface Props {
-    stillingsId?: string;
+    stillingsId: string | null;
     alleMarkert: boolean;
-    onCheckAlleKandidater: () => void;
+    onCheckAlleKandidater: (markert: boolean) => void;
+    visArkiveringskolonne: boolean;
 }
+
+export const modifierTilListeradGrid = (
+    visUtfallskolonne: boolean,
+    visArkiveringskolonne: boolean
+) => {
+    if (visUtfallskolonne) {
+        return visArkiveringskolonne
+            ? ' liste-rad--vis-utfall-og-arkivering'
+            : ' liste-rad--vis-utfall';
+    } else {
+        return visArkiveringskolonne ? ' liste-rad--vis-arkivering' : '';
+    }
+};
 
 const ListeHeader: FunctionComponent<Props> = ({
     stillingsId,
     alleMarkert,
     onCheckAlleKandidater,
+    visArkiveringskolonne,
 }) => {
-    const Sporsmalstegn = () => (
-        <span className="Sporsmalstegn">
-            <span className="Sporsmalstegn__icon" />
-        </span>
-    );
-    const StatusHjelpetekst = () => (
-        <HjelpetekstMidt
-            id="sd"
-            anchor={Sporsmalstegn}
-            className="bred-hjelpetekst statusforklaring-stor"
-        >
-            <strong>Forklaring til status</strong>
-            <ul className="statusliste">
-                <li>
-                    Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status vurderes
-                </li>
-                <li>Kontaktet &ndash; Kandidaten er kontaktet, og det ventes på svar</li>
-                <li>Aktuell &ndash; Kandidaten er vurdert som aktuell for stillingen</li>
-                <li>Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen</li>
-                <li>Ikke interessert &ndash; Kandidaten er ikke interessert i stillingen</li>
-            </ul>
-            Statusene er kun synlig internt og vil ikke bli delt med arbeidsgiver.
-        </HjelpetekstMidt>
-    );
+    const klassenavnForListerad =
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+
     return (
         <div className="liste-rad-wrapper liste-header">
-            <div className="liste-rad">
-                <div className="kolonne-checkboks">
-                    <Checkbox
-                        label="&#8203;" // <- tegnet for tom streng
-                        className="text-hide skjemaelement--pink"
-                        checked={alleMarkert}
-                        onChange={onCheckAlleKandidater}
-                    />
-                </div>
-                <div className="kolonne-bred">
-                    <Element>Navn</Element>
-                </div>
-                <div className="kolonne-dato">
-                    <Element>Fødselsnummer</Element>
-                </div>
-                <div className="kolonne-bred">
-                    <Element>Lagt til av</Element>
-                </div>
+            <div className={klassenavnForListerad}>
+                <Checkbox
+                    label="&#8203;" // <- tegnet for tom streng
+                    className="text-hide skjemaelement--pink"
+                    checked={alleMarkert}
+                    onChange={() => onCheckAlleKandidater(!alleMarkert)}
+                />
+                <Element>Navn</Element>
+                <Element>Fødselsnummer</Element>
+                <Element>Lagt til av</Element>
                 <div className="kolonne-middels">
                     <div className="status-overskrift">
                         Status
                         <StatusHjelpetekst />
                     </div>
                 </div>
-                {stillingsId && (
-                    <div className="kolonne-bred">
-                        <Element>Utfall</Element>
-                    </div>
-                )}
-                <div className="kolonne-smal">
-                    <Element>Notater</Element>
-                </div>
-                <div className="kolonne-smal">
-                    <Element>Mer info</Element>
-                </div>
+                {stillingsId && <Element>Utfall</Element>}
+                <Element>Notater</Element>
+                <Element className="kolonne-midtstilt">Mer info</Element>
+                {visArkiveringskolonne && <Element className="kolonne-midtstilt">Slett</Element>}
             </div>
         </div>
     );

@@ -1,9 +1,9 @@
-import { SearchApiError } from './../../../felles/api';
-import { ResponseData } from './../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat, Sms } from '../kandidatlistetyper';
-import KandidatlisteActionType from './KandidatlisteActionType';
-import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { ApiError } from '../../../felles/common/remoteData';
+import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
+import { ResponseData } from './../../../felles/common/remoteData';
+import { SearchApiError } from './../../../felles/api';
+import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import KandidatlisteActionType from './KandidatlisteActionType';
 
 export interface OpprettKandidatlisteAction {
     type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE;
@@ -314,6 +314,37 @@ export interface ResetSletteStatusAction {
     type: KandidatlisteActionType.RESET_SLETTE_STATUS;
 }
 
+export interface ToggleArkivertAction {
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT;
+    kandidatlisteId: string;
+    kandidatnr: string;
+    arkivert: boolean;
+}
+
+export interface ToggleArkivertSuccessAction {
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS;
+    kandidat: Kandidat;
+}
+
+export interface ToggleArkivertFailureAction {
+    type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE;
+}
+
+export interface AngreArkiveringAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING;
+    kandidatlisteId: string;
+    kandidatnumre: string[];
+}
+
+export interface AngreArkiveringSuccessAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS;
+    kandidatnumre: string[];
+}
+
+export interface AngreArkiveringFailureAction {
+    type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE;
+}
+
 export interface SendSmsAction {
     type: KandidatlisteActionType.SEND_SMS;
     melding: string;
@@ -409,12 +440,18 @@ type KandidatlisteAction =
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
     | ResetSletteStatusAction
+    | ToggleArkivertAction
+    | ToggleArkivertSuccessAction
+    | ToggleArkivertFailureAction
     | SendSmsAction
     | SendSmsSuccessAction
     | SendSmsFailureAction
     | ResetSendSmsStatusAction
     | HentSendteMeldingerAction
     | HentSendteMeldingerSuccessAction
-    | HentSendteMeldingerFailureAction;
+    | HentSendteMeldingerFailureAction
+    | AngreArkiveringAction
+    | AngreArkiveringSuccessAction
+    | AngreArkiveringFailureAction;
 
 export default KandidatlisteAction;

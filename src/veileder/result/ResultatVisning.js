@@ -32,8 +32,8 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 
