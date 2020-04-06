@@ -11,6 +11,7 @@ import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
+import IngenKandidater from './ingen-kandidater/IngenKandidater';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -131,24 +132,34 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             stillingsId={props.stillingsId}
                             visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                         />
-                        {filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                            <KandidatRad
-                                key={kandidat.kandidatnr}
-                                kandidat={kandidat}
-                                endreNotat={props.endreNotat}
-                                kanEditere={props.kanEditere}
-                                stillingsId={props.stillingsId}
-                                kandidatlisteId={props.kandidatlisteId}
-                                onKandidatStatusChange={props.onKandidatStatusChange}
-                                onToggleKandidat={props.onToggleKandidat}
-                                onVisningChange={props.onVisningChange}
-                                opprettNotat={props.opprettNotat}
-                                slettNotat={props.slettNotat}
-                                toggleArkivert={props.toggleArkivert}
-                                visSendSms={props.visSendSms}
-                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
-                            />
-                        ))}
+                        {filtrerteKandidater.length > 0 ? (
+                            filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
+                                <KandidatRad
+                                    key={kandidat.kandidatnr}
+                                    kandidat={kandidat}
+                                    endreNotat={props.endreNotat}
+                                    kanEditere={props.kanEditere}
+                                    stillingsId={props.stillingsId}
+                                    kandidatlisteId={props.kandidatlisteId}
+                                    onKandidatStatusChange={props.onKandidatStatusChange}
+                                    onToggleKandidat={props.onToggleKandidat}
+                                    onVisningChange={props.onVisningChange}
+                                    opprettNotat={props.opprettNotat}
+                                    slettNotat={props.slettNotat}
+                                    toggleArkivert={props.toggleArkivert}
+                                    visSendSms={props.visSendSms}
+                                    visArkiveringskolonne={
+                                        !!props.arkiveringErEnabled && !visArkiverte
+                                    }
+                                />
+                            ))
+                        ) : (
+                            <IngenKandidater>
+                                {visArkiverte
+                                    ? 'Det er ingen kandidater som passer med valgte kriterier'
+                                    : 'Du har ingen kandidater i kandidatlisten'}
+                            </IngenKandidater>
+                        )}
                     </div>
                 </div>
             ) : (
