@@ -59,7 +59,10 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                 <div className="detaljer">
                     <div className="wrapper">
                         {props.kanEditere && minstEnSmsFeilet && (
-                            <SmsFeilAlertStripe kandidater={props.kandidater} />
+                            <SmsFeilAlertStripe
+                                kandidatlisteId={props.kandidatlisteId}
+                                kandidater={props.kandidater}
+                            />
                         )}
                         <KnappeRad
                             arbeidsgiver={props.arbeidsgiver}
