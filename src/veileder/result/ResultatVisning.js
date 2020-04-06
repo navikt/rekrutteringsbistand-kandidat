@@ -35,8 +35,9 @@ import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
+import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 
-export const hentQueryUtenKriterier = harHentetStilling => ({
+export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -113,6 +114,7 @@ class ResultatVisning extends React.Component {
             lagretKandidatliste,
             kandidatliste,
             antallLagredeKandidater,
+            visPermitteringsfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -233,6 +235,7 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
+                                        {visPermitteringsfilter && <PermitteringSearch />}
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -310,9 +313,10 @@ ResultatVisning.propTypes = {
         }),
     }),
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
+    visPermitteringsfilter: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     maksAntallTreff: state.search.maksAntallTreff,
@@ -324,13 +328,14 @@ const mapStateToProps = state => ({
         state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
+    visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
 });
 
-const mapDispatchToProps = dispatch => ({
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = (dispatch) => ({
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: stillingsId => {
+    initialSearch: (stillingsId) => {
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {

@@ -21,6 +21,7 @@ const FEATURE_TOGGLES = [
     'vis-send-sms',
     'vis-viktige-yrker-lenker',
     'vis-kandidatliste-sletting',
+    'vis-permitteringsfilter',
 ];
 export default FEATURE_TOGGLES;
 

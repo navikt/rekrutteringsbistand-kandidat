@@ -30,6 +30,9 @@ class VisKandidat extends React.Component {
             gjeldendeKandidat: this.gjeldendeKandidatIListen(
                 getUrlParameterByName('kandidatNr', window.location.href)
             ),
+            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(
+                getUrlParameterByName('kandidatNr', window.location.href)
+            ),
             forrigeKandidat: this.forrigeKandidatnummerIListen(
                 getUrlParameterByName('kandidatNr', window.location.href)
             ),
@@ -95,6 +98,7 @@ class VisKandidat extends React.Component {
             hentCvForKandidat(this.kandidatnummer);
             this.setState({
                 gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer),
+                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1
             });
         }
 
@@ -166,6 +170,14 @@ class VisKandidat extends React.Component {
         return gjeldendeIndex + 1;
     };
 
+    gjeldendeKandidatIndexIListen = kandidatnummer => {
+        const { kandidater } = this.props;
+        return kandidater.findIndex(
+            element => element.arenaKandidatnr === kandidatnummer
+        );
+
+    };
+
     forrigeKandidatnummerIListen = kandidatnummer => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
@@ -201,6 +213,7 @@ class VisKandidat extends React.Component {
         const {
             visKandidatLagret,
             gjeldendeKandidat,
+            gjeldendeKandidatIndex,
             forrigeKandidat,
             nesteKandidat,
             lagreKandidaterModalVises,
@@ -256,6 +269,7 @@ class VisKandidat extends React.Component {
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
+                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
                 />
                 {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
@@ -326,6 +340,7 @@ class VisKandidat extends React.Component {
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidat={gjeldendeKandidat}
                                 antallKandidater={antallKandidater}
+                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                             />
                         </div>
                     </div>
