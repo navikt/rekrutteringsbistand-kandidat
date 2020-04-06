@@ -3,7 +3,7 @@ import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
 
 export enum PermitteringActionType {
     SET_PERMITTERT = 'SET_PERMITTERT',
-    TOGGLE_PANEL = 'TOGGLE_PANEL',
+    TOGGLE_PERMITTERING_PANEL = 'TOGGLE_PERMITTERING_PANEL',
 }
 
 export type PermitteringState = {
@@ -19,7 +19,7 @@ export type PermitteringAction =
           ikkePermittert: boolean;
       }
     | {
-          type: PermitteringActionType.TOGGLE_PANEL;
+          type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL;
       };
 
 const initialState = {
@@ -45,7 +45,7 @@ export default function permitteringReducer(state: PermitteringState = initialSt
                 permittert: action.permittert,
                 ikkePermittert: action.ikkePermittert,
             };
-        case PermitteringActionType.TOGGLE_PANEL:
+        case PermitteringActionType.TOGGLE_PERMITTERING_PANEL:
             return {
                 ...state,
                 panelOpen: !state.panelOpen,

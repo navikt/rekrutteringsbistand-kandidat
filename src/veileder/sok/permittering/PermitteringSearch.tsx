@@ -83,6 +83,6 @@ export default connect(
                 permittert,
                 ikkePermittert,
             }),
-        togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PANEL }),
+        togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL }),
     })
 )(PermitteringSearch);
