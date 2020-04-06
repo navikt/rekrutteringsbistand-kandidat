@@ -87,9 +87,9 @@ const KnappeRad: FunctionComponent<Props> = ({
 }) => {
     const skalViseSendSms = visSendSms && kanEditere && stillingsId && !visArkiverte;
 
-    const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
+    const markerteKandidater = kandidater.filter((kandidat) => kandidat.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
-    const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
+    const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);
 
     return (
         <div className="kandidatlisteknapper">
@@ -158,9 +158,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                         <HjelpetekstUnderVenstre
                             id="marker-kandidater-angre-arkivering-hjelpetekst"
                             anchor={SletteknappMedHjelpetekst}
-                            tittel="Angre arkivering for de markerte kandidatene"
+                            tittel="Angre sletting for de markerte kandidatene"
                         >
-                            Du må huke av for kandidatene du ønsker å angre arkivering for.
+                            Du må huke av for kandidatene du ønsker å angre sletting for.
                         </HjelpetekstUnderVenstre>
                     ))}
             </div>
