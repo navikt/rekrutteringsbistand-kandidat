@@ -17,5 +17,6 @@
     "vis-nyheter": true,
     "vis-send-sms": true,
     "vis-viktige-yrker-lenker": true,
-    "ny-dekorator": true
+    "ny-dekorator": true,
+    "vis-permitteringsfilter": true
 }
