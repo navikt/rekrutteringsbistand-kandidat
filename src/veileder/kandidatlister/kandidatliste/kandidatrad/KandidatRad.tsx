@@ -115,17 +115,15 @@ const KandidatRad: FunctionComponent<Props> = ({
     return (
         <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
             <div className={klassenavnForListerad}>
-                <div className="kolonne-checkboks">
-                    <Checkbox
-                        label="&#8203;" // <- tegnet for tom streng
-                        className="text-hide skjemaelement--pink"
-                        checked={kandidat.markert}
-                        onChange={() => {
-                            onToggleKandidat(kandidat.kandidatnr);
-                        }}
-                    />
-                </div>
-                <div className="kolonne-bred kolonne-med-sms">
+                <Checkbox
+                    label="&#8203;" // <- tegnet for tom streng
+                    className="text-hide skjemaelement--pink"
+                    checked={kandidat.markert}
+                    onChange={() => {
+                        onToggleKandidat(kandidat.kandidatnr);
+                    }}
+                />
+                <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
                         className="link"
@@ -145,35 +143,25 @@ const KandidatRad: FunctionComponent<Props> = ({
                         </HjelpetekstUnder>
                     )}
                 </div>
-                <div className="kolonne-dato">{kandidat.fodselsnr}</div>
-                <div className="kolonne-bred">
-                    <span className="tabell-tekst">
-                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
-                    </span>
-                </div>
-                <div className="kolonne-middels">
-                    {visArkiveringskolonne ? (
-                        <StatusSelect
-                            kanEditere={kanEditere}
-                            value={kandidat.status as Status}
-                            onChange={(status) => {
-                                onKandidatStatusChange(
-                                    status,
-                                    kandidatlisteId,
-                                    kandidat.kandidatnr
-                                );
-                            }}
-                        />
-                    ) : (
-                        <Statusvisning status={kandidat.status as Status} />
-                    )}
-                </div>
-                {stillingsId && (
-                    <div className="kolonne-bred tabell-tekst">
-                        {utfallToString(kandidat.utfall)}
-                    </div>
+                <span>{kandidat.fodselsnr}</span>
+                <span className="tabell-tekst">
+                    {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                </span>
+                {visArkiveringskolonne ? (
+                    <StatusSelect
+                        kanEditere={kanEditere}
+                        value={kandidat.status as Status}
+                        onChange={(status) => {
+                            onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
+                        }}
+                    />
+                ) : (
+                    <Statusvisning status={kandidat.status as Status} />
                 )}
-                <div className="kolonne-smal">
+                {stillingsId && (
+                    <div className="tabell-tekst">{utfallToString(kandidat.utfall)}</div>
+                )}
+                <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
                         className="Notat liste-rad__ekspanderbar-knapp"
@@ -189,7 +177,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
-                <div className="kolonne-smal">
+                <div className="kolonne-midtstilt">
                     <Lenkeknapp
                         onClick={toggleMerInfo}
                         className="MerInfo liste-rad__ekspanderbar-knapp"
@@ -205,7 +193,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 {visArkiveringskolonne && (
-                    <div className="kolonne-smal">
+                    <div className="kolonne-midtstilt">
                         <Lenkeknapp
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
