@@ -405,7 +405,7 @@ function* search(action = '') {
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
-            criteriaValues.permittert = state.permittering.permittert;
+            criteriaValues.permittert = JSON.stringify(state.permittering.permittert);
         }
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
