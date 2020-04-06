@@ -71,7 +71,10 @@ export interface KandidatlisteState {
         sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
-    arkiveringsstatus: RemoteDataTypes;
+    arkivering: {
+        statusArkivering: RemoteDataTypes;
+        statusDearkivering: RemoteDataTypes;
+    };
 }
 
 const initialState: KandidatlisteState = {
@@ -121,7 +124,10 @@ const initialState: KandidatlisteState = {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: NotAsked(),
     },
-    arkiveringsstatus: RemoteDataTypes.NOT_ASKED,
+    arkivering: {
+        statusArkivering: RemoteDataTypes.NOT_ASKED,
+        statusDearkivering: RemoteDataTypes.NOT_ASKED,
+    },
 };
 
 const overforNotater: (
@@ -142,7 +148,7 @@ const overforNotater: (
     );
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: notaterMap[kandidat.kandidatId]
                 ? Success(notaterMap[kandidat.kandidatId])
@@ -160,7 +166,7 @@ const leggTilNotater: (
     }
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: NotAsked(),
         })),
@@ -181,7 +187,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
                     ...state.detaljer.kandidatliste,
                     data: {
                         ...state.detaljer.kandidatliste.data,
-                        kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
+                        kandidater: state.detaljer.kandidatliste.data.kandidater.map((kandidat) => {
                             if (kandidat.kandidatnr === kandidatnr) {
                                 return {
                                     ...kandidat,
@@ -212,7 +218,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             utdatertKandidat.kandidatnr === kandidat.kandidatnr
                                 ? {
                                       ...utdatertKandidat,
@@ -243,7 +249,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             kandidatnumre.includes(utdatertKandidat.kandidatnr)
                                 ? {
                                       ...utdatertKandidat,
@@ -494,27 +500,52 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 Success(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ARKIVERT:
-        case KandidatlisteActionType.ANGRE_ARKIVERING:
             return {
                 ...state,
-                arkiveringsstatus: RemoteDataTypes.LOADING,
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.LOADING,
+                },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
             return {
                 ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
-                arkiveringsstatus: RemoteDataTypes.SUCCESS,
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.SUCCESS,
+                },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.FAILURE,
+                },
+            };
+        case KandidatlisteActionType.ANGRE_ARKIVERING:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.LOADING,
+                },
+            };
         case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
             return {
                 ...state,
-                arkiveringsstatus: RemoteDataTypes.FAILURE,
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.FAILURE,
+                },
             };
-
         case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
             return {
                 ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
-                arkiveringsstatus: RemoteDataTypes.SUCCESS,
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.SUCCESS,
+                },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {

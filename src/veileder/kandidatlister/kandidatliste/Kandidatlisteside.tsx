@@ -69,7 +69,8 @@ type Props = {
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
-    arkiveringsstatus: RemoteDataTypes;
+    statusArkivering: RemoteDataTypes;
+    statusDearkivering: RemoteDataTypes;
     visSendSms?: boolean;
     arkiveringErEnabled?: boolean;
 };
@@ -141,11 +142,20 @@ class Kandidatlisteside extends React.Component<Props> {
         const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
 
         const enKandidatErNettoppArkivert =
-            prevProps.arkiveringsstatus === RemoteDataTypes.LOADING &&
-            this.props.arkiveringsstatus === RemoteDataTypes.SUCCESS;
+            prevProps.statusArkivering === RemoteDataTypes.LOADING &&
+            this.props.statusArkivering === RemoteDataTypes.SUCCESS;
+
         const arkiveringFeiletNettopp =
-            prevProps.arkiveringsstatus === RemoteDataTypes.LOADING &&
-            this.props.arkiveringsstatus === RemoteDataTypes.FAILURE;
+            prevProps.statusArkivering === RemoteDataTypes.LOADING &&
+            this.props.statusArkivering === RemoteDataTypes.FAILURE;
+
+        const enKandidatErNettoppDearkivert =
+            prevProps.statusDearkivering === RemoteDataTypes.LOADING &&
+            this.props.statusDearkivering === RemoteDataTypes.SUCCESS;
+
+        const dearkiveringFeiletNettopp =
+            prevProps.statusDearkivering === RemoteDataTypes.LOADING &&
+            this.props.statusDearkivering === RemoteDataTypes.FAILURE;
 
         const kandidatlistenVarIkkeLastet =
             prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
@@ -175,7 +185,17 @@ class Kandidatlisteside extends React.Component<Props> {
         }
 
         if (arkiveringFeiletNettopp) {
-            this.visInfobanner(`Det skjedde noe galt under sletting av kandidaten`, 'feil');
+            this.visInfobanner(`Det skjedde noe galt under sletting av kandidaten`);
+        }
+
+        if (enKandidatErNettoppDearkivert) {
+            this.visInfobanner(`Kandidaten ble lagt tilbake i kandidatlisten`);
+        }
+
+        if (dearkiveringFeiletNettopp) {
+            this.visInfobanner(
+                `Det skjedde noe galt, kunne ikke legge kandidaten tilbake i kandidatlisten`
+            );
         }
 
         if (smsErNettoppSendtTilKandidater) {
@@ -484,7 +504,8 @@ const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
-    arkiveringsstatus: state.kandidatlister.arkiveringsstatus,
+    statusArkivering: state.kandidatlister.arkivering.statusArkivering,
+    statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
     visSendSms: state.search.featureToggles['vis-send-sms'],
     arkiveringErEnabled: state.search.featureToggles['vis-kandidatliste-sletting'],
 });
