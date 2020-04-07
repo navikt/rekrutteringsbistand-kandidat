@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import AppState from '../../AppState';
 import { OppstartstidspunktActionType, OppstartstidspunktState } from './oppstartstidspunktReducer';
 import { SEARCH } from '../searchReducer';
+import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 
 export enum Oppstartstidspunkt {
     LEDIG_NAA = 'LEDIG_NAA',
@@ -45,7 +46,12 @@ const OppstartstidspunktSearch: FunctionComponent<Props | any> = props => {
         <SokekriteriePanel
             apen={panelOpen}
             id="Oppstartstidspunkt__SokekriteriePanel"
-            tittel="Tilgjengelighet"
+            tittel={
+                <div className="permittering-search__tittel">
+                    Tilgjengelighet
+                    <NyttFilterIkon />
+                </div>
+            }
             onClick={props.toggleOppstartstidspunktOpen}
         >
             <SkjemaGruppe title="Registrert i kandidatens jobbprofil">
