@@ -33,7 +33,6 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
         <HjelpetekstUnder className="sms-status-popup" id="hjelpetekst-sms-status" anchor={ikon}>
             {formaterSendtDato(new Date(sms.opprettet))}
             <br />
-            {/*TODO sjekk status*/}
             {popupTekst}
         </HjelpetekstUnder>
     );

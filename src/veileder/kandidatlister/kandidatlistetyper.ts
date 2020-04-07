@@ -29,6 +29,7 @@ export enum MarkerSomMinStatus {
 }
 
 export interface Sms {
+    id: number;
     fnr: string;
     opprettet: string;
     sendt: string;

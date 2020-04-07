@@ -42,9 +42,6 @@ type Props = {
 };
 
 const Kandidatliste: FunctionComponent<Props> = props => {
-    const minstEnSmsFeilet = props.kandidater.some(
-        kandidat => kandidat.sms && kandidat.sms.status === SmsStatus.Feil
-    );
     return (
         <div className="Kandidatliste">
             <SideHeader
@@ -58,12 +55,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
             {props.kandidater.length > 0 ? (
                 <div className="detaljer">
                     <div className="wrapper">
-                        {props.kanEditere && minstEnSmsFeilet && (
-                            <SmsFeilAlertStripe
-                                kandidatlisteId={props.kandidatlisteId}
-                                kandidater={props.kandidater}
-                            />
-                        )}
+                        {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
                         <KnappeRad
                             arbeidsgiver={props.arbeidsgiver}
                             kanEditere={props.kanEditere}
