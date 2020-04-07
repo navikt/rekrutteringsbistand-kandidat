@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
+import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     permittert: boolean;
@@ -44,10 +46,18 @@ const PermitteringSearch: FunctionComponent<Props> = ({
         <SokekriteriePanel
             apen={panelOpen}
             id="Permittering__SokekriteriePanel"
-            tittel="Permittert"
+            tittel={
+                <div className="permittering-search__tittel">
+                    Permittert
+                    <NyttFilterIkon />
+                </div>
+            }
             onClick={togglePanel}
         >
-            <SkjemaGruppe>
+            <Normaltekst id="permittering-ingress" className="permittering-search__ingress">
+                Brukere som har oppgitt at de er permittert i registreringen.
+            </Normaltekst>
+            <SkjemaGruppe aria-labelledby="permittering-ingress">
                 <Checkbox
                     id="permittering-permittert-checkbox"
                     className="permittering-search__checkbox skjemaelement--pink"

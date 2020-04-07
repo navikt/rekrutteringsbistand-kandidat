@@ -30,7 +30,7 @@ const SokekriteriePanel = ({ children, tittel, apen, onClick, id }) => {
 SokekriteriePanel.propTypes = {
     id: PropTypes.string.isRequired,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]).isRequired,
-    tittel: PropTypes.string.isRequired,
+    tittel: PropTypes.any.isRequired,
     apen: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
 };
