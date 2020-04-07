@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
 import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../../kandidatlistetyper';
+import './smsStatusIkon.less';
 
 const formaterSendtDato = (dato: Date) => {
     return `${dato.toLocaleString('no-NB', {
@@ -28,7 +29,6 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
 
     const ikon = () => <SendSmsIkon feil={sms.status === SmsStatus.Feil} />;
 
-    // TODO flytte classname inn i denne pakken
     return (
         <HjelpetekstUnder className="sms-status-popup" id="hjelpetekst-sms-status" anchor={ikon}>
             {formaterSendtDato(new Date(sms.opprettet))}
