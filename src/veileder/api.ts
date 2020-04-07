@@ -72,10 +72,13 @@ export function fetchFeatureToggles() {
 export const fetchInnloggetVeileder = () => fetchJson(`${KANDIDATSOK_API}/veileder/me`, true);
 
 export function fetchKandidater(query = {}) {
+    console.log(query)
     return fetchJson(`${SEARCH_API}/sok?${convertToUrlParams(query)}`, true);
 }
 
 export function fetchKandidaterES(query = {}) {
+    console.log(query)
+
     return fetchJson(`${SEARCH_API}/sok?${convertToUrlParams(query)}`, true);
 }
 

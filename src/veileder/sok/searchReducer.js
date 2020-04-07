@@ -410,6 +410,7 @@ function* search(action = '') {
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
+            oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
