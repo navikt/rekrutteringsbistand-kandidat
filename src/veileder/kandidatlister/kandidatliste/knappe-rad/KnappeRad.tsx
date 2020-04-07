@@ -1,7 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import { HjelpetekstMidt, HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import './KnappeRad.less';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
@@ -9,12 +10,14 @@ type Props = {
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     onSendSmsClick: () => void;
+    onKandidaterAngreArkivering: () => void;
     kanEditere: boolean;
     arbeidsgiver?: string;
     kandidatlisteId: string;
-    stillingsId?: string;
+    stillingsId: string | null;
     children: ReactNode;
     visSendSms?: boolean;
+    visArkiverte: boolean;
 };
 
 const SmsKnapp: FunctionComponent = () => (
@@ -38,6 +41,13 @@ const Deleknapp: FunctionComponent = () => (
     </>
 );
 
+const Sletteknapp: FunctionComponent = () => (
+    <>
+        <i className="Delete__icon" />
+        <span>Angre sletting</span>
+    </>
+);
+
 const SmsKnappMedHjelpetekst: FunctionComponent = () => (
     <div className="Lenkeknapp typo-normal Sms">
         <SmsKnapp />
@@ -56,27 +66,35 @@ const DeleknappMedHjelpetekst: FunctionComponent = () => (
     </div>
 );
 
+const SletteknappMedHjelpetekst: FunctionComponent = () => (
+    <div className="Lenkeknapp typo-normal Delete">
+        <Sletteknapp />
+    </div>
+);
+
 const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
     onKandidatShare,
     onEmailKandidater,
     onSendSmsClick,
+    onKandidaterAngreArkivering,
     kanEditere,
     arbeidsgiver,
     children,
     stillingsId,
     visSendSms,
+    visArkiverte,
 }) => {
-    const skalViseSendSms = visSendSms && kanEditere && stillingsId;
+    const skalViseSendSms = visSendSms && kanEditere && stillingsId && !visArkiverte;
 
     const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some(kandidat => !kandidat.sms);
 
     return (
-        <div className="knappe-rad">
-            <div className="knapper-venstre">{children}</div>
-            <div className="dele-wrapper">
+        <div className="kandidatlisteknapper">
+            <div className="kandidatlisteknapper__venstre">{children}</div>
+            <div className="kandidatlisteknapper__høyre">
                 {skalViseSendSms &&
                     (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
                         <div className="hjelpetekst">
@@ -95,22 +113,24 @@ const KnappeRad: FunctionComponent<Props> = ({
                                 : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
                         </HjelpetekstMidt>
                     ))}
-                {minstEnKandidatErMarkert ? (
-                    <div className="hjelpetekst">
-                        <Lenkeknapp onClick={onEmailKandidater} className="Email">
-                            <Epostknapp />
-                        </Lenkeknapp>
-                    </div>
-                ) : (
-                    <HjelpetekstMidt
-                        id="marker-kandidater-epost-hjelpetekst"
-                        anchor={EpostknappMedHjelpetekst}
-                        tittel="Send e-post til de markerte kandidatene"
-                    >
-                        Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
-                    </HjelpetekstMidt>
-                )}
+                {!visArkiverte &&
+                    (minstEnKandidatErMarkert ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onEmailKandidater} className="Email">
+                                <Epostknapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstUnderVenstre
+                            id="marker-kandidater-epost-hjelpetekst"
+                            anchor={EpostknappMedHjelpetekst}
+                            tittel="Send e-post til de markerte kandidatene"
+                        >
+                            Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
+                        </HjelpetekstUnderVenstre>
+                    ))}
                 {kanEditere &&
+                    !visArkiverte &&
                     arbeidsgiver &&
                     (minstEnKandidatErMarkert ? (
                         <div className="hjelpetekst">
@@ -126,6 +146,22 @@ const KnappeRad: FunctionComponent<Props> = ({
                         >
                             Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver.
                         </HjelpetekstMidt>
+                    ))}
+                {visArkiverte &&
+                    (minstEnKandidatErMarkert ? (
+                        <div className="hjelpetekst">
+                            <Lenkeknapp onClick={onKandidaterAngreArkivering} className="Delete">
+                                <Sletteknapp />
+                            </Lenkeknapp>
+                        </div>
+                    ) : (
+                        <HjelpetekstUnderVenstre
+                            id="marker-kandidater-angre-arkivering-hjelpetekst"
+                            anchor={SletteknappMedHjelpetekst}
+                            tittel="Angre sletting for de markerte kandidatene"
+                        >
+                            Du må huke av for kandidatene du ønsker å angre sletting for.
+                        </HjelpetekstUnderVenstre>
                     ))}
             </div>
         </div>

@@ -278,6 +278,7 @@ export const fromUrlQuery = url => {
     const hovedmal = getUrlParameterByName('hovedmal', url);
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
     const kategorier = getUrlParameterByName('kategorier', url);
+    const permittert = getUrlParameterByName('permittert');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -298,6 +299,7 @@ export const fromUrlQuery = url => {
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
+    if (permittert) stateFromUrl.permittert = permittert === 'true';
 
     return stateFromUrl;
 };
@@ -346,6 +348,9 @@ export const toUrlQuery = state => {
         urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
     if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
         urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
+    if (state.permittering.permittert !== state.permittering.ikkePermittert)
+        urlQuery.permittert = state.permittering.permittert;
+
     return toUrlParams(urlQuery);
 };
 
@@ -398,6 +403,10 @@ function* search(action = '') {
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
         };
+
+        if (state.permittering.permittert !== state.permittering.ikkePermittert) {
+            criteriaValues.permittert = JSON.stringify(state.permittering.permittert);
+        }
 
         const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;

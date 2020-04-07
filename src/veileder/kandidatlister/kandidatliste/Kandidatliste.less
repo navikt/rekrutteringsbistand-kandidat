@@ -1,269 +1,233 @@
-.Kandidatliste {
+.kandidatliste {
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
-    .side-header {
-        background-color: #e3edf8;
-        padding-top: 2.5rem;
-        padding-bottom: 2.5rem;
-        border-bottom: 1px solid #d8d8d8;
-        display: flex;
-        justify-content: center;
 
-        .wrapper {
-            width: 74rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            .top {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                .tittel {
-                    text-align: center;
-                }
-                .header-side {
-                    width: 10rem;
-                }
-            }
+    .finn-kandidater {
+        font-weight: 600;
+        margin-right: 2rem;
+    }
 
-            .antall {
-                text-align: center;
-                margin-top: 1.25rem;
-            }
-            .bottom {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 0.5rem;
-                .border-left {
-                    border-left: 1px solid #59514b;
-                    padding-left: 0.5rem;
-                    padding-right: 0.5rem;
-                }
-                .no-border-left {
-                    padding-right: 0.5rem;
-                }
-            }
-            .beskrivelse {
-                margin-top: 1.25rem;
-                display: flex;
-                justify-content: center;
-                > p {
-                    text-align: center;
-                    max-width: 640px;
-                    word-break: break-word;
-                }
-            }
+    .legg-til-kandidat {
+        font-weight: 600;
+    }
+
+    &__filter {
+        grid-area: filter;
+
+        .ekspanderbartPanel__innhold {
+            padding-bottom: 1.25rem;
         }
     }
 
-    .tom-liste {
-        display: flex;
-        justify-content: center;
-        margin-top: 2.5rem;
-        .content {
-            background-color: white;
+    &__container {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+            'ingenting knapperad'
+            'filter liste';
+        grid-gap: 1.5rem 4rem;
+        margin: 2.5rem auto;
+        max-width: 95.5rem;
+
+        .liste-header {
+            border: 1px solid #78706a;
+        }
+    }
+
+    &__liste {
+        width: 74rem;
+        grid-area: liste;
+
+        .liste-rad-wrapper {
             border-radius: 4px;
-            border: 1px solid #d8d8d8;
-            width: 40rem;
-            padding-top: 4rem;
-            padding-bottom: 4rem;
-            .tekst {
-                text-align: center;
-                padding-bottom: 2.5rem;
-            }
-            .knapper {
-                display: flex;
-                justify-content: center;
-                .finn-kandidater {
-                    font-weight: 600;
-                    margin-right: 2rem;
-                }
-                .legg-til-kandidat {
-                    font-weight: 600;
-                }
-            }
-        }
-    }
+            background-color: white;
 
-    .detaljer {
-        display: flex;
-        justify-content: center;
-        .wrapper {
-            width: 74rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            .knappe-rad {
-                display: flex;
-                align-items: center;
-                margin-top: 2.5rem;
-                height: 1.5rem;
-                justify-content: space-between;
-                .knapper-venstre {
-                    display: flex;
-                }
-                .dele-wrapper {
-                    display: flex;
-                    align-items: initial;
-                }
-                .hjelpetekst {
-                    line-height: 1;
-                    padding: 0;
-                    margin-left: 2rem;
+            .liste-rad {
+                height: 4.5rem;
+                display: grid;
+                padding-left: 1.25rem;
+                padding-right: 0.5rem;
+                grid-gap: 1rem;
+                grid-template-columns:
+                    minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                    minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
 
-                    button {
-                        &:focus {
-                            .Share__icon {
-                                background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDUyLjQgKDY3Mzc4KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5zaGFyZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSJTeW1ib2xzIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0ibWVueS8ta2FuZGlkYXRsaXN0ZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTc2LjAwMDAwMCwgMC4wMDAwMDApIiBmaWxsPSIjMDA2N0M1Ij4KICAgICAgICAgICAgPGcgaWQ9InNoYXJlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3Ni4wMDAwMDAsIDAuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYuMjUsMTIuNSBDMTQuOTMxNjY2NywxMi41IDEzLjc3MjUsMTMuMTgyNSAxMy4xMDU4MzMzLDE0LjIxMjUgTDcuMjY3NSwxMS4yOTMzMzMzIEM3LjQyMTY2NjY3LDEwLjg3OTE2NjcgNy41LDEwLjQ0NSA3LjUsMTAgQzcuNSw5LjU1NSA3LjQyMTY2NjY3LDkuMTIxNjY2NjcgNy4yNjc1LDguNzA2NjY2NjcgTDEzLjEwNTgzMzMsNS43ODgzMzMzMyBDMTMuNzcyNSw2LjgxODMzMzMzIDE0LjkzMTY2NjcsNy41IDE2LjI1LDcuNSBDMTguMzIsNy41IDIwLDUuODIwODMzMzMgMjAsMy43NSBDMjAsMS42NzkxNjY2NyAxOC4zMiwwIDE2LjI1LDAgQzE0LjE3ODMzMzMsMCAxMi41LDEuNjc5MTY2NjcgMTIuNSwzLjc1IEMxMi41LDQuMjA1IDEyLjU4NSw0LjYzOTE2NjY3IDEyLjczMjUsNS4wNDI1IEw2Ljg5LDcuOTY1IEM2LjIwMDgzMzMzLDYuOSA1LjAzNTgzMzMzLDYuMjUgMy43NSw2LjI1IEMxLjY4MzMzMzMzLDYuMjUgMCw3LjkzMjUgMCwxMCBDMCwxMi4wNjc1IDEuNjgzMzMzMzMsMTMuNzUgMy43NSwxMy43NSBDNS4wMzU4MzMzMywxMy43NSA2LjIwMDgzMzMzLDEzLjEwMDgzMzMgNi44OSwxMi4wMzUgTDEyLjczMzMzMzMsMTQuOTU3NSBDMTIuNTg1LDE1LjM2MTY2NjcgMTIuNSwxNS43OTUgMTIuNSwxNi4yNSBDMTIuNSwxOC4zMjA4MzMzIDE0LjE3ODMzMzMsMjAgMTYuMjUsMjAgQzE4LjMyLDIwIDIwLDE4LjMyMDgzMzMgMjAsMTYuMjUgQzIwLDE0LjE3OTE2NjcgMTguMzIsMTIuNSAxNi4yNSwxMi41IFoiIGlkPSJQYXRoIj48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
-                            }
-                        }
-                    }
-                }
-                .finn-kandidater {
-                    font-weight: 600;
-                    margin-right: 2rem;
-                }
-                .legg-til-kandidat {
-                    font-weight: 600;
-                }
-            }
-            .liste-rad-wrapper {
-                border-radius: 4px;
-                background-color: white;
-                .liste-rad {
-                    height: 4.5rem;
-                    display: grid;
-                    padding: 0 1.25rem;
-                    grid-gap: 1rem;
+                &--vis-arkivering {
                     grid-template-columns:
                         minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 10fr) minmax(0, 4fr) minmax(0, 4fr);
+                        minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                }
 
-                    .status-overskrift {
-                        font-weight: 600;
-                        width: 10.25rem;
-                        max-width: 10.25rem;
-                        display: flex;
-                        align-items: center;
+                &--vis-utfall {
+                    grid-template-columns:
+                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
+                }
 
-                        .hjelpetekst {
-                            margin-left: -0.75rem;
-                            .bred-hjelpetekst {
-                                width: 29rem;
-                            }
-                        }
-                        .statusforklaring-stor {
-                            ul {
-                                padding-left: 1.5rem;
-                                li:not(:first-child) {
-                                    padding-top: 0.25rem;
-                                }
-                            }
-                        }
-                    }
+                &--vis-utfall-og-arkivering {
+                    grid-template-columns:
+                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                }
 
-                    > * {
-                        display: flex;
-                        align-items: center;
-                    }
+                &__ekspanderbar-knapp {
+                    display: flex;
+                    align-items: center;
 
-                    .kolonne-med-sms {
-                        .link {
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
-
-                        .hjelpetekst {
-                            padding-left: 0.5rem;
-                        }
-                    }
-
-                    .tabell-tekst {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                    }
-
-                    .kolonne-checkboks {
-                        padding-right: 1.25rem;
-                        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-                            .skjemaelement {
-                                padding-bottom: 1.5rem;
-                            }
-                        }
+                    i {
+                        margin-right: 0.4rem;
                     }
                 }
-                .info-under-kandidat {
-                    background-color: #f6f5f5;
-                    display: flex;
+
+                &__antall-notater {
+                    margin-right: 0.4rem;
+                }
+
+                .StatusSelect {
+                    max-width: 11rem;
+                }
+
+                .kolonne-midtstilt {
                     justify-content: center;
-                    padding-top: 2rem;
-                    padding-bottom: 2rem;
-                    .info-under-kandidat-content {
-                        width: 40rem;
-                        .avsnitt {
-                            margin-top: 1.25rem;
+                }
+
+                .status-overskrift {
+                    font-weight: 600;
+                    width: 10.25rem;
+                    max-width: 10.25rem;
+                    display: flex;
+                    align-items: center;
+
+                    .hjelpetekst {
+                        margin-left: -0.75rem;
+                        .bred-hjelpetekst {
+                            width: 29rem;
                         }
-                        .spinner-wrapper {
-                            display: flex;
-                            justify-content: center;
-                            padding-top: 1.25rem;
-                        }
-                        .notatliste {
-                            margin-top: 2rem;
-                            border-top: 1px solid #d8d8d8;
-                            .notatliste-rad {
-                                border-bottom: 1px solid #d8d8d8;
-                                padding-top: 1rem;
-                                padding-bottom: 1rem;
-                                .notat-tekst {
-                                    margin-top: 0.25rem;
-                                    padding-right: 6.25rem;
-                                }
+                    }
+
+                    .statusforklaring-stor {
+                        ul {
+                            padding-left: 1.5rem;
+                            li:not(:first-child) {
+                                padding-top: 0.25rem;
                             }
                         }
                     }
-                    .nytt-notat-form {
-                        margin-top: 2rem;
-                        .nytt-notat-tekst {
-                            margin-top: 0.25rem;
-                            min-height: 7.5rem;
-                        }
-                    }
-                    .nytt-notat-knapperad {
-                        margin-top: 1.25rem;
-                        > :not(:first-child) {
-                            margin-left: 1rem;
-                        }
-                    }
                 }
-                .mer-info {
+
+                > * {
                     display: flex;
-                    .kontaktinfo-kolonne {
-                        flex: 2;
+                    align-items: center;
+                }
+
+                .kolonne-med-sms {
+                    .link {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
                     }
-                    .innsatsgruppe-kolonne {
-                        flex: 1;
+
+                    .hjelpetekst {
+                        padding-left: 0.5rem;
                     }
-                    .tekst {
-                        margin-top: 1rem;
-                        line-height: 1.3rem;
+                }
+
+                .tabell-tekst {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .kolonne-checkboks {
+                    padding-right: 1.25rem;
+                    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                        .skjemaelement {
+                            padding-bottom: 1.5rem;
+                        }
                     }
                 }
             }
-            .kandidat {
-                margin-top: 0.5rem;
+            .info-under-kandidat {
+                background-color: #f6f5f5;
+                display: flex;
+                justify-content: center;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+
+                .info-under-kandidat-content {
+                    width: 40rem;
+                    .avsnitt {
+                        margin-top: 1.25rem;
+                    }
+
+                    .spinner-wrapper {
+                        display: flex;
+                        justify-content: center;
+                        padding-top: 1.25rem;
+                    }
+
+                    .notatliste {
+                        margin-top: 2rem;
+                        border-top: 1px solid #d8d8d8;
+
+                        .notatliste-rad {
+                            border-bottom: 1px solid #d8d8d8;
+                            padding-top: 1rem;
+                            padding-bottom: 1rem;
+
+                            .notat-tekst {
+                                margin-top: 0.25rem;
+                                padding-right: 6.25rem;
+                            }
+                        }
+                    }
+                }
+
+                .nytt-notat-form {
+                    margin-top: 2rem;
+
+                    .nytt-notat-tekst {
+                        margin-top: 0.25rem;
+                        min-height: 7.5rem;
+                    }
+                }
+
+                .nytt-notat-knapperad {
+                    margin-top: 1.25rem;
+
+                    > :not(:first-child) {
+                        margin-left: 1rem;
+                    }
+                }
             }
-            .kandidat.checked {
-                border: 1px solid #0067c5;
-            }
-            .kandidat.unchecked {
-                border: 1px solid #d8d8d8;
+            .mer-info {
+                display: flex;
+
+                .kontaktinfo-kolonne {
+                    flex: 2;
+                }
+
+                .innsatsgruppe-kolonne {
+                    flex: 1;
+                }
+
+                .tekst {
+                    margin-top: 1rem;
+                    line-height: 1.3rem;
+                }
             }
         }
-        .liste-header {
-            margin-top: 1.25rem;
-            border: 1px solid #78706a;
+        .kandidat {
+            margin-top: 0.5rem;
+        }
+
+        .kandidat.checked {
+            border: 1px solid #0067c5;
+        }
+
+        .kandidat.unchecked {
+            border: 1px solid #d8d8d8;
         }
     }
 }

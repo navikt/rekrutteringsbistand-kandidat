@@ -19,6 +19,7 @@ export const Kandidat = {
     innsatsgruppe: PropTypes.string,
     utfall: PropTypes.string,
     erSynlig: PropTypes.bool,
+    arkivert: PropTypes.bool,
 };
 
 export const Kandidatliste = {

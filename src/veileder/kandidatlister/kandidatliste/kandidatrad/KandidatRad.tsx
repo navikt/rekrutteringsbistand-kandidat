@@ -4,13 +4,14 @@ import { Visningsstatus } from '../Kandidatliste';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
-import StatusSelect, { Status } from './statusSelect/StatusSelect';
+import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
-import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
+import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -26,10 +27,11 @@ const utfallToString = (utfall: string) => {
 type Props = {
     kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
-    stillingsId?: string;
+    stillingsId: string | null;
     endreNotat: any;
     slettNotat: any;
     opprettNotat: any;
+    toggleArkivert: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (
@@ -39,6 +41,7 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visSendSms?: boolean;
+    visArkiveringskolonne: boolean;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -48,11 +51,13 @@ const KandidatRad: FunctionComponent<Props> = ({
     endreNotat,
     slettNotat,
     opprettNotat,
+    toggleArkivert,
     onToggleKandidat,
     onVisningChange,
     kanEditere,
     onKandidatStatusChange,
     visSendSms,
+    visArkiveringskolonne,
 }) => {
     const antallNotater =
         kandidat.notater.kind === RemoteDataTypes.SUCCESS
@@ -86,23 +91,28 @@ const KandidatRad: FunctionComponent<Props> = ({
         slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
     };
 
+    const onToggleArkivert = () => {
+        toggleArkivert(kandidatlisteId, kandidat.kandidatnr, true);
+    };
+
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
 
+    const klassenavnForListerad =
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+
     return (
         <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
-            <div className="liste-rad">
-                <div className="kolonne-checkboks">
-                    <Checkbox
-                        label="&#8203;" // <- tegnet for tom streng
-                        className="text-hide skjemaelement--pink"
-                        checked={kandidat.markert}
-                        onChange={() => {
-                            onToggleKandidat(kandidat.kandidatnr);
-                        }}
-                    />
-                </div>
-                <div className="kolonne-bred kolonne-med-sms">
+            <div className={klassenavnForListerad}>
+                <Checkbox
+                    label="&#8203;" // <- tegnet for tom streng
+                    className="text-hide skjemaelement--pink"
+                    checked={kandidat.markert}
+                    onChange={() => {
+                        onToggleKandidat(kandidat.kandidatnr);
+                    }}
+                />
+                <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
                         className="link"
@@ -112,13 +122,11 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Link>
                     {visSendSms && kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
-                <div className="kolonne-dato">{kandidat.fodselsnr}</div>
-                <div className="kolonne-bred">
-                    <span className="tabell-tekst">
-                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
-                    </span>
-                </div>
-                <div className="kolonne-middels">
+                <span>{kandidat.fodselsnr}</span>
+                <span className="tabell-tekst">
+                    {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                </span>
+                {visArkiveringskolonne ? (
                     <StatusSelect
                         kanEditere={kanEditere}
                         value={kandidat.status as Status}
@@ -126,16 +134,19 @@ const KandidatRad: FunctionComponent<Props> = ({
                             onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
                         }}
                     />
-                </div>
-                {stillingsId && (
-                    <div className="kolonne-bred tabell-tekst">
-                        {utfallToString(kandidat.utfall)}
-                    </div>
+                ) : (
+                    <Statusvisning status={kandidat.status as Status} />
                 )}
-                <div className="kolonne-smal">
-                    <Lenkeknapp onClick={toggleNotater} className="legg-til-kandidat Notat">
+                {stillingsId && (
+                    <div className="tabell-tekst">{utfallToString(kandidat.utfall)}</div>
+                )}
+                <div>
+                    <Lenkeknapp
+                        onClick={toggleNotater}
+                        className="Notat liste-rad__ekspanderbar-knapp"
+                    >
                         <i className="Notat__icon" />
-                        {antallNotater}
+                        <span className="liste-rad__antall-notater">{antallNotater}</span>
                         <NavFrontendChevron
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisNotater
@@ -145,8 +156,11 @@ const KandidatRad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
-                <div className="kolonne-smal">
-                    <Lenkeknapp onClick={toggleMerInfo} className="legg-til-kandidat MerInfo">
+                <div className="kolonne-midtstilt">
+                    <Lenkeknapp
+                        onClick={toggleMerInfo}
+                        className="MerInfo liste-rad__ekspanderbar-knapp"
+                    >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
                             type={
@@ -157,6 +171,17 @@ const KandidatRad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
+                {visArkiveringskolonne && (
+                    <div className="kolonne-midtstilt">
+                        <Lenkeknapp
+                            tittel="Slett kandidat"
+                            onClick={onToggleArkivert}
+                            className="Delete"
+                        >
+                            <div className="Delete__icon" />
+                        </Lenkeknapp>
+                    </div>
+                )}
             </div>
             {kandidat.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater

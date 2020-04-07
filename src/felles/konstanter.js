@@ -20,6 +20,8 @@ const FEATURE_TOGGLES = [
     'ny-dekorator',
     'vis-send-sms',
     'vis-viktige-yrker-lenker',
+    'vis-kandidatliste-sletting',
+    'vis-permitteringsfilter',
 ];
 export default FEATURE_TOGGLES;
 

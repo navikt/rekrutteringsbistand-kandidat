@@ -69,7 +69,7 @@ interface StatusvisningProps {
     status: Status;
 }
 
-const Statusvisning: React.FunctionComponent<StatusvisningProps> = ({ status }) => (
+export const Statusvisning: React.FunctionComponent<StatusvisningProps> = ({ status }) => (
     <span className="StatusSelect__status">
         <span
             className={`StatusSelect__sirkel StatusSelect__sirkel--${statusToClassname(status)}`}

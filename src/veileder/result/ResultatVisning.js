@@ -32,9 +32,10 @@ import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
+import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -113,6 +114,7 @@ class ResultatVisning extends React.Component {
             lagretKandidatliste,
             kandidatliste,
             antallLagredeKandidater,
+            visPermitteringsfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -233,6 +235,7 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
+                                        {visPermitteringsfilter && <PermitteringSearch />}
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -310,6 +313,7 @@ ResultatVisning.propTypes = {
         }),
     }),
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
+    visPermitteringsfilter: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -324,6 +328,7 @@ const mapStateToProps = state => ({
         state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
+    visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
 });
 
 const mapDispatchToProps = dispatch => ({

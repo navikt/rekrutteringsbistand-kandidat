@@ -35,6 +35,7 @@ import NotFound from './sok/error/NotFound';
 import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
+import permitteringReducer from './sok/permittering/permitteringReducer.ts';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, {
@@ -47,6 +48,8 @@ import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
+import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
+import { LUKK_ALLE_SOKEPANEL } from './sok/konstanter';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -63,6 +66,7 @@ const store = createStore(
         sprakReducer,
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
+        permittering: permitteringReducer,
         cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
@@ -104,11 +108,34 @@ HeaderSwitch.propTypes = {
     innloggetVeileder: PropTypes.string,
 };
 
+export const hentQueryUtenKriterier = harHentetStilling => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+    harHentetStilling: harHentetStilling,
+});
+
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
         this.props.hentInnloggetVeileder();
     }
+
+    navigeringKlikk = () => {
+        this.props.setScrollPosition(0);
+        this.props.lukkAlleSokepanel();
+        this.props.resetQuery(hentQueryUtenKriterier(false));
+        this.props.initialSearch();
+    };
 
     render() {
         const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
@@ -116,10 +143,14 @@ class Sok extends React.Component {
         const header = nyDekoratør ? (
             <>
                 <Dekoratør />
-                <Navigeringsmeny />
+                <div onClick={this.navigeringKlikk}>
+                    <Navigeringsmeny />
+                </div>
             </>
         ) : (
-            <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+            <div onClick={this.navigeringKlikk}>
+                <HeaderSwitch innloggetVeileder={innloggetVeileder} />
+            </div>
         );
 
         if (error) {
@@ -211,6 +242,13 @@ const mapDispatchToProps = dispatch => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
+    setScrollPosition: scrollPosisjon =>
+        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    initialSearch: () => {
+        dispatch({ type: INITIAL_SEARCH_BEGIN });
+    },
 });
 /*
 End class Sok

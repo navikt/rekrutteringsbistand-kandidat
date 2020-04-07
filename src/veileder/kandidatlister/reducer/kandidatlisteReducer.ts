@@ -1,5 +1,5 @@
 import { SearchApiError } from './../../../felles/api';
-import { SmsStatus, Sms } from './../kandidatlistetyper';
+import { SmsStatus, Sms, Kandidat } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
@@ -71,6 +71,10 @@ export interface KandidatlisteState {
         sendteMeldinger: RemoteData<Sms[]>;
         error?: SearchApiError;
     };
+    arkivering: {
+        statusArkivering: RemoteDataTypes;
+        statusDearkivering: RemoteDataTypes;
+    };
 }
 
 const initialState: KandidatlisteState = {
@@ -119,6 +123,10 @@ const initialState: KandidatlisteState = {
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: NotAsked(),
+    },
+    arkivering: {
+        statusArkivering: RemoteDataTypes.NOT_ASKED,
+        statusDearkivering: RemoteDataTypes.NOT_ASKED,
     },
 };
 
@@ -196,27 +204,61 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     return state;
 };
 
-const oppdaterErSlettetIKandidatlisteDetaljer: (
+const oppdaterArkivertIKandidatlisteDetaljer = (
     state: KandidatlisteState,
-    kandidatnr: string,
-    erSlettet: boolean
-) => KandidatlisteState = (state, kandidatnr, erSlettet) => {
-    if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    kandidat: Kandidat
+): KandidatlisteState => {
+    const kandidatliste = state.detaljer.kandidatliste;
+    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
         return {
             ...state,
             detaljer: {
                 ...state.detaljer,
                 kandidatliste: {
-                    ...state.detaljer.kandidatliste,
-                    kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
-                        if (kandidat.kandidatnr === kandidatnr) {
-                            return {
-                                ...kandidat,
-                                erSlettet,
-                            };
-                        }
-                        return kandidat;
-                    }),
+                    ...kandidatliste,
+                    data: {
+                        ...kandidatliste.data,
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                            utdatertKandidat.kandidatnr === kandidat.kandidatnr
+                                ? {
+                                      ...utdatertKandidat,
+                                      arkivert: kandidat.arkivert,
+                                      arkivertTidspunkt: kandidat.arkivertTidspunkt,
+                                  }
+                                : utdatertKandidat
+                        ),
+                    },
+                },
+            },
+        };
+    }
+    return state;
+};
+
+const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
+    state: KandidatlisteState,
+    kandidatnumre: string[]
+): KandidatlisteState => {
+    const kandidatliste = state.detaljer.kandidatliste;
+    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+        return {
+            ...state,
+            detaljer: {
+                ...state.detaljer,
+                kandidatliste: {
+                    ...kandidatliste,
+                    data: {
+                        ...kandidatliste.data,
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                            kandidatnumre.includes(utdatertKandidat.kandidatnr)
+                                ? {
+                                      ...utdatertKandidat,
+                                      arkivert: false,
+                                      arkivertTidspunkt: undefined,
+                                  }
+                                : utdatertKandidat
+                        ),
+                    },
                 },
             },
         };
@@ -457,6 +499,54 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 action.kandidatnr,
                 Success(action.notater)
             );
+        case KandidatlisteActionType.TOGGLE_ARKIVERT:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.LOADING,
+                },
+            };
+        case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
+            return {
+                ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.SUCCESS,
+                },
+            };
+        case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusArkivering: RemoteDataTypes.FAILURE,
+                },
+            };
+        case KandidatlisteActionType.ANGRE_ARKIVERING:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.LOADING,
+                },
+            };
+        case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
+            return {
+                ...state,
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.FAILURE,
+                },
+            };
+        case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
+            return {
+                ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
+                arkivering: {
+                    ...state.arkivering,
+                    statusDearkivering: RemoteDataTypes.SUCCESS,
+                },
+            };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
             return {
                 ...state,

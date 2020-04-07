@@ -1,9 +1,13 @@
-import { postSmsTilKandidater, fetchSendteMeldinger } from './../../api';
+import {
+    postSmsTilKandidater,
+    fetchSendteMeldinger,
+    putArkivertForFlereKandidater,
+} from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
-import KandidatlisteAction, {
+import {
     SlettKandidatlisteAction,
     SlettKandidatlisteFerdigAction,
     OpprettKandidatlisteAction,
@@ -18,6 +22,10 @@ import KandidatlisteAction, {
     EndreNotatAction,
     SendSmsAction,
     HentSendteMeldingerAction,
+    ToggleArkivertAction,
+    ToggleArkivertSuccessAction,
+    AngreArkiveringAction,
+    AngreArkiveringSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -37,6 +45,7 @@ import {
     putNotat,
     putOppdaterKandidatliste,
     putStatusKandidat,
+    putArkivert,
 } from '../../api';
 import { RemoteDataTypes } from '../../../felles/common/remoteData';
 
@@ -351,6 +360,48 @@ function* slettNotat(action) {
     }
 }
 
+function* toggleArkivert(action: ToggleArkivertAction) {
+    try {
+        const arkivertKandidat = yield putArkivert(
+            action.kandidatlisteId,
+            action.kandidatnr,
+            action.arkivert
+        );
+        yield put<ToggleArkivertSuccessAction>({
+            type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
+            kandidat: arkivertKandidat,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
+    try {
+        const kandidatnumre: Array<string | null> = yield call(
+            putArkivertForFlereKandidater,
+            action.kandidatlisteId,
+            action.kandidatnumre,
+            false
+        );
+
+        const dearkiverteKandidater = kandidatnumre.filter(
+            kandidatNr => kandidatNr !== null
+        ) as string[];
+
+        yield put<AngreArkiveringSuccessAction>({
+            type: KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS,
+            kandidatnumre: dearkiverteKandidater,
+        });
+    } catch (e) {
+        yield put({ type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE });
+    }
+}
+
 function* oppdaterKandidatliste(action) {
     try {
         yield putOppdaterKandidatliste(action.kandidatlisteInfo);
@@ -463,6 +514,7 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.OPPRETT_NOTAT, opprettNotat);
     yield takeLatest(KandidatlisteActionType.ENDRE_NOTAT, endreNotat);
     yield takeLatest(KandidatlisteActionType.SLETT_NOTAT, slettNotat);
+    yield takeLatest(KandidatlisteActionType.TOGGLE_ARKIVERT, toggleArkivert);
     yield takeLatest(KandidatlisteActionType.HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
@@ -478,6 +530,7 @@ function* kandidatlisteSaga() {
         markerKandidatlisteSomMin
     );
     yield takeLatest(KandidatlisteActionType.SLETT_KANDIDATLISTE, slettKandidatliste);
+    yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
         [
             KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE,
@@ -489,6 +542,7 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE,
             KandidatlisteActionType.OPPRETT_NOTAT_FAILURE,
             KandidatlisteActionType.ENDRE_NOTAT_FAILURE,
+            KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE,
             KandidatlisteActionType.SLETT_NOTAT_FAILURE,
             KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE,
             KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
