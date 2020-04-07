@@ -68,7 +68,7 @@ const store = createStore(
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
-        oppstartstidspunkt: oppstartstidspunktReducer,
+        oppstartstidspunkter: oppstartstidspunktReducer,
         cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,

@@ -1,7 +1,6 @@
 import { Oppstartstidspunkt } from './OppstartstidspunktSearch';
-import { SET_STATE } from '../searchReducer';
-import { PermitteringActionType, PermitteringState } from '../permittering/permitteringReducer';
 import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { harEnParameter, SET_STATE } from '../searchReducer';
 
 export type OppstartstidspunktState = {
     panelOpen: boolean;
@@ -35,10 +34,17 @@ const oppstartstidspunktReducer = (
     action
 ): OppstartstidspunktState => {
     switch (action.type) {
+        case SET_STATE: {
+            return {
+                oppstartstidspunkter: action.query.oppstartstidspunkter || [],
+                panelOpen: harEnParameter(action.query.oppstartstidspunkter) || state.panelOpen,
+            }
+        }
         case OppstartstidspunktActionType.CHECK_OPPSTARTSTIDSPUNKT:
             return {
                 ...state,
                 oppstartstidspunkter: [...state.oppstartstidspunkter, action.value],
+
             };
         case OppstartstidspunktActionType.UNCHECK_OPPSTARTSTIDSPUNKT:
             return {

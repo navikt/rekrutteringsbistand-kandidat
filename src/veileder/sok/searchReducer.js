@@ -301,7 +301,7 @@ export const fromUrlQuery = url => {
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
-    if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('_');
+    if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
 
     return stateFromUrl;
 };
@@ -357,7 +357,7 @@ export const toUrlQuery = state => {
         state.oppstartstidspunkter.oppstartstidspunkter &&
         state.oppstartstidspunkter.oppstartstidspunkter.length > 0
     )
-        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('_');
+        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
 
     return toUrlParams(urlQuery);
 };
