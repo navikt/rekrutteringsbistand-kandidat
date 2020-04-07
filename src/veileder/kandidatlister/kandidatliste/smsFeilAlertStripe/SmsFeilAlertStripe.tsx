@@ -10,11 +10,11 @@ type Props = {
     kandidater: KandidatIKandidatliste[];
 };
 
-const lagretLesteSmsIder: number[] = window.localStorage.getItem(LESTE_SMS_IDER_KEY)
-    ? JSON.parse(window.localStorage.getItem(LESTE_SMS_IDER_KEY)!)
-    : [];
-
 const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
+    const lagretLesteSmsIder: number[] = window.localStorage.getItem(LESTE_SMS_IDER_KEY)
+        ? JSON.parse(window.localStorage.getItem(LESTE_SMS_IDER_KEY)!)
+        : [];
+
     const [lesteSmsIder, setLesteSmsIder] = useState<number[]>(lagretLesteSmsIder);
 
     const kandidaterMedUlesteSmsFeil = kandidater
