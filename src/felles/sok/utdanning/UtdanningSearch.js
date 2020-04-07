@@ -65,7 +65,7 @@ class UtdanningSearch extends React.Component {
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <SkjemaGruppe title="Velg et eller flere utdanningsnivå">
+                <SkjemaGruppe title="Velg ett eller flere utdanningsnivå">
                     <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
                         {this.utdanningsnivaKategorier.map(utdanning => (
                             <Checkbox

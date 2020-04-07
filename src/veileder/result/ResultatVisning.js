@@ -36,6 +36,7 @@ import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActi
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
+import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
 
 export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
@@ -115,6 +116,7 @@ class ResultatVisning extends React.Component {
             kandidatliste,
             antallLagredeKandidater,
             visPermitteringsfilter,
+            visOppstartstidspunktfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -236,6 +238,9 @@ class ResultatVisning extends React.Component {
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
                                         {visPermitteringsfilter && <PermitteringSearch />}
+                                        {visOppstartstidspunktfilter && (
+                                            <OppstartstidspunktSearch />
+                                        )}
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -329,6 +334,7 @@ const mapStateToProps = state => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
+    visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -279,6 +279,7 @@ export const fromUrlQuery = url => {
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
     const kategorier = getUrlParameterByName('kategorier', url);
     const permittert = getUrlParameterByName('permittert');
+    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkt');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -300,6 +301,7 @@ export const fromUrlQuery = url => {
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
+    if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
 
     return stateFromUrl;
 };
@@ -350,6 +352,12 @@ export const toUrlQuery = state => {
         urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
     if (state.permittering.permittert !== state.permittering.ikkePermittert)
         urlQuery.permittert = state.permittering.permittert;
+    if (
+        state.oppstartstidspunkter &&
+        state.oppstartstidspunkter.oppstartstidspunkter &&
+        state.oppstartstidspunkter.oppstartstidspunkter.length > 0
+    )
+        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
 
     return toUrlParams(urlQuery);
 };
@@ -402,6 +410,7 @@ function* search(action = '') {
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
+            oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
