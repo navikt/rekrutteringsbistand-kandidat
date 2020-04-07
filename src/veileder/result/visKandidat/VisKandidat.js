@@ -98,7 +98,7 @@ class VisKandidat extends React.Component {
             hentCvForKandidat(this.kandidatnummer);
             this.setState({
                 gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer),
-                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1
+                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1,
             });
         }
 
@@ -172,10 +172,7 @@ class VisKandidat extends React.Component {
 
     gjeldendeKandidatIndexIListen = kandidatnummer => {
         const { kandidater } = this.props;
-        return kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
-        );
-
+        return kandidater.findIndex(element => element.arenaKandidatnr === kandidatnummer);
     };
 
     forrigeKandidatnummerIListen = kandidatnummer => {

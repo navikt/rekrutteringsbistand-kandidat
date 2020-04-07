@@ -78,7 +78,7 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
 
     return {
         ...kandidatliste,
-        kandidater: kandidatliste.kandidater.map((kandidat) =>
+        kandidater: kandidatliste.kandidater.map(kandidat =>
             kandidat.kandidatnr !== kandidatnr
                 ? kandidat
                 : {

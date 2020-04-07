@@ -37,7 +37,7 @@ import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 
-export const hentQueryUtenKriterier = (harHentetStilling) => ({
+export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -316,7 +316,7 @@ ResultatVisning.propTypes = {
     visPermitteringsfilter: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isInitialSearch: state.search.isInitialSearch,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     maksAntallTreff: state.search.maksAntallTreff,
@@ -331,11 +331,11 @@ const mapStateToProps = (state) => ({
     visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = dispatch => ({
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId) => {
+    initialSearch: stillingsId => {
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {
