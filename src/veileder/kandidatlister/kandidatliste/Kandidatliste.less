@@ -24,7 +24,7 @@
         grid-template-columns: 1fr auto;
         grid-template-rows: 1fr auto;
         grid-template-areas:
-            'ingenting knapperad'
+            'ingenting over-liste'
             'filter liste';
         grid-gap: 1.5rem 4rem;
         margin: 2.5rem auto;
@@ -33,6 +33,10 @@
         .liste-header {
             border: 1px solid #78706a;
         }
+    }
+
+    &__knapperad-container {
+        grid-area: over-liste;
     }
 
     &__liste {

@@ -94,27 +94,29 @@ const Kandidatliste: FunctionComponent<Props> = props => {
             />
             {props.kandidater.length > 0 ? (
                 <div className="kandidatliste__container">
-                    {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
-                    <KnappeRad
-                        arbeidsgiver={props.arbeidsgiver}
-                        kanEditere={props.kanEditere}
-                        kandidater={filtrerteKandidater}
-                        onEmailKandidater={props.onEmailKandidater}
-                        onSendSmsClick={props.onSendSmsClick}
-                        onKandidatShare={props.onKandidatShare}
-                        onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
-                        kandidatlisteId={props.kandidatlisteId}
-                        onLeggTilKandidat={props.onLeggTilKandidat}
-                        stillingsId={props.stillingsId}
-                        visSendSms={props.visSendSms}
-                        visArkiverte={visArkiverte}
-                    >
-                        <FinnKandidaterLenke
+                    <div className="kandidatliste__knapperad-container">
+                        {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
+                        <KnappeRad
+                            arbeidsgiver={props.arbeidsgiver}
+                            kanEditere={props.kanEditere}
+                            kandidater={filtrerteKandidater}
+                            onEmailKandidater={props.onEmailKandidater}
+                            onSendSmsClick={props.onSendSmsClick}
+                            onKandidatShare={props.onKandidatShare}
+                            onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
                             kandidatlisteId={props.kandidatlisteId}
+                            onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
-                        />
-                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
-                    </KnappeRad>
+                            visSendSms={props.visSendSms}
+                            visArkiverte={visArkiverte}
+                        >
+                            <FinnKandidaterLenke
+                                kandidatlisteId={props.kandidatlisteId}
+                                stillingsId={props.stillingsId}
+                            />
+                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                        </KnappeRad>
+                    </div>
 
                     <aside className="kandidatliste__filter">
                         <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">
