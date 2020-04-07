@@ -22,6 +22,7 @@ const FEATURE_TOGGLES = [
     'vis-viktige-yrker-lenker',
     'vis-kandidatliste-sletting',
     'vis-permitteringsfilter',
+    'vis-oppstartstidspunktfilter'
 ];
 export default FEATURE_TOGGLES;
 
