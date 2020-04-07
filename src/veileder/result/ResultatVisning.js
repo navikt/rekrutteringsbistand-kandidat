@@ -236,7 +236,7 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
-                                        {<PermitteringSearch /> /*TODO Ta tilbake feature toggle*/}
+                                        {visPermitteringsfilter && <PermitteringSearch />}
                                         <OppstartstidspunktSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
