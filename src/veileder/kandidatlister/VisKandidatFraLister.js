@@ -15,6 +15,7 @@ import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import CVMeny from '../cv/cv-meny/CVMeny';
+import MidlertidigUtilgjengelig from '../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -126,6 +127,7 @@ class VisKandidatFraLister extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            <MidlertidigUtilgjengelig />
                             {gjeldendeKandidat && (
                                 <div className="VisKandidat-knapperad__statusSelect">
                                     <span>Status:</span>

@@ -4,11 +4,17 @@ import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import './MidlertidigUtilgjengelig.less';
 import Chevron from 'nav-frontend-chevron';
 import { Normaltekst, Systemtittel, Element, Undertittel } from 'nav-frontend-typografi';
+import useFeatureToggle from '../../result/useFeatureToggle';
 
 interface Props {}
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [anker, setAnker] = useState<any>(undefined);
+    const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
+
+    if (!erToggletPå) {
+        return null;
+    }
 
     return (
         <div className="midlertidig-utilgjengelig">
