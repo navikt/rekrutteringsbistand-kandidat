@@ -23,6 +23,7 @@ import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
 import CVMeny from '../../cv/cv-meny/CVMeny';
+import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -292,9 +293,11 @@ class VisKandidat extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            <MidlertidigUtilgjengelig />
                             <Knapp
-                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                                 mini
+                                type="flat"
+                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                             >
                                 Lagre kandidat i kandidatliste
                             </Knapp>

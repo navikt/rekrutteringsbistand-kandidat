@@ -79,6 +79,8 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+export const reduxStore = store;
+
 const HeaderSwitch = ({ innloggetVeileder }) => (
     <Switch>
         <Route
