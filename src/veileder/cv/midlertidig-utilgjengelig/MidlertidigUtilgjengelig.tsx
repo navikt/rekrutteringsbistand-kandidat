@@ -6,9 +6,7 @@ import Chevron from 'nav-frontend-chevron';
 import { Normaltekst, Systemtittel, Element, Undertittel } from 'nav-frontend-typografi';
 import useFeatureToggle from '../../result/useFeatureToggle';
 
-interface Props {}
-
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
