@@ -5,15 +5,16 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
-import VisKandidatPersonalia from '../../felles/result/visKandidat/VisKandidatPersonalia';
-import VisKandidatCv from '../../felles/result/visKandidat/VisKandidatCv';
-import VisKandidatJobbprofil from '../../felles/result/visKandidat/VisKandidatJobbprofil';
+import VisKandidatPersonalia from '../cv/VisKandidatPersonalia';
+import VisKandidatCv from '../cv/VisKandidatCv';
+import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
-import VisKandidatForrigeNeste from '../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import CVMeny from '../cv/cv-meny/CVMeny';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -124,18 +125,21 @@ class VisKandidatFraLister extends React.Component {
                     </div>
                 ) : (
                     <div>
+                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            {gjeldendeKandidat && (
+                                <div className="VisKandidat-knapperad__statusSelect">
+                                    <span>Status:</span>
+                                    <StatusSelect
+                                        kanEditere={kandidatliste.kanEditere}
+                                        value={gjeldendeKandidat.status}
+                                        onChange={this.onKandidatStatusChange}
+                                    />
+                                </div>
+                            )}
+                        </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">
-                                    <a
-                                        className="frittstaende-lenke ForlateSiden link"
-                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Se aktivitetsplan</span>
-                                        <i className="ForlateSiden__icon" />
-                                    </a>
                                     {this.props.visLastNedCvLenke && (
                                         <a
                                             className="frittstaende-lenke LastNed link"
@@ -148,16 +152,6 @@ class VisKandidatFraLister extends React.Component {
                                         </a>
                                     )}
                                 </div>
-                                {gjeldendeKandidat && (
-                                    <div className="VisKandidat-knapperad__statusSelect">
-                                        <span>Status:</span>
-                                        <StatusSelect
-                                            kanEditere={kandidatliste.kanEditere}
-                                            value={gjeldendeKandidat.status}
-                                            onChange={this.onKandidatStatusChange}
-                                        />
-                                    </div>
-                                )}
                             </div>
                         </div>
                         <div className="viskandidat-container">

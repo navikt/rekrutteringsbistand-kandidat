@@ -1,8 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, harEnParameter } from '../searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../searchReducer';
 
 export const CHECK_INNSATSGRUPPE = 'CHECK_INNSATSGRUPPE';
 export const UNCHECK_INNSATSGRUPPE = 'UNCHECK_INNSATSGRUPPE';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { LenkeMedChevron } from '../../common/lenkeMedChevron/LenkeMedChevron.tsx';
+import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
 
 const VisKandidatForrigeNeste = ({
     lenkeClass,
