@@ -295,9 +295,9 @@ class VisKandidat extends React.Component {
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig />
                             <Knapp
-                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                                 mini
-                                type={"flat"}
+                                type="flat"
+                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
                             >
                                 Lagre kandidat i kandidatliste
                             </Knapp>
