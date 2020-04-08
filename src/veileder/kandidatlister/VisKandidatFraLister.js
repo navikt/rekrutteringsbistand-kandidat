@@ -14,6 +14,7 @@ import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import CVMeny from '../cv/cv-meny/CVMeny';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -124,6 +125,9 @@ class VisKandidatFraLister extends React.Component {
                     </div>
                 ) : (
                     <div>
+                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            Status
+                        </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">
