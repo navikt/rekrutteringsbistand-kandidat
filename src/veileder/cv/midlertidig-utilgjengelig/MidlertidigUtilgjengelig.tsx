@@ -36,8 +36,8 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                         «midlertidig utilgjengelig».
                     </Normaltekst>
                     <div className="midlertidig-utilgjengelig__datovelger">
-                        <Element>Hvor lenge er kandidaten utilgjengelig?*</Element>
-                        <Normaltekst>Du kan velge maks en måned frem i tid</Normaltekst>
+                        <Element>Hvor lenge er kandidaten utilgjengelig?</Element>
+                        <Normaltekst>Du kan velge maks én måned frem i tid.</Normaltekst>
                     </div>
                     <Knapp type="hoved">Lagre</Knapp>
                     <Knapp
