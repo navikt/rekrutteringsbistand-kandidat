@@ -1,8 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, harEnParameter } from '../searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_NAVKONTOR = 'SELECT_TYPE_AHEAD_VALUE_NAVKONTOR';
 export const REMOVE_SELECTED_NAVKONTOR = 'REMOVE_SELECTED_NAVKONTOR';

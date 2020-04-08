@@ -1,5 +1,4 @@
-import { SET_STATE } from '../searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../searchReducer';
 
 export enum PermitteringActionType {
     SET_PERMITTERT = 'SET_PERMITTERT',

@@ -18,7 +18,7 @@ import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
 import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch.tsx';
 import {
-    INITIAL_SEARCH_BEGIN,
+    INITIAL_SEARCH_BEGIN, LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,
@@ -34,7 +34,6 @@ import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
 

@@ -1,6 +1,5 @@
 import { Oppstartstidspunkt } from './OppstartstidspunktSearch';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
-import { harEnParameter, SET_STATE } from '../searchReducer';
+import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../searchReducer';
 
 export type OppstartstidspunktState = {
     panelOpen: boolean;
