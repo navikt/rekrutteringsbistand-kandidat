@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { formatISOString, formatterDato } from '../../../felles/common/dateUtils';
-import cvPropTypes from '../../../felles/PropTypes';
-import TelefonIkon from '../../../felles/common/ikoner/TelefonIkon';
-import MailIkon from '../../../felles/common/ikoner/MailIkon';
-import AdresseIkon from '../../../felles/common/ikoner/AdresseIkon';
+import { formatISOString, formatterDato } from '../../felles/common/dateUtils';
+import cvPropTypes from '../../felles/PropTypes';
+import TelefonIkon from '../../felles/common/ikoner/TelefonIkon';
+import MailIkon from '../../felles/common/ikoner/MailIkon';
+import AdresseIkon from '../../felles/common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
-import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter, capitalizePoststed } from '../../felles/sok/utils';
 import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
-import Sidetittel from '../../../felles/common/Sidetittel.tsx';
+import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
 const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
