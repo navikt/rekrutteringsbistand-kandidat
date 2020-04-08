@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Undertittel, Undertekst } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import cvPropTypes from '../../PropTypes';
-import sortByDato from '../../common/SortByDato';
-import Tidsperiode from '../../common/Tidsperiode';
+import cvPropTypes from '../../../felles/PropTypes';
+import sortByDato from '../../../felles/common/SortByDato';
+import Tidsperiode from '../../../felles/common/Tidsperiode';
 import './VisKandidat.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
