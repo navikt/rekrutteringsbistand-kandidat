@@ -126,20 +126,20 @@ class VisKandidatFraLister extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            Status
+                            {gjeldendeKandidat && (
+                                <div className="VisKandidat-knapperad__statusSelect">
+                                    <span>Status:</span>
+                                    <StatusSelect
+                                        kanEditere={kandidatliste.kanEditere}
+                                        value={gjeldendeKandidat.status}
+                                        onChange={this.onKandidatStatusChange}
+                                    />
+                                </div>
+                            )}
                         </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">
-                                    <a
-                                        className="frittstaende-lenke ForlateSiden link"
-                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Se aktivitetsplan</span>
-                                        <i className="ForlateSiden__icon" />
-                                    </a>
                                     {this.props.visLastNedCvLenke && (
                                         <a
                                             className="frittstaende-lenke LastNed link"
@@ -152,16 +152,6 @@ class VisKandidatFraLister extends React.Component {
                                         </a>
                                     )}
                                 </div>
-                                {gjeldendeKandidat && (
-                                    <div className="VisKandidat-knapperad__statusSelect">
-                                        <span>Status:</span>
-                                        <StatusSelect
-                                            kanEditere={kandidatliste.kanEditere}
-                                            value={gjeldendeKandidat.status}
-                                            onChange={this.onKandidatStatusChange}
-                                        />
-                                    </div>
-                                )}
                             </div>
                         </div>
                         <div className="viskandidat-container">

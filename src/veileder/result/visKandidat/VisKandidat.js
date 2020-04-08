@@ -22,6 +22,7 @@ import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
+import CVMeny from '../../cv/cv-meny/CVMeny';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -290,18 +291,17 @@ class VisKandidat extends React.Component {
                     </div>
                 ) : (
                     <div>
+                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            <Knapp
+                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
+                                mini
+                            >
+                                Lagre kandidat i kandidatliste
+                            </Knapp>
+                        </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">
-                                    <a
-                                        className="frittstaende-lenke ForlateSiden link"
-                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Se aktivitetsplan</span>
-                                        <i className="ForlateSiden__icon" />
-                                    </a>
                                     {this.props.visLastNedCvLenke && (
                                         <a
                                             className="frittstaende-lenke LastNed link"
@@ -314,15 +314,6 @@ class VisKandidat extends React.Component {
                                         </a>
                                     )}
                                 </div>
-                                <Knapp
-                                    onClick={this.onLagreKandidatClick(
-                                        kandidatlisteId,
-                                        stillingsId
-                                    )}
-                                    mini
-                                >
-                                    Lagre kandidat i kandidatliste
-                                </Knapp>
                             </div>
                         </div>
                         <VisKandidatJobbprofil cv={cv} />
