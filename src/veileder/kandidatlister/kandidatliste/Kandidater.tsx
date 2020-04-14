@@ -17,18 +17,8 @@ const Kandidater: FunctionComponent<Props> = ({ kandidater, visArkiverte, ...pro
                     <KandidatRad
                         key={kandidat.kandidatnr}
                         kandidat={kandidat}
-                        endreNotat={props.endreNotat}
-                        kanEditere={props.kanEditere}
-                        stillingsId={props.stillingsId}
-                        kandidatlisteId={props.kandidatlisteId}
-                        onKandidatStatusChange={props.onKandidatStatusChange}
-                        onToggleKandidat={props.onToggleKandidat}
-                        onVisningChange={props.onVisningChange}
-                        opprettNotat={props.opprettNotat}
-                        slettNotat={props.slettNotat}
-                        toggleArkivert={props.toggleArkivert}
-                        visSendSms={props.visSendSms}
                         visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
+                        {...props}
                     />
                 ))}
             </>
@@ -42,18 +32,8 @@ const Kandidater: FunctionComponent<Props> = ({ kandidater, visArkiverte, ...pro
                     <KandidatRad
                         key={kandidater[index].kandidatnr}
                         kandidat={kandidater[index]}
-                        endreNotat={props.endreNotat}
-                        kanEditere={props.kanEditere}
-                        stillingsId={props.stillingsId}
-                        kandidatlisteId={props.kandidatlisteId}
-                        onKandidatStatusChange={props.onKandidatStatusChange}
-                        onToggleKandidat={props.onToggleKandidat}
-                        onVisningChange={props.onVisningChange}
-                        opprettNotat={props.opprettNotat}
-                        slettNotat={props.slettNotat}
-                        toggleArkivert={props.toggleArkivert}
-                        visSendSms={props.visSendSms}
                         visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
+                        {...props}
                     />
                 </div>
             )}
