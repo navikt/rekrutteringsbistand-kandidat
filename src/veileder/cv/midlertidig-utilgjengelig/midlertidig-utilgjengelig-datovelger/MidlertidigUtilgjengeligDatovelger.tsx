@@ -3,21 +3,22 @@ import { Element } from 'nav-frontend-typografi';
 import { Datovelger } from 'nav-datovelger';
 import moment from 'moment';
 import './MidlertidigUtilgjengeligDatovelger.less';
+import classNames from 'classnames';
 
 interface Props {
     dato: string | undefined;
     setDato: (dato: string | undefined) => void;
+    className?: string;
 }
 
 const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
-    const { dato, setDato } = props;
+    const { dato, setDato, className } = props;
     return (
-        <div className="midlertidig-utilgjengelig-datovelger">
-            <label
-                className="midlertidig-utilgjengelig-datovelger__label"
-                htmlFor="midlertidig-utilgjengelig-datovelger__input"
-            >
-                <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
+        <div className={classNames('midlertidig-utilgjengelig-datovelger', props.className)}>
+            <label htmlFor="midlertidig-utilgjengelig-datovelger__input">
+                <Element tag="span">
+                    Hvor lenge er kandidaten utilgjengelig?
+                </Element>
             </label>
             <Datovelger
                 input={{

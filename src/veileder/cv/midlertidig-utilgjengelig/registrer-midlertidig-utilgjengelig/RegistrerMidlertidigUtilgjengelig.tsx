@@ -20,8 +20,10 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
 
     return (
         <div className={classNames('registrer-midlertidig-utilgjengelig', props.className)}>
-            <Undertittel tag="h2">Registrer som midlertidig utilgjengelig</Undertittel>
-            <Normaltekst>
+            <Undertittel tag="h2">
+                Registrer som midlertidig utilgjengelig
+            </Undertittel>
+            <Normaltekst  className="registrer-midlertidig-utilgjengelig__forklaring">
                 Avklar tilgjengeligheten. Gi beskjed til kandidaten hvis du registrerer «midlertidig
                 utilgjengelig».
             </Normaltekst>

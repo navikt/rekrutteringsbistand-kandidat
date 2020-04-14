@@ -35,7 +35,9 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 props.className
             )}
         >
-            <Undertittel tag="h2">Kandidaten er midlertidig utilgjengelig</Undertittel>
+            <Undertittel tag="h2" className="endre-midlertidig-utilgjengelig__tittel">
+                Kandidaten er midlertidig utilgjengelig
+            </Undertittel>
             <Normaltekst>Tilgjengelig om: 19 dager</Normaltekst>
             <Normaltekst>Registrert av: Ola Nordmann</Normaltekst>
             <Normaltekst>Registrert: 25.04.2020</Normaltekst>
@@ -62,7 +64,11 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 />
             </fieldset>
             {hvaSkalEndres === 'endreDato' && (
-                <MidlertidigUtilgjengeligDatovelger dato={dato} setDato={setDato} />
+                <MidlertidigUtilgjengeligDatovelger
+                    dato={dato}
+                    setDato={setDato}
+                    className="endre-midlertidig-utilgjengelig__datovelger"
+                />
             )}
             <Knapp type="hoved" onClick={onLagre}>
                 Lagre
