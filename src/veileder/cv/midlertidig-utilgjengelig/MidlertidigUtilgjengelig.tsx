@@ -7,9 +7,11 @@ import { Normaltekst, Systemtittel, Element, Undertittel } from 'nav-frontend-ty
 import useFeatureToggle from '../../result/useFeatureToggle';
 import { Datovelger } from 'nav-datovelger';
 import 'nav-datovelger/lib/styles/datovelger.less';
+import moment from 'moment';
 
 const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
+    const [dato, setDato] = useState<string | undefined>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
     if (!erToggletPå) {
@@ -38,19 +40,31 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                         «midlertidig utilgjengelig».
                     </Normaltekst>
                     <div className="midlertidig-utilgjengelig__datovelger">
-                        <Element>Hvor lenge er kandidaten utilgjengelig?</Element>
-                        <Normaltekst>Du kan velge maks én måned frem i tid.</Normaltekst>
+                        <label
+                            className="midlertidig-utilgjengelig__datovelger-label"
+                            htmlFor="midlertidig-utilgjengelig__input"
+                        >
+                            <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
+                        </label>
+                        <Datovelger
+                            input={{
+                                id: 'midlertidig-utilgjengelig__input',
+                                name: 'applicationDue',
+                                placeholder: 'dd.mm.åååå',
+                                ariaLabel: 'Sett søknadsfrist',
+                                onChange: setDato, // TODO Ikke heldig håndtering av keyboard-input.. Feilmelding fx?
+                            }}
+                            onChange={setDato}
+                            valgtDato={dato}
+                            avgrensninger={{
+                                minDato: moment(moment.now()).format(),
+                                maksDato: moment(moment.now())
+                                    .add(30, 'days')
+                                    .format(),
+                            }}
+                            id="midlertidig-utilgjengelig__datovelger"
+                        />
                     </div>
-                    <Datovelger
-                        input={{
-                            id: 'applicationDue__input',
-                            name: 'applicationDue',
-                            placeholder: 'dd.mm.åååå',
-                            ariaLabel: 'Sett søknadsfrist',
-                        }}
-                        onChange={() => {}}
-                        id="applicationDue"
-                    />
                     <Knapp type="hoved">Lagre</Knapp>
                     <Knapp
                         type="flat"
