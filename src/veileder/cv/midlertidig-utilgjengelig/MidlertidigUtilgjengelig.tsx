@@ -10,6 +10,7 @@ import 'nav-datovelger/lib/styles/datovelger.less';
 import moment from 'moment';
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
+import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 
 const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
@@ -18,6 +19,8 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
     if (!erToggletPå) {
         return null;
     }
+
+    const visEndre = false; // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
 
     return (
         <div className="midlertidig-utilgjengelig">
@@ -38,10 +41,17 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                <RegistrerMidlertidigUtilgjengelig
-                    onAvbryt={() => setAnker(undefined)}
-                    className="midlertidig-utilgjengelig__popup-innhold"
-                />
+                {visEndre ? (
+                    <EndreMidlertidigUtilgjengelig
+                        onAvbryt={() => setAnker(undefined)}
+                        className="midlertidig-utilgjengelig__popup-innhold"
+                    />
+                ) : (
+                    <RegistrerMidlertidigUtilgjengelig
+                        onAvbryt={() => setAnker(undefined)}
+                        className="midlertidig-utilgjengelig__popup-innhold"
+                    />
+                )}
             </Popover>
         </div>
     );
