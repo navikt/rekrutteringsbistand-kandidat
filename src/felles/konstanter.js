@@ -27,8 +27,8 @@ const FEATURE_TOGGLES = [
 ];
 export default FEATURE_TOGGLES;
 
-export const KANDIDATLISTE_CHUNK_SIZE = 25;
-export const KANDIDATLISTE_INITIAL_CHUNK_SIZE = 50;
+export const KANDIDATLISTE_CHUNK_SIZE = 100;
+export const KANDIDATLISTE_INITIAL_CHUNK_SIZE = 100;
 
 export const UTDANNING = {
     VIDEREGAAENDE: { key: 'Videregaende', label: 'Videregående' },
