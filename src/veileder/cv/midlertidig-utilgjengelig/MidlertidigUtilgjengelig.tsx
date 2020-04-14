@@ -13,23 +13,28 @@ import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjeng
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import { putMidlertidigUtilgjengelig } from '../../api';
 
-const MidlertidigUtilgjengelig: FunctionComponent = () => {
+interface Props {
+    kandidatnummer: string;
+}
+
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
-
-    const [endre, setEndre] = useState<boolean>(false); // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
+    const [endre, setEndre] = useState<boolean>(false); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
 
     if (!erToggletPå) {
         return null;
     }
 
+    const { kandidatnummer } = props;
+
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string): void => {
         // TODO Burde kanskje erstattes med dispatch til redux state, men kan bli litt vanskelig
-        putMidlertidigUtilgjengelig("01245", tilOgMedDato);
+        putMidlertidigUtilgjengelig(kandidatnummer, tilOgMedDato);
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        putMidlertidigUtilgjengelig("012345", null);
+        putMidlertidigUtilgjengelig(kandidatnummer, null);
     };
 
     return (

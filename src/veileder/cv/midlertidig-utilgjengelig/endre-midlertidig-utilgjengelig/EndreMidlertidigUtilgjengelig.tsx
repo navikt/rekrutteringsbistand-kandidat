@@ -21,7 +21,6 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         setHvaSkalEndres(event.target.value);
 
     const onLagre = () => {
-        // TODO Dette må implementeres
         if (hvaSkalEndres === 'fjernMarkering') {
             props.slettMidlertidigUtilgjengelig();
         } else if (hvaSkalEndres === 'endreDato') {
@@ -54,7 +53,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 </Element>
                 <Radio
                     label="Fjern markeringen som utilgjengelig"
-                    name="fjernMarkering"
+                    name="endreMidlertidigUtilgjengelig"
                     value="fjernMarkering"
                     checked={hvaSkalEndres === 'fjernMarkering'}
                     onChange={onHvaSkalEndresChange}
@@ -62,7 +61,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 />
                 <Radio
                     label="Endre dato"
-                    name="endreDato"
+                    name="endreMidlertidigUtilgjengelig"
                     value="endreDato"
                     checked={hvaSkalEndres === 'endreDato'}
                     onChange={onHvaSkalEndresChange}
