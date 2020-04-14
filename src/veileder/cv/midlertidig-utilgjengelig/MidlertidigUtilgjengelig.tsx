@@ -5,6 +5,8 @@ import './MidlertidigUtilgjengelig.less';
 import Chevron from 'nav-frontend-chevron';
 import { Normaltekst, Systemtittel, Element, Undertittel } from 'nav-frontend-typografi';
 import useFeatureToggle from '../../result/useFeatureToggle';
+import { Datovelger } from 'nav-datovelger';
+import 'nav-datovelger/lib/styles/datovelger.less';
 
 const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
@@ -39,6 +41,16 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                         <Element>Hvor lenge er kandidaten utilgjengelig?</Element>
                         <Normaltekst>Du kan velge maks én måned frem i tid.</Normaltekst>
                     </div>
+                    <Datovelger
+                        input={{
+                            id: 'applicationDue__input',
+                            name: 'applicationDue',
+                            placeholder: 'dd.mm.åååå',
+                            ariaLabel: 'Sett søknadsfrist',
+                        }}
+                        onChange={() => {}}
+                        id="applicationDue"
+                    />
                     <Knapp type="hoved">Lagre</Knapp>
                     <Knapp
                         type="flat"
