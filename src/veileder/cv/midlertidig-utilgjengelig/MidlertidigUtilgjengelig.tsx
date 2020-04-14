@@ -16,11 +16,11 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
+    const [endre, setEndre] = useState<boolean>(false); // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
+
     if (!erToggletPå) {
         return null;
     }
-
-    const visEndre = true; // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
 
     return (
         <div className="midlertidig-utilgjengelig">
@@ -41,7 +41,8 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {visEndre ? (
+                <button onClick={() => setEndre(!endre)}>bytt view</button>
+                {endre ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
                         className="midlertidig-utilgjengelig__popup-innhold"
