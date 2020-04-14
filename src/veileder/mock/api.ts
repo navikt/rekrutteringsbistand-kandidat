@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 
 import * as me from './json/me.json';
-import * as kandidatliste from './json/kandidatliste.json';
+import * as kandidatliste from './json/kandidatliste-stor.json';
 import * as toggles from './json/toggles.json';
 import * as sok from './json/sok.json';
 import * as notater from './json/notater.json';
@@ -78,7 +78,7 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
 
     return {
         ...kandidatliste,
-        kandidater: kandidatliste.kandidater.map(kandidat =>
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
             kandidat.kandidatnr !== kandidatnr
                 ? kandidat
                 : {
