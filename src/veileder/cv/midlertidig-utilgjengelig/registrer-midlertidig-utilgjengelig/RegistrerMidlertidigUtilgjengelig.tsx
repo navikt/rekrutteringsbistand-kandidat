@@ -8,22 +8,24 @@ import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-dat
 interface Props {
     onAvbryt: () => void;
     className?: string;
+    registrerMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
 }
 
 const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [dato, setDato] = useState<string | undefined>(undefined);
 
     const onLagre = () => {
-        // TODO Dette må implementeres
-        console.log('Lagrer endring av dato til: ' + dato);
+        if (dato !== undefined) {
+            props.registrerMidlertidigUtilgjengelig(dato);
+        } else {
+            // TODO Feilhåndtering/validering
+        }
     };
 
     return (
         <div className={classNames('registrer-midlertidig-utilgjengelig', props.className)}>
-            <Undertittel tag="h2">
-                Registrer som midlertidig utilgjengelig
-            </Undertittel>
-            <Normaltekst  className="registrer-midlertidig-utilgjengelig__forklaring">
+            <Undertittel tag="h2">Registrer som midlertidig utilgjengelig</Undertittel>
+            <Normaltekst className="registrer-midlertidig-utilgjengelig__forklaring">
                 Avklar tilgjengeligheten. Gi beskjed til kandidaten hvis du registrerer «midlertidig
                 utilgjengelig».
             </Normaltekst>

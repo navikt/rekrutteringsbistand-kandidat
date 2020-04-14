@@ -164,6 +164,13 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
     );
 };
 
+export const putMidlertidigUtilgjengelig = (kandidatnr: string, tilOgMedDato: string | null) => {
+    // TODO Implementer dette
+    console.log(
+        `put midlertidig utilgjengelig for kandidatnr ${kandidatnr} til og med dato ${tilOgMedDato}`
+    );
+};
+
 export const putArkivertForFlereKandidater = (
     kandidatlisteId: string,
     kandidatnumre: string[],

@@ -11,6 +11,7 @@ import moment from 'moment';
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
+import { putMidlertidigUtilgjengelig } from '../../api';
 
 const MidlertidigUtilgjengelig: FunctionComponent = () => {
     const [anker, setAnker] = useState<any>(undefined);
@@ -21,6 +22,15 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
     if (!erToggletPå) {
         return null;
     }
+
+    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string): void => {
+        // TODO Burde kanskje erstattes med dispatch til redux state, men kan bli litt vanskelig
+        putMidlertidigUtilgjengelig("01245", tilOgMedDato);
+    };
+
+    const slettMidlertidigUtilgjengelig = () => {
+        putMidlertidigUtilgjengelig("012345", null);
+    };
 
     return (
         <div className="midlertidig-utilgjengelig">
@@ -46,11 +56,14 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
                         className="midlertidig-utilgjengelig__popup-innhold"
+                        registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
+                        slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
                         className="midlertidig-utilgjengelig__popup-innhold"
+                        registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
                     />
                 )}
             </Popover>

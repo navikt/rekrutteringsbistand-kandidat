@@ -1,14 +1,16 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import classNames from 'classnames';
-import { Normaltekst, Undertittel, Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper/dist';
 import './EndreMidlertidigUtilgjengelig.less';
-import { Fieldset, Radio } from 'nav-frontend-skjema';
+import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
 
 interface Props {
     onAvbryt: () => void;
     className?: string;
+    registrerMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
+    slettMidlertidigUtilgjengelig: () => void;
 }
 
 const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
@@ -21,9 +23,13 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const onLagre = () => {
         // TODO Dette må implementeres
         if (hvaSkalEndres === 'fjernMarkering') {
-            console.log('Lagrer fjerning av markering');
+            props.slettMidlertidigUtilgjengelig();
         } else if (hvaSkalEndres === 'endreDato') {
-            console.log('Lagrer endring av dato til: ' + dato);
+            if (dato !== undefined) {
+                props.registrerMidlertidigUtilgjengelig(dato);
+            } else {
+                // TODO Feilhåndtering/validering
+            }
         }
     };
 
