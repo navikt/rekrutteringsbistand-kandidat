@@ -16,9 +16,7 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
     return (
         <div className={classNames('midlertidig-utilgjengelig-datovelger', props.className)}>
             <label htmlFor="midlertidig-utilgjengelig-datovelger__input">
-                <Element tag="span">
-                    Hvor lenge er kandidaten utilgjengelig?
-                </Element>
+                <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
             </label>
             <Datovelger
                 input={{

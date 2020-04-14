@@ -14,7 +14,7 @@ interface Props {
 }
 const TilgjengelighetIkon: FunctionComponent<Props> = props => {
     const { tilgjengelighet, className } = props;
-    switch (props.tilgjengelighet) {
+    switch (tilgjengelighet) {
         case Tilgjengelighet.SNART_TILGJENGELIG:
             return <FlaggIkonStroke className={className} />;
         case Tilgjengelighet.UTILGJENGELIG:

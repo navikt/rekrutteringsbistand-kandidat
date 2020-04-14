@@ -1,13 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
-
-const FlaggIkonStroke: FunctionComponent<{className: string}> = ({className}) => (
-    <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        className={className}
-    >
+const FlaggIkonStroke: FunctionComponent<{ className: string }> = ({ className }) => (
+    <svg width="12" height="12" viewBox="0 0 24 24" className={className}>
         <g
             fill="none"
             strokeMiterlimit="10"

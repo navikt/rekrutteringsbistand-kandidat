@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-const FlaggIkonFill: FunctionComponent<{className: string}> = ({className}) => (
+const FlaggIkonFill: FunctionComponent<{ className: string }> = ({ className }) => (
     <svg width="12" height="12" viewBox="0 0 24 24" className={className}>
         <path
             fill="#8C368E"
