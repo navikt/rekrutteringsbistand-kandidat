@@ -3,15 +3,15 @@ import { Checkbox } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
-import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
 import TomListe from './tom-liste/TomListe';
-import '../../../felles/common/ikoner/ikoner.less';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
+import Kandidater from './Kandidater';
+import '../../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -19,7 +19,7 @@ export enum Visningsstatus {
     VisMerInfo = 'VIS_MER_INFO',
 }
 
-type Props = {
+export type Props = {
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
     stillingsId: string | null;
@@ -47,10 +47,10 @@ type Props = {
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
+    return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
-const Kandidatliste: FunctionComponent<Props> = props => {
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
@@ -70,7 +70,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
 
     useEffect(() => {
         setFiltrerteKandidater(
-            props.kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte)
+            props.kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte)
         );
     }, [props.kandidater, visArkiverte]);
 
@@ -135,24 +135,11 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             stillingsId={props.stillingsId}
                             visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                         />
-                        {filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                            <KandidatRad
-                                key={kandidat.kandidatnr}
-                                kandidat={kandidat}
-                                endreNotat={props.endreNotat}
-                                kanEditere={props.kanEditere}
-                                stillingsId={props.stillingsId}
-                                kandidatlisteId={props.kandidatlisteId}
-                                onKandidatStatusChange={props.onKandidatStatusChange}
-                                onToggleKandidat={props.onToggleKandidat}
-                                onVisningChange={props.onVisningChange}
-                                opprettNotat={props.opprettNotat}
-                                slettNotat={props.slettNotat}
-                                toggleArkivert={props.toggleArkivert}
-                                visSendSms={props.visSendSms}
-                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
-                            />
-                        ))}
+                        <Kandidater
+                            kandidater={filtrerteKandidater}
+                            visArkiverte={visArkiverte}
+                            {...props}
+                        />
                     </div>
                 </div>
             ) : (

@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 
 import * as me from './json/me.json';
-import * as kandidatliste from './json/kandidatliste-stor.json';
+import * as kandidatliste from './json/kandidatliste.json';
 import * as toggles from './json/toggles.json';
 import * as sok from './json/sok.json';
 import * as notater from './json/notater.json';
