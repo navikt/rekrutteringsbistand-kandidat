@@ -20,7 +20,7 @@ const MidlertidigUtilgjengelig: FunctionComponent = () => {
         return null;
     }
 
-    const visEndre = false; // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
+    const visEndre = true; // TODO Endre skal vises hviss bruker er registrert som utilgjengelig
 
     return (
         <div className="midlertidig-utilgjengelig">
