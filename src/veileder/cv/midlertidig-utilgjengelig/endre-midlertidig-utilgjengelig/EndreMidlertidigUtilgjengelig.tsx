@@ -4,6 +4,7 @@ import { Normaltekst, Undertittel, Element } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper/dist';
 import './EndreMidlertidigUtilgjengelig.less';
 import { Fieldset, Radio } from 'nav-frontend-skjema';
+import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
 
 interface Props {
     onAvbryt: () => void;
@@ -12,8 +13,19 @@ interface Props {
 
 const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
+    const [dato, setDato] = useState<string | undefined>(undefined);
+
     const onHvaSkalEndresChange = (event: ChangeEvent<HTMLInputElement>) =>
         setHvaSkalEndres(event.target.value);
+
+    const onLagre = () => {
+        // TODO Dette må implementeres
+        if (hvaSkalEndres === 'fjernMarkering') {
+            console.log('Lagrer fjerning av markering');
+        } else if (hvaSkalEndres === 'endreDato') {
+            console.log('Lagrer endring av dato til: ' + dato);
+        }
+    };
 
     return (
         <div
@@ -49,8 +61,12 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                     className="endre-midlertidig-utilgjengelig__radio"
                 />
             </fieldset>
-
-            <Knapp type="hoved">Lagre</Knapp>
+            {hvaSkalEndres === 'endreDato' && (
+                <MidlertidigUtilgjengeligDatovelger dato={dato} setDato={setDato} />
+            )}
+            <Knapp type="hoved" onClick={onLagre}>
+                Lagre
+            </Knapp>
             <Knapp
                 type="flat"
                 className="endre-midlertidig-utilgjengelig__avbryt"
