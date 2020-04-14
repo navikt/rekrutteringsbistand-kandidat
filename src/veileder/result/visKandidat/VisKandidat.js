@@ -293,7 +293,7 @@ class VisKandidat extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig />
+                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
                             <Knapp
                                 mini
                                 type="flat"
