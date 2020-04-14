@@ -12,6 +12,7 @@ import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
+import { RemoteDataTypes } from '../../../felles/common/remoteData';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -20,6 +21,7 @@ export enum Visningsstatus {
 }
 
 type Props = {
+    kandidatlisteState: RemoteDataTypes;
     kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
     stillingsId: string | null;
@@ -47,10 +49,10 @@ type Props = {
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
+    return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
-const Kandidatliste: FunctionComponent<Props> = props => {
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
@@ -70,7 +72,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
 
     useEffect(() => {
         setFiltrerteKandidater(
-            props.kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte)
+            props.kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte)
         );
     }, [props.kandidater, visArkiverte]);
 
@@ -91,6 +93,7 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                 tittel={props.tittel}
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
+                kandidatlisteState={props.kandidatlisteState}
             />
             {props.kandidater.length > 0 ? (
                 <div className="kandidatliste__container">

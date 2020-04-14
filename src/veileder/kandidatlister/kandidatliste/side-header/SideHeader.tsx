@@ -3,6 +3,7 @@ import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
+import { RemoteDataTypes } from '../../../../felles/common/remoteData';
 
 type Props = {
     tittel: string;
@@ -11,6 +12,7 @@ type Props = {
     opprettetAv: OpprettetAv;
     stillingsId: string | null;
     beskrivelse?: string;
+    kandidatlisteState: RemoteDataTypes;
 };
 
 const SideHeader: FunctionComponent<Props> = ({
@@ -20,6 +22,7 @@ const SideHeader: FunctionComponent<Props> = ({
     opprettetAv,
     stillingsId,
     beskrivelse,
+    kandidatlisteState,
 }) => (
     <div className="side-header">
         <div className="side-header__wrapper">
@@ -30,7 +33,13 @@ const SideHeader: FunctionComponent<Props> = ({
             </div>
             <div className="side-header__antall">
                 <Element>
-                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
+                    {antallKandidater === 1
+                        ? `1 kandidat`
+                        : `${
+                              kandidatlisteState === RemoteDataTypes.SUCCESS
+                                  ? antallKandidater
+                                  : '-'
+                          } kandidater`}
                 </Element>
             </div>
             <div className="side-header__bottom">
