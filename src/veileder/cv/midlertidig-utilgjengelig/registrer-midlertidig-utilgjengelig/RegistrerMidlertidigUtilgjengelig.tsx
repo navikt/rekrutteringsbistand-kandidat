@@ -13,12 +13,14 @@ interface Props {
 
 const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [dato, setDato] = useState<string | undefined>(undefined);
+    const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
     const onLagre = () => {
         if (dato !== undefined) {
             props.registrerMidlertidigUtilgjengelig(dato);
+            setFeilmelding(undefined);
         } else {
-            // TODO Feilhåndtering/validering
+            setFeilmelding("Du må fylle inn en dato");
         }
     };
 
@@ -29,7 +31,7 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 Avklar tilgjengeligheten. Gi beskjed til kandidaten hvis du registrerer «midlertidig
                 utilgjengelig».
             </Normaltekst>
-            <MidlertidigUtilgjengeligDatovelger dato={dato} setDato={setDato} />
+            <MidlertidigUtilgjengeligDatovelger dato={dato} setDato={setDato} feilmelding={feilmelding}/>
             <Knapp type="hoved" onClick={onLagre}>
                 Lagre
             </Knapp>
