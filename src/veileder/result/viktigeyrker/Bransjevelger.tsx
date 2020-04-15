@@ -4,8 +4,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { SEARCH, SET_STATE, FERDIGUTFYLTESTILLINGER_KLIKK } from '../../sok/searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../../sok/konstanter';
+import { SEARCH, SET_STATE, FERDIGUTFYLTESTILLINGER_KLIKK, LUKK_ALLE_SOKEPANEL } from '../../sok/searchReducer';
 
 import './Bransjevelger.less';
 

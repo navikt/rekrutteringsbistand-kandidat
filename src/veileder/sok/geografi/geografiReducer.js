@@ -1,8 +1,7 @@
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
-import { SET_STATE, harEnParameter } from '../searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../searchReducer';
 
 export const SELECT_TYPE_AHEAD_VALUE_GEOGRAFI = 'SELECT_TYPE_AHEAD_VALUE_GEOGRAFI';
 export const REMOVE_SELECTED_GEOGRAFI = 'REMOVE_SELECTED_GEOGRAFI';

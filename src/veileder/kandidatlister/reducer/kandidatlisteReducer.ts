@@ -148,7 +148,7 @@ const overforNotater: (
     );
     return {
         ...response,
-        kandidater: response.kandidater.map((kandidat) => ({
+        kandidater: response.kandidater.map(kandidat => ({
             ...kandidat,
             notater: notaterMap[kandidat.kandidatId]
                 ? Success(notaterMap[kandidat.kandidatId])
@@ -166,7 +166,7 @@ const leggTilNotater: (
     }
     return {
         ...response,
-        kandidater: response.kandidater.map((kandidat) => ({
+        kandidater: response.kandidater.map(kandidat => ({
             ...kandidat,
             notater: NotAsked(),
         })),
@@ -187,7 +187,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
                     ...state.detaljer.kandidatliste,
                     data: {
                         ...state.detaljer.kandidatliste.data,
-                        kandidater: state.detaljer.kandidatliste.data.kandidater.map((kandidat) => {
+                        kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
                             if (kandidat.kandidatnr === kandidatnr) {
                                 return {
                                     ...kandidat,
@@ -218,7 +218,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
                             utdatertKandidat.kandidatnr === kandidat.kandidatnr
                                 ? {
                                       ...utdatertKandidat,
@@ -249,7 +249,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
+                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
                             kandidatnumre.includes(utdatertKandidat.kandidatnr)
                                 ? {
                                       ...utdatertKandidat,

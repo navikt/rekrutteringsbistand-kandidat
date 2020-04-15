@@ -1,29 +1,23 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
-    fetchKandidater,
-    fetchKandidaterES,
     fetchFeatureToggles,
-    fetchStillingFraListe,
+    fetchFerdigutfylteStillinger,
     fetchGeografiKode,
     fetchInnloggetVeileder,
-    fetchFerdigutfylteStillinger,
+    fetchKandidater,
+    fetchKandidaterES,
+    fetchStillingFraListe,
 } from '../api.ts';
-import {
-    getUrlParameterByName,
-    toUrlParams,
-    getHashFromString,
-    formatterStedsnavn,
-} from '../../felles/sok/utils';
-import FEATURE_TOGGLES, {
-    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-    KANDIDATLISTE_CHUNK_SIZE,
-} from '../../felles/konstanter';
+import { formatterStedsnavn, getHashFromString, getUrlParameterByName, toUrlParams } from '../../felles/sok/utils';
+import FEATURE_TOGGLES, { KANDIDATLISTE_CHUNK_SIZE, KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
 
 /** *********************************************************
  * ACTIONS
  ********************************************************* */
+
+export const LUKK_ALLE_SOKEPANEL = 'LUKK_ALLE_SOKEPANEL';
 
 export const SEARCH = 'SEARCH';
 export const SEARCH_BEGIN = 'SEARCH_BEGIN';
@@ -279,6 +273,7 @@ export const fromUrlQuery = url => {
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
     const kategorier = getUrlParameterByName('kategorier', url);
     const permittert = getUrlParameterByName('permittert');
+    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkt');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -300,6 +295,7 @@ export const fromUrlQuery = url => {
     if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
+    if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
 
     return stateFromUrl;
 };
@@ -350,6 +346,12 @@ export const toUrlQuery = state => {
         urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
     if (state.permittering.permittert !== state.permittering.ikkePermittert)
         urlQuery.permittert = state.permittering.permittert;
+    if (
+        state.oppstartstidspunkter &&
+        state.oppstartstidspunkter.oppstartstidspunkter &&
+        state.oppstartstidspunkter.oppstartstidspunkter.length > 0
+    )
+        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
 
     return toUrlParams(urlQuery);
 };
@@ -402,6 +404,7 @@ function* search(action = '') {
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
+            oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {

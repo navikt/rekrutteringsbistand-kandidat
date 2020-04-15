@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
+import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
     ikkePermittert: boolean;
     setPermittert: (permittert: boolean, ikkePermittert: boolean) => void;
     search: () => void;
+    panelOpen: boolean;
+    togglePanel: () => void;
 }
 
 enum Permitteringsverdi {
@@ -25,9 +28,9 @@ const PermitteringSearch: FunctionComponent<Props> = ({
     ikkePermittert,
     setPermittert,
     search,
+    panelOpen,
+    togglePanel,
 }) => {
-    const [åpen, setÅpen] = useState<boolean>(false);
-
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const verdi = e.currentTarget.value as Permitteringsverdi;
 
@@ -41,12 +44,20 @@ const PermitteringSearch: FunctionComponent<Props> = ({
 
     return (
         <SokekriteriePanel
-            apen={åpen}
+            apen={panelOpen}
             id="Permittering__SokekriteriePanel"
-            tittel="Permittert"
-            onClick={() => setÅpen(!åpen)}
+            tittel={
+                <div className="permittering-search__tittel">
+                    Permittert
+                    <NyttFilterIkon />
+                </div>
+            }
+            onClick={togglePanel}
         >
-            <SkjemaGruppe>
+            <Normaltekst id="permittering-ingress" className="permittering-search__ingress">
+                Brukere som har oppgitt at de er permittert i registreringen.
+            </Normaltekst>
+            <SkjemaGruppe aria-labelledby="permittering-ingress">
                 <Checkbox
                     id="permittering-permittert-checkbox"
                     className="permittering-search__checkbox skjemaelement--pink"
@@ -72,6 +83,7 @@ export default connect(
     (state: AppState) => ({
         permittert: state.permittering.permittert,
         ikkePermittert: state.permittering.ikkePermittert,
+        panelOpen: state.permittering.panelOpen,
     }),
     (dispatch: (action: any) => void) => ({
         search: () => dispatch({ type: SEARCH }),
@@ -81,5 +93,6 @@ export default connect(
                 permittert,
                 ikkePermittert,
             }),
+        togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL }),
     })
 )(PermitteringSearch);

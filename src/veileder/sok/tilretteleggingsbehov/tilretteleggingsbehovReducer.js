@@ -1,5 +1,4 @@
-import { SET_STATE, harEnParameter } from '../searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from '../konstanter';
+import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../searchReducer';
 
 /** *********************************************************
  * ACTIONS

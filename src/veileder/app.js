@@ -12,7 +12,7 @@ import './sok/sok.less';
 import searchReducer, {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
-    HENT_INNLOGGET_VEILEDER,
+    HENT_INNLOGGET_VEILEDER, LUKK_ALLE_SOKEPANEL,
     saga,
 } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
@@ -49,7 +49,7 @@ import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
-import { LUKK_ALLE_SOKEPANEL } from './sok/konstanter';
+import oppstartstidspunktReducer from './sok/oppstardstidspunkt/oppstartstidspunktReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -67,6 +67,7 @@ const store = createStore(
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
+        oppstartstidspunkter: oppstartstidspunktReducer,
         cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
@@ -77,6 +78,8 @@ const store = createStore(
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
+
+export const reduxStore = store;
 
 const HeaderSwitch = ({ innloggetVeileder }) => (
     <Switch>

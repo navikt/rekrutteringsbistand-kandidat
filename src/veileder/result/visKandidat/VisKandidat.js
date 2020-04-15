@@ -7,13 +7,13 @@ import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
 import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
-import VisKandidatPersonalia from '../../../felles/result/visKandidat/VisKandidatPersonalia';
-import VisKandidatCv from '../../../felles/result/visKandidat/VisKandidatCv';
-import VisKandidatJobbprofil from '../../../felles/result/visKandidat/VisKandidatJobbprofil';
+import VisKandidatPersonalia from '../../cv/VisKandidatPersonalia';
+import VisKandidatCv from '../../cv/VisKandidatCv';
+import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { SETT_KANDIDATNUMMER, LAST_FLERE_KANDIDATER } from '../../sok/searchReducer';
 import './VisKandidat.less';
-import VisKandidatForrigeNeste from '../../../felles/result/visKandidat/VisKandidatForrigeNeste';
+import VisKandidatForrigeNeste from '../../cv/VisKandidatForrigeNeste';
 import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
@@ -22,6 +22,8 @@ import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
+import CVMeny from '../../cv/cv-meny/CVMeny';
+import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -98,7 +100,7 @@ class VisKandidat extends React.Component {
             hentCvForKandidat(this.kandidatnummer);
             this.setState({
                 gjeldendeKandidat: this.gjeldendeKandidatIListen(this.kandidatnummer),
-                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1
+                gjeldendeKandidatIndex: this.gjeldendeKandidatIListen(this.kandidatnummer) - 1,
             });
         }
 
@@ -172,10 +174,7 @@ class VisKandidat extends React.Component {
 
     gjeldendeKandidatIndexIListen = kandidatnummer => {
         const { kandidater } = this.props;
-        return kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
-        );
-
+        return kandidater.findIndex(element => element.arenaKandidatnr === kandidatnummer);
     };
 
     forrigeKandidatnummerIListen = kandidatnummer => {
@@ -293,18 +292,19 @@ class VisKandidat extends React.Component {
                     </div>
                 ) : (
                     <div>
+                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
+                            <Knapp
+                                mini
+                                type="flat"
+                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
+                            >
+                                Lagre kandidat i kandidatliste
+                            </Knapp>
+                        </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">
-                                    <a
-                                        className="frittstaende-lenke ForlateSiden link"
-                                        href={`https://app.adeo.no/veilarbpersonflatefs/${cv.fodselsnummer}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <span className="link">Se aktivitetsplan</span>
-                                        <i className="ForlateSiden__icon" />
-                                    </a>
                                     {this.props.visLastNedCvLenke && (
                                         <a
                                             className="frittstaende-lenke LastNed link"
@@ -317,15 +317,6 @@ class VisKandidat extends React.Component {
                                         </a>
                                     )}
                                 </div>
-                                <Knapp
-                                    onClick={this.onLagreKandidatClick(
-                                        kandidatlisteId,
-                                        stillingsId
-                                    )}
-                                    mini
-                                >
-                                    Lagre kandidat i kandidatliste
-                                </Knapp>
                             </div>
                         </div>
                         <VisKandidatJobbprofil cv={cv} />

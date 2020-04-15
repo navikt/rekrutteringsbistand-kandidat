@@ -4,14 +4,15 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
+import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
+import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
-import IngenKandidater from './ingen-kandidater/IngenKandidater';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -94,26 +95,29 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             />
             {props.kandidater.length > 0 ? (
                 <div className="kandidatliste__container">
-                    <KnappeRad
-                        arbeidsgiver={props.arbeidsgiver}
-                        kanEditere={props.kanEditere}
-                        kandidater={filtrerteKandidater}
-                        onEmailKandidater={props.onEmailKandidater}
-                        onSendSmsClick={props.onSendSmsClick}
-                        onKandidatShare={props.onKandidatShare}
-                        onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
-                        kandidatlisteId={props.kandidatlisteId}
-                        onLeggTilKandidat={props.onLeggTilKandidat}
-                        stillingsId={props.stillingsId}
-                        visSendSms={props.visSendSms}
-                        visArkiverte={visArkiverte}
-                    >
-                        <FinnKandidaterLenke
+                    <div className="kandidatliste__knapperad-container">
+                        {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
+                        <KnappeRad
+                            arbeidsgiver={props.arbeidsgiver}
+                            kanEditere={props.kanEditere}
+                            kandidater={filtrerteKandidater}
+                            onEmailKandidater={props.onEmailKandidater}
+                            onSendSmsClick={props.onSendSmsClick}
+                            onKandidatShare={props.onKandidatShare}
+                            onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
                             kandidatlisteId={props.kandidatlisteId}
+                            onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
-                        />
-                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
-                    </KnappeRad>
+                            visSendSms={props.visSendSms}
+                            visArkiverte={visArkiverte}
+                        >
+                            <FinnKandidaterLenke
+                                kandidatlisteId={props.kandidatlisteId}
+                                stillingsId={props.stillingsId}
+                            />
+                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                        </KnappeRad>
+                    </div>
 
                     <aside className="kandidatliste__filter">
                         <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">

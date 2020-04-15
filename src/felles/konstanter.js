@@ -22,11 +22,13 @@ const FEATURE_TOGGLES = [
     'vis-viktige-yrker-lenker',
     'vis-kandidatliste-sletting',
     'vis-permitteringsfilter',
+    'vis-oppstartstidspunktfilter',
+    'vis-midlertidig-utilgjengelig',
 ];
 export default FEATURE_TOGGLES;
 
-export const KANDIDATLISTE_CHUNK_SIZE = 25;
-export const KANDIDATLISTE_INITIAL_CHUNK_SIZE = 50;
+export const KANDIDATLISTE_CHUNK_SIZE = 100;
+export const KANDIDATLISTE_INITIAL_CHUNK_SIZE = 100;
 
 export const UTDANNING = {
     VIDEREGAAENDE: { key: 'Videregaende', label: 'Videregående' },

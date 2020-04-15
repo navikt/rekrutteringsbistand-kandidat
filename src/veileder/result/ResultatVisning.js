@@ -18,7 +18,7 @@ import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
 import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch.tsx';
 import {
-    INITIAL_SEARCH_BEGIN,
+    INITIAL_SEARCH_BEGIN, LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,
@@ -34,10 +34,10 @@ import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import { LUKK_ALLE_SOKEPANEL } from '../sok/konstanter';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
+import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
 
-export const hentQueryUtenKriterier = (harHentetStilling) => ({
+export const hentQueryUtenKriterier = harHentetStilling => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -115,6 +115,7 @@ class ResultatVisning extends React.Component {
             kandidatliste,
             antallLagredeKandidater,
             visPermitteringsfilter,
+            visOppstartstidspunktfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -236,6 +237,9 @@ class ResultatVisning extends React.Component {
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
                                         {visPermitteringsfilter && <PermitteringSearch />}
+                                        {visOppstartstidspunktfilter && (
+                                            <OppstartstidspunktSearch />
+                                        )}
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -316,7 +320,7 @@ ResultatVisning.propTypes = {
     visPermitteringsfilter: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     isInitialSearch: state.search.isInitialSearch,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     maksAntallTreff: state.search.maksAntallTreff,
@@ -329,13 +333,14 @@ const mapStateToProps = (state) => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
+    visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = dispatch => ({
+    resetQuery: query => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId) => {
+    initialSearch: stillingsId => {
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {
