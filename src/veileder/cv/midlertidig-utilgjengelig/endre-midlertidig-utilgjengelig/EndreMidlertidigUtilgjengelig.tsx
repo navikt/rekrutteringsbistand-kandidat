@@ -16,6 +16,7 @@ interface Props {
 const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
     const [dato, setDato] = useState<string | undefined>(undefined);
+    const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
     const onHvaSkalEndresChange = (event: ChangeEvent<HTMLInputElement>) =>
         setHvaSkalEndres(event.target.value);
@@ -26,8 +27,9 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         } else if (hvaSkalEndres === 'endreDato') {
             if (dato !== undefined) {
                 props.registrerMidlertidigUtilgjengelig(dato);
+                setFeilmelding(undefined);
             } else {
-                // TODO Feilhåndtering/validering
+                setFeilmelding("Du må fylle inn en dato");
             }
         }
     };

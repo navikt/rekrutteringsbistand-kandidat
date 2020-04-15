@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Datovelger } from 'nav-datovelger';
 import moment from 'moment';
 import './MidlertidigUtilgjengeligDatovelger.less';
@@ -9,14 +9,19 @@ interface Props {
     dato: string | undefined;
     setDato: (dato: string | undefined) => void;
     className?: string;
+    feilmelding?: string;
 }
 
 const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
-    const { dato, setDato, className } = props;
+    const { dato, setDato, className, feilmelding } = props;
     return (
         <div className={classNames('midlertidig-utilgjengelig-datovelger', props.className)}>
-            <label htmlFor="midlertidig-utilgjengelig-datovelger__input">
+            <label
+                className="midlertidig-utilgjengelig-datovelger__label"
+                htmlFor="midlertidig-utilgjengelig-datovelger__input"
+            >
                 <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
+                <Normaltekst tag="span">Du kan velge maks en måned frem it tid.</Normaltekst>
             </label>
             <Datovelger
                 input={{
@@ -36,6 +41,14 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
                 }}
                 id="midlertidig-utilgjengelig-datovelger"
             />
+            {feilmelding && (
+                <Element
+                    className="midlertidig-utilgjengelig-datovelger__feilmelding"
+                    aria-live="polite"
+                >
+                    {feilmelding}
+                </Element>
+            )}
         </div>
     );
 };

@@ -56,7 +56,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                <button onClick={() => setEndre(!endre)}>bytt view</button>
                 {endre ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
