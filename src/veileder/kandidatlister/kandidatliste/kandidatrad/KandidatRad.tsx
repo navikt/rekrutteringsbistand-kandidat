@@ -123,9 +123,11 @@ const KandidatRad: FunctionComponent<Props> = ({
                     {visSendSms && kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
                 <span>{kandidat.fodselsnr}</span>
-                <span className="tabell-tekst">
-                    {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
-                </span>
+                <div className="tabell-tekst">
+                    <span className="tabell-tekst-inner">
+                        {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
+                    </span>
+                </div>
                 {visArkiveringskolonne ? (
                     <StatusSelect
                         kanEditere={kanEditere}

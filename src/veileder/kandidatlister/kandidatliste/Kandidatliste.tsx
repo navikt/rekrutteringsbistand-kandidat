@@ -2,16 +2,17 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
+import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
+import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatRad from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import SideHeader from './side-header/SideHeader';
+import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
-import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -47,16 +48,17 @@ type Props = {
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
+    return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
-const Kandidatliste: FunctionComponent<Props> = props => {
+const hentFiltrerteKandidater = (kandidater: KandidatIKandidatliste[], visArkiverte: boolean) => {
+    return kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte);
+};
+
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
-    );
-    const [antallIkkeArkiverte, setAntallIkkeArkiverte] = useState<number>(
-        props.kandidater.length - hentAntallArkiverte(props.kandidater)
     );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
@@ -65,27 +67,21 @@ const Kandidatliste: FunctionComponent<Props> = props => {
     };
 
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        props.kandidater
+        hentFiltrerteKandidater(props.kandidater, visArkiverte)
     );
 
     useEffect(() => {
-        setFiltrerteKandidater(
-            props.kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte)
-        );
+        setFiltrerteKandidater(hentFiltrerteKandidater(props.kandidater, visArkiverte));
     }, [props.kandidater, visArkiverte]);
 
     useEffect(() => {
-        const antallArkiverte = hentAntallArkiverte(props.kandidater);
-        const totaltAntallKandidater = props.kandidater.length;
-
-        setAntallArkiverte(antallArkiverte);
-        setAntallIkkeArkiverte(totaltAntallKandidater - antallArkiverte);
+        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
     }, [props.kandidater]);
 
     return (
         <div className="kandidatliste">
             <SideHeader
-                antallKandidater={antallIkkeArkiverte}
+                antallKandidater={props.kandidater.length - antallArkiverte}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
@@ -135,24 +131,34 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                             stillingsId={props.stillingsId}
                             visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                         />
-                        {filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                            <KandidatRad
-                                key={kandidat.kandidatnr}
-                                kandidat={kandidat}
-                                endreNotat={props.endreNotat}
-                                kanEditere={props.kanEditere}
-                                stillingsId={props.stillingsId}
-                                kandidatlisteId={props.kandidatlisteId}
-                                onKandidatStatusChange={props.onKandidatStatusChange}
-                                onToggleKandidat={props.onToggleKandidat}
-                                onVisningChange={props.onVisningChange}
-                                opprettNotat={props.opprettNotat}
-                                slettNotat={props.slettNotat}
-                                toggleArkivert={props.toggleArkivert}
-                                visSendSms={props.visSendSms}
-                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
-                            />
-                        ))}
+                        {filtrerteKandidater.length > 0 ? (
+                            filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
+                                <KandidatRad
+                                    key={kandidat.kandidatnr}
+                                    kandidat={kandidat}
+                                    endreNotat={props.endreNotat}
+                                    kanEditere={props.kanEditere}
+                                    stillingsId={props.stillingsId}
+                                    kandidatlisteId={props.kandidatlisteId}
+                                    onKandidatStatusChange={props.onKandidatStatusChange}
+                                    onToggleKandidat={props.onToggleKandidat}
+                                    onVisningChange={props.onVisningChange}
+                                    opprettNotat={props.opprettNotat}
+                                    slettNotat={props.slettNotat}
+                                    toggleArkivert={props.toggleArkivert}
+                                    visSendSms={props.visSendSms}
+                                    visArkiveringskolonne={
+                                        !!props.arkiveringErEnabled && !visArkiverte
+                                    }
+                                />
+                            ))
+                        ) : (
+                            <IngenKandidater>
+                                {visArkiverte
+                                    ? 'Det er ingen kandidater som passer med valgte kriterier'
+                                    : 'Du har ingen kandidater i kandidatlisten'}
+                            </IngenKandidater>
+                        )}
                     </div>
                 </div>
             ) : (

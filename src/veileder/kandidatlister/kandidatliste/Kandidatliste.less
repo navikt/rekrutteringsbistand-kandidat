@@ -54,24 +54,24 @@
                 padding-right: 0.5rem;
                 grid-gap: 1rem;
                 grid-template-columns:
-                    minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                    1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
                     minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
-                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
                         minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
-                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
                         minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
-                        minmax(0, 1.6fr) minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
+                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
                         minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
                 }
 
@@ -138,9 +138,12 @@
                 }
 
                 .tabell-tekst {
+                    white-space: nowrap;
+                }
+
+                .tabell-tekst-inner {
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    white-space: nowrap;
                 }
 
                 .kolonne-checkboks {

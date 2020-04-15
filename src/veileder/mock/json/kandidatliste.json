@@ -50,7 +50,7 @@
             "telefon": "91333532",
             "epost": "anostoga@gmail.com",
             "innsatsgruppe": "Varig tilpasset innsats",
-            "arkivert": true,
+            "arkivert": false,
             "antallNotater": 1
         }
     ],
