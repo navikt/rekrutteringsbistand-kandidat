@@ -87,7 +87,7 @@ class Kandidatlisteside extends React.Component<Props> {
 
     state: {
         alleMarkert: boolean;
-        kandidater: KandidatIKandidatliste[];
+        kandidater?: KandidatIKandidatliste[];
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
@@ -105,8 +105,8 @@ class Kandidatlisteside extends React.Component<Props> {
             alleMarkert: false,
             kandidater:
                 props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
-                    ? []
-                    : props.kandidatliste.data.kandidater.map(kandidat => ({
+                    ? undefined
+                    : props.kandidatliste.data.kandidater.map((kandidat) => ({
                           ...kandidat,
                           ...initialKandidatTilstand(),
                       })),
@@ -164,7 +164,7 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.resetDeleStatus();
 
             const antallMarkerteKandidater = (this.state.kandidater || []).filter(
-                kandidat => kandidat.markert
+                (kandidat) => kandidat.markert
             ).length;
 
             this.onCheckAlleKandidater(false);
@@ -247,30 +247,28 @@ class Kandidatlisteside extends React.Component<Props> {
                     ? this.props.sendteMeldinger.data
                     : [];
 
-            const kandidater: KandidatIKandidatliste[] = this.props.kandidatliste.data.kandidater.map(
-                kandidat => {
-                    const kandidatTilstand =
-                        (!kandidaterHarNettoppBlittPresentert &&
-                            kandidatTilstander[kandidat.kandidatnr]) ||
-                        initialKandidatTilstand();
+            const kandidater = this.props.kandidatliste.data.kandidater.map((kandidat) => {
+                const kandidatTilstand =
+                    (!kandidaterHarNettoppBlittPresentert &&
+                        kandidatTilstander[kandidat.kandidatnr]) ||
+                    initialKandidatTilstand();
 
-                    const sendtMelding = sendteMeldinger.find(
-                        melding => melding.fnr === kandidat.fodselsnr
-                    );
+                const sendtMelding = sendteMeldinger.find(
+                    (melding) => melding.fnr === kandidat.fodselsnr
+                );
 
-                    return {
-                        ...kandidat,
-                        ...kandidatTilstand,
-                        sms: sendtMelding,
-                    };
-                }
-            );
+                return {
+                    ...kandidat,
+                    ...kandidatTilstand,
+                    sms: sendtMelding,
+                };
+            });
 
             this.setState({
                 kandidater,
                 alleMarkert:
                     !kandidaterHarNettoppBlittPresentert &&
-                    kandidater.filter(k => !k.markert).length === 0,
+                    kandidater.filter((k) => !k.markert).length === 0,
             });
         }
     }
@@ -280,29 +278,33 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 
     onCheckAlleKandidater = (markert: boolean) => {
-        this.setState({
-            alleMarkert: markert,
-            kandidater: this.state.kandidater.map(kandidat => ({
-                ...kandidat,
-                markert,
-            })),
-        });
+        if (this.state.kandidater) {
+            this.setState({
+                alleMarkert: markert,
+                kandidater: this.state.kandidater.map((kandidat) => ({
+                    ...kandidat,
+                    markert,
+                })),
+            });
+        }
     };
 
     onToggleKandidat = (kandidatnr: string) => {
-        const kandidater = this.state.kandidater.map(kandidat => {
-            if (kandidat.kandidatnr === kandidatnr) {
-                return {
-                    ...kandidat,
-                    markert: !kandidat.markert,
-                };
-            }
-            return kandidat;
-        });
-        this.setState({
-            kandidater,
-            alleMarkert: kandidater.filter(k => !k.markert).length === 0,
-        });
+        if (this.state.kandidater) {
+            const kandidater = this.state.kandidater.map((kandidat) => {
+                if (kandidat.kandidatnr === kandidatnr) {
+                    return {
+                        ...kandidat,
+                        markert: !kandidat.markert,
+                    };
+                }
+                return kandidat;
+            });
+            this.setState({
+                kandidater,
+                alleMarkert: kandidater.filter((k) => !k.markert).length === 0,
+            });
+        }
     };
 
     onToggleDeleModal = () => {
@@ -330,50 +332,56 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
-        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
-            this.props.presenterKandidater(
-                beskjed,
-                mailadresser,
-                this.props.kandidatliste.data.kandidatlisteId,
-                this.state.kandidater
-                    .filter(kandidat => kandidat.markert)
-                    .map(kandidat => kandidat.kandidatnr)
-            );
-            this.setState({
-                deleModalOpen: false,
-            });
+        if (this.state.kandidater) {
+            if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+                this.props.presenterKandidater(
+                    beskjed,
+                    mailadresser,
+                    this.props.kandidatliste.data.kandidatlisteId,
+                    this.state.kandidater
+                        .filter((kandidat) => kandidat.markert)
+                        .map((kandidat) => kandidat.kandidatnr)
+                );
+                this.setState({
+                    deleModalOpen: false,
+                });
+            }
         }
     };
 
     onKandidaterAngreArkivering = () => {
-        if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
-            this.props.angreArkiveringForKandidater(
-                this.props.kandidatliste.data.kandidatlisteId,
-                this.state.kandidater
-                    .filter(kandidat => kandidat.markert)
-                    .map(kandidat => kandidat.kandidatnr)
-            );
+        if (this.state.kandidater) {
+            if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+                this.props.angreArkiveringForKandidater(
+                    this.props.kandidatliste.data.kandidatlisteId,
+                    this.state.kandidater
+                        .filter((kandidat) => kandidat.markert)
+                        .map((kandidat) => kandidat.kandidatnr)
+                );
+            }
         }
     };
 
     onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
-        if (visningsstatus === Visningsstatus.VisNotater) {
-            this.props.hentNotater(kandidatlisteId, kandidatnr);
-        }
-        this.setState({
-            kandidater: this.state.kandidater.map(kandidat => {
-                if (kandidat.kandidatnr === kandidatnr) {
+        if (this.state.kandidater) {
+            if (visningsstatus === Visningsstatus.VisNotater) {
+                this.props.hentNotater(kandidatlisteId, kandidatnr);
+            }
+            this.setState({
+                kandidater: this.state.kandidater.map((kandidat) => {
+                    if (kandidat.kandidatnr === kandidatnr) {
+                        return {
+                            ...kandidat,
+                            visningsstatus,
+                        };
+                    }
                     return {
                         ...kandidat,
-                        visningsstatus,
+                        visningsstatus: Visningsstatus.SkjulPanel,
                     };
-                }
-                return {
-                    ...kandidat,
-                    visningsstatus: Visningsstatus.SkjulPanel,
-                };
-            }),
-        });
+                }),
+            });
+        }
     };
 
     onEmailKandidater = () => {
@@ -436,7 +444,7 @@ class Kandidatlisteside extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
+                        antallKandidater={kandidater.filter((kandidat) => kandidat.markert).length}
                     />
                 )}
                 {leggTilModalOpen && (
@@ -459,7 +467,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
-                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
+                    kandidater={this.state.kandidater.filter((kandidat) => kandidat.markert)}
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}

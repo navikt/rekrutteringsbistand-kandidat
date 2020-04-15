@@ -51,13 +51,14 @@ const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
     return kandidater.filter((kandidat) => kandidat.arkivert).length;
 };
 
+const hentFiltrerteKandidater = (kandidater: KandidatIKandidatliste[], visArkiverte: boolean) => {
+    return kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte);
+};
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
-    );
-    const [antallIkkeArkiverte, setAntallIkkeArkiverte] = useState<number>(
-        props.kandidater.length - hentAntallArkiverte(props.kandidater)
     );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
@@ -66,27 +67,21 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        props.kandidater
+        hentFiltrerteKandidater(props.kandidater, visArkiverte)
     );
 
     useEffect(() => {
-        setFiltrerteKandidater(
-            props.kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte)
-        );
+        setFiltrerteKandidater(hentFiltrerteKandidater(props.kandidater, visArkiverte));
     }, [props.kandidater, visArkiverte]);
 
     useEffect(() => {
-        const antallArkiverte = hentAntallArkiverte(props.kandidater);
-        const totaltAntallKandidater = props.kandidater.length;
-
-        setAntallArkiverte(antallArkiverte);
-        setAntallIkkeArkiverte(totaltAntallKandidater - antallArkiverte);
+        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
     }, [props.kandidater]);
 
     return (
         <div className="kandidatliste">
             <SideHeader
-                antallKandidater={antallIkkeArkiverte}
+                antallKandidater={props.kandidater.length - antallArkiverte}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
