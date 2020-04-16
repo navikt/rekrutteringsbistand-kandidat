@@ -29,7 +29,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 props.registrerMidlertidigUtilgjengelig(dato);
                 setFeilmelding(undefined);
             } else {
-                setFeilmelding("Du må fylle inn en dato");
+                setFeilmelding('Du må fylle inn en dato');
             }
         }
     };

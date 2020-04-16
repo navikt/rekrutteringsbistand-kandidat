@@ -37,13 +37,12 @@ const oppstartstidspunktReducer = (
             return {
                 oppstartstidspunkter: action.query.oppstartstidspunkter || [],
                 panelOpen: harEnParameter(action.query.oppstartstidspunkter) || state.panelOpen,
-            }
+            };
         }
         case OppstartstidspunktActionType.CHECK_OPPSTARTSTIDSPUNKT:
             return {
                 ...state,
                 oppstartstidspunkter: [...state.oppstartstidspunkter, action.value],
-
             };
         case OppstartstidspunktActionType.UNCHECK_OPPSTARTSTIDSPUNKT:
             return {

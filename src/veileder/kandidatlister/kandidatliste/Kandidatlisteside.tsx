@@ -106,7 +106,7 @@ class Kandidatlisteside extends React.Component<Props> {
             kandidater:
                 props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
                     ? undefined
-                    : props.kandidatliste.data.kandidater.map((kandidat) => ({
+                    : props.kandidatliste.data.kandidater.map(kandidat => ({
                           ...kandidat,
                           ...initialKandidatTilstand(),
                       })),
@@ -164,7 +164,7 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.resetDeleStatus();
 
             const antallMarkerteKandidater = (this.state.kandidater || []).filter(
-                (kandidat) => kandidat.markert
+                kandidat => kandidat.markert
             ).length;
 
             this.onCheckAlleKandidater(false);
@@ -247,14 +247,14 @@ class Kandidatlisteside extends React.Component<Props> {
                     ? this.props.sendteMeldinger.data
                     : [];
 
-            const kandidater = this.props.kandidatliste.data.kandidater.map((kandidat) => {
+            const kandidater = this.props.kandidatliste.data.kandidater.map(kandidat => {
                 const kandidatTilstand =
                     (!kandidaterHarNettoppBlittPresentert &&
                         kandidatTilstander[kandidat.kandidatnr]) ||
                     initialKandidatTilstand();
 
                 const sendtMelding = sendteMeldinger.find(
-                    (melding) => melding.fnr === kandidat.fodselsnr
+                    melding => melding.fnr === kandidat.fodselsnr
                 );
 
                 return {
@@ -268,7 +268,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 kandidater,
                 alleMarkert:
                     !kandidaterHarNettoppBlittPresentert &&
-                    kandidater.filter((k) => !k.markert).length === 0,
+                    kandidater.filter(k => !k.markert).length === 0,
             });
         }
     }
@@ -281,7 +281,7 @@ class Kandidatlisteside extends React.Component<Props> {
         if (this.state.kandidater) {
             this.setState({
                 alleMarkert: markert,
-                kandidater: this.state.kandidater.map((kandidat) => ({
+                kandidater: this.state.kandidater.map(kandidat => ({
                     ...kandidat,
                     markert,
                 })),
@@ -291,7 +291,7 @@ class Kandidatlisteside extends React.Component<Props> {
 
     onToggleKandidat = (kandidatnr: string) => {
         if (this.state.kandidater) {
-            const kandidater = this.state.kandidater.map((kandidat) => {
+            const kandidater = this.state.kandidater.map(kandidat => {
                 if (kandidat.kandidatnr === kandidatnr) {
                     return {
                         ...kandidat,
@@ -302,7 +302,7 @@ class Kandidatlisteside extends React.Component<Props> {
             });
             this.setState({
                 kandidater,
-                alleMarkert: kandidater.filter((k) => !k.markert).length === 0,
+                alleMarkert: kandidater.filter(k => !k.markert).length === 0,
             });
         }
     };
@@ -339,8 +339,8 @@ class Kandidatlisteside extends React.Component<Props> {
                     mailadresser,
                     this.props.kandidatliste.data.kandidatlisteId,
                     this.state.kandidater
-                        .filter((kandidat) => kandidat.markert)
-                        .map((kandidat) => kandidat.kandidatnr)
+                        .filter(kandidat => kandidat.markert)
+                        .map(kandidat => kandidat.kandidatnr)
                 );
                 this.setState({
                     deleModalOpen: false,
@@ -355,8 +355,8 @@ class Kandidatlisteside extends React.Component<Props> {
                 this.props.angreArkiveringForKandidater(
                     this.props.kandidatliste.data.kandidatlisteId,
                     this.state.kandidater
-                        .filter((kandidat) => kandidat.markert)
-                        .map((kandidat) => kandidat.kandidatnr)
+                        .filter(kandidat => kandidat.markert)
+                        .map(kandidat => kandidat.kandidatnr)
                 );
             }
         }
@@ -368,7 +368,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 this.props.hentNotater(kandidatlisteId, kandidatnr);
             }
             this.setState({
-                kandidater: this.state.kandidater.map((kandidat) => {
+                kandidater: this.state.kandidater.map(kandidat => {
                     if (kandidat.kandidatnr === kandidatnr) {
                         return {
                             ...kandidat,
@@ -444,7 +444,7 @@ class Kandidatlisteside extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={kandidater.filter((kandidat) => kandidat.markert).length}
+                        antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
                     />
                 )}
                 {leggTilModalOpen && (
@@ -467,7 +467,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
-                    kandidater={this.state.kandidater.filter((kandidat) => kandidat.markert)}
+                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}

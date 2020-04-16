@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ArbeidserfaringSearchFelles from '../../../felles/sok/arbeidserfaring/ArbeidserfaringSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -15,45 +14,175 @@ import {
     TOGGLE_ARBEIDSERFARING_PANEL_OPEN,
 } from './arbeidserfaringReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
+import LeggtilKnapp from '../../../felles/common/leggtilKnapp/LeggtilKnapp';
+import { Merkelapp } from 'pam-frontend-merkelapper';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 
-const ArbeidserfaringSearch = ({ ...props }) => {
-    const {
-        search,
-        removeArbeidserfaring,
-        fetchTypeAheadSuggestions,
-        selectTypeAheadValue,
-        checkTotalErfaring,
-        uncheckTotalErfaring,
-        arbeidserfaringer,
-        typeAheadSuggestionsArbeidserfaring,
-        totalErfaring,
-        clearTypeAheadArbeidserfaring,
-        totaltAntallTreff,
-        visAlertFaKandidater,
-        skjulArbeidserfaring,
-        panelOpen,
-        togglePanelOpen,
-    } = props;
-    return (
-        <ArbeidserfaringSearchFelles
-            search={search}
-            removeArbeidserfaring={removeArbeidserfaring}
-            fetchTypeAheadSuggestions={fetchTypeAheadSuggestions}
-            selectTypeAheadValue={selectTypeAheadValue}
-            checkTotalErfaring={checkTotalErfaring}
-            uncheckTotalErfaring={uncheckTotalErfaring}
-            arbeidserfaringer={arbeidserfaringer}
-            typeAheadSuggestionsArbeidserfaring={typeAheadSuggestionsArbeidserfaring}
-            totalErfaring={totalErfaring}
-            clearTypeAheadArbeidserfaring={clearTypeAheadArbeidserfaring}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            skjulArbeidserfaring={skjulArbeidserfaring}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-        />
+import './Arbeidserfaring.less';
+
+const aarMedErfaringer = [
+    { label: 'Under 1 år', value: '0-11' },
+    { label: '1-3 år', value: '12-47' },
+    { label: '4-9 år', value: '48-119' },
+    { label: 'Over 10 år', value: '120-' },
+];
+
+class ArbeidserfaringSearch extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showTypeAhead: false,
+            typeAheadValue: '',
+        };
+    }
+
+    onTotalErfaringChange = e => {
+        if (e.target.checked) {
+            this.props.checkTotalErfaring(e.target.value);
+        } else {
+            this.props.uncheckTotalErfaring(e.target.value);
+        }
+        this.props.search();
+    };
+
+    onTypeAheadArbeidserfaringChange = value => {
+        this.props.fetchTypeAheadSuggestions(value);
+        this.setState({
+            typeAheadValue: value,
+        });
+    };
+
+    onTypeAheadArbeidserfaringSelect = value => {
+        if (value !== '') {
+            this.props.selectTypeAheadValue(value);
+            this.props.clearTypeAheadArbeidserfaring();
+            this.setState({
+                typeAheadValue: '',
+            });
+            this.props.search();
+        }
+    };
+
+    onLeggTilClick = () => {
+        this.setState(
+            {
+                showTypeAhead: true,
+            },
+            () => this.typeAhead.input.focus()
+        );
+    };
+
+    onFjernClick = erfaring => {
+        this.props.removeArbeidserfaring(erfaring);
+        this.props.search();
+    };
+
+    onTypeAheadBlur = () => {
+        this.setState({
+            typeAheadValue: '',
+            showTypeAhead: false,
+        });
+        this.props.clearTypeAheadArbeidserfaring();
+    };
+
+    onSubmit = e => {
+        e.preventDefault();
+        this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+        this.typeAhead.input.focus();
+    };
+
+    renderTotalErfaring = () => (
+        <SkjemaGruppe
+            className="ar-med-arbeidserfaring__header"
+            title="Totalt antall år med arbeidserfaring"
+        >
+            <Normaltekst>Velg en eller flere</Normaltekst>
+            <div className="sokekriterier--kriterier">
+                {aarMedErfaringer.map(arbeidserfaring => (
+                    <Checkbox
+                        className="checkbox--arbeidserfaring skjemaelement--pink"
+                        id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
+                        label={arbeidserfaring.label}
+                        key={arbeidserfaring.value}
+                        value={arbeidserfaring.value}
+                        checked={this.props.totalErfaring.includes(arbeidserfaring.value)}
+                        onChange={this.onTotalErfaringChange}
+                    />
+                ))}
+            </div>
+        </SkjemaGruppe>
     );
-};
+
+    render() {
+        if (this.props.skjulArbeidserfaring) {
+            return null;
+        }
+
+        return (
+            <SokekriteriePanel
+                id="ArbeidserfaringSearch__SokekriteriePanel"
+                tittel="Arbeidserfaring"
+                onClick={this.props.togglePanelOpen}
+                apen={this.props.panelOpen}
+            >
+                <Element>Hvilken erfaring skal kandidaten ha?</Element>
+                <Normaltekst>For eksempel: barnehagelærer</Normaltekst>
+                <div className="sokekriterier--kriterier">
+                    <div>
+                        {this.state.showTypeAhead ? (
+                            <Typeahead
+                                ref={typeAhead => {
+                                    this.typeAhead = typeAhead;
+                                }}
+                                onSelect={this.onTypeAheadArbeidserfaringSelect}
+                                onChange={this.onTypeAheadArbeidserfaringChange}
+                                label=""
+                                name="arbeidserfaring"
+                                placeholder="Skriv inn arbeidserfaring"
+                                suggestions={this.props.typeAheadSuggestionsArbeidserfaring}
+                                value={this.state.typeAheadValue}
+                                id="typeahead-arbeidserfaring"
+                                onSubmit={this.onSubmit}
+                                onTypeAheadBlur={this.onTypeAheadBlur}
+                            />
+                        ) : (
+                            <LeggtilKnapp
+                                onClick={this.onLeggTilClick}
+                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
+                                id="leggtil-arbeidserfaring-knapp"
+                                mini
+                            >
+                                +Legg til arbeidserfaring
+                            </LeggtilKnapp>
+                        )}
+                    </div>
+                    <div className="Merkelapp__wrapper">
+                        {this.props.arbeidserfaringer.map(arbeidserfaring => (
+                            <Merkelapp
+                                onRemove={this.onFjernClick}
+                                key={arbeidserfaring}
+                                value={arbeidserfaring}
+                            >
+                                {arbeidserfaring}
+                            </Merkelapp>
+                        ))}
+                    </div>
+                </div>
+                <div className="sokekriterier--margin-top-extra-large">
+                    {this.renderTotalErfaring()}
+                </div>
+                {this.props.totaltAntallTreff <= 10 &&
+                    this.props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
+                        <AlertStripeInfo totaltAntallTreff={this.props.totaltAntallTreff} />
+                    )}
+            </SokekriteriePanel>
+        );
+    }
+}
 
 ArbeidserfaringSearch.propTypes = {
     search: PropTypes.func.isRequired,
