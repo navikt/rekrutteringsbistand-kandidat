@@ -18,7 +18,8 @@ import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
 import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch.tsx';
 import {
-    INITIAL_SEARCH_BEGIN, LUKK_ALLE_SOKEPANEL,
+    INITIAL_SEARCH_BEGIN,
+    LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,

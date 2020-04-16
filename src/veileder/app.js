@@ -12,7 +12,8 @@ import './sok/sok.less';
 import searchReducer, {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
-    HENT_INNLOGGET_VEILEDER, LUKK_ALLE_SOKEPANEL,
+    HENT_INNLOGGET_VEILEDER,
+    LUKK_ALLE_SOKEPANEL,
     saga,
 } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';

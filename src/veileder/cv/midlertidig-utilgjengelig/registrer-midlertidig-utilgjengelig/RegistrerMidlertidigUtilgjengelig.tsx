@@ -20,7 +20,7 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             props.registrerMidlertidigUtilgjengelig(dato);
             setFeilmelding(undefined);
         } else {
-            setFeilmelding("Du må fylle inn en dato");
+            setFeilmelding('Du må fylle inn en dato');
         }
     };
 
@@ -31,7 +31,11 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 Avklar tilgjengeligheten. Gi beskjed til kandidaten hvis du registrerer «midlertidig
                 utilgjengelig».
             </Normaltekst>
-            <MidlertidigUtilgjengeligDatovelger dato={dato} setDato={setDato} feilmelding={feilmelding}/>
+            <MidlertidigUtilgjengeligDatovelger
+                dato={dato}
+                setDato={setDato}
+                feilmelding={feilmelding}
+            />
             <Knapp type="hoved" onClick={onLagre}>
                 Lagre
             </Knapp>

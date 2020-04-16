@@ -48,14 +48,14 @@ type Props = {
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter((kandidat) => kandidat.arkivert).length;
+    return kandidater.filter(kandidat => kandidat.arkivert).length;
 };
 
 const hentFiltrerteKandidater = (kandidater: KandidatIKandidatliste[], visArkiverte: boolean) => {
-    return kandidater.filter((kandidat) => !!kandidat.arkivert === visArkiverte);
+    return kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte);
 };
 
-const Kandidatliste: FunctionComponent<Props> = (props) => {
+const Kandidatliste: FunctionComponent<Props> = props => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
