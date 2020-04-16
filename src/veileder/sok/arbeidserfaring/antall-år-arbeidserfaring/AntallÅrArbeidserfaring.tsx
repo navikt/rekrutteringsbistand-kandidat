@@ -6,6 +6,7 @@ import { ALERTTYPE } from '../../../../felles/konstanter';
 import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../AppState';
+import './AntallÅrArbeidserfaring.less';
 
 const aarMedErfaringer = [
     { label: 'Under 1 år', value: '0-11' },
