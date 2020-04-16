@@ -4,7 +4,6 @@ import { TOGGLE_ARBEIDSERFARING_PANEL_OPEN } from './arbeidserfaringReducer';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
-import './Arbeidserfaring.less';
 import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbeidserfaring';
 import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../AppState';
