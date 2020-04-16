@@ -7,6 +7,13 @@ type AppState = {
     permittering: PermitteringState;
     oppstartstidspunkter: OppstartstidspunktState;
     search: any;
+    arbeidserfaring: ArbeidserfaringState;
 };
+
+interface ArbeidserfaringState {
+    arbeidserfaringPanelOpen: boolean;
+    arbeidserfaringer: string[];
+    totalErfaring: string[];
+}
 
 export default AppState;
