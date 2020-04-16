@@ -5,7 +5,6 @@ const FEATURE_TOGGLES = [
     'skjul-yrke',
     'skjul-kompetanse',
     'skjul-utdanning',
-    'skjul-arbeidserfaring',
     'skjul-spraak',
     'skjul-sted',
     'skjul-navkontor',

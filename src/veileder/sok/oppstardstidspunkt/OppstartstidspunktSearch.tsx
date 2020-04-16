@@ -1,7 +1,6 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import { all } from 'redux-saga/effects';
 
 import './OppstartstidspunktSearch.less';
 import { connect } from 'react-redux';
