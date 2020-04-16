@@ -53,6 +53,8 @@ interface State {
 }
 
 class ArbeidserfaringSearch extends React.Component<Props, State> {
+    typeAhead: any = null;
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -93,8 +95,6 @@ class ArbeidserfaringSearch extends React.Component<Props, State> {
             {
                 showTypeAhead: true,
             },
-            // TODO fiks
-            // @ts-ignore
             () => this.typeAhead.input.focus()
         );
     };
@@ -115,8 +115,6 @@ class ArbeidserfaringSearch extends React.Component<Props, State> {
     onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
-        // TODO fiks
-        // @ts-ignore
         this.typeAhead.input.focus();
     };
 
@@ -161,8 +159,6 @@ class ArbeidserfaringSearch extends React.Component<Props, State> {
                         {this.state.showTypeAhead ? (
                             <Typeahead
                                 ref={typeAhead => {
-                                    // TODO fiks
-                                    // @ts-ignore
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadArbeidserfaringSelect}
