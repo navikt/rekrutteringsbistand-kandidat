@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import {
@@ -18,10 +17,9 @@ import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
-import LeggtilKnapp from '../../../felles/common/leggtilKnapp/LeggtilKnapp';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
-
+import LeggtilKnapp from '../../../felles/common/leggtilKnapp/LeggtilKnapp';
 import './Arbeidserfaring.less';
 
 const aarMedErfaringer = [
@@ -31,8 +29,31 @@ const aarMedErfaringer = [
     { label: 'Over 10 år', value: '120-' },
 ];
 
-class ArbeidserfaringSearch extends React.Component {
-    constructor(props) {
+interface Props {
+    checkTotalErfaring: (value: string) => void;
+    uncheckTotalErfaring: (value: string) => void;
+    search: () => void;
+    fetchTypeAheadSuggestions: (value: string) => void;
+    selectTypeAheadValue: (value: string) => void;
+    clearTypeAheadArbeidserfaring: () => void;
+    removeArbeidserfaring: (erfaring: string) => void;
+    skjulArbeidserfaring: boolean;
+    togglePanelOpen: () => void;
+    panelOpen: boolean;
+    typeAheadSuggestionsArbeidserfaring: string[];
+    totalErfaring: string[];
+    arbeidserfaringer: string[];
+    totaltAntallTreff: number;
+    visAlertFaKandidater: string;
+}
+
+interface State {
+    showTypeAhead: boolean;
+    typeAheadValue: string;
+}
+
+class ArbeidserfaringSearch extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             showTypeAhead: false,
@@ -49,7 +70,7 @@ class ArbeidserfaringSearch extends React.Component {
         this.props.search();
     };
 
-    onTypeAheadArbeidserfaringChange = value => {
+    onTypeAheadArbeidserfaringChange = (value: string) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value,
@@ -72,11 +93,13 @@ class ArbeidserfaringSearch extends React.Component {
             {
                 showTypeAhead: true,
             },
+            // TODO fiks
+            // @ts-ignore
             () => this.typeAhead.input.focus()
         );
     };
 
-    onFjernClick = erfaring => {
+    onFjernClick = (erfaring: string) => {
         this.props.removeArbeidserfaring(erfaring);
         this.props.search();
     };
@@ -92,6 +115,8 @@ class ArbeidserfaringSearch extends React.Component {
     onSubmit = e => {
         e.preventDefault();
         this.onTypeAheadArbeidserfaringSelect(this.state.typeAheadValue);
+        // TODO fiks
+        // @ts-ignore
         this.typeAhead.input.focus();
     };
 
@@ -136,6 +161,8 @@ class ArbeidserfaringSearch extends React.Component {
                         {this.state.showTypeAhead ? (
                             <Typeahead
                                 ref={typeAhead => {
+                                    // TODO fiks
+                                    // @ts-ignore
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadArbeidserfaringSelect}
@@ -154,7 +181,6 @@ class ArbeidserfaringSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-arbeidserfaring-knapp"
-                                mini
                             >
                                 +Legg til arbeidserfaring
                             </LeggtilKnapp>
@@ -183,24 +209,6 @@ class ArbeidserfaringSearch extends React.Component {
         );
     }
 }
-
-ArbeidserfaringSearch.propTypes = {
-    search: PropTypes.func.isRequired,
-    removeArbeidserfaring: PropTypes.func.isRequired,
-    fetchTypeAheadSuggestions: PropTypes.func.isRequired,
-    selectTypeAheadValue: PropTypes.func.isRequired,
-    checkTotalErfaring: PropTypes.func.isRequired,
-    uncheckTotalErfaring: PropTypes.func.isRequired,
-    arbeidserfaringer: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsArbeidserfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
-    totalErfaring: PropTypes.arrayOf(PropTypes.string).isRequired,
-    clearTypeAheadArbeidserfaring: PropTypes.func.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
-    visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulArbeidserfaring: PropTypes.bool.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
     arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
