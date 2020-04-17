@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Datovelger } from 'nav-datovelger';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import classNames from 'classnames';
 import moment from 'moment';
 import './MidlertidigUtilgjengeligDatovelger.less';
-import classNames from 'classnames';
 
 interface Props {
     dato: string | undefined;
@@ -12,8 +12,9 @@ interface Props {
     feilmelding?: string;
 }
 
-const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
-    const { dato, setDato, className, feilmelding } = props;
+const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = (props) => {
+    const { dato, setDato, feilmelding } = props;
+
     return (
         <div className={classNames('midlertidig-utilgjengelig-datovelger', props.className)}>
             <label
@@ -21,7 +22,7 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
                 htmlFor="midlertidig-utilgjengelig-datovelger__input"
             >
                 <Element tag="span">Hvor lenge er kandidaten utilgjengelig?</Element>
-                <Normaltekst tag="span">Du kan velge maks en måned frem it tid.</Normaltekst>
+                <Normaltekst tag="span">Du kan velge maks en måned frem i tid.</Normaltekst>
             </label>
             <Datovelger
                 input={{
@@ -35,9 +36,7 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = props => {
                 valgtDato={dato}
                 avgrensninger={{
                     minDato: moment(moment.now()).format(),
-                    maksDato: moment(moment.now())
-                        .add(30, 'days')
-                        .format(),
+                    maksDato: moment(moment.now()).add(30, 'days').format(),
                 }}
                 id="midlertidig-utilgjengelig-datovelger"
             />

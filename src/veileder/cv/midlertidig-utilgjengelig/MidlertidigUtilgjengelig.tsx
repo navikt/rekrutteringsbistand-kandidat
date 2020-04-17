@@ -1,23 +1,22 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Knapp } from 'pam-frontend-knapper';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import './MidlertidigUtilgjengelig.less';
 import Chevron from 'nav-frontend-chevron';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import useFeatureToggle from '../../result/useFeatureToggle';
-import { Datovelger } from 'nav-datovelger';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
-import moment from 'moment';
-import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
-import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
+
+import { MIDLERTIDIG_UTILGJENGELIG_URL } from '../../common/fasitProperties';
 import { putMidlertidigUtilgjengelig } from '../../api';
+import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
+import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
+import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
+import useFeatureToggle from '../../result/useFeatureToggle';
+import './MidlertidigUtilgjengelig.less';
 
 interface Props {
     kandidatnummer: string;
 }
 
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
     const [endre, setEndre] = useState<boolean>(false); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
@@ -39,7 +38,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
 
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={e => setAnker(anker ? undefined : e.currentTarget)}>
+            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
