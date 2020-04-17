@@ -98,8 +98,17 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
             />
             {valgtKnapp === 'egendefinert' && (
                 <div className="fersk-arbeidserfaring__input-wrapper">
-                    <Input label={''} value={egendefinertInput} onChange={onInputChange} />
-                    <Knapp className="fersk-arbeidserfaring__bruk-knapp" onClick={onBrukKlikk}>
+                    <Input
+                        name="ferskArbeidserfaring"
+                        label={''}
+                        value={egendefinertInput}
+                        onChange={onInputChange}
+                    />
+                    <Knapp
+                        name="ferskArbeidserfaring"
+                        className="fersk-arbeidserfaring__bruk-knapp"
+                        onClick={onBrukKlikk}
+                    >
                         Bruk
                     </Knapp>
                 </div>
