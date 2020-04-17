@@ -53,7 +53,7 @@ export enum ArbeidserfaringActionType {
 export default function arbeidserfaringReducer(
     state: ArbeidserfaringState = initialState,
     action: any
-) {
+): ArbeidserfaringState {
     switch (action.type) {
         case SET_STATE:
             return {
@@ -62,7 +62,9 @@ export default function arbeidserfaringReducer(
                 totalErfaring: action.query.totalErfaring || [],
                 arbeidserfaringPanelOpen:
                     harEnParameter(action.query.arbeidserfaringer, action.query.totalErfaring) ||
-                    state.arbeidserfaringPanelOpen,
+                    state.arbeidserfaringPanelOpen ||
+                    !!action.query.maksAlderArbeidserfaring,
+                maksAlderArbeidserfaring: action.query.maksAlderArbeidserfaring,
             };
         case SELECT_TYPE_AHEAD_VALUE_ARBEIDSERFARING:
             return {
