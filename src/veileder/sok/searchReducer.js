@@ -418,7 +418,7 @@ function* search(action = '') {
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
             oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
-            maksAlderArbeidserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
+            maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
