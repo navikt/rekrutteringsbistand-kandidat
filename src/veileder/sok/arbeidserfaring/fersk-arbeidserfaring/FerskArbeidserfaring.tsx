@@ -78,10 +78,12 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
                 checked={valgtKnapp === 'egendefinert'}
                 onChange={onEgendefinertValgt}
             />
-            <div className="fersk-arbeidserfaring__input-wrapper">
-                <Input label={''} value={egendefinertInput} onChange={onInputChange} />
-                <Knapp className="fersk-arbeidserfaring__knapp">Bruk</Knapp>
-            </div>
+            {valgtKnapp === 'egendefinert' && (
+                <div className="fersk-arbeidserfaring__input-wrapper">
+                    <Input label={''} value={egendefinertInput} onChange={onInputChange} />
+                    <Knapp className="fersk-arbeidserfaring__knapp">Bruk</Knapp>
+                </div>
+            )}
             <Radio
                 label="Ingen krav"
                 name="ferskArbeidserfaring"
