@@ -8,6 +8,7 @@ import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
 import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
+import SokekriteriePanel from '../../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 
 interface Props {
     search: () => void;
@@ -100,6 +101,9 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
             className="fersk-arbeidserfaring"
             title="Kandidaten må ha fersk arbeidserfaring"
         >
+            <div className="fersk-arbeidserfaring__hjelpetekst">
+                Legg til arbeidserfaring for å få fersk erfaring innen dette yrket
+            </div>
             <Radio
                 className="fersk-arbeidserfaring__knapp"
                 label="Ingen krav"
