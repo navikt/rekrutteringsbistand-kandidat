@@ -14,6 +14,16 @@ interface Props {
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) => void;
 }
 
+const getDefaultState = (maksAlder: number | undefined) => {
+    if (!maksAlder) {
+        return { defaultValgtKnapp: 'ingen', defaultInput: '' };
+    } else if (antallÅrListe.includes(maksAlder)) {
+        return { defaultValgtKnapp: maksAlder, defaultInput: '' };
+    } else {
+        return { defaultValgtKnapp: 'egendefinert', defaultInput: maksAlder.toString() };
+    }
+};
+
 const antallÅrListe = [2, 5];
 
 const FerskArbeidserfaring: FunctionComponent<Props> = ({
@@ -21,10 +31,9 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     setMaksAlderArbeidserfaring,
     search,
 }) => {
-    const [valgtKnapp, setValgtKnapp] = useState<number | string>(
-        maksAlderArbeidserfaring || 'ingen'
-    );
-    const [egendefinertInput, setEgendefinertInput] = useState<string>('');
+    const { defaultValgtKnapp, defaultInput } = getDefaultState(maksAlderArbeidserfaring);
+    const [valgtKnapp, setValgtKnapp] = useState<number | string>(defaultValgtKnapp);
+    const [egendefinertInput, setEgendefinertInput] = useState<string>(defaultInput);
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value: number = parseInt(event.target.value);
@@ -55,6 +64,15 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
         }
     };
 
+    const onBrukKlikk = () => {
+        if (egendefinertInput === '') {
+            setMaksAlderArbeidserfaring(undefined);
+        } else {
+            setMaksAlderArbeidserfaring(parseInt(egendefinertInput));
+        }
+        search();
+    };
+
     return (
         <SkjemaGruppe
             className="fersk-arbeidserfaring"
@@ -81,10 +99,13 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
             {valgtKnapp === 'egendefinert' && (
                 <div className="fersk-arbeidserfaring__input-wrapper">
                     <Input label={''} value={egendefinertInput} onChange={onInputChange} />
-                    <Knapp className="fersk-arbeidserfaring__knapp">Bruk</Knapp>
+                    <Knapp className="fersk-arbeidserfaring__bruk-knapp" onClick={onBrukKlikk}>
+                        Bruk
+                    </Knapp>
                 </div>
             )}
             <Radio
+                className="fersk-arbeidserfaring__knapp"
                 label="Ingen krav"
                 name="ferskArbeidserfaring"
                 checked={valgtKnapp === 'ingen'}
