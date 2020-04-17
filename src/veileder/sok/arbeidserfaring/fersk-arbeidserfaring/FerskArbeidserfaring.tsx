@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import './FerskArbeidserfaring.less';
 import { Knapp } from 'pam-frontend-knapper/dist';
@@ -34,6 +34,17 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const { defaultValgtKnapp, defaultInput } = getDefaultState(maksAlderArbeidserfaring);
     const [valgtKnapp, setValgtKnapp] = useState<number | string>(defaultValgtKnapp);
     const [egendefinertInput, setEgendefinertInput] = useState<string>(defaultInput);
+    const [inputRef, setInputRef] = useState<any>();
+
+    useEffect(() => {
+        const harNettoppKlikketPåEgendefinert =
+            inputRef &&
+            valgtKnapp === 'egendefinert' &&
+            (egendefinertInput !== defaultInput || egendefinertInput === '');
+        if (harNettoppKlikketPåEgendefinert) {
+            inputRef.focus();
+        }
+    }, [inputRef, valgtKnapp]);
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value: number = parseInt(event.target.value);
@@ -44,6 +55,9 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
 
     const onEgendefinertValgt = () => {
         setValgtKnapp('egendefinert');
+        if (inputRef) {
+            inputRef.focus();
+        }
     };
 
     const onIngenValgt = () => {
@@ -103,6 +117,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
                         label={''}
                         value={egendefinertInput}
                         onChange={onInputChange}
+                        inputRef={setInputRef}
                     />
                     <Knapp
                         name="ferskArbeidserfaring"
