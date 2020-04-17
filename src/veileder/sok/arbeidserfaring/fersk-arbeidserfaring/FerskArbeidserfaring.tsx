@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
+import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 
 interface Props {
     search: () => void;
@@ -35,6 +36,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const [valgtKnapp, setValgtKnapp] = useState<number | string>(defaultValgtKnapp);
     const [egendefinertInput, setEgendefinertInput] = useState<string>(defaultInput);
     const [inputRef, setInputRef] = useState<any>();
+    const [feilmelding, setFeilmelding] = useState<SkjemaelementFeil>();
 
     useEffect(() => {
         const harNettoppKlikketPåEgendefinert =
@@ -50,6 +52,8 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
         const value: number = parseInt(event.target.value);
         setValgtKnapp(value);
         setMaksAlderArbeidserfaring(value);
+        setEgendefinertInput(defaultInput);
+        setFeilmelding(undefined);
         search();
     };
 
@@ -63,6 +67,8 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const onIngenValgt = () => {
         setValgtKnapp('ingen');
         setMaksAlderArbeidserfaring(undefined);
+        setEgendefinertInput(defaultInput);
+        setFeilmelding(undefined);
         search();
     };
 
@@ -79,10 +85,13 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     };
 
     const onBrukKlikk = () => {
+        console.log('yea');
         if (egendefinertInput === '') {
             setMaksAlderArbeidserfaring(undefined);
+            setFeilmelding({ feilmelding: 'Skriv inn antall år' });
         } else {
             setMaksAlderArbeidserfaring(parseInt(egendefinertInput));
+            setFeilmelding(undefined);
         }
         search();
     };
@@ -92,11 +101,18 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
             className="fersk-arbeidserfaring"
             title="Kandidaten må ha fersk arbeidserfaring"
         >
+            <Radio
+                className="fersk-arbeidserfaring__knapp"
+                label="Ingen krav"
+                name="ferskArbeidserfaring"
+                checked={valgtKnapp === 'ingen'}
+                onChange={onIngenValgt}
+            />
             {antallÅrListe.map(antallÅr => (
                 <Radio
                     className="fersk-arbeidserfaring__knapp"
                     key={antallÅr}
-                    label={antallÅr + ' år'}
+                    label={`Siste ${antallÅr} år`}
                     name="ferskArbeidserfaring"
                     value={antallÅr}
                     checked={valgtKnapp === antallÅr}
@@ -118,6 +134,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
                         value={egendefinertInput}
                         onChange={onInputChange}
                         inputRef={setInputRef}
+                        feil={feilmelding}
                     />
                     <Knapp
                         name="ferskArbeidserfaring"
@@ -128,13 +145,6 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
                     </Knapp>
                 </div>
             )}
-            <Radio
-                className="fersk-arbeidserfaring__knapp"
-                label="Ingen krav"
-                name="ferskArbeidserfaring"
-                checked={valgtKnapp === 'ingen'}
-                onChange={onIngenValgt}
-            />
         </SkjemaGruppe>
     );
 };
