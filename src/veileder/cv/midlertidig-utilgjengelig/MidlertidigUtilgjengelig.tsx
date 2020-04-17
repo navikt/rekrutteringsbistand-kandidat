@@ -1,38 +1,51 @@
 import React, { FunctionComponent, useState } from 'react';
+import { connect } from 'react-redux';
 import { Knapp } from 'pam-frontend-knapper';
 import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
-import { putMidlertidigUtilgjengelig } from '../../api';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
+import {
+    CvAction,
+    CvActionType,
+    MidlertidigUtilgjengelig as Midlertidig,
+} from '../reducer/cvReducer';
+import AppState from '../../AppState';
+import { RemoteData, RemoteDataTypes } from '../../../felles/common/remoteData';
 
 interface Props {
+    aktørId: string;
     kandidatnummer: string;
+    lagreMidlertidigUtilgjengelig: (aktørId: string, tilDato: string) => void;
+    midlertidigUtilgjengelig: RemoteData<Midlertidig>;
 }
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
-    const [endre, setEndre] = useState<boolean>(false); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
+    const [endre, setEndre] = useState<boolean>(
+        props.midlertidigUtilgjengelig.kind === RemoteDataTypes.SUCCESS
+    ); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
 
     if (!erToggletPå) {
         return null;
     }
 
-    const { kandidatnummer } = props;
+    const { kandidatnummer, aktørId, lagreMidlertidigUtilgjengelig } = props;
 
-    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string): void => {
-        // TODO Burde kanskje erstattes med dispatch til redux state, men kan bli litt vanskelig
-        putMidlertidigUtilgjengelig(kandidatnummer, tilOgMedDato);
+    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+
+        lagreMidlertidigUtilgjengelig(aktørId, dato);
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        putMidlertidigUtilgjengelig(kandidatnummer, null);
+        // putMidlertidigUtilgjengelig(kandidatnummer, null);
     };
 
     return (
@@ -73,4 +86,16 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default MidlertidigUtilgjengelig;
+export default connect(
+    (state: AppState) => ({
+        aktørId: state.cv.cv.aktorId,
+    }),
+    (dispatch: (action: CvAction) => void) => ({
+        lagreMidlertidigUtilgjengelig: (aktørId: string, tilDato: string) =>
+            dispatch({
+                type: CvActionType.LAGRE_MIDLERTIDIG_UTILGJENGELIG,
+                aktørId,
+                tilDato,
+            }),
+    })
+)(MidlertidigUtilgjengelig);

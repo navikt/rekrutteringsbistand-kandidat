@@ -207,6 +207,7 @@ class VisKandidat extends React.Component {
             antallKandidater,
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
+            midlertidigUtilgjengelig,
         } = this.props;
 
         const {
@@ -293,7 +294,14 @@ class VisKandidat extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
+                            {midlertidigUtilgjengelig &&
+                                (midlertidigUtilgjengelig.kind === RemoteDataTypes.SUCCESS ||
+                                    midlertidigUtilgjengelig.kind === RemoteDataTypes.FAILURE) && (
+                                    <MidlertidigUtilgjengelig
+                                        midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                                        kandidatnummer={cv.kandidatnummer}
+                                    />
+                                )}
                             <Knapp
                                 mini
                                 type="flat"
@@ -410,16 +418,17 @@ VisKandidat.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    cv: state.cvReducer.cv,
+    cv: state.cv.cv,
     kandidater: state.search.searchResultat.resultat.kandidater,
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
-    hentStatus: state.cvReducer.hentStatus,
+    hentStatus: state.cv.hentStatus,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
+    midlertidigUtilgjengelig: state.cv.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 
 const mapDispatchToProps = (dispatch) => ({

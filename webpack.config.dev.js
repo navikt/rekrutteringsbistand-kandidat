@@ -8,13 +8,18 @@ const devOverride = {
         historyApiFallback: {
             index: './viewsDev/index.html',
         },
+        proxy: {
+            '/midlertidig-utilgjengelig': {
+                target: 'http://localhost:8080/finn-kandidat-api',
+                changeOrigin: true,
+            },
+        },
     },
     plugins: [
         new webpack.DefinePlugin({
             __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/pam-kandidatsok-api/rest'",
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie-isso'",
-            __MIDLERTIDIG_UTILGJENGELIG_URL__:
-                "'http://localhost:8080/finn-kandidat-api/midlertidig-utilgjengelig'",
+            __MIDLERTIDIG_UTILGJENGELIG_URL__: "'/midlertidig-utilgjengelig'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",

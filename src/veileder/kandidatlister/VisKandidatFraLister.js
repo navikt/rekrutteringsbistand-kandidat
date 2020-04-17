@@ -211,8 +211,8 @@ const mapStateToProps = (state, props) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    hentStatus: state.cvReducer.hentStatus,
-    cv: state.cvReducer.cv,
+    hentStatus: state.cv.hentStatus,
+    cv: state.cv.cv,
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 

@@ -69,7 +69,7 @@ const store = createStore(
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
         oppstartstidspunkter: oppstartstidspunktReducer,
-        cvReducer,
+        cv: cvReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
         enhetsregister: enhetsregisterReducer,
