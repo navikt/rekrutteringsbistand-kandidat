@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import './FerskArbeidserfaring.less';
 import { Knapp } from 'pam-frontend-knapper/dist';
@@ -16,15 +16,43 @@ interface Props {
 
 const antallÅrListe = [2, 5];
 
-const FerskArbeidserfaring: FunctionComponent<Props> = props => {
-    const { maksAlderArbeidserfaring, setMaksAlderArbeidserfaring, search } = props;
+const FerskArbeidserfaring: FunctionComponent<Props> = ({
+    maksAlderArbeidserfaring,
+    setMaksAlderArbeidserfaring,
+    search,
+}) => {
+    const [valgtKnapp, setValgtKnapp] = useState<number | string>(
+        maksAlderArbeidserfaring || 'ingen'
+    );
+    const [egendefinertInput, setEgendefinertInput] = useState<string>('');
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value: number = parseInt(event.target.value);
-        if (!isNaN(value)) {
-            setMaksAlderArbeidserfaring(value);
-        }
+        setValgtKnapp(value);
+        setMaksAlderArbeidserfaring(value);
         search();
+    };
+
+    const onEgendefinertValgt = () => {
+        setValgtKnapp('egendefinert');
+    };
+
+    const onIngenValgt = () => {
+        setValgtKnapp('ingen');
+        setMaksAlderArbeidserfaring(undefined);
+        search();
+    };
+
+    const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === '') {
+            setEgendefinertInput('');
+            return;
+        }
+
+        const value: number = parseInt(event.target.value);
+        if (!isNaN(value)) {
+            setEgendefinertInput(value.toString());
+        }
     };
 
     return (
@@ -39,7 +67,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = props => {
                     label={antallÅr + ' år'}
                     name="ferskArbeidserfaring"
                     value={antallÅr}
-                    checked={maksAlderArbeidserfaring === antallÅr}
+                    checked={valgtKnapp === antallÅr}
                     onChange={onRadioChange}
                 />
             ))}
@@ -47,16 +75,19 @@ const FerskArbeidserfaring: FunctionComponent<Props> = props => {
                 className="fersk-arbeidserfaring__knapp"
                 label="Velg antall år"
                 name="ferskArbeidserfaring"
-                value="egendefinert"
-                checked={
-                    !!maksAlderArbeidserfaring && !antallÅrListe.includes(maksAlderArbeidserfaring)
-                }
-                onChange={onRadioChange}
+                checked={valgtKnapp === 'egendefinert'}
+                onChange={onEgendefinertValgt}
             />
             <div className="fersk-arbeidserfaring__input-wrapper">
-                <Input label={''} />
+                <Input label={''} value={egendefinertInput} onChange={onInputChange} />
                 <Knapp className="fersk-arbeidserfaring__knapp">Bruk</Knapp>
             </div>
+            <Radio
+                label="Ingen krav"
+                name="ferskArbeidserfaring"
+                checked={valgtKnapp === 'ingen'}
+                onChange={onIngenValgt}
+            />
         </SkjemaGruppe>
     );
 };
