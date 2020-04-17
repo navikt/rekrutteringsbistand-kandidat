@@ -30,10 +30,8 @@ const ArbeidserfaringSearch: FunctionComponent<Props> = props => (
         apen={props.panelOpen}
     >
         <Merkelapper />
-        <div className="sokekriterier--margin-top-extra-large">
-            <AntallÅrArbeidserfaring />
-        </div>
         <FerskArbeidserfaring />
+        <AntallÅrArbeidserfaring />
         {props.totaltAntallTreff <= 10 &&
             props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                 <AlertStripeInfo totaltAntallTreff={props.totaltAntallTreff} />

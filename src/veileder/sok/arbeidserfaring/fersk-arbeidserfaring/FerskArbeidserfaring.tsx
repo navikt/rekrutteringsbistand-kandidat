@@ -85,7 +85,6 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     };
 
     const onBrukKlikk = () => {
-        console.log('yea');
         if (egendefinertInput === '') {
             setMaksAlderArbeidserfaring(undefined);
             setFeilmelding({ feilmelding: 'Skriv inn antall år' });
