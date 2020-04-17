@@ -15,13 +15,45 @@ export const TOGGLE_ARBEIDSERFARING_PANEL_OPEN = 'TOGGLE_ARBEIDSERFARING_PANEL_O
  * REDUCER
  ********************************************************* */
 
-const initialState = {
+export interface ArbeidserfaringState {
+    arbeidserfaringPanelOpen: boolean;
+    arbeidserfaringer: string[];
+    totalErfaring: string[];
+    maksAlderArbeidserfaring: number | undefined;
+}
+
+interface Typeahead {
+    value: string;
+    suggestions: string[];
+}
+
+export interface TypeaheadState {
+    kompetanse: Typeahead;
+    stilling: Typeahead;
+    arbeidserfaring: Typeahead;
+    utdanning: Typeahead;
+    geografi: Typeahead;
+    geografiKomplett: Typeahead;
+    sprak: Typeahead;
+    forerkort: Typeahead;
+    navkontor: Typeahead;
+}
+
+const initialState: ArbeidserfaringState = {
     arbeidserfaringer: [],
     totalErfaring: [],
     arbeidserfaringPanelOpen: false,
+    maksAlderArbeidserfaring: undefined,
 };
 
-export default function arbeidserfaringReducer(state = initialState, action) {
+export enum ArbeidserfaringActionType {
+    SET_MAKS_ALDER_ARBEIDSERFARING = 'SET_MAKS_ALDER_ARBEIDSERFARING',
+}
+
+export default function arbeidserfaringReducer(
+    state: ArbeidserfaringState = initialState,
+    action: any
+) {
     switch (action.type) {
         case SET_STATE:
             return {
@@ -63,6 +95,11 @@ export default function arbeidserfaringReducer(state = initialState, action) {
             return {
                 ...state,
                 arbeidserfaringPanelOpen: false,
+            };
+        case ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING:
+            return {
+                ...state,
+                maksAlderArbeidserfaring: action.value
             };
         default:
             return state;

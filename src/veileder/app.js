@@ -51,7 +51,6 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import oppstartstidspunktReducer from './sok/oppstardstidspunkt/oppstartstidspunktReducer';
-import ferskArbeidserfaringReducer from './sok/arbeidserfaring/ferskArbeidserfaringReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -62,7 +61,6 @@ const store = createStore(
         stilling: stillingReducer,
         kompetanse: kompetanseReducer,
         arbeidserfaring: arbeidserfaringReducer,
-        maksAlderArbeidserfaring: ferskArbeidserfaringReducer,
         utdanning: utdanningReducer,
         forerkort: forerkortReducer,
         geografi: geografiReducer,

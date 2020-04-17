@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import './FerskArbeidserfaring.less';
 import { Knapp } from 'pam-frontend-knapper/dist';
 import AppState from '../../../AppState';
-import { FerskArbeidserfaringActionType } from '../ferskArbeidserfaringReducer';
 import { connect } from 'react-redux';
+import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 
 interface Props {
     maksAlderArbeidserfaring: number | undefined;
@@ -28,20 +28,25 @@ const FerskArbeidserfaring: FunctionComponent<Props> = props => {
             className="fersk-arbeidserfaring"
             title="Kandidaten må ha fersk arbeidserfaring"
         >
-            {antallÅrListe.map(antallÅr => <Radio
-                className="fersk-arbeidserfaring__knapp"
-                label={antallÅr + ' år'}
-                name="ferskArbeidserfaring"
-                value={antallÅr}
-                checked={maksAlderArbeidserfaring === antallÅr}
-                onChange={onRadioChange}
-            />)}
+            {antallÅrListe.map(antallÅr => (
+                <Radio
+                    className="fersk-arbeidserfaring__knapp"
+                    key={antallÅr}
+                    label={antallÅr + ' år'}
+                    name="ferskArbeidserfaring"
+                    value={antallÅr}
+                    checked={maksAlderArbeidserfaring === antallÅr}
+                    onChange={onRadioChange}
+                />
+            ))}
             <Radio
                 className="fersk-arbeidserfaring__knapp"
                 label="Velg antall år"
                 name="ferskArbeidserfaring"
                 value="egendefinert"
-                checked={!!maksAlderArbeidserfaring && !antallÅrListe.includes(maksAlderArbeidserfaring)}
+                checked={
+                    !!maksAlderArbeidserfaring && !antallÅrListe.includes(maksAlderArbeidserfaring)
+                }
                 onChange={onRadioChange}
             />
             <div className="fersk-arbeidserfaring__input-wrapper">
@@ -53,13 +58,13 @@ const FerskArbeidserfaring: FunctionComponent<Props> = props => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    maksAlderArbeidserfaring: state.maksAlderArbeidserfaring.verdi,
+    maksAlderArbeidserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) =>
         dispatch({
-            type: FerskArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING,
+            type: ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING,
             value: maksAlder,
         }),
 });
