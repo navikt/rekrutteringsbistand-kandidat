@@ -8,6 +8,8 @@ import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbe
 import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../AppState';
 import FerskArbeidserfaring from './fersk-arbeidserfaring/FerskArbeidserfaring';
+import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
+import './ArbeidserfaringSearch.less';
 
 interface Props {
     togglePanelOpen: () => void;
@@ -19,7 +21,11 @@ interface Props {
 const ArbeidserfaringSearch: FunctionComponent<Props> = props => (
     <SokekriteriePanel
         id="ArbeidserfaringSearch__SokekriteriePanel"
-        tittel="Arbeidserfaring"
+        tittel={
+            <div className={"arbeidserfaring-search__tittel"}>
+                Arbeidserfaring <NyttFilterIkon />
+            </div>
+        }
         onClick={props.togglePanelOpen}
         apen={props.panelOpen}
     >

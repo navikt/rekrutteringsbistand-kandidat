@@ -5,8 +5,11 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
+import { SEARCH } from '../../searchReducer';
+import { ALERTTYPE } from '../../../../felles/konstanter';
 
 interface Props {
+    search: () => void;
     maksAlderArbeidserfaring: number | undefined;
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) => void;
 }
@@ -14,13 +17,14 @@ interface Props {
 const antallÅrListe = [2, 5];
 
 const FerskArbeidserfaring: FunctionComponent<Props> = props => {
-    const { maksAlderArbeidserfaring, setMaksAlderArbeidserfaring } = props;
+    const { maksAlderArbeidserfaring, setMaksAlderArbeidserfaring, search } = props;
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value: number = parseInt(event.target.value);
         if (!isNaN(value)) {
             setMaksAlderArbeidserfaring(value);
         }
+        search();
     };
 
     return (
@@ -62,6 +66,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
+    search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.ARBEIDSERFARING }),
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) =>
         dispatch({
             type: ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING,
