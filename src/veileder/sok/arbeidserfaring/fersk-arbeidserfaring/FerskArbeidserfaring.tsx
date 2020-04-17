@@ -11,11 +11,9 @@ interface Props {
     setMaksAlderArbeidserfaring: (maksAlder: number | undefined) => void;
 }
 
-const FerskArbeidserfaring: FunctionComponent<Props> = props => {
-    const [maksAlderArbeidserfaring2, setMaksAlderArbeidserfaring2] = useState<
-        number | undefined | 'egendefinert'
-    >();
+const antallÅrListe = [2, 5];
 
+const FerskArbeidserfaring: FunctionComponent<Props> = props => {
     const { maksAlderArbeidserfaring, setMaksAlderArbeidserfaring } = props;
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,28 +28,20 @@ const FerskArbeidserfaring: FunctionComponent<Props> = props => {
             className="fersk-arbeidserfaring"
             title="Kandidaten må ha fersk arbeidserfaring"
         >
-            <Radio
+            {antallÅrListe.map(antallÅr => <Radio
                 className="fersk-arbeidserfaring__knapp"
-                label="2 år"
+                label={antallÅr + ' år'}
                 name="ferskArbeidserfaring"
-                value={2}
-                checked={maksAlderArbeidserfaring === 2}
+                value={antallÅr}
+                checked={maksAlderArbeidserfaring === antallÅr}
                 onChange={onRadioChange}
-            />
-            <Radio
-                className="fersk-arbeidserfaring__knapp"
-                label="5 år"
-                name="ferskArbeidserfaring"
-                value={5}
-                checked={maksAlderArbeidserfaring === 5}
-                onChange={onRadioChange}
-            />
+            />)}
             <Radio
                 className="fersk-arbeidserfaring__knapp"
                 label="Velg antall år"
                 name="ferskArbeidserfaring"
                 value="egendefinert"
-                checked={maksAlderArbeidserfaring2 !== 2 && maksAlderArbeidserfaring2 !== 5}
+                checked={!!maksAlderArbeidserfaring && !antallÅrListe.includes(maksAlderArbeidserfaring)}
                 onChange={onRadioChange}
             />
             <div className="fersk-arbeidserfaring__input-wrapper">
