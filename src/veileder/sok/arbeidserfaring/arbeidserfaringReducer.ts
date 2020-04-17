@@ -99,7 +99,7 @@ export default function arbeidserfaringReducer(
         case ArbeidserfaringActionType.SET_MAKS_ALDER_ARBEIDSERFARING:
             return {
                 ...state,
-                maksAlderArbeidserfaring: action.value
+                maksAlderArbeidserfaring: action.value,
             };
         default:
             return state;

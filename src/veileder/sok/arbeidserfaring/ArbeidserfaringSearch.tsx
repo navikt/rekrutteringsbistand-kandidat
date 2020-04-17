@@ -22,7 +22,7 @@ const ArbeidserfaringSearch: FunctionComponent<Props> = props => (
     <SokekriteriePanel
         id="ArbeidserfaringSearch__SokekriteriePanel"
         tittel={
-            <div className={"arbeidserfaring-search__tittel"}>
+            <div className={'arbeidserfaring-search__tittel'}>
                 Arbeidserfaring <NyttFilterIkon />
             </div>
         }
