@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../../cv/reducer/cvReducer';
+import { HentCvStatus, CvActionType } from '../../cv/reducer/cvReducer.ts';
 import VisKandidatPersonalia from '../../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
@@ -251,7 +251,7 @@ class VisKandidat extends React.Component {
                 : undefined;
         }
 
-        if (hentStatus === HENT_CV_STATUS.LOADING) {
+        if (hentStatus === HentCvStatus.Loading) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -269,9 +269,9 @@ class VisKandidat extends React.Component {
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+                    fantCv={hentStatus === HentCvStatus.Loading}
                 />
-                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
                             <Element tag="h2" className="blokk-s">
@@ -423,7 +423,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+    hentCvForKandidat: (arenaKandidatnr) =>
+        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) =>
         dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),

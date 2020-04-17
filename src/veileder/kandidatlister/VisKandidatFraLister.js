@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../cv/reducer/cvReducer';
+import { HentCvStatus, CvActionType } from '../cv/reducer/cvReducer.ts';
 import VisKandidatPersonalia from '../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
@@ -86,7 +86,7 @@ class VisKandidatFraLister extends React.Component {
 
         const gjeldendeKandidat = kandidatliste.kandidater[gjeldendeKandidatIndex];
 
-        if (hentStatus === HENT_CV_STATUS.LOADING) {
+        if (hentStatus === HentCvStatus.Loading) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -99,13 +99,13 @@ class VisKandidatFraLister extends React.Component {
                     cv={cv}
                     tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                     appContext="veileder"
-                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+                    fantCv={hentStatus === HentCvStatus.Success}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     antallKandidater={kandidatliste.kandidater.length}
                 />
-                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
                             <Element tag="h2" className="blokk-s">
@@ -218,7 +218,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) =>
-        dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
+        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr, profilId }),
     hentKandidatliste: (kandidatlisteId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,

@@ -22,7 +22,7 @@ import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
-import cvReducer, { cvSaga } from './cv/reducer/cvReducer';
+import cvReducer, { cvSaga } from './cv/reducer/cvReducer.ts';
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
