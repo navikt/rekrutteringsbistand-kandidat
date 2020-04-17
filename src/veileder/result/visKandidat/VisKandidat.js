@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
+import { FETCH_CV, HENT_CV_STATUS } from '../../cv/reducer/cvReducer';
 import VisKandidatPersonalia from '../../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
@@ -137,7 +137,7 @@ class VisKandidat extends React.Component {
         });
     };
 
-    onLagreKandidatliste = kandidatliste => {
+    onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste, match } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
 
@@ -161,10 +161,10 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
-    gjeldendeKandidatIListen = kandidatnummer => {
+    gjeldendeKandidatIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -172,15 +172,15 @@ class VisKandidat extends React.Component {
         return gjeldendeIndex + 1;
     };
 
-    gjeldendeKandidatIndexIListen = kandidatnummer => {
+    gjeldendeKandidatIndexIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
-        return kandidater.findIndex(element => element.arenaKandidatnr === kandidatnummer);
+        return kandidater.findIndex((element) => element.arenaKandidatnr === kandidatnummer);
     };
 
-    forrigeKandidatnummerIListen = kandidatnummer => {
+    forrigeKandidatnummerIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -188,10 +188,10 @@ class VisKandidat extends React.Component {
         return kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
-    nesteKandidatnummerIListen = kandidatnummer => {
+    nesteKandidatnummerIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === kandidater.length - 1) {
             return undefined;
@@ -409,7 +409,7 @@ VisKandidat.propTypes = {
     lagreKandidatIKandidatlisteStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     cv: state.cvReducer.cv,
     kandidater: state.search.searchResultat.resultat.kandidater,
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
@@ -422,10 +422,10 @@ const mapStateToProps = state => ({
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 
-const mapDispatchToProps = dispatch => ({
-    hentCvForKandidat: arenaKandidatnr => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+const mapDispatchToProps = (dispatch) => ({
+    hentCvForKandidat: (arenaKandidatnr) => dispatch({ type: FETCH_CV, arenaKandidatnr }),
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
-    settValgtKandidat: kandidatnummer =>
+    settValgtKandidat: (kandidatnummer) =>
         dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) =>
         dispatch({
@@ -433,12 +433,12 @@ const mapDispatchToProps = dispatch => ({
             kandidatliste,
             fodselsnummer,
         }),
-    hentKandidatlisteMedKandidatlisteId: kandidatlisteId =>
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
-    hentKandidatlisteMedStillingsId: stillingsId =>
+    hentKandidatlisteMedStillingsId: (stillingsId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
             stillingsId,

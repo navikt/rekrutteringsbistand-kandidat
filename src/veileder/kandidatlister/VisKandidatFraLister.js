@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
+import { FETCH_CV, HENT_CV_STATUS } from '../cv/reducer/cvReducer';
 import VisKandidatPersonalia from '../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
@@ -32,9 +32,9 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    hentGjeldendeKandidatIndex = kandidatnummer => {
+    hentGjeldendeKandidatIndex = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -42,9 +42,9 @@ class VisKandidatFraLister extends React.Component {
         return gjeldendeIndex;
     };
 
-    hentForrigeKandidatNummer = kandidatnummer => {
+    hentForrigeKandidatNummer = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -52,9 +52,9 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    hentNesteKandidatNummer = kandidatnummer => {
+    hentNesteKandidatNummer = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === this.props.kandidatliste.kandidater.length - 1) {
             return undefined;
@@ -62,7 +62,7 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
     };
 
-    onKandidatStatusChange = status => {
+    onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
             status,
             this.props.kandidatlisteId,
@@ -70,7 +70,7 @@ class VisKandidatFraLister extends React.Component {
         );
     };
 
-    hentLenkeTilKandidat = kandidatnummer =>
+    hentLenkeTilKandidat = (kandidatnummer) =>
         kandidatnummer
             ? `/kandidater/lister/detaljer/${this.props.kandidatlisteId}/cv/${kandidatnummer}`
             : undefined;
@@ -216,10 +216,10 @@ const mapStateToProps = (state, props) => ({
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) =>
         dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: kandidatlisteId =>
+    hentKandidatliste: (kandidatlisteId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,

@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../api.ts';
-import { INVALID_RESPONSE_STATUS } from '../searchReducer';
+import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api.ts';
 
 /** *********************************************************
