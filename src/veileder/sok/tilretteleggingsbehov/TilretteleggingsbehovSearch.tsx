@@ -62,7 +62,6 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
             apen={panelOpen}
         >
             <Checkbox
-                className="skjemaelement--pink"
                 id="tilretteleggingsbehov-checkbox"
                 label="Vis kandidater med tilretteleggingsbehov"
                 checked={harValgtTilretteleggingsbehov}
@@ -79,7 +78,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                         return (
                             <Checkbox
                                 key={kategori}
-                                className="skjemaelement--pink tilretteleggingsbehov__kategori"
+                                className="tilretteleggingsbehov__kategori"
                                 id={`tilretteleggingsbehov-kategori-${kategori.toLowerCase()}-checkbox`}
                                 label={getKategoriLabel(kategori)}
                                 name={kategori}

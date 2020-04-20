@@ -46,7 +46,7 @@ const AntallÅrArbeidserfaring: FunctionComponent<Props> = ({
             <div className="sokekriterier--kriterier">
                 {aarMedErfaringer.map(arbeidserfaring => (
                     <Checkbox
-                        className="checkbox--arbeidserfaring skjemaelement--pink"
+                        className="checkbox--arbeidserfaring"
                         id={`arbeidserfaring-${arbeidserfaring.value.toLowerCase()}-checkbox`}
                         label={arbeidserfaring.label}
                         key={arbeidserfaring.value}

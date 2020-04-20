@@ -7,6 +7,9 @@ import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import AntallÅrArbeidserfaring from './antall-år-arbeidserfaring/AntallÅrArbeidserfaring';
 import Merkelapper from './merkelapper/Merkelapper';
 import AppState from '../../AppState';
+import FerskArbeidserfaring from './fersk-arbeidserfaring/FerskArbeidserfaring';
+import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
+import './ArbeidserfaringSearch.less';
 
 interface Props {
     togglePanelOpen: () => void;
@@ -18,14 +21,17 @@ interface Props {
 const ArbeidserfaringSearch: FunctionComponent<Props> = props => (
     <SokekriteriePanel
         id="ArbeidserfaringSearch__SokekriteriePanel"
-        tittel="Arbeidserfaring"
+        tittel={
+            <div className={'arbeidserfaring-search__tittel'}>
+                Arbeidserfaring <NyttFilterIkon />
+            </div>
+        }
         onClick={props.togglePanelOpen}
         apen={props.panelOpen}
     >
         <Merkelapper />
-        <div className="sokekriterier--margin-top-extra-large">
-            <AntallÅrArbeidserfaring />
-        </div>
+        <FerskArbeidserfaring />
+        <AntallÅrArbeidserfaring />
         {props.totaltAntallTreff <= 10 &&
             props.visAlertFaKandidater === ALERTTYPE.ARBEIDSERFARING && (
                 <AlertStripeInfo totaltAntallTreff={props.totaltAntallTreff} />

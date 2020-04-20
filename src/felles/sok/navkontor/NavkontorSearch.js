@@ -126,7 +126,7 @@ class NavkontorSearch extends React.Component {
                     </div>
                     {this.props.showMineKandidater ? (
                         <Checkbox
-                            className="checkbox--minekandidater skjemaelement--pink"
+                            className="checkbox--minekandidater"
                             id="minekandidater-checkbox"
                             label="Vis bare mine brukere"
                             key="minekandidater"

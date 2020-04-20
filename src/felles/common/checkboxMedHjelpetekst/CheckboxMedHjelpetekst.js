@@ -6,7 +6,7 @@ import './CheckboxMedHjelpetekst.less';
 
 const DisabledCheckbox = () => (
     <Checkbox
-        className="Checkbox--ma-bo-pa-geografi-disabled skjemaelement--pink"
+        className="Checkbox--ma-bo-pa-geografi-disabled"
         id="geografi-checkbox-hjelpetekst-disabled"
         label="Vis bare kandidater som bor i området"
         disabled
@@ -25,7 +25,7 @@ const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel
         </HjelpetekstUnder>
     ) : (
         <Checkbox
-            className="Checkbox--ma-bo-pa-geografi skjemaelement--pink"
+            className="Checkbox--ma-bo-pa-geografi"
             id={id}
             label={label}
             checked={checked}

@@ -136,7 +136,7 @@ class VisKandidatFraLister extends React.Component {
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                                kandidatnummer={cv.kandidatnummer}
+                                kandidatnr={cv.kandidatnummer}
                             />
                             {gjeldendeKandidat && (
                                 <div className="VisKandidat-knapperad__statusSelect">

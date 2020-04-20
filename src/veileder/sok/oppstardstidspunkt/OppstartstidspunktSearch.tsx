@@ -58,7 +58,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props | any> = props => {
                     <Checkbox
                         key={tidspunkt.value}
                         id={`oppstartstidspunkt-${tidspunkt.value.toLowerCase()}-checkbox`}
-                        className="oppstartstidspunkt-search__checkbox skjemaelement--pink"
+                        className="oppstartstidspunkt-search__checkbox"
                         label={tidspunkt.label}
                         value={tidspunkt.value}
                         checked={oppstartstidspunkter.includes(tidspunkt.value)}
