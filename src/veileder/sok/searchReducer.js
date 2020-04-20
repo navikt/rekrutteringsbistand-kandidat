@@ -282,6 +282,7 @@ export const fromUrlQuery = url => {
     const kategorier = getUrlParameterByName('kategorier', url);
     const permittert = getUrlParameterByName('permittert');
     const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkt');
+    const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -304,6 +305,8 @@ export const fromUrlQuery = url => {
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
     if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
+    if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
+        stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
 
     return stateFromUrl;
 };
@@ -360,6 +363,8 @@ export const toUrlQuery = state => {
         state.oppstartstidspunkter.oppstartstidspunkter.length > 0
     )
         urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
+    if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
+        urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
 
     return toUrlParams(urlQuery);
 };
@@ -413,6 +418,7 @@ function* search(action = '') {
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
             oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
+            maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {

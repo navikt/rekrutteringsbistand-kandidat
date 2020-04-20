@@ -74,7 +74,7 @@ const Merkelapper: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <Element>Hvilken erfaring skal kandidaten ha?</Element>
+            <Element className="blokk-xxxs">Hvilken erfaring skal kandidaten ha?</Element>
             <Normaltekst>For eksempel: barnehagelærer</Normaltekst>
             <div className="sokekriterier--kriterier">
                 <div>

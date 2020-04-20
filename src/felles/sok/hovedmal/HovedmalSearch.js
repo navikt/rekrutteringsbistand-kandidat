@@ -58,7 +58,7 @@ class HovedmalSearch extends React.Component {
                 <div>
                     {this.hovedmal.map(h => (
                         <Checkbox
-                            className="checkbox--hovedmal skjemaelement--pink"
+                            className="checkbox--hovedmal"
                             id={`hovedmal-${h.value.toLowerCase()}-checkbox`}
                             label={h.label}
                             key={h.value}
