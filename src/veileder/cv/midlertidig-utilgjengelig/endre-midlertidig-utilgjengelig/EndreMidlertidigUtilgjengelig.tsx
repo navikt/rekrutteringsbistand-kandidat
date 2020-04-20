@@ -21,6 +21,13 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const onHvaSkalEndresChange = (event: ChangeEvent<HTMLInputElement>) =>
         setHvaSkalEndres(event.target.value);
 
+    const onAvbryt = () => {
+        setDato(undefined);
+        setFeilmelding(undefined);
+        setHvaSkalEndres(undefined);
+        props.onAvbryt();
+    };
+
     const onLagre = () => {
         if (hvaSkalEndres === 'fjernMarkering') {
             props.slettMidlertidigUtilgjengelig();
@@ -75,6 +82,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                     dato={dato}
                     setDato={setDato}
                     className="endre-midlertidig-utilgjengelig__datovelger"
+                    feilmelding={feilmelding}
                 />
             )}
             <Knapp type="hoved" onClick={onLagre}>
@@ -83,7 +91,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             <Knapp
                 type="flat"
                 className="endre-midlertidig-utilgjengelig__avbryt"
-                onClick={props.onAvbryt}
+                onClick={onAvbryt}
             >
                 Avbryt
             </Knapp>
