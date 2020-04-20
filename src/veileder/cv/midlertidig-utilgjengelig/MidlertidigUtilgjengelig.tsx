@@ -55,10 +55,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
     };
 
-    const skalEndre =
-        midlertidigUtilgjengelig !== undefined &&
-        midlertidigUtilgjengelig.kind === Nettstatus.Suksess;
-
     return (
         <div className="midlertidig-utilgjengelig">
             <Knapp type="flat" onClick={e => setAnker(anker ? undefined : e.currentTarget)}>
@@ -78,12 +74,13 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {skalEndre ? (
+                {!!midlertidigUtilgjengelig && (midlertidigUtilgjengelig.kind === Nettstatus.Suksess) ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
                         className="midlertidig-utilgjengelig__popup-innhold"
                         endreMidlertidigUtilgjengelig={endreMidlertidigUtilgjengelig}
                         slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
+                        midlertidigUtilgjengelig={midlertidigUtilgjengelig.data}
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
