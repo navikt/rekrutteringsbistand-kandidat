@@ -101,7 +101,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
             title="Kandidaten må ha fersk arbeidserfaring"
         >
             <div className="fersk-arbeidserfaring__hjelpetekst">
-                For å få fersk erfaring innen et yrke, legg til arbeidserfaring
+                For å se kandidater med fersk erfaring innen et yrke, legg til arbeidserfaring
             </div>
             <Radio
                 className="fersk-arbeidserfaring__knapp"
