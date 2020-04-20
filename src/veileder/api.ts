@@ -186,6 +186,10 @@ export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) =
     );
 };
 
+export const deleteMidlertidigUtilgjengelig = (aktørId: string) => {
+    return deleteJsonMedType(`${MIDLERTIDIG_UTILGJENGELIG_URL}/${aktørId}`);
+};
+
 export const putArkivertForFlereKandidater = (
     kandidatlisteId: string,
     kandidatnumre: string[],
