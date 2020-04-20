@@ -259,6 +259,7 @@ class VisKandidat extends React.Component {
                 </div>
             );
         }
+
         return (
             <div>
                 <VisKandidatPersonalia
@@ -270,7 +271,7 @@ class VisKandidat extends React.Component {
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    fantCv={hentStatus === HentCvStatus.Loading}
+                    fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">
