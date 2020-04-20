@@ -22,10 +22,11 @@ interface Props {
     kandidatnr: string;
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     forlengMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
     midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const {
         kandidatnr,
         aktørId,
@@ -52,8 +53,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        // const dato = new Date(tilOgMedDato).toISOString();
-        // forlengMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
     };
 
     const skalEndre =
@@ -62,7 +62,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
 
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
+            <Knapp type="flat" onClick={e => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
@@ -117,5 +117,12 @@ export default connect(
                 aktørId,
                 tilDato,
             }),
+        slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => {
+            dispatch({
+                type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
+                aktørId,
+            });
+        },
     })
 )(MidlertidigUtilgjengelig);
