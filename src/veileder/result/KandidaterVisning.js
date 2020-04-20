@@ -16,13 +16,13 @@ import {
 } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 
-const antallKandidaterMarkert = kandidater => kandidater.filter(k => k.markert).length;
+const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
 
-const lagreKandidaterTilStillingKnappTekst = antall => {
+const lagreKandidaterTilStillingKnappTekst = (antall) => {
     if (antall === 0) {
         return 'Lagre kandidater i kandidatliste';
     } else if (antall === 1) {
@@ -31,7 +31,7 @@ const lagreKandidaterTilStillingKnappTekst = antall => {
     return `Lagre ${antall} kandidater i kandidatliste`;
 };
 
-const markereKandidat = (kandidatnr, checked) => k => {
+const markereKandidat = (kandidatnr, checked) => (k) => {
     if (k.arenaKandidatnr === kandidatnr) {
         return { ...k, markert: checked };
     }
@@ -121,12 +121,12 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    onLagreKandidatliste = kandidatliste => {
+    onLagreKandidatliste = (kandidatliste) => {
         this.props.leggTilKandidaterIKandidatliste(
             kandidatliste,
             this.state.kandidater
-                .filter(kandidat => kandidat.markert)
-                .map(kandidat => ({
+                .filter((kandidat) => kandidat.markert)
+                .map((kandidat) => ({
                     kandidatnr: kandidat.arenaKandidatnr,
                     sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
                         ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
@@ -140,7 +140,7 @@ class KandidaterVisning extends React.Component {
         this.toggleMarkeringAlleKandidater(checked);
     };
 
-    toggleMarkeringAlleKandidater = checked => {
+    toggleMarkeringAlleKandidater = (checked) => {
         const kandidaterMedMarkering = this.state.kandidater.map((k, i) =>
             i < this.props.antallKandidater ? { ...k, markert: checked } : k
         );
@@ -270,26 +270,26 @@ KandidaterVisning.propTypes = {
     kandidatliste: PropTypes.shape(Kandidatliste),
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     leggTilKandidaterIKandidatliste: (kandidatliste, kandidater) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidatliste, kandidater });
     },
     lastFlereKandidater: () => {
         dispatch({ type: LAST_FLERE_KANDIDATER });
     },
-    oppdaterAntallKandidater: antallKandidater => {
+    oppdaterAntallKandidater: (antallKandidater) => {
         dispatch({ type: OPPDATER_ANTALL_KANDIDATER, antall: antallKandidater });
     },
-    oppdaterMarkerteKandidater: markerteKandidater => {
+    oppdaterMarkerteKandidater: (markerteKandidater) => {
         dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater });
     },
-    hentKandidatlisteMedKandidatlisteId: kandidatlisteId => {
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         });
     },
-    hentKandidatlisteMedStillingsId: stillingsId => {
+    hentKandidatlisteMedStillingsId: (stillingsId) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
             stillingsId,
@@ -297,7 +297,7 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     kandidater: state.search.searchResultat.resultat.kandidater,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.search.isEmptyQuery,
@@ -308,7 +308,7 @@ const mapStateToProps = state => ({
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
 });

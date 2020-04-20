@@ -54,3 +54,5 @@ spec:
           value: https://app-q0.adeo.no/veilarbpersonflatefs
         - name: SMS_API
           value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms
+        - name: MIDLERTIDIG_UTILGJENGELIG_URL
+          value: "#"

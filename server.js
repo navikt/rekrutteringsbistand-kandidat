@@ -58,6 +58,7 @@ const fasitProperties = {
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
     SMS_API: process.env.SMS_API,
+    MIDLERTIDIG_UTILGJENGELIG_URL: process.env.MIDLERTIDIG_UTILGJENGELIG_URL,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -68,9 +69,10 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
         `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n`;
+        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n` +
+        `window.__MIDLERTIDIG_UTILGJENGELIG_URL__="${fasitProperties.MIDLERTIDIG_UTILGJENGELIG_URL}";\n`;
 
-    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, err => {
+    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
 };
@@ -105,7 +107,7 @@ const gatewayPrefix = () => {
 console.log(`proxy host: ${backendHost()}`);
 console.log(`proxy prefix: ${gatewayPrefix()}`);
 
-const normalizedTokenExpiration = token => {
+const normalizedTokenExpiration = (token) => {
     const expiration = jwt.decode(token).exp;
     if (expiration.toString().length === 10) {
         return expiration * 1000;
@@ -113,7 +115,7 @@ const normalizedTokenExpiration = token => {
     return expiration;
 };
 
-const unsafeTokenIsExpired = token => {
+const unsafeTokenIsExpired = (token) => {
     if (token) {
         const normalizedExpirationTime = normalizedTokenExpiration(token);
         return normalizedExpirationTime - Date.now() < 0;
@@ -121,17 +123,14 @@ const unsafeTokenIsExpired = token => {
     return true;
 };
 
-const extractTokenFromCookie = cookie => {
+const extractTokenFromCookie = (cookie) => {
     if (cookie !== undefined) {
         const token = cookie
             .split(';')
-            .filter(s => s && s.indexOf('-idtoken') !== -1)
+            .filter((s) => s && s.indexOf('-idtoken') !== -1)
             .pop();
         if (token) {
-            return token
-                .split('=')
-                .pop()
-                .trim();
+            return token.split('=').pop().trim();
         }
     }
     return null;
@@ -160,7 +159,7 @@ const renderSok = () =>
         });
     });
 
-const startServer = html => {
+const startServer = (html) => {
     writeEnvironmentVariablesToFile();
 
     server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) =>
@@ -173,7 +172,7 @@ const startServer = html => {
     server.use(
         '/kandidater/rest/',
         proxy('http://pam-kandidatsok-api', {
-            proxyReqPathResolver: req =>
+            proxyReqPathResolver: (req) =>
                 req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api'),
         })
     );
@@ -193,7 +192,7 @@ const startServer = html => {
                     'x-nav-apiKey': fasitProperties.PROXY_API_KEY,
                 },
             }),
-            proxyReqPathResolver: req => {
+            proxyReqPathResolver: (req) => {
                 const convertedPath = `/${gatewayPrefix()}/${req.originalUrl
                     .split('/search/enhetsregister/')
                     .pop()}`;
@@ -208,7 +207,7 @@ const startServer = html => {
         '/kandidater/api/sms',
         proxy(smsHost, {
             https: true,
-            proxyReqPathResolver: request =>
+            proxyReqPathResolver: (request) =>
                 request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
         })
     );
@@ -225,4 +224,4 @@ const startServer = html => {
 
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
-renderSok().then(startServer, error => logError('Failed to render app', error));
+renderSok().then(startServer, (error) => logError('Failed to render app', error));

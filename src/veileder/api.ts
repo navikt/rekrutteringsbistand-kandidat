@@ -6,6 +6,7 @@ import {
     KANDIDATLISTE_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
+    MIDLERTIDIG_UTILGJENGELIG_URL,
 } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 import { ResponseData } from '../felles/common/remoteData';
@@ -28,13 +29,13 @@ if (appIsMocked) {
     require('./mock/api.ts');
 }
 
-const convertToUrlParams = query =>
+const convertToUrlParams = (query) =>
     Object.keys(query)
-        .map(key => {
+        .map((key) => {
             if (Array.isArray(query[key])) {
                 const encodedKey = encodeURIComponent(key);
                 return query[key]
-                    .map(v => `${encodedKey}=${encodeURIComponent(v)}`)
+                    .map((v) => `${encodedKey}=${encodeURIComponent(v)}`)
                     .reduce((accumulator, current) => `${accumulator}&${current}`, '');
             } else {
                 if (query[key]) {
@@ -45,7 +46,7 @@ const convertToUrlParams = query =>
         .join('&')
         .replace(/%20/g, '+');
 
-const employerNameCompletionQueryTemplate = match => ({
+const employerNameCompletionQueryTemplate = (match) => ({
     query: {
         match_phrase: {
             navn_ngram_completion: {
@@ -83,10 +84,10 @@ export function fetchCv(arenaKandidatnr) {
     return fetchJson(`${SEARCH_API}/hentcv?${convertToUrlParams(arenaKandidatnr)}`, true);
 }
 
-export const fetchKandidatlisteMedStillingsId = stillingsId =>
+export const fetchKandidatlisteMedStillingsId = (stillingsId) =>
     fetchJson(`${KANDIDATLISTE_API}/stilling/${stillingsId}/kandidatliste`, true);
 
-export const fetchKandidatlisteMedKandidatlisteId = kandidatlisteId =>
+export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
 export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) =>
@@ -95,7 +96,7 @@ export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) =>
         JSON.stringify({ status })
     );
 
-export const postKandidatliste = kandidatlisteInfo =>
+export const postKandidatliste = (kandidatlisteInfo) =>
     postJson(`${KANDIDATLISTE_API}/me/kandidatlister`, JSON.stringify(kandidatlisteInfo));
 
 export function putKandidatliste(stillingsId) {
@@ -113,10 +114,10 @@ export function fetchGeografiKode(geografiKode) {
     return fetchJson(`${KODEVERK_API}/arenageografikoder/${geografiKode}`, true);
 }
 
-export const fetchStillingFraListe = stillingsId =>
+export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
 
-export const fetchKandidatMedFnr = fnr => fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true);
+export const fetchKandidatMedFnr = (fnr) => fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true);
 
 export const fetchNotater = (kandidatlisteId, kandidatnr) =>
     fetchJson(
@@ -164,11 +165,22 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
     );
 };
 
-export const putMidlertidigUtilgjengelig = (kandidatnr: string, tilOgMedDato: string | null) => {
-    // TODO Implementer dette
-    console.log(
-        `put midlertidig utilgjengelig for kandidatnr ${kandidatnr} til og med dato ${tilOgMedDato}`
+export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
+    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_URL}/${aktørId}`, true);
+};
+
+export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
+    return postJson(
+        `${MIDLERTIDIG_UTILGJENGELIG_URL}`,
+        JSON.stringify({
+            aktørId,
+            tilDato,
+        })
     );
+};
+
+export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
+    return putJson(`${MIDLERTIDIG_UTILGJENGELIG_URL}`, JSON.stringify({ aktørId, tilDato }));
 };
 
 export const putArkivertForFlereKandidater = (
@@ -177,9 +189,9 @@ export const putArkivertForFlereKandidater = (
     arkivert: boolean
 ): Promise<Array<string | null>> => {
     return Promise.all(
-        kandidatnumre.map(kandidatNr =>
+        kandidatnumre.map((kandidatNr) =>
             putArkivert(kandidatlisteId, kandidatNr, arkivert)
-                .then(kandidat => kandidat.kandidatnr)
+                .then((kandidat) => kandidat.kandidatnr)
                 .catch(() => null)
         )
     );
@@ -188,23 +200,23 @@ export const putArkivertForFlereKandidater = (
 export const fetchKandidatlister = (query = {}) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister?${convertToUrlParams(query)}`, true);
 
-export const fetchKandidatlisteMedAnnonsenummer = annonsenummer =>
+export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
     fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true);
 
-export const fetchArbeidsgivereEnhetsregister = query =>
+export const fetchArbeidsgivereEnhetsregister = (query) =>
     postJson(
         `${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search`,
         JSON.stringify(employerNameCompletionQueryTemplate(query))
     );
 
-export const fetchArbeidsgivereEnhetsregisterOrgnr = orgnr => {
+export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
     const query = orgnr.replace(/\s/g, '');
     return fetchJson(
         `${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search?q=organisasjonsnummer:${query}*`
     );
 };
 
-export const endreEierskapPaKandidatliste = kandidatlisteId =>
+export const endreEierskapPaKandidatliste = (kandidatlisteId) =>
     putJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/eierskap`);
 
 export async function deleteKandidatliste(kandidatlisteId: string): Promise<ResponseData<any>> {
@@ -224,7 +236,7 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
         })
     );
 
-export const fetchFerdigutfylteStillinger = bransjer => {
+export const fetchFerdigutfylteStillinger = (bransjer) => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
 

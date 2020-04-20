@@ -47,7 +47,7 @@ import {
     putStatusKandidat,
     putArkivert,
 } from '../../api';
-import { RemoteDataTypes } from '../../../felles/common/remoteData';
+import { Nettstatus } from '../../../felles/common/remoteData';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
@@ -390,7 +390,7 @@ function* angreArkiveringForKandidater(action: AngreArkiveringAction) {
         );
 
         const dearkiverteKandidater = kandidatnumre.filter(
-            kandidatNr => kandidatNr !== null
+            (kandidatNr) => kandidatNr !== null
         ) as string[];
 
         yield put<AngreArkiveringSuccessAction>({
@@ -448,7 +448,7 @@ function* sjekkError(action) {
 }
 
 function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
-    if (action.result.kind === RemoteDataTypes.FAILURE) {
+    if (action.result.kind === Nettstatus.Feil) {
         yield put({ type: INVALID_RESPONSE_STATUS, error: action.result.error });
     }
 }

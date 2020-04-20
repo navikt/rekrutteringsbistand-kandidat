@@ -1,45 +1,56 @@
 import React, { FunctionComponent, useState } from 'react';
+import { connect } from 'react-redux';
 import { Knapp } from 'pam-frontend-knapper';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import './MidlertidigUtilgjengelig.less';
 import Chevron from 'nav-frontend-chevron';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import useFeatureToggle from '../../result/useFeatureToggle';
-import { Datovelger } from 'nav-datovelger';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
-import moment from 'moment';
-import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
-import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
+
+import {
+    MidlertidigUtilgjengeligAction,
+    MidlertidigUtilgjengeligResponse,
+} from './midlertidigUtilgjengeligReducer';
+import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
-import { putMidlertidigUtilgjengelig } from '../../api';
+import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
+import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
+import useFeatureToggle from '../../result/useFeatureToggle';
+import './MidlertidigUtilgjengelig.less';
 
 interface Props {
-    kandidatnummer: string;
+    aktørId: string;
+    kandidatnr: string;
+    lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
+    const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
+
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
-    const [endre, setEndre] = useState<boolean>(false); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
 
-    if (!erToggletPå) {
+    const [endre, setEndre] = useState<boolean>(
+        midlertidigUtilgjengelig !== undefined &&
+            midlertidigUtilgjengelig.kind === Nettstatus.Suksess
+    );
+
+    if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
         return null;
     }
 
-    const { kandidatnummer } = props;
-
-    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string): void => {
-        // TODO Burde kanskje erstattes med dispatch til redux state, men kan bli litt vanskelig
-        putMidlertidigUtilgjengelig(kandidatnummer, tilOgMedDato);
+    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+        lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        putMidlertidigUtilgjengelig(kandidatnummer, null);
+        // putMidlertidigUtilgjengelig(kandidatnr, null);
     };
 
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={e => setAnker(anker ? undefined : e.currentTarget)}>
+            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
@@ -75,4 +86,17 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     );
 };
 
-export default MidlertidigUtilgjengelig;
+export default connect(
+    (state: AppState) => ({
+        aktørId: state.cv.cv.aktorId,
+    }),
+    (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
+        lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
+            dispatch({
+                type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
+                aktørId,
+                tilDato,
+            }),
+    })
+)(MidlertidigUtilgjengelig);

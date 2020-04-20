@@ -3,49 +3,50 @@ export interface ApiError {
     status: number;
 }
 
-export enum RemoteDataTypes {
-    NOT_ASKED = 'NOT_ASKED',
-    LOADING = 'LOADING',
-    SUCCESS = 'SUCCESS',
-    FAILURE = 'FAILURE',
+export enum Nettstatus {
+    IkkeLastet = 'IkkeLastet',
+    LasterInn = 'LasterInn',
+    SenderInn = 'SenderInn',
+    Suksess = 'Suksess',
+    Feil = 'Feil',
 }
 
-interface NotAsked {
-    kind: RemoteDataTypes.NOT_ASKED;
+interface IkkeLastet {
+    kind: Nettstatus.IkkeLastet;
 }
 
-interface Loading {
-    kind: RemoteDataTypes.LOADING;
+interface LasterInn {
+    kind: Nettstatus.LasterInn;
 }
 
-interface Success<T> {
-    kind: RemoteDataTypes.SUCCESS;
+interface Suksess<T> {
+    kind: Nettstatus.Suksess;
     data: T;
 }
 
-interface Failure {
-    kind: RemoteDataTypes.FAILURE;
+interface Feil {
+    kind: Nettstatus.Feil;
     error: ApiError;
 }
 
-export const NotAsked = (): NotAsked => ({
-    kind: RemoteDataTypes.NOT_ASKED,
+export const IkkeLastet = (): IkkeLastet => ({
+    kind: Nettstatus.IkkeLastet,
 });
 
-export const Loading = (): Loading => ({
-    kind: RemoteDataTypes.LOADING,
+export const LasterInn = (): LasterInn => ({
+    kind: Nettstatus.LasterInn,
 });
 
-export const Success = <T>(data: T): Success<T> => ({
-    kind: RemoteDataTypes.SUCCESS,
+export const Suksess = <T>(data: T): Suksess<T> => ({
+    kind: Nettstatus.Suksess,
     data,
 });
 
-export const Failure = (error: ApiError): Failure => ({
-    kind: RemoteDataTypes.FAILURE,
+export const Feil = (error: ApiError): Feil => ({
+    kind: Nettstatus.Feil,
     error,
 });
 
-export type RemoteData<T> = NotAsked | Loading | Failure | Success<T>;
+export type RemoteData<T> = IkkeLastet | LasterInn | Feil | Suksess<T>;
 
-export type ResponseData<T> = Failure | Success<T>;
+export type ResponseData<T> = Feil | Suksess<T>;

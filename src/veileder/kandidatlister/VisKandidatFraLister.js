@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../sok/cv/cvReducer';
+import { HentCvStatus, CvActionType } from '../cv/reducer/cvReducer.ts';
 import VisKandidatPersonalia from '../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import CVMeny from '../cv/cv-meny/CVMeny';
@@ -32,9 +32,9 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    hentGjeldendeKandidatIndex = kandidatnummer => {
+    hentGjeldendeKandidatIndex = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -42,9 +42,9 @@ class VisKandidatFraLister extends React.Component {
         return gjeldendeIndex;
     };
 
-    hentForrigeKandidatNummer = kandidatnummer => {
+    hentForrigeKandidatNummer = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -52,9 +52,9 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    hentNesteKandidatNummer = kandidatnummer => {
+    hentNesteKandidatNummer = (kandidatnummer) => {
         const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            element => element.kandidatnr === kandidatnummer
+            (element) => element.kandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === this.props.kandidatliste.kandidater.length - 1) {
             return undefined;
@@ -62,7 +62,7 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
     };
 
-    onKandidatStatusChange = status => {
+    onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
             status,
             this.props.kandidatlisteId,
@@ -70,13 +70,20 @@ class VisKandidatFraLister extends React.Component {
         );
     };
 
-    hentLenkeTilKandidat = kandidatnummer =>
+    hentLenkeTilKandidat = (kandidatnummer) =>
         kandidatnummer
             ? `/kandidater/lister/detaljer/${this.props.kandidatlisteId}/cv/${kandidatnummer}`
             : undefined;
 
     render() {
-        const { cv, match, kandidatlisteId, kandidatliste, hentStatus } = this.props;
+        const {
+            cv,
+            match,
+            kandidatlisteId,
+            kandidatliste,
+            hentStatus,
+            midlertidigUtilgjengelig,
+        } = this.props;
 
         const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(match.params.kandidatNr);
         const nesteKandidatNummer = this.hentNesteKandidatNummer(match.params.kandidatNr);
@@ -86,7 +93,7 @@ class VisKandidatFraLister extends React.Component {
 
         const gjeldendeKandidat = kandidatliste.kandidater[gjeldendeKandidatIndex];
 
-        if (hentStatus === HENT_CV_STATUS.LOADING) {
+        if (hentStatus === HentCvStatus.Loading) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -99,13 +106,13 @@ class VisKandidatFraLister extends React.Component {
                     cv={cv}
                     tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                     appContext="veileder"
-                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+                    fantCv={hentStatus === HentCvStatus.Success}
                     forrigeKandidat={forrigeKandidatLink}
                     nesteKandidat={nesteKandidatLink}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     antallKandidater={kandidatliste.kandidater.length}
                 />
-                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
                             <Element tag="h2" className="blokk-s">
@@ -127,7 +134,10 @@ class VisKandidatFraLister extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
+                            <MidlertidigUtilgjengelig
+                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                                kandidatnr={cv.kandidatnummer}
+                            />
                             {gjeldendeKandidat && (
                                 <div className="VisKandidat-knapperad__statusSelect">
                                     <span>Status:</span>
@@ -208,18 +218,19 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    hentStatus: state.cvReducer.hentStatus,
-    cv: state.cvReducer.cv,
+    hentStatus: state.cv.hentStatus,
+    cv: state.cv.cv,
+    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     hentCvForKandidat: (arenaKandidatnr, profilId) =>
-        dispatch({ type: FETCH_CV, arenaKandidatnr, profilId }),
-    hentKandidatliste: kandidatlisteId =>
+        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr, profilId }),
+    hentKandidatliste: (kandidatlisteId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,

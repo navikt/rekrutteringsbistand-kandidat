@@ -22,7 +22,10 @@ import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
-import cvReducer, { cvSaga } from './sok/cv/cvReducer';
+import cvReducer, { cvSaga } from './cv/reducer/cvReducer.ts';
+import midlertidigUtilgjengeligReducer, {
+    midlertidigUtilgjengeligSaga,
+} from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer.ts';
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
@@ -69,7 +72,8 @@ const store = createStore(
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
         oppstartstidspunkter: oppstartstidspunktReducer,
-        cvReducer,
+        cv: cvReducer,
+        midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
         enhetsregister: enhetsregisterReducer,
@@ -112,7 +116,7 @@ HeaderSwitch.propTypes = {
     innloggetVeileder: PropTypes.string,
 };
 
-export const hentQueryUtenKriterier = harHentetStilling => ({
+export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -236,20 +240,20 @@ Sok.propTypes = {
     nyDekoratør: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     error: state.search.error,
     innloggetVeileder: state.search.innloggetVeileder,
     nyDekoratør: state.search.featureToggles['ny-dekorator'],
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
-    setScrollPosition: scrollPosisjon =>
+    setScrollPosition: (scrollPosisjon) =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     initialSearch: () => {
         dispatch({ type: INITIAL_SEARCH_BEGIN });
     },
@@ -274,6 +278,7 @@ const App = () => (
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
+sagaMiddleware.run(midlertidigUtilgjengeligSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 

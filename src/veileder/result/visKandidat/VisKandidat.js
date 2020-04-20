@@ -6,7 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
-import { FETCH_CV, HENT_CV_STATUS } from '../../sok/cv/cvReducer';
+import { HentCvStatus, CvActionType } from '../../cv/reducer/cvReducer.ts';
 import VisKandidatPersonalia from '../../cv/VisKandidatPersonalia';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
@@ -18,7 +18,7 @@ import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal'
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
@@ -137,7 +137,7 @@ class VisKandidat extends React.Component {
         });
     };
 
-    onLagreKandidatliste = kandidatliste => {
+    onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste, match } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
 
@@ -161,10 +161,10 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
-    gjeldendeKandidatIListen = kandidatnummer => {
+    gjeldendeKandidatIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === -1) {
             return undefined;
@@ -172,15 +172,15 @@ class VisKandidat extends React.Component {
         return gjeldendeIndex + 1;
     };
 
-    gjeldendeKandidatIndexIListen = kandidatnummer => {
+    gjeldendeKandidatIndexIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
-        return kandidater.findIndex(element => element.arenaKandidatnr === kandidatnummer);
+        return kandidater.findIndex((element) => element.arenaKandidatnr === kandidatnummer);
     };
 
-    forrigeKandidatnummerIListen = kandidatnummer => {
+    forrigeKandidatnummerIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
@@ -188,10 +188,10 @@ class VisKandidat extends React.Component {
         return kandidater[gjeldendeIndex - 1].arenaKandidatnr;
     };
 
-    nesteKandidatnummerIListen = kandidatnummer => {
+    nesteKandidatnummerIListen = (kandidatnummer) => {
         const { kandidater } = this.props;
         const gjeldendeIndex = kandidater.findIndex(
-            element => element.arenaKandidatnr === kandidatnummer
+            (element) => element.arenaKandidatnr === kandidatnummer
         );
         if (gjeldendeIndex === kandidater.length - 1) {
             return undefined;
@@ -207,6 +207,7 @@ class VisKandidat extends React.Component {
             antallKandidater,
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
+            midlertidigUtilgjengelig,
         } = this.props;
 
         const {
@@ -251,7 +252,7 @@ class VisKandidat extends React.Component {
                 : undefined;
         }
 
-        if (hentStatus === HENT_CV_STATUS.LOADING) {
+        if (hentStatus === HentCvStatus.Loading) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
@@ -269,9 +270,9 @@ class VisKandidat extends React.Component {
                     nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                    fantCv={hentStatus === HENT_CV_STATUS.SUCCESS}
+                    fantCv={hentStatus === HentCvStatus.Loading}
                 />
-                {hentStatus === HENT_CV_STATUS.FINNES_IKKE ? (
+                {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">
                         <div className="content">
                             <Element tag="h2" className="blokk-s">
@@ -293,7 +294,10 @@ class VisKandidat extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
+                            <MidlertidigUtilgjengelig
+                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                                kandidatnr={cv.kandidatnummer}
+                            />
                             <Knapp
                                 mini
                                 type="flat"
@@ -409,23 +413,25 @@ VisKandidat.propTypes = {
     lagreKandidatIKandidatlisteStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-    cv: state.cvReducer.cv,
+const mapStateToProps = (state) => ({
+    cv: state.cv.cv,
     kandidater: state.search.searchResultat.resultat.kandidater,
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
-    hentStatus: state.cvReducer.hentStatus,
+    hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
+    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 
-const mapDispatchToProps = dispatch => ({
-    hentCvForKandidat: arenaKandidatnr => dispatch({ type: FETCH_CV, arenaKandidatnr }),
+const mapDispatchToProps = (dispatch) => ({
+    hentCvForKandidat: (arenaKandidatnr) =>
+        dispatch({ type: CvActionType.FETCH_CV, arenaKandidatnr }),
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
-    settValgtKandidat: kandidatnummer =>
+    settValgtKandidat: (kandidatnummer) =>
         dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
     lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) =>
         dispatch({
@@ -433,12 +439,12 @@ const mapDispatchToProps = dispatch => ({
             kandidatliste,
             fodselsnummer,
         }),
-    hentKandidatlisteMedKandidatlisteId: kandidatlisteId =>
+    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
         }),
-    hentKandidatlisteMedStillingsId: stillingsId =>
+    hentKandidatlisteMedStillingsId: (stillingsId) =>
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
             stillingsId,

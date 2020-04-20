@@ -31,14 +31,14 @@ import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
 
-export const hentQueryUtenKriterier = harHentetStilling => ({
+export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -321,7 +321,7 @@ ResultatVisning.propTypes = {
     visPermitteringsfilter: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     maksAntallTreff: state.search.maksAntallTreff,
@@ -330,18 +330,18 @@ const mapStateToProps = state => ({
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
     visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
-const mapDispatchToProps = dispatch => ({
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = (dispatch) => ({
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: stillingsId => {
+    initialSearch: (stillingsId) => {
         dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
     },
     resetKandidatlisterSokekriterier: () => {

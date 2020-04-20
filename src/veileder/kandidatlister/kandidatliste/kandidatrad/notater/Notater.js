@@ -6,7 +6,7 @@ import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
 import { formatterDato, formatterTid } from '../../../../../felles/common/dateUtils';
-import { RemoteDataTypes } from '../../../../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../../../../felles/common/remoteData.ts';
 import { Notat } from '../../../PropTypes';
 import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
@@ -31,7 +31,7 @@ class Notater extends React.Component {
         }
     }
 
-    onOpenRedigeringsModal = notat => () => {
+    onOpenRedigeringsModal = (notat) => () => {
         this.setState({
             notatSomRedigeres: notat,
         });
@@ -43,7 +43,7 @@ class Notater extends React.Component {
         });
     };
 
-    onOpenSletteModal = notat => () => {
+    onOpenSletteModal = (notat) => () => {
         this.setState({
             notatSomSlettes: notat,
         });
@@ -63,7 +63,7 @@ class Notater extends React.Component {
         });
     };
 
-    oppdaterNyttNotatTekst = e => {
+    oppdaterNyttNotatTekst = (e) => {
         this.setState({
             nyttNotatTekst: e.target.value,
             nyttNotatFeil: false,
@@ -126,17 +126,17 @@ class Notater extends React.Component {
         );
         const Notatliste = () => {
             switch (notater.kind) {
-                case RemoteDataTypes.LOADING:
+                case Nettstatus.LasterInn:
                     return (
                         <div className="spinner-wrapper">
                             <NavFrontendSpinner />
                         </div>
                     );
-                case RemoteDataTypes.SUCCESS:
+                case Nettstatus.Suksess:
                     if (notater.data.length !== 0) {
                         return (
                             <div className="notatliste">
-                                {notater.data.map(notat => (
+                                {notater.data.map((notat) => (
                                     <div className="notatliste-rad" key={notat.notatId}>
                                         <div className="notat-topprad">
                                             <NotatInfo notat={notat} />

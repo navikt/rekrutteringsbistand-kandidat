@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import { formatterDato } from '../../felles/common/dateUtils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
@@ -137,7 +137,7 @@ const Kandidatlistevisning = ({
         );
     }
 
-    return kandidatlister.map(kandidatliste => (
+    return kandidatlister.map((kandidatliste) => (
         <KandidatlisteRad
             kandidatliste={kandidatliste}
             endreKandidatliste={endreKandidatliste}
@@ -380,7 +380,7 @@ const KandidatlisterMenyDropdown = ({
         onSkjulMeny();
     };
 
-    const handleKeyDown = event => {
+    const handleKeyDown = (event) => {
         if (event.keyCode === 13 || event.keyCode === 32) {
             const active = document.activeElement;
             if (active === markerRef.current) {
@@ -465,8 +465,9 @@ const KandidatlisterPaginering = ({
     const sisteSide = Math.ceil(totaltAntallKandidatlister / kandidatlisterSokeKriterier.pagesize);
     return (
         <div className="kandidatlister-table--bottom">
-            <Normaltekst>{`Viser side ${kandidatlisterSokeKriterier.pagenumber +
-                1} av ${sisteSide}`}</Normaltekst>
+            <Normaltekst>{`Viser side ${
+                kandidatlisterSokeKriterier.pagenumber + 1
+            } av ${sisteSide}`}</Normaltekst>
             <div className="kandidatlister-table--bottom__buttons">
                 {kandidatlisterSokeKriterier.pagenumber > 0 && (
                     <Flatknapp onClick={forrigeSide}>
@@ -516,8 +517,8 @@ class Kandidatlister extends React.Component {
             this.props.resetLagreStatus();
         }
         if (
-            prevProps.sletteStatus.kind === RemoteDataTypes.LOADING &&
-            this.props.sletteStatus.kind === RemoteDataTypes.SUCCESS
+            prevProps.sletteStatus.kind === Nettstatus.LasterInn &&
+            this.props.sletteStatus.kind === Nettstatus.Suksess
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
@@ -542,16 +543,16 @@ class Kandidatlister extends React.Component {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
 
-    onFilterChange = e => {
+    onFilterChange = (e) => {
         const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
         this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, PAGINERING_BATCH_SIZE);
     };
 
-    onSokeOrdChange = e => {
+    onSokeOrdChange = (e) => {
         this.setState({ sokeOrd: e.target.value });
     };
 
-    onSubmitSokKandidatlister = e => {
+    onSubmitSokKandidatlister = (e) => {
         e.preventDefault();
         const { type, kunEgne } = this.props.kandidatlisterSokeKriterier;
         this.props.hentKandidatlister(this.state.sokeOrd, type, kunEgne, 0, PAGINERING_BATCH_SIZE);
@@ -573,14 +574,14 @@ class Kandidatlister extends React.Component {
         });
     };
 
-    onEndreClick = kandidatliste => {
+    onEndreClick = (kandidatliste) => {
         this.setState({
             modalstatus: MODALVISING.ENDRE_MODAL,
             kandidatlisteIEndring: kandidatliste,
         });
     };
 
-    onMenyClick = kandidatliste => {
+    onMenyClick = (kandidatliste) => {
         if (kandidatliste === this.state.visKandidatlisteMeny) {
             this.setState({ visKandidatlisteMeny: undefined });
         } else {
@@ -592,14 +593,14 @@ class Kandidatlister extends React.Component {
         this.setState({ visKandidatlisteMeny: undefined });
     };
 
-    onVisMarkerSomMinModal = kandidatliste => {
+    onVisMarkerSomMinModal = (kandidatliste) => {
         this.setState({
             modalstatus: MODALVISING.MARKER_SOM_MIN_MODAL,
             kandidatlisteIEndring: kandidatliste,
         });
     };
 
-    onVisSlettKandidatlisteModal = kandidatliste => {
+    onVisSlettKandidatlisteModal = (kandidatliste) => {
         this.setState({
             modalstatus: MODALVISING.SLETTE_MODAL,
             kandidatlisteIEndring: kandidatliste,
@@ -666,7 +667,7 @@ class Kandidatlister extends React.Component {
         this.props.removeKompetanseSuggestions();
     };
 
-    visSuccessMelding = melding => {
+    visSuccessMelding = (melding) => {
         this.setState({
             visSuccessMelding: true,
             successMelding: melding,
@@ -783,7 +784,7 @@ class Kandidatlister extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.kandidatlister.kandidatlister.liste,
@@ -794,8 +795,8 @@ const mapStateToProps = state => ({
     sletteStatus: state.kandidatlister.slettKandidatlisteStatus,
 });
 
-const mapDispatchToProps = dispatch => ({
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = (dispatch) => ({
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
@@ -807,10 +808,10 @@ const mapDispatchToProps = dispatch => ({
             pagesize,
         }),
     resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
-    markerKandidatlisteSomMin: kandidatlisteId => {
+    markerKandidatlisteSomMin: (kandidatlisteId) => {
         dispatch({ type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
-    slettKandidatliste: kandidatliste => {
+    slettKandidatliste: (kandidatliste) => {
         dispatch({ type: KandidatlisteActionType.SLETT_KANDIDATLISTE, kandidatliste });
     },
     resetSletteStatus: () => {

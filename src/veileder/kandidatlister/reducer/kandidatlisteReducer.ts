@@ -4,12 +4,12 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
-    Failure,
-    Loading,
-    NotAsked,
+    Feil,
+    LasterInn,
+    IkkeLastet,
     RemoteData,
-    RemoteDataTypes,
-    Success,
+    Nettstatus,
+    Suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import {
@@ -72,15 +72,15 @@ export interface KandidatlisteState {
         error?: SearchApiError;
     };
     arkivering: {
-        statusArkivering: RemoteDataTypes;
-        statusDearkivering: RemoteDataTypes;
+        statusArkivering: Nettstatus;
+        statusDearkivering: Nettstatus;
     };
 }
 
 const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
-        kandidatliste: NotAsked(),
+        kandidatliste: IkkeLastet(),
         deleStatus: Delestatus.IkkeSpurt,
     },
     opprett: {
@@ -119,14 +119,14 @@ const initialState: KandidatlisteState = {
         pagesize: 20,
     },
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
-    slettKandidatlisteStatus: NotAsked(),
+    slettKandidatlisteStatus: IkkeLastet(),
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
-        sendteMeldinger: NotAsked(),
+        sendteMeldinger: IkkeLastet(),
     },
     arkivering: {
-        statusArkivering: RemoteDataTypes.NOT_ASKED,
-        statusDearkivering: RemoteDataTypes.NOT_ASKED,
+        statusArkivering: Nettstatus.IkkeLastet,
+        statusDearkivering: Nettstatus.IkkeLastet,
     },
 };
 
@@ -136,7 +136,7 @@ const overforNotater: (
 ) => Kandidatliste = (response, prevKandidatliste) => {
     const notaterMap: { [index: string]: Array<Notat> } = prevKandidatliste.kandidater.reduce(
         (notaterMap, kandidat) => {
-            if (kandidat.notater.kind === RemoteDataTypes.SUCCESS) {
+            if (kandidat.notater.kind === Nettstatus.Suksess) {
                 return {
                     ...notaterMap,
                     [kandidat.kandidatId]: kandidat.notater.data,
@@ -148,11 +148,11 @@ const overforNotater: (
     );
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: notaterMap[kandidat.kandidatId]
-                ? Success(notaterMap[kandidat.kandidatId])
-                : NotAsked(),
+                ? Suksess(notaterMap[kandidat.kandidatId])
+                : IkkeLastet(),
         })),
     };
 };
@@ -161,14 +161,14 @@ const leggTilNotater: (
     response: KandidatlisteResponse,
     prevKandidatliste: RemoteData<Kandidatliste>
 ) => Kandidatliste = (response, prevKandidatliste) => {
-    if (prevKandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (prevKandidatliste.kind === Nettstatus.Suksess) {
         return overforNotater(response, prevKandidatliste.data);
     }
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
-            notater: NotAsked(),
+            notater: IkkeLastet(),
         })),
     };
 };
@@ -178,7 +178,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     kandidatnr: string,
     notater: RemoteData<Array<Notat>>
 ) => KandidatlisteState = (state, kandidatnr, notater) => {
-    if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (state.detaljer.kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -187,7 +187,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
                     ...state.detaljer.kandidatliste,
                     data: {
                         ...state.detaljer.kandidatliste.data,
-                        kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
+                        kandidater: state.detaljer.kandidatliste.data.kandidater.map((kandidat) => {
                             if (kandidat.kandidatnr === kandidatnr) {
                                 return {
                                     ...kandidat,
@@ -209,7 +209,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
     kandidat: Kandidat
 ): KandidatlisteState => {
     const kandidatliste = state.detaljer.kandidatliste;
-    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -218,7 +218,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             utdatertKandidat.kandidatnr === kandidat.kandidatnr
                                 ? {
                                       ...utdatertKandidat,
@@ -240,7 +240,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
     kandidatnumre: string[]
 ): KandidatlisteState => {
     const kandidatliste = state.detaljer.kandidatliste;
-    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -249,7 +249,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             kandidatnumre.includes(utdatertKandidat.kandidatnr)
                                 ? {
                                       ...utdatertKandidat,
@@ -315,7 +315,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Loading(),
+                    kandidatliste: LasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
@@ -324,7 +324,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -335,7 +335,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Failure(action.error),
+                    kandidatliste: Feil(action.error),
                 },
             };
         case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
@@ -343,7 +343,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -361,7 +361,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                     deleStatus: Delestatus.Success,
@@ -445,7 +445,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -474,37 +474,37 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
         case KandidatlisteActionType.HENT_NOTATER:
-            return oppdaterNotaterIKandidatlisteDetaljer(state, action.kandidatnr, Loading());
+            return oppdaterNotaterIKandidatlisteDetaljer(state, action.kandidatnr, LasterInn());
         case KandidatlisteActionType.HENT_NOTATER_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.ENDRE_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.SLETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ARKIVERT:
             return {
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.LOADING,
+                    statusArkivering: Nettstatus.LasterInn,
                 },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
@@ -512,7 +512,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.SUCCESS,
+                    statusArkivering: Nettstatus.Suksess,
                 },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
@@ -520,7 +520,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.FAILURE,
+                    statusArkivering: Nettstatus.Feil,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING:
@@ -528,7 +528,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.LOADING,
+                    statusDearkivering: Nettstatus.LasterInn,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
@@ -536,7 +536,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.FAILURE,
+                    statusDearkivering: Nettstatus.Feil,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
@@ -544,7 +544,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.SUCCESS,
+                    statusDearkivering: Nettstatus.Suksess,
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
@@ -630,20 +630,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SLETT_KANDIDATLISTE:
             return {
                 ...state,
-                slettKandidatlisteStatus: Loading(),
+                slettKandidatlisteStatus: LasterInn(),
             };
         case KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG:
             return {
                 ...state,
                 slettKandidatlisteStatus:
-                    action.result.kind === RemoteDataTypes.SUCCESS
-                        ? Success({ slettetTittel: action.kandidatlisteTittel })
+                    action.result.kind === Nettstatus.Suksess
+                        ? Suksess({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
         case KandidatlisteActionType.RESET_SLETTE_STATUS:
             return {
                 ...state,
-                slettKandidatlisteStatus: NotAsked(),
+                slettKandidatlisteStatus: IkkeLastet(),
             };
         case KandidatlisteActionType.SEND_SMS:
             return {
@@ -683,7 +683,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Loading(),
+                    sendteMeldinger: LasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
@@ -691,7 +691,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Success<Sms[]>(action.sendteMeldinger),
+                    sendteMeldinger: Suksess<Sms[]>(action.sendteMeldinger),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE:
@@ -699,7 +699,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Failure(action.error),
+                    sendteMeldinger: Feil(action.error),
                 },
             };
         default:
