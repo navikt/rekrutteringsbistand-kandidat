@@ -517,8 +517,8 @@ class Kandidatlister extends React.Component {
             this.props.resetLagreStatus();
         }
         if (
-            prevProps.sletteStatus.kind === Nettstatus.LOADING &&
-            this.props.sletteStatus.kind === Nettstatus.SUCCESS
+            prevProps.sletteStatus.kind === Nettstatus.LasterInn &&
+            this.props.sletteStatus.kind === Nettstatus.Suksess
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);

@@ -208,7 +208,7 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     hentStatus: state.cv.hentStatus,

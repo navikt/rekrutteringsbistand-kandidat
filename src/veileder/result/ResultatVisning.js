@@ -330,7 +330,7 @@ const mapStateToProps = (state) => ({
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
     harHentetStilling: state.search.harHentetStilling,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],

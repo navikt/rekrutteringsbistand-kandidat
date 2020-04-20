@@ -308,7 +308,7 @@ const mapStateToProps = (state) => ({
     valgtKandidatNr: state.search.valgtKandidatNr,
     scrolletFraToppen: state.search.scrolletFraToppen,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
 });

@@ -126,13 +126,13 @@ class Notater extends React.Component {
         );
         const Notatliste = () => {
             switch (notater.kind) {
-                case Nettstatus.LOADING:
+                case Nettstatus.LasterInn:
                     return (
                         <div className="spinner-wrapper">
                             <NavFrontendSpinner />
                         </div>
                     );
-                case Nettstatus.SUCCESS:
+                case Nettstatus.Suksess:
                     if (notater.data.length !== 0) {
                         return (
                             <div className="notatliste">

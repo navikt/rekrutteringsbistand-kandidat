@@ -295,8 +295,8 @@ class VisKandidat extends React.Component {
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
                             {midlertidigUtilgjengelig &&
-                                (midlertidigUtilgjengelig.kind === Nettstatus.SUCCESS ||
-                                    midlertidigUtilgjengelig.kind === Nettstatus.FAILURE) && (
+                                (midlertidigUtilgjengelig.kind === Nettstatus.Suksess ||
+                                    midlertidigUtilgjengelig.kind === Nettstatus.Feil) && (
                                     <MidlertidigUtilgjengelig
                                         midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                         kandidatnummer={cv.kandidatnummer}
@@ -423,7 +423,7 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
