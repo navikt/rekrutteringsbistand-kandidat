@@ -23,6 +23,9 @@ import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import cvReducer, { cvSaga } from './cv/reducer/cvReducer.ts';
+import midlertidigUtilgjengeligReducer, {
+    midlertidigUtilgjengeligSaga,
+} from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer.ts';
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import Toppmeny from './common/toppmeny/Toppmeny';
@@ -70,6 +73,7 @@ const store = createStore(
         permittering: permitteringReducer,
         oppstartstidspunkter: oppstartstidspunktReducer,
         cv: cvReducer,
+        midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         kandidatlister: kandidatlisteReducer,
         feedback: feedbackReducer,
         enhetsregister: enhetsregisterReducer,
@@ -274,6 +278,7 @@ const App = () => (
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
+sagaMiddleware.run(midlertidigUtilgjengeligSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 

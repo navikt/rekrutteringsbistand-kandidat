@@ -428,7 +428,7 @@ const mapStateToProps = (state) => ({
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
-    midlertidigUtilgjengelig: state.cv.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
+    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 
 const mapDispatchToProps = (dispatch) => ({

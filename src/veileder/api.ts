@@ -168,14 +168,6 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
 export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
     return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_URL}/${aktørId}`, true);
 };
-/*
-export const putMidlertidigUtilgjengelig = (kandidatnr: string, tilOgMedDato: string | null) => {
-    // TODO Implementer dette
-    console.log(
-        `put midlertidig utilgjengelig for kandidatnr ${kandidatnr} til og med dato ${tilOgMedDato}`
-    );
-};
-*/
 
 export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
     return postJson(
@@ -185,6 +177,10 @@ export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) 
             tilDato,
         })
     );
+};
+
+export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
+    return putJson(`${MIDLERTIDIG_UTILGJENGELIG_URL}`, JSON.stringify({ aktørId, tilDato }));
 };
 
 export const putArkivertForFlereKandidater = (

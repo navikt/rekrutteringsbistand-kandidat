@@ -5,24 +5,23 @@ import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
+import {
+    MidlertidigUtilgjengeligAction,
+    MidlertidigUtilgjengeligResponse,
+} from './midlertidigUtilgjengeligReducer';
+import { RemoteData, RemoteDataTypes } from '../../../felles/common/remoteData';
+import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
-import {
-    CvAction,
-    CvActionType,
-    MidlertidigUtilgjengelig as Midlertidig,
-} from '../reducer/cvReducer';
-import AppState from '../../AppState';
-import { RemoteData, RemoteDataTypes } from '../../../felles/common/remoteData';
 
 interface Props {
     aktørId: string;
-    kandidatnummer: string;
-    lagreMidlertidigUtilgjengelig: (aktørId: string, tilDato: string) => void;
-    midlertidigUtilgjengelig: RemoteData<Midlertidig>;
+    kandidatnr: string;
+    lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    midlertidigUtilgjengelig: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
@@ -36,16 +35,15 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
         return null;
     }
 
-    const { kandidatnummer, aktørId, lagreMidlertidigUtilgjengelig } = props;
+    const { kandidatnr, aktørId, lagreMidlertidigUtilgjengelig } = props;
 
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
-
-        lagreMidlertidigUtilgjengelig(aktørId, dato);
+        lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        // putMidlertidigUtilgjengelig(kandidatnummer, null);
+        // putMidlertidigUtilgjengelig(kandidatnr, null);
     };
 
     return (
@@ -90,10 +88,11 @@ export default connect(
     (state: AppState) => ({
         aktørId: state.cv.cv.aktorId,
     }),
-    (dispatch: (action: CvAction) => void) => ({
-        lagreMidlertidigUtilgjengelig: (aktørId: string, tilDato: string) =>
+    (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
+        lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
-                type: CvActionType.LAGRE_MIDLERTIDIG_UTILGJENGELIG,
+                type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
                 aktørId,
                 tilDato,
             }),
