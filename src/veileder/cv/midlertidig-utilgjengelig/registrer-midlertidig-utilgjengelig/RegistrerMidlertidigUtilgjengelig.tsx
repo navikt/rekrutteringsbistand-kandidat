@@ -24,6 +24,12 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         }
     };
 
+    const onAvbryt = () => {
+        setDato(undefined);
+        setFeilmelding(undefined);
+        props.onAvbryt();
+    };
+
     return (
         <div className={classNames('registrer-midlertidig-utilgjengelig', props.className)}>
             <Undertittel tag="h2">Registrer som midlertidig utilgjengelig</Undertittel>
@@ -42,7 +48,7 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             <Knapp
                 type="flat"
                 className="registrer-midlertidig-utilgjengelig__avbryt"
-                onClick={props.onAvbryt}
+                onClick={onAvbryt}
             >
                 Avbryt
             </Knapp>
