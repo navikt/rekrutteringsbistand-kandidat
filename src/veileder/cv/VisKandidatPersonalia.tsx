@@ -71,59 +71,55 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                 </Column>
             </Container>
 
-            <div>
-                <Sidetittel className="header--personalia__overskrift">
-                    {fantCv
-                        ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
-                        : 'Informasjonen om kandidaten kan ikke vises'}
-                </Sidetittel>
-                <Normaltekst className="header--personalia__fodselsdato">
-                    {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
-                </Normaltekst>
-            </div>
+            <Sidetittel className="header--personalia__overskrift">
+                {fantCv
+                    ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
+                    : 'Informasjonen om kandidaten kan ikke vises'}
+            </Sidetittel>
+            <Normaltekst className="header--personalia__fodselsdato">
+                {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
+            </Normaltekst>
             {fantCv && (
-                <div>
-                    <div className="personalia-container">
-                        {cv.epost && (
-                            <div className="personalia--item">
-                                <div className="personalia--icon">
-                                    <MailIkon color="#3E3832" />
-                                </div>
-                                <Normaltekst className="header--personalia__tekst">
-                                    <a
-                                        href={`mailto:${cv.epost}`}
-                                        className="header--personalia__mail--veileder"
-                                    >
-                                        {cv.epost}
-                                    </a>
-                                </Normaltekst>
+                <div className="personalia-container">
+                    {cv.epost && (
+                        <div className="personalia--item">
+                            <div className="personalia--icon">
+                                <MailIkon color="#3E3832" />
                             </div>
-                        )}
-                        {cv.telefon && (
-                            <div className="personalia--item">
-                                <div className="personalia--icon">
-                                    <TelefonIkon color="#3E3832" />
-                                </div>
-                                <Normaltekst className="header--personalia__tekst">
-                                    <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
-                                </Normaltekst>
+                            <Normaltekst className="header--personalia__tekst">
+                                <a
+                                    href={`mailto:${cv.epost}`}
+                                    className="header--personalia__mail--veileder"
+                                >
+                                    {cv.epost}
+                                </a>
+                            </Normaltekst>
+                        </div>
+                    )}
+                    {cv.telefon && (
+                        <div className="personalia--item">
+                            <div className="personalia--icon">
+                                <TelefonIkon color="#3E3832" />
                             </div>
-                        )}
-                        {cv.adresse && cv.adresse.adrlinje1 && (
-                            <div className="personalia--item">
-                                <div className="personalia--icon">
-                                    <AdresseIkon color="#3E3832" />
-                                </div>
-                                <Normaltekst className="header--personalia__tekst">
-                                    {formatterAdresse(
-                                        cv.adresse.adrlinje1,
-                                        cv.adresse.postnr,
-                                        cv.adresse.poststednavn
-                                    )}
-                                </Normaltekst>
+                            <Normaltekst className="header--personalia__tekst">
+                                <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
+                            </Normaltekst>
+                        </div>
+                    )}
+                    {cv.adresse && cv.adresse.adrlinje1 && (
+                        <div className="personalia--item">
+                            <div className="personalia--icon">
+                                <AdresseIkon color="#3E3832" />
                             </div>
-                        )}
-                    </div>
+                            <Normaltekst className="header--personalia__tekst">
+                                {formatterAdresse(
+                                    cv.adresse.adrlinje1,
+                                    cv.adresse.postnr,
+                                    cv.adresse.poststednavn
+                                )}
+                            </Normaltekst>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
