@@ -21,19 +21,21 @@ interface Props {
     aktørId: string;
     kandidatnr: string;
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    forlengMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
-    const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
+    const {
+        kandidatnr,
+        aktørId,
+        midlertidigUtilgjengelig,
+        lagreMidlertidigUtilgjengelig,
+        forlengMidlertidigUtilgjengelig,
+    } = props;
 
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
-
-    const [endre, setEndre] = useState<boolean>(
-        midlertidigUtilgjengelig !== undefined &&
-            midlertidigUtilgjengelig.kind === Nettstatus.Suksess
-    );
 
     if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
         return null;
@@ -44,9 +46,19 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
         lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
     };
 
-    const slettMidlertidigUtilgjengelig = () => {
-        // putMidlertidigUtilgjengelig(kandidatnr, null);
+    const endreMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+        forlengMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
     };
+
+    const slettMidlertidigUtilgjengelig = () => {
+        // const dato = new Date(tilOgMedDato).toISOString();
+        // forlengMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+    };
+
+    const skalEndre =
+        midlertidigUtilgjengelig !== undefined &&
+        midlertidigUtilgjengelig.kind === Nettstatus.Suksess;
 
     return (
         <div className="midlertidig-utilgjengelig">
@@ -67,11 +79,11 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {endre ? (
+                {skalEndre ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={() => setAnker(undefined)}
                         className="midlertidig-utilgjengelig__popup-innhold"
-                        registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
+                        endreMidlertidigUtilgjengelig={endreMidlertidigUtilgjengelig}
                         slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
                     />
                 ) : (
@@ -94,6 +106,13 @@ export default connect(
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
                 type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
+                aktørId,
+                tilDato,
+            }),
+        forlengMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
+            dispatch({
+                type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG',
                 kandidatnr,
                 aktørId,
                 tilDato,

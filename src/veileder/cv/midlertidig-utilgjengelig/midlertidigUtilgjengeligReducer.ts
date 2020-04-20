@@ -1,3 +1,4 @@
+import { Nettressurs, Nettstatus, SenderInn } from './../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     RemoteData,
@@ -41,11 +42,13 @@ export type LagreMidlertidigUtilgjengeligAction = {
 
 export type LagreMidlertidigUtilgjengeligSuccessAction = {
     type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS';
+    kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
 };
 
 export type LagreMidlertidigUtilgjengeligFailureAction = {
     type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    kandidatnr: string;
     error: ApiError;
 };
 
@@ -57,10 +60,12 @@ export type ForlengMidlertidigUtilgjengeligAction = {
 };
 export type ForlengMidlertidigUtilgjengeligSuksessAction = {
     type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
+    kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
 };
 export type ForlengMidlertidigUtilgjengeligFailureAction = {
     type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+    kandidatnr: string;
     error: ApiError;
 };
 
@@ -86,7 +91,7 @@ export type MidlertidigUtilgjengeligResponse = {
 };
 
 export type MidlertidigUtilgjengeligState = {
-    [kandidatNr: string]: RemoteData<MidlertidigUtilgjengeligResponse>;
+    [kandidatNr: string]: Nettressurs<MidlertidigUtilgjengeligResponse>;
 };
 
 const midlertidigUtilgjengeligReducer = (
@@ -105,25 +110,34 @@ const midlertidigUtilgjengeligReducer = (
                 ...state,
                 [action.response.kandidatnummer]: LasterInn(),
             };
+        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG':
+        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG': {
+            const kandidat = state[action.kandidatnr];
+            let data: MidlertidigUtilgjengeligResponse | undefined = undefined;
+
+            if (kandidat && kandidat.kind === Nettstatus.Suksess) {
+                data = kandidat.data;
+            }
+
+            return {
+                ...state,
+                [action.kandidatnr]: SenderInn(data),
+            };
+        }
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
+        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
+        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
                 [action.kandidatnr]: Suksess(action.response),
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
+        case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
+        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
                 [action.kandidatnr]: Feil(action.error),
             };
-        // case MidlertidigUtilgjengeligActionType.LAGRE_MIDLERTIDIG_UTILGJENGELIG:
-        // case MidlertidigUtilgjengeligActionType.FORLENG_MIDLERTIDIG_UTILGJENGELIG:
-        //     return {
-        //         ...state,
-        //         midlertidigUtilgjengelig: {
-        //             ...state.midlertidigUtilgjengelig,
-        //             [action.kandidatnr]: Nettstatus.
-        //         },
-        //     }
         default:
             return state;
     }
@@ -155,11 +169,16 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
         const response = yield call(postMidlertidigUtilgjengelig, action.aktørId, action.tilDato);
         yield put<MidlertidigUtilgjengeligAction>({
             type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
+            kandidatnr: action.kandidatnr,
             response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE', error: e });
+            yield put<MidlertidigUtilgjengeligAction>({
+                type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                kandidatnr: action.kandidatnr,
+                error: e,
+            });
         } else {
             throw e;
         }
@@ -169,10 +188,19 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
 function* forlengMidlertidigUtilgjengelig(action: ForlengMidlertidigUtilgjengeligAction) {
     try {
         const response = yield call(putMidlertidigUtilgjengelig, action.aktørId, action.tilDato);
-        yield put({ type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUCCESS', response });
+        console.log('Hmm:', response);
+        yield put<MidlertidigUtilgjengeligAction>({
+            type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+            kandidatnr: action.kandidatnr,
+            response,
+        });
     } catch (e) {
         if (e instanceof SearchApiError) {
-            yield put({ type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE', error: e });
+            yield put<MidlertidigUtilgjengeligAction>({
+                type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                kandidatnr: action.kandidatnr,
+                error: e,
+            });
         } else {
             throw e;
         }
@@ -180,7 +208,7 @@ function* forlengMidlertidigUtilgjengelig(action: ForlengMidlertidigUtilgjengeli
 }
 
 export const midlertidigUtilgjengeligSaga = function* () {
-    // yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
+    yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
     yield takeLatest('FORLENG_MIDLERTIDIG_UTILGJENGELIG', forlengMidlertidigUtilgjengelig);
 };

@@ -9,11 +9,11 @@ import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-dat
 interface Props {
     onAvbryt: () => void;
     className?: string;
-    registrerMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
+    endreMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
     slettMidlertidigUtilgjengelig: () => void;
 }
 
-const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
     const [dato, setDato] = useState<string | undefined>(undefined);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
@@ -33,7 +33,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             props.slettMidlertidigUtilgjengelig();
         } else if (hvaSkalEndres === 'endreDato') {
             if (dato !== undefined) {
-                props.registrerMidlertidigUtilgjengelig(dato);
+                props.endreMidlertidigUtilgjengelig(dato);
                 setFeilmelding(undefined);
             } else {
                 setFeilmelding('Du må fylle inn en dato');

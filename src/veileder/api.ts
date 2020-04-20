@@ -180,7 +180,10 @@ export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) 
 };
 
 export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
-    return putJson(`${MIDLERTIDIG_UTILGJENGELIG_URL}`, JSON.stringify({ aktørId, tilDato }));
+    return putJson(
+        `${MIDLERTIDIG_UTILGJENGELIG_URL}/${aktørId}`,
+        JSON.stringify({ aktørId, tilDato })
+    );
 };
 
 export const putArkivertForFlereKandidater = (
