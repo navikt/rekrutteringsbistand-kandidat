@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import TelefonIkon from '../../felles/common/ikoner/TelefonIkon';
-import MailIkon from '../../felles/common/ikoner/MailIkon';
-import AdresseIkon from '../../felles/common/ikoner/AdresseIkon';
+import TelefonIkon from './ikon/TelefonIkon';
+import MailIkon from './ikon/MailIkon';
+import AdresseIkon from './ikon/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
 import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron';
@@ -92,7 +92,7 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                     {cv.epost && (
                         <div className="personalia--item">
                             <div className="personalia--icon">
-                                <MailIkon color="#3E3832" />
+                                <MailIkon />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
                                 <a
@@ -107,7 +107,7 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                     {cv.telefon && (
                         <div className="personalia--item">
                             <div className="personalia--icon">
-                                <TelefonIkon color="#3E3832" />
+                                <TelefonIkon />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
                                 <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
@@ -117,7 +117,7 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                     {cv.adresse && cv.adresse.adrlinje1 && (
                         <div className="personalia--item">
                             <div className="personalia--icon">
-                                <AdresseIkon color="#3E3832" />
+                                <AdresseIkon />
                             </div>
                             <Normaltekst className="header--personalia__tekst">
                                 {formatterAdresse(
