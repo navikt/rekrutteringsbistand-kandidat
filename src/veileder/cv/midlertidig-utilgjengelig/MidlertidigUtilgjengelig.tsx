@@ -41,6 +41,8 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         return null;
     }
 
+    const lukkPopup = () => setAnker(undefined);
+
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
@@ -53,6 +55,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
 
     const slettMidlertidigUtilgjengelig = () => {
         props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
+
     };
 
     return (
@@ -70,13 +73,13 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             </Knapp>
             <Popover
                 ankerEl={anker}
-                onRequestClose={() => setAnker(undefined)}
+                onRequestClose={lukkPopup}
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
                 {!!midlertidigUtilgjengelig && (midlertidigUtilgjengelig.kind === Nettstatus.Suksess) ? (
                     <EndreMidlertidigUtilgjengelig
-                        onAvbryt={() => setAnker(undefined)}
+                        onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
                         endreMidlertidigUtilgjengelig={endreMidlertidigUtilgjengelig}
                         slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
@@ -84,7 +87,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
-                        onAvbryt={() => setAnker(undefined)}
+                        onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
                         registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
                     />
