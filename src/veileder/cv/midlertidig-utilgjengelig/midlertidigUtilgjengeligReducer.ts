@@ -58,19 +58,19 @@ export type LagreMidlertidigUtilgjengeligFailureAction = {
     error: ApiError;
 };
 
-export type ForlengMidlertidigUtilgjengeligAction = {
-    type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG';
+export type EndreMidlertidigUtilgjengeligAction = {
+    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG';
     kandidatnr: string;
     aktørId: string;
     tilDato: string;
 };
-export type ForlengMidlertidigUtilgjengeligSuksessAction = {
-    type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
+export type EndreMidlertidigUtilgjengeligSuksessAction = {
+    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
     kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
 };
-export type ForlengMidlertidigUtilgjengeligFailureAction = {
-    type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
+export type EndreMidlertidigUtilgjengeligFailureAction = {
+    type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
     kandidatnr: string;
     error: ApiError;
 };
@@ -97,9 +97,9 @@ export type MidlertidigUtilgjengeligAction =
     | LagreMidlertidigUtilgjengeligAction
     | LagreMidlertidigUtilgjengeligSuccessAction
     | LagreMidlertidigUtilgjengeligFailureAction
-    | ForlengMidlertidigUtilgjengeligAction
-    | ForlengMidlertidigUtilgjengeligSuksessAction
-    | ForlengMidlertidigUtilgjengeligFailureAction
+    | EndreMidlertidigUtilgjengeligAction
+    | EndreMidlertidigUtilgjengeligSuksessAction
+    | EndreMidlertidigUtilgjengeligFailureAction
     | SlettMidlertidigUtilgjengeligAction
     | SlettMidlertidigUtilgjengeligSuksessAction
     | SlettMidlertidigUtilgjengeligFailureAction;
@@ -135,7 +135,7 @@ const midlertidigUtilgjengeligReducer = (
                 [action.response.kandidatnummer]: LasterInn(),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG':
-        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG': {
+        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG': {
             const kandidat = state[action.kandidatnr];
             let data: MidlertidigUtilgjengeligResponse | undefined = undefined;
 
@@ -155,7 +155,7 @@ const midlertidigUtilgjengeligReducer = (
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
-        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
+        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
                 [action.kandidatnr]: Suksess(action.response),
@@ -167,7 +167,7 @@ const midlertidigUtilgjengeligReducer = (
                     action.error.status === 404 ? FinnesIkke() : Feil(action.error),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
-        case 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
+        case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
         case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
@@ -220,19 +220,19 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
     }
 }
 
-function* forlengMidlertidigUtilgjengelig(action: ForlengMidlertidigUtilgjengeligAction) {
+function* endreMidlertidigUtilgjengelig(action: EndreMidlertidigUtilgjengeligAction) {
     try {
         const response = yield call(putMidlertidigUtilgjengelig, action.aktørId, action.tilDato);
 
         yield put<MidlertidigUtilgjengeligAction>({
-            type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
+            type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
             kandidatnr: action.kandidatnr,
             response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
-                type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
+                type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
                 kandidatnr: action.kandidatnr,
                 error: e,
             });
@@ -265,7 +265,7 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
 export const midlertidigUtilgjengeligSaga = function*() {
     yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
-    yield takeLatest('FORLENG_MIDLERTIDIG_UTILGJENGELIG', forlengMidlertidigUtilgjengelig);
+    yield takeLatest('ENDRE_MIDLERTIDIG_UTILGJENGELIG', endreMidlertidigUtilgjengelig);
     yield takeLatest('SLETT_MIDLERTIDIG_UTILGJENGELIG', slettMidlertidigUtilgjengelig);
 };
 

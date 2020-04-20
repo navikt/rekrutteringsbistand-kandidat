@@ -21,7 +21,7 @@ interface Props {
     aktørId: string;
     kandidatnr: string;
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
-    forlengMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
     midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
@@ -32,7 +32,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         aktørId,
         midlertidigUtilgjengelig,
         lagreMidlertidigUtilgjengelig,
-        forlengMidlertidigUtilgjengelig,
     } = props;
 
     const [anker, setAnker] = useState<any>(undefined);
@@ -49,7 +48,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
 
     const endreMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
-        forlengMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        props.endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
     };
 
     const slettMidlertidigUtilgjengelig = () => {
@@ -110,9 +109,9 @@ export default connect(
                 aktørId,
                 tilDato,
             }),
-        forlengMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
+        endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
             dispatch({
-                type: 'FORLENG_MIDLERTIDIG_UTILGJENGELIG',
+                type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG',
                 kandidatnr,
                 aktørId,
                 tilDato,
