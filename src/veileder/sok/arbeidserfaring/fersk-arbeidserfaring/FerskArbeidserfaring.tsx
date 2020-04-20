@@ -98,7 +98,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     return (
         <SkjemaGruppe className="fersk-arbeidserfaring" title="Hvor fersk må erfaringen være?">
             <div className="fersk-arbeidserfaring__hjelpetekst">
-                For å se kandidater med fersk erfaring innen et yrke, legg til arbeidserfaring
+                Husk å legge til arbeidserfaring over først
             </div>
             <Radio
                 className="fersk-arbeidserfaring__knapp"
