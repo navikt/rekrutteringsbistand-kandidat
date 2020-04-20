@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RemoteDataTypes } from '../../../../felles/common/remoteData';
+import { Nettstatus } from '../../../../felles/common/remoteData';
 import { Visningsstatus } from '../Kandidatliste';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -60,7 +60,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     visArkiveringskolonne,
 }) => {
     const antallNotater =
-        kandidat.notater.kind === RemoteDataTypes.SUCCESS
+        kandidat.notater.kind === Nettstatus.Suksess
             ? kandidat.notater.data.length
             : kandidat.antallNotater;
     const toggleNotater = () => {
@@ -87,7 +87,7 @@ const KandidatRad: FunctionComponent<Props> = ({
         endreNotat(kandidatlisteId, kandidat.kandidatnr, notatId, tekst);
     };
 
-    const onSletteNotat = notatId => {
+    const onSletteNotat = (notatId) => {
         slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
     };
 
@@ -132,7 +132,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     <StatusSelect
                         kanEditere={kanEditere}
                         value={kandidat.status as Status}
-                        onChange={status => {
+                        onChange={(status) => {
                             onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
                         }}
                     />
@@ -189,11 +189,11 @@ const KandidatRad: FunctionComponent<Props> = ({
                 <Notater
                     notater={kandidat.notater}
                     antallNotater={
-                        kandidat.notater.kind === RemoteDataTypes.SUCCESS
+                        kandidat.notater.kind === Nettstatus.Suksess
                             ? kandidat.notater.data.length
                             : kandidat.antallNotater
                     }
-                    onOpprettNotat={tekst => {
+                    onOpprettNotat={(tekst) => {
                         opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
                     }}
                     onEndreNotat={onEndreNotat}

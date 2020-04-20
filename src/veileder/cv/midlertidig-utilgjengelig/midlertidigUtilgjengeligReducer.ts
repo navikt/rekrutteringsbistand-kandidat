@@ -121,7 +121,7 @@ const midlertidigUtilgjengeligReducer = (
         //         ...state,
         //         midlertidigUtilgjengelig: {
         //             ...state.midlertidigUtilgjengelig,
-        //             [action.kandidatnr]: RemoteDataTypes.
+        //             [action.kandidatnr]: Nettstatus.
         //         },
         //     }
         default:

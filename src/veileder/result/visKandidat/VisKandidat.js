@@ -18,7 +18,7 @@ import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal'
 import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import { RemoteDataTypes } from '../../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
@@ -295,8 +295,8 @@ class VisKandidat extends React.Component {
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
                             {midlertidigUtilgjengelig &&
-                                (midlertidigUtilgjengelig.kind === RemoteDataTypes.SUCCESS ||
-                                    midlertidigUtilgjengelig.kind === RemoteDataTypes.FAILURE) && (
+                                (midlertidigUtilgjengelig.kind === Nettstatus.SUCCESS ||
+                                    midlertidigUtilgjengelig.kind === Nettstatus.FAILURE) && (
                                     <MidlertidigUtilgjengelig
                                         midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                         kandidatnummer={cv.kandidatnummer}
@@ -423,7 +423,7 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,

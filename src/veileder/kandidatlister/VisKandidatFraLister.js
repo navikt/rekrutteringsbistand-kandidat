@@ -11,7 +11,7 @@ import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
 import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
-import { RemoteDataTypes } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import CVMeny from '../cv/cv-meny/CVMeny';
@@ -208,7 +208,7 @@ VisKandidatFraLister.propTypes = {
 const mapStateToProps = (state, props) => ({
     kandidatlisteId: props.match.params.listeid,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS
+        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.SUCCESS
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     hentStatus: state.cv.hentStatus,

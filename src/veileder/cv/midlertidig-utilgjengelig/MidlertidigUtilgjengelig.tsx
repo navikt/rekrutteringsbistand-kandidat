@@ -9,7 +9,7 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { RemoteData, RemoteDataTypes } from '../../../felles/common/remoteData';
+import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
@@ -28,7 +28,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
     const [endre, setEndre] = useState<boolean>(
-        props.midlertidigUtilgjengelig.kind === RemoteDataTypes.SUCCESS
+        props.midlertidigUtilgjengelig.kind === Nettstatus.Suksess
     ); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
 
     if (!erToggletPå) {

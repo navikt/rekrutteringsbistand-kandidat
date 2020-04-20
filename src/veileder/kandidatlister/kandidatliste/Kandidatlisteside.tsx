@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import { RemoteDataTypes, RemoteData } from '../../../felles/common/remoteData';
+import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { Visningsstatus } from './Kandidatliste';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
@@ -69,8 +69,8 @@ type Props = {
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
-    statusArkivering: RemoteDataTypes;
-    statusDearkivering: RemoteDataTypes;
+    statusArkivering: Nettstatus;
+    statusDearkivering: Nettstatus;
     visSendSms?: boolean;
     arkiveringErEnabled?: boolean;
 };
@@ -104,9 +104,9 @@ class Kandidatlisteside extends React.Component<Props> {
         this.state = {
             alleMarkert: false,
             kandidater:
-                props.kandidatliste.kind !== RemoteDataTypes.SUCCESS
+                props.kandidatliste.kind !== Nettstatus.Suksess
                     ? undefined
-                    : props.kandidatliste.data.kandidater.map(kandidat => ({
+                    : props.kandidatliste.data.kandidater.map((kandidat) => ({
                           ...kandidat,
                           ...initialKandidatTilstand(),
                       })),
@@ -139,32 +139,31 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Feil;
 
-        const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+        const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== Nettstatus.Suksess;
 
         const enKandidatErNettoppArkivert =
-            prevProps.statusArkivering === RemoteDataTypes.LOADING &&
-            this.props.statusArkivering === RemoteDataTypes.SUCCESS;
+            prevProps.statusArkivering === Nettstatus.LasterInn &&
+            this.props.statusArkivering === Nettstatus.Suksess;
 
         const arkiveringFeiletNettopp =
-            prevProps.statusArkivering === RemoteDataTypes.LOADING &&
-            this.props.statusArkivering === RemoteDataTypes.FAILURE;
+            prevProps.statusArkivering === Nettstatus.LasterInn &&
+            this.props.statusArkivering === Nettstatus.Feil;
 
         const enKandidatErNettoppDearkivert =
-            prevProps.statusDearkivering === RemoteDataTypes.LOADING &&
-            this.props.statusDearkivering === RemoteDataTypes.SUCCESS;
+            prevProps.statusDearkivering === Nettstatus.LasterInn &&
+            this.props.statusDearkivering === Nettstatus.Suksess;
 
         const dearkiveringFeiletNettopp =
-            prevProps.statusDearkivering === RemoteDataTypes.LOADING &&
-            this.props.statusDearkivering === RemoteDataTypes.FAILURE;
+            prevProps.statusDearkivering === Nettstatus.LasterInn &&
+            this.props.statusDearkivering === Nettstatus.Feil;
 
-        const kandidatlistenVarIkkeLastet =
-            prevProps.kandidatliste.kind !== RemoteDataTypes.SUCCESS;
+        const kandidatlistenVarIkkeLastet = prevProps.kandidatliste.kind !== Nettstatus.Suksess;
 
         if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
 
             const antallMarkerteKandidater = (this.state.kandidater || []).filter(
-                kandidat => kandidat.markert
+                (kandidat) => kandidat.markert
             ).length;
 
             this.onCheckAlleKandidater(false);
@@ -220,21 +219,21 @@ class Kandidatlisteside extends React.Component<Props> {
         }
 
         if (
-            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            this.props.kandidatliste.kind === Nettstatus.Suksess &&
             (kandidatlistenVarIkkeLastet || smsErNettoppSendtTilKandidater)
         ) {
             this.props.hentSendteMeldinger(this.props.kandidatliste.data.kandidatlisteId);
         }
 
         const sendteMeldingerErNettoppLastet =
-            prevProps.sendteMeldinger.kind === RemoteDataTypes.LOADING &&
-            this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS;
+            prevProps.sendteMeldinger.kind === Nettstatus.LasterInn &&
+            this.props.sendteMeldinger.kind === Nettstatus.Suksess;
 
         if (
-            this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+            this.props.kandidatliste.kind === Nettstatus.Suksess &&
             (kandidatlistenVarIkkeLastet ||
                 sendteMeldingerErNettoppLastet ||
-                (prevProps.kandidatliste.kind === RemoteDataTypes.SUCCESS &&
+                (prevProps.kandidatliste.kind === Nettstatus.Suksess &&
                     prevProps.kandidatliste.data.kandidater !==
                         this.props.kandidatliste.data.kandidater))
         ) {
@@ -243,18 +242,18 @@ class Kandidatlisteside extends React.Component<Props> {
             );
 
             const sendteMeldinger =
-                this.props.sendteMeldinger.kind === RemoteDataTypes.SUCCESS
+                this.props.sendteMeldinger.kind === Nettstatus.Suksess
                     ? this.props.sendteMeldinger.data
                     : [];
 
-            const kandidater = this.props.kandidatliste.data.kandidater.map(kandidat => {
+            const kandidater = this.props.kandidatliste.data.kandidater.map((kandidat) => {
                 const kandidatTilstand =
                     (!kandidaterHarNettoppBlittPresentert &&
                         kandidatTilstander[kandidat.kandidatnr]) ||
                     initialKandidatTilstand();
 
                 const sendtMelding = sendteMeldinger.find(
-                    melding => melding.fnr === kandidat.fodselsnr
+                    (melding) => melding.fnr === kandidat.fodselsnr
                 );
 
                 return {
@@ -268,7 +267,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 kandidater,
                 alleMarkert:
                     !kandidaterHarNettoppBlittPresentert &&
-                    kandidater.filter(k => !k.markert).length === 0,
+                    kandidater.filter((k) => !k.markert).length === 0,
             });
         }
     }
@@ -281,7 +280,7 @@ class Kandidatlisteside extends React.Component<Props> {
         if (this.state.kandidater) {
             this.setState({
                 alleMarkert: markert,
-                kandidater: this.state.kandidater.map(kandidat => ({
+                kandidater: this.state.kandidater.map((kandidat) => ({
                     ...kandidat,
                     markert,
                 })),
@@ -291,7 +290,7 @@ class Kandidatlisteside extends React.Component<Props> {
 
     onToggleKandidat = (kandidatnr: string) => {
         if (this.state.kandidater) {
-            const kandidater = this.state.kandidater.map(kandidat => {
+            const kandidater = this.state.kandidater.map((kandidat) => {
                 if (kandidat.kandidatnr === kandidatnr) {
                     return {
                         ...kandidat,
@@ -302,7 +301,7 @@ class Kandidatlisteside extends React.Component<Props> {
             });
             this.setState({
                 kandidater,
-                alleMarkert: kandidater.filter(k => !k.markert).length === 0,
+                alleMarkert: kandidater.filter((k) => !k.markert).length === 0,
             });
         }
     };
@@ -333,14 +332,14 @@ class Kandidatlisteside extends React.Component<Props> {
 
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         if (this.state.kandidater) {
-            if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
                 this.props.presenterKandidater(
                     beskjed,
                     mailadresser,
                     this.props.kandidatliste.data.kandidatlisteId,
                     this.state.kandidater
-                        .filter(kandidat => kandidat.markert)
-                        .map(kandidat => kandidat.kandidatnr)
+                        .filter((kandidat) => kandidat.markert)
+                        .map((kandidat) => kandidat.kandidatnr)
                 );
                 this.setState({
                     deleModalOpen: false,
@@ -351,12 +350,12 @@ class Kandidatlisteside extends React.Component<Props> {
 
     onKandidaterAngreArkivering = () => {
         if (this.state.kandidater) {
-            if (this.props.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+            if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
                 this.props.angreArkiveringForKandidater(
                     this.props.kandidatliste.data.kandidatlisteId,
                     this.state.kandidater
-                        .filter(kandidat => kandidat.markert)
-                        .map(kandidat => kandidat.kandidatnr)
+                        .filter((kandidat) => kandidat.markert)
+                        .map((kandidat) => kandidat.kandidatnr)
                 );
             }
         }
@@ -368,7 +367,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 this.props.hentNotater(kandidatlisteId, kandidatnr);
             }
             this.setState({
-                kandidater: this.state.kandidater.map(kandidat => {
+                kandidater: this.state.kandidater.map((kandidat) => {
                     if (kandidat.kandidatnr === kandidatnr) {
                         return {
                             ...kandidat,
@@ -410,13 +409,13 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     render() {
-        if (this.props.kandidatliste.kind === RemoteDataTypes.LOADING || !this.state.kandidater) {
+        if (this.props.kandidatliste.kind === Nettstatus.LasterInn || !this.state.kandidater) {
             return (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
                 </div>
             );
-        } else if (this.props.kandidatliste.kind !== RemoteDataTypes.SUCCESS) {
+        } else if (this.props.kandidatliste.kind !== Nettstatus.Suksess) {
             return null;
         }
 
@@ -444,7 +443,7 @@ class Kandidatlisteside extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={kandidater.filter(kandidat => kandidat.markert).length}
+                        antallKandidater={kandidater.filter((kandidat) => kandidat.markert).length}
                     />
                 )}
                 {leggTilModalOpen && (
@@ -467,7 +466,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
-                    kandidater={this.state.kandidater.filter(kandidat => kandidat.markert)}
+                    kandidater={this.state.kandidater.filter((kandidat) => kandidat.markert)}
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}

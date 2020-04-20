@@ -8,7 +8,7 @@ import {
     Loading,
     NotAsked,
     RemoteData,
-    RemoteDataTypes,
+    Nettstatus,
     Success,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
@@ -72,8 +72,8 @@ export interface KandidatlisteState {
         error?: SearchApiError;
     };
     arkivering: {
-        statusArkivering: RemoteDataTypes;
-        statusDearkivering: RemoteDataTypes;
+        statusArkivering: Nettstatus;
+        statusDearkivering: Nettstatus;
     };
 }
 
@@ -125,8 +125,8 @@ const initialState: KandidatlisteState = {
         sendteMeldinger: NotAsked(),
     },
     arkivering: {
-        statusArkivering: RemoteDataTypes.NOT_ASKED,
-        statusDearkivering: RemoteDataTypes.NOT_ASKED,
+        statusArkivering: Nettstatus.IkkeLastet,
+        statusDearkivering: Nettstatus.IkkeLastet,
     },
 };
 
@@ -136,7 +136,7 @@ const overforNotater: (
 ) => Kandidatliste = (response, prevKandidatliste) => {
     const notaterMap: { [index: string]: Array<Notat> } = prevKandidatliste.kandidater.reduce(
         (notaterMap, kandidat) => {
-            if (kandidat.notater.kind === RemoteDataTypes.SUCCESS) {
+            if (kandidat.notater.kind === Nettstatus.Suksess) {
                 return {
                     ...notaterMap,
                     [kandidat.kandidatId]: kandidat.notater.data,
@@ -148,7 +148,7 @@ const overforNotater: (
     );
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: notaterMap[kandidat.kandidatId]
                 ? Success(notaterMap[kandidat.kandidatId])
@@ -161,12 +161,12 @@ const leggTilNotater: (
     response: KandidatlisteResponse,
     prevKandidatliste: RemoteData<Kandidatliste>
 ) => Kandidatliste = (response, prevKandidatliste) => {
-    if (prevKandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (prevKandidatliste.kind === Nettstatus.Suksess) {
         return overforNotater(response, prevKandidatliste.data);
     }
     return {
         ...response,
-        kandidater: response.kandidater.map(kandidat => ({
+        kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: NotAsked(),
         })),
@@ -178,7 +178,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
     kandidatnr: string,
     notater: RemoteData<Array<Notat>>
 ) => KandidatlisteState = (state, kandidatnr, notater) => {
-    if (state.detaljer.kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (state.detaljer.kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -187,7 +187,7 @@ const oppdaterNotaterIKandidatlisteDetaljer: (
                     ...state.detaljer.kandidatliste,
                     data: {
                         ...state.detaljer.kandidatliste.data,
-                        kandidater: state.detaljer.kandidatliste.data.kandidater.map(kandidat => {
+                        kandidater: state.detaljer.kandidatliste.data.kandidater.map((kandidat) => {
                             if (kandidat.kandidatnr === kandidatnr) {
                                 return {
                                     ...kandidat,
@@ -209,7 +209,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
     kandidat: Kandidat
 ): KandidatlisteState => {
     const kandidatliste = state.detaljer.kandidatliste;
-    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -218,7 +218,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             utdatertKandidat.kandidatnr === kandidat.kandidatnr
                                 ? {
                                       ...utdatertKandidat,
@@ -240,7 +240,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
     kandidatnumre: string[]
 ): KandidatlisteState => {
     const kandidatliste = state.detaljer.kandidatliste;
-    if (kandidatliste.kind === RemoteDataTypes.SUCCESS) {
+    if (kandidatliste.kind === Nettstatus.Suksess) {
         return {
             ...state,
             detaljer: {
@@ -249,7 +249,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
                     ...kandidatliste,
                     data: {
                         ...kandidatliste.data,
-                        kandidater: kandidatliste.data.kandidater.map(utdatertKandidat =>
+                        kandidater: kandidatliste.data.kandidater.map((utdatertKandidat) =>
                             kandidatnumre.includes(utdatertKandidat.kandidatnr)
                                 ? {
                                       ...utdatertKandidat,
@@ -504,7 +504,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.LOADING,
+                    statusArkivering: Nettstatus.LasterInn,
                 },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS:
@@ -512,7 +512,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...oppdaterArkivertIKandidatlisteDetaljer(state, action.kandidat),
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.SUCCESS,
+                    statusArkivering: Nettstatus.Suksess,
                 },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE:
@@ -520,7 +520,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusArkivering: RemoteDataTypes.FAILURE,
+                    statusArkivering: Nettstatus.Feil,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING:
@@ -528,7 +528,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.LOADING,
+                    statusDearkivering: Nettstatus.LasterInn,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE:
@@ -536,7 +536,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.FAILURE,
+                    statusDearkivering: Nettstatus.Feil,
                 },
             };
         case KandidatlisteActionType.ANGRE_ARKIVERING_SUCCESS:
@@ -544,7 +544,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...oppdaterDearkiverteKandidaterIKandidatlisteDetaljer(state, action.kandidatnumre),
                 arkivering: {
                     ...state.arkivering,
-                    statusDearkivering: RemoteDataTypes.SUCCESS,
+                    statusDearkivering: Nettstatus.Suksess,
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTER:
@@ -636,7 +636,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 slettKandidatlisteStatus:
-                    action.result.kind === RemoteDataTypes.SUCCESS
+                    action.result.kind === Nettstatus.Suksess
                         ? Success({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
