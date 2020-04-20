@@ -60,7 +60,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             <SkjemaGruppe aria-labelledby="permittering-ingress">
                 <Checkbox
                     id="permittering-permittert-checkbox"
-                    className="permittering-search__checkbox skjemaelement--pink"
+                    className="permittering-search__checkbox"
                     label="Permittert"
                     value={Permitteringsverdi.Permittert}
                     checked={permittert}
@@ -68,7 +68,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
                 />
                 <Checkbox
                     id="permittering-ikke-permittert-checkbox"
-                    className="permittering-search__checkbox skjemaelement--pink"
+                    className="permittering-search__checkbox"
                     label="Ikke permittert"
                     value={Permitteringsverdi.IkkePermittert}
                     checked={ikkePermittert}

@@ -69,7 +69,7 @@ class UtdanningSearch extends React.Component {
                     <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
                         {this.utdanningsnivaKategorier.map(utdanning => (
                             <Checkbox
-                                className="checkbox--utdanningsniva skjemaelement--pink"
+                                className="checkbox--utdanningsniva"
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
                                 label={utdanning.label}
                                 key={utdanning.key}
