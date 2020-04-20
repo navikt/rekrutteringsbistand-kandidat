@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { formatISOString, formatterDato } from '../../felles/common/dateUtils';
+import { formatterDato } from '../../felles/common/dateUtils';
 import cvPropTypes from '../../felles/PropTypes';
 import TelefonIkon from '../../felles/common/ikoner/TelefonIkon';
 import MailIkon from '../../felles/common/ikoner/MailIkon';
@@ -12,10 +12,11 @@ import { capitalizeFirstLetter, capitalizePoststed } from '../../felles/sok/util
 import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
 import Sidetittel from '../../felles/common/Sidetittel.tsx';
 
-const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
+const formaterFødselsdato = (fodselsdato, fodselsnummer) => {
     if (fodselsdato) {
-        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${fodselsnummer &&
-            ` (${fodselsnummer})`}`;
+        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${
+            fodselsnummer && ` (${fodselsnummer})`
+        }`;
     } else if (fodselsnummer) {
         return `Fødselsnummer: ${fodselsnummer}`;
     }
@@ -23,7 +24,7 @@ const fodselsdatoForVeileder = (fodselsdato, fodselsnummer) => {
 };
 
 class VisKandidatPersonalia extends React.Component {
-    formatMobileTelephoneNumber = inputString => {
+    formatMobileTelephoneNumber = (inputString) => {
         const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
         const actualNumber = inputStringNoWhiteSpace.slice(-8);
         const countryCode = inputStringNoWhiteSpace.slice(-99, -8);
@@ -36,15 +37,14 @@ class VisKandidatPersonalia extends React.Component {
 
     formatterAdresse = (gate, postnummer, poststed) => {
         const sisteDel = [postnummer, poststed ? capitalizePoststed(poststed) : null]
-            .filter(string => string)
+            .filter((string) => string)
             .join(' ');
-        return [gate, sisteDel].filter(string => string).join(', ');
+        return [gate, sisteDel].filter((string) => string).join(', ');
     };
 
     render() {
         const {
             cv,
-            appContext,
             antallKandidater,
             tilbakeLink,
             gjeldendeKandidatIndex,
@@ -63,11 +63,7 @@ class VisKandidatPersonalia extends React.Component {
             etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
         }
 
-        const lenkeClass =
-            appContext === 'veileder'
-                ? 'header--personalia__lenke--veileder'
-                : 'VisKandidat__ForrigeNeste';
-
+        const lenkeClass = 'header--personalia__lenke--veileder';
         let lenkeText = 'Til kandidatsøket';
         if (tilbakeLink.includes('kandidater/lister')) {
             lenkeText = 'Til kandidatlisten';
@@ -75,14 +71,7 @@ class VisKandidatPersonalia extends React.Component {
             lenkeText = 'Til liste kandidatmatch';
         }
         return (
-            <div
-                className={
-                    appContext === 'arbeidsgiver'
-                        ? 'header--bakgrunn__arbeidsgiver'
-                        : 'header--bakgrunn__veileder'
-                }
-                id="bakgrunn-personalia"
-            >
+            <div className="header--bakgrunn__veileder" id="bakgrunn-personalia">
                 <Container className="blokk-s">
                     <Column className="header--personalia__lenker--container">
                         <LenkeMedChevron
@@ -109,17 +98,9 @@ class VisKandidatPersonalia extends React.Component {
                             ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
                             : 'Informasjonen om kandidaten kan ikke vises'}
                     </Sidetittel>
-                    {appContext === 'veileder' ? (
-                        <Normaltekst className="header--personalia__fodselsdato">
-                            {fodselsdatoForVeileder(cv.fodselsdato, cv.fodselsnummer)}
-                        </Normaltekst>
-                    ) : (
-                        cv.fodselsdato && (
-                            <Normaltekst className="header--personalia__fodselsdato">
-                                Fødselsdato: {formatISOString(cv.fodselsdato, 'D. MMMM YYYY')}
-                            </Normaltekst>
-                        )
-                    )}
+                    <Normaltekst className="header--personalia__fodselsdato">
+                        {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
+                    </Normaltekst>
                 </div>
                 {fantCv && (
                     <div>
@@ -127,20 +108,12 @@ class VisKandidatPersonalia extends React.Component {
                             {cv.epost && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
-                                        <MailIkon
-                                            color={
-                                                appContext === 'veileder' ? '#3E3832' : '#062140'
-                                            }
-                                        />
+                                        <MailIkon color="#3E3832" />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <a
                                             href={`mailto:${cv.epost}`}
-                                            className={
-                                                appContext === 'arbeidsgiver'
-                                                    ? 'header--personalia__mail'
-                                                    : 'header--personalia__mail--veileder'
-                                            }
+                                            className="header--personalia__mail--veileder"
                                         >
                                             {cv.epost}
                                         </a>
@@ -150,11 +123,7 @@ class VisKandidatPersonalia extends React.Component {
                             {cv.telefon && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
-                                        <TelefonIkon
-                                            color={
-                                                appContext === 'veileder' ? '#3E3832' : '#062140'
-                                            }
-                                        />
+                                        <TelefonIkon color="#3E3832" />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         <strong>
@@ -166,11 +135,7 @@ class VisKandidatPersonalia extends React.Component {
                             {cv.adresse && cv.adresse.adrlinje1 && (
                                 <div className="personalia--item">
                                     <div className="personalia--icon">
-                                        <AdresseIkon
-                                            color={
-                                                appContext === 'veileder' ? '#3E3832' : '#062140'
-                                            }
-                                        />
+                                        <AdresseIkon color="#3E3832" />
                                     </div>
                                     <Normaltekst className="header--personalia__tekst">
                                         {this.formatterAdresse(
@@ -200,7 +165,6 @@ VisKandidatPersonalia.defaultProps = {
 
 VisKandidatPersonalia.propTypes = {
     cv: cvPropTypes.isRequired,
-    appContext: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number,
     tilbakeLink: PropTypes.string.isRequired,
     gjeldendeKandidatIndex: PropTypes.number,

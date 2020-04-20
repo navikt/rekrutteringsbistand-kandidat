@@ -264,7 +264,6 @@ class VisKandidat extends React.Component {
             <div>
                 <VisKandidatPersonalia
                     cv={cv}
-                    appContext={'veileder'}
                     tilbakeLink={tilbakeLink}
                     gjeldendeKandidat={gjeldendeKandidat}
                     forrigeKandidat={forrigeKandidatLink}
