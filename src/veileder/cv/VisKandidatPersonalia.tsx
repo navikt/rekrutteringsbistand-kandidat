@@ -15,7 +15,7 @@ import {
 } from './personaliaFormattering';
 
 interface Props {
-    cv: any; // TODO fiks
+    cv: any;
     tilbakeLink: string;
     antallKandidater: number;
     gjeldendeKandidatIndex: number;
@@ -49,6 +49,9 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
     } else if (tilbakeLink.includes('kandidater-next')) {
         lenkeText = 'Til liste kandidatmatch';
     }
+
+    const veilederinfo = `Veileder: ${cv.veilederNavn} (${cv.veilederIdent})`;
+
     return (
         <div className="header--bakgrunn__veileder" id="bakgrunn-personalia">
             <Container className="blokk-s">
@@ -70,7 +73,6 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                     )}
                 </Column>
             </Container>
-
             <Sidetittel className="header--personalia__overskrift">
                 {fantCv
                     ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
@@ -78,6 +80,12 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
             </Sidetittel>
             <Normaltekst className="header--personalia__fodselsdato">
                 {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
+                {cv.veilederNavn && (
+                    <span>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        {veilederinfo}
+                    </span>
+                )}
             </Normaltekst>
             {fantCv && (
                 <div className="personalia-container">
