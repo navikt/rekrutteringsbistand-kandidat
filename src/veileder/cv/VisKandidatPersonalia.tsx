@@ -1,22 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import cvPropTypes from '../../felles/PropTypes';
 import TelefonIkon from '../../felles/common/ikoner/TelefonIkon';
 import MailIkon from '../../felles/common/ikoner/MailIkon';
 import AdresseIkon from '../../felles/common/ikoner/AdresseIkon';
 import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
 import { capitalizeFirstLetter } from '../../felles/sok/utils';
-import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
-import Sidetittel from '../../felles/common/Sidetittel.tsx';
+import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron';
+import Sidetittel from '../../felles/common/Sidetittel';
 import {
     formaterFødselsdato,
     formatMobileTelephoneNumber,
     formatterAdresse,
 } from './personaliaFormattering';
 
-class VisKandidatPersonalia extends React.Component {
+interface Props {
+    cv: any; // TODO fiks
+    tilbakeLink: string;
+    antallKandidater: number;
+    gjeldendeKandidatIndex: number;
+    forrigeKandidat: string;
+    nesteKandidat: string;
+    fantCv: boolean;
+}
+
+class VisKandidatPersonalia extends React.Component<Props> {
     render() {
         const {
             cv,
@@ -26,7 +34,6 @@ class VisKandidatPersonalia extends React.Component {
             forrigeKandidat,
             nesteKandidat,
             fantCv,
-            visNavigasjon,
         } = this.props;
 
         let fornavnStorForbokstav;
@@ -55,7 +62,7 @@ class VisKandidatPersonalia extends React.Component {
                             className={lenkeClass}
                             text={lenkeText}
                         />
-                        {fantCv && visNavigasjon && (
+                        {fantCv && (
                             <VisKandidatForrigeNeste
                                 lenkeClass={lenkeClass}
                                 forrigeKandidat={forrigeKandidat}
@@ -126,25 +133,5 @@ class VisKandidatPersonalia extends React.Component {
         );
     }
 }
-
-VisKandidatPersonalia.defaultProps = {
-    antallKandidater: undefined,
-    gjeldendeKandidatIndex: undefined,
-    forrigeKandidat: undefined,
-    nesteKandidat: undefined,
-    fantCv: true,
-    visNavigasjon: true,
-};
-
-VisKandidatPersonalia.propTypes = {
-    cv: cvPropTypes.isRequired,
-    antallKandidater: PropTypes.number,
-    tilbakeLink: PropTypes.string.isRequired,
-    gjeldendeKandidatIndex: PropTypes.number,
-    forrigeKandidat: PropTypes.string,
-    nesteKandidat: PropTypes.string,
-    fantCv: PropTypes.bool,
-    visNavigasjon: PropTypes.bool,
-};
 
 export default VisKandidatPersonalia;

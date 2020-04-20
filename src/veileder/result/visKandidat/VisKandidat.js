@@ -265,11 +265,10 @@ class VisKandidat extends React.Component {
                 <VisKandidatPersonalia
                     cv={cv}
                     tilbakeLink={tilbakeLink}
-                    gjeldendeKandidat={gjeldendeKandidat}
-                    forrigeKandidat={forrigeKandidatLink}
-                    nesteKandidat={nesteKandidatLink}
                     antallKandidater={antallKandidater}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                    nesteKandidat={nesteKandidatLink}
+                    forrigeKandidat={forrigeKandidatLink}
                     fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
