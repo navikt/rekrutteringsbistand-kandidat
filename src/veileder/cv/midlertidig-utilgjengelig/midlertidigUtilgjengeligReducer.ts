@@ -2,10 +2,10 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     RemoteData,
     ApiError,
-    NotAsked,
-    Success,
-    Failure,
-    Loading,
+    IkkeLastet,
+    Suksess,
+    Feil,
+    LasterInn,
 } from '../../../felles/common/remoteData';
 import { CvActionType, CvAction, FetchCvSuccessAction } from '../reducer/cvReducer';
 import {
@@ -97,23 +97,23 @@ const midlertidigUtilgjengeligReducer = (
         case CvActionType.FETCH_CV: {
             return {
                 ...state,
-                [action.arenaKandidatnr]: NotAsked(),
+                [action.arenaKandidatnr]: IkkeLastet(),
             };
         }
         case CvActionType.FETCH_CV_SUCCESS:
             return {
                 ...state,
-                [action.response.kandidatnummer]: Loading(),
+                [action.response.kandidatnummer]: LasterInn(),
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
             return {
                 ...state,
-                [action.kandidatnr]: Success(action.response),
+                [action.kandidatnr]: Suksess(action.response),
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
-                [action.kandidatnr]: Failure(action.error),
+                [action.kandidatnr]: Feil(action.error),
             };
         // case MidlertidigUtilgjengeligActionType.LAGRE_MIDLERTIDIG_UTILGJENGELIG:
         // case MidlertidigUtilgjengeligActionType.FORLENG_MIDLERTIDIG_UTILGJENGELIG:
@@ -180,7 +180,7 @@ function* forlengMidlertidigUtilgjengelig(action: ForlengMidlertidigUtilgjengeli
 }
 
 export const midlertidigUtilgjengeligSaga = function* () {
-    yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
+    // yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
     yield takeLatest('FORLENG_MIDLERTIDIG_UTILGJENGELIG', forlengMidlertidigUtilgjengelig);
 };

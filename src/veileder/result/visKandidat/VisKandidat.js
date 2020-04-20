@@ -294,14 +294,10 @@ class VisKandidat extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            {midlertidigUtilgjengelig &&
-                                (midlertidigUtilgjengelig.kind === Nettstatus.Suksess ||
-                                    midlertidigUtilgjengelig.kind === Nettstatus.Feil) && (
-                                    <MidlertidigUtilgjengelig
-                                        midlertidigUtilgjengelig={midlertidigUtilgjengelig}
-                                        kandidatnummer={cv.kandidatnummer}
-                                    />
-                                )}
+                            <MidlertidigUtilgjengelig
+                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                                kandidatnummer={cv.kandidatnummer}
+                            />
                             <Knapp
                                 mini
                                 type="flat"

@@ -4,12 +4,12 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
-    Failure,
-    Loading,
-    NotAsked,
+    Feil,
+    LasterInn,
+    IkkeLastet,
     RemoteData,
     Nettstatus,
-    Success,
+    Suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import {
@@ -80,7 +80,7 @@ export interface KandidatlisteState {
 const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
     detaljer: {
-        kandidatliste: NotAsked(),
+        kandidatliste: IkkeLastet(),
         deleStatus: Delestatus.IkkeSpurt,
     },
     opprett: {
@@ -119,10 +119,10 @@ const initialState: KandidatlisteState = {
         pagesize: 20,
     },
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
-    slettKandidatlisteStatus: NotAsked(),
+    slettKandidatlisteStatus: IkkeLastet(),
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
-        sendteMeldinger: NotAsked(),
+        sendteMeldinger: IkkeLastet(),
     },
     arkivering: {
         statusArkivering: Nettstatus.IkkeLastet,
@@ -151,8 +151,8 @@ const overforNotater: (
         kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
             notater: notaterMap[kandidat.kandidatId]
-                ? Success(notaterMap[kandidat.kandidatId])
-                : NotAsked(),
+                ? Suksess(notaterMap[kandidat.kandidatId])
+                : IkkeLastet(),
         })),
     };
 };
@@ -168,7 +168,7 @@ const leggTilNotater: (
         ...response,
         kandidater: response.kandidater.map((kandidat) => ({
             ...kandidat,
-            notater: NotAsked(),
+            notater: IkkeLastet(),
         })),
     };
 };
@@ -315,7 +315,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Loading(),
+                    kandidatliste: LasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
@@ -324,7 +324,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -335,7 +335,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Failure(action.error),
+                    kandidatliste: Feil(action.error),
                 },
             };
         case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
@@ -343,7 +343,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -361,7 +361,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                     deleStatus: Delestatus.Success,
@@ -445,7 +445,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
                 detaljer: {
                     ...state.detaljer,
-                    kandidatliste: Success(
+                    kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
@@ -474,30 +474,30 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
         case KandidatlisteActionType.HENT_NOTATER:
-            return oppdaterNotaterIKandidatlisteDetaljer(state, action.kandidatnr, Loading());
+            return oppdaterNotaterIKandidatlisteDetaljer(state, action.kandidatnr, LasterInn());
         case KandidatlisteActionType.HENT_NOTATER_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.OPPRETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.ENDRE_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.SLETT_NOTAT_SUCCESS:
             return oppdaterNotaterIKandidatlisteDetaljer(
                 state,
                 action.kandidatnr,
-                Success(action.notater)
+                Suksess(action.notater)
             );
         case KandidatlisteActionType.TOGGLE_ARKIVERT:
             return {
@@ -630,20 +630,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SLETT_KANDIDATLISTE:
             return {
                 ...state,
-                slettKandidatlisteStatus: Loading(),
+                slettKandidatlisteStatus: LasterInn(),
             };
         case KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG:
             return {
                 ...state,
                 slettKandidatlisteStatus:
                     action.result.kind === Nettstatus.Suksess
-                        ? Success({ slettetTittel: action.kandidatlisteTittel })
+                        ? Suksess({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
         case KandidatlisteActionType.RESET_SLETTE_STATUS:
             return {
                 ...state,
-                slettKandidatlisteStatus: NotAsked(),
+                slettKandidatlisteStatus: IkkeLastet(),
             };
         case KandidatlisteActionType.SEND_SMS:
             return {
@@ -683,7 +683,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Loading(),
+                    sendteMeldinger: LasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
@@ -691,7 +691,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Success<Sms[]>(action.sendteMeldinger),
+                    sendteMeldinger: Suksess<Sms[]>(action.sendteMeldinger),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE:
@@ -699,7 +699,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Failure(action.error),
+                    sendteMeldinger: Feil(action.error),
                 },
             };
         default:

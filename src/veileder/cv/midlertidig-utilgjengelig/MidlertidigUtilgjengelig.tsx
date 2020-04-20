@@ -21,21 +21,23 @@ interface Props {
     aktørId: string;
     kandidatnr: string;
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
-    midlertidigUtilgjengelig: RemoteData<MidlertidigUtilgjengeligResponse>;
+    midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
+    const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
+
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
-    const [endre, setEndre] = useState<boolean>(
-        props.midlertidigUtilgjengelig.kind === Nettstatus.Suksess
-    ); // TODO Endre-komponent skal vises hviss bruker er registrert som utilgjengelig
 
-    if (!erToggletPå) {
+    const [endre, setEndre] = useState<boolean>(
+        midlertidigUtilgjengelig !== undefined &&
+            midlertidigUtilgjengelig.kind === Nettstatus.Suksess
+    );
+
+    if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
         return null;
     }
-
-    const { kandidatnr, aktørId, lagreMidlertidigUtilgjengelig } = props;
 
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();

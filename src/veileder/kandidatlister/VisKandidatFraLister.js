@@ -76,7 +76,14 @@ class VisKandidatFraLister extends React.Component {
             : undefined;
 
     render() {
-        const { cv, match, kandidatlisteId, kandidatliste, hentStatus } = this.props;
+        const {
+            cv,
+            match,
+            kandidatlisteId,
+            kandidatliste,
+            hentStatus,
+            midlertidigUtilgjengelig,
+        } = this.props;
 
         const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(match.params.kandidatNr);
         const nesteKandidatNummer = this.hentNesteKandidatNummer(match.params.kandidatNr);
@@ -127,7 +134,10 @@ class VisKandidatFraLister extends React.Component {
                 ) : (
                     <div>
                         <CVMeny fødselsnummer={cv.fodselsnummer}>
-                            <MidlertidigUtilgjengelig kandidatnummer={cv.kandidatnummer} />
+                            <MidlertidigUtilgjengelig
+                                midlertidigUtilgjengelig={midlertidigUtilgjengelig}
+                                kandidatnummer={cv.kandidatnummer}
+                            />
                             {gjeldendeKandidat && (
                                 <div className="VisKandidat-knapperad__statusSelect">
                                     <span>Status:</span>
@@ -213,6 +223,7 @@ const mapStateToProps = (state, props) => ({
             : undefined,
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
+    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
     visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 

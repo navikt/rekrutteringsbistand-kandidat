@@ -1,9 +1,7 @@
-import { Failure, ResponseData, Success } from './common/remoteData';
+import { Feil, ResponseData, Suksess } from './common/remoteData';
 
 export const createCallIdHeader = () => ({
-    'Nav-CallId': Math.random()
-        .toString(16)
-        .substr(2),
+    'Nav-CallId': Math.random().toString(16).substr(2),
 });
 
 export class SearchApiError {
@@ -56,17 +54,17 @@ export async function deleteJsonMedType<T>(
 ): Promise<ResponseData<T>> {
     try {
         const response: unknown = await deleteReq(url, bodyString);
-        return Success(<T>response);
+        return Suksess(<T>response);
     } catch (e) {
         if (e instanceof SearchApiError) {
-            return Failure(e);
+            return Feil(e);
         } else {
             throw e;
         }
     }
 }
 
-const getCookie = name => {
+const getCookie = (name) => {
     const re = new RegExp(`${name}=([^;]+)`);
     const match = re.exec(document.cookie);
     return match !== null ? match[1] : '';

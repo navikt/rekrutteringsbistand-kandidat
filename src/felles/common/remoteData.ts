@@ -11,42 +11,42 @@ export enum Nettstatus {
     Feil = 'Feil',
 }
 
-interface NotAsked {
+interface IkkeLastet {
     kind: Nettstatus.IkkeLastet;
 }
 
-interface Loading {
+interface LasterInn {
     kind: Nettstatus.LasterInn;
 }
 
-interface Success<T> {
+interface Suksess<T> {
     kind: Nettstatus.Suksess;
     data: T;
 }
 
-interface Failure {
+interface Feil {
     kind: Nettstatus.Feil;
     error: ApiError;
 }
 
-export const NotAsked = (): NotAsked => ({
+export const IkkeLastet = (): IkkeLastet => ({
     kind: Nettstatus.IkkeLastet,
 });
 
-export const Loading = (): Loading => ({
+export const LasterInn = (): LasterInn => ({
     kind: Nettstatus.LasterInn,
 });
 
-export const Success = <T>(data: T): Success<T> => ({
+export const Suksess = <T>(data: T): Suksess<T> => ({
     kind: Nettstatus.Suksess,
     data,
 });
 
-export const Failure = (error: ApiError): Failure => ({
+export const Feil = (error: ApiError): Feil => ({
     kind: Nettstatus.Feil,
     error,
 });
 
-export type RemoteData<T> = NotAsked | Loading | Failure | Success<T>;
+export type RemoteData<T> = IkkeLastet | LasterInn | Feil | Suksess<T>;
 
-export type ResponseData<T> = Failure | Success<T>;
+export type ResponseData<T> = Feil | Suksess<T>;
