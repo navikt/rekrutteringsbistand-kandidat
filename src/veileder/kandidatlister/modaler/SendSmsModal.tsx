@@ -76,7 +76,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
             melding,
             kandidaterSomIkkeHarFåttSms
                 .map((kandidat) => kandidat.fodselsnr)
-                .filter((fnr) => fnr.length > 0),
+                .filter((fnr) => fnr && fnr.length > 0),
             kandidatlisteId
         );
     };
