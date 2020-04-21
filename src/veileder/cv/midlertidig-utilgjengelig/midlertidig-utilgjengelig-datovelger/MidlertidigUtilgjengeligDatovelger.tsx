@@ -2,8 +2,11 @@ import React, { FunctionComponent } from 'react';
 import { Datovelger } from 'nav-datovelger';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import classNames from 'classnames';
-import moment from 'moment';
 import './MidlertidigUtilgjengeligDatovelger.less';
+import {
+    maksDatoMidlertidigUtilgjengelig,
+    minDatoMidlertidigUtilgjengelig,
+} from '../validering';
 
 interface Props {
     dato: string | undefined;
@@ -30,13 +33,13 @@ const MidlertidigUtilgjengeligDatovelger: FunctionComponent<Props> = (props) => 
                     name: 'applicationDue',
                     placeholder: 'dd.mm.åååå',
                     ariaLabel: 'Sett søknadsfrist',
-                    onChange: setDato, // TODO Ikke heldig håndtering av keyboard-input.. Feilmelding fx?
+                    onChange: setDato,
                 }}
                 onChange={setDato}
                 valgtDato={dato}
                 avgrensninger={{
-                    minDato: moment(moment.now()).format(),
-                    maksDato: moment(moment.now()).add(30, 'days').format(),
+                    minDato: minDatoMidlertidigUtilgjengelig().format(),
+                    maksDato: maksDatoMidlertidigUtilgjengelig().format(),
                 }}
                 id="midlertidig-utilgjengelig-datovelger"
             />

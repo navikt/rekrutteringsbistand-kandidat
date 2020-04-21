@@ -49,7 +49,7 @@ const genererMelding = (valgtMal: Meldingsmal, stillingId: string) => {
     return `${genererMeldingUtenLenke(valgtMal)} ${genererLenkeTilStilling(stillingId)}`;
 };
 
-const SendSmsModal: FunctionComponent<Props> = props => {
+const SendSmsModal: FunctionComponent<Props> = (props) => {
     const {
         vis,
         onClose,
@@ -60,9 +60,9 @@ const SendSmsModal: FunctionComponent<Props> = props => {
         sendSmsTilKandidater,
     } = props;
 
-    const markerteMandidater = kandidater.filter(kandidat => kandidat.markert);
-    const kandidaterSomHarFåttSms = markerteMandidater.filter(kandidat => kandidat.sms);
-    const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter(kandidat => !kandidat.sms);
+    const markerteMandidater = kandidater.filter((kandidat) => kandidat.markert);
+    const kandidaterSomHarFåttSms = markerteMandidater.filter((kandidat) => kandidat.sms);
+    const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter((kandidat) => !kandidat.sms);
 
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
@@ -74,7 +74,9 @@ const SendSmsModal: FunctionComponent<Props> = props => {
 
         sendSmsTilKandidater(
             melding,
-            kandidaterSomIkkeHarFåttSms.map(kandidat => kandidat.fodselsnr),
+            kandidaterSomIkkeHarFåttSms
+                .map((kandidat) => kandidat.fodselsnr)
+                .filter((fnr) => fnr && fnr.length > 0),
             kandidatlisteId
         );
     };

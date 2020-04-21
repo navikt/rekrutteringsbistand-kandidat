@@ -5,7 +5,10 @@ import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
-import { MidlertidigUtilgjengeligAction, MidlertidigUtilgjengeligResponse } from './midlertidigUtilgjengeligReducer';
+import {
+    MidlertidigUtilgjengeligAction,
+    MidlertidigUtilgjengeligResponse,
+} from './midlertidigUtilgjengeligReducer';
 import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
@@ -13,12 +16,13 @@ import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjeng
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
-import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 
 interface Props {
     aktørId: string;
     kandidatnr: string;
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
+    slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
     midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
@@ -28,31 +32,31 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
-    const [endre, setEndre] = useState<boolean>(
-        midlertidigUtilgjengelig !== undefined &&
-            midlertidigUtilgjengelig.kind === Nettstatus.Suksess
-    );
-
     if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
-        // return null; TODO Ta dette tilbake!!!
+        return null;
     }
+
+    const lukkPopup = () => setAnker(undefined);
 
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        lukkPopup();
+    };
+
+    const endreMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+        props.endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        lukkPopup();
     };
 
     const slettMidlertidigUtilgjengelig = () => {
-        // putMidlertidigUtilgjengelig(kandidatnr, null);
+        props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
+        lukkPopup();
     };
 
     return (
         <div className="midlertidig-utilgjengelig">
-            <MidlertidigUtilgjengeligKnapp
-                chevronType={anker ? 'opp' : 'ned'}
-                onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
-                tilgjengelighet={Tilgjengelighet.TILGJENGELIG}
-            />
             <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
@@ -66,20 +70,22 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
             </Knapp>
             <Popover
                 ankerEl={anker}
-                onRequestClose={() => setAnker(undefined)}
+                onRequestClose={lukkPopup}
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {endre ? (
+                {!!midlertidigUtilgjengelig &&
+                midlertidigUtilgjengelig.kind === Nettstatus.Suksess ? (
                     <EndreMidlertidigUtilgjengelig
-                        onAvbryt={() => setAnker(undefined)}
+                        onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
-                        registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
+                        endreMidlertidigUtilgjengelig={endreMidlertidigUtilgjengelig}
                         slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
+                        midlertidigUtilgjengelig={midlertidigUtilgjengelig.data}
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
-                        onAvbryt={() => setAnker(undefined)}
+                        onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
                         registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
                     />
@@ -101,5 +107,19 @@ export default connect(
                 aktørId,
                 tilDato,
             }),
+        endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
+            dispatch({
+                type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
+                aktørId,
+                tilDato,
+            }),
+        slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => {
+            dispatch({
+                type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG',
+                kandidatnr,
+                aktørId,
+            });
+        },
     })
 )(MidlertidigUtilgjengelig);
