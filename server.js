@@ -58,7 +58,7 @@ const fasitProperties = {
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
     SMS_API: process.env.SMS_API,
-    MIDLERTIDIG_UTILGJENGELIG_URL: process.env.MIDLERTIDIG_UTILGJENGELIG_URL,
+    MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
 };
 
 const writeEnvironmentVariablesToFile = () => {
@@ -209,6 +209,16 @@ const startServer = (html) => {
             https: true,
             proxyReqPathResolver: (request) =>
                 request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
+        })
+    );
+
+    const [, , muHost, muPath] = fasitProperties.MIDLERTIDIG_UTILGJENGELIG_URL.split('/');
+    server.use(
+        '/midlertidig-utilgjengelig',
+        proxy(muHost, {
+            https: true,
+            proxyReqPathResolver: (request) =>
+                request.originalUrl.replace(new RegExp('midlertidig-utilgjengelig'), muPath),
         })
     );
 

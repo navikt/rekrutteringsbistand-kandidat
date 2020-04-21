@@ -6,7 +6,6 @@ import {
     KANDIDATLISTE_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
-    MIDLERTIDIG_UTILGJENGELIG_URL,
 } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 import { ResponseData } from '../felles/common/remoteData';
@@ -25,6 +24,7 @@ declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
 
 const SMS_API = '/kandidater/api/sms';
+const MIDLERTIDIG_UTILGJENGELIG_URL = '/midlertidig-utilgjengelig';
 
 if (appIsMocked) {
     require('./mock/api.ts');
