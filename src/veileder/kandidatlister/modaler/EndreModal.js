@@ -8,7 +8,7 @@ import OpprettKandidatlisteForm from '../OpprettKandidatlisteForm';
 import { KandidatlisteBeskrivelse } from '../Kandidatlister';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 
-const kandidatlisteInfoWrapper = kandidatliste => ({
+const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
     tittel: kandidatliste.tittel || '',
     beskrivelse: kandidatliste.beskrivelse || '',
@@ -50,12 +50,12 @@ EndreModal.propTypes = {
     kandidatliste: PropTypes.shape(KandidatlisteBeskrivelse).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = dispatch => ({
-    oppdaterKandidatliste: kandidatlisteInfo => {
+const mapDispatchToProps = (dispatch) => ({
+    oppdaterKandidatliste: (kandidatlisteInfo) => {
         dispatch({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
