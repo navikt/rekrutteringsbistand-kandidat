@@ -7,7 +7,7 @@ import classNames from 'classnames';
 interface Props {
     chevronType: 'opp' | 'ned';
     onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    tilgjengelighet: Tilgjengelighet;
+    tilgjengelighet?: Tilgjengelighet;
 }
 
 const getKnappetekst = (tilgjengelighet: Tilgjengelighet) => {
@@ -21,22 +21,29 @@ const getKnappetekst = (tilgjengelighet: Tilgjengelighet) => {
     }
 };
 
-const MidlertidigUtilgjengeligKnapp: FunctionComponent<Props> = (props) => {
-    const tekst = getKnappetekst(props.tilgjengelighet);
+const MidlertidigUtilgjengeligKnapp: FunctionComponent<Props> = ({
+    chevronType,
+    onClick,
+    tilgjengelighet,
+}) => {
+    if (!tilgjengelighet) {
+        return null;
+    }
+    const tekst = getKnappetekst(tilgjengelighet);
 
-    const modifier = 'midlertidig-utilgjengelig-knapp--' + props.tilgjengelighet.toLowerCase();
+    const modifier = 'midlertidig-utilgjengelig-knapp--' + tilgjengelighet.toLowerCase();
     return (
         <button
             className={classNames('midlertidig-utilgjengelig-knapp', modifier)}
-            onClick={props.onClick}
+            onClick={onClick}
         >
             <TilgjengelighetIkon
-                tilgjengelighet={props.tilgjengelighet}
+                tilgjengelighet={tilgjengelighet}
                 className="midlertidig-utilgjengelig-knapp__ikon"
             />
             {tekst}
             <Chevron
-                type={props.chevronType}
+                type={chevronType}
                 className="midlertidig-utilgjengelig-knapp__chevron"
             />
         </button>

@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
 import { connect } from 'react-redux';
-import { Knapp } from 'pam-frontend-knapper';
-import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
@@ -9,13 +7,15 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
+import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
+import moment from 'moment';
 
 interface Props {
     aktørId: string;
@@ -23,8 +23,28 @@ interface Props {
     lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
-    midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
+    midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
 }
+
+const getTilgjengelighet = (
+    response: Nettressurs<MidlertidigUtilgjengeligResponse>
+): Tilgjengelighet | undefined => {
+    if (response.kind === Nettstatus.FinnesIkke) {
+        return Tilgjengelighet.TILGJENGELIG;
+    } else if (response.kind !== Nettstatus.Suksess) {
+        return undefined;
+    }
+    const data = response.data;
+    const nå = moment(new Date());
+
+    if (!nå.isBetween(moment(data.fraDato), moment(data.tilDato), 'days', '[]')) {
+        return Tilgjengelighet.TILGJENGELIG;
+    }
+    if (moment(data.tilDato).diff(nå, 'days') < 7) {
+        return Tilgjengelighet.SNART_TILGJENGELIG;
+    }
+    return Tilgjengelighet.UTILGJENGELIG;
+};
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
@@ -33,7 +53,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
     if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
-        return null;
+        // return null; TODO DETTE MÅ SETTES PÅ!
     }
 
     const lukkPopup = () => setAnker(undefined);
@@ -55,19 +75,16 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
         lukkPopup();
     };
 
+    const tilgjengelighet = midlertidigUtilgjengelig
+        ? getTilgjengelighet(midlertidigUtilgjengelig)
+        : undefined;
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
-                <TilgjengelighetIkon
-                    tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
-                    className="midlertidig-utilgjengelig__ikon"
-                />
-                Registrer som utilgjengelig
-                <Chevron
-                    type={anker ? 'opp' : 'ned'}
-                    className="midlertidig-utilgjengelig__chevron"
-                />
-            </Knapp>
+            <MidlertidigUtilgjengeligKnapp
+                chevronType={anker ? 'opp' : 'ned'}
+                onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
+                tilgjengelighet={tilgjengelighet}
+            />
             <Popover
                 ankerEl={anker}
                 onRequestClose={lukkPopup}
