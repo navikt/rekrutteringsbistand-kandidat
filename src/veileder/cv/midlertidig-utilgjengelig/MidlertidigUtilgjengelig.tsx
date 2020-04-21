@@ -5,17 +5,15 @@ import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
-import {
-    MidlertidigUtilgjengeligAction,
-    MidlertidigUtilgjengeligResponse,
-} from './midlertidigUtilgjengeligReducer';
-import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import { MidlertidigUtilgjengeligAction, MidlertidigUtilgjengeligResponse } from './midlertidigUtilgjengeligReducer';
+import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
+import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 
 interface Props {
     aktørId: string;
@@ -36,7 +34,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     );
 
     if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
-        return null;
+        // return null; TODO Ta dette tilbake!!!
     }
 
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
@@ -50,10 +48,16 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
 
     return (
         <div className="midlertidig-utilgjengelig">
+            <MidlertidigUtilgjengeligKnapp
+                chevronType={anker ? 'opp' : 'ned'}
+                onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
+                tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
+            />
             <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
+                    color="#8C368E"
                 />
                 Registrer som utilgjengelig
                 <Chevron

@@ -12,8 +12,10 @@ interface Props {
     tilgjengelighet: Tilgjengelighet;
     className: string;
 }
-const TilgjengelighetIkon: FunctionComponent<Props> = props => {
-    const { tilgjengelighet, className } = props;
+const TilgjengelighetIkon: FunctionComponent<Props> = ({
+    tilgjengelighet,
+    className,
+}) => {
     switch (tilgjengelighet) {
         case Tilgjengelighet.SNART_TILGJENGELIG:
             return <FlaggIkonStroke className={className} />;
