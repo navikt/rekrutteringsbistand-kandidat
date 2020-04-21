@@ -51,13 +51,12 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
             <MidlertidigUtilgjengeligKnapp
                 chevronType={anker ? 'opp' : 'ned'}
                 onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
-                tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
+                tilgjengelighet={Tilgjengelighet.TILGJENGELIG}
             />
             <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
-                    color="#8C368E"
                 />
                 Registrer som utilgjengelig
                 <Chevron

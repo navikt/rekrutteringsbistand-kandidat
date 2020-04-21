@@ -1,11 +1,38 @@
+@import '../../../variabler';
+
 .midlertidig-utilgjengelig-knapp {
     padding: 0.5rem 1rem;
-    background-color: #cde7d8;
-    border: 1px solid #06893a;
     border-radius: 0.25rem;
     cursor: pointer;
     fill: black;
     stroke: black;
+
+    &--tilgjengelig {
+        background-color: inherit;
+        border: none;
+
+        &:hover {
+            background-color: @navBla;
+        }
+    }
+
+    &--snart_tilgjengelig {
+        background-color: #cde7d8;
+        border: 1px solid #06893a;
+
+        &:hover {
+            background-color: #06893a;
+        }
+    }
+
+    &--utilgjengelig {
+        background-color: #e3edf8;
+        border: 1px solid @navBla;
+
+        &:hover {
+            background-color: @navBla;
+        }
+    }
 
     &__ikon {
         margin-right: 0.25rem;
@@ -13,8 +40,6 @@
 
     &:hover {
         color: white;
-        background-color: #06893a;
-
         fill: white;
         stroke: white;
     }
