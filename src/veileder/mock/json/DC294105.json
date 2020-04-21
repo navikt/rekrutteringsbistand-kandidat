@@ -164,5 +164,8 @@
     ],
     "annenErfaring": [],
     "fodselsnummer": "17118926005",
-    "tilretteleggingsbehov": true
+    "tilretteleggingsbehov": true,
+    "veilederEpost": null,
+    "veilederIdent": null,
+    "veilederNavn": null
 }

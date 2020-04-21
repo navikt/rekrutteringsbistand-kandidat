@@ -105,12 +105,11 @@ class VisKandidatFraLister extends React.Component {
                 <VisKandidatPersonalia
                     cv={cv}
                     tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
-                    appContext="veileder"
-                    fantCv={hentStatus === HentCvStatus.Success}
-                    forrigeKandidat={forrigeKandidatLink}
-                    nesteKandidat={nesteKandidatLink}
-                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     antallKandidater={kandidatliste.kandidater.length}
+                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                    nesteKandidat={nesteKandidatLink}
+                    forrigeKandidat={forrigeKandidatLink}
+                    fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
                     <div className="cvIkkeFunnet">

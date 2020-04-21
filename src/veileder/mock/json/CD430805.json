@@ -518,5 +518,8 @@
         { "fraDato": "2004-01-02", "tilDato": null, "rolle": "ss", "beskrivelse": "sas" }
     ],
     "fodselsnummer": "21067630103",
-    "tilretteleggingsbehov": true
+    "tilretteleggingsbehov": true,
+    "veilederEpost": "james.bond@nav.no",
+    "veilederIdent": "X123456",
+    "veilederNavn": "James Bond"
 }
