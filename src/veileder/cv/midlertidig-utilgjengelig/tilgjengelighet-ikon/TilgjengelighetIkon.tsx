@@ -12,7 +12,7 @@ interface Props {
     tilgjengelighet: Tilgjengelighet;
     className: string;
 }
-const TilgjengelighetIkon: FunctionComponent<Props> = props => {
+const TilgjengelighetIkon: FunctionComponent<Props> = (props) => {
     const { tilgjengelighet, className } = props;
     switch (tilgjengelighet) {
         case Tilgjengelighet.SNART_TILGJENGELIG:

@@ -4,8 +4,7 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import classNames from 'classnames';
 import './RegistrerMidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
-import { RemoteData } from '../../../../felles/common/remoteData';
-import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
+import { validerDatoOgReturnerFeilmelding } from '../midlertidig-utilgjengelig-utils';
 
 interface Props {
     onAvbryt: () => void;
@@ -13,16 +12,17 @@ interface Props {
     registrerMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
 }
 
-const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [dato, setDato] = useState<string | undefined>(undefined);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
     const onLagre = () => {
-        if (dato !== undefined) {
-            props.registrerMidlertidigUtilgjengelig(dato);
-            setFeilmelding(undefined);
+        const valideringsfeil = validerDatoOgReturnerFeilmelding(dato);
+        if (valideringsfeil) {
+            setFeilmelding(valideringsfeil);
         } else {
-            setFeilmelding('Du må fylle inn en dato');
+            props.registrerMidlertidigUtilgjengelig(dato!);
+            setFeilmelding(undefined);
         }
     };
 

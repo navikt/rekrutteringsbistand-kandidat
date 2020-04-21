@@ -5,15 +5,8 @@ import {
     SenderInn,
 } from './../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import {
-    RemoteData,
-    ApiError,
-    IkkeLastet,
-    Suksess,
-    Feil,
-    LasterInn,
-} from '../../../felles/common/remoteData';
-import { CvActionType, CvAction, FetchCvSuccessAction } from '../reducer/cvReducer';
+import { ApiError, Feil, IkkeLastet, LasterInn, Suksess } from '../../../felles/common/remoteData';
+import { CvAction, CvActionType, FetchCvSuccessAction } from '../reducer/cvReducer';
 import {
     deleteMidlertidigUtilgjengelig,
     fetchMidlertidigUtilgjengelig,
@@ -262,7 +255,7 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
     }
 }
 
-export const midlertidigUtilgjengeligSaga = function*() {
+export const midlertidigUtilgjengeligSaga = function* () {
     yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
     yield takeLatest('ENDRE_MIDLERTIDIG_UTILGJENGELIG', endreMidlertidigUtilgjengelig);

@@ -5,9 +5,9 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import './EndreMidlertidigUtilgjengelig.less';
 import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
-import { RemoteData } from '../../../../felles/common/remoteData';
 import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
 import moment, { Moment } from 'moment';
+import { validerDatoOgReturnerFeilmelding } from '../midlertidig-utilgjengelig-utils';
 
 interface Props {
     onAvbryt: () => void;
@@ -19,7 +19,7 @@ interface Props {
 
 const formaterDato = (dato: Date | Moment) => moment(dato).format('DD.MM.YYYY');
 
-const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
     const [dato, setDato] = useState<string | undefined>(undefined);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
@@ -38,11 +38,12 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         if (hvaSkalEndres === 'fjernMarkering') {
             props.slettMidlertidigUtilgjengelig();
         } else if (hvaSkalEndres === 'endreDato') {
-            if (dato !== undefined) {
-                props.endreMidlertidigUtilgjengelig(dato);
-                setFeilmelding(undefined);
+            const valideringsfeil = validerDatoOgReturnerFeilmelding(dato);
+            if (valideringsfeil) {
+                setFeilmelding(valideringsfeil);
             } else {
-                setFeilmelding('Du må fylle inn en dato');
+                props.endreMidlertidigUtilgjengelig(dato!);
+                setFeilmelding(undefined);
             }
         }
     };

@@ -9,7 +9,7 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
@@ -26,13 +26,8 @@ interface Props {
     midlertidigUtilgjengelig?: RemoteData<MidlertidigUtilgjengeligResponse>;
 }
 
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
-    const {
-        kandidatnr,
-        aktørId,
-        midlertidigUtilgjengelig,
-        lagreMidlertidigUtilgjengelig,
-    } = props;
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
+    const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
 
     const [anker, setAnker] = useState<any>(undefined);
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
@@ -46,21 +41,23 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
     const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        lukkPopup();
     };
 
     const endreMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         props.endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        lukkPopup();
     };
 
     const slettMidlertidigUtilgjengelig = () => {
         props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
-
+        lukkPopup();
     };
 
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={e => setAnker(anker ? undefined : e.currentTarget)}>
+            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
                     className="midlertidig-utilgjengelig__ikon"
@@ -77,7 +74,8 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {!!midlertidigUtilgjengelig && (midlertidigUtilgjengelig.kind === Nettstatus.Suksess) ? (
+                {!!midlertidigUtilgjengelig &&
+                midlertidigUtilgjengelig.kind === Nettstatus.Suksess ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
