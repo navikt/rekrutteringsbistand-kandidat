@@ -42,15 +42,11 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
         etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
     }
 
-    const lenkeClass = 'header--personalia__lenke--veileder';
-    let lenkeText = 'Til kandidatsøket';
-    if (tilbakeLink.includes('kandidater/lister')) {
-        lenkeText = 'Til kandidatlisten';
-    } else if (tilbakeLink.includes('kandidater-next')) {
-        lenkeText = 'Til liste kandidatmatch';
-    }
-
+    const lenkeText = tilbakeLink.includes('kandidater/lister')
+        ? 'Til kandidatlisten'
+        : 'Til kandidatsøket';
     const veilederinfo = `Veileder: ${cv.veilederNavn} (${cv.veilederIdent})`;
+    const lenkeClass = 'header--personalia__lenke--veileder';
 
     return (
         <div className="header--bakgrunn__veileder" id="bakgrunn-personalia">
