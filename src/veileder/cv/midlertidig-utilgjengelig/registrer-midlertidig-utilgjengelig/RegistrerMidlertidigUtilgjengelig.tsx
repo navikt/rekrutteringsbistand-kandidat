@@ -4,7 +4,7 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import classNames from 'classnames';
 import './RegistrerMidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
-import { validerDatoOgReturnerFeilmelding } from '../midlertidig-utilgjengelig-utils';
+import { validerDatoOgReturnerFeilmelding } from '../validering';
 
 interface Props {
     onAvbryt: () => void;

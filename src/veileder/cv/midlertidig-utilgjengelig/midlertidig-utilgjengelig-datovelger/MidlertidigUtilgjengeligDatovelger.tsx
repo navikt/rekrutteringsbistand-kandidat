@@ -6,7 +6,7 @@ import './MidlertidigUtilgjengeligDatovelger.less';
 import {
     maksDatoMidlertidigUtilgjengelig,
     minDatoMidlertidigUtilgjengelig,
-} from '../midlertidig-utilgjengelig-utils';
+} from '../validering';
 
 interface Props {
     dato: string | undefined;

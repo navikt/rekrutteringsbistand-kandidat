@@ -7,7 +7,7 @@ import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
 import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
 import moment, { Moment } from 'moment';
-import { validerDatoOgReturnerFeilmelding } from '../midlertidig-utilgjengelig-utils';
+import { validerDatoOgReturnerFeilmelding } from '../validering';
 
 interface Props {
     onAvbryt: () => void;
