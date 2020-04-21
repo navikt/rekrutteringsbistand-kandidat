@@ -1,7 +1,9 @@
 import { Feil, ResponseData, Suksess } from './common/remoteData';
 
 export const createCallIdHeader = () => ({
-    'Nav-CallId': Math.random().toString(16).substr(2),
+    'Nav-CallId': Math.random()
+        .toString(16)
+        .substr(2),
 });
 
 export class SearchApiError {
@@ -64,7 +66,7 @@ export async function deleteJsonMedType<T>(
     }
 }
 
-const getCookie = (name) => {
+const getCookie = name => {
     const re = new RegExp(`${name}=([^;]+)`);
     const match = re.exec(document.cookie);
     return match !== null ? match[1] : '';
@@ -153,6 +155,33 @@ export async function deleteReq(url: string, bodyString?: string) {
         throw new SearchApiError({
             status: response.status,
         });
+    } catch (e) {
+        throw new SearchApiError({
+            message: e.message,
+            status: e.status,
+        });
+    }
+}
+
+export async function deleteWithoutJson(url: string, bodyString?: string) {
+    try {
+        const response = await fetch(url, {
+            credentials: 'include',
+            method: 'DELETE',
+            body: bodyString,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                ...createCallIdHeader(),
+            },
+            mode: 'cors',
+        });
+
+        if (!response.ok) {
+            throw new SearchApiError({
+                status: response.status,
+            });
+        }
     } catch (e) {
         throw new SearchApiError({
             message: e.message,

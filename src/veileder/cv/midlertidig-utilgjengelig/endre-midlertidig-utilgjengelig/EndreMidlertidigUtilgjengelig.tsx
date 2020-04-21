@@ -5,15 +5,21 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import './EndreMidlertidigUtilgjengelig.less';
 import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
+import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
+import moment, { Moment } from 'moment';
+import { validerDatoOgReturnerFeilmelding } from '../validering';
 
 interface Props {
     onAvbryt: () => void;
     className?: string;
-    registrerMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
+    endreMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
     slettMidlertidigUtilgjengelig: () => void;
+    midlertidigUtilgjengelig: MidlertidigUtilgjengeligResponse;
 }
 
-const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
+const formaterDato = (dato: Date | Moment) => moment(dato).format('DD.MM.YYYY');
+
+const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
     const [dato, setDato] = useState<string | undefined>(undefined);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
@@ -32,14 +38,24 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
         if (hvaSkalEndres === 'fjernMarkering') {
             props.slettMidlertidigUtilgjengelig();
         } else if (hvaSkalEndres === 'endreDato') {
-            if (dato !== undefined) {
-                props.registrerMidlertidigUtilgjengelig(dato);
-                setFeilmelding(undefined);
+            const valideringsfeil = validerDatoOgReturnerFeilmelding(dato);
+            if (valideringsfeil) {
+                setFeilmelding(valideringsfeil);
             } else {
-                setFeilmelding('Du må fylle inn en dato');
+                props.endreMidlertidigUtilgjengelig(dato!);
+                setFeilmelding(undefined);
             }
         }
     };
+
+    const {
+        tilDato,
+        registrertAvIdent,
+        registrertAvNavn,
+        fraDato,
+    } = props.midlertidigUtilgjengelig;
+
+    const tilgjengeligDato = moment(tilDato).add(1, 'days');
 
     return (
         <div
@@ -52,9 +68,17 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = props => {
             <Undertittel tag="h2" className="endre-midlertidig-utilgjengelig__tittel">
                 Kandidaten er midlertidig utilgjengelig
             </Undertittel>
-            <Normaltekst>Tilgjengelig om: 19 dager</Normaltekst>
-            <Normaltekst>Registrert av: Ola Nordmann</Normaltekst>
-            <Normaltekst>Registrert: 25.04.2020</Normaltekst>
+            <Normaltekst>
+                Tilgjengelig om:{' '}
+                <Element tag="span">
+                    {moment(tilgjengeligDato).diff(moment(fraDato), 'days') + 1} dager
+                </Element>{' '}
+                ({formaterDato(tilgjengeligDato)})
+            </Normaltekst>
+            <Normaltekst>
+                Registrert av: {registrertAvNavn} ({registrertAvIdent})
+            </Normaltekst>
+            <Normaltekst>Registrert: {formaterDato(fraDato)}</Normaltekst>
 
             <fieldset className="endre-midlertidig-utilgjengelig__fieldset">
                 <Element tag="legend" className="endre-midlertidig-utilgjengelig__legend">
