@@ -42,10 +42,12 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
         etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
     }
 
-    const lenkeText = tilbakeLink.includes('kandidater/lister')
+    const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';
-    const veilederinfo = `Veileder: ${cv.veilederNavn} (${cv.veilederIdent})`;
+    const veilederinfo = cv.veilederNavn
+        ? `${cv.veilederNavn} (${cv.veilederIdent})`
+        : 'ikke tildelt';
     const lenkeClass = 'header--personalia__lenke--veileder';
 
     return (
@@ -56,7 +58,7 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
                         type="venstre"
                         to={tilbakeLink}
                         className={lenkeClass}
-                        text={lenkeText}
+                        text={tilbakeLenkeTekst}
                     />
                     {fantCv && (
                         <VisKandidatForrigeNeste
@@ -76,12 +78,7 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
             </Sidetittel>
             <Normaltekst className="header--personalia__fodselsdato">
                 {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
-                {cv.veilederNavn && (
-                    <span>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        {veilederinfo}
-                    </span>
-                )}
+                <span>&nbsp;&nbsp;|&nbsp;&nbsp;Veileder: {veilederinfo}</span>
             </Normaltekst>
             {fantCv && (
                 <div className="personalia-container">
