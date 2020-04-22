@@ -19,6 +19,7 @@ import MidlertidigUtilgjengelig from '../cv/midlertidig-utilgjengelig/Midlertidi
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.hentCvForKandidat(this.props.match.params.kandidatNr, this.props.cv.profilId);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
@@ -28,6 +29,7 @@ class VisKandidatFraLister extends React.Component {
             prevProps.match.params.kandidatNr !== this.props.match.params.kandidatNr &&
             this.props.match.params.kandidatNr !== undefined
         ) {
+            window.scrollTo(0, 0);
             this.props.hentCvForKandidat(this.props.match.params.kandidatNr);
         }
     }
