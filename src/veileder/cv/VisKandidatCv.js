@@ -9,7 +9,7 @@ import Tidsperiode from '../../felles/common/Tidsperiode';
 import './VisKandidat.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
-    useEffect(() => window.scrollTo(0, 0), []);
+    window.scrollTo(0, 0);
 
     if (beskrivelse.includes('¿')) {
         const punktliste = beskrivelse.split('¿');

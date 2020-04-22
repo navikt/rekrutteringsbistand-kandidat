@@ -3,6 +3,7 @@ import './MidlertidigUtilgjengeligKnapp.less';
 import TilgjengelighetIkon, { Tilgjengelighet } from '../tilgjengelighet-ikon/TilgjengelighetIkon';
 import Chevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
+import { Element, Ingress, Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     chevronType: 'opp' | 'ned';
@@ -41,7 +42,9 @@ const MidlertidigUtilgjengeligKnapp: FunctionComponent<Props> = ({
                 tilgjengelighet={tilgjengelighet}
                 className="midlertidig-utilgjengelig-knapp__ikon"
             />
+            <Normaltekst tag="span" className="midlertidig-utilgjengelig-knapp__tekst">
             {tekst}
+            </Normaltekst>
             <Chevron
                 type={chevronType}
                 className="midlertidig-utilgjengelig-knapp__chevron"
