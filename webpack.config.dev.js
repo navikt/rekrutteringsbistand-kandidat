@@ -9,9 +9,10 @@ const devOverride = {
             index: './viewsDev/index.html',
         },
         proxy: {
-            '/midlertidig-utilgjengelig': {
+            '/kandidater/midlertidig-utilgjengelig': {
                 target: 'http://localhost:8080/finn-kandidat-api',
                 changeOrigin: true,
+                pathRewrite: { '^/kandidater': '' },
             },
         },
     },
@@ -25,6 +26,8 @@ const devOverride = {
             __BACKEND_OPPE__: true,
             __LAST_NED_CV_URL__: "'https://pam-cv-veileder.nais.preprod.local/cv/pdf'",
             __ARBEIDSRETTET_OPPFOLGING_URL__: "'#'",
+            __MIDLERTIDIG_UTILGJENGELIG_PROXY__: "'/kandidater/midlertidig-utilgjengelig'",
+            __SMS_PROXY__: "'/kandidater/api/sms'",
             'process.env.NODE_ENV': "'development'",
         }),
     ],

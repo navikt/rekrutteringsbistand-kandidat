@@ -6,6 +6,8 @@ import {
     KANDIDATLISTE_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
+    MIDLERTIDIG_UTILGJENGELIG_PROXY,
+    SMS_PROXY,
 } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 import { ResponseData } from '../felles/common/remoteData';
@@ -22,9 +24,6 @@ import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
-
-const SMS_API = '/kandidater/api/sms';
-const MIDLERTIDIG_UTILGJENGELIG_API = '/kandidater/midlertidig-utilgjengelig';
 
 if (appIsMocked) {
     require('./mock/api.ts');
@@ -167,12 +166,12 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
 };
 
 export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
-    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`, true);
+    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`, true);
 };
 
 export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
     return postJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_API}`,
+        `${MIDLERTIDIG_UTILGJENGELIG_PROXY}`,
         JSON.stringify({
             aktørId,
             tilDato,
@@ -182,13 +181,13 @@ export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) 
 
 export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
     return putJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`,
+        `${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`,
         JSON.stringify({ aktørId, tilDato })
     );
 };
 
 export const deleteMidlertidigUtilgjengelig = (aktørId: string) => {
-    return deleteWithoutJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`);
+    return deleteWithoutJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`);
 };
 
 export const putArkivertForFlereKandidater = (
@@ -232,11 +231,11 @@ export async function deleteKandidatliste(kandidatlisteId: string): Promise<Resp
 }
 
 export const fetchSendteMeldinger = (kandidatlisteId: string) =>
-    fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
+    fetchJson(`${SMS_PROXY}/${kandidatlisteId}`, true);
 
 export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) =>
     postJson(
-        `${SMS_API}`,
+        `${SMS_PROXY}`,
         JSON.stringify({
             melding,
             fnr,

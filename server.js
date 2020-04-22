@@ -40,8 +40,8 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__PAM_KANDIDATSOK_API_URL__="${frontendProxyUrls.PAM_KANDIDATSOK}";\n` +
         `window.__PAM_SEARCH_API__="${frontendProxyUrls.PAM_SEARCH}";\n` +
         `window.__PAM_SEARCH_API_GATEWAY_URL__="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
-        `window.__SMS_API__="${frontendProxyUrls.SMS}";\n` +
-        `window.__MIDLERTIDIG_UTILGJENGELIG__="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
+        `window.__SMS_PROXY__="${frontendProxyUrls.SMS}";\n` +
+        `window.__MIDLERTIDIG_UTILGJENGELIG_PROXY__="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
         `window.__LOGIN_URL__="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
         `window.__LOGOUT_URL__="${miljøvariablerTilFrontend.LOGOUT_URL}";\n` +
         `window.__LAST_NED_CV_URL__="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
