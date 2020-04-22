@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
-import { Element, Normaltekst, Undertittel, Undertekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import cvPropTypes from '../../felles/PropTypes';
 import sortByDato from '../../felles/common/SortByDato';
@@ -9,8 +9,6 @@ import Tidsperiode from '../../felles/common/Tidsperiode';
 import './VisKandidat.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
-    window.scrollTo(0, 0);
-
     if (beskrivelse.includes('¿')) {
         const punktliste = beskrivelse.split('¿');
         if (!punktliste[0]) {
@@ -18,7 +16,7 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
         }
         return (
             <ul className="nokkelkvalifikasjoner">
-                {punktliste.map(punkt => (
+                {punktliste.map((punkt) => (
                     <li key={punkt.toString()}>{punkt}</li>
                 ))}
             </ul>
@@ -27,9 +25,9 @@ const VisCvBeskrivelse = ({ beskrivelse }) => {
     return <Normaltekst>{beskrivelse}</Normaltekst>;
 };
 
-const fjernDuplikater = forerkortListe => {
+const fjernDuplikater = (forerkortListe) => {
     const forerkortAlleredeILista = new Set();
-    return forerkortListe.filter(forerkort => {
+    return forerkortListe.filter((forerkort) => {
         const forerkortetErIkkeAlleredeLagtTil = !forerkortAlleredeILista.has(
             forerkort.sertifikatKodeNavn
         );
@@ -38,7 +36,7 @@ const fjernDuplikater = forerkortListe => {
     });
 };
 
-const kursOmfang = omfang => {
+const kursOmfang = (omfang) => {
     if (omfang.enhet === 'TIME') return `${omfang.verdi} ${omfang.verdi > 1 ? 'timer' : 'time'}`;
     else if (omfang.enhet === 'DAG') return `${omfang.verdi} ${omfang.verdi > 1 ? 'dager' : 'dag'}`;
     else if (omfang.enhet === 'UKE') return `${omfang.verdi} ${omfang.verdi > 1 ? 'uker' : 'uke'}`;
@@ -245,7 +243,7 @@ const VisKandidatCv = ({ cv }) => (
                         <Undertittel className="cv__overskrift">Språk</Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {cv.sprakferdigheter.map(s => (
+                        {cv.sprakferdigheter.map((s) => (
                             <Row className="row--kategori" key={JSON.stringify(s)}>
                                 <Element>{s.sprak}</Element>
                                 {s.ferdighetSkriftlig && (

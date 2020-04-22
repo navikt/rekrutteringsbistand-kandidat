@@ -1,0 +1,67 @@
+@import '../../../variabler';
+
+.midlertidig-utilgjengelig-knapp {
+    padding: 0.5rem 1rem;
+    border-radius: 5rem;
+    cursor: pointer;
+    fill: black;
+    stroke: black;
+    margin-right: 1rem;
+
+    &--tilgjengelig {
+        &.midlertidig-utilgjengelig-knapp {
+            background-color: inherit;
+            border: 2px solid transparent;
+            color: #8c368e;
+
+            &:hover {
+                border: 2px solid #8c368e;
+
+                color: #8c368e;
+                fill: #8c368e;
+                stroke: #8c368e;
+            }
+        }
+
+        .midlertidig-utilgjengelig-knapp {
+            &__tekst {
+                font-size: 1rem;
+                font-weight: bold;
+                font-family: 'Source Sans Pro', Arial, sans-serif;
+                letter-spacing: 0.0625em;
+            }
+        }
+    }
+
+    &--snart_tilgjengelig {
+        background-color: #cde7d8;
+        border: 2px solid #06893a;
+
+        &:hover {
+            background-color: #06893a;
+        }
+    }
+
+    &--utilgjengelig {
+        background-color: #e3edf8;
+        border: 2px solid @navBla;
+
+        &:hover {
+            background-color: @navBla;
+        }
+    }
+
+    &__ikon {
+        margin-right: 0.25rem;
+    }
+
+    &:hover {
+        color: white;
+        fill: white;
+        stroke: white;
+    }
+
+    &__chevron {
+        margin-left: 0.5rem;
+    }
+}

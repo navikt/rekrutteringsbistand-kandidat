@@ -1,14 +1,15 @@
 import moment from 'moment';
 
-export const minDatoMidlertidigUtilgjengelig = () => moment(new Date());
-export const maksDatoMidlertidigUtilgjengelig = () => moment(moment(new Date()).add(30, 'days'));
+export const dagensDato = () => moment(new Date()).startOf('day');
+export const minDatoMidlertidigUtilgjengelig = () => dagensDato();
+export const maksDatoMidlertidigUtilgjengelig = () => dagensDato().add(30, 'days');
 
 export const validerDatoOgReturnerFeilmelding = (dato) => {
     if (dato === undefined) {
         return 'Du må velge en dato';
     }
     if (!moment(dato).isValid()) {
-        return 'Du må velge en gyldig dato';
+        return 'Du må velge en gyldig dato (dd.mm.åååå)';
     }
     if (moment(dato).isBefore(minDatoMidlertidigUtilgjengelig(), 'days')) {
         return 'Du kan ikke velge en dato tilbake i tid';

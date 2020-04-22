@@ -50,6 +50,8 @@ class VisKandidat extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
+
         this.props.hentCvForKandidat(this.kandidatnummer);
         this.props.settValgtKandidat(this.kandidatnummer);
 
@@ -105,6 +107,7 @@ class VisKandidat extends React.Component {
         }
 
         if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
+            window.scrollTo(0, 0);
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
             });

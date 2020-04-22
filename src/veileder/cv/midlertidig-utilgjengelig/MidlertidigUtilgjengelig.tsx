@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
 import { connect } from 'react-redux';
-import { Knapp } from 'pam-frontend-knapper';
-import Chevron from 'nav-frontend-chevron';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import 'nav-datovelger/lib/styles/datovelger.less';
 
@@ -16,6 +14,9 @@ import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjeng
 import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
+import moment from 'moment';
+import { dagensDato } from './validering';
 
 interface Props {
     aktørId: string;
@@ -26,6 +27,29 @@ interface Props {
     midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
     visMidlertidigUtilgjengelig: boolean;
 }
+
+const getTilgjengelighet = (
+    response: Nettressurs<MidlertidigUtilgjengeligResponse>
+): Tilgjengelighet | undefined => {
+    if (response.kind === Nettstatus.FinnesIkke) {
+        return Tilgjengelighet.TILGJENGELIG;
+    } else if (response.kind !== Nettstatus.Suksess) {
+        return undefined;
+    }
+
+    const idag = dagensDato();
+    const fraDato = moment(response.data.fraDato).startOf('day');
+    const tilDato = moment(response.data.tilDato).startOf('day');
+
+
+    if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
+        return Tilgjengelighet.TILGJENGELIG;
+    }
+    if (tilDato.diff(idag, 'days') < 7) {
+        return Tilgjengelighet.SNART_TILGJENGELIG;
+    }
+    return Tilgjengelighet.UTILGJENGELIG;
+};
 
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     kandidatnr,
@@ -40,10 +64,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     if (!visMidlertidigUtilgjengelig || !midlertidigUtilgjengelig) {
         return null;
-    }
-
-    if (midlertidigUtilgjengelig.kind === Nettstatus.LasterInn) {
-        return <NavFrontendSpinner />;
     }
 
     const lukkPopup = () => setAnker(undefined);
@@ -65,19 +85,16 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         lukkPopup();
     };
 
+    const tilgjengelighet = midlertidigUtilgjengelig
+        ? getTilgjengelighet(midlertidigUtilgjengelig)
+        : undefined;
     return (
         <div className="midlertidig-utilgjengelig">
-            <Knapp type="flat" onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}>
-                <TilgjengelighetIkon
-                    tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
-                    className="midlertidig-utilgjengelig__ikon"
-                />
-                Registrer som utilgjengelig
-                <Chevron
-                    type={anker ? 'opp' : 'ned'}
-                    className="midlertidig-utilgjengelig__chevron"
-                />
-            </Knapp>
+            <MidlertidigUtilgjengeligKnapp
+                chevronType={anker ? 'opp' : 'ned'}
+                onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
+                tilgjengelighet={tilgjengelighet}
+            />
             <Popover
                 ankerEl={anker}
                 onRequestClose={lukkPopup}
