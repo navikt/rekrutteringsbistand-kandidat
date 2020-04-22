@@ -218,8 +218,14 @@ const startServer = (html) => {
         '/midlertidig-utilgjengelig',
         proxy(muHost, {
             https: true,
-            proxyReqPathResolver: (request) =>
-                request.originalUrl.replace(new RegExp('midlertidig-utilgjengelig'), muPath),
+            proxyReqPathResolver: (request) => {
+                const proxyPath = request.originalUrl.replace(
+                    new RegExp('midlertidig-utilgjengelig'),
+                    muPath
+                );
+                console.log('PROXY ::', proxyPath);
+                return proxyPath;
+            },
         })
     );
 
