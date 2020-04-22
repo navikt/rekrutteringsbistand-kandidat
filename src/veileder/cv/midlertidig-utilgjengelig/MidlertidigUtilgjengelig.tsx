@@ -66,10 +66,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         return null;
     }
 
-    if (midlertidigUtilgjengelig.kind === Nettstatus.LasterInn) {
-        return <NavFrontendSpinner />;
-    }
-
     const lukkPopup = () => setAnker(undefined);
 
     const registrer = (tilOgMedDato: string) => {
