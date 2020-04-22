@@ -24,7 +24,7 @@ declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
 
 const SMS_API = '/kandidater/api/sms';
-const MIDLERTIDIG_UTILGJENGELIG_API = '/midlertidig-utilgjengelig';
+const MIDLERTIDIG_UTILGJENGELIG_API = '/kandidater/midlertidig-utilgjengelig';
 
 if (appIsMocked) {
     require('./mock/api.ts');

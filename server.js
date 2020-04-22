@@ -215,12 +215,12 @@ const startServer = (html) => {
     const [, , muHost, ...muPathParts] = fasitProperties.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const muPath = muPathParts.join('/');
     server.use(
-        '/midlertidig-utilgjengelig',
+        '/kandidater/midlertidig-utilgjengelig',
         proxy(muHost, {
             https: true,
             proxyReqPathResolver: (request) => {
                 const proxyPath = request.originalUrl.replace(
-                    new RegExp('midlertidig-utilgjengelig'),
+                    new RegExp('kandidater/midlertidig-utilgjengelig'),
                     muPath
                 );
                 console.log('PROXY ::', proxyPath);

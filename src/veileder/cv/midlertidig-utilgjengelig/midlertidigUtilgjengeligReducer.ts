@@ -4,7 +4,7 @@ import {
     Nettstatus,
     SenderInn,
 } from './../../../felles/common/remoteData';
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { ApiError, Feil, IkkeLastet, LasterInn, Suksess } from '../../../felles/common/remoteData';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../reducer/cvReducer';
 import {
@@ -14,7 +14,6 @@ import {
     putMidlertidigUtilgjengelig,
 } from '../../api';
 import { SearchApiError } from '../../../felles/api';
-import AppState from '../../AppState';
 
 export type FetchMidlertidigUtilgjengeligAction = {
     type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG';
