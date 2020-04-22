@@ -212,7 +212,7 @@ const startServer = (html) => {
         })
     );
 
-    const [, , muHost, muPath] = fasitProperties.MIDLERTIDIG_UTILGJENGELIG_URL.split('/');
+    const [, , muHost, muPath] = fasitProperties.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     server.use(
         '/midlertidig-utilgjengelig',
         proxy(muHost, {
