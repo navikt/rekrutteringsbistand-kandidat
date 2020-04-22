@@ -9,9 +9,10 @@ const devOverride = {
             index: './viewsDev/index.html',
         },
         proxy: {
-            '/midlertidig-utilgjengelig': {
+            '/kandidater/midlertidig-utilgjengelig': {
                 target: 'http://localhost:8080/finn-kandidat-api',
                 changeOrigin: true,
+                pathRewrite: { '^/kandidater': '' },
             },
         },
     },
@@ -19,13 +20,14 @@ const devOverride = {
         new webpack.DefinePlugin({
             __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/pam-kandidatsok-api/rest'",
             __LOGIN_URL__: "'http://localhost:8766/pam-kandidatsok-api/local/cookie-isso'",
-            __MIDLERTIDIG_UTILGJENGELIG_URL__: "'/midlertidig-utilgjengelig'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",
             __BACKEND_OPPE__: true,
             __LAST_NED_CV_URL__: "'https://pam-cv-veileder.nais.preprod.local/cv/pdf'",
             __ARBEIDSRETTET_OPPFOLGING_URL__: "'#'",
+            __MIDLERTIDIG_UTILGJENGELIG_PROXY__: "'/kandidater/midlertidig-utilgjengelig'",
+            __SMS_PROXY__: "'/kandidater/api/sms'",
             'process.env.NODE_ENV': "'development'",
         }),
     ],

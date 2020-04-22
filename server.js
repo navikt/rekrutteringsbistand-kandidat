@@ -1,76 +1,51 @@
 /* eslint-disable no-param-reassign, no-console */
-const express = require('express');
-const compression = require('compression');
-const proxy = require('express-http-proxy');
-const helmet = require('helmet');
-const path = require('path');
-const mustacheExpress = require('mustache-express');
-const fs = require('fs');
-const Promise = require('promise');
 const { isNullOrUndefined } = require('util');
+const compression = require('compression');
+const express = require('express');
+const fs = require('fs');
+const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
+const mustacheExpress = require('mustache-express');
+const path = require('path');
+const Promise = require('promise');
+const proxy = require('express-http-proxy');
 const useragent = require('useragent');
-
-const currentDirectory = __dirname;
-
-const browserRegistrator = (req, res, next) => {
-    try {
-        const browserInfo = useragent.lookup(req.headers['user-agent']);
-        console.log(
-            JSON.stringify({
-                browserFamily: browserInfo.family,
-                browserVersionMajor: browserInfo.major,
-                browserVersionMinor: browserInfo.minor,
-                browserVersionPatch: browserInfo.patch,
-                url: req.url,
-                method: req.method,
-                navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined,
-            })
-        );
-    } catch (e) {
-        console.log(e);
-    }
-    return next();
-};
-
-const server = express();
-server.use(compression(), browserRegistrator);
-const port = process.env.PORT || 8080;
-server.set('port', port);
-
-server.disable('x-powered-by');
-server.use(helmet());
-
-server.set('views', `${currentDirectory}/views`);
-server.set('view engine', 'mustache');
-server.engine('html', mustacheExpress());
 
 const isProd = process.env.NODE_ENV !== 'development';
 
-const fasitProperties = {
-    PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
-    PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
-    PAM_SEARCH_API_GATEWAY_URL: '/kandidater/api/search/enhetsregister',
+const miljøvariablerTilFrontend = {
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
-    API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
-    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
+};
+
+const miljøvariablerTilNode = {
     SMS_API: process.env.SMS_API,
-    MIDLERTIDIG_UTILGJENGELIG_URL: process.env.MIDLERTIDIG_UTILGJENGELIG_URL,
+    API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
+    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
+    MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
+};
+
+const frontendProxyUrls = {
+    PAM_KANDIDATSOK: '/kandidater/rest',
+    PAM_SEARCH: '/kandidater/rest/veileder/kandidatsok/',
+    PAM_SEARCH_API_GATEWAY: '/kandidater/api/search/enhetsregister',
+    SMS: '/kandidater/api/sms',
+    MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
-        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
-        `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
-        `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
-        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n` +
-        `window.__MIDLERTIDIG_UTILGJENGELIG_URL__="${fasitProperties.MIDLERTIDIG_UTILGJENGELIG_URL}";\n`;
+        `window.__PAM_KANDIDATSOK_API_URL__="${frontendProxyUrls.PAM_KANDIDATSOK}";\n` +
+        `window.__PAM_SEARCH_API__="${frontendProxyUrls.PAM_SEARCH}";\n` +
+        `window.__PAM_SEARCH_API_GATEWAY_URL__="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
+        `window.__SMS_PROXY__="${frontendProxyUrls.SMS}";\n` +
+        `window.__MIDLERTIDIG_UTILGJENGELIG_PROXY__="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
+        `window.__LOGIN_URL__="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
+        `window.__LOGOUT_URL__="${miljøvariablerTilFrontend.LOGOUT_URL}";\n` +
+        `window.__LAST_NED_CV_URL__="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
+        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -78,11 +53,11 @@ const writeEnvironmentVariablesToFile = () => {
 };
 
 const backendHost = () => {
-    if (fasitProperties.API_GATEWAY) {
-        const hostAndPath = fasitProperties.API_GATEWAY.split('://').pop();
+    if (miljøvariablerTilNode.API_GATEWAY) {
+        const hostAndPath = miljøvariablerTilNode.API_GATEWAY.split('://').pop();
         if (!hostAndPath) {
             throw Error(
-                `Error: Kunne ikke hente host fra fasitProperties.API_GATEWAY (${fasitProperties.API_GATEWAY})`
+                `Error: Kunne ikke hente host fra miljøvariabler (${miljøvariablerTilNode.API_GATEWAY})`
             );
         }
         const host = hostAndPath.split('/').shift();
@@ -95,8 +70,8 @@ const backendHost = () => {
 };
 
 const gatewayPrefix = () => {
-    if (fasitProperties.API_GATEWAY) {
-        const pathUnchecked = fasitProperties.API_GATEWAY.split(backendHost()).pop();
+    if (miljøvariablerTilNode.API_GATEWAY) {
+        const pathUnchecked = miljøvariablerTilNode.API_GATEWAY.split(backendHost()).pop();
         const pathFinal = pathUnchecked.replace(/\//g, ''); // replace all / with ''
         return pathFinal;
     }
@@ -140,17 +115,116 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get(
-            'host'
-        )}/kandidater`;
+        const redirectUrl = `${
+            miljøvariablerTilFrontend.LOGIN_URL
+        }?redirect=${protocol}://${req.get('host')}/kandidater`;
         return res.redirect(redirectUrl);
     }
     return next();
 };
 
-const renderSok = () =>
+const logError = (errorMessage, details) => console.log(errorMessage, details);
+
+const browserRegistrator = (req, res, next) => {
+    try {
+        const browserInfo = useragent.lookup(req.headers['user-agent']);
+        console.log(
+            JSON.stringify({
+                browserFamily: browserInfo.family,
+                browserVersionMajor: browserInfo.major,
+                browserVersionMinor: browserInfo.minor,
+                browserVersionPatch: browserInfo.patch,
+                url: req.url,
+                method: req.method,
+                navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined,
+            })
+        );
+    } catch (e) {
+        console.log(e);
+    }
+    return next();
+};
+
+const konfigurerProxyTilPamKandidatsøkApi = () => {
+    server.use(
+        '/kandidater/rest/',
+        proxy('http://pam-kandidatsok-api', {
+            proxyReqPathResolver: (req) =>
+                req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api'),
+        })
+    );
+};
+
+const konfigurerProxyTilEnhetsregister = () => {
+    server.use(
+        '/kandidater/api/search/enhetsregister/',
+        proxy(backendHost(), {
+            https: true,
+            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
+                ...proxyReqOpts,
+                cookie: srcReq.headers.cookie,
+                headers: {
+                    ...proxyReqOpts.headers,
+                    'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
+                },
+            }),
+            proxyReqPathResolver: (req) => {
+                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl
+                    .split('/search/enhetsregister/')
+                    .pop()}`;
+                console.log(convertedPath);
+                return convertedPath;
+            },
+        })
+    );
+};
+
+const konfigurerProxyTilSmsApi = () => {
+    const [, , host, path] = miljøvariablerTilNode.SMS_API.split('/');
+
+    server.use(
+        frontendProxyUrls.SMS,
+        proxy(host, {
+            https: true,
+            proxyReqPathResolver: (request) =>
+                request.originalUrl.replace(new RegExp('kandidater/api'), path),
+        })
+    );
+};
+
+const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
+    const [, , host, ...pathParts] = miljøvariablerTilNode.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
+    const path = pathParts.join('/');
+
+    server.use(
+        frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG,
+        proxy(host, {
+            https: true,
+            proxyReqPathResolver: (request) =>
+                request.originalUrl.replace(
+                    new RegExp('kandidater/midlertidig-utilgjengelig'),
+                    path
+                ),
+        })
+    );
+};
+
+// Konfigurer server
+const server = express();
+server.use(compression(), browserRegistrator);
+
+const port = process.env.PORT || 8080;
+server.set('port', port);
+
+server.disable('x-powered-by');
+server.use(helmet());
+server.set('views', `${__dirname}/views`);
+server.set('view engine', 'mustache');
+server.engine('html', mustacheExpress());
+
+const renderSøk = () =>
     new Promise((resolve, reject) => {
-        server.render('index.html', fasitProperties, (err, html) => {
+        server.render('index.html', miljøvariablerTilFrontend, (err, html) => {
             if (err) {
                 reject(err);
             } else {
@@ -169,48 +243,14 @@ const startServer = (html) => {
         res.sendStatus(200)
     );
 
-    server.use(
-        '/kandidater/rest/',
-        proxy('http://pam-kandidatsok-api', {
-            proxyReqPathResolver: (req) =>
-                req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api'),
-        })
-    );
+    konfigurerProxyTilPamKandidatsøkApi();
 
     server.use('/kandidater/js', express.static(path.resolve(__dirname, 'dist/js')));
     server.use('/kandidater/css', express.static(path.resolve(__dirname, 'dist/css')));
 
-    server.use(
-        '/kandidater/api/search/enhetsregister/',
-        proxy(backendHost(), {
-            https: true,
-            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
-                ...proxyReqOpts,
-                cookie: srcReq.headers.cookie,
-                headers: {
-                    ...proxyReqOpts.headers,
-                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY,
-                },
-            }),
-            proxyReqPathResolver: (req) => {
-                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl
-                    .split('/search/enhetsregister/')
-                    .pop()}`;
-                console.log(convertedPath);
-                return convertedPath;
-            },
-        })
-    );
-
-    const [, , smsHost, smsPath] = fasitProperties.SMS_API.split('/');
-    server.use(
-        '/kandidater/api/sms',
-        proxy(smsHost, {
-            https: true,
-            proxyReqPathResolver: (request) =>
-                request.originalUrl.replace(new RegExp('kandidater/api'), smsPath),
-        })
-    );
+    konfigurerProxyTilEnhetsregister();
+    konfigurerProxyTilSmsApi();
+    konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
         res.send(html);
@@ -222,6 +262,4 @@ const startServer = (html) => {
     });
 };
 
-const logError = (errorMessage, details) => console.log(errorMessage, details);
-
-renderSok().then(startServer, (error) => logError('Failed to render app', error));
+renderSøk().then(startServer, (error) => logError('Failed to render app', error));
