@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Undertittel, Undertekst } from 'nav-frontend-typografi';
@@ -9,7 +9,7 @@ import Tidsperiode from '../../felles/common/Tidsperiode';
 import './VisKandidat.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
-    window.scrollTo(0, 0);
+    useEffect(() => window.scrollTo(0, 0), []);
 
     if (beskrivelse.includes('¿')) {
         const punktliste = beskrivelse.split('¿');
