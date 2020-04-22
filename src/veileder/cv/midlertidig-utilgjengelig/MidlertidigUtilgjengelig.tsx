@@ -16,6 +16,7 @@ import useFeatureToggle from '../../result/useFeatureToggle';
 import './MidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
+import { dagensDato } from './validering';
 
 interface Props {
     aktørId: string;
@@ -34,13 +35,16 @@ const getTilgjengelighet = (
     } else if (response.kind !== Nettstatus.Suksess) {
         return undefined;
     }
-    const data = response.data;
-    const nå = moment(new Date());
 
-    if (!nå.isBetween(moment(data.fraDato), moment(data.tilDato), 'days', '[]')) {
+    const idag = dagensDato();
+    const fraDato = moment(response.data.fraDato).startOf('day');
+    const tilDato = moment(response.data.tilDato).startOf('day');
+
+
+    if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
         return Tilgjengelighet.TILGJENGELIG;
     }
-    if (moment(data.tilDato).diff(nå, 'days') < 7) {
+    if (tilDato.diff(idag, 'days') < 7) {
         return Tilgjengelighet.SNART_TILGJENGELIG;
     }
     return Tilgjengelighet.UTILGJENGELIG;
