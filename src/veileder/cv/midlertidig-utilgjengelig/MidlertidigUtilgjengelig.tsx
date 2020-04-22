@@ -57,7 +57,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
     if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
-        // return null; TODO DETTE MÅ SETTES PÅ!
+        return null;
     }
 
     const lukkPopup = () => setAnker(undefined);
