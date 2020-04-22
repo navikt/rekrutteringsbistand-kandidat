@@ -35,6 +35,7 @@ const browserRegistrator = (req, res, next) => {
 
 const server = express();
 server.use(compression(), browserRegistrator);
+
 const port = process.env.PORT || 8080;
 server.set('port', port);
 
@@ -47,7 +48,7 @@ server.engine('html', mustacheExpress());
 
 const isProd = process.env.NODE_ENV !== 'development';
 
-const fasitProperties = {
+const miljøvariabler = {
     PAM_KANDIDATSOK_API_URL: '/kandidater/rest',
     PAM_SEARCH_API: '/kandidater/rest/veileder/kandidatsok/',
     PAM_SEARCH_API_GATEWAY_URL: '/kandidater/api/search/enhetsregister',
@@ -61,16 +62,21 @@ const fasitProperties = {
     MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
 };
 
+const frontendProxyUrls = {
+    SMS: '/kandidater/api/sms',
+    MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
+};
+
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.__PAM_KANDIDATSOK_API_URL__="${fasitProperties.PAM_KANDIDATSOK_API_URL}";\n` +
-        `window.__PAM_SEARCH_API__="${fasitProperties.PAM_SEARCH_API}";\n` +
-        `window.__LOGIN_URL__="${fasitProperties.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${fasitProperties.LOGOUT_URL}";\n` +
-        `window.__PAM_SEARCH_API_GATEWAY_URL__="${fasitProperties.PAM_SEARCH_API_GATEWAY_URL}";\n` +
-        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${fasitProperties.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${fasitProperties.LAST_NED_CV_URL}";\n` +
-        `window.__MIDLERTIDIG_UTILGJENGELIG_URL__="${fasitProperties.MIDLERTIDIG_UTILGJENGELIG_URL}";\n`;
+        `window.__PAM_KANDIDATSOK_API_URL__="${miljøvariabler.PAM_KANDIDATSOK_API_URL}";\n` +
+        `window.__PAM_SEARCH_API__="${miljøvariabler.PAM_SEARCH_API}";\n` +
+        `window.__LOGIN_URL__="${miljøvariabler.LOGIN_URL}";\n` +
+        `window.__LOGOUT_URL__="${miljøvariabler.LOGOUT_URL}";\n` +
+        `window.__PAM_SEARCH_API_GATEWAY_URL__="${miljøvariabler.PAM_SEARCH_API_GATEWAY_URL}";\n` +
+        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${miljøvariabler.ARBEIDSRETTET_OPPFOLGING_URL}";\n` +
+        `window.__LAST_NED_CV_URL__="${miljøvariabler.LAST_NED_CV_URL}";\n` +
+        `window.__MIDLERTIDIG_UTILGJENGELIG_URL__="${miljøvariabler.MIDLERTIDIG_UTILGJENGELIG_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -78,11 +84,11 @@ const writeEnvironmentVariablesToFile = () => {
 };
 
 const backendHost = () => {
-    if (fasitProperties.API_GATEWAY) {
-        const hostAndPath = fasitProperties.API_GATEWAY.split('://').pop();
+    if (miljøvariabler.API_GATEWAY) {
+        const hostAndPath = miljøvariabler.API_GATEWAY.split('://').pop();
         if (!hostAndPath) {
             throw Error(
-                `Error: Kunne ikke hente host fra fasitProperties.API_GATEWAY (${fasitProperties.API_GATEWAY})`
+                `Error: Kunne ikke hente host fra miljøvariabler.API_GATEWAY (${miljøvariabler.API_GATEWAY})`
             );
         }
         const host = hostAndPath.split('/').shift();
@@ -95,8 +101,8 @@ const backendHost = () => {
 };
 
 const gatewayPrefix = () => {
-    if (fasitProperties.API_GATEWAY) {
-        const pathUnchecked = fasitProperties.API_GATEWAY.split(backendHost()).pop();
+    if (miljøvariabler.API_GATEWAY) {
+        const pathUnchecked = miljøvariabler.API_GATEWAY.split(backendHost()).pop();
         const pathFinal = pathUnchecked.replace(/\//g, ''); // replace all / with ''
         return pathFinal;
     }
@@ -140,7 +146,7 @@ const tokenValidator = (req, res, next) => {
     const token = extractTokenFromCookie(req.headers.cookie);
     if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
         const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${fasitProperties.LOGIN_URL}?redirect=${protocol}://${req.get(
+        const redirectUrl = `${miljøvariabler.LOGIN_URL}?redirect=${protocol}://${req.get(
             'host'
         )}/kandidater`;
         return res.redirect(redirectUrl);
@@ -150,7 +156,7 @@ const tokenValidator = (req, res, next) => {
 
 const renderSok = () =>
     new Promise((resolve, reject) => {
-        server.render('index.html', fasitProperties, (err, html) => {
+        server.render('index.html', miljøvariabler, (err, html) => {
             if (err) {
                 reject(err);
             } else {
@@ -158,6 +164,18 @@ const renderSok = () =>
             }
         });
     });
+
+const hentProxyTilSmsApi = () => {
+    const [, , host, path] = miljøvariabler.SMS_API.split('/');
+    return [host, path];
+};
+
+const hentProxyTilMidlertidigUtilgjengeligApi = () => {
+    const [, , host, ...pathParts] = miljøvariabler.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
+    const path = pathParts.join('/');
+
+    return [host, path];
+};
 
 const startServer = (html) => {
     writeEnvironmentVariablesToFile();
@@ -189,7 +207,7 @@ const startServer = (html) => {
                 cookie: srcReq.headers.cookie,
                 headers: {
                     ...proxyReqOpts.headers,
-                    'x-nav-apiKey': fasitProperties.PROXY_API_KEY,
+                    'x-nav-apiKey': miljøvariabler.PROXY_API_KEY,
                 },
             }),
             proxyReqPathResolver: (req) => {
@@ -202,9 +220,9 @@ const startServer = (html) => {
         })
     );
 
-    const [, , smsHost, smsPath] = fasitProperties.SMS_API.split('/');
+    const [smsHost, smsPath] = hentProxyTilSmsApi();
     server.use(
-        '/kandidater/api/sms',
+        frontendProxyUrls.SMS,
         proxy(smsHost, {
             https: true,
             proxyReqPathResolver: (request) =>
@@ -212,16 +230,18 @@ const startServer = (html) => {
         })
     );
 
-    const [, , muHost, ...muPathParts] = fasitProperties.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
-    const muPath = muPathParts.join('/');
+    const [
+        midlertidigUtilgjengeligHost,
+        midlertidigUtilgjengeligPath,
+    ] = hentProxyTilMidlertidigUtilgjengeligApi();
     server.use(
-        '/kandidater/midlertidig-utilgjengelig',
-        proxy(muHost, {
+        frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG,
+        proxy(midlertidigUtilgjengeligHost, {
             https: true,
             proxyReqPathResolver: (request) => {
                 const proxyPath = request.originalUrl.replace(
                     new RegExp('kandidater/midlertidig-utilgjengelig'),
-                    muPath
+                    midlertidigUtilgjengeligPath
                 );
                 console.log('PROXY ::', proxyPath);
                 return proxyPath;
