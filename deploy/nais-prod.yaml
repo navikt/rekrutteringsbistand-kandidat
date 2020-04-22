@@ -54,5 +54,5 @@ spec:
           value: https://app.adeo.no/veilarbpersonflatefs
         - name: SMS_API
           value: https://arbeidsgiver.nais.adeo.no/rekrutteringsbistand-sms
-        - name: MIDLERTIDIG_UTILGJENGELIG_URL
-          value: '#'
+        - name: MIDLERTIDIG_UTILGJENGELIG_API
+          value: https://arbeidsgiver.nais.adeo.no/finn-kandidat-api/midlertidig-utilgjengelig

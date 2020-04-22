@@ -7,13 +7,13 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
+import { Nettstatus, RemoteData, Nettressurs } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
-import useFeatureToggle from '../../result/useFeatureToggle';
+import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { dagensDato } from './validering';
@@ -25,6 +25,7 @@ interface Props {
     endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
     midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    visMidlertidigUtilgjengelig: boolean;
 }
 
 const getTilgjengelighet = (
@@ -50,32 +51,41 @@ const getTilgjengelighet = (
     return Tilgjengelighet.UTILGJENGELIG;
 };
 
-const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
-    const { kandidatnr, aktørId, midlertidigUtilgjengelig, lagreMidlertidigUtilgjengelig } = props;
-
+const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
+    kandidatnr,
+    aktørId,
+    midlertidigUtilgjengelig,
+    lagreMidlertidigUtilgjengelig,
+    endreMidlertidigUtilgjengelig,
+    slettMidlertidigUtilgjengelig,
+    visMidlertidigUtilgjengelig,
+}) => {
     const [anker, setAnker] = useState<any>(undefined);
-    const erToggletPå = useFeatureToggle('vis-midlertidig-utilgjengelig');
 
-    if (!erToggletPå || midlertidigUtilgjengelig === undefined) {
+    if (!visMidlertidigUtilgjengelig || !midlertidigUtilgjengelig) {
         return null;
+    }
+
+    if (midlertidigUtilgjengelig.kind === Nettstatus.LasterInn) {
+        return <NavFrontendSpinner />;
     }
 
     const lukkPopup = () => setAnker(undefined);
 
-    const registrerMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+    const registrer = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
         lukkPopup();
     };
 
-    const endreMidlertidigUtilgjengelig = (tilOgMedDato: string) => {
+    const endre = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
-        props.endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
         lukkPopup();
     };
 
-    const slettMidlertidigUtilgjengelig = () => {
-        props.slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
+    const slett = () => {
+        slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
         lukkPopup();
     };
 
@@ -100,15 +110,15 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
-                        endreMidlertidigUtilgjengelig={endreMidlertidigUtilgjengelig}
-                        slettMidlertidigUtilgjengelig={slettMidlertidigUtilgjengelig}
+                        endreMidlertidigUtilgjengelig={endre}
+                        slettMidlertidigUtilgjengelig={slett}
                         midlertidigUtilgjengelig={midlertidigUtilgjengelig.data}
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
-                        registrerMidlertidigUtilgjengelig={registrerMidlertidigUtilgjengelig}
+                        registrerMidlertidigUtilgjengelig={registrer}
                     />
                 )}
             </Popover>
@@ -119,6 +129,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
 export default connect(
     (state: AppState) => ({
         aktørId: state.cv.cv.aktorId,
+        visMidlertidigUtilgjengelig: state.search.featureToggles['vis-midlertidig-utilgjengelig'],
     }),
     (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
