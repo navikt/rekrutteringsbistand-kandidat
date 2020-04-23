@@ -8,6 +8,7 @@ import AppState from '../../AppState';
 import { OppstartstidspunktActionType, OppstartstidspunktState } from './oppstartstidspunktReducer';
 import { SEARCH } from '../searchReducer';
 import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
+import MidlertidigUtilgjengeligSearch from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 export enum Oppstartstidspunkt {
     LEDIG_NAA = 'LEDIG_NAA',
@@ -23,7 +24,7 @@ interface Props {
     search: () => void;
 }
 
-const OppstartstidspunktSearch: FunctionComponent<Props | any> = props => {
+const OppstartstidspunktSearch: FunctionComponent<Props | any> = (props) => {
     const { panelOpen, oppstartstidspunkter } = props.oppstartstidspunktState;
 
     const alleOppstartstidspunkter = [
@@ -54,7 +55,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props | any> = props => {
             onClick={props.toggleOppstartstidspunktOpen}
         >
             <SkjemaGruppe title="Registrert i kandidatens jobbprofil">
-                {alleOppstartstidspunkter.map(tidspunkt => (
+                {alleOppstartstidspunkter.map((tidspunkt) => (
                     <Checkbox
                         key={tidspunkt.value}
                         id={`oppstartstidspunkt-${tidspunkt.value.toLowerCase()}-checkbox`}
@@ -66,6 +67,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props | any> = props => {
                     />
                 ))}
             </SkjemaGruppe>
+            <MidlertidigUtilgjengeligSearch />
         </SokekriteriePanel>
     );
 };
