@@ -123,6 +123,42 @@ const tokenValidator = (req, res, next) => {
     return next();
 };
 
+const mapToCookies = (cookieString) =>
+    cookieString.split(';').map((cookieStr) => ({
+        name: cookieStr.split('=')[0].trim(),
+        value: cookieStr.split('=')[1].trim(),
+    }));
+
+const mapToCookieString = (cookieList) =>
+    cookieList.map((cookie) => `${cookie.name}=${cookie.value}`).join(';');
+
+const lagCookieStringUtenDobleCookies = (cookieString) => {
+    const cookies = mapToCookies(cookieString);
+    console.log(
+        'cookie names before filter',
+        cookies.map((cookie) => cookie.name)
+    );
+
+    const cookiesUtenDuplikater = cookies.filter((cookie) => {
+        const duplicates = cookies.filter((cookie2) => cookie2.name === cookie.name);
+        if (duplicates.length() === 1) {
+            return true;
+        }
+        return cookie.value === duplicates[0].value;
+    });
+
+    console.log(
+        'cookie names after filter',
+        cookiesUtenDuplikater.map((cookie) => cookie.name)
+    );
+
+    return cookiesUtenDuplikater;
+};
+
+const fjernDobleCookies = (req, res, next) => {
+    req.headers.cookie = lagCookieStringUtenDobleCookies(req.headers.cookie);
+    next();
+};
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 const browserRegistrator = (req, res, next) => {
@@ -197,11 +233,7 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     const path = pathParts.join('/');
 
     server.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
-        (req, res, next) => {
-            console.log('req', req);
-            console.log('res', res);
-            next();
-        },
+        fjernDobleCookies,
         proxy(host, {
             https: true,
             proxyReqPathResolver: (request) =>
