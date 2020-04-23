@@ -3,10 +3,7 @@ import { Datovelger } from 'nav-datovelger';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import classNames from 'classnames';
 import './MidlertidigUtilgjengeligDatovelger.less';
-import {
-    maksDatoMidlertidigUtilgjengelig,
-    minDatoMidlertidigUtilgjengelig,
-} from '../validering';
+import { maksDatoMidlertidigUtilgjengelig, minDatoMidlertidigUtilgjengelig } from '../validering';
 
 interface Props {
     dato: string | undefined;
