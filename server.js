@@ -196,8 +196,7 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     const [, , host, ...pathParts] = miljøvariablerTilNode.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const path = pathParts.join('/');
 
-    server.use(
-        frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG,
+    server.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
         (req, res, next) => {
             console.log('req', req);
             console.log('res', res);
@@ -210,8 +209,8 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
                     new RegExp('kandidater/midlertidig-utilgjengelig'),
                     path
                 ),
-        })
-    );
+        }),
+    ]);
 };
 
 // Konfigurer server
