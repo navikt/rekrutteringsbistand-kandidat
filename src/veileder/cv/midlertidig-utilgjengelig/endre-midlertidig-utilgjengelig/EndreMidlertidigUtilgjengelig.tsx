@@ -20,15 +20,16 @@ interface Props {
 const formaterDato = (dato: Date | Moment) => moment(dato).format('DD.MM.YYYY');
 
 const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
+    const defaultDato = formaterDato(props.midlertidigUtilgjengelig.tilDato);
     const [hvaSkalEndres, setHvaSkalEndres] = useState<string | undefined>(undefined);
-    const [dato, setDato] = useState<string | undefined>(undefined);
+    const [dato, setDato] = useState<string | undefined>(defaultDato);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
     const onHvaSkalEndresChange = (event: ChangeEvent<HTMLInputElement>) =>
         setHvaSkalEndres(event.target.value);
 
     const onAvbryt = () => {
-        setDato(undefined);
+        setDato(defaultDato);
         setFeilmelding(undefined);
         setHvaSkalEndres(undefined);
         props.onAvbryt();
