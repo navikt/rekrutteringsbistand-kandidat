@@ -198,6 +198,11 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
 
     server.use(
         frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG,
+        (req, res, next) => {
+            console.log('req', req);
+            console.log('res', res);
+            next();
+        },
         proxy(host, {
             https: true,
             proxyReqPathResolver: (request) =>
