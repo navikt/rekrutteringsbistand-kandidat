@@ -171,7 +171,6 @@ export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
 };
 
 export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
-    return null;
     return postJson(
         `${MIDLERTIDIG_UTILGJENGELIG_PROXY}`,
         JSON.stringify({
