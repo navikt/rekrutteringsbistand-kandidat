@@ -13,32 +13,24 @@
     &__navnefilter {
         border-width: 0 0 1px 0;
         padding-left: 1.5rem;
-    }
 
-    &__container {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-rows: 1fr auto;
-        grid-template-areas:
-            'over-filter over-liste'
-            'filter liste';
-        grid-gap: 1.5rem 4rem;
-        margin: 2.5rem auto;
-        max-width: 95.5rem;
-
-        .liste-header {
-            border: 1px solid #78706a;
+        &:hover {
+            border-color: black;
         }
     }
 
-    &__flere-kandidater {
-        grid-area: over-filter;
+    &__kontrollpanel {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        margin: 2.5rem auto;
+        max-width: 95.5rem;
+        width: 100%;
+        background-color: #f1f1f1;
+        padding: 1.5rem;
 
         .finn-kandidater {
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-right: 2rem;
         }
 
         .legg-til-kandidat {
@@ -46,10 +38,24 @@
         }
     }
 
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+            'ingenting over-liste'
+            'filter liste';
+        grid-gap: 1.5rem 4rem;
+        max-width: 95.5rem;
+        margin: 2.5rem auto;
+
+        .liste-header {
+            border: 1px solid #78706a;
+        }
+    }
+
     &__knapperad-container {
         grid-area: over-liste;
-        display: flex;
-        align-items: flex-end;
     }
 
     &__liste {
