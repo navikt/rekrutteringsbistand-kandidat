@@ -13,11 +13,8 @@ const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) =>
         kandidat.etternavn,
     ].map((s) => s.toLowerCase());
 
-    return (
-        normalisertFornavn.startsWith(normalisertFilter) ||
-        normalisertEtternavn.startsWith(normalisertFilter) ||
-        (normalisertFornavn + ' ' + normalisertEtternavn).startsWith(normalisertFilter)
-    );
+    const navn = normalisertFornavn + ' ' + normalisertEtternavn;
+    return navn.includes(normalisertFilter);
 };
 
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
