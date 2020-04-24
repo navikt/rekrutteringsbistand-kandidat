@@ -137,10 +137,6 @@ const mapToCookieString = (cookieList) =>
 
 const lagCookieStringUtenDobleCookies = (cookieString) => {
     const cookies = mapToCookies(cookieString);
-    console.log(
-        'cookie names before filter',
-        cookies.map((cookie) => cookie.name)
-    );
 
     const cookiesUtenDuplikater = cookies.filter((cookie) => {
         const duplicates = cookies.filter((cookie2) => cookie2.name === cookie.name);
@@ -150,10 +146,10 @@ const lagCookieStringUtenDobleCookies = (cookieString) => {
         return cookie.value === duplicates[0].value;
     });
 
-    console.log(
-        'cookie names after filter',
-        cookiesUtenDuplikater.map((cookie) => cookie.name)
-    );
+    const forskjellIAntallCookies = cookies.length - cookiesUtenDuplikater.length;
+    if (forskjellIAntallCookies !== 0) {
+        console.log('Fjernet ' + forskjellIAntallCookies + ' cookies');
+    }
 
     return mapToCookieString(cookiesUtenDuplikater);
 };
