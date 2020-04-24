@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Checkbox, Input } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
@@ -47,16 +47,40 @@ type Props = {
     arkiveringErEnabled?: boolean;
 };
 
+const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatliste) =>
+    !!kandidat.arkivert === visArkiverte;
+
+const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
+    if (navnefilter.length === 0) return true;
+
+    const [normalisertFilter, normalisertFornavn, normalisertEtternavn] = [
+        navnefilter,
+        kandidat.fornavn,
+        kandidat.etternavn,
+    ].map((s) => s.toLowerCase());
+
+    return (
+        normalisertFornavn.startsWith(normalisertFilter) ||
+        normalisertEtternavn.startsWith(normalisertFilter) ||
+        (normalisertFornavn + ' ' + normalisertEtternavn).startsWith(normalisertFilter)
+    );
+};
+
 const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
+    return kandidater.filter(matchArkivering(true)).length;
 };
 
-const hentFiltrerteKandidater = (kandidater: KandidatIKandidatliste[], visArkiverte: boolean) => {
-    return kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte);
+const hentFiltrerteKandidater = (
+    kandidater: KandidatIKandidatliste[],
+    visArkiverte: boolean,
+    navnefilter: string
+) => {
+    return kandidater.filter(matchArkivering(visArkiverte)).filter(matchNavn(navnefilter));
 };
 
-const Kandidatliste: FunctionComponent<Props> = props => {
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [navnefilter, setNavnefilter] = useState<string>('');
     const [antallArkiverte, setAntallArkiverte] = useState<number>(
         hentAntallArkiverte(props.kandidater)
     );
@@ -67,12 +91,14 @@ const Kandidatliste: FunctionComponent<Props> = props => {
     };
 
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(props.kandidater, visArkiverte)
+        hentFiltrerteKandidater(props.kandidater, visArkiverte, navnefilter)
     );
 
     useEffect(() => {
-        setFiltrerteKandidater(hentFiltrerteKandidater(props.kandidater, visArkiverte));
-    }, [props.kandidater, visArkiverte]);
+        setFiltrerteKandidater(
+            hentFiltrerteKandidater(props.kandidater, visArkiverte, navnefilter)
+        );
+    }, [props.kandidater, visArkiverte, navnefilter]);
 
     useEffect(() => {
         setAntallArkiverte(hentAntallArkiverte(props.kandidater));
@@ -111,6 +137,12 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                                 stillingsId={props.stillingsId}
                             />
                             <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                            <input
+                                placeholder="Søk på navn"
+                                value={navnefilter}
+                                className="kandidatliste__navnefilter"
+                                onChange={(e) => setNavnefilter(e.currentTarget.value)}
+                            />
                         </KnappeRad>
                     </div>
 
