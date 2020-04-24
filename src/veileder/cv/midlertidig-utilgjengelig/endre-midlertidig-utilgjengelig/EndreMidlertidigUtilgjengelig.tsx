@@ -54,9 +54,16 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
         registrertAvIdent,
         registrertAvNavn,
         fraDato,
+        sistEndretAvIdent,
+        sistEndretAvNavn,
     } = props.midlertidigUtilgjengelig;
 
     const tilgjengeligDato = moment(tilDato).add(1, 'days');
+
+    const harBlittEndretFør = !!sistEndretAvIdent;
+    const registrertAvTekst = harBlittEndretFør
+        ? `Sist registrert av: ${sistEndretAvNavn} (${sistEndretAvIdent})`
+        : `Registrert av: ${registrertAvNavn} (${registrertAvIdent})`;
 
     return (
         <div
@@ -69,30 +76,17 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
             <Undertittel tag="h2" className="endre-midlertidig-utilgjengelig__tittel">
                 Kandidaten er midlertidig utilgjengelig
             </Undertittel>
-            <Normaltekst>
-                Tilgjengelig om:{' '}
-                <Element tag="span">
-                    {moment(tilgjengeligDato).diff(moment(fraDato), 'days') + 1} dager
-                </Element>{' '}
+            <Element className="endre-midlertidig-utilgjengelig__tilgjengelig-om">
+                Tilgjengelig om: {moment(tilgjengeligDato).diff(moment(fraDato), 'days') + 1} dager
                 ({formaterDato(tilgjengeligDato)})
-            </Normaltekst>
-            <Normaltekst>
-                Registrert av: {registrertAvNavn} ({registrertAvIdent})
-            </Normaltekst>
+            </Element>
+            <Normaltekst>{registrertAvTekst}</Normaltekst>
             <Normaltekst>Registrert: {formaterDato(fraDato)}</Normaltekst>
 
             <fieldset className="endre-midlertidig-utilgjengelig__fieldset">
                 <Element tag="legend" className="endre-midlertidig-utilgjengelig__legend">
                     Endre
                 </Element>
-                <Radio
-                    label="Fjern markeringen som utilgjengelig"
-                    name="endreMidlertidigUtilgjengelig"
-                    value="fjernMarkering"
-                    checked={hvaSkalEndres === 'fjernMarkering'}
-                    onChange={onHvaSkalEndresChange}
-                    className="endre-midlertidig-utilgjengelig__radio"
-                />
                 <Radio
                     label="Endre dato"
                     name="endreMidlertidigUtilgjengelig"
@@ -101,15 +95,23 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                     onChange={onHvaSkalEndresChange}
                     className="endre-midlertidig-utilgjengelig__radio"
                 />
-            </fieldset>
-            {hvaSkalEndres === 'endreDato' && (
-                <MidlertidigUtilgjengeligDatovelger
-                    dato={dato}
-                    setDato={setDato}
-                    className="endre-midlertidig-utilgjengelig__datovelger"
-                    feilmelding={feilmelding}
+                {hvaSkalEndres === 'endreDato' && (
+                    <MidlertidigUtilgjengeligDatovelger
+                        dato={dato}
+                        setDato={setDato}
+                        className="endre-midlertidig-utilgjengelig__datovelger"
+                        feilmelding={feilmelding}
+                    />
+                )}
+                <Radio
+                    label="Fjern markeringen som utilgjengelig"
+                    name="endreMidlertidigUtilgjengelig"
+                    value="fjernMarkering"
+                    checked={hvaSkalEndres === 'fjernMarkering'}
+                    onChange={onHvaSkalEndresChange}
+                    className="endre-midlertidig-utilgjengelig__radio"
                 />
-            )}
+            </fieldset>
             <Knapp type="hoved" onClick={onLagre}>
                 Lagre
             </Knapp>
