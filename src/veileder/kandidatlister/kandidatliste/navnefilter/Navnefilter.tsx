@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Søkeikon from './Søkeikon';
 import './Navnefilter.less';
+import { Input } from 'nav-frontend-skjema';
 
 interface Props {
     value: string;
@@ -15,12 +16,12 @@ const Navnefilter: FunctionComponent<Props> = ({ value, onChange, onReset }) => 
     return (
         <div className="navnefilter">
             <Søkeikon />
-            <label className="navnefilter__label">Søk etter navn i listen</label>
-            <input
+            <Input
+                className="navnefilter__input navnefilter__søkeikon"
                 placeholder={tittel}
+                label="Søk etter navn i listen"
                 value={value}
                 onChange={onChange}
-                className="navnefilter__input navnefilter__søkeikon"
             />
             {value.length > 0 && (
                 <button

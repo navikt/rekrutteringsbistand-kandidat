@@ -8,18 +8,19 @@
     }
 
     &__input {
-        border-width: 0 0 1px 0;
-        padding: 0.25rem 1.5rem 0.25rem 1.75rem;
-        border-color: #78706a;
-        color: #3e3832;
+        .skjemaelement__input {
+            padding: 0.25rem 1.5rem 0.25rem 1.75rem;
+            border-width: 0 0 1px 0;
+            border-radius: 0;
 
-        &::placeholder {
-            color: #3e3832;
-            opacity: 0.8;
+            &:focus {
+                border-radius: 0.25rem;
+                border-bottom-color: transparent;
+            }
         }
 
-        &:hover {
-            border-color: black;
+        .skjemaelement__label {
+            display: none;
         }
     }
 
