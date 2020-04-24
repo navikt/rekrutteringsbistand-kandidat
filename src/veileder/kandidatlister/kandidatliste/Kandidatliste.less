@@ -2,16 +2,6 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
 
-    .finn-kandidater {
-        font-weight: 600;
-        margin-right: 2rem;
-    }
-
-    .legg-til-kandidat {
-        font-weight: 600;
-        margin-right: 2rem;
-    }
-
     &__filter {
         grid-area: filter;
 
@@ -22,6 +12,7 @@
 
     &__navnefilter {
         border-width: 0 0 1px 0;
+        padding-left: 1.5rem;
     }
 
     &__container {
@@ -29,7 +20,7 @@
         grid-template-columns: 1fr auto;
         grid-template-rows: 1fr auto;
         grid-template-areas:
-            'ingenting over-liste'
+            'over-filter over-liste'
             'filter liste';
         grid-gap: 1.5rem 4rem;
         margin: 2.5rem auto;
@@ -40,8 +31,25 @@
         }
     }
 
+    &__flere-kandidater {
+        grid-area: over-filter;
+        display: flex;
+        flex-direction: column;
+
+        .finn-kandidater {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .legg-til-kandidat {
+            font-weight: 600;
+        }
+    }
+
     &__knapperad-container {
         grid-area: over-liste;
+        display: flex;
+        align-items: flex-end;
     }
 
     &__liste {

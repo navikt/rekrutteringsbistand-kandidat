@@ -74,6 +74,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             />
             {props.kandidater.length > 0 ? (
                 <div className="kandidatliste__container">
+                    <div className="kandidatliste__flere-kandidater">
+                        <FinnKandidaterLenke
+                            kandidatlisteId={props.kandidatlisteId}
+                            stillingsId={props.stillingsId}
+                        />
+                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                    </div>
                     <div className="kandidatliste__knapperad-container">
                         {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
                         <KnappeRad
@@ -90,15 +97,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             visSendSms={props.visSendSms}
                             visArkiverte={visArkiverte}
                         >
-                            <FinnKandidaterLenke
-                                kandidatlisteId={props.kandidatlisteId}
-                                stillingsId={props.stillingsId}
-                            />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
                             <input
                                 placeholder="Søk på navn"
                                 value={navnefilter}
-                                className="kandidatliste__navnefilter"
+                                className="kandidatliste__navnefilter search-icon-background"
                                 onChange={(e) => setNavnefilter(e.currentTarget.value)}
                             />
                         </KnappeRad>
