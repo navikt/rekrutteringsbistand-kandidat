@@ -124,10 +124,13 @@ const tokenValidator = (req, res, next) => {
 };
 
 const mapToCookies = (cookieString) =>
-    cookieString.split(';').map((cookieStr) => ({
-        name: cookieStr.split('=')[0].trim(),
-        value: cookieStr.split('=')[1].trim(),
-    }));
+    cookieString
+        .split(';')
+        .filter((str) => !!str && str !== '')
+        .map((cookieStr) => ({
+            name: cookieStr.split('=')[0].trim(),
+            value: cookieStr.split('=')[1].trim(),
+        }));
 
 const mapToCookieString = (cookieList) =>
     cookieList.map((cookie) => `${cookie.name}=${cookie.value}`).join(';');
