@@ -13,6 +13,7 @@ import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
+import useKandidatlistefilter from './useKandidatlistefilter';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -47,62 +48,19 @@ type Props = {
     arkiveringErEnabled?: boolean;
 };
 
-const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatliste) =>
-    !!kandidat.arkivert === visArkiverte;
-
-const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
-    if (navnefilter.length === 0) return true;
-
-    const [normalisertFilter, normalisertFornavn, normalisertEtternavn] = [
-        navnefilter,
-        kandidat.fornavn,
-        kandidat.etternavn,
-    ].map((s) => s.toLowerCase());
-
-    return (
-        normalisertFornavn.startsWith(normalisertFilter) ||
-        normalisertEtternavn.startsWith(normalisertFilter) ||
-        (normalisertFornavn + ' ' + normalisertEtternavn).startsWith(normalisertFilter)
-    );
-};
-
-const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(matchArkivering(true)).length;
-};
-
-const hentFiltrerteKandidater = (
-    kandidater: KandidatIKandidatliste[],
-    visArkiverte: boolean,
-    navnefilter: string
-) => {
-    return kandidater.filter(matchArkivering(visArkiverte)).filter(matchNavn(navnefilter));
-};
-
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [navnefilter, setNavnefilter] = useState<string>('');
-    const [antallArkiverte, setAntallArkiverte] = useState<number>(
-        hentAntallArkiverte(props.kandidater)
+    const [filtrerteKandidater, antallArkiverte] = useKandidatlistefilter(
+        props.kandidater,
+        visArkiverte,
+        navnefilter
     );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
         props.onCheckAlleKandidater(false);
     };
-
-    const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(props.kandidater, visArkiverte, navnefilter)
-    );
-
-    useEffect(() => {
-        setFiltrerteKandidater(
-            hentFiltrerteKandidater(props.kandidater, visArkiverte, navnefilter)
-        );
-    }, [props.kandidater, visArkiverte, navnefilter]);
-
-    useEffect(() => {
-        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
-    }, [props.kandidater]);
 
     return (
         <div className="kandidatliste">
