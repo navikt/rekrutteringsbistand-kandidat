@@ -166,8 +166,7 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
 };
 
 export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
-    return null;
-    // return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`, true);
+    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`, true);
 };
 
 export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
