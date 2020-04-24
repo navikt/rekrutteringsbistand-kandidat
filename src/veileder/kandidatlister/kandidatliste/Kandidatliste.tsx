@@ -14,6 +14,7 @@ import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import useKandidatlistefilter from './useKandidatlistefilter';
+import Navnefilter from './navnefilter/Navnefilter';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -100,11 +101,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 visSendSms={props.visSendSms}
                                 visArkiverte={visArkiverte}
                             >
-                                <input
-                                    placeholder="Søk på navn"
+                                <Navnefilter
                                     value={navnefilter}
-                                    className="kandidatliste__navnefilter search-icon-background"
                                     onChange={(e) => setNavnefilter(e.currentTarget.value)}
+                                    onReset={() => setNavnefilter('')}
                                 />
                             </KnappeRad>
                         </div>
