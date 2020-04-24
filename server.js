@@ -141,7 +141,7 @@ const lagCookieStringUtenDobleCookies = (cookieString) => {
 
     const cookiesUtenDuplikater = cookies.filter((cookie) => {
         const duplicates = cookies.filter((cookie2) => cookie2.name === cookie.name);
-        if (duplicates.length() === 1) {
+        if (duplicates.length === 1) {
             return true;
         }
         return cookie.value === duplicates[0].value;
@@ -152,13 +152,14 @@ const lagCookieStringUtenDobleCookies = (cookieString) => {
         cookiesUtenDuplikater.map((cookie) => cookie.name)
     );
 
-    return cookiesUtenDuplikater;
+    return mapToCookieString(cookiesUtenDuplikater);
 };
 
 const fjernDobleCookies = (req, res, next) => {
     req.headers.cookie = lagCookieStringUtenDobleCookies(req.headers.cookie);
     next();
 };
+
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 const browserRegistrator = (req, res, next) => {
