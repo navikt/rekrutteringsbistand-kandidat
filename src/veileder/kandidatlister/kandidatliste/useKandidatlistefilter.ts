@@ -5,10 +5,11 @@ const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatl
     !!kandidat.arkivert === visArkiverte;
 
 const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
-    if (navnefilter.length === 0) return true;
+    const trimmet = navnefilter.trim();
+    if (trimmet.length === 0) return true;
 
     const [normalisertFilter, normalisertFornavn, normalisertEtternavn] = [
-        navnefilter,
+        trimmet,
         kandidat.fornavn,
         kandidat.etternavn,
     ].map((s) => s.toLowerCase());
