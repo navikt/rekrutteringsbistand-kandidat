@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 
 import './OppstartstidspunktSearch.less';
 import { connect } from 'react-redux';
-import AppState from '../../AppState';
 import { OppstartstidspunktActionType, OppstartstidspunktState } from './oppstartstidspunktReducer';
-import { SEARCH } from '../searchReducer';
-import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
-import MidlertidigUtilgjengeligSearch from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import NyttFilterIkon from '../../nytt-filter-ikon/NyttFilterIkon';
+import AppState from '../../../AppState';
+import MidlertidigUtilgjengeligSearch from '../midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import { SEARCH } from '../../searchReducer';
 
 export enum Oppstartstidspunkt {
     LEDIG_NAA = 'LEDIG_NAA',
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
-    const { panelOpen, oppstartstidspunkter } = props.oppstartstidspunktState;
+    const { oppstartstidspunkter } = props.oppstartstidspunktState;
 
     const alleOppstartstidspunkter = [
         { label: 'Ledig nå', value: Oppstartstidspunkt.LEDIG_NAA },
@@ -43,32 +43,19 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <SokekriteriePanel
-            apen={panelOpen}
-            id="Oppstartstidspunkt__SokekriteriePanel"
-            tittel={
-                <div className="permittering-search__tittel">
-                    Tilgjengelighet
-                    <NyttFilterIkon />
-                </div>
-            }
-            onClick={props.toggleOppstartstidspunktOpen}
-        >
-            <SkjemaGruppe title="Registrert i kandidatens jobbprofil">
-                {alleOppstartstidspunkter.map((tidspunkt) => (
-                    <Checkbox
-                        key={tidspunkt.value}
-                        id={`oppstartstidspunkt-${tidspunkt.value.toLowerCase()}-checkbox`}
-                        className="oppstartstidspunkt-search__checkbox"
-                        label={tidspunkt.label}
-                        value={tidspunkt.value}
-                        checked={oppstartstidspunkter.includes(tidspunkt.value)}
-                        onChange={onOppstartstidspunktChange}
-                    />
-                ))}
-            </SkjemaGruppe>
-            <MidlertidigUtilgjengeligSearch />
-        </SokekriteriePanel>
+        <SkjemaGruppe title="Registrert i kandidatens jobbprofil">
+            {alleOppstartstidspunkter.map((tidspunkt) => (
+                <Checkbox
+                    key={tidspunkt.value}
+                    id={`oppstartstidspunkt-${tidspunkt.value.toLowerCase()}-checkbox`}
+                    className="oppstartstidspunkt-search__checkbox"
+                    label={tidspunkt.label}
+                    value={tidspunkt.value}
+                    checked={oppstartstidspunkter.includes(tidspunkt.value)}
+                    onChange={onOppstartstidspunktChange}
+                />
+            ))}
+        </SkjemaGruppe>
     );
 };
 
