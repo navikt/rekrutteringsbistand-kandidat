@@ -283,6 +283,7 @@ export const fromUrlQuery = (url) => {
     const permittert = getUrlParameterByName('permittert');
     const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
+    const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -305,6 +306,8 @@ export const fromUrlQuery = (url) => {
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
     if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
+    if (midlertidigUtilgjengelig)
+        stateFromUrl.midlertidigUtilgjengelig = midlertidigUtilgjengelig.split('_');
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
 
@@ -366,6 +369,15 @@ export const toUrlQuery = (state) => {
     if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
         urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
 
+    if (
+        state.midlertidigUtilgjengeligSearch &&
+        state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig &&
+        state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig.length > 0
+    )
+        urlQuery.midlertidigUtilgjengelig = state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig.join(
+            '_'
+        );
+
     return toUrlParams(urlQuery);
 };
 
@@ -419,6 +431,7 @@ function* search(action = '') {
             kategorier: state.tilretteleggingsbehov.kategorier,
             oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
             maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
+            midlertidigUtilgjengelig: state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
