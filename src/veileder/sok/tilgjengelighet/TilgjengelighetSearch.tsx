@@ -6,19 +6,17 @@ import OppstartstidspunktSearch from './oppstardstidspunkt/OppstartstidspunktSea
 import './TilgjengelighetSearch.less';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
+import { TilgjengelighetAction } from './tilgjengelighetReducer';
 
 interface Props {
     panelOpen: boolean;
+    togglePanelOpen: () => void;
 }
 
-const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen }) => {
-    const todoOpen = () => {
-        console.log('click');
-    };
-
+const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen, togglePanelOpen }) => {
     return (
         <SokekriteriePanel
-            apen={true}
+            apen={panelOpen}
             id="Tilgjengelighet__SokekriteriePanel"
             tittel={
                 <div className="tilgjengelighet-search__tittel">
@@ -26,7 +24,7 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen }) => {
                     <NyttFilterIkon />
                 </div>
             }
-            onClick={todoOpen}
+            onClick={togglePanelOpen}
         >
             <OppstartstidspunktSearch />
             <MidlertidigUtilgjengeligSearch />
@@ -35,11 +33,11 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen }) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    // panelOpen: state.arbeidserfaring.arbeidserfaringPanelOpen,
+    panelOpen: state.tilgjengelighet.panelOpen,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-    // togglePanelOpen: () => dispatch({ type: TOGGLE_ARBEIDSERFARING_PANEL_OPEN }),
+    togglePanelOpen: () => dispatch({ type: TilgjengelighetAction.ToggleTilgjengelighetOpen }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TilgjengelighetSearch);

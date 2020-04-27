@@ -5,13 +5,17 @@ import { OppstartstidspunktState } from './sok/tilgjengelighet/oppstardstidspunk
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './cv/reducer/cvReducer';
 import { MidlertidigUtilgjengeligSearchState } from './sok/tilgjengelighet/midlertidig-utilgjengelig/midlertidigUtilgjengeligSearchReducer';
+import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
     permittering: PermitteringState;
-    tilgjengelighet;
+    tilgjengelighet: TilgjengelighetState;
+
+    // TODO fjerne disse to
     oppstartstidspunkter: OppstartstidspunktState;
     midlertidigUtilgjengeligSearch: MidlertidigUtilgjengeligSearchState;
+
     search: any;
     arbeidserfaring: ArbeidserfaringState;
     typeahead: TypeaheadState;

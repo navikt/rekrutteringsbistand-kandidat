@@ -1,5 +1,6 @@
 import { Oppstartstidspunkt } from './OppstartstidspunktSearch';
 import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../searchReducer';
+import { MidlertidigUtilgjengelig } from '../midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 export type OppstartstidspunktState = {
     panelOpen: boolean;
