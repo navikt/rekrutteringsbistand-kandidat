@@ -41,7 +41,7 @@ export default function utdanningReducer(state = initialState, action) {
         case REMOVE_SELECTED_UTDANNING:
             return {
                 ...state,
-                utdanninger: state.utdanninger.filter(u => u !== action.value),
+                utdanninger: state.utdanninger.filter((u) => u !== action.value),
             };
         case CHECK_UTDANNINGSNIVA:
             return {
@@ -51,7 +51,7 @@ export default function utdanningReducer(state = initialState, action) {
         case UNCHECK_UTDANNINGSNIVA:
             return {
                 ...state,
-                utdanningsniva: state.utdanningsniva.filter(u => u !== action.value),
+                utdanningsniva: state.utdanningsniva.filter((u) => u !== action.value),
             };
         case TOGGLE_UTDANNING_PANEL_OPEN:
             return {

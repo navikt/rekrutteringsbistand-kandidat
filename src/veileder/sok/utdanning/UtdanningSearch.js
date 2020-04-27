@@ -83,7 +83,7 @@ UtdanningSearch.propTypes = {
     visIngenUtdanning: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.utdanning.suggestions,
     utdanningsniva: state.utdanning.utdanningsniva,
@@ -96,16 +96,16 @@ const mapStateToProps = state => ({
     visIngenUtdanning: state.search.featureToggles['ingen-utdanning-filter'],
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
     clearTypeAheadUtdanning: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.UTDANNING }),
-    fetchTypeAheadSuggestions: value =>
+    fetchTypeAheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.UTDANNING, value }),
-    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
-    removeUtdanning: value => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
-    checkUtdanningsniva: value => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),
-    uncheckUtdanningsniva: value => dispatch({ type: UNCHECK_UTDANNINGSNIVA, value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
+    removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
+    checkUtdanningsniva: (value) => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),
+    uncheckUtdanningsniva: (value) => dispatch({ type: UNCHECK_UTDANNINGSNIVA, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_UTDANNING_PANEL_OPEN }),
 });
 

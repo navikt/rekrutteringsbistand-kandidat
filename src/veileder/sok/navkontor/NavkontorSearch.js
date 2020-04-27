@@ -70,7 +70,7 @@ NavkontorSearch.propTypes = {
     toggleMinekandidater: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     navkontor: state.navkontorReducer.navkontor,
     typeAheadSuggestionsNavkontor: state.typeahead.navkontor.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
@@ -80,14 +80,14 @@ const mapStateToProps = state => ({
     minekandidater: state.navkontorReducer.minekandidater,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.NAVKONTOR }),
     clearTypeAheadNavkontor: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR }),
-    fetchTypeAheadSuggestions: value =>
+    fetchTypeAheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.NAVKONTOR, value }),
-    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),
-    removeNavkontor: value => dispatch({ type: REMOVE_SELECTED_NAVKONTOR, value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_NAVKONTOR, value }),
+    removeNavkontor: (value) => dispatch({ type: REMOVE_SELECTED_NAVKONTOR, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_NAVKONTOR_PANEL_OPEN }),
     toggleMinekandidater: () => dispatch({ type: TOGGLE_MINEKANDIDATER }),
 });

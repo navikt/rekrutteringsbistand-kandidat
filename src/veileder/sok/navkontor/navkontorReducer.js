@@ -41,7 +41,7 @@ export default function navkontorReducer(state = initialState, action) {
         case REMOVE_SELECTED_NAVKONTOR:
             return {
                 ...state,
-                navkontor: state.navkontor.filter(s => s !== action.value),
+                navkontor: state.navkontor.filter((s) => s !== action.value),
             };
         case TOGGLE_NAVKONTOR_PANEL_OPEN:
             return {

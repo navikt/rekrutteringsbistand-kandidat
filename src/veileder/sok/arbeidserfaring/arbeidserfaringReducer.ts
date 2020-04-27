@@ -76,7 +76,7 @@ export default function arbeidserfaringReducer(
         case REMOVE_SELECTED_ARBEIDSERFARING:
             return {
                 ...state,
-                arbeidserfaringer: state.arbeidserfaringer.filter(y => y !== action.value),
+                arbeidserfaringer: state.arbeidserfaringer.filter((y) => y !== action.value),
             };
         case CHECK_TOTAL_ERFARING:
             return {
@@ -86,7 +86,7 @@ export default function arbeidserfaringReducer(
         case UNCHECK_TOTAL_ERFARING:
             return {
                 ...state,
-                totalErfaring: state.totalErfaring.filter(te => te !== action.value),
+                totalErfaring: state.totalErfaring.filter((te) => te !== action.value),
             };
         case TOGGLE_ARBEIDSERFARING_PANEL_OPEN:
             return {

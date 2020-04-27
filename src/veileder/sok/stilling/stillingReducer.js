@@ -36,7 +36,7 @@ export default function stillingReducer(state = initialState, action) {
         case REMOVE_SELECTED_STILLING:
             return {
                 ...state,
-                stillinger: state.stillinger.filter(y => y !== action.value),
+                stillinger: state.stillinger.filter((y) => y !== action.value),
             };
         case TOGGLE_STILLING_PANEL_OPEN:
             return {

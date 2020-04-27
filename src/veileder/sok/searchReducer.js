@@ -260,7 +260,7 @@ export default function searchReducer(state = initialState, action) {
     }
 }
 
-export const fromUrlQuery = url => {
+export const fromUrlQuery = (url) => {
     const stateFromUrl = {};
     const fritekst = getUrlParameterByName('fritekst', url);
     const stillinger = getUrlParameterByName('stillinger', url);
@@ -311,7 +311,7 @@ export const fromUrlQuery = url => {
     return stateFromUrl;
 };
 
-export const toUrlQuery = state => {
+export const toUrlQuery = (state) => {
     const urlQuery = {};
     if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
     if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
@@ -404,7 +404,7 @@ function* search(action = '') {
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
             lokasjoner: [...state.geografi.geografiListKomplett].map(
-                sted => `${sted.geografiKodeTekst}:${sted.geografiKode}`
+                (sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`
             ),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
@@ -429,10 +429,10 @@ function* search(action = '') {
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
 
-        const harCriteria = Object.values(criteriaValues).some(v => Array.isArray(v) && v.length);
+        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = {
             ...criteriaValues,
-            hasValues: Object.values(criteriaValues).some(v => Array.isArray(v) && v.length),
+            hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length),
             fraIndex,
             antallResultater,
         };
@@ -441,10 +441,10 @@ function* search(action = '') {
 
         if (!harNyeSokekriterier) {
             const kandidater = state.search.searchResultat.resultat.kandidater;
-            const kandidaterMedMarkering = response.kandidater.map(kFraResponse => ({
+            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({
                 ...kFraResponse,
                 markert: kandidater.some(
-                    k => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
+                    (k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
                 ),
             }));
             response = { ...response, kandidater: kandidaterMedMarkering };
@@ -489,7 +489,7 @@ function* fetchKompetanseSuggestions() {
                 stillinger: state.stilling.stillinger,
             });
             const aggregeringerKompetanse = response.aggregeringer.find(
-                a => a.navn === 'kompetanse'
+                (a) => a.navn === 'kompetanse'
             );
             yield put({
                 type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS,
@@ -525,8 +525,8 @@ const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
     };
 
     nyQuery.kategorier = tag
-        .filter(t => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
-        .map(t => tilretteleggingsmuligheterTilBehov[t]);
+        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
 
     return nyQuery;
 };
@@ -559,7 +559,7 @@ function* initialSearch(action) {
                 }
                 urlQuery = {
                     ...urlQuery,
-                    geografiListKomplett: geografiKoder.map(sted => ({
+                    geografiListKomplett: geografiKoder.map((sted) => ({
                         geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()),
                         geografiKode: sted.id,
                     })),
@@ -625,7 +625,7 @@ function* registrerFerdigutfylteStillingerKlikk(action) {
 }
 
 export const harEnParameter = (...arrays) =>
-    arrays.some(array => array !== undefined && array.length > 0);
+    arrays.some((array) => array !== undefined && array.length > 0);
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);

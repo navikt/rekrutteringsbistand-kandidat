@@ -36,7 +36,7 @@ export default function innsatsgruppeReducer(state = initialState, action) {
             return {
                 ...state,
                 kvalifiseringsgruppeKoder: state.kvalifiseringsgruppeKoder.filter(
-                    u => u !== action.value
+                    (u) => u !== action.value
                 ),
             };
         case TOGGLE_INNSATSGRUPPE_PANEL_OPEN:

@@ -16,10 +16,10 @@ import './Innsatsgruppe.less';
 class InnsatsgruppeSearch extends React.Component {
     constructor(props) {
         super(props);
-        this.innsatsgrupper = Object.keys(INNSATSGRUPPER).map(key => INNSATSGRUPPER[key]);
+        this.innsatsgrupper = Object.keys(INNSATSGRUPPER).map((key) => INNSATSGRUPPER[key]);
     }
 
-    onInnsatsgruppeChange = e => {
+    onInnsatsgruppeChange = (e) => {
         if (e.target.checked) {
             this.props.checkInnsatsgruppe(e.target.value);
         } else {
@@ -44,7 +44,7 @@ class InnsatsgruppeSearch extends React.Component {
                 apen={panelOpen}
             >
                 <div>
-                    {this.innsatsgrupper.map(innsatsgruppe => (
+                    {this.innsatsgrupper.map((innsatsgruppe) => (
                         <Checkbox
                             className="checkbox--innsatsgruppe"
                             id={`utdanningsniva-${innsatsgruppe.key.toLowerCase()}-checkbox`}
@@ -75,17 +75,17 @@ InnsatsgruppeSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     innsatsgrupper: state.innsatsgruppe.kvalifiseringsgruppeKoder,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     panelOpen: state.innsatsgruppe.innsatsgruppePanelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.INNSATSGRUPPE }),
-    checkInnsatsgruppe: value => dispatch({ type: CHECK_INNSATSGRUPPE, value }),
-    uncheckInnsatsgruppe: value => dispatch({ type: UNCHECK_INNSATSGRUPPE, value }),
+    checkInnsatsgruppe: (value) => dispatch({ type: CHECK_INNSATSGRUPPE, value }),
+    uncheckInnsatsgruppe: (value) => dispatch({ type: UNCHECK_INNSATSGRUPPE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_INNSATSGRUPPE_PANEL_OPEN }),
 });
 
