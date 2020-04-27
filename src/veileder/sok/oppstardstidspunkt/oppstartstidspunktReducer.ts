@@ -12,17 +12,6 @@ export enum OppstartstidspunktActionType {
     TOGGLE_OPPSTARTSTIDSPUNKT_OPEN = 'TOGGLE_OPPSTARTSTIDSPUNKT_OPEN',
 }
 
-export type OppstartstidspunktAction =
-    | {
-          type:
-              | OppstartstidspunktActionType.CHECK_OPPSTARTSTIDSPUNKT
-              | OppstartstidspunktActionType.UNCHECK_OPPSTARTSTIDSPUNKT;
-          value: Oppstartstidspunkt;
-      }
-    | {
-          type: OppstartstidspunktActionType.TOGGLE_OPPSTARTSTIDSPUNKT_OPEN;
-      };
-
 const initialState = {
     panelOpen: false,
     oppstartstidspunkter: [],
