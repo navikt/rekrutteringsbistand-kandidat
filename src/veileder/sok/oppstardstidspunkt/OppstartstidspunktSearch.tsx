@@ -24,7 +24,7 @@ interface Props {
     search: () => void;
 }
 
-const OppstartstidspunktSearch: FunctionComponent<Props | any> = (props) => {
+const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     const { panelOpen, oppstartstidspunkter } = props.oppstartstidspunktState;
 
     const alleOppstartstidspunkter = [
@@ -35,9 +35,9 @@ const OppstartstidspunktSearch: FunctionComponent<Props | any> = (props) => {
 
     const onOppstartstidspunktChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            props.checkOppstartstidspunkt(e.target.value);
+            props.checkOppstartstidspunkt(e.target.value as Oppstartstidspunkt);
         } else {
-            props.uncheckOppstartstidspunkt(e.target.value);
+            props.uncheckOppstartstidspunkt(e.target.value as Oppstartstidspunkt);
         }
         props.search();
     };
