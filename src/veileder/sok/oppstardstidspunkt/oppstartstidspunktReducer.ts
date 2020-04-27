@@ -48,7 +48,7 @@ const oppstartstidspunktReducer = (
             return {
                 ...state,
                 oppstartstidspunkter: state.oppstartstidspunkter.filter(
-                    tidspunkt => tidspunkt !== action.value
+                    (tidspunkt) => tidspunkt !== action.value
                 ),
             };
         case OppstartstidspunktActionType.TOGGLE_OPPSTARTSTIDSPUNKT_OPEN:
