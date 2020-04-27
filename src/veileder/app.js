@@ -53,7 +53,6 @@ import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
-import midlertidigUtilgjengeligSearchReducer from './sok/tilgjengelighet/midlertidig-utilgjengelig/midlertidigUtilgjengeligSearchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -72,12 +71,7 @@ const store = createStore(
         innsatsgruppe: innsatsgruppeReducer,
         tilretteleggingsbehov: tilretteleggingsbehovReducer,
         permittering: permitteringReducer,
-
         tilgjengelighet: tilgjengelighetReducer,
-
-        // TODO fjerne disse to
-        midlertidigUtilgjengeligSearch: midlertidigUtilgjengeligSearchReducer,
-
         cv: cvReducer,
         midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         kandidatlister: kandidatlisteReducer,

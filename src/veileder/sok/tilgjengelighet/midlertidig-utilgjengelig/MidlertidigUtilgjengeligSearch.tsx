@@ -2,24 +2,21 @@ import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import './MidlertidigUtilgjengeligSearch.less';
 import AppState from '../../../AppState';
-import {
-    MidlertidigUtilgjengeligActionType,
-    MidlertidigUtilgjengeligSearchState,
-} from './midlertidigUtilgjengeligSearchReducer';
 import { connect } from 'react-redux';
 import { SEARCH } from '../../searchReducer';
-
-interface Props {
-    midlertidigUtilgjengeligState: MidlertidigUtilgjengeligSearchState;
-    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
-    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
-    search: () => void;
-}
+import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 
 export enum MidlertidigUtilgjengelig {
     Tilgjengelig = 'tilgjengelig',
     TilgjengeligInnen1Uke = 'tilgjengeliginnen1uke',
     MidlertidigUtilgjengelig = 'midlertidigutilgjengelig',
+}
+
+interface Props {
+    midlertidigUtilgjengelig: MidlertidigUtilgjengelig[];
+    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
+    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
+    search: () => void;
 }
 
 const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
@@ -46,14 +43,14 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 
     return (
         <SkjemaGruppe title="Registrert av NAV" className="midlertidig-utilgjengelig-search">
-            {midlertidigUtilgjengeligStatuser.map((tidspunkt) => (
+            {midlertidigUtilgjengeligStatuser.map((status) => (
                 <Checkbox
-                    key={tidspunkt.value}
-                    // id={`oppstartstidspunkt-${tidspunkt.value.toLowerCase()}-checkbox`}
+                    key={status.value}
+                    id={`midlertidigUtilgjengelig-${status.value.toLowerCase()}-checkbox`}
                     className="midlertidig-utilgjengelig-search__checkbox"
-                    label={tidspunkt.label}
-                    value={tidspunkt.value}
-                    // checked={oppstartstidspunkter.includes(tidspunkt.value)}
+                    label={status.label}
+                    value={status.value}
+                    checked={props.midlertidigUtilgjengelig.includes(status.value)}
                     onChange={onMidlertidigUtilgjengeligChange}
                 />
             ))}
@@ -62,21 +59,21 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    midlertidigUtilgjengeligState: state.midlertidigUtilgjengeligSearch,
+    midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    search: () => dispatch({ type: SEARCH }),
     checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) =>
         dispatch({
-            type: MidlertidigUtilgjengeligActionType.CheckMidlertidigUtilgjengelig,
+            type: TilgjengelighetAction.CheckMidlertidigUtilgjengelig,
             value: midlertidigUtilgjengelig,
         }),
     uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) =>
         dispatch({
-            type: MidlertidigUtilgjengeligActionType.UncheckMidlertidigUtilgjengelig,
+            type: TilgjengelighetAction.UncheckMidlertidigUtilgjengelig,
             value: midlertidigUtilgjengelig,
         }),
+    search: () => dispatch({ type: SEARCH }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MidlertidigUtilgjengeligSearch);

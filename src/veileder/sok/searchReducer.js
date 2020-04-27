@@ -370,11 +370,11 @@ export const toUrlQuery = (state) => {
         urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
 
     if (
-        state.midlertidigUtilgjengeligSearch &&
-        state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig &&
-        state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig.length > 0
+        state.tilgjengelighet &&
+        state.tilgjengelighet.midlertidigUtilgjengelig &&
+        state.tilgjengelighet.midlertidigUtilgjengelig.length > 0
     )
-        urlQuery.midlertidigUtilgjengelig = state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig.join(
+        urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
             '_'
         );
 
@@ -431,7 +431,7 @@ function* search(action = '') {
             kategorier: state.tilretteleggingsbehov.kategorier,
             oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
             maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
-            midlertidigUtilgjengelig: state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig,
+            midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
