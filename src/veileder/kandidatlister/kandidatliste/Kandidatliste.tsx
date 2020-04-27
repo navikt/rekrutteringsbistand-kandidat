@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Checkbox, Input } from 'nav-frontend-skjema';
+import React, { FunctionComponent, useState } from 'react';
+import { Checkbox } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
