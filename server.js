@@ -123,6 +123,42 @@ const tokenValidator = (req, res, next) => {
     return next();
 };
 
+const mapToCookies = (cookieString) =>
+    cookieString
+        .split(';')
+        .filter((str) => !!str && str !== '')
+        .map((cookieStr) => ({
+            name: cookieStr.split('=')[0].trim(),
+            value: cookieStr.split('=')[1].trim(),
+        }));
+
+const mapToCookieString = (cookieList) =>
+    cookieList.map((cookie) => `${cookie.name}=${cookie.value}`).join(';');
+
+const lagCookieStringUtenDobleCookies = (cookieString) => {
+    const cookies = mapToCookies(cookieString);
+
+    const cookiesUtenDuplikater = cookies.filter((cookie) => {
+        const duplicates = cookies.filter((cookie2) => cookie2.name === cookie.name);
+        if (duplicates.length === 1) {
+            return true;
+        }
+        return cookie.value === duplicates[0].value;
+    });
+
+    const forskjellIAntallCookies = cookies.length - cookiesUtenDuplikater.length;
+    if (forskjellIAntallCookies !== 0) {
+        console.log('Fjernet ' + forskjellIAntallCookies + ' cookies');
+    }
+
+    return mapToCookieString(cookiesUtenDuplikater);
+};
+
+const fjernDobleCookies = (req, res, next) => {
+    req.headers.cookie = lagCookieStringUtenDobleCookies(req.headers.cookie);
+    next();
+};
+
 const logError = (errorMessage, details) => console.log(errorMessage, details);
 
 const browserRegistrator = (req, res, next) => {
@@ -196,8 +232,8 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     const [, , host, ...pathParts] = miljøvariablerTilNode.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const path = pathParts.join('/');
 
-    server.use(
-        frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG,
+    server.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
+        fjernDobleCookies,
         proxy(host, {
             https: true,
             proxyReqPathResolver: (request) =>
@@ -205,8 +241,8 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
                     new RegExp('kandidater/midlertidig-utilgjengelig'),
                     path
                 ),
-        })
-    );
+        }),
+    ]);
 };
 
 // Konfigurer server
