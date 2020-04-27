@@ -1,14 +1,11 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import SokekriteriePanel from '../../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-
-import './OppstartstidspunktSearch.less';
 import { connect } from 'react-redux';
-import { OppstartstidspunktActionType, OppstartstidspunktState } from './oppstartstidspunktReducer';
-import NyttFilterIkon from '../../nytt-filter-ikon/NyttFilterIkon';
+
 import AppState from '../../../AppState';
-import MidlertidigUtilgjengeligSearch from '../midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 import { SEARCH } from '../../searchReducer';
+import { TilgjengelighetAction } from '../tilgjengelighetReducer';
+import './OppstartstidspunktSearch.less';
 
 export enum Oppstartstidspunkt {
     LEDIG_NAA = 'LEDIG_NAA',
@@ -17,16 +14,13 @@ export enum Oppstartstidspunkt {
 }
 
 interface Props {
-    oppstartstidspunktState: OppstartstidspunktState;
+    oppstartstidspunkter: Oppstartstidspunkt[];
     checkOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) => void;
     uncheckOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) => void;
-    toggleOppstartstidspunktOpen: () => void;
     search: () => void;
 }
 
 const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
-    const { oppstartstidspunkter } = props.oppstartstidspunktState;
-
     const alleOppstartstidspunkter = [
         { label: 'Ledig nå', value: Oppstartstidspunkt.LEDIG_NAA },
         { label: 'Ledig om 3 måneder', value: Oppstartstidspunkt.ETTER_TRE_MND },
@@ -51,7 +45,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
                     className="oppstartstidspunkt-search__checkbox"
                     label={tidspunkt.label}
                     value={tidspunkt.value}
-                    checked={oppstartstidspunkter.includes(tidspunkt.value)}
+                    checked={props.oppstartstidspunkter.includes(tidspunkt.value)}
                     onChange={onOppstartstidspunktChange}
                 />
             ))}
@@ -59,25 +53,16 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default connect(
-    (state: AppState) => ({
-        oppstartstidspunktState: state.oppstartstidspunkter,
-    }),
-    (dispatch: (action: any) => void) => ({
-        search: () => dispatch({ type: SEARCH }),
-        checkOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) =>
-            dispatch({
-                type: OppstartstidspunktActionType.CHECK_OPPSTARTSTIDSPUNKT,
-                value: tidspunkt,
-            }),
-        uncheckOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) =>
-            dispatch({
-                type: OppstartstidspunktActionType.UNCHECK_OPPSTARTSTIDSPUNKT,
-                value: tidspunkt,
-            }),
-        toggleOppstartstidspunktOpen: () =>
-            dispatch({
-                type: OppstartstidspunktActionType.TOGGLE_OPPSTARTSTIDSPUNKT_OPEN,
-            }),
-    })
-)(OppstartstidspunktSearch);
+const mapStateToProps = (state: AppState) => ({
+    oppstartstidspunkter: state.tilgjengelighet.oppstartstidspunkter,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    checkOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) =>
+        dispatch({ type: TilgjengelighetAction.CheckOppstartstidspunkt, value: tidspunkt }),
+    uncheckOppstartstidspunkt: (tidspunkt: Oppstartstidspunkt) =>
+        dispatch({ type: TilgjengelighetAction.UncheckOppstartstidspunkt, value: tidspunkt }),
+    search: () => dispatch({ type: SEARCH }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OppstartstidspunktSearch);

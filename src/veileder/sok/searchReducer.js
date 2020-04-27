@@ -361,11 +361,11 @@ export const toUrlQuery = (state) => {
     if (state.permittering.permittert !== state.permittering.ikkePermittert)
         urlQuery.permittert = state.permittering.permittert;
     if (
-        state.oppstartstidspunkter &&
-        state.oppstartstidspunkter.oppstartstidspunkter &&
-        state.oppstartstidspunkter.oppstartstidspunkter.length > 0
+        state.tilgjengelighet &&
+        state.tilgjengelighet.oppstartstidspunkter &&
+        state.tilgjengelighet.oppstartstidspunkter.length > 0
     )
-        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
+        urlQuery.oppstartstidspunkter = state.tilgjengelighet.oppstartstidspunkter.join('-');
     if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
         urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
 
@@ -429,7 +429,7 @@ function* search(action = '') {
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
-            oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
+            oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
             maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
             midlertidigUtilgjengelig: state.midlertidigUtilgjengeligSearch.midlertidigUtilgjengelig,
         };

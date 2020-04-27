@@ -53,7 +53,6 @@ import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
-import oppstartstidspunktReducer from './sok/tilgjengelighet/oppstardstidspunkt/oppstartstidspunktReducer';
 import midlertidigUtilgjengeligSearchReducer from './sok/tilgjengelighet/midlertidig-utilgjengelig/midlertidigUtilgjengeligSearchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 
@@ -77,7 +76,6 @@ const store = createStore(
         tilgjengelighet: tilgjengelighetReducer,
 
         // TODO fjerne disse to
-        oppstartstidspunkter: oppstartstidspunktReducer,
         midlertidigUtilgjengeligSearch: midlertidigUtilgjengeligSearchReducer,
 
         cv: cvReducer,
