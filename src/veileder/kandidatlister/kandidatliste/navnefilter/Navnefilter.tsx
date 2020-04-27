@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, createRef, useState } from 'react';
+import { Input } from 'nav-frontend-skjema';
+
 import Søkeikon from './Søkeikon';
 import './Navnefilter.less';
-import { Input } from 'nav-frontend-skjema';
 
 interface Props {
     value: string;
@@ -10,13 +11,23 @@ interface Props {
 }
 
 const Navnefilter: FunctionComponent<Props> = ({ value, onChange, onReset }) => {
+    const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
+
     const tittel = 'Søk etter navn i listen';
     const knappetekst = 'Fjern filter';
+
+    const settFokusOgReset = () => {
+        onReset();
+        if (inputRef) {
+            inputRef.focus();
+        }
+    };
 
     return (
         <div className="navnefilter">
             <Søkeikon />
             <Input
+                inputRef={(e) => setInputRef(e)}
                 className="navnefilter__input navnefilter__søkeikon"
                 placeholder={tittel}
                 label="Søk etter navn i listen"
@@ -28,7 +39,7 @@ const Navnefilter: FunctionComponent<Props> = ({ value, onChange, onReset }) => 
                     aria-live="polite"
                     className="navnefilter__tilbakestill"
                     title={knappetekst}
-                    onClick={onReset}
+                    onClick={settFokusOgReset}
                 />
             )}
         </div>
