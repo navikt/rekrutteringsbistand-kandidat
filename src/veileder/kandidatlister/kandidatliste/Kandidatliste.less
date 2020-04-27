@@ -2,6 +2,24 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
 
+    &__filter {
+        grid-area: filter;
+
+        .ekspanderbartPanel__innhold {
+            padding-bottom: 1.25rem;
+        }
+    }
+
+    &__kontrollpanel {
+        display: flex;
+        align-items: center;
+        margin: 2.5rem auto;
+        max-width: 95.5rem;
+        width: 100%;
+        background-color: #f1f1f1;
+        padding: 1.5rem;
+    }
+
     .finn-kandidater {
         font-weight: 600;
         margin-right: 2rem;
@@ -11,24 +29,16 @@
         font-weight: 600;
     }
 
-    &__filter {
-        grid-area: filter;
-
-        .ekspanderbartPanel__innhold {
-            padding-bottom: 1.25rem;
-        }
-    }
-
-    &__container {
+    &__grid {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr 74rem;
         grid-template-rows: 1fr auto;
         grid-template-areas:
             'ingenting over-liste'
             'filter liste';
         grid-gap: 1.5rem 4rem;
-        margin: 2.5rem auto;
         max-width: 95.5rem;
+        margin: 2.5rem auto;
 
         .liste-header {
             border: 1px solid #78706a;
@@ -40,7 +50,6 @@
     }
 
     &__liste {
-        width: 74rem;
         grid-area: liste;
 
         .liste-rad-wrapper {
@@ -278,8 +287,12 @@
 
 .PresenterKandidaterModal {
     width: 640px;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .wrapper {
-        margin: 1rem;
         > * {
             margin-bottom: 1.5rem;
         }
@@ -319,7 +332,11 @@
 
 .LeggTilKandidatModal {
     width: 640px;
-    padding: 2rem;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .tittel {
         margin-bottom: 1.25rem;
     }
@@ -394,14 +411,20 @@
 
 .SendEpostModal {
     width: 40rem;
-    padding: 2rem;
     color: #3e3832;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .SendEpostModal-overskrift {
         padding-bottom: 1.25rem;
     }
+
     .SendEpostModal-ingress {
         padding-bottom: 1.25rem;
     }
+
     .bold {
         font-weight: 600;
     }
