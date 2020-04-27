@@ -1,4 +1,4 @@
-import amplitude from 'amplitude-js';
+import amplitudeJs, { AmplitudeClient } from 'amplitude-js';
 
 const getApiKey = () => {
     return window.location.hostname === 'rekrutteringsbistand.nais.adeo.no'
@@ -6,8 +6,9 @@ const getApiKey = () => {
         : '55477baea93c5227d8c0f6b813653615';
 };
 
-const instance = amplitude.getInstance();
-instance.init(getApiKey(), '', {
+const client: AmplitudeClient = amplitudeJs.getInstance();
+
+client.init(getApiKey(), '', {
     apiEndpoint: 'amplitude.nav.no/collect',
     saveEvents: false,
     includeUtm: true,
@@ -15,4 +16,4 @@ instance.init(getApiKey(), '', {
     includeReferrer: false,
 });
 
-export default instance;
+export const amplitudeClient = client;

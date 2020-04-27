@@ -17,6 +17,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { dagensDato } from './validering';
+import { amplitudeClient } from '../../amplitude/amplitudeClient';
 
 interface Props {
     aktørId: string;
@@ -40,7 +41,6 @@ const getTilgjengelighet = (
     const idag = dagensDato();
     const fraDato = moment(response.data.fraDato).startOf('day');
     const tilDato = moment(response.data.tilDato).startOf('day');
-
 
     if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
         return Tilgjengelighet.TILGJENGELIG;
@@ -90,6 +90,13 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         : undefined;
     return (
         <div className="midlertidig-utilgjengelig">
+            <button
+                onClick={() => {
+                    amplitudeClient.logEvent('#rekrutteringsbistand-kandidat-testevent');
+                }}
+            >
+                send event
+            </button>
             <MidlertidigUtilgjengeligKnapp
                 chevronType={anker ? 'opp' : 'ned'}
                 onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
