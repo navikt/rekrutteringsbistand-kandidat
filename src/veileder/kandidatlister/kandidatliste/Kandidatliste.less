@@ -2,15 +2,6 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
 
-    .finn-kandidater {
-        font-weight: 600;
-        margin-right: 2rem;
-    }
-
-    .legg-til-kandidat {
-        font-weight: 600;
-    }
-
     &__filter {
         grid-area: filter;
 
@@ -19,16 +10,35 @@
         }
     }
 
-    &__container {
+    &__kontrollpanel {
+        display: flex;
+        align-items: center;
+        margin: 2.5rem auto;
+        max-width: 95.5rem;
+        width: 100%;
+        background-color: #f1f1f1;
+        padding: 1.5rem;
+
+        .finn-kandidater {
+            font-weight: 600;
+            margin-right: 2rem;
+        }
+
+        .legg-til-kandidat {
+            font-weight: 600;
+        }
+    }
+
+    &__grid {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr 74rem;
         grid-template-rows: 1fr auto;
         grid-template-areas:
             'ingenting over-liste'
             'filter liste';
         grid-gap: 1.5rem 4rem;
-        margin: 2.5rem auto;
         max-width: 95.5rem;
+        margin: 2.5rem auto;
 
         .liste-header {
             border: 1px solid #78706a;
@@ -40,7 +50,6 @@
     }
 
     &__liste {
-        width: 74rem;
         grid-area: liste;
 
         .liste-rad-wrapper {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Checkbox, Input } from 'nav-frontend-skjema';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
@@ -13,6 +13,8 @@ import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
+import useKandidatlistefilter from './useKandidatlistefilter';
+import Navnefilter from './navnefilter/Navnefilter';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -47,36 +49,19 @@ type Props = {
     arkiveringErEnabled?: boolean;
 };
 
-const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter(kandidat => kandidat.arkivert).length;
-};
-
-const hentFiltrerteKandidater = (kandidater: KandidatIKandidatliste[], visArkiverte: boolean) => {
-    return kandidater.filter(kandidat => !!kandidat.arkivert === visArkiverte);
-};
-
-const Kandidatliste: FunctionComponent<Props> = props => {
+const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
-    const [antallArkiverte, setAntallArkiverte] = useState<number>(
-        hentAntallArkiverte(props.kandidater)
+    const [navnefilter, setNavnefilter] = useState<string>('');
+    const [filtrerteKandidater, antallArkiverte] = useKandidatlistefilter(
+        props.kandidater,
+        visArkiverte,
+        navnefilter
     );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
         props.onCheckAlleKandidater(false);
     };
-
-    const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(props.kandidater, visArkiverte)
-    );
-
-    useEffect(() => {
-        setFiltrerteKandidater(hentFiltrerteKandidater(props.kandidater, visArkiverte));
-    }, [props.kandidater, visArkiverte]);
-
-    useEffect(() => {
-        setAntallArkiverte(hentAntallArkiverte(props.kandidater));
-    }, [props.kandidater]);
 
     return (
         <div className="kandidatliste">
@@ -89,78 +74,89 @@ const Kandidatliste: FunctionComponent<Props> = props => {
                 beskrivelse={props.beskrivelse}
             />
             {props.kandidater.length > 0 ? (
-                <div className="kandidatliste__container">
-                    <div className="kandidatliste__knapperad-container">
-                        {props.kanEditere && <SmsFeilAlertStripe kandidater={props.kandidater} />}
-                        <KnappeRad
-                            arbeidsgiver={props.arbeidsgiver}
-                            kanEditere={props.kanEditere}
-                            kandidater={filtrerteKandidater}
-                            onEmailKandidater={props.onEmailKandidater}
-                            onSendSmsClick={props.onSendSmsClick}
-                            onKandidatShare={props.onKandidatShare}
-                            onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
+                <>
+                    <div className="kandidatliste__kontrollpanel">
+                        <FinnKandidaterLenke
                             kandidatlisteId={props.kandidatlisteId}
-                            onLeggTilKandidat={props.onLeggTilKandidat}
                             stillingsId={props.stillingsId}
-                            visSendSms={props.visSendSms}
-                            visArkiverte={visArkiverte}
-                        >
-                            <FinnKandidaterLenke
-                                kandidatlisteId={props.kandidatlisteId}
-                                stillingsId={props.stillingsId}
-                            />
-                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
-                        </KnappeRad>
-                    </div>
-
-                    <aside className="kandidatliste__filter">
-                        <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">
-                            <Checkbox
-                                className="skjemaelement--pink"
-                                label={`Vis kun slettede (${antallArkiverte})`}
-                                checked={visArkiverte}
-                                onChange={toggleVisArkiverteOgFjernMarkering}
-                            />
-                        </Ekspanderbartpanel>
-                    </aside>
-                    <div className="kandidatliste__liste">
-                        <ListeHeader
-                            alleMarkert={props.alleMarkert}
-                            onCheckAlleKandidater={props.onCheckAlleKandidater}
-                            stillingsId={props.stillingsId}
-                            visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
                         />
-                        {filtrerteKandidater.length > 0 ? (
-                            filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                                <KandidatRad
-                                    key={kandidat.kandidatnr}
-                                    kandidat={kandidat}
-                                    endreNotat={props.endreNotat}
-                                    kanEditere={props.kanEditere}
-                                    stillingsId={props.stillingsId}
-                                    kandidatlisteId={props.kandidatlisteId}
-                                    onKandidatStatusChange={props.onKandidatStatusChange}
-                                    onToggleKandidat={props.onToggleKandidat}
-                                    onVisningChange={props.onVisningChange}
-                                    opprettNotat={props.opprettNotat}
-                                    slettNotat={props.slettNotat}
-                                    toggleArkivert={props.toggleArkivert}
-                                    visSendSms={props.visSendSms}
-                                    visArkiveringskolonne={
-                                        !!props.arkiveringErEnabled && !visArkiverte
-                                    }
-                                />
-                            ))
-                        ) : (
-                            <IngenKandidater>
-                                {visArkiverte
-                                    ? 'Det er ingen kandidater som passer med valgte kriterier'
-                                    : 'Du har ingen kandidater i kandidatlisten'}
-                            </IngenKandidater>
-                        )}
+                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
                     </div>
-                </div>
+                    <div className="kandidatliste__grid">
+                        <div className="kandidatliste__knapperad-container">
+                            {props.kanEditere && (
+                                <SmsFeilAlertStripe kandidater={props.kandidater} />
+                            )}
+                            <KnappeRad
+                                arbeidsgiver={props.arbeidsgiver}
+                                kanEditere={props.kanEditere}
+                                kandidater={filtrerteKandidater}
+                                onEmailKandidater={props.onEmailKandidater}
+                                onSendSmsClick={props.onSendSmsClick}
+                                onKandidatShare={props.onKandidatShare}
+                                onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
+                                kandidatlisteId={props.kandidatlisteId}
+                                onLeggTilKandidat={props.onLeggTilKandidat}
+                                stillingsId={props.stillingsId}
+                                visSendSms={props.visSendSms}
+                                visArkiverte={visArkiverte}
+                            >
+                                <Navnefilter
+                                    value={navnefilter}
+                                    onChange={(e) => setNavnefilter(e.currentTarget.value)}
+                                    onReset={() => setNavnefilter('')}
+                                />
+                            </KnappeRad>
+                        </div>
+
+                        <aside className="kandidatliste__filter">
+                            <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">
+                                <Checkbox
+                                    className="skjemaelement--pink"
+                                    label={`Vis kun slettede (${antallArkiverte})`}
+                                    checked={visArkiverte}
+                                    onChange={toggleVisArkiverteOgFjernMarkering}
+                                />
+                            </Ekspanderbartpanel>
+                        </aside>
+                        <div className="kandidatliste__liste">
+                            <ListeHeader
+                                alleMarkert={props.alleMarkert}
+                                onCheckAlleKandidater={props.onCheckAlleKandidater}
+                                stillingsId={props.stillingsId}
+                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
+                            />
+                            {filtrerteKandidater.length > 0 ? (
+                                filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
+                                    <KandidatRad
+                                        key={kandidat.kandidatnr}
+                                        kandidat={kandidat}
+                                        endreNotat={props.endreNotat}
+                                        kanEditere={props.kanEditere}
+                                        stillingsId={props.stillingsId}
+                                        kandidatlisteId={props.kandidatlisteId}
+                                        onKandidatStatusChange={props.onKandidatStatusChange}
+                                        onToggleKandidat={props.onToggleKandidat}
+                                        onVisningChange={props.onVisningChange}
+                                        opprettNotat={props.opprettNotat}
+                                        slettNotat={props.slettNotat}
+                                        toggleArkivert={props.toggleArkivert}
+                                        visSendSms={props.visSendSms}
+                                        visArkiveringskolonne={
+                                            !!props.arkiveringErEnabled && !visArkiverte
+                                        }
+                                    />
+                                ))
+                            ) : (
+                                <IngenKandidater>
+                                    {visArkiverte
+                                        ? 'Det er ingen kandidater som passer med valgte kriterier'
+                                        : 'Du har ingen kandidater i kandidatlisten'}
+                                </IngenKandidater>
+                            )}
+                        </div>
+                    </div>
+                </>
             ) : (
                 <TomListe>
                     <FinnKandidaterLenke
