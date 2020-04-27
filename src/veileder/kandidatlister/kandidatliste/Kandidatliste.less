@@ -287,8 +287,12 @@
 
 .PresenterKandidaterModal {
     width: 640px;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .wrapper {
-        margin: 1rem;
         > * {
             margin-bottom: 1.5rem;
         }
@@ -328,7 +332,11 @@
 
 .LeggTilKandidatModal {
     width: 640px;
-    padding: 2rem;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .tittel {
         margin-bottom: 1.25rem;
     }
@@ -403,14 +411,20 @@
 
 .SendEpostModal {
     width: 40rem;
-    padding: 2rem;
     color: #3e3832;
+
+    &.modal {
+        padding: 2rem;
+    }
+
     .SendEpostModal-overskrift {
         padding-bottom: 1.25rem;
     }
+
     .SendEpostModal-ingress {
         padding-bottom: 1.25rem;
     }
+
     .bold {
         font-weight: 600;
     }
