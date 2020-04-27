@@ -56,7 +56,7 @@ const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
 const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 
 // Midlertidig utilgjengelig
-const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig/1000055261743';
+const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig';
 
 // Sms-API
 const smsUrl = `/kandidater/api/sms`;
@@ -122,5 +122,8 @@ fetchMock
     .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
     .get(modiacontextholderAktivBrukerUrl, aktivBruker)
     .get(modiacontextholderDecoratorUrl, decorator)
-    .get(midlertidigUtilgjengeligApiUrl, midlertidigUtilgjengelig)
+    .get((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .put((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .post((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
     .post(modiacontextholderContextUrl, 200);
