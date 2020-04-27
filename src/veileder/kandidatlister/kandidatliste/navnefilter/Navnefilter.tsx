@@ -25,6 +25,7 @@ const Navnefilter: FunctionComponent<Props> = ({ value, onChange, onReset }) => 
             />
             {value.length > 0 && (
                 <button
+                    aria-live="polite"
                     className="navnefilter__tilbakestill"
                     title={knappetekst}
                     onClick={onReset}

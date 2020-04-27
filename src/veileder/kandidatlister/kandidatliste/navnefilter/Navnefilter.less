@@ -1,3 +1,5 @@
+@import '../../../variabler.less';
+
 .navnefilter {
     display: flex;
     align-items: center;
@@ -8,39 +10,56 @@
     }
 
     &__input {
-        .skjemaelement__input {
-            padding: 0.25rem 1.5rem 0.25rem 1.75rem;
-            border-width: 0 0 1px 0;
-            border-radius: 0;
+        .skjemaelement {
+            &__input {
+                color: @navMorkGra;
+                padding-left: 2rem;
+                padding-right: 2.5rem;
 
-            &:focus {
-                border-radius: 0.25rem;
-                border-bottom-color: transparent;
+                // padding: 0.25rem 1.5rem 0.25rem 2rem;
+                // border-width: 0 0 1px 0;
+                // border-radius: 0;
+
+                &:focus {
+                    // border-radius: 0.25rem;
+                    // border-bottom-color: transparent;
+                }
             }
-        }
 
-        .skjemaelement__label {
-            display: none;
+            &__label {
+                display: none;
+            }
         }
     }
 
     &__tilbakestill {
         position: absolute;
         right: 0;
-
-        background: none;
+        border-left-width: 1px;
         border: none;
-        padding: 0 0.5rem;
+        border-radius: 0 0.2rem 0.2rem 0;
         cursor: pointer;
+
+        padding: 0.5rem 0.75rem;
+        margin-right: 1px;
 
         &:after {
             display: inline-block;
             color: gray;
             content: '\00d7';
         }
+
+        &:hover {
+            background-color: @navBla;
+
+            &:after {
+                color: white;
+            }
+        }
     }
 
     &__search {
         position: absolute;
+        left: 0.5rem;
     }
 }
