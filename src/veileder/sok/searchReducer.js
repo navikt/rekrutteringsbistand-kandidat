@@ -281,7 +281,7 @@ export const fromUrlQuery = (url) => {
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
     const kategorier = getUrlParameterByName('kategorier', url);
     const permittert = getUrlParameterByName('permittert');
-    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkt');
+    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
