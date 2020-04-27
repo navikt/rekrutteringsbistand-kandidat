@@ -8,6 +8,7 @@ import * as notater from './json/notater.json';
 import * as sokeord from './json/sokeord.json';
 import * as arenageografikoder from './json/arenageografikoder.json';
 import * as typeaheadgeo from './json/typeaheadgeo.json';
+import * as midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 
 import * as DC294105 from './json/DC294105.json';
 import * as CD430805 from './json/CD430805.json';
@@ -54,6 +55,9 @@ const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/ak
 const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
 const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 
+// Midlertidig utilgjengelig
+const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig';
+
 // Sms-API
 const smsUrl = `/kandidater/api/sms`;
 
@@ -78,7 +82,7 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
 
     return {
         ...kandidatliste,
-        kandidater: kandidatliste.kandidater.map(kandidat =>
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
             kandidat.kandidatnr !== kandidatnr
                 ? kandidat
                 : {
@@ -118,4 +122,8 @@ fetchMock
     .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
     .get(modiacontextholderAktivBrukerUrl, aktivBruker)
     .get(modiacontextholderDecoratorUrl, decorator)
+    .get((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .put((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .post((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
+    .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
     .post(modiacontextholderContextUrl, 200);

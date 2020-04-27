@@ -25,6 +25,11 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [dato, setDato] = useState<string | undefined>(defaultDato);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
+    const setDatoOgFjernFeilmelding = (dato: string | undefined) => {
+        setDato(dato);
+        setFeilmelding(undefined);
+    };
+
     const onHvaSkalEndresChange = (event: ChangeEvent<HTMLInputElement>) =>
         setHvaSkalEndres(event.target.value);
 
@@ -98,7 +103,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                 {hvaSkalEndres === 'endreDato' && (
                     <MidlertidigUtilgjengeligDatovelger
                         dato={dato}
-                        setDato={setDato}
+                        setDato={setDatoOgFjernFeilmelding}
                         className="endre-midlertidig-utilgjengelig__datovelger"
                         feilmelding={feilmelding}
                     />
