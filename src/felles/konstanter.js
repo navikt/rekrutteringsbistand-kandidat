@@ -19,7 +19,6 @@ const FEATURE_TOGGLES = [
     'ny-dekorator',
     'vis-send-sms',
     'vis-viktige-yrker-lenker',
-    'vis-kandidatliste-sletting',
     'vis-oppstartstidspunktfilter',
     'vis-midlertidig-utilgjengelig',
 ];
