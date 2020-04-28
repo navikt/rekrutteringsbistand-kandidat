@@ -21,6 +21,7 @@ interface Props {
 const ArbeidserfaringSearch: FunctionComponent<Props> = (props) => (
     <SokekriteriePanel
         id="ArbeidserfaringSearch__SokekriteriePanel"
+        fane="arbeidserfaring"
         tittel={
             <div className={'arbeidserfaring-search__tittel'}>
                 Arbeidserfaring <NyttFilterIkon />

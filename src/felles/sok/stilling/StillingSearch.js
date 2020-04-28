@@ -79,6 +79,7 @@ export default class StillingSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Stilling__SokekriteriePanel"
+                fane="stilling-yrke"
                 tittel="Stilling/yrke"
                 onClick={this.props.togglePanelOpen}
                 apen={

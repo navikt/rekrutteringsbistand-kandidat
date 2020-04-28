@@ -51,6 +51,7 @@ class HovedmalSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Hovedmaal__SokekriteriePanel"
+                fane="hovedmål"
                 tittel="Hovedmål"
                 onClick={togglePanelOpen}
                 apen={panelOpen}

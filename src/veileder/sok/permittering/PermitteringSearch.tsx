@@ -46,6 +46,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
         <SokekriteriePanel
             apen={panelOpen}
             id="Permittering__SokekriteriePanel"
+            fane="permittering"
             tittel={
                 <div className="permittering-search__tittel">
                     Permittert

@@ -102,6 +102,7 @@ class GeografiSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Geografi__SokekriteriePanel"
+                fane="fylke-kommune"
                 tittel="Fylke/kommune"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}

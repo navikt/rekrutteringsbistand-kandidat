@@ -23,6 +23,7 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({
         <SokekriteriePanel
             apen={panelOpen}
             id="Tilgjengelighet__SokekriteriePanel"
+            fane="tilgjengelighet"
             tittel={
                 <div className="tilgjengelighet-search__tittel">
                     Tilgjengelighet

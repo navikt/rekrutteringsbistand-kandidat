@@ -87,6 +87,7 @@ class KompetanseSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Kompetanse__SokekriteriePanel"
+                fane="kompetanse"
                 tittel="Kompetanse"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}

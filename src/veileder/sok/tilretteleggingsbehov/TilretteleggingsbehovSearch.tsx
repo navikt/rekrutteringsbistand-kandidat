@@ -57,6 +57,7 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
     return (
         <SokekriteriePanel
             id="Tilretteleggingsbehov__SokekriteriePanel"
+            fane="tilretteleggingsbehov"
             tittel="Tilretteleggingsbehov"
             onClick={togglePanelOpen}
             apen={panelOpen}

@@ -80,6 +80,7 @@ class ForerkortSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Forerkort__SokekriteriePanel"
+                fane="førerkort"
                 tittel="Førerkort"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
