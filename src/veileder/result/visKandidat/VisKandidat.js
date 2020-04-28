@@ -76,6 +76,8 @@ class VisKandidat extends React.Component {
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
+
+        logEvent('cv', 'visning');
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -109,6 +111,7 @@ class VisKandidat extends React.Component {
 
         if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
             window.scrollTo(0, 0);
+            logEvent('cv', 'visning');
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
             });
