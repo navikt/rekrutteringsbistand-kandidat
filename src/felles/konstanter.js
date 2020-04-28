@@ -15,7 +15,6 @@ const FEATURE_TOGGLES = [
     'vis-notater-arbeidsgiver',
     'vis-last-ned-cv-lenke',
     'vis-tilretteleggingsbehov-kategorier',
-    'vis-nyheter',
     'vis-viktige-yrker-lenker',
     'vis-midlertidig-utilgjengelig',
     'vis-midlertidig-utilgjengelig-filter',

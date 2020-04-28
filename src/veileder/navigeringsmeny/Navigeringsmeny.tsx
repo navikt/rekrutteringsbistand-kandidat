@@ -6,7 +6,6 @@ import Tab, { TabConfig } from './Tab';
 import Hus from './Hus';
 
 import '../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
-import 'pam-frontend-header/dist/style.css';
 import './Navigeringsmeny.less';
 
 const kandidatsøkTab = {
