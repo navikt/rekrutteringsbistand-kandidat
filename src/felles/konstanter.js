@@ -18,7 +18,6 @@ const FEATURE_TOGGLES = [
     'vis-nyheter',
     'ny-dekorator',
     'vis-viktige-yrker-lenker',
-    'vis-oppstartstidspunktfilter',
     'vis-midlertidig-utilgjengelig',
     'vis-midlertidig-utilgjengelig-filter',
 ];
