@@ -17,10 +17,7 @@ const FEATURE_TOGGLES = [
     'vis-tilretteleggingsbehov-kategorier',
     'vis-nyheter',
     'ny-dekorator',
-    'vis-send-sms',
     'vis-viktige-yrker-lenker',
-    'vis-kandidatliste-sletting',
-    'vis-permitteringsfilter',
     'vis-oppstartstidspunktfilter',
     'vis-midlertidig-utilgjengelig',
 ];

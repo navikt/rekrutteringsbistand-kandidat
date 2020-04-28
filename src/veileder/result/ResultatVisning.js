@@ -115,7 +115,6 @@ class ResultatVisning extends React.Component {
             lagretKandidatliste,
             kandidatliste,
             antallLagredeKandidater,
-            visPermitteringsfilter,
             visOppstartstidspunktfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
@@ -237,7 +236,7 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
-                                        {visPermitteringsfilter && <PermitteringSearch />}
+                                        <PermitteringSearch />
                                         {visOppstartstidspunktfilter && (
                                             <OppstartstidspunktSearch />
                                         )}
@@ -318,7 +317,6 @@ ResultatVisning.propTypes = {
         }),
     }),
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
-    visPermitteringsfilter: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
@@ -333,7 +331,6 @@ const mapStateToProps = (state) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
     visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
