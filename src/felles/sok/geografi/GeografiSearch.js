@@ -30,24 +30,24 @@ class GeografiSearch extends React.Component {
         this.props.search();
     };
 
-    onClickedDisabledCheckbox = event => {
+    onClickedDisabledCheckbox = (event) => {
         if (this.props.onDisabledChange !== undefined) {
             this.props.onDisabledChange();
         }
         event.preventDefault();
     };
 
-    onTypeAheadGeografiChange = value => {
+    onTypeAheadGeografiChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value,
         });
     };
 
-    onTypeAheadGeografiSelect = value => {
+    onTypeAheadGeografiSelect = (value) => {
         if (value !== '') {
             const geografi = this.props.typeAheadSuggestionsGeografiKomplett.find(
-                k => k.geografiKodeTekst.toLowerCase() === value.toLowerCase()
+                (k) => k.geografiKodeTekst.toLowerCase() === value.toLowerCase()
             );
             if (geografi !== undefined) {
                 this.props.selectTypeAheadValue(geografi);
@@ -69,7 +69,7 @@ class GeografiSearch extends React.Component {
         );
     };
 
-    onFjernClick = geografi => {
+    onFjernClick = (geografi) => {
         if (
             this.props.geografiListKomplett &&
             this.props.geografiListKomplett.length === 1 &&
@@ -89,7 +89,7 @@ class GeografiSearch extends React.Component {
         this.props.clearTypeAheadGeografi();
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadGeografiSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -111,7 +111,7 @@ class GeografiSearch extends React.Component {
                     <div className="sokefelt--wrapper--geografi">
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={typeAhead => {
+                                ref={(typeAhead) => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadGeografiSelect}
@@ -137,7 +137,7 @@ class GeografiSearch extends React.Component {
                         )}
                         <div className="Merkelapp__wrapper">
                             {this.props.geografiListKomplett &&
-                                this.props.geografiListKomplett.map(geo => (
+                                this.props.geografiListKomplett.map((geo) => (
                                     <Merkelapp
                                         onRemove={this.onFjernClick}
                                         key={geo.geografiKodeTekst}
@@ -157,7 +157,7 @@ class GeografiSearch extends React.Component {
                                 this.props.geografiListKomplett &&
                                 this.props.geografiListKomplett.length === 0
                             }
-                            onDisabledChange={event => this.onClickedDisabledCheckbox(event)}
+                            onDisabledChange={(event) => this.onClickedDisabledCheckbox(event)}
                             tittel="Vis bare kandidater som bor i området"
                         />
                     </div>

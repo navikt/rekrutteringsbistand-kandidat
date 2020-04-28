@@ -17,10 +17,10 @@ class UtdanningSearch extends React.Component {
             showTypeAhead: false,
             typeAheadValue: '',
         };
-        this.utdanningsnivaKategorier = Object.keys(UTDANNING).map(key => UTDANNING[key]);
+        this.utdanningsnivaKategorier = Object.keys(UTDANNING).map((key) => UTDANNING[key]);
     }
 
-    onUtdanningsnivaChange = e => {
+    onUtdanningsnivaChange = (e) => {
         if (e.target.checked) {
             this.props.checkUtdanningsniva(e.target.value);
         } else {
@@ -29,7 +29,7 @@ class UtdanningSearch extends React.Component {
         this.props.search();
     };
 
-    onTypeAheadUtdanningSelect = value => {
+    onTypeAheadUtdanningSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadUtdanning();
@@ -48,7 +48,7 @@ class UtdanningSearch extends React.Component {
         this.props.clearTypeAheadUtdanning();
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadUtdanningSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -67,7 +67,7 @@ class UtdanningSearch extends React.Component {
             >
                 <SkjemaGruppe title="Velg ett eller flere utdanningsnivå">
                     <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
-                        {this.utdanningsnivaKategorier.map(utdanning => (
+                        {this.utdanningsnivaKategorier.map((utdanning) => (
                             <Checkbox
                                 className="checkbox--utdanningsniva"
                                 id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}

@@ -30,7 +30,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={cv.yrkeJobbonsker.map(u => u.styrkBeskrivelse)}
+                            tekstElementer={cv.yrkeJobbonsker.map((u) => u.styrkBeskrivelse)}
                         />
                     </Column>
                 </Row>
@@ -42,7 +42,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={cv.kompetanse.map(u => u.kompetanseKodeTekst)}
+                            tekstElementer={cv.kompetanse.map((u) => u.kompetanseKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -54,7 +54,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={cv.geografiJobbonsker.map(u => u.geografiKodeTekst)}
+                            tekstElementer={cv.geografiJobbonsker.map((u) => u.geografiKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -66,7 +66,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={cv.omfangJobbprofil.map(u => u.heltidDeltidKodeTekst)}
+                            tekstElementer={cv.omfangJobbprofil.map((u) => u.heltidDeltidKodeTekst)}
                         />
                     </Column>
                 </Row>
@@ -78,7 +78,9 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
-                            tekstElementer={cv.arbeidstidJobbprofil.map(u => u.arbeidstidKodeTekst)}
+                            tekstElementer={cv.arbeidstidJobbprofil.map(
+                                (u) => u.arbeidstidKodeTekst
+                            )}
                         />
                     </Column>
                 </Row>
@@ -91,7 +93,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     <Column xs="12" sm="8">
                         <TruncatedTextList
                             tekstElementer={cv.arbeidstidsordningJobbprofil.map(
-                                u => u.arbeidstidsordningKodeTekst
+                                (u) => u.arbeidstidsordningKodeTekst
                             )}
                         />
                     </Column>
@@ -105,7 +107,7 @@ const VisKandidatJobbprofil = ({ cv }) => (
                     <Column xs="12" sm="8">
                         <TruncatedTextList
                             tekstElementer={cv.ansettelsesformJobbprofil.map(
-                                u => u.ansettelsesformKodeTekst
+                                (u) => u.ansettelsesformKodeTekst
                             )}
                         />
                     </Column>

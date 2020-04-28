@@ -71,7 +71,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         >
             <div className="viktige-yrker__innhold">
                 {ferdigutfylteStillinger &&
-                    ferdigutfylteStillinger.bransjer.map(bransje => (
+                    ferdigutfylteStillinger.bransjer.map((bransje) => (
                         <Bransjevelger key={bransje.navn} bransje={bransje} />
                     ))}
             </div>
@@ -79,14 +79,14 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
     );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     hentFerdigutfylteStillinger: () => dispatch({ type: HENT_FERDIGUTFYLTE_STILLINGER }),
     toggleViktigeYrkerApen: () => dispatch({ type: TOGGLE_VIKTIGE_YRKER_APEN }),
     ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
         dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
     viktigeYrkerApen: state.search.viktigeYrkerApen,
     visViktigeYrker: state.search.featureToggles['vis-viktige-yrker-lenker'],

@@ -5,7 +5,7 @@ interface Props {
     fødselsnummer: string;
 }
 
-const CVMeny: FunctionComponent<Props> = props => {
+const CVMeny: FunctionComponent<Props> = (props) => {
     return (
         <div className="cv-meny">
             <a

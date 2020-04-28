@@ -17,7 +17,7 @@ export default class Typeahead extends React.Component {
         this.shouldBlur = true;
     }
 
-    onChange = e => {
+    onChange = (e) => {
         const { value } = e.target;
         this.setState({
             activeSuggestionIndex: -1,
@@ -30,7 +30,7 @@ export default class Typeahead extends React.Component {
      * Key handler for tastaturnavigasjon i suggestion-listen.
      * @param e
      */
-    onKeyDown = e => {
+    onKeyDown = (e) => {
         let { activeSuggestionIndex } = this.state;
         const value = this.props.suggestions[activeSuggestionIndex]
             ? this.props.suggestions[activeSuggestionIndex]
@@ -144,7 +144,7 @@ export default class Typeahead extends React.Component {
      * eller når man bruker fører musen over en suggestion.
      * @param index
      */
-    highlightSuggestion = index => {
+    highlightSuggestion = (index) => {
         this.setState({
             activeSuggestionIndex: index,
         });
@@ -164,7 +164,7 @@ export default class Typeahead extends React.Component {
      * Setter valgt suggestion, og skjuler suggestion-listen.
      * @param suggestionValue
      */
-    selectSuggestion = suggestionValue => {
+    selectSuggestion = (suggestionValue) => {
         this.setState(
             {
                 shouldShowSuggestions: false,
@@ -204,7 +204,7 @@ export default class Typeahead extends React.Component {
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
                     onFocus={this.onFocus}
-                    ref={input => {
+                    ref={(input) => {
                         this.input = input;
                     }}
                     className="skjemaelement__input input--fullbredde skjemaelement--blue"

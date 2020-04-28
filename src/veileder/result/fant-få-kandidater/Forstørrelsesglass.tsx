@@ -4,7 +4,7 @@ interface Props {
     className?: string;
 }
 
-const Forstørrelsesglass: FunctionComponent<Props> = props => (
+const Forstørrelsesglass: FunctionComponent<Props> = (props) => (
     <svg className={props.className} width="99" height="97" xmlns="http://www.w3.org/2000/svg">
         <g fillRule="nonzero" fill="none">
             <path

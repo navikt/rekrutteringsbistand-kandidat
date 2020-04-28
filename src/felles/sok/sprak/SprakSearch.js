@@ -17,17 +17,17 @@ class SprakSearch extends React.Component {
         };
     }
 
-    onTypeAheadSprakChange = value => {
+    onTypeAheadSprakChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value,
         });
     };
 
-    onTypeAheadSprakSelect = value => {
+    onTypeAheadSprakSelect = (value) => {
         if (value !== '') {
             const sprak = this.props.typeAheadSuggestionsSprak.find(
-                s => s.toLowerCase() === value.toLowerCase()
+                (s) => s.toLowerCase() === value.toLowerCase()
             );
             if (sprak !== undefined) {
                 this.props.selectTypeAheadValue(sprak);
@@ -49,7 +49,7 @@ class SprakSearch extends React.Component {
         );
     };
 
-    onFjernClick = sprak => {
+    onFjernClick = (sprak) => {
         this.props.removeSprak(sprak);
         this.props.search();
     };
@@ -62,7 +62,7 @@ class SprakSearch extends React.Component {
         this.props.clearTypeAheadSprak();
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadSprakSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -84,7 +84,7 @@ class SprakSearch extends React.Component {
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={typeAhead => {
+                                ref={(typeAhead) => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadSprakSelect}
@@ -110,7 +110,7 @@ class SprakSearch extends React.Component {
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.sprak.map(sprak => (
+                        {this.props.sprak.map((sprak) => (
                             <Merkelapp onRemove={this.onFjernClick} key={sprak} value={sprak}>
                                 {sprak}
                             </Merkelapp>

@@ -89,12 +89,12 @@ const Bransjevelger = (props: BransjevelgerProps) => {
                 onClick={onBransjeKlikk}
             >
                 <div className="bransjevelger__bransjer">
-                    {bransje.yrker.map(yrke => (
+                    {bransje.yrker.map((yrke) => (
                         <div key={yrke.tittel} className="bransjevelger__yrke">
                             <Element tag="h4">{yrke.tittel}</Element>
                             <Normaltekst>Se kandidater som har:</Normaltekst>
 
-                            {yrke.sok.map(sok => (
+                            {yrke.sok.map((sok) => (
                                 <div key={sok.tittel} className="bransjevelger__lenke">
                                     <Lenke href={linkurl} onClick={() => onLenkeKlikk(sok)}>
                                         {linktekst(sok)}
@@ -109,14 +109,14 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     );
 };
 
-const mapDispatchToProps = dispatch => ({
-    setQuery: query => dispatch({ type: SET_STATE, query }),
+const mapDispatchToProps = (dispatch) => ({
+    setQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     ferdigutfylteStillingerKlikk: (ferdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk) =>
         dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bransjevelger);

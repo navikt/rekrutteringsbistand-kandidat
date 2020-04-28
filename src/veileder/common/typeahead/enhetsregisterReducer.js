@@ -59,7 +59,7 @@ function* fetchTypeAheadSuggestions(action) {
             } else {
                 searchResponse = yield call(fetchArbeidsgivereEnhetsregister, value);
             }
-            const response = searchResponse.hits.hits.map(employer => ({
+            const response = searchResponse.hits.hits.map((employer) => ({
                 name: employer._source.navn,
                 orgnr: employer._source.organisasjonsnummer,
                 location: employer._source.adresse

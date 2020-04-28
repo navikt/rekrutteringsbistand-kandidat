@@ -15,7 +15,7 @@ export default class RedigerNotatModal extends React.Component {
         };
     }
 
-    onTekstChange = e => {
+    onTekstChange = (e) => {
         this.setState({
             notatTekst: e.target.value,
         });
