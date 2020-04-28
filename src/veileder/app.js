@@ -12,7 +12,6 @@ import './sok/sok.less';
 import searchReducer, {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
-    HENT_INNLOGGET_VEILEDER,
     LUKK_ALLE_SOKEPANEL,
     saga,
 } from './sok/searchReducer';
@@ -103,7 +102,6 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
-        this.props.hentInnloggetVeileder();
     }
 
     navigeringKlikk = () => {
@@ -197,7 +195,6 @@ Sok.propTypes = {
         status: PropTypes.number,
     }),
     fetchFeatureToggles: PropTypes.func.isRequired,
-    hentInnloggetVeileder: PropTypes.func.isRequired,
     fjernError: PropTypes.func.isRequired,
 };
 
@@ -207,7 +204,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
-    hentInnloggetVeileder: () => dispatch({ type: HENT_INNLOGGET_VEILEDER }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     setScrollPosition: (scrollPosisjon) =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
