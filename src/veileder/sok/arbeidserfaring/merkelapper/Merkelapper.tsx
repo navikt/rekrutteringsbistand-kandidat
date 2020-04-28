@@ -26,7 +26,7 @@ interface Props {
     removeArbeidserfaring: (erfaring: string) => void;
 }
 
-const Merkelapper: FunctionComponent<Props> = props => {
+const Merkelapper: FunctionComponent<Props> = (props) => {
     const [showTypeAhead, setShowTypeAhead] = useState<boolean>(false);
     const [typeAheadValue, setTypeAheadValue] = useState<string>('');
     const [typeAheadRef, setTypeAheadRef] = useState<any>();
@@ -103,7 +103,7 @@ const Merkelapper: FunctionComponent<Props> = props => {
                     )}
                 </div>
                 <div className="Merkelapp__wrapper">
-                    {props.arbeidserfaringer.map(arbeidserfaring => (
+                    {props.arbeidserfaringer.map((arbeidserfaring) => (
                         <Merkelapp
                             onRemove={onFjernClick}
                             key={arbeidserfaring}

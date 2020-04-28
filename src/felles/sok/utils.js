@@ -1,6 +1,6 @@
 export function toUrlParams(query) {
     return Object.keys(query)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
+        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
         .join('&')
         .replace(/%20/g, '+')
         .replace(/%2C/g, ',');
@@ -29,7 +29,7 @@ export function getUrlParameterByName(name, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-export const capitalizeFirstLetter = inputString => {
+export const capitalizeFirstLetter = (inputString) => {
     const separators = [' ', '-'];
 
     if (inputString) {
@@ -48,18 +48,18 @@ export const capitalizeFirstLetter = inputString => {
     return inputString;
 };
 
-export const capitalizePoststed = poststed =>
+export const capitalizePoststed = (poststed) =>
     poststed
         .split(' ')
-        .map(ord =>
+        .map((ord) =>
             ['I', 'PÅ'].includes(ord.toUpperCase()) ? ord.toLowerCase() : capitalizeFirstLetter(ord)
         )
         .join(' ');
 
-export const formatterStedsnavn = inputString =>
+export const formatterStedsnavn = (inputString) =>
     inputString
         .split(' ')
-        .map(s => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
+        .map((s) => (s !== 'i' ? s.charAt(0).toUpperCase() + s.substring(1) : s))
         .join(' ');
 
 export const ordToCorrectCase = (ord, listeMedUpperCaseOrd, listeMedLowerCaseOrd) => {
@@ -73,7 +73,7 @@ export const ordToCorrectCase = (ord, listeMedUpperCaseOrd, listeMedLowerCaseOrd
     return ord;
 };
 
-export const capitalizeEmployerName = employerName => {
+export const capitalizeEmployerName = (employerName) => {
     const separators = [' ', '-', '(', '/'];
 
     const lowerCaseOrd = ['i', 'og', 'for', 'på', 'avd', 'av'];
@@ -96,4 +96,4 @@ export const capitalizeEmployerName = employerName => {
     return employerName;
 };
 
-export const formatterInt = number => Intl.NumberFormat('nb-NO').format(number);
+export const formatterInt = (number) => Intl.NumberFormat('nb-NO').format(number);

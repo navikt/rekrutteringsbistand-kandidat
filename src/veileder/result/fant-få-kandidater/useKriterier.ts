@@ -33,13 +33,13 @@ const useKriterier = (
             kategorier: Kategori[],
             tilretteleggingsbehov: boolean
         ) => {
-            const stillingKriterier = stillinger.map(stilling => ({
+            const stillingKriterier = stillinger.map((stilling) => ({
                 value: stilling,
                 label: stilling,
                 onRemove: onRemoveStillingEllerYrke,
             }));
 
-            const geografiKriterier = geografi.map(geografi => ({
+            const geografiKriterier = geografi.map((geografi) => ({
                 value: geografi.geografiKode,
                 label: geografi.geografiKodeTekst,
                 onRemove: onRemoveGeografi,
@@ -55,7 +55,7 @@ const useKriterier = (
                   ]
                 : [];
 
-            const kategoriKriterier = kategorier.map(kategori => ({
+            const kategoriKriterier = kategorier.map((kategori) => ({
                 value: kategori,
                 label: getKortKategoriLabel(kategori),
                 onRemove: onRemoveKategori,

@@ -18,7 +18,7 @@ interface Props {
     visAlertFaKandidater: string;
 }
 
-const ArbeidserfaringSearch: FunctionComponent<Props> = props => (
+const ArbeidserfaringSearch: FunctionComponent<Props> = (props) => (
     <SokekriteriePanel
         id="ArbeidserfaringSearch__SokekriteriePanel"
         tittel={

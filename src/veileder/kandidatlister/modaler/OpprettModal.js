@@ -40,12 +40,12 @@ OpprettModal.propTypes = {
     onAvbrytClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
 });
 
-const mapDispatchToProps = dispatch => ({
-    opprettKandidatliste: kandidatlisteInfo => {
+const mapDispatchToProps = (dispatch) => ({
+    opprettKandidatliste: (kandidatlisteInfo) => {
         dispatch({ type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {

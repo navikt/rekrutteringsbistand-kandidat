@@ -5,7 +5,7 @@ import { Kriterie } from './useKriterier';
 const ValgteKriterier = ({ kriterier }: { kriterier: Kriterie[] }) => {
     return (
         <div className="fant-få-kandidater__valgte-kriterier">
-            {kriterier.map(kriterie => {
+            {kriterier.map((kriterie) => {
                 return (
                     <Merkelapp
                         key={kriterie.label}

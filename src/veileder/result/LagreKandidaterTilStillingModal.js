@@ -4,7 +4,7 @@ import Modal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 
-const LagreKandidaterTilStillingModal = props => {
+const LagreKandidaterTilStillingModal = (props) => {
     const {
         vis,
         onLagre,

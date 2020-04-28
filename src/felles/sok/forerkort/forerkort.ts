@@ -22,12 +22,13 @@ const alleForerkort: Array<Forerkort> = [
     { kode: 'S', tekst: 'Snøscooter' },
 ];
 
-const visningstekst: (Forerkort) => string = forerkort => `${forerkort.kode} - ${forerkort.tekst}`;
+const visningstekst: (Forerkort) => string = (forerkort) =>
+    `${forerkort.kode} - ${forerkort.tekst}`;
 
-export const erGyldigForerkort: (string) => boolean = value =>
-    alleForerkort.map(forerkort => visningstekst(forerkort)).includes(value);
+export const erGyldigForerkort: (string) => boolean = (value) =>
+    alleForerkort.map((forerkort) => visningstekst(forerkort)).includes(value);
 
-const flatten: <T>(listOfLists: T[][]) => T[] = listOfLists =>
+const flatten: <T>(listOfLists: T[][]) => T[] = (listOfLists) =>
     listOfLists.reduce((acc, list) => [...acc, ...list], []);
 
 const erEksaktMatchPaaKode: (string, Forerkort) => boolean = (query, forerkort) =>
@@ -46,14 +47,12 @@ const erDelvisMatchPaaTekst: (string, Forerkort) => boolean = (query, forerkort)
     !erEksaktMatchPaaKode(query, forerkort) &&
     !erDelvisMatchPaaKode(query, forerkort) &&
     !erMatchPaaStartAvTekst(query, forerkort) &&
-    visningstekst(forerkort)
-        .toLowerCase()
-        .includes(query.toLowerCase());
+    visningstekst(forerkort).toLowerCase().includes(query.toLowerCase());
 
-export const forerkortSuggestions: (string) => Array<string> = query =>
+export const forerkortSuggestions: (string) => Array<string> = (query) =>
     flatten([
-        alleForerkort.filter(forerkort => erEksaktMatchPaaKode(query, forerkort)),
-        alleForerkort.filter(forerkort => erDelvisMatchPaaKode(query, forerkort)),
-        alleForerkort.filter(forerkort => erMatchPaaStartAvTekst(query, forerkort)),
-        alleForerkort.filter(forerkort => erDelvisMatchPaaTekst(query, forerkort)),
-    ]).map(forerkort => visningstekst(forerkort));
+        alleForerkort.filter((forerkort) => erEksaktMatchPaaKode(query, forerkort)),
+        alleForerkort.filter((forerkort) => erDelvisMatchPaaKode(query, forerkort)),
+        alleForerkort.filter((forerkort) => erMatchPaaStartAvTekst(query, forerkort)),
+        alleForerkort.filter((forerkort) => erDelvisMatchPaaTekst(query, forerkort)),
+    ]).map((forerkort) => visningstekst(forerkort));

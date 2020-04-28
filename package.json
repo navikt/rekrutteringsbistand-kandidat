@@ -38,6 +38,7 @@
         "less-loader": "^4.0.5",
         "nav-frontend-lenkepanel": "^1.0.27",
         "nav-frontend-lenkepanel-style": "^0.3.24",
+        "prettier": "^2.0.5",
         "redux": "^4.0.1",
         "redux-devtools-extension": "^2.13.5",
         "source-map-loader": "^0.2.4",

@@ -24,14 +24,14 @@ export default class StillingSearch extends React.Component {
         this.props.fetchKompetanseSuggestions();
     }
 
-    onTypeAheadStillingChange = value => {
+    onTypeAheadStillingChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value,
         });
     };
 
-    onTypeAheadStillingSelect = value => {
+    onTypeAheadStillingSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValue(value);
             this.props.clearTypeAheadStilling();
@@ -52,7 +52,7 @@ export default class StillingSearch extends React.Component {
         );
     };
 
-    onFjernClick = stilling => {
+    onFjernClick = (stilling) => {
         this.props.removeStilling(stilling);
         this.props.fetchKompetanseSuggestions();
         this.props.search();
@@ -66,7 +66,7 @@ export default class StillingSearch extends React.Component {
         this.props.clearTypeAheadStilling();
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadStillingSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -95,7 +95,7 @@ export default class StillingSearch extends React.Component {
                         <div>
                             {this.state.showTypeAhead ? (
                                 <Typeahead
-                                    ref={typeAhead => {
+                                    ref={(typeAhead) => {
                                         this.typeAhead = typeAhead;
                                     }}
                                     onSelect={this.onTypeAheadStillingSelect}
@@ -126,7 +126,7 @@ export default class StillingSearch extends React.Component {
                         </div>
                     )}
                     <div className="Merkelapp__wrapper">
-                        {this.props.stillinger.map(stilling => (
+                        {this.props.stillinger.map((stilling) => (
                             <Merkelapp onRemove={this.onFjernClick} key={stilling} value={stilling}>
                                 {stilling}
                             </Merkelapp>

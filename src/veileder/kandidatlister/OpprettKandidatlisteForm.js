@@ -42,7 +42,7 @@ class OpprettKandidatlisteForm extends React.Component {
         this.props.clearTypeaheadSuggestions();
     }
 
-    onTittelChange = event => {
+    onTittelChange = (event) => {
         const { value } = event.target;
 
         this.setState({
@@ -58,7 +58,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    onBeskrivelseChange = event => {
+    onBeskrivelseChange = (event) => {
         const { value } = event.target;
 
         this.setState({
@@ -73,7 +73,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    onBedriftChange = value => {
+    onBedriftChange = (value) => {
         if (value !== '') {
             this.props.fetchTypeaheadSuggestions(value);
             this.setState({
@@ -92,7 +92,7 @@ class OpprettKandidatlisteForm extends React.Component {
     };
 
     onBedriftSelect = ({ value }) => {
-        const bedrift = this.props.suggestions.find(s => s.orgnr === value);
+        const bedrift = this.props.suggestions.find((s) => s.orgnr === value);
         if (bedrift) {
             this.setState({
                 typeaheadValue: bedrift ? this.capitalizeEmployerName(bedrift.name) : '',
@@ -104,7 +104,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    onBedriftSubmit = e => {
+    onBedriftSubmit = (e) => {
         e.preventDefault();
         this.setBedrift();
     };
@@ -126,7 +126,7 @@ class OpprettKandidatlisteForm extends React.Component {
         }
     };
 
-    getEmployerSuggestionLabel = suggestion => {
+    getEmployerSuggestionLabel = (suggestion) => {
         let commaSeparate = [];
         if (suggestion.location) {
             if (suggestion.location.address) {
@@ -154,14 +154,14 @@ class OpprettKandidatlisteForm extends React.Component {
         );
     };
 
-    lookUpEmployer = value =>
+    lookUpEmployer = (value) =>
         this.props.suggestions.find(
-            employer =>
+            (employer) =>
                 employer.name.toLowerCase() === value.toLowerCase() ||
                 employer.orgnr === value.replace(/\s/g, '')
         );
 
-    capitalizeEmployerName = text => {
+    capitalizeEmployerName = (text) => {
         const separators = [' ', '-', '(', '/'];
 
         const ignore = ['i', 'og', 'for', 'på', 'avd', 'av'];
@@ -190,7 +190,7 @@ class OpprettKandidatlisteForm extends React.Component {
         return text;
     };
 
-    capitalizeLocation = text => {
+    capitalizeLocation = (text) => {
         const separators = [
             ' ', // NORDRE LAND skal bli Nordre Land
             '-', // AUST-AGDER skal bli Aust-Agder
@@ -271,7 +271,7 @@ class OpprettKandidatlisteForm extends React.Component {
                                     ? { feilmelding: 'Navn på kandidatliste mangler' }
                                     : undefined
                             }
-                            inputRef={input => {
+                            inputRef={(input) => {
                                 this.input = input;
                             }}
                             autoComplete="off"
@@ -284,7 +284,7 @@ class OpprettKandidatlisteForm extends React.Component {
                             onChange={this.onBedriftChange}
                             onSelect={this.onBedriftSelect}
                             onSubmit={this.onBedriftSubmit}
-                            suggestions={suggestions.map(s => ({
+                            suggestions={suggestions.map((s) => ({
                                 value: s.orgnr,
                                 label: this.getEmployerSuggestionLabel(s),
                             }))}
@@ -314,7 +314,7 @@ class OpprettKandidatlisteForm extends React.Component {
                                     : undefined
                             }
                             onChange={this.onBeskrivelseChange}
-                            textareaRef={textArea => {
+                            textareaRef={(textArea) => {
                                 this.textArea = textArea;
                             }}
                         />
@@ -368,12 +368,12 @@ OpprettKandidatlisteForm.propTypes = {
     clearTypeaheadSuggestions: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     suggestions: state.enhetsregister.suggestions,
 });
 
-const mapDispatchToProps = dispatch => ({
-    fetchTypeaheadSuggestions: value =>
+const mapDispatchToProps = (dispatch) => ({
+    fetchTypeaheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER, value }),
     clearTypeaheadSuggestions: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS_ENHETSREGISTER }),

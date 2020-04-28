@@ -19,17 +19,17 @@ class NavkontorSearch extends React.Component {
         };
     }
 
-    onTypeAheadNavkontorChange = value => {
+    onTypeAheadNavkontorChange = (value) => {
         this.props.fetchTypeAheadSuggestions(value);
         this.setState({
             typeAheadValue: value,
         });
     };
 
-    onTypeAheadNavkontorSelect = value => {
+    onTypeAheadNavkontorSelect = (value) => {
         if (value !== '') {
             const navkontor = this.props.typeAheadSuggestionsNavkontor.find(
-                n => n.toLowerCase() === value.toLowerCase()
+                (n) => n.toLowerCase() === value.toLowerCase()
             );
             if (navkontor !== undefined) {
                 this.props.selectTypeAheadValue(navkontor);
@@ -59,12 +59,12 @@ class NavkontorSearch extends React.Component {
         );
     };
 
-    onRemoveClick = navkontor => {
+    onRemoveClick = (navkontor) => {
         this.props.removeNavkontor(navkontor);
         this.props.search();
     };
 
-    onSubmit = e => {
+    onSubmit = (e) => {
         e.preventDefault();
         this.onTypeAheadNavkontorSelect(this.state.typeAheadValue);
         this.typeAhead.input.focus();
@@ -91,7 +91,7 @@ class NavkontorSearch extends React.Component {
                     <div>
                         {this.state.showTypeAhead ? (
                             <Typeahead
-                                ref={typeAhead => {
+                                ref={(typeAhead) => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadNavkontorSelect}
@@ -118,7 +118,7 @@ class NavkontorSearch extends React.Component {
                     </div>
 
                     <div className="Merkelapp__wrapper">
-                        {this.props.navkontor.map(nk => (
+                        {this.props.navkontor.map((nk) => (
                             <Merkelapp onRemove={this.onRemoveClick} key={nk} value={nk}>
                                 {nk}
                             </Merkelapp>

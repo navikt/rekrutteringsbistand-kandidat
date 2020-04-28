@@ -22,7 +22,7 @@ export default class TypeaheadSuggestion extends React.Component {
         return (
             <li
                 id={this.props.id}
-                ref={node => {
+                ref={(node) => {
                     this.node = node;
                 }}
                 role="option"

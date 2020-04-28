@@ -92,7 +92,7 @@ export default function typeaheadReducer(state = initialState, action) {
     }
 }
 
-const getTypeAheadBranch = type => {
+const getTypeAheadBranch = (type) => {
     if (type === BRANCHNAVN.STILLING) return 'sti';
     else if (type === BRANCHNAVN.ARBEIDSERFARING) return 'yrke';
     else if (type === BRANCHNAVN.UTDANNING) return 'utd';
@@ -112,13 +112,13 @@ function* fetchTypeaheadGeografiES(value, branch) {
     const typeAheadBranch = getTypeAheadBranch(branch);
     try {
         const response = yield call(fetchTypeaheadSuggestionsRest, { [typeAheadBranch]: value });
-        const totalSuggestions = response.suggestions.map(r => JSON.parse(r));
+        const totalSuggestions = response.suggestions.map((r) => JSON.parse(r));
         const totalSuggestionsUtenBydelerOgLand = totalSuggestions.filter(
-            s =>
+            (s) =>
                 !s.geografiKodeTekst.toLowerCase().includes('bydel') &&
                 s.geografiKode.substring(0, 2).toUpperCase() === 'NO'
         );
-        const suggestions = totalSuggestionsUtenBydelerOgLand.map(r => r.geografiKodeTekst);
+        const suggestions = totalSuggestionsUtenBydelerOgLand.map((r) => r.geografiKodeTekst);
         yield put({ type: SET_KOMPLETT_GEOGRAFI, value: totalSuggestionsUtenBydelerOgLand });
 
         yield put({

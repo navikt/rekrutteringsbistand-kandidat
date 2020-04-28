@@ -44,7 +44,7 @@ class LagreKandidaterModal extends React.Component {
             this.setState({
                 kandidatlister: [
                     ...this.state.kandidatlister,
-                    ...this.props.egneKandidatlister.map(liste => ({
+                    ...this.props.egneKandidatlister.map((liste) => ({
                         ...liste,
                         alleredeLagtTil: false,
                     })),
@@ -91,7 +91,7 @@ class LagreKandidaterModal extends React.Component {
         this.props.resetKandidatlisterSokekriterier();
     }
 
-    onKeyDown = e => {
+    onKeyDown = (e) => {
         switch (e.keyCode) {
             case 13: // Enter
                 e.preventDefault();
@@ -102,7 +102,7 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    onAnnonsenummerChange = input => {
+    onAnnonsenummerChange = (input) => {
         this.setState({
             annonsenummer: input.target.value,
         });
@@ -138,8 +138,8 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    lagreKandidat = kandidatliste => () => {
-        const kandidatlister = this.state.kandidatlister.map(liste =>
+    lagreKandidat = (kandidatliste) => () => {
+        const kandidatlister = this.state.kandidatlister.map((liste) =>
             liste.kandidatlisteId === kandidatliste.kandidatlisteId
                 ? { ...liste, alleredeLagtTil: true }
                 : liste
@@ -212,7 +212,7 @@ class LagreKandidaterModal extends React.Component {
         );
 
         const ListerTableRows = () =>
-            kandidatlister.map(liste => (
+            kandidatlister.map((liste) => (
                 <ListerTableRow
                     liste={liste}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
@@ -288,7 +288,7 @@ class LagreKandidaterModal extends React.Component {
                                 value={this.state.value}
                                 onChange={this.onAnnonsenummerChange}
                                 onKeyDown={this.onKeyDown}
-                                ref={input => {
+                                ref={(input) => {
                                     this.input = input;
                                 }}
                                 className={`skjemaelement__input skjemaelement--pink${
@@ -364,7 +364,7 @@ LagreKandidaterModal.propTypes = {
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     egneKandidatlister: state.kandidatlister.kandidatlister.liste,
     antallKandidatlister: state.kandidatlister.kandidatlister.antall,
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
@@ -376,7 +376,7 @@ const mapStateToProps = state => ({
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTER,
@@ -387,7 +387,7 @@ const mapDispatchToProps = dispatch => ({
             pagesize,
         });
     },
-    hentKandidatlisteMedAnnonsenummer: annonsenummer => {
+    hentKandidatlisteMedAnnonsenummer: (annonsenummer) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
             annonsenummer,

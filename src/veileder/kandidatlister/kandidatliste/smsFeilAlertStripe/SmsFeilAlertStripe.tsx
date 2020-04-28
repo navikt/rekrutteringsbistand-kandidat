@@ -18,8 +18,8 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
     const [lesteSmsIder, setLesteSmsIder] = useState<number[]>(lagretLesteSmsIder);
 
     const kandidaterMedUlesteSmsFeil = kandidater
-        .filter(kandidat => kandidat.sms && kandidat.sms.status === SmsStatus.Feil)
-        .filter(kandidat => !lesteSmsIder.includes(kandidat.sms!.id));
+        .filter((kandidat) => kandidat.sms && kandidat.sms.status === SmsStatus.Feil)
+        .filter((kandidat) => !lesteSmsIder.includes(kandidat.sms!.id));
 
     const harLestAlleFeil = kandidaterMedUlesteSmsFeil.length === 0;
     if (harLestAlleFeil) return null;
@@ -27,15 +27,15 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
     const lukkAlert = () => {
         const oppdatertLesteSmsIder = new Set<number>(lesteSmsIder);
         kandidaterMedUlesteSmsFeil
-            .map(kandidat => kandidat.sms!.id)
-            .forEach(id => oppdatertLesteSmsIder.add(id));
+            .map((kandidat) => kandidat.sms!.id)
+            .forEach((id) => oppdatertLesteSmsIder.add(id));
 
         window.localStorage.setItem(LESTE_SMS_IDER_KEY, JSON.stringify(oppdatertLesteSmsIder));
         setLesteSmsIder(Array.from(oppdatertLesteSmsIder.values()));
     };
 
     const navn = kandidaterMedUlesteSmsFeil
-        .map(kandidat => `${kandidat.fornavn} ${kandidat.etternavn}`)
+        .map((kandidat) => `${kandidat.fornavn} ${kandidat.etternavn}`)
         .join(', ')
         .replace(/,(?=[^,]*$)/, ' og');
 

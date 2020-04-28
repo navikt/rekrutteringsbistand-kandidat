@@ -23,7 +23,7 @@ Toppmeny.propTypes = {
 };
 
 export default connect(
-    state => ({
+    (state) => ({
         visNyheter: state.search.featureToggles['vis-nyheter'],
     }),
     () => ({})

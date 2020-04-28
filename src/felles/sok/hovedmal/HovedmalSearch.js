@@ -26,7 +26,7 @@ class HovedmalSearch extends React.Component {
         ];
     }
 
-    onTotalHovedmalChange = e => {
+    onTotalHovedmalChange = (e) => {
         if (e.target.checked) {
             this.props.checkHovedmal(e.target.value);
         } else {
@@ -56,7 +56,7 @@ class HovedmalSearch extends React.Component {
                 apen={panelOpen}
             >
                 <div>
-                    {this.hovedmal.map(h => (
+                    {this.hovedmal.map((h) => (
                         <Checkbox
                             className="checkbox--hovedmal"
                             id={`hovedmal-${h.value.toLowerCase()}-checkbox`}

@@ -47,7 +47,7 @@ class LeggTilKandidatModal extends React.Component {
         }
     }
 
-    onChange = input => {
+    onChange = (input) => {
         const fnr = input.target.value;
         this.props.setFodselsnummer(fnr);
         if (fnr.length === 11) {
@@ -69,13 +69,13 @@ class LeggTilKandidatModal extends React.Component {
         }
     };
 
-    onNotatChange = event => {
+    onNotatChange = (event) => {
         this.props.setNotat(event.target.value);
     };
 
     kandidatenFinnesAllerede = () => {
         const kandidat = this.props.kandidatliste.kandidater.filter(
-            k => this.props.kandidat.arenaKandidatnr === k.kandidatnr
+            (k) => this.props.kandidat.arenaKandidatnr === k.kandidatnr
         );
         return kandidat.length > 0;
     };
@@ -155,7 +155,7 @@ class LeggTilKandidatModal extends React.Component {
                     feil={this.state.errorMessage && { feilmelding: this.state.errorMessage }}
                     bredde="S"
                     label="Fødselsnummer på kandidaten (11 siffer)"
-                    inputRef={input => {
+                    inputRef={(input) => {
                         this.fnrinput = input;
                     }}
                 />
@@ -187,7 +187,7 @@ class LeggTilKandidatModal extends React.Component {
                             : undefined
                     }
                     onChange={this.onNotatChange}
-                    textareaRef={textArea => {
+                    textareaRef={(textArea) => {
                         this.textArea = textArea;
                     }}
                 />
@@ -241,7 +241,7 @@ LeggTilKandidatModal.propTypes = {
     leggTilKandidatStatus: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     fodselsnummer: state.kandidatlister.fodselsnummer,
     kandidat: state.kandidatlister.kandidat,
     hentStatus: state.kandidatlister.hentStatus,
@@ -249,11 +249,11 @@ const mapStateToProps = state => ({
     notat: state.kandidatlister.notat,
 });
 
-const mapDispatchToProps = dispatch => ({
-    setFodselsnummer: fodselsnummer => {
+const mapDispatchToProps = (dispatch) => ({
+    setFodselsnummer: (fodselsnummer) => {
         dispatch({ type: KandidatlisteActionType.SET_FODSELSNUMMER, fodselsnummer });
     },
-    hentKandidatMedFnr: fodselsnummer => {
+    hentKandidatMedFnr: (fodselsnummer) => {
         dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
     },
     resetHentKandidatMedFnr: () => {
@@ -262,7 +262,7 @@ const mapDispatchToProps = dispatch => ({
     leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
     },
-    setNotat: notat => {
+    setNotat: (notat) => {
         dispatch({ type: KandidatlisteActionType.SET_NOTAT, notat });
     },
 });
