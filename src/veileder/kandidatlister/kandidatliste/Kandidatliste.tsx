@@ -45,7 +45,6 @@ type Props = {
     slettNotat: any;
     toggleArkivert: any;
     beskrivelse?: string;
-    visSendSms?: boolean;
 };
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
@@ -97,7 +96,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 kandidatlisteId={props.kandidatlisteId}
                                 onLeggTilKandidat={props.onLeggTilKandidat}
                                 stillingsId={props.stillingsId}
-                                visSendSms={props.visSendSms}
                                 visArkiverte={visArkiverte}
                             >
                                 <Navnefilter
@@ -140,7 +138,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         opprettNotat={props.opprettNotat}
                                         slettNotat={props.slettNotat}
                                         toggleArkivert={props.toggleArkivert}
-                                        visSendSms={props.visSendSms}
                                         visArkiveringskolonne={!visArkiverte}
                                     />
                                 ))

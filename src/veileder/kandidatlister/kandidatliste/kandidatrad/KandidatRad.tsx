@@ -40,7 +40,6 @@ type Props = {
         kandidatnr: string
     ) => void;
     onKandidatStatusChange: any;
-    visSendSms?: boolean;
     visArkiveringskolonne: boolean;
 };
 
@@ -56,7 +55,6 @@ const KandidatRad: FunctionComponent<Props> = ({
     onVisningChange,
     kanEditere,
     onKandidatStatusChange,
-    visSendSms,
     visArkiveringskolonne,
 }) => {
     const antallNotater =
@@ -120,7 +118,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
-                    {visSendSms && kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
+                    {kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
                 <span>{kandidat.fodselsnr}</span>
                 <div className="tabell-tekst">

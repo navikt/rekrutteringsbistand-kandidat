@@ -71,7 +71,6 @@ type Props = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
-    visSendSms?: boolean;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -494,7 +493,6 @@ class Kandidatlisteside extends React.Component<Props> {
                     endreNotat={this.props.endreNotat}
                     slettNotat={this.props.slettNotat}
                     beskrivelse={beskrivelse}
-                    visSendSms={this.props.visSendSms}
                     toggleArkivert={this.props.toggleArkivert}
                 />
             </div>
@@ -511,7 +509,6 @@ const mapStateToProps = (state: AppState) => ({
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
     statusArkivering: state.kandidatlister.arkivering.statusArkivering,
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
-    visSendSms: state.search.featureToggles['vis-send-sms'],
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

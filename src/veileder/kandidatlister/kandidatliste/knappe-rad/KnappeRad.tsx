@@ -16,7 +16,6 @@ type Props = {
     kandidatlisteId: string;
     stillingsId: string | null;
     children: ReactNode;
-    visSendSms?: boolean;
     visArkiverte: boolean;
 };
 
@@ -82,10 +81,9 @@ const KnappeRad: FunctionComponent<Props> = ({
     arbeidsgiver,
     children,
     stillingsId,
-    visSendSms,
     visArkiverte,
 }) => {
-    const skalViseSendSms = visSendSms && kanEditere && stillingsId && !visArkiverte;
+    const skalViseSendSms = kanEditere && stillingsId && !visArkiverte;
 
     const markerteKandidater = kandidater.filter(kandidat => kandidat.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
