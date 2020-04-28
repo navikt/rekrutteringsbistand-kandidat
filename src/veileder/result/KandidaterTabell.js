@@ -29,7 +29,7 @@ export default function KandidaterTabell({
             />
 
             <div>
-                {kandidater.slice(0, antallResultater).map(kandidat => (
+                {kandidater.slice(0, antallResultater).map((kandidat) => (
                     <KandidaterTableRow
                         kandidat={kandidat}
                         key={kandidat.arenaKandidatnr}

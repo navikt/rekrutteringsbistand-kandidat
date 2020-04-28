@@ -62,7 +62,7 @@ SprakSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     sprak: state.sprakReducer.sprak,
     typeAheadSuggestionsSprak: state.typeahead.sprak.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
@@ -71,14 +71,14 @@ const mapStateToProps = state => ({
     panelOpen: state.sprakReducer.sprakPanelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.SPRAK }),
     clearTypeAheadSprak: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK }),
-    fetchTypeAheadSuggestions: value =>
+    fetchTypeAheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.SPRAK, value }),
-    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
-    removeSprak: value => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_SPRAK, value }),
+    removeSprak: (value) => dispatch({ type: REMOVE_SELECTED_SPRAK, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_SPRAK_PANEL_OPEN }),
 });
 

@@ -90,7 +90,7 @@ GeografiSearch.propTypes = {
     stillingsId: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     geografiListKomplett: state.geografi.geografiListKomplett,
     typeAheadSuggestionsGeografi: state.typeahead.geografi.suggestions,
     typeAheadSuggestionsGeografiKomplett: state.typeahead.geografiKomplett.suggestions,
@@ -101,14 +101,14 @@ const mapStateToProps = state => ({
     maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.GEOGRAFI }),
     clearTypeAheadGeografi: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI }),
-    fetchTypeAheadSuggestions: value =>
+    fetchTypeAheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.GEOGRAFI, value }),
-    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
-    removeGeografi: value => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_GEOGRAFI, value }),
+    removeGeografi: (value) => dispatch({ type: REMOVE_SELECTED_GEOGRAFI, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_GEOGRAFI_PANEL_OPEN }),
     toggleMaBoPaGeografi: () => dispatch({ type: TOGGLE_MA_BO_INNENFOR_GEOGRAFI }),
 });

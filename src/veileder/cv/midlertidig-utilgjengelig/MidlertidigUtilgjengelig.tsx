@@ -41,7 +41,6 @@ const getTilgjengelighet = (
     const fraDato = moment(response.data.fraDato).startOf('day');
     const tilDato = moment(response.data.tilDato).startOf('day');
 
-
     if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
         return Tilgjengelighet.TILGJENGELIG;
     }

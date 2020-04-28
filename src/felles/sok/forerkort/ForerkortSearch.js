@@ -21,7 +21,7 @@ class ForerkortSearch extends React.Component {
         };
     }
 
-    onTypeAheadForerkortChange = value => {
+    onTypeAheadForerkortChange = (value) => {
         this.props.fetchTypeAheadSuggestionsForerkort(value);
         this.setState({
             typeAheadValueForerkort: value,
@@ -29,7 +29,7 @@ class ForerkortSearch extends React.Component {
         });
     };
 
-    onTypeAheadForerkortSelect = value => {
+    onTypeAheadForerkortSelect = (value) => {
         if (erGyldigForerkort(value)) {
             this.props.selectTypeAheadValueForerkort(value);
             this.props.clearTypeAheadForerkort();
@@ -56,12 +56,12 @@ class ForerkortSearch extends React.Component {
         );
     };
 
-    onFjernForerkortClick = forerkort => {
+    onFjernForerkortClick = (forerkort) => {
         this.props.removeForerkort(forerkort);
         this.props.search();
     };
 
-    onSubmitForerkort = e => {
+    onSubmitForerkort = (e) => {
         e.preventDefault();
         this.onTypeAheadForerkortSelect(this.state.typeAheadValueForerkort);
         this.typeAhead.input.focus();
@@ -90,7 +90,7 @@ class ForerkortSearch extends React.Component {
                     <div>
                         {this.state.showTypeAheadForerkort ? (
                             <Typeahead
-                                ref={typeAhead => {
+                                ref={(typeAhead) => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadForerkortSelect}
@@ -121,7 +121,7 @@ class ForerkortSearch extends React.Component {
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.forerkortList.map(forerkort => (
+                        {this.props.forerkortList.map((forerkort) => (
                             <Merkelapp
                                 onRemove={this.onFjernForerkortClick}
                                 key={forerkort}

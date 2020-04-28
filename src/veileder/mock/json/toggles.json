@@ -16,6 +16,6 @@
     "vis-nyheter": true,
     "vis-viktige-yrker-lenker": true,
     "ny-dekorator": true,
-    "vis-oppstartstidspunktfilter": true,
-    "vis-midlertidig-utilgjengelig": true
+    "vis-midlertidig-utilgjengelig": true,
+    "vis-midlertidig-utilgjengelig-filter": true
 }

@@ -260,7 +260,7 @@ export default function searchReducer(state = initialState, action) {
     }
 }
 
-export const fromUrlQuery = url => {
+export const fromUrlQuery = (url) => {
     const stateFromUrl = {};
     const fritekst = getUrlParameterByName('fritekst', url);
     const stillinger = getUrlParameterByName('stillinger', url);
@@ -281,8 +281,9 @@ export const fromUrlQuery = url => {
     const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
     const kategorier = getUrlParameterByName('kategorier', url);
     const permittert = getUrlParameterByName('permittert');
-    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkt');
+    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
+    const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -305,13 +306,15 @@ export const fromUrlQuery = url => {
     if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
     if (permittert) stateFromUrl.permittert = permittert === 'true';
     if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
+    if (midlertidigUtilgjengelig)
+        stateFromUrl.midlertidigUtilgjengelig = midlertidigUtilgjengelig.split('_');
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
 
     return stateFromUrl;
 };
 
-export const toUrlQuery = state => {
+export const toUrlQuery = (state) => {
     const urlQuery = {};
     if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
     if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
@@ -358,13 +361,22 @@ export const toUrlQuery = state => {
     if (state.permittering.permittert !== state.permittering.ikkePermittert)
         urlQuery.permittert = state.permittering.permittert;
     if (
-        state.oppstartstidspunkter &&
-        state.oppstartstidspunkter.oppstartstidspunkter &&
-        state.oppstartstidspunkter.oppstartstidspunkter.length > 0
+        state.tilgjengelighet &&
+        state.tilgjengelighet.oppstartstidspunkter &&
+        state.tilgjengelighet.oppstartstidspunkter.length > 0
     )
-        urlQuery.oppstartstidspunkter = state.oppstartstidspunkter.oppstartstidspunkter.join('-');
+        urlQuery.oppstartstidspunkter = state.tilgjengelighet.oppstartstidspunkter.join('-');
     if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
         urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
+
+    if (
+        state.tilgjengelighet &&
+        state.tilgjengelighet.midlertidigUtilgjengelig &&
+        state.tilgjengelighet.midlertidigUtilgjengelig.length > 0
+    )
+        urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
+            '_'
+        );
 
     return toUrlParams(urlQuery);
 };
@@ -404,7 +416,7 @@ function* search(action = '') {
             geografiList: state.geografi.geografiList,
             geografiListKomplett: state.geografi.geografiListKomplett,
             lokasjoner: [...state.geografi.geografiListKomplett].map(
-                sted => `${sted.geografiKodeTekst}:${sted.geografiKode}`
+                (sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`
             ),
             totalErfaring: state.arbeidserfaring.totalErfaring,
             utdanningsniva: state.utdanning.utdanningsniva,
@@ -417,8 +429,9 @@ function* search(action = '') {
             hovedmal: state.hovedmal.totaltHovedmal,
             tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
             kategorier: state.tilretteleggingsbehov.kategorier,
-            oppstartKoder: state.oppstartstidspunkter.oppstartstidspunkter,
+            oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
             maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
+            midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
         };
 
         if (state.permittering.permittert !== state.permittering.ikkePermittert) {
@@ -429,10 +442,10 @@ function* search(action = '') {
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
 
-        const harCriteria = Object.values(criteriaValues).some(v => Array.isArray(v) && v.length);
+        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
         const criteria = {
             ...criteriaValues,
-            hasValues: Object.values(criteriaValues).some(v => Array.isArray(v) && v.length),
+            hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length),
             fraIndex,
             antallResultater,
         };
@@ -441,10 +454,10 @@ function* search(action = '') {
 
         if (!harNyeSokekriterier) {
             const kandidater = state.search.searchResultat.resultat.kandidater;
-            const kandidaterMedMarkering = response.kandidater.map(kFraResponse => ({
+            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({
                 ...kFraResponse,
                 markert: kandidater.some(
-                    k => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
+                    (k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
                 ),
             }));
             response = { ...response, kandidater: kandidaterMedMarkering };
@@ -489,7 +502,7 @@ function* fetchKompetanseSuggestions() {
                 stillinger: state.stilling.stillinger,
             });
             const aggregeringerKompetanse = response.aggregeringer.find(
-                a => a.navn === 'kompetanse'
+                (a) => a.navn === 'kompetanse'
             );
             yield put({
                 type: SET_KOMPETANSE_SUGGESTIONS_SUCCESS,
@@ -525,8 +538,8 @@ const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
     };
 
     nyQuery.kategorier = tag
-        .filter(t => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
-        .map(t => tilretteleggingsmuligheterTilBehov[t]);
+        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
 
     return nyQuery;
 };
@@ -559,7 +572,7 @@ function* initialSearch(action) {
                 }
                 urlQuery = {
                     ...urlQuery,
-                    geografiListKomplett: geografiKoder.map(sted => ({
+                    geografiListKomplett: geografiKoder.map((sted) => ({
                         geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()),
                         geografiKode: sted.id,
                     })),
@@ -625,7 +638,7 @@ function* registrerFerdigutfylteStillingerKlikk(action) {
 }
 
 export const harEnParameter = (...arrays) =>
-    arrays.some(array => array !== undefined && array.length > 0);
+    arrays.some((array) => array !== undefined && array.length > 0);
 
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);

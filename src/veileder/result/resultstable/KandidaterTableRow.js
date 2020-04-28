@@ -8,7 +8,7 @@ import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 
 class KandidaterTableRow extends React.Component {
-    onCheck = kandidatnr => {
+    onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
 
@@ -105,12 +105,12 @@ KandidaterTableRow.propTypes = {
     stillingsId: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     query: state.query,
 });
 
-const mapDispatchToProps = dispatch => ({
-    setScrollPosition: scrollPosisjon =>
+const mapDispatchToProps = (dispatch) => ({
+    setScrollPosition: (scrollPosisjon) =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
 });
 

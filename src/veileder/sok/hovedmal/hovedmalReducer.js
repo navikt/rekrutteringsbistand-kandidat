@@ -33,7 +33,7 @@ export default function hovedmalReducer(state = initialState, action) {
         case UNCHECK_TOTAL_HOVEDMAL:
             return {
                 ...state,
-                totaltHovedmal: state.totaltHovedmal.filter(th => th !== action.value),
+                totaltHovedmal: state.totaltHovedmal.filter((th) => th !== action.value),
             };
         case TOGGLE_HOVEDMAL_PANEL_OPEN:
             return {

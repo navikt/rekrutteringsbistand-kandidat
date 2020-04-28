@@ -36,7 +36,7 @@ import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
-import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
+import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -115,7 +115,6 @@ class ResultatVisning extends React.Component {
             lagretKandidatliste,
             kandidatliste,
             antallLagredeKandidater,
-            visOppstartstidspunktfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -237,9 +236,7 @@ class ResultatVisning extends React.Component {
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
                                         <PermitteringSearch />
-                                        {visOppstartstidspunktfilter && (
-                                            <OppstartstidspunktSearch />
-                                        )}
+                                        <TilgjengelighetSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -331,7 +328,6 @@ const mapStateToProps = (state) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

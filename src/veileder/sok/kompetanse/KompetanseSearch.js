@@ -72,7 +72,7 @@ KompetanseSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     kompetanser: state.kompetanse.kompetanser,
     kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
     typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
@@ -82,15 +82,15 @@ const mapStateToProps = state => ({
     panelOpen: state.kompetanse.kompetansePanelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.KOMPETANSE }),
     clearTypeAheadKompetanse: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE }),
-    fetchTypeAheadSuggestionsKompetanse: value =>
+    fetchTypeAheadSuggestionsKompetanse: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.KOMPETANSE, value }),
-    selectTypeAheadValueKompetanse: value =>
+    selectTypeAheadValueKompetanse: (value) =>
         dispatch({ type: SELECT_TYPE_AHEAD_VALUE_KOMPETANSE, value }),
-    removeKompetanse: value => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
+    removeKompetanse: (value) => dispatch({ type: REMOVE_SELECTED_KOMPETANSE, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_KOMPETANSE_PANEL_OPEN }),
 });
 
