@@ -129,9 +129,11 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
                     Meldingen som vil bli sendt til kandidatene
                 </label>
-                <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning typo-normal">
-                    <span>{genererMeldingUtenLenke(valgtMal)} </span>
-                    <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
+                <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning">
+                    <Normaltekst>
+                        <span>{genererMeldingUtenLenke(valgtMal)} </span>
+                        <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
+                    </Normaltekst>
                 </div>
                 <div className="send-sms-modal__knapper">
                     <Hovedknapp

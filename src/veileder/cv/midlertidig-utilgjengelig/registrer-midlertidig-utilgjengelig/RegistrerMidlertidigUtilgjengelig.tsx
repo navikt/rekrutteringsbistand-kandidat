@@ -16,6 +16,11 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
     const [dato, setDato] = useState<string | undefined>(undefined);
     const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
 
+    const setDatoOgFjernFeilmelding = (dato: string | undefined) => {
+        setDato(dato);
+        setFeilmelding(undefined);
+    };
+
     const onLagre = () => {
         const valideringsfeil = validerDatoOgReturnerFeilmelding(dato);
         if (valideringsfeil) {
@@ -41,7 +46,7 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
             </Normaltekst>
             <MidlertidigUtilgjengeligDatovelger
                 dato={dato}
-                setDato={setDato}
+                setDato={setDatoOgFjernFeilmelding}
                 feilmelding={feilmelding}
             />
             <Knapp type="hoved" onClick={onLagre}>
