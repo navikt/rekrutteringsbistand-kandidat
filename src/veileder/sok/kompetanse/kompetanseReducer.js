@@ -36,7 +36,7 @@ export default function kompetanseReducer(state = initialState, action) {
         case REMOVE_SELECTED_KOMPETANSE:
             return {
                 ...state,
-                kompetanser: state.kompetanser.filter(k => k !== action.value),
+                kompetanser: state.kompetanser.filter((k) => k !== action.value),
             };
         case TOGGLE_KOMPETANSE_PANEL_OPEN:
             return {

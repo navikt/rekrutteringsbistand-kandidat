@@ -61,7 +61,7 @@ export const førerkortProptypes = {
 
 ForerkortSearch.propTypes = førerkortProptypes;
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     forerkortList: state.forerkort.forerkortList,
     typeAheadSuggestionsForerkort: state.typeahead.forerkort.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
@@ -69,15 +69,15 @@ const mapStateToProps = state => ({
     panelOpen: state.forerkort.forerkortPanelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.FORERKORT }),
     clearTypeAheadForerkort: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.FORERKORT }),
-    fetchTypeAheadSuggestionsForerkort: value =>
+    fetchTypeAheadSuggestionsForerkort: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.FORERKORT, value }),
-    selectTypeAheadValueForerkort: value =>
+    selectTypeAheadValueForerkort: (value) =>
         dispatch({ type: SELECT_TYPE_AHEAD_VALUE_FORERKORT, value }),
-    removeForerkort: value => dispatch({ type: REMOVE_SELECTED_FORERKORT, value }),
+    removeForerkort: (value) => dispatch({ type: REMOVE_SELECTED_FORERKORT, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_FORERKORT_PANEL_OPEN }),
 });
 

@@ -74,7 +74,7 @@ StillingSearch.propTypes = {
     stillingsId: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     stillinger: state.stilling.stillinger,
     typeAheadSuggestionsStilling: state.typeahead.stilling.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
@@ -83,14 +83,14 @@ const mapStateToProps = state => ({
     panelOpen: state.stilling.stillingPanelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.STILLING }),
     clearTypeAheadStilling: () =>
         dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING }),
-    fetchTypeAheadSuggestions: value =>
+    fetchTypeAheadSuggestions: (value) =>
         dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.STILLING, value }),
-    selectTypeAheadValue: value => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
-    removeStilling: value => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
+    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_STILLING, value }),
+    removeStilling: (value) => dispatch({ type: REMOVE_SELECTED_STILLING, value }),
     fetchKompetanseSuggestions: () => dispatch({ type: FETCH_KOMPETANSE_SUGGESTIONS }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_STILLING_PANEL_OPEN }),
 });

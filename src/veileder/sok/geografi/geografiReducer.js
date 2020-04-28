@@ -42,7 +42,7 @@ export default function geografiReducer(state = initialState, action) {
                     : [...state.geografiList, action.value.geografiKode],
                 geografiListKomplett:
                     state.geografiListKomplett.find(
-                        v => v.geografiKode === action.value.geografiKode
+                        (v) => v.geografiKode === action.value.geografiKode
                     ) !== undefined
                         ? state.geografiListKomplett
                         : [...state.geografiListKomplett, action.value],
@@ -50,9 +50,9 @@ export default function geografiReducer(state = initialState, action) {
         case REMOVE_SELECTED_GEOGRAFI:
             return {
                 ...state,
-                geografiList: state.geografiList.filter(g => g !== action.value),
+                geografiList: state.geografiList.filter((g) => g !== action.value),
                 geografiListKomplett: state.geografiListKomplett.filter(
-                    g => g.geografiKode !== action.value
+                    (g) => g.geografiKode !== action.value
                 ),
             };
         case TOGGLE_GEOGRAFI_PANEL_OPEN:

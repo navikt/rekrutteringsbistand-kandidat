@@ -36,7 +36,7 @@ import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
-import OppstartstidspunktSearch from '../sok/oppstardstidspunkt/OppstartstidspunktSearch';
+import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -115,8 +115,6 @@ class ResultatVisning extends React.Component {
             lagretKandidatliste,
             kandidatliste,
             antallLagredeKandidater,
-            visPermitteringsfilter,
-            visOppstartstidspunktfilter,
         } = this.props;
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
@@ -237,10 +235,8 @@ class ResultatVisning extends React.Component {
                                         <FritekstSearch />
                                         <StillingSearch stillingsId={stillingsId} />
                                         <GeografiSearch stillingsId={stillingsId} />
-                                        {visPermitteringsfilter && <PermitteringSearch />}
-                                        {visOppstartstidspunktfilter && (
-                                            <OppstartstidspunktSearch />
-                                        )}
+                                        <PermitteringSearch />
+                                        <TilgjengelighetSearch />
                                         <UtdanningSearch />
                                         <ArbeidserfaringSearch />
                                         <SprakSearch />
@@ -318,7 +314,6 @@ ResultatVisning.propTypes = {
         }),
     }),
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
-    visPermitteringsfilter: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
@@ -333,8 +328,6 @@ const mapStateToProps = (state) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    visPermitteringsfilter: state.search.featureToggles['vis-permitteringsfilter'],
-    visOppstartstidspunktfilter: state.search.featureToggles['vis-oppstartstidspunktfilter'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -43,12 +43,9 @@ const MidlertidigUtilgjengeligKnapp: FunctionComponent<Props> = ({
                 className="midlertidig-utilgjengelig-knapp__ikon"
             />
             <Normaltekst tag="span" className="midlertidig-utilgjengelig-knapp__tekst">
-            {tekst}
+                {tekst}
             </Normaltekst>
-            <Chevron
-                type={chevronType}
-                className="midlertidig-utilgjengelig-knapp__chevron"
-            />
+            <Chevron type={chevronType} className="midlertidig-utilgjengelig-knapp__chevron" />
         </button>
     );
 };

@@ -1,14 +1,14 @@
 import { MidlertidigUtilgjengeligState } from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
 import { PermitteringState } from './sok/permittering/permitteringReducer';
-import { OppstartstidspunktState } from './sok/oppstardstidspunkt/oppstartstidspunktReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './cv/reducer/cvReducer';
+import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
     permittering: PermitteringState;
-    oppstartstidspunkter: OppstartstidspunktState;
+    tilgjengelighet: TilgjengelighetState;
     search: any;
     arbeidserfaring: ArbeidserfaringState;
     typeahead: TypeaheadState;

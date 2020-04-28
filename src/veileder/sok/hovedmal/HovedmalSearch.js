@@ -50,7 +50,7 @@ HovedmalSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     totaltHovedmal: state.hovedmal.totaltHovedmal,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     skjulHovedmal: state.search.featureToggles['skjul-hovedmal'],
@@ -58,10 +58,10 @@ const mapStateToProps = state => ({
     panelOpen: state.hovedmal.panelOpen,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.HOVEDMAL }),
-    checkHovedmal: value => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
-    uncheckHovedmal: value => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
+    checkHovedmal: (value) => dispatch({ type: CHECK_TOTAL_HOVEDMAL, value }),
+    uncheckHovedmal: (value) => dispatch({ type: UNCHECK_TOTAL_HOVEDMAL, value }),
     togglePanelOpen: () => dispatch({ type: TOGGLE_HOVEDMAL_PANEL_OPEN }),
 });
 

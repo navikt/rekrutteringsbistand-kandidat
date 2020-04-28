@@ -36,7 +36,7 @@ export default function forerkortReducer(state = initialState, action) {
         case REMOVE_SELECTED_FORERKORT:
             return {
                 ...state,
-                forerkortList: state.forerkortList.filter(k => k !== action.value),
+                forerkortList: state.forerkortList.filter((k) => k !== action.value),
             };
         case TOGGLE_FORERKORT_PANEL_OPEN:
             return {

@@ -45,8 +45,6 @@ type Props = {
     slettNotat: any;
     toggleArkivert: any;
     beskrivelse?: string;
-    visSendSms?: boolean;
-    arkiveringErEnabled?: boolean;
 };
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
@@ -98,7 +96,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 kandidatlisteId={props.kandidatlisteId}
                                 onLeggTilKandidat={props.onLeggTilKandidat}
                                 stillingsId={props.stillingsId}
-                                visSendSms={props.visSendSms}
                                 visArkiverte={visArkiverte}
                             >
                                 <Navnefilter
@@ -124,7 +121,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 alleMarkert={props.alleMarkert}
                                 onCheckAlleKandidater={props.onCheckAlleKandidater}
                                 stillingsId={props.stillingsId}
-                                visArkiveringskolonne={!!props.arkiveringErEnabled && !visArkiverte}
+                                visArkiveringskolonne={!visArkiverte}
                             />
                             {filtrerteKandidater.length > 0 ? (
                                 filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
@@ -141,10 +138,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         opprettNotat={props.opprettNotat}
                                         slettNotat={props.slettNotat}
                                         toggleArkivert={props.toggleArkivert}
-                                        visSendSms={props.visSendSms}
-                                        visArkiveringskolonne={
-                                            !!props.arkiveringErEnabled && !visArkiverte
-                                        }
+                                        visArkiveringskolonne={!visArkiverte}
                                     />
                                 ))
                             ) : (

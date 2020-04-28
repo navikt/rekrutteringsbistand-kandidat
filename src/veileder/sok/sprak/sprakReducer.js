@@ -35,7 +35,7 @@ export default function sprakReducer(state = initialState, action) {
         case REMOVE_SELECTED_SPRAK:
             return {
                 ...state,
-                sprak: state.sprak.filter(s => s !== action.value),
+                sprak: state.sprak.filter((s) => s !== action.value),
             };
         case TOGGLE_SPRAK_PANEL_OPEN:
             return {
