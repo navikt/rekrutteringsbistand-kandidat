@@ -7,13 +7,12 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettstatus, RemoteData, Nettressurs } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { dagensDato } from './validering';
@@ -50,6 +49,15 @@ const getTilgjengelighet = (
     return Tilgjengelighet.UTILGJENGELIG;
 };
 
+const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
+    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>
+) => {
+    return (
+        midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.TILGJENGELIG
+    );
+};
+
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     kandidatnr,
     aktørId,
@@ -67,15 +75,23 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const lukkPopup = () => setAnker(undefined);
 
-    const registrer = (tilOgMedDato: string) => {
-        const dato = new Date(tilOgMedDato).toISOString();
-        lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
-        lukkPopup();
-    };
+    const tilgjengelighet = midlertidigUtilgjengelig
+        ? getTilgjengelighet(midlertidigUtilgjengelig)
+        : undefined;
 
     const endre = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        lukkPopup();
+    };
+
+    const registrer = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+        if (kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt(midlertidigUtilgjengelig)) {
+            endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        } else {
+            lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        }
         lukkPopup();
     };
 
@@ -84,9 +100,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         lukkPopup();
     };
 
-    const tilgjengelighet = midlertidigUtilgjengelig
-        ? getTilgjengelighet(midlertidigUtilgjengelig)
-        : undefined;
     return (
         <div className="midlertidig-utilgjengelig">
             <MidlertidigUtilgjengeligKnapp
@@ -100,8 +113,8 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {!!midlertidigUtilgjengelig &&
-                midlertidigUtilgjengelig.kind === Nettstatus.Suksess ? (
+                {midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+                tilgjengelighet !== Tilgjengelighet.TILGJENGELIG ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
