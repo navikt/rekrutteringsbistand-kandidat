@@ -7,17 +7,15 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettstatus, RemoteData, Nettressurs } from '../../../felles/common/remoteData';
+import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import TilgjengelighetIkon, { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { dagensDato } from './validering';
-import { amplitudeClient } from '../../amplitude/amplitudeClient';
 
 interface Props {
     aktørId: string;
@@ -90,13 +88,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         : undefined;
     return (
         <div className="midlertidig-utilgjengelig">
-            <button
-                onClick={() => {
-                    amplitudeClient.logEvent('#rekrutteringsbistand-kandidat-testevent');
-                }}
-            >
-                send event
-            </button>
             <MidlertidigUtilgjengeligKnapp
                 chevronType={anker ? 'opp' : 'ned'}
                 onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
