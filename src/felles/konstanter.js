@@ -22,6 +22,7 @@ const FEATURE_TOGGLES = [
     'vis-kandidatliste-sletting',
     'vis-permitteringsfilter',
     'vis-midlertidig-utilgjengelig',
+    'vis-midlertidig-utilgjengelig-filter',
 ];
 export default FEATURE_TOGGLES;
 

@@ -19,5 +19,6 @@
     "ny-dekorator": true,
     "vis-kandidatliste-sletting": true,
     "vis-permitteringsfilter": true,
-    "vis-midlertidig-utilgjengelig": true
+    "vis-midlertidig-utilgjengelig": true,
+    "vis-midlertidig-utilgjengelig-filter": true
 }
