@@ -28,7 +28,6 @@ import midlertidigUtilgjengeligReducer, {
 } from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer.ts';
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
-import Toppmeny from './common/toppmeny/Toppmeny';
 import sprakReducer from './sok/sprak/sprakReducer';
 import KandidatlisteMedStilling from './kandidatlister/KandidatlisteMedStilling';
 import KandidatlisteUtenStilling from './kandidatlister/KandidatlisteUtenStilling';
@@ -48,7 +47,6 @@ import enhetsregisterReducer, {
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { VeilederTabId } from 'pam-frontend-header';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
@@ -86,36 +84,6 @@ const store = createStore(
 
 export const reduxStore = store;
 
-const HeaderSwitch = ({ innloggetVeileder }) => (
-    <Switch>
-        <Route
-            path="/kandidater/lister"
-            render={() => (
-                <Toppmeny
-                    innloggetVeileder={innloggetVeileder}
-                    activeTabID={VeilederTabId.KANDIDATLISTER}
-                />
-            )}
-        />
-        <Route
-            render={() => (
-                <Toppmeny
-                    innloggetVeileder={innloggetVeileder}
-                    activeTabID={VeilederTabId.KANDIDATSOK}
-                />
-            )}
-        />
-    </Switch>
-);
-
-HeaderSwitch.defaultProps = {
-    innloggetVeileder: '',
-};
-
-HeaderSwitch.propTypes = {
-    innloggetVeileder: PropTypes.string,
-};
-
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
     stillinger: [],
@@ -146,19 +114,15 @@ class Sok extends React.Component {
     };
 
     render() {
-        const { error, innloggetVeileder, fjernError, nyDekoratør } = this.props;
+        const { error, fjernError } = this.props;
 
-        const header = nyDekoratør ? (
+        const header = (
             <>
                 <Dekoratør />
                 <div onClick={this.navigeringKlikk}>
                     <Navigeringsmeny />
                 </div>
             </>
-        ) : (
-            <div onClick={this.navigeringKlikk}>
-                <HeaderSwitch innloggetVeileder={innloggetVeileder} />
-            </div>
         );
 
         if (error) {
@@ -226,24 +190,19 @@ class Sok extends React.Component {
 
 Sok.defaultProps = {
     error: undefined,
-    innloggetVeileder: undefined,
 };
 
 Sok.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number,
     }),
-    innloggetVeileder: PropTypes.string,
     fetchFeatureToggles: PropTypes.func.isRequired,
     hentInnloggetVeileder: PropTypes.func.isRequired,
     fjernError: PropTypes.func.isRequired,
-    nyDekoratør: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     error: state.search.error,
-    innloggetVeileder: state.search.innloggetVeileder,
-    nyDekoratør: state.search.featureToggles['ny-dekorator'],
 });
 
 const mapDispatchToProps = (dispatch) => ({
