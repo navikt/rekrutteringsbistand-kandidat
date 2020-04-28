@@ -3,7 +3,6 @@ import {
     fetchFeatureToggles,
     fetchFerdigutfylteStillinger,
     fetchGeografiKode,
-    fetchInnloggetVeileder,
     fetchKandidater,
     fetchKandidaterES,
     fetchStillingFraListe,
@@ -58,10 +57,6 @@ export const MARKER_KANDIDATER = 'MARKER_KANDIDATER';
 
 export const SET_SCROLL_POSITION = 'SET_SCROLL_POSITION';
 
-export const HENT_INNLOGGET_VEILEDER = 'HENT_INNLOGGET_VEILEDER';
-export const HENT_INNLOGGET_VEILEDER_SUCCESS = 'HENT_INNLOGGET_VEILEDER_SUCCESS';
-export const HENT_INNLOGGET_VEILEDER_FAILURE = 'HENT_INNLOGGET_VEILEDER_FAILURE';
-
 export const HENT_FERDIGUTFYLTE_STILLINGER = 'HENT_FERDIGUTFYLTE_STILLINGER';
 export const HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS = 'HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS';
 export const HENT_FERDIGUTFYLTE_STILLINGER_FAILURE = 'HENT_FERDIGUTFYLTE_STILLINGER_FAILURE';
@@ -102,7 +97,6 @@ const initialState = {
     arbeidsgiver: undefined,
     annonseOpprettetAvNavn: undefined,
     annonseOpprettetAvIdent: undefined,
-    innloggetVeileder: undefined,
 };
 
 export default function searchReducer(state = initialState, action) {
@@ -224,16 +218,6 @@ export default function searchReducer(state = initialState, action) {
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling || false,
-            };
-        case HENT_INNLOGGET_VEILEDER_SUCCESS:
-            return {
-                ...state,
-                innloggetVeileder: action.data.navn,
-            };
-        case HENT_INNLOGGET_VEILEDER_FAILURE:
-            return {
-                ...state,
-                error: action.error,
             };
         case FJERN_ERROR:
             return {
@@ -603,19 +587,6 @@ function* hentFeatureToggles() {
     }
 }
 
-function* hentInnloggetVeileder() {
-    try {
-        const data = yield call(fetchInnloggetVeileder);
-        yield put({ type: HENT_INNLOGGET_VEILEDER_SUCCESS, data });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: HENT_INNLOGGET_VEILEDER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* hentFerdigutfylteStillinger() {
     try {
         const data = yield call(fetchFerdigutfylteStillinger);
@@ -646,7 +617,6 @@ export const saga = function* saga() {
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
-    yield takeLatest(HENT_INNLOGGET_VEILEDER, hentInnloggetVeileder);
     yield takeLatest(HENT_FERDIGUTFYLTE_STILLINGER, hentFerdigutfylteStillinger);
     yield takeLatest(FERDIGUTFYLTESTILLINGER_KLIKK, registrerFerdigutfylteStillingerKlikk);
 };
