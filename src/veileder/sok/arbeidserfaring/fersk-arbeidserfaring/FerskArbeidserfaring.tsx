@@ -107,7 +107,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
                 checked={valgtKnapp === 'ingen'}
                 onChange={onIngenValgt}
             />
-            {antallÅrListe.map(antallÅr => (
+            {antallÅrListe.map((antallÅr) => (
                 <Radio
                     className="fersk-arbeidserfaring__knapp"
                     key={antallÅr}

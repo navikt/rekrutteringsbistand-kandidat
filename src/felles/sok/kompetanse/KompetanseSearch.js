@@ -20,14 +20,14 @@ class KompetanseSearch extends React.Component {
         };
     }
 
-    onTypeAheadKompetanseChange = value => {
+    onTypeAheadKompetanseChange = (value) => {
         this.props.fetchTypeAheadSuggestionsKompetanse(value);
         this.setState({
             typeAheadValueKompetanse: value,
         });
     };
 
-    onTypeAheadKompetanseSelect = value => {
+    onTypeAheadKompetanseSelect = (value) => {
         if (value !== '') {
             this.props.selectTypeAheadValueKompetanse(value);
             this.props.clearTypeAheadKompetanse();
@@ -47,18 +47,18 @@ class KompetanseSearch extends React.Component {
         );
     };
 
-    onFjernKompetanseClick = kompetanse => {
+    onFjernKompetanseClick = (kompetanse) => {
         this.props.removeKompetanse(kompetanse);
         this.props.search();
     };
 
-    onSubmitKompetanse = e => {
+    onSubmitKompetanse = (e) => {
         e.preventDefault();
         this.onTypeAheadKompetanseSelect(this.state.typeAheadValueKompetanse);
         this.typeAhead.input.focus();
     };
 
-    onKompetanseSuggestionsClick = kompetanse => () => {
+    onKompetanseSuggestionsClick = (kompetanse) => () => {
         this.props.selectTypeAheadValueKompetanse(kompetanse);
         this.props.search();
     };
@@ -82,7 +82,7 @@ class KompetanseSearch extends React.Component {
             return null;
         }
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter(
-            k => !this.props.kompetanser.includes(k.feltnavn)
+            (k) => !this.props.kompetanser.includes(k.feltnavn)
         );
         return (
             <SokekriteriePanel
@@ -97,7 +97,7 @@ class KompetanseSearch extends React.Component {
                     <div>
                         {this.state.showTypeAheadKompetanse ? (
                             <Typeahead
-                                ref={typeAhead => {
+                                ref={(typeAhead) => {
                                     this.typeAhead = typeAhead;
                                 }}
                                 onSelect={this.onTypeAheadKompetanseSelect}
@@ -127,7 +127,7 @@ class KompetanseSearch extends React.Component {
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
-                        {this.props.kompetanser.map(kompetanse => (
+                        {this.props.kompetanser.map((kompetanse) => (
                             <Merkelapp
                                 onRemove={this.onFjernKompetanseClick}
                                 key={kompetanse}
@@ -147,7 +147,7 @@ class KompetanseSearch extends React.Component {
                         <div className="Kompetanseforslag__wrapper">
                             {kompetanseSuggestions
                                 .slice(0, this.state.antallKompetanser)
-                                .map(suggestedKompetanse => (
+                                .map((suggestedKompetanse) => (
                                     <button
                                         onClick={this.onKompetanseSuggestionsClick(
                                             suggestedKompetanse.feltnavn
@@ -167,8 +167,9 @@ class KompetanseSearch extends React.Component {
                                     className="se-flere-forslag"
                                     mini
                                 >
-                                    {`Se flere (${kompetanseSuggestions.length -
-                                        this.state.antallKompetanser})`}
+                                    {`Se flere (${
+                                        kompetanseSuggestions.length - this.state.antallKompetanser
+                                    })`}
                                 </Knapp>
                             )}
                         </div>

@@ -55,7 +55,7 @@ const FantFåKandidater = (props: Props) => {
     };
 
     const onRemoveKategori = (kategori: Kategori) => {
-        props.changeTilretteleggingsbehovKategorier(props.kategorier.filter(k => k !== kategori));
+        props.changeTilretteleggingsbehovKategorier(props.kategorier.filter((k) => k !== kategori));
         props.search();
     };
 
@@ -128,7 +128,7 @@ const FantFåKandidater = (props: Props) => {
     );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
     kategorier: state.tilretteleggingsbehov.kategorier,
     harHentetStilling: state.search.harHentetStilling,
@@ -138,9 +138,9 @@ const mapStateToProps = state => ({
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    resetQuery: query => dispatch({ type: SET_STATE, query }),
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     disableTilretteleggingsbehov: () =>
         dispatch({

@@ -39,12 +39,12 @@ KandidatlisteUtenStilling.propTypes = {
     }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     kandidatliste: state.kandidatlister.detaljer.kandidatliste,
 });
 
-const mapDispatchToProps = dispatch => ({
-    hentKandidatliste: kandidatlisteId => {
+const mapDispatchToProps = (dispatch) => ({
+    hentKandidatliste: (kandidatlisteId) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,

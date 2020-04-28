@@ -23,9 +23,9 @@ export default class PresenterKandidaterModal extends React.Component {
         this.state = initalState();
     }
 
-    onMailadresseChange = id => e => {
+    onMailadresseChange = (id) => (e) => {
         this.setState({
-            mailadresser: this.state.mailadresser.map(mailadresseFelt => {
+            mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
                 if (mailadresseFelt.id === id) {
                     return {
                         ...mailadresseFelt,
@@ -38,15 +38,15 @@ export default class PresenterKandidaterModal extends React.Component {
         });
     };
 
-    onBeskjedChange = e => {
+    onBeskjedChange = (e) => {
         this.setState({
             beskjed: e.target.value,
         });
     };
 
-    showInputFelt = id => {
+    showInputFelt = (id) => {
         this.setState({
-            mailadresser: this.state.mailadresser.map(mailadresseFelt => {
+            mailadresser: this.state.mailadresser.map((mailadresseFelt) => {
                 if (mailadresseFelt.id === id) {
                     return {
                         ...mailadresseFelt,
@@ -74,7 +74,7 @@ export default class PresenterKandidaterModal extends React.Component {
     };
 
     validerOgLagre = () => {
-        const validerteMailadresser = this.state.mailadresser.map(mailadresseFelt => {
+        const validerteMailadresser = this.state.mailadresser.map((mailadresseFelt) => {
             if (mailadresseFelt.id === 0 && !mailadresseFelt.value.trim()) {
                 return {
                     ...mailadresseFelt,
@@ -99,7 +99,8 @@ export default class PresenterKandidaterModal extends React.Component {
         });
 
         if (
-            validerteMailadresser.filter(mailadresseFelt => mailadresseFelt.errorTekst).length !== 0
+            validerteMailadresser.filter((mailadresseFelt) => mailadresseFelt.errorTekst).length !==
+            0
         ) {
             this.setState({
                 mailadresser: validerteMailadresser,
@@ -108,8 +109,8 @@ export default class PresenterKandidaterModal extends React.Component {
             this.props.onSubmit(
                 this.state.beskjed,
                 this.state.mailadresser
-                    .map(mailadresseFelt => mailadresseFelt.value)
-                    .filter(mailadresse => mailadresse.trim())
+                    .map((mailadresseFelt) => mailadresseFelt.value)
+                    .filter((mailadresse) => mailadresse.trim())
             );
         }
     };
@@ -137,7 +138,7 @@ export default class PresenterKandidaterModal extends React.Component {
                         kandidatlisten.
                     </Normaltekst>
                     <div className="mailadresser">
-                        {this.state.mailadresser.map(mailadresseFelt => (
+                        {this.state.mailadresser.map((mailadresseFelt) => (
                             <Input
                                 className={`skjemaelement--pink${
                                     mailadresseFelt.show ? ' show' : ''

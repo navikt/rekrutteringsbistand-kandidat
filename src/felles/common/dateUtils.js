@@ -26,16 +26,16 @@ export function toDate(isoString) {
     return new Date(isoString);
 }
 
-const doubleDigits = s => (s.length === 1 ? `0${s}` : s);
+const doubleDigits = (s) => (s.length === 1 ? `0${s}` : s);
 
-export const formatterDato = date =>
+export const formatterDato = (date) =>
     [
         doubleDigits(`${date.getDate()}`),
         doubleDigits(`${date.getMonth() + 1}`),
         `${date.getFullYear()}`,
     ].join('.');
 
-export const formatterTid = datetime =>
+export const formatterTid = (datetime) =>
     [doubleDigits(`${datetime.getHours()}`), doubleDigits(`${datetime.getMinutes()}`)].join('.');
 
 export function formatISOString(isoString, format = 'MMMM YYYY') {

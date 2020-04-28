@@ -37,13 +37,13 @@ KandidatlisteMedStilling.propTypes = {
     }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     fetching: state.kandidatlister.detaljer.fetching,
     kandidatliste: state.kandidatlister.detaljer.kandidatliste,
 });
 
-const mapDispatchToProps = dispatch => ({
-    hentKandidatliste: stillingsId => {
+const mapDispatchToProps = (dispatch) => ({
+    hentKandidatliste: (stillingsId) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
             stillingsId,

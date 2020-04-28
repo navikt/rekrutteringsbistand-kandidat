@@ -34,9 +34,9 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
             clearTimouts();
         }
     }, [vis]);
-    const kandidaterMedEpost = kandidater.filter(kandidat => kandidat.epost);
+    const kandidaterMedEpost = kandidater.filter((kandidat) => kandidat.epost);
     const onKopierEpostadresser = () => {
-        const epostStreng = kandidaterMedEpost.map(kandidat => `${kandidat.epost}`).join(';');
+        const epostStreng = kandidaterMedEpost.map((kandidat) => `${kandidat.epost}`).join(';');
         copyToClipboard(epostStreng);
         setSuccessMelding(
             <div>
@@ -72,7 +72,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                     </Element>
                 </div>
                 <div className="kandidat-tabell-innhold">
-                    {kandidater.map(kandidat => (
+                    {kandidater.map((kandidat) => (
                         <div
                             className={`kandidat-tabell-rad ${
                                 kandidat.epost ? '' : 'kandidat-tabell-rad__inaktiv'

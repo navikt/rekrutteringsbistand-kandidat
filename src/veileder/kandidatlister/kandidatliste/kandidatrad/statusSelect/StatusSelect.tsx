@@ -49,7 +49,7 @@ const StatusSelect: React.FunctionComponent<Props> = ({ kanEditere, value, onCha
                     <Statusvisning status={value} />
                 </MenuButton>
                 <MenuList className="StatusSelect__menu">
-                    {statuserIDropdown.map(status => (
+                    {statuserIDropdown.map((status) => (
                         <MenuItem
                             key={status}
                             onSelect={() => onChange(Status[status])}
