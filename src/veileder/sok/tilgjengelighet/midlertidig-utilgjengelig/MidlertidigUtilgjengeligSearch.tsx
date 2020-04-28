@@ -19,19 +19,19 @@ interface Props {
     search: () => void;
 }
 
-const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
-    const midlertidigUtilgjengeligStatuser = [
-        { label: 'Tilgjengelig', value: MidlertidigUtilgjengelig.Tilgjengelig },
-        {
-            label: 'Tilgjengelig innen 1 uke',
-            value: MidlertidigUtilgjengelig.TilgjengeligInnen1Uke,
-        },
-        {
-            label: 'Midlertidig utilgjengelig',
-            value: MidlertidigUtilgjengelig.MidlertidigUtilgjengelig,
-        },
-    ];
+const midlertidigUtilgjengeligStatuser = [
+    { label: 'Tilgjengelig', value: MidlertidigUtilgjengelig.Tilgjengelig },
+    {
+        label: 'Tilgjengelig innen 1 uke',
+        value: MidlertidigUtilgjengelig.TilgjengeligInnen1Uke,
+    },
+    {
+        label: 'Midlertidig utilgjengelig',
+        value: MidlertidigUtilgjengelig.MidlertidigUtilgjengelig,
+    },
+];
 
+const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
     const onMidlertidigUtilgjengeligChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             props.checkMidlertidigUtilgjengelig(e.target.value as MidlertidigUtilgjengelig);

@@ -20,13 +20,13 @@ interface Props {
     search: () => void;
 }
 
-const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
-    const alleOppstartstidspunkter = [
-        { label: 'Ledig nå', value: Oppstartstidspunkt.LEDIG_NAA },
-        { label: 'Ledig om 3 måneder', value: Oppstartstidspunkt.ETTER_TRE_MND },
-        { label: 'Ledig etter avtale', value: Oppstartstidspunkt.ETTER_AVTALE },
-    ];
+const alleOppstartstidspunkter = [
+    { label: 'Ledig nå', value: Oppstartstidspunkt.LEDIG_NAA },
+    { label: 'Ledig om 3 måneder', value: Oppstartstidspunkt.ETTER_TRE_MND },
+    { label: 'Ledig etter avtale', value: Oppstartstidspunkt.ETTER_AVTALE },
+];
 
+const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     const onOppstartstidspunktChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             props.checkOppstartstidspunkt(e.target.value as Oppstartstidspunkt);
