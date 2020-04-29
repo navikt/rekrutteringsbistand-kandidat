@@ -24,6 +24,7 @@ import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
 import CVMeny from '../../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { logEvent } from '../../amplitude/amplitude';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -75,6 +76,8 @@ class VisKandidat extends React.Component {
         if (this.state.gjeldendeKandidat === this.props.kandidater.length) {
             this.props.lastFlereKandidater();
         }
+
+        logEvent('cv', 'visning');
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -108,6 +111,7 @@ class VisKandidat extends React.Component {
 
         if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
             window.scrollTo(0, 0);
+            logEvent('cv', 'visning');
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
             });
@@ -316,6 +320,7 @@ class VisKandidat extends React.Component {
                                             className="frittstaende-lenke LastNed link"
                                             href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
                                             target="_blank"
+                                            onClick={() => logEvent('cv_last_ned', 'klikk')}
                                             rel="noopener noreferrer"
                                         >
                                             <span className="link">Last ned CV</span>

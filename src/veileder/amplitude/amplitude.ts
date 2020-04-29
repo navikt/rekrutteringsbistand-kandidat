@@ -16,4 +16,6 @@ client.init(getApiKey(), '', {
     includeReferrer: false,
 });
 
-export const amplitudeClient = client;
+export const logEvent = (område: string, hendelse: string, data?: Object): void => {
+    client.logEvent(['#rekrutteringsbistand', område, hendelse].join('-'), data);
+};
