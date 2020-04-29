@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Typeahead from '../../../../arbeidsgiver/common/typeahead/Typeahead';
+import Typeahead from '../../typeahead/Typeahead';
 import LeggtilKnapp from '../../../../felles/common/leggtilKnapp/LeggtilKnapp';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { SEARCH } from '../../searchReducer';

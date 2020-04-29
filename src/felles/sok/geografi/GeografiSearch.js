@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
-import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
+import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Geografi.less';
