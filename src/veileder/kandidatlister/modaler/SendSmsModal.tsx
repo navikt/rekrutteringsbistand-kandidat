@@ -132,7 +132,9 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                 <div id="forhåndsvisning" className="send-sms-modal__forhåndsvisning">
                     <Normaltekst>
                         <span>{genererMeldingUtenLenke(valgtMal)} </span>
-                        <Lenke href={lenkeMedPrefiks}>{lenkeTilStilling}</Lenke>
+                        <Lenke href={lenkeMedPrefiks} target="_blank" rel="noopener noreferrer">
+                            {lenkeTilStilling}
+                        </Lenke>
                     </Normaltekst>
                 </div>
                 <div className="send-sms-modal__knapper">

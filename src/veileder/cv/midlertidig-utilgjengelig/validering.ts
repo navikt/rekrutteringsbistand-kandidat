@@ -1,8 +1,10 @@
-import moment from 'moment';
+import moment, { Moment, MomentInput } from 'moment';
 
 export const dagensDato = () => moment(new Date()).startOf('day');
 export const minDatoMidlertidigUtilgjengelig = () => dagensDato();
 export const maksDatoMidlertidigUtilgjengelig = () => dagensDato().add(30, 'days');
+export const antallDagerMellom = (start: MomentInput, slutt: MomentInput) =>
+    moment(slutt).diff(moment(start), 'days');
 
 export const validerDatoOgReturnerFeilmelding = (dato) => {
     if (dato === undefined) {

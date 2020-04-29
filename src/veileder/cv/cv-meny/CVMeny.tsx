@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import './CVMeny.less';
+import { logEvent } from '../../amplitude/amplitude';
 
 interface Props {
     fødselsnummer: string;
@@ -12,6 +13,7 @@ const CVMeny: FunctionComponent<Props> = (props) => {
                 className="frittstaende-lenke ForlateSiden link"
                 href={`https://app.adeo.no/veilarbpersonflatefs/${props.fødselsnummer}`}
                 target="_blank"
+                onClick={() => logEvent('cv_aktivitetsplan_lenke', 'klikk')}
                 rel="noopener noreferrer"
             >
                 <i className="ForlateSiden__icon" />

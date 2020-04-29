@@ -4,6 +4,7 @@ import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import './VisKandidatTilretteleggingsbehov.less';
 import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../common/fasitProperties';
+import { logEvent } from '../../amplitude/amplitude';
 
 interface VisKandidatTilretteleggingsbehovProps {
     fnr: string;
@@ -31,11 +32,11 @@ const VisKandidatTilretteleggingsbehov = ({ fnr }: VisKandidatTilretteleggingsbe
                         href={arbeidsrettetOppfølgingUrl}
                         className="panel--tilretteleggingsbehov__lenke ForlateSiden link"
                         target="_blank"
+                        onClick={() => logEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
                         rel="noopener noreferrer"
                     >
                         <span className="link">
-                            Se behov for tilrettelegging. Bare noen NAV-kontor vil se denne
-                            informasjonen.
+                            Se behov for tilrettelegging.
                         </span>
                         <i className="ForlateSiden__icon" />
                     </a>

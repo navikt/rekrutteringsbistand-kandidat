@@ -39,6 +39,7 @@ class InnsatsgruppeSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Innsatsgruppe__SokekriteriePanel"
+                fane="innsatsgruppe"
                 tittel="Innsatsgruppe"
                 onClick={togglePanelOpen}
                 apen={panelOpen}

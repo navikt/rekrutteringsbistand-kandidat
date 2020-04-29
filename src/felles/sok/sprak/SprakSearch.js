@@ -75,6 +75,7 @@ class SprakSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="Spraak__SokekriteriePanel"
+                fane="språk"
                 tittel="Språk"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}

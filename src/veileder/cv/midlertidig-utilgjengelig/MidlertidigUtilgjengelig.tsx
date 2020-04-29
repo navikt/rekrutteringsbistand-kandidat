@@ -7,7 +7,7 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
+import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
@@ -15,7 +15,8 @@ import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
-import { dagensDato } from './validering';
+import { antallDagerMellom, dagensDato } from './validering';
+import { logEvent } from '../../amplitude/amplitude';
 
 interface Props {
     aktørId: string;
@@ -75,36 +76,55 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const lukkPopup = () => setAnker(undefined);
 
-    const tilgjengelighet = midlertidigUtilgjengelig
-        ? getTilgjengelighet(midlertidigUtilgjengelig)
-        : undefined;
-
     const endre = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
         endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+
+        logEvent('cv_midlertidig_utilgjengelig', 'endre', {
+            antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
+        });
+
         lukkPopup();
     };
 
     const registrer = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
+        logEvent('cv_midlertidig_utilgjengelig', 'registrer', {
+            antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
+        });
+
         if (kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt(midlertidigUtilgjengelig)) {
             endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
         } else {
             lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
         }
+
         lukkPopup();
     };
 
     const slett = () => {
         slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
+        logEvent('cv_midlertidig_utilgjengelig', 'slett');
         lukkPopup();
+    };
+
+    const tilgjengelighet = midlertidigUtilgjengelig
+        ? getTilgjengelighet(midlertidigUtilgjengelig)
+        : undefined;
+
+    const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const skalÅpnes = !anker;
+        if (skalÅpnes) {
+            logEvent('cv_midlertidig_utilgjengelig', 'åpne');
+        }
+        setAnker(skalÅpnes ? e.currentTarget : undefined);
     };
 
     return (
         <div className="midlertidig-utilgjengelig">
             <MidlertidigUtilgjengeligKnapp
                 chevronType={anker ? 'opp' : 'ned'}
-                onClick={(e) => setAnker(anker ? undefined : e.currentTarget)}
+                onClick={onClick}
                 tilgjengelighet={tilgjengelighet}
             />
             <Popover

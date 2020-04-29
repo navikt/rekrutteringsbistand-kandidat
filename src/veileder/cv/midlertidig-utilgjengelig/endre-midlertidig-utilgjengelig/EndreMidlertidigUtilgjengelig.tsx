@@ -7,7 +7,7 @@ import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
 import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
 import moment, { Moment } from 'moment';
-import { validerDatoOgReturnerFeilmelding } from '../validering';
+import { antallDagerMellom, validerDatoOgReturnerFeilmelding } from '../validering';
 
 interface Props {
     onAvbryt: () => void;
@@ -82,7 +82,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                 Kandidaten er midlertidig utilgjengelig
             </Undertittel>
             <Element className="endre-midlertidig-utilgjengelig__tilgjengelig-om">
-                Tilgjengelig om: {moment(tilgjengeligDato).diff(moment(fraDato), 'days') + 1} dager
+                Tilgjengelig om: {antallDagerMellom(fraDato, tilgjengeligDato) + 1} dager
                 ({formaterDato(tilgjengeligDato)})
             </Element>
             <Normaltekst>{registrertAvTekst}</Normaltekst>

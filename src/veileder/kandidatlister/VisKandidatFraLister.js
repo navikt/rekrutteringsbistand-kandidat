@@ -16,6 +16,7 @@ import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import CVMeny from '../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { logEvent } from '../amplitude/amplitude';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -158,9 +159,10 @@ class VisKandidatFraLister extends React.Component {
                                             className="frittstaende-lenke LastNed link"
                                             href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
                                             target="_blank"
+                                            onClick={() => logEvent('cv_last_ned', 'klikk')}
                                             rel="noopener noreferrer"
                                         >
-                                            <span className="link">Last ned CV</span>
+                                            <span className="link">@Last ned CV</span>
                                             <i className="LastNed__icon" />
                                         </a>
                                     )}

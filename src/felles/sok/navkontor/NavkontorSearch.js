@@ -82,6 +82,7 @@ class NavkontorSearch extends React.Component {
         return (
             <SokekriteriePanel
                 id="NavKontor__SokekriteriePanel"
+                fane="nav-kontor"
                 tittel="NAV-kontor"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
