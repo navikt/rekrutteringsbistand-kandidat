@@ -30,9 +30,9 @@ type Props = {
     opprettetAv: OpprettetAv;
     kandidatlisteId: string;
     kanEditere: boolean;
-    toggleMarkeringAvKandidat: (kandidatnr: string) => void;
-    fjernMarkeringFraAlleKandidater: () => void;
-    markerSynligeKandidater: (kandidatnumre: string[]) => void;
+    toggleMarkert: (kandidatnr: string) => void;
+    fjernAllMarkering: () => void;
+    markerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     onKandidatShare: any;
     onEmailKandidater: any;
@@ -58,14 +58,14 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
-        props.fjernMarkeringFraAlleKandidater();
+        props.fjernAllMarkering();
     };
 
     const onCheckAlleKandidater = () => {
         if (alleFiltrerteErMarkerte) {
-            props.fjernMarkeringFraAlleKandidater();
+            props.fjernAllMarkering();
         } else {
-            props.markerSynligeKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
+            props.markerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
         }
     };
 
@@ -141,7 +141,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         stillingsId={props.stillingsId}
                                         kandidatlisteId={props.kandidatlisteId}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
-                                        onToggleKandidat={props.toggleMarkeringAvKandidat}
+                                        onToggleKandidat={props.toggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         opprettNotat={props.opprettNotat}
                                         slettNotat={props.slettNotat}
