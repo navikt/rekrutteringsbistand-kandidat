@@ -98,6 +98,10 @@ export type MidlertidigUtilgjengeligAction =
     | SlettMidlertidigUtilgjengeligFailureAction;
 
 export type MidlertidigUtilgjengeligResponse = {
+    midlertidigUtilgjengelig: MidlertidigUtilgjengeligData | null;
+};
+
+export type MidlertidigUtilgjengeligData = {
     aktørId: string;
     fraDato: Date;
     tilDato: Date;
@@ -156,8 +160,7 @@ const midlertidigUtilgjengeligReducer = (
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
-                [action.kandidatnr]:
-                    action.error.status === 404 ? FinnesIkke() : Feil(action.error),
+                [action.kandidatnr]: Feil(action.error),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
