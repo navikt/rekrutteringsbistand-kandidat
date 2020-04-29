@@ -84,7 +84,6 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     state: {
-        alleMarkert: boolean;
         kandidater?: KandidatIKandidatliste[];
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
@@ -100,7 +99,6 @@ class Kandidatlisteside extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            alleMarkert: false,
             kandidater:
                 props.kandidatliste.kind !== Nettstatus.Suksess
                     ? undefined
@@ -164,7 +162,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 (kandidat) => kandidat.markert
             ).length;
 
-            this.onCheckAlleKandidater(false);
+            this.fjernMarkeringFraAlleKandidater();
             this.visInfobanner(
                 `${
                     antallMarkerteKandidater > 1 ? 'Kandidatene' : 'Kandidaten'
@@ -198,7 +196,7 @@ class Kandidatlisteside extends React.Component<Props> {
         if (smsErNettoppSendtTilKandidater) {
             this.props.resetSmsSendStatus();
             this.visInfobanner('SMS-en er sendt');
-            this.onCheckAlleKandidater(false);
+            this.fjernMarkeringFraAlleKandidater();
             this.setState({
                 sendSmsModalOpen: false,
             });
@@ -263,9 +261,6 @@ class Kandidatlisteside extends React.Component<Props> {
 
             this.setState({
                 kandidater,
-                alleMarkert:
-                    !kandidaterHarNettoppBlittPresentert &&
-                    kandidater.filter((k) => !k.markert).length === 0,
             });
         }
     }
@@ -274,32 +269,42 @@ class Kandidatlisteside extends React.Component<Props> {
         clearTimeout(this.infobannerCallbackId);
     }
 
-    onCheckAlleKandidater = (markert: boolean) => {
+    fjernMarkeringFraAlleKandidater = () => {
         if (this.state.kandidater) {
             this.setState({
-                alleMarkert: markert,
                 kandidater: this.state.kandidater.map((kandidat) => ({
                     ...kandidat,
-                    markert,
+                    markert: false,
                 })),
             });
         }
     };
 
-    onToggleKandidat = (kandidatnr: string) => {
+    toggleMarkeringAvKandidat = (kandidatnr: string) => {
         if (this.state.kandidater) {
             const kandidater = this.state.kandidater.map((kandidat) => {
-                if (kandidat.kandidatnr === kandidatnr) {
-                    return {
-                        ...kandidat,
-                        markert: !kandidat.markert,
-                    };
-                }
-                return kandidat;
+                return kandidat.kandidatnr !== kandidatnr
+                    ? kandidat
+                    : {
+                          ...kandidat,
+                          markert: !kandidat.markert,
+                      };
             });
             this.setState({
                 kandidater,
-                alleMarkert: kandidater.filter((k) => !k.markert).length === 0,
+            });
+        }
+    };
+
+    markerSynligeKandidater = (kandidatnumre: string[]) => {
+        if (this.state.kandidater) {
+            const kandidater = this.state.kandidater.map((kandidat) => ({
+                ...kandidat,
+                markert: kandidatnumre.includes(kandidat.kandidatnr),
+            }));
+
+            this.setState({
+                kandidater,
             });
         }
     };
@@ -428,7 +433,6 @@ class Kandidatlisteside extends React.Component<Props> {
         } = this.props.kandidatliste.data;
         const {
             kandidater,
-            alleMarkert,
             deleModalOpen,
             infobanner,
             leggTilModalOpen,
@@ -479,9 +483,9 @@ class Kandidatlisteside extends React.Component<Props> {
                     stillingsId={stillingId}
                     kanEditere={kanEditere}
                     kandidater={kandidater}
-                    alleMarkert={alleMarkert}
-                    onToggleKandidat={this.onToggleKandidat}
-                    onCheckAlleKandidater={this.onCheckAlleKandidater}
+                    toggleMarkeringAvKandidat={this.toggleMarkeringAvKandidat}
+                    fjernMarkeringFraAlleKandidater={this.fjernMarkeringFraAlleKandidater}
+                    markerSynligeKandidater={this.markerSynligeKandidater}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
