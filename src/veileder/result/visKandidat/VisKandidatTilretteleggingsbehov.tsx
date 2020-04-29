@@ -35,9 +35,7 @@ const VisKandidatTilretteleggingsbehov = ({ fnr }: VisKandidatTilretteleggingsbe
                         onClick={() => logEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
                         rel="noopener noreferrer"
                     >
-                        <span className="link">
-                            Se behov for tilrettelegging.
-                        </span>
+                        <span className="link">Se behov for tilrettelegging.</span>
                         <i className="ForlateSiden__icon" />
                     </a>
                 </div>

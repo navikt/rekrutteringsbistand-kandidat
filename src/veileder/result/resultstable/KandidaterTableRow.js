@@ -6,6 +6,9 @@ import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
+import TilgjengelighetIkon, {
+    Tilgjengelighet,
+} from '../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -46,6 +49,20 @@ class KandidaterTableRow extends React.Component {
             return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
         };
 
+        let midlertidigUtilgjengeligFlagg;
+        if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengeliginnen1uke') {
+            midlertidigUtilgjengeligFlagg = (
+                <TilgjengelighetIkon
+                    tilgjengelighet={Tilgjengelighet.SNART_TILGJENGELIG}
+                    className="NyKandidaterTableRow__tilgjengelighet--snart-tilgjengelig"
+                />
+            );
+        } else if (kandidat.midlertidigUtilgjengeligStatus === 'midlertidigutilgjengelig') {
+            midlertidigUtilgjengeligFlagg = (
+                <TilgjengelighetIkon tilgjengelighet={Tilgjengelighet.UTILGJENGELIG} className="" />
+            );
+        }
+
         return (
             <div className={`NyKandidaterTableRow ${this.checkedClass(markert, nettoppValgt)}`}>
                 <div className="kandidat-content">
@@ -69,6 +86,9 @@ class KandidaterTableRow extends React.Component {
                                 .
                             </label>
                         </div>
+                    </div>
+                    <div className="NyKandidaterTableRow__tilgjengelighet">
+                        {midlertidigUtilgjengeligFlagg}
                     </div>
                     <div className="kolonne-navn kolonne-tekst">
                         <Link

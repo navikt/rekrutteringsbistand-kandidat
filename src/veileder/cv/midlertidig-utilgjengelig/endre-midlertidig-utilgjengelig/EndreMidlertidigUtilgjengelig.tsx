@@ -82,8 +82,8 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                 Kandidaten er midlertidig utilgjengelig
             </Undertittel>
             <Element className="endre-midlertidig-utilgjengelig__tilgjengelig-om">
-                Tilgjengelig om: {antallDagerMellom(fraDato, tilgjengeligDato) + 1} dager
-                ({formaterDato(tilgjengeligDato)})
+                Tilgjengelig om: {antallDagerMellom(fraDato, tilgjengeligDato) + 1} dager (
+                {formaterDato(tilgjengeligDato)})
             </Element>
             <Normaltekst>{registrertAvTekst}</Normaltekst>
             <Normaltekst>Registrert: {formaterDato(fraDato)}</Normaltekst>

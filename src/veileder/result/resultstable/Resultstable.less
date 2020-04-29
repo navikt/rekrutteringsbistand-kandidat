@@ -9,52 +9,69 @@
     margin-top: 0.5rem;
     border: 1px solid #d8d8d8;
     min-width: 25rem;
+
     .kandidat-content {
         height: 4rem;
         display: flex;
         align-items: center;
+
         .kolonne-tekst {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             margin-right: 2rem;
         }
+
         .kolonne-overskrift {
             font-weight: 600;
         }
+
         .kolonne-checkbox {
             padding-left: 1.25rem;
-            padding-right: 0.75rem;
-            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-                .skjemaelement {
-                    padding-bottom: 1.5rem;
-                }
-            }
         }
+
         .kolonne-lenke:visited {
             color: @gray5;
             border-bottom: 1px solid @greenDarken;
         }
+
         .kolonne-navn {
             flex: 3;
         }
+
         .kolonne-dato {
             width: 7.5rem;
         }
+
         .kolonne-innsatsgruppe {
             flex: 3;
         }
+
         .kolonne-bosted {
             flex: 2;
         }
     }
+
     &.checked {
         border-color: @navBla;
     }
+
     &.nettopp-valgt {
         border-color: @navOransje;
     }
+
     &.overskrift {
         border-color: #78706a;
+    }
+
+    &__tilgjengelighet {
+        display: flex;
+        justify-content: center;
+        flex: 0.6;
+        transform: scale(1.7);
+
+        &--snart-tilgjengelig {
+            stroke: black;
+        }
     }
 }
