@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
-import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
+import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';

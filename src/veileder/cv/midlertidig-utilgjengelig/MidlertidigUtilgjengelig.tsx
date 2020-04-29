@@ -50,6 +50,15 @@ const getTilgjengelighet = (
     return Tilgjengelighet.UTILGJENGELIG;
 };
 
+const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
+    midlertidigUtilgjengelig: Nettressurs<MidlertidigUtilgjengeligResponse>
+) => {
+    return (
+        midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.TILGJENGELIG
+    );
+};
+
 const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     kandidatnr,
     aktørId,
@@ -67,21 +76,29 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const lukkPopup = () => setAnker(undefined);
 
-    const registrer = (tilOgMedDato: string) => {
-        const dato = new Date(tilOgMedDato).toISOString();
-        lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
-        logEvent('cv_midlertidig_utilgjengelig', 'registrer', {
-            antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
-        });
-        lukkPopup();
-    };
-
     const endre = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
+        endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+
         logEvent('cv_midlertidig_utilgjengelig', 'endre', {
             antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
         });
-        endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+
+        lukkPopup();
+    };
+
+    const registrer = (tilOgMedDato: string) => {
+        const dato = new Date(tilOgMedDato).toISOString();
+        logEvent('cv_midlertidig_utilgjengelig', 'registrer', {
+            antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
+        });
+
+        if (kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt(midlertidigUtilgjengelig)) {
+            endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        } else {
+            lagreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
+        }
+
         lukkPopup();
     };
 
@@ -102,6 +119,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         }
         setAnker(skalÅpnes ? e.currentTarget : undefined);
     };
+
     return (
         <div className="midlertidig-utilgjengelig">
             <MidlertidigUtilgjengeligKnapp
@@ -115,8 +133,8 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
                 orientering={PopoverOrientering.UnderHoyre}
                 avstandTilAnker={16}
             >
-                {!!midlertidigUtilgjengelig &&
-                midlertidigUtilgjengelig.kind === Nettstatus.Suksess ? (
+                {midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+                tilgjengelighet !== Tilgjengelighet.TILGJENGELIG ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"

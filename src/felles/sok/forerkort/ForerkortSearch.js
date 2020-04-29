@@ -3,7 +3,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
 import { erGyldigForerkort } from './forerkort.ts';
-import Typeahead from '../../../arbeidsgiver/common/typeahead/Typeahead';
+import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';

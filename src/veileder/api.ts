@@ -70,8 +70,6 @@ export function fetchFeatureToggles() {
     return fetchJson(`${SEARCH_API}/toggles?feature=${FEATURE_TOGGLES.join(',')}`);
 }
 
-export const fetchInnloggetVeileder = () => fetchJson(`${KANDIDATSOK_API}/veileder/me`, true);
-
 export function fetchKandidater(query = {}) {
     return fetchJson(`${SEARCH_API}/sok?${convertToUrlParams(query)}`, true);
 }
