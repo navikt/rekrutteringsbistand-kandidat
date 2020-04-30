@@ -31,22 +31,27 @@ interface Props {
 const getTilgjengelighet = (
     response: Nettressurs<MidlertidigUtilgjengeligResponse>
 ): Tilgjengelighet | undefined => {
-    if (response.kind === Nettstatus.FinnesIkke) {
-        return Tilgjengelighet.TILGJENGELIG;
-    } else if (response.kind !== Nettstatus.Suksess) {
+    if (response.kind !== Nettstatus.Suksess) {
         return undefined;
     }
 
+    const registrertData = response.data.midlertidigUtilgjengelig;
+    if (registrertData === null) {
+        return Tilgjengelighet.TILGJENGELIG;
+    }
+
     const idag = dagensDato();
-    const fraDato = moment(response.data.fraDato).startOf('day');
-    const tilDato = moment(response.data.tilDato).startOf('day');
+    const fraDato = moment(registrertData.fraDato).startOf('day');
+    const tilDato = moment(registrertData.tilDato).startOf('day');
 
     if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
         return Tilgjengelighet.TILGJENGELIG;
     }
+
     if (tilDato.diff(idag, 'days') < 7) {
         return Tilgjengelighet.SNART_TILGJENGELIG;
     }
+
     return Tilgjengelighet.UTILGJENGELIG;
 };
 
@@ -55,6 +60,7 @@ const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
 ) => {
     return (
         midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+        midlertidigUtilgjengelig.data.midlertidigUtilgjengelig !== null &&
         getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.TILGJENGELIG
     );
 };
@@ -134,13 +140,16 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
                 avstandTilAnker={16}
             >
                 {midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
+                midlertidigUtilgjengelig.data.midlertidigUtilgjengelig !== null &&
                 tilgjengelighet !== Tilgjengelighet.TILGJENGELIG ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
                         endreMidlertidigUtilgjengelig={endre}
                         slettMidlertidigUtilgjengelig={slett}
-                        midlertidigUtilgjengelig={midlertidigUtilgjengelig.data}
+                        midlertidigUtilgjengelig={
+                            midlertidigUtilgjengelig.data.midlertidigUtilgjengelig
+                        }
                     />
                 ) : (
                     <RegistrerMidlertidigUtilgjengelig
