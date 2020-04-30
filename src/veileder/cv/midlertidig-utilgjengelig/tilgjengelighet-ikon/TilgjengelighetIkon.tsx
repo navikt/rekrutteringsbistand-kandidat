@@ -1,12 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import SnartTilgjengeligFlagg from './SnartTilgjengeligFlagg';
 import UtilgjengeligFlagg from './UtilgjengeligFlagg';
-
-export enum Tilgjengelighet {
-    TILGJENGELIG = 'TILGJENGELIG',
-    UTILGJENGELIG = 'UTILGJENGELIG',
-    SNART_TILGJENGELIG = 'SNART_TILGJENGELIG',
-}
+import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 interface Props {
     tilgjengelighet: Tilgjengelighet;
@@ -15,11 +10,11 @@ interface Props {
 
 const TilgjengelighetIkon: FunctionComponent<Props> = ({ tilgjengelighet, className }) => {
     switch (tilgjengelighet) {
-        case Tilgjengelighet.SNART_TILGJENGELIG:
+        case Tilgjengelighet.TilgjengeligInnen1Uke:
             return <SnartTilgjengeligFlagg className={className} />;
-        case Tilgjengelighet.UTILGJENGELIG:
+        case Tilgjengelighet.MidlertidigUtilgjengelig:
             return <UtilgjengeligFlagg className={className} />;
-        case Tilgjengelighet.TILGJENGELIG:
+        case Tilgjengelighet.Tilgjengelig:
         default:
             return null;
     }

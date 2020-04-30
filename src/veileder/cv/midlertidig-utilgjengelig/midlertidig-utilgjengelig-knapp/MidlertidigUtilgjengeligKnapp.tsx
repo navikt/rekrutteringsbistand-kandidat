@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import './MidlertidigUtilgjengeligKnapp.less';
-import TilgjengelighetIkon, { Tilgjengelighet } from '../tilgjengelighet-ikon/TilgjengelighetIkon';
+import TilgjengelighetIkon from '../tilgjengelighet-ikon/TilgjengelighetIkon';
 import Chevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
-import { Element, Ingress, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 interface Props {
     chevronType: 'opp' | 'ned';
@@ -13,11 +14,11 @@ interface Props {
 
 const getKnappetekst = (tilgjengelighet: Tilgjengelighet) => {
     switch (tilgjengelighet) {
-        case Tilgjengelighet.TILGJENGELIG:
+        case Tilgjengelighet.Tilgjengelig:
             return 'Registrer som utilgjengelig';
-        case Tilgjengelighet.SNART_TILGJENGELIG:
+        case Tilgjengelighet.TilgjengeligInnen1Uke:
             return 'Tilgjengelig innen 1 uke';
-        case Tilgjengelighet.UTILGJENGELIG:
+        case Tilgjengelighet.MidlertidigUtilgjengelig:
             return 'Midlertidig utilgjengelig';
     }
 };

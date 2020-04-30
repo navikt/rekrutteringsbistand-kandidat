@@ -6,9 +6,8 @@ import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import TilgjengelighetIkon, {
-    Tilgjengelighet,
-} from '../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import TilgjengelighetIkon from '../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from '../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -55,13 +54,16 @@ class KandidaterTableRow extends React.Component {
         } else if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengeliginnen1uke') {
             midlertidigUtilgjengeligFlagg = (
                 <TilgjengelighetIkon
-                    tilgjengelighet={Tilgjengelighet.SNART_TILGJENGELIG}
+                    tilgjengelighet={Tilgjengelighet.TilgjengeligInnen1Uke}
                     className="NyKandidaterTableRow__tilgjengelighet--snart-tilgjengelig"
                 />
             );
         } else if (kandidat.midlertidigUtilgjengeligStatus === 'midlertidigutilgjengelig') {
             midlertidigUtilgjengeligFlagg = (
-                <TilgjengelighetIkon tilgjengelighet={Tilgjengelighet.UTILGJENGELIG} className="" />
+                <TilgjengelighetIkon
+                    tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
+                    className=""
+                />
             );
         }
 

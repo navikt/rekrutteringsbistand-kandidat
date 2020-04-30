@@ -7,16 +7,16 @@ import {
     MidlertidigUtilgjengeligAction,
     MidlertidigUtilgjengeligResponse,
 } from './midlertidigUtilgjengeligReducer';
-import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
 import AppState from '../../AppState';
 import EndreMidlertidigUtilgjengelig from './endre-midlertidig-utilgjengelig/EndreMidlertidigUtilgjengelig';
 import RegistrerMidlertidigUtilgjengelig from './registrer-midlertidig-utilgjengelig/RegistrerMidlertidigUtilgjengelig';
-import { Tilgjengelighet } from './tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { antallDagerMellom, dagensDato } from './validering';
 import { logEvent } from '../../amplitude/amplitude';
+import { Tilgjengelighet } from '../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 interface Props {
     aktørId: string;
@@ -32,7 +32,7 @@ const getTilgjengelighet = (
     response: Nettressurs<MidlertidigUtilgjengeligResponse>
 ): Tilgjengelighet | undefined => {
     if (response.kind === Nettstatus.FinnesIkke) {
-        return Tilgjengelighet.TILGJENGELIG;
+        return Tilgjengelighet.Tilgjengelig;
     } else if (response.kind !== Nettstatus.Suksess) {
         return undefined;
     }
@@ -42,12 +42,12 @@ const getTilgjengelighet = (
     const tilDato = moment(response.data.tilDato).startOf('day');
 
     if (!idag.isBetween(fraDato, tilDato, 'days', '[]')) {
-        return Tilgjengelighet.TILGJENGELIG;
+        return Tilgjengelighet.Tilgjengelig;
     }
     if (tilDato.diff(idag, 'days') < 7) {
-        return Tilgjengelighet.SNART_TILGJENGELIG;
+        return Tilgjengelighet.TilgjengeligInnen1Uke;
     }
-    return Tilgjengelighet.UTILGJENGELIG;
+    return Tilgjengelighet.MidlertidigUtilgjengelig;
 };
 
 const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
@@ -55,7 +55,7 @@ const kandidatErRegistrertSomUtilgjengeligMenDatoErUtløpt = (
 ) => {
     return (
         midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
-        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.TILGJENGELIG
+        getTilgjengelighet(midlertidigUtilgjengelig) === Tilgjengelighet.Tilgjengelig
     );
 };
 
@@ -134,7 +134,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
                 avstandTilAnker={16}
             >
                 {midlertidigUtilgjengelig.kind === Nettstatus.Suksess &&
-                tilgjengelighet !== Tilgjengelighet.TILGJENGELIG ? (
+                tilgjengelighet !== Tilgjengelighet.Tilgjengelig ? (
                     <EndreMidlertidigUtilgjengelig
                         onAvbryt={lukkPopup}
                         className="midlertidig-utilgjengelig__popup-innhold"
