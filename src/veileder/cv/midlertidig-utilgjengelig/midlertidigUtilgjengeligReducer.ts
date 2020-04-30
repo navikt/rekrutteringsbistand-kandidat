@@ -148,7 +148,9 @@ const midlertidigUtilgjengeligReducer = (
         case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
-                [action.kandidatnr]: FinnesIkke(),
+                [action.kandidatnr]: Suksess({
+                    midlertidigUtilgjengelig: null,
+                }),
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
