@@ -91,18 +91,25 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
         >
             {kandidaterSomHarFåttSms.length > 0 && (
                 <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
-                    {kandidaterSomHarFåttSms.length === 1
-                        ? `Du har allerede sendt SMS til én av kandidatene. Kandidaten vil ikke motta stillingen.`
-                        : `Du har allerede sendt SMS til ${kandidaterSomHarFåttSms.length} av de{' '}
-                        ${markerteMandidater.length} valgte kandidatene. Disse kandidatene vil ikke motta
-                        en ny SMS.`}
+                    {kandidaterSomHarFåttSms.length === 1 ? (
+                        <>
+                            Du har allerede sendt SMS til én av kandidatene. Kandidaten vil ikke
+                            motta stillingen.
+                        </>
+                    ) : (
+                        <>
+                            Du har allerede sendt SMS til {kandidaterSomHarFåttSms.length} av de{' '}
+                            {markerteMandidater.length} valgte kandidatene. Disse kandidatene vil
+                            ikke motta en ny SMS.
+                        </>
+                    )}
                 </AlertStripeAdvarsel>
             )}
             <div className="send-sms-modal__innhold">
                 <Systemtittel className="send-sms-modal__tittel">Send SMS</Systemtittel>
                 <Ingress className="send-sms-modal__ingress">
-                    Det vil bli sendt SMS til <b>{kandidaterSomIkkeHarFåttSms.length}</b> av{' '}
-                    <b>{kandidater.length}</b> kandidater
+                    Det vil bli sendt SMS til <b>{kandidaterSomIkkeHarFåttSms.length}</b>{' '}
+                    {kandidaterSomIkkeHarFåttSms.length === 1 ? 'kandidat' : 'kandidater'}
                 </Ingress>
                 <Normaltekst className="send-sms-modal__ingressbeskrivelse">
                     Telefonnummerene blir hentet fra Kontakt- og reservasjonsregisteret.

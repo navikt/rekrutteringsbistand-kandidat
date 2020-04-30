@@ -1,9 +1,11 @@
 {
-    "aktørId": "1000055261743",
-    "fraDato": "2020-04-23T09:32:10.634147",
-    "tilDato": "2020-04-27T00:00:00",
-    "registrertAvIdent": "Z992776",
-    "registrertAvNavn": "Brage Drage",
-    "sistEndretAvIdent": "Z823415",
-    "sistEndretAvNavn": "Frode Klode"
+    "midlertidigUtilgjengelig": {
+        "aktørId": "1000055261743",
+        "fraDato": "2020-04-23T09:32:10.634147",
+        "tilDato": "2020-04-27T00:00:00",
+        "registrertAvIdent": "Z992776",
+        "registrertAvNavn": "Brage Drage",
+        "sistEndretAvIdent": "Z823415",
+        "sistEndretAvNavn": "Frode Klode"
+    }
 }

@@ -5,7 +5,7 @@ import { Knapp } from 'pam-frontend-knapper/dist';
 import './EndreMidlertidigUtilgjengelig.less';
 import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
-import { MidlertidigUtilgjengeligResponse } from '../midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligData } from '../midlertidigUtilgjengeligReducer';
 import moment, { Moment } from 'moment';
 import { antallDagerMellom, validerDatoOgReturnerFeilmelding } from '../validering';
 
@@ -14,7 +14,7 @@ interface Props {
     className?: string;
     endreMidlertidigUtilgjengelig: (tilOgMedDato: string) => void;
     slettMidlertidigUtilgjengelig: () => void;
-    midlertidigUtilgjengelig: MidlertidigUtilgjengeligResponse;
+    midlertidigUtilgjengelig: MidlertidigUtilgjengeligData;
 }
 
 const formaterDato = (dato: Date | Moment) => moment(dato).format('DD.MM.YYYY');

@@ -6,7 +6,7 @@ import StatusHjelpetekst from './StatusHjelpetekst';
 interface Props {
     stillingsId: string | null;
     alleMarkert: boolean;
-    onCheckAlleKandidater: (markert: boolean) => void;
+    onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
 }
 
@@ -39,7 +39,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide skjemaelement--pink"
                     checked={alleMarkert}
-                    onChange={() => onCheckAlleKandidater(!alleMarkert)}
+                    onChange={() => onCheckAlleKandidater()}
                 />
                 <Element>Navn</Element>
                 <Element>Fødselsnummer</Element>

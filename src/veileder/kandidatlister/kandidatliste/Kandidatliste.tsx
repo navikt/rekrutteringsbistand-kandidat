@@ -30,9 +30,9 @@ type Props = {
     opprettetAv: OpprettetAv;
     kandidatlisteId: string;
     kanEditere: boolean;
-    alleMarkert: boolean;
-    onCheckAlleKandidater: (markert: boolean) => void;
-    onToggleKandidat: any;
+    toggleMarkert: (kandidatnr: string) => void;
+    fjernAllMarkering: () => void;
+    markerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     onKandidatShare: any;
     onEmailKandidater: any;
@@ -50,7 +50,7 @@ type Props = {
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [navnefilter, setNavnefilter] = useState<string>('');
-    const [filtrerteKandidater, antallArkiverte] = useKandidatlistefilter(
+    const [filtrerteKandidater, antallArkiverte, alleFiltrerteErMarkerte] = useKandidatlistefilter(
         props.kandidater,
         visArkiverte,
         navnefilter
@@ -58,7 +58,15 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
-        props.onCheckAlleKandidater(false);
+        props.fjernAllMarkering();
+    };
+
+    const onCheckAlleKandidater = () => {
+        if (alleFiltrerteErMarkerte) {
+            props.fjernAllMarkering();
+        } else {
+            props.markerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
+        }
     };
 
     return (
@@ -118,8 +126,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         </aside>
                         <div className="kandidatliste__liste">
                             <ListeHeader
-                                alleMarkert={props.alleMarkert}
-                                onCheckAlleKandidater={props.onCheckAlleKandidater}
+                                alleMarkert={alleFiltrerteErMarkerte}
+                                onCheckAlleKandidater={onCheckAlleKandidater}
                                 stillingsId={props.stillingsId}
                                 visArkiveringskolonne={!visArkiverte}
                             />
@@ -133,7 +141,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         stillingsId={props.stillingsId}
                                         kandidatlisteId={props.kandidatlisteId}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
-                                        onToggleKandidat={props.onToggleKandidat}
+                                        onToggleKandidat={props.toggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         opprettNotat={props.opprettNotat}
                                         slettNotat={props.slettNotat}
