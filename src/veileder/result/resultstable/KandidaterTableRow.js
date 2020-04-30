@@ -50,7 +50,9 @@ class KandidaterTableRow extends React.Component {
         };
 
         let midlertidigUtilgjengeligFlagg;
-        if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengeliginnen1uke') {
+        if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengelig') {
+            midlertidigUtilgjengeligFlagg = null;
+        } else if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengeliginnen1uke') {
             midlertidigUtilgjengeligFlagg = (
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.SNART_TILGJENGELIG}
