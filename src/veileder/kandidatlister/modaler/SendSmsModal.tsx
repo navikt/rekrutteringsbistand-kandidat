@@ -92,16 +92,16 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
             {kandidaterSomHarFåttSms.length > 0 && (
                 <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
                     {kandidaterSomHarFåttSms.length === 1 ? (
-                        <span>
+                        <>
                             Du har allerede sendt SMS til én av kandidatene. Kandidaten vil ikke
                             motta stillingen.
-                        </span>
+                        </>
                     ) : (
-                        <span>
+                        <>
                             Du har allerede sendt SMS til {kandidaterSomHarFåttSms.length} av de{' '}
                             {markerteMandidater.length} valgte kandidatene. Disse kandidatene vil
                             ikke motta en ny SMS.
-                        </span>
+                        </>
                     )}
                 </AlertStripeAdvarsel>
             )}
