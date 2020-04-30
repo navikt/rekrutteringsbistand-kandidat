@@ -5,6 +5,9 @@ import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../../searchReducer';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
+import TilgjengelighetIkon, {
+    Tilgjengelighet,
+} from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
 export enum MidlertidigUtilgjengelig {
     Tilgjengelig = 'tilgjengelig',
@@ -19,18 +22,6 @@ interface Props {
     search: () => void;
 }
 
-const midlertidigUtilgjengeligStatuser = [
-    { label: 'Tilgjengelig', value: MidlertidigUtilgjengelig.Tilgjengelig },
-    {
-        label: 'Tilgjengelig innen 1 uke',
-        value: MidlertidigUtilgjengelig.TilgjengeligInnen1Uke,
-    },
-    {
-        label: 'Midlertidig utilgjengelig',
-        value: MidlertidigUtilgjengelig.MidlertidigUtilgjengelig,
-    },
-];
-
 const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
     const onMidlertidigUtilgjengeligChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
@@ -43,17 +34,55 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 
     return (
         <SkjemaGruppe title="Registrert av NAV" className="midlertidig-utilgjengelig-search">
-            {midlertidigUtilgjengeligStatuser.map((status) => (
-                <Checkbox
-                    key={status.value}
-                    id={`midlertidigUtilgjengelig-${status.value.toLowerCase()}-checkbox`}
-                    className="midlertidig-utilgjengelig-search__checkbox"
-                    label={status.label}
-                    value={status.value}
-                    checked={props.midlertidigUtilgjengelig.includes(status.value)}
-                    onChange={onMidlertidigUtilgjengeligChange}
-                />
-            ))}
+            <Checkbox
+                key={MidlertidigUtilgjengelig.Tilgjengelig}
+                id={`midlertidigUtilgjengelig-${MidlertidigUtilgjengelig.Tilgjengelig.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label="Tilgjengelig"
+                value={MidlertidigUtilgjengelig.Tilgjengelig}
+                checked={props.midlertidigUtilgjengelig.includes(
+                    MidlertidigUtilgjengelig.Tilgjengelig
+                )}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
+            <Checkbox
+                key={MidlertidigUtilgjengelig.TilgjengeligInnen1Uke}
+                id={`midlertidigUtilgjengelig-${MidlertidigUtilgjengelig.TilgjengeligInnen1Uke.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label={
+                    <>
+                        Tilgjengelig innen 1 uke
+                        <TilgjengelighetIkon
+                            tilgjengelighet={Tilgjengelighet.SNART_TILGJENGELIG}
+                            className="midlertidig-utilgjengelig-search__flagg--snart-tilgjengelig"
+                        />
+                    </>
+                }
+                value={MidlertidigUtilgjengelig.TilgjengeligInnen1Uke}
+                checked={props.midlertidigUtilgjengelig.includes(
+                    MidlertidigUtilgjengelig.TilgjengeligInnen1Uke
+                )}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
+            <Checkbox
+                key={MidlertidigUtilgjengelig.MidlertidigUtilgjengelig}
+                id={`midlertidigUtilgjengelig-${MidlertidigUtilgjengelig.MidlertidigUtilgjengelig.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label={
+                    <>
+                        Midlertidig utilgjengelig
+                        <TilgjengelighetIkon
+                            tilgjengelighet={Tilgjengelighet.UTILGJENGELIG}
+                            className="midlertidig-utilgjengelig-search__flagg--utilgjengelig"
+                        />
+                    </>
+                }
+                value={MidlertidigUtilgjengelig.MidlertidigUtilgjengelig}
+                checked={props.midlertidigUtilgjengelig.includes(
+                    MidlertidigUtilgjengelig.MidlertidigUtilgjengelig
+                )}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
         </SkjemaGruppe>
     );
 };
