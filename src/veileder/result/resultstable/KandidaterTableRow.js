@@ -62,7 +62,7 @@ class KandidaterTableRow extends React.Component {
             midlertidigUtilgjengeligFlagg = (
                 <TilgjengelighetIkon
                     tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
-                    className=""
+                    className="NyKandidaterTableRow__tilgjengelighet--utilgjengelig"
                 />
             );
         }

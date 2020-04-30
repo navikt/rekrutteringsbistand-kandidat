@@ -35,6 +35,10 @@
             border-bottom: 1px solid @greenDarken;
         }
 
+        .kolonne-tilgjengelitghet-spacer {
+            flex: 0.6;
+        }
+
         .kolonne-navn {
             flex: 3;
         }
@@ -68,10 +72,14 @@
         display: flex;
         justify-content: center;
         flex: 0.6;
-        transform: scale(1.7);
 
         &--snart-tilgjengelig {
             stroke: black;
+            transform: scale(1.7);
+        }
+
+        &--utilgjengelig {
+            transform: scale(1.7);
         }
     }
 }
