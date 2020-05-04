@@ -8,7 +8,7 @@ import { Kandidatliste } from '../kandidatlister/PropTypes';
 import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
-import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
+import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
     MARKER_KANDIDATER,

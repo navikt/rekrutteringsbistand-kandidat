@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Hovedknapp } from 'pam-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import './KnappMedHjelpetekst.less';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) => {
     if (disabled) {
         const DisabledKnapp = () => (
-            <div className={'Knapp Knapp--disabled Knapp--mini'}>{children}</div>
+            <div className="knapp knapp--disabled knapp--mini">{children}</div>
         );
+
         return (
             <HjelpetekstUnderVenstre
                 id="marker-kandidater-hjelpetekst"

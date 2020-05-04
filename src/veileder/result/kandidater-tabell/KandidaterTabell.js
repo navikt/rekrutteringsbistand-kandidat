@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'pam-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
@@ -43,9 +43,9 @@ export default function KandidaterTabell({
 
             <div className="kandidater-tabell__under-treff">
                 {antallResultater < totaltAntallTreff && (
-                    <Knapp type="hoved" mini onClick={onFlereResultaterClick}>
+                    <Hovedknapp mini onClick={onFlereResultaterClick}>
                         Se flere kandidater
-                    </Knapp>
+                    </Hovedknapp>
                 )}
                 {!skjulPaginering && (
                     <Element className="kandidater-tabell__antall-treff">
