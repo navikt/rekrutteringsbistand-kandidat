@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Normaltekst, Element } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Flatknapp } from 'pam-frontend-knapper';
+import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import StillingSearch from '../sok/stilling/StillingSearch';
 import UtdanningSearch from '../sok/utdanning/UtdanningSearch';

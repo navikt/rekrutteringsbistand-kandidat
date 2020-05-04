@@ -1,0 +1,13 @@
+@import '../../../veileder/variabler';
+
+.knapp-med-hjelpetekst {
+    &__knapp {
+        text-transform: none;
+    }
+
+    &__hjelpetekst {
+        @media (min-width: @screen-xs) {
+            margin-right: 1.5rem;
+        }
+    }
+}

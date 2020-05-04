@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Hovedknapp } from 'pam-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import './KnappMedHjelpetekst.less';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) => {
     if (disabled) {
         const DisabledKnapp = () => (
-            <div className={'Knapp Knapp--disabled Knapp--mini'}>{children}</div>
+            <div className="knapp-med-hjelpetekst__knapp knapp knapp--disabled">{children}</div>
         );
+
         return (
             <HjelpetekstUnderVenstre
                 id="marker-kandidater-hjelpetekst"
                 anchor={DisabledKnapp}
                 tittel={tittel}
-                className="KnappMedHjelpetekst"
+                className="knapp-med-hjelpetekst__hjelpetekst"
             >
                 {hjelpetekst}
             </HjelpetekstUnderVenstre>
@@ -22,7 +23,12 @@ const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst
     }
 
     return (
-        <Hovedknapp mini spinner={spinner} onClick={onClick} id={id}>
+        <Hovedknapp
+            className="knapp-med-hjelpetekst__knapp"
+            spinner={spinner}
+            onClick={onClick}
+            id={id}
+        >
             {children}
         </Hovedknapp>
     );
