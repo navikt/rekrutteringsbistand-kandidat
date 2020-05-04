@@ -22,11 +22,12 @@ import {
     SETT_KANDIDATNUMMER,
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
-import { mapStillingTilInitialQuery, mapUrlToInitialQuery, InitialQuery } from './searchQuery';
+import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
 import { fetchGeografiKode, fetchStillingFraListe } from '../api';
 import { formatterStedsnavn } from '../../felles/sok/utils';
 import { SearchApiError } from '../../felles/api';
 import { call, put, select } from 'redux-saga/effects';
+import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 
 interface Søkeresultat {
     resultat: {
@@ -232,7 +233,7 @@ export const searchReducer = (
     }
 };
 
-const fetchGeografiListKomplett = async (geografiList: string[]): Promise<any[]> => {
+const fetchGeografiListKomplett = async (geografiList: string[]): Promise<Geografi[]> => {
     const geografiKoder: any[] = [];
 
     // TODO Bytt til Promise.all, da skjer det ikke sekvensielt
