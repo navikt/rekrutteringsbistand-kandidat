@@ -1,7 +1,13 @@
 @import '../../../veileder/variabler';
 
-.KnappMedHjelpetekst {
-    @media (min-width: @screen-xs) {
-        margin-right: 1.5rem;
+.knapp-med-hjelpetekst {
+    &__knapp {
+        text-transform: none;
+    }
+
+    &__hjelpetekst {
+        @media (min-width: @screen-xs) {
+            margin-right: 1.5rem;
+        }
     }
 }

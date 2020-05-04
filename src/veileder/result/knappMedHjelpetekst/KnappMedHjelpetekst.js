@@ -7,7 +7,7 @@ import './KnappMedHjelpetekst.less';
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) => {
     if (disabled) {
         const DisabledKnapp = () => (
-            <div className="knapp knapp--disabled knapp--mini">{children}</div>
+            <div className="knapp-med-hjelpetekst__knapp knapp knapp--disabled">{children}</div>
         );
 
         return (
@@ -15,7 +15,7 @@ const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst
                 id="marker-kandidater-hjelpetekst"
                 anchor={DisabledKnapp}
                 tittel={tittel}
-                className="KnappMedHjelpetekst"
+                className="knapp-med-hjelpetekst__hjelpetekst"
             >
                 {hjelpetekst}
             </HjelpetekstUnderVenstre>
@@ -23,7 +23,12 @@ const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst
     }
 
     return (
-        <Hovedknapp mini spinner={spinner} onClick={onClick} id={id}>
+        <Hovedknapp
+            className="knapp-med-hjelpetekst__knapp"
+            spinner={spinner}
+            onClick={onClick}
+            id={id}
+        >
             {children}
         </Hovedknapp>
     );
