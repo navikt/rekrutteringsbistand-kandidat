@@ -19,6 +19,7 @@ import FEATURE_TOGGLES, {
 } from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
+import { initialSearchState } from './searchReducerTypes';
 
 /** *********************************************************
  * ACTIONS
@@ -69,37 +70,8 @@ export const FJERN_ERROR = 'FJERN_ERROR';
 /** *********************************************************
  * REDUCER
  ********************************************************* */
-const initialState = {
-    searchResultat: {
-        resultat: {
-            kandidater: [],
-            aggregeringer: [],
-            totaltAntallTreff: 0,
-        },
-        kompetanseSuggestions: [],
-    },
-    maksAntallTreff: 0,
-    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-    searchQueryHash: '',
-    isSearching: false,
-    isInitialSearch: true,
-    error: undefined,
-    harHentetFeatureToggles: false,
-    featureToggles: FEATURE_TOGGLES.reduce((dict, key) => ({ ...dict, [key]: false }), {}),
-    ferdigutfylteStillinger: undefined,
-    isEmptyQuery: true,
-    visAlertFaKandidater: '',
-    valgtKandidatNr: '',
-    scrolletFraToppen: 0,
-    stillingsId: undefined,
-    harHentetStilling: false,
-    stillingsoverskrift: undefined,
-    arbeidsgiver: undefined,
-    annonseOpprettetAvNavn: undefined,
-    annonseOpprettetAvIdent: undefined,
-};
 
-export default function searchReducer(state = initialState, action) {
+export default function searchReducer(state = initialSearchState, action) {
     switch (action.type) {
         case INITIAL_SEARCH_BEGIN:
             return {
