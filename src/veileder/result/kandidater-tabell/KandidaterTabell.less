@@ -1,3 +1,6 @@
+@import '../../../felles/Variables';
+@import '~nav-frontend-lenker-style/src/lenker-style';
+
 .kandidater-tabell {
     &__rad {
         border-radius: 4px;
@@ -19,6 +22,31 @@
         &--kandidat {
             border-color: #d8d8d8;
         }
+    }
+
+    &__navn:visited {
+        color: @navLilla;
+    }
+
+    &__tilgjengelighet {
+        display: flex;
+        justify-content: center;
+        flex: 0.6;
+    }
+
+    &__checked {
+        border-color: @navBla;
+    }
+
+    &__nettopp-valgt {
+        border-color: @navOransje;
+    }
+
+    &__kolonne-tekst {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 2rem;
     }
 
     &__under-treff {

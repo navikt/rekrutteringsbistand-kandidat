@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { Cv } from '../../cv/reducer/cvReducer';
+import './KandidaterTabell.less';
 
 interface Props {
     kandidat: Cv;
@@ -28,7 +28,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
         } else if (markert) {
             return 'checked';
         }
-        return '';
+        return null;
     };
 
     const {
@@ -55,47 +55,49 @@ const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
         return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
     };
 
+    let klassenavn = 'kandidater-tabell__rad kandidater-tabell__rad--kandidat';
+    const markertRadKlasse = checkedClass(markert, nettoppValgt);
+    if (markertRadKlasse) {
+        klassenavn += ' kandidater-tabell__' + markertRadKlasse;
+    }
+
     return (
-        <div className={`NyKandidaterTableRow ${checkedClass(markert, nettoppValgt)}`}>
-            <div className="kandidat-content">
-                <div className="kolonne-checkbox skjemaelement--pink">
-                    <div className="skjemaelement skjemaelement--horisontal text-hide">
-                        <input
-                            type="checkbox"
-                            id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            className="skjemaelement__input checkboks"
-                            aria-label={`Marker kandidat med navn ${navn}`}
-                            checked={markert}
-                            onChange={() => {
-                                onCheck(kandidat.arenaKandidatnr);
-                            }}
-                        />
-                        <label
-                            className="skjemaelement__label"
-                            htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
-                            aria-hidden="true"
-                        >
-                            .
-                        </label>
-                    </div>
-                </div>
-                <div className="NyKandidaterTableRow__tilgjengelighet">
-                    <TilgjengelighetFlagg status={kandidat.midlertidigUtilgjengeligStatus} />
-                </div>
-                <div className="kolonne-navn kolonne-tekst">
-                    <Link
-                        className="kolonne-lenke link"
-                        to={linkTilKandidat()}
-                        onClick={() => setScrollPosition(window.pageYOffset)}
-                        aria-label={`Se CV for ${navn}`}
-                    >
-                        {navn}
-                    </Link>
-                </div>
-                <div className="kolonne-dato kolonne-tekst">{fodselsnummer}</div>
-                <div className="kolonne-innsatsgruppe kolonne-tekst">{innsatsgruppe}</div>
-                <div className="kolonne-bosted kolonne-tekst">{bosted}</div>
+        <div className={klassenavn}>
+            <div className="skjemaelement skjemaelement--horisontal text-hide">
+                <input
+                    type="checkbox"
+                    id={`marker-kandidat-${kandidatnummer}-checkbox`}
+                    className="skjemaelement__input checkboks"
+                    aria-label={`Marker kandidat med navn ${navn}`}
+                    checked={markert}
+                    onChange={() => {
+                        onCheck(kandidat.arenaKandidatnr);
+                    }}
+                />
+                <label
+                    className="skjemaelement__label"
+                    htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
+                    aria-hidden="true"
+                >
+                    Marker kandidat med navn {navn}
+                </label>
             </div>
+            <div className="kandidater-tabell__tilgjengelighet">
+                <TilgjengelighetFlagg status={kandidat.midlertidigUtilgjengeligStatus} />
+            </div>
+            <div className="kandidater-tabell__kolonne-tekst">
+                <Link
+                    className="kandidater-tabell__navn lenke"
+                    to={linkTilKandidat()}
+                    onClick={() => setScrollPosition(window.pageYOffset)}
+                    aria-label={`Se CV for ${navn}`}
+                >
+                    {navn}
+                </Link>
+            </div>
+            <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
+            <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>
+            <div className="kandidater-tabell__kolonne-tekst">{bosted}</div>
         </div>
     );
 };
