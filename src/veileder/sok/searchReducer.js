@@ -11,15 +11,11 @@ import {
     formatterStedsnavn,
     getHashFromString,
     getUrlParameterByName,
-    toUrlParams,
 } from '../../felles/sok/utils';
-import FEATURE_TOGGLES, {
-    KANDIDATLISTE_CHUNK_SIZE,
-    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-} from '../../felles/konstanter';
+import { KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
-import { initialSearchState } from './searchReducerTypes';
+import { toUrlQuery } from './searchQuery';
 
 /** *********************************************************
  * ACTIONS
@@ -119,73 +115,6 @@ export const fromUrlQuery = (url) => {
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
 
     return stateFromUrl;
-};
-
-export const toUrlQuery = (state) => {
-    const urlQuery = {};
-    if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
-    if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
-        urlQuery.stillinger = state.stilling.stillinger.join('_');
-    if (
-        state.arbeidserfaring.arbeidserfaringer &&
-        state.arbeidserfaring.arbeidserfaringer.length > 0
-    )
-        urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
-    if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0)
-        urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
-    if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0)
-        urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
-    if (state.geografi.geografiList && state.geografi.geografiList.length > 0)
-        urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0)
-        urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
-    if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0)
-        urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
-    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0)
-        urlQuery.sprak = state.sprakReducer.sprak.join('_');
-    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0)
-        urlQuery.forerkort = state.forerkort.forerkortList.join('_');
-    if (
-        state.innsatsgruppe.kvalifiseringsgruppeKoder &&
-        state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
-    )
-        urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join(
-            '_'
-        );
-    if (state.geografi.maaBoInnenforGeografi)
-        urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
-    if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
-    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0)
-        urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
-    if (state.navkontorReducer.minekandidater)
-        urlQuery.minekandidater = state.navkontorReducer.minekandidater;
-    if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0)
-        urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
-    if (state.tilretteleggingsbehov.harTilretteleggingsbehov)
-        urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
-    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
-        urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
-    if (state.permittering.permittert !== state.permittering.ikkePermittert)
-        urlQuery.permittert = state.permittering.permittert;
-    if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.oppstartstidspunkter &&
-        state.tilgjengelighet.oppstartstidspunkter.length > 0
-    )
-        urlQuery.oppstartstidspunkter = state.tilgjengelighet.oppstartstidspunkter.join('-');
-    if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
-        urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
-
-    if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.midlertidigUtilgjengelig &&
-        state.tilgjengelighet.midlertidigUtilgjengelig.length > 0
-    )
-        urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
-            '_'
-        );
-
-    return toUrlParams(urlQuery);
 };
 
 /** *********************************************************

@@ -31,7 +31,7 @@ interface Søkeresultat {
     kompetanseSuggestions: any[];
 }
 
-interface SearchState {
+export interface SearchState {
     searchResultat: Søkeresultat;
     maksAntallTreff: number;
     antallVisteKandidater: number;

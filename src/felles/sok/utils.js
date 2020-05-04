@@ -1,10 +1,3 @@
-export function toUrlParams(query) {
-    return Object.keys(query)
-        .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
-        .join('&')
-        .replace(/%20/g, '+')
-        .replace(/%2C/g, ',');
-}
 
 export function getHashFromString(string) {
     let hash = 0;
