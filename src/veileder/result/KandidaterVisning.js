@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
-import KandidaterTabell from './KandidaterTabell';
+import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
-import KnappMedHjelpetekst from '../../felles/common/knappMedHjelpetekst/KnappMedHjelpetekst';
+import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
     MARKER_KANDIDATER,

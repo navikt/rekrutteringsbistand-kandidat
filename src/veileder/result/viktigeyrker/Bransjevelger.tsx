@@ -117,6 +117,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
-const mapStateToProps = (state) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Bransjevelger);
+export default connect(null, mapDispatchToProps)(Bransjevelger);
