@@ -194,7 +194,7 @@ export const mapUrlToInitialQuery = (url: string): InitialQuery => {
     return stateFromUrl;
 };
 
-export const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
+const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
     const nyQuery = { ...urlQuery };
 
     nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
