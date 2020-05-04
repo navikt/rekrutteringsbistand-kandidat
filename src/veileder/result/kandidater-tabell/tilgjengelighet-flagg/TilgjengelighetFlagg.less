@@ -1,6 +1,6 @@
-.tilgjengelighet-flagg {
-    cursor: pointer;
+@import '../../../variabler.less';
 
+.tilgjengelighet-flagg {
     &--snart-tilgjengelig {
         stroke: black;
         transform: scale(1.7);
@@ -8,5 +8,22 @@
 
     &--utilgjengelig {
         transform: scale(1.7);
+    }
+
+    &__popover {
+        .popover__pil {
+            background-color: @navLysBlaLighten80;
+        }
+    }
+
+    &__popover-innhold {
+        padding: 1rem;
+        background-color: @navLysBlaLighten80;
+    }
+
+    &__knapp {
+        cursor: pointer;
+        background: none;
+        border: none;
     }
 }
