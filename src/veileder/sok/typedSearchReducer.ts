@@ -299,7 +299,7 @@ export function* search(action: any = '') {
 
         oppdaterUrlTilÅReflektereSøkekriterier(state);
 
-        const [søkekriterier, searchQueryHash] = mapTilSøkekriterier(state, action);
+        const [søkekriterier, searchQueryHash] = mapTilSøkekriterier(state, action, window.location.pathname);
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
 
