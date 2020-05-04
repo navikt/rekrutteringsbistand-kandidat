@@ -113,7 +113,6 @@ function toUrlParams(query) {
 
 export const toUrlQuery = (state: AppState): string => {
     const urlQuery: SearchQuery = mapStateToSearchQuery(state);
-
     return toUrlParams(urlQuery);
 };
 
@@ -137,7 +136,6 @@ export type InitialQuery = FritekstState &
         oppstartstidspunkter?: string[];
         midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
-        geografiListKomplett?: Geografi[];
     };
 
 export const mapUrlToInitialQuery = (url: string): InitialQuery => {
