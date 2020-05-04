@@ -1,4 +1,26 @@
 .kandidater-tabell {
+    &__rad {
+        border-radius: 4px;
+        background-color: white;
+        color: #3e3832;
+        margin-top: 0.5rem;
+        border: 1px solid;
+        min-width: 25rem;
+        height: 4rem;
+        padding: 0 1.25rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr 8fr 6fr 7.5fr 5fr;
+        align-items: center;
+
+        &--header {
+            border-color: #78706a;
+        }
+
+        &--kandidat {
+            border-color: #d8d8d8;
+        }
+    }
+
     &__under-treff {
         margin-top: 2rem;
     }

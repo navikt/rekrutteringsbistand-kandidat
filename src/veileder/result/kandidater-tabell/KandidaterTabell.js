@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'pam-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
-import KandidaterTableRow from './KandidaterTableRow';
+import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import cvPropTypes from '../../../felles/PropTypes';
 import './KandidaterTabell.less';

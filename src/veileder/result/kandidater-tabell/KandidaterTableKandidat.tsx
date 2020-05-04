@@ -17,7 +17,7 @@ interface Props {
     stillingsId: string;
 }
 
-const KandidaterTableRow: FunctionComponent<Props> = (props) => {
+const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
     const onCheck = (kandidatnr) => {
         props.onKandidatValgt(!props.markert, kandidatnr);
     };
@@ -105,4 +105,4 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
 });
 
-export default connect(null, mapDispatchToProps)(KandidaterTableRow);
+export default connect(null, mapDispatchToProps)(KandidaterTableKandidat);
