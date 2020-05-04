@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
 import './sok/sok.less';
-import searchReducer, {
+import {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
     LUKK_ALLE_SOKEPANEL,
@@ -51,6 +51,7 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
+import { searchReducer } from './sok/typedSearchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

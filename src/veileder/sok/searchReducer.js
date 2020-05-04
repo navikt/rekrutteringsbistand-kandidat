@@ -11,14 +11,11 @@ import {
     formatterStedsnavn,
     getHashFromString,
     getUrlParameterByName,
-    toUrlParams,
 } from '../../felles/sok/utils';
-import FEATURE_TOGGLES, {
-    KANDIDATLISTE_CHUNK_SIZE,
-    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-} from '../../felles/konstanter';
+import { KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
+import { toUrlQuery } from './searchQuery';
 
 /** *********************************************************
  * ACTIONS
@@ -37,8 +34,8 @@ export const SET_STATE = 'SET_STATE';
 export const INITIAL_SEARCH_BEGIN = 'INITIAL_SEARCH_BEGIN';
 
 export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
-const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
-const FETCH_FEATURE_TOGGLES_FAILURE = 'FETCH_FEATURE_TOGGLES_FAILURE';
+export const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
+export const FETCH_FEATURE_TOGGLES_FAILURE = 'FETCH_FEATURE_TOGGLES_FAILURE';
 
 export const FETCH_KOMPETANSE_SUGGESTIONS = 'FETCH_KOMPETANSE_SUGGESTIONS';
 export const SET_KOMPETANSE_SUGGESTIONS_BEGIN = 'SET_KOMPETANSE_SUGGESTIONS_BEGIN';
@@ -65,184 +62,6 @@ export const TOGGLE_VIKTIGE_YRKER_APEN = 'TOGGLE_VIKTIGE_YRKER_APEN';
 export const FERDIGUTFYLTESTILLINGER_KLIKK = 'FERDIGUTFYLTESTILLINGER_KLIKK';
 
 export const FJERN_ERROR = 'FJERN_ERROR';
-
-/** *********************************************************
- * REDUCER
- ********************************************************* */
-const initialState = {
-    searchResultat: {
-        resultat: {
-            kandidater: [],
-            aggregeringer: [],
-            totaltAntallTreff: 0,
-        },
-        kompetanseSuggestions: [],
-    },
-    maksAntallTreff: 0,
-    antallVisteKandidater: KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-    searchQueryHash: '',
-    isSearching: false,
-    isInitialSearch: true,
-    error: undefined,
-    harHentetFeatureToggles: false,
-    featureToggles: FEATURE_TOGGLES.reduce((dict, key) => ({ ...dict, [key]: false }), {}),
-    ferdigutfylteStillinger: undefined,
-    isEmptyQuery: true,
-    visAlertFaKandidater: '',
-    valgtKandidatNr: '',
-    scrolletFraToppen: 0,
-    stillingsId: undefined,
-    harHentetStilling: false,
-    stillingsoverskrift: undefined,
-    arbeidsgiver: undefined,
-    annonseOpprettetAvNavn: undefined,
-    annonseOpprettetAvIdent: undefined,
-};
-
-export default function searchReducer(state = initialState, action) {
-    switch (action.type) {
-        case INITIAL_SEARCH_BEGIN:
-            return {
-                ...state,
-                maksAntallTreff: 0,
-            };
-        case SEARCH_BEGIN:
-            return {
-                ...state,
-                isSearching: true,
-            };
-        case SEARCH_SUCCESS: {
-            const { isPaginatedSok } = action;
-            return {
-                ...state,
-                isSearching: false,
-                searchQueryHash: action.searchQueryHash,
-                isInitialSearch: false,
-                error: undefined,
-                isEmptyQuery: action.isEmptyQuery,
-                searchResultat: {
-                    ...state.searchResultat,
-                    resultat: !isPaginatedSok
-                        ? action.response
-                        : {
-                              ...state.searchResultat.resultat,
-                              kandidater: [
-                                  ...state.searchResultat.resultat.kandidater,
-                                  ...action.response.kandidater,
-                              ],
-                          },
-                },
-                maksAntallTreff: Math.max(state.maksAntallTreff, action.response.totaltAntallTreff),
-            };
-        }
-        case SEARCH_FAILURE:
-            return {
-                ...state,
-                isSearching: false,
-                error: action.error,
-            };
-        case MARKER_KANDIDATER:
-            return {
-                ...state,
-                searchResultat: {
-                    ...state.searchResultat,
-                    resultat: {
-                        ...state.searchResultat.resultat,
-                        kandidater: action.kandidater,
-                    },
-                },
-            };
-        case OPPDATER_ANTALL_KANDIDATER:
-            return {
-                ...state,
-                antallVisteKandidater: action.antall,
-            };
-        case SETT_KANDIDATNUMMER:
-            return {
-                ...state,
-                valgtKandidatNr: action.kandidatnr,
-            };
-        case SET_KOMPETANSE_SUGGESTIONS_BEGIN:
-            return {
-                ...state,
-            };
-        case SET_KOMPETANSE_SUGGESTIONS_SUCCESS:
-            return {
-                ...state,
-                isSearching: false,
-                searchResultat: { ...state.searchResultat, kompetanseSuggestions: action.response },
-            };
-        case REMOVE_KOMPETANSE_SUGGESTIONS:
-            return {
-                ...state,
-                searchResultat: { ...state.searchResultat, kompetanseSuggestions: [] },
-            };
-        case FETCH_FEATURE_TOGGLES_SUCCESS:
-            return {
-                ...state,
-                harHentetFeatureToggles: true,
-                featureToggles: FEATURE_TOGGLES.reduce(
-                    (dict, key) => ({
-                        ...dict,
-                        [key]: Object.keys(action.data).includes(key) && action.data[key],
-                    }),
-                    {}
-                ),
-            };
-        case FETCH_FEATURE_TOGGLES_FAILURE:
-            return {
-                ...state,
-                harHentetFeatureToggles: true,
-                featureToggles: FEATURE_TOGGLES.reduce(
-                    (dict, key) => ({ ...dict, [key]: false }),
-                    {}
-                ),
-                error: action.error,
-            };
-        case SET_ALERT_TYPE_FAA_KANDIDATER:
-            return {
-                ...state,
-                visAlertFaKandidater: action.value,
-            };
-        case INVALID_RESPONSE_STATUS:
-            return {
-                ...state,
-                error: action.error,
-            };
-        case SET_SCROLL_POSITION:
-            return {
-                ...state,
-                scrolletFraToppen: action.scrolletFraToppen,
-            };
-        case SET_STATE:
-            return {
-                ...state,
-                harHentetStilling: action.query.harHentetStilling || false,
-            };
-        case FJERN_ERROR:
-            return {
-                ...state,
-                error: undefined,
-            };
-        case HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS:
-            return {
-                ...state,
-                ferdigutfylteStillinger: action.data,
-            };
-        case HENT_FERDIGUTFYLTE_STILLINGER_FAILURE:
-            return {
-                ...state,
-                error: action.error,
-            };
-        case TOGGLE_VIKTIGE_YRKER_APEN:
-            return {
-                ...state,
-                viktigeYrkerApen: !state.viktigeYrkerApen,
-            };
-        default:
-            return state;
-    }
-}
 
 export const fromUrlQuery = (url) => {
     const stateFromUrl = {};
@@ -296,73 +115,6 @@ export const fromUrlQuery = (url) => {
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
 
     return stateFromUrl;
-};
-
-export const toUrlQuery = (state) => {
-    const urlQuery = {};
-    if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
-    if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
-        urlQuery.stillinger = state.stilling.stillinger.join('_');
-    if (
-        state.arbeidserfaring.arbeidserfaringer &&
-        state.arbeidserfaring.arbeidserfaringer.length > 0
-    )
-        urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
-    if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0)
-        urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
-    if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0)
-        urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
-    if (state.geografi.geografiList && state.geografi.geografiList.length > 0)
-        urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0)
-        urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
-    if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0)
-        urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
-    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0)
-        urlQuery.sprak = state.sprakReducer.sprak.join('_');
-    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0)
-        urlQuery.forerkort = state.forerkort.forerkortList.join('_');
-    if (
-        state.innsatsgruppe.kvalifiseringsgruppeKoder &&
-        state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
-    )
-        urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join(
-            '_'
-        );
-    if (state.geografi.maaBoInnenforGeografi)
-        urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
-    if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
-    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0)
-        urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
-    if (state.navkontorReducer.minekandidater)
-        urlQuery.minekandidater = state.navkontorReducer.minekandidater;
-    if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0)
-        urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
-    if (state.tilretteleggingsbehov.harTilretteleggingsbehov)
-        urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
-    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
-        urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
-    if (state.permittering.permittert !== state.permittering.ikkePermittert)
-        urlQuery.permittert = state.permittering.permittert;
-    if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.oppstartstidspunkter &&
-        state.tilgjengelighet.oppstartstidspunkter.length > 0
-    )
-        urlQuery.oppstartstidspunkter = state.tilgjengelighet.oppstartstidspunkter.join('-');
-    if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
-        urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
-
-    if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.midlertidigUtilgjengelig &&
-        state.tilgjengelighet.midlertidigUtilgjengelig.length > 0
-    )
-        urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
-            '_'
-        );
-
-    return toUrlParams(urlQuery);
 };
 
 /** *********************************************************
