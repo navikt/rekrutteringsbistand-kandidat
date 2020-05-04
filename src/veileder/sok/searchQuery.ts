@@ -13,13 +13,13 @@ interface SearchQuery {
     forerkort?: string;
     kvalifiseringsgruppeKoder?: string;
     maaBoInnenforGeografi?: boolean;
-    harHentetStilling?: boolean; // kan fjerne "?"
+    harHentetStilling?: boolean;
     navkontor?: string;
     minekandidater?: boolean;
     hovedmal?: string;
     tilretteleggingsbehov?: boolean;
     kategorier?: string;
-    permittert?: boolean; // kan fjerne "?"
+    permittert?: boolean;
     oppstartstidspunkter?: string;
     maksAlderArbeidserfaring?: number;
     midlertidigUtilgjengelig?: string;

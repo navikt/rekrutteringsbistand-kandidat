@@ -51,7 +51,7 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
-import { searchReducer } from './sok/searchReducerTypes';
+import { searchReducer } from './sok/typedSearchReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

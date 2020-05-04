@@ -4,7 +4,7 @@ import { PermitteringState } from './sok/permittering/permitteringReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './cv/reducer/cvReducer';
 import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
-import { SearchState } from './sok/searchReducerTypes';
+import { SearchState } from './sok/typedSearchReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
