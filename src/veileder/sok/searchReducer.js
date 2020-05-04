@@ -15,7 +15,13 @@ import {
 import { KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
-import { toUrlQuery } from './searchQuery';
+import {
+    mapStillingTilInitialQuery,
+    mapTilretteleggingsmuligheterTilBehov,
+    mapUrlToInitialQuery,
+    toUrlQuery,
+} from './searchQuery';
+import { initialSearch } from './typedSearchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -121,7 +127,7 @@ export const fromUrlQuery = (url) => {
  * ASYNC ACTIONS
  ********************************************************* */
 
-function* search(action = '') {
+export function* search(action = '') {
     try {
         yield put({ type: SEARCH_BEGIN });
         const state = yield select();
@@ -256,65 +262,34 @@ function* fetchKompetanseSuggestions() {
     }
 }
 
-const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
-    const nyQuery = { ...urlQuery };
-
-    nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
-    if (!nyQuery.tilretteleggingsbehov) {
-        return nyQuery;
-    }
-
-    nyQuery.kategorier = [];
-
-    const tilretteleggingsmuligheterTilBehov = {
-        INKLUDERING__ARBEIDSTID: 'arbeidstid',
-        INKLUDERING__FYSISK: 'fysisk',
-        INKLUDERING__ARBEIDSMILJØ: 'arbeidshverdagen',
-        INKLUDERING__GRUNNLEGGENDE: 'utfordringerMedNorsk',
-    };
-
-    nyQuery.kategorier = tag
-        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
-        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
-
-    return nyQuery;
-};
-
-function* initialSearch(action) {
+function* initialSearchOld(action) {
     try {
-        let urlQuery = fromUrlQuery(window.location.href);
+        let initialQuery = mapUrlToInitialQuery(window.location.href);
         const state = yield select();
 
         if (
             action.stillingsId &&
-            Object.keys(urlQuery).length === 0 &&
+            Object.keys(initialQuery).length === 0 &&
             !state.search.harHentetStilling
         ) {
             const stilling = yield call(fetchStillingFraListe, action.stillingsId);
-
-            urlQuery.stillinger = stilling.stilling;
-            urlQuery.geografiList = stilling.kommune;
-            urlQuery.harHentetStilling = true;
-
-            if (stilling.tag.length > 0) {
-                urlQuery = mapTilretteleggingsmuligheterTilBehov(urlQuery, stilling.tag);
-            }
+            initialQuery = mapStillingTilInitialQuery(stilling);
         }
-        if (Object.keys(urlQuery).length > 0) {
-            if (urlQuery.geografiList) {
+        if (Object.keys(initialQuery).length > 0) {
+            if (initialQuery.geografiList) {
                 const geografiKoder = [];
-                for (let i = 0; i < urlQuery.geografiList.length; i += 1) {
-                    geografiKoder[i] = yield fetchGeografiKode(urlQuery.geografiList[i]);
+                for (let i = 0; i < initialQuery.geografiList.length; i += 1) {
+                    geografiKoder[i] = yield fetchGeografiKode(initialQuery.geografiList[i]);
                 }
-                urlQuery = {
-                    ...urlQuery,
+                initialQuery = {
+                    ...initialQuery,
                     geografiListKomplett: geografiKoder.map((sted) => ({
                         geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()),
                         geografiKode: sted.id,
                     })),
                 };
             }
-            yield put({ type: SET_STATE, query: urlQuery });
+            yield put({ type: SET_STATE, query: initialQuery });
         }
         yield call(search);
     } catch (e) {

@@ -1,4 +1,13 @@
-import AppState from '../AppState';
+import AppState, {
+    FritekstState,
+    GeografiState,
+    InnsatsgruppeState,
+    KompetanseState,
+    NavkontorReducerState,
+    SprakReducerState,
+    StillingState,
+} from '../AppState';
+import { getUrlParameterByName } from '../../felles/sok/utils';
 
 interface SearchQuery {
     fritekst?: string;
@@ -105,4 +114,118 @@ export const toUrlQuery = (state: AppState): string => {
     const urlQuery: SearchQuery = mapStateToSearchQuery(state);
 
     return toUrlParams(urlQuery);
+};
+
+export type InitialQuery = FritekstState &
+    StillingState &
+    KompetanseState &
+    SprakReducerState &
+    InnsatsgruppeState &
+    GeografiState &
+    NavkontorReducerState & {
+        arbeidserfaringer?: string[];
+        utdanninger?: string[];
+        utdanningsniva?: string[];
+        totalErfaring?: string[];
+        forerkort?: string[];
+        harHentetStilling?: boolean;
+        hovedmal?: string[];
+        tilretteleggingsbehov?: boolean;
+        kategorier?: string[];
+        permittert?: boolean;
+        oppstartstidspunkter?: string[];
+        midlertidigUtilgjengelig?: string[];
+        maksAlderArbeidserfaring?: number;
+        geografiListKomplett?: any;
+    };
+
+export const mapUrlToInitialQuery = (url: string): InitialQuery => {
+    const stateFromUrl: InitialQuery = {};
+    const fritekst = getUrlParameterByName('fritekst', url);
+    const stillinger = getUrlParameterByName('stillinger', url);
+    const arbeidserfaringer = getUrlParameterByName('arbeidserfaringer', url);
+    const kompetanser = getUrlParameterByName('kompetanser', url);
+    const utdanninger = getUrlParameterByName('utdanninger', url);
+    const geografiList = getUrlParameterByName('geografiList', url);
+    const totalErfaring = getUrlParameterByName('totalErfaring', url);
+    const utdanningsniva = getUrlParameterByName('utdanningsniva', url);
+    const sprak = getUrlParameterByName('sprak', url);
+    const forerkort = getUrlParameterByName('forerkort', url);
+    const kvalifiseringsgruppeKoder = getUrlParameterByName('kvalifiseringsgruppeKoder', url);
+    const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
+    const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
+    const navkontor = getUrlParameterByName('navkontor', url);
+    const minekandidater = getUrlParameterByName('minekandidater', url);
+    const hovedmal = getUrlParameterByName('hovedmal', url);
+    const tilretteleggingsbehov = getUrlParameterByName('tilretteleggingsbehov', url);
+    const kategorier = getUrlParameterByName('kategorier', url);
+    const permittert = getUrlParameterByName('permittert');
+    const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
+    const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
+    const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
+
+    if (fritekst) stateFromUrl.fritekst = fritekst;
+    if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
+    if (arbeidserfaringer) stateFromUrl.arbeidserfaringer = arbeidserfaringer.split('_');
+    if (kompetanser) stateFromUrl.kompetanser = kompetanser.split('_');
+    if (utdanninger) stateFromUrl.utdanninger = utdanninger.split('_');
+    if (geografiList) stateFromUrl.geografiList = geografiList.split('_');
+    if (totalErfaring) stateFromUrl.totalErfaring = totalErfaring.split('_');
+    if (utdanningsniva) stateFromUrl.utdanningsniva = utdanningsniva.split('_');
+    if (sprak) stateFromUrl.sprak = sprak.split('_');
+    if (forerkort) stateFromUrl.forerkort = forerkort.split('_');
+    if (kvalifiseringsgruppeKoder)
+        stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
+    if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
+    if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
+    if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
+    if (minekandidater === 'true') stateFromUrl.minekandidater = true;
+    if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
+    if (tilretteleggingsbehov === 'true') stateFromUrl.tilretteleggingsbehov = true;
+    if (kategorier) stateFromUrl.kategorier = kategorier.split('_');
+    if (permittert) stateFromUrl.permittert = permittert === 'true';
+    if (oppstartstidspunkter) stateFromUrl.oppstartstidspunkter = oppstartstidspunkter.split('-');
+    if (midlertidigUtilgjengelig)
+        stateFromUrl.midlertidigUtilgjengelig = midlertidigUtilgjengelig.split('_');
+    if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
+        stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
+
+    return stateFromUrl;
+};
+
+export const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
+    const nyQuery = { ...urlQuery };
+
+    nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
+    if (!nyQuery.tilretteleggingsbehov) {
+        return nyQuery;
+    }
+
+    nyQuery.kategorier = [];
+
+    const tilretteleggingsmuligheterTilBehov = {
+        INKLUDERING__ARBEIDSTID: 'arbeidstid',
+        INKLUDERING__FYSISK: 'fysisk',
+        INKLUDERING__ARBEIDSMILJØ: 'arbeidshverdagen',
+        INKLUDERING__GRUNNLEGGENDE: 'utfordringerMedNorsk',
+    };
+
+    nyQuery.kategorier = tag
+        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
+        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
+
+    return nyQuery;
+};
+
+export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
+    const data: InitialQuery = {};
+
+    data.stillinger = stilling.stilling;
+    data.geografiList = stilling.kommune;
+    data.harHentetStilling = true;
+
+    if (stilling.tag.length > 0) {
+        return mapTilretteleggingsmuligheterTilBehov(data, stilling.tag);
+    }
+    return data;
 };
