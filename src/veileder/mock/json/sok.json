@@ -17,7 +17,8 @@
             "servicebehov": "Varig tilpasset innsats",
             "innsatsgruppe": "Varig tilpasset innsats",
             "score": "NaN",
-            "poststed": "OSLO"
+            "poststed": "OSLO",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "IE374308",
@@ -70,7 +71,8 @@
             "servicebehov": "Standardinnsats",
             "innsatsgruppe": "Standardinnsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "JF873508",
@@ -88,7 +90,8 @@
             "servicebehov": "Standardinnsats",
             "innsatsgruppe": "Standardinnsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "FK993402",
@@ -103,7 +106,8 @@
             "servicebehov": "Spesielt tilpasset innsats",
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "GF004504",
@@ -121,7 +125,8 @@
             "servicebehov": "Spesielt tilpasset innsats",
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "AJ923606",
@@ -139,7 +144,8 @@
             "servicebehov": "Spesielt tilpasset innsats",
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "HI813307",
@@ -157,7 +163,8 @@
             "servicebehov": "Situasjonsbestemt innsats",
             "innsatsgruppe": "Situasjonsbestemt innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         },
         {
             "arenaKandidatnr": "EG663502",
@@ -175,7 +182,8 @@
             "servicebehov": "Spesielt tilpasset innsats",
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengelig"
         }
     ],
     "aggregeringer": [
