@@ -1,14 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
+import { Cv } from '../../cv/reducer/cvReducer';
 
-class KandidaterTableRow extends React.Component {
+interface Props {
+    kandidat: Cv;
+    onKandidatValgt: (markert: boolean, kandidatnr: string) => void;
+    markert: boolean;
+    nettoppValgt: boolean;
+    setScrollPosition: (position: number) => void;
+    kandidatlisteId: string;
+    stillingsId: string;
+}
+
+class KandidaterTableRow extends React.Component<Props> {
     onCheck = (kandidatnr) => {
         this.props.onKandidatValgt(!this.props.markert, kandidatnr);
     };
@@ -25,7 +34,7 @@ class KandidaterTableRow extends React.Component {
     render() {
         const {
             kandidat,
-            markert,
+            markert = false,
             nettoppValgt,
             setScrollPosition,
             kandidatlisteId,
@@ -93,29 +102,9 @@ class KandidaterTableRow extends React.Component {
     }
 }
 
-KandidaterTableRow.defaultProps = {
-    markert: false,
-    kandidatlisteId: undefined,
-    stillingsId: undefined,
-};
-
-KandidaterTableRow.propTypes = {
-    kandidat: cvPropTypes.isRequired,
-    onKandidatValgt: PropTypes.func.isRequired,
-    markert: PropTypes.bool,
-    nettoppValgt: PropTypes.bool.isRequired,
-    setScrollPosition: PropTypes.func.isRequired,
-    kandidatlisteId: PropTypes.string,
-    stillingsId: PropTypes.string,
-};
-
-const mapStateToProps = (state) => ({
-    query: state.query,
-});
-
 const mapDispatchToProps = (dispatch) => ({
     setScrollPosition: (scrollPosisjon) =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableRow);
+export default connect(null, mapDispatchToProps)(KandidaterTableRow);
