@@ -9,16 +9,16 @@ interface Props {
 
 const TilgjengelighetFlagg: FunctionComponent<Props> = ({ status }) => {
     let midlertidigUtilgjengeligFlagg;
-    if (status === 'tilgjengelig') {
+    if (status === Tilgjengelighet.Tilgjengelig) {
         midlertidigUtilgjengeligFlagg = null;
-    } else if (status === 'tilgjengeliginnen1uke') {
+    } else if (status === Tilgjengelighet.TilgjengeligInnen1Uke) {
         midlertidigUtilgjengeligFlagg = (
             <TilgjengelighetIkon
                 tilgjengelighet={Tilgjengelighet.TilgjengeligInnen1Uke}
                 className="tilgjengelighet-flagg--snart-tilgjengelig"
             />
         );
-    } else if (status === 'midlertidigutilgjengelig') {
+    } else if (status === Tilgjengelighet.MidlertidigUtilgjengelig) {
         midlertidigUtilgjengeligFlagg = (
             <TilgjengelighetIkon
                 tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
