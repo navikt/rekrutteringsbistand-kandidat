@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Resultstable.less';
 
-export default class KandidaterTableHeader extends React.Component {
+interface Props {
+    alleKandidaterMarkert: boolean;
+    onToggleMarkeringAlleKandidater: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export default class KandidaterTableHeader extends React.Component<Props> {
     constructor(props) {
         super(props);
         this.state = {};
@@ -45,13 +49,3 @@ export default class KandidaterTableHeader extends React.Component {
         );
     }
 }
-
-KandidaterTableHeader.defaultProps = {
-    alleKandidaterMarkert: false,
-    onToggleMarkeringAlleKandidater: undefined,
-};
-
-KandidaterTableHeader.propTypes = {
-    alleKandidaterMarkert: PropTypes.bool,
-    onToggleMarkeringAlleKandidater: PropTypes.func,
-};
