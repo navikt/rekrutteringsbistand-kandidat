@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Knapp } from 'pam-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
-import KandidaterTableRow from './resultstable/KandidaterTableRow';
-import KandidaterTableHeader from './resultstable/KandidaterTableHeader';
-import cvPropTypes from '../../felles/PropTypes';
+import KandidaterTableRow from './KandidaterTableRow';
+import KandidaterTableHeader from './KandidaterTableHeader';
+import cvPropTypes from '../../../felles/PropTypes';
+import './KandidaterTabell.less';
 
 export default function KandidaterTabell({
     antallResultater,
@@ -20,36 +21,34 @@ export default function KandidaterTabell({
     stillingsId,
 }) {
     return (
-        <div className="resultatvisning">
+        <div className="kandidater-tabell">
             <KandidaterTableHeader
                 from={0}
                 to={antallResultater}
                 alleKandidaterMarkert={alleKandidaterMarkert}
                 onToggleMarkeringAlleKandidater={onToggleMarkeringAlleKandidater}
             />
+            {kandidater.slice(0, antallResultater).map((kandidat) => (
+                <KandidaterTableRow
+                    kandidat={kandidat}
+                    key={kandidat.arenaKandidatnr}
+                    onKandidatValgt={onKandidatValgt}
+                    markert={kandidat.markert}
+                    visCheckbox={false}
+                    nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
+                    kandidatlisteId={kandidatlisteId}
+                    stillingsId={stillingsId}
+                />
+            ))}
 
-            <div>
-                {kandidater.slice(0, antallResultater).map((kandidat) => (
-                    <KandidaterTableRow
-                        kandidat={kandidat}
-                        key={kandidat.arenaKandidatnr}
-                        onKandidatValgt={onKandidatValgt}
-                        markert={kandidat.markert}
-                        visCheckbox={false}
-                        nettoppValgt={valgtKandidatNr === kandidat.arenaKandidatnr}
-                        kandidatlisteId={kandidatlisteId}
-                        stillingsId={stillingsId}
-                    />
-                ))}
-            </div>
-            <div className="buttons--kandidatervisning">
+            <div className="kandidater-tabell__under-treff">
                 {antallResultater < totaltAntallTreff && (
                     <Knapp type="hoved" mini onClick={onFlereResultaterClick}>
                         Se flere kandidater
                     </Knapp>
                 )}
                 {!skjulPaginering && (
-                    <Element className="antall-treff-kandidatervisning">
+                    <Element className="kandidater-tabell__antall-treff">
                         Viser{' '}
                         {antallResultater > totaltAntallTreff
                             ? totaltAntallTreff

@@ -103,7 +103,7 @@ fetchMock
     .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
-    .get((url: string) => url.startsWith(sokUrl), sok)
+    .get((url: string) => url.startsWith(sokUrl), sok, { delay: 1000 })
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
     .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
