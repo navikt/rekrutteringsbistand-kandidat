@@ -31,6 +31,7 @@ export default class KandidaterTableHeader extends React.Component {
                             </label>
                         </div>
                     </div>
+                    <div className="kolonne-tilgjengelitghet-spacer" />
                     <div className="kolonne-navn kolonne-tekst kolonne-overskrift">Navn </div>
                     <div className="kolonne-dato kolonne-tekst kolonne-overskrift">
                         Fødselsnummer

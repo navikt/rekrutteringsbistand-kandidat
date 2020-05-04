@@ -45,6 +45,7 @@ const cvPropTypes = PropTypes.shape({
     verv: PropTypes.array,
     yrkeJobbonsker: PropTypes.array,
     yrkeserfaring: PropTypes.array,
+    midlertidigUtilgjengeligStatus: PropTypes.string,
 });
 
 export default cvPropTypes;

@@ -1,11 +1,11 @@
 import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../searchReducer';
 import { Oppstartstidspunkt } from './oppstardstidspunkt/OppstartstidspunktSearch';
-import { MidlertidigUtilgjengelig } from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import { Tilgjengelighet } from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 export interface TilgjengelighetState {
     panelOpen: boolean;
     oppstartstidspunkter: Oppstartstidspunkt[];
-    midlertidigUtilgjengelig: MidlertidigUtilgjengelig[];
+    midlertidigUtilgjengelig: Tilgjengelighet[];
 }
 
 export enum TilgjengelighetAction {

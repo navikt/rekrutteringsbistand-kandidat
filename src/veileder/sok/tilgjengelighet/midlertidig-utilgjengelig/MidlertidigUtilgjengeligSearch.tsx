@@ -5,55 +5,80 @@ import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../../searchReducer';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
+import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
-export enum MidlertidigUtilgjengelig {
+export enum Tilgjengelighet {
     Tilgjengelig = 'tilgjengelig',
     TilgjengeligInnen1Uke = 'tilgjengeliginnen1uke',
     MidlertidigUtilgjengelig = 'midlertidigutilgjengelig',
 }
 
 interface Props {
-    midlertidigUtilgjengelig: MidlertidigUtilgjengelig[];
-    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
-    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) => void;
+    midlertidigUtilgjengelig: Tilgjengelighet[];
+    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: Tilgjengelighet) => void;
+    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: Tilgjengelighet) => void;
     search: () => void;
 }
-
-const midlertidigUtilgjengeligStatuser = [
-    { label: 'Tilgjengelig', value: MidlertidigUtilgjengelig.Tilgjengelig },
-    {
-        label: 'Tilgjengelig innen 1 uke',
-        value: MidlertidigUtilgjengelig.TilgjengeligInnen1Uke,
-    },
-    {
-        label: 'Midlertidig utilgjengelig',
-        value: MidlertidigUtilgjengelig.MidlertidigUtilgjengelig,
-    },
-];
 
 const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
     const onMidlertidigUtilgjengeligChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            props.checkMidlertidigUtilgjengelig(e.target.value as MidlertidigUtilgjengelig);
+            props.checkMidlertidigUtilgjengelig(e.target.value as Tilgjengelighet);
         } else {
-            props.uncheckMidlertidigUtilgjengelig(e.target.value as MidlertidigUtilgjengelig);
+            props.uncheckMidlertidigUtilgjengelig(e.target.value as Tilgjengelighet);
         }
         props.search();
     };
 
     return (
         <SkjemaGruppe title="Registrert av NAV" className="midlertidig-utilgjengelig-search">
-            {midlertidigUtilgjengeligStatuser.map((status) => (
-                <Checkbox
-                    key={status.value}
-                    id={`midlertidigUtilgjengelig-${status.value.toLowerCase()}-checkbox`}
-                    className="midlertidig-utilgjengelig-search__checkbox"
-                    label={status.label}
-                    value={status.value}
-                    checked={props.midlertidigUtilgjengelig.includes(status.value)}
-                    onChange={onMidlertidigUtilgjengeligChange}
-                />
-            ))}
+            <Checkbox
+                key={Tilgjengelighet.Tilgjengelig}
+                id={`midlertidigUtilgjengelig-${Tilgjengelighet.Tilgjengelig.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label="Tilgjengelig"
+                value={Tilgjengelighet.Tilgjengelig}
+                checked={props.midlertidigUtilgjengelig.includes(Tilgjengelighet.Tilgjengelig)}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
+            <Checkbox
+                key={Tilgjengelighet.TilgjengeligInnen1Uke}
+                id={`midlertidigUtilgjengelig-${Tilgjengelighet.TilgjengeligInnen1Uke.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label={
+                    <>
+                        Tilgjengelig innen 1 uke
+                        <TilgjengelighetIkon
+                            tilgjengelighet={Tilgjengelighet.TilgjengeligInnen1Uke}
+                            className="midlertidig-utilgjengelig-search__flagg--snart-tilgjengelig"
+                        />
+                    </>
+                }
+                value={Tilgjengelighet.TilgjengeligInnen1Uke}
+                checked={props.midlertidigUtilgjengelig.includes(
+                    Tilgjengelighet.TilgjengeligInnen1Uke
+                )}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
+            <Checkbox
+                key={Tilgjengelighet.MidlertidigUtilgjengelig}
+                id={`midlertidigUtilgjengelig-${Tilgjengelighet.MidlertidigUtilgjengelig.toLowerCase()}-checkbox`}
+                className="midlertidig-utilgjengelig-search__checkbox"
+                label={
+                    <>
+                        Midlertidig utilgjengelig
+                        <TilgjengelighetIkon
+                            tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
+                            className="midlertidig-utilgjengelig-search__flagg--utilgjengelig"
+                        />
+                    </>
+                }
+                value={Tilgjengelighet.MidlertidigUtilgjengelig}
+                checked={props.midlertidigUtilgjengelig.includes(
+                    Tilgjengelighet.MidlertidigUtilgjengelig
+                )}
+                onChange={onMidlertidigUtilgjengeligChange}
+            />
         </SkjemaGruppe>
     );
 };
@@ -63,12 +88,12 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) =>
+    checkMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: Tilgjengelighet) =>
         dispatch({
             type: TilgjengelighetAction.CheckMidlertidigUtilgjengelig,
             value: midlertidigUtilgjengelig,
         }),
-    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: MidlertidigUtilgjengelig) =>
+    uncheckMidlertidigUtilgjengelig: (midlertidigUtilgjengelig: Tilgjengelighet) =>
         dispatch({
             type: TilgjengelighetAction.UncheckMidlertidigUtilgjengelig,
             value: midlertidigUtilgjengelig,

@@ -32,7 +32,8 @@
             "servicebehov": "Spesielt tilpasset innsats",
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "tilgjengeliginnen1uke"
         },
         {
             "arenaKandidatnr": "DC294105",
@@ -50,7 +51,8 @@
             "servicebehov": "Situasjonsbestemt innsats",
             "innsatsgruppe": "Situasjonsbestemt innsats",
             "score": "NaN",
-            "poststed": "Oslo"
+            "poststed": "Oslo",
+            "midlertidigUtilgjengeligStatus": "midlertidigutilgjengelig"
         },
         {
             "arenaKandidatnr": "DE074002",

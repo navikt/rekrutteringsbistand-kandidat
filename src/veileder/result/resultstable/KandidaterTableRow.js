@@ -6,6 +6,8 @@ import cvPropTypes from '../../../felles/PropTypes';
 import './Resultstable.less';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
+import TilgjengelighetIkon from '../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import { Tilgjengelighet } from '../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 class KandidaterTableRow extends React.Component {
     onCheck = (kandidatnr) => {
@@ -46,6 +48,25 @@ class KandidaterTableRow extends React.Component {
             return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
         };
 
+        let midlertidigUtilgjengeligFlagg;
+        if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengelig') {
+            midlertidigUtilgjengeligFlagg = null;
+        } else if (kandidat.midlertidigUtilgjengeligStatus === 'tilgjengeliginnen1uke') {
+            midlertidigUtilgjengeligFlagg = (
+                <TilgjengelighetIkon
+                    tilgjengelighet={Tilgjengelighet.TilgjengeligInnen1Uke}
+                    className="NyKandidaterTableRow__tilgjengelighet--snart-tilgjengelig"
+                />
+            );
+        } else if (kandidat.midlertidigUtilgjengeligStatus === 'midlertidigutilgjengelig') {
+            midlertidigUtilgjengeligFlagg = (
+                <TilgjengelighetIkon
+                    tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
+                    className="NyKandidaterTableRow__tilgjengelighet--utilgjengelig"
+                />
+            );
+        }
+
         return (
             <div className={`NyKandidaterTableRow ${this.checkedClass(markert, nettoppValgt)}`}>
                 <div className="kandidat-content">
@@ -69,6 +90,9 @@ class KandidaterTableRow extends React.Component {
                                 .
                             </label>
                         </div>
+                    </div>
+                    <div className="NyKandidaterTableRow__tilgjengelighet">
+                        {midlertidigUtilgjengeligFlagg}
                     </div>
                     <div className="kolonne-navn kolonne-tekst">
                         <Link
