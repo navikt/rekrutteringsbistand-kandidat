@@ -16,24 +16,56 @@ type AppState = {
     cv: CvState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
 
-    // TODO Følgende burde defineres i sine respektive reducere
-    fritekst: { fritekst?: string };
-    stilling: { stillinger?: string[] };
-    kompetanse: { kompetanser?: string[] };
-    utdanning: {
-        utdanninger?: string[];
-        utdanningsniva?: string[];
-    };
-    geografi: { geografiList?: string[]; maaBoInnenforGeografi?: boolean };
-    sprakReducer: { sprak?: string[] };
-    forerkort: { forerkortList?: string[] };
-    innsatsgruppe: { kvalifiseringsgruppeKoder?: string[] };
-    navkontorReducer: { navkontor: string[]; minekandidater?: boolean };
-    hovedmal: { totaltHovedmal: string[] };
-    tilretteleggingsbehov: {
-        harTilretteleggingsbehov?: boolean;
-        kategorier?: string[];
-    }
+    fritekst: FritekstState;
+    stilling: StillingState;
+    kompetanse: KompetanseState;
+    utdanning: UtdanningState;
+    geografi: GeografiState;
+    sprakReducer: SprakReducerState;
+    forerkort: ForerkortState;
+    innsatsgruppe: InnsatsgruppeState;
+    navkontorReducer: NavkontorReducerState;
+    hovedmal: HovedmalState;
+    tilretteleggingsbehov: TilretteleggingsbehovState;
 };
+
+// TODO Følgende burde defineres i sine respektive reducere
+export interface FritekstState {
+    fritekst?: string;
+}
+export interface StillingState {
+    stillinger?: string[];
+}
+export interface KompetanseState {
+    kompetanser?: string[];
+}
+export interface UtdanningState {
+    utdanninger?: string[];
+    utdanningsniva?: string[];
+}
+export interface GeografiState {
+    geografiList?: string[];
+    maaBoInnenforGeografi?: boolean;
+}
+export interface SprakReducerState {
+    sprak?: string[];
+}
+export interface ForerkortState {
+    forerkortList?: string[];
+}
+export interface InnsatsgruppeState {
+    kvalifiseringsgruppeKoder?: string[];
+}
+export interface NavkontorReducerState {
+    navkontor?: string[];
+    minekandidater?: boolean;
+}
+export interface HovedmalState {
+    totaltHovedmal: string[];
+}
+export interface TilretteleggingsbehovState {
+    harTilretteleggingsbehov?: boolean;
+    kategorier?: string[];
+}
 
 export default AppState;
