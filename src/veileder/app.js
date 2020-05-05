@@ -52,6 +52,7 @@ import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
+import { logEvent } from './amplitude/amplitude';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -103,6 +104,9 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 class Sok extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
+        logEvent('app', 'åpne', {
+            skjermbredde: window.screen.width,
+        });
     }
 
     navigeringKlikk = () => {
