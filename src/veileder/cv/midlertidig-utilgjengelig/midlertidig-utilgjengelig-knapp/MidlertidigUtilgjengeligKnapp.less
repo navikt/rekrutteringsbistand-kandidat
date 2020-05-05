@@ -4,8 +4,6 @@
     padding: 0.5rem 1rem;
     border-radius: 5rem;
     cursor: pointer;
-    fill: black;
-    stroke: black;
     margin-right: 1rem;
 
     &--tilgjengelig {
@@ -39,6 +37,10 @@
 
         &:hover {
             background-color: #06893a;
+
+            svg g {
+                stroke: white;
+            }
         }
     }
 
@@ -48,6 +50,10 @@
 
         &:hover {
             background-color: @navBla;
+
+            svg path {
+                fill: white;
+            }
         }
     }
 
@@ -57,8 +63,6 @@
 
     &:hover {
         color: white;
-        fill: white;
-        stroke: white;
     }
 
     &__chevron {

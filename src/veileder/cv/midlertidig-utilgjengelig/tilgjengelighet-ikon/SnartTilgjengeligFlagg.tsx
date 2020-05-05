@@ -13,6 +13,7 @@ const SnartTilgjengeligFlagg: FunctionComponent<Props> = ({ className }) => (
             strokeLinejoin="round"
             strokeLinecap="round"
             strokeWidth={2}
+            stroke="black"
         >
             <path d="M1.5.5v23M1.5 13.5V.5l15 6.5z" />
         </g>

@@ -4,8 +4,8 @@ import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import { MidlertidigUtilgjengeligResponse } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { Nettressurs } from '../../../../felles/common/remoteData';
 import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
-import Flagg from './Flagg';
 import MerInformasjon from './MerInformasjon';
+import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './TilgjengelighetFlagg.less';
 
 type Props = {
@@ -36,7 +36,10 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({
     return (
         <>
             <button className="tilgjengelighet-flagg__knapp" onClick={togglePopover}>
-                <Flagg status={status} />
+                <TilgjengelighetIkon
+                    tilgjengelighet={status}
+                    className="tilgjengelighet-flagg__ikon"
+                />
             </button>
             {status !== Tilgjengelighet.Tilgjengelig && (
                 <div className="tilgjengelighet-flagg__popover">
