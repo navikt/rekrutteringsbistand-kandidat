@@ -5,6 +5,7 @@ import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbe
 import { CvState } from './cv/reducer/cvReducer';
 import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { SearchState } from './sok/typedSearchReducer';
+import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
@@ -46,6 +47,7 @@ export interface UtdanningState {
 export interface GeografiState {
     geografiList?: string[];
     maaBoInnenforGeografi?: boolean;
+    geografiListKomplett?: Geografi[];
 }
 export interface SprakReducerState {
     sprak?: string[];

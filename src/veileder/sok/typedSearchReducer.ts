@@ -1,4 +1,4 @@
-import FEATURE_TOGGLES, { KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
+import FEATURE_TOGGLES, { KANDIDATLISTE_CHUNK_SIZE, KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
 import {
     FETCH_FEATURE_TOGGLES_FAILURE,
     FETCH_FEATURE_TOGGLES_SUCCESS,
@@ -10,7 +10,6 @@ import {
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
     REMOVE_KOMPETANSE_SUGGESTIONS,
-    search,
     SEARCH_BEGIN,
     SEARCH_FAILURE,
     SEARCH_SUCCESS,
@@ -22,12 +21,19 @@ import {
     SETT_KANDIDATNUMMER,
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
-import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
-import { fetchGeografiKode, fetchStillingFraListe } from '../api';
-import { formatterStedsnavn } from '../../felles/sok/utils';
+import {
+    InitialQuery,
+    mapStillingTilInitialQuery,
+    mapUrlToInitialQuery,
+    toUrlQuery,
+} from './searchQuery';
+import { fetchGeografiKode, fetchKandidater, fetchKandidaterES, fetchStillingFraListe } from '../api';
+import { formatterStedsnavn, getHashFromString } from '../../felles/sok/utils';
 import { SearchApiError } from '../../felles/api';
 import { call, put, select } from 'redux-saga/effects';
 import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
+import AppState from '../AppState';
+import { mapTilSøkekriterier } from './søkekriterier';
 
 interface Søkeresultat {
     resultat: {
@@ -275,4 +281,65 @@ export function* initialSearch(action) {
             throw e;
         }
     }
+}
+
+export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void => {
+    const urlQuery = toUrlQuery(state);
+    const newUrlQuery = urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
+    if (!window.location.pathname.includes('/cv')) {
+        window.history.replaceState('', '', newUrlQuery);
+    }
+};
+
+
+export function* search(action: any = '') {
+    try {
+        yield put({ type: SEARCH_BEGIN });
+        const state = yield select();
+
+        oppdaterUrlTilÅReflektereSøkekriterier(state);
+
+        const [søkekriterier, searchQueryHash] = mapTilSøkekriterier(state, action);
+        const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
+        const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
+
+        let response = yield call(søkekriterier.hasValues ? fetchKandidater : fetchKandidaterES, søkekriterier);
+
+        if (!harNyeSokekriterier) {
+            const kandidater = state.search.searchResultat.resultat.kandidater;
+            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({
+                ...kFraResponse,
+                markert: kandidater.some(
+                    (k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
+                ),
+            }));
+            response = { ...response, kandidater: kandidaterMedMarkering };
+        }
+
+        yield put({
+            type: SEARCH_SUCCESS,
+            response,
+            isEmptyQuery: !søkekriterier.hasValues,
+            isPaginatedSok,
+            searchQueryHash,
+            antallResultater: søkekriterier.antallResultater,
+        });
+        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SEARCH_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+export function* esSearch(action = '') {
+    yield search(action);
+}
+
+export function* hentFlereKandidater(action) {
+    const state = yield select();
+    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
+    yield esSearch({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
 }
