@@ -15,5 +15,6 @@
     "vis-tilretteleggingsbehov-kategorier": true,
     "vis-viktige-yrker-lenker": true,
     "vis-midlertidig-utilgjengelig": true,
-    "vis-midlertidig-utilgjengelig-filter": true
+    "vis-midlertidig-utilgjengelig-filter": true,
+    "vis-midlertidig-utilgjengelig-popover": true
 }

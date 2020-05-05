@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
-import { Søkeresultat } from '../../sok/Søkeresultat';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
+import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
 
 interface Props {
@@ -20,6 +20,7 @@ interface Props {
     stillingsId: string;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
+    visMidlertidigUtilgjengeligPopover: boolean;
 }
 
 const KandidaterTableKandidat: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     onKandidatValgt,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
+    visMidlertidigUtilgjengeligPopover,
 }) => {
     const onCheck = (kandidatnr) => {
         onKandidatValgt(!markert, kandidatnr);
@@ -92,6 +94,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
             <div className="kandidater-tabell__tilgjengelighet">
                 <TilgjengelighetFlagg
                     status={kandidat.midlertidigUtilgjengeligStatus}
+                    visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
                     merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
                     hentMerInformasjon={() =>
                         hentMidlertidigUtilgjengeligForKandidat(
@@ -120,6 +123,8 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
+    visMidlertidigUtilgjengeligPopover:
+        state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

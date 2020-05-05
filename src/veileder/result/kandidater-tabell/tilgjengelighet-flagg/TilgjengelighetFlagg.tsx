@@ -10,14 +10,16 @@ import './TilgjengelighetFlagg.less';
 
 type Props = {
     status: Tilgjengelighet;
-    merInformasjon?: Nettressurs<MidlertidigUtilgjengeligResponse>;
     hentMerInformasjon: () => void;
+    merInformasjon?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    visMidlertidigUtilgjengeligPopover: boolean;
 };
 
 const TilgjengelighetFlagg: FunctionComponent<Props> = ({
     status,
     merInformasjon,
     hentMerInformasjon,
+    visMidlertidigUtilgjengeligPopover,
 }) => {
     const [anker, setAnker] = useState<any>(undefined);
 
@@ -33,15 +35,22 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({
         setAnker(undefined);
     };
 
+    const renderPopover =
+        visMidlertidigUtilgjengeligPopover && status !== Tilgjengelighet.Tilgjengelig;
+
     return (
         <>
-            <button className="tilgjengelighet-flagg__knapp" onClick={togglePopover}>
+            <button
+                disabled={!visMidlertidigUtilgjengeligPopover}
+                className="tilgjengelighet-flagg__knapp"
+                onClick={togglePopover}
+            >
                 <TilgjengelighetIkon
                     tilgjengelighet={status}
                     className="tilgjengelighet-flagg__ikon"
                 />
             </button>
-            {status !== Tilgjengelighet.Tilgjengelig && (
+            {renderPopover && (
                 <div className="tilgjengelighet-flagg__popover">
                     <Popover
                         ankerEl={anker}

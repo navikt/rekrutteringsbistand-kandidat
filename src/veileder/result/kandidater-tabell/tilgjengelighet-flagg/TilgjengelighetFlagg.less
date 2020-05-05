@@ -17,8 +17,11 @@
     }
 
     &__knapp {
-        cursor: pointer;
         background: none;
         border: none;
+
+        &:not(:disabled) {
+            cursor: pointer;
+        }
     }
 }
