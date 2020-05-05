@@ -2,7 +2,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../api';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
-import { Tilgjengelighet } from '../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 
 export enum CvActionType {
     FETCH_CV = 'FETCH_CV',
@@ -49,56 +48,56 @@ export enum HentCvStatus {
     FinnesIkke = 'FINNES_IKKE',
 }
 
+type Adresse = {
+    landkode: string;
+    postnr: string;
+    poststednavn: string;
+    kommunenr: number;
+    adrlinje1: string;
+    adrlinje2: string;
+    adrlinje3: string;
+};
+
 export type Cv = {
+    adresse: Adresse;
     aktorId: string;
-    kandidatnummer: string;
-
-    utdanning: any[];
-    yrkeserfaring: any[];
-    kurs: any[];
-    sertifikater: any[];
-    sprak: any[];
-
-    adresselinje1: string;
-    adresselinje2: string;
-    adresselinje3: string;
-    annenerfaring: any[];
-    ansettelsesforholdJobbonsker: any[];
-    arbeidstidsordningJobbonsker: any[];
-    arenaKandidatnr: string;
-    arenaPersonId: number;
-    profilId: string;
+    annenErfaring: any[];
+    ansettelsesformJobbprofil: any[];
+    arbeidsdagerJobbprofil: any[];
+    arbeidstidJobbprofil: any[];
+    arbeidstidsordningJobbprofil: any[];
     beskrivelse: string;
     disponererBil: boolean;
-    epostadresse: string;
-    mobiltelefon: string;
-    telefon: string;
+    epost: string;
     etternavn: string;
+    fagdokumentasjon: any[];
     fodselsdato: string;
-    fodselsdatoErDnr: boolean;
     fodselsnummer: string;
     forerkort: any[];
-    formidlingsgruppekode: string;
     fornavn: string;
     geografiJobbonsker: any[];
-    heltidDeltidJobbonsker: any[];
-    kommunenummer: number;
+    kandidatnummer: string;
     kompetanse: any[];
-    landkode: string;
-    postnummer: string;
-    poststed: string;
-    samletKompetanse: any[];
+    kurs: any[];
+    mobiltelefon: string;
+    omfangJobbprofil: any[];
+    oppstartKode: string;
     samtykkeDato: string;
     samtykkeStatus: string;
-    sertifikat: any[];
-    servicebehov: string;
+    sertifikater: any[];
+    sistEndret: string;
+    sprak: any[];
+    sprakferdigheter: any[];
     statsborgerskap: string;
-    tidsstempel: string;
-    totalLengdeYrkeserfaring: number;
-    fagdokumentasjon: any[];
+    telefon: string;
+    tilretteleggingsbehov: boolean;
+    utdanning: any[];
+    veilederEpost: string | null;
+    veilederIdent: string | null;
+    veilederNavn: string | null;
     verv: any[];
     yrkeJobbonsker: any[];
-    midlertidigUtilgjengeligStatus: Tilgjengelighet;
+    yrkeserfaring: any[];
 };
 
 export type CvState = {

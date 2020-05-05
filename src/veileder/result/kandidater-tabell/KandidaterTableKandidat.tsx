@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import { Cv } from '../../cv/reducer/cvReducer';
 import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
+import { Søkeresultat } from '../Søkeresultat';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import './KandidaterTabell.less';
 
 interface Props {
-    kandidat: Cv;
+    kandidat: Søkeresultat;
     onKandidatValgt: (markert: boolean, kandidatnr: string) => void;
     markert: boolean;
     nettoppValgt: boolean;
@@ -94,7 +94,10 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     status={kandidat.midlertidigUtilgjengeligStatus}
                     merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
                     hentMerInformasjon={() =>
-                        hentMidlertidigUtilgjengeligForKandidat(kandidat.aktorId, kandidatnummer)
+                        hentMidlertidigUtilgjengeligForKandidat(
+                            '123', // TODO: Bruk aktørId eller andre alternativer
+                            kandidatnummer
+                        )
                     }
                 />
             </div>
