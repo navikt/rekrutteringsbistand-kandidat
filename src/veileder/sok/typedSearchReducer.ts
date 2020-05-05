@@ -1,7 +1,4 @@
-import FEATURE_TOGGLES, {
-    KANDIDATLISTE_CHUNK_SIZE,
-    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-} from '../../felles/konstanter';
+import FEATURE_TOGGLES, { KANDIDATLISTE_CHUNK_SIZE, KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
 import {
     FETCH_FEATURE_TOGGLES_FAILURE,
     FETCH_FEATURE_TOGGLES_SUCCESS,
@@ -24,22 +21,10 @@ import {
     SETT_KANDIDATNUMMER,
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
-import {
-    InitialQuery,
-    mapStillingTilInitialQuery,
-    mapUrlToInitialQuery,
-    toUrlQuery,
-} from './searchQuery';
-import {
-    fetchGeografiKode,
-    fetchKandidater,
-    fetchKandidaterES,
-    fetchStillingFraListe,
-} from '../api';
-import { formatterStedsnavn, getHashFromString } from '../../felles/sok/utils';
+import { toUrlQuery } from './searchQuery';
+import { fetchKandidater, fetchKandidaterES } from '../api';
 import { SearchApiError } from '../../felles/api';
 import { call, put, select } from 'redux-saga/effects';
-import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 import AppState from '../AppState';
 import { mapTilSøkekriterier } from './søkekriterier';
 
@@ -77,7 +62,7 @@ export interface SearchState {
     kandidatlisteId?: string;
 }
 
-export const initialSearchState: SearchState = {
+const defaultState: SearchState = {
     searchResultat: {
         resultat: {
             kandidater: [],
@@ -99,9 +84,8 @@ export const initialSearchState: SearchState = {
     scrolletFraToppen: 0,
     harHentetStilling: false,
 };
-
 export const searchReducer = (
-    state: SearchState = initialSearchState,
+    state: SearchState = defaultState,
     action: any
 ): SearchState => {
     switch (action.type) {
@@ -247,50 +231,6 @@ export const searchReducer = (
             return state;
     }
 };
-
-const fetchGeografiListKomplett = async (geografiList: string[]): Promise<Geografi[]> => {
-    const geografiKoder: any[] = [];
-
-    // TODO Bytt til Promise.all, da skjer det ikke sekvensielt
-    for (let i = 0; i < geografiList.length; i += 1) {
-        geografiKoder[i] = await fetchGeografiKode(geografiList[i]);
-    }
-    return geografiKoder.map((sted) => ({
-        geografiKodeTekst: formatterStedsnavn(sted.tekst.toLowerCase()),
-        geografiKode: sted.id,
-    }));
-};
-
-export function* initialSearch(action) {
-    try {
-        let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
-        const state = yield select();
-
-        if (
-            action.stillingsId &&
-            Object.keys(initialQuery).length === 0 &&
-            !state.search.harHentetStilling
-        ) {
-            const stilling = yield call(fetchStillingFraListe, action.stillingsId);
-            initialQuery = mapStillingTilInitialQuery(stilling);
-        }
-        if (Object.keys(initialQuery).length > 0) {
-            if (initialQuery.geografiList) {
-                initialQuery.geografiListKomplett = yield fetchGeografiListKomplett(
-                    initialQuery.geografiList
-                );
-            }
-            yield put({ type: SET_STATE, query: initialQuery });
-        }
-        yield call(search);
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
 
 export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void => {
     const urlQuery = toUrlQuery(state);

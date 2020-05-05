@@ -2,7 +2,8 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api.ts';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
-import { esSearch, hentFlereKandidater, initialSearch } from './typedSearchReducer';
+import { esSearch, hentFlereKandidater} from './typedSearchReducer';
+import { initialSearch } from './initialSearchReducer';
 
 /** *********************************************************
  * ACTIONS
