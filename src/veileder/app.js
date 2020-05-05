@@ -105,22 +105,13 @@ class Sok extends React.Component {
         this.props.fetchFeatureToggles();
     }
 
-    navigeringKlikk = () => {
-        this.props.setScrollPosition(0);
-        this.props.lukkAlleSokepanel();
-        this.props.resetQuery(hentQueryUtenKriterier(false));
-        this.props.initialSearch();
-    };
-
     render() {
         const { error, fjernError } = this.props;
 
         const header = (
             <>
                 <Dekoratør />
-                <div onClick={this.navigeringKlikk}>
-                    <Navigeringsmeny />
-                </div>
+                <Navigeringsmeny />
             </>
         );
 
