@@ -9,18 +9,9 @@ type Søkekriterier = any & {
     antallResultater: number;
 };
 
-const getKandidatlisteIdFraPath = (path: string) => {
-    const match = matchPath(path, '/kandidater/kandidatliste/:kandidatlisteId');
-    if (match && match.params) {
-        return match.params.kandidatlisteId;
-    }
-    return undefined;
-};
-
 export const mapTilSøkekriterier = (
     state: AppState,
     action: any,
-    pathname: string
 ): [Søkekriterier, string | number] => {
     const søkekriterierFraState = mapTilSøkekriterierFraState(state);
     const fraIndex = action.fraIndex || 0;
@@ -37,8 +28,7 @@ export const mapTilSøkekriterier = (
                 (v) => Array.isArray(v) && v.length
             ),
             fraIndex,
-            antallResultater,
-            listeId: getKandidatlisteIdFraPath(pathname),
+            antallResultater
         },
         søkekriterierHash,
     ];
