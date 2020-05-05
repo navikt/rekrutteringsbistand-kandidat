@@ -84,6 +84,7 @@ const defaultState: SearchState = {
     scrolletFraToppen: 0,
     harHentetStilling: false,
 };
+
 export const searchReducer = (
     state: SearchState = defaultState,
     action: any
@@ -93,6 +94,7 @@ export const searchReducer = (
             return {
                 ...state,
                 maksAntallTreff: 0,
+
             };
         case SEARCH_BEGIN:
             return {

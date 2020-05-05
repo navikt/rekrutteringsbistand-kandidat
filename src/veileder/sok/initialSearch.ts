@@ -6,6 +6,8 @@ import { SearchApiError } from '../../felles/api';
 import { search } from './typedSearchReducer';
 import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 import { formatterStedsnavn } from '../../felles/sok/utils';
+import { init } from 'amplitude-js';
+import AppState from '../AppState';
 
 const fetchGeografiListKomplett = async (geografiList: string[]): Promise<Geografi[]> => {
     const geografiKoder: any[] = [];
@@ -23,8 +25,9 @@ const fetchGeografiListKomplett = async (geografiList: string[]): Promise<Geogra
 export function* initialSearch(action) {
     try {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
-        const state = yield select();
+        const state: AppState = yield select();
 
+        initialQuery.kandidatlisteId = state.search.kandidatlisteId;
         if (
             action.stillingsId &&
             Object.keys(initialQuery).length === 0 &&

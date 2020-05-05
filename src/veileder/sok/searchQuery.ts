@@ -135,6 +135,7 @@ export type InitialQuery = FritekstState &
         oppstartstidspunkter?: string[];
         midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
+        kandidatlisteId?: string;
     };
 
 export const mapUrlToInitialQuery = (url: string): InitialQuery => {

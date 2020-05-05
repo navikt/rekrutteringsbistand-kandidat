@@ -12,6 +12,7 @@ import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
+import { logEvent } from '../../../amplitude/amplitude';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -72,13 +73,14 @@ const KandidatRad: FunctionComponent<Props> = ({
     };
 
     const toggleMerInfo = () => {
-        onVisningChange(
+        const nyStatus =
             kandidat.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
-                : Visningsstatus.VisMerInfo,
-            kandidatlisteId,
-            kandidat.kandidatnr
-        );
+                : Visningsstatus.VisMerInfo;
+        onVisningChange(nyStatus, kandidatlisteId, kandidat.kandidatnr);
+        if (nyStatus === Visningsstatus.VisMerInfo) {
+            logEvent('kandidatliste_mer_info', 'åpne');
+        }
     };
 
     const onEndreNotat = (notatId, tekst) => {
