@@ -1,4 +1,7 @@
-import FEATURE_TOGGLES, { KANDIDATLISTE_CHUNK_SIZE, KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
+import FEATURE_TOGGLES, {
+    KANDIDATLISTE_CHUNK_SIZE,
+    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+} from '../../felles/konstanter';
 import {
     FETCH_FEATURE_TOGGLES_FAILURE,
     FETCH_FEATURE_TOGGLES_SUCCESS,
@@ -27,7 +30,12 @@ import {
     mapUrlToInitialQuery,
     toUrlQuery,
 } from './searchQuery';
-import { fetchGeografiKode, fetchKandidater, fetchKandidaterES, fetchStillingFraListe } from '../api';
+import {
+    fetchGeografiKode,
+    fetchKandidater,
+    fetchKandidaterES,
+    fetchStillingFraListe,
+} from '../api';
 import { formatterStedsnavn, getHashFromString } from '../../felles/sok/utils';
 import { SearchApiError } from '../../felles/api';
 import { call, put, select } from 'redux-saga/effects';
@@ -66,6 +74,7 @@ export interface SearchState {
     annonseOpprettetAvNavn?: string;
     annonseOpprettetAvIdent?: string;
     viktigeYrkerApen?: boolean;
+    kandidatlisteId?: string;
 }
 
 export const initialSearchState: SearchState = {
@@ -291,7 +300,6 @@ export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void 
     }
 };
 
-
 export function* search(action: any = '') {
     try {
         yield put({ type: SEARCH_BEGIN });
@@ -303,7 +311,10 @@ export function* search(action: any = '') {
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
 
-        let response = yield call(søkekriterier.hasValues ? fetchKandidater : fetchKandidaterES, søkekriterier);
+        let response = yield call(
+            søkekriterier.hasValues ? fetchKandidater : fetchKandidaterES,
+            søkekriterier
+        );
 
         if (!harNyeSokekriterier) {
             const kandidater = state.search.searchResultat.resultat.kandidater;
