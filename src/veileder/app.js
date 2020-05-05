@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
@@ -14,6 +14,8 @@ import {
     FJERN_ERROR,
     LUKK_ALLE_SOKEPANEL,
     saga,
+    SET_SCROLL_POSITION,
+    SET_STATE,
 } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
@@ -49,7 +51,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
-import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 
@@ -201,9 +202,6 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
-    initialSearch: () => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN });
-    },
 });
 /*
 End class Sok

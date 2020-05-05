@@ -65,8 +65,8 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidMount() {
-        const { stillingsId } = this.props.match.params;
-        this.props.initialSearch(stillingsId);
+        const { stillingsId, kandidatlisteId } = this.props.match.params;
+        this.props.initialSearch(stillingsId, kandidatlisteId);
         this.props.resetKandidatlisterSokekriterier();
     }
 
@@ -334,8 +334,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId) => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId });
+    initialSearch: (stillingsId, kandidatlisteId) => {
+        dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId, kandidatlisteId });
     },
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
