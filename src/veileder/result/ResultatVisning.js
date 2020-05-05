@@ -65,7 +65,6 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         const { stillingsId, kandidatlisteId } = this.props.match.params;
         this.props.initialSearch(stillingsId, kandidatlisteId);
         this.props.resetKandidatlisterSokekriterier();
