@@ -38,13 +38,15 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({
     const renderPopover =
         visMidlertidigUtilgjengeligPopover && status !== Tilgjengelighet.Tilgjengelig;
 
+    if (!renderPopover) {
+        return (
+            <TilgjengelighetIkon tilgjengelighet={status} className="tilgjengelighet-flagg__ikon" />
+        );
+    }
+
     return (
         <>
-            <button
-                disabled={!visMidlertidigUtilgjengeligPopover}
-                className="tilgjengelighet-flagg__knapp"
-                onClick={togglePopover}
-            >
+            <button className="tilgjengelighet-flagg__knapp" onClick={togglePopover}>
                 <TilgjengelighetIkon
                     tilgjengelighet={status}
                     className="tilgjengelighet-flagg__ikon"
