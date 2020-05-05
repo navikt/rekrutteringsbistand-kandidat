@@ -207,7 +207,7 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling || false,
-                kandidatlisteId: action.query.kandidatlisteId || false, // TODO Burde dette være i denne reduceren?
+                kandidatlisteId: action.query.kandidatlisteId, // TODO Burde dette være i denne reduceren?
             };
         case FJERN_ERROR:
             return {
