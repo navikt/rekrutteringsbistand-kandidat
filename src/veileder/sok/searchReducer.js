@@ -3,7 +3,7 @@ import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } 
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
 import { esSearch, hentFlereKandidater} from './typedSearchReducer';
-import { initialSearch } from './initialSearchReducer';
+import { initialSearch } from './initialSearch';
 
 /** *********************************************************
  * ACTIONS
