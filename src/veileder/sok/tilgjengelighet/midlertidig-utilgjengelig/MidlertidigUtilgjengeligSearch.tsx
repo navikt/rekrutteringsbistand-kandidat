@@ -1,17 +1,13 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import './MidlertidigUtilgjengeligSearch.less';
-import AppState from '../../../AppState';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../searchReducer';
-import { TilgjengelighetAction } from '../tilgjengelighetReducer';
-import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
-export enum Tilgjengelighet {
-    Tilgjengelig = 'tilgjengelig',
-    TilgjengeligInnen1Uke = 'tilgjengeliginnen1uke',
-    MidlertidigUtilgjengelig = 'midlertidigutilgjengelig',
-}
+import { SEARCH } from '../../searchReducer';
+import { Tilgjengelighet } from '../../Søkeresultat';
+import { TilgjengelighetAction } from '../tilgjengelighetReducer';
+import AppState from '../../../AppState';
+import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import './MidlertidigUtilgjengeligSearch.less';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];

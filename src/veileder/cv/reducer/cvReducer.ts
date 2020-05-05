@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../api';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
-import { Tilgjengelighet } from '../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import Cv from '../Cv';
 
 export enum CvActionType {
     FETCH_CV = 'FETCH_CV',
@@ -48,59 +48,6 @@ export enum HentCvStatus {
     Success = 'SUCCESS',
     FinnesIkke = 'FINNES_IKKE',
 }
-
-export type Cv = {
-    aktorId: string;
-    kandidatnummer: string;
-
-    utdanning: any[];
-    yrkeserfaring: any[];
-    kurs: any[];
-    sertifikater: any[];
-    sprak: any[];
-
-    adresselinje1: string;
-    adresselinje2: string;
-    adresselinje3: string;
-    annenerfaring: any[];
-    ansettelsesforholdJobbonsker: any[];
-    arbeidstidsordningJobbonsker: any[];
-    arenaKandidatnr: string;
-    arenaPersonId: number;
-    profilId: string;
-    beskrivelse: string;
-    disponererBil: boolean;
-    epostadresse: string;
-    mobiltelefon: string;
-    telefon: string;
-    etternavn: string;
-    fodselsdato: string;
-    fodselsdatoErDnr: boolean;
-    fodselsnummer: string;
-    forerkort: any[];
-    formidlingsgruppekode: string;
-    fornavn: string;
-    geografiJobbonsker: any[];
-    heltidDeltidJobbonsker: any[];
-    kommunenummer: number;
-    kompetanse: any[];
-    landkode: string;
-    postnummer: string;
-    poststed: string;
-    samletKompetanse: any[];
-    samtykkeDato: string;
-    samtykkeStatus: string;
-    sertifikat: any[];
-    servicebehov: string;
-    statsborgerskap: string;
-    tidsstempel: string;
-    totalLengdeYrkeserfaring: number;
-    fagdokumentasjon: any[];
-    verv: any[];
-    yrkeJobbonsker: any[];
-    midlertidigUtilgjengeligStatus: Tilgjengelighet;
-    erLagtTilKandidatliste: boolean;
-};
 
 export type CvState = {
     cv: Cv;

@@ -18,6 +18,7 @@ const FEATURE_TOGGLES = [
     'vis-viktige-yrker-lenker',
     'vis-midlertidig-utilgjengelig',
     'vis-midlertidig-utilgjengelig-filter',
+    'vis-midlertidig-utilgjengelig-popover',
 ];
 export default FEATURE_TOGGLES;
 
