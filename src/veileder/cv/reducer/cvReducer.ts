@@ -2,6 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../api';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
+import Cv from '../Cv';
 
 export enum CvActionType {
     FETCH_CV = 'FETCH_CV',
@@ -47,58 +48,6 @@ export enum HentCvStatus {
     Success = 'SUCCESS',
     FinnesIkke = 'FINNES_IKKE',
 }
-
-type Adresse = {
-    landkode: string;
-    postnr: string;
-    poststednavn: string;
-    kommunenr: number;
-    adrlinje1: string;
-    adrlinje2: string;
-    adrlinje3: string;
-};
-
-export type Cv = {
-    adresse: Adresse;
-    aktorId: string;
-    annenErfaring: any[];
-    ansettelsesformJobbprofil: any[];
-    arbeidsdagerJobbprofil: any[];
-    arbeidstidJobbprofil: any[];
-    arbeidstidsordningJobbprofil: any[];
-    beskrivelse: string;
-    disponererBil: boolean;
-    epost: string;
-    etternavn: string;
-    fagdokumentasjon: any[];
-    fodselsdato: string;
-    fodselsnummer: string;
-    forerkort: any[];
-    fornavn: string;
-    geografiJobbonsker: any[];
-    kandidatnummer: string;
-    kompetanse: any[];
-    kurs: any[];
-    mobiltelefon: string;
-    omfangJobbprofil: any[];
-    oppstartKode: string;
-    samtykkeDato: string;
-    samtykkeStatus: string;
-    sertifikater: any[];
-    sistEndret: string;
-    sprak: any[];
-    sprakferdigheter: any[];
-    statsborgerskap: string;
-    telefon: string;
-    tilretteleggingsbehov: boolean;
-    utdanning: any[];
-    veilederEpost: string | null;
-    veilederIdent: string | null;
-    veilederNavn: string | null;
-    verv: any[];
-    yrkeJobbonsker: any[];
-    yrkeserfaring: any[];
-};
 
 export type CvState = {
     cv: Cv;

@@ -3,7 +3,7 @@ import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { MidlertidigUtilgjengeligResponse } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { Nettressurs } from '../../../../felles/common/remoteData';
-import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 import MerInformasjon from './MerInformasjon';
 import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './TilgjengelighetFlagg.less';

@@ -4,7 +4,7 @@ import TilgjengelighetIkon from '../tilgjengelighet-ikon/TilgjengelighetIkon';
 import Chevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 
 interface Props {
     chevronType: 'opp' | 'ned';

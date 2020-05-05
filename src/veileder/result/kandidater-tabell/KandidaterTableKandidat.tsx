@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
 import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
-import { Søkeresultat } from '../Søkeresultat';
+import { Søkeresultat } from '../../sok/Søkeresultat';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import './KandidaterTabell.less';

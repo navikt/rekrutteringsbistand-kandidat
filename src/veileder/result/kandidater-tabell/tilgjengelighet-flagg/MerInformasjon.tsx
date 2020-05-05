@@ -6,7 +6,7 @@ import { antallDagerMellom, dagensDato } from '../../../cv/midlertidig-utilgjeng
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { MidlertidigUtilgjengeligResponse } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { Nettressurs, Nettstatus } from '../../../../felles/common/remoteData';
-import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 
 interface Props {
     status: Tilgjengelighet;
