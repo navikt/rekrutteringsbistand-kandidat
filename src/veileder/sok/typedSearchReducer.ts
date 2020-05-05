@@ -1,4 +1,7 @@
-import FEATURE_TOGGLES, { KANDIDATLISTE_CHUNK_SIZE, KANDIDATLISTE_INITIAL_CHUNK_SIZE } from '../../felles/konstanter';
+import FEATURE_TOGGLES, {
+    KANDIDATLISTE_CHUNK_SIZE,
+    KANDIDATLISTE_INITIAL_CHUNK_SIZE,
+} from '../../felles/konstanter';
 import {
     FETCH_FEATURE_TOGGLES_FAILURE,
     FETCH_FEATURE_TOGGLES_SUCCESS,
@@ -85,16 +88,12 @@ const defaultState: SearchState = {
     harHentetStilling: false,
 };
 
-export const searchReducer = (
-    state: SearchState = defaultState,
-    action: any
-): SearchState => {
+export const searchReducer = (state: SearchState = defaultState, action: any): SearchState => {
     switch (action.type) {
         case INITIAL_SEARCH_BEGIN:
             return {
                 ...state,
                 maksAntallTreff: 0,
-
             };
         case SEARCH_BEGIN:
             return {
@@ -208,6 +207,7 @@ export const searchReducer = (
             return {
                 ...state,
                 harHentetStilling: action.query.harHentetStilling || false,
+                kandidatlisteId: action.query.kandidatlisteId || false, // TODO Burde dette være i denne reduceren?
             };
         case FJERN_ERROR:
             return {

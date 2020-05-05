@@ -27,7 +27,7 @@ export function* initialSearch(action) {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
         const state: AppState = yield select();
 
-        initialQuery.kandidatlisteId = state.search.kandidatlisteId;
+        initialQuery.kandidatlisteId = action.kandidatlisteId;
         if (
             action.stillingsId &&
             Object.keys(initialQuery).length === 0 &&
