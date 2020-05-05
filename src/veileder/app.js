@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
@@ -12,8 +12,11 @@ import './sok/sok.less';
 import {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
+    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     saga,
+    SET_SCROLL_POSITION,
+    SET_STATE,
 } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
@@ -49,7 +52,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
-import { SET_SCROLL_POSITION, SET_STATE, INITIAL_SEARCH_BEGIN } from './sok/searchReducer';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
@@ -109,22 +111,13 @@ class Sok extends React.Component {
         });
     }
 
-    navigeringKlikk = () => {
-        this.props.setScrollPosition(0);
-        this.props.lukkAlleSokepanel();
-        this.props.resetQuery(hentQueryUtenKriterier(false));
-        this.props.initialSearch();
-    };
-
     render() {
         const { error, fjernError } = this.props;
 
         const header = (
             <>
                 <Dekoratør />
-                <div onClick={this.navigeringKlikk}>
-                    <Navigeringsmeny />
-                </div>
+                <Navigeringsmeny />
             </>
         );
 

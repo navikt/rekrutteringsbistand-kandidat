@@ -1,6 +1,5 @@
 import AppState from '../AppState';
 import { getHashFromString } from '../../felles/sok/utils';
-import { matchPath } from 'react-router';
 
 // TODO Skal i teorien matche objektet i endepunktet i backend
 type Søkekriterier = any & {
@@ -11,7 +10,7 @@ type Søkekriterier = any & {
 
 export const mapTilSøkekriterier = (
     state: AppState,
-    action: any,
+    action: any
 ): [Søkekriterier, string | number] => {
     const søkekriterierFraState = mapTilSøkekriterierFraState(state);
     const fraIndex = action.fraIndex || 0;
@@ -28,7 +27,7 @@ export const mapTilSøkekriterier = (
                 (v) => Array.isArray(v) && v.length
             ),
             fraIndex,
-            antallResultater
+            antallResultater,
         },
         søkekriterierHash,
     ];
@@ -75,5 +74,6 @@ export const mapTilSøkekriterierFraState = (state: AppState): any => {
         maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
         midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
         permittert: permittert,
+        listeId: state.search.kandidatlisteId,
     };
 };

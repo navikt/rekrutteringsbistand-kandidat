@@ -8,7 +8,6 @@ import AppState, {
     StillingState,
 } from '../AppState';
 import { getUrlParameterByName } from '../../felles/sok/utils';
-import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 
 interface SearchQuery {
     fritekst?: string;
@@ -136,6 +135,7 @@ export type InitialQuery = FritekstState &
         oppstartstidspunkter?: string[];
         midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
+        kandidatlisteId?: string;
     };
 
 export const mapUrlToInitialQuery = (url: string): InitialQuery => {
