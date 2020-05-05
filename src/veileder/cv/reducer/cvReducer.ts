@@ -99,6 +99,7 @@ export type Cv = {
     verv: any[];
     yrkeJobbonsker: any[];
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
+    erLagtTilKandidatliste: boolean;
 };
 
 export type CvState = {

@@ -1,16 +1,8 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import {
-    fetchFeatureToggles,
-    fetchFerdigutfylteStillinger,
-    fetchKandidater,
-    fetchKandidaterES,
-} from '../api.ts';
-import { getHashFromString } from '../../felles/sok/utils';
-import { KANDIDATLISTE_CHUNK_SIZE } from '../../felles/konstanter';
+import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api.ts';
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
-import { toUrlQuery } from './searchQuery';
-import { initialSearch } from './typedSearchReducer';
+import { esSearch, hentFlereKandidater, initialSearch } from './typedSearchReducer';
 
 /** *********************************************************
  * ACTIONS
@@ -57,112 +49,6 @@ export const TOGGLE_VIKTIGE_YRKER_APEN = 'TOGGLE_VIKTIGE_YRKER_APEN';
 export const FERDIGUTFYLTESTILLINGER_KLIKK = 'FERDIGUTFYLTESTILLINGER_KLIKK';
 
 export const FJERN_ERROR = 'FJERN_ERROR';
-
-export function* search(action = '') {
-    try {
-        yield put({ type: SEARCH_BEGIN });
-        const state = yield select();
-
-        // Update browser url to reflect current search query
-        const urlQuery = toUrlQuery(state);
-        const newUrlQuery =
-            urlQuery && urlQuery.length > 0 ? `?${urlQuery}` : window.location.pathname;
-        if (!window.location.pathname.includes('/cv')) {
-            window.history.replaceState('', '', newUrlQuery);
-        }
-
-        const fraIndex = action.fraIndex || 0;
-        const antallResultater = action.antallResultater
-            ? Math.max(action.antallResultater, state.search.antallVisteKandidater)
-            : state.search.antallVisteKandidater;
-
-        const forerkortListe = state.forerkort.forerkortList.includes('Førerkort: Kl. M (Moped)')
-            ? [...state.forerkort.forerkortList, 'Mopedførerbevis']
-            : state.forerkort.forerkortList;
-
-        const criteriaValues = {
-            fritekst: state.fritekst.fritekst,
-            stillinger: state.stilling.stillinger,
-            arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-            utdanninger: state.utdanning.utdanninger,
-            kompetanser: state.kompetanse.kompetanser,
-            geografiList: state.geografi.geografiList,
-            geografiListKomplett: state.geografi.geografiListKomplett,
-            lokasjoner: [...state.geografi.geografiListKomplett].map(
-                (sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`
-            ),
-            totalErfaring: state.arbeidserfaring.totalErfaring,
-            utdanningsniva: state.utdanning.utdanningsniva,
-            sprak: state.sprakReducer.sprak,
-            kvalifiseringsgruppeKoder: state.innsatsgruppe.kvalifiseringsgruppeKoder,
-            maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
-            forerkort: forerkortListe,
-            navkontor: state.navkontorReducer.navkontor,
-            minekandidater: state.navkontorReducer.minekandidater,
-            hovedmal: state.hovedmal.totaltHovedmal,
-            tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-            kategorier: state.tilretteleggingsbehov.kategorier,
-            oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
-            maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
-            midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
-        };
-
-        if (state.permittering.permittert !== state.permittering.ikkePermittert) {
-            criteriaValues.permittert = JSON.stringify(state.permittering.permittert);
-        }
-
-        const searchQueryHash = getHashFromString(JSON.stringify(criteriaValues));
-        const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
-        const isPaginatedSok = !harNyeSokekriterier && fraIndex > 0;
-
-        const harCriteria = Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length);
-        const criteria = {
-            ...criteriaValues,
-            hasValues: Object.values(criteriaValues).some((v) => Array.isArray(v) && v.length),
-            fraIndex,
-            antallResultater,
-        };
-
-        let response = yield call(harCriteria ? fetchKandidater : fetchKandidaterES, criteria);
-
-        if (!harNyeSokekriterier) {
-            const kandidater = state.search.searchResultat.resultat.kandidater;
-            const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({
-                ...kFraResponse,
-                markert: kandidater.some(
-                    (k) => k.arenaKandidatnr === kFraResponse.arenaKandidatnr && k.markert
-                ),
-            }));
-            response = { ...response, kandidater: kandidaterMedMarkering };
-        }
-
-        yield put({
-            type: SEARCH_SUCCESS,
-            response,
-            isEmptyQuery: !criteria.hasValues,
-            isPaginatedSok,
-            searchQueryHash,
-            antallResultater,
-        });
-        yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: SEARCH_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* esSearch(action = '') {
-    yield search(action);
-}
-
-function* hentFlereKandidater(action) {
-    const state = yield select();
-    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
-    yield esSearch({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
-}
 
 function* fetchKompetanseSuggestions() {
     try {
