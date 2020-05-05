@@ -11,7 +11,8 @@ import '../felles/styles.less';
 import './sok/sok.less';
 import {
     FETCH_FEATURE_TOGGLES_BEGIN,
-    FJERN_ERROR, INITIAL_SEARCH_BEGIN,
+    FJERN_ERROR,
+    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     saga,
     SET_SCROLL_POSITION,
@@ -106,24 +107,13 @@ class Sok extends React.Component {
         this.props.fetchFeatureToggles();
     }
 
-    navigeringKlikk = () => {
-        this.props.setScrollPosition(0);
-        this.props.lukkAlleSokepanel();
-        this.props.resetQuery(hentQueryUtenKriterier(false));
-        this.props.initialSearch();
-    };
-
     render() {
         const { error, fjernError } = this.props;
 
-        // TODO onClick sørger for at vi søker på nytt når man går mellom f.eks. søk fra kandidatliste og vanlig søk.
-        // Dette burde håndteres på en annen måte, da det gjøres søk hver gang man trykker noe sted i menyen.
         const header = (
             <>
                 <Dekoratør />
-                <div onClick={this.navigeringKlikk}>
-                    <Navigeringsmeny />
-                </div>
+                <Navigeringsmeny />
             </>
         );
 

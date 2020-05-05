@@ -65,17 +65,23 @@ class ResultatVisning extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         const { stillingsId, kandidatlisteId } = this.props.match.params;
         this.props.initialSearch(stillingsId, kandidatlisteId);
         this.props.resetKandidatlisterSokekriterier();
     }
 
     componentDidUpdate(prevProps) {
+        const { leggTilKandidatStatus, match, initialSearch } = this.props;
+
         if (
-            prevProps.leggTilKandidatStatus !== this.props.leggTilKandidatStatus &&
-            this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
+            prevProps.leggTilKandidatStatus !== leggTilKandidatStatus &&
+            leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
         ) {
             this.visAlertstripeLagreKandidater();
+        }
+        if (prevProps.match.params.kandidatlisteId !== match.params.kandidatlisteId) {
+            initialSearch(match.params.stillingsId, match.params.kandidatlisteId);
         }
     }
 
