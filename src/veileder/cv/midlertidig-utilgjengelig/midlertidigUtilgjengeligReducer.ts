@@ -1,9 +1,4 @@
-import {
-    FinnesIkke,
-    Nettressurs,
-    Nettstatus,
-    SenderInn,
-} from './../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus, SenderInn } from './../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ApiError, Feil, IkkeLastet, LasterInn, Suksess } from '../../../felles/common/remoteData';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../reducer/cvReducer';
@@ -18,6 +13,7 @@ import { SearchApiError } from '../../../felles/api';
 export type FetchMidlertidigUtilgjengeligAction = {
     type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG';
     aktørId: string;
+    kandidatnr: string;
 };
 
 export type FetchMidlertidigUtilgjengeligSuccessAction = {
@@ -126,10 +122,10 @@ const midlertidigUtilgjengeligReducer = (
                 [action.arenaKandidatnr]: IkkeLastet(),
             };
         }
-        case CvActionType.FETCH_CV_SUCCESS:
+        case 'FETCH_MIDLERTIDIG_UTILGJENGELIG':
             return {
                 ...state,
-                [action.response.kandidatnummer]: LasterInn(),
+                [action.kandidatnr]: LasterInn(),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG': {
@@ -176,20 +172,28 @@ const midlertidigUtilgjengeligReducer = (
     }
 };
 
-function* fetchMidlertidigUtilgjengeligMedAktørId(action: FetchCvSuccessAction) {
+function* hentMidlertidigUtilgjengeligMedCvResponse(action: FetchCvSuccessAction) {
+    yield hentMidlertidigUtilgjengelig(action.response.aktorId, action.response.kandidatnummer);
+}
+
+function* hentMidlertidigUtilgjengeligMedAktørId(action: FetchMidlertidigUtilgjengeligAction) {
+    yield hentMidlertidigUtilgjengelig(action.aktørId, action.kandidatnr);
+}
+
+function* hentMidlertidigUtilgjengelig(aktørId: string, kandidatnr: string) {
     try {
-        const response = yield call(fetchMidlertidigUtilgjengelig, action.response.aktorId);
+        const response = yield call(fetchMidlertidigUtilgjengelig, aktørId);
         yield put<MidlertidigUtilgjengeligAction>({
             type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
             response,
-            kandidatnr: action.response.kandidatnummer,
+            kandidatnr,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<MidlertidigUtilgjengeligAction>({
                 type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE',
                 error: e,
-                kandidatnr: action.response.kandidatnummer,
+                kandidatnr,
             });
         } else {
             throw e;
@@ -261,7 +265,8 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
 }
 
 export const midlertidigUtilgjengeligSaga = function* () {
-    yield takeLatest(CvActionType.FETCH_CV_SUCCESS, fetchMidlertidigUtilgjengeligMedAktørId);
+    yield takeLatest(CvActionType.FETCH_CV_SUCCESS, hentMidlertidigUtilgjengeligMedCvResponse);
+    yield takeLatest('FETCH_MIDLERTIDIG_UTILGJENGELIG', hentMidlertidigUtilgjengeligMedAktørId);
     yield takeLatest('LAGRE_MIDLERTIDIG_UTILGJENGELIG', lagreMidlertidigUtilgjengelig);
     yield takeLatest('ENDRE_MIDLERTIDIG_UTILGJENGELIG', endreMidlertidigUtilgjengelig);
     yield takeLatest('SLETT_MIDLERTIDIG_UTILGJENGELIG', slettMidlertidigUtilgjengelig);

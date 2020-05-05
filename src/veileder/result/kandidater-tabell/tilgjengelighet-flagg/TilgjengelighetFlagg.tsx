@@ -1,49 +1,32 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
-import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+
+import { MidlertidigUtilgjengeligResponse } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { Nettressurs } from '../../../../felles/common/remoteData';
+import { Tilgjengelighet } from '../../../sok/tilgjengelighet/midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
+import Flagg from './Flagg';
+import MerInformasjon from './MerInformasjon';
 import './TilgjengelighetFlagg.less';
 
-interface Props {
+type Props = {
     status: Tilgjengelighet;
-}
-
-const hentPopovertittel = (tilgjengelighet: Tilgjengelighet) => {
-    switch (tilgjengelighet) {
-        case Tilgjengelighet.TilgjengeligInnen1Uke:
-            return 'Tilgjengelig innen 1 uke';
-        case Tilgjengelighet.MidlertidigUtilgjengelig:
-            return 'Midlertidig utilgjengelig';
-    }
+    merInformasjon?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    hentMerInformasjon: () => void;
 };
 
-const TilgjengelighetFlagg: FunctionComponent<Props> = ({ status }) => {
+const TilgjengelighetFlagg: FunctionComponent<Props> = ({
+    status,
+    merInformasjon,
+    hentMerInformasjon,
+}) => {
     const [anker, setAnker] = useState<any>(undefined);
-
-    let midlertidigUtilgjengeligFlagg;
-    if (status === Tilgjengelighet.Tilgjengelig) {
-        midlertidigUtilgjengeligFlagg = null;
-    } else if (status === Tilgjengelighet.TilgjengeligInnen1Uke) {
-        midlertidigUtilgjengeligFlagg = (
-            <TilgjengelighetIkon
-                tilgjengelighet={Tilgjengelighet.TilgjengeligInnen1Uke}
-                className="tilgjengelighet-flagg--snart-tilgjengelig"
-            />
-        );
-    } else if (status === Tilgjengelighet.MidlertidigUtilgjengelig) {
-        midlertidigUtilgjengeligFlagg = (
-            <TilgjengelighetIkon
-                tilgjengelighet={Tilgjengelighet.MidlertidigUtilgjengelig}
-                className="tilgjengelighet-flagg--utilgjengelig"
-            />
-        );
-    } else {
-        return null;
-    }
 
     const togglePopover = (e: any) => {
         setAnker(!anker ? e.currentTarget : undefined);
+
+        if (!merInformasjon) {
+            hentMerInformasjon();
+        }
     };
 
     const lukkPopover = () => {
@@ -53,9 +36,9 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({ status }) => {
     return (
         <>
             <button className="tilgjengelighet-flagg__knapp" onClick={togglePopover}>
-                {midlertidigUtilgjengeligFlagg}
+                <Flagg status={status} />
             </button>
-            {midlertidigUtilgjengeligFlagg !== null && (
+            {status !== Tilgjengelighet.Tilgjengelig && (
                 <div className="tilgjengelighet-flagg__popover">
                     <Popover
                         ankerEl={anker}
@@ -63,10 +46,7 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({ status }) => {
                         orientering={PopoverOrientering.Under}
                     >
                         <div className="tilgjengelighet-flagg__popover-innhold">
-                            <Element>{hentPopovertittel(status)}</Element>
-                            <Normaltekst>
-                                Tilgjengelig om: <b>... dager</b> (...)
-                            </Normaltekst>
+                            <MerInformasjon status={status} merInformasjon={merInformasjon} />
                         </div>
                     </Popover>
                 </div>

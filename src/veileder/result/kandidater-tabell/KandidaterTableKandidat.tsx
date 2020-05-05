@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
+
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { Cv } from '../../cv/reducer/cvReducer';
+import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
+import AppState from '../../AppState';
+import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import './KandidaterTabell.less';
 
 interface Props {
@@ -15,11 +18,23 @@ interface Props {
     setScrollPosition: (position: number) => void;
     kandidatlisteId: string;
     stillingsId: string;
+    midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
+    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
 }
 
-const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
+const KandidaterTableKandidat: FunctionComponent<Props> = ({
+    kandidat,
+    markert = false,
+    nettoppValgt,
+    setScrollPosition,
+    kandidatlisteId,
+    stillingsId,
+    onKandidatValgt,
+    midlertidigUtilgjengeligMap,
+    hentMidlertidigUtilgjengeligForKandidat,
+}) => {
     const onCheck = (kandidatnr) => {
-        props.onKandidatValgt(!props.markert, kandidatnr);
+        onKandidatValgt(!markert, kandidatnr);
     };
 
     const checkedClass = (markert, nettoppValgt) => {
@@ -31,14 +46,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
         return null;
     };
 
-    const {
-        kandidat,
-        markert = false,
-        nettoppValgt,
-        setScrollPosition,
-        kandidatlisteId,
-        stillingsId,
-    } = props;
     const kandidatnummer = kandidat.arenaKandidatnr;
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
@@ -83,7 +90,13 @@ const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
                 </label>
             </div>
             <div className="kandidater-tabell__tilgjengelighet">
-                <TilgjengelighetFlagg status={kandidat.midlertidigUtilgjengeligStatus} />
+                <TilgjengelighetFlagg
+                    status={kandidat.midlertidigUtilgjengeligStatus}
+                    merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
+                    hentMerInformasjon={() =>
+                        hentMidlertidigUtilgjengeligForKandidat(kandidat.aktorId, kandidatnummer)
+                    }
+                />
             </div>
             <div className="kandidater-tabell__kolonne-tekst">
                 <Link
@@ -102,9 +115,16 @@ const KandidaterTableKandidat: FunctionComponent<Props> = (props) => {
     );
 };
 
+const mapStateToProps = (state: AppState) => ({
+    midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
+});
+
 const mapDispatchToProps = (dispatch) => ({
     setScrollPosition: (scrollPosisjon) =>
         dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
+        dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
+    },
 });
 
-export default connect(null, mapDispatchToProps)(KandidaterTableKandidat);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterTableKandidat);
