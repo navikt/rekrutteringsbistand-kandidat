@@ -97,10 +97,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
                     merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
                     hentMerInformasjon={() =>
-                        hentMidlertidigUtilgjengeligForKandidat(
-                            '123', // TODO: Bruk aktørId eller andre alternativer
-                            kandidatnummer
-                        )
+                        hentMidlertidigUtilgjengeligForKandidat(kandidat.aktorId, kandidatnummer)
                     }
                 />
             </div>

@@ -11,6 +11,7 @@ export enum Tilgjengelighet {
 }
 
 type Søkeresultat = {
+    aktorId: string;
     arenaKandidatnr: string;
     erFodselsdatoDnr: boolean;
     etternavn: string;
