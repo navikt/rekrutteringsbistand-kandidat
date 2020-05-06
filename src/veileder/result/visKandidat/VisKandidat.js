@@ -312,7 +312,7 @@ class VisKandidat extends React.Component {
                                 kandidatnr={cv.kandidatnummer}
                             />
                             {this.state.visLenkeTilKandidatliste ? (
-                                <div>
+                                <>
                                     Kandidaten er lagret i{' '}
                                     <Link
                                         to={'/kandidater/lister/detaljer/' + kandidatlisteId}
@@ -320,7 +320,7 @@ class VisKandidat extends React.Component {
                                     >
                                         kandidatlisten
                                     </Link>
-                                </div>
+                                </>
                             ) : (
                                 <Knapp
                                     mini
