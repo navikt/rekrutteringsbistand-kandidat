@@ -16,6 +16,7 @@ import { logEvent } from '../../../amplitude/amplitude';
 import { SET_SCROLL_POSITION } from '../../../sok/searchReducer';
 import { connect } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { formatterDato } from '../../../../felles/common/dateUtils';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -133,6 +134,10 @@ const KandidatRad: FunctionComponent<Props> = ({
                     <span className="tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
+                </div>
+
+                <div className="liste-rad__lagt-til">
+                    {`${formatterDato(new Date(kandidat.lagtTilTidspunkt))}`}
                 </div>
                 {visArkiveringskolonne ? (
                     <StatusSelect

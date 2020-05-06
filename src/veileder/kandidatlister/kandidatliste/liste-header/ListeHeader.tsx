@@ -44,12 +44,14 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <Element>Navn</Element>
                 <Element>Fødselsnummer</Element>
                 <Element>Lagt til av</Element>
+                <Element>Lagt til</Element>
                 <div className="kolonne-middels">
                     <div className="status-overskrift">
                         Status
                         <StatusHjelpetekst />
                     </div>
                 </div>
+                
                 {stillingsId && <Element>Utfall</Element>}
                 <Element>Notater</Element>
                 <Element className="kolonne-midtstilt">Mer info</Element>
