@@ -34,14 +34,15 @@ const MerInformasjon: FunctionComponent<Props> = ({ status, merInformasjon }) =>
         merInformasjon.data.midlertidigUtilgjengelig !== null
     ) {
         const { midlertidigUtilgjengelig } = merInformasjon.data;
-        const antallDager = antallDagerMellom(dagensDato(), midlertidigUtilgjengelig.tilDato);
-        const dato = moment(midlertidigUtilgjengelig.tilDato).format('DD.MM.YY');
+        const tilgjengeligDato = moment(midlertidigUtilgjengelig.tilDato).add(1, 'days');
+        const antallDager = antallDagerMellom(dagensDato(), tilgjengeligDato);
 
         return (
             <>
                 <Element>{hentPopovertittel(status)}</Element>
                 <Normaltekst>
-                    Tilgjengelig om: <b>{antallDager} dager</b> ({dato})
+                    Tilgjengelig om: <b>{antallDager} dager</b> (
+                    {tilgjengeligDato.format('DD.MM.YY')})
                 </Normaltekst>
             </>
         );
