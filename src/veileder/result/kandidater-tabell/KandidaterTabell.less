@@ -46,7 +46,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        margin-right: 2rem;
+
+        &:not(:last-child) {
+            margin-right: 2rem;
+        }
     }
 
     &__under-treff {
