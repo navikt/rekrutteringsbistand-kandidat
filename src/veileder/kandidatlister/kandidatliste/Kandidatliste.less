@@ -34,22 +34,17 @@
 
     &__grid {
         display: grid;
-        @media all and (max-width: 1400px) {
+        grid-template-columns: 1fr 74rem;
+        @media (max-width: 1400px) {
             grid-template-columns: 7rem 70rem;
         }
-        @media not all and (max-width: 1400px) {
-            grid-template-columns: 1fr 74rem;
-        }
-        grid-template-columns: 1fr 74rem;
         grid-template-rows: 1fr auto;
         grid-template-areas:
             'ingenting over-liste'
             'filter liste';
-        @media all and (max-width: 1320px) {
+        grid-gap: 1.5rem 4rem;
+        @media (max-width: 1320px) {
             grid-gap: 1.5rem 1rem;
-        }
-        @media not all and (max-width: 1320px) {
-            grid-gap: 1.5rem 4rem;
         }
         max-width: 95.5rem;
         margin: 2.5rem auto;
