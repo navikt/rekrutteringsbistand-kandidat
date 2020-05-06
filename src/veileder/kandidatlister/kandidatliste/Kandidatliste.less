@@ -10,7 +10,6 @@
         .ekspanderbartPanel__innhold {
             padding-bottom: 1.25rem;
         }
-        max-width: 12.5rem;
     }
 
     &__kontrollpanel {
@@ -35,17 +34,11 @@
     &__grid {
         display: grid;
         grid-template-columns: 1fr 74rem;
-        @media (max-width: 1400px) {
-            grid-template-columns: 7rem 70rem;
-        }
         grid-template-rows: 1fr auto;
         grid-template-areas:
             'ingenting over-liste'
             'filter liste';
         grid-gap: 1.5rem 4rem;
-        @media (max-width: 1320px) {
-            grid-gap: 1.5rem 1rem;
-        }
         max-width: 95.5rem;
         margin: 2.5rem auto;
 
@@ -72,25 +65,25 @@
                 padding-right: 0.5rem;
                 grid-gap: 1rem;
                 grid-template-columns:
-                    1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                    1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
                     minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
                         minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
-                        minmax(0, 9fr) minmax(0, 10fr) minmax(0, 3fr) minmax(0, 2fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
-                        minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &__ekspanderbar-knapp {
@@ -170,6 +163,19 @@
                         .skjemaelement {
                             padding-bottom: 1.5rem;
                         }
+                    }
+                }
+                @media (max-width: 1320px) {
+                    &--vis-utfall {
+                        grid-template-columns:
+                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
+                    }
+
+                    &--vis-utfall-og-arkivering {
+                        grid-template-columns:
+                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                     }
                 }
             }
@@ -255,6 +261,19 @@
             border: 1px solid #d8d8d8;
         }
     }
+
+    @media (max-width: 1320px) {
+        &__grid {
+            grid-gap: 1.5rem 1rem;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        &__grid {
+            grid-template-columns: 7rem 70rem;
+        }
+    }
+
 }
 
 .notat-topprad {
