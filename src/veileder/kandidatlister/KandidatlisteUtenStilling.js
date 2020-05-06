@@ -10,9 +10,7 @@ import { Nettstatus } from '../../felles/common/remoteData';
 class KandidatlisteUtenStilling extends React.Component {
     componentDidMount() {
         const { listeid } = this.props.match.params;
-        if (this.props.kandidatliste.kind !== Nettstatus.Suksess) {
-            this.props.hentKandidatliste(listeid);
-        }
+        this.props.hentKandidatliste(listeid);
     }
 
     render() {

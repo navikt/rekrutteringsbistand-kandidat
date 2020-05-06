@@ -6,21 +6,20 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
-import { Visningsstatus } from './Kandidatliste';
+import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
-import Kandidatliste from './Kandidatliste';
 import KopierEpostModal from './KopierEpostModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import {
-    KandidatIKandidatliste,
     Delestatus,
+    KandidatIKandidatliste,
     Kandidatliste as Kandidatlistetype,
-    SmsStatus,
-    Sms,
     Kandidattilstand,
+    Sms,
+    SmsStatus,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
@@ -119,12 +118,6 @@ class Kandidatlisteside extends React.Component<Props> {
         };
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            window.scrollTo(0, this.props.scrolletFraToppen);
-        }, 10);
-    }
-
     componentDidUpdate(prevProps: Props) {
         const kandidaterHarNettoppBlittPresentert =
             this.props.deleStatus !== prevProps.deleStatus &&
@@ -219,6 +212,10 @@ class Kandidatlisteside extends React.Component<Props> {
 
         if (kandidatlisteErIkkeLastet) {
             return;
+        }
+
+        if (kandidatlistenVarIkkeLastet) {
+            window.scrollTo(0, this.props.scrolletFraToppen);
         }
 
         if (
