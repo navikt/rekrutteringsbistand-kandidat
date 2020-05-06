@@ -347,6 +347,7 @@ export interface AngreArkiveringFailureAction {
 
 export interface SetScrollPositionAction {
     type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION;
+    kandidatlisteId: string;
     scrollPosition: number;
 }
 

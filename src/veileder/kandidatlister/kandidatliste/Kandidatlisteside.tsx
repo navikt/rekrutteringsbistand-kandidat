@@ -70,7 +70,7 @@ type Props = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
-    scrolletFraToppen: number;
+    scrolletFraToppen: { [kandidatlisteId: string]: number };
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -214,8 +214,11 @@ class Kandidatlisteside extends React.Component<Props> {
             return;
         }
 
-        if (kandidatlistenVarIkkeLastet) {
-            window.scrollTo(0, this.props.scrolletFraToppen);
+        if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
+            window.scrollTo(
+                0,
+                this.props.scrolletFraToppen[this.props.kandidatliste.data.kandidatlisteId]
+            );
         }
 
         if (

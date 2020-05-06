@@ -45,7 +45,7 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
-    setScrollPosition: (position: number) => void;
+    setScrollPosition: (kandidatlisteId: string, position: number) => void;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -122,7 +122,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="link"
                         to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
-                        onClick={() => setScrollPosition(window.pageYOffset)}
+                        onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -249,8 +249,12 @@ const KandidatRad: FunctionComponent<Props> = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (scrollPosition) =>
-        dispatch({ type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION, scrollPosition }),
+    setScrollPosition: (kandidatlisteId, scrollPosition) =>
+        dispatch({
+            type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION,
+            kandidatlisteId,
+            scrollPosition,
+        }),
 });
 
 export default connect(null, mapDispatchToProps)(KandidatRad);

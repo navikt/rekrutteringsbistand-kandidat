@@ -68,7 +68,9 @@ export interface KandidatlisteState {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
     };
-    scrollPosition: number;
+    scrollPosition: {
+        [kandidatlisteId: string]: number
+    };
 }
 
 const initialState: KandidatlisteState = {
@@ -122,7 +124,7 @@ const initialState: KandidatlisteState = {
         statusArkivering: Nettstatus.IkkeLastet,
         statusDearkivering: Nettstatus.IkkeLastet,
     },
-    scrollPosition: 0,
+    scrollPosition: {},
 };
 
 const overforNotater: (
@@ -701,7 +703,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION:
             return {
                 ...state,
-                scrollPosition: action.scrollPosition
+                scrollPosition: {
+                    ...state.scrollPosition,
+                    [action.kandidatlisteId]: action.scrollPosition
+                }
             };
         default:
             return state;
