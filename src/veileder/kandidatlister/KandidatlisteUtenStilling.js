@@ -5,11 +5,14 @@ import { connect } from 'react-redux';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
 import Kandidatlisteside from './kandidatliste/Kandidatlisteside.tsx';
 import { Kandidatliste as KandidatlistePropType } from './PropTypes';
+import { Nettstatus } from '../../felles/common/remoteData';
 
 class KandidatlisteUtenStilling extends React.Component {
     componentDidMount() {
         const { listeid } = this.props.match.params;
-        this.props.hentKandidatliste(listeid);
+        if (this.props.kandidatliste.kind !== Nettstatus.Suksess) {
+            this.props.hentKandidatliste(listeid);
+        }
     }
 
     render() {
