@@ -1,4 +1,3 @@
-
 export function getHashFromString(string) {
     let hash = 0;
     let i;

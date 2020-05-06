@@ -39,7 +39,7 @@ export function* initialSearch(action) {
         if (Object.keys(initialQuery).length > 0) {
             if (initialQuery.geografiList) {
                 initialQuery.geografiListKomplett = yield fetchGeografiListKomplett(
-                    initialQuery.geografiList,
+                    initialQuery.geografiList
                 );
             }
             yield put({ type: SET_STATE, query: initialQuery });

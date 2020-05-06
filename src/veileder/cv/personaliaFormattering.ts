@@ -1,4 +1,3 @@
-
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizePoststed } from '../../felles/sok/utils';
 
