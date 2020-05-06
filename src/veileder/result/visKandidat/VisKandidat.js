@@ -154,7 +154,7 @@ class VisKandidat extends React.Component {
         const stillingsId = match.params.stillingsId;
         if (kandidatlisteId || stillingsId) {
             this.visAlertstripeLagreKandidater();
-            this.visLenkeTilKandidatliste(kandidatlisteId);
+            this.visLenkeTilKandidatliste();
         }
     };
 
@@ -171,9 +171,7 @@ class VisKandidat extends React.Component {
         }, 5000);
     };
 
-    visLenkeTilKandidatliste = (kandidatlisteId) => {
-        const url = '/kandidater/lister/detaljer/' + kandidatlisteId;
-        console.log('url', url);
+    visLenkeTilKandidatliste = () => {
         this.setState({ visLenkeTilKandidatliste: true });
     };
 
