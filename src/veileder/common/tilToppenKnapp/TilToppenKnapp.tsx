@@ -24,7 +24,10 @@ export const TilToppenKnapp = () => {
     return (
         <Knapp
             type="hoved"
-            className={classNames('tilToppenKnapp', 'tilToppenKnapp--skjul aria-hidden')}
+            className={classNames(
+                'tilToppenKnapp',
+                !knappSkalVises && 'tilToppenKnapp--skjul'
+            )}
             aria-hidden={!knappSkalVises}
             onClick={() => knappSkalVises && window.scrollTo({ top: 0 })}
         >
