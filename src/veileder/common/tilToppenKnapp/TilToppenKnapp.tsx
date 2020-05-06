@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './TilToppenKnapp.less';
 import { Knapp } from 'nav-frontend-knapper';
-import { TilToppenIkon } from './TilToppenIkon';
+import throttle from 'lodash.throttle';
+import classNames from 'classnames';
 
 export const TilToppenKnapp = () => {
+    const [scrollPosition, setScrollPosition] = useState<number | undefined>();
+
+    const onScroll = throttle(() => {
+        setScrollPosition(window.scrollY);
+    }, 1000);
+
+    useEffect(() => {
+        window.addEventListener('scroll', onScroll);
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [onScroll]);
+
+    const knappSkalVises = scrollPosition && scrollPosition > window.innerHeight;
+
     return (
-        <Knapp type="hoved" className="tilToppenKnapp" onClick={() => window.scrollTo({ top: 0 })}>
+        <Knapp
+            type="hoved"
+            className={classNames('tilToppenKnapp', 'tilToppenKnapp--skjul aria-hidden')}
+            aria-hidden={!knappSkalVises}
+            onClick={() => knappSkalVises && window.scrollTo({ top: 0 })}
+        >
             <svg width="33" height="36" viewBox="0 0 22 24" xmlns="http://www.w3.org/2000/svg">
                 <title>Til toppen</title>
                 <path

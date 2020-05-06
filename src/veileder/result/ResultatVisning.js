@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp } from 'nav-frontend-knapper';
@@ -38,7 +38,6 @@ import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
-import { TilToppenIkon } from '../common/tilToppenKnapp/TilToppenIkon';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -216,7 +215,6 @@ class ResultatVisning extends React.Component {
                     ) : (
                         <Container className="container--header--uten-stilling">
                             <Sidetittel> Kandidatsøk </Sidetittel>
-                            <TilToppenIkon/>
                         </Container>
                     )}
                 </div>
