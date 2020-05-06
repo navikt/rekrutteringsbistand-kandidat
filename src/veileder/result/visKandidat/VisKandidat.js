@@ -313,9 +313,12 @@ class VisKandidat extends React.Component {
                             />
                             {this.state.visLenkeTilKandidatliste ? (
                                 <>
-                                    Kandidaten er lagret i{' '}
+                                    Kandidaten er lagret i&nbsp;
                                     <Link
-                                        to={'/kandidater/lister/detaljer/' + kandidatlisteId}
+                                        to={
+                                            '/kandidater/lister/detaljer/' +
+                                            kandidatliste.kandidatlisteId
+                                        }
                                         className="lenke"
                                     >
                                         kandidatlisten
