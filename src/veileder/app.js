@@ -15,7 +15,6 @@ import {
     INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     saga,
-    SET_SCROLL_POSITION,
     SET_STATE,
 } from './sok/searchReducer';
 import stillingReducer from './sok/stilling/stillingReducer';
@@ -203,8 +202,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
-    setScrollPosition: (scrollPosisjon) =>
-        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     initialSearch: () => {

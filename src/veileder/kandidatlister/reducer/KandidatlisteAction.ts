@@ -345,6 +345,12 @@ export interface AngreArkiveringFailureAction {
     type: KandidatlisteActionType.ANGRE_ARKIVERING_FAILURE;
 }
 
+export interface SetScrollPositionAction {
+    type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION;
+    kandidatlisteId: string;
+    scrollPosition: number;
+}
+
 export interface SendSmsAction {
     type: KandidatlisteActionType.SEND_SMS;
     melding: string;
@@ -452,6 +458,7 @@ type KandidatlisteAction =
     | HentSendteMeldingerFailureAction
     | AngreArkiveringAction
     | AngreArkiveringSuccessAction
-    | AngreArkiveringFailureAction;
+    | AngreArkiveringFailureAction
+    | SetScrollPositionAction;
 
 export default KandidatlisteAction;
