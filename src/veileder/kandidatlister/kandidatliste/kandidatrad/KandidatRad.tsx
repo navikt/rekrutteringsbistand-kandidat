@@ -15,6 +15,7 @@ import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { logEvent } from '../../../amplitude/amplitude';
 import { SET_SCROLL_POSITION } from '../../../sok/searchReducer';
 import { connect } from 'react-redux';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -248,8 +249,8 @@ const KandidatRad: FunctionComponent<Props> = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (scrollPosisjon) =>
-        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+    setScrollPosition: (scrollPosition) =>
+        dispatch({ type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION, scrollPosition }),
 });
 
 export default connect(null, mapDispatchToProps)(KandidatRad);

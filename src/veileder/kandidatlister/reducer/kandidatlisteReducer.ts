@@ -1,23 +1,16 @@
 import { SearchApiError } from './../../../felles/api';
-import { SmsStatus, Sms, Kandidat } from './../kandidatlistetyper';
+import { Kandidat, Sms, SmsStatus } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
-import {
-    Feil,
-    LasterInn,
-    IkkeLastet,
-    RemoteData,
-    Nettstatus,
-    Suksess,
-} from '../../../felles/common/remoteData';
+import { Feil, IkkeLastet, LasterInn, Nettstatus, RemoteData, Suksess } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import {
-    Kandidatliste,
     Delestatus,
     HentStatus,
-    MarkerSomMinStatus,
+    Kandidatliste,
     KandidatlisteResponse,
+    MarkerSomMinStatus,
     Notat,
 } from '../kandidatlistetyper';
 
@@ -75,6 +68,7 @@ export interface KandidatlisteState {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
     };
+    scrollPosition: number;
 }
 
 const initialState: KandidatlisteState = {
@@ -128,6 +122,7 @@ const initialState: KandidatlisteState = {
         statusArkivering: Nettstatus.IkkeLastet,
         statusDearkivering: Nettstatus.IkkeLastet,
     },
+    scrollPosition: 0,
 };
 
 const overforNotater: (
@@ -701,6 +696,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ...state.sms,
                     sendteMeldinger: Feil(action.error),
                 },
+            };
+
+        case KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION:
+            return {
+                ...state,
+                scrollPosition: action.scrollPosition
             };
         default:
             return state;
