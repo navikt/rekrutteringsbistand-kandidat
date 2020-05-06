@@ -25,6 +25,7 @@ import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteA
 import CVMeny from '../../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../../amplitude/amplitude';
+import { Link } from 'react-router-dom';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -45,6 +46,7 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: false,
+            visLenkeTilKandidatliste: false,
         };
 
         this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
@@ -152,6 +154,7 @@ class VisKandidat extends React.Component {
         const stillingsId = match.params.stillingsId;
         if (kandidatlisteId || stillingsId) {
             this.visAlertstripeLagreKandidater();
+            this.visLenkeTilKandidatliste(kandidatlisteId);
         }
     };
 
@@ -166,6 +169,12 @@ class VisKandidat extends React.Component {
                 visKandidatLagret: false,
             });
         }, 5000);
+    };
+
+    visLenkeTilKandidatliste = (kandidatlisteId) => {
+        const url = '/kandidater/lister/detaljer/' + kandidatlisteId;
+        console.log('url', url);
+        this.setState({ visLenkeTilKandidatliste: true });
     };
 
     gjeldendeKandidatIListen = (kandidatnummer) => {
@@ -304,13 +313,28 @@ class VisKandidat extends React.Component {
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
                             />
-                            <Knapp
-                                mini
-                                type="flat"
-                                onClick={this.onLagreKandidatClick(kandidatlisteId, stillingsId)}
-                            >
-                                Lagre kandidat i kandidatliste
-                            </Knapp>
+                            {this.state.visLenkeTilKandidatliste ? (
+                                <div>
+                                    Kandidaten er lagret i{' '}
+                                    <Link
+                                        to={'/kandidater/lister/detaljer/' + kandidatlisteId}
+                                        className="lenke"
+                                    >
+                                        kandidatlisten
+                                    </Link>
+                                </div>
+                            ) : (
+                                <Knapp
+                                    mini
+                                    type="flat"
+                                    onClick={this.onLagreKandidatClick(
+                                        kandidatlisteId,
+                                        stillingsId
+                                    )}
+                                >
+                                    Lagre kandidat i kandidatliste
+                                </Knapp>
+                            )}
                         </CVMeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
