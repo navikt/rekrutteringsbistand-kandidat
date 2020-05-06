@@ -37,6 +37,7 @@ import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActi
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
+import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -267,6 +268,7 @@ class ResultatVisning extends React.Component {
                         </Container>
                     </div>
                 )}
+                <TilToppenKnapp />
             </div>
         );
     }
