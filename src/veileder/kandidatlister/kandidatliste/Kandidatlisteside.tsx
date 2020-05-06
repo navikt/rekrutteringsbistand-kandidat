@@ -71,6 +71,7 @@ type Props = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
+    scrolletFraToppen: number;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -116,6 +117,10 @@ class Kandidatlisteside extends React.Component<Props> {
                 type: 'suksess',
             },
         };
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, this.props.scrolletFraToppen);
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -513,6 +518,7 @@ const mapStateToProps = (state: AppState) => ({
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
     statusArkivering: state.kandidatlister.arkivering.statusArkivering,
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
+    scrolletFraToppen: state.search.scrolletFraToppen,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

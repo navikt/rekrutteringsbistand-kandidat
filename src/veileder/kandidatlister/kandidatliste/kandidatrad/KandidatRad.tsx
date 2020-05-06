@@ -13,6 +13,8 @@ import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { logEvent } from '../../../amplitude/amplitude';
+import { SET_SCROLL_POSITION } from '../../../sok/searchReducer';
+import { connect } from 'react-redux';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -42,6 +44,7 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
+    setScrollPosition: (position: number) => void;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -57,6 +60,7 @@ const KandidatRad: FunctionComponent<Props> = ({
     kanEditere,
     onKandidatStatusChange,
     visArkiveringskolonne,
+    setScrollPosition,
 }) => {
     const antallNotater =
         kandidat.notater.kind === Nettstatus.Suksess
@@ -117,6 +121,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="link"
                         to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
+                        onClick={() => setScrollPosition(window.pageYOffset)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -242,4 +247,9 @@ const KandidatRad: FunctionComponent<Props> = ({
     );
 };
 
-export default KandidatRad;
+const mapDispatchToProps = (dispatch) => ({
+    setScrollPosition: (scrollPosisjon) =>
+        dispatch({ type: SET_SCROLL_POSITION, scrolletFraToppen: scrollPosisjon }),
+});
+
+export default connect(null, mapDispatchToProps)(KandidatRad);
