@@ -120,7 +120,9 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 
     componentDidMount() {
-        window.scrollTo(0, this.props.scrolletFraToppen);
+        setTimeout(() => {
+            window.scrollTo(0, this.props.scrolletFraToppen);
+        }, 10);
     }
 
     componentDidUpdate(prevProps: Props) {
