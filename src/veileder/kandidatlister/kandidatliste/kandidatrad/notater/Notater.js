@@ -84,13 +84,13 @@ class Notater extends React.Component {
         const { notater, antallNotater, onEndreNotat, onSletteNotat } = this.props;
         const NotatInfo = ({ notat }) => (
             <div className="notatinfo">
-                <span className="grey-tekst">{`${notat.lagtTilAv.navn} (${notat.lagtTilAv.ident})`}</span>
-                <span className="grey-tekst">{` - ${formatterDato(
+                <span>{`${notat.lagtTilAv.navn} (${notat.lagtTilAv.ident})`}</span>
+                <span>{` - ${formatterDato(new Date(notat.lagtTilTidspunkt))} kl. ${formatterTid(
                     new Date(notat.lagtTilTidspunkt)
-                )} kl. ${formatterTid(new Date(notat.lagtTilTidspunkt))}`}</span>
+                )}`}</span>
                 {notat.notatEndret && (
                     <span>
-                        <span className="grey-tekst"> - </span>
+                        <span> - </span>
                         <span className="red-tekst">redigert</span>
                     </span>
                 )}
