@@ -1,3 +1,5 @@
+@import '../../../felles/Variables';
+
 .kandidatliste {
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
@@ -8,6 +10,7 @@
         .ekspanderbartPanel__innhold {
             padding-bottom: 1.25rem;
         }
+        max-width: 12.5rem;
     }
 
     &__kontrollpanel {
@@ -31,12 +34,23 @@
 
     &__grid {
         display: grid;
+        @media all and (max-width: 1400px) {
+            grid-template-columns: 7rem 70rem;
+        }
+        @media not all and (max-width: 1400px) {
+            grid-template-columns: 1fr 74rem;
+        }
         grid-template-columns: 1fr 74rem;
         grid-template-rows: 1fr auto;
         grid-template-areas:
             'ingenting over-liste'
             'filter liste';
-        grid-gap: 1.5rem 4rem;
+        @media all and (max-width: 1320px) {
+            grid-gap: 1.5rem 1rem;
+        }
+        @media not all and (max-width: 1320px) {
+            grid-gap: 1.5rem 4rem;
+        }
         max-width: 95.5rem;
         margin: 2.5rem auto;
 
@@ -63,25 +77,25 @@
                 padding-right: 0.5rem;
                 grid-gap: 1rem;
                 grid-template-columns:
-                    1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                    minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
+                    1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                    minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                        minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                        minmax(0, 9fr) minmax(0, 10fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 7fr) minmax(0, 10fr) minmax(0, 4fr)
+                        minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &__ekspanderbar-knapp {
