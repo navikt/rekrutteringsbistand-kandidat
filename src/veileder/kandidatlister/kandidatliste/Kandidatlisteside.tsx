@@ -215,10 +215,12 @@ class Kandidatlisteside extends React.Component<Props> {
         }
 
         if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
-            window.scrollTo(
-                0,
-                this.props.scrolletFraToppen[this.props.kandidatliste.data.kandidatlisteId]
-            );
+            const scrolletFraToppen = this.props.scrolletFraToppen[
+                this.props.kandidatliste.data.kandidatlisteId
+            ];
+            if (scrolletFraToppen !== undefined) {
+                window.scrollTo(0, scrolletFraToppen);
+            }
         }
 
         if (
