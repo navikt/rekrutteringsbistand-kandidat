@@ -1,10 +1,19 @@
 .tilToppenKnapp {
-  position: fixed;
-  right: 2rem;
-  bottom: 2rem;
-  padding: 1rem !important;
-}
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    fill: white;
 
-.test {
-  background-color: red;
+    &.knapp {
+        padding: 0.5rem;
+    }
+
+    svg {
+        width: 33px;
+        height: 36px;
+    }
+
+    &:focus {
+        fill: #0074df;
+    }
 }

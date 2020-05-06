@@ -38,6 +38,7 @@ import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import { TilToppenIkon } from '../common/tilToppenKnapp/TilToppenIkon';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -215,6 +216,7 @@ class ResultatVisning extends React.Component {
                     ) : (
                         <Container className="container--header--uten-stilling">
                             <Sidetittel> Kandidatsøk </Sidetittel>
+                            <TilToppenIkon/>
                         </Container>
                     )}
                 </div>
