@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { SEARCH } from '../../sok/searchReducer';
+import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
 
@@ -10,18 +10,16 @@ interface Props {
     setFritekstSøkeord: (søkeord) => void;
 }
 
-const FritekstSearch: FunctionComponent<Props> = ({
-    fritekstSøkeord,
-    search,
-    setFritekstSøkeord,
-}) => (
-    <FritekstSearchFelles
-        setFritekstSokeord={setFritekstSøkeord}
-        fritekstSokeord={fritekstSøkeord}
-        search={search}
-        placeholderTekst="Fritekstsøk"
-    />
-);
+const FritekstSearch: FunctionComponent<Props> = (props) => {
+    return (
+        <FritekstSearchFelles
+            setFritekstSokeord={props.setFritekstSøkeord}
+            fritekstSokeord={props.fritekstSøkeord}
+            search={props.search}
+            placeholderTekst="Fritekstsøk"
+        />
+    );
+};
 
 const mapStateToProps = (state) => ({
     fritekstSøkeord: state.fritekst.fritekst,

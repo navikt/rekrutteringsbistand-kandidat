@@ -18,6 +18,7 @@ class FritekstSearch extends React.Component {
     };
 
     render() {
+        console.log(this.props)
         const { fritekstSokeord, placeholderTekst } = this.props;
         return (
             <form className="fritekst__search" onSubmit={this.onSubmit}>
