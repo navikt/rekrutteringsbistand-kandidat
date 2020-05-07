@@ -4,11 +4,39 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
 
+    &__grid {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+            'over-meny'
+            'over-liste'
+            'liste';
+        grid-row-gap: 1.5rem;
+        max-width: 95.5rem;
+        margin: 2.5rem auto;
+
+        .liste-header {
+            border: 1px solid #78706a;
+        }
+
+        @media (min-width: 1280px) {
+            grid-template-areas:
+                'ingenting over-liste'
+                'filter liste';
+            grid-column-gap: 4rem;
+        }
+    }
+
+    // TODO slå sammen @media-queries
     &__filter {
-        grid-area: filter;
+        grid-area: over-meny;
 
         .ekspanderbartPanel__innhold {
             padding-bottom: 1.25rem;
+        }
+
+        @media (min-width: 1280px) {
+            grid-area: filter;
         }
     }
 
@@ -29,22 +57,6 @@
 
     .legg-til-kandidat {
         font-weight: 600;
-    }
-
-    &__grid {
-        display: grid;
-        grid-template-columns: 1fr 74rem;
-        grid-template-rows: 1fr auto;
-        grid-template-areas:
-            'ingenting over-liste'
-            'filter liste';
-        grid-gap: 1.5rem 4rem;
-        max-width: 95.5rem;
-        margin: 2.5rem auto;
-
-        .liste-header {
-            border: 1px solid #78706a;
-        }
     }
 
     &__knapperad-container {
@@ -259,18 +271,6 @@
 
         .kandidat.unchecked {
             border: 1px solid #d8d8d8;
-        }
-    }
-
-    @media (max-width: 1320px) {
-        &__grid {
-            grid-gap: 1.5rem 1rem;
-        }
-    }
-
-    @media (max-width: 1400px) {
-        &__grid {
-            grid-template-columns: 7rem 70rem;
         }
     }
 }
