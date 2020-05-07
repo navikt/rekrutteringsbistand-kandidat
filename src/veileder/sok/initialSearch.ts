@@ -27,6 +27,10 @@ export function* initialSearch(action) {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
         const state: AppState = yield select();
 
+        if (action.kandidatlisteId) {
+            initialQuery.kandidatlisteId = action.kandidatlisteId;
+        }
+
         if (
             action.stillingsId &&
             Object.keys(initialQuery).length === 0 &&
@@ -35,7 +39,6 @@ export function* initialSearch(action) {
             const stilling = yield call(fetchStillingFraListe, action.stillingsId);
             initialQuery = mapStillingTilInitialQuery(stilling);
         }
-        initialQuery.kandidatlisteId = action.kandidatlisteId;
 
         if (Object.keys(initialQuery).length > 0) {
             if (initialQuery.geografiList) {
