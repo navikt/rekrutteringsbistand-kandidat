@@ -13,8 +13,8 @@ interface Props {
 const FritekstSearch: FunctionComponent<Props> = (props) => {
     return (
         <FritekstSearchFelles
-            setFritekstSokeord={props.setFritekstSøkeord}
-            fritekstSokeord={props.fritekstSøkeord}
+            setFritekstSøkeord={props.setFritekstSøkeord}
+            fritekstSøkeord={props.fritekstSøkeord}
             search={props.search}
             placeholderTekst="Fritekstsøk"
         />
