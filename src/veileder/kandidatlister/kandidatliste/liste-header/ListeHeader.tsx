@@ -51,7 +51,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                         <StatusHjelpetekst />
                     </div>
                 </div>
-                
+
                 {stillingsId && <Element>Utfall</Element>}
                 <Element>Notater</Element>
                 <Element className="kolonne-midtstilt">Mer info</Element>
