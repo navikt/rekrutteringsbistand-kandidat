@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Column, Container } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Flatknapp } from 'nav-frontend-knapper';
@@ -16,7 +15,7 @@ import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
 import KandidaterVisning from './KandidaterVisning';
 import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
 import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
-import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch.tsx';
+import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch';
 import {
     INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
@@ -26,17 +25,18 @@ import {
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
-import FritekstSearch from '../sok/fritekst/FritekstSearch';
-import Sidetittel from '../../felles/common/Sidetittel.tsx';
-import { Nettstatus } from '../../felles/common/remoteData.ts';
-import FantFåKandidater from './fant-få-kandidater/FantFåKandidater.tsx';
+import Sidetittel from '../../felles/common/Sidetittel';
+import { Nettstatus } from '../../felles/common/remoteData';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
+import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
+import FritekstSearch from '../sok/fritekst/FritekstSearch';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -54,7 +54,56 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
     harHentetStilling: harHentetStilling,
 });
 
-class ResultatVisning extends React.Component {
+interface Props {
+    resetQuery: (query: any /* TODO Finnes denne typen et sted? */) => void;
+    initialSearch: (stillingsId: string, kandidatlisteId: string) => void;
+    totaltAntallTreff: number;
+    maksAntallTreff: number;
+    search: () => void;
+    removeKompetanseSuggestions: () => void;
+    isInitialSearch: boolean;
+    leggTilKandidatStatus: string; // TODO Dette er av typen LAGRE_STATUS
+    antallLagredeKandidater: number;
+    lagretKandidatliste: {
+        kandidatlisteId: string;
+        tittel: string;
+    }
+    harHentetStilling: boolean;
+    kandidatliste: Kandidatliste;
+    match: {
+        params: {
+            kandidatlisteId: string;
+            stillingsId: string;
+        }
+    },
+    resetKandidatlisterSokekriterier: () => void;
+    lukkAlleSokepanel: () => void;
+}
+
+interface State {
+    suksessmeldingLagreKandidatVises: boolean;
+    visBeskrivelse: boolean;
+}
+
+
+const defaultProps: any = {
+    kandidatliste: {
+        opprettetAv: {
+            navn: undefined,
+            ident: undefined,
+        },
+    },
+    match: {
+        params: {
+            kandidatlisteId: undefined,
+            stillingsId: undefined,
+        },
+    },
+};
+
+class ResultatVisning extends React.Component<Props, State> {
+    suksessmeldingCallbackId: any;
+
     constructor(props) {
         super(props);
         window.scrollTo(0, 0);
@@ -271,55 +320,6 @@ class ResultatVisning extends React.Component {
         );
     }
 }
-
-ResultatVisning.defaultProps = {
-    kandidatliste: {
-        opprettetAv: {
-            navn: undefined,
-            ident: undefined,
-        },
-    },
-    match: {
-        params: {
-            kandidatlisteId: undefined,
-            stillingsId: undefined,
-        },
-    },
-};
-
-ResultatVisning.propTypes = {
-    resetQuery: PropTypes.func.isRequired,
-    initialSearch: PropTypes.func.isRequired,
-    totaltAntallTreff: PropTypes.number.isRequired,
-    maksAntallTreff: PropTypes.number.isRequired,
-    search: PropTypes.func.isRequired,
-    removeKompetanseSuggestions: PropTypes.func.isRequired,
-    isInitialSearch: PropTypes.bool.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired,
-    antallLagredeKandidater: PropTypes.number.isRequired,
-    lagretKandidatliste: PropTypes.shape({
-        kandidatlisteId: PropTypes.string,
-        tittel: PropTypes.string,
-    }).isRequired,
-    harHentetStilling: PropTypes.bool.isRequired,
-    kandidatliste: PropTypes.shape({
-        organisasjonNavn: PropTypes.string,
-        tittel: PropTypes.string,
-        beskrivelse: PropTypes.string,
-        kandidatlisteId: PropTypes.string,
-        opprettetAv: PropTypes.shape({
-            navn: PropTypes.string,
-            ident: PropTypes.string,
-        }),
-    }),
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            kandidatlisteId: PropTypes.string,
-            stillingsId: PropTypes.string,
-        }),
-    }),
-    resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state) => ({
     isInitialSearch: state.search.isInitialSearch,
