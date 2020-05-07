@@ -1,5 +1,7 @@
 import { RemoteData } from '../../felles/common/remoteData';
 
+import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
+
 export enum Delestatus {
     IkkeSpurt = 'IKKE_SPURT',
     Loading = 'LOADING',
@@ -58,6 +60,9 @@ export interface KandidatResponse {
     antallNotater?: number;
     arkivert: boolean;
     arkivertTidspunkt?: string;
+    arkivertAv?: string,
+    aktørid?: string,
+    midlertidigUtilgjengeligStatus: Tilgjengelighet
 }
 
 export interface Notat {
