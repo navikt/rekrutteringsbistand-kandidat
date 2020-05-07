@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
-import FritekstSearchFelles from '../../../felles/sok/fritekst/FritekstSearch';
+import FritekstSearchFelles from './FritekstSearchCommon';
 
 interface Props {
     search: () => void;
