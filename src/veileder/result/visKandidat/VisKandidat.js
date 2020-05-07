@@ -116,6 +116,7 @@ class VisKandidat extends React.Component {
             logEvent('cv', 'visning');
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
+                visLenkeTilKandidatliste: false,
             });
             if (gjeldendeKandidat === kandidater.length && kandidater.length < antallKandidater) {
                 lastFlereKandidater();

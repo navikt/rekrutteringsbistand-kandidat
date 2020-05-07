@@ -54,6 +54,7 @@ import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
+import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -178,6 +179,7 @@ class Sok extends React.Component {
                         </Switch>
                     </div>
                 </Normaltekst>
+                <TilToppenKnapp />
             </BrowserRouter>
         );
     }
