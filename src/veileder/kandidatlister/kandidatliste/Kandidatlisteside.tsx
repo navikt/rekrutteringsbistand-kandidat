@@ -6,21 +6,20 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
-import { Visningsstatus } from './Kandidatliste';
+import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
-import Kandidatliste from './Kandidatliste';
 import KopierEpostModal from './KopierEpostModal';
 import LeggTilKandidatModal from './LeggTilKandidatModal';
 import PresenterKandidaterModal from './PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import {
-    KandidatIKandidatliste,
     Delestatus,
+    KandidatIKandidatliste,
     Kandidatliste as Kandidatlistetype,
-    SmsStatus,
-    Sms,
     Kandidattilstand,
+    Sms,
+    SmsStatus,
 } from '../kandidatlistetyper';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
@@ -71,6 +70,7 @@ type Props = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
+    scrolletFraToppen: { [kandidatlisteId: string]: number };
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -212,6 +212,15 @@ class Kandidatlisteside extends React.Component<Props> {
 
         if (kandidatlisteErIkkeLastet) {
             return;
+        }
+
+        if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
+            const scrolletFraToppen = this.props.scrolletFraToppen[
+                this.props.kandidatliste.data.kandidatlisteId
+            ];
+            if (scrolletFraToppen !== undefined) {
+                window.scrollTo(0, scrolletFraToppen);
+            }
         }
 
         if (
@@ -513,6 +522,7 @@ const mapStateToProps = (state: AppState) => ({
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
     statusArkivering: state.kandidatlister.arkivering.statusArkivering,
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
+    scrolletFraToppen: state.kandidatlister.scrollPosition,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

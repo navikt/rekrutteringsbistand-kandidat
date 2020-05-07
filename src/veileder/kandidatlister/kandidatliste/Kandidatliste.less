@@ -1,3 +1,5 @@
+@import '../../../felles/Variables';
+
 .kandidatliste {
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
@@ -63,25 +65,25 @@
                 padding-right: 0.5rem;
                 grid-gap: 1rem;
                 grid-template-columns:
-                    1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                    minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
+                    1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
+                    minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
+                        minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 12fr) minmax(0, 8fr) minmax(0, 11fr)
-                        minmax(0, 10fr) minmax(0, 12fr) minmax(0, 4fr) minmax(0, 4fr) minmax(0, 3fr);
+                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &__ekspanderbar-knapp {
@@ -161,6 +163,19 @@
                         .skjemaelement {
                             padding-bottom: 1.5rem;
                         }
+                    }
+                }
+                @media (max-width: 1320px) {
+                    &--vis-utfall {
+                        grid-template-columns:
+                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
+                    }
+
+                    &--vis-utfall-og-arkivering {
+                        grid-template-columns:
+                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                     }
                 }
             }
@@ -246,6 +261,19 @@
             border: 1px solid #d8d8d8;
         }
     }
+
+    @media (max-width: 1320px) {
+        &__grid {
+            grid-gap: 1.5rem 1rem;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        &__grid {
+            grid-template-columns: 7rem 70rem;
+        }
+    }
+
 }
 
 .notat-topprad {
