@@ -27,6 +27,19 @@ export function* initialSearch(action) {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
         const state: AppState = yield select();
 
+        // TODO Denne koden kjøres på componentDidMount i ResultatVisning.
+        // Denne funksjonen setter staten til å tilsvare det som ligger som URL-query.
+        // Hvis det ikke ligger noe i URL-query, så setter vi _ikke_ staten.
+        // I teorien skulle det vært OK å resette search-delen av staten hvis URL-query var tom,
+        // men appen er avhengig av at tom URL-query => ingen oppdatering av staten.
+        // Mer spesifikt: Hvis vi tømmer staten på tom URL-query, så vil brukeren miste søket
+        // når h*n navigerer mellom søket og andre sider, f.eks. CV.
+        //
+        // Dette skaper problemer når vi skal introdusere søk basert på kandidatlisteId.
+        // KandidatlisteId vil alltid finnes, hvis man har kommet til søket via en liste.
+        // Derfor vil initialQuery ikke være tom, selv om URL-query _er_ tom.
+        // Da vil staten tømmes for alt utenom kandidatlisteId tømmes, og brukeren mister søket.
+
         if (
             action.stillingsId &&
             Object.keys(initialQuery).length === 0 &&
