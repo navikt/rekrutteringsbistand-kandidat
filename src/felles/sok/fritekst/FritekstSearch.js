@@ -5,7 +5,7 @@ import './Fritekst.less';
 
 class FritekstSearch extends React.Component {
     onFritekstChange = (e) => {
-        this.props.setFritekstSokeord(e.target.value);
+        this.props.setFritekstSøkeord(e.target.value);
     };
 
     onSubmit = (e) => {
@@ -45,8 +45,8 @@ class FritekstSearch extends React.Component {
 FritekstSearch.propTypes = {
     placeholderTekst: PropTypes.string.isRequired,
     search: PropTypes.func.isRequired,
-    setFritekstSokeord: PropTypes.func.isRequired,
-    fritekstSokeord: PropTypes.string.isRequired,
+    setFritekstSøkeord: PropTypes.func.isRequired,
+    fritekstSøkeord: PropTypes.string.isRequired,
 };
 
 export default FritekstSearch;
