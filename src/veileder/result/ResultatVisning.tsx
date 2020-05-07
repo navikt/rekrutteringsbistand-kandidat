@@ -37,6 +37,7 @@ import PermitteringSearch from '../sok/permittering/PermitteringSearch';
 import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
 import FritekstSearch from '../sok/fritekst/FritekstSearch';
+import { VeilederHeaderInfo } from './VeilederHeaderInfo';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -56,7 +57,7 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 
 interface Props {
     resetQuery: (query: any /* TODO Finnes denne typen et sted? */) => void;
-    initialSearch: (stillingsId: string, kandidatlisteId: string) => void;
+    initialSearch: (stillingsId: string | undefined, kandidatlisteId: string | undefined) => void;
     totaltAntallTreff: number;
     maksAntallTreff: number;
     search: () => void;
@@ -67,39 +68,22 @@ interface Props {
     lagretKandidatliste: {
         kandidatlisteId: string;
         tittel: string;
-    }
+    };
     harHentetStilling: boolean;
-    kandidatliste: Kandidatliste;
+    kandidatliste: Kandidatliste | undefined;
     match: {
         params: {
-            kandidatlisteId: string;
-            stillingsId: string;
-        }
-    },
+            kandidatlisteId?: string;
+            stillingsId?: string;
+        };
+    };
     resetKandidatlisterSokekriterier: () => void;
     lukkAlleSokepanel: () => void;
 }
 
 interface State {
     suksessmeldingLagreKandidatVises: boolean;
-    visBeskrivelse: boolean;
 }
-
-
-const defaultProps: any = {
-    kandidatliste: {
-        opprettetAv: {
-            navn: undefined,
-            ident: undefined,
-        },
-    },
-    match: {
-        params: {
-            kandidatlisteId: undefined,
-            stillingsId: undefined,
-        },
-    },
-};
 
 class ResultatVisning extends React.Component<Props, State> {
     suksessmeldingCallbackId: any;
@@ -109,7 +93,6 @@ class ResultatVisning extends React.Component<Props, State> {
         window.scrollTo(0, 0);
         this.state = {
             suksessmeldingLagreKandidatVises: false,
-            visBeskrivelse: false,
         };
     }
 
@@ -136,10 +119,6 @@ class ResultatVisning extends React.Component<Props, State> {
     componentWillUnmount() {
         clearTimeout(this.suksessmeldingCallbackId);
     }
-
-    onToggleVisBeskrivelse = () => {
-        this.setState({ visBeskrivelse: !this.state.visBeskrivelse });
-    };
 
     onRemoveCriteriaClick = () => {
         this.props.lukkAlleSokepanel();
@@ -173,55 +152,6 @@ class ResultatVisning extends React.Component<Props, State> {
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
 
-        const VeilederHeaderInfo = () => (
-            <div className="child-item__container--header">
-                <div className="header__row--veileder">
-                    <Element className="text">{`Finn kandidater til ${
-                        stillingsId ? 'stilling/' : ''
-                    }kandidatliste:`}</Element>
-                </div>
-                <div className="header__row--veileder">
-                    <Sidetittel className="text">{kandidatliste.tittel}</Sidetittel>
-                </div>
-                <div className="header__row--veileder">
-                    <div className="opprettet-av__row">
-                        {kandidatliste.organisasjonNavn && (
-                            <Normaltekst className="text">
-                                Arbeidsgiver:{' '}
-                                {`${capitalizeEmployerName(kandidatliste.organisasjonNavn)}`}
-                            </Normaltekst>
-                        )}
-                        <Normaltekst className="text">
-                            Veileder: {kandidatliste.opprettetAv.navn} (
-                            {kandidatliste.opprettetAv.ident})
-                        </Normaltekst>
-                        {kandidatliste.beskrivelse && (
-                            <Flatknapp
-                                className="beskrivelse--knapp"
-                                mini
-                                onClick={this.onToggleVisBeskrivelse}
-                            >
-                                {this.state.visBeskrivelse ? 'Skjul beskrivelse' : 'Se beskrivelse'}
-                                <NavFrontendChevron
-                                    type={this.state.visBeskrivelse ? 'opp' : 'ned'}
-                                />
-                            </Flatknapp>
-                        )}
-                    </div>
-                </div>
-                {this.state.visBeskrivelse && (
-                    <div className="header__row--veileder">
-                        <div>
-                            <Element className="beskrivelse">Beskrivelse</Element>
-                            <Normaltekst className="beskrivelse--text">
-                                {kandidatliste.beskrivelse}
-                            </Normaltekst>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-
         const HeaderLinker = () => (
             <div className="container--header__lenker">
                 {stillingsId && (
@@ -230,13 +160,13 @@ class ResultatVisning extends React.Component<Props, State> {
                         <span className="link">Se stilling</span>
                     </a>
                 )}
-                <a
+                {kandidatliste && <a
                     className="TilKandidater"
                     href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
                 >
                     <i className="TilKandidater__icon" />
                     <span className="link">Se kandidatliste</span>
-                </a>
+                </a>}
             </div>
         );
 
@@ -257,7 +187,10 @@ class ResultatVisning extends React.Component<Props, State> {
                 <div className="ResultatVisning--hovedside--header">
                     {kandidatlisteId || stillingsId ? (
                         <Container className="container--header">
-                            <VeilederHeaderInfo />
+                            <VeilederHeaderInfo
+                                kandidatliste={kandidatliste}
+                                stillingsId={stillingsId}
+                            />
                             <HeaderLinker />
                         </Container>
                     ) : (
