@@ -19,7 +19,7 @@
             border: 1px solid #78706a;
         }
 
-        @media (min-width: 1280px) {
+        @media (min-width: 1281px) {
             grid-template-areas:
                 'ingenting over-liste'
                 'filter liste';
@@ -37,7 +37,7 @@
             padding-bottom: 1.25rem;
         }
 
-        @media (min-width: 1280px) {
+        @media (min-width: 1281px) {
             grid-area: filter;
         }
     }
@@ -45,11 +45,15 @@
     &__kontrollpanel {
         display: flex;
         align-items: center;
-        margin: 2.5rem auto;
+        margin: 2.5rem 2rem;
         max-width: 95.5rem;
-        width: 100%;
         background-color: #f1f1f1;
         padding: 1.5rem;
+
+        @media (min-width: 1281px) {
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 
     .finn-kandidater {
