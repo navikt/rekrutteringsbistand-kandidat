@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import { Knapp } from 'pam-frontend-knapper';
+import AppState from '../../AppState';
 
 interface Props {
     search: () => void;
@@ -46,7 +47,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     fritekstSøkeord: state.fritekst.fritekst,
 });
 

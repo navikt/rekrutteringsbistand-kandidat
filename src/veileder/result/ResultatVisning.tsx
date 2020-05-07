@@ -56,14 +56,14 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 });
 
 interface Props {
-    resetQuery: (query: any /* TODO Finnes denne typen et sted? */) => void;
+    resetQuery: (query: any) => void;
     initialSearch: (stillingsId: string | undefined, kandidatlisteId: string | undefined) => void;
     totaltAntallTreff: number;
     maksAntallTreff: number;
     search: () => void;
     removeKompetanseSuggestions: () => void;
     isInitialSearch: boolean;
-    leggTilKandidatStatus: string; // TODO Dette er av typen LAGRE_STATUS
+    leggTilKandidatStatus: string;
     antallLagredeKandidater: number;
     lagretKandidatliste: {
         kandidatlisteId: string;
