@@ -4,6 +4,7 @@ import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import { Knapp } from 'pam-frontend-knapper';
 import AppState from '../../AppState';
+import './Fritekst.less';
 
 interface Props {
     search: () => void;
