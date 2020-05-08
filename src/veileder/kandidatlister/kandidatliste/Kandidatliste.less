@@ -8,8 +8,8 @@
         display: grid;
         grid-template-rows: 1fr auto;
         grid-template-areas:
-            'over-meny'
-            'over-liste'
+            'filter'
+            'knapperad'
             'liste';
         grid-row-gap: 1.5rem;
         max-width: 99.5rem;
@@ -22,7 +22,7 @@
     }
 
     &__filter {
-        grid-area: over-meny;
+        grid-area: filter;
 
         .ekspanderbartPanel__innhold {
             padding-bottom: 1.25rem;
@@ -41,7 +41,7 @@
     @media (min-width: 1281px) {
         &__grid {
             grid-template-areas:
-                'ingenting over-liste'
+                'ingenting knapperad'
                 'filter liste';
             grid-column-gap: 4rem;
             margin: 0 auto;
@@ -68,7 +68,7 @@
     }
 
     &__knapperad-container {
-        grid-area: over-liste;
+        grid-area: knapperad;
     }
 
     &__liste {
