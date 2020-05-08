@@ -174,6 +174,7 @@ class ResultatVisning extends React.Component<Props, State> {
                 visSpinner={isInitialSearch}
                 suksessmeldingLagreKandidatVises={this.state.suksessmeldingLagreKandidatVises}
                 header={header}
+                onRemoveCriteriaClick={this.onRemoveCriteriaClick}
             />
         );
     }

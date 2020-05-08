@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
     INITIAL_SEARCH_BEGIN,
@@ -17,12 +17,11 @@ import { VeilederHeaderInfo } from './VeilederHeaderInfo';
 import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
 import { hentQueryUtenKriterier } from './ResultatVisning';
+import AppState from '../AppState';
 
 interface Props {
     resetQuery: (query: any) => void;
     initialSearch: (stillingsId: string | undefined, kandidatlisteId: string | undefined) => void;
-    totaltAntallTreff: number;
-    maksAntallTreff: number;
     search: () => void;
     removeKompetanseSuggestions: () => void;
     isInitialSearch: boolean;
@@ -37,115 +36,93 @@ interface Props {
     match: {
         params: {
             kandidatlisteId?: string;
-            stillingsId?: string;
         };
     };
     resetKandidatlisterSokekriterier: () => void;
     lukkAlleSokepanel: () => void;
 }
 
-interface State {
-    suksessmeldingLagreKandidatVises: boolean;
-}
+const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
+    match,
+    kandidatliste,
+    isInitialSearch,
+    antallLagredeKandidater,
+    lagretKandidatliste,
+    leggTilKandidatStatus,
+    initialSearch,
+    resetKandidatlisterSokekriterier,
+    lukkAlleSokepanel,
+    resetQuery,
+    removeKompetanseSuggestions,
+    search,
+    harHentetStilling,
+}) => {
+    const [suksessmeldingLagreKandidatVises, setSuksessmeldingLagreKandidatVises] = useState<
+        boolean
+    >(false);
 
-class KandidatsøkFraKandidatliste extends React.Component<Props, State> {
-    suksessmeldingCallbackId: any;
-
-    constructor(props) {
-        super(props);
+    useEffect(() => {
         window.scrollTo(0, 0);
-        this.state = {
-            suksessmeldingLagreKandidatVises: false,
-        };
-    }
+        resetKandidatlisterSokekriterier();
+    }, [resetKandidatlisterSokekriterier]);
 
-    componentDidMount() {
-        const { kandidatlisteId } = this.props.match.params;
-        this.props.initialSearch(undefined, kandidatlisteId);
-        this.props.resetKandidatlisterSokekriterier();
-    }
+    useEffect(() => {
+        if (leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            setSuksessmeldingLagreKandidatVises(true);
 
-    componentDidUpdate(prevProps) {
-        const { leggTilKandidatStatus, match, initialSearch } = this.props;
+            const timer = setTimeout(() => {
+                setSuksessmeldingLagreKandidatVises(false);
+            }, 5000);
 
-        if (
-            prevProps.leggTilKandidatStatus !== leggTilKandidatStatus &&
-            leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
-        ) {
-            this.visAlertstripeLagreKandidater();
+            return () => clearTimeout(timer);
         }
-        if (prevProps.match.params.kandidatlisteId !== match.params.kandidatlisteId) {
-            initialSearch(undefined, match.params.kandidatlisteId);
-        }
-    }
+    }, [leggTilKandidatStatus]);
 
-    componentWillUnmount() {
-        clearTimeout(this.suksessmeldingCallbackId);
-    }
+    useEffect(() => {
+        initialSearch(undefined, match.params.kandidatlisteId);
+    }, [match.params.kandidatlisteId, initialSearch]);
 
-    onRemoveCriteriaClick = () => {
-        this.props.lukkAlleSokepanel();
-        this.props.resetQuery(hentQueryUtenKriterier(this.props.harHentetStilling));
-        this.props.removeKompetanseSuggestions();
-        this.props.search();
+    const kandidatlisteId = match.params.kandidatlisteId;
+
+    const header = (
+        <Container className="container--header">
+            <VeilederHeaderInfo kandidatliste={kandidatliste} />
+            <div className="container--header__lenker">
+                {kandidatliste && (
+                    <a
+                        className="TilKandidater"
+                        href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
+                    >
+                        <i className="TilKandidater__icon" />
+                        <span className="link">Se kandidatliste</span>
+                    </a>
+                )}
+            </div>
+        </Container>
+    );
+
+    const onRemoveCriteriaClick = () => {
+        lukkAlleSokepanel();
+        resetQuery(hentQueryUtenKriterier(harHentetStilling));
+        removeKompetanseSuggestions();
+        search();
     };
 
-    visAlertstripeLagreKandidater = () => {
-        clearTimeout(this.suksessmeldingCallbackId);
-        this.setState({
-            suksessmeldingLagreKandidatVises: true,
-        });
-        this.suksessmeldingCallbackId = setTimeout(() => {
-            this.setState({
-                suksessmeldingLagreKandidatVises: false,
-            });
-        }, 5000);
-    };
+    return (
+        <Kandidatsøk
+            antallLagredeKandidater={antallLagredeKandidater}
+            lagretKandidatliste={lagretKandidatliste}
+            kandidatlisteId={kandidatlisteId}
+            visSpinner={isInitialSearch}
+            suksessmeldingLagreKandidatVises={suksessmeldingLagreKandidatVises}
+            header={header}
+            onRemoveCriteriaClick={onRemoveCriteriaClick}
+        />
+    );
+};
 
-    render() {
-        const {
-            match,
-            isInitialSearch,
-            lagretKandidatliste,
-            kandidatliste,
-            antallLagredeKandidater,
-        } = this.props;
-        const kandidatlisteId = match.params.kandidatlisteId;
-
-        const header = (
-            <Container className="container--header">
-                <VeilederHeaderInfo kandidatliste={kandidatliste} />
-                <div className="container--header__lenker">
-                    {kandidatliste && (
-                        <a
-                            className="TilKandidater"
-                            href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                        >
-                            <i className="TilKandidater__icon" />
-                            <span className="link">Se kandidatliste</span>
-                        </a>
-                    )}
-                </div>
-            </Container>
-        );
-
-        return (
-            <Kandidatsøk
-                antallLagredeKandidater={antallLagredeKandidater}
-                lagretKandidatliste={lagretKandidatliste}
-                kandidatlisteId={kandidatlisteId}
-                visSpinner={isInitialSearch}
-                suksessmeldingLagreKandidatVises={this.state.suksessmeldingLagreKandidatVises}
-                header={header}
-            />
-        );
-    }
-}
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     isInitialSearch: state.search.isInitialSearch,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    maksAntallTreff: state.search.maksAntallTreff,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,

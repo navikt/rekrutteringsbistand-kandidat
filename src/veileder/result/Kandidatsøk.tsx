@@ -33,6 +33,7 @@ interface Props {
     visSpinner: boolean;
     suksessmeldingLagreKandidatVises: boolean;
     header: ReactElement;
+    onRemoveCriteriaClick: () => void;
 }
 
 export const Kandidatsøk: FunctionComponent<Props> = ({
@@ -44,6 +45,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
     visSpinner,
     suksessmeldingLagreKandidatVises,
     header,
+    onRemoveCriteriaClick,
 }) => {
     return (
         <div>
@@ -72,7 +74,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                     <Flatknapp
                                         mini
                                         id="slett-alle-kriterier-lenke"
-                                        onClick={this.onRemoveCriteriaClick}
+                                        onClick={onRemoveCriteriaClick}
                                     >
                                         Slett alle kriterier
                                     </Flatknapp>
