@@ -56,6 +56,7 @@ import { logEvent } from './amplitude/amplitude';
 import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
 import KandidatsøkFraKandidatliste from './result/KandidatsøkFraKandidatliste';
 import DefaultKandidatsøk from './result/DefaultKandidatsøk';
+import KandidatsøkFraStilling from './result/KandidatsøkFraStilling';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -131,7 +132,7 @@ class Sok extends React.Component {
                             <Route
                                 exact
                                 path="/kandidater/stilling/:stillingsId"
-                                component={ResultatVisning}
+                                component={KandidatsøkFraStilling}
                             />
                             <Route exact path="/kandidater/cv" component={VisKandidat} />
                             <Route

@@ -156,7 +156,10 @@ class ResultatVisning extends React.Component<Props, State> {
             kandidatlisteId || stillingsId ? (
                 <Container className="container--header">
                     <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsId} />
-                    <div className="container--header__lenker">{headerLenke}</div>
+                    <div className="container--header__lenker"><a className="SeStilling" href={`/stilling/${stillingsId}`}>
+                        <i className="SeStilling__icon" />
+                        <span className="link">Se stilling</span>
+                    </a></div>
                 </Container>
             ) : (
                 <Container className="container--header--uten-stilling">
