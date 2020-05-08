@@ -60,7 +60,7 @@ const ListeHeader: FunctionComponent<Props> = ({
 
                 {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
                 <Kolonnetittel>Notater</Kolonnetittel>
-                <Kolonnetittel className="kolonne-midtstilt">Mer info</Kolonnetittel>
+                <Kolonnetittel className="kolonne-midtstilt">Info</Kolonnetittel>
                 {visArkiveringskolonne && (
                     <Kolonnetittel className="kolonne-midtstilt">Slett</Kolonnetittel>
                 )}
