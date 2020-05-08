@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import StatusHjelpetekst from './StatusHjelpetekst';
@@ -23,6 +23,12 @@ export const modifierTilListeradGrid = (
     }
 };
 
+const Kolonnetittel = ({ className, children }: { className?: string; children: ReactNode }) => (
+    <div className={className ? className : ''}>
+        <Element className="kolonne-tittel">{children}</Element>
+    </div>
+);
+
 const ListeHeader: FunctionComponent<Props> = ({
     stillingsId,
     alleMarkert,
@@ -41,21 +47,23 @@ const ListeHeader: FunctionComponent<Props> = ({
                     checked={alleMarkert}
                     onChange={() => onCheckAlleKandidater()}
                 />
-                <Element>Navn</Element>
-                <Element>Fødselsnummer</Element>
-                <Element>Lagt til av</Element>
-                <Element>Lagt til</Element>
-                <div className="kolonne-middels">
+                <Kolonnetittel>Navn</Kolonnetittel>
+                <Kolonnetittel>Fødselsnummer</Kolonnetittel>
+                <Kolonnetittel>Lagt til av</Kolonnetittel>
+                <Kolonnetittel>Lagt til</Kolonnetittel>
+                <Kolonnetittel className="kolonne-middels">
                     <div className="status-overskrift">
                         Status
                         <StatusHjelpetekst />
                     </div>
-                </div>
+                </Kolonnetittel>
 
-                {stillingsId && <Element>Utfall</Element>}
-                <Element>Notater</Element>
-                <Element className="kolonne-midtstilt">Mer info</Element>
-                {visArkiveringskolonne && <Element className="kolonne-midtstilt">Slett</Element>}
+                {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
+                <Kolonnetittel>Notater</Kolonnetittel>
+                <Kolonnetittel className="kolonne-midtstilt">Mer info</Kolonnetittel>
+                {visArkiveringskolonne && (
+                    <Kolonnetittel className="kolonne-midtstilt">Slett</Kolonnetittel>
+                )}
             </div>
         </div>
     );

@@ -118,12 +118,24 @@
                     margin-right: 0.4rem;
                 }
 
+                &__lagt-til {
+                    overflow-wrap: anywhere;
+                }
+
                 .StatusSelect {
                     max-width: 11rem;
+                    min-width: 7rem;
                 }
 
                 .kolonne-midtstilt {
                     justify-content: center;
+                    white-space: nowrap;
+                }
+
+                .kolonne-tittel {
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 .status-overskrift {
@@ -165,10 +177,6 @@
                     .hjelpetekst {
                         padding-left: 0.5rem;
                     }
-                }
-
-                .tabell-tekst {
-                    white-space: nowrap;
                 }
 
                 .tabell-tekst-inner {

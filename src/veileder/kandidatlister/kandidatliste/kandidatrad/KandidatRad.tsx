@@ -13,10 +13,10 @@ import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { logEvent } from '../../../amplitude/amplitude';
-import { SET_SCROLL_POSITION } from '../../../sok/searchReducer';
 import { connect } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import { formatterDato } from '../../../../felles/common/dateUtils';
+import moment from 'moment';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -137,7 +137,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                 </div>
 
                 <div className="liste-rad__lagt-til">
-                    {`${formatterDato(new Date(kandidat.lagtTilTidspunkt))}`}
+                    {moment(kandidat.lagtTilTidspunkt).format('DD.MM YYYY')}
                 </div>
                 {visArkiveringskolonne ? (
                     <StatusSelect
