@@ -127,17 +127,19 @@ const KandidatRad: FunctionComponent<Props> = ({
                     }}
                 />
                 <div className="kandidater-tabell__tilgjengelighet">
-                    <TilgjengelighetFlagg
-                        status={kandidat.midlertidigUtilgjengeligStatus}
-                        visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
-                        merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
-                        hentMerInformasjon={() =>
-                            hentMidlertidigUtilgjengeligForKandidat(
-                                kandidat.aktørid || '0',
-                                kandidat.kandidatnr
-                            )
-                        }
-                    />
+                    {kandidat.aktørid && (
+                        <TilgjengelighetFlagg
+                            status={kandidat.midlertidigUtilgjengeligStatus}
+                            visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
+                            merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
+                            hentMerInformasjon={() =>
+                                hentMidlertidigUtilgjengeligForKandidat(
+                                    kandidat.aktørid || '',
+                                    kandidat.kandidatnr
+                                )
+                            }
+                        />
+                    )}
                 </div>
                 <div className="kolonne-med-sms">
                     <Link
