@@ -22,7 +22,7 @@ import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import { Column, Container } from 'nav-frontend-grid';
 
 interface Props {
-    visFantFåKandidater: boolean;
+    visFantFåKandidater?: boolean;
     antallLagredeKandidater: number;
     lagretKandidatliste: {
         kandidatlisteId: string;

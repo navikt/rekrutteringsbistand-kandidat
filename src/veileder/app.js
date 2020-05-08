@@ -54,6 +54,7 @@ import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
 import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
+import KandidatsøkFraKandidatliste from './result/KandidatsøkFraKandidatliste';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -85,22 +86,6 @@ const store = createStore(
 );
 
 export const reduxStore = store;
-
-export const hentQueryUtenKriterier = (harHentetStilling) => ({
-    fritekst: '',
-    stillinger: [],
-    arbeidserfaringer: [],
-    utdanninger: [],
-    kompetanser: [],
-    geografiList: [],
-    geografiListKomplett: [],
-    totalErfaring: [],
-    utdanningsniva: [],
-    sprak: [],
-    kvalifiseringsgruppeKoder: [],
-    maaBoInnenforGeografi: false,
-    harHentetStilling: harHentetStilling,
-});
 
 class Sok extends React.Component {
     componentDidMount() {
@@ -140,7 +125,7 @@ class Sok extends React.Component {
                             <Route
                                 exact
                                 path="/kandidater/kandidatliste/:kandidatlisteId"
-                                component={ResultatVisning}
+                                component={KandidatsøkFraKandidatliste}
                             />
                             <Route
                                 exact

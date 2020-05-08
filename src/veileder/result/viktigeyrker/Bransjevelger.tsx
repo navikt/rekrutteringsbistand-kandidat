@@ -22,22 +22,6 @@ interface BransjevelgerProps {
         FerdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
     ) => void;
 }
-
-export const hentQueryUtenKriterier = () => ({
-    fritekst: '',
-    stillinger: [],
-    arbeidserfaringer: [],
-    utdanninger: [],
-    kompetanser: [],
-    geografiList: [],
-    geografiListKomplett: [],
-    totalErfaring: [],
-    utdanningsniva: [],
-    sprak: [],
-    kvalifiseringsgruppeKoder: [],
-    maaBoInnenforGeografi: false,
-});
-
 const linktekst = (sok: Sok) => {
     return `${sok.tittel} (${sok.antallTreff})`;
 };
