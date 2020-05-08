@@ -18,29 +18,23 @@ import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
 import { hentQueryUtenKriterier } from './ResultatVisning';
 import AppState from '../AppState';
+import { DefaultKandidatsøkProps } from './DefaultKandidatsøk';
 
-interface Props {
-    resetQuery: (query: any) => void;
-    initialSearch: (stillingsId: string | undefined, kandidatlisteId: string | undefined) => void;
-    search: () => void;
-    removeKompetanseSuggestions: () => void;
-    isInitialSearch: boolean;
+type Props = DefaultKandidatsøkProps & {
+    maksAntallTreff: number;
     leggTilKandidatStatus: string;
     antallLagredeKandidater: number;
+    kandidatliste: Kandidatliste | undefined;
+    match: {
+        params: {
+            kandidatlisteId: string;
+        };
+    };
     lagretKandidatliste: {
         kandidatlisteId: string;
         tittel: string;
     };
-    harHentetStilling: boolean;
-    kandidatliste: Kandidatliste | undefined;
-    match: {
-        params: {
-            kandidatlisteId?: string;
-        };
-    };
-    resetKandidatlisterSokekriterier: () => void;
-    lukkAlleSokepanel: () => void;
-}
+};
 
 const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     match,

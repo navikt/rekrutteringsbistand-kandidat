@@ -19,7 +19,7 @@ import { Container } from 'nav-frontend-grid';
 import { hentQueryUtenKriterier } from './ResultatVisning';
 import AppState from '../AppState';
 
-interface Props {
+export interface DefaultKandidatsøkProps {
     resetQuery: (query: any) => void;
     initialSearch: (stillingsId: string | undefined, kandidatlisteId: string | undefined) => void;
     search: () => void;
@@ -30,7 +30,7 @@ interface Props {
     lukkAlleSokepanel: () => void;
 }
 
-const DefaultKandidatsøk: FunctionComponent<Props> = ({
+const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
     isInitialSearch,
     initialSearch,
     resetKandidatlisterSokekriterier,
