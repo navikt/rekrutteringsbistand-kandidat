@@ -23,15 +23,15 @@ import { Column, Container } from 'nav-frontend-grid';
 
 interface Props {
     visFantFåKandidater?: boolean;
-    antallLagredeKandidater: number;
-    lagretKandidatliste: {
+    antallLagredeKandidater?: number;
+    lagretKandidatliste?: {
         kandidatlisteId: string;
         tittel: string;
     };
     kandidatlisteId?: string;
     stillingsId?: string;
     visSpinner: boolean;
-    suksessmeldingLagreKandidatVises: boolean;
+    suksessmeldingLagreKandidatVises?: boolean;
     header: ReactElement;
     onRemoveCriteriaClick: () => void;
 }
@@ -49,16 +49,18 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
 }) => {
     return (
         <div>
-            <HjelpetekstFading
-                synlig={suksessmeldingLagreKandidatVises}
-                type="suksess"
-                innhold={`${
-                    antallLagredeKandidater > 1
-                        ? `${antallLagredeKandidater} kandidater`
-                        : 'Kandidaten'
-                } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
-                id="hjelpetekstfading"
-            />
+            {antallLagredeKandidater !== undefined && lagretKandidatliste && (
+                <HjelpetekstFading
+                    synlig={!!suksessmeldingLagreKandidatVises} // TODO HjelpetekstFading brukes ikke fra default søk, flytt denne der den brukes
+                    type="suksess"
+                    innhold={`${
+                        antallLagredeKandidater > 1
+                            ? `${antallLagredeKandidater} kandidater`
+                            : 'Kandidaten'
+                    } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
+                    id="hjelpetekstfading"
+                />
+            )}
             <div className="ResultatVisning--hovedside--header">{header}</div>
             {visSpinner ? (
                 <div className="fullscreen-spinner">

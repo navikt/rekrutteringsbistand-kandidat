@@ -55,6 +55,7 @@ import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
 import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
 import KandidatsøkFraKandidatliste from './result/KandidatsøkFraKandidatliste';
+import DefaultKandidatsøk from './result/DefaultKandidatsøk';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -121,7 +122,7 @@ class Sok extends React.Component {
                     <div className="Application__main">
                         {header}
                         <Switch>
-                            <Route exact path="/kandidater" component={ResultatVisning} />
+                            <Route exact path="/kandidater" component={DefaultKandidatsøk} />
                             <Route
                                 exact
                                 path="/kandidater/kandidatliste/:kandidatlisteId"
