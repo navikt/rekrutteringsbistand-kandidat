@@ -1,6 +1,6 @@
 import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import TruncatedTextList from '../../felles/common/TruncatedTextList';
 import cvPropTypes from '../../felles/PropTypes';
@@ -10,11 +10,11 @@ import { OPPSTARTSKODER } from '../../felles/konstanter';
 const VisKandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">
         <Ekspanderbartpanel
+            apen
+            border={false}
             className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-jobbprofil"
-            tittel="Jobbprofil"
-            tittelProps="systemtittel"
-            apen
+            tittel={<Systemtittel className="ekspanderbartPanel__heading">Jobbprofil</Systemtittel>}
         >
             <Row className="panel--jobbprofil__row">
                 <Column xs="12">

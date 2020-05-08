@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import {
     SEARCH,
@@ -82,10 +82,9 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     return (
         <div className="bransjevelger">
             <Ekspanderbartpanel
-                tag="h3"
                 border
                 className="bransjevelger__bransje"
-                tittel={bransje.navn}
+                tittel={<Undertittel>{bransje.navn}</Undertittel>}
                 onClick={onBransjeKlikk}
             >
                 <div className="bransjevelger__bransjer">

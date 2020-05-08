@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Column, Row } from 'nav-frontend-grid';
-import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
+import {
+    Element,
+    Normaltekst,
+    Undertekst,
+    Undertittel,
+    Systemtittel,
+} from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import cvPropTypes from '../../felles/PropTypes';
 import sortByDato from '../../felles/common/SortByDato';
@@ -56,11 +62,11 @@ const SprakLabels = {
 const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
+            apen
+            border={false}
             className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-cv"
-            tittel="CV"
-            tittelProps="systemtittel"
-            apen
+            tittel={<Systemtittel className="ekspanderbartPanel__heading">CV</Systemtittel>}
         >
             {cv.beskrivelse && (
                 <Row className="panel--cv__row">

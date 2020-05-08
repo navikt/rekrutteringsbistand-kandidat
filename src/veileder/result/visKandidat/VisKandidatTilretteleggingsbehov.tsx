@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { EkspanderbartpanelBasePure } from 'nav-frontend-ekspanderbartpanel';
+import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import './VisKandidatTilretteleggingsbehov.less';
 import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../common/fasitProperties';
@@ -16,11 +16,12 @@ const VisKandidatTilretteleggingsbehov = ({ fnr }: VisKandidatTilretteleggingsbe
 
     return (
         <div className="panel--tilretteleggingsbehov">
-            <EkspanderbartpanelBasePure
+            <EkspanderbartpanelBase
                 apen={apen}
+                border={false}
                 onClick={() => toggleApen(!apen)}
                 className="ekspanderbartPanel--green"
-                heading={
+                tittel={
                     <Systemtittel className="ekspanderbartPanel__heading">
                         Tilretteleggingsbehov
                     </Systemtittel>
@@ -39,7 +40,7 @@ const VisKandidatTilretteleggingsbehov = ({ fnr }: VisKandidatTilretteleggingsbe
                         <i className="ForlateSiden__icon" />
                     </a>
                 </div>
-            </EkspanderbartpanelBasePure>
+            </EkspanderbartpanelBase>
         </div>
     );
 };
