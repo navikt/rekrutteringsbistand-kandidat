@@ -1,15 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
+import { Bransje, FerdigutfylteStillingerKlikk, Sok } from './Bransje';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import {
-    SEARCH,
-    SET_STATE,
-    FERDIGUTFYLTESTILLINGER_KLIKK,
-    LUKK_ALLE_SOKEPANEL,
-} from '../../sok/searchReducer';
+import { FERDIGUTFYLTESTILLINGER_KLIKK, LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from '../../sok/searchReducer';
 
 import './Bransjevelger.less';
 

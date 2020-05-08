@@ -6,7 +6,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
 import './sok/sok.less';
 import {

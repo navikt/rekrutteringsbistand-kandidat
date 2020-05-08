@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 
 const LagreKandidaterTilStillingModal = (props) => {

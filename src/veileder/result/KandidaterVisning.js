@@ -9,11 +9,7 @@ import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
 import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
-import {
-    LAST_FLERE_KANDIDATER,
-    MARKER_KANDIDATER,
-    OPPDATER_ANTALL_KANDIDATER,
-} from '../sok/searchReducer';
+import { LAST_FLERE_KANDIDATER, MARKER_KANDIDATER, OPPDATER_ANTALL_KANDIDATER } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';

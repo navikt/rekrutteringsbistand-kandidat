@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
     INITIAL_SEARCH_BEGIN,
@@ -8,17 +8,15 @@ import {
     SET_STATE,
 } from '../sok/searchReducer';
 import './Resultat.less';
-import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettstatus } from '../../felles/common/remoteData';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
 import { VeilederHeaderInfo } from './VeilederHeaderInfo';
-import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
-import { hentQueryUtenKriterier } from './ResultatVisning';
 import AppState from '../AppState';
-import { DefaultKandidatsøkProps } from './DefaultKandidatsøk';
+import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
+import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -51,26 +49,10 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
 }) => {
-    const [suksessmeldingLagreKandidatVises, setSuksessmeldingLagreKandidatVises] = useState<
-        boolean
-    >(false);
-
     useEffect(() => {
         window.scrollTo(0, 0);
         resetKandidatlisterSokekriterier();
     }, [resetKandidatlisterSokekriterier]);
-
-    useEffect(() => {
-        if (leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
-            setSuksessmeldingLagreKandidatVises(true);
-
-            const timer = setTimeout(() => {
-                setSuksessmeldingLagreKandidatVises(false);
-            }, 5000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [leggTilKandidatStatus]);
 
     useEffect(() => {
         initialSearch(undefined, match.params.kandidatlisteId);
@@ -101,15 +83,19 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     };
 
     return (
-        <Kandidatsøk
-            antallLagredeKandidater={antallLagredeKandidater}
-            lagretKandidatliste={lagretKandidatliste}
-            kandidatlisteId={kandidatlisteId}
-            visSpinner={isInitialSearch}
-            suksessmeldingLagreKandidatVises={suksessmeldingLagreKandidatVises}
-            header={header}
-            onRemoveCriteriaClick={onRemoveCriteriaClick}
-        />
+        <>
+            <KandidaterErLagretSuksessmelding
+                antallLagredeKandidater={antallLagredeKandidater}
+                lagretKandidatliste={lagretKandidatliste}
+                leggTilKandidatStatus={leggTilKandidatStatus}
+            />
+            <Kandidatsøk
+                kandidatlisteId={kandidatlisteId}
+                visSpinner={isInitialSearch}
+                header={header}
+                onRemoveCriteriaClick={onRemoveCriteriaClick}
+            />
+        </>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
     INITIAL_SEARCH_BEGIN,
@@ -8,16 +8,28 @@ import {
     SET_STATE,
 } from '../sok/searchReducer';
 import './Resultat.less';
-import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettstatus } from '../../felles/common/remoteData';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
-import { VeilederHeaderInfo } from './VeilederHeaderInfo';
 import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
-import { hentQueryUtenKriterier } from './ResultatVisning';
 import AppState from '../AppState';
+
+export const hentQueryUtenKriterier = (harHentetStilling) => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+    harHentetStilling: harHentetStilling,
+});
 
 export interface DefaultKandidatsøkProps {
     resetQuery: (query: any) => void;

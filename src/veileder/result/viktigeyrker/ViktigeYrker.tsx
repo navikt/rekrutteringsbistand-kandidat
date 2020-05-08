@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Normaltekst, Systemtittel, Ingress } from 'nav-frontend-typografi';
+import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import { EkspanderbartpanelPure } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
 import {
+    FERDIGUTFYLTESTILLINGER_KLIKK,
     HENT_FERDIGUTFYLTE_STILLINGER,
     TOGGLE_VIKTIGE_YRKER_APEN,
-    FERDIGUTFYLTESTILLINGER_KLIKK,
 } from '../../sok/searchReducer';
 import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
 

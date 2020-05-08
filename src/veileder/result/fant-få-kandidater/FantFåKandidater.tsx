@@ -1,28 +1,25 @@
 import React from 'react';
 import './FantFåKandidater.less';
-import { Innholdstittel, Normaltekst, Ingress } from 'nav-frontend-typografi';
+import { Ingress, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'pam-frontend-knapper';
 import { connect } from 'react-redux';
 import {
+    FETCH_KOMPETANSE_SUGGESTIONS,
+    REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,
-    REMOVE_KOMPETANSE_SUGGESTIONS,
-    FETCH_KOMPETANSE_SUGGESTIONS,
 } from '../../sok/searchReducer';
 import {
-    TOGGLE_TILRETTELEGGINGSBEHOV,
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
+    TOGGLE_TILRETTELEGGINGSBEHOV,
 } from '../../sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
-import { hentQueryUtenKriterier } from '../ResultatVisning';
 import Forstørrelsesglass from './Forstørrelsesglass';
 import ValgteKriterier from './ValgteKriterier';
 import useKriterier from './useKriterier';
 import Kategori from '../../sok/tilretteleggingsbehov/Kategori';
 import { REMOVE_SELECTED_STILLING } from '../../sok/stilling/stillingReducer';
-import {
-    REMOVE_SELECTED_GEOGRAFI,
-    TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
-} from '../../sok/geografi/geografiReducer';
+import { REMOVE_SELECTED_GEOGRAFI, TOGGLE_MA_BO_INNENFOR_GEOGRAFI } from '../../sok/geografi/geografiReducer';
+import { hentQueryUtenKriterier } from '../DefaultKandidatsøk';
 
 export type Geografi = {
     geografiKodeTekst: string;

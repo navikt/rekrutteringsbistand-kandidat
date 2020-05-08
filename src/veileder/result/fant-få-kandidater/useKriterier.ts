@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Kategori, { getKortKategoriLabel } from '../../sok/tilretteleggingsbehov/Kategori';
 import { Geografi } from './FantFåKandidater';
 

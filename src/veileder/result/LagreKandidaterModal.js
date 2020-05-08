@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst, Element, Undertekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
