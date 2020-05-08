@@ -129,7 +129,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     </Link>
                     {kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
-                <span>{kandidat.fodselsnr}</span>
+                <div className="liste-rad__wrap-hvor-som-helst">{kandidat.fodselsnr}</div>
                 <div className="tabell-tekst">
                     <span className="tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
@@ -161,6 +161,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         <i className="Notat__icon" />
                         <span className="liste-rad__antall-notater">{antallNotater}</span>
                         <NavFrontendChevron
+                            className="liste-rad__chevron"
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
@@ -176,6 +177,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
+                            className="liste-rad__chevron"
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisMerInfo
                                     ? 'opp'

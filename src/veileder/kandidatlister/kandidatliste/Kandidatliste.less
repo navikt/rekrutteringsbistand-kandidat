@@ -12,8 +12,9 @@
             'over-liste'
             'liste';
         grid-row-gap: 1.5rem;
-        max-width: 95.5rem;
-        margin: 2.5rem 2rem;
+        max-width: 99.5rem;
+        margin: 2.5rem 0;
+        padding: 0 2rem;
 
         .liste-header {
             border: 1px solid #78706a;
@@ -43,8 +44,8 @@
                 'ingenting over-liste'
                 'filter liste';
             grid-column-gap: 4rem;
-            margin-right: auto;
-            margin-left: auto;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         &__filter {
@@ -122,9 +123,21 @@
                     overflow-wrap: anywhere;
                 }
 
+                &__chevron {
+                    display: none;
+
+                    @media (min-width: 1280px) {
+                        display: unset;
+                    }
+                }
+
+                &__wrap-hvor-som-helst {
+                    overflow-wrap: anywhere;
+                }
+
                 .StatusSelect {
                     max-width: 11rem;
-                    min-width: 7rem;
+                    min-width: 6rem;
                 }
 
                 .kolonne-midtstilt {
