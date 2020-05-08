@@ -1,21 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Column, Container } from 'nav-frontend-grid';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Flatknapp } from 'nav-frontend-knapper';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import StillingSearch from '../sok/stilling/StillingSearch';
-import UtdanningSearch from '../sok/utdanning/UtdanningSearch';
-import ArbeidserfaringSearch from '../sok/arbeidserfaring/ArbeidserfaringSearch';
-import KompetanseSearch from '../sok/kompetanse/KompetanseSearch';
-import GeografiSearch from '../sok/geografi/GeografiSearch';
-import SprakSearch from '../sok/sprak/SprakSearch';
-import ForerkortSearch from '../sok/forerkort/ForerkortSearch';
-import KandidaterVisning from './KandidaterVisning';
-import NavkontorSearch from '../sok/navkontor/NavkontorSearch';
-import HovedmalSearch from '../sok/hovedmal/HovedmalSearch';
-import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/TilretteleggingsbehovSearch';
 import {
     INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
@@ -25,19 +9,13 @@ import {
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
-import { capitalizeEmployerName } from '../../felles/sok/utils';
-import InnsatsgruppeSearch from '../sok/innsatsgruppe/InnsatsgruppeSearch';
-import Sidetittel from '../../felles/common/Sidetittel';
 import { Nettstatus } from '../../felles/common/remoteData';
-import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import PermitteringSearch from '../sok/permittering/PermitteringSearch';
-import TilgjengelighetSearch from '../sok/tilgjengelighet/TilgjengelighetSearch';
 import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
-import FritekstSearch from '../sok/fritekst/FritekstSearch';
+import { Kandidatsøk } from './Kandidatsøk';
 import { VeilederHeaderInfo } from './VeilederHeaderInfo';
+import Sidetittel from '../../felles/common/Sidetittel';
+import { Container } from 'nav-frontend-grid';
 
 export const hentQueryUtenKriterier = (harHentetStilling) => ({
     fritekst: '',
@@ -152,104 +130,51 @@ class ResultatVisning extends React.Component<Props, State> {
         const kandidatlisteId = match.params.kandidatlisteId;
         const stillingsId = match.params.stillingsId;
 
-        const HeaderLinker = () => (
-            <div className="container--header__lenker">
-                {stillingsId && (
-                    <a className="SeStilling" href={`/stilling/${stillingsId}`}>
-                        <i className="SeStilling__icon" />
-                        <span className="link">Se stilling</span>
-                    </a>
-                )}
-                {kandidatliste && <a
+        const visFantFåKandidater = !!(stillingsId && this.props.maksAntallTreff < 5);
+
+        let headerLenke;
+        if (stillingsId) {
+            headerLenke = (
+                <a className="SeStilling" href={`/stilling/${stillingsId}`}>
+                    <i className="SeStilling__icon" />
+                    <span className="link">Se stilling</span>
+                </a>
+            );
+        } else if (kandidatliste) {
+            headerLenke = (
+                <a
                     className="TilKandidater"
                     href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
                 >
                     <i className="TilKandidater__icon" />
                     <span className="link">Se kandidatliste</span>
-                </a>}
-            </div>
-        );
+                </a>
+            );
+        }
 
-        const visFantFåKandidater = stillingsId && this.props.maksAntallTreff < 5;
+        const header =
+            kandidatlisteId || stillingsId ? (
+                <Container className="container--header">
+                    <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsId} />
+                    <div className="container--header__lenker">{headerLenke}</div>
+                </Container>
+            ) : (
+                <Container className="container--header--uten-stilling">
+                    <Sidetittel> Kandidatsøk </Sidetittel>
+                </Container>
+            );
 
         return (
-            <div>
-                <HjelpetekstFading
-                    synlig={this.state.suksessmeldingLagreKandidatVises}
-                    type="suksess"
-                    innhold={`${
-                        antallLagredeKandidater > 1
-                            ? `${antallLagredeKandidater} kandidater`
-                            : 'Kandidaten'
-                    } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
-                    id="hjelpetekstfading"
-                />
-                <div className="ResultatVisning--hovedside--header">
-                    {kandidatlisteId || stillingsId ? (
-                        <Container className="container--header">
-                            <VeilederHeaderInfo
-                                kandidatliste={kandidatliste}
-                                stillingsId={stillingsId}
-                            />
-                            <HeaderLinker />
-                        </Container>
-                    ) : (
-                        <Container className="container--header--uten-stilling">
-                            <Sidetittel> Kandidatsøk </Sidetittel>
-                        </Container>
-                    )}
-                </div>
-                {isInitialSearch ? (
-                    <div className="fullscreen-spinner">
-                        <NavFrontendSpinner type="L" />
-                    </div>
-                ) : (
-                    <div>
-                        <Container className="blokk-l">
-                            <ViktigeYrker />
-                            <Column xs="12" sm="4" id="sokekriterier">
-                                <div className="sokekriterier--column">
-                                    <div className="knapp-wrapper">
-                                        <Flatknapp
-                                            mini
-                                            id="slett-alle-kriterier-lenke"
-                                            onClick={this.onRemoveCriteriaClick}
-                                        >
-                                            Slett alle kriterier
-                                        </Flatknapp>
-                                    </div>
-                                    <div className="resultatvisning--sokekriterier">
-                                        <FritekstSearch />
-                                        <StillingSearch stillingsId={stillingsId} />
-                                        <GeografiSearch stillingsId={stillingsId} />
-                                        <PermitteringSearch />
-                                        <TilgjengelighetSearch />
-                                        <UtdanningSearch />
-                                        <ArbeidserfaringSearch />
-                                        <SprakSearch />
-                                        <ForerkortSearch />
-                                        <KompetanseSearch />
-                                        <NavkontorSearch />
-                                        <HovedmalSearch />
-                                        <InnsatsgruppeSearch />
-                                        <TilretteleggingsbehovSearch />
-                                    </div>
-                                </div>
-                            </Column>
-                            <Column xs="12" sm="8" id="sokeresultat">
-                                <div className="kandidatervisning--column">
-                                    <KandidaterVisning
-                                        skjulPaginering={visFantFåKandidater}
-                                        kandidatlisteId={kandidatlisteId}
-                                        stillingsId={stillingsId}
-                                    />
-                                    {visFantFåKandidater && <FantFåKandidater />}
-                                </div>
-                            </Column>
-                        </Container>
-                    </div>
-                )}
-            </div>
+            <Kandidatsøk
+                visFantFåKandidater={visFantFåKandidater}
+                antallLagredeKandidater={antallLagredeKandidater}
+                lagretKandidatliste={lagretKandidatliste}
+                kandidatlisteId={kandidatlisteId}
+                stillingsId={stillingsId}
+                visSpinner={isInitialSearch}
+                suksessmeldingLagreKandidatVises={this.state.suksessmeldingLagreKandidatVises}
+                header={header}
+            />
         );
     }
 }

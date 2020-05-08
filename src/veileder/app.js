@@ -12,7 +12,6 @@ import './sok/sok.less';
 import {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
-    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     saga,
     SET_STATE,
@@ -206,9 +205,6 @@ const mapDispatchToProps = (dispatch) => ({
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
-    initialSearch: () => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN });
-    },
 });
 /*
 End class Sok
