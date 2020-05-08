@@ -88,15 +88,13 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
         <Container className="container--header">
             <VeilederHeaderInfo kandidatliste={kandidatliste} />
             <div className="container--header__lenker">
-                {kandidatliste && (
-                    <a
-                        className="TilKandidater"
-                        href={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                    >
-                        <i className="TilKandidater__icon" />
-                        <span className="link">Se kandidatliste</span>
-                    </a>
-                )}
+                <a
+                    className="TilKandidater"
+                    href={`/kandidater/lister/detaljer/${kandidatlisteId}`}
+                >
+                    <i className="TilKandidater__icon" />
+                    <span className="link">Se kandidatliste</span>
+                </a>
             </div>
         </Container>
     );
