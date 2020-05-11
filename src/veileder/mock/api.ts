@@ -121,6 +121,7 @@ fetchMock
     .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
     .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
     .get(modiacontextholderAktivBrukerUrl, aktivBruker)
+    .delete(modiacontextholderAktivBrukerUrl, aktivBruker)
     .get(modiacontextholderDecoratorUrl, decorator)
     .mock((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
     .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)

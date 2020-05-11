@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
 import { useLocation } from 'react-router-dom';
 
@@ -44,7 +44,8 @@ const aktivTab = (pathname: string): TabConfig => {
 };
 
 const Navigeringsmeny: FunctionComponent = () => {
-    const { pathname }: Location = useLocation();
+    const { pathname }: any = useLocation();
+
     return (
         <div className="navigeringsmeny">
             <nav className="navigeringsmeny__tabs">

@@ -3,7 +3,7 @@ const merge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
 const devOverride = {
-    devtool: 'inline-source-map',
+    mode: 'development',
     devServer: {
         historyApiFallback: {
             index: './viewsDev/index.html',
@@ -28,7 +28,6 @@ const devOverride = {
             __ARBEIDSRETTET_OPPFOLGING_URL__: "'#'",
             __MIDLERTIDIG_UTILGJENGELIG_PROXY__: "'/kandidater/midlertidig-utilgjengelig'",
             __SMS_PROXY__: "'/kandidater/api/sms'",
-            'process.env.NODE_ENV': "'development'",
         }),
     ],
 };
