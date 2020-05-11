@@ -4,9 +4,9 @@
     "devDependencies": {
         "@types/amplitude-js": "^5.11.0",
         "@types/node": "^13.13.5",
-        "@types/react": "^16.9.34",
+        "@types/react": "^16.9.35",
         "@types/react-collapse": "^5.0.0",
-        "@types/react-dom": "^16.9.7",
+        "@types/react-dom": "^16.9.8",
         "@types/react-redux": "^7.1.8",
         "@types/redux": "^3.6.0",
         "@typescript-eslint/eslint-plugin": "^2.31.0",
@@ -24,15 +24,15 @@
         "cache-loader": "^3.0.0",
         "classnames": "^2.2.6",
         "css-loader": "^0.28.11",
-        "eslint": "^6.8.0",
+        "eslint": "^7.0.0",
         "eslint-config-react-app": "^5.2.1",
         "eslint-plugin-flowtype": "^4.7.0",
         "eslint-plugin-import": "^2.20.2",
         "eslint-plugin-jsx-a11y": "^6.2.3",
         "eslint-plugin-react": "^7.19.0",
-        "eslint-plugin-react-hooks": "^1.7.0",
+        "eslint-plugin-react-hooks": "^4.0.0",
         "extract-text-webpack-plugin": "^3.0.2",
-        "fetch-mock": "^8.3.1",
+        "fetch-mock": "^9.5.1",
         "ghooks": "^2.0.4",
         "html-webpack-plugin": "^2.30.1",
         "less": "^2.7.3",
@@ -67,7 +67,7 @@
     "dependencies": {
         "@navikt/navspa": "^1.0.3",
         "@navikt/nytt-i-rekrutteringsbistand": "^1.1.27",
-        "@reach/menu-button": "^0.6.2",
+        "@reach/menu-button": "^0.10.1",
         "amplitude-js": "^6.2.0",
         "autotrack": "^2.4.1",
         "babel-runtime": "^6.26.0",
@@ -131,10 +131,8 @@
         "react-redux": "^7.2.0",
         "react-router-dom": "^5.1.2",
         "react-rte": "^0.16.1",
-        "redux-form": "^7.4.2",
-        "redux-form-saga": "^0.2.0",
-        "redux-saga": "^0.16.0",
+        "redux-saga": "^1.1.3",
         "useragent": "^2.3.0",
-        "whatwg-fetch": "^2.0.4"
+        "whatwg-fetch": "^3.0.0"
     }
 }
