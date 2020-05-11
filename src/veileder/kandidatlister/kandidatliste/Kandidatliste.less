@@ -4,6 +4,23 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
     color: #59514b;
 
+    &__grid {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+            'filter'
+            'knapperad'
+            'liste';
+        grid-row-gap: 1.5rem;
+        max-width: 99.5rem;
+        margin: 2.5rem 0;
+        padding: 0 2rem;
+
+        .liste-header {
+            border: 1px solid #78706a;
+        }
+    }
+
     &__filter {
         grid-area: filter;
 
@@ -15,11 +32,30 @@
     &__kontrollpanel {
         display: flex;
         align-items: center;
-        margin: 2.5rem auto;
+        margin: 2.5rem 2rem;
         max-width: 95.5rem;
-        width: 100%;
         background-color: #f1f1f1;
         padding: 1.5rem;
+    }
+
+    @media (min-width: 1281px) {
+        &__grid {
+            grid-template-areas:
+                'ingenting knapperad'
+                'filter liste';
+            grid-column-gap: 4rem;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        &__filter {
+            grid-area: filter;
+        }
+
+        &__kontrollpanel {
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 
     .finn-kandidater {
@@ -31,24 +67,8 @@
         font-weight: 600;
     }
 
-    &__grid {
-        display: grid;
-        grid-template-columns: 1fr 74rem;
-        grid-template-rows: 1fr auto;
-        grid-template-areas:
-            'ingenting over-liste'
-            'filter liste';
-        grid-gap: 1.5rem 4rem;
-        max-width: 95.5rem;
-        margin: 2.5rem auto;
-
-        .liste-header {
-            border: 1px solid #78706a;
-        }
-    }
-
     &__knapperad-container {
-        grid-area: over-liste;
+        grid-area: knapperad;
     }
 
     &__liste {
@@ -65,24 +85,33 @@
                 padding-right: 0.5rem;
                 grid-gap: 1rem;
                 grid-template-columns:
-                    1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
+                    1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
                     minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
 
                 &--vis-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 5fr)
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            5fr
+                        )
                         minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            4fr
+                        )
                         minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
                 &--vis-utfall-og-arkivering {
                     grid-template-columns:
-                        1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            4fr
+                        )
                         minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
                 }
 
@@ -99,12 +128,36 @@
                     margin-right: 0.4rem;
                 }
 
+                &__lagt-til {
+                    overflow-wrap: anywhere;
+                }
+
+                &__chevron {
+                    display: none;
+
+                    @media (min-width: 1280px) {
+                        display: unset;
+                    }
+                }
+
+                &__wrap-hvor-som-helst {
+                    overflow-wrap: anywhere;
+                }
+
                 .StatusSelect {
                     max-width: 11rem;
+                    min-width: 6rem;
                 }
 
                 .kolonne-midtstilt {
                     justify-content: center;
+                    white-space: nowrap;
+                }
+
+                .kolonne-tittel {
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 .status-overskrift {
@@ -148,10 +201,6 @@
                     }
                 }
 
-                .tabell-tekst {
-                    white-space: nowrap;
-                }
-
                 .tabell-tekst-inner {
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -165,19 +214,25 @@
                         }
                     }
                 }
-                @media (max-width: 1320px) {
-                    &--vis-utfall {
-                        grid-template-columns:
-                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
-                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
-                    }
+                // @media (max-width: 1320px) {
+                //     &--vis-utfall {
+                //         grid-template-columns:
+                //             1.6fr minmax(0, 1fr) minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(
+                //                 0,
+                //                 4fr
+                //             )
+                //             minmax(0, 10fr) minmax(0, 7fr) minmax(0, 3fr) minmax(0, 2fr);
+                //     }
 
-                    &--vis-utfall-og-arkivering {
-                        grid-template-columns:
-                            1.6fr minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(0, 4fr)
-                            minmax(0, 9fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
-                    }
-                }
+                //     &--vis-utfall-og-arkivering {
+                //         grid-template-columns:
+                //             1.6fr minmax(0, 1fr) minmax(0, 10fr) minmax(0, 6fr) minmax(0, 11fr) minmax(
+                //                 0,
+                //                 4fr
+                //             )
+                //             minmax(0, 10fr) minmax(0, 7fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                //     }
+                // }
             }
             .info-under-kandidat {
                 background-color: #f6f5f5;
@@ -261,19 +316,6 @@
             border: 1px solid #d8d8d8;
         }
     }
-
-    @media (max-width: 1320px) {
-        &__grid {
-            grid-gap: 1.5rem 1rem;
-        }
-    }
-
-    @media (max-width: 1400px) {
-        &__grid {
-            grid-template-columns: 7rem 70rem;
-        }
-    }
-
 }
 
 .notat-topprad {

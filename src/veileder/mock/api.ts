@@ -39,7 +39,7 @@ const typeaheadGeoUrl = `${veilederUrl}/kandidatsok/typeahead?geo=`;
 const alleKandidatlisterUrl = `${veilederUrl}/kandidatlister`;
 const sokUrl = `${veilederUrl}/kandidatsok/sok`;
 const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
-const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/bf6877fa-5c82-4610-8cf7-ff7a0df18e29/kandidatliste`;
+const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/ce3da214-8771-4115-9362-b83145150551/kandidatliste`;
 const ferdigutfyltesokurl = `${veilederUrl}/ferdigutfyltesok`;
 
 // Kodeverk

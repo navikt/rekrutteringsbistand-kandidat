@@ -6,13 +6,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import ResultatVisning from './result/ResultatVisning';
 import '../felles/styles.less';
 import './sok/sok.less';
 import {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
-    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     saga,
     SET_STATE,
@@ -55,6 +53,9 @@ import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
 import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
+import KandidatsøkFraKandidatliste from './result/KandidatsøkFraKandidatliste';
+import DefaultKandidatsøk from './result/DefaultKandidatsøk';
+import KandidatsøkFraStilling from './result/KandidatsøkFraStilling';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -86,22 +87,6 @@ const store = createStore(
 );
 
 export const reduxStore = store;
-
-export const hentQueryUtenKriterier = (harHentetStilling) => ({
-    fritekst: '',
-    stillinger: [],
-    arbeidserfaringer: [],
-    utdanninger: [],
-    kompetanser: [],
-    geografiList: [],
-    geografiListKomplett: [],
-    totalErfaring: [],
-    utdanningsniva: [],
-    sprak: [],
-    kvalifiseringsgruppeKoder: [],
-    maaBoInnenforGeografi: false,
-    harHentetStilling: harHentetStilling,
-});
 
 class Sok extends React.Component {
     componentDidMount() {
@@ -137,16 +122,16 @@ class Sok extends React.Component {
                     <div className="Application__main">
                         {header}
                         <Switch>
-                            <Route exact path="/kandidater" component={ResultatVisning} />
+                            <Route exact path="/kandidater" component={DefaultKandidatsøk} />
                             <Route
                                 exact
                                 path="/kandidater/kandidatliste/:kandidatlisteId"
-                                component={ResultatVisning}
+                                component={KandidatsøkFraKandidatliste}
                             />
                             <Route
                                 exact
                                 path="/kandidater/stilling/:stillingsId"
-                                component={ResultatVisning}
+                                component={KandidatsøkFraStilling}
                             />
                             <Route exact path="/kandidater/cv" component={VisKandidat} />
                             <Route
@@ -206,9 +191,6 @@ const mapDispatchToProps = (dispatch) => ({
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
-    initialSearch: () => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN });
-    },
 });
 /*
 End class Sok
