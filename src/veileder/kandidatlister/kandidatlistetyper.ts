@@ -60,9 +60,9 @@ export interface KandidatResponse {
     antallNotater?: number;
     arkivert: boolean;
     arkivertTidspunkt?: string;
-    arkivertAv?: string,
-    aktørid?: string,
-    midlertidigUtilgjengeligStatus: Tilgjengelighet
+    arkivertAv?: string;
+    aktørid?: string;
+    midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
 
 export interface Notat {

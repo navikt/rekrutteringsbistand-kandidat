@@ -11,10 +11,7 @@ interface Props {
     stillingsId?: string;
 }
 
-export const VeilederHeaderInfo: FunctionComponent<Props> = ({
-    kandidatliste,
-    stillingsId,
-}) => {
+export const VeilederHeaderInfo: FunctionComponent<Props> = ({ kandidatliste, stillingsId }) => {
     const [visBeskrivelse, setVisBeskrivelse] = useState<boolean>();
 
     const { tittel, organisasjonNavn, opprettetAv, beskrivelse } = kandidatliste || {
