@@ -30,7 +30,11 @@
             "epost": "spammenot@mailinator.com",
             "innsatsgruppe": "Situasjonsbestemt innsats",
             "arkivert": false,
-            "antallNotater": 1
+            "antallNotater": 1,
+            "arkivertTidspunkt": null,
+            "arkivertAv": null,
+            "aktørid": "111",
+            "midlertidigUtilgjengeligStatus": "tilgjengeliginnen1uke"
         },
         {
             "kandidatId": "839dd75b-49fd-4aa3-8511-ce677432bd65",
@@ -51,7 +55,12 @@
             "epost": "anostoga@gmail.com",
             "innsatsgruppe": "Varig tilpasset innsats",
             "arkivert": false,
-            "antallNotater": 1
+            "antallNotater": 1,
+            "arkivertTidspunkt": null,
+            "arkivertAv": null,
+            "aktørid": "1000031078958",
+            "midlertidigUtilgjengeligStatus": "midlertidigutilgjengelig"
+
         }
     ],
     "kanEditere": true,

@@ -1,10 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Bransje, FerdigutfylteStillingerKlikk, Sok } from './Bransje';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Bransje, Sok, FerdigutfylteStillingerKlikk } from './Bransje';
+import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import { FERDIGUTFYLTESTILLINGER_KLIKK, LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from '../../sok/searchReducer';
+import {
+    SEARCH,
+    SET_STATE,
+    FERDIGUTFYLTESTILLINGER_KLIKK,
+    LUKK_ALLE_SOKEPANEL,
+} from '../../sok/searchReducer';
 
 import './Bransjevelger.less';
 
@@ -17,6 +22,22 @@ interface BransjevelgerProps {
         FerdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
     ) => void;
 }
+
+export const hentQueryUtenKriterier = () => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+});
+
 const linktekst = (sok: Sok) => {
     return `${sok.tittel} (${sok.antallTreff})`;
 };
@@ -61,10 +82,9 @@ const Bransjevelger = (props: BransjevelgerProps) => {
     return (
         <div className="bransjevelger">
             <Ekspanderbartpanel
-                tag="h3"
                 border
                 className="bransjevelger__bransje"
-                tittel={bransje.navn}
+                tittel={<Undertittel>{bransje.navn}</Undertittel>}
                 onClick={onBransjeKlikk}
             >
                 <div className="bransjevelger__bransjer">

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Ingress, Systemtittel } from 'nav-frontend-typografi';
-import { EkspanderbartpanelPure } from 'nav-frontend-ekspanderbartpanel';
+import { Systemtittel, Ingress } from 'nav-frontend-typografi';
+import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import './ViktigeYrker.less';
 import ViktigeYrkerIkon from './ViktigeyrkerIkon';
 import Bransjevelger from './Bransjevelger';
 import {
-    FERDIGUTFYLTESTILLINGER_KLIKK,
     HENT_FERDIGUTFYLTE_STILLINGER,
     TOGGLE_VIKTIGE_YRKER_APEN,
+    FERDIGUTFYLTESTILLINGER_KLIKK,
 } from '../../sok/searchReducer';
 import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
 
@@ -47,13 +47,11 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
     if (!visViktigeYrker) return <div />;
 
     return (
-        <EkspanderbartpanelPure
+        <EkspanderbartpanelBase
             border
-            tag="section"
             apen={viktigeYrkerApen}
             className="viktige-yrker"
             onClick={onViktigeYrkerKlikk}
-            // @ts-ignore
             tittel={
                 <div className="viktige-yrker__tittel-og-ikon">
                     <div className="viktige-yrker__ikon">
@@ -75,7 +73,7 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
                         <Bransjevelger key={bransje.navn} bransje={bransje} />
                     ))}
             </div>
-        </EkspanderbartpanelPure>
+        </EkspanderbartpanelBase>
     );
 };
 
