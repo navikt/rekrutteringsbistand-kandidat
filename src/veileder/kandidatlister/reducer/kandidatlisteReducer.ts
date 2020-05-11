@@ -3,7 +3,14 @@ import { Kandidat, Sms, SmsStatus } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
-import { Feil, IkkeLastet, LasterInn, Nettstatus, RemoteData, Suksess } from '../../../felles/common/remoteData';
+import {
+    Feil,
+    IkkeLastet,
+    LasterInn,
+    Nettstatus,
+    RemoteData,
+    Suksess,
+} from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import {
     Delestatus,
@@ -69,7 +76,7 @@ export interface KandidatlisteState {
         statusDearkivering: Nettstatus;
     };
     scrollPosition: {
-        [kandidatlisteId: string]: number
+        [kandidatlisteId: string]: number;
     };
 }
 
@@ -705,8 +712,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 scrollPosition: {
                     ...state.scrollPosition,
-                    [action.kandidatlisteId]: action.scrollPosition
-                }
+                    [action.kandidatlisteId]: action.scrollPosition,
+                },
             };
         default:
             return state;

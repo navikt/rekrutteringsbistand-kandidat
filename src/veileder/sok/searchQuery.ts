@@ -1,3 +1,4 @@
+import { getUrlParameterByName } from '../../felles/sok/utils';
 import AppState, {
     FritekstState,
     GeografiState,
@@ -7,7 +8,6 @@ import AppState, {
     SprakReducerState,
     StillingState,
 } from '../AppState';
-import { getUrlParameterByName } from '../../felles/sok/utils';
 
 interface SearchQuery {
     fritekst?: string;
