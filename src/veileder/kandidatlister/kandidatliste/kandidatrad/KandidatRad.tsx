@@ -13,10 +13,12 @@ import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { logEvent } from '../../../amplitude/amplitude';
-import { SET_SCROLL_POSITION } from '../../../sok/searchReducer';
 import { connect } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import { formatterDato } from '../../../../felles/common/dateUtils';
+import AppState from '../../../../veileder/AppState';
+import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
+import { MidlertidigUtilgjengeligState } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -47,6 +49,9 @@ type Props = {
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
     setScrollPosition: (kandidatlisteId: string, position: number) => void;
+    visMidlertidigUtilgjengeligPopover: boolean;
+    midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
+    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -63,6 +68,9 @@ const KandidatRad: FunctionComponent<Props> = ({
     onKandidatStatusChange,
     visArkiveringskolonne,
     setScrollPosition,
+    visMidlertidigUtilgjengeligPopover,
+    midlertidigUtilgjengeligMap,
+    hentMidlertidigUtilgjengeligForKandidat,
 }) => {
     const antallNotater =
         kandidat.notater.kind === Nettstatus.Suksess
@@ -118,6 +126,21 @@ const KandidatRad: FunctionComponent<Props> = ({
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
                 />
+                <div className="kandidater-tabell__tilgjengelighet">
+                    {kandidat.aktørid && (
+                        <TilgjengelighetFlagg
+                            status={kandidat.midlertidigUtilgjengeligStatus}
+                            visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
+                            merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
+                            hentMerInformasjon={() =>
+                                hentMidlertidigUtilgjengeligForKandidat(
+                                    kandidat.aktørid || '',
+                                    kandidat.kandidatnr
+                                )
+                            }
+                        />
+                    )}
+                </div>
                 <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
@@ -253,6 +276,12 @@ const KandidatRad: FunctionComponent<Props> = ({
     );
 };
 
+const mapStateToProps = (state: AppState) => ({
+    midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
+    visMidlertidigUtilgjengeligPopover:
+        state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
+});
+
 const mapDispatchToProps = (dispatch) => ({
     setScrollPosition: (kandidatlisteId, scrollPosition) =>
         dispatch({
@@ -260,6 +289,9 @@ const mapDispatchToProps = (dispatch) => ({
             kandidatlisteId,
             scrollPosition,
         }),
+    hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
+        dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
+    },
 });
 
-export default connect(null, mapDispatchToProps)(KandidatRad);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatRad);
