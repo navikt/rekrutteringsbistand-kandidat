@@ -7,8 +7,8 @@ import React, { FunctionComponent, useState } from 'react';
 import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
 
 interface Props {
-    kandidatliste: Kandidatliste | undefined;
-    stillingsId: string | undefined;
+    kandidatliste?: Kandidatliste;
+    stillingsId?: string;
 }
 
 export const VeilederHeaderInfo: FunctionComponent<Props> = ({
