@@ -47,6 +47,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                     checked={alleMarkert}
                     onChange={() => onCheckAlleKandidater()}
                 />
+                <div />
                 <Kolonnetittel>Navn</Kolonnetittel>
                 <Kolonnetittel>Fødselsnummer</Kolonnetittel>
                 <Kolonnetittel>Lagt til av</Kolonnetittel>

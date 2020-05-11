@@ -15,6 +15,7 @@ import TomListe from './tom-liste/TomListe';
 import '../../../felles/common/ikoner/ikoner.less';
 import useKandidatlistefilter from './useKandidatlistefilter';
 import Navnefilter from './navnefilter/Navnefilter';
+import { Element } from 'nav-frontend-typografi';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -115,7 +116,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         </div>
 
                         <aside className="kandidatliste__filter">
-                            <Ekspanderbartpanel border apen tittel="Slettet" tittelProps="element">
+                            <Ekspanderbartpanel border apen tittel={<Element>Slettet</Element>}>
                                 <Checkbox
                                     className="skjemaelement--pink"
                                     label={`Vis kun slettede (${antallArkiverte})`}
