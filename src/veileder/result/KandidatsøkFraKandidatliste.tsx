@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,
+    SØK_MED_URL_PARAMETERE,
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { Nettstatus } from '../../felles/common/remoteData';
@@ -17,6 +17,7 @@ import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
+import { harUrlParametere } from '../sok/searchQuery';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -32,6 +33,7 @@ type Props = DefaultKandidatsøkProps & {
         kandidatlisteId: string;
         tittel: string;
     };
+    leggUrlParametereIStateOgSøk: () => void;
 };
 
 const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
@@ -41,7 +43,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     antallLagredeKandidater,
     lagretKandidatliste,
     leggTilKandidatStatus,
-    initialSearch,
+    leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
     resetQuery,
@@ -55,8 +57,12 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     }, [resetKandidatlisterSokekriterier]);
 
     useEffect(() => {
-        initialSearch(undefined, match.params.kandidatlisteId);
-    }, [match.params.kandidatlisteId, initialSearch]);
+        if (harUrlParametere(window.location.href)) {
+            leggUrlParametereIStateOgSøk();
+        } else {
+            search();
+        }
+    }, [leggUrlParametereIStateOgSøk, search]);
 
     const kandidatlisteId = match.params.kandidatlisteId;
 
@@ -115,9 +121,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId, kandidatlisteId) => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId, kandidatlisteId });
-    },
+    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
