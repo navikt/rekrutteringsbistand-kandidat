@@ -6,7 +6,6 @@ import { SearchApiError } from '../../felles/api';
 import { search } from './typedSearchReducer';
 import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 import { formatterStedsnavn } from '../../felles/sok/utils';
-import { init } from 'amplitude-js';
 import AppState from '../AppState';
 
 const fetchGeografiListKomplett = async (geografiList: string[]): Promise<Geografi[]> => {
@@ -57,6 +56,50 @@ export function* initialSearch(action) {
             }
             yield put({ type: SET_STATE, query: initialQuery });
         }
+        yield call(search);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SEARCH_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+interface SøkMedInfoFraStillingAction {
+    stillingsId: string;
+}
+
+export function* søkMedInfoFraStilling(action: SøkMedInfoFraStillingAction) {
+    try {
+        const stilling = yield call(fetchStillingFraListe, action.stillingsId);
+        const initialQuery = mapStillingTilInitialQuery(stilling);
+        const initialQueryMedGeografi = yield leggPåGeografiInfoHvisKommune(initialQuery);
+        yield put({ type: SET_STATE, query: initialQueryMedGeografi });
+        yield call(search);
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: SEARCH_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+const leggPåGeografiInfoHvisKommune = async (initialQuery: InitialQuery): Promise<InitialQuery> => {
+    const nyInitialQuery = { ...initialQuery };
+    if (nyInitialQuery.geografiList) {
+        nyInitialQuery.geografiListKomplett = await fetchGeografiListKomplett(
+            nyInitialQuery.geografiList
+        );
+    }
+    return nyInitialQuery;
+};
+
+export function* søkMedUrlParametere() {
+    try {
+        let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
+        yield put({ type: SET_STATE, query: initialQuery });
         yield call(search);
     } catch (e) {
         if (e instanceof SearchApiError) {

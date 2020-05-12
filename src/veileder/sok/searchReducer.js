@@ -3,7 +3,7 @@ import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } 
 import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
 import { esSearch, hentFlereKandidater } from './typedSearchReducer';
-import { initialSearch } from './initialSearch';
+import { initialSearch, søkMedInfoFraStilling, søkMedUrlParametere } from './initialSearch';
 
 /** *********************************************************
  * ACTIONS
@@ -20,6 +20,8 @@ export const LAST_FLERE_KANDIDATER = 'LAST_FLERE_KANDIDATER';
 export const SET_STATE = 'SET_STATE';
 
 export const INITIAL_SEARCH_BEGIN = 'INITIAL_SEARCH_BEGIN';
+export const SØK_MED_INFO_FRA_STILLING = 'SØK_MED_INFO_FRA_STILLING';
+export const SØK_MED_URL_PARAMETERE = 'SØK_MED_URL_PARAMETERE';
 
 export const FETCH_FEATURE_TOGGLES_BEGIN = 'FETCH_FEATURE_TOGGLES_BEGIN';
 export const FETCH_FEATURE_TOGGLES_SUCCESS = 'FETCH_FEATURE_TOGGLES_SUCCESS';
@@ -120,6 +122,8 @@ export const harEnParameter = (...arrays) =>
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
     yield takeLatest(INITIAL_SEARCH_BEGIN, initialSearch);
+    yield takeLatest(SØK_MED_INFO_FRA_STILLING, søkMedInfoFraStilling);
+    yield takeLatest(SØK_MED_URL_PARAMETERE, søkMedUrlParametere);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);
