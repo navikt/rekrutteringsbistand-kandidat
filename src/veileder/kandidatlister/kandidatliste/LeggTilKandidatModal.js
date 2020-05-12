@@ -148,7 +148,7 @@ class LeggTilKandidatModal extends React.Component {
                 <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
                 <AlertStripeAdvarsel>
                     Før du legger en kandidat på kandidatlisten, kontakt han eller henne for å undersøke om stillingen er aktuell.
-                </AlertStripeAdvarsel>r
+                </AlertStripeAdvarsel>
                 <Input
                     className="skjemaelement--pink legg-til-kandidat__fodselsnummer"
                     onChange={this.onChange}
