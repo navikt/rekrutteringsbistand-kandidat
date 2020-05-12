@@ -18,7 +18,10 @@ import ValgteKriterier from './ValgteKriterier';
 import useKriterier from './useKriterier';
 import Kategori from '../../sok/tilretteleggingsbehov/Kategori';
 import { REMOVE_SELECTED_STILLING } from '../../sok/stilling/stillingReducer';
-import { REMOVE_SELECTED_GEOGRAFI, TOGGLE_MA_BO_INNENFOR_GEOGRAFI } from '../../sok/geografi/geografiReducer';
+import {
+    REMOVE_SELECTED_GEOGRAFI,
+    TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
+} from '../../sok/geografi/geografiReducer';
 import { hentQueryUtenKriterier } from '../DefaultKandidatsøk';
 
 export type Geografi = {

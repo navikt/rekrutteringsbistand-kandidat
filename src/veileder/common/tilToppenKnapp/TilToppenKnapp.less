@@ -1,10 +1,14 @@
 .tilToppenKnapp {
-    position: fixed;
     right: 2rem;
     bottom: 2rem;
     transition: opacity 0.5s ease-in;
     fill: white;
     opacity: 1;
+
+    &.knapp {
+        padding: 0.5rem;
+        position:fixed;
+    }
 
     &--skjul {
         opacity: 0;
@@ -12,10 +16,6 @@
         &:hover {
             cursor: unset;
         }
-    }
-
-    &.knapp {
-        padding: 0.5rem;
     }
 
     svg {

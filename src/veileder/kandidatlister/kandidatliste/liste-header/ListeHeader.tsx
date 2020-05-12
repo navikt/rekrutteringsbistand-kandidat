@@ -52,13 +52,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <Kolonnetittel>Fødselsnummer</Kolonnetittel>
                 <Kolonnetittel>Lagt til av</Kolonnetittel>
                 <Kolonnetittel>Lagt til</Kolonnetittel>
-                <Kolonnetittel className="kolonne-middels">
-                    <div className="status-overskrift">
-                        Status
-                        <StatusHjelpetekst />
-                    </div>
-                </Kolonnetittel>
-
+                <Kolonnetittel>Status</Kolonnetittel>
                 {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
                 <Kolonnetittel>Notater</Kolonnetittel>
                 <Kolonnetittel className="kolonne-midtstilt">Info</Kolonnetittel>
