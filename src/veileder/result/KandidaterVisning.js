@@ -55,7 +55,7 @@ class KandidaterVisning extends React.Component {
             const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
             if (tid < 10000) {
                 logEvent(
-                    'cv_kandidatsok',
+                    'kandidatsøk',
                     'fra_midlertidig_utilgjengelig',
                     Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt
                 );
