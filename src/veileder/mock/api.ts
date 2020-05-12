@@ -1,24 +1,24 @@
 import fetchMock from 'fetch-mock';
 
-import * as me from './json/me.json';
-import * as kandidatliste from './json/kandidatliste.json';
-import * as toggles from './json/toggles.json';
-import * as sok from './json/sok.json';
-import * as notater from './json/notater.json';
-import * as sokeord from './json/sokeord.json';
-import * as arenageografikoder from './json/arenageografikoder.json';
-import * as typeaheadgeo from './json/typeaheadgeo.json';
-import * as midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
+import me from './json/me.json';
+import kandidatliste from './json/kandidatliste.json';
+import toggles from './json/toggles.json';
+import sok from './json/sok.json';
+import notater from './json/notater.json';
+import sokeord from './json/sokeord.json';
+import arenageografikoder from './json/arenageografikoder.json';
+import typeaheadgeo from './json/typeaheadgeo.json';
+import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 
-import * as DC294105 from './json/DC294105.json';
-import * as CD430805 from './json/CD430805.json';
-import * as sms from './json/sms.json';
+import DC294105 from './json/DC294105.json';
+import CD430805 from './json/CD430805.json';
+import sms from './json/sms.json';
 
-import * as ferdigutfyltesok from './json/ferdigutfyltesok.json';
+import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
-import * as aktivEnhet from './json/dekoratør/aktivenhet.json';
-import * as aktivBruker from './json/dekoratør/aktivbruker.json';
-import * as decorator from './json/dekoratør/decorator.json';
+import aktivEnhet from './json/dekoratør/aktivenhet.json';
+import aktivBruker from './json/dekoratør/aktivbruker.json';
+import decorator from './json/dekoratør/decorator.json';
 
 import { SEARCH_API } from '../common/fasitProperties.js';
 
@@ -121,6 +121,7 @@ fetchMock
     .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
     .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
     .get(modiacontextholderAktivBrukerUrl, aktivBruker)
+    .delete(modiacontextholderAktivBrukerUrl, aktivBruker)
     .get(modiacontextholderDecoratorUrl, decorator)
     .mock((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
     .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
