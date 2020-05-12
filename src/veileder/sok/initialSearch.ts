@@ -14,7 +14,8 @@ interface SøkMedInfoFraStillingAction {
 export function* leggUrlParametereIStateOgSøk() {
     try {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
-        yield put({ type: SET_STATE, query: initialQuery });
+        const initialQueryMedGeografi = yield call(leggPåGeografiInfoHvisKommune, initialQuery);
+        yield put({ type: SET_STATE, query: initialQueryMedGeografi });
         yield call(search);
     } catch (e) {
         if (e instanceof SearchApiError) {
