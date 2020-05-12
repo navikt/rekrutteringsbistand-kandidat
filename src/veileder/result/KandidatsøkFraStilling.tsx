@@ -19,7 +19,7 @@ import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
-import { harIngenQueryParametereIUrl } from '../sok/searchQuery';
+import { harUrlParametere } from '../sok/searchQuery';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -35,8 +35,8 @@ type Props = DefaultKandidatsøkProps & {
         kandidatlisteId: string;
         tittel: string;
     };
-    søkMedInfoFraStilling: (stillingsId: string) => void;
-    søkMedUrlParametere: () => void;
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
+    leggUrlParametereIStateOgSøk: () => void;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -46,8 +46,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     antallLagredeKandidater,
     lagretKandidatliste,
     leggTilKandidatStatus,
-    søkMedInfoFraStilling,
-    søkMedUrlParametere,
+    leggInfoFraStillingIStateOgSøk,
+    leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
     resetQuery,
@@ -64,15 +64,19 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
-        const ingenQueryParamsIUrl = harIngenQueryParametereIUrl(window.location.href);
-        if (ingenQueryParamsIUrl) {
-            if (!harHentetStilling) {
-                søkMedInfoFraStilling(stillingsId);
-            }
+        if (harUrlParametere(window.location.href)) {
+            leggUrlParametereIStateOgSøk();
         } else {
-            søkMedUrlParametere();
+            if (!harHentetStilling) {
+                leggInfoFraStillingIStateOgSøk(stillingsId);
+            }
         }
-    }, [stillingsId, harHentetStilling, søkMedInfoFraStilling, søkMedUrlParametere]);
+    }, [
+        stillingsId,
+        harHentetStilling,
+        leggInfoFraStillingIStateOgSøk,
+        leggUrlParametereIStateOgSøk,
+    ]);
 
     const header = (
         <Container className="container--header">
@@ -130,9 +134,9 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    søkMedInfoFraStilling: (stillingsId: string) =>
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string) =>
         dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId }),
-    søkMedUrlParametere: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
+    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },

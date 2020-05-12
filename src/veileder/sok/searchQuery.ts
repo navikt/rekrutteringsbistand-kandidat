@@ -192,9 +192,9 @@ export const mapUrlToInitialQuery = (url: string): InitialQuery => {
     return stateFromUrl;
 };
 
-export const harIngenQueryParametereIUrl = (url: string): boolean => {
+export const harUrlParametere = (url: string): boolean => {
     const query: InitialQuery = mapUrlToInitialQuery(url);
-    return Object.keys(query).length === 0;
+    return Object.keys(query).length > 0;
 };
 
 const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {

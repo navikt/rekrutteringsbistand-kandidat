@@ -70,7 +70,7 @@ interface SøkMedInfoFraStillingAction {
     stillingsId: string;
 }
 
-export function* søkMedInfoFraStilling(action: SøkMedInfoFraStillingAction) {
+export function* leggInfoFraStillingIStateOgSøk(action: SøkMedInfoFraStillingAction) {
     try {
         const stilling = yield call(fetchStillingFraListe, action.stillingsId);
         const initialQuery = mapStillingTilInitialQuery(stilling);
@@ -96,7 +96,7 @@ const leggPåGeografiInfoHvisKommune = async (initialQuery: InitialQuery): Promi
     return nyInitialQuery;
 };
 
-export function* søkMedUrlParametere() {
+export function* leggUrlParametereIStateOgSøk() {
     try {
         let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
         yield put({ type: SET_STATE, query: initialQuery });
