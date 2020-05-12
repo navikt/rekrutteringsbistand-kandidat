@@ -4,6 +4,7 @@ const commonConfig = require('./webpack.common.js');
 
 const devOverride = {
     mode: 'development',
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: {
             index: './viewsDev/index.html',
