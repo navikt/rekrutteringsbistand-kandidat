@@ -29,7 +29,7 @@ export function* leggInfoFraStillingIStateOgSøk(action: SøkMedInfoFraStillingA
     try {
         const stilling = yield call(fetchStillingFraListe, action.stillingsId);
         const initialQuery = mapStillingTilInitialQuery(stilling);
-        const initialQueryMedGeografi = yield leggPåGeografiInfoHvisKommune(initialQuery);
+        const initialQueryMedGeografi = yield call(leggPåGeografiInfoHvisKommune, initialQuery);
         yield put({ type: SET_STATE, query: initialQueryMedGeografi });
         yield call(search);
     } catch (e) {
