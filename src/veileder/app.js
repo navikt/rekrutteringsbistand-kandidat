@@ -106,6 +106,8 @@ class Sok extends React.Component {
             </>
         );
 
+        console.log(process.env.NODE_ENV);
+
         if (error) {
             return (
                 <BrowserRouter>
