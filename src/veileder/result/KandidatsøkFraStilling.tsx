@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
