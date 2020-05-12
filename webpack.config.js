@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 
 const PATH = {
@@ -9,15 +8,11 @@ const PATH = {
 };
 
 const prodOverride = {
-    devtool: 'source-map',
+    mode: 'production',
     plugins: [
         new webpack.DefinePlugin({
             __PATH__: PATH['production'],
-            'process.env.NODE_ENV': JSON.stringify('production'),
         }),
-        /* Optimize bundle load time */
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new UglifyJSPlugin({ sourceMap: true }),
     ],
 };
 
