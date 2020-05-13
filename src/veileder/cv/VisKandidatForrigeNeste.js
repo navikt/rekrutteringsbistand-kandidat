@@ -4,6 +4,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
 
 const VisKandidatForrigeNeste = ({
+    className,
     lenkeClass,
     forrigeKandidat,
     nesteKandidat,
@@ -11,8 +12,9 @@ const VisKandidatForrigeNeste = ({
     antallKandidater,
 }) => {
     if (antallKandidater > 1) {
+        const klasseNavn = className ? className : '';
         return (
-            <div className="navigering-forrige-neste">
+            <div className={'navigering-forrige-neste ' + klasseNavn}>
                 {forrigeKandidat && (
                     <LenkeMedChevron
                         to={forrigeKandidat}
@@ -48,6 +50,7 @@ VisKandidatForrigeNeste.defaultProps = {
 };
 
 VisKandidatForrigeNeste.propTypes = {
+    className: PropTypes.string,
     lenkeClass: PropTypes.string.isRequired,
     forrigeKandidat: PropTypes.string,
     nesteKandidat: PropTypes.string,

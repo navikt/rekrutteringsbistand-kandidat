@@ -150,7 +150,7 @@ const midlertidigUtilgjengeligReducer = (
                 [action.kandidatnr]: Suksess({
                     midlertidigUtilgjengelig: null,
                 }),
-                endretTidspunkt: action.endretTidspunkt
+                endretTidspunkt: action.endretTidspunkt,
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
             return {
@@ -162,7 +162,7 @@ const midlertidigUtilgjengeligReducer = (
             return {
                 ...state,
                 [action.kandidatnr]: Suksess(action.response),
-                endretTidspunkt: action.endretTidspunkt
+                endretTidspunkt: action.endretTidspunkt,
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
@@ -217,7 +217,7 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
             type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
             kandidatnr: action.kandidatnr,
             response,
-            endretTidspunkt: Date.now()
+            endretTidspunkt: Date.now(),
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -240,7 +240,7 @@ function* endreMidlertidigUtilgjengelig(action: EndreMidlertidigUtilgjengeligAct
             type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
             kandidatnr: action.kandidatnr,
             response,
-            endretTidspunkt: Date.now()
+            endretTidspunkt: Date.now(),
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -261,7 +261,7 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
         yield put<MidlertidigUtilgjengeligAction>({
             type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
             kandidatnr: action.kandidatnr,
-            endretTidspunkt: Date.now()
+            endretTidspunkt: Date.now(),
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

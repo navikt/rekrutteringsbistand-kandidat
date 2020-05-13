@@ -7,7 +7,7 @@ import { Knapp } from 'pam-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
 import { CvActionType, HentCvStatus } from '../../cv/reducer/cvReducer.ts';
-import VisKandidatPersonalia from '../../cv/VisKandidatPersonalia';
+import CvHeader from '../../cv/header/CvHeader';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
 import { getUrlParameterByName } from '../../../felles/sok/utils';
@@ -277,7 +277,7 @@ class VisKandidat extends React.Component {
 
         return (
             <div>
-                <VisKandidatPersonalia
+                <CvHeader
                     cv={cv}
                     tilbakeLink={tilbakeLink}
                     antallKandidater={antallKandidater}

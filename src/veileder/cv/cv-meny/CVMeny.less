@@ -1,19 +1,21 @@
+@import '../../variabler';
+
 .cv-meny {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     background-color: white;
-    max-width: 87.5rem;
+    max-width: @kandidatsok-innhold-bredde;
     margin-bottom: 2.5rem;
     box-shadow: 0px 2px 4px #c6c2bf;
 
-    @media (min-width: 1280px) {
+    @media (min-width: 1024px) {
         margin-left: 2.5rem;
         margin-right: 2.5rem;
     }
 
-    @media (min-width: 1440px) {
+    @media (min-width: 1590px) {
         margin-right: auto;
         margin-left: auto;
     }
