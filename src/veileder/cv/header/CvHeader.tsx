@@ -48,14 +48,19 @@ const CvHeader: FunctionComponent<Props> = ({
     return (
         <header className="cv-header">
             <div className="cv-header__inner">
-                <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
-                <div className="cv-header__info-wrapper">
-                    <Systemtittel>
+                <LenkeMedChevron
+                    className="cv-header__tilbakeknapp"
+                    type="venstre"
+                    to={tilbakeLink}
+                    text={tilbakeLenkeTekst}
+                />
+                <div>
+                    <Systemtittel className="blokk-xs">
                         {fantCv
                             ? `${fornavn} ${etternavn}`
                             : 'Informasjonen om kandidaten kan ikke vises'}
                     </Systemtittel>
-                    <div className="cv-header__kontaktinfo">
+                    <div className="cv-header__kontaktinfo blokk-xxxs">
                         <span>{formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}</span>
                         <span>
                             Veileder: <strong>{veilederinfo}</strong>
@@ -86,17 +91,18 @@ const CvHeader: FunctionComponent<Props> = ({
                         )}
                     </div>
                 </div>
+                {fantCv && (
+                    <VisKandidatForrigeNeste
+                        className="cv-header__forrige-neste-knapper"
+                        lenkeClass=""
+                        forrigeKandidat={forrigeKandidat}
+                        nesteKandidat={nesteKandidat}
+                        gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                        antallKandidater={antallKandidater}
+                    />
+                )}
             </div>
         </header>
-        //             {fantCv && (
-        //                 <VisKandidatForrigeNeste
-        //                     lenkeClass={lenkeClass}
-        //                     forrigeKandidat={forrigeKandidat}
-        //                     nesteKandidat={nesteKandidat}
-        //                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-        //                     antallKandidater={antallKandidater}
-        //                 />
-        //             )}
     );
 };
 

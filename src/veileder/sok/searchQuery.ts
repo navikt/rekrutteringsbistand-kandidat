@@ -221,6 +221,6 @@ export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
         geografiList: stilling.kommune,
         harHentetStilling: true,
         tilretteleggingsbehov: stillingHarTilretteleggingsmuligheter,
-        kategorier: tilretteleggingsbehov
+        kategorier: tilretteleggingsbehov,
     };
 };

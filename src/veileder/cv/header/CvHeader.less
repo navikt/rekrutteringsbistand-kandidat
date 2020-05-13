@@ -9,9 +9,12 @@
         width: 100%;
         max-width: 87.5rem;
         margin: 0 auto;
+        position: relative;
     }
 
-    &__info-wrapper {
+    &__tilbakeknapp {
+        width: 13rem;
+        margin-right: 3rem;
     }
 
     &__kontaktinfo > * {
@@ -21,12 +24,18 @@
         }
     }
 
+    &__forrige-neste-knapper {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        margin-top: 0rem;
+    }
+
     @media (min-width: 1280px) {
         margin-bottom: 2.5rem;
 
         &__inner {
             flex-direction: row;
-            justify-content: flex-start;
         }
     }
 }
