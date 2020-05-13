@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Fieldset, Radio } from 'nav-frontend-skjema';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
+import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
