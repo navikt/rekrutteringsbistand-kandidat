@@ -1,13 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Column, Container } from 'nav-frontend-grid';
-import { Normaltekst } from 'nav-frontend-typografi';
-import TelefonIkon from '../ikon/TelefonIkon';
-import MailIkon from '../ikon/MailIkon';
-import AdresseIkon from '../ikon/AdresseIkon';
+import { Systemtittel } from 'nav-frontend-typografi';
 import VisKandidatForrigeNeste from '../VisKandidatForrigeNeste';
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../lenkeMedChevron/LenkeMedChevron';
-import Sidetittel from '../../../felles/common/Sidetittel';
 import {
     formaterFødselsdato,
     formatMobileTelephoneNumber,
@@ -34,13 +29,13 @@ const CvHeader: FunctionComponent<Props> = ({
     nesteKandidat,
     fantCv,
 }) => {
-    let fornavnStorForbokstav;
+    let fornavn;
     if (cv.fornavn) {
-        fornavnStorForbokstav = capitalizeFirstLetter(cv.fornavn);
+        fornavn = capitalizeFirstLetter(cv.fornavn);
     }
-    let etternavnStorForbokstav;
+    let etternavn;
     if (cv.etternavn) {
-        etternavnStorForbokstav = capitalizeFirstLetter(cv.etternavn);
+        etternavn = capitalizeFirstLetter(cv.etternavn);
     }
 
     const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
@@ -49,82 +44,59 @@ const CvHeader: FunctionComponent<Props> = ({
     const veilederinfo = cv.veilederNavn
         ? `${cv.veilederNavn} (${cv.veilederIdent})`
         : 'ikke tildelt';
-    const lenkeClass = 'header--personalia__lenke--veileder';
 
     return (
-        <div className="header--bakgrunn__veileder" id="bakgrunn-personalia">
-            <Container className="blokk-s">
-                <Column className="header--personalia__lenker--container">
-                    <LenkeMedChevron
-                        type="venstre"
-                        to={tilbakeLink}
-                        className={lenkeClass}
-                        text={tilbakeLenkeTekst}
-                    />
-                    {fantCv && (
-                        <VisKandidatForrigeNeste
-                            lenkeClass={lenkeClass}
-                            forrigeKandidat={forrigeKandidat}
-                            nesteKandidat={nesteKandidat}
-                            gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                            antallKandidater={antallKandidater}
-                        />
-                    )}
-                </Column>
-            </Container>
-            <Sidetittel className="header--personalia__overskrift">
-                {fantCv
-                    ? `${fornavnStorForbokstav} ${etternavnStorForbokstav}`
-                    : 'Informasjonen om kandidaten kan ikke vises'}
-            </Sidetittel>
-            <Normaltekst className="header--personalia__fodselsdato">
-                {formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;Veileder: {veilederinfo}</span>
-            </Normaltekst>
-            {fantCv && (
-                <div className="personalia-container">
-                    {cv.epost && (
-                        <div className="personalia--item">
-                            <div className="personalia--icon">
-                                <MailIkon />
-                            </div>
-                            <Normaltekst className="header--personalia__tekst">
-                                <a
-                                    href={`mailto:${cv.epost}`}
-                                    className="header--personalia__mail--veileder"
-                                >
-                                    {cv.epost}
-                                </a>
-                            </Normaltekst>
-                        </div>
-                    )}
-                    {cv.telefon && (
-                        <div className="personalia--item">
-                            <div className="personalia--icon">
-                                <TelefonIkon />
-                            </div>
-                            <Normaltekst className="header--personalia__tekst">
-                                <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
-                            </Normaltekst>
-                        </div>
-                    )}
-                    {cv.adresse && cv.adresse.adrlinje1 && (
-                        <div className="personalia--item">
-                            <div className="personalia--icon">
-                                <AdresseIkon />
-                            </div>
-                            <Normaltekst className="header--personalia__tekst">
-                                {formatterAdresse(
-                                    cv.adresse.adrlinje1,
-                                    cv.adresse.postnr,
-                                    cv.adresse.poststednavn
-                                )}
-                            </Normaltekst>
-                        </div>
-                    )}
+        <header className="cv-header">
+            <div className="cv-header__inner">
+                <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
+                <div className="cv-header__info-wrapper">
+                    <Systemtittel>
+                        {fantCv
+                            ? `${fornavn} ${etternavn}`
+                            : 'Informasjonen om kandidaten kan ikke vises'}
+                    </Systemtittel>
+                    <div className="cv-header__kontaktinfo">
+                        <span>{formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}</span>
+                        <span>
+                            Veileder: <strong>{veilederinfo}</strong>
+                        </span>
+                    </div>
+                    <div className="cv-header__kontaktinfo">
+                        {cv.epost && (
+                            <span>
+                                E-post: <a href={`mailto:${cv.epost}`}>{cv.epost}</a>
+                            </span>
+                        )}
+                        {cv.telefon && (
+                            <span>
+                                Telefon: <strong>{formatMobileTelephoneNumber(cv.telefon)}</strong>
+                            </span>
+                        )}
+                        {cv.adresse && cv.adresse.adrlinje1 && (
+                            <span>
+                                Adresse:{' '}
+                                <strong>
+                                    {formatterAdresse(
+                                        cv.adresse.adrlinje1,
+                                        cv.adresse.postnr,
+                                        cv.adresse.poststednavn
+                                    )}
+                                </strong>
+                            </span>
+                        )}
+                    </div>
                 </div>
-            )}
-        </div>
+            </div>
+        </header>
+        //             {fantCv && (
+        //                 <VisKandidatForrigeNeste
+        //                     lenkeClass={lenkeClass}
+        //                     forrigeKandidat={forrigeKandidat}
+        //                     nesteKandidat={nesteKandidat}
+        //                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+        //                     antallKandidater={antallKandidater}
+        //                 />
+        //             )}
     );
 };
 
