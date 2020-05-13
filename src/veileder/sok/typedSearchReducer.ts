@@ -8,7 +8,6 @@ import {
     FJERN_ERROR,
     HENT_FERDIGUTFYLTE_STILLINGER_FAILURE,
     HENT_FERDIGUTFYLTE_STILLINGER_SUCCESS,
-    INITIAL_SEARCH_BEGIN,
     INVALID_RESPONSE_STATUS,
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
@@ -22,6 +21,7 @@ import {
     SET_SCROLL_POSITION,
     SET_STATE,
     SETT_KANDIDATNUMMER,
+    SØK_MED_INFO_FRA_STILLING,
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
 import { toUrlQuery } from './searchQuery';
@@ -90,7 +90,7 @@ const defaultState: SearchState = {
 
 export const searchReducer = (state: SearchState = defaultState, action: any): SearchState => {
     switch (action.type) {
-        case INITIAL_SEARCH_BEGIN:
+        case SØK_MED_INFO_FRA_STILLING:
             return {
                 ...state,
                 maksAntallTreff: 0,

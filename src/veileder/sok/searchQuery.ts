@@ -192,16 +192,12 @@ export const mapUrlToInitialQuery = (url: string): InitialQuery => {
     return stateFromUrl;
 };
 
-const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
-    const nyQuery = { ...urlQuery };
+export const harUrlParametere = (url: string): boolean => {
+    const query: InitialQuery = mapUrlToInitialQuery(url);
+    return Object.keys(query).length > 0;
+};
 
-    nyQuery.tilretteleggingsbehov = tag.includes('INKLUDERING');
-    if (!nyQuery.tilretteleggingsbehov) {
-        return nyQuery;
-    }
-
-    nyQuery.kategorier = [];
-
+const mapTilTilretteleggingsbehov = (tagsFraStilling: string[]) => {
     const tilretteleggingsmuligheterTilBehov = {
         INKLUDERING__ARBEIDSTID: 'arbeidstid',
         INKLUDERING__FYSISK: 'fysisk',
@@ -209,22 +205,22 @@ const mapTilretteleggingsmuligheterTilBehov = (urlQuery, tag) => {
         INKLUDERING__GRUNNLEGGENDE: 'utfordringerMedNorsk',
     };
 
-    nyQuery.kategorier = tag
+    return tagsFraStilling
         .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
         .map((t) => tilretteleggingsmuligheterTilBehov[t]);
-
-    return nyQuery;
 };
 
 export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
-    const data: InitialQuery = {};
+    const stillingHarTilretteleggingsmuligheter = stilling.tag.includes('INKLUDERING');
+    const tilretteleggingsbehov = stillingHarTilretteleggingsmuligheter
+        ? mapTilTilretteleggingsbehov(stilling.tag)
+        : undefined;
 
-    data.stillinger = stilling.stilling;
-    data.geografiList = stilling.kommune;
-    data.harHentetStilling = true;
-
-    if (stilling.tag.length > 0) {
-        return mapTilretteleggingsmuligheterTilBehov(data, stilling.tag);
-    }
-    return data;
+    return {
+        stillinger: stilling.stilling,
+        geografiList: stilling.kommune,
+        harHentetStilling: true,
+        tilretteleggingsbehov: stillingHarTilretteleggingsmuligheter,
+        kategorier: tilretteleggingsbehov
+    };
 };
