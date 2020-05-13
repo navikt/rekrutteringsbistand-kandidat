@@ -87,9 +87,7 @@ const inverterMidlertidigUtilgjengeligFordiFilteretErInvertert = (
     if (!tilgjengelighetSomSkalFiltreresBort || tilgjengelighetSomSkalFiltreresBort.length === 0) {
         return [];
     }
-    return [
-        Tilgjengelighet.MidlertidigUtilgjengelig,
-        Tilgjengelighet.Tilgjengelig,
-        Tilgjengelighet.TilgjengeligInnen1Uke,
-    ].filter((tilgjengelighet) => !tilgjengelighetSomSkalFiltreresBort.includes(tilgjengelighet));
+    return (Object.values(Tilgjengelighet) as Tilgjengelighet[]).filter(
+        (tilgjengelighet) => !tilgjengelighetSomSkalFiltreresBort.includes(tilgjengelighet)
+    );
 };
