@@ -16,7 +16,7 @@ import '../../../felles/common/ikoner/ikoner.less';
 import useKandidatlistefilter from './useKandidatlistefilter';
 import Navnefilter from './navnefilter/Navnefilter';
 import { Element } from 'nav-frontend-typografi';
-import {Status} from "./kandidatrad/statusSelect/StatusSelect";
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -75,8 +75,12 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         <div className="kandidatliste">
             <SideHeader
                 antallKandidater={props.kandidater.length - antallArkiverte}
-                antallAktuelleKandidater={props.kandidater.filter(kandidat => kandidat.status === Status.Aktuell).length}
-                antallPresenterteKandidater={props.kandidater.filter(kandidat => kandidat.utfall === 'PRESENTERT').length}
+                antallAktuelleKandidater={
+                    props.kandidater.filter((kandidat) => kandidat.status === Status.Aktuell).length
+                }
+                antallPresenterteKandidater={
+                    props.kandidater.filter((kandidat) => kandidat.utfall === 'PRESENTERT').length
+                }
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}

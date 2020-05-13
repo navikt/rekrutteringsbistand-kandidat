@@ -29,11 +29,13 @@ const SideHeader: FunctionComponent<Props> = ({
 }) => (
     <header className="side-header">
         <div className="side-header__inner">
-            <div className="side-header__tilbake"></div>
+            <div className="side-header__tilbake"/>
             <div className="side-header__informasjon">
                 <Sidetittel className="side-header__tittel">{tittel}</Sidetittel>
                 <Element className="side-header__antall-kandidater">
-                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`} ({antallAktuelleKandidater} er aktuelle / {antallPresenterteKandidater} er presentert)
+                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`} (
+                    {antallAktuelleKandidater} er aktuelle / {antallPresenterteKandidater} er
+                    presentert)
                 </Element>
                 <div className="side-header__om-kandidatlisten">
                     {arbeidsgiver && (
