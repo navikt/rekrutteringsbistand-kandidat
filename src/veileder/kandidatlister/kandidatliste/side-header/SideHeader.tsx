@@ -5,6 +5,8 @@ import Lenke from 'nav-frontend-lenker';
 import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
+import { Link } from 'react-router-dom';
+import NavFrontendChevron from 'nav-frontend-chevron';
 
 type Props = {
     tittel: string;
@@ -25,7 +27,12 @@ const SideHeader: FunctionComponent<Props> = ({
 }) => (
     <header className="side-header">
         <div className="side-header__inner">
-            <div className="side-header__tilbake" />
+            <div className="side-header__tilbake">
+                <Link className="side-header__tilbakelenke lenke" to="/kandidater/lister">
+                    <NavFrontendChevron type="venstre" />
+                    <span>Til kandidatlister</span>
+                </Link>
+            </div>
             <div className="side-header__informasjon">
                 <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
                 <Element className="side-header__antall-kandidater">

@@ -17,6 +17,18 @@
         margin-bottom: 1rem;
     }
 
+    &__tilbakelenke {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.5rem 0.125rem 0;
+
+        &:hover {
+            .nav-frontend-chevron {
+                transform: translateX(-0.125rem) rotate(-90deg);
+            }
+        }
+    }
+
     &__antall-kandidater.typo-element {
         margin-bottom: 0.5rem;
     }
@@ -41,7 +53,7 @@
         &__tilbake {
             flex-shrink: 0;
             width: @kandidatsok-sidepanel-bredde;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             margin-right: 3rem;
         }
 
