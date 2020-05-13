@@ -122,7 +122,7 @@ class Kandidatlisteside extends React.Component<Props> {
             const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
             if (tid < 10000) {
                 logEvent(
-                    'cv_kandidatliste',
+                    'kandidatliste',
                     'fra_midlertidig_utilgjengelig',
                     Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt
                 );
