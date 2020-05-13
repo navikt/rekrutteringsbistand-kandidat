@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect, Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
@@ -28,34 +28,25 @@ import midlertidigUtilgjengeligReducer, {
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import sprakReducer from './sok/sprak/sprakReducer';
-import KandidatlisteMedStilling from './kandidatlister/KandidatlisteMedStilling';
-import KandidatlisteUtenStilling from './kandidatlister/KandidatlisteUtenStilling';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
-import VisKandidat from './result/visKandidat/VisKandidat';
 import ErrorSide from './sok/error/ErrorSide';
-import NotFound from './sok/error/NotFound';
-import VisKandidatFraLister from './kandidatlister/VisKandidatFraLister';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
 import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import permitteringReducer from './sok/permittering/permitteringReducer.ts';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
-import Kandidatlister from './kandidatlister/Kandidatlister';
 import enhetsregisterReducer, {
     enhetsregisterSaga,
 } from './common/typeahead/enhetsregisterReducer';
 import navkontorReducer from './sok/navkontor/navkontorReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
-import { Normaltekst } from 'nav-frontend-typografi';
 import Dekoratør from './dekoratør/Dekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
-import { TilToppenKnapp } from './common/tilToppenKnapp/TilToppenKnapp';
-import KandidatsøkFraKandidatliste from './result/KandidatsøkFraKandidatliste';
-import DefaultKandidatsøk from './result/DefaultKandidatsøk';
-import KandidatsøkFraStilling from './result/KandidatsøkFraStilling';
+import Footer from './footer/Footer';
+import Application from './application/Application';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -99,72 +90,22 @@ class Sok extends React.Component {
     render() {
         const { error, fjernError } = this.props;
 
-        const header = (
-            <>
-                <Dekoratør />
-                <Navigeringsmeny />
-            </>
-        );
-
         if (error) {
             return (
                 <BrowserRouter>
                     <div>
-                        {header}
+                        <Dekoratør />
+                        <Navigeringsmeny />
                         <ErrorSide error={error} fjernError={fjernError} />
+                        <Footer />
                     </div>
                 </BrowserRouter>
             );
         }
+
         return (
             <BrowserRouter>
-                <Normaltekst tag="div" className="Application">
-                    <div className="Application__main">
-                        {header}
-                        <Switch>
-                            <Route exact path="/kandidater" component={DefaultKandidatsøk} />
-                            <Route
-                                exact
-                                path="/kandidater/kandidatliste/:kandidatlisteId"
-                                component={KandidatsøkFraKandidatliste}
-                            />
-                            <Route
-                                exact
-                                path="/kandidater/stilling/:stillingsId"
-                                component={KandidatsøkFraStilling}
-                            />
-                            <Route exact path="/kandidater/cv" component={VisKandidat} />
-                            <Route
-                                exact
-                                path="/kandidater/kandidatliste/:kandidatlisteId/cv"
-                                component={VisKandidat}
-                            />
-                            <Route
-                                exact
-                                path="/kandidater/stilling/:stillingsId/cv"
-                                component={VisKandidat}
-                            />
-                            <Route exact path="/kandidater/lister" component={Kandidatlister} />
-                            <Route
-                                exact
-                                path="/kandidater/lister/stilling/:id/detaljer"
-                                component={KandidatlisteMedStilling}
-                            />
-                            <Route
-                                exact
-                                path="/kandidater/lister/detaljer/:listeid"
-                                component={KandidatlisteUtenStilling}
-                            />
-                            <Route
-                                exact
-                                path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr"
-                                component={VisKandidatFraLister}
-                            />
-                            <Route component={NotFound} />
-                        </Switch>
-                    </div>
-                </Normaltekst>
-                <TilToppenKnapp />
+                <Application />
             </BrowserRouter>
         );
     }
@@ -192,21 +133,13 @@ const mapDispatchToProps = (dispatch) => ({
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
 });
-/*
-End class Sok
- */
 
 const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
 
-// eslint-disable-next-line no-unused-vars
 const App = () => (
-    <div>
-        <Provider store={store}>
-            <div>
-                <SokApp />
-            </div>
-        </Provider>
-    </div>
+    <Provider store={store}>
+        <SokApp />
+    </Provider>
 );
 
 sagaMiddleware.run(saga);
