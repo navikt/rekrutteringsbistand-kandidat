@@ -19,6 +19,7 @@ import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import { logEvent } from '../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
 
@@ -50,6 +51,16 @@ class KandidaterVisning extends React.Component {
             lagreKandidaterModalTilStillingVises: false,
             kandidater: props.kandidater,
         };
+        if (props.midlertidigUtilgjengeligEndretTidspunkt) {
+            const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
+            if (tid < 10000) {
+                logEvent(
+                    'kandidatsøk',
+                    'fra_midlertidig_utilgjengelig',
+                    Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt
+                );
+            }
+        }
     }
 
     componentDidMount() {
@@ -268,6 +279,7 @@ KandidaterVisning.propTypes = {
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
+    midlertidigUtilgjengeligEndretTidspunkt: PropTypes.number,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -311,6 +323,7 @@ const mapStateToProps = (state) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
+    midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);

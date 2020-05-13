@@ -39,6 +39,7 @@ export type LagreMidlertidigUtilgjengeligSuccessAction = {
     type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS';
     kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
+    endretTidspunkt: number;
 };
 
 export type LagreMidlertidigUtilgjengeligFailureAction = {
@@ -57,6 +58,7 @@ export type EndreMidlertidigUtilgjengeligSuksessAction = {
     type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
     kandidatnr: string;
     response: MidlertidigUtilgjengeligResponse;
+    endretTidspunkt: number;
 };
 export type EndreMidlertidigUtilgjengeligFailureAction = {
     type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
@@ -72,6 +74,7 @@ export type SlettMidlertidigUtilgjengeligAction = {
 export type SlettMidlertidigUtilgjengeligSuksessAction = {
     type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS';
     kandidatnr: string;
+    endretTidspunkt: number;
 };
 export type SlettMidlertidigUtilgjengeligFailureAction = {
     type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE';
@@ -147,13 +150,19 @@ const midlertidigUtilgjengeligReducer = (
                 [action.kandidatnr]: Suksess({
                     midlertidigUtilgjengelig: null,
                 }),
+                endretTidspunkt: action.endretTidspunkt
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
+            return {
+                ...state,
+                [action.kandidatnr]: Suksess(action.response),
+            };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
                 [action.kandidatnr]: Suksess(action.response),
+                endretTidspunkt: action.endretTidspunkt
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
@@ -208,6 +217,7 @@ function* lagreMidlertidigUtilgjengelig(action: LagreMidlertidigUtilgjengeligAct
             type: 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS',
             kandidatnr: action.kandidatnr,
             response,
+            endretTidspunkt: Date.now()
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -230,6 +240,7 @@ function* endreMidlertidigUtilgjengelig(action: EndreMidlertidigUtilgjengeligAct
             type: 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
             kandidatnr: action.kandidatnr,
             response,
+            endretTidspunkt: Date.now()
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -250,6 +261,7 @@ function* slettMidlertidigUtilgjengelig(action: SlettMidlertidigUtilgjengeligAct
         yield put<MidlertidigUtilgjengeligAction>({
             type: 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS',
             kandidatnr: action.kandidatnr,
+            endretTidspunkt: Date.now()
         });
     } catch (e) {
         if (e instanceof SearchApiError) {

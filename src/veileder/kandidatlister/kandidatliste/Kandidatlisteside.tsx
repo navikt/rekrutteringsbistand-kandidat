@@ -21,6 +21,7 @@ import {
     Sms,
     SmsStatus,
 } from '../kandidatlistetyper';
+import { logEvent } from '../../amplitude/amplitude';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
 import AppState from '../../AppState';
@@ -71,6 +72,7 @@ type Props = {
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
     scrolletFraToppen: { [kandidatlisteId: string]: number };
+    midlertidigUtilgjengeligEndretTidspunkt: any;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -116,6 +118,16 @@ class Kandidatlisteside extends React.Component<Props> {
                 type: 'suksess',
             },
         };
+        if (props.midlertidigUtilgjengeligEndretTidspunkt) {
+            const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
+            if (tid < 10000) {
+                logEvent(
+                    'kandidatliste',
+                    'fra_midlertidig_utilgjengelig',
+                    Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt
+                );
+            }
+        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -523,6 +535,7 @@ const mapStateToProps = (state: AppState) => ({
     statusArkivering: state.kandidatlister.arkivering.statusArkivering,
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
     scrolletFraToppen: state.kandidatlister.scrollPosition,
+    midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
