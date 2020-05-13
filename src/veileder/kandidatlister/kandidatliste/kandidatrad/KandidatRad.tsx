@@ -280,8 +280,7 @@ const KandidatRad: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-    visMidlertidigUtilgjengeligPopover: true
-        // TODO state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
+    visMidlertidigUtilgjengeligPopover: state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

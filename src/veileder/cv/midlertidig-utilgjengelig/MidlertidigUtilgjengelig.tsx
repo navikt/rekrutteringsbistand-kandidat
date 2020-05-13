@@ -166,7 +166,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 export default connect(
     (state: AppState) => ({
         aktørId: state.cv.cv.aktorId,
-        visMidlertidigUtilgjengelig: true,// TODO state.search.featureToggles['vis-midlertidig-utilgjengelig'],
+        visMidlertidigUtilgjengelig: state.search.featureToggles['vis-midlertidig-utilgjengelig'],
     }),
     (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
