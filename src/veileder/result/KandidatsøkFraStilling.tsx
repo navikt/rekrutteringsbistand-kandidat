@@ -1,11 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-    INITIAL_SEARCH_BEGIN,
     LUKK_ALLE_SOKEPANEL,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
     SET_STATE,
+    SØK_MED_INFO_FRA_STILLING,
+    SØK_MED_URL_PARAMETERE,
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { Nettstatus } from '../../felles/common/remoteData';
@@ -17,6 +18,7 @@ import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
+import { harUrlParametere } from '../sok/searchQuery';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -32,6 +34,8 @@ type Props = DefaultKandidatsøkProps & {
         kandidatlisteId: string;
         tittel: string;
     };
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
+    leggUrlParametereIStateOgSøk: () => void;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -41,7 +45,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     antallLagredeKandidater,
     lagretKandidatliste,
     leggTilKandidatStatus,
-    initialSearch,
+    leggInfoFraStillingIStateOgSøk,
+    leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
     resetQuery,
@@ -58,8 +63,19 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
-        initialSearch(stillingsId, undefined);
-    }, [stillingsId, initialSearch]);
+        if (harUrlParametere(window.location.href)) {
+            leggUrlParametereIStateOgSøk();
+        } else {
+            if (!harHentetStilling) {
+                leggInfoFraStillingIStateOgSøk(stillingsId);
+            }
+        }
+    }, [
+        stillingsId,
+        harHentetStilling,
+        leggInfoFraStillingIStateOgSøk,
+        leggUrlParametereIStateOgSøk,
+    ]);
 
     const header = (
         <Container className="container--header">
@@ -117,9 +133,9 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    initialSearch: (stillingsId, kandidatlisteId) => {
-        dispatch({ type: INITIAL_SEARCH_BEGIN, stillingsId, kandidatlisteId });
-    },
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string) =>
+        dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId }),
+    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
