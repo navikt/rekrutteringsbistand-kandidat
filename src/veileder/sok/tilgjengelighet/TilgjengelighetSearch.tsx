@@ -40,8 +40,8 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     panelOpen: state.tilgjengelighet.panelOpen,
-    visMidlertidigUtilgjengeligFilter: true, // TODO Ta tilbake
-    // state.search.featureToggles['vis-midlertidig-utilgjengelig-filter'],
+    visMidlertidigUtilgjengeligFilter:
+        state.search.featureToggles['vis-midlertidig-utilgjengelig-filter'],
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
