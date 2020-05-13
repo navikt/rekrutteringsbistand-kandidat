@@ -9,6 +9,8 @@ import './SideHeader.less';
 type Props = {
     tittel: string;
     antallKandidater: number;
+    antallAktuelleKandidater: number;
+    antallPresenterteKandidater: number;
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
     stillingsId: string | null;
@@ -18,6 +20,8 @@ type Props = {
 const SideHeader: FunctionComponent<Props> = ({
     tittel,
     antallKandidater,
+    antallAktuelleKandidater,
+    antallPresenterteKandidater,
     arbeidsgiver,
     opprettetAv,
     stillingsId,
@@ -29,7 +33,7 @@ const SideHeader: FunctionComponent<Props> = ({
             <div className="side-header__informasjon">
                 <Sidetittel className="side-header__tittel">{tittel}</Sidetittel>
                 <Element className="side-header__antall-kandidater">
-                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
+                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`} ({antallAktuelleKandidater} er aktuelle / {antallPresenterteKandidater} er presentert)
                 </Element>
                 <div className="side-header__om-kandidatlisten">
                     {arbeidsgiver && (
