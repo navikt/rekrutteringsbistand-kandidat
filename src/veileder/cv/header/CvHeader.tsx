@@ -9,6 +9,7 @@ import {
     formatterAdresse,
 } from './personaliaFormattering';
 import './CvHeader.less';
+import { formatterDato } from '../../../felles/common/dateUtils';
 
 interface Props {
     cv: any;
@@ -45,15 +46,31 @@ const CvHeader: FunctionComponent<Props> = ({
         ? `${cv.veilederNavn} (${cv.veilederIdent})`
         : 'ikke tildelt';
 
+    let fødselsinfo;
+    if (cv.fodselsdato) {
+        fødselsinfo = (
+            <span>
+                Fødselsdato:{' '}
+                <strong>
+                    {formatterDato(new Date(cv.fodselsdato))}{' '}
+                    {cv.fodselsnummer && <>({cv.fodselsnummer})</>}
+                </strong>
+            </span>
+        );
+    } else if (cv.fodselsnummer) {
+        fødselsinfo = (
+            <span>
+                Fødselsnummer: <strong>{cv.fodselsnummer}</strong>
+            </span>
+        );
+    }
+
     return (
         <header className="cv-header">
             <div className="cv-header__inner">
-                <LenkeMedChevron
-                    className="cv-header__tilbakeknapp"
-                    type="venstre"
-                    to={tilbakeLink}
-                    text={tilbakeLenkeTekst}
-                />
+                <div className="cv-header__tilbakeknapp">
+                    <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
+                </div>
                 <div>
                     <Systemtittel className="blokk-xs">
                         {fantCv
@@ -61,7 +78,7 @@ const CvHeader: FunctionComponent<Props> = ({
                             : 'Informasjonen om kandidaten kan ikke vises'}
                     </Systemtittel>
                     <div className="cv-header__kontaktinfo blokk-xxxs">
-                        <span>{formaterFødselsdato(cv.fodselsdato, cv.fodselsnummer)}</span>
+                        {fødselsinfo}
                         <span>
                             Veileder: <strong>{veilederinfo}</strong>
                         </span>
@@ -69,7 +86,10 @@ const CvHeader: FunctionComponent<Props> = ({
                     <div className="cv-header__kontaktinfo">
                         {cv.epost && (
                             <span>
-                                E-post: <a href={`mailto:${cv.epost}`}>{cv.epost}</a>
+                                E-post:{' '}
+                                <a className="cv-header__epost" href={`mailto:${cv.epost}`}>
+                                    {cv.epost}
+                                </a>
                             </span>
                         )}
                         {cv.telefon && (
