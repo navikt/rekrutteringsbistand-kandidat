@@ -35,7 +35,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/del-opp-initial-search'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/inverter-midl-util'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
