@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Sidetittel, Element } from 'nav-frontend-typografi';
+import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
 import { OpprettetAv } from '../../kandidatlistetyper';
@@ -15,58 +15,14 @@ type Props = {
     beskrivelse?: string;
 };
 
-const SideHeader: FunctionComponent<Props> = (
-    {
-        tittel,
-        antallKandidater,
-        arbeidsgiver,
-        opprettetAv,
-        stillingsId,
-        beskrivelse,
-    } /*
-    <div className="side-header">
-        <div className="side-header__wrapper">
-            <div className="side-header__top">
-                <div className="side-header__header-side" />
-                <Sidetittel className="tittel">{tittel}</Sidetittel>
-                <div className="side-header__header-side" />
-            </div>
-            <div className="side-header__antall">
-                <Element>
-                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
-                </Element>
-            </div>
-            <div className="side-header__bottom">
-                {arbeidsgiver && (
-                    <div className="side-header__bottom--no-border-left">
-                        Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}
-                    </div>
-                )}
-                <div
-                    className={`${
-                        arbeidsgiver
-                            ? 'side-header__bottom--border-left'
-                            : 'side-header__bottom--no-border-left'
-                    }`}
-                >
-                    {`Veileder: ${opprettetAv.navn} (${opprettetAv.ident})`}
-                </div>
-                {stillingsId && (
-                    <div className="side-header__bottom--border-left">
-                        <a className="link" href={`/stilling/${stillingsId}`}>
-                            Se stillingsannonse
-                        </a>
-                    </div>
-                )}
-            </div>
-            {beskrivelse && (
-                <div className="side-header__beskrivelse">
-                    <Normaltekst>{beskrivelse}</Normaltekst>
-                </div>
-            )}
-        </div>
-    </div>*/
-) => (
+const SideHeader: FunctionComponent<Props> = ({
+    tittel,
+    antallKandidater,
+    arbeidsgiver,
+    opprettetAv,
+    stillingsId,
+    beskrivelse,
+}) => (
     <header className="side-header">
         <div className="side-header__inner">
             <div className="side-header__tilbake">Til kandidatlisten</div>
@@ -86,6 +42,9 @@ const SideHeader: FunctionComponent<Props> = (
                         <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
                     )}
                 </div>
+                {beskrivelse && (
+                    <Normaltekst className="side-header__beskrivelse">{beskrivelse}</Normaltekst>
+                )}
             </div>
         </div>
     </header>
