@@ -71,17 +71,16 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
+    const erAktuell = (k: KandidatIKandidatliste) => !k.arkivert && k.status === Status.Aktuell;
+    const erPresentert = (k: KandidatIKandidatliste) =>
+        !k.arkivert && k.utfall === Utfall.Presentert;
+
     return (
         <div className="kandidatliste">
             <SideHeader
                 antallKandidater={props.kandidater.length - antallArkiverte}
-                antallAktuelleKandidater={
-                    props.kandidater.filter((kandidat) => kandidat.status === Status.Aktuell).length
-                }
-                antallPresenterteKandidater={
-                    props.kandidater.filter((kandidat) => kandidat.utfall === Utfall.Presentert)
-                        .length
-                }
+                antallAktuelleKandidater={props.kandidater.filter(erAktuell).length}
+                antallPresenterteKandidater={props.kandidater.filter(erPresentert).length}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
