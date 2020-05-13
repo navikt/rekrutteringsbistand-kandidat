@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
@@ -17,18 +17,14 @@ import VisKandidat from '../result/visKandidat/VisKandidat';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import './Application.less';
 
-type Props = {
-    location: any;
-};
-
 const skalBrukeGråBakgrunn = (url: string) =>
     ['/kandidater/lister/stilling/', '/kandidater/lister/detaljer/'].some((urlMedGråBakgrunn) =>
         url.includes(urlMedGråBakgrunn)
     );
 
-const Application: FunctionComponent<Props> = ({ location }) => {
+const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
     const [brukGråBakgrunn, setBrukGråBakgrunn] = useState<boolean>(
-        skalBrukeGråBakgrunn(window.location.href)
+        skalBrukeGråBakgrunn(location.pathname)
     );
 
     useEffect(() => {
