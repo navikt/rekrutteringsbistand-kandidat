@@ -79,7 +79,7 @@ const store = createStore(
 
 export const reduxStore = store;
 
-class Sok extends React.Component {
+class RekrutteringsbistandKandidat extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
         logEvent('app', 'åpne', {
@@ -111,11 +111,11 @@ class Sok extends React.Component {
     }
 }
 
-Sok.defaultProps = {
+RekrutteringsbistandKandidat.defaultProps = {
     error: undefined,
 };
 
-Sok.propTypes = {
+RekrutteringsbistandKandidat.propTypes = {
     error: PropTypes.shape({
         status: PropTypes.number,
     }),
@@ -134,11 +134,14 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
 });
 
-const SokApp = connect(mapStateToProps, mapDispatchToProps)(Sok);
+const ConnectedRekrutteringsbistandKandidat = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RekrutteringsbistandKandidat);
 
 const App = () => (
     <Provider store={store}>
-        <SokApp />
+        <ConnectedRekrutteringsbistandKandidat />
     </Provider>
 );
 
