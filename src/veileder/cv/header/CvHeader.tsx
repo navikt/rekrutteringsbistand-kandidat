@@ -73,7 +73,7 @@ const CvHeader: FunctionComponent<Props> = ({
                             ? `${fornavn} ${etternavn}`
                             : 'Informasjonen om kandidaten kan ikke vises'}
                     </Systemtittel>
-                    <div className="cv-header__kontaktinfo blokk-xxxs">
+                    <div className="cv-header__kontaktinfo blokk-xxs">
                         {fødselsinfo}
                         <span>
                             Veileder: <strong>{veilederinfo}</strong>
