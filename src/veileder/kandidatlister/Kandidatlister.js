@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Flatknapp, Hovedknapp, Knapp } from 'pam-frontend-knapper';
+import { Flatknapp, Knapp } from 'pam-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -21,7 +21,8 @@ import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { MarkerSomMinStatus } from './kandidatlistetyper';
 import './Kandidatlister.less';
-import { KandidatlisterFilter } from './KandidatlisteFilter/KandidatlisterFilter';
+import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
+import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -33,7 +34,7 @@ const MODALVISING = {
 
 const PAGINERING_BATCH_SIZE = 20;
 
-const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
+export const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
     <form className="kandidatlister__sok" onSubmit={onSubmitSokKandidatlister}>
         <input
             id={'sok-kandidatlister-input'}
@@ -51,35 +52,6 @@ const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatl
             <i className="search-button__icon" />
         </Knapp>
     </form>
-);
-
-const SideHeader = ({
-    sokeOrd,
-    onSokeOrdChange,
-    onSubmitSokKandidatlister,
-    nullstillSok,
-    opprettListe,
-}) => (
-    <div className="side-header">
-        <div className="side-header__innhold">
-            <div className="header-child" />
-            <div className="header-child tittel-wrapper">
-                <SokKandidatlisterInput
-                    sokeOrd={sokeOrd}
-                    onSokeOrdChange={onSokeOrdChange}
-                    onSubmitSokKandidatlister={onSubmitSokKandidatlister}
-                />
-            </div>
-            <div className="header-child knapp-wrapper">
-                <Flatknapp onClick={nullstillSok} className="nullstill-sok__knapp" mini>
-                    Nullstill søk
-                </Flatknapp>
-                <Hovedknapp onClick={opprettListe} id="opprett-ny-liste">
-                    Opprett ny
-                </Hovedknapp>
-            </div>
-        </div>
-    </div>
 );
 
 const Kandidatlistevisning = ({
@@ -696,7 +668,7 @@ class Kandidatlister extends React.Component {
                     innhold={successMelding}
                 />
                 <div className="Kandidatlister">
-                    <SideHeader
+                    <KandidatlisterSideHeader
                         sokeOrd={sokeOrd}
                         onSokeOrdChange={this.onSokeOrdChange}
                         onSubmitSokKandidatlister={this.onSubmitSokKandidatlister}
@@ -799,18 +771,6 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     stillingId: PropTypes.string,
     kanSlette: PropTypes.string.isRequired,
 });
-
-SideHeader.defaultProps = {
-    sokeOrd: '',
-};
-
-SideHeader.propTypes = {
-    sokeOrd: PropTypes.string,
-    onSokeOrdChange: PropTypes.func.isRequired,
-    onSubmitSokKandidatlister: PropTypes.func.isRequired,
-    nullstillSok: PropTypes.func.isRequired,
-    opprettListe: PropTypes.func.isRequired,
-};
 
 KandidatlisterFilter.propTypes = {
     onFilterChange: PropTypes.func.isRequired,
