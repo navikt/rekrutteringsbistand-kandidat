@@ -5,7 +5,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import { HentCvStatus, CvActionType } from '../cv/reducer/cvReducer.ts';
-import VisKandidatPersonalia from '../cv/VisKandidatPersonalia';
+import CvHeader from '../cv/header/CvHeader';
 import VisKandidatCv from '../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
@@ -105,7 +105,7 @@ class VisKandidatFraLister extends React.Component {
         }
         return (
             <div>
-                <VisKandidatPersonalia
+                <CvHeader
                     cv={cv}
                     tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                     antallKandidater={kandidatliste.kandidater.length}

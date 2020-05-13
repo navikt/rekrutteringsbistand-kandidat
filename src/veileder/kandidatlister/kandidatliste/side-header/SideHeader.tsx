@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Sidetittel, Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
 import { OpprettetAv } from '../../kandidatlistetyper';
@@ -34,7 +34,7 @@ const SideHeader: FunctionComponent<Props> = ({
                 </Link>
             </div>
             <div className="side-header__informasjon">
-                <Sidetittel className="side-header__tittel">{tittel}</Sidetittel>
+                <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
                 <Element className="side-header__antall-kandidater">
                     {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
                 </Element>
