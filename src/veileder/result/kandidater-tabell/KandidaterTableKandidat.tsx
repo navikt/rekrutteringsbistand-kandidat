@@ -120,8 +120,8 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-    visMidlertidigUtilgjengeligPopover:
-        state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
+    visMidlertidigUtilgjengeligPopover: true
+        // TODO state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

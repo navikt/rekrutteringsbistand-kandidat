@@ -8,6 +8,7 @@ import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../AppState';
 import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengeligSearch.less';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];
@@ -27,16 +28,13 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <SkjemaGruppe title="Registrert av NAV" className="midlertidig-utilgjengelig-search">
-            <Checkbox
-                key={Tilgjengelighet.Tilgjengelig}
-                id={`midlertidigUtilgjengelig-${Tilgjengelighet.Tilgjengelig.toLowerCase()}-checkbox`}
-                className="midlertidig-utilgjengelig-search__checkbox"
-                label="Tilgjengelig"
-                value={Tilgjengelighet.Tilgjengelig}
-                checked={props.midlertidigUtilgjengelig.includes(Tilgjengelighet.Tilgjengelig)}
-                onChange={onMidlertidigUtilgjengeligChange}
-            />
+        <SkjemaGruppe
+            title="Midlertidig utilgjengelig, registrert av NAV"
+            className="midlertidig-utilgjengelig-search"
+        >
+            <Normaltekst className="midlertidig-utilgjengelig-search__undertittel">
+                Ikke vis kandidater som er:
+            </Normaltekst>
             <Checkbox
                 key={Tilgjengelighet.TilgjengeligInnen1Uke}
                 id={`midlertidigUtilgjengelig-${Tilgjengelighet.TilgjengeligInnen1Uke.toLowerCase()}-checkbox`}

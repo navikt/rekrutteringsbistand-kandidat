@@ -1,5 +1,6 @@
 import AppState from '../AppState';
 import { getHashFromString } from '../../felles/sok/utils';
+import { Tilgjengelighet } from './Søkeresultat';
 
 // TODO Skal i teorien matche objektet i endepunktet i backend
 type Søkekriterier = any & {
@@ -72,8 +73,23 @@ export const mapTilSøkekriterierFraState = (state: AppState): any => {
         kategorier: state.tilretteleggingsbehov.kategorier,
         oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
         maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
-        midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
+        midlertidigUtilgjengelig: inverterMidlertidigUtilgjengeligFordiFilteretErInvertert(
+            state.tilgjengelighet.midlertidigUtilgjengelig
+        ),
         permittert: permittert,
         listeId: state.search.kandidatlisteId,
     };
+};
+
+const inverterMidlertidigUtilgjengeligFordiFilteretErInvertert = (
+    tilgjengelighetSomSkalFiltreresBort: Tilgjengelighet[]
+): Tilgjengelighet[] => {
+    if (!tilgjengelighetSomSkalFiltreresBort || tilgjengelighetSomSkalFiltreresBort.length === 0) {
+        return [];
+    }
+    return [
+        Tilgjengelighet.MidlertidigUtilgjengelig,
+        Tilgjengelighet.Tilgjengelig,
+        Tilgjengelighet.TilgjengeligInnen1Uke,
+    ].filter((tilgjengelighet) => !tilgjengelighetSomSkalFiltreresBort.includes(tilgjengelighet));
 };
