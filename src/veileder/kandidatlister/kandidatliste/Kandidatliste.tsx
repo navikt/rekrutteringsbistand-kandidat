@@ -5,7 +5,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
-import KandidatRad from './kandidatrad/KandidatRad';
+import KandidatRad, { Utfall } from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
@@ -79,7 +79,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                     props.kandidater.filter((kandidat) => kandidat.status === Status.Aktuell).length
                 }
                 antallPresenterteKandidater={
-                    props.kandidater.filter((kandidat) => kandidat.utfall === 'PRESENTERT').length
+                    props.kandidater.filter((kandidat) => kandidat.utfall === Utfall.Presentert)
+                        .length
                 }
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}

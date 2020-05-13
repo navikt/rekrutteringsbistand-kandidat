@@ -20,12 +20,18 @@ import AppState from '../../../../veileder/AppState';
 import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { MidlertidigUtilgjengeligState } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 
+export enum Utfall {
+    IkkePresentert = 'IKKE_PRESENTERT',
+    Presentert = 'PRESENTERT',
+    FåttJobben = 'FATT_JOBBEN',
+}
+
 const utfallToString = (utfall: string) => {
-    if (utfall === 'IKKE_PRESENTERT') {
+    if (utfall === Utfall.IkkePresentert) {
         return 'Ikke presentert';
-    } else if (utfall === 'PRESENTERT') {
+    } else if (utfall === Utfall.Presentert) {
         return 'Presentert';
-    } else if (utfall === 'FATT_JOBBEN') {
+    } else if (utfall === Utfall.FåttJobben) {
         return 'Fått jobben';
     }
     return utfall;
