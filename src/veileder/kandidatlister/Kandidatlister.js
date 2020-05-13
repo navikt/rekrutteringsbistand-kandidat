@@ -22,6 +22,7 @@ import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { MarkerSomMinStatus } from './kandidatlistetyper';
 import './Kandidatlister.less';
+import { KandidatlisterFilter } from './KandidatlisteFilter/KandidatlisterFilter';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -79,37 +80,6 @@ const SideHeader = ({
                 </Hovedknapp>
             </div>
         </div>
-    </div>
-);
-
-const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange }) => (
-    <div className="kandidatlister__filter skjemaelement--pink">
-        <Fieldset legend="Kandidatlister">
-            <Radio
-                id="alle-kandidatlister-radio"
-                label="Alle kandidatlister"
-                name="kandidatlisterFilter"
-                value=""
-                checked={kandidatlisterSokeKriterier.type === ''}
-                onChange={onFilterChange}
-            />
-            <Radio
-                id="kandidatlister-til-stilling-radio"
-                label="Kandidatlister knyttet til stilling"
-                name="kandidatlisterFilter"
-                value="MED_STILLING"
-                checked={kandidatlisterSokeKriterier.type === 'MED_STILLING'}
-                onChange={onFilterChange}
-            />
-            <Radio
-                id="kandidatlister-uten-stilling-radio"
-                label="Kandidatlister uten stilling"
-                name="kandidatlisterFilter"
-                value="UTEN_STILLING"
-                checked={kandidatlisterSokeKriterier.type === 'UTEN_STILLING'}
-                onChange={onFilterChange}
-            />
-        </Fieldset>
     </div>
 );
 
@@ -735,7 +705,7 @@ class Kandidatlister extends React.Component {
                         opprettListe={this.onOpprettClick}
                     />
                     <div className="kandidatlister-wrapper">
-                        <KandidatlisterRadioFilter
+                        <KandidatlisterFilter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                             onFilterChange={this.onFilterChange}
                         />
@@ -843,7 +813,7 @@ SideHeader.propTypes = {
     opprettListe: PropTypes.func.isRequired,
 };
 
-KandidatlisterRadioFilter.propTypes = {
+KandidatlisterFilter.propTypes = {
     onFilterChange: PropTypes.func.isRequired,
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
