@@ -36,7 +36,6 @@ const markereKandidat = (kandidatnr, checked) => (k) => {
     if (k.arenaKandidatnr === kandidatnr) {
         return { ...k, markert: checked };
     }
-
     return k;
 };
 
