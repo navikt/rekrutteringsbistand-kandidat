@@ -13,6 +13,7 @@ import {
     formatMobileTelephoneNumber,
     formatterAdresse,
 } from './personaliaFormattering';
+import './VisKandidatPersonalia.less';
 
 interface Props {
     cv: any;
