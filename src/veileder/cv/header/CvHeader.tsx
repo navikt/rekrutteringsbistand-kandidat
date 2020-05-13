@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import { Column, Container } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
-import TelefonIkon from './ikon/TelefonIkon';
-import MailIkon from './ikon/MailIkon';
-import AdresseIkon from './ikon/AdresseIkon';
-import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
-import { capitalizeFirstLetter } from '../../felles/sok/utils';
-import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron';
-import Sidetittel from '../../felles/common/Sidetittel';
+import TelefonIkon from '../ikon/TelefonIkon';
+import MailIkon from '../ikon/MailIkon';
+import AdresseIkon from '../ikon/AdresseIkon';
+import VisKandidatForrigeNeste from '../VisKandidatForrigeNeste';
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { LenkeMedChevron } from '../lenkeMedChevron/LenkeMedChevron';
+import Sidetittel from '../../../felles/common/Sidetittel';
 import {
     formaterFødselsdato,
     formatMobileTelephoneNumber,
     formatterAdresse,
 } from './personaliaFormattering';
-import './VisKandidatPersonalia.less';
+import './CvHeader.less';
 
 interface Props {
     cv: any;
@@ -25,7 +25,7 @@ interface Props {
     fantCv: boolean;
 }
 
-const VisKandidatPersonalia: FunctionComponent<Props> = ({
+const CvHeader: FunctionComponent<Props> = ({
     cv,
     antallKandidater,
     tilbakeLink,
@@ -128,4 +128,4 @@ const VisKandidatPersonalia: FunctionComponent<Props> = ({
     );
 };
 
-export default VisKandidatPersonalia;
+export default CvHeader;
