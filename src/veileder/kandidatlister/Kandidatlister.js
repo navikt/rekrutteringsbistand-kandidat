@@ -16,7 +16,7 @@ import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../felles/common/lenkeknapp/Lenkeknapp.tsx';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';

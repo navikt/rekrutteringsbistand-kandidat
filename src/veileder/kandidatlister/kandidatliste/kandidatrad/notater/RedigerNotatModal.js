@@ -43,7 +43,7 @@ export default class RedigerNotatModal extends React.Component {
             >
                 <div className="RedigerNotatModal">
                     <Systemtittel className="overskrift">Rediger notat</Systemtittel>
-                    <div className="tekstomrade skjemaelement--pink">
+                    <div className="tekstomrade">
                         <Textarea
                             autoFocus
                             label="Notat"

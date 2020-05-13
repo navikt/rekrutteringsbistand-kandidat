@@ -1,12 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../../felles/common/lenkeknapp/Lenkeknapp';
 
 type Props = {
     onLeggTilKandidat: () => void;
 };
 
 const LeggTilKandidatKnapp: FunctionComponent<Props> = ({ onLeggTilKandidat }) => (
-    <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
+    <Lenkeknapp
+        tittel="Legg til kandidat"
+        onClick={onLeggTilKandidat}
+        className="legg-til-kandidat LeggTilKandidat lenke"
+    >
         <i className="LeggTilKandidat__icon" />
         Legg til kandidat
     </Lenkeknapp>

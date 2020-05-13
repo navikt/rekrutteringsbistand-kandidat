@@ -140,9 +140,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     <div className="mailadresser">
                         {this.state.mailadresser.map((mailadresseFelt) => (
                             <Input
-                                className={`skjemaelement--pink${
-                                    mailadresseFelt.show ? ' show' : ''
-                                }`}
+                                className={`${mailadresseFelt.show ? ' show' : ''}`}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
                                 label={
                                     mailadresseFelt.id === 0
@@ -167,7 +165,7 @@ export default class PresenterKandidaterModal extends React.Component {
                             + Legg til flere
                         </Flatknapp>
                     </div>
-                    <div className="skjemaelement--pink">
+                    <div>
                         <Textarea
                             label="Melding til arbeidsgiver"
                             textareaClass="beskjed"

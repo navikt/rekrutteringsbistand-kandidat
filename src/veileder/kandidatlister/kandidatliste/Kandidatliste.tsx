@@ -118,7 +118,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         <aside className="kandidatliste__filter">
                             <Ekspanderbartpanel border apen tittel={<Element>Slettet</Element>}>
                                 <Checkbox
-                                    className="skjemaelement--pink"
                                     label={`Vis kun slettede (${antallArkiverte})`}
                                     checked={visArkiverte}
                                     onChange={toggleVisArkiverteOgFjernMarkering}

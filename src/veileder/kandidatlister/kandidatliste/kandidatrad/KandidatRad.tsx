@@ -6,7 +6,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../../felles/common/lenkeknapp/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
@@ -120,7 +120,7 @@ const KandidatRad: FunctionComponent<Props> = ({
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide skjemaelement--pink"
+                    className="text-hide"
                     checked={kandidat.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
@@ -144,7 +144,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                 <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
-                        className="link"
+                        className="lenke"
                         to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
                         onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
                     >

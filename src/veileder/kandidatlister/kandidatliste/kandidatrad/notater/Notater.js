@@ -8,7 +8,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { formatterDato, formatterTid } from '../../../../../felles/common/dateUtils';
 import { Nettstatus } from '../../../../../felles/common/remoteData.ts';
 import { Notat } from '../../../PropTypes';
-import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../../../felles/common/lenkeknapp/Lenkeknapp.tsx';
 import RedigerNotatModal from './RedigerNotatModal';
 
 const initialState = {
@@ -193,7 +193,7 @@ class Notater extends React.Component {
                     </Normaltekst>
                     <div className="nytt-notat-form">
                         {this.state.nyttNotatVises ? (
-                            <div className="skjemaelement--pink">
+                            <div>
                                 <Textarea
                                     label="Skriv inn notat"
                                     textareaClass="nytt-notat-tekst"
