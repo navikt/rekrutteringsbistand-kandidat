@@ -48,14 +48,16 @@ const Navigeringsmeny: FunctionComponent = () => {
 
     return (
         <div className="navigeringsmeny">
-            <nav className="navigeringsmeny__tabs">
-                <Hus href="/" />
-                {tabs.map((tab) => (
-                    <Tab key={tab.href} config={tab} erAktiv={tab === aktivTab(pathname)} />
-                ))}
-            </nav>
-            <div className="navigeringsmeny__nyheter">
-                <NyttIRekrutteringsbistand orientering={'under-hoyre' as any} />
+            <div className="navigeringsmeny__inner">
+                <nav className="navigeringsmeny__tabs">
+                    <Hus href="/" />
+                    {tabs.map((tab) => (
+                        <Tab key={tab.href} config={tab} erAktiv={tab === aktivTab(pathname)} />
+                    ))}
+                </nav>
+                <div className="navigeringsmeny__nyheter">
+                    <NyttIRekrutteringsbistand orientering={'under-hoyre' as any} />
+                </div>
             </div>
         </div>
     );

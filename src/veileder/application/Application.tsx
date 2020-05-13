@@ -1,0 +1,92 @@
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
+
+import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
+import Dekoratør from '../dekoratør/Dekoratør';
+import Footer from '../footer/Footer';
+import KandidatlisteMedStilling from '../kandidatlister/KandidatlisteMedStilling';
+import Kandidatlister from '../kandidatlister/Kandidatlister';
+import KandidatlisteUtenStilling from '../kandidatlister/KandidatlisteUtenStilling';
+import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
+import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
+import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
+import NotFound from '../sok/error/NotFound';
+import VisKandidat from '../result/visKandidat/VisKandidat';
+import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
+import './Application.less';
+
+const skalBrukeGråBakgrunn = (url: string) =>
+    ['/kandidater/lister/stilling/', '/kandidater/lister/detaljer/'].some((urlMedGråBakgrunn) =>
+        url.includes(urlMedGråBakgrunn)
+    );
+
+const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
+    const [brukGråBakgrunn, setBrukGråBakgrunn] = useState<boolean>(
+        skalBrukeGråBakgrunn(location.pathname)
+    );
+
+    useEffect(() => {
+        setBrukGråBakgrunn(skalBrukeGråBakgrunn(location.pathname));
+    }, [location.pathname]);
+
+    return (
+        <>
+            <Normaltekst
+                tag="div"
+                className={`Application${brukGråBakgrunn ? ' Application--grå' : ''}`}
+            >
+                <main className="Application__main">
+                    <Dekoratør />
+                    <Navigeringsmeny />
+                    <Switch>
+                        <Route exact path="/kandidater" component={DefaultKandidatsøk} />
+                        <Route
+                            exact
+                            path="/kandidater/kandidatliste/:kandidatlisteId"
+                            component={KandidatsøkFraKandidatliste}
+                        />
+                        <Route
+                            exact
+                            path="/kandidater/stilling/:stillingsId"
+                            component={KandidatsøkFraStilling}
+                        />
+                        <Route exact path="/kandidater/cv" component={VisKandidat} />
+                        <Route
+                            exact
+                            path="/kandidater/kandidatliste/:kandidatlisteId/cv"
+                            component={VisKandidat}
+                        />
+                        <Route
+                            exact
+                            path="/kandidater/stilling/:stillingsId/cv"
+                            component={VisKandidat}
+                        />
+                        <Route exact path="/kandidater/lister" component={Kandidatlister} />
+                        <Route
+                            exact
+                            path="/kandidater/lister/stilling/:id/detaljer"
+                            component={KandidatlisteMedStilling}
+                        />
+                        <Route
+                            exact
+                            path="/kandidater/lister/detaljer/:listeid"
+                            component={KandidatlisteUtenStilling}
+                        />
+                        <Route
+                            exact
+                            path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr"
+                            component={VisKandidatFraLister}
+                        />
+                        <Route component={NotFound} />
+                    </Switch>
+                </main>
+            </Normaltekst>
+            <TilToppenKnapp />
+            <Footer grå={brukGråBakgrunn} />
+        </>
+    );
+};
+
+export default withRouter(Application);
