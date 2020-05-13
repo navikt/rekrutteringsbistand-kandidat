@@ -10,7 +10,7 @@ const CVMeny: FunctionComponent<Props> = (props) => {
     return (
         <div className="cv-meny">
             <a
-                className="frittstaende-lenke ForlateSiden link"
+                className="ForlateSiden lenke"
                 href={`https://app.adeo.no/veilarbpersonflatefs/${props.fødselsnummer}`}
                 target="_blank"
                 onClick={() => logEvent('cv_aktivitetsplan_lenke', 'klikk')}
