@@ -1,21 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
+import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
 import { Flatknapp, Knapp } from 'pam-frontend-knapper';
-import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
-
-import { formatterDato } from '../../felles/common/dateUtils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
@@ -23,6 +19,7 @@ import { MarkerSomMinStatus } from './kandidatlistetyper';
 import './Kandidatlister.less';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
+import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -79,7 +76,7 @@ const Kandidatlistevisning = ({
     }
 
     return kandidatlister.map((kandidatliste) => (
-        <KandidatlisteRad
+        <KandidatlisterRad
             kandidatliste={kandidatliste}
             endreKandidatliste={endreKandidatliste}
             onMenyClick={onMenyClick}
@@ -117,89 +114,6 @@ const ListeHeader = () => (
         <div className="kolonne-smal">
             <Element>Meny</Element>
         </div>
-    </div>
-);
-
-const KandidatlisteRad = ({
-    kandidatliste,
-    endreKandidatliste,
-    onMenyClick,
-    onSkjulMeny,
-    visKandidatlisteMeny,
-    markerKandidatlisteSomMin,
-    slettKandidatliste,
-}) => (
-    <div className="liste-rad liste-rad-innhold">
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{`${formatterDato(
-                new Date(kandidatliste.opprettetTidspunkt)
-            )}`}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Link
-                to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                className="tekst link"
-            >
-                {kandidatliste.tittel}
-            </Link>
-        </div>
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
-        </div>
-        <div className="kolonne-middels__finn-kandidater">
-            <Link
-                aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
-                to={
-                    kandidatliste.stillingId
-                        ? `/kandidater/stilling/${kandidatliste.stillingId}`
-                        : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`
-                }
-                className="FinnKandidater"
-            >
-                <i className="FinnKandidater__icon" />
-            </Link>
-        </div>
-        <div className="kolonne-smal-knapp">
-            {kandidatliste.kanEditere ? (
-                <Lenkeknapp
-                    aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
-                    onClick={() => endreKandidatliste(kandidatliste)}
-                    className="Edit"
-                >
-                    <i className="Edit__icon" />
-                </Lenkeknapp>
-            ) : (
-                <HjelpetekstUnderVenstre
-                    id="rediger-knapp"
-                    anchor={() => <i className="EditDisabled__icon" />}
-                >
-                    Du kan ikke redigere en kandidatliste som ikke er din.
-                </HjelpetekstUnderVenstre>
-            )}
-        </div>
-        <div className="kolonne-smal-knapp">
-            <Lenkeknapp
-                aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
-                onClick={() => {
-                    onMenyClick(kandidatliste);
-                }}
-                className="KandidatlisteMeny"
-            >
-                <i className="KandidatlisteMeny__icon" />
-            </Lenkeknapp>
-        </div>
-        {visKandidatlisteMeny &&
-            visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
-                <KandidatlisterMenyDropdown
-                    kandidatliste={kandidatliste}
-                    onSkjulMeny={onSkjulMeny}
-                    markerSomMinModal={markerKandidatlisteSomMin}
-                    slettKandidatliste={slettKandidatliste}
-                />
-            )}
     </div>
 );
 
@@ -279,7 +193,7 @@ const SlettKandidatlisteMenyValg = ({
     return null;
 };
 
-const KandidatlisterMenyDropdown = ({
+export const KandidatlisterMenyDropdown = ({
     kandidatliste,
     onSkjulMeny,
     markerSomMinModal,
@@ -801,11 +715,11 @@ KandidatlisterKnappeFilter.propTypes = {
     onVisAlleKandidatlister: PropTypes.func.isRequired,
 };
 
-KandidatlisteRad.defaultProps = {
+KandidatlisterRad.defaultProps = {
     visKandidatlisteMeny: undefined,
 };
 
-KandidatlisteRad.propTypes = {
+KandidatlisterRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     endreKandidatliste: PropTypes.func.isRequired,
     onMenyClick: PropTypes.func.isRequired,
