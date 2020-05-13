@@ -3,11 +3,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import VisKandidatForrigeNeste from '../VisKandidatForrigeNeste';
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../lenkeMedChevron/LenkeMedChevron';
-import {
-    formaterFødselsdato,
-    formatMobileTelephoneNumber,
-    formatterAdresse,
-} from './personaliaFormattering';
+import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import './CvHeader.less';
 import { formatterDato } from '../../../felles/common/dateUtils';
 

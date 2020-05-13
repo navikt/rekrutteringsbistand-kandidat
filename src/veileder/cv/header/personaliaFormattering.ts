@@ -1,16 +1,4 @@
-import { formatterDato } from '../../../felles/common/dateUtils';
 import { capitalizePoststed } from '../../../felles/sok/utils';
-
-export const formaterFødselsdato = (fodselsdato, fodselsnummer) => {
-    if (fodselsdato) {
-        return `Fødselsdato: ${formatterDato(new Date(fodselsdato))}${
-            fodselsnummer && ` (${fodselsnummer})`
-        }`;
-    } else if (fodselsnummer) {
-        return `Fødselsnummer: ${fodselsnummer}`;
-    }
-    return '';
-};
 
 export const formatMobileTelephoneNumber = (inputString) => {
     const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');
