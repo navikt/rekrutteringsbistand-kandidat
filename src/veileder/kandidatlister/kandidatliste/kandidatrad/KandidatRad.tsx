@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import { Visningsstatus } from '../Kandidatliste';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
@@ -49,9 +49,14 @@ type Props = {
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
     setScrollPosition: (kandidatlisteId: string, position: number) => void;
+    setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     visMidlertidigUtilgjengeligPopover: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -71,7 +76,24 @@ const KandidatRad: FunctionComponent<Props> = ({
     visMidlertidigUtilgjengeligPopover,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
+    setValgtKandidat,
+    sistValgteKandidat,
 }) => {
+    const kandidatRadRef = useRef<any>(null);
+
+    useEffect(() => {
+        if (
+            sistValgteKandidat &&
+            sistValgteKandidat.kandidatnr === kandidat.kandidatnr &&
+            sistValgteKandidat.kandidatlisteId === kandidatlisteId &&
+            kandidatRadRef !== null
+        ) {
+            kandidatRadRef.current.focus();
+            console.log(kandidatRadRef);
+            console.log('focus');
+        }
+    }, [sistValgteKandidat, kandidat.kandidatnr, kandidatlisteId, kandidatRadRef]);
+
     const antallNotater =
         kandidat.notater.kind === Nettstatus.Suksess
             ? kandidat.notater.data.length
@@ -116,7 +138,12 @@ const KandidatRad: FunctionComponent<Props> = ({
         'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
+        <div
+            id={'id' + Math.random()}
+            tabIndex={-1}
+            ref={kandidatRadRef}
+            className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}
+        >
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
@@ -146,7 +173,10 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="link"
                         to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
-                        onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
+                        onClick={() => {
+                            //setScrollPosition(kandidatlisteId, window.pageYOffset);
+                            setValgtKandidat(kandidatlisteId, kandidat.kandidatnr);
+                        }}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -282,6 +312,7 @@ const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
     visMidlertidigUtilgjengeligPopover:
         state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
+    sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -294,6 +325,12 @@ const mapDispatchToProps = (dispatch) => ({
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
         dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
     },
+    setValgtKandidat: (kandidatlisteId, kandidatnr) =>
+        dispatch({
+            type: KandidatlisteActionType.VELG_KANDIDAT,
+            kandidatlisteId,
+            kandidatnr,
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatRad);

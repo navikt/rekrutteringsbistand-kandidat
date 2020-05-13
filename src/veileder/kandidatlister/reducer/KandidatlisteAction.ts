@@ -351,6 +351,12 @@ export interface SetScrollPositionAction {
     scrollPosition: number;
 }
 
+export interface VelgKandidatAction {
+    type: KandidatlisteActionType.VELG_KANDIDAT;
+    kandidatlisteId?: string;
+    kandidatnr?: string;
+}
+
 export interface SendSmsAction {
     type: KandidatlisteActionType.SEND_SMS;
     melding: string;
@@ -459,6 +465,7 @@ type KandidatlisteAction =
     | AngreArkiveringAction
     | AngreArkiveringSuccessAction
     | AngreArkiveringFailureAction
-    | SetScrollPositionAction;
+    | SetScrollPositionAction
+    | VelgKandidatAction;
 
 export default KandidatlisteAction;
