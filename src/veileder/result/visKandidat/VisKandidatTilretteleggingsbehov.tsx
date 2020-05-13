@@ -18,14 +18,8 @@ const VisKandidatTilretteleggingsbehov = ({ fnr }: VisKandidatTilretteleggingsbe
         <div className="panel--tilretteleggingsbehov">
             <EkspanderbartpanelBase
                 apen={apen}
-                border={false}
                 onClick={() => toggleApen(!apen)}
-                className="ekspanderbartPanel--green"
-                tittel={
-                    <Systemtittel className="ekspanderbartPanel__heading">
-                        Tilretteleggingsbehov
-                    </Systemtittel>
-                }
+                tittel={<Systemtittel>Tilretteleggingsbehov</Systemtittel>}
             >
                 <div className="panel--tilretteleggingsbehov__innhold">
                     <Normaltekst>Kandidaten trenger tilrettelegging</Normaltekst>

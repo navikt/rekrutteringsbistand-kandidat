@@ -63,10 +63,8 @@ const VisKandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
             apen
-            border={false}
-            className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-cv"
-            tittel={<Systemtittel className="ekspanderbartPanel__heading">CV</Systemtittel>}
+            tittel={<Systemtittel>CV</Systemtittel>}
         >
             {cv.beskrivelse && (
                 <Row className="panel--cv__row">
