@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Chevron from 'nav-frontend-chevron';
+import { HoyreChevron, VenstreChevron } from 'nav-frontend-chevron';
 import './LenkeMedChevron.less';
 
 interface LenkeMedChevronProps {
@@ -10,12 +10,20 @@ interface LenkeMedChevronProps {
     type?: string;
 }
 
-export const LenkeMedChevron = ({ to, text, className, type }: LenkeMedChevronProps) => (
-    <Link to={to} className={`typo-normal LenkeMedChevron__lenke ${className}`}>
-        {type === 'venstre' && (
-            <Chevron className="LenkeMedChevron__lenke__chevron" type="venstre" />
-        )}
-        <span className="LenkeMedChevron__lenke__text">{text}</span>
-        {type !== 'venstre' && <Chevron className="LenkeMedChevron__lenke__chevron" />}
-    </Link>
-);
+export const LenkeMedChevron = ({ to, text, className, type }: LenkeMedChevronProps) => {
+    return (
+        <>
+            {type === 'venstre' ? (
+                <Link to={to} className={`lenke-med-chevron--venstre lenke ${className}`}>
+                    <VenstreChevron />
+                    <span>{text}</span>
+                </Link>
+            ) : (
+                <Link to={to} className={`lenke-med-chevron--hoyre lenke ${className}`}>
+                    <span>{text}</span>
+                    <HoyreChevron />
+                </Link>
+            )}
+        </>
+    );
+};

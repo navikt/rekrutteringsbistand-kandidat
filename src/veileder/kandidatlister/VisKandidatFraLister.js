@@ -156,13 +156,13 @@ class VisKandidatFraLister extends React.Component {
                                 <div className="lenker">
                                     {this.props.visLastNedCvLenke && (
                                         <a
-                                            className="frittstaende-lenke LastNed link"
+                                            className="LastNed lenke"
                                             href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
                                             target="_blank"
                                             onClick={() => logEvent('cv_last_ned', 'klikk')}
                                             rel="noopener noreferrer"
                                         >
-                                            <span className="link">Last ned CV</span>
+                                            <span>Last ned CV</span>
                                             <i className="LastNed__icon" />
                                         </a>
                                     )}
