@@ -232,6 +232,8 @@ class Kandidatlisteside extends React.Component<Props> {
             ];
             if (scrolletFraToppen !== undefined) {
                 window.scrollTo(0, scrolletFraToppen);
+            } else {
+                window.scrollTo(0, 0);
             }
         }
 
