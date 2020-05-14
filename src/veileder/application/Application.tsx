@@ -16,6 +16,7 @@ import NotFound from '../sok/error/NotFound';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import './Application.less';
+import Kandidatside from '../kandidat/Kandidatside';
 
 const skjermerMedGråBakgrunn = [
     '/kandidater/lister/stilling/',
@@ -83,6 +84,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr"
                             component={VisKandidatFraLister}
                         />
+                        <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
                         <Route component={NotFound} />
                     </Switch>
                 </main>
