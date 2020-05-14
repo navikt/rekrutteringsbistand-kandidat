@@ -24,7 +24,7 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
         <div className="kolonne-bred">
             <Link
                 to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                className="tekst link"
+                className="tekst lenke"
             >
                 {kandidatliste.tittel}
             </Link>
