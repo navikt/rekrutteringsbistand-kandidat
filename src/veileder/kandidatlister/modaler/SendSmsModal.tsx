@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { connect } from 'react-redux';
-import { Hovedknapp, Flatknapp } from 'pam-frontend-knapper';
+import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';

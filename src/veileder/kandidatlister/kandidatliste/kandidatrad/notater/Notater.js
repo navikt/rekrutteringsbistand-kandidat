@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp, Knapp } from 'pam-frontend-knapper';
+import { Hovedknapp, Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NavFrontendModal from 'nav-frontend-modal';
