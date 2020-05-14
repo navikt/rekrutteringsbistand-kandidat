@@ -35,7 +35,7 @@ type Props = DefaultKandidatsøkProps & {
         tittel: string;
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
-    leggUrlParametereIStateOgSøk: () => void;
+    leggUrlParametereIStateOgSøk: (href: string) => void;
     søkestateKommerFraAnnetSøk: boolean;
 };
 
@@ -66,7 +66,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (harUrlParametere(window.location.href) || søkestateKommerFraAnnetSøk) {
-            leggUrlParametereIStateOgSøk();
+            leggUrlParametereIStateOgSøk(window.location.href);
         } else {
             if (!harHentetStilling) {
                 leggInfoFraStillingIStateOgSøk(stillingsId);
@@ -139,7 +139,8 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     leggInfoFraStillingIStateOgSøk: (stillingsId: string) =>
         dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId }),
-    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
+    leggUrlParametereIStateOgSøk: (href: string) =>
+        dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },

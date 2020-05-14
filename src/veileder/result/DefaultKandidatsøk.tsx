@@ -34,7 +34,7 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 
 export interface DefaultKandidatsøkProps {
     resetQuery: (query: any) => void;
-    leggUrlParametereIStateOgSøk: () => void;
+    leggUrlParametereIStateOgSøk: (href: string) => void;
     search: () => void;
     removeKompetanseSuggestions: () => void;
     isInitialSearch: boolean;
@@ -62,7 +62,7 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
 
     useEffect(() => {
         if (søkestateKommerFraAnnetSøk || harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk();
+            leggUrlParametereIStateOgSøk(window.location.href);
         } else {
             search();
         }
@@ -104,7 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
+    leggUrlParametereIStateOgSøk: (href: string) => dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },

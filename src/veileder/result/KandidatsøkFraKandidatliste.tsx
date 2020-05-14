@@ -33,7 +33,7 @@ type Props = DefaultKandidatsøkProps & {
         kandidatlisteId: string;
         tittel: string;
     };
-    leggUrlParametereIStateOgSøk: (kandidatlisteId: string) => void;
+    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) => void;
     kandidatlisteIdFraSøk?: string;
 };
 
@@ -71,9 +71,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
         if (skalSøkeMedEksisterendeSøkestate) {
             search();
         } else {
-            // TODO: Følgende funksjon _kan_ byttes ut med en ny en, i og med at den under brukes av mange komponenter.
-            // F.eks. leggUrlParametreOgKandidatlisteIdIStateOgSøk()
-            leggUrlParametereIStateOgSøk(kandidatlisteId);
+            leggUrlParametereIStateOgSøk(window.location.href, kandidatlisteId);
         }
     }, [kandidatlisteId, kandidatlisteIdFraSøk, leggUrlParametereIStateOgSøk, search]);
 
@@ -133,8 +131,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    leggUrlParametereIStateOgSøk: (kandidatlisteId: string) =>
-        dispatch({ type: SØK_MED_URL_PARAMETERE, kandidatlisteId }),
+    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) =>
+        dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
