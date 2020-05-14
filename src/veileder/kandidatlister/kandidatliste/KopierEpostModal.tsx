@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FunctionComponent, useEffect } from 'react';
-import { Knapp, Flatknapp } from 'pam-frontend-knapper';
+import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import NavFrontendModal from 'nav-frontend-modal';
@@ -90,7 +90,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                             </div>
                             <div className="kandidat-tabell-rad-epost">
                                 {kandidat.epost ? (
-                                    <Lenke className="link" href={`mailto:${kandidat.epost}`}>
+                                    <Lenke className="lenke" href={`mailto:${kandidat.epost}`}>
                                         {kandidat.epost}
                                     </Lenke>
                                 ) : (

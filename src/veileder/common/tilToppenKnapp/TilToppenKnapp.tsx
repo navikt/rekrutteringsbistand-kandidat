@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './TilToppenKnapp.less';
-import { Knapp } from 'nav-frontend-knapper';
 import throttle from 'lodash.throttle';
 import classNames from 'classnames';
 

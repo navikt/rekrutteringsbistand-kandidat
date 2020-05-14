@@ -17,10 +17,14 @@ import VisKandidat from '../result/visKandidat/VisKandidat';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import './Application.less';
 
+const skjermerMedGråBakgrunn = [
+    '/kandidater/lister/stilling/',
+    '/kandidater/lister/detaljer/',
+    '/kandidater/cv',
+];
+
 const skalBrukeGråBakgrunn = (url: string) =>
-    ['/kandidater/lister/stilling/', '/kandidater/lister/detaljer/'].some((urlMedGråBakgrunn) =>
-        url.includes(urlMedGråBakgrunn)
-    );
+    skjermerMedGråBakgrunn.some((urlMedGråBakgrunn) => url.includes(urlMedGråBakgrunn));
 
 const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
     const [brukGråBakgrunn, setBrukGråBakgrunn] = useState<boolean>(
