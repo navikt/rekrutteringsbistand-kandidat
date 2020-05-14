@@ -61,12 +61,12 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     }, [resetKandidatlisterSokekriterier]);
 
     useEffect(() => {
-        const søkestateErSattOgKommerFraDenneKandidatlisten =
+        const søkestateKommerFraDenneKandidatlisten =
             !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatlisteId;
 
         const skalSøkeMedEksisterendeSøkestate =
             !harUrlParametere(window.location.href) &&
-            søkestateErSattOgKommerFraDenneKandidatlisten;
+            søkestateKommerFraDenneKandidatlisten;
 
         if (skalSøkeMedEksisterendeSøkestate) {
             search();
