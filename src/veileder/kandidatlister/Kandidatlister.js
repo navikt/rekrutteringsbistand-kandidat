@@ -20,6 +20,7 @@ import './Kandidatlister.less';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
+import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -283,33 +284,6 @@ export const KandidatlisterMenyDropdown = ({
         </div>
     );
 };
-
-const KandidatlisterKnappeFilter = ({
-    kandidatlisterSokeKriterier,
-    onVisMineKandidatlister,
-    onVisAlleKandidatlister,
-}) => (
-    <div>
-        <Flatknapp
-            mini
-            className={`kandidatlister-table--top__knapper${
-                kandidatlisterSokeKriterier.kunEgne ? ' knapp--aktiv' : ''
-            }`}
-            onClick={onVisMineKandidatlister}
-        >
-            <Element>Mine kandidatlister</Element>
-        </Flatknapp>
-        <Flatknapp
-            mini
-            className={`kandidatlister-table--top__knapper${
-                kandidatlisterSokeKriterier.kunEgne ? '' : ' knapp--aktiv'
-            }`}
-            onClick={onVisAlleKandidatlister}
-        >
-            <Element>Alle kandidatlister</Element>
-        </Flatknapp>
-    </div>
-);
 
 const KandidatlisterPaginering = ({
     kandidatlisterSokeKriterier,
