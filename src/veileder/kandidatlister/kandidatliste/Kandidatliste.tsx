@@ -73,7 +73,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     /**
      * Stjålet fra http://adripofjavascript.com/blog/drips/negating-predicate-functions-in-javascript.html
-     * @param predicateFunc
+     * @param predicateFunc En funksjon som returnerer boolean
      */
     function not(predicateFunc) {
         return function () {
