@@ -28,37 +28,42 @@ const SideHeader: FunctionComponent<Props> = ({
     opprettetAv,
     stillingsId,
     beskrivelse,
-}) => (
-    <header className="side-header">
-        <div className="side-header__inner">
-            <div className="side-header__tilbake">
-                <Link className="side-header__tilbakelenke lenke" to="/kandidater/lister">
-                    <NavFrontendChevron type="venstre" />
-                    <span>Til kandidatlister</span>
-                </Link>
-            </div>
-            <div className="side-header__informasjon">
-                <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
-                <Element className="side-header__antall-kandidater">
-                    {antallKandidater === 1 ? '1 kandidat' : `${antallKandidater} kandidater`}
-                </Element>
-                <div className="side-header__om-kandidatlisten">
-                    {arbeidsgiver && (
-                        <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
-                    )}
-                    <span>
-                        Registrert av: {opprettetAv.navn} ({opprettetAv.ident})
-                    </span>
-                    {stillingsId && (
-                        <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+}) => {
+    const antKandidaterTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle / ${antallPresenterteKandidater} er presentert)`;
+    return (
+        <header className="side-header">
+            <div className="side-header__inner">
+                <div className="side-header__tilbake">
+                    <Link className="side-header__tilbakelenke lenke" to="/kandidater/lister">
+                        <NavFrontendChevron type="venstre" />
+                        <span>Til kandidatlister</span>
+                    </Link>
+                </div>
+                <div className="side-header__informasjon">
+                    <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
+                    <Element className="side-header__antall-kandidater">
+                        {antKandidaterTekst}
+                    </Element>
+                    <div className="side-header__om-kandidatlisten">
+                        {arbeidsgiver && (
+                            <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
+                        )}
+                        <span>
+                            Registrert av: {opprettetAv.navn} ({opprettetAv.ident})
+                        </span>
+                        {stillingsId && (
+                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                        )}
+                    </div>
+                    {beskrivelse && (
+                        <Normaltekst className="side-header__beskrivelse">
+                            {beskrivelse}
+                        </Normaltekst>
                     )}
                 </div>
-                {beskrivelse && (
-                    <Normaltekst className="side-header__beskrivelse">{beskrivelse}</Normaltekst>
-                )}
             </div>
-        </div>
-    </header>
-);
+        </header>
+    );
+};
 
 export default SideHeader;
