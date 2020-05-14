@@ -5,6 +5,7 @@ import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { KandidatlisterMenyDropdown } from '../Kandidatlister';
+import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 
 export const KandidatlisterRad: FunctionComponent<any> = ({
     kandidatliste,
@@ -67,15 +68,13 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
             )}
         </div>
         <div className="kolonne-smal-knapp">
-            <Lenkeknapp
+            <Hamburgerknapp
                 aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
                 onClick={() => {
                     onMenyClick(kandidatliste);
                 }}
                 className="KandidatlisteMeny"
-            >
-                <i className="KandidatlisteMeny__icon" />
-            </Lenkeknapp>
+            />
         </div>
         {visKandidatlisteMeny &&
             visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
