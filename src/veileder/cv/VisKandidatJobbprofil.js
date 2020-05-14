@@ -11,10 +11,8 @@ const VisKandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">
         <Ekspanderbartpanel
             apen
-            border={false}
-            className="ekspanderbartPanel--green"
             id="ekspanderbartpanel-jobbprofil"
-            tittel={<Systemtittel className="ekspanderbartPanel__heading">Jobbprofil</Systemtittel>}
+            tittel={<Systemtittel>Jobbprofil</Systemtittel>}
         >
             <Row className="panel--jobbprofil__row">
                 <Column xs="12">

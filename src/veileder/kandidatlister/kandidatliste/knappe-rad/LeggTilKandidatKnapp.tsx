@@ -6,7 +6,11 @@ type Props = {
 };
 
 const LeggTilKandidatKnapp: FunctionComponent<Props> = ({ onLeggTilKandidat }) => (
-    <Lenkeknapp onClick={onLeggTilKandidat} className="legg-til-kandidat LeggTilKandidat">
+    <Lenkeknapp
+        tittel="Legg til kandidat"
+        onClick={onLeggTilKandidat}
+        className="legg-til-kandidat LeggTilKandidat lenke"
+    >
         <i className="LeggTilKandidat__icon" />
         Legg til kandidat
     </Lenkeknapp>
