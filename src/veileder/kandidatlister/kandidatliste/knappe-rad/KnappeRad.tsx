@@ -20,53 +20,53 @@ type Props = {
 };
 
 const SmsKnapp: FunctionComponent = () => (
-    <>
+    <div className="kandidatlisteknapper__knapp">
         <i className="Sms__icon" />
         <span>Send SMS</span>
-    </>
+    </div>
 );
 
 const Epostknapp: FunctionComponent = () => (
-    <>
+    <div className="kandidatlisteknapper__knapp">
         <i className="Email__icon" />
         Kopier e-postadresser
-    </>
+    </div>
 );
 
 const Deleknapp: FunctionComponent = () => (
-    <>
+    <div className="kandidatlisteknapper__knapp">
         <i className="Share__icon" />
         <span>Del med arbeidsgiver (presenter)</span>
-    </>
+    </div>
 );
 
 const Sletteknapp: FunctionComponent = () => (
-    <>
+    <div className="kandidatlisteknapper__knapp">
         <i className="Delete__icon" />
         <span>Angre sletting</span>
-    </>
+    </div>
 );
 
 const SmsKnappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Sms">
+    <div className="Sms">
         <SmsKnapp />
     </div>
 );
 
 const EpostknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Email">
+    <div className="Email">
         <Epostknapp />
     </div>
 );
 
 const DeleknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Share">
+    <div className="Share">
         <Deleknapp />
     </div>
 );
 
 const SletteknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Delete">
+    <div className="Delete">
         <Sletteknapp />
     </div>
 );

@@ -43,7 +43,7 @@ const ListeHeader: FunctionComponent<Props> = ({
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide skjemaelement--pink"
+                    className="text-hide"
                     checked={alleMarkert}
                     onChange={() => onCheckAlleKandidater()}
                 />
