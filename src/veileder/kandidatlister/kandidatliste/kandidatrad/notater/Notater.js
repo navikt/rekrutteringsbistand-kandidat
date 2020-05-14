@@ -8,7 +8,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { formatterDato, formatterTid } from '../../../../../felles/common/dateUtils';
 import { Nettstatus } from '../../../../../felles/common/remoteData.ts';
 import { Notat } from '../../../PropTypes';
-import Lenkeknapp from '../../../../../felles/common/lenkeknapp/Lenkeknapp.tsx';
+import Lenkeknapp from '../../../../../felles/common/Lenkeknapp';
 import RedigerNotatModal from './RedigerNotatModal';
 
 const initialState = {

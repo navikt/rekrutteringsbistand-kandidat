@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Lenkeknapp from '../../../../felles/common/lenkeknapp/Lenkeknapp';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 
 type Props = {
     onLeggTilKandidat: () => void;

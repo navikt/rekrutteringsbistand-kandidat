@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import Lenkeknapp from '../../../../felles/common/lenkeknapp/Lenkeknapp';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import { HjelpetekstMidt, HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import './KnappeRad.less';

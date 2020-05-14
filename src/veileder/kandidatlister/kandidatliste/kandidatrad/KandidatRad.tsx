@@ -6,7 +6,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Link } from 'react-router-dom';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Lenkeknapp from '../../../../felles/common/lenkeknapp/Lenkeknapp';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
