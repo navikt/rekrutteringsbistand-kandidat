@@ -36,6 +36,7 @@ type Props = DefaultKandidatsøkProps & {
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
     leggUrlParametereIStateOgSøk: () => void;
+    søkestateKommerFraAnnetSøk: boolean;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -54,6 +55,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
+    søkestateKommerFraAnnetSøk,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -127,6 +129,7 @@ const mapStateToProps = (state: AppState) => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     maksAntallTreff: state.search.maksAntallTreff,
+    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

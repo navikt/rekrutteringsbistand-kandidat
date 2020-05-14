@@ -41,6 +41,7 @@ export interface DefaultKandidatsøkProps {
     harHentetStilling: boolean;
     resetKandidatlisterSokekriterier: () => void;
     lukkAlleSokepanel: () => void;
+    søkestateKommerFraAnnetSøk: boolean;
 }
 
 const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
@@ -52,6 +53,7 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
     removeKompetanseSuggestions,
     search,
     harHentetStilling,
+    søkestateKommerFraAnnetSøk,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -59,12 +61,12 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
     }, [resetKandidatlisterSokekriterier]);
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href)) {
+        if (søkestateKommerFraAnnetSøk || harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk();
         } else {
             search();
         }
-    }, [leggUrlParametereIStateOgSøk, search]);
+    }, [leggUrlParametereIStateOgSøk, søkestateKommerFraAnnetSøk, search]);
 
     const header = (
         <Container className="container--header--uten-stilling">
@@ -95,6 +97,7 @@ const mapStateToProps = (state: AppState) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
+    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
