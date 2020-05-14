@@ -10,10 +10,14 @@ import { formatterStedsnavn } from '../../felles/sok/utils';
 interface SøkMedInfoFraStillingAction {
     stillingsId: string;
 }
+interface SøkMedUrlParametreAction {
+    href: string;
+    kandidatlisteId?: string;
+}
 
-export function* leggUrlParametereIStateOgSøk() {
+export function* leggUrlParametereIStateOgSøk(action: SøkMedUrlParametreAction) {
     try {
-        let initialQuery: InitialQuery = mapUrlToInitialQuery(window.location.href);
+        let initialQuery: InitialQuery = mapUrlToInitialQuery(action.href, action.kandidatlisteId);
         const initialQueryMedGeografi = yield call(leggPåGeografiInfoHvisKommune, initialQuery);
         yield put({ type: SET_STATE, query: initialQueryMedGeografi });
         yield call(search);
