@@ -65,7 +65,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href)) {
+        if (harUrlParametere(window.location.href) || søkestateKommerFraAnnetSøk) {
             leggUrlParametereIStateOgSøk();
         } else {
             if (!harHentetStilling) {
@@ -75,6 +75,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [
         stillingsId,
         harHentetStilling,
+        søkestateKommerFraAnnetSøk,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
