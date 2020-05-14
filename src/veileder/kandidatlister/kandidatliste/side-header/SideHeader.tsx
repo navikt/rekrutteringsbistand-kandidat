@@ -27,13 +27,7 @@ const SideHeader: FunctionComponent<Props> = ({
     stillingsId,
     beskrivelse,
 }) => {
-    const antKandidaterTekst =
-        (antallKandidater === 1 ? '1 kandidat' : antallKandidater + ' kandidater') +
-        ' (' +
-        antallAktuelleKandidater +
-        ' er aktuelle / ' +
-        antallPresenterteKandidater +
-        ' er presentert)';
+    const antKandidaterTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle / ${antallPresenterteKandidater} er presentert)`;
     return (
         <header className="side-header">
             <div className="side-header__inner">
