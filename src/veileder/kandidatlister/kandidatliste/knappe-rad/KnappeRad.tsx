@@ -48,25 +48,25 @@ const Sletteknapp: FunctionComponent = () => (
 );
 
 const SmsKnappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Sms">
+    <div className="kandidatlisteknapper__knapp Sms">
         <SmsKnapp />
     </div>
 );
 
 const EpostknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Email">
+    <div className="kandidatlisteknapper__knapp Email">
         <Epostknapp />
     </div>
 );
 
 const DeleknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Share">
+    <div className="kandidatlisteknapper__knapp Share">
         <Deleknapp />
     </div>
 );
 
 const SletteknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Lenkeknapp typo-normal Delete">
+    <div className="kandidatlisteknapper__knapp Delete">
         <Sletteknapp />
     </div>
 );
