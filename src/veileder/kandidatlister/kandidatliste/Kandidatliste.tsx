@@ -71,16 +71,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
-    /**
-     * Stjålet fra http://adripofjavascript.com/blog/drips/negating-predicate-functions-in-javascript.html
-     * @param predicateFunc En funksjon som returnerer boolean
-     */
-    function not(predicateFunc) {
-        return function () {
-            return !predicateFunc.apply(this, arguments);
-        };
-    }
-    const erArkivert = (k: KandidatIKandidatliste) => k.arkivert;
+    const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
     const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
     const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
@@ -89,10 +80,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             <SideHeader
                 antallKandidater={props.kandidater.length - antallArkiverte}
                 antallAktuelleKandidater={
-                    props.kandidater.filter(not(erArkivert)).filter(erAktuell).length
+                    props.kandidater.filter(erIkkeArkivert).filter(erAktuell).length
                 }
                 antallPresenterteKandidater={
-                    props.kandidater.filter(not(erArkivert)).filter(erPresentert).length
+                    props.kandidater.filter(erIkkeArkivert).filter(erPresentert).length
                 }
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
