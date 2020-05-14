@@ -83,7 +83,7 @@ const CvHeader: FunctionComponent<Props> = ({
                         {cv.epost && (
                             <span>
                                 E-post:{' '}
-                                <a className="cv-header__epost" href={`mailto:${cv.epost}`}>
+                                <a className="lenke" href={`mailto:${cv.epost}`}>
                                     {cv.epost}
                                 </a>
                             </span>

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Knapp } from 'pam-frontend-knapper';
+import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
 import { CvActionType, HentCvStatus } from '../../cv/reducer/cvReducer.ts';
@@ -343,13 +343,13 @@ class VisKandidat extends React.Component {
                                 <div className="lenker">
                                     {this.props.visLastNedCvLenke && (
                                         <a
-                                            className="frittstaende-lenke LastNed link"
+                                            className="LastNed lenke"
                                             href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
                                             target="_blank"
                                             onClick={() => logEvent('cv_last_ned', 'klikk')}
                                             rel="noopener noreferrer"
                                         >
-                                            <span className="link">Last ned CV</span>
+                                            <span>Last ned CV</span>
                                             <i className="LastNed__icon" />
                                         </a>
                                     )}
