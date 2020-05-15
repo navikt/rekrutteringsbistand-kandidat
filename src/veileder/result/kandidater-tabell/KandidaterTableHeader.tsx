@@ -32,7 +32,6 @@ const KandidaterTableHeader: FunctionComponent<Props> = ({
             </div>
             <div />
             <Element className="kandidater-tabell__kolonne-tekst">Navn</Element>
-            <div />
             <Element className="kandidater-tabell__kolonne-tekst">Fødselsnummer</Element>
             <Element className="kandidater-tabell__kolonne-tekst">Innsatsgruppe</Element>
             <Element className="kandidater-tabell__kolonne-tekst">Bosted</Element>
