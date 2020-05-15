@@ -138,7 +138,7 @@ class LagreKandidaterModal extends React.Component {
         }
     };
 
-    lagreKandidat = (kandidatliste) => () => {
+    onLagreKandidat = (kandidatliste) => () => {
         const kandidatlister = this.state.kandidatlister.map((liste) =>
             liste.kandidatlisteId === kandidatliste.kandidatlisteId
                 ? { ...liste, alleredeLagtTil: true }
@@ -151,8 +151,8 @@ class LagreKandidaterModal extends React.Component {
         this.props.onLagre(kandidatliste);
     };
 
-    lagreHentetKandidat = (kandidatliste) => () => {
-        this.lagreKandidat(kandidatliste)
+    onLagreHentetKandidat = (kandidatliste) => () => {
+        this.onLagreKandidat(kandidatliste)
         this.setState({
             hentetListe: kandidatliste.map(liste => ({ ...liste, alleredeLagtTil: true }))
         });
@@ -224,7 +224,7 @@ class LagreKandidaterModal extends React.Component {
                     liste={liste}
                     id={`marker-liste-${liste.kandidatlisteId}-checkbox`}
                     className="lister--rader"
-                    onClick={this.lagreKandidat(liste)}
+                    onClick={this.onLagreKandidat(liste)}
                     key={liste.kandidatlisteId}
                 />
             ));
@@ -322,7 +322,7 @@ class LagreKandidaterModal extends React.Component {
                                 liste={hentetListe}
                                 id="marker-liste-hentet-med-annonsenummer-checkbox"
                                 className="lister--rader hentet-stilling__row"
-                                onClick={this.lagreHentetKandidat(hentetListe)}
+                                onClick={this.onLagreHentetKandidat(hentetListe)}
                             />
                         )}
                         <div>
