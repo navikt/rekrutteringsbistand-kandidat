@@ -34,13 +34,14 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
 
 export interface DefaultKandidatsøkProps {
     resetQuery: (query: any) => void;
-    leggUrlParametereIStateOgSøk: () => void;
+    leggUrlParametereIStateOgSøk: (href: string) => void;
     search: () => void;
     removeKompetanseSuggestions: () => void;
     isInitialSearch: boolean;
     harHentetStilling: boolean;
     resetKandidatlisterSokekriterier: () => void;
     lukkAlleSokepanel: () => void;
+    søkestateKommerFraAnnetSøk: boolean;
 }
 
 const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
@@ -52,6 +53,7 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
     removeKompetanseSuggestions,
     search,
     harHentetStilling,
+    søkestateKommerFraAnnetSøk,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -59,12 +61,12 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
     }, [resetKandidatlisterSokekriterier]);
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk();
+        if (søkestateKommerFraAnnetSøk || harUrlParametere(window.location.href)) {
+            leggUrlParametereIStateOgSøk(window.location.href);
         } else {
             search();
         }
-    }, [leggUrlParametereIStateOgSøk, search]);
+    }, [leggUrlParametereIStateOgSøk, søkestateKommerFraAnnetSøk, search]);
 
     const header = (
         <Container className="container--header--uten-stilling">
@@ -95,13 +97,14 @@ const mapStateToProps = (state: AppState) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
+    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
+    leggUrlParametereIStateOgSøk: (href: string) => dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },

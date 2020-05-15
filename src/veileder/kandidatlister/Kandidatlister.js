@@ -1,27 +1,26 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Fieldset, Radio } from 'nav-frontend-skjema';
-import { HjelpetekstUnderVenstre, HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Hovedknapp, Knapp, Flatknapp } from 'pam-frontend-knapper';
-import { Link } from 'react-router-dom';
+import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
+import { Flatknapp, Knapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
-
-import { formatterDato } from '../../felles/common/dateUtils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../felles/common/Lenkeknapp';
 import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal.tsx';
 import { MarkerSomMinStatus } from './kandidatlistetyper';
 import './Kandidatlister.less';
+import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
+import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
+import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
+import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -33,7 +32,7 @@ const MODALVISING = {
 
 const PAGINERING_BATCH_SIZE = 20;
 
-const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
+export const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatlister }) => (
     <form className="kandidatlister__sok" onSubmit={onSubmitSokKandidatlister}>
         <input
             id={'sok-kandidatlister-input'}
@@ -51,66 +50,6 @@ const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKandidatl
             <i className="search-button__icon" />
         </Knapp>
     </form>
-);
-
-const SideHeader = ({
-    sokeOrd,
-    onSokeOrdChange,
-    onSubmitSokKandidatlister,
-    nullstillSok,
-    opprettListe,
-}) => (
-    <div className="side-header">
-        <div className="side-header__innhold">
-            <div className="header-child" />
-            <div className="header-child tittel-wrapper">
-                <SokKandidatlisterInput
-                    sokeOrd={sokeOrd}
-                    onSokeOrdChange={onSokeOrdChange}
-                    onSubmitSokKandidatlister={onSubmitSokKandidatlister}
-                />
-            </div>
-            <div className="header-child knapp-wrapper">
-                <Flatknapp onClick={nullstillSok} className="nullstill-sok__knapp" mini>
-                    Nullstill søk
-                </Flatknapp>
-                <Hovedknapp onClick={opprettListe} id="opprett-ny-liste">
-                    Opprett ny
-                </Hovedknapp>
-            </div>
-        </div>
-    </div>
-);
-
-const KandidatlisterRadioFilter = ({ kandidatlisterSokeKriterier, onFilterChange }) => (
-    <div className="kandidatlister__filter skjemaelement--pink">
-        <Fieldset legend="Kandidatlister">
-            <Radio
-                id="alle-kandidatlister-radio"
-                label="Alle kandidatlister"
-                name="kandidatlisterFilter"
-                value=""
-                checked={kandidatlisterSokeKriterier.type === ''}
-                onChange={onFilterChange}
-            />
-            <Radio
-                id="kandidatlister-til-stilling-radio"
-                label="Kandidatlister knyttet til stilling"
-                name="kandidatlisterFilter"
-                value="MED_STILLING"
-                checked={kandidatlisterSokeKriterier.type === 'MED_STILLING'}
-                onChange={onFilterChange}
-            />
-            <Radio
-                id="kandidatlister-uten-stilling-radio"
-                label="Kandidatlister uten stilling"
-                name="kandidatlisterFilter"
-                value="UTEN_STILLING"
-                checked={kandidatlisterSokeKriterier.type === 'UTEN_STILLING'}
-                onChange={onFilterChange}
-            />
-        </Fieldset>
-    </div>
 );
 
 const Kandidatlistevisning = ({
@@ -138,7 +77,7 @@ const Kandidatlistevisning = ({
     }
 
     return kandidatlister.map((kandidatliste) => (
-        <KandidatlisteRad
+        <KandidatlisterRad
             kandidatliste={kandidatliste}
             endreKandidatliste={endreKandidatliste}
             onMenyClick={onMenyClick}
@@ -176,89 +115,6 @@ const ListeHeader = () => (
         <div className="kolonne-smal">
             <Element>Meny</Element>
         </div>
-    </div>
-);
-
-const KandidatlisteRad = ({
-    kandidatliste,
-    endreKandidatliste,
-    onMenyClick,
-    onSkjulMeny,
-    visKandidatlisteMeny,
-    markerKandidatlisteSomMin,
-    slettKandidatliste,
-}) => (
-    <div className="liste-rad liste-rad-innhold">
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{`${formatterDato(
-                new Date(kandidatliste.opprettetTidspunkt)
-            )}`}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Link
-                to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                className="tekst link"
-            >
-                {kandidatliste.tittel}
-            </Link>
-        </div>
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
-        </div>
-        <div className="kolonne-middels__finn-kandidater">
-            <Link
-                aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
-                to={
-                    kandidatliste.stillingId
-                        ? `/kandidater/stilling/${kandidatliste.stillingId}`
-                        : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`
-                }
-                className="FinnKandidater"
-            >
-                <i className="FinnKandidater__icon" />
-            </Link>
-        </div>
-        <div className="kolonne-smal-knapp">
-            {kandidatliste.kanEditere ? (
-                <Lenkeknapp
-                    aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
-                    onClick={() => endreKandidatliste(kandidatliste)}
-                    className="Edit"
-                >
-                    <i className="Edit__icon" />
-                </Lenkeknapp>
-            ) : (
-                <HjelpetekstUnderVenstre
-                    id="rediger-knapp"
-                    anchor={() => <i className="EditDisabled__icon" />}
-                >
-                    Du kan ikke redigere en kandidatliste som ikke er din.
-                </HjelpetekstUnderVenstre>
-            )}
-        </div>
-        <div className="kolonne-smal-knapp">
-            <Lenkeknapp
-                aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
-                onClick={() => {
-                    onMenyClick(kandidatliste);
-                }}
-                className="KandidatlisteMeny"
-            >
-                <i className="KandidatlisteMeny__icon" />
-            </Lenkeknapp>
-        </div>
-        {visKandidatlisteMeny &&
-            visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
-                <KandidatlisterMenyDropdown
-                    kandidatliste={kandidatliste}
-                    onSkjulMeny={onSkjulMeny}
-                    markerSomMinModal={markerKandidatlisteSomMin}
-                    slettKandidatliste={slettKandidatliste}
-                />
-            )}
     </div>
 );
 
@@ -338,7 +194,7 @@ const SlettKandidatlisteMenyValg = ({
     return null;
 };
 
-const KandidatlisterMenyDropdown = ({
+export const KandidatlisterMenyDropdown = ({
     kandidatliste,
     onSkjulMeny,
     markerSomMinModal,
@@ -428,33 +284,6 @@ const KandidatlisterMenyDropdown = ({
         </div>
     );
 };
-
-const KandidatlisterKnappeFilter = ({
-    kandidatlisterSokeKriterier,
-    onVisMineKandidatlister,
-    onVisAlleKandidatlister,
-}) => (
-    <div>
-        <Flatknapp
-            mini
-            className={`kandidatlister-table--top__knapper${
-                kandidatlisterSokeKriterier.kunEgne ? ' knapp--aktiv' : ''
-            }`}
-            onClick={onVisMineKandidatlister}
-        >
-            <Element>Mine kandidatlister</Element>
-        </Flatknapp>
-        <Flatknapp
-            mini
-            className={`kandidatlister-table--top__knapper${
-                kandidatlisterSokeKriterier.kunEgne ? '' : ' knapp--aktiv'
-            }`}
-            onClick={onVisAlleKandidatlister}
-        >
-            <Element>Alle kandidatlister</Element>
-        </Flatknapp>
-    </div>
-);
 
 const KandidatlisterPaginering = ({
     kandidatlisterSokeKriterier,
@@ -727,7 +556,7 @@ class Kandidatlister extends React.Component {
                     innhold={successMelding}
                 />
                 <div className="Kandidatlister">
-                    <SideHeader
+                    <KandidatlisterSideHeader
                         sokeOrd={sokeOrd}
                         onSokeOrdChange={this.onSokeOrdChange}
                         onSubmitSokKandidatlister={this.onSubmitSokKandidatlister}
@@ -735,7 +564,7 @@ class Kandidatlister extends React.Component {
                         opprettListe={this.onOpprettClick}
                     />
                     <div className="kandidatlister-wrapper">
-                        <KandidatlisterRadioFilter
+                        <KandidatlisterFilter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
                             onFilterChange={this.onFilterChange}
                         />
@@ -831,19 +660,7 @@ export const KandidatlisteBeskrivelse = PropTypes.shape({
     kanSlette: PropTypes.string.isRequired,
 });
 
-SideHeader.defaultProps = {
-    sokeOrd: '',
-};
-
-SideHeader.propTypes = {
-    sokeOrd: PropTypes.string,
-    onSokeOrdChange: PropTypes.func.isRequired,
-    onSubmitSokKandidatlister: PropTypes.func.isRequired,
-    nullstillSok: PropTypes.func.isRequired,
-    opprettListe: PropTypes.func.isRequired,
-};
-
-KandidatlisterRadioFilter.propTypes = {
+KandidatlisterFilter.propTypes = {
     onFilterChange: PropTypes.func.isRequired,
     kandidatlisterSokeKriterier: PropTypes.shape({
         query: PropTypes.string,
@@ -872,11 +689,11 @@ KandidatlisterKnappeFilter.propTypes = {
     onVisAlleKandidatlister: PropTypes.func.isRequired,
 };
 
-KandidatlisteRad.defaultProps = {
+KandidatlisterRad.defaultProps = {
     visKandidatlisteMeny: undefined,
 };
 
-KandidatlisteRad.propTypes = {
+KandidatlisterRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     endreKandidatliste: PropTypes.func.isRequired,
     onMenyClick: PropTypes.func.isRequired,
