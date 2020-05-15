@@ -91,12 +91,8 @@ class VisKandidat extends React.Component {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
 
-        const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
-        if (
-            this.kandidatnummer !== currentUrlKandidatnummer &&
-            currentUrlKandidatnummer !== undefined
-        ) {
-            this.kandidatnummer = currentUrlKandidatnummer;
+        if (this.kandidatnummer !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
+            this.kandidatnummer = this.props.kandidatNr;
             settValgtKandidat(this.kandidatnummer);
             hentCvForKandidat(this.kandidatnummer);
             this.setState({
