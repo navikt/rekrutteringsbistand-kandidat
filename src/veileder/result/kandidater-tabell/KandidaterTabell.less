@@ -12,7 +12,7 @@
         height: 4rem;
         padding: 0 1.25rem;
         display: grid;
-        grid-template-columns: 1fr minmax(0, 1fr) 8fr 6fr 7.5fr 5fr;
+        grid-template-columns: 1fr minmax(0, 1fr) minmax(0, 8fr) 6fr 7.5fr 5fr;
         align-items: center;
 
         &--header {
@@ -24,8 +24,23 @@
         }
     }
 
-    &__navn:visited {
-        color: @navLilla;
+    &__navn-og-lagt-i-liste-ikon {
+        display: flex;
+    }
+
+    &__navn {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &:visited {
+            color: @navLilla;
+        }
+    }
+
+    &__lagt-i-liste-ikon {
+        margin-left: 0.5rem;
+        margin-right: 1rem;
     }
 
     &__tilgjengelighet {
