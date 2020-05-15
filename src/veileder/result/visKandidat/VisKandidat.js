@@ -30,26 +30,20 @@ import { Link } from 'react-router-dom';
 class VisKandidat extends React.Component {
     constructor(props) {
         super(props);
+        const { kandidatNr } = props;
+
         this.state = {
-            gjeldendeKandidat: this.gjeldendeKandidatIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            forrigeKandidat: this.forrigeKandidatnummerIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            nesteKandidat: this.nesteKandidatnummerIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
+            gjeldendeKandidat: this.gjeldendeKandidatIListen(kandidatNr),
+            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatNr),
+            forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatNr),
+            nesteKandidat: this.nesteKandidatnummerIListen(kandidatNr),
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: false,
             visLenkeTilKandidatliste: false,
         };
 
-        this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        this.kandidatnummer = kandidatNr;
     }
 
     componentDidMount() {
@@ -60,12 +54,11 @@ class VisKandidat extends React.Component {
 
         const {
             kandidatliste,
-            match,
+            kandidatlisteId,
+            stillingsId,
             hentKandidatlisteMedKandidatlisteId,
             hentKandidatlisteMedStillingsId,
         } = this.props;
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
 
         if (kandidatliste === undefined) {
             if (kandidatlisteId !== undefined) {
@@ -148,12 +141,10 @@ class VisKandidat extends React.Component {
     };
 
     onLagreKandidatliste = (kandidatliste) => {
-        const { cv, lagreKandidatIKandidatliste, match } = this.props;
+        const { cv, lagreKandidatIKandidatliste } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
 
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
-        if (kandidatlisteId || stillingsId) {
+        if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();
             this.visLenkeTilKandidatliste();
         }
@@ -217,9 +208,10 @@ class VisKandidat extends React.Component {
     render() {
         const {
             cv,
-            match,
             hentStatus,
             antallKandidater,
+            kandidatlisteId,
+            stillingsId,
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
             midlertidigUtilgjengelig,
@@ -235,8 +227,6 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises,
         } = this.state;
 
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
         let tilbakeLink;
         let forrigeKandidatLink;
         let nesteKandidatLink;
@@ -407,12 +397,8 @@ class VisKandidat extends React.Component {
 }
 
 VisKandidat.defaultProps = {
-    match: {
-        params: {
-            kandidatlisteId: undefined,
-            stillingsId: undefined,
-        },
-    },
+    kandidatlisteId: undefined,
+    stillingsId: undefined,
     antallKandidater: undefined,
     kandidat: {
         arenaKandidatnr: undefined,
@@ -429,12 +415,8 @@ VisKandidat.propTypes = {
     lastFlereKandidater: PropTypes.func.isRequired,
     settValgtKandidat: PropTypes.func.isRequired,
     hentStatus: PropTypes.string.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            kandidatlisteId: PropTypes.string,
-            stillingsId: PropTypes.string,
-        }),
-    }),
+    kandidatlisteId: PropTypes.string,
+    stillingsId: PropTypes.string,
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape({

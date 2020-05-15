@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import VisKandidat from '../result/visKandidat/VisKandidat';
 
 enum QueryParams {
     KandidatlisteId = 'kandidatlisteId',
@@ -29,7 +30,13 @@ const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
      *      Vis kandidat med statusvelger
      *      Forrige/neste gjelder kandidatlisten
      */
-    return <div>Placeholder</div>;
+    return (
+        <VisKandidat
+            kandidatNr={kandidatNr}
+            stillingsId={stillingId}
+            kandidatlisteId={kandidatlisteId}
+        />
+    );
 };
 
 export default Kandidatside;
