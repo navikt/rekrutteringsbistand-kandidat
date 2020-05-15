@@ -1,13 +1,13 @@
-FROM navikt/node-express:12.2.0
+FROM navikt/node-express:12.2.0-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json server.js ./
+COPY server/ server/
+COPY dist/ dist/
 
-COPY dist/ ./dist
-COPY node_modules/ ./node_modules
-COPY views/ ./views
+WORKDIR /usr/src/app/server
+RUN npm install
 
 EXPOSE 8080
 
-CMD ["npm", "run", "start-express"]
+CMD ["node", "server.js"]
