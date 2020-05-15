@@ -6,26 +6,26 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import cvPropTypes from '../../../felles/PropTypes';
-import { CvActionType, HentCvStatus } from '../../cv/reducer/cvReducer.ts';
-import CvHeader from '../../cv/header/CvHeader';
-import VisKandidatCv from '../../cv/VisKandidatCv';
-import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
+import { CvActionType, HentCvStatus } from '../cv/reducer/cvReducer.ts';
+import Kandidatheader from '../header/Kandidatheader';
+import VisKandidatCv from '../cv/VisKandidatCv';
+import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import './VisKandidat.less';
-import VisKandidatForrigeNeste from '../../cv/VisKandidatForrigeNeste';
-import LagreKandidaterModal from '../../../veileder/result/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../LagreKandidaterTilStillingModal';
+import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
+import LagreKandidaterModal from '../../result/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../../result/LagreKandidaterTilStillingModal';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Nettstatus } from '../../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../../common/fasitProperties';
 import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
 import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
-import CVMeny from '../../cv/cv-meny/CVMeny';
-import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import Kandidatmeny from '../meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../../amplitude/amplitude';
 import { Link } from 'react-router-dom';
-import { KandidatQueryParam } from '../../kandidat/Kandidatside';
+import { KandidatQueryParam } from '../Kandidatside';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -262,7 +262,7 @@ class VisKandidat extends React.Component {
 
         return (
             <div>
-                <CvHeader
+                <Kandidatheader
                     cv={cv}
                     tilbakeLink={tilbakeLink}
                     antallKandidater={antallKandidater}
@@ -292,7 +292,7 @@ class VisKandidat extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                        <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
@@ -322,7 +322,7 @@ class VisKandidat extends React.Component {
                                     Lagre kandidat i kandidatliste
                                 </Knapp>
                             )}
-                        </CVMeny>
+                        </Kandidatmeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">

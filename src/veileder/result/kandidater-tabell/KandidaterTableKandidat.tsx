@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from '../../kandidat/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';

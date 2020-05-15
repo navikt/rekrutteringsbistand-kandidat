@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
-import { MidlertidigUtilgjengeligResponse } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligResponse } from '../../../kandidat/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { Nettressurs } from '../../../../felles/common/remoteData';
 import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 import MerInformasjon from './MerInformasjon';
-import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
+import TilgjengelighetIkon from '../../../kandidat/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './TilgjengelighetFlagg.less';
 
 type Props = {

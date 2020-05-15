@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import './CVMeny.less';
 import { logEvent } from '../../amplitude/amplitude';
+import './Kandidatmeny.less';
 
 interface Props {
     fødselsnummer: string;
 }
 
-const CVMeny: FunctionComponent<Props> = (props) => {
+const Kandidatmeny: FunctionComponent<Props> = (props) => {
     return (
-        <div className="cv-meny">
+        <div className="kandidatmeny">
             <a
                 className="ForlateSiden lenke"
                 href={`https://app.adeo.no/veilarbpersonflatefs/${props.fødselsnummer}`}
@@ -17,11 +17,11 @@ const CVMeny: FunctionComponent<Props> = (props) => {
                 rel="noopener noreferrer"
             >
                 <i className="ForlateSiden__icon" />
-                <span className="cv-meny__se-aktivitetsplan">Se aktivitetsplan</span>
+                <span className="kandidatmeny__se-aktivitetsplan">Se aktivitetsplan</span>
             </a>
-            <div className="cv-meny__children">{props.children}</div>
+            <div className="kandidatmeny__children">{props.children}</div>
         </div>
     );
 };
 
-export default CVMeny;
+export default Kandidatmeny;

@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchCv } from '../../api';
-import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
-import { SearchApiError } from '../../../felles/api';
+import { fetchCv } from '../../../api';
+import { INVALID_RESPONSE_STATUS } from '../../../sok/searchReducer';
+import { SearchApiError } from '../../../../felles/api';
 import Cv from '../Cv';
 
 export enum CvActionType {

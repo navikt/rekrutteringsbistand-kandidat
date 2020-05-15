@@ -4,20 +4,20 @@ import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
-import { HentCvStatus, CvActionType } from '../cv/reducer/cvReducer.ts';
-import CvHeader from '../cv/header/CvHeader';
-import VisKandidatCv from '../cv/VisKandidatCv';
-import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
+import { HentCvStatus, CvActionType } from '../kandidat/cv/reducer/cvReducer.ts';
+import Kandidatheader from './header/Kandidatheader';
+import VisKandidatCv from './cv/VisKandidatCv';
+import VisKandidatJobbprofil from './cv/VisKandidatJobbprofil';
 import '../../felles/common/ikoner/ikoner.less';
-import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
-import KandidatlisteActionType from './reducer/KandidatlisteActionType.ts';
+import VisKandidatForrigeNeste from './cv/VisKandidatForrigeNeste';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { LAST_NED_CV_URL } from '../common/fasitProperties';
-import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import CVMeny from '../cv/cv-meny/CVMeny';
-import MidlertidigUtilgjengelig from '../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import Kandidatmeny from './meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../amplitude/amplitude';
-import { KandidatQueryParam } from '../kandidat/Kandidatside';
+import { KandidatQueryParam } from './Kandidatside';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -106,7 +106,7 @@ class VisKandidatFraLister extends React.Component {
         }
         return (
             <div>
-                <CvHeader
+                <Kandidatheader
                     cv={cv}
                     tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                     antallKandidater={kandidatliste.kandidater.length}
@@ -136,7 +136,7 @@ class VisKandidatFraLister extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <CVMeny fødselsnummer={cv.fodselsnummer}>
+                        <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
@@ -151,7 +151,7 @@ class VisKandidatFraLister extends React.Component {
                                     />
                                 </div>
                             )}
-                        </CVMeny>
+                        </Kandidatmeny>
                         <div className="VisKandidat-knapperad">
                             <div className="content">
                                 <div className="lenker">

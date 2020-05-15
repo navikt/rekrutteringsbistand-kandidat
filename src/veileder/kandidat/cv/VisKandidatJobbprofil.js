@@ -2,10 +2,10 @@ import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import TruncatedTextList from '../../felles/common/TruncatedTextList';
-import cvPropTypes from '../../felles/PropTypes';
+import TruncatedTextList from '../../../felles/common/TruncatedTextList';
+import cvPropTypes from '../../../felles/PropTypes';
 import './VisKandidat.less';
-import { OPPSTARTSKODER } from '../../felles/konstanter';
+import { OPPSTARTSKODER } from '../../../felles/konstanter';
 
 const VisKandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">

@@ -1,8 +1,8 @@
-import { MidlertidigUtilgjengeligState } from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from './kandidat/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
 import { PermitteringState } from './sok/permittering/permitteringReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
-import { CvState } from './cv/reducer/cvReducer';
+import { CvState } from './kandidat/cv/reducer/cvReducer';
 import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
