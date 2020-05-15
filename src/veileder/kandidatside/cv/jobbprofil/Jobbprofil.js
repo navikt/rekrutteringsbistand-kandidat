@@ -2,12 +2,12 @@ import React from 'react';
 import { Column, Row } from 'nav-frontend-grid';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import TruncatedTextList from '../../felles/common/TruncatedTextList';
-import cvPropTypes from '../../felles/PropTypes';
-import './VisKandidat.less';
-import { OPPSTARTSKODER } from '../../felles/konstanter';
+import TruncatedTextList from '../../../../felles/common/TruncatedTextList';
+import cvPropTypes from '../../../../felles/PropTypes';
+import { OPPSTARTSKODER } from '../../../../felles/konstanter';
+import '../../VisKandidat.less';
 
-const VisKandidatJobbprofil = ({ cv }) => (
+const KandidatJobbprofil = ({ cv }) => (
     <div className="panel--jobbprofil">
         <Ekspanderbartpanel
             apen
@@ -132,8 +132,8 @@ const VisKandidatJobbprofil = ({ cv }) => (
     </div>
 );
 
-VisKandidatJobbprofil.propTypes = {
+KandidatJobbprofil.propTypes = {
     cv: cvPropTypes.isRequired,
 };
 
-export default VisKandidatJobbprofil;
+export default KandidatJobbprofil;

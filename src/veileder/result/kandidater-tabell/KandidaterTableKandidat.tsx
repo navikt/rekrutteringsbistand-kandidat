@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
-import { KandidatQueryParam } from '../../kandidat/Kandidatside';
+import { KandidatQueryParam } from '../../kandidatside/Kandidatside';
 
 interface Props {
     kandidat: Søkeresultat;
