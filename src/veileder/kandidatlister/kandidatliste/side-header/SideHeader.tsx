@@ -29,7 +29,7 @@ const SideHeader: FunctionComponent<Props> = ({
     beskrivelse,
 }) => {
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
-        !!stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
+        stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
     return (
         <header className="side-header">
