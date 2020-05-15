@@ -58,7 +58,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
     const linkTilKandidat = () => {
-        let path = `/kandidater/kandidat/${kandidatnummer}/cv`;
+        const path = `/kandidater/kandidat/${kandidatnummer}/cv`;
 
         if (kandidatlisteId)
             return path + `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
