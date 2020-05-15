@@ -138,7 +138,7 @@ export type InitialQuery = FritekstState &
         kandidatlisteId?: string;
     };
 
-export const mapUrlToInitialQuery = (url: string): InitialQuery => {
+export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): InitialQuery => {
     const stateFromUrl: InitialQuery = {};
     const fritekst = getUrlParameterByName('fritekst', url);
     const stillinger = getUrlParameterByName('stillinger', url);
@@ -188,6 +188,7 @@ export const mapUrlToInitialQuery = (url: string): InitialQuery => {
         stateFromUrl.midlertidigUtilgjengelig = midlertidigUtilgjengelig.split('_');
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
+    if (kandidatlisteId) stateFromUrl.kandidatlisteId = kandidatlisteId;
 
     return stateFromUrl;
 };

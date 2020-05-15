@@ -20,6 +20,7 @@ import AppState from '../../../../veileder/AppState';
 import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { MidlertidigUtilgjengeligState } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { KandidatQueryParam } from '../../../kandidat/Kandidatside';
+import Lenke from 'nav-frontend-lenker';
 
 const utfallToString = (utfall: string) => {
     if (utfall === 'IKKE_PRESENTERT') {
@@ -121,7 +122,7 @@ const KandidatRad: FunctionComponent<Props> = ({
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide skjemaelement--pink"
+                    className="text-hide"
                     checked={kandidat.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
@@ -145,7 +146,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                 <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
-                        className="link"
+                        className="lenke"
                         to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
                         onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
                     >
@@ -245,9 +246,9 @@ const KandidatRad: FunctionComponent<Props> = ({
                             <Normaltekst className="tekst">
                                 E-post:{' '}
                                 {kandidat.epost ? (
-                                    <a className="link" href={`mailto:${kandidat.epost}`}>
+                                    <Lenke href={`mailto:${kandidat.epost}`}>
                                         {kandidat.epost}
-                                    </a>
+                                    </Lenke>
                                 ) : (
                                     <span>&mdash;</span>
                                 )}
@@ -268,7 +269,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span className="link">Se aktivitetsplan</span>
+                                <span className="lenke">Se aktivitetsplan</span>
                                 <i className="ForlateSiden__icon" />
                             </a>
                         </div>

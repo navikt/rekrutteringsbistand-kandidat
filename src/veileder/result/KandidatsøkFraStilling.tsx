@@ -35,7 +35,8 @@ type Props = DefaultKandidatsøkProps & {
         tittel: string;
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
-    leggUrlParametereIStateOgSøk: () => void;
+    leggUrlParametereIStateOgSøk: (href: string) => void;
+    søkestateKommerFraAnnetSøk: boolean;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -54,6 +55,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
+    søkestateKommerFraAnnetSøk,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -63,8 +65,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk();
+        if (harUrlParametere(window.location.href) || søkestateKommerFraAnnetSøk) {
+            leggUrlParametereIStateOgSøk(window.location.href);
         } else {
             if (!harHentetStilling) {
                 leggInfoFraStillingIStateOgSøk(stillingsId);
@@ -73,6 +75,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [
         stillingsId,
         harHentetStilling,
+        søkestateKommerFraAnnetSøk,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
@@ -127,6 +130,7 @@ const mapStateToProps = (state: AppState) => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     maksAntallTreff: state.search.maksAntallTreff,
+    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -135,7 +139,8 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     leggInfoFraStillingIStateOgSøk: (stillingsId: string) =>
         dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId }),
-    leggUrlParametereIStateOgSøk: () => dispatch({ type: SØK_MED_URL_PARAMETERE }),
+    leggUrlParametereIStateOgSøk: (href: string) =>
+        dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
