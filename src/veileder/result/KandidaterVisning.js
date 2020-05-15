@@ -12,7 +12,7 @@ import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
     MARKER_KANDIDATER,
-    OPPDATER_ANTALL_KANDIDATER,
+    OPPDATER_ANTALL_KANDIDATER, SEARCH,
 } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
