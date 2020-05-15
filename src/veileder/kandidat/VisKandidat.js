@@ -5,27 +5,27 @@ import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import cvPropTypes from '../../../felles/PropTypes';
-import { CvActionType, HentCvStatus } from '../cv/reducer/cvReducer.ts';
-import Kandidatheader from '../header/Kandidatheader';
-import VisKandidatCv from '../cv/VisKandidatCv';
-import VisKandidatJobbprofil from '../cv/VisKandidatJobbprofil';
-import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
+import cvPropTypes from '../../felles/PropTypes';
+import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatCv from './cv/cv/KandidatCv';
+import KandidatJobbprofil from './cv/jobbprofil/KandidatJobbprofil';
+import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
 import './VisKandidat.less';
-import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
-import LagreKandidaterModal from '../../result/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../../result/LagreKandidaterTilStillingModal';
-import HjelpetekstFading from '../../../felles/common/HjelpetekstFading.tsx';
-import { LAGRE_STATUS } from '../../../felles/konstanter';
-import { Nettstatus } from '../../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../../common/fasitProperties';
-import VisKandidatTilretteleggingsbehov from './VisKandidatTilretteleggingsbehov.tsx';
-import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
-import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../../amplitude/amplitude';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import LagreKandidaterModal from '../result/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import { LAGRE_STATUS } from '../../felles/konstanter';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../common/fasitProperties';
+import KandidatTilretteleggingsbehov from './cv/tilretteleggingsbehov/KandidatTilretteleggingsbehov.tsx';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import Kandidatmeny from './meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { logEvent } from '../amplitude/amplitude';
 import { Link } from 'react-router-dom';
-import { KandidatQueryParam } from '../Kandidatside';
+import { KandidatQueryParam } from './Kandidatside';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -341,13 +341,13 @@ class VisKandidat extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <VisKandidatJobbprofil cv={cv} />
-                        <VisKandidatCv cv={cv} />
+                        <KandidatJobbprofil cv={cv} />
+                        <KandidatCv cv={cv} />
                         {cv.tilretteleggingsbehov && (
-                            <VisKandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />
+                            <KandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />
                         )}
                         <div className="navigering-forrige-neste_wrapper">
-                            <VisKandidatForrigeNeste
+                            <ForrigeNeste
                                 lenkeClass={'header--personalia__lenke--veileder'}
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}

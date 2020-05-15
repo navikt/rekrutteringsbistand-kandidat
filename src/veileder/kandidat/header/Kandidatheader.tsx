@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
-import VisKandidatForrigeNeste from '../cv/VisKandidatForrigeNeste';
+import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
-import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron';
+import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import './Kandidatheader.less';
@@ -108,7 +108,7 @@ const Kandidatheader: FunctionComponent<Props> = ({
                     </div>
                 </div>
                 {fantCv && (
-                    <VisKandidatForrigeNeste
+                    <ForrigeNeste
                         className="kandidatheader__forrige-neste-knapper"
                         lenkeClass=""
                         forrigeKandidat={forrigeKandidat}

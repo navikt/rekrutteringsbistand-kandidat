@@ -9,10 +9,10 @@ import {
     Systemtittel,
 } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import cvPropTypes from '../../../felles/PropTypes';
-import sortByDato from '../../../felles/common/SortByDato';
-import Tidsperiode from '../../../felles/common/Tidsperiode';
-import './VisKandidat.less';
+import cvPropTypes from '../../../../felles/PropTypes';
+import sortByDato from '../../../../felles/common/SortByDato';
+import Tidsperiode from '../../../../felles/common/Tidsperiode';
+import '../../VisKandidat.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {
     if (beskrivelse.includes('¿')) {
@@ -59,7 +59,7 @@ const SprakLabels = {
     FOERSTESPRAAK: 'Førstespråk (morsmål)',
 };
 
-const VisKandidatCv = ({ cv }) => (
+const KandidatCv = ({ cv }) => (
     <div className="panel--cv">
         <Ekspanderbartpanel
             apen
@@ -269,7 +269,7 @@ const VisKandidatCv = ({ cv }) => (
     </div>
 );
 
-VisKandidatCv.propTypes = {
+KandidatCv.propTypes = {
     cv: cvPropTypes.isRequired,
 };
 
@@ -277,4 +277,4 @@ VisCvBeskrivelse.propTypes = {
     beskrivelse: PropTypes.string.isRequired,
 };
 
-export default VisKandidatCv;
+export default KandidatCv;

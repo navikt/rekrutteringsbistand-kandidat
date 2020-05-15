@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import cvPropTypes from '../../../felles/PropTypes';
-import { HentCvStatus, CvActionType } from '../../kandidat/cv/reducer/cvReducer.ts';
-import Kandidatheader from '../header/Kandidatheader';
-import VisKandidatCv from './VisKandidatCv';
-import VisKandidatJobbprofil from './VisKandidatJobbprofil';
-import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
-import { Nettstatus } from '../../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../../common/fasitProperties';
-import StatusSelect from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import Kandidatmeny from '../meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../../amplitude/amplitude';
-import { KandidatQueryParam } from '../Kandidatside';
-import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
-import '../../../felles/common/ikoner/ikoner.less';
+import cvPropTypes from '../../felles/PropTypes';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatCv from './cv/cv/KandidatCv';
+import KandidatJobbprofil from './cv/jobbprofil/KandidatJobbprofil';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import { Nettstatus } from '../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../common/fasitProperties';
+import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import Kandidatmeny from './meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { logEvent } from '../amplitude/amplitude';
+import { KandidatQueryParam } from './Kandidatside';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import '../../felles/common/ikoner/ikoner.less';
+import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -171,10 +171,10 @@ class VisKandidatFraLister extends React.Component {
                             </div>
                         </div>
                         <div className="viskandidat-container">
-                            <VisKandidatJobbprofil cv={cv} />
-                            <VisKandidatCv cv={cv} />
+                            <KandidatJobbprofil cv={cv} />
+                            <KandidatCv cv={cv} />
                             <div className="navigering-forrige-neste_wrapper">
-                                <VisKandidatForrigeNeste
+                                <ForrigeNeste
                                     lenkeClass={'header--personalia__lenke--veileder'}
                                     contextRoot={'kandidater'}
                                     forrigeKandidat={forrigeKandidatLink}
