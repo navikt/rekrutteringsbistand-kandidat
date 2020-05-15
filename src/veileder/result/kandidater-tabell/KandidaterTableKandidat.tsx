@@ -102,19 +102,21 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }
                 />
             </div>
-            <div className="kandidater-tabell__navn-og-lag-i-liste-ikon">
+            <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
-                    className="kandidater-tabell__navn"
+                    className="kandidater-tabell__navn lenke"
                     to={linkTilKandidat()}
                     onClick={() => setScrollPosition(window.pageYOffset)}
                     aria-label={`Se CV for ${navn}`}
                 >
                     {navn}
                 </Link>
-                {kandidat.erLagtTilKandidatliste && (
-                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
-                )}
             </div>
+            {kandidat.erLagtTilKandidatliste ? (
+                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+            ) : (
+                <div />
+            )}
             <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
             <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>
             <div className="kandidater-tabell__kolonne-tekst">{bosted}</div>
