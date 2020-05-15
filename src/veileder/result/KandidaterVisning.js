@@ -56,7 +56,7 @@ class KandidaterVisning extends React.Component {
                 logEvent(
                     'kandidatsøk',
                     'fra_midlertidig_utilgjengelig',
-                    Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt
+                    {tid: tid}
                 );
             }
         }

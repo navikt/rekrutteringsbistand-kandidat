@@ -16,11 +16,13 @@ import NotFound from '../sok/error/NotFound';
 import VisKandidat from '../result/visKandidat/VisKandidat';
 import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 import './Application.less';
+import Kandidatside from '../kandidat/Kandidatside';
 
 const skjermerMedGråBakgrunn = [
     '/kandidater/lister/stilling/',
     '/kandidater/lister/detaljer/',
     '/kandidater/cv',
+    '/kandidater/kandidat/',
 ];
 
 const skalBrukeGråBakgrunn = (url: string) =>
@@ -56,17 +58,6 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/stilling/:stillingsId"
                             component={KandidatsøkFraStilling}
                         />
-                        <Route exact path="/kandidater/cv" component={VisKandidat} />
-                        <Route
-                            exact
-                            path="/kandidater/kandidatliste/:kandidatlisteId/cv"
-                            component={VisKandidat}
-                        />
-                        <Route
-                            exact
-                            path="/kandidater/stilling/:stillingsId/cv"
-                            component={VisKandidat}
-                        />
                         <Route exact path="/kandidater/lister" component={Kandidatlister} />
                         <Route
                             exact
@@ -78,11 +69,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route
-                            exact
-                            path="/kandidater/lister/detaljer/:listeid/cv/:kandidatNr"
-                            component={VisKandidatFraLister}
-                        />
+                        <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
                         <Route component={NotFound} />
                     </Switch>
                 </main>

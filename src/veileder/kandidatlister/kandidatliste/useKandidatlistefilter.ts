@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { KandidatIKandidatliste } from './../kandidatlistetyper';
+import { KandidatIKandidatliste } from '../kandidatlistetyper';
 
 const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatliste) =>
-    !!kandidat.arkivert === visArkiverte;
+    kandidat.arkivert === visArkiverte;
 
 const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
     const trimmet = navnefilter.trim();
