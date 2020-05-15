@@ -10,7 +10,6 @@ import { CvActionType, HentCvStatus } from '../../cv/reducer/cvReducer.ts';
 import CvHeader from '../../cv/header/CvHeader';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
-import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../cv/VisKandidatForrigeNeste';
