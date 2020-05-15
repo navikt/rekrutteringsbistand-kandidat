@@ -111,7 +111,9 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                 >
                     {navn}
                 </Link>
-                <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+                {kandidat.erLagtTilKandidatliste && (
+                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+                )}
             </div>
             <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
             <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>
