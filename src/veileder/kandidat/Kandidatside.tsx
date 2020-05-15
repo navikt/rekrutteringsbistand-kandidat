@@ -23,14 +23,6 @@ const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
-    /* TODO: Render riktig komponent basert på variabler.
-     * Ingen params -> Vis kandidat
-     * StillingID -> Vis kandidat med knapp "Lagre kandidat"
-     * KandidatlisteId -> Vis kandidat med knapp "Lagre kandidat"
-     * KandidatlisteId && fraKandidatliste ->
-     *      Vis kandidat med statusvelger
-     *      Forrige/neste gjelder kandidatlisten
-     */
     return fraKandidatliste && kandidatlisteId ? (
         <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId} />
     ) : (
