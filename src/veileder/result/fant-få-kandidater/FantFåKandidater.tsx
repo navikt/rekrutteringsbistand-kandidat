@@ -7,7 +7,6 @@ import {
     FETCH_KOMPETANSE_SUGGESTIONS,
     REMOVE_KOMPETANSE_SUGGESTIONS,
     SEARCH,
-    SET_STATE,
 } from '../../sok/searchReducer';
 import {
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
@@ -22,7 +21,6 @@ import {
     REMOVE_SELECTED_GEOGRAFI,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from '../../sok/geografi/geografiReducer';
-import { hentQueryUtenKriterier } from '../DefaultKandidatsøk';
 
 export type Geografi = {
     geografiKodeTekst: string;
@@ -34,7 +32,7 @@ type Props = {
     tilretteleggingsbehov: boolean;
     kategorier: Kategori[];
     search: () => void;
-    resetQuery: (query: object) => void;
+    resetFilter: () => void;
     removeKompetanseSuggestions: () => void;
     harHentetStilling: boolean;
     stillinger: string[];
@@ -46,6 +44,7 @@ type Props = {
     maaBoInnenforGeografi: boolean;
     toggleMaBoPaGeografi: () => void;
     removeGeografi: (geografi: Geografi) => void;
+    onRemoveCriteriaClick: () => void;
 };
 
 const FantFåKandidater = (props: Props) => {
@@ -88,12 +87,6 @@ const FantFåKandidater = (props: Props) => {
         onRemoveKategori
     );
 
-    const slettAlleKriterier = () => {
-        props.resetQuery(hentQueryUtenKriterier(props.harHentetStilling));
-        props.removeKompetanseSuggestions();
-        props.search();
-    };
-
     return (
         <div className="fant-få-kandidater">
             <Forstørrelsesglass className="fant-få-kandidater__ikon" />
@@ -123,7 +116,7 @@ const FantFåKandidater = (props: Props) => {
                     <ValgteKriterier kriterier={kategorikriterier} />
                 </>
             )}
-            <Knapp onClick={slettAlleKriterier}>Slett alle kriterier</Knapp>
+            <Knapp onClick={props.onRemoveCriteriaClick}>Slett alle kriterier</Knapp>
         </div>
     );
 };
@@ -140,7 +133,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     disableTilretteleggingsbehov: () =>
         dispatch({

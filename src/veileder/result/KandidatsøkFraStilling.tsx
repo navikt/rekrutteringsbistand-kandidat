@@ -34,9 +34,9 @@ type Props = DefaultKandidatsøkProps & {
         kandidatlisteId: string;
         tittel: string;
     };
-    leggInfoFraStillingIStateOgSøk: (stillingsId: string) => void;
-    leggUrlParametereIStateOgSøk: (href: string) => void;
-    søkestateKommerFraAnnetSøk: boolean;
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
+    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
+    kandidatlisteIdFraSøk: string;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -55,7 +55,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
-    søkestateKommerFraAnnetSøk,
+    kandidatlisteIdFraSøk,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -65,17 +65,24 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href) || søkestateKommerFraAnnetSøk) {
-            leggUrlParametereIStateOgSøk(window.location.href);
-        } else {
-            if (!harHentetStilling) {
-                leggInfoFraStillingIStateOgSøk(stillingsId);
-            }
+        const søkestateKommerFraDenneKandidatlisten =
+            !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatliste?.kandidatlisteId;
+
+        const skalSøkeMedEksisterendeSøkestate =
+            !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
+
+        if (skalSøkeMedEksisterendeSøkestate) {
+            search();
+        } else if (harUrlParametere(window.location.href)) {
+            leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
+        } else if (!harHentetStilling) {
+            leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
         }
     }, [
+        kandidatliste,
+        kandidatlisteIdFraSøk,
         stillingsId,
         harHentetStilling,
-        søkestateKommerFraAnnetSøk,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
@@ -94,7 +101,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
-        resetQuery(hentQueryUtenKriterier(harHentetStilling));
+        resetQuery(hentQueryUtenKriterier(harHentetStilling, kandidatliste?.kandidatlisteId));
         removeKompetanseSuggestions();
         search();
     };
@@ -130,17 +137,17 @@ const mapStateToProps = (state: AppState) => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     maksAntallTreff: state.search.maksAntallTreff,
-    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
+    kandidatlisteIdFraSøk: state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    leggInfoFraStillingIStateOgSøk: (stillingsId: string) =>
-        dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId }),
-    leggUrlParametereIStateOgSøk: (href: string) =>
-        dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
+    leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) =>
+        dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId }),
+    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) =>
+        dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
