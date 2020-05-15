@@ -32,7 +32,6 @@ type Props = {
     tilretteleggingsbehov: boolean;
     kategorier: Kategori[];
     search: () => void;
-    resetFilter: () => void;
     removeKompetanseSuggestions: () => void;
     harHentetStilling: boolean;
     stillinger: string[];
