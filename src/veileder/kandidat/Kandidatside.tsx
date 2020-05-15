@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import VisKandidat from './visKandidat/VisKandidat';
-import VisKandidatFraLister from './VisKandidatFraLister';
+import VisKandidatFraLister from './cv/VisKandidatFraLister';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',

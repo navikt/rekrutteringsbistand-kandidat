@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import cvPropTypes from '../../felles/PropTypes';
-import { HentCvStatus, CvActionType } from '../kandidat/cv/reducer/cvReducer.ts';
-import Kandidatheader from './header/Kandidatheader';
-import VisKandidatCv from './cv/VisKandidatCv';
-import VisKandidatJobbprofil from './cv/VisKandidatJobbprofil';
-import '../../felles/common/ikoner/ikoner.less';
-import VisKandidatForrigeNeste from './cv/VisKandidatForrigeNeste';
-import { Nettstatus } from '../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../common/fasitProperties';
-import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import Kandidatmeny from './meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../amplitude/amplitude';
-import { KandidatQueryParam } from './Kandidatside';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import cvPropTypes from '../../../felles/PropTypes';
+import { HentCvStatus, CvActionType } from '../../kandidat/cv/reducer/cvReducer.ts';
+import Kandidatheader from '../header/Kandidatheader';
+import VisKandidatCv from './VisKandidatCv';
+import VisKandidatJobbprofil from './VisKandidatJobbprofil';
+import VisKandidatForrigeNeste from './VisKandidatForrigeNeste';
+import { Nettstatus } from '../../../felles/common/remoteData.ts';
+import { LAST_NED_CV_URL } from '../../common/fasitProperties';
+import StatusSelect from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import Kandidatmeny from '../meny/Kandidatmeny';
+import MidlertidigUtilgjengelig from '../midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import { logEvent } from '../../amplitude/amplitude';
+import { KandidatQueryParam } from '../Kandidatside';
+import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
+import '../../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
