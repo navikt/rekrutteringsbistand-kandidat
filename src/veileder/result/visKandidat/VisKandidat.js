@@ -61,9 +61,9 @@ class VisKandidat extends React.Component {
         } = this.props;
 
         if (kandidatliste === undefined) {
-            if (kandidatlisteId !== undefined) {
+            if (kandidatlisteId) {
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
-            } else if (stillingsId !== undefined) {
+            } else if (stillingsId) {
                 hentKandidatlisteMedStillingsId(stillingsId);
             }
         }
