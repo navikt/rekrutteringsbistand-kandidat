@@ -9,6 +9,7 @@ import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
+import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
 import { KandidatQueryParam } from '../../kandidat/Kandidatside';
 
 interface Props {
@@ -104,7 +105,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }
                 />
             </div>
-            <div className="kandidater-tabell__kolonne-tekst">
+            <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
                     className="kandidater-tabell__navn lenke"
                     to={linkTilKandidat()}
@@ -113,6 +114,9 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                 >
                     {navn}
                 </Link>
+                {kandidat.erLagtTilKandidatliste && (
+                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+                )}
             </div>
             <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
             <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>
