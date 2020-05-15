@@ -4,7 +4,6 @@ import { SearchApiError } from '../../felles/api.ts';
 import { postFerdigutfylteStillingerKlikk } from '../api';
 import { esSearch, hentFlereKandidater } from './typedSearchReducer';
 import { leggInfoFraStillingIStateOgSøk, leggUrlParametereIStateOgSøk } from './initialSearch';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 
 /** *********************************************************
  * ACTIONS
