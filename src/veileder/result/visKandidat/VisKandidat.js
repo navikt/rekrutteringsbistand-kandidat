@@ -26,6 +26,7 @@ import CVMeny from '../../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../../amplitude/amplitude';
 import { Link } from 'react-router-dom';
+import { KandidatQueryParam } from '../../kandidat/Kandidatside';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -227,33 +228,32 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises,
         } = this.state;
 
-        let tilbakeLink;
-        let forrigeKandidatLink;
-        let nesteKandidatLink;
+        let tilbakeLink = '/kandidater';
+        let forrigeKandidatLink = forrigeKandidat
+            ? `/kandidater/kandidat/${forrigeKandidat}/cv`
+            : undefined;
+        let nesteKandidatLink = nesteKandidat
+            ? `/kandidater/kandidat/${nesteKandidat}/cv`
+            : undefined;
 
         if (kandidatlisteId) {
             tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
             forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${forrigeKandidat}`
+                ? (forrigeKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
                 : undefined;
+
             nesteKandidatLink = nesteKandidat
-                ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${nesteKandidat}`
+                ? (nesteKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
                 : undefined;
         } else if (stillingsId) {
             tilbakeLink = `/kandidater/stilling/${stillingsId}`;
+
             forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${forrigeKandidat}`
+                ? (forrigeKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
                 : undefined;
+
             nesteKandidatLink = nesteKandidat
-                ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${nesteKandidat}`
-                : undefined;
-        } else {
-            tilbakeLink = '/kandidater';
-            forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/cv?kandidatNr=${forrigeKandidat}`
-                : undefined;
-            nesteKandidatLink = nesteKandidat
-                ? `/kandidater/cv?kandidatNr=${nesteKandidat}`
+                ? (nesteKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
                 : undefined;
         }
 

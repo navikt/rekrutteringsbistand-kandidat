@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import VisKandidat from '../result/visKandidat/VisKandidat';
+import VisKandidatFraLister from '../kandidatlister/VisKandidatFraLister';
 
-enum QueryParams {
+export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
     StillingId = 'stillingId',
     FraKandidatliste = 'fraKandidatliste',
@@ -18,9 +19,9 @@ const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
     const queryParams = new URLSearchParams(location.search);
 
     const kandidatNr = match.params.kandidatNr;
-    const stillingId = queryParams.get(QueryParams.StillingId);
-    const kandidatlisteId = queryParams.get(QueryParams.KandidatlisteId);
-    const fraKandidatliste = queryParams.get(QueryParams.FraKandidatliste) === 'true';
+    const stillingId = queryParams.get(KandidatQueryParam.StillingId);
+    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
+    const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     /* TODO: Render riktig komponent basert på variabler.
      * Ingen params -> Vis kandidat
@@ -30,7 +31,9 @@ const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
      *      Vis kandidat med statusvelger
      *      Forrige/neste gjelder kandidatlisten
      */
-    return (
+    return fraKandidatliste && kandidatlisteId ? (
+        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId} />
+    ) : (
         <VisKandidat
             kandidatNr={kandidatNr}
             stillingsId={stillingId}
