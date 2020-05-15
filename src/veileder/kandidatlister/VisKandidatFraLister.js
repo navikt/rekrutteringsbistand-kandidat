@@ -17,21 +17,19 @@ import StatusSelect from './kandidatliste/kandidatrad/statusSelect/StatusSelect'
 import CVMeny from '../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../amplitude/amplitude';
+import { KandidatQueryParam } from '../kandidat/Kandidatside';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
-        this.props.hentCvForKandidat(this.props.match.params.kandidatNr, this.props.cv.profilId);
+        this.props.hentCvForKandidat(this.props.kandidatNr);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
     }
 
     componentDidUpdate(prevProps) {
-        if (
-            prevProps.match.params.kandidatNr !== this.props.match.params.kandidatNr &&
-            this.props.match.params.kandidatNr !== undefined
-        ) {
+        if (prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
             window.scrollTo(0, 0);
-            this.props.hentCvForKandidat(this.props.match.params.kandidatNr);
+            this.props.hentCvForKandidat(this.props.kandidatNr);
         }
     }
 
@@ -73,24 +71,27 @@ class VisKandidatFraLister extends React.Component {
         );
     };
 
-    hentLenkeTilKandidat = (kandidatnummer) =>
-        kandidatnummer
-            ? `/kandidater/lister/detaljer/${this.props.kandidatlisteId}/cv/${kandidatnummer}`
+    hentLenkeTilKandidat = (kandidatnummer) => {
+        const queryParams = `${KandidatQueryParam.KandidatlisteId}=${this.props.kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`;
+
+        return kandidatnummer
+            ? `/kandidater/kandidat/${kandidatnummer}/cv?${queryParams}`
             : undefined;
+    };
 
     render() {
         const {
             cv,
-            match,
+            kandidatNr,
             kandidatlisteId,
             kandidatliste,
             hentStatus,
             midlertidigUtilgjengelig,
         } = this.props;
 
-        const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(match.params.kandidatNr);
-        const nesteKandidatNummer = this.hentNesteKandidatNummer(match.params.kandidatNr);
-        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(match.params.kandidatNr);
+        const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(kandidatNr);
+        const nesteKandidatNummer = this.hentNesteKandidatNummer(kandidatNr);
+        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(kandidatNr);
         const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
         const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
 
@@ -197,11 +198,7 @@ VisKandidatFraLister.defaultProps = {
 };
 
 VisKandidatFraLister.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            kandidatNr: PropTypes.string,
-        }),
-    }).isRequired,
+    kandidatNr: PropTypes.string,
     cv: cvPropTypes.isRequired,
     hentStatus: PropTypes.string.isRequired,
     hentCvForKandidat: PropTypes.func.isRequired,
@@ -218,8 +215,7 @@ VisKandidatFraLister.propTypes = {
     endreStatusKandidat: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, props) => ({
-    kandidatlisteId: props.match.params.listeid,
+const mapStateToProps = (state) => ({
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data

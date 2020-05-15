@@ -9,6 +9,7 @@ import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
+import { KandidatQueryParam } from '../../kandidat/Kandidatside';
 
 interface Props {
     kandidat: Søkeresultat;
@@ -55,13 +56,15 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     const fodselsnummer = kandidat.fodselsnummer;
     const innsatsgruppe = kandidat.servicebehov;
     const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
+
     const linkTilKandidat = () => {
-        if (kandidatlisteId) {
-            return `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${kandidatnummer}`;
-        } else if (stillingsId) {
-            return `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}`;
-        }
-        return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
+        const path = `/kandidater/kandidat/${kandidatnummer}/cv`;
+
+        if (kandidatlisteId)
+            return path + `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
+        if (stillingsId) return path + `?${KandidatQueryParam.StillingId}=${stillingsId}`;
+
+        return path;
     };
 
     let klassenavn = 'kandidater-tabell__rad kandidater-tabell__rad--kandidat';

@@ -19,6 +19,7 @@ import moment from 'moment';
 import AppState from '../../../../veileder/AppState';
 import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import { MidlertidigUtilgjengeligState } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { KandidatQueryParam } from '../../../kandidat/Kandidatside';
 import Lenke from 'nav-frontend-lenker';
 
 export enum Utfall {
@@ -152,7 +153,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                     <Link
                         title="Vis profil"
                         className="lenke"
-                        to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
+                        to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
                         onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
                     >
                         {`${etternavn}, ${fornavn}`}

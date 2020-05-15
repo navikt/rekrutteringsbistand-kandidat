@@ -10,7 +10,6 @@ import { CvActionType, HentCvStatus } from '../../cv/reducer/cvReducer.ts';
 import CvHeader from '../../cv/header/CvHeader';
 import VisKandidatCv from '../../cv/VisKandidatCv';
 import VisKandidatJobbprofil from '../../cv/VisKandidatJobbprofil';
-import { getUrlParameterByName } from '../../../felles/sok/utils';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../../sok/searchReducer';
 import './VisKandidat.less';
 import VisKandidatForrigeNeste from '../../cv/VisKandidatForrigeNeste';
@@ -26,30 +25,25 @@ import CVMeny from '../../cv/cv-meny/CVMeny';
 import MidlertidigUtilgjengelig from '../../cv/midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import { logEvent } from '../../amplitude/amplitude';
 import { Link } from 'react-router-dom';
+import { KandidatQueryParam } from '../../kandidat/Kandidatside';
 
 class VisKandidat extends React.Component {
     constructor(props) {
         super(props);
+        const { kandidatNr } = props;
+
         this.state = {
-            gjeldendeKandidat: this.gjeldendeKandidatIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            forrigeKandidat: this.forrigeKandidatnummerIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
-            nesteKandidat: this.nesteKandidatnummerIListen(
-                getUrlParameterByName('kandidatNr', window.location.href)
-            ),
+            gjeldendeKandidat: this.gjeldendeKandidatIListen(kandidatNr),
+            gjeldendeKandidatIndex: this.gjeldendeKandidatIndexIListen(kandidatNr),
+            forrigeKandidat: this.forrigeKandidatnummerIListen(kandidatNr),
+            nesteKandidat: this.nesteKandidatnummerIListen(kandidatNr),
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: false,
             visLenkeTilKandidatliste: false,
         };
 
-        this.kandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
+        this.kandidatnummer = kandidatNr;
     }
 
     componentDidMount() {
@@ -60,17 +54,16 @@ class VisKandidat extends React.Component {
 
         const {
             kandidatliste,
-            match,
+            kandidatlisteId,
+            stillingsId,
             hentKandidatlisteMedKandidatlisteId,
             hentKandidatlisteMedStillingsId,
         } = this.props;
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
 
         if (kandidatliste === undefined) {
-            if (kandidatlisteId !== undefined) {
+            if (kandidatlisteId) {
                 hentKandidatlisteMedKandidatlisteId(kandidatlisteId);
-            } else if (stillingsId !== undefined) {
+            } else if (stillingsId) {
                 hentKandidatlisteMedStillingsId(stillingsId);
             }
         }
@@ -97,12 +90,8 @@ class VisKandidat extends React.Component {
             this.setState({ nesteKandidat: this.nesteKandidatnummerIListen(this.kandidatnummer) });
         }
 
-        const currentUrlKandidatnummer = getUrlParameterByName('kandidatNr', window.location.href);
-        if (
-            this.kandidatnummer !== currentUrlKandidatnummer &&
-            currentUrlKandidatnummer !== undefined
-        ) {
-            this.kandidatnummer = currentUrlKandidatnummer;
+        if (this.kandidatnummer !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
+            this.kandidatnummer = this.props.kandidatNr;
             settValgtKandidat(this.kandidatnummer);
             hentCvForKandidat(this.kandidatnummer);
             this.setState({
@@ -148,12 +137,10 @@ class VisKandidat extends React.Component {
     };
 
     onLagreKandidatliste = (kandidatliste) => {
-        const { cv, lagreKandidatIKandidatliste, match } = this.props;
+        const { cv, lagreKandidatIKandidatliste } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
 
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
-        if (kandidatlisteId || stillingsId) {
+        if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();
             this.visLenkeTilKandidatliste();
         }
@@ -217,9 +204,10 @@ class VisKandidat extends React.Component {
     render() {
         const {
             cv,
-            match,
             hentStatus,
             antallKandidater,
+            kandidatlisteId,
+            stillingsId,
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
             midlertidigUtilgjengelig,
@@ -235,35 +223,32 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises,
         } = this.state;
 
-        const kandidatlisteId = match.params.kandidatlisteId;
-        const stillingsId = match.params.stillingsId;
-        let tilbakeLink;
-        let forrigeKandidatLink;
-        let nesteKandidatLink;
+        let tilbakeLink = '/kandidater';
+        let forrigeKandidatLink = forrigeKandidat
+            ? `/kandidater/kandidat/${forrigeKandidat}/cv`
+            : undefined;
+        let nesteKandidatLink = nesteKandidat
+            ? `/kandidater/kandidat/${nesteKandidat}/cv`
+            : undefined;
 
         if (kandidatlisteId) {
             tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
             forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${forrigeKandidat}`
+                ? (forrigeKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
                 : undefined;
+
             nesteKandidatLink = nesteKandidat
-                ? `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${nesteKandidat}`
+                ? (nesteKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
                 : undefined;
         } else if (stillingsId) {
             tilbakeLink = `/kandidater/stilling/${stillingsId}`;
+
             forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${forrigeKandidat}`
+                ? (forrigeKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
                 : undefined;
+
             nesteKandidatLink = nesteKandidat
-                ? `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${nesteKandidat}`
-                : undefined;
-        } else {
-            tilbakeLink = '/kandidater';
-            forrigeKandidatLink = forrigeKandidat
-                ? `/kandidater/cv?kandidatNr=${forrigeKandidat}`
-                : undefined;
-            nesteKandidatLink = nesteKandidat
-                ? `/kandidater/cv?kandidatNr=${nesteKandidat}`
+                ? (nesteKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
                 : undefined;
         }
 
@@ -407,12 +392,8 @@ class VisKandidat extends React.Component {
 }
 
 VisKandidat.defaultProps = {
-    match: {
-        params: {
-            kandidatlisteId: undefined,
-            stillingsId: undefined,
-        },
-    },
+    kandidatlisteId: undefined,
+    stillingsId: undefined,
     antallKandidater: undefined,
     kandidat: {
         arenaKandidatnr: undefined,
@@ -429,12 +410,8 @@ VisKandidat.propTypes = {
     lastFlereKandidater: PropTypes.func.isRequired,
     settValgtKandidat: PropTypes.func.isRequired,
     hentStatus: PropTypes.string.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            kandidatlisteId: PropTypes.string,
-            stillingsId: PropTypes.string,
-        }),
-    }),
+    kandidatlisteId: PropTypes.string,
+    stillingsId: PropTypes.string,
     hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape({
