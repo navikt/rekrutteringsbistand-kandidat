@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { LenkeMedChevron } from './lenkeMedChevron/LenkeMedChevron.tsx';
+import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron.tsx';
 
-const VisKandidatForrigeNeste = ({
+const ForrigeNeste = ({
     className,
     lenkeClass,
     forrigeKandidat,
@@ -42,14 +42,14 @@ const VisKandidatForrigeNeste = ({
     return null;
 };
 
-VisKandidatForrigeNeste.defaultProps = {
+ForrigeNeste.defaultProps = {
     forrigeKandidat: undefined,
     nesteKandidat: undefined,
     gjeldendeKandidatIndex: undefined,
     antallKandidater: undefined,
 };
 
-VisKandidatForrigeNeste.propTypes = {
+ForrigeNeste.propTypes = {
     className: PropTypes.string,
     lenkeClass: PropTypes.string.isRequired,
     forrigeKandidat: PropTypes.string,
@@ -58,4 +58,4 @@ VisKandidatForrigeNeste.propTypes = {
     antallKandidater: PropTypes.number,
 };
 
-export default VisKandidatForrigeNeste;
+export default ForrigeNeste;

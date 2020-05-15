@@ -1,7 +1,7 @@
-import { Nettressurs, Nettstatus, SenderInn } from './../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus, SenderInn } from '../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ApiError, Feil, IkkeLastet, LasterInn, Suksess } from '../../../felles/common/remoteData';
-import { CvAction, CvActionType, FetchCvSuccessAction } from '../reducer/cvReducer';
+import { CvAction, CvActionType, FetchCvSuccessAction } from '../cv/reducer/cvReducer';
 import {
     deleteMidlertidigUtilgjengelig,
     fetchMidlertidigUtilgjengelig,

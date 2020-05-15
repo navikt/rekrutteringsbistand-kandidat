@@ -104,7 +104,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     search: () => dispatch({ type: SEARCH }),
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
-    leggUrlParametereIStateOgSøk: (href: string) => dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
+    leggUrlParametereIStateOgSøk: (href: string) =>
+        dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },

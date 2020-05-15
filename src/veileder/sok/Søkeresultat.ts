@@ -32,6 +32,7 @@ type Søkeresultat = {
     score: any;
     servicebehov: string;
     totalLengdeYrkeserfaring: number;
+    erLagtTilKandidatliste: boolean;
 };
 
 export default Søkeresultat;

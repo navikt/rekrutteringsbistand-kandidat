@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
-import VisKandidatForrigeNeste from '../VisKandidatForrigeNeste';
+import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
-import { LenkeMedChevron } from '../lenkeMedChevron/LenkeMedChevron';
+import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
-import './CvHeader.less';
 import { formatterDato } from '../../../felles/common/dateUtils';
+import './Kandidatheader.less';
 
 interface Props {
     cv: any;
@@ -17,7 +17,7 @@ interface Props {
     fantCv: boolean;
 }
 
-const CvHeader: FunctionComponent<Props> = ({
+const Kandidatheader: FunctionComponent<Props> = ({
     cv,
     antallKandidater,
     tilbakeLink,
@@ -62,9 +62,9 @@ const CvHeader: FunctionComponent<Props> = ({
     }
 
     return (
-        <header className="cv-header">
-            <div className="cv-header__inner">
-                <div className="cv-header__tilbakeknapp">
+        <header className="kandidatheader">
+            <div className="kandidatheader__inner">
+                <div className="kandidatheader__tilbakeknapp">
                     <LenkeMedChevron type="venstre" to={tilbakeLink} text={tilbakeLenkeTekst} />
                 </div>
                 <div>
@@ -73,13 +73,13 @@ const CvHeader: FunctionComponent<Props> = ({
                             ? `${fornavn} ${etternavn}`
                             : 'Informasjonen om kandidaten kan ikke vises'}
                     </Systemtittel>
-                    <div className="cv-header__kontaktinfo blokk-xxs">
+                    <div className="kandidatheader__kontaktinfo blokk-xxs">
                         {fødselsinfo}
                         <span>
                             Veileder: <strong>{veilederinfo}</strong>
                         </span>
                     </div>
-                    <div className="cv-header__kontaktinfo">
+                    <div className="kandidatheader__kontaktinfo">
                         {cv.epost && (
                             <span>
                                 E-post:{' '}
@@ -108,8 +108,8 @@ const CvHeader: FunctionComponent<Props> = ({
                     </div>
                 </div>
                 {fantCv && (
-                    <VisKandidatForrigeNeste
-                        className="cv-header__forrige-neste-knapper"
+                    <ForrigeNeste
+                        className="kandidatheader__forrige-neste-knapper"
                         lenkeClass=""
                         forrigeKandidat={forrigeKandidat}
                         nesteKandidat={nesteKandidat}
@@ -122,4 +122,4 @@ const CvHeader: FunctionComponent<Props> = ({
     );
 };
 
-export default CvHeader;
+export default Kandidatheader;
