@@ -5,7 +5,7 @@ import Lenke from 'nav-frontend-lenker';
 import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
-import { LenkeMedChevron } from '../../../kandidat/header/lenke-med-chevron/LenkeMedChevron';
+import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 
 type Props = {
     tittel: string;

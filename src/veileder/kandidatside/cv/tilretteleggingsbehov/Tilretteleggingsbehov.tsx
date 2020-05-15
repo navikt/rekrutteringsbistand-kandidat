@@ -4,13 +4,13 @@ import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../../common/fasitProperties';
 import { logEvent } from '../../../amplitude/amplitude';
-import './KandidatTilretteleggingsbehov.less';
+import './Tilretteleggingsbehov.less';
 
 interface Props {
     fnr: string;
 }
 
-const KandidatTilretteleggingsbehov = ({ fnr }: Props) => {
+const Tilretteleggingsbehov = ({ fnr }: Props) => {
     const [apen, toggleApen] = useState<boolean>(true);
     const arbeidsrettetOppfølgingUrl = `${ARBEIDSRETTET_OPPFOLGING_URL}/${fnr}?#visDetaljer&apneTilretteleggingsbehov`;
 
@@ -39,4 +39,4 @@ const KandidatTilretteleggingsbehov = ({ fnr }: Props) => {
     );
 };
 
-export default KandidatTilretteleggingsbehov;
+export default Tilretteleggingsbehov;

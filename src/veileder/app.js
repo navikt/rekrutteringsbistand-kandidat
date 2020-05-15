@@ -21,10 +21,10 @@ import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
-import cvReducer, { cvSaga } from './kandidat/cv/reducer/cvReducer.ts';
+import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer.ts';
 import midlertidigUtilgjengeligReducer, {
     midlertidigUtilgjengeligSaga,
-} from './kandidat/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer.ts';
+} from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer.ts';
 import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer.ts';
 import feedbackReducer from './feedback/feedbackReducer';
 import sprakReducer from './sok/sprak/sprakReducer';

@@ -2,14 +2,14 @@ import React, { FunctionComponent } from 'react';
 import moment from 'moment';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Nettressurs, Nettstatus } from '../../../../felles/common/remoteData';
+import { Tilgjengelighet } from '../../../sok/Søkeresultat';
+import { MidlertidigUtilgjengeligResponse } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import {
     antallDagerMellom,
     dagensDato,
-} from '../../../kandidat/midlertidig-utilgjengelig/validering';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { MidlertidigUtilgjengeligResponse } from '../../../kandidat/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { Nettressurs, Nettstatus } from '../../../../felles/common/remoteData';
-import { Tilgjengelighet } from '../../../sok/Søkeresultat';
+} from '../../../kandidatside/midlertidig-utilgjengelig/validering';
 
 interface Props {
     status: Tilgjengelighet;

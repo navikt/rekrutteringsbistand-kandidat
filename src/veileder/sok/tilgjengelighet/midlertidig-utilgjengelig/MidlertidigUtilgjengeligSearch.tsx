@@ -6,9 +6,9 @@ import { SEARCH } from '../../searchReducer';
 import { Tilgjengelighet } from '../../Søkeresultat';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../AppState';
-import TilgjengelighetIkon from '../../../kandidat/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengeligSearch.less';
 import { Normaltekst } from 'nav-frontend-typografi';
+import TilgjengelighetIkon from '../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];

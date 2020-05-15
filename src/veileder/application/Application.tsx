@@ -13,7 +13,7 @@ import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
 import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
-import Kandidatside from '../kandidat/Kandidatside';
+import Kandidatside from '../kandidatside/Kandidatside';
 import './Application.less';
 
 const skjermerMedGråBakgrunn = [

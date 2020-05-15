@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchCv } from '../../../api';
 import { INVALID_RESPONSE_STATUS } from '../../../sok/searchReducer';
 import { SearchApiError } from '../../../../felles/api';
-import Cv from '../Cv';
+import Cv from './cv-typer';
 
 export enum CvActionType {
     FETCH_CV = 'FETCH_CV',
