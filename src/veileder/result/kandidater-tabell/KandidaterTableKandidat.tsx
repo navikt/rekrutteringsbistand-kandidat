@@ -9,6 +9,7 @@ import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
+import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
 
 interface Props {
     kandidat: Søkeresultat;
@@ -101,15 +102,18 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }
                 />
             </div>
-            <div className="kandidater-tabell__kolonne-tekst">
+            <div className="kandidater-tabell__navn-og-lag-i-liste-ikon">
                 <Link
-                    className="kandidater-tabell__navn lenke"
+                    className="kandidater-tabell__navn"
                     to={linkTilKandidat()}
                     onClick={() => setScrollPosition(window.pageYOffset)}
                     aria-label={`Se CV for ${navn}`}
                 >
                     {navn}
                 </Link>
+                {kandidat.erLagtTilKandidatliste && (
+                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+                )}
             </div>
             <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
             <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>

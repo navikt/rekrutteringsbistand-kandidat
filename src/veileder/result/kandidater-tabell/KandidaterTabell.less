@@ -24,8 +24,21 @@
         }
     }
 
-    &__navn:visited {
-        color: @navLilla;
+    &__navn-og-lag-i-liste-ikon {
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__navn {
+        &:visited {
+            color: @navLilla;
+        }
+    }
+
+    &__lagt-i-liste-ikon {
+        position: absolute;
     }
 
     &__tilgjengelighet {

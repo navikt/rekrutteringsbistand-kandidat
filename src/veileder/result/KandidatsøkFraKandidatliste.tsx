@@ -65,8 +65,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
             !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatlisteId;
 
         const skalSøkeMedEksisterendeSøkestate =
-            !harUrlParametere(window.location.href) &&
-            søkestateKommerFraDenneKandidatlisten;
+            !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
 
         if (skalSøkeMedEksisterendeSøkestate) {
             search();
