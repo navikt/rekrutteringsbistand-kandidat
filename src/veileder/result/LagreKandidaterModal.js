@@ -154,7 +154,7 @@ class LagreKandidaterModal extends React.Component {
     onLagreHentetKandidat = (kandidatliste) => () => {
         this.onLagreKandidat(kandidatliste)
         this.setState({
-            hentetListe: kandidatliste.map(liste => ({ ...liste, alleredeLagtTil: true }))
+            hentetListe: {...kandidatliste, alleredeLagtTil: true}
         });
     };
 
