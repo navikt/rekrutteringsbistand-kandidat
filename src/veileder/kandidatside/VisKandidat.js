@@ -123,9 +123,8 @@ class VisKandidat extends React.Component {
 
     onLagreKandidatClick = (kandidatlisteId, stillingsId) => () => {
         this.setState({
-            lagreKandidaterModalVises: kandidatlisteId === undefined && stillingsId === undefined,
-            lagreKandidaterModalTilStillingVises:
-                kandidatlisteId !== undefined || stillingsId !== undefined,
+            lagreKandidaterModalVises: kandidatlisteId === null && stillingsId === null,
+            lagreKandidaterModalTilStillingVises: kandidatlisteId !== null || stillingsId !== null,
         });
     };
 
