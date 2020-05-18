@@ -1,11 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { useLocation, useRouteMatch, Switch, Route, Redirect } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
-import CvSide from './cv/CvSide';
-import Historikkside from './historikk/Historikkside';
-import { useSelector } from 'react-redux';
-import AppState from '../AppState';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -17,31 +13,9 @@ type RouteParams = {
     kandidatNr: string;
 };
 
-const Router = ({ visHistorikk }) => {
-    const { search } = useLocation();
-    const { path } = useRouteMatch();
-
-    return (
-        <Switch>
-            <Route path="/kandidater/kandidat/:kandidatNr/cv">
-                <CvSide />
-            </Route>
-            {visHistorikk && (
-                <Route path="/kandidater/kandidat/:kandidatNr/historikk">
-                    <Historikkside />
-                </Route>
-            )}
-            <Redirect to={`${path}/cv${search}`} />
-        </Switch>
-    );
-};
-
-const Kandidatside: FunctionComponent = () => {
+const Kandidatside: FunctionComponent = ({ children }) => {
     const { search } = useLocation();
     const { params } = useRouteMatch<RouteParams>();
-    const visHistorikk = useSelector(
-        (state: AppState) => state.search.featureToggles['vis-historikk']
-    );
 
     const kandidatNr = params.kandidatNr;
 
@@ -52,7 +26,7 @@ const Kandidatside: FunctionComponent = () => {
 
     return fraKandidatliste && kandidatlisteId ? (
         <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId}>
-            <Router visHistorikk={visHistorikk} />
+            {children}
         </VisKandidatFraLister>
     ) : (
         <VisKandidat
@@ -60,7 +34,7 @@ const Kandidatside: FunctionComponent = () => {
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >
-            <Router visHistorikk={visHistorikk} />
+            {children}
         </VisKandidat>
     );
 };
