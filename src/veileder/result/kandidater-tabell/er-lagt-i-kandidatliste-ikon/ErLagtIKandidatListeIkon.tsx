@@ -7,12 +7,7 @@ interface Props {
 
 const ErLagtIKandidatListeIkon: FunctionComponent<Props> = ({ className }) => (
     <span className={className}>
-        <svg
-            width="20"
-            height="20"
-            viewBox="-1 -1 22 22"
-            fill="none"
-        >
+        <svg width="20" height="20" viewBox="-1 -1 22 22" fill="none">
             <title>Kandidaten ligger allerede i kandidatlisten</title>
             <path
                 stroke="#06893A"
