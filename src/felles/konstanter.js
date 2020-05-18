@@ -18,6 +18,7 @@ const FEATURE_TOGGLES = [
     'vis-midlertidig-utilgjengelig',
     'vis-midlertidig-utilgjengelig-filter',
     'vis-midlertidig-utilgjengelig-popover',
+    'vis-historikk',
 ];
 export default FEATURE_TOGGLES;
 

@@ -4,6 +4,8 @@ import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
 import CvSide from './cv/CvSide';
 import Historikkside from './historikk/Historikkside';
+import { useSelector } from 'react-redux';
+import AppState from '../AppState';
 
 export enum KandidatQueryParam {
     KandidatlisteId = 'kandidatlisteId',
@@ -15,7 +17,7 @@ type RouteParams = {
     kandidatNr: string;
 };
 
-const Router = () => {
+const Router = ({ visHistorikk }) => {
     const { search } = useLocation();
     const { path } = useRouteMatch();
 
@@ -24,9 +26,11 @@ const Router = () => {
             <Route path="/kandidater/kandidat/:kandidatNr/cv">
                 <CvSide />
             </Route>
-            <Route path="/kandidater/kandidat/:kandidatNr/historikk">
-                <Historikkside />
-            </Route>
+            {visHistorikk && (
+                <Route path="/kandidater/kandidat/:kandidatNr/historikk">
+                    <Historikkside />
+                </Route>
+            )}
             <Redirect to={`${path}/cv${search}`} />
         </Switch>
     );
@@ -35,6 +39,9 @@ const Router = () => {
 const Kandidatside: FunctionComponent = () => {
     const { search } = useLocation();
     const { params } = useRouteMatch<RouteParams>();
+    const visHistorikk = useSelector(
+        (state: AppState) => state.search.featureToggles['vis-historikk']
+    );
 
     const kandidatNr = params.kandidatNr;
 
@@ -45,7 +52,7 @@ const Kandidatside: FunctionComponent = () => {
 
     return fraKandidatliste && kandidatlisteId ? (
         <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId}>
-            <Router />
+            <Router visHistorikk={visHistorikk} />
         </VisKandidatFraLister>
     ) : (
         <VisKandidat
@@ -53,7 +60,7 @@ const Kandidatside: FunctionComponent = () => {
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >
-            <Router />
+            <Router visHistorikk={visHistorikk} />
         </VisKandidat>
     );
 };
