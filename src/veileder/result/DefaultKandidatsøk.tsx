@@ -101,7 +101,7 @@ const mapStateToProps = (state: AppState) => ({
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    kandidatlisteIdFraSøk: !!state.search.kandidatlisteId,
+    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
