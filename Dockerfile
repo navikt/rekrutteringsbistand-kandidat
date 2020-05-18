@@ -6,7 +6,7 @@ COPY server/ server/
 COPY dist/ dist/
 
 WORKDIR /usr/src/app/server
-RUN npm install
+RUN npm ci
 
 EXPOSE 8080
 
