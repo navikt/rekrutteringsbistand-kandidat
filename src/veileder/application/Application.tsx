@@ -3,11 +3,9 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
-import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Footer from '../footer/Footer';
-import Historikkside from '../kandidatside/historikk/Historikkside';
 import KandidatlisteMedStilling from '../kandidatlister/KandidatlisteMedStilling';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import KandidatlisteUtenStilling from '../kandidatlister/KandidatlisteUtenStilling';
@@ -69,18 +67,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatNr">
-                            <Kandidatside>
-                                <Switch>
-                                    <Route path="/kandidater/kandidat/:kandidatNr/historikk">
-                                        <Historikkside />
-                                    </Route>
-                                    <Route>
-                                        <CvSide />
-                                    </Route>
-                                </Switch>
-                            </Kandidatside>
-                        </Route>
+                        <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
                         <Route component={NotFound} />
                     </Switch>
                 </main>

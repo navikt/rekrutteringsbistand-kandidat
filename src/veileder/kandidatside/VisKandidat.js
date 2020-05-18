@@ -13,7 +13,6 @@ import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer
 import { logEvent } from '../amplitude/amplitude';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import cvPropTypes from '../../felles/PropTypes';
-import CvSide from './cv/CvSide';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
