@@ -1,15 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import Cv from './reducer/cv-typer';
 import KandidatCv from './cv/Cv';
 import KandidatJobbprofil from './jobbprofil/Jobbprofil';
 import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggingsbehov';
 import Knapperad from '../knapperad/Knapperad';
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
 
-interface Props {
-    cv: Cv;
-}
+const CvSide: FunctionComponent = () => {
+    const { cv } = useSelector((state: AppState) => state.cv);
 
-const CvSide: FunctionComponent<Props> = ({ cv }) => {
     return (
         <>
             <Knapperad aktørId={cv.aktorId} />

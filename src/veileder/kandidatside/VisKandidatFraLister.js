@@ -7,7 +7,6 @@ import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
 import { KandidatQueryParam } from './Kandidatside';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import cvPropTypes from '../../felles/PropTypes';
-import CvSide from './cv/CvSide';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
@@ -102,6 +101,7 @@ class VisKandidatFraLister extends React.Component {
                 </div>
             );
         }
+
         return (
             <div>
                 <Kandidatheader
@@ -133,7 +133,7 @@ class VisKandidatFraLister extends React.Component {
                                 </div>
                             )}
                         </Kandidatmeny>
-                        <CvSide cv={cv} />
+                        {this.props.children}
                         <div className="vis-kandidat__forrige-neste-wrapper">
                             <ForrigeNeste
                                 lenkeClass="vis-kandidat__forrige-neste-lenke"

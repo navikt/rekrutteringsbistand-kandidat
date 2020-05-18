@@ -303,7 +303,7 @@ class VisKandidat extends React.Component {
                                 </Knapp>
                             )}
                         </Kandidatmeny>
-                        <CvSide cv={cv} />
+                        {this.props.children}
                         <div className="vis-kandidat__forrige-neste-wrapper">
                             <ForrigeNeste
                                 lenkeClass="vis-kandidat__forrige-neste-lenke"

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch, Switch, Route, Redirect } from 'react-router-dom';
 import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
 
@@ -13,7 +13,7 @@ type RouteParams = {
     kandidatNr: string;
 };
 
-const Kandidatside: FunctionComponent = () => {
+const Kandidatside: FunctionComponent = ({ children }) => {
     const location = useLocation();
     const match = useRouteMatch<RouteParams>();
 
@@ -25,13 +25,17 @@ const Kandidatside: FunctionComponent = () => {
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId} />
+        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId}>
+            {children}
+        </VisKandidatFraLister>
     ) : (
         <VisKandidat
             kandidatNr={kandidatNr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
-        />
+        >
+            {children}
+        </VisKandidat>
     );
 };
 
