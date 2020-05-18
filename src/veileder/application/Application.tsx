@@ -15,6 +15,7 @@ import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
 import Kandidatside from '../kandidatside/Kandidatside';
 import './Application.less';
+import Historikk from '../kandidatside/historikk/Historikk';
 
 const skjermerMedGråBakgrunn = [
     '/kandidater/lister/stilling/',
@@ -66,6 +67,11 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             exact
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
+                        />{' '}
+                        <Route
+                            exact
+                            path="/kandidater/kulside"
+                            component={Historikk}
                         />
                         <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
                         <Route component={NotFound} />
