@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
 
@@ -13,9 +13,10 @@ type RouteParams = {
     kandidatNr: string;
 };
 
-type Props = RouteComponentProps<RouteParams>;
+const Kandidatside: FunctionComponent = () => {
+    const location = useLocation();
+    const match = useRouteMatch<RouteParams>();
 
-const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
     const queryParams = new URLSearchParams(location.search);
 
     const kandidatNr = match.params.kandidatNr;

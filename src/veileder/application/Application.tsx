@@ -67,7 +67,9 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
+                        <Route path="/kandidater/kandidat/:kandidatNr">
+                            <Kandidatside />
+                        </Route>
                         <Route component={NotFound} />
                     </Switch>
                 </main>
