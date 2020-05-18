@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import cvPropTypes from '../../felles/PropTypes';
 import Kandidatheader from './header/Kandidatheader';
@@ -9,15 +8,15 @@ import KandidatCv from './cv/cv/Cv';
 import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../common/fasitProperties';
 import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../amplitude/amplitude';
 import { KandidatQueryParam } from './Kandidatside';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import '../../felles/common/ikoner/ikoner.less';
 import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Knapperad from './knapperad/Knapperad';
+import '../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -116,33 +115,16 @@ class VisKandidatFraLister extends React.Component {
                     fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
-                    <div className="cvIkkeFunnet">
-                        <div className="content">
-                            <Element tag="h2" className="blokk-s">
-                                Kandidaten kan ikke vises
-                            </Element>
-                            <div>
-                                <Normaltekst>Mulige årsaker:</Normaltekst>
-                                <ul>
-                                    <li className="blokk-xxs">
-                                        <Normaltekst>Kandidaten har skiftet status</Normaltekst>
-                                    </li>
-                                    <li>
-                                        <Normaltekst>Tekniske problemer</Normaltekst>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <IkkeFunnet />
                 ) : (
-                    <div>
+                    <>
                         <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
                             />
                             {gjeldendeKandidat && (
-                                <div className="VisKandidat-knapperad__statusSelect">
+                                <div className="vis-kandidat__status-select">
                                     <span>Status:</span>
                                     <StatusSelect
                                         kanEditere={kandidatliste.kanEditere}
@@ -152,39 +134,23 @@ class VisKandidatFraLister extends React.Component {
                                 </div>
                             )}
                         </Kandidatmeny>
-                        <div className="VisKandidat-knapperad">
-                            <div className="content">
-                                <div className="lenker">
-                                    {this.props.visLastNedCvLenke && (
-                                        <a
-                                            className="LastNed lenke"
-                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
-                                            target="_blank"
-                                            onClick={() => logEvent('cv_last_ned', 'klikk')}
-                                            rel="noopener noreferrer"
-                                        >
-                                            <span>Last ned CV</span>
-                                            <i className="LastNed__icon" />
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
+                        <Knapperad
+                            aktørId={cv.aktorId}
+                            visLastNedCvLenke={this.props.visLastNedCvLenke}
+                        />
+                        <KandidatJobbprofil cv={cv} />
+                        <KandidatCv cv={cv} />
+                        <div className="navigering-forrige-neste_wrapper">
+                            <ForrigeNeste
+                                lenkeClass={'header--personalia__lenke--veileder'}
+                                contextRoot={'kandidater'}
+                                forrigeKandidat={forrigeKandidatLink}
+                                nesteKandidat={nesteKandidatLink}
+                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                                antallKandidater={kandidatliste.kandidater.length}
+                            />
                         </div>
-                        <div className="viskandidat-container">
-                            <KandidatJobbprofil cv={cv} />
-                            <KandidatCv cv={cv} />
-                            <div className="navigering-forrige-neste_wrapper">
-                                <ForrigeNeste
-                                    lenkeClass={'header--personalia__lenke--veileder'}
-                                    contextRoot={'kandidater'}
-                                    forrigeKandidat={forrigeKandidatLink}
-                                    nesteKandidat={nesteKandidatLink}
-                                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                    antallKandidater={kandidatliste.kandidater.length}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    </>
                 )}
             </div>
         );

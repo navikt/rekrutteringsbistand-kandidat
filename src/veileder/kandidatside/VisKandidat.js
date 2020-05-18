@@ -26,6 +26,8 @@ import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUti
 import { logEvent } from '../amplitude/amplitude';
 import { Link } from 'react-router-dom';
 import { KandidatQueryParam } from './Kandidatside';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Knapperad from './knapperad/Knapperad';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -271,26 +273,9 @@ class VisKandidat extends React.Component {
                     fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
-                    <div className="cvIkkeFunnet">
-                        <div className="content">
-                            <Element tag="h2" className="blokk-s">
-                                Kandidaten kan ikke vises
-                            </Element>
-                            <div>
-                                <Normaltekst>Mulige årsaker:</Normaltekst>
-                                <ul>
-                                    <li className="blokk-xxs">
-                                        <Normaltekst>Kandidaten har skiftet status</Normaltekst>
-                                    </li>
-                                    <li>
-                                        <Normaltekst>Tekniske problemer</Normaltekst>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <IkkeFunnet />
                 ) : (
-                    <div>
+                    <>
                         <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
@@ -322,24 +307,10 @@ class VisKandidat extends React.Component {
                                 </Knapp>
                             )}
                         </Kandidatmeny>
-                        <div className="VisKandidat-knapperad">
-                            <div className="content">
-                                <div className="lenker">
-                                    {this.props.visLastNedCvLenke && (
-                                        <a
-                                            className="LastNed lenke"
-                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
-                                            target="_blank"
-                                            onClick={() => logEvent('cv_last_ned', 'klikk')}
-                                            rel="noopener noreferrer"
-                                        >
-                                            <span>Last ned CV</span>
-                                            <i className="LastNed__icon" />
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        <Knapperad
+                            aktørId={cv.aktorId}
+                            visLastNedCvLenke={this.props.visLastNedCvLenke}
+                        />
                         <KandidatJobbprofil cv={cv} />
                         <KandidatCv cv={cv} />
                         {cv.tilretteleggingsbehov && (
@@ -355,7 +326,7 @@ class VisKandidat extends React.Component {
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                             />
                         </div>
-                    </div>
+                    </>
                 )}
                 {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
