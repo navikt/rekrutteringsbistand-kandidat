@@ -43,7 +43,9 @@ const SideHeader: FunctionComponent<Props> = ({
                 </div>
                 <div className="side-header__informasjon">
                     <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
-                    <Element className="side-header__antall-kandidater">{oppsummeringTekst}</Element>
+                    <Element className="side-header__antall-kandidater">
+                        {oppsummeringTekst}
+                    </Element>
                     <div className="side-header__om-kandidatlisten">
                         {arbeidsgiver && (
                             <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
