@@ -47,7 +47,7 @@ const writeEnvironmentVariablesToFile = () => {
         `window.__LAST_NED_CV_URL__="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
         `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
-    fs.writeFile(path.resolve(__dirname, 'dist/js/env.js'), fileContent, (err) => {
+    fs.writeFile(path.resolve(__dirname, '../dist/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
 };
@@ -281,8 +281,8 @@ const startServer = (html) => {
 
     konfigurerProxyTilPamKandidatsøkApi();
 
-    server.use('/kandidater/js', express.static(path.resolve(__dirname, 'dist/js')));
-    server.use('/kandidater/css', express.static(path.resolve(__dirname, 'dist/css')));
+    server.use('/kandidater/js', express.static(path.resolve(__dirname, '../dist/js')));
+    server.use('/kandidater/css', express.static(path.resolve(__dirname, '../dist/css')));
 
     konfigurerProxyTilEnhetsregister();
     konfigurerProxyTilSmsApi();
