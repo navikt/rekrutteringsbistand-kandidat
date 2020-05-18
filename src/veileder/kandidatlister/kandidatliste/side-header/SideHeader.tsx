@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
@@ -6,6 +6,8 @@ import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
 import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import NavFrontendChevron from 'nav-frontend-chevron';
 
 type Props = {
     tittel: string;
@@ -31,6 +33,7 @@ const SideHeader: FunctionComponent<Props> = ({
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
+    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     return (
         <header className="side-header">
             <div className="side-header__inner">
@@ -43,7 +46,9 @@ const SideHeader: FunctionComponent<Props> = ({
                 </div>
                 <div className="side-header__informasjon">
                     <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
-                    <Element className="side-header__antall-kandidater">{oppsummeringTekst}</Element>
+                    <Element className="side-header__antall-kandidater">
+                        {oppsummeringTekst}
+                    </Element>
                     <div className="side-header__om-kandidatlisten">
                         {arbeidsgiver && (
                             <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
@@ -52,13 +57,32 @@ const SideHeader: FunctionComponent<Props> = ({
                             Registrert av: {opprettetAv.navn} ({opprettetAv.ident})
                         </span>
                         {stillingsId && (
-                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            <span>
+                                <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            </span>
+                        )}
+                        {beskrivelse && (
+                            <span>
+                                <Lenkeknapp
+                                    onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
+                                >
+                                    {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
+                                    <NavFrontendChevron
+                                        type={beskrivelseSkalVises ? 'opp' : 'ned'}
+                                    />
+                                </Lenkeknapp>
+                            </span>
                         )}
                     </div>
-                    {beskrivelse && (
-                        <Normaltekst className="side-header__beskrivelse">
-                            {beskrivelse}
-                        </Normaltekst>
+                    {beskrivelseSkalVises && (
+                        <div>
+                            <Element className="side-header__beskrivelse-tittel">
+                                Beskrivelse
+                            </Element>
+                            <Normaltekst className="side-header__beskrivelse">
+                                {beskrivelse}
+                            </Normaltekst>
+                        </div>
                     )}
                 </div>
             </div>
