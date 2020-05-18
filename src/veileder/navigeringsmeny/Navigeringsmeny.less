@@ -19,7 +19,7 @@
 
     &__tab,
     &__forside {
-        padding: 1.25rem 0.5rem;
+        padding: 1.25rem 1rem;
     }
 
     &__forside {
@@ -35,6 +35,10 @@
         text-decoration: none;
         color: @navMorkGra;
         letter-spacing: 0.3px;
+
+        &:hover:not(&--aktiv) {
+            background-color: #f4f4f4;
+        }
 
         &--aktiv {
             .typo-normal {

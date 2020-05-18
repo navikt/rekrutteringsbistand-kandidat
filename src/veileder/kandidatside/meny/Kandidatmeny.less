@@ -31,18 +31,26 @@
     }
 
     &__tab {
-        margin-right: 1.5rem;
+        margin-right: 1rem;
         border-bottom: 0.25rem solid transparent;
         border-top: 0.25rem solid transparent;
         text-decoration: none;
         color: @navBla;
-        padding: 1.25rem 0.5rem;
+        padding: 1.25rem 1rem;
         letter-spacing: 0.3px;
 
         &--aktiv {
             color: @navDypBla;
-            border-bottom-color: @navDypBla;
             letter-spacing: 0.1px;
+        }
+
+        &--aktiv,
+        &:hover {
+            border-bottom-color: @navDypBla;
+        }
+
+        &:hover:not(&--aktiv) {
+            background-color: #f4f4f4;
         }
 
         &:focus {
