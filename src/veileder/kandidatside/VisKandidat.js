@@ -1,33 +1,32 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Knapp } from 'nav-frontend-knapper';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import cvPropTypes from '../../felles/PropTypes';
+import { Link } from 'react-router-dom';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import PropTypes from 'prop-types';
+
 import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatCv from './cv/cv/Cv';
-import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
-import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
-import './VisKandidat.less';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
-import LagreKandidaterModal from '../result/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import { KandidatQueryParam } from './Kandidatside';
 import { LAGRE_STATUS } from '../../felles/konstanter';
+import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
+import { logEvent } from '../amplitude/amplitude';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../common/fasitProperties';
-import KandidatTilretteleggingsbehov from './cv/tilretteleggingsbehov/Tilretteleggingsbehov.tsx';
+import cvPropTypes from '../../felles/PropTypes';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import KandidatCv from './cv/cv/Cv';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
-import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../amplitude/amplitude';
-import { Link } from 'react-router-dom';
-import { KandidatQueryParam } from './Kandidatside';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import KandidatTilretteleggingsbehov from './cv/tilretteleggingsbehov/Tilretteleggingsbehov.tsx';
 import Knapperad from './knapperad/Knapperad';
+import LagreKandidaterModal from '../result/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
+import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
+import './VisKandidat.less';
 
 class VisKandidat extends React.Component {
     constructor(props) {
