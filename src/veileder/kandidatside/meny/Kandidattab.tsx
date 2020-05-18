@@ -12,14 +12,13 @@ const Kandidattab: FunctionComponent<Props> = ({ sti, label }) => {
     const { url } = useRouteMatch();
 
     const aktiv = pathname.split('/').reverse()[0] === sti;
-    const Typo = aktiv ? Element : Normaltekst;
 
     return (
         <Link
             className={`kandidatmeny__tab${aktiv ? ' kandidatmeny__tab--aktiv' : ''}`}
             to={`${url}/${sti}${search}`}
         >
-            <Typo>{label}</Typo>
+            {label}
         </Link>
     );
 };
