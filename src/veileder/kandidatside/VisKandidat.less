@@ -1,4 +1,4 @@
-@mobile: ~'only screen and (min-width: 1px) and (max-width: 767px)';
+@import '../variabler.less';
 
 .vis-kandidat {
     &__status-select {
@@ -19,72 +19,5 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-    }
-}
-
-.panel--jobbprofil {
-    margin: auto auto 20px;
-    max-width: 640px;
-    .ekspanderbartPanel > .ekspanderbartPanel__hode {
-        padding: 1.5rem 2rem 1.5rem 2rem;
-    }
-}
-
-.panel--jobbprofil__row {
-    margin-bottom: 2rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-
-    &:first-child {
-        margin-bottom: 4rem;
-    }
-    &:last-child {
-        margin-bottom: 1rem;
-    }
-    .jobbprofil__overskrift {
-        @media @mobile {
-            margin-bottom: 0.5rem;
-        }
-    }
-}
-
-.panel--cv {
-    margin: auto auto 20px;
-    max-width: 640px;
-    .ekspanderbartPanel > .ekspanderbartPanel__hode {
-        padding: 1.5rem 2rem 1.5rem 2rem;
-    }
-    .cv--tidsperiode {
-        margin-top: 5px;
-    }
-}
-
-.panel--cv__row {
-    margin-bottom: 4rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    &:last-child {
-        margin-bottom: 1rem;
-    }
-    .row--kategori {
-        margin-bottom: 2rem;
-        padding-left: 0.5rem;
-        &:last-child {
-            margin-bottom: 0;
-        }
-        .typo-undertekst {
-            margin-bottom: 0.25rem;
-        }
-        .typo-normal {
-            margin-bottom: 0.25rem;
-            word-break: break-word;
-        }
-        .typo-element {
-            margin-bottom: 0.25rem;
-            word-break: break-word;
-        }
-    }
-    .cv__overskrift {
-        margin-bottom: 0.5rem;
     }
 }

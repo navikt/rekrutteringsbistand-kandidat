@@ -5,16 +5,16 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import TruncatedTextList from '../../../../felles/common/TruncatedTextList';
 import cvPropTypes from '../../../../felles/PropTypes';
 import { OPPSTARTSKODER } from '../../../../felles/konstanter';
-import '../../VisKandidat.less';
+import './Jobbprofil.less';
 
 const KandidatJobbprofil = ({ cv }) => (
-    <div className="panel--jobbprofil">
+    <div className="kandidat-jobbprofil">
         <Ekspanderbartpanel
             apen
             id="ekspanderbartpanel-jobbprofil"
             tittel={<Systemtittel>Jobbprofil</Systemtittel>}
         >
-            <Row className="panel--jobbprofil__row">
+            <Row className="kandidat-jobbprofil__row">
                 <Column xs="12">
                     <Normaltekst>
                         Kandidatens jobbprofil inneholder ønsker og krav for fremtidige jobber.
@@ -22,9 +22,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Column>
             </Row>
             {cv.yrkeJobbonsker && cv.yrkeJobbonsker.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Ønsket yrke</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">Ønsket yrke</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -34,9 +34,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.kompetanse && cv.kompetanse.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Kompetanse</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">Kompetanse</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -46,9 +46,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.geografiJobbonsker && cv.geografiJobbonsker.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Ønsket sted</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">Ønsket sted</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -58,9 +58,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.omfangJobbprofil && cv.omfangJobbprofil.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Heltid/deltid</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">Heltid/deltid</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -70,9 +70,9 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.arbeidstidJobbprofil && cv.arbeidstidJobbprofil.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidstid</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">Arbeidstid</Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -84,9 +84,11 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.arbeidstidsordningJobbprofil && cv.arbeidstidsordningJobbprofil.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidstidsordning</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">
+                            Arbeidstidsordning
+                        </Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -98,9 +100,11 @@ const KandidatJobbprofil = ({ cv }) => (
                 </Row>
             )}
             {cv.ansettelsesformJobbprofil && cv.ansettelsesformJobbprofil.length !== 0 && (
-                <Row className="panel--jobbprofil__row">
+                <Row className="kandidat-jobbprofil__row">
                     <Column xs="12" sm="4">
-                        <Element className="jobbprofil__overskrift">Arbeidsforhold</Element>
+                        <Element className="kandidat-jobbprofil__overskrift">
+                            Arbeidsforhold
+                        </Element>
                     </Column>
                     <Column xs="12" sm="8">
                         <TruncatedTextList
@@ -114,9 +118,9 @@ const KandidatJobbprofil = ({ cv }) => (
             {cv.oppstartKode &&
                 cv.oppstartKode.length !== 0 &&
                 OPPSTARTSKODER[cv.oppstartKode.toUpperCase()] && (
-                    <Row className="panel--jobbprofil__row">
+                    <Row className="kandidat-jobbprofil__row">
                         <Column xs="12" sm="4">
-                            <Element className="jobbprofil__overskrift">
+                            <Element className="kandidat-jobbprofil__overskrift">
                                 Når er kandidaten <br />
                                 ledig for ny jobb:
                             </Element>

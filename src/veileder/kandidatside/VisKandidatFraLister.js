@@ -1,21 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import cvPropTypes from '../../felles/PropTypes';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatCv from './cv/cv/Cv';
-import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
+import PropTypes from 'prop-types';
+
+import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
+import { KandidatQueryParam } from './Kandidatside';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
-import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import cvPropTypes from '../../felles/PropTypes';
+import CvSide from './cv/CvSide';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { KandidatQueryParam } from './Kandidatside';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
-import IkkeFunnet from './ikke-funnet/IkkeFunnet';
-import Knapperad from './knapperad/Knapperad';
+import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import '../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
@@ -134,9 +133,7 @@ class VisKandidatFraLister extends React.Component {
                                 </div>
                             )}
                         </Kandidatmeny>
-                        <Knapperad aktørId={cv.aktorId} />
-                        <KandidatJobbprofil cv={cv} />
-                        <KandidatCv cv={cv} />
+                        <CvSide cv={cv} />
                         <div className="vis-kandidat__forrige-neste-wrapper">
                             <ForrigeNeste
                                 lenkeClass="vis-kandidat__forrige-neste-lenke"

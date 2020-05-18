@@ -13,16 +13,13 @@ import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer
 import { logEvent } from '../amplitude/amplitude';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import cvPropTypes from '../../felles/PropTypes';
+import CvSide from './cv/CvSide';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
-import KandidatCv from './cv/cv/Cv';
 import Kandidatheader from './header/Kandidatheader';
-import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
-import KandidatTilretteleggingsbehov from './cv/tilretteleggingsbehov/Tilretteleggingsbehov.tsx';
-import Knapperad from './knapperad/Knapperad';
 import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
@@ -306,12 +303,7 @@ class VisKandidat extends React.Component {
                                 </Knapp>
                             )}
                         </Kandidatmeny>
-                        <Knapperad aktørId={cv.aktorId} />
-                        <KandidatJobbprofil cv={cv} />
-                        <KandidatCv cv={cv} />
-                        {cv.tilretteleggingsbehov && (
-                            <KandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />
-                        )}
+                        <CvSide cv={cv} />
                         <div className="vis-kandidat__forrige-neste-wrapper">
                             <ForrigeNeste
                                 lenkeClass="vis-kandidat__forrige-neste-lenke"
