@@ -306,10 +306,7 @@ class VisKandidat extends React.Component {
                                 </Knapp>
                             )}
                         </Kandidatmeny>
-                        <Knapperad
-                            aktørId={cv.aktorId}
-                            visLastNedCvLenke={this.props.visLastNedCvLenke}
-                        />
+                        <Knapperad aktørId={cv.aktorId} />
                         <KandidatJobbprofil cv={cv} />
                         <KandidatCv cv={cv} />
                         {cv.tilretteleggingsbehov && (
@@ -388,7 +385,6 @@ VisKandidat.propTypes = {
         tittel: PropTypes.string,
     }),
     lagreKandidatIKandidatliste: PropTypes.func.isRequired,
-    visLastNedCvLenke: PropTypes.bool.isRequired,
     lagreKandidatIKandidatlisteStatus: PropTypes.string.isRequired,
 };
 
@@ -402,7 +398,6 @@ const mapStateToProps = (state) => ({
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
-    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 

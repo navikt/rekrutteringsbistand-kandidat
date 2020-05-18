@@ -13,7 +13,6 @@ const FEATURE_TOGGLES = [
     'ingen-utdanning-filter',
     'vis-lenke-til-kandidatsok-next',
     'vis-notater-arbeidsgiver',
-    'vis-last-ned-cv-lenke',
     'vis-tilretteleggingsbehov-kategorier',
     'vis-viktige-yrker-lenker',
     'vis-midlertidig-utilgjengelig',

@@ -134,10 +134,7 @@ class VisKandidatFraLister extends React.Component {
                                 </div>
                             )}
                         </Kandidatmeny>
-                        <Knapperad
-                            aktørId={cv.aktorId}
-                            visLastNedCvLenke={this.props.visLastNedCvLenke}
-                        />
+                        <Knapperad aktørId={cv.aktorId} />
                         <KandidatJobbprofil cv={cv} />
                         <KandidatCv cv={cv} />
                         <div className="vis-kandidat__forrige-neste-wrapper">
@@ -169,7 +166,6 @@ VisKandidatFraLister.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
-    visLastNedCvLenke: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
@@ -188,7 +184,6 @@ const mapStateToProps = (state) => ({
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 
 const mapDispatchToProps = (dispatch) => ({
