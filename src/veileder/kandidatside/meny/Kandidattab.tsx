@@ -11,11 +11,7 @@ const Kandidattab: FunctionComponent<Props> = ({ sti, label }) => {
     const { search, pathname } = useLocation();
     const { url } = useRouteMatch();
 
-    const aktivTab = pathname.split('/').reverse()[0];
-    const aktiv = aktivTab === sti;
-
-    console.log('ACTIVEZ:', pathname, aktivTab, aktiv);
-
+    const aktiv = pathname.split('/').reverse()[0] === sti;
     const Typo = aktiv ? Element : Normaltekst;
 
     return (
