@@ -91,7 +91,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
-        resetQuery(hentQueryUtenKriterier(harHentetStilling));
+        resetQuery(hentQueryUtenKriterier(harHentetStilling, kandidatlisteId));
         removeKompetanseSuggestions();
         search();
     };
