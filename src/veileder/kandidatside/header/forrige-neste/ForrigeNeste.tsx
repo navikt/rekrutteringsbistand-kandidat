@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron.tsx';
+import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron';
+import './ForrigeNeste.less';
 
 const ForrigeNeste = ({
     className,
@@ -14,7 +15,7 @@ const ForrigeNeste = ({
     if (antallKandidater > 1) {
         const klasseNavn = className ? className : '';
         return (
-            <div className={'navigering-forrige-neste ' + klasseNavn}>
+            <div className={'forrige-neste ' + klasseNavn}>
                 {forrigeKandidat && (
                     <LenkeMedChevron
                         to={forrigeKandidat}
@@ -23,7 +24,7 @@ const ForrigeNeste = ({
                         text="Forrige kandidat"
                     />
                 )}
-                <Normaltekst className="index">
+                <Normaltekst className="forrige-neste__index">
                     {gjeldendeKandidatIndex + 1} av {antallKandidater}
                 </Normaltekst>
                 {nesteKandidat ? (
@@ -34,7 +35,7 @@ const ForrigeNeste = ({
                         text="Neste kandidat"
                     />
                 ) : (
-                    <div className="header--personalia__lenke--placeholder" />
+                    <div className="forrige-neste__placeholder" />
                 )}
             </div>
         );

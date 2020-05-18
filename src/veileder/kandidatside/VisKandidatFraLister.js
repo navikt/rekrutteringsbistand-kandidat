@@ -6,7 +6,7 @@ import cvPropTypes from '../../felles/PropTypes';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatCv from './cv/cv/Cv';
 import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import Kandidatmeny from './meny/Kandidatmeny';
@@ -140,10 +140,9 @@ class VisKandidatFraLister extends React.Component {
                         />
                         <KandidatJobbprofil cv={cv} />
                         <KandidatCv cv={cv} />
-                        <div className="navigering-forrige-neste_wrapper">
+                        <div className="vis-kandidat__forrige-neste-wrapper">
                             <ForrigeNeste
-                                lenkeClass={'header--personalia__lenke--veileder'}
-                                contextRoot={'kandidater'}
+                                lenkeClass="vis-kandidat__forrige-neste-lenke"
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
