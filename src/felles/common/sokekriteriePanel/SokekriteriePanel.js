@@ -5,9 +5,9 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { logEvent } from '../../../veileder/amplitude/amplitude';
 import './SokekriteriePanel.less';
 
-const SokekriteriePanel = ({ children, tittel, fane, apen, onClick, id }) => {
+const SokekriteriePanel = ({ children, tittel, fane, apen: erÅpen, onClick, id }) => {
     const onClickMedLogging = () => {
-        if (!apen) {
+        if (!erÅpen) {
             logEvent('kandidatsøk_filterfane', 'åpne', { fane });
         }
 
@@ -18,17 +18,17 @@ const SokekriteriePanel = ({ children, tittel, fane, apen, onClick, id }) => {
         <div className="SokekriteriePanel">
             <button
                 className="SokekriteriePanel__hode"
-                aria-expanded={apen ? 'true' : 'false'}
+                aria-expanded={erÅpen ? 'true' : 'false'}
                 type="button"
-                aria-controls={apen ? `${id}-innhold` : null}
+                aria-controls={erÅpen ? `${id}-innhold` : null}
                 onClick={onClickMedLogging}
             >
                 <div className="SokekriteriePanel__flex-wrapper">
                     <span className="SokekriteriePanel__heading">{tittel}</span>
-                    <NavFrontendChevron type={apen ? 'opp' : 'ned'} />
+                    <NavFrontendChevron type={erÅpen ? 'opp' : 'ned'} />
                 </div>
             </button>
-            {apen && (
+            {erÅpen && (
                 <div className="SokekriteriePanel__innhold" id={`${id}-innhold`}>
                     {children}
                 </div>
