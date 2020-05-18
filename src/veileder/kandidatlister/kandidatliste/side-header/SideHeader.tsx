@@ -28,7 +28,9 @@ const SideHeader: FunctionComponent<Props> = ({
     stillingsId,
     beskrivelse,
 }) => {
-    const antKandidaterTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle / ${antallPresenterteKandidater} er presentert)`;
+    const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
+        stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
+    })`;
     return (
         <header className="side-header">
             <div className="side-header__inner">
@@ -41,9 +43,7 @@ const SideHeader: FunctionComponent<Props> = ({
                 </div>
                 <div className="side-header__informasjon">
                     <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
-                    <Element className="side-header__antall-kandidater">
-                        {antKandidaterTekst}
-                    </Element>
+                    <Element className="side-header__antall-kandidater">{oppsummeringTekst}</Element>
                     <div className="side-header__om-kandidatlisten">
                         {arbeidsgiver && (
                             <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
