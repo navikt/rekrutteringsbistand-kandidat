@@ -21,6 +21,7 @@ import aktivBruker from './json/dekoratør/aktivbruker.json';
 import decorator from './json/dekoratør/decorator.json';
 
 import { SEARCH_API } from '../common/fasitProperties.js';
+import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat-mock';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
 const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';
@@ -41,6 +42,7 @@ const sokUrl = `${veilederUrl}/kandidatsok/sok`;
 const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
 const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/ce3da214-8771-4115-9362-b83145150551/kandidatliste`;
 const ferdigutfyltesokurl = `${veilederUrl}/ferdigutfyltesok`;
+const kandidatlisterForKandidatUrl = `${veilederUrl}/kandidater/CD430805/listeoversikt`;
 
 // Kodeverk
 const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/kodeverk/arenageografikoder`;
@@ -106,6 +108,10 @@ fetchMock
     .get((url: string) => url.startsWith(sokUrl), sok)
     .get((url: string) => url.startsWith(togglesUrl), toggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
+    .get(
+        (url: string) => url.startsWith(kandidatlisterForKandidatUrl),
+        kandidatlisterForKandidatMock
+    )
     .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
     .post(
         (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),

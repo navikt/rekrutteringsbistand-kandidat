@@ -10,14 +10,14 @@ export enum KandidatQueryParam {
 }
 
 type RouteParams = {
-    kandidatNr: string;
+    kandidatnr: string;
 };
 
 const Kandidatside: FunctionComponent = ({ children }) => {
     const { search } = useLocation();
     const { params } = useRouteMatch<RouteParams>();
 
-    const kandidatNr = params.kandidatNr;
+    const kandidatnr = params.kandidatnr;
 
     const queryParams = new URLSearchParams(search);
     const stillingId = queryParams.get(KandidatQueryParam.StillingId);
@@ -25,12 +25,12 @@ const Kandidatside: FunctionComponent = ({ children }) => {
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId}>
+        <VisKandidatFraLister kandidatNr={kandidatnr} kandidatlisteId={kandidatlisteId}>
             {children}
         </VisKandidatFraLister>
     ) : (
         <VisKandidat
-            kandidatNr={kandidatNr}
+            kandidatNr={kandidatnr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
         >

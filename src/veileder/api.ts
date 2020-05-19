@@ -205,6 +205,20 @@ export const putArkivertForFlereKandidater = (
 export const fetchKandidatlister = (query = {}) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister?${convertToUrlParams(query)}`, true);
 
+export const fetchKandidatlisterForKandidat = (
+    kandidatnr: string,
+    inkluderSlettede?: boolean,
+    filtrerPåStilling?: string
+) => {
+    return fetchJson(
+        `${KANDIDATLISTE_API}/kandidater/${kandidatnr}/listeoversikt?${convertToUrlParams({
+            inkluderSlettede: 'true',
+            filtrerPaaStilling: filtrerPåStilling,
+        })}`,
+        true
+    );
+};
+
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
     fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true);
 
