@@ -405,7 +405,7 @@ class Kandidatlister extends React.Component {
 
     onEndreClick = (kandidatliste) => {
         kandidatliste.stillingId
-            ? (window.location = `/stilling/${kandidatliste.stillingsId}`)
+            ? alert("Aretest kandidatliste.stillingId=" + kandidatliste.stillingId) // TODO Are
             : this.setState({
                   modalstatus: MODALVISING.ENDRE_MODAL,
                   kandidatlisteIEndring: kandidatliste,
