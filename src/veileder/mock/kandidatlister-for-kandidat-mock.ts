@@ -1,4 +1,4 @@
-import { KandidatlisteForKandidat } from '../kandidatside/historikk/historikkType';
+import { KandidatlisteForKandidat } from '../kandidatside/historikk/historikkReducer';
 import { Utfall } from '../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import { Status } from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 

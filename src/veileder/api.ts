@@ -207,7 +207,7 @@ export const fetchKandidatlister = (query = {}) =>
 
 export const fetchKandidatlisterForKandidat = (
     kandidatnr: string,
-    inkluderSlettede: boolean,
+    inkluderSlettede?: boolean,
     filtrerPåStilling?: string
 ) => {
     return fetchJson(

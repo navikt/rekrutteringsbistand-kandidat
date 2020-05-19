@@ -6,6 +6,7 @@ import { CvState } from './kandidatside/cv/reducer/cvReducer';
 import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
+import { HistorikkState } from './kandidatside/historikk/historikkReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
@@ -28,6 +29,7 @@ type AppState = {
     navkontorReducer: NavkontorReducerState;
     hovedmal: HovedmalState;
     tilretteleggingsbehov: TilretteleggingsbehovState;
+    kandidatlisterForKandidat: HistorikkState
 };
 
 // TODO Følgende burde defineres i sine respektive reducere
