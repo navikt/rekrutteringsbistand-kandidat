@@ -37,7 +37,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <SkjemaGruppe title="Registrert i kandidatens jobbprofil">
+        <SkjemaGruppe legend="Registrert i kandidatens jobbprofil">
             {alleOppstartstidspunkter.map((tidspunkt) => (
                 <Checkbox
                     key={tidspunkt.value}

@@ -1,4 +1,4 @@
-import { Fieldset, Radio } from 'nav-frontend-skjema';
+import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
 import { ChangeEvent, FunctionComponent } from 'react';
 import React from 'react';
 import './KandidatlisterFilter.less';
@@ -12,7 +12,7 @@ export const KandidatlisterFilter: FunctionComponent<Props> = ({
     onFilterChange,
 }) => (
     <div className="kandidatlister-filter">
-        <Fieldset legend="Kandidatlister">
+        <SkjemaGruppe legend="Kandidatlister">
             <Radio
                 id="alle-kandidatlister-radio"
                 label="Alle kandidatlister"
@@ -40,6 +40,6 @@ export const KandidatlisterFilter: FunctionComponent<Props> = ({
                 checked={kandidatlisterSokeKriterier.type === 'UTEN_STILLING'}
                 onChange={onFilterChange}
             />
-        </Fieldset>
+        </SkjemaGruppe>
     </div>
 );

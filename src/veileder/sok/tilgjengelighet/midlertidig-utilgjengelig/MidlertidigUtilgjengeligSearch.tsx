@@ -29,7 +29,7 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 
     return (
         <SkjemaGruppe
-            title="Midlertidig utilgjengelig, registrert av NAV"
+            legend="Midlertidig utilgjengelig, registrert av NAV"
             className="midlertidig-utilgjengelig-search"
         >
             <Normaltekst className="midlertidig-utilgjengelig-search__undertittel">

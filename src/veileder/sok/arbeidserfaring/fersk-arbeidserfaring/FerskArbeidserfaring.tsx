@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
-import { SkjemaelementFeil } from 'nav-frontend-skjema/lib/skjemaelement-feilmelding';
 
 interface Props {
     search: () => void;
@@ -36,7 +35,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const [valgtKnapp, setValgtKnapp] = useState<number | string>(defaultValgtKnapp);
     const [egendefinertInput, setEgendefinertInput] = useState<string>(defaultInput);
     const [inputRef, setInputRef] = useState<any>();
-    const [feilmelding, setFeilmelding] = useState<SkjemaelementFeil>();
+    const [feilmelding, setFeilmelding] = useState<{ feilmelding: string }>();
 
     useEffect(() => {
         const harNettoppKlikketPåEgendefinert =
@@ -96,7 +95,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     };
 
     return (
-        <SkjemaGruppe className="fersk-arbeidserfaring" title="Hvor fersk må erfaringen være?">
+        <SkjemaGruppe className="fersk-arbeidserfaring" legend="Hvor fersk må erfaringen være?">
             <div className="fersk-arbeidserfaring__hjelpetekst">
                 Husk å legge til arbeidserfaring over først
             </div>
