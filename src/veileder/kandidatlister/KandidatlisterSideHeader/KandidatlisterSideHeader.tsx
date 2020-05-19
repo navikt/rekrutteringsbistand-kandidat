@@ -33,7 +33,11 @@ export const KandidatlisterSideHeader: FunctionComponent<Props> = ({
                 <Flatknapp onClick={nullstillSok} className="nullstill-sok__knapp" mini>
                     Nullstill søk
                 </Flatknapp>
-                <Hovedknapp onClick={opprettListe} id="opprett-ny-liste" className="kandidatlister-side-header__opprett-ny">
+                <Hovedknapp
+                    onClick={opprettListe}
+                    id="opprett-ny-liste"
+                    className="kandidatlister-side-header__opprett-ny"
+                >
                     Opprett ny
                 </Hovedknapp>
             </div>

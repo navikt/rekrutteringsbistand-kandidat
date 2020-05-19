@@ -85,7 +85,11 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                     kandidatlisteId={kandidatlisteId}
                                     stillingsId={stillingsId}
                                 />
-                                {visFantFåKandidater && <FantFåKandidater />}
+                                {visFantFåKandidater && (
+                                    <FantFåKandidater
+                                        onRemoveCriteriaClick={onRemoveCriteriaClick}
+                                    />
+                                )}
                             </div>
                         </Column>
                     </Container>
