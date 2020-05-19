@@ -404,10 +404,12 @@ class Kandidatlister extends React.Component {
     };
 
     onEndreClick = (kandidatliste) => {
-        this.setState({
-            modalstatus: MODALVISING.ENDRE_MODAL,
-            kandidatlisteIEndring: kandidatliste,
-        });
+        kandidatliste.stillingId
+            ? (window.location = `/stilling/${kandidatliste.stillingsId}`)
+            : this.setState({
+                  modalstatus: MODALVISING.ENDRE_MODAL,
+                  kandidatlisteIEndring: kandidatliste,
+              });
     };
 
     onMenyClick = (kandidatliste) => {
