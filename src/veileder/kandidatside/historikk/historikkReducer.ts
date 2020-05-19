@@ -1,11 +1,19 @@
 import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import { Status } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { ApiError, Feil, LasterInn, Nettressurs, Suksess } from '../../../felles/common/remoteData';
+import {
+    ApiError,
+    Feil,
+    IkkeLastet,
+    LasterInn,
+    Nettressurs,
+    Suksess,
+} from '../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat, fetchMidlertidigUtilgjengelig } from '../../api';
 import { SearchApiError } from '../../../felles/api';
 import { MidlertidigUtilgjengeligAction } from '../midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { CvActionType } from '../cv/reducer/cvReducer';
+import { init } from 'amplitude-js';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
@@ -30,7 +38,7 @@ export type HistorikkState = {
     kandidatlisterForKandidat: Nettressurs<KandidatlisterForKandidatResponse>;
 };
 
-enum KandidatlisterForKandidatActionType {
+export enum KandidatlisterForKandidatActionType {
     Fetch = 'FETCH_KANDIDATLISTER_FOR_KANDIDAT',
     FetchSuccess = 'FETCH_KANDIDATLISTER_FOR_KANDIDAT_SUCCESS',
     FetchFailure = 'FETCH_KANDIDATLISTER_FOR_KANDIDAT_FAILURE',
@@ -58,8 +66,10 @@ type HistorikkAction =
     | FetchMidlertidigUtilgjengeligSuccessAction
     | FetchMidlertidigUtilgjengeligFailureAction;
 
+const initialState: HistorikkState = { kandidatlisterForKandidat: IkkeLastet() };
+
 export const historikkReducer = (
-    state: HistorikkState,
+    state: HistorikkState = initialState,
     action: HistorikkAction
 ): HistorikkState => {
     switch (action.type) {
@@ -83,22 +93,18 @@ export const historikkReducer = (
     }
 };
 
-function* hentKandidatlisterForKandidat(
-    kandidatnr: string,
-    inkluderSlettede?: boolean,
-    filtrerPåStilling?: string
-) {
+function* hentKandidatlisterForKandidat(action: FetchKandidatlisterForKandidatAction) {
     try {
         const response = yield call(
             fetchKandidatlisterForKandidat,
-            kandidatnr,
-            inkluderSlettede,
-            filtrerPåStilling
+            action.kandidatnr,
+            action.inkluderSlettede,
+            action.filtrerPåStilling
         );
         yield put<HistorikkAction>({
-             type: KandidatlisterForKandidatActionType.FetchSuccess,
-             response
-        })
+            type: KandidatlisterForKandidatActionType.FetchSuccess,
+            response,
+        });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put<HistorikkAction>({
@@ -112,5 +118,5 @@ function* hentKandidatlisterForKandidat(
 }
 
 export const historikkSaga = function* () {
-     yield takeLatest(KandidatlisterForKandidatActionType.Fetch, hentKandidatlisterForKandidat);
+    yield takeLatest(KandidatlisterForKandidatActionType.Fetch, hentKandidatlisterForKandidat);
 };

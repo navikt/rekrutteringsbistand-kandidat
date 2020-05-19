@@ -7,7 +7,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         uuid: "16483b0c-0c9f-43d2-a0d6-8ac0cae8ec6a",
         lagtTilTidspunkt: "2020-05-18T15:05:53.147",
         tittel: "test",
-        kandidatnr: "OJKWDHAD",
+        kandidatnr: "CD430805",
         utfall: Utfall.IkkePresentert,
         status: Status.Vurderes,
         fornavn: "OLA",
