@@ -75,7 +75,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                                     <Route path="/kandidater/kandidat/:kandidatNr/cv">
                                         <CvSide />
                                     </Route>
-                                    <Route path="/kandidater/kandidat/:kandidatNr/historikk">
+                                    <Route path="/kandidater/kandidat/:kandidatnr/historikk">
                                         <Historikkside />
                                     </Route>
                                     <Redirect to="/kandidater/kandidat/:kandidatNr/cv" />

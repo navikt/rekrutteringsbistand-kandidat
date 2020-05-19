@@ -15,5 +15,18 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         lagtTilAvEpost: "clark.kent@nav.no",
         lagtTilAvNavn: "Clark Kent",
         lagtTilAvIdent: "Z990746",
-    }
+    },
+    {
+        uuid: "f18d323b-d965-4643-bc81-518ed0a15f3c",
+        lagtTilTidspunkt: "2020-05-19T17:01:39.147",
+        tittel: "Stillingsliste til stillingen min",
+        kandidatnr: "FK185344",
+        utfall: Utfall.Presentert,
+        status: Status.Vurderes,
+        fornavn: "kurt",
+        etternavn: "helmer",
+        lagtTilAvEpost: "clark.kent@nav.no",
+        lagtTilAvNavn: "Clark Kent",
+        lagtTilAvIdent: "Z990746",
+    },
 ];
