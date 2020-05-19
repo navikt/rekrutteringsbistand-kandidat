@@ -1,6 +1,8 @@
 {
     "name": "pam-kandidatsok",
     "version": "0.1.0",
+    "repository": "https://github.com/navikt/rekrutteringsbistand-kandidat/",
+    "license": "MIT",
     "scripts": {
         "clean-build": "rimraf ./dist",
         "build": "npm run clean-build && webpack --config webpack.config.js",
@@ -54,12 +56,11 @@
         "nav-frontend-popover-style": "0.0.3",
         "nav-frontend-skjema": "^3.0.2",
         "nav-frontend-skjema-style": "^2.0.7",
-        "nav-frontend-spinner": "^1.0.23",
+        "nav-frontend-spinner": "^2.0.2",
         "nav-frontend-spinner-style": "^0.2.5",
         "nav-frontend-typografi": "^2.0.19",
         "nav-frontend-typografi-style": "^1.0.20",
         "pam-frontend-core": "^1.3.0",
-        "pam-frontend-footer": "^1.0.7",
         "pam-frontend-knapper": "^1.0.1",
         "pam-frontend-merkelapper": "^1.0.4",
         "pam-frontend-typografi": "^1.0.1",
@@ -76,7 +77,7 @@
     },
     "devDependencies": {
         "@types/amplitude-js": "^5.11.0",
-        "@types/node": "^13.13.5",
+        "@types/node": "^14.0.1",
         "@types/react": "^16.9.35",
         "@types/react-collapse": "^5.0.0",
         "@types/react-dom": "^16.9.8",
