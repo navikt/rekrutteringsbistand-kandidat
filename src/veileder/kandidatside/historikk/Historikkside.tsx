@@ -14,6 +14,7 @@ import {
     Status,
     Statusvisning,
 } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { utfallToString } from '../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -71,7 +72,7 @@ const Historikkside: FunctionComponent = () => {
                             <td>
                                 <Statusvisning status={liste.status} />
                             </td>
-                            <td>{liste.utfall}</td>
+                            <td>{utfallToString(liste.utfall)}</td>
                             <td>
                                 {liste.stillingId && (
                                     <Lenke href={lenkeTilStilling(liste.stillingId)}>
