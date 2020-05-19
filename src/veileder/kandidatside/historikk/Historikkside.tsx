@@ -29,7 +29,7 @@ const Historikkside: FunctionComponent = () => {
             <ul>
                 {kandidatlister.map((liste) => (
                     <li key={liste.uuid}>
-                        <code>{JSON.stringify(liste, null, 2)}</code>
+                        <pre>{JSON.stringify(liste, null, 2)}</pre>
                     </li>
                 ))}
             </ul>
