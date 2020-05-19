@@ -30,10 +30,10 @@ const SideHeader: FunctionComponent<Props> = ({
     stillingsId,
     beskrivelse,
 }) => {
+    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
-    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     return (
         <header className="side-header">
             <div className="side-header__inner">
