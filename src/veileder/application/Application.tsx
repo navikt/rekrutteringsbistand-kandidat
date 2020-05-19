@@ -1,19 +1,21 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
+import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Footer from '../footer/Footer';
+import Historikkside from '../kandidatside/historikk/Historikkside';
 import KandidatlisteMedStilling from '../kandidatlister/KandidatlisteMedStilling';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
 import KandidatlisteUtenStilling from '../kandidatlister/KandidatlisteUtenStilling';
+import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
 import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
-import Kandidatside from '../kandidatside/Kandidatside';
 import './Application.less';
 
 const skjermerMedGråBakgrunn = [
@@ -67,7 +69,19 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatNr" component={Kandidatside} />
+                        <Route path="/kandidater/kandidat/:kandidatNr">
+                            <Kandidatside>
+                                <Switch>
+                                    <Route path="/kandidater/kandidat/:kandidatNr/cv">
+                                        <CvSide />
+                                    </Route>
+                                    <Route path="/kandidater/kandidat/:kandidatNr/historikk">
+                                        <Historikkside />
+                                    </Route>
+                                    <Redirect to="/kandidater/kandidat/:kandidatNr/cv" />
+                                </Switch>
+                            </Kandidatside>
+                        </Route>
                         <Route component={NotFound} />
                     </Switch>
                 </main>

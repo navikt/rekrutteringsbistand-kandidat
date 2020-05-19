@@ -1,20 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron.tsx';
+import { LenkeMedChevron } from '../lenke-med-chevron/LenkeMedChevron';
+import './ForrigeNeste.less';
 
-const ForrigeNeste = ({
+type Props = {
+    className?: string;
+    lenkeClass: string;
+    forrigeKandidat?: string;
+    nesteKandidat?: string;
+    gjeldendeKandidatIndex?: number;
+    antallKandidater: number;
+};
+
+const ForrigeNeste: FunctionComponent<Props> = ({
     className,
     lenkeClass,
     forrigeKandidat,
     nesteKandidat,
-    gjeldendeKandidatIndex,
+    gjeldendeKandidatIndex = 0,
     antallKandidater,
 }) => {
     if (antallKandidater > 1) {
         const klasseNavn = className ? className : '';
         return (
-            <div className={'navigering-forrige-neste ' + klasseNavn}>
+            <div className={'forrige-neste ' + klasseNavn}>
                 {forrigeKandidat && (
                     <LenkeMedChevron
                         to={forrigeKandidat}
@@ -23,7 +32,7 @@ const ForrigeNeste = ({
                         text="Forrige kandidat"
                     />
                 )}
-                <Normaltekst className="index">
+                <Normaltekst className="forrige-neste__index">
                     {gjeldendeKandidatIndex + 1} av {antallKandidater}
                 </Normaltekst>
                 {nesteKandidat ? (
@@ -34,28 +43,12 @@ const ForrigeNeste = ({
                         text="Neste kandidat"
                     />
                 ) : (
-                    <div className="header--personalia__lenke--placeholder" />
+                    <div className="forrige-neste__placeholder" />
                 )}
             </div>
         );
     }
     return null;
-};
-
-ForrigeNeste.defaultProps = {
-    forrigeKandidat: undefined,
-    nesteKandidat: undefined,
-    gjeldendeKandidatIndex: undefined,
-    antallKandidater: undefined,
-};
-
-ForrigeNeste.propTypes = {
-    className: PropTypes.string,
-    lenkeClass: PropTypes.string.isRequired,
-    forrigeKandidat: PropTypes.string,
-    nesteKandidat: PropTypes.string,
-    gjeldendeKandidatIndex: PropTypes.number,
-    antallKandidater: PropTypes.number,
 };
 
 export default ForrigeNeste;

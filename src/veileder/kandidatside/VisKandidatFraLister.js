@@ -1,23 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import cvPropTypes from '../../felles/PropTypes';
-import Kandidatheader from './header/Kandidatheader';
-import KandidatCv from './cv/cv/Cv';
-import KandidatJobbprofil from './cv/jobbprofil/Jobbprofil';
-import ForrigeNeste from './header/forrige-neste/ForrigeNeste';
+import PropTypes from 'prop-types';
+
+import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
+import { KandidatQueryParam } from './Kandidatside';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
-import { LAST_NED_CV_URL } from '../common/fasitProperties';
-import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import cvPropTypes from '../../felles/PropTypes';
+import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
+import IkkeFunnet from './ikke-funnet/IkkeFunnet';
+import Kandidatheader from './header/Kandidatheader';
+import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import { logEvent } from '../amplitude/amplitude';
-import { KandidatQueryParam } from './Kandidatside';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import '../../felles/common/ikoner/ikoner.less';
-import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -104,6 +101,7 @@ class VisKandidatFraLister extends React.Component {
                 </div>
             );
         }
+
         return (
             <div>
                 <Kandidatheader
@@ -116,33 +114,16 @@ class VisKandidatFraLister extends React.Component {
                     fantCv={hentStatus === HentCvStatus.Success}
                 />
                 {hentStatus === HentCvStatus.FinnesIkke ? (
-                    <div className="cvIkkeFunnet">
-                        <div className="content">
-                            <Element tag="h2" className="blokk-s">
-                                Kandidaten kan ikke vises
-                            </Element>
-                            <div>
-                                <Normaltekst>Mulige årsaker:</Normaltekst>
-                                <ul>
-                                    <li className="blokk-xxs">
-                                        <Normaltekst>Kandidaten har skiftet status</Normaltekst>
-                                    </li>
-                                    <li>
-                                        <Normaltekst>Tekniske problemer</Normaltekst>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <IkkeFunnet />
                 ) : (
-                    <div>
+                    <>
                         <Kandidatmeny fødselsnummer={cv.fodselsnummer}>
                             <MidlertidigUtilgjengelig
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
                             />
                             {gjeldendeKandidat && (
-                                <div className="VisKandidat-knapperad__statusSelect">
+                                <div className="vis-kandidat__status-select">
                                     <span>Status:</span>
                                     <StatusSelect
                                         kanEditere={kandidatliste.kanEditere}
@@ -152,39 +133,17 @@ class VisKandidatFraLister extends React.Component {
                                 </div>
                             )}
                         </Kandidatmeny>
-                        <div className="VisKandidat-knapperad">
-                            <div className="content">
-                                <div className="lenker">
-                                    {this.props.visLastNedCvLenke && (
-                                        <a
-                                            className="LastNed lenke"
-                                            href={`${LAST_NED_CV_URL}/${cv.aktorId}`}
-                                            target="_blank"
-                                            onClick={() => logEvent('cv_last_ned', 'klikk')}
-                                            rel="noopener noreferrer"
-                                        >
-                                            <span>Last ned CV</span>
-                                            <i className="LastNed__icon" />
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
+                        {this.props.children}
+                        <div className="vis-kandidat__forrige-neste-wrapper">
+                            <ForrigeNeste
+                                lenkeClass="vis-kandidat__forrige-neste-lenke"
+                                forrigeKandidat={forrigeKandidatLink}
+                                nesteKandidat={nesteKandidatLink}
+                                gjeldendeKandidatIndex={gjeldendeKandidatIndex}
+                                antallKandidater={kandidatliste.kandidater.length}
+                            />
                         </div>
-                        <div className="viskandidat-container">
-                            <KandidatJobbprofil cv={cv} />
-                            <KandidatCv cv={cv} />
-                            <div className="navigering-forrige-neste_wrapper">
-                                <ForrigeNeste
-                                    lenkeClass={'header--personalia__lenke--veileder'}
-                                    contextRoot={'kandidater'}
-                                    forrigeKandidat={forrigeKandidatLink}
-                                    nesteKandidat={nesteKandidatLink}
-                                    gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                    antallKandidater={kandidatliste.kandidater.length}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    </>
                 )}
             </div>
         );
@@ -204,7 +163,6 @@ VisKandidatFraLister.propTypes = {
     hentCvForKandidat: PropTypes.func.isRequired,
     hentKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string.isRequired,
-    visLastNedCvLenke: PropTypes.bool.isRequired,
     kandidatliste: PropTypes.shape({
         kandidater: PropTypes.arrayOf(
             PropTypes.shape({
@@ -223,7 +181,6 @@ const mapStateToProps = (state) => ({
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    visLastNedCvLenke: state.search.featureToggles['vis-last-ned-cv-lenke'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

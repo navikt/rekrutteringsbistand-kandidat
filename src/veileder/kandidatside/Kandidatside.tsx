@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
 
@@ -13,24 +13,29 @@ type RouteParams = {
     kandidatNr: string;
 };
 
-type Props = RouteComponentProps<RouteParams>;
+const Kandidatside: FunctionComponent = ({ children }) => {
+    const { search } = useLocation();
+    const { params } = useRouteMatch<RouteParams>();
 
-const Kandidatside: FunctionComponent<Props> = ({ match, location }) => {
-    const queryParams = new URLSearchParams(location.search);
+    const kandidatNr = params.kandidatNr;
 
-    const kandidatNr = match.params.kandidatNr;
+    const queryParams = new URLSearchParams(search);
     const stillingId = queryParams.get(KandidatQueryParam.StillingId);
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
     const fraKandidatliste = queryParams.get(KandidatQueryParam.FraKandidatliste) === 'true';
 
     return fraKandidatliste && kandidatlisteId ? (
-        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId} />
+        <VisKandidatFraLister kandidatNr={kandidatNr} kandidatlisteId={kandidatlisteId}>
+            {children}
+        </VisKandidatFraLister>
     ) : (
         <VisKandidat
             kandidatNr={kandidatNr}
             stillingsId={stillingId}
             kandidatlisteId={kandidatlisteId}
-        />
+        >
+            {children}
+        </VisKandidat>
     );
 };
 

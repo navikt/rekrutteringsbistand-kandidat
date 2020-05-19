@@ -1,123 +1,7 @@
-@mobile: ~'only screen and (min-width: 1px) and (max-width: 767px)';
+@import '../variabler.less';
 
-.navigering-forrige-neste_wrapper {
-    margin-top: 2rem;
-    text-align: center;
-}
-
-.navigering-forrige-neste {
-    display: inline-flex;
-    justify-content: space-evenly;
-    > :last-child {
-        margin-left: 1.125rem;
-    }
-    .index {
-        margin-left: 1.25rem;
-    }
-    .typo-normal {
-        padding-bottom: 0.125rem;
-    }
-}
-
-.header--personalia__lenke--placeholder {
-    width: 7.92rem;
-}
-
-.header--personalia__lenke--veileder {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-}
-
-.panel--jobbprofil {
-    margin: auto auto 20px;
-    max-width: 640px;
-    .ekspanderbartPanel > .ekspanderbartPanel__hode {
-        padding: 1.5rem 2rem 1.5rem 2rem;
-    }
-}
-
-.panel--jobbprofil__row {
-    margin-bottom: 2rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-
-    &:first-child {
-        margin-bottom: 4rem;
-    }
-    &:last-child {
-        margin-bottom: 1rem;
-    }
-    .jobbprofil__overskrift {
-        @media @mobile {
-            margin-bottom: 0.5rem;
-        }
-    }
-}
-
-.panel--cv {
-    margin: auto auto 20px;
-    max-width: 640px;
-    .ekspanderbartPanel > .ekspanderbartPanel__hode {
-        padding: 1.5rem 2rem 1.5rem 2rem;
-    }
-    .cv--tidsperiode {
-        margin-top: 5px;
-    }
-}
-
-.panel--cv__row {
-    margin-bottom: 4rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    &:last-child {
-        margin-bottom: 1rem;
-    }
-    .row--kategori {
-        margin-bottom: 2rem;
-        padding-left: 0.5rem;
-        &:last-child {
-            margin-bottom: 0;
-        }
-        .typo-undertekst {
-            margin-bottom: 0.25rem;
-        }
-        .typo-normal {
-            margin-bottom: 0.25rem;
-            word-break: break-word;
-        }
-        .typo-element {
-            margin-bottom: 0.25rem;
-            word-break: break-word;
-        }
-    }
-    .cv__overskrift {
-        margin-bottom: 0.5rem;
-    }
-}
-
-.VisKandidat-knapperad {
-    display: flex;
-    width: 40rem;
-    margin: 0 auto;
-    justify-content: center;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
-    .content {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.25rem;
-        .lenker {
-            display: flex;
-            .frittstaende-lenke {
-                padding-bottom: 2px;
-                margin-right: 2rem;
-            }
-        }
-    }
-
-    &__statusSelect {
+.vis-kandidat {
+    &__status-select {
         display: flex;
         align-items: center;
 
@@ -125,24 +9,15 @@
             margin-left: 0.5rem;
         }
     }
-}
 
-.cvIkkeFunnet {
-    display: flex;
-    justify-content: center;
-    .content {
-        background-color: white;
-        border-radius: 4px;
-        border: 1px solid #d8d8d8;
-        width: 40rem;
-        padding: 4rem;
-        @media (max-width: 600px) {
-            padding: 4rem 2rem;
-        }
-        .tekst {
-            font-weight: 100;
-            line-height: 1.8rem;
-            text-align: center;
-        }
+    &__forrige-neste-wrapper {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    &__forrige-neste-lenke {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
     }
 }

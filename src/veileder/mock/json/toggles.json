@@ -11,10 +11,10 @@
     "ingen-utdanning-filter": false,
     "vis-lenke-til-kandidatsok-next": true,
     "vis-notater-arbeidsgiver": true,
-    "vis-last-ned-cv-lenke": true,
     "vis-tilretteleggingsbehov-kategorier": true,
     "vis-viktige-yrker-lenker": true,
     "vis-midlertidig-utilgjengelig": true,
     "vis-midlertidig-utilgjengelig-filter": true,
-    "vis-midlertidig-utilgjengelig-popover": true
+    "vis-midlertidig-utilgjengelig-popover": true,
+    "vis-historikk": true
 }
