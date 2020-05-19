@@ -69,16 +69,16 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatNr">
+                        <Route path="/kandidater/kandidat/:kandidatnr">
                             <Kandidatside>
                                 <Switch>
-                                    <Route path="/kandidater/kandidat/:kandidatNr/cv">
+                                    <Route path="/kandidater/kandidat/:kandidatnr/cv">
                                         <CvSide />
                                     </Route>
-                                    <Route path="/kandidater/kandidat/:kandidatNr/historikk">
+                                    <Route path="/kandidater/kandidat/:kandidatnr/historikk">
                                         <Historikkside />
                                     </Route>
-                                    <Redirect to="/kandidater/kandidat/:kandidatNr/cv" />
+                                    <Redirect to="/kandidater/kandidat/:kandidatnr/cv" />
                                 </Switch>
                             </Kandidatside>
                         </Route>
