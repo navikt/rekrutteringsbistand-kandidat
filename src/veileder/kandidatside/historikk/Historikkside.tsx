@@ -10,6 +10,10 @@ import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../application/paths';
 import Lenke from 'nav-frontend-lenker';
+import {
+    Status,
+    Statusvisning,
+} from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -64,7 +68,9 @@ const Historikkside: FunctionComponent = () => {
                             <td>
                                 {liste.lagtTilAvNavn} ({liste.lagtTilAvIdent})
                             </td>
-                            <td>{liste.status}</td>
+                            <td>
+                                <Statusvisning status={liste.status} />
+                            </td>
                             <td>{liste.utfall}</td>
                             <td>
                                 {liste.stillingId && (
