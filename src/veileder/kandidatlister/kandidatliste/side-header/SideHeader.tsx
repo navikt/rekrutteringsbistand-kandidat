@@ -62,14 +62,12 @@ const SideHeader: FunctionComponent<Props> = ({
                             </span>
                         )}
                         {beskrivelse && (
-                                <Lenkeknapp
-                                    onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
-                                >
-                                    {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
-                                    <NavFrontendChevron
-                                        type={beskrivelseSkalVises ? 'opp' : 'ned'}
-                                    />
-                                </Lenkeknapp>
+                            <Lenkeknapp
+                                onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
+                            >
+                                {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
+                                <NavFrontendChevron type={beskrivelseSkalVises ? 'opp' : 'ned'} />
+                            </Lenkeknapp>
                         )}
                     </div>
                     {beskrivelseSkalVises && (

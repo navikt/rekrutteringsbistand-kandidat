@@ -29,7 +29,7 @@ type AppState = {
     navkontorReducer: NavkontorReducerState;
     hovedmal: HovedmalState;
     tilretteleggingsbehov: TilretteleggingsbehovState;
-    historikk: HistorikkState
+    historikk: HistorikkState;
 };
 
 // TODO Følgende burde defineres i sine respektive reducere

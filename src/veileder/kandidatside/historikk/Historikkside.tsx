@@ -6,6 +6,8 @@ import { useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -33,6 +35,12 @@ const Historikkside: FunctionComponent = () => {
         <div className="historikkside">
             <h2>Historikk</h2>
 
+            <Ingress>
+                <b>
+                    {capitalizeFirstLetter(cv.cv.fornavn)} {capitalizeFirstLetter(cv.cv.etternavn)}
+                </b>{' '}
+                er lagt til i <b>{kandidatlister.length}</b> kandidatlister
+            </Ingress>
             <table className="tabell tabell--stripet">
                 <thead>
                     <th>Lagt i listen</th>
@@ -59,7 +67,6 @@ const Historikkside: FunctionComponent = () => {
                     ))}
                 </tbody>
             </table>
-
             <ul>
                 {kandidatlister.map((liste) => (
                     <li key={liste.uuid}>
