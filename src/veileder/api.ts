@@ -210,7 +210,6 @@ export const fetchKandidatlisterForKandidat = (
     inkluderSlettede?: boolean,
     filtrerPåStilling?: string
 ) => {
-    console.log(kandidatnr)
     return fetchJson(
         `${KANDIDATLISTE_API}/kandidater/${kandidatnr}/listeoversikt?${convertToUrlParams({
             inkluderSlettede: 'true',
