@@ -73,14 +73,14 @@ const SideHeader: FunctionComponent<Props> = ({
                         )}
                     </div>
                     {beskrivelseSkalVises && (
-                        <div>
+                        <>
                             <Element className="side-header__beskrivelse-tittel">
                                 Beskrivelse
                             </Element>
                             <Normaltekst className="side-header__beskrivelse">
                                 {beskrivelse}
                             </Normaltekst>
-                        </div>
+                        </>
                     )}
                 </div>
             </div>
