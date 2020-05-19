@@ -16,7 +16,10 @@ import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { harUrlParametere } from '../sok/searchQuery';
 
-export const hentQueryUtenKriterier = (harHentetStilling) => ({
+export const hentQueryUtenKriterier = (
+    harHentetStilling: boolean,
+    kandidatlisteId: string | undefined
+) => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -30,6 +33,7 @@ export const hentQueryUtenKriterier = (harHentetStilling) => ({
     kvalifiseringsgruppeKoder: [],
     maaBoInnenforGeografi: false,
     harHentetStilling: harHentetStilling,
+    kandidatlisteId: kandidatlisteId,
 });
 
 export interface DefaultKandidatsøkProps {
@@ -76,7 +80,7 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
-        resetQuery(hentQueryUtenKriterier(harHentetStilling));
+        resetQuery(hentQueryUtenKriterier(harHentetStilling, undefined));
         removeKompetanseSuggestions();
         search();
     };

@@ -1,5 +1,5 @@
 import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { fetchGeografiKode, fetchStillingFraListe } from '../api';
 import { SEARCH_FAILURE, SET_STATE } from './searchReducer';
 import { SearchApiError } from '../../felles/api';
@@ -9,6 +9,7 @@ import { formatterStedsnavn } from '../../felles/sok/utils';
 
 interface SøkMedInfoFraStillingAction {
     stillingsId: string;
+    kandidatlisteId?: string;
 }
 interface SøkMedUrlParametreAction {
     href: string;
@@ -34,7 +35,14 @@ export function* leggInfoFraStillingIStateOgSøk(action: SøkMedInfoFraStillingA
     try {
         const stilling = yield call(fetchStillingFraListe, action.stillingsId);
         const initialQuery = mapStillingTilInitialQuery(stilling);
-        const initialQueryMedGeografi = yield call(leggPåGeografiInfoHvisKommune, initialQuery);
+        const initialQueryMedKandidatlisteId = {
+            ...initialQuery,
+            kandidatlisteId: action.kandidatlisteId,
+        };
+        const initialQueryMedGeografi = yield call(
+            leggPåGeografiInfoHvisKommune,
+            initialQueryMedKandidatlisteId
+        );
         yield put({ type: SET_STATE, query: initialQueryMedGeografi });
         yield call(search);
     } catch (e) {
