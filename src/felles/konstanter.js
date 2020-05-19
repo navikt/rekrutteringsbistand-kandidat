@@ -13,12 +13,12 @@ const FEATURE_TOGGLES = [
     'ingen-utdanning-filter',
     'vis-lenke-til-kandidatsok-next',
     'vis-notater-arbeidsgiver',
-    'vis-last-ned-cv-lenke',
     'vis-tilretteleggingsbehov-kategorier',
     'vis-viktige-yrker-lenker',
     'vis-midlertidig-utilgjengelig',
     'vis-midlertidig-utilgjengelig-filter',
     'vis-midlertidig-utilgjengelig-popover',
+    'vis-historikk',
 ];
 export default FEATURE_TOGGLES;
 

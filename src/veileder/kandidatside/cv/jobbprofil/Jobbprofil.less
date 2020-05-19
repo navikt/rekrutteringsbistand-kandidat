@@ -1,0 +1,30 @@
+@import '../../../variabler.less';
+
+.kandidat-jobbprofil {
+    margin: auto auto 20px;
+    max-width: 640px;
+
+    .ekspanderbartPanel > .ekspanderbartPanel__hode {
+        padding: 1.5rem 2rem 1.5rem 2rem;
+    }
+
+    &__row {
+        margin-bottom: 2rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+
+        &:first-child {
+            margin-bottom: 4rem;
+        }
+
+        &:last-child {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__overskrift {
+        @media @mobile {
+            margin-bottom: 0.5rem;
+        }
+    }
+}
