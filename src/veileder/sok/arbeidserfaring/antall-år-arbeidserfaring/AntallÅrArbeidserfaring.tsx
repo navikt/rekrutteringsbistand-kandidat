@@ -40,7 +40,7 @@ const AntallÅrArbeidserfaring: FunctionComponent<Props> = ({
     return (
         <SkjemaGruppe
             className="ar-med-arbeidserfaring__header"
-            title="Totalt antall år med arbeidserfaring"
+            legend="Totalt antall år med arbeidserfaring"
         >
             <Normaltekst>Velg en eller flere</Normaltekst>
             <div className="sokekriterier--kriterier">

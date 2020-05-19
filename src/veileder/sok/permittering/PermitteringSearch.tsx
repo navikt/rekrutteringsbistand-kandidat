@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useState, ChangeEvent } from 'react';
+import React, { FunctionComponent, ChangeEvent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
@@ -58,7 +58,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             <Normaltekst id="permittering-ingress" className="permittering-search__ingress">
                 Brukere som har oppgitt at de er permittert i registreringen.
             </Normaltekst>
-            <SkjemaGruppe aria-labelledby="permittering-ingress">
+            <CheckboxGruppe aria-labelledby="permittering-ingress">
                 <Checkbox
                     id="permittering-permittert-checkbox"
                     className="permittering-search__checkbox"
@@ -75,7 +75,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
                     checked={ikkePermittert}
                     onChange={onChange}
                 />
-            </SkjemaGruppe>
+            </CheckboxGruppe>
         </SokekriteriePanel>
     );
 };

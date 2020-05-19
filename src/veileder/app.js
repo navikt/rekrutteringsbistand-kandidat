@@ -47,6 +47,7 @@ import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
 import Footer from './footer/Footer';
 import Application from './application/Application';
+import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -73,6 +74,7 @@ const store = createStore(
         navkontorReducer,
         hovedmal: hovedmalReducer,
         navKontor: navkontorReducer,
+        historikk: historikkReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
@@ -149,6 +151,7 @@ sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
 sagaMiddleware.run(midlertidigUtilgjengeligSaga);
+sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 

@@ -11,6 +11,7 @@ import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
 import { KandidatQueryParam } from '../../kandidatside/Kandidatside';
+import { Checkbox } from 'nav-frontend-skjema';
 
 interface Props {
     kandidat: Søkeresultat;
@@ -77,23 +78,15 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     return (
         <div className={klassenavn}>
             <div className="skjemaelement skjemaelement--horisontal text-hide">
-                <input
-                    type="checkbox"
+                <Checkbox
+                    label="&#8203;"
                     id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                    className="skjemaelement__input checkboks"
-                    aria-label={`Marker kandidat med navn ${navn}`}
+                    aria-label={`Marker kanidat med navn ${navn}`}
                     checked={markert}
                     onChange={() => {
                         onCheck(kandidat.arenaKandidatnr);
                     }}
                 />
-                <label
-                    className="skjemaelement__label"
-                    htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
-                    aria-hidden="true"
-                >
-                    Marker kandidat med navn {navn}
-                </label>
             </div>
             <div className="kandidater-tabell__tilgjengelighet">
                 <TilgjengelighetFlagg
