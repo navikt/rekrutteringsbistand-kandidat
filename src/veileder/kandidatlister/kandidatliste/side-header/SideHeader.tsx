@@ -62,7 +62,6 @@ const SideHeader: FunctionComponent<Props> = ({
                             </span>
                         )}
                         {beskrivelse && (
-                            <span>
                                 <Lenkeknapp
                                     onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
                                 >
@@ -71,7 +70,6 @@ const SideHeader: FunctionComponent<Props> = ({
                                         type={beskrivelseSkalVises ? 'opp' : 'ned'}
                                     />
                                 </Lenkeknapp>
-                            </span>
                         )}
                     </div>
                     {beskrivelseSkalVises && (
