@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux';
 
 import { logEvent } from '../../amplitude/amplitude';
+import AppState from '../../AppState';
 import Kandidattab from './Kandidattab';
 import './Kandidatmeny.less';
-import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
 
 interface Props {
     fødselsnummer: string;
