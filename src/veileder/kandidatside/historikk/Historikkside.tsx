@@ -15,6 +15,7 @@ import {
     Statusvisning,
 } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { utfallToString } from '../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
+import moment from 'moment';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -59,7 +60,7 @@ const Historikkside: FunctionComponent = () => {
                 <tbody>
                     {kandidatlister.map((liste) => (
                         <tr>
-                            <td>{liste.lagtTilTidspunkt}</td>
+                            <td>{moment(liste.lagtTilTidspunkt).format('DD.MM YYYY')}</td>
                             <td>
                                 <Link className="lenke" to={lenkeTilKandidatliste(liste.uuid)}>
                                     {liste.tittel}
