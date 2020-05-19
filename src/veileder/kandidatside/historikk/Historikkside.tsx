@@ -1,25 +1,22 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { HistorikkState, KandidatlisterForKandidatActionType } from './historikkReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { KandidatlisterForKandidatActionType } from './historikkReducer';
 import { Nettstatus } from '../../../felles/common/remoteData';
 import { useRouteMatch } from 'react-router-dom';
+import AppState from '../../AppState';
 
-interface Props {
-    hentKandidatlisterForKandidat: (
-        kandidatnr: string,
-        inkluderSlettede?: boolean,
-        filtrerPåStilling?: string
-    ) => void;
-    historikk: HistorikkState;
-}
-
-const Historikkside: FunctionComponent<Props> = ({ hentKandidatlisterForKandidat, historikk }) => {
+const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
     const kandidatnr = params.kandidatnr;
+    const historikk = useSelector((state: AppState) => state.historikk);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        hentKandidatlisterForKandidat(kandidatnr);
-    }, [kandidatnr, hentKandidatlisterForKandidat]);
+        dispatch({
+            type: KandidatlisterForKandidatActionType.Fetch,
+            kandidatnr,
+        });
+    }, [kandidatnr, dispatch]);
 
     if (historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess) {
         return null;
@@ -31,29 +28,13 @@ const Historikkside: FunctionComponent<Props> = ({ hentKandidatlisterForKandidat
             <h2>Historikk</h2>
             <ul>
                 {kandidatlister.map((liste) => (
-                    <li key={liste.uuid}>{JSON.stringify(liste)}</li>
+                    <li key={liste.uuid}>
+                        <code>{JSON.stringify(liste, null, 2)}</code>
+                    </li>
                 ))}
             </ul>
         </div>
     );
 };
 
-const mapStateToProps = (state) => ({
-    historikk: state.historikk,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    hentKandidatlisterForKandidat: (
-        kandidatnr: string,
-        inkluderSlettede?: boolean,
-        filtrerPåStilling?: string
-    ) =>
-        dispatch({
-            type: KandidatlisterForKandidatActionType.Fetch,
-            kandidatnr,
-            inkluderSlettede,
-            filtrerPåStilling,
-        }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Historikkside);
+export default Historikkside;

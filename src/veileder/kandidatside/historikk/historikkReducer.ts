@@ -9,11 +9,8 @@ import {
     Suksess,
 } from '../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchKandidatlisterForKandidat, fetchMidlertidigUtilgjengelig } from '../../api';
+import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
-import { MidlertidigUtilgjengeligAction } from '../midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { CvActionType } from '../cv/reducer/cvReducer';
-import { init } from 'amplitude-js';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
