@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
@@ -6,6 +6,8 @@ import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
 import './SideHeader.less';
 import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import NavFrontendChevron from 'nav-frontend-chevron';
 
 type Props = {
     tittel: string;
@@ -28,6 +30,7 @@ const SideHeader: FunctionComponent<Props> = ({
     stillingsId,
     beskrivelse,
 }) => {
+    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
@@ -54,13 +57,30 @@ const SideHeader: FunctionComponent<Props> = ({
                             Registrert av: {opprettetAv.navn} ({opprettetAv.ident})
                         </span>
                         {stillingsId && (
-                            <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            <span>
+                                <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                            </span>
+                        )}
+                        {beskrivelse && (
+                                <Lenkeknapp
+                                    onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
+                                >
+                                    {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
+                                    <NavFrontendChevron
+                                        type={beskrivelseSkalVises ? 'opp' : 'ned'}
+                                    />
+                                </Lenkeknapp>
                         )}
                     </div>
-                    {beskrivelse && (
-                        <Normaltekst className="side-header__beskrivelse">
-                            {beskrivelse}
-                        </Normaltekst>
+                    {beskrivelseSkalVises && (
+                        <>
+                            <Element className="side-header__beskrivelse-tittel">
+                                Beskrivelse
+                            </Element>
+                            <Normaltekst className="side-header__beskrivelse">
+                                {beskrivelse}
+                            </Normaltekst>
+                        </>
                     )}
                 </div>
             </div>
