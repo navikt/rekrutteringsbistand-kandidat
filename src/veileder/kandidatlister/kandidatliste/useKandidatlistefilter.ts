@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
 
 const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatliste) =>
     kandidat.arkivert === visArkiverte;
@@ -22,6 +23,19 @@ const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
     return kandidater.filter(matchArkivering(true)).length;
 };
 
+const hentAntallMedStatus = (kandidater: KandidatIKandidatliste[]) => {
+    const antallMedStatus: Record<string, number> = {};
+    Object.values(Status).forEach((status) => {
+        antallMedStatus[status] = 0;
+    });
+
+    kandidater.forEach((kandidat) => {
+        antallMedStatus[kandidat.status]++;
+    });
+
+    return antallMedStatus;
+};
+
 const hentFiltrerteKandidater = (
     kandidater: KandidatIKandidatliste[],
     visArkiverte: boolean,
@@ -34,7 +48,7 @@ const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
     return kandidater.filter((k) => !k.markert).length === 0;
 };
 
-type Returverdi = [KandidatIKandidatliste[], number, boolean];
+type Returverdi = [KandidatIKandidatliste[], number, Record<Status, number>, boolean];
 
 const useKandidatlistefilter = (
     kandidater: KandidatIKandidatliste[],
@@ -42,6 +56,9 @@ const useKandidatlistefilter = (
     navnefilter: string
 ): Returverdi => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
+    const [antallMedStatus, setAntallMedStatus] = useState<Record<Status, number>>(
+        hentAntallMedStatus(kandidater)
+    );
     const [alleErMarkerte, setAlleErMarkerte] = useState<boolean>(
         erAlleKandidaterMarkerte(kandidater)
     );
@@ -55,13 +72,14 @@ const useKandidatlistefilter = (
 
     useEffect(() => {
         setAntallArkiverte(hentAntallArkiverte(kandidater));
+        setAntallMedStatus(hentAntallMedStatus(kandidater));
     }, [kandidater]);
 
     useEffect(() => {
         setAlleErMarkerte(erAlleKandidaterMarkerte(filtrerteKandidater));
     }, [filtrerteKandidater]);
 
-    return [filtrerteKandidater, antallArkiverte, alleErMarkerte];
+    return [filtrerteKandidater, antallArkiverte, antallMedStatus, alleErMarkerte];
 };
 
 export default useKandidatlistefilter;

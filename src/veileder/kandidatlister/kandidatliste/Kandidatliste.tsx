@@ -47,14 +47,19 @@ type Props = {
     beskrivelse?: string;
 };
 
+const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
+const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
+const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [navnefilter, setNavnefilter] = useState<string>('');
-    const [filtrerteKandidater, antallArkiverte, alleFiltrerteErMarkerte] = useKandidatlistefilter(
-        props.kandidater,
-        visArkiverte,
-        navnefilter
-    );
+    const [
+        filtrerteKandidater,
+        antallArkiverte,
+        antallMedStatus,
+        alleFiltrerteErMarkerte,
+    ] = useKandidatlistefilter(props.kandidater, visArkiverte, navnefilter);
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -72,10 +77,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const onToggleStatus = (status: Status) => {
         console.log('Status change:', status);
     };
-
-    const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
-    const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
-    const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
     return (
         <div className="kandidatliste">
@@ -129,6 +130,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         </div>
                         <Filter
                             antallArkiverte={antallArkiverte}
+                            antallMedStatus={antallMedStatus}
                             visArkiverte={visArkiverte}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}

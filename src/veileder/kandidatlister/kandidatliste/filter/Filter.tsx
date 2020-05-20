@@ -7,7 +7,7 @@ import './Filter.less';
 
 interface Props {
     antallArkiverte: number;
-    antallMedStatus?: Record<Status, number>;
+    antallMedStatus: Record<Status, number>;
 
     visArkiverte: boolean;
 
@@ -17,7 +17,7 @@ interface Props {
 
 const Filter: FunctionComponent<Props> = ({
     antallArkiverte,
-    antallMedStatus = {},
+    antallMedStatus,
     visArkiverte,
     onToggleArkiverte,
     onToggleStatus,
