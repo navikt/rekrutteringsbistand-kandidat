@@ -78,6 +78,10 @@ export interface KandidatlisteState {
     scrollPosition: {
         [kandidatlisteId: string]: number;
     };
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 }
 
 const initialState: KandidatlisteState = {
@@ -132,6 +136,7 @@ const initialState: KandidatlisteState = {
         statusDearkivering: Nettstatus.IkkeLastet,
     },
     scrollPosition: {},
+    sistValgteKandidat: undefined,
 };
 
 const overforNotater: (
@@ -706,15 +711,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: Feil(action.error),
                 },
             };
-
-        case KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION:
+        case KandidatlisteActionType.VELG_KANDIDAT: {
+            const { kandidatlisteId, kandidatnr } = action;
+            const sistValgteKandidat =
+                kandidatlisteId && kandidatnr
+                    ? {
+                          kandidatlisteId,
+                          kandidatnr,
+                      }
+                    : undefined;
             return {
                 ...state,
-                scrollPosition: {
-                    ...state.scrollPosition,
-                    [action.kandidatlisteId]: action.scrollPosition,
-                },
+                sistValgteKandidat: sistValgteKandidat,
             };
+        }
         default:
             return state;
     }
