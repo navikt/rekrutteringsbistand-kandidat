@@ -5,6 +5,10 @@ import { Status } from './kandidatrad/statusSelect/StatusSelect';
 const matchArkivering = (visArkiverte: boolean) => (kandidat: KandidatIKandidatliste) =>
     kandidat.arkivert === visArkiverte;
 
+const matchValgteStatuser = (statusfilter: Record<Status, boolean>) => (
+    kandidat: KandidatIKandidatliste
+) => statusfilter[kandidat.status];
+
 const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
     const trimmet = navnefilter.trim();
     if (trimmet.length === 0) return true;
@@ -39,9 +43,19 @@ const hentAntallMedStatus = (kandidater: KandidatIKandidatliste[]) => {
 const hentFiltrerteKandidater = (
     kandidater: KandidatIKandidatliste[],
     visArkiverte: boolean,
+    statusfilter: Record<Status, boolean>,
     navnefilter: string
 ) => {
-    return kandidater.filter(matchArkivering(visArkiverte)).filter(matchNavn(navnefilter));
+    let filtrerteKandidater = kandidater
+        .filter(matchArkivering(visArkiverte))
+        .filter(matchNavn(navnefilter));
+
+    const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
+    if (statusfilterErValgt) {
+        filtrerteKandidater = filtrerteKandidater.filter(matchValgteStatuser(statusfilter));
+    }
+
+    return filtrerteKandidater;
 };
 
 const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
@@ -53,6 +67,7 @@ type Returverdi = [KandidatIKandidatliste[], number, Record<Status, number>, boo
 const useKandidatlistefilter = (
     kandidater: KandidatIKandidatliste[],
     visArkiverte: boolean,
+    statusfilter: Record<Status, boolean>,
     navnefilter: string
 ): Returverdi => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
@@ -63,12 +78,14 @@ const useKandidatlistefilter = (
         erAlleKandidaterMarkerte(kandidater)
     );
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(kandidater, visArkiverte, navnefilter)
+        hentFiltrerteKandidater(kandidater, visArkiverte, statusfilter, navnefilter)
     );
 
     useEffect(() => {
-        setFiltrerteKandidater(hentFiltrerteKandidater(kandidater, visArkiverte, navnefilter));
-    }, [kandidater, visArkiverte, navnefilter]);
+        setFiltrerteKandidater(
+            hentFiltrerteKandidater(kandidater, visArkiverte, statusfilter, navnefilter)
+        );
+    }, [kandidater, visArkiverte, statusfilter, navnefilter]);
 
     useEffect(() => {
         setAntallArkiverte(hentAntallArkiverte(kandidater));

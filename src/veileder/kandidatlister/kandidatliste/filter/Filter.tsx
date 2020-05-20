@@ -10,6 +10,7 @@ interface Props {
     antallMedStatus: Record<Status, number>;
 
     visArkiverte: boolean;
+    statusfilter: Record<Status, boolean>;
 
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Status) => void;
@@ -19,6 +20,7 @@ const Filter: FunctionComponent<Props> = ({
     antallArkiverte,
     antallMedStatus,
     visArkiverte,
+    statusfilter,
     onToggleArkiverte,
     onToggleStatus,
 }) => {
@@ -34,7 +36,7 @@ const Filter: FunctionComponent<Props> = ({
                         key={enumValue}
                         value={enumValue}
                         label={`${enumKey} (${antallMedStatus[enumValue] ?? 0})`}
-                        checked={false}
+                        checked={statusfilter[enumValue]}
                         name="statusfilter"
                         className="kandidatliste-filter__checkbox"
                         onChange={onStatusChange}

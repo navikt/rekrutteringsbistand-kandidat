@@ -51,15 +51,28 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
+const initialiserStatusfilter = (): Record<Status, boolean> => {
+    const statusfilter: Record<string, boolean> = {};
+    Object.values(Status).forEach((status) => {
+        statusfilter[status] = false;
+    });
+
+    return statusfilter;
+};
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
+        initialiserStatusfilter()
+    );
+
     const [navnefilter, setNavnefilter] = useState<string>('');
     const [
         filtrerteKandidater,
         antallArkiverte,
         antallMedStatus,
         alleFiltrerteErMarkerte,
-    ] = useKandidatlistefilter(props.kandidater, visArkiverte, navnefilter);
+    ] = useKandidatlistefilter(props.kandidater, visArkiverte, statusfilter, navnefilter);
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -75,7 +88,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const onToggleStatus = (status: Status) => {
-        console.log('Status change:', status);
+        setStatusfilter({
+            ...statusfilter,
+            [status]: !statusfilter[status],
+        });
     };
 
     return (
@@ -132,6 +148,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             antallArkiverte={antallArkiverte}
                             antallMedStatus={antallMedStatus}
                             visArkiverte={visArkiverte}
+                            statusfilter={statusfilter}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                         />
