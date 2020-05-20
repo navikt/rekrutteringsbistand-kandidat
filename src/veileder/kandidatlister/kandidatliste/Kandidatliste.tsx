@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
