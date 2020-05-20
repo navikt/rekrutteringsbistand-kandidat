@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper/dist';
+import { Knapp } from 'nav-frontend-knapper';
 import classNames from 'classnames';
 import './RegistrerMidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
@@ -49,7 +49,11 @@ const RegistrerMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                 setDato={setDatoOgFjernFeilmelding}
                 feilmelding={feilmelding}
             />
-            <Knapp type="hoved" onClick={onLagre}>
+            <Knapp
+                type="hoved"
+                className="registrer-midlertidig-utilgjengelig__lagre"
+                onClick={onLagre}
+            >
                 Lagre
             </Knapp>
             <Knapp

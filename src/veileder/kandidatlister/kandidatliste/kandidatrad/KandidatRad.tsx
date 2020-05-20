@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import { Visningsstatus } from '../Kandidatliste';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
@@ -56,10 +56,14 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
-    setScrollPosition: (kandidatlisteId: string, position: number) => void;
+    setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     visMidlertidigUtilgjengeligPopover: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 };
 
 const KandidatRad: FunctionComponent<Props> = ({
@@ -75,11 +79,25 @@ const KandidatRad: FunctionComponent<Props> = ({
     kanEditere,
     onKandidatStatusChange,
     visArkiveringskolonne,
-    setScrollPosition,
     visMidlertidigUtilgjengeligPopover,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
+    setValgtKandidat,
+    sistValgteKandidat,
 }) => {
+    const kandidatRadRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const erSistValgteKandidat =
+            sistValgteKandidat &&
+            sistValgteKandidat.kandidatnr === kandidat.kandidatnr &&
+            sistValgteKandidat.kandidatlisteId === kandidatlisteId;
+
+        if (erSistValgteKandidat) {
+            kandidatRadRef?.current?.focus();
+        }
+    }, [sistValgteKandidat, kandidat.kandidatnr, kandidatlisteId, kandidatRadRef]);
+
     const antallNotater =
         kandidat.notater.kind === Nettstatus.Suksess
             ? kandidat.notater.data.length
@@ -124,7 +142,13 @@ const KandidatRad: FunctionComponent<Props> = ({
         'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
+        <div
+            tabIndex={-1}
+            ref={kandidatRadRef}
+            className={`kandidatrad liste-rad-wrapper kandidat ${
+                kandidat.markert ? 'checked' : 'unchecked'
+            }`}
+        >
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
@@ -154,7 +178,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="lenke"
                         to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
-                        onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
+                        onClick={() => setValgtKandidat(kandidatlisteId, kandidat.kandidatnr)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -290,18 +314,19 @@ const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
     visMidlertidigUtilgjengeligPopover:
         state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
+    sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (kandidatlisteId, scrollPosition) =>
-        dispatch({
-            type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION,
-            kandidatlisteId,
-            scrollPosition,
-        }),
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
         dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
     },
+    setValgtKandidat: (kandidatlisteId, kandidatnr) =>
+        dispatch({
+            type: KandidatlisteActionType.VELG_KANDIDAT,
+            kandidatlisteId,
+            kandidatnr,
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatRad);

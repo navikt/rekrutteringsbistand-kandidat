@@ -22,12 +22,8 @@
         }
     }
 
-    &__filter {
+    .kandidatliste-filter {
         grid-area: filter;
-
-        .ekspanderbartPanel__innhold {
-            padding-bottom: 1.25rem;
-        }
     }
 
     &__kontrollpanel {
@@ -99,6 +95,11 @@
         .liste-rad-wrapper {
             border-radius: 4px;
             background-color: white;
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px @fokusFarge;
+            }
 
             .liste-rad {
                 height: 4.5rem;

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import classNames from 'classnames';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper/dist';
+import { Knapp } from 'nav-frontend-knapper';
 import './EndreMidlertidigUtilgjengelig.less';
 import { Radio } from 'nav-frontend-skjema';
 import MidlertidigUtilgjengeligDatovelger from '../midlertidig-utilgjengelig-datovelger/MidlertidigUtilgjengeligDatovelger';
@@ -71,13 +71,7 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
         : `Registrert av: ${registrertAvNavn} (${registrertAvIdent})`;
 
     return (
-        <div
-            className={classNames(
-                'endre-midlertidig-utilgjengelig',
-                'skjemaelement--pink',
-                props.className
-            )}
-        >
+        <div className={classNames('endre-midlertidig-utilgjengelig', props.className)}>
             <Undertittel tag="h2" className="endre-midlertidig-utilgjengelig__tittel">
                 Kandidaten er midlertidig utilgjengelig
             </Undertittel>
@@ -117,7 +111,11 @@ const EndreMidlertidigUtilgjengelig: FunctionComponent<Props> = (props) => {
                     className="endre-midlertidig-utilgjengelig__radio"
                 />
             </fieldset>
-            <Knapp type="hoved" onClick={onLagre}>
+            <Knapp
+                type="hoved"
+                className="endre-midlertidig-utilgjengelig__lagre"
+                onClick={onLagre}
+            >
                 Lagre
             </Knapp>
             <Knapp
