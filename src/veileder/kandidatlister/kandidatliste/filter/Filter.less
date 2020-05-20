@@ -1,6 +1,20 @@
 .kandidatliste-filter {
     min-width: 13rem;
 
+    &--samlet {
+        .ekspanderbartPanel__innhold {
+            display: flex;
+        }
+    }
+
+    &__kategori {
+        flex: 1;
+
+        &:last-child {
+            flex: 3;
+        }
+    }
+
     &__checkbox.skjemaelement:not(:last-child) {
         margin-bottom: 0.5rem;
     }

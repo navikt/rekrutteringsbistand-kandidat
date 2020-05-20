@@ -15,75 +15,91 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
     visKandidatlisteMeny,
     markerKandidatlisteSomMin,
     slettKandidatliste,
-}) => (
-    <div className="liste-rad liste-rad-innhold">
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{`${formatterDato(
-                new Date(kandidatliste.opprettetTidspunkt)
-            )}`}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Link
-                to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
-                className="tekst lenke"
-            >
-                {kandidatliste.tittel}
-            </Link>
-        </div>
-        <div className="kolonne-middels">
-            <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
-        </div>
-        <div className="kolonne-bred">
-            <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
-        </div>
-        <div className="kolonne-middels__finn-kandidater">
-            <Link
-                aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
-                to={
-                    kandidatliste.stillingId
-                        ? `/kandidater/stilling/${kandidatliste.stillingId}`
-                        : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`
-                }
-                className="FinnKandidater"
-            >
-                <i className="FinnKandidater__icon" />
-            </Link>
-        </div>
-        <div className="kolonne-smal-knapp">
-            {kandidatliste.kanEditere ? (
-                <Lenkeknapp
-                    aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
-                    onClick={() => endreKandidatliste(kandidatliste)}
-                    className="Edit"
+}) => {
+    const lenkeTilStilling = (
+        <a href={`/stilling/${kandidatliste.stillingId}`} className="edit-lenke">
+            <span className="Edit__icon" />
+        </a>
+    );
+
+    const lenkeknappTilEndreUtenStilling = (
+        <Lenkeknapp
+            aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
+            onClick={() => endreKandidatliste(kandidatliste)}
+            className="Edit"
+        >
+            <i className="Edit__icon" />
+        </Lenkeknapp>
+    );
+
+    const visKanEndre = kandidatliste.stillingId
+        ? lenkeTilStilling
+        : lenkeknappTilEndreUtenStilling;
+
+    const visKanIkkeEndre = (
+        <HjelpetekstUnderVenstre
+            id="rediger-knapp"
+            anchor={() => <i className="EditDisabled__icon" />}
+        >
+            Du kan ikke redigere en kandidatliste som ikke er din.
+        </HjelpetekstUnderVenstre>
+    );
+
+    return (
+        <div className="liste-rad liste-rad-innhold">
+            <div className="kolonne-middels">
+                <Normaltekst className="tekst">{`${formatterDato(
+                    new Date(kandidatliste.opprettetTidspunkt)
+                )}`}</Normaltekst>
+            </div>
+            <div className="kolonne-bred">
+                <Link
+                    to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
+                    className="tekst lenke"
                 >
-                    <i className="Edit__icon" />
-                </Lenkeknapp>
-            ) : (
-                <HjelpetekstUnderVenstre
-                    id="rediger-knapp"
-                    anchor={() => <i className="EditDisabled__icon" />}
+                    {kandidatliste.tittel}
+                </Link>
+            </div>
+            <div className="kolonne-middels">
+                <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
+            </div>
+            <div className="kolonne-bred">
+                <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
+            </div>
+            <div className="kolonne-middels__finn-kandidater">
+                <Link
+                    aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
+                    to={
+                        kandidatliste.stillingId
+                            ? `/kandidater/stilling/${kandidatliste.stillingId}`
+                            : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`
+                    }
+                    className="FinnKandidater"
                 >
-                    Du kan ikke redigere en kandidatliste som ikke er din.
-                </HjelpetekstUnderVenstre>
-            )}
-        </div>
-        <div className="kolonne-smal-knapp">
-            <Hamburgerknapp
-                aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
-                onClick={() => {
-                    onMenyClick(kandidatliste);
-                }}
-                className="KandidatlisteMeny"
-            />
-        </div>
-        {visKandidatlisteMeny &&
-            visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
-                <KandidatlisterMenyDropdown
-                    kandidatliste={kandidatliste}
-                    onSkjulMeny={onSkjulMeny}
-                    markerSomMinModal={markerKandidatlisteSomMin}
-                    slettKandidatliste={slettKandidatliste}
+                    <i className="FinnKandidater__icon" />
+                </Link>
+            </div>
+            <div className="kolonne-smal-knapp">
+                {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
+            </div>
+            <div className="kolonne-smal-knapp">
+                <Hamburgerknapp
+                    aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
+                    onClick={() => {
+                        onMenyClick(kandidatliste);
+                    }}
+                    className="KandidatlisteMeny"
                 />
-            )}
-    </div>
-);
+            </div>
+            {visKandidatlisteMeny &&
+                visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
+                    <KandidatlisterMenyDropdown
+                        kandidatliste={kandidatliste}
+                        onSkjulMeny={onSkjulMeny}
+                        markerSomMinModal={markerKandidatlisteSomMin}
+                        slettKandidatliste={slettKandidatliste}
+                    />
+                )}
+        </div>
+    );
+};
