@@ -6,7 +6,6 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { KandidatlisterMenyDropdown } from '../Kandidatlister';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
-import Lenke from 'nav-frontend-lenker';
 
 export const KandidatlisterRad: FunctionComponent<any> = ({
     kandidatliste,
@@ -18,9 +17,9 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
     slettKandidatliste,
 }) => {
     const lenkeTilStilling = (
-        <Lenke href={`/stilling/${kandidatliste.stillingId}`} style={{ verticalAlign: 'middle' }}>
-            <i className="Edit__icon" />
-        </Lenke>
+        <a href={`/stilling/${kandidatliste.stillingId}`} className="Edit">
+            <span className="Edit__icon" />
+        </a>
     );
 
     const lenkeknappTilEndreUtenStilling = (
