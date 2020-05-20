@@ -28,7 +28,7 @@ export enum Utfall {
     FåttJobben = 'FATT_JOBBEN',
 }
 
-const utfallToString = (utfall: string) => {
+export const utfallToString = (utfall: string) => {
     if (utfall === Utfall.IkkePresentert) {
         return 'Ikke presentert';
     } else if (utfall === Utfall.Presentert) {
