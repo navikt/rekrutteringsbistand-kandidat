@@ -6,6 +6,7 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { KandidatlisterMenyDropdown } from '../Kandidatlister';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
+import Lenke from 'nav-frontend-lenker';
 
 export const KandidatlisterRad: FunctionComponent<any> = ({
     kandidatliste,
@@ -51,13 +52,19 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
         </div>
         <div className="kolonne-smal-knapp">
             {kandidatliste.kanEditere ? (
-                <Lenkeknapp
-                    aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
-                    onClick={() => endreKandidatliste(kandidatliste)}
-                    className="Edit"
-                >
-                    <i className="Edit__icon" />
-                </Lenkeknapp>
+                kandidatliste.stillingId ? (
+                    <Lenke href={`/stilling/${kandidatliste.stillingId}`}>
+                        <i className="Edit__icon" />
+                    </Lenke>
+                ) : (
+                    <Lenkeknapp
+                        aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
+                        onClick={() => endreKandidatliste(kandidatliste)}
+                        className="Edit"
+                    >
+                        <i className="Edit__icon" />
+                    </Lenkeknapp>
+                )
             ) : (
                 <HjelpetekstUnderVenstre
                     id="rediger-knapp"

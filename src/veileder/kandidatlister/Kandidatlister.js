@@ -404,12 +404,10 @@ class Kandidatlister extends React.Component {
     };
 
     onEndreClick = (kandidatliste) => {
-        kandidatliste.stillingId
-            ? alert("Aretest kandidatliste.stillingId=" + kandidatliste.stillingId) // TODO Are
-            : this.setState({
-                  modalstatus: MODALVISING.ENDRE_MODAL,
-                  kandidatlisteIEndring: kandidatliste,
-              });
+        this.setState({
+            modalstatus: MODALVISING.ENDRE_MODAL,
+            kandidatlisteIEndring: kandidatliste,
+        });
     };
 
     onMenyClick = (kandidatliste) => {
