@@ -13,22 +13,15 @@
         width: 100%;
     }
 
-    &__tittel.typo-sidetittel {
-        font-weight: 300;
-        font-size: 1.75rem;
-        margin: 1rem 0;
+    &__tittel.typo-systemtittel {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
     }
 
     &__tilbakelenke {
         display: inline-flex;
         align-items: center;
         padding: 0.125rem 0.5rem 0.125rem 0;
-
-        &:hover {
-            .nav-frontend-chevron {
-                transform: translateX(-0.125rem) rotate(-90deg);
-            }
-        }
     }
 
     &__antall-kandidater.typo-element {
@@ -42,8 +35,12 @@
         }
     }
 
-    &__beskrivelse.typo-normal {
+    &__beskrivelse-tittel.typo-element {
         margin-top: 1rem;
+        max-width: 80%;
+    }
+
+    &__beskrivelse.typo-normal {
         max-width: 80%;
     }
 
@@ -55,11 +52,10 @@
         &__tilbake {
             flex-shrink: 0;
             width: @kandidatsok-sidepanel-bredde;
-            margin-top: 0.5rem;
             margin-right: 3rem;
         }
 
-        &__tittel.typo-sidetittel {
+        &__tittel.typo-systemtittel {
             margin-top: 0;
         }
     }

@@ -13,10 +13,10 @@ const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingsId, kandidatli
                 ? `/kandidater/stilling/${stillingsId}`
                 : `/kandidater/kandidatliste/${kandidatlisteId}`
         }
-        className="finn-kandidater FinnKandidater"
+        className="finn-kandidater FinnKandidater lenke"
     >
         <i className="FinnKandidater__icon" />
-        <span className="link">Finn kandidater</span>
+        <span>Finn kandidater</span>
     </Link>
 );
 

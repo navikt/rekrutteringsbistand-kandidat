@@ -49,8 +49,8 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                 <div>
                     <Container className="blokk-l">
                         <ViktigeYrker />
-                        <Column xs="12" sm="4" id="sokekriterier">
-                            <div className="sokekriterier--column">
+                        <Column xs="12" sm="4">
+                            <div className="sokekriterier--column" id="sokekriterier">
                                 <div className="knapp-wrapper">
                                     <Flatknapp
                                         mini
@@ -78,14 +78,18 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                 </div>
                             </div>
                         </Column>
-                        <Column xs="12" sm="8" id="sokeresultat">
-                            <div className="kandidatervisning--column">
+                        <Column xs="12" sm="8">
+                            <div className="kandidatervisning--column" id="sokeresultat">
                                 <KandidaterVisning
                                     skjulPaginering={visFantFåKandidater}
                                     kandidatlisteId={kandidatlisteId}
                                     stillingsId={stillingsId}
                                 />
-                                {visFantFåKandidater && <FantFåKandidater />}
+                                {visFantFåKandidater && (
+                                    <FantFåKandidater
+                                        onRemoveCriteriaClick={onRemoveCriteriaClick}
+                                    />
+                                )}
                             </div>
                         </Column>
                     </Container>

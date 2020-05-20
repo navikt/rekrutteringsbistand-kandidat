@@ -43,7 +43,7 @@ const StatusSelect: React.FunctionComponent<Props> = ({ kanEditere, value, onCha
     const statuserIDropdown = Object.keys(Status);
 
     return (
-        <div className="StatusSelect skjemaelement skjemaelement--pink">
+        <div className="StatusSelect skjemaelement">
             <Menu>
                 <MenuButton className="StatusSelect__button selectContainer skjemaelement__input">
                     <Statusvisning status={value} />

@@ -18,12 +18,13 @@
             "innsatsgruppe": "Varig tilpasset innsats",
             "score": "NaN",
             "poststed": "OSLO",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": true
         },
         {
             "arenaKandidatnr": "IE374308",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "ola langt navn",
+            "etternavn": "nordmann i. skogen",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "22080097003",
             "erFodselsdatoDnr": false,
@@ -34,12 +35,13 @@
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengeliginnen1uke"
+            "midlertidigUtilgjengeligStatus": "tilgjengeliginnen1uke",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "DC294105",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "kim",
+            "etternavn": "granheim",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "17118926005",
             "erFodselsdatoDnr": false,
@@ -53,12 +55,13 @@
             "innsatsgruppe": "Situasjonsbestemt innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "midlertidigutilgjengelig"
+            "midlertidigUtilgjengeligStatus": "midlertidigutilgjengelig",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "DE074002",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "alvhild kasperine",
+            "etternavn": "klæboe nordbye",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "26088024140",
             "erFodselsdatoDnr": false,
@@ -72,12 +75,13 @@
             "innsatsgruppe": "Standardinnsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": true
         },
         {
             "arenaKandidatnr": "JF873508",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "kirsti",
+            "etternavn": "rudolfsen",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "12077918556",
             "erFodselsdatoDnr": false,
@@ -91,12 +95,13 @@
             "innsatsgruppe": "Standardinnsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": true
         },
         {
             "arenaKandidatnr": "FK993402",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "kai",
+            "etternavn": "bor",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "22119749836",
             "erFodselsdatoDnr": false,
@@ -107,12 +112,13 @@
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "GF004504",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "daniel",
+            "etternavn": "brekka",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "01038215430",
             "erFodselsdatoDnr": false,
@@ -126,12 +132,13 @@
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "AJ923606",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "frode",
+            "etternavn": "gjessing halvorsen",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "26066914886",
             "erFodselsdatoDnr": false,
@@ -145,12 +152,13 @@
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "HI813307",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "eldbjørg gunvor",
+            "etternavn": "ulset",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "13106340786",
             "erFodselsdatoDnr": false,
@@ -164,12 +172,13 @@
             "innsatsgruppe": "Situasjonsbestemt innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": false
         },
         {
             "arenaKandidatnr": "EG663502",
-            "fornavn": "Ola",
-            "etternavn": "Nordmann",
+            "fornavn": "simon",
+            "etternavn": "totland",
             "fodselsdato": "2019-09-16",
             "fodselsnummer": "02085427108",
             "erFodselsdatoDnr": false,
@@ -183,7 +192,8 @@
             "innsatsgruppe": "Spesielt tilpasset innsats",
             "score": "NaN",
             "poststed": "Oslo",
-            "midlertidigUtilgjengeligStatus": "tilgjengelig"
+            "midlertidigUtilgjengeligStatus": "tilgjengelig",
+            "erLagtTilKandidatliste": true
         }
     ],
     "aggregeringer": [

@@ -1,11 +1,12 @@
-import { MidlertidigUtilgjengeligState } from './cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
 import { PermitteringState } from './sok/permittering/permitteringReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
-import { CvState } from './cv/reducer/cvReducer';
+import { CvState } from './kandidatside/cv/reducer/cvReducer';
 import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
+import { HistorikkState } from './kandidatside/historikk/historikkReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
@@ -28,6 +29,7 @@ type AppState = {
     navkontorReducer: NavkontorReducerState;
     hovedmal: HovedmalState;
     tilretteleggingsbehov: TilretteleggingsbehovState;
+    historikk: HistorikkState
 };
 
 // TODO Følgende burde defineres i sine respektive reducere

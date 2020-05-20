@@ -6,9 +6,9 @@ import { SEARCH } from '../../searchReducer';
 import { Tilgjengelighet } from '../../Søkeresultat';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import AppState from '../../../AppState';
-import TilgjengelighetIkon from '../../../cv/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 import './MidlertidigUtilgjengeligSearch.less';
 import { Normaltekst } from 'nav-frontend-typografi';
+import TilgjengelighetIkon from '../../../kandidatside/midlertidig-utilgjengelig/tilgjengelighet-ikon/TilgjengelighetIkon';
 
 interface Props {
     midlertidigUtilgjengelig: Tilgjengelighet[];
@@ -29,7 +29,7 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 
     return (
         <SkjemaGruppe
-            title="Midlertidig utilgjengelig, registrert av NAV"
+            legend="Midlertidig utilgjengelig, registrert av NAV"
             className="midlertidig-utilgjengelig-search"
         >
             <Normaltekst className="midlertidig-utilgjengelig-search__undertittel">

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Element } from 'nav-frontend-typografi';
 import './KandidaterTabell.less';
+import { Checkbox } from 'nav-frontend-skjema';
 
 interface Props {
     alleKandidaterMarkert: boolean;
@@ -14,21 +15,13 @@ const KandidaterTableHeader: FunctionComponent<Props> = ({
     return (
         <div className="kandidater-tabell__rad kandidater-tabell__rad--header">
             <div className="skjemaelement skjemaelement--horisontal text-hide">
-                <input
-                    type="checkbox"
+                <Checkbox
+                    label="&#8203;"
                     id="marker-alle-kandidater-checkbox"
-                    className="skjemaelement__input checkboks"
                     aria-label="Marker alle kandidater"
                     checked={alleKandidaterMarkert}
                     onChange={onToggleMarkeringAlleKandidater}
                 />
-                <label
-                    className="skjemaelement__label"
-                    htmlFor="marker-alle-kandidater-checkbox"
-                    aria-hidden="true"
-                >
-                    .
-                </label>
             </div>
             <div />
             <Element className="kandidater-tabell__kolonne-tekst">Navn</Element>

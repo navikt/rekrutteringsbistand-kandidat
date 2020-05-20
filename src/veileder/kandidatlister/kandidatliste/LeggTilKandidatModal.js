@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
-import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Kandidatliste } from '../PropTypes';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
@@ -147,7 +147,8 @@ class LeggTilKandidatModal extends React.Component {
             >
                 <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
                 <AlertStripeAdvarsel>
-                    Før du legger en kandidat på kandidatlisten, kontakt han eller henne for å undersøke om stillingen er aktuell.
+                    Før du legger en kandidat på kandidatlisten, kontakt han eller henne for å
+                    undersøke om stillingen er aktuell.
                 </AlertStripeAdvarsel>
                 <Input
                     className="skjemaelement--pink legg-til-kandidat__fodselsnummer"

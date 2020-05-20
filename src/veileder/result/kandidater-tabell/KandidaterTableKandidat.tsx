@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
-import { MidlertidigUtilgjengeligState } from '../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import AppState from '../../AppState';
 import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
+import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
+import { KandidatQueryParam } from '../../kandidatside/Kandidatside';
+import { Checkbox } from 'nav-frontend-skjema';
 
 interface Props {
     kandidat: Søkeresultat;
@@ -55,13 +58,15 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     const fodselsnummer = kandidat.fodselsnummer;
     const innsatsgruppe = kandidat.servicebehov;
     const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
+
     const linkTilKandidat = () => {
-        if (kandidatlisteId) {
-            return `/kandidater/kandidatliste/${kandidatlisteId}/cv?kandidatNr=${kandidatnummer}`;
-        } else if (stillingsId) {
-            return `/kandidater/stilling/${stillingsId}/cv?kandidatNr=${kandidatnummer}`;
-        }
-        return `/kandidater/cv?kandidatNr=${kandidatnummer}`;
+        const path = `/kandidater/kandidat/${kandidatnummer}/cv`;
+
+        if (kandidatlisteId)
+            return path + `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
+        if (stillingsId) return path + `?${KandidatQueryParam.StillingId}=${stillingsId}`;
+
+        return path;
     };
 
     let klassenavn = 'kandidater-tabell__rad kandidater-tabell__rad--kandidat';
@@ -73,23 +78,15 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     return (
         <div className={klassenavn}>
             <div className="skjemaelement skjemaelement--horisontal text-hide">
-                <input
-                    type="checkbox"
+                <Checkbox
+                    label="&#8203;"
                     id={`marker-kandidat-${kandidatnummer}-checkbox`}
-                    className="skjemaelement__input checkboks"
-                    aria-label={`Marker kandidat med navn ${navn}`}
+                    aria-label={`Marker kanidat med navn ${navn}`}
                     checked={markert}
                     onChange={() => {
                         onCheck(kandidat.arenaKandidatnr);
                     }}
                 />
-                <label
-                    className="skjemaelement__label"
-                    htmlFor={`marker-kandidat-${kandidatnummer}-checkbox`}
-                    aria-hidden="true"
-                >
-                    Marker kandidat med navn {navn}
-                </label>
             </div>
             <div className="kandidater-tabell__tilgjengelighet">
                 <TilgjengelighetFlagg
@@ -101,7 +98,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                     }
                 />
             </div>
-            <div className="kandidater-tabell__kolonne-tekst">
+            <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
                     className="kandidater-tabell__navn lenke"
                     to={linkTilKandidat()}
@@ -110,6 +107,9 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
                 >
                     {navn}
                 </Link>
+                {kandidat.erLagtTilKandidatliste && (
+                    <ErLagtIKandidatListeIkon className="kandidater-tabell__lagt-i-liste-ikon" />
+                )}
             </div>
             <div className="kandidater-tabell__kolonne-tekst">{fodselsnummer}</div>
             <div className="kandidater-tabell__kolonne-tekst">{innsatsgruppe}</div>

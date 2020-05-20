@@ -4,7 +4,7 @@ import {
     putArkivertForFlereKandidater,
 } from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
+import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import {
@@ -203,6 +203,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
             antallLagredeKandidater: action.kandidater.length,
             lagretListe: action.kandidatliste,
         });
+        yield put({ type: SEARCH });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE, error: e });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
-import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 const initalState = () => ({
     beskjed: '',
@@ -140,9 +140,7 @@ export default class PresenterKandidaterModal extends React.Component {
                     <div className="mailadresser">
                         {this.state.mailadresser.map((mailadresseFelt) => (
                             <Input
-                                className={`skjemaelement--pink${
-                                    mailadresseFelt.show ? ' show' : ''
-                                }`}
+                                className={`${mailadresseFelt.show ? ' show' : ''}`}
                                 key={`mailadressefelt_${mailadresseFelt.id}`}
                                 label={
                                     mailadresseFelt.id === 0
@@ -167,7 +165,7 @@ export default class PresenterKandidaterModal extends React.Component {
                             + Legg til flere
                         </Flatknapp>
                     </div>
-                    <div className="skjemaelement--pink">
+                    <div>
                         <Textarea
                             label="Melding til arbeidsgiver"
                             textareaClass="beskjed"

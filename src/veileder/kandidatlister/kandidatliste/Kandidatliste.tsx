@@ -5,7 +5,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
-import KandidatRad from './kandidatrad/KandidatRad';
+import KandidatRad, { Utfall } from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
@@ -16,6 +16,7 @@ import '../../../felles/common/ikoner/ikoner.less';
 import useKandidatlistefilter from './useKandidatlistefilter';
 import Navnefilter from './navnefilter/Navnefilter';
 import { Element } from 'nav-frontend-typografi';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -70,10 +71,20 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
+    const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
+    const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
+    const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+
     return (
         <div className="kandidatliste">
             <SideHeader
                 antallKandidater={props.kandidater.length - antallArkiverte}
+                antallAktuelleKandidater={
+                    props.kandidater.filter(erIkkeArkivert).filter(erAktuell).length
+                }
+                antallPresenterteKandidater={
+                    props.kandidater.filter(erIkkeArkivert).filter(erPresentert).length
+                }
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
@@ -118,7 +129,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         <aside className="kandidatliste__filter">
                             <Ekspanderbartpanel border apen tittel={<Element>Slettet</Element>}>
                                 <Checkbox
-                                    className="skjemaelement--pink"
                                     label={`Vis kun slettede (${antallArkiverte})`}
                                     checked={visArkiverte}
                                     onChange={toggleVisArkiverteOgFjernMarkering}

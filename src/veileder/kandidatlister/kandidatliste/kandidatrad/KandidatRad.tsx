@@ -18,14 +18,22 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import moment from 'moment';
 import AppState from '../../../../veileder/AppState';
 import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import { MidlertidigUtilgjengeligState } from '../../../cv/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { MidlertidigUtilgjengeligState } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { KandidatQueryParam } from '../../../kandidatside/Kandidatside';
+import Lenke from 'nav-frontend-lenker';
+
+export enum Utfall {
+    IkkePresentert = 'IKKE_PRESENTERT',
+    Presentert = 'PRESENTERT',
+    FåttJobben = 'FATT_JOBBEN',
+}
 
 const utfallToString = (utfall: string) => {
-    if (utfall === 'IKKE_PRESENTERT') {
+    if (utfall === Utfall.IkkePresentert) {
         return 'Ikke presentert';
-    } else if (utfall === 'PRESENTERT') {
+    } else if (utfall === Utfall.Presentert) {
         return 'Presentert';
-    } else if (utfall === 'FATT_JOBBEN') {
+    } else if (utfall === Utfall.FåttJobben) {
         return 'Fått jobben';
     }
     return utfall;
@@ -138,16 +146,11 @@ const KandidatRad: FunctionComponent<Props> = ({
         'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div
-            id={'id' + Math.random()}
-            tabIndex={-1}
-            ref={kandidatRadRef}
-            className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}
-        >
+        <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
-                    className="text-hide skjemaelement--pink"
+                    className="text-hide"
                     checked={kandidat.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
@@ -171,12 +174,9 @@ const KandidatRad: FunctionComponent<Props> = ({
                 <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
-                        className="link"
-                        to={`/kandidater/lister/detaljer/${kandidatlisteId}/cv/${kandidat.kandidatnr}`}
-                        onClick={() => {
-                            //setScrollPosition(kandidatlisteId, window.pageYOffset);
-                            setValgtKandidat(kandidatlisteId, kandidat.kandidatnr);
-                        }}
+                        className="lenke"
+                        to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
+                        onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -274,9 +274,9 @@ const KandidatRad: FunctionComponent<Props> = ({
                             <Normaltekst className="tekst">
                                 E-post:{' '}
                                 {kandidat.epost ? (
-                                    <a className="link" href={`mailto:${kandidat.epost}`}>
+                                    <Lenke href={`mailto:${kandidat.epost}`}>
                                         {kandidat.epost}
-                                    </a>
+                                    </Lenke>
                                 ) : (
                                     <span>&mdash;</span>
                                 )}
@@ -297,7 +297,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span className="link">Se aktivitetsplan</span>
+                                <span className="lenke">Se aktivitetsplan</span>
                                 <i className="ForlateSiden__icon" />
                             </a>
                         </div>

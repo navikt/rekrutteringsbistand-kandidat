@@ -1,0 +1,19 @@
+@import '~pam-frontend-core/less/variables.less';
+
+.lenke-med-chevron {
+    &--venstre {
+        &:hover {
+            .nav-frontend-chevron {
+                transform: translateX(-0.125rem) rotate(-90deg);
+            }
+        }
+    }
+
+    &--hoyre {
+        &:hover {
+            .nav-frontend-chevron {
+                transform: translateX(0.125rem) rotate(-90deg);
+            }
+        }
+    }
+}
