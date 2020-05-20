@@ -85,16 +85,16 @@ const KandidatRad: FunctionComponent<Props> = ({
     setValgtKandidat,
     sistValgteKandidat,
 }) => {
-    const kandidatRadRef = useRef<any>(null);
+    const kandidatRadRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (
+        const erSistValgteKandidat =
             sistValgteKandidat &&
             sistValgteKandidat.kandidatnr === kandidat.kandidatnr &&
-            sistValgteKandidat.kandidatlisteId === kandidatlisteId &&
-            kandidatRadRef !== null
-        ) {
-            kandidatRadRef.current.focus();
+            sistValgteKandidat.kandidatlisteId === kandidatlisteId;
+
+        if (erSistValgteKandidat) {
+            kandidatRadRef?.current?.focus();
         }
     }, [sistValgteKandidat, kandidat.kandidatnr, kandidatlisteId, kandidatRadRef]);
 

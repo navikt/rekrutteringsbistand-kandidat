@@ -227,10 +227,11 @@ class Kandidatlisteside extends React.Component<Props> {
 
         if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
             const { sistValgteKandidat, kandidatliste } = this.props;
-            if (
+            const ingenKandidatHarBlittValgt =
                 !sistValgteKandidat ||
-                sistValgteKandidat.kandidatlisteId !== kandidatliste.data.kandidatlisteId
-            ) {
+                sistValgteKandidat.kandidatlisteId !== kandidatliste.data.kandidatlisteId;
+
+            if (ingenKandidatHarBlittValgt) {
                 window.scrollTo(0, 0);
             }
         }

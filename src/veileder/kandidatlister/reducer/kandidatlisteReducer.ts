@@ -78,12 +78,10 @@ export interface KandidatlisteState {
     scrollPosition: {
         [kandidatlisteId: string]: number;
     };
-    sistValgteKandidat:
-        | {
-              kandidatlisteId: string;
-              kandidatnr: string;
-          }
-        | undefined;
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 }
 
 const initialState: KandidatlisteState = {
