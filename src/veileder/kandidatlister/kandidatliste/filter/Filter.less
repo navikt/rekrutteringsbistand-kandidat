@@ -11,5 +11,25 @@
 
     .ekspanderbartPanel__innhold {
         padding-bottom: 1.25rem;
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__filter {
+        flex: 1;
+
+        &:last-child {
+            flex: 3;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        &__filter {
+            margin-right: 0;
+        }
+
+        .ekspanderbartPanel__innhold {
+            flex-direction: column;
+        }
     }
 }

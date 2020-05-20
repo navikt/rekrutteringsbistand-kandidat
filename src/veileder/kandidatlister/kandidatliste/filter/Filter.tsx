@@ -1,8 +1,10 @@
 import React, { FunctionComponent, ChangeEvent } from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Element } from 'nav-frontend-typografi';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
+
+import Kategori from './Kategori';
+import useVinduErBredereEnn from './useVinduErBredereEnn';
+import Wrapper from './Wrapper';
 import './Filter.less';
 
 interface Props {
@@ -28,11 +30,11 @@ const Filter: FunctionComponent<Props> = ({
         onToggleStatus(e.currentTarget.value as Status);
     };
 
-    const erPåStorSkjerm = window.innerWidth > 1280;
+    const desktop = useVinduErBredereEnn(1280);
 
     return (
-        <aside className="kandidatliste-filter">
-            <Ekspanderbartpanel border apen={erPåStorSkjerm} tittel={<Element>Status</Element>}>
+        <Wrapper desktop={desktop}>
+            <Kategori desktop={desktop} kategori="Status">
                 {Object.entries(Status).map(([enumKey, enumValue]) => (
                     <Checkbox
                         key={enumValue}
@@ -44,15 +46,15 @@ const Filter: FunctionComponent<Props> = ({
                         onChange={onStatusChange}
                     />
                 ))}
-            </Ekspanderbartpanel>
-            <Ekspanderbartpanel border apen={erPåStorSkjerm} tittel={<Element>Slettet</Element>}>
+            </Kategori>
+            <Kategori desktop={desktop} kategori="Slettet">
                 <Checkbox
                     label={`Vis kun slettede (${antallArkiverte})`}
                     checked={visArkiverte}
                     onChange={onToggleArkiverte}
                 />
-            </Ekspanderbartpanel>
-        </aside>
+            </Kategori>
+        </Wrapper>
     );
 };
 
