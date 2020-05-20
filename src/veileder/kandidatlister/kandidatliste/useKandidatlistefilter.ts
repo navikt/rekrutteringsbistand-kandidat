@@ -46,16 +46,12 @@ const hentFiltrerteKandidater = (
     statusfilter: Record<Status, boolean>,
     navnefilter: string
 ) => {
-    let filtrerteKandidater = kandidater
-        .filter(matchArkivering(visArkiverte))
-        .filter(matchNavn(navnefilter));
-
     const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
-    if (statusfilterErValgt) {
-        filtrerteKandidater = filtrerteKandidater.filter(matchValgteStatuser(statusfilter));
-    }
 
-    return filtrerteKandidater;
+    return kandidater
+        .filter(matchArkivering(visArkiverte))
+        .filter(matchNavn(navnefilter))
+        .filter((kandidat) => !statusfilterErValgt || matchValgteStatuser(statusfilter)(kandidat));
 };
 
 const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
