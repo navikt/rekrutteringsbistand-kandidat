@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Historikktabell: FunctionComponent<Props> = ({ kandidatlister }) => (
-    <table className="historikktabell tabell ">
+    <table className="historikktabell tabell tabell--stripet">
         <thead>
             <tr>
                 <th>Lagt i listen</th>
