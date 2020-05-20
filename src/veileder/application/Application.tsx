@@ -6,7 +6,6 @@ import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
-import Footer from '../footer/Footer';
 import Historikkside from '../kandidatside/historikk/Historikkside';
 import KandidatlisteMedStilling from '../kandidatlister/KandidatlisteMedStilling';
 import Kandidatlister from '../kandidatlister/Kandidatlister';
@@ -87,7 +86,6 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                 </main>
             </Normaltekst>
             <TilToppenKnapp />
-            <Footer grå={brukGråBakgrunn} />
         </>
     );
 };

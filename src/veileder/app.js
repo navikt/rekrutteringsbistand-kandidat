@@ -99,7 +99,6 @@ class RekrutteringsbistandKandidat extends React.Component {
                         <Dekoratør />
                         <Navigeringsmeny />
                         <ErrorSide error={error} fjernError={fjernError} />
-                        <Footer />
                     </div>
                 </BrowserRouter>
             );
