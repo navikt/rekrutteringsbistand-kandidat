@@ -1,19 +1,17 @@
 import React, { FunctionComponent, ChangeEvent } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 
-import Kategori from './Kategori';
+import { Undertittel, Element } from 'nav-frontend-typografi';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from './useVinduErBredereEnn';
-import Wrapper from './Wrapper';
 import './Filter.less';
 
 interface Props {
     antallArkiverte: number;
     antallMedStatus: Record<Status, number>;
-
     visArkiverte: boolean;
     statusfilter: Record<Status, boolean>;
-
     onToggleArkiverte: () => void;
     onToggleStatus: (status: Status) => void;
 }
@@ -32,29 +30,58 @@ const Filter: FunctionComponent<Props> = ({
 
     const desktop = useVinduErBredereEnn(1280);
 
+    const statuscheckbokser = Object.entries(Status).map(([enumKey, enumValue]) => (
+        <Checkbox
+            key={enumValue}
+            value={enumValue}
+            label={`${enumKey} (${antallMedStatus[enumValue] ?? 0})`}
+            checked={statusfilter[enumValue]}
+            name="statusfilter"
+            className="kandidatliste-filter__checkbox"
+            onChange={onStatusChange}
+        />
+    ));
+
+    const arkivfilter = (
+        <Checkbox
+            label={`Vis kun slettede (${antallArkiverte})`}
+            checked={visArkiverte}
+            onChange={onToggleArkiverte}
+        />
+    );
+
+    if (desktop) {
+        return (
+            <aside className="kandidatliste-filter">
+                <Ekspanderbartpanel apen border tittel={<Element>Status</Element>}>
+                    {statuscheckbokser}
+                </Ekspanderbartpanel>
+                <Ekspanderbartpanel apen border tittel={<Element>Slettet</Element>}>
+                    {arkivfilter}
+                </Ekspanderbartpanel>
+            </aside>
+        );
+    }
+
     return (
-        <Wrapper desktop={desktop}>
-            <Kategori desktop={desktop} kategori="Status">
-                {Object.entries(Status).map(([enumKey, enumValue]) => (
-                    <Checkbox
-                        key={enumValue}
-                        value={enumValue}
-                        label={`${enumKey} (${antallMedStatus[enumValue] ?? 0})`}
-                        checked={statusfilter[enumValue]}
-                        name="statusfilter"
-                        className="kandidatliste-filter__checkbox"
-                        onChange={onStatusChange}
-                    />
-                ))}
-            </Kategori>
-            <Kategori desktop={desktop} kategori="Slettet">
-                <Checkbox
-                    label={`Vis kun slettede (${antallArkiverte})`}
-                    checked={visArkiverte}
-                    onChange={onToggleArkiverte}
-                />
-            </Kategori>
-        </Wrapper>
+        <Ekspanderbartpanel
+            tittel={<Undertittel>Filter</Undertittel>}
+            className="kandidatliste-filter--samlet"
+            border
+        >
+            <SkjemaGruppe
+                className="kandidatliste-filter__kategori"
+                legend={<Element>Status</Element>}
+            >
+                {statuscheckbokser}
+            </SkjemaGruppe>
+            <SkjemaGruppe
+                className="kandidatliste-filter__kategori"
+                legend={<Element>Slettet</Element>}
+            >
+                {arkivfilter}
+            </SkjemaGruppe>
+        </Ekspanderbartpanel>
     );
 };
 

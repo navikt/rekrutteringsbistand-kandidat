@@ -1,13 +1,11 @@
 import throttle from 'lodash.throttle';
 import { useState, useEffect } from 'react';
 
-const erBredereEnn = (bredde: number) => window.innerWidth > bredde;
-
 const useVinduErBredereEnn = (bredde: number) => {
-    const [erBredere, setErBredere] = useState<boolean>(erBredereEnn(bredde));
+    const [erBredere, setErBredere] = useState<boolean>(window.innerWidth > bredde);
 
     const onResizeWindow = throttle(() => {
-        setErBredere(erBredereEnn(bredde));
+        setErBredere(window.innerWidth > bredde);
     }, 200);
 
     useEffect(() => {
