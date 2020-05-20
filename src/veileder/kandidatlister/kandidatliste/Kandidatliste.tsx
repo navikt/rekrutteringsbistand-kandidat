@@ -51,7 +51,7 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
-const initialiserStatusfilter = (): Record<Status, boolean> => {
+const lagTomtStatusfilter = (): Record<Status, boolean> => {
     const statusfilter: Record<string, boolean> = {};
     Object.values(Status).forEach((status) => {
         statusfilter[status] = false;
@@ -63,7 +63,7 @@ const initialiserStatusfilter = (): Record<Status, boolean> => {
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
-        initialiserStatusfilter()
+        lagTomtStatusfilter()
     );
 
     const [navnefilter, setNavnefilter] = useState<string>('');
