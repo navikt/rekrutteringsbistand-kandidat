@@ -45,7 +45,6 @@ import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { logEvent } from './amplitude/amplitude';
-import Footer from './footer/Footer';
 import Application from './application/Application';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 
