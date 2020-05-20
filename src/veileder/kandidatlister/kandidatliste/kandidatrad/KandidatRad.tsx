@@ -97,8 +97,6 @@ const KandidatRad: FunctionComponent<Props> = ({
             kandidatRadRef !== null
         ) {
             kandidatRadRef.current.focus();
-            console.log(kandidatRadRef);
-            console.log('focus');
         }
     }, [sistValgteKandidat, kandidat.kandidatnr, kandidatlisteId, kandidatRadRef]);
 
@@ -146,7 +144,13 @@ const KandidatRad: FunctionComponent<Props> = ({
         'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div className={`liste-rad-wrapper kandidat ${kandidat.markert ? 'checked' : 'unchecked'}`}>
+        <div
+            tabIndex={-1}
+            ref={kandidatRadRef}
+            className={`kandidatrad liste-rad-wrapper kandidat ${
+                kandidat.markert ? 'checked' : 'unchecked'
+            }`}
+        >
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
@@ -176,7 +180,10 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="lenke"
                         to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
-                        onClick={() => setScrollPosition(kandidatlisteId, window.pageYOffset)}
+                        onClick={() => {
+                            setValgtKandidat(kandidatlisteId, kandidat.kandidatnr);
+                            setScrollPosition(kandidatlisteId, window.pageYOffset);
+                        }}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
