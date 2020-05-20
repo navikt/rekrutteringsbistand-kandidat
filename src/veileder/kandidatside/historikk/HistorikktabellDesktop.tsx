@@ -14,17 +14,19 @@ interface Props {
 export const HistorikktabellDesktop: FunctionComponent<Props> = ({ kandidatlister }) => (
     <table className="tabell tabell--stripet">
         <thead>
-            <th>Lagt i listen</th>
-            <th>Navn på kandidatliste</th>
-            <th>Arbeidsgiver</th>
-            <th>Lagt til av</th>
-            <th>Status</th>
-            <th>Utfall</th>
-            <th>Stilling</th>
+            <tr>
+                <th>Lagt i listen</th>
+                <th>Navn på kandidatliste</th>
+                <th>Arbeidsgiver</th>
+                <th>Lagt til av</th>
+                <th>Status</th>
+                <th>Utfall</th>
+                <th>Stilling</th>
+            </tr>
         </thead>
         <tbody>
             {kandidatlister.map((liste) => (
-                <tr>
+                <tr key={liste.uuid}>
                     <td>{moment(liste.lagtTilTidspunkt).format('DD.MM YYYY')}</td>
                     <td>
                         <Link className="lenke" to={lenkeTilKandidatliste(liste.uuid)}>
