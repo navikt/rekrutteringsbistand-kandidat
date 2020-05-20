@@ -1,8 +1,10 @@
 @import '../../../variabler';
 
 .midlertidig-utilgjengelig-knapp {
+    display: flex;
+    align-items: center;
     padding: 0.5rem 1rem;
-    border-radius: 5rem;
+    border-radius: 0.25rem;
     cursor: pointer;
     margin-right: 1rem;
 
@@ -10,14 +12,13 @@
         &.midlertidig-utilgjengelig-knapp {
             background-color: inherit;
             border: 2px solid transparent;
-            color: #8c368e;
+            color: @navBla;
 
             &:hover {
-                border: 2px solid #8c368e;
-
-                color: #8c368e;
-                fill: #8c368e;
-                stroke: #8c368e;
+                border: 2px solid @navBla;
+                color: @navBla;
+                fill: @navBla;
+                stroke: @navBla;
             }
         }
 
