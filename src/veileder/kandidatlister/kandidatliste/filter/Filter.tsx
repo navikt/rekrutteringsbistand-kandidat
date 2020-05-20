@@ -28,9 +28,11 @@ const Filter: FunctionComponent<Props> = ({
         onToggleStatus(e.currentTarget.value as Status);
     };
 
+    const erPåStorSkjerm = window.innerWidth > 1280;
+
     return (
         <aside className="kandidatliste-filter">
-            <Ekspanderbartpanel border apen tittel={<Element>Status</Element>}>
+            <Ekspanderbartpanel border apen={erPåStorSkjerm} tittel={<Element>Status</Element>}>
                 {Object.entries(Status).map(([enumKey, enumValue]) => (
                     <Checkbox
                         key={enumValue}
@@ -43,7 +45,7 @@ const Filter: FunctionComponent<Props> = ({
                     />
                 ))}
             </Ekspanderbartpanel>
-            <Ekspanderbartpanel border apen tittel={<Element>Slettet</Element>}>
+            <Ekspanderbartpanel border apen={erPåStorSkjerm} tittel={<Element>Slettet</Element>}>
                 <Checkbox
                     label={`Vis kun slettede (${antallArkiverte})`}
                     checked={visArkiverte}
