@@ -1,22 +1,20 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import React, { FunctionComponent, useState, ChangeEvent } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
+import Filter from './filter/Filter';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
 import KandidatRad, { Utfall } from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
+import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import '../../../felles/common/ikoner/ikoner.less';
 import useKandidatlistefilter from './useKandidatlistefilter';
-import Navnefilter from './navnefilter/Navnefilter';
-import { Element } from 'nav-frontend-typografi';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
+import '../../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -49,14 +47,32 @@ type Props = {
     beskrivelse?: string;
 };
 
+const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
+const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
+const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+
+const lagTomtStatusfilter = (): Record<Status, boolean> => {
+    const statusfilter: Record<string, boolean> = {};
+    Object.values(Status).forEach((status) => {
+        statusfilter[status] = false;
+    });
+
+    return statusfilter;
+};
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
-    const [navnefilter, setNavnefilter] = useState<string>('');
-    const [filtrerteKandidater, antallArkiverte, alleFiltrerteErMarkerte] = useKandidatlistefilter(
-        props.kandidater,
-        visArkiverte,
-        navnefilter
+    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
+        lagTomtStatusfilter()
     );
+
+    const [navnefilter, setNavnefilter] = useState<string>('');
+    const [
+        filtrerteKandidater,
+        antallArkiverte,
+        antallMedStatus,
+        alleFiltrerteErMarkerte,
+    ] = useKandidatlistefilter(props.kandidater, visArkiverte, statusfilter, navnefilter);
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -71,9 +87,12 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
-    const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
-    const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
-    const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+    const onToggleStatus = (status: Status) => {
+        setStatusfilter({
+            ...statusfilter,
+            [status]: !statusfilter[status],
+        });
+    };
 
     return (
         <div className="kandidatliste">
@@ -125,16 +144,14 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 />
                             </KnappeRad>
                         </div>
-
-                        <aside className="kandidatliste__filter">
-                            <Ekspanderbartpanel border apen tittel={<Element>Slettet</Element>}>
-                                <Checkbox
-                                    label={`Vis kun slettede (${antallArkiverte})`}
-                                    checked={visArkiverte}
-                                    onChange={toggleVisArkiverteOgFjernMarkering}
-                                />
-                            </Ekspanderbartpanel>
-                        </aside>
+                        <Filter
+                            antallArkiverte={antallArkiverte}
+                            antallMedStatus={antallMedStatus}
+                            visArkiverte={visArkiverte}
+                            statusfilter={statusfilter}
+                            onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
+                            onToggleStatus={onToggleStatus}
+                        />
                         <div className="kandidatliste__liste">
                             <ListeHeader
                                 alleMarkert={alleFiltrerteErMarkerte}
