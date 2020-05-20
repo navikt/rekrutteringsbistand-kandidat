@@ -59,7 +59,7 @@ const hentFiltrerteKandidater = (
 };
 
 const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.filter((k) => !k.markert).length === 0;
+    return kandidater.length > 0 && kandidater.filter((k) => !k.markert).length === 0;
 };
 
 type Returverdi = [KandidatIKandidatliste[], number, Record<Status, number>, boolean];
