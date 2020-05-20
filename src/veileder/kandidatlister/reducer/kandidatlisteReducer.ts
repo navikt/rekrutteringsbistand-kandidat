@@ -713,15 +713,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     sendteMeldinger: Feil(action.error),
                 },
             };
-
-        case KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION:
-            return {
-                ...state,
-                scrollPosition: {
-                    ...state.scrollPosition,
-                    [action.kandidatlisteId]: action.scrollPosition,
-                },
-            };
         case KandidatlisteActionType.VELG_KANDIDAT: {
             const { kandidatlisteId, kandidatnr } = action;
             const sistValgteKandidat =

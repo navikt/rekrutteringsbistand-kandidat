@@ -71,8 +71,11 @@ type Props = {
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
-    scrolletFraToppen: { [kandidatlisteId: string]: number };
     midlertidigUtilgjengeligEndretTidspunkt: any;
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -223,12 +226,11 @@ class Kandidatlisteside extends React.Component<Props> {
         }
 
         if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
-            const scrolletFraToppen = this.props.scrolletFraToppen[
-                this.props.kandidatliste.data.kandidatlisteId
-            ];
-            if (scrolletFraToppen !== undefined) {
-                window.scrollTo(0, scrolletFraToppen);
-            } else {
+            const { sistValgteKandidat, kandidatliste } = this.props;
+            if (
+                !sistValgteKandidat ||
+                sistValgteKandidat.kandidatlisteId !== kandidatliste.data.kandidatlisteId
+            ) {
                 window.scrollTo(0, 0);
             }
         }
@@ -532,7 +534,7 @@ const mapStateToProps = (state: AppState) => ({
     sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
     statusArkivering: state.kandidatlister.arkivering.statusArkivering,
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
-    scrolletFraToppen: state.kandidatlister.scrollPosition,
+    sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 

@@ -56,7 +56,6 @@ type Props = {
     ) => void;
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
-    setScrollPosition: (kandidatlisteId: string, position: number) => void;
     setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     visMidlertidigUtilgjengeligPopover: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
@@ -80,7 +79,6 @@ const KandidatRad: FunctionComponent<Props> = ({
     kanEditere,
     onKandidatStatusChange,
     visArkiveringskolonne,
-    setScrollPosition,
     visMidlertidigUtilgjengeligPopover,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
@@ -180,10 +178,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="lenke"
                         to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
-                        onClick={() => {
-                            setValgtKandidat(kandidatlisteId, kandidat.kandidatnr);
-                            setScrollPosition(kandidatlisteId, window.pageYOffset);
-                        }}
+                        onClick={() => setValgtKandidat(kandidatlisteId, kandidat.kandidatnr)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -323,12 +318,6 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setScrollPosition: (kandidatlisteId, scrollPosition) =>
-        dispatch({
-            type: KandidatlisteActionType.SET_KANDIDATLISTE_SCROLL_POSITION,
-            kandidatlisteId,
-            scrollPosition,
-        }),
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
         dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
     },
