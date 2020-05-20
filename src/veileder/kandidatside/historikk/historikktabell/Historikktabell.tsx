@@ -1,18 +1,19 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../application/paths';
-import { Statusvisning } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../application/paths';
+import { Statusvisning } from '../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { utfallToString } from '../../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
-import { KandidatlisteForKandidat } from './historikkReducer';
+import { KandidatlisteForKandidat } from '../historikkReducer';
+import './Historikktabell.less';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
 }
 
-export const HistorikktabellDesktop: FunctionComponent<Props> = ({ kandidatlister }) => (
-    <table className="tabell tabell--stripet">
+export const Historikktabell: FunctionComponent<Props> = ({ kandidatlister }) => (
+    <table className="historikktabell tabell ">
         <thead>
             <tr>
                 <th>Lagt i listen</th>
@@ -40,8 +41,8 @@ export const HistorikktabellDesktop: FunctionComponent<Props> = ({ kandidatliste
                     <td>
                         <Statusvisning status={liste.status} />
                     </td>
-                    <td>{utfallToString(liste.utfall)}</td>
-                    <td>
+                    <td className="historikktabell__utfall">{utfallToString(liste.utfall)}</td>
+                    <td className="historikktabell__stilling">
                         {liste.stillingId && (
                             <Lenke href={lenkeTilStilling(liste.stillingId)}>Se stilling</Lenke>
                         )}
