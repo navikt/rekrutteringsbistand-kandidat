@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Checkbox } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 
+import { AntallFiltertreff } from './useKandidatlistefilter';
+import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Utfall } from '../kandidatrad/KandidatRad';
@@ -9,12 +11,9 @@ import { utfallToString } from '../../kandidatliste/kandidatrad/KandidatRad';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from './useVinduErBredereEnn';
 import './Filter.less';
-import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 
 interface Props {
-    antallArkiverte: number;
-    antallMedStatus: Record<Status, number>;
-    antallMedUtfall: Record<Utfall, number>;
+    antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
     statusfilter: Record<Status, boolean>;
     utfallsfilter: Record<Utfall, boolean>;
@@ -24,9 +23,7 @@ interface Props {
 }
 
 const Filter: FunctionComponent<Props> = ({
-    antallArkiverte,
-    antallMedStatus,
-    antallMedUtfall,
+    antallTreff,
     visArkiverte,
     statusfilter,
     utfallsfilter,
@@ -40,7 +37,7 @@ const Filter: FunctionComponent<Props> = ({
         <Checkbox
             key={status}
             value={status}
-            label={`${statusToDisplayName(status)} (${antallMedStatus[status] ?? 0})`}
+            label={`${statusToDisplayName(status)} (${antallTreff.status[status] ?? 0})`}
             checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
@@ -52,7 +49,7 @@ const Filter: FunctionComponent<Props> = ({
         <Checkbox
             key={utfall}
             value={utfall}
-            label={`${utfallToString(utfall)} (${antallMedUtfall[utfall] ?? 0})`}
+            label={`${utfallToString(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
             checked={utfallsfilter[utfall]}
             name="utfallsfilter"
             className="kandidatliste-filter__checkbox"
@@ -62,7 +59,7 @@ const Filter: FunctionComponent<Props> = ({
 
     const arkivfilter = (
         <Checkbox
-            label={`Vis kun slettede (${antallArkiverte})`}
+            label={`Vis kun slettede (${antallTreff.arkiverte})`}
             checked={visArkiverte}
             onChange={onToggleArkiverte}
         />
@@ -71,9 +68,9 @@ const Filter: FunctionComponent<Props> = ({
     if (harStorSkjerm) {
         return (
             <aside className="kandidatliste-filter">
-                <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
-                <KategoriLitenSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriLitenSkjerm>
-                <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
+                <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
+                <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
+                <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
             </aside>
         );
     }
@@ -84,9 +81,9 @@ const Filter: FunctionComponent<Props> = ({
             className="kandidatliste-filter--samlet"
             border
         >
-            <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
-            <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
-            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
+            <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
+            <KategoriLitenSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriLitenSkjerm>
+            <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
         </Ekspanderbartpanel>
     );
 };

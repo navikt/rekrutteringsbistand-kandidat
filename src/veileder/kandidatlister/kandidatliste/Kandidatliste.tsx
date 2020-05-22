@@ -13,7 +13,7 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useKandidatlistefilter from './useKandidatlistefilter';
+import useKandidatlistefilter from './filter/useKandidatlistefilter';
 import '../../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -81,9 +81,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [navnefilter, setNavnefilter] = useState<string>('');
     const [
         filtrerteKandidater,
-        antallArkiverte,
-        antallMedStatus,
-        antallMedUtfall,
+        antallFiltertreff,
         alleFiltrerteErMarkerte,
     ] = useKandidatlistefilter(
         props.kandidater,
@@ -123,7 +121,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     return (
         <div className="kandidatliste">
             <SideHeader
-                antallKandidater={props.kandidater.length - antallArkiverte}
+                antallKandidater={props.kandidater.length - antallFiltertreff.arkiverte}
                 antallAktuelleKandidater={
                     props.kandidater.filter(erIkkeArkivert).filter(erAktuell).length
                 }
@@ -171,9 +169,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             </KnappeRad>
                         </div>
                         <Filter
-                            antallArkiverte={antallArkiverte}
-                            antallMedStatus={antallMedStatus}
-                            antallMedUtfall={antallMedUtfall}
+                            antallTreff={antallFiltertreff}
                             visArkiverte={visArkiverte}
                             statusfilter={statusfilter}
                             utfallsfilter={utfallsfilter}
