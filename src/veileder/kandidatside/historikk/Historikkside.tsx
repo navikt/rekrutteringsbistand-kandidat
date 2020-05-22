@@ -2,13 +2,14 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
 import { Nettstatus } from '../../../felles/common/remoteData';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
+import { KandidatQueryParam } from '../Kandidatside';
 
 const sorterPåDato = (kandidatlister: KandidatlisteForKandidat[]) => {
     return kandidatlister.sort(
@@ -22,6 +23,10 @@ const Historikkside: FunctionComponent = () => {
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv);
     const dispatch = useDispatch();
+
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
 
     useEffect(() => {
         dispatch({
@@ -47,7 +52,10 @@ const Historikkside: FunctionComponent = () => {
                 </b>{' '}
                 er lagt til i <b>{kandidatlister.length}</b> kandidatlister
             </Ingress>
-            <Historikktabell kandidatlister={kandidatlister} />
+            <Historikktabell
+                kandidatlister={kandidatlister}
+                aktivKandidatlisteId={kandidatlisteId}
+            />
         </div>
     );
 };

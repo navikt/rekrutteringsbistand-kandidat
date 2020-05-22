@@ -10,9 +10,13 @@ import './Historikktabell.less';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
+    aktivKandidatlisteId: string | null;
 }
 
-export const Historikktabell: FunctionComponent<Props> = ({ kandidatlister }) => (
+export const Historikktabell: FunctionComponent<Props> = ({
+    kandidatlister,
+    aktivKandidatlisteId,
+}) => (
     <table className="historikktabell tabell tabell--stripet">
         <thead>
             <tr>
@@ -27,8 +31,11 @@ export const Historikktabell: FunctionComponent<Props> = ({ kandidatlister }) =>
         </thead>
         <tbody>
             {kandidatlister.map((liste) => (
-                <tr key={liste.uuid}>
-                    <td>{moment(liste.lagtTilTidspunkt).format('DD.MM YYYY')}</td>
+                <tr
+                    key={liste.uuid}
+                    className={liste.uuid === aktivKandidatlisteId ? 'tabell__tr--valgt' : ''}
+                >
+                    <td>{moment(liste.lagtTilTidspunkt).format('DD.MM.YYYY')}</td>
                     <td>
                         <Link className="lenke" to={lenkeTilKandidatliste(liste.uuid)}>
                             {liste.tittel}

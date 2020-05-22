@@ -3,6 +3,7 @@ import { Utfall } from '../kandidatlister/kandidatliste/kandidatrad/KandidatRad'
 import { Status } from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
+const kandidatlisteId2 = '53d32269-08df-4950-a4f9-41ad6f36129f';
 const stillingsId = 'ce3da214-8771-4115-9362-b83145150551';
 
 export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
@@ -24,7 +25,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         slettet: false,
     },
     {
-        uuid: kandidatlisteId,
+        uuid: kandidatlisteId2,
         lagtTilTidspunkt: '2020-05-19T17:01:39.147',
         tittel: 'Stillingsliste til stillingen min',
         kandidatnr: 'FK185344',
