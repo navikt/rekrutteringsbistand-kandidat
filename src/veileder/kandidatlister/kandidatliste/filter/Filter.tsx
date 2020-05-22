@@ -1,14 +1,15 @@
-import React, { FunctionComponent, ChangeEvent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Undertittel } from 'nav-frontend-typografi';
+import { Utfall } from '../kandidatrad/KandidatRad';
+import { utfallToString } from '../../kandidatliste/kandidatrad/KandidatRad';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from './useVinduErBredereEnn';
 import './Filter.less';
-import { Utfall } from '../kandidatrad/KandidatRad';
-import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../kandidatliste/kandidatrad/KandidatRad';
+import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 
 interface Props {
     antallArkiverte: number;
@@ -33,15 +34,7 @@ const Filter: FunctionComponent<Props> = ({
     onToggleStatus,
     onToggleUtfall,
 }) => {
-    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        onToggleStatus(e.currentTarget.value as Status);
-    };
-
-    const onUtfallChange = (e: ChangeEvent<HTMLInputElement>) => {
-        onToggleUtfall(e.currentTarget.value as Utfall);
-    };
-
-    const desktop = useVinduErBredereEnn(1280);
+    const harStorSkjerm = useVinduErBredereEnn(1280);
 
     const statuscheckbokser = Object.values(Status).map((status) => (
         <Checkbox
@@ -51,7 +44,7 @@ const Filter: FunctionComponent<Props> = ({
             checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
-            onChange={onStatusChange}
+            onChange={(e) => onToggleStatus(e.currentTarget.value as Status)}
         />
     ));
 
@@ -63,7 +56,7 @@ const Filter: FunctionComponent<Props> = ({
             checked={utfallsfilter[utfall]}
             name="utfallsfilter"
             className="kandidatliste-filter__checkbox"
-            onChange={onUtfallChange}
+            onChange={(e) => onToggleUtfall(e.currentTarget.value as Utfall)}
         />
     ));
 
@@ -75,18 +68,12 @@ const Filter: FunctionComponent<Props> = ({
         />
     );
 
-    if (desktop) {
+    if (harStorSkjerm) {
         return (
             <aside className="kandidatliste-filter">
-                <Ekspanderbartpanel apen border tittel={<Element>Status</Element>}>
-                    {statuscheckbokser}
-                </Ekspanderbartpanel>
-                <Ekspanderbartpanel apen border tittel={<Element>Utfall</Element>}>
-                    {utfallscheckbokser}
-                </Ekspanderbartpanel>
-                <Ekspanderbartpanel apen border tittel={<Element>Slettet</Element>}>
-                    {arkivfilter}
-                </Ekspanderbartpanel>
+                <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
+                <KategoriLitenSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriLitenSkjerm>
+                <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
             </aside>
         );
     }
@@ -97,24 +84,9 @@ const Filter: FunctionComponent<Props> = ({
             className="kandidatliste-filter--samlet"
             border
         >
-            <SkjemaGruppe
-                className="kandidatliste-filter__kategori"
-                legend={<Element>Status</Element>}
-            >
-                {statuscheckbokser}
-            </SkjemaGruppe>
-            <SkjemaGruppe
-                className="kandidatliste-filter__kategori"
-                legend={<Element>Utfall</Element>}
-            >
-                {utfallscheckbokser}
-            </SkjemaGruppe>
-            <SkjemaGruppe
-                className="kandidatliste-filter__kategori"
-                legend={<Element>Slettet</Element>}
-            >
-                {arkivfilter}
-            </SkjemaGruppe>
+            <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
+            <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
+            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
         </Ekspanderbartpanel>
     );
 };
