@@ -20,7 +20,7 @@ const Kandidatmeny: FunctionComponent<Props> = (props) => {
             <div className="kandidatmeny__venstre">
                 {visHistorikk && (
                     <nav className="kandidatmeny__tabs">
-                        <Kandidattab sti="cv" label="Cv og jobbprofil" />
+                        <Kandidattab sti="cv" label="CV og jobbprofil" />
                         <Kandidattab sti="historikk" label="Historikk" />
                     </nav>
                 )}
