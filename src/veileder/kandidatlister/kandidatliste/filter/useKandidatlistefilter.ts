@@ -3,31 +3,11 @@ import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/KandidatRad';
 import {
-    matchArkivering,
-    matchNavn,
-    matchValgteStatuser,
-    matchValgteUtfall,
     hentAntallArkiverte,
     hentAntallMedStatus,
     hentAntallMedUtfall,
+    hentFiltrerteKandidater,
 } from './filter-utils';
-
-const hentFiltrerteKandidater = (
-    kandidater: KandidatIKandidatliste[],
-    visArkiverte: boolean,
-    statusfilter: Record<Status, boolean>,
-    utfallsfilter: Record<Utfall, boolean>,
-    navnefilter: string
-) => {
-    const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
-    const utfallsfilterErValgt = new Set(Object.values(utfallsfilter)).size > 1;
-
-    return kandidater
-        .filter(matchArkivering(visArkiverte))
-        .filter(matchNavn(navnefilter))
-        .filter((kandidat) => !statusfilterErValgt || matchValgteStatuser(statusfilter)(kandidat))
-        .filter((kandidat) => !utfallsfilterErValgt || matchValgteUtfall(utfallsfilter)(kandidat));
-};
 
 const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
     return kandidater.length > 0 && kandidater.filter((k) => !k.markert).length === 0;

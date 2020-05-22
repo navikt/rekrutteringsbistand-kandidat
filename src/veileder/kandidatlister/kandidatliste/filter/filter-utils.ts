@@ -27,6 +27,23 @@ export const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatli
     return navn.includes(normalisertFilter);
 };
 
+export const hentFiltrerteKandidater = (
+    kandidater: KandidatIKandidatliste[],
+    visArkiverte: boolean,
+    statusfilter: Record<Status, boolean>,
+    utfallsfilter: Record<Utfall, boolean>,
+    navnefilter: string
+) => {
+    const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
+    const utfallsfilterErValgt = new Set(Object.values(utfallsfilter)).size > 1;
+
+    return kandidater
+        .filter(matchArkivering(visArkiverte))
+        .filter(matchNavn(navnefilter))
+        .filter((kandidat) => !statusfilterErValgt || matchValgteStatuser(statusfilter)(kandidat))
+        .filter((kandidat) => !utfallsfilterErValgt || matchValgteUtfall(utfallsfilter)(kandidat));
+};
+
 export const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
     return kandidater.filter(matchArkivering(true)).length;
 };
@@ -55,4 +72,22 @@ export const hentAntallMedUtfall = (kandidater: KandidatIKandidatliste[]) => {
     });
 
     return antallMedUtfall;
+};
+
+export const lagTomtStatusfilter = (): Record<Status, boolean> => {
+    const statusfilter: Record<string, boolean> = {};
+    Object.values(Status).forEach((status) => {
+        statusfilter[status] = false;
+    });
+
+    return statusfilter;
+};
+
+export const lagTomtUtfallsfilter = (): Record<Utfall, boolean> => {
+    const utfallsfilter: Record<string, boolean> = {};
+    Object.values(Utfall).forEach((utfall) => {
+        utfallsfilter[utfall] = false;
+    });
+
+    return utfallsfilter;
 };
