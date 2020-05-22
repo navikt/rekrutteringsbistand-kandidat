@@ -155,7 +155,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             antallTreff={antallFiltertreff}
                             visArkiverte={visArkiverte}
                             statusfilter={statusfilter}
-                            utfallsfilter={utfallsfilter}
+                            utfallsfilter={props.stillingsId ? utfallsfilter : undefined}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                             onToggleUtfall={onToggleUtfall}
