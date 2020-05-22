@@ -43,24 +43,24 @@ const Filter: FunctionComponent<Props> = ({
 
     const desktop = useVinduErBredereEnn(1280);
 
-    const statuscheckbokser = Object.entries(Status).map(([enumKey, enumValue]) => (
+    const statuscheckbokser = Object.values(Status).map((status) => (
         <Checkbox
-            key={enumValue}
-            value={enumValue}
-            label={`${statusToDisplayName(enumValue)} (${antallMedStatus[enumValue] ?? 0})`}
-            checked={statusfilter[enumValue]}
+            key={status}
+            value={status}
+            label={`${statusToDisplayName(status)} (${antallMedStatus[status] ?? 0})`}
+            checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
             onChange={onStatusChange}
         />
     ));
 
-    const utfallscheckbokser = Object.entries(Utfall).map(([enumKey, enumValue]) => (
+    const utfallscheckbokser = Object.values(Utfall).map((utfall) => (
         <Checkbox
-            key={enumValue}
-            value={enumValue}
-            label={`${utfallToString(enumValue)} (${antallMedUtfall[enumValue] ?? 0})`}
-            checked={utfallsfilter[enumValue]}
+            key={utfall}
+            value={utfall}
+            label={`${utfallToString(utfall)} (${antallMedUtfall[utfall] ?? 0})`}
+            checked={utfallsfilter[utfall]}
             name="utfallsfilter"
             className="kandidatliste-filter__checkbox"
             onChange={onUtfallChange}
