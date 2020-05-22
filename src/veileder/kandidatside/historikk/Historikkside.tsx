@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { Nettstatus } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../../felles/common/remoteData';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import 'nav-frontend-tabell-style';
@@ -10,6 +10,17 @@ import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
+import { Kandidatliste } from '../../kandidatlister/kandidatlistetyper';
+
+const hentKandidatStatusFraState = (
+    kandidatnr: string,
+    kandidatliste: Nettressurs<Kandidatliste>
+) => {
+    const kandidater =
+        kandidatliste.kind === Nettstatus.Suksess ? kandidatliste.data.kandidater : undefined;
+    const kandidat = kandidater?.find((k) => k.kandidatnr === kandidatnr);
+    return kandidat?.status;
+};
 
 const sorterPåDato = (kandidatlister: KandidatlisteForKandidat[]) => {
     return kandidatlister.sort(
@@ -28,12 +39,17 @@ const Historikkside: FunctionComponent = () => {
     const queryParams = new URLSearchParams(search);
     const kandidatlisteId = queryParams.get(KandidatQueryParam.KandidatlisteId);
 
+    const kandidatliste = useSelector(
+        (state: AppState) => state.kandidatlister.detaljer.kandidatliste
+    );
+    const kandidatStatus = hentKandidatStatusFraState(kandidatnr, kandidatliste);
+
     useEffect(() => {
         dispatch({
             type: KandidatlisterForKandidatActionType.Fetch,
             kandidatnr,
         });
-    }, [kandidatnr, dispatch]);
+    }, [kandidatnr, dispatch, kandidatStatus]);
 
     if (
         historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
