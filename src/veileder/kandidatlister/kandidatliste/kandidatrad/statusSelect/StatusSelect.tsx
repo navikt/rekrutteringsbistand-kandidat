@@ -12,7 +12,7 @@ export enum Status {
     Uinteressert = 'UINTERESSERT',
 }
 
-const statusToDisplayName = (status: Status) => {
+export const statusToDisplayName = (status: Status) => {
     switch (status) {
         case Status.Vurderes:
             return 'Vurderes';

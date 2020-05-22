@@ -60,10 +60,22 @@ const lagTomtStatusfilter = (): Record<Status, boolean> => {
     return statusfilter;
 };
 
+const lagTomtUtfallsfilter = (): Record<Utfall, boolean> => {
+    const utfallsfilter: Record<string, boolean> = {};
+    Object.values(Utfall).forEach((utfall) => {
+        utfallsfilter[utfall] = false;
+    });
+
+    return utfallsfilter;
+};
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
     const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
         lagTomtStatusfilter()
+    );
+    const [utfallsfilter, setUtfallsfilter] = useState<Record<Utfall, boolean>>(
+        lagTomtUtfallsfilter()
     );
 
     const [navnefilter, setNavnefilter] = useState<string>('');
@@ -71,8 +83,15 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         filtrerteKandidater,
         antallArkiverte,
         antallMedStatus,
+        antallMedUtfall,
         alleFiltrerteErMarkerte,
-    ] = useKandidatlistefilter(props.kandidater, visArkiverte, statusfilter, navnefilter);
+    ] = useKandidatlistefilter(
+        props.kandidater,
+        visArkiverte,
+        statusfilter,
+        utfallsfilter,
+        navnefilter
+    );
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -91,6 +110,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         setStatusfilter({
             ...statusfilter,
             [status]: !statusfilter[status],
+        });
+    };
+
+    const onToggleUtfall = (utfall: Utfall) => {
+        setUtfallsfilter({
+            ...utfallsfilter,
+            [utfall]: !utfallsfilter[utfall],
         });
     };
 
@@ -147,10 +173,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         <Filter
                             antallArkiverte={antallArkiverte}
                             antallMedStatus={antallMedStatus}
+                            antallMedUtfall={antallMedUtfall}
                             visArkiverte={visArkiverte}
                             statusfilter={statusfilter}
+                            utfallsfilter={utfallsfilter}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
+                            onToggleUtfall={onToggleUtfall}
                         />
                         <div className="kandidatliste__liste">
                             <ListeHeader
