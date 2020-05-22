@@ -15,6 +15,8 @@ import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import useKandidatlistefilter from './filter/useKandidatlistefilter';
+import useAntallFiltertreff from './filter/useAntallFiltertreff';
+import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -62,17 +64,16 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         lagTomtUtfallsfilter()
     );
 
-    const [
-        filtrerteKandidater,
-        antallFiltertreff,
-        alleFiltrerteErMarkerte,
-    ] = useKandidatlistefilter(
+    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const filtrerteKandidater = useKandidatlistefilter(
         props.kandidater,
         visArkiverte,
         statusfilter,
         utfallsfilter,
         navnefilter
     );
+
+    const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(filtrerteKandidater);
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);

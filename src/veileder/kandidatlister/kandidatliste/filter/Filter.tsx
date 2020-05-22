@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 
-import { AntallFiltertreff } from './useKandidatlistefilter';
+import { AntallFiltertreff } from './useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -67,19 +67,15 @@ const Filter: FunctionComponent<Props> = ({
         />
     );
 
-    if (harStorSkjerm) {
-        return (
-            <aside className="kandidatliste-filter">
-                <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
-                {utfallsfilter && (
-                    <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
-                )}
-                <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
-            </aside>
-        );
-    }
-
-    return (
+    return harStorSkjerm ? (
+        <aside className="kandidatliste-filter">
+            <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
+            {utfallsfilter && (
+                <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
+            )}
+            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
+        </aside>
+    ) : (
         <Ekspanderbartpanel
             tittel={<Undertittel>Filter</Undertittel>}
             className="kandidatliste-filter--samlet"

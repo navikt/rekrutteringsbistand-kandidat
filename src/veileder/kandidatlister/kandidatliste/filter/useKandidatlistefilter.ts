@@ -2,24 +2,6 @@ import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/KandidatRad';
-import {
-    hentAntallArkiverte,
-    hentAntallMedStatus,
-    hentAntallMedUtfall,
-    hentFiltrerteKandidater,
-} from './filter-utils';
-
-const erAlleKandidaterMarkerte = (kandidater: KandidatIKandidatliste[]) => {
-    return kandidater.length > 0 && kandidater.filter((k) => !k.markert).length === 0;
-};
-
-export type AntallFiltertreff = {
-    arkiverte: number;
-    status: Record<Status, number>;
-    utfall: Record<Utfall, number>;
-};
-
-type Returverdi = [KandidatIKandidatliste[], AntallFiltertreff, boolean];
 
 const useKandidatlistefilter = (
     kandidater: KandidatIKandidatliste[],
@@ -27,17 +9,7 @@ const useKandidatlistefilter = (
     statusfilter: Record<Status, boolean>,
     utfallsfilter: Record<Utfall, boolean>,
     navnefilter: string
-): Returverdi => {
-    const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
-    const [antallMedStatus, setAntallMedStatus] = useState<Record<Status, number>>(
-        hentAntallMedStatus(kandidater)
-    );
-    const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Utfall, number>>(
-        hentAntallMedUtfall(kandidater)
-    );
-    const [alleErMarkerte, setAlleErMarkerte] = useState<boolean>(
-        erAlleKandidaterMarkerte(kandidater)
-    );
+): KandidatIKandidatliste[] => {
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
         hentFiltrerteKandidater(kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter)
     );
@@ -54,23 +26,38 @@ const useKandidatlistefilter = (
         );
     }, [kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
 
-    useEffect(() => {
-        setAntallArkiverte(hentAntallArkiverte(kandidater));
-        setAntallMedStatus(hentAntallMedStatus(kandidater));
-        setAntallMedUtfall(hentAntallMedUtfall(kandidater));
-    }, [kandidater]);
+    return filtrerteKandidater;
+};
 
-    useEffect(() => {
-        setAlleErMarkerte(erAlleKandidaterMarkerte(filtrerteKandidater));
-    }, [filtrerteKandidater]);
+export const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
+    const trimmet = navnefilter.trim();
+    if (trimmet.length === 0) return true;
 
-    const antallTreff = {
-        arkiverte: antallArkiverte,
-        status: antallMedStatus,
-        utfall: antallMedUtfall,
-    };
+    const [normalisertFilter, normalisertFornavn, normalisertEtternavn] = [
+        trimmet,
+        kandidat.fornavn,
+        kandidat.etternavn,
+    ].map((s) => s.toLowerCase());
 
-    return [filtrerteKandidater, antallTreff, alleErMarkerte];
+    const navn = normalisertFornavn + ' ' + normalisertEtternavn;
+    return navn.includes(normalisertFilter);
+};
+
+export const hentFiltrerteKandidater = (
+    kandidater: KandidatIKandidatliste[],
+    visArkiverte: boolean,
+    statusfilter: Record<Status, boolean>,
+    utfallsfilter: Record<Utfall, boolean>,
+    navnefilter: string
+) => {
+    const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
+    const utfallsfilterErValgt = new Set(Object.values(utfallsfilter)).size > 1;
+
+    return kandidater
+        .filter((kandidat) => kandidat.arkivert === visArkiverte)
+        .filter(matchNavn(navnefilter))
+        .filter((kandidat) => !statusfilterErValgt || statusfilter[kandidat.status])
+        .filter((kandidat) => !utfallsfilterErValgt || utfallsfilter[kandidat.utfall]);
 };
 
 export default useKandidatlistefilter;
