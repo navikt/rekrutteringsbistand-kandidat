@@ -12,7 +12,7 @@ import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
-import { logEvent } from '../../../amplitude/amplitude';
+import { sendEvent } from '../../../amplitude/amplitude';
 import { connect } from 'react-redux';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import moment from 'moment';
@@ -116,7 +116,7 @@ const KandidatRad: FunctionComponent<Props> = ({
                 : Visningsstatus.VisMerInfo;
         onVisningChange(nyStatus, kandidatlisteId, kandidat.kandidatnr);
         if (nyStatus === Visningsstatus.VisMerInfo) {
-            logEvent('kandidatliste_mer_info', 'åpne');
+            sendEvent('kandidatliste_mer_info', 'åpne');
         }
     };
 

@@ -19,7 +19,7 @@ import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { logEvent } from '../amplitude/amplitude';
+import { sendEvent } from '../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
 
@@ -53,7 +53,7 @@ class KandidaterVisning extends React.Component {
         if (props.midlertidigUtilgjengeligEndretTidspunkt) {
             const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
             if (tid < 10000) {
-                logEvent('kandidatsøk', 'fra_midlertidig_utilgjengelig', { tid: tid });
+                sendEvent('kandidatsøk', 'fra_midlertidig_utilgjengelig', { tid: tid });
             }
         }
     }

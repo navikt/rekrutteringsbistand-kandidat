@@ -21,7 +21,7 @@ import {
     Sms,
     SmsStatus,
 } from '../kandidatlistetyper';
-import { logEvent } from '../../amplitude/amplitude';
+import { sendEvent } from '../../amplitude/amplitude';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
 import AppState from '../../AppState';
@@ -124,7 +124,7 @@ class Kandidatlisteside extends React.Component<Props> {
         if (props.midlertidigUtilgjengeligEndretTidspunkt) {
             const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
             if (tid < 10000) {
-                logEvent('kandidatliste', 'fra_midlertidig_utilgjengelig', { tid: tid });
+                sendEvent('kandidatliste', 'fra_midlertidig_utilgjengelig', { tid: tid });
             }
         }
     }
