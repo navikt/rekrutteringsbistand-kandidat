@@ -153,7 +153,7 @@ class LeggTilKandidatModal extends React.Component {
                 <Input
                     className="skjemaelement--pink legg-til-kandidat__fodselsnummer"
                     onChange={this.onChange}
-                    feil={this.state.errorMessage && { feilmelding: this.state.errorMessage }}
+                    feil={this.state.errorMessage && this.state.errorMessage}
                     bredde="S"
                     label="Fødselsnummer på kandidaten (11 siffer)"
                     inputRef={(input) => {
