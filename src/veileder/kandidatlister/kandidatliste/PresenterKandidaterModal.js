@@ -155,9 +155,9 @@ export default class PresenterKandidaterModal extends React.Component {
                                 value={mailadresseFelt.value}
                                 onChange={this.onMailadresseChange(mailadresseFelt.id)}
                                 feil={
-                                    mailadresseFelt.errorTekst && {
-                                        feilmelding: mailadresseFelt.errorTekst,
-                                    }
+                                    mailadresseFelt.errorTekst
+                                        ? mailadresseFelt.errorTekst
+                                        : undefined
                                 }
                             />
                         ))}

@@ -50,7 +50,7 @@ export default class RedigerNotatModal extends React.Component {
                             value={notatTekst}
                             onChange={this.onTekstChange}
                             textareaClass="tekstomrade-input"
-                            feil={feilmelding ? { feilmelding } : undefined}
+                            feil={feilmelding ? feilmelding : undefined}
                         />
                     </div>
                     <Hovedknapp className="modalknapp venstre" onClick={this.onLagreKlikk}>
