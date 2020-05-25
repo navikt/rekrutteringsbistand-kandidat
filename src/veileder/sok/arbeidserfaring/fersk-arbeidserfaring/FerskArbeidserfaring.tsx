@@ -35,7 +35,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const [valgtKnapp, setValgtKnapp] = useState<number | string>(defaultValgtKnapp);
     const [egendefinertInput, setEgendefinertInput] = useState<string>(defaultInput);
     const [inputRef, setInputRef] = useState<any>();
-    const [feilmelding, setFeilmelding] = useState<{ feilmelding: string }>();
+    const [feilmelding, setFeilmelding] = useState<string | undefined>();
 
     useEffect(() => {
         const harNettoppKlikketPåEgendefinert =
@@ -86,7 +86,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     const onBrukKlikk = () => {
         if (egendefinertInput === '') {
             setMaksAlderArbeidserfaring(undefined);
-            setFeilmelding({ feilmelding: 'Skriv inn antall år' });
+            setFeilmelding('Skriv inn antall år');
         } else {
             setMaksAlderArbeidserfaring(parseInt(egendefinertInput));
             setFeilmelding(undefined);

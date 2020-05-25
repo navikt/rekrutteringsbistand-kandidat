@@ -202,7 +202,7 @@ class Notater extends React.Component {
                                     autoFocus
                                     feil={
                                         this.state.nyttNotatFeil
-                                            ? { feilmelding: 'Tekstfeltet kan ikke være tomt' }
+                                            ? 'Tekstfeltet kan ikke være tomt'
                                             : undefined
                                     }
                                 />

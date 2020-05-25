@@ -268,7 +268,7 @@ class OpprettKandidatlisteForm extends React.Component {
                             onChange={this.onTittelChange}
                             feil={
                                 this.state.visValideringsfeilInput
-                                    ? { feilmelding: 'Navn på kandidatliste mangler' }
+                                    ? 'Navn på kandidatliste mangler'
                                     : undefined
                             }
                             inputRef={(input) => {
@@ -310,7 +310,7 @@ class OpprettKandidatlisteForm extends React.Component {
                             feil={
                                 this.state.kandidatlisteInfo.beskrivelse &&
                                 this.state.kandidatlisteInfo.beskrivelse.length > 1000
-                                    ? { feilmelding: 'Beskrivelsen er for lang' }
+                                    ? 'Beskrivelsen er for lang'
                                     : undefined
                             }
                             onChange={this.onBeskrivelseChange}

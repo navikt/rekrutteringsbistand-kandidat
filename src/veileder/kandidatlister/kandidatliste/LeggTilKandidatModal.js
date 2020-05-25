@@ -182,11 +182,7 @@ class LeggTilKandidatModal extends React.Component {
                     placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                     value={notat || ''}
                     maxLength={NOTATLENGDE}
-                    feil={
-                        notat && notat.length > NOTATLENGDE
-                            ? { feilmelding: 'Notatet er for langt' }
-                            : undefined
-                    }
+                    feil={notat && notat.length > NOTATLENGDE ? 'Notatet er for langt' : undefined}
                     onChange={this.onNotatChange}
                     textareaRef={(textArea) => {
                         this.textArea = textArea;
