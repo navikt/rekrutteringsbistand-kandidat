@@ -11,6 +11,7 @@ import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { sendEvent } from '../../amplitude/amplitude';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
@@ -42,6 +43,14 @@ const Historikkside: FunctionComponent = () => {
             });
         }
     }, [kandidatnr, lagreKandidatIKandidatlisteStatus, dispatch]);
+
+    useEffect(() => {
+        if (historikk.kandidatlisterForKandidat.kind === Nettstatus.Suksess) {
+            sendEvent('historikk', 'hentet', {
+                antallLister: historikk.kandidatlisterForKandidat.data.length,
+            });
+        }
+    }, [kandidatnr, historikk.kandidatlisterForKandidat]);
 
     if (
         historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
