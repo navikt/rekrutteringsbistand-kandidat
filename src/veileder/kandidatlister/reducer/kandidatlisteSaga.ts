@@ -221,7 +221,7 @@ function* lagreKandidatIKandidatliste(action) {
             kandidatliste: action.kandidatliste,
             kandidater: [
                 {
-                    kandidatnr: response.arenaKandidatnr,
+                    kandidatnr: action.kandidatnr,
                     notat: action.notat,
                     sisteArbeidserfaring: response.mestRelevanteYrkeserfaring
                         ? response.mestRelevanteYrkeserfaring.styrkKodeStillingstittel

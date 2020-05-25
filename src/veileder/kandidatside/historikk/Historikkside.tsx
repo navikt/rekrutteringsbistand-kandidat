@@ -10,12 +10,16 @@ import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
+import { LAGRE_STATUS } from '../../../felles/konstanter';
 
 const Historikkside: FunctionComponent = () => {
     const { params } = useRouteMatch<{ kandidatnr: string }>();
     const kandidatnr = params.kandidatnr;
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv);
+    const lagreKandidatIKandidatlisteStatus = useSelector(
+        (state: AppState) => state.kandidatlister.lagreKandidatIKandidatlisteStatus
+    );
     const dispatch = useDispatch();
 
     const { search } = useLocation();
@@ -29,6 +33,15 @@ const Historikkside: FunctionComponent = () => {
             kandidatnr,
         });
     }, [kandidatnr, kandidatStatus, dispatch]);
+
+    useEffect(() => {
+        if (lagreKandidatIKandidatlisteStatus === LAGRE_STATUS.SUCCESS) {
+            dispatch({
+                type: KandidatlisterForKandidatActionType.Fetch,
+                kandidatnr,
+            });
+        }
+    }, [kandidatnr, lagreKandidatIKandidatlisteStatus, dispatch]);
 
     if (
         historikk.kandidatlisterForKandidat.kind !== Nettstatus.Suksess ||
