@@ -8,6 +8,7 @@ import './SideHeader.less';
 import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
+import { lenkeTilStilling } from '../../../application/paths';
 
 type Props = {
     tittel: string;
@@ -58,18 +59,18 @@ const SideHeader: FunctionComponent<Props> = ({
                         </span>
                         {stillingsId && (
                             <span>
-                                <Lenke href={`/stilling/${stillingsId}`}>Se stillingsannonse</Lenke>
+                                <Lenke href={lenkeTilStilling(stillingsId)}>
+                                    Se stillingsannonse
+                                </Lenke>
                             </span>
                         )}
                         {beskrivelse && (
-                                <Lenkeknapp
-                                    onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
-                                >
-                                    {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
-                                    <NavFrontendChevron
-                                        type={beskrivelseSkalVises ? 'opp' : 'ned'}
-                                    />
-                                </Lenkeknapp>
+                            <Lenkeknapp
+                                onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
+                            >
+                                {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
+                                <NavFrontendChevron type={beskrivelseSkalVises ? 'opp' : 'ned'} />
+                            </Lenkeknapp>
                         )}
                     </div>
                     {beskrivelseSkalVises && (

@@ -248,7 +248,7 @@ class VisKandidat extends React.Component {
                 : undefined;
         }
 
-        if (hentStatus === HentCvStatus.Loading) {
+        if (hentStatus === HentCvStatus.Loading || hentStatus === HentCvStatus.IkkeHentet) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
