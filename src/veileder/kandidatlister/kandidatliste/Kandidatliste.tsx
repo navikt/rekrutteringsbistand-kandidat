@@ -64,7 +64,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         lagTomtUtfallsfilter()
     );
 
-    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
     const filtrerteKandidater = useKandidatlistefilter(
         props.kandidater,
         visArkiverte,
@@ -73,6 +72,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         navnefilter
     );
 
+    const antallFiltertreff = useAntallFiltertreff(filtrerteKandidater, props.kandidater);
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(filtrerteKandidater);
 
     const toggleVisArkiverteOgFjernMarkering = () => {

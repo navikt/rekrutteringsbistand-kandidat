@@ -9,20 +9,25 @@ export type AntallFiltertreff = {
     utfall: Record<Utfall, number>;
 };
 
-const useKandidatlistefilter = (kandidater: KandidatIKandidatliste[]): AntallFiltertreff => {
-    const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
+const useKandidatlistefilter = (
+    gjenværendeKandidater: KandidatIKandidatliste[],
+    alleKandidater: KandidatIKandidatliste[]
+): AntallFiltertreff => {
+    const [antallArkiverte, setAntallArkiverte] = useState<number>(
+        hentAntallArkiverte(alleKandidater)
+    );
     const [antallMedStatus, setAntallMedStatus] = useState<Record<Status, number>>(
-        hentAntallMedStatus(kandidater)
+        hentAntallMedStatus(gjenværendeKandidater)
     );
     const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Utfall, number>>(
-        hentAntallMedUtfall(kandidater)
+        hentAntallMedUtfall(gjenværendeKandidater)
     );
 
     useEffect(() => {
-        setAntallArkiverte(hentAntallArkiverte(kandidater));
-        setAntallMedStatus(hentAntallMedStatus(kandidater));
-        setAntallMedUtfall(hentAntallMedUtfall(kandidater));
-    }, [kandidater]);
+        setAntallArkiverte(hentAntallArkiverte(alleKandidater));
+        setAntallMedStatus(hentAntallMedStatus(gjenværendeKandidater));
+        setAntallMedUtfall(hentAntallMedUtfall(gjenværendeKandidater));
+    }, [alleKandidater, gjenværendeKandidater]);
 
     const antallTreff = {
         arkiverte: antallArkiverte,
