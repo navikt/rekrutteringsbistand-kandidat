@@ -77,9 +77,6 @@ export const historikkReducer = (
                 kandidatlisterForKandidat: LasterInn(),
             };
         case KandidatlisterForKandidatActionType.FetchSuccess:
-            sendEvent('historikk', 'hentet', {
-                antallLister: action.response?.length,
-            });
             return {
                 ...state,
                 kandidatlisterForKandidat: Suksess(action.response),
