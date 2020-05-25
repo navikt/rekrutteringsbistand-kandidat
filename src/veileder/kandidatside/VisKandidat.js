@@ -134,7 +134,7 @@ class VisKandidat extends React.Component {
 
     onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste } = this.props;
-        lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer);
+        lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
 
         if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();
@@ -398,11 +398,12 @@ const mapDispatchToProps = (dispatch) => ({
     lastFlereKandidater: () => dispatch({ type: LAST_FLERE_KANDIDATER }),
     settValgtKandidat: (kandidatnummer) =>
         dispatch({ type: SETT_KANDIDATNUMMER, kandidatnr: kandidatnummer }),
-    lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer) =>
+    lagreKandidatIKandidatliste: (kandidatliste, fodselsnummer, kandidatnr) =>
         dispatch({
             type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
             kandidatliste,
             fodselsnummer,
+            kandidatnr,
         }),
     hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) =>
         dispatch({
