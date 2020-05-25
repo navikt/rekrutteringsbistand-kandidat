@@ -25,7 +25,6 @@ import Lenke from 'nav-frontend-lenker';
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
     Presentert = 'PRESENTERT',
-    FåttJobben = 'FATT_JOBBEN',
 }
 
 export const utfallToString = (utfall: string) => {
@@ -33,8 +32,6 @@ export const utfallToString = (utfall: string) => {
         return 'Ikke presentert';
     } else if (utfall === Utfall.Presentert) {
         return 'Presentert';
-    } else if (utfall === Utfall.FåttJobben) {
-        return 'Fått jobben';
     }
     return utfall;
 };
