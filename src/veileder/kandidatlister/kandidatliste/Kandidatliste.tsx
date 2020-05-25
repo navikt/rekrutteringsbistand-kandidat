@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
+import { lagTomtStatusfilter, lagTomtUtfallsfilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
@@ -13,7 +14,9 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useKandidatlistefilter from './useKandidatlistefilter';
+import useKandidatlistefilter from './filter/useKandidatlistefilter';
+import useAntallFiltertreff from './filter/useAntallFiltertreff';
+import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -51,28 +54,26 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
-const lagTomtStatusfilter = (): Record<Status, boolean> => {
-    const statusfilter: Record<string, boolean> = {};
-    Object.values(Status).forEach((status) => {
-        statusfilter[status] = false;
-    });
-
-    return statusfilter;
-};
-
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [navnefilter, setNavnefilter] = useState<string>('');
     const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
         lagTomtStatusfilter()
     );
+    const [utfallsfilter, setUtfallsfilter] = useState<Record<Utfall, boolean>>(
+        lagTomtUtfallsfilter()
+    );
 
-    const [navnefilter, setNavnefilter] = useState<string>('');
-    const [
-        filtrerteKandidater,
-        antallArkiverte,
-        antallMedStatus,
-        alleFiltrerteErMarkerte,
-    ] = useKandidatlistefilter(props.kandidater, visArkiverte, statusfilter, navnefilter);
+    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const filtrerteKandidater = useKandidatlistefilter(
+        props.kandidater,
+        visArkiverte,
+        statusfilter,
+        utfallsfilter,
+        navnefilter
+    );
+
+    const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(filtrerteKandidater);
 
     const toggleVisArkiverteOgFjernMarkering = () => {
         toggleVisArkiverte(!visArkiverte);
@@ -94,10 +95,17 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         });
     };
 
+    const onToggleUtfall = (utfall: Utfall) => {
+        setUtfallsfilter({
+            ...utfallsfilter,
+            [utfall]: !utfallsfilter[utfall],
+        });
+    };
+
     return (
         <div className="kandidatliste">
             <SideHeader
-                antallKandidater={props.kandidater.length - antallArkiverte}
+                antallKandidater={props.kandidater.length - antallFiltertreff.arkiverte}
                 antallAktuelleKandidater={
                     props.kandidater.filter(erIkkeArkivert).filter(erAktuell).length
                 }
@@ -145,12 +153,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             </KnappeRad>
                         </div>
                         <Filter
-                            antallArkiverte={antallArkiverte}
-                            antallMedStatus={antallMedStatus}
+                            antallTreff={antallFiltertreff}
                             visArkiverte={visArkiverte}
                             statusfilter={statusfilter}
+                            utfallsfilter={props.stillingsId ? utfallsfilter : undefined}
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
+                            onToggleUtfall={onToggleUtfall}
                         />
                         <div className="kandidatliste__liste">
                             <ListeHeader
