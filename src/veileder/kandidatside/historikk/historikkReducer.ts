@@ -11,6 +11,7 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
+import { sendEvent } from '../../amplitude/amplitude';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
@@ -76,6 +77,9 @@ export const historikkReducer = (
                 kandidatlisterForKandidat: LasterInn(),
             };
         case KandidatlisterForKandidatActionType.FetchSuccess:
+            sendEvent('historikk', 'hentet', {
+                antallLister: action.response?.length,
+            });
             return {
                 ...state,
                 kandidatlisterForKandidat: Suksess(action.response),
