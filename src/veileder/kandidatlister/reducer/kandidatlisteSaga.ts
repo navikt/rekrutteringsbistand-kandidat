@@ -230,7 +230,10 @@ function* lagreKandidatIKandidatliste(action) {
             ],
         });
 
-        yield put({ type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS });
+        yield put({
+            type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS,
+            kandidatnr: action.kandidatnr,
+        });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
