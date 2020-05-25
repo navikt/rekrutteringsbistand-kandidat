@@ -107,7 +107,6 @@ export interface LagreKandidatIKandidatlisteAction {
 
 export interface LagreKandidatIKandidatlisteSuccessAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS;
-    kandidatnr: string;
 }
 
 export interface LagreKandidatIKandidatlisteFailureAction {

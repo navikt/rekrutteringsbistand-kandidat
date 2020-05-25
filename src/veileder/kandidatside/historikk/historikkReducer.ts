@@ -11,8 +11,6 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
-import KandidatlisteActionType from '../../kandidatlister/reducer/KandidatlisteActionType';
-import AppState from '../../AppState';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
@@ -67,8 +65,6 @@ type HistorikkAction =
 
 const initialState: HistorikkState = { kandidatlisterForKandidat: IkkeLastet() };
 
-export const selectHistorikk = (state: AppState) => state.historikk;
-
 export const historikkReducer = (
     state: HistorikkState = initialState,
     action: HistorikkAction
@@ -118,20 +114,6 @@ function* hentKandidatlisterForKandidat(action: FetchKandidatlisterForKandidatAc
     }
 }
 
-function* oppdaterKandidatlisterForKandidat(action: any) {
-    // TODO Når inkluderSlettede og filtrerPåStilling skal tas i bruk, så må disse hentes fra staten.
-    yield put<HistorikkAction>({
-        type: KandidatlisterForKandidatActionType.Fetch,
-        kandidatnr: action.kandidatnr,
-        inkluderSlettede: undefined,
-        filtrerPåStilling: undefined,
-    });
-}
-
 export const historikkSaga = function* () {
     yield takeLatest(KandidatlisterForKandidatActionType.Fetch, hentKandidatlisterForKandidat);
-    yield takeLatest(
-        KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS,
-        oppdaterKandidatlisterForKandidat
-    );
 };
