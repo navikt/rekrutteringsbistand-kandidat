@@ -171,14 +171,12 @@ class LeggTilKandidatModal extends React.Component {
                         </Element>
                     </div>
                 )}
-                <Element className="legg-til-kandidat__notatoverskrift">
-                    Notat om kandidaten
-                </Element>
-
+                <div className="legg-til-kandidat__notatoverskrift" />
                 <Textarea
                     id="legg-til-kandidat-notat-input"
+                    label="Notat om kandidaten"
                     textareaClass="legg-til-kandidat__notat skjemaelement--pink"
-                    label="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
+                    description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
                     placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                     value={notat || ''}
                     maxLength={NOTATLENGDE}
