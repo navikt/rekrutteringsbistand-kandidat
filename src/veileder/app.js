@@ -44,7 +44,7 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
 import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
 import { searchReducer } from './sok/typedSearchReducer';
-import { logEvent } from './amplitude/amplitude';
+import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 
@@ -83,7 +83,7 @@ export const reduxStore = store;
 class RekrutteringsbistandKandidat extends React.Component {
     componentDidMount() {
         this.props.fetchFeatureToggles();
-        logEvent('app', 'åpne', {
+        sendEvent('app', 'åpne', {
             skjermbredde: window.screen.width,
         });
     }

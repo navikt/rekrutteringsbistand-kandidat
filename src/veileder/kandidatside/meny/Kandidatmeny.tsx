@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { logEvent } from '../../amplitude/amplitude';
+import { sendEvent } from '../../amplitude/amplitude';
 import AppState from '../../AppState';
 import Kandidattab from './Kandidattab';
 import './Kandidatmeny.less';
@@ -28,7 +28,7 @@ const Kandidatmeny: FunctionComponent<Props> = (props) => {
                     className="ForlateSiden lenke"
                     href={`https://app.adeo.no/veilarbpersonflatefs/${props.fødselsnummer}`}
                     target="_blank"
-                    onClick={() => logEvent('cv_aktivitetsplan_lenke', 'klikk')}
+                    onClick={() => sendEvent('cv_aktivitetsplan_lenke', 'klikk')}
                     rel="noopener noreferrer"
                 >
                     <i className="ForlateSiden__icon" />
