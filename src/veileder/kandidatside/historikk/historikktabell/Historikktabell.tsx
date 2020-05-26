@@ -1,12 +1,7 @@
-import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../application/paths';
-import { Statusvisning } from '../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
-import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../historikkReducer';
 import './Historikktabell.less';
+import { Historikkrad } from './Historikkrad/Historikkrad';
 
 interface Props {
     kandidatlister: KandidatlisteForKandidat[];
@@ -31,30 +26,7 @@ export const Historikktabell: FunctionComponent<Props> = ({
         </thead>
         <tbody>
             {kandidatlister.map((liste) => (
-                <tr
-                    key={liste.uuid}
-                    className={liste.uuid === aktivKandidatlisteId ? 'tabell__tr--valgt' : ''}
-                >
-                    <td>{moment(liste.lagtTilTidspunkt).format('DD.MM.YYYY')}</td>
-                    <td>
-                        <Link className="lenke" to={lenkeTilKandidatliste(liste.uuid)}>
-                            {liste.tittel}
-                        </Link>
-                    </td>
-                    <td>{liste.organisasjonNavn}</td>
-                    <td>
-                        {liste.lagtTilAvNavn} ({liste.lagtTilAvIdent})
-                    </td>
-                    <td>
-                        <Statusvisning status={liste.status} />
-                    </td>
-                    <td className="historikktabell__utfall">{utfallToString(liste.utfall)}</td>
-                    <td className="historikktabell__stilling">
-                        {liste.stillingId && (
-                            <Lenke href={lenkeTilStilling(liste.stillingId)}>Se stilling</Lenke>
-                        )}
-                    </td>
-                </tr>
+                <Historikkrad kandidatliste={liste} aktiv={liste.uuid === aktivKandidatlisteId} />
             ))}
         </tbody>
     </table>
