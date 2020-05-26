@@ -1,11 +1,13 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../application/paths';
-import { Statusvisning } from '../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../application/paths';
+import { Statusvisning } from '../../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { utfallToString } from '../../../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
-import { KandidatlisteForKandidat } from '../historikkReducer';
+import { KandidatlisteForKandidat } from '../../historikkReducer';
+import './Historikkrad.less';
+import { EtikettLiten, Undertekst } from 'nav-frontend-typografi';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
@@ -15,7 +17,10 @@ interface Props {
 export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv }) => {
     const listenavn = kandidatliste.slettet ? (
         <>
-            {kandidatliste.tittel} <span className="historikktabell__slettet">(slettet)</span>
+            {kandidatliste.tittel}{' '}
+            <Undertekst tag="span" className="historikkrad__slettet">
+                (slettet)
+            </Undertekst>
         </>
     ) : (
         <Link className="lenke" to={lenkeTilKandidatliste(kandidatliste.uuid)}>
@@ -23,7 +28,10 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
         </Link>
     );
     return (
-        <tr key={kandidatliste.uuid} className={aktiv ? 'tabell__tr--valgt' : ''}>
+        <tr
+            key={kandidatliste.uuid}
+            className={'historikkrad' + (aktiv ? 'tabell__tr--valgt' : '')}
+        >
             <td>{moment(kandidatliste.lagtTilTidspunkt).format('DD.MM.YYYY')}</td>
             <td>{listenavn}</td>
             <td>{kandidatliste.organisasjonNavn}</td>
@@ -33,8 +41,8 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             <td>
                 <Statusvisning status={kandidatliste.status} />
             </td>
-            <td className="historikktabell__utfall">{utfallToString(kandidatliste.utfall)}</td>
-            <td className="historikktabell__stilling">
+            <td className="historikkrad__utfall">{utfallToString(kandidatliste.utfall)}</td>
+            <td className="historikkrad__stilling">
                 {kandidatliste.stillingId && (
                     <Lenke href={lenkeTilStilling(kandidatliste.stillingId)}>Se stilling</Lenke>
                 )}
