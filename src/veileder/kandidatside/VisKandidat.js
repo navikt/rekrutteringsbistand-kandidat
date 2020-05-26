@@ -10,7 +10,7 @@ import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
 import { KandidatQueryParam } from './Kandidatside';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
-import { logEvent } from '../amplitude/amplitude';
+import { sendEvent } from '../amplitude/amplitude';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import cvPropTypes from '../../felles/PropTypes';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
@@ -69,7 +69,7 @@ class VisKandidat extends React.Component {
             this.props.lastFlereKandidater();
         }
 
-        logEvent('cv', 'visning');
+        sendEvent('cv', 'visning');
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -99,7 +99,7 @@ class VisKandidat extends React.Component {
 
         if (gjeldendeKandidat !== prevState.gjeldendeKandidat) {
             window.scrollTo(0, 0);
-            logEvent('cv', 'visning');
+            sendEvent('cv', 'visning');
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
                 visLenkeTilKandidatliste: false,

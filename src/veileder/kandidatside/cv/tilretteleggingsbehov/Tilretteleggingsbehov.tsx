@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { ARBEIDSRETTET_OPPFOLGING_URL } from '../../../common/fasitProperties';
-import { logEvent } from '../../../amplitude/amplitude';
+import { sendEvent } from '../../../amplitude/amplitude';
 import './Tilretteleggingsbehov.less';
 
 interface Props {
@@ -27,7 +27,7 @@ const Tilretteleggingsbehov = ({ fnr }: Props) => {
                         href={arbeidsrettetOppfølgingUrl}
                         className="kandidat-tilretteleggingsbehov__lenke ForlateSiden lenke"
                         target="_blank"
-                        onClick={() => logEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
+                        onClick={() => sendEvent('cv_tilretteleggingsbehov_lenke', 'klikk')}
                         rel="noopener noreferrer"
                     >
                         <span>Se behov for tilrettelegging.</span>

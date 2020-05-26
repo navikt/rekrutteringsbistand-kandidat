@@ -15,7 +15,7 @@ import './MidlertidigUtilgjengelig.less';
 import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/MidlertidigUtilgjengeligKnapp';
 import moment from 'moment';
 import { antallDagerMellom, dagensDato } from './validering';
-import { logEvent } from '../../amplitude/amplitude';
+import { sendEvent } from '../../amplitude/amplitude';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 
 interface Props {
@@ -86,7 +86,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
         const dato = new Date(tilOgMedDato).toISOString();
         endreMidlertidigUtilgjengelig(kandidatnr, aktørId, dato);
 
-        logEvent('cv_midlertidig_utilgjengelig', 'endre', {
+        sendEvent('cv_midlertidig_utilgjengelig', 'endre', {
             antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
         });
 
@@ -95,7 +95,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const registrer = (tilOgMedDato: string) => {
         const dato = new Date(tilOgMedDato).toISOString();
-        logEvent('cv_midlertidig_utilgjengelig', 'registrer', {
+        sendEvent('cv_midlertidig_utilgjengelig', 'registrer', {
             antallDager: antallDagerMellom(dagensDato(), tilOgMedDato),
         });
 
@@ -110,7 +110,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 
     const slett = () => {
         slettMidlertidigUtilgjengelig(kandidatnr, aktørId);
-        logEvent('cv_midlertidig_utilgjengelig', 'slett');
+        sendEvent('cv_midlertidig_utilgjengelig', 'slett');
         lukkPopup();
     };
 
@@ -121,7 +121,7 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const skalÅpnes = !anker;
         if (skalÅpnes) {
-            logEvent('cv_midlertidig_utilgjengelig', 'åpne');
+            sendEvent('cv_midlertidig_utilgjengelig', 'åpne');
         }
         setAnker(skalÅpnes ? e.currentTarget : undefined);
     };

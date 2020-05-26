@@ -11,6 +11,7 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
+import { sendEvent } from '../../amplitude/amplitude';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;
