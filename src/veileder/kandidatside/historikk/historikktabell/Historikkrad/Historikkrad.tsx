@@ -7,7 +7,7 @@ import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import './Historikkrad.less';
-import { EtikettLiten, Undertekst } from 'nav-frontend-typografi';
+import { Undertekst } from 'nav-frontend-typografi';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
