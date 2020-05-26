@@ -30,7 +30,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
     return (
         <tr
             key={kandidatliste.uuid}
-            className={'historikkrad' + (aktiv ? 'tabell__tr--valgt' : '')}
+            className={'historikkrad ' + (aktiv ? 'tabell__tr--valgt' : '')}
         >
             <td>{moment(kandidatliste.lagtTilTidspunkt).format('DD.MM.YYYY')}</td>
             <td>{listenavn}</td>
