@@ -17,7 +17,10 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
     slettKandidatliste,
 }) => {
     const lenkeTilStilling = (
-        <a href={`/stilling/${kandidatliste.stillingId}`} className="edit-lenke">
+        <a
+            href={`/stilling/${kandidatliste.stillingId}?redigeringsmodus=true`}
+            className="edit-lenke"
+        >
             <span className="Edit__icon" />
         </a>
     );
