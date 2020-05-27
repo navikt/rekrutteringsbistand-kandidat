@@ -2,11 +2,12 @@ import AppState from '../AppState';
 import { getHashFromString } from '../../felles/sok/utils';
 import { Tilgjengelighet } from './Søkeresultat';
 
-// TODO Skal i teorien matche objektet i endepunktet i backend
 type Søkekriterier = any & {
     hasValues: boolean;
     fraIndex: number;
     antallResultater: number;
+    antallAarFra?: number;
+    antallAarTil?: number;
 };
 
 export const mapTilSøkekriterier = (
@@ -34,7 +35,7 @@ export const mapTilSøkekriterier = (
     ];
 };
 
-export const mapTilSøkekriterierFraState = (state: AppState): any => {
+export const mapTilSøkekriterierFraState = (state: AppState): Søkekriterier => {
     const forerkortState = state.forerkort.forerkortList;
     const forerkortListe =
         forerkortState && forerkortState.includes('Førerkort: Kl. M (Moped)')
@@ -78,6 +79,8 @@ export const mapTilSøkekriterierFraState = (state: AppState): any => {
         ),
         permittert: permittert,
         listeId: state.search.kandidatlisteId,
+        antallAarFra: state.alder.fra,
+        antallAarTil: state.alder.til,
     };
 };
 

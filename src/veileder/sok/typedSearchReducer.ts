@@ -31,6 +31,18 @@ import { call, put, select } from 'redux-saga/effects';
 import AppState from '../AppState';
 import { mapTilSøkekriterier } from './søkekriterier';
 
+
+interface SetStateAction {
+    type: 'SET_STATE',
+    query: any,
+}
+
+interface LukkAlleSøkepanelAction {
+    type: 'LUKK_ALLE_SOKEPANEL',
+}
+
+export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction;
+
 interface Søkeresultat {
     resultat: {
         kandidater: any[];
