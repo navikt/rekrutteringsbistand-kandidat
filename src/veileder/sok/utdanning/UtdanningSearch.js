@@ -28,7 +28,6 @@ const UtdanningSearch = ({ ...props }) => {
         typeAheadSuggestionsUtdanning,
         utdanningsniva,
         clearTypeAheadUtdanning,
-        visManglendeArbeidserfaringBoks,
         totaltAntallTreff,
         visAlertFaKandidater,
         skjulUtdanning,
@@ -48,7 +47,6 @@ const UtdanningSearch = ({ ...props }) => {
             typeAheadSuggestionsUtdanning={typeAheadSuggestionsUtdanning}
             utdanningsniva={utdanningsniva}
             clearTypeAheadUtdanning={clearTypeAheadUtdanning}
-            visManglendeArbeidserfaringBoks={visManglendeArbeidserfaringBoks}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
             skjulUtdanning={skjulUtdanning}
@@ -57,10 +55,6 @@ const UtdanningSearch = ({ ...props }) => {
             visIngenUtdanning={visIngenUtdanning}
         />
     );
-};
-
-UtdanningSearch.defaultProps = {
-    visManglendeArbeidserfaringBoks: false,
 };
 
 UtdanningSearch.propTypes = {
@@ -74,7 +68,6 @@ UtdanningSearch.propTypes = {
     typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
     utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
-    visManglendeArbeidserfaringBoks: PropTypes.bool,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     skjulUtdanning: PropTypes.bool.isRequired,
@@ -87,8 +80,6 @@ const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.utdanning.suggestions,
     utdanningsniva: state.utdanning.utdanningsniva,
-    visManglendeArbeidserfaringBoks:
-        state.search.featureToggles['vis-manglende-arbeidserfaring-boks'],
     skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
