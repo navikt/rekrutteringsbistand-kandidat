@@ -26,7 +26,6 @@ const NavkontorSearch = ({ ...props }) => {
         typeAheadSuggestionsNavkontor,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulNavkontor,
         panelOpen,
         togglePanelOpen,
         toggleMinekandidater,
@@ -43,7 +42,6 @@ const NavkontorSearch = ({ ...props }) => {
             typeAheadSuggestionsNavkontor={typeAheadSuggestionsNavkontor}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulNavkontor={skjulNavkontor}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
             minekandidater={minekandidater}
@@ -63,7 +61,6 @@ NavkontorSearch.propTypes = {
     typeAheadSuggestionsNavkontor: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulNavkontor: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     minekandidater: PropTypes.bool.isRequired,
@@ -75,7 +72,6 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsNavkontor: state.typeahead.navkontor.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    skjulNavkontor: state.search.featureToggles['skjul-navkontor'],
     panelOpen: state.navkontorReducer.navkontorPanelOpen,
     minekandidater: state.navkontorReducer.minekandidater,
 });

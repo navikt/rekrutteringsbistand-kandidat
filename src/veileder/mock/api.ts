@@ -2,7 +2,6 @@ import fetchMock from 'fetch-mock';
 
 import me from './json/me.json';
 import kandidatliste from './json/kandidatliste.json';
-import toggles from './json/toggles.json';
 import sok from './json/sok.json';
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
@@ -22,6 +21,7 @@ import decorator from './json/dekoratør/decorator.json';
 
 import { SEARCH_API } from '../common/fasitProperties.js';
 import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat-mock';
+import { featureToggles } from './featureToggles';
 
 const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
 const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';
@@ -106,7 +106,7 @@ fetchMock
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
     .get((url: string) => url.startsWith(sokUrl), sok)
-    .get((url: string) => url.startsWith(togglesUrl), toggles)
+    .get((url: string) => url.startsWith(togglesUrl), featureToggles)
     .get((url: string) => url.startsWith(sokeordUrl), sokeord)
     .get(
         (url: string) => url.startsWith(kandidatlisterForKandidatUrl),

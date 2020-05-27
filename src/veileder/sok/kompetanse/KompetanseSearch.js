@@ -26,7 +26,6 @@ const KompetanseSearch = ({ ...props }) => {
         clearTypeAheadKompetanse,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulKompetanse,
         panelOpen,
         togglePanelOpen,
     } = props;
@@ -42,7 +41,6 @@ const KompetanseSearch = ({ ...props }) => {
             clearTypeAheadKompetanse={clearTypeAheadKompetanse}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulKompetanse={skjulKompetanse}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
             allowOnlyTypeaheadSuggestions
@@ -67,7 +65,6 @@ KompetanseSearch.propTypes = {
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulKompetanse: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
 };
@@ -78,7 +75,6 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    skjulKompetanse: state.search.featureToggles['skjul-kompetanse'],
     panelOpen: state.kompetanse.kompetansePanelOpen,
 });
 

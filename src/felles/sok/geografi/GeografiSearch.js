@@ -96,9 +96,6 @@ class GeografiSearch extends React.Component {
     };
 
     render() {
-        if (this.props.skjulSted) {
-            return null;
-        }
         return (
             <SokekriteriePanel
                 id="Geografi__SokekriteriePanel"
@@ -199,7 +196,6 @@ GeografiSearch.propTypes = {
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulSted: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,

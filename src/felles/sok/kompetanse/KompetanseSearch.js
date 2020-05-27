@@ -78,9 +78,6 @@ class KompetanseSearch extends React.Component {
     };
 
     render() {
-        if (this.props.skjulKompetanse) {
-            return null;
-        }
         const kompetanseSuggestions = this.props.kompetanseSuggestions.filter(
             (k) => !this.props.kompetanser.includes(k.feltnavn)
         );
@@ -207,7 +204,6 @@ KompetanseSearch.propTypes = {
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulKompetanse: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     kompetanseExamples: PropTypes.string,

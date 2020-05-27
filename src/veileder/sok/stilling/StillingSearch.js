@@ -20,7 +20,6 @@ const StillingSearch = ({ ...props }) => {
         typeAheadSuggestionsStilling,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulYrke,
         panelOpen,
         search,
         clearTypeAheadStilling,
@@ -37,7 +36,6 @@ const StillingSearch = ({ ...props }) => {
             typeAheadSuggestionsStilling={typeAheadSuggestionsStilling}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulYrke={skjulYrke}
             panelOpen={panelOpen}
             search={search}
             clearTypeAheadStilling={clearTypeAheadStilling}
@@ -68,7 +66,6 @@ StillingSearch.propTypes = {
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulYrke: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     stillingsId: PropTypes.string,
@@ -79,7 +76,6 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsStilling: state.typeahead.stilling.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    skjulYrke: state.search.featureToggles['skjul-yrke'],
     panelOpen: state.stilling.stillingPanelOpen,
 });
 
