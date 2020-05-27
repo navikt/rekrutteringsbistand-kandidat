@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Element } from 'nav-frontend-typografi';
 import { connect } from 'react-redux';
 
 import AppState from '../../../AppState';
@@ -37,7 +38,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <SkjemaGruppe legend="Registrert i kandidatens jobbprofil">
+        <SkjemaGruppe legend={<Element>Registrert i kandidatens jobbprofil</Element>}>
             {alleOppstartstidspunkter.map((tidspunkt) => (
                 <Checkbox
                     key={tidspunkt.value}

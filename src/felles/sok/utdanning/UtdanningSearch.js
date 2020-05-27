@@ -5,6 +5,7 @@ import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel'
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE, UTDANNING } from '../../konstanter';
 import './Utdanning.less';
+import { Element } from 'nav-frontend-typografi';
 
 class UtdanningSearch extends React.Component {
     constructor(props) {
@@ -59,20 +60,18 @@ class UtdanningSearch extends React.Component {
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
-                <SkjemaGruppe title="Velg ett eller flere utdanningsnivå">
-                    <div className="sokekriterier--kriterier sokekriterier--margin-top-large">
-                        {this.utdanningsnivaKategorier.map((utdanning) => (
-                            <Checkbox
-                                className="checkbox--utdanningsniva"
-                                id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
-                                label={utdanning.label}
-                                key={utdanning.key}
-                                value={utdanning.key}
-                                checked={this.props.utdanningsniva.includes(utdanning.key)}
-                                onChange={this.onUtdanningsnivaChange}
-                            />
-                        ))}
-                    </div>
+                <SkjemaGruppe legend={<Element>Velg ett eller flere utdanningsnivå</Element>}>
+                    {this.utdanningsnivaKategorier.map((utdanning) => (
+                        <Checkbox
+                            className="checkbox--utdanningsniva"
+                            id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
+                            label={utdanning.label}
+                            key={utdanning.key}
+                            value={utdanning.key}
+                            checked={this.props.utdanningsniva.includes(utdanning.key)}
+                            onChange={this.onUtdanningsnivaChange}
+                        />
+                    ))}
                 </SkjemaGruppe>
                 {this.props.totaltAntallTreff <= 10 &&
                     this.props.visAlertFaKandidater === ALERTTYPE.UTDANNING && (
