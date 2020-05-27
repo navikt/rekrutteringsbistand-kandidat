@@ -57,5 +57,7 @@ export const alderReducer = (state: AlderState = initialState, action: AlderActi
             const { fra, til } = action.query.alder;
             return { fra, til, panelOpen: fra !== undefined || til !== undefined };
         }
+        default:
+            return state;
     }
 };

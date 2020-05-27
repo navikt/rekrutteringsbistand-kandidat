@@ -2,7 +2,7 @@ import AppState from '../AppState';
 import { getHashFromString } from '../../felles/sok/utils';
 import { Tilgjengelighet } from './Søkeresultat';
 
-type Søkekriterier = any & {
+type SøkekriterierBackend = any & {
     hasValues: boolean;
     fraIndex: number;
     antallResultater: number;
@@ -10,11 +10,11 @@ type Søkekriterier = any & {
     antallAarTil?: number;
 };
 
-export const mapTilSøkekriterier = (
+export const mapTilSøkekriterierBackend = (
     state: AppState,
     action: any
-): [Søkekriterier, string | number] => {
-    const søkekriterierFraState = mapTilSøkekriterierFraState(state);
+): [SøkekriterierBackend, string | number] => {
+    const søkekriterierFraState = mapTilSøkekriterierBackendFraState(state);
     const fraIndex = action.fraIndex || 0;
     const antallResultater = action.antallResultater
         ? Math.max(action.antallResultater, state.search.antallVisteKandidater)
@@ -35,7 +35,7 @@ export const mapTilSøkekriterier = (
     ];
 };
 
-export const mapTilSøkekriterierFraState = (state: AppState): Søkekriterier => {
+export const mapTilSøkekriterierBackendFraState = (state: AppState): SøkekriterierBackend => {
     const forerkortState = state.forerkort.forerkortList;
     const forerkortListe =
         forerkortState && forerkortState.includes('Førerkort: Kl. M (Moped)')
