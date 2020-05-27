@@ -9,16 +9,7 @@ const FEATURE_TOGGLES = [
     'skjul-sted',
     'skjul-navkontor',
     'skjul-hovedmal',
-    'vis-matchforklaring',
     'ingen-utdanning-filter',
-    'vis-lenke-til-kandidatsok-next',
-    'vis-notater-arbeidsgiver',
-    'vis-tilretteleggingsbehov-kategorier',
-    'vis-viktige-yrker-lenker',
-    'vis-midlertidig-utilgjengelig',
-    'vis-midlertidig-utilgjengelig-filter',
-    'vis-midlertidig-utilgjengelig-popover',
-    'vis-historikk',
 ];
 export default FEATURE_TOGGLES;
 

@@ -7,14 +7,5 @@
     "skjul-sted": false,
     "skjul-navkontor": false,
     "skjul-hovedmal": false,
-    "vis-matchforklaring": true,
-    "ingen-utdanning-filter": false,
-    "vis-lenke-til-kandidatsok-next": true,
-    "vis-notater-arbeidsgiver": true,
-    "vis-tilretteleggingsbehov-kategorier": true,
-    "vis-viktige-yrker-lenker": true,
-    "vis-midlertidig-utilgjengelig": true,
-    "vis-midlertidig-utilgjengelig-filter": true,
-    "vis-midlertidig-utilgjengelig-popover": true,
-    "vis-historikk": true
+    "ingen-utdanning-filter": false
 }

@@ -25,7 +25,6 @@ interface Props {
     endreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) => void;
     slettMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string) => void;
     midlertidigUtilgjengelig?: Nettressurs<MidlertidigUtilgjengeligResponse>;
-    visMidlertidigUtilgjengelig: boolean;
 }
 
 const getTilgjengelighet = (
@@ -72,11 +71,10 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
     lagreMidlertidigUtilgjengelig,
     endreMidlertidigUtilgjengelig,
     slettMidlertidigUtilgjengelig,
-    visMidlertidigUtilgjengelig,
 }) => {
     const [anker, setAnker] = useState<any>(undefined);
 
-    if (!visMidlertidigUtilgjengelig || !midlertidigUtilgjengelig) {
+    if (!midlertidigUtilgjengelig) {
         return null;
     }
 
@@ -166,7 +164,6 @@ const MidlertidigUtilgjengelig: FunctionComponent<Props> = ({
 export default connect(
     (state: AppState) => ({
         aktørId: state.cv.cv.aktorId,
-        visMidlertidigUtilgjengelig: state.search.featureToggles['vis-midlertidig-utilgjengelig'],
     }),
     (dispatch: (action: MidlertidigUtilgjengeligAction) => void) => ({
         lagreMidlertidigUtilgjengelig: (kandidatnr: string, aktørId: string, tilDato: string) =>
