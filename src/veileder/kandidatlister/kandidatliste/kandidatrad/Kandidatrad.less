@@ -1,0 +1,192 @@
+@import '../../../variabler.less';
+
+.kandidatliste-kandidat {
+    margin-top: 0.5rem;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    background-color: white;
+
+    &--checked {
+        border-color: #0067c5;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px @fokusFarge;
+    }
+
+    &__ekspanderbar-knapp {
+        display: flex;
+        align-items: center;
+
+        i {
+            margin-right: 0.4rem;
+        }
+    }
+
+    &__antall-notater {
+        margin-right: 0.4rem;
+    }
+
+    &__lagt-til {
+        overflow-wrap: anywhere;
+    }
+
+    &__chevron {
+        display: none;
+
+        @media (min-width: 1400px) {
+            display: unset;
+        }
+    }
+
+    &__wrap-hvor-som-helst {
+        overflow-wrap: anywhere;
+    }
+
+    &__kolonne-med-sms {
+        .lenke {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .hjelpetekst {
+            padding-left: 0.5rem;
+        }
+    }
+
+    &__tabell-tekst-inner {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__kolonne-checkboks {
+        padding-right: 1.25rem;
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .skjemaelement {
+                padding-bottom: 1.5rem;
+            }
+        }
+    }
+
+    &__kolonne-midtstilt {
+        justify-content: center;
+        white-space: nowrap;
+    }
+
+    &__kolonne-tittel {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__rad {
+        height: 4.5rem;
+        display: grid;
+        padding-left: 1.25rem;
+        padding-right: 0.5rem;
+        grid-gap: 1rem;
+        grid-template-columns:
+            1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
+            minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
+
+        &--vis-arkivering {
+            grid-template-columns:
+                1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
+                minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+        }
+
+        &--vis-utfall {
+            grid-template-columns:
+                1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 4fr)
+                minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
+        }
+
+        &--vis-utfall-og-arkivering {
+            grid-template-columns:
+                1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 4fr)
+                minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+        }
+
+        > * {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .info-under-kandidat {
+        background-color: #f6f5f5;
+        display: flex;
+        justify-content: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        .info-under-kandidat-content {
+            width: 40rem;
+            .avsnitt {
+                margin-top: 1.25rem;
+            }
+
+            .spinner-wrapper {
+                display: flex;
+                justify-content: center;
+                padding-top: 1.25rem;
+            }
+
+            .notatliste {
+                margin-top: 2rem;
+                border-top: 1px solid #d8d8d8;
+
+                .notatliste-rad {
+                    border-bottom: 1px solid #d8d8d8;
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+
+                    .notat-tekst {
+                        margin-top: 0.25rem;
+                        padding-right: 6.25rem;
+                    }
+                }
+            }
+        }
+
+        .nytt-notat-form {
+            margin-top: 2rem;
+
+            .nytt-notat-tekst {
+                margin-top: 0.25rem;
+                min-height: 7.5rem;
+            }
+        }
+
+        .nytt-notat-knapperad {
+            margin-top: 1.25rem;
+
+            > :not(:first-child) {
+                margin-left: 1rem;
+            }
+        }
+    }
+    .mer-info {
+        display: flex;
+
+        .kontaktinfo-kolonne {
+            flex: 2;
+        }
+
+        .innsatsgruppe-kolonne {
+            flex: 1;
+        }
+
+        .tekst {
+            margin-top: 1rem;
+            line-height: 1.3rem;
+        }
+    }
+
+    .StatusSelect {
+        max-width: 11rem;
+        min-width: 6rem;
+    }
+}

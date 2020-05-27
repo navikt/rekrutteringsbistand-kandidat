@@ -6,7 +6,7 @@ import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
-import KandidatRad, { Utfall } from './kandidatrad/KandidatRad';
+import Kandidatrad, { Utfall } from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
@@ -170,7 +170,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             />
                             {filtrerteKandidater.length > 0 ? (
                                 filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                                    <KandidatRad
+                                    <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
                                         endreNotat={props.endreNotat}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import { Utfall } from '../kandidatrad/KandidatRad';
+import { Utfall } from '../kandidatrad/Kandidatrad';
 
 export type AntallFiltertreff = {
     arkiverte: number;
