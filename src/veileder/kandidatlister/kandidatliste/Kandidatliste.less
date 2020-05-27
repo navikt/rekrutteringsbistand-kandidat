@@ -16,10 +16,6 @@
         max-width: calc(@kandidatsok-innhold-bredde + 4rem);
         margin: 2.5rem 0;
         padding: 0 2rem;
-
-        .liste-header {
-            border: 1px solid #78706a;
-        }
     }
 
     .kandidatliste-filter {
@@ -92,27 +88,6 @@
     &__liste {
         grid-area: liste;
     }
-}
-
-.notat-topprad {
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    .notatinfo {
-        .red-tekst {
-            color: #c30000;
-        }
-    }
-    .endre-knapper {
-        > :first-child {
-            margin-right: 0.5rem;
-        }
-    }
-}
-.notat-tekst {
-    margin-top: 0.25rem;
-    padding-right: 6.25rem;
 }
 
 .skjemaelement {
@@ -235,20 +210,6 @@
     }
     .venstre {
         margin-right: 1rem;
-    }
-}
-.modal.SlettNotatModal {
-    width: 40rem;
-    padding: 2rem;
-    .overskrift {
-        margin-bottom: 2rem;
-    }
-    .notat-tekst {
-        margin-bottom: 2.5rem;
-        padding-right: 2rem;
-    }
-    .avbryt--knapp {
-        margin-left: 1rem;
     }
 }
 

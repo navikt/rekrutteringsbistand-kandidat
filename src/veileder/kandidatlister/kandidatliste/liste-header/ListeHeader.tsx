@@ -25,7 +25,7 @@ export const modifierTilListeradGrid = (
 
 const Kolonnetittel = ({ className, children }: { className?: string; children: ReactNode }) => (
     <div className={className ? className : ''}>
-        <Element className="kolonne-tittel">{children}</Element>
+        <Element className="kandidatliste-kandidat__rad__kolonne-tittel">{children}</Element>
     </div>
 );
 
@@ -40,7 +40,7 @@ const ListeHeader: FunctionComponent<Props> = ({
         modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div className="kandidatliste-kandidat liste-header">
+        <div className="kandidatliste-kandidat kandidatliste-kandidat__header">
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
