@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
 import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaringReducer';
@@ -40,7 +40,7 @@ const AntallÅrArbeidserfaring: FunctionComponent<Props> = ({
     return (
         <SkjemaGruppe
             className="ar-med-arbeidserfaring__header"
-            legend="Totalt antall år med arbeidserfaring"
+            legend={<Element>Totalt antall år med arbeidserfaring</Element>}
         >
             <Normaltekst>Velg en eller flere</Normaltekst>
             <div className="sokekriterier--kriterier">
