@@ -51,9 +51,6 @@ class UtdanningSearch extends React.Component {
     };
 
     render() {
-        if (this.props.skjulUtdanning) {
-            return null;
-        }
         return (
             <SokekriteriePanel
                 id="Utdanning__SokekriteriePanel"
@@ -97,7 +94,6 @@ UtdanningSearch.propTypes = {
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulUtdanning: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     panelOpen: PropTypes.bool.isRequired,
 };

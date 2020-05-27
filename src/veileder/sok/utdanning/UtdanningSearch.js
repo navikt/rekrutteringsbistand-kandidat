@@ -30,10 +30,8 @@ const UtdanningSearch = ({ ...props }) => {
         clearTypeAheadUtdanning,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulUtdanning,
         panelOpen,
         togglePanelOpen,
-        visIngenUtdanning,
     } = props;
     return (
         <UtdanningSearchFelles
@@ -49,10 +47,8 @@ const UtdanningSearch = ({ ...props }) => {
             clearTypeAheadUtdanning={clearTypeAheadUtdanning}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulUtdanning={skjulUtdanning}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
-            visIngenUtdanning={visIngenUtdanning}
         />
     );
 };
@@ -70,21 +66,17 @@ UtdanningSearch.propTypes = {
     clearTypeAheadUtdanning: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulUtdanning: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
-    visIngenUtdanning: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     utdanninger: state.utdanning.utdanninger,
     typeAheadSuggestionsUtdanning: state.typeahead.utdanning.suggestions,
     utdanningsniva: state.utdanning.utdanningsniva,
-    skjulUtdanning: state.search.featureToggles['skjul-utdanning'],
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     panelOpen: state.utdanning.utdanningPanelOpen,
-    visIngenUtdanning: state.search.featureToggles['ingen-utdanning-filter'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

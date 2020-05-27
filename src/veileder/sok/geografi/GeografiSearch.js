@@ -22,7 +22,6 @@ const GeografiSearch = ({ ...props }) => {
         typeAheadSuggestionsGeografiKomplett,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulSted,
         panelOpen,
         maaBoInnenforGeografi,
         search,
@@ -41,7 +40,6 @@ const GeografiSearch = ({ ...props }) => {
             typeAheadSuggestionsGeografiKomplett={typeAheadSuggestionsGeografiKomplett}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulSted={skjulSted}
             panelOpen={panelOpen}
             maaBoInnenforGeografi={maaBoInnenforGeografi}
             search={search}
@@ -82,7 +80,6 @@ GeografiSearch.propTypes = {
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulSted: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
@@ -96,7 +93,6 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsGeografiKomplett: state.typeahead.geografiKomplett.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    skjulSted: state.search.featureToggles['skjul-sted'],
     panelOpen: state.geografi.geografiPanelOpen,
     maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
 });

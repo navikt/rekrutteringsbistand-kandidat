@@ -1,15 +1,6 @@
 // "pam-kandidatsok" legges på som prefix før alle toggles på serveren,
 // så togglen "toggle-test" korresponderer med "pam-kandidatsok.toggle-test" i unleash
-const FEATURE_TOGGLES = [
-    'skjul-yrke',
-    'skjul-kompetanse',
-    'skjul-utdanning',
-    'skjul-spraak',
-    'skjul-sted',
-    'skjul-navkontor',
-    'skjul-hovedmal',
-    'ingen-utdanning-filter',
-];
+const FEATURE_TOGGLES = [];
 export default FEATURE_TOGGLES;
 
 export const KANDIDATLISTE_CHUNK_SIZE = 100;

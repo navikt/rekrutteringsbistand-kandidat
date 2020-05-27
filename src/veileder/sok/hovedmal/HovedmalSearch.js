@@ -18,7 +18,6 @@ const HovedmalSearch = ({ ...props }) => {
         totaltHovedmal,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulHovedmal,
         panelOpen,
         togglePanelOpen,
     } = props;
@@ -31,7 +30,6 @@ const HovedmalSearch = ({ ...props }) => {
             totaltHovedmal={totaltHovedmal}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulHovedmal={skjulHovedmal}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
         />
@@ -45,7 +43,6 @@ HovedmalSearch.propTypes = {
     totaltHovedmal: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulHovedmal: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
 };
@@ -53,7 +50,6 @@ HovedmalSearch.propTypes = {
 const mapStateToProps = (state) => ({
     totaltHovedmal: state.hovedmal.totaltHovedmal,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    skjulHovedmal: state.search.featureToggles['skjul-hovedmal'],
     visAlertFaKandidater: state.search.visAlertFaKandidater,
     panelOpen: state.hovedmal.panelOpen,
 });
