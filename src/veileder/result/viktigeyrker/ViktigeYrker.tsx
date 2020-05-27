@@ -17,7 +17,6 @@ interface ViktigeYrkerProps {
     ferdigutfylteStillinger: FerdigutfylteStillinger;
     viktigeYrkerApen: boolean;
     toggleViktigeYrkerApen: () => void;
-    visViktigeYrker: boolean;
     ferdigutfylteStillingerKlikk: (
         FerdigutfylteStillingerKlikk: FerdigutfylteStillingerKlikk
     ) => void;
@@ -29,7 +28,6 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         ferdigutfylteStillinger,
         viktigeYrkerApen,
         toggleViktigeYrkerApen,
-        visViktigeYrker,
         ferdigutfylteStillingerKlikk,
     } = props;
 
@@ -43,8 +41,6 @@ const ViktigeYrker = (props: ViktigeYrkerProps) => {
         }
         toggleViktigeYrkerApen();
     };
-
-    if (!visViktigeYrker) return <div />;
 
     return (
         <EkspanderbartpanelBase
@@ -87,7 +83,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
     ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
     viktigeYrkerApen: state.search.viktigeYrkerApen,
-    visViktigeYrker: state.search.featureToggles['vis-viktige-yrker-lenker'],
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);

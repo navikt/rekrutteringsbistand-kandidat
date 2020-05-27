@@ -73,9 +73,6 @@ export default class StillingSearch extends React.Component {
     };
 
     render() {
-        if (this.props.skjulYrke) {
-            return null;
-        }
         return (
             <SokekriteriePanel
                 id="Stilling__SokekriteriePanel"
@@ -168,7 +165,6 @@ StillingSearch.propTypes = {
     clearTypeAheadStilling: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulYrke: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool,
     togglePanelOpen: PropTypes.func.isRequired,
     stillingsId: PropTypes.string,

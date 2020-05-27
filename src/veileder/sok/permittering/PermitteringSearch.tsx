@@ -55,10 +55,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             }
             onClick={togglePanel}
         >
-            <Normaltekst id="permittering-ingress" className="permittering-search__ingress">
-                Brukere som har oppgitt at de er permittert i registreringen.
-            </Normaltekst>
-            <CheckboxGruppe aria-labelledby="permittering-ingress">
+            <CheckboxGruppe>
                 <Checkbox
                     id="permittering-permittert-checkbox"
                     className="permittering-search__checkbox"

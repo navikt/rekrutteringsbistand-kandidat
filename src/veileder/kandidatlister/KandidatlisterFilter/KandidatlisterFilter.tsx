@@ -2,6 +2,7 @@ import { SkjemaGruppe, Radio } from 'nav-frontend-skjema';
 import { ChangeEvent, FunctionComponent } from 'react';
 import React from 'react';
 import './KandidatlisterFilter.less';
+import { Element } from 'nav-frontend-typografi';
 
 interface Props {
     kandidatlisterSokeKriterier: any;
@@ -12,7 +13,7 @@ export const KandidatlisterFilter: FunctionComponent<Props> = ({
     onFilterChange,
 }) => (
     <div className="kandidatlister-filter">
-        <SkjemaGruppe legend="Kandidatlister">
+        <SkjemaGruppe legend={<Element>Kandidatlister</Element>}>
             <Radio
                 id="alle-kandidatlister-radio"
                 label="Alle kandidatlister"

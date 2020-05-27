@@ -55,7 +55,6 @@ type Props = {
     onKandidatStatusChange: any;
     visArkiveringskolonne: boolean;
     setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
-    visMidlertidigUtilgjengeligPopover: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
     sistValgteKandidat?: {
@@ -77,7 +76,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     kanEditere,
     onKandidatStatusChange,
     visArkiveringskolonne,
-    visMidlertidigUtilgjengeligPopover,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
     setValgtKandidat,
@@ -159,7 +157,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     {kandidat.aktørid && (
                         <TilgjengelighetFlagg
                             status={kandidat.midlertidigUtilgjengeligStatus}
-                            visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
                             merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
                             hentMerInformasjon={() =>
                                 hentMidlertidigUtilgjengeligForKandidat(
@@ -280,8 +277,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-    visMidlertidigUtilgjengeligPopover:
-        state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
     sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
 });
 
