@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
+import { Element } from 'nav-frontend-typografi';
 
 interface Props {
     search: () => void;
@@ -95,7 +96,10 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     };
 
     return (
-        <SkjemaGruppe className="fersk-arbeidserfaring" legend="Hvor fersk må erfaringen være?">
+        <SkjemaGruppe
+            className="fersk-arbeidserfaring"
+            legend={<Element>Hvor fersk må erfaringen være?</Element>}
+        >
             <div className="fersk-arbeidserfaring__hjelpetekst">
                 Husk å legge til arbeidserfaring over først
             </div>
