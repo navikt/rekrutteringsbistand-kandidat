@@ -64,12 +64,7 @@ const Navigeringsmeny: FunctionComponent = () => {
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">
-                    <NyttIRekrutteringsbistand
-                        orientering={'under-hoyre' as any}
-                        onClick={() => {
-                            console.log('hei');
-                        }}
-                    />
+                    <NyttIRekrutteringsbistand orientering={'under-hoyre' as any} />
                 </div>
             </div>
         </div>
