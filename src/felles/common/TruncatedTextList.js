@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './TruncatedTextList.less';
+import { Knapp } from 'nav-frontend-knapper';
 
 class TruncatedTextList extends React.Component {
     constructor(props) {
