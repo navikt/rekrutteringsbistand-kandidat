@@ -67,7 +67,7 @@ class LagreKandidaterModal extends React.Component {
                 ? this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Opprett kandidatlisten først.',
+                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
                 })
                 : this.setState({
                     hentetListe: undefined,
