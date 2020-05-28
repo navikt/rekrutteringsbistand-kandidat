@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Knapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
