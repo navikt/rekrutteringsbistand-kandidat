@@ -47,11 +47,19 @@ const aktivTab = (pathname: string): TabConfig => {
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 
+    const åpnetNyheter = () => {
+        sendEvent('nyheter', 'åpne');
+    };
+
     useEffect(() => {
         const nyhetsknapp = document.querySelector('button.nytt__knapp');
-        nyhetsknapp?.addEventListener('click', () => sendEvent('nyheter', 'åpne'), {
+        nyhetsknapp?.addEventListener('click', åpnetNyheter, {
             once: true,
         });
+
+        return () => {
+            nyhetsknapp?.removeEventListener('click', åpnetNyheter);
+        };
     });
 
     return (
