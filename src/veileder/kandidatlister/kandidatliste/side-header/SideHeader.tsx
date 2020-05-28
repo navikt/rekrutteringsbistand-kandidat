@@ -9,6 +9,7 @@ import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { lenkeTilStilling } from '../../../application/paths';
+import ListeBeskrivelse from "./ListeBeskrivelse";
 
 type Props = {
     tittel: string;
@@ -73,15 +74,16 @@ const SideHeader: FunctionComponent<Props> = ({
                             </Lenkeknapp>
                         )}
                     </div>
-                    {beskrivelseSkalVises && (
-                        <>
-                            <Element className="side-header__beskrivelse-tittel">
-                                Beskrivelse
-                            </Element>
-                            <Normaltekst className="side-header__beskrivelse">
-                                {beskrivelse}
-                            </Normaltekst>
-                        </>
+                    {beskrivelseSkalVises && beskrivelse && (
+                        <ListeBeskrivelse beskrivelse={beskrivelse}/>
+                        // <>
+                        //     <Element className="side-header__beskrivelse-tittel">
+                        //         Beskrivelse
+                        //     </Element>
+                        //     <Normaltekst className="side-header__beskrivelse">
+                        //         {beskrivelse}
+                        //     </Normaltekst>
+                        // </>
                     )}
                 </div>
             </div>
