@@ -2,7 +2,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../application/paths';
 import { Statusvisning } from '../../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../../../kandidatlister/kandidatliste/kandidatrad/Kandidatrad';
+import { utfallToString } from '../../../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';

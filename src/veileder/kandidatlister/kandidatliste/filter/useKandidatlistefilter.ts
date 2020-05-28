@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import { Utfall } from '../kandidatrad/Kandidatrad';
+import { Utfall } from '../kandidatrad/KandidatRad';
 
 const useKandidatlistefilter = (
     kandidater: KandidatIKandidatliste[],

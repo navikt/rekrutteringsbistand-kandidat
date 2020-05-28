@@ -4,11 +4,11 @@ import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import { lagTomtStatusfilter, lagTomtUtfallsfilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
-import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
+import FinnKandidaterLenke from './knappe-rad/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
-import Kandidatrad, { Utfall } from './kandidatrad/Kandidatrad';
+import KandidatRad, { Utfall } from './kandidatrad/KandidatRad';
 import KnappeRad from './knappe-rad/KnappeRad';
-import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
+import LeggTilKandidatKnapp from './knappe-rad/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
 import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
@@ -18,7 +18,6 @@ import useKandidatlistefilter from './filter/useKandidatlistefilter';
 import useAntallFiltertreff from './filter/useAntallFiltertreff';
 import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
-import Meny from './meny/Meny';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -121,11 +120,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             />
             {props.kandidater.length > 0 ? (
                 <>
-                    <Meny
-                        kandidatlisteId={props.kandidatlisteId}
-                        stillingsId={props.stillingsId}
-                        onLeggTilKandidat={props.onLeggTilKandidat}
-                    />
+                    <div className="kandidatliste__kontrollpanel">
+                        <FinnKandidaterLenke
+                            kandidatlisteId={props.kandidatlisteId}
+                            stillingsId={props.stillingsId}
+                        />
+                        <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                    </div>
                     <div className="kandidatliste__grid">
                         <div className="kandidatliste__knapperad-container">
                             {props.kanEditere && (
@@ -169,7 +170,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             />
                             {filtrerteKandidater.length > 0 ? (
                                 filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
-                                    <Kandidatrad
+                                    <KandidatRad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
                                         endreNotat={props.endreNotat}

@@ -1,27 +1,26 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
-import NavFrontendChevron from 'nav-frontend-chevron';
-
-import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
-import { KandidatIKandidatliste } from '../../kandidatlistetyper';
-import { KandidatQueryParam } from '../../../kandidatside/Kandidatside';
-import { MidlertidigUtilgjengeligState } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../../felles/common/remoteData';
-import { sendEvent } from '../../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
-import AppState from '../../../AppState';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
+import { Checkbox } from 'nav-frontend-skjema';
+import { Link } from 'react-router-dom';
+import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
-import MerInfo from './mer-info/MerInfo';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
-import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
-import TilgjengelighetFlagg from '../../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import './Kandidatrad.less';
+import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
+import { sendEvent } from '../../../amplitude/amplitude';
+import { connect } from 'react-redux';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import moment from 'moment';
+import AppState from '../../../../veileder/AppState';
+import TilgjengelighetFlagg from '../../../../veileder/result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
+import { MidlertidigUtilgjengeligState } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
+import { KandidatQueryParam } from '../../../kandidatside/Kandidatside';
+import Lenke from 'nav-frontend-lenker';
 
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
@@ -63,7 +62,7 @@ type Props = {
     };
 };
 
-const Kandidatrad: FunctionComponent<Props> = ({
+const KandidatRad: FunctionComponent<Props> = ({
     kandidat,
     kandidatlisteId,
     stillingsId,
@@ -135,15 +134,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const etternavn = kandidat.etternavn ? capitalizeFirstLetter(kandidat.etternavn) : '';
 
     const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
-
-    const klassenavn = `kandidatliste-kandidat ${
-        kandidat.markert ? 'kandidatliste-kandidat--checked' : ''
-    }`;
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
+        <div
+            tabIndex={-1}
+            ref={kandidatRadRef}
+            className={`kandidatrad liste-rad-wrapper kandidat ${
+                kandidat.markert ? 'checked' : 'unchecked'
+            }`}
+        >
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
@@ -167,7 +167,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     )}
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-med-sms">
+                <div className="kolonne-med-sms">
                     <Link
                         title="Vis profil"
                         className="lenke"
@@ -178,16 +178,14 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Link>
                     {kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
                 </div>
-                <div className="kandidatliste-kandidat__wrap-hvor-som-helst">
-                    {kandidat.fodselsnr}
-                </div>
-                <div className="kandidatliste-kandidat__tabell-tekst">
-                    <span className="kandidatliste-kandidat__tabell-tekst-inner">
+                <div className="liste-rad__wrap-hvor-som-helst">{kandidat.fodselsnr}</div>
+                <div className="tabell-tekst">
+                    <span className="tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
                 </div>
 
-                <div className="kandidatliste-kandidat__lagt-til">
+                <div className="liste-rad__lagt-til">
                     {moment(kandidat.lagtTilTidspunkt).format('DD.MM YYYY')}
                 </div>
                 {visArkiveringskolonne ? (
@@ -202,21 +200,17 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status as Status} />
                 )}
                 {stillingsId && (
-                    <div className="kandidatliste-kandidat__tabell-tekst">
-                        {utfallToString(kandidat.utfall)}
-                    </div>
+                    <div className="tabell-tekst">{utfallToString(kandidat.utfall)}</div>
                 )}
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
-                        className="Notat kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="Notat liste-rad__ekspanderbar-knapp"
                     >
                         <i className="Notat__icon" />
-                        <span className="kandidatliste-kandidat__antall-notater">
-                            {antallNotater}
-                        </span>
+                        <span className="liste-rad__antall-notater">{antallNotater}</span>
                         <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
+                            className="liste-rad__chevron"
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
@@ -225,14 +219,14 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-midtstilt">
+                <div className="kolonne-midtstilt">
                     <Lenkeknapp
                         onClick={toggleMerInfo}
-                        className="MerInfo kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="MerInfo liste-rad__ekspanderbar-knapp"
                     >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
-                            className="kandidatliste-kandidat__chevron"
+                            className="liste-rad__chevron"
                             type={
                                 kandidat.visningsstatus === Visningsstatus.VisMerInfo
                                     ? 'opp'
@@ -242,7 +236,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 {visArkiveringskolonne && (
-                    <div className="kandidatliste-kandidat__kolonne-midtstilt">
+                    <div className="kolonne-midtstilt">
                         <Lenkeknapp
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
@@ -269,7 +263,42 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 />
             )}
             {kandidat.visningsstatus === Visningsstatus.VisMerInfo && (
-                <MerInfo kandidat={kandidat} />
+                <div className="info-under-kandidat">
+                    <div className="info-under-kandidat-content mer-info">
+                        <div className="kontaktinfo-kolonne">
+                            <Element>Kontaktinfo</Element>
+                            <Normaltekst className="tekst">
+                                E-post:{' '}
+                                {kandidat.epost ? (
+                                    <Lenke href={`mailto:${kandidat.epost}`}>
+                                        {kandidat.epost}
+                                    </Lenke>
+                                ) : (
+                                    <span>&mdash;</span>
+                                )}
+                            </Normaltekst>
+                            <Normaltekst className="tekst">
+                                Telefon:{' '}
+                                {kandidat.telefon ? kandidat.telefon : <span>&mdash;</span>}
+                            </Normaltekst>
+                        </div>
+                        <div className="innsatsgruppe-kolonne">
+                            <Normaltekst>
+                                <strong>Innsatsgruppe:</strong>
+                                {` ${kandidat.innsatsgruppe}`}
+                            </Normaltekst>
+                            <a
+                                className="frittstaende-lenke ForlateSiden link"
+                                href={`https://app.adeo.no/veilarbpersonflatefs/${kandidat.fodselsnr}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span className="lenke">Se aktivitetsplan</span>
+                                <i className="ForlateSiden__icon" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
@@ -292,4 +321,4 @@ const mapDispatchToProps = (dispatch) => ({
         }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Kandidatrad);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatRad);

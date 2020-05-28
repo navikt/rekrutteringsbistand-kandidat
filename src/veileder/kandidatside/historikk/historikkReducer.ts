@@ -1,4 +1,4 @@
-import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/Kandidatrad';
+import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/KandidatRad';
 import { Status } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import {
     ApiError,

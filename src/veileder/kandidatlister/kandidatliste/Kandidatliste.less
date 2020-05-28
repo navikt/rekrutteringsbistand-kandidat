@@ -1,3 +1,4 @@
+@import '../../../felles/Variables';
 @import '../../variabler.less';
 
 .kandidatliste {
@@ -15,18 +16,24 @@
         max-width: calc(@kandidatsok-innhold-bredde + 4rem);
         margin: 2.5rem 0;
         padding: 0 2rem;
+
+        .liste-header {
+            border: 1px solid #78706a;
+        }
     }
 
     .kandidatliste-filter {
         grid-area: filter;
     }
 
-    &__knapperad-container {
-        grid-area: knapperad;
-    }
-
-    &__liste {
-        grid-area: liste;
+    &__kontrollpanel {
+        display: flex;
+        align-items: center;
+        margin: 2.5rem 2rem;
+        max-width: @kandidatsok-innhold-bredde;
+        background-color: white;
+        padding: 1.5rem;
+        box-shadow: 0px 2px 4px #c6c2bf;
     }
 
     @media (min-width: @skjerm-medium) {
@@ -43,7 +50,274 @@
             width: @kandidatsok-sidepanel-bredde;
             grid-area: filter;
         }
+
+        &__kontrollpanel {
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
     }
+
+    @media (min-width: 1590px) {
+        &__kontrollpanel {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .finn-kandidater {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        margin-right: 2rem;
+
+        i {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .legg-til-kandidat {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+
+        i {
+            margin-right: 0.5rem;
+        }
+    }
+
+    &__knapperad-container {
+        grid-area: knapperad;
+    }
+
+    &__liste {
+        grid-area: liste;
+
+        .liste-rad-wrapper {
+            border-radius: 4px;
+            background-color: white;
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px @fokusFarge;
+            }
+
+            .liste-rad {
+                height: 4.5rem;
+                display: grid;
+                padding-left: 1.25rem;
+                padding-right: 0.5rem;
+                grid-gap: 1rem;
+                grid-template-columns:
+                    1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
+                    minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
+
+                &--vis-arkivering {
+                    grid-template-columns:
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            5fr
+                        )
+                        minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                }
+
+                &--vis-utfall {
+                    grid-template-columns:
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            4fr
+                        )
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 2fr);
+                }
+
+                &--vis-utfall-og-arkivering {
+                    grid-template-columns:
+                        1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(
+                            0,
+                            4fr
+                        )
+                        minmax(0, 11fr) minmax(0, 8fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                }
+
+                &__ekspanderbar-knapp {
+                    display: flex;
+                    align-items: center;
+
+                    i {
+                        margin-right: 0.4rem;
+                    }
+                }
+
+                &__antall-notater {
+                    margin-right: 0.4rem;
+                }
+
+                &__lagt-til {
+                    overflow-wrap: anywhere;
+                }
+
+                &__chevron {
+                    display: none;
+
+                    @media (min-width: 1400px) {
+                        display: unset;
+                    }
+                }
+
+                &__wrap-hvor-som-helst {
+                    overflow-wrap: anywhere;
+                }
+
+                .StatusSelect {
+                    max-width: 11rem;
+                    min-width: 6rem;
+                }
+
+                .kolonne-midtstilt {
+                    justify-content: center;
+                    white-space: nowrap;
+                }
+
+                .kolonne-tittel {
+                    display: inline-block;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                > * {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .kolonne-med-sms {
+                    .lenke {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
+                    .hjelpetekst {
+                        padding-left: 0.5rem;
+                    }
+                }
+
+                .tabell-tekst-inner {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .kolonne-checkboks {
+                    padding-right: 1.25rem;
+                    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                        .skjemaelement {
+                            padding-bottom: 1.5rem;
+                        }
+                    }
+                }
+            }
+
+            .info-under-kandidat {
+                background-color: #f6f5f5;
+                display: flex;
+                justify-content: center;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+
+                .info-under-kandidat-content {
+                    width: 40rem;
+                    .avsnitt {
+                        margin-top: 1.25rem;
+                    }
+
+                    .spinner-wrapper {
+                        display: flex;
+                        justify-content: center;
+                        padding-top: 1.25rem;
+                    }
+
+                    .notatliste {
+                        margin-top: 2rem;
+                        border-top: 1px solid #d8d8d8;
+
+                        .notatliste-rad {
+                            border-bottom: 1px solid #d8d8d8;
+                            padding-top: 1rem;
+                            padding-bottom: 1rem;
+
+                            .notat-tekst {
+                                margin-top: 0.25rem;
+                                padding-right: 6.25rem;
+                            }
+                        }
+                    }
+                }
+
+                .nytt-notat-form {
+                    margin-top: 2rem;
+
+                    .nytt-notat-tekst {
+                        margin-top: 0.25rem;
+                        min-height: 7.5rem;
+                    }
+                }
+
+                .nytt-notat-knapperad {
+                    margin-top: 1.25rem;
+
+                    > :not(:first-child) {
+                        margin-left: 1rem;
+                    }
+                }
+            }
+            .mer-info {
+                display: flex;
+
+                .kontaktinfo-kolonne {
+                    flex: 2;
+                }
+
+                .innsatsgruppe-kolonne {
+                    flex: 1;
+                }
+
+                .tekst {
+                    margin-top: 1rem;
+                    line-height: 1.3rem;
+                }
+            }
+        }
+        .kandidat {
+            margin-top: 0.5rem;
+        }
+
+        .kandidat.checked {
+            border: 1px solid #0067c5;
+        }
+
+        .kandidat.unchecked {
+            border: 1px solid #d8d8d8;
+        }
+    }
+}
+
+.notat-topprad {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    .notatinfo {
+        .red-tekst {
+            color: #c30000;
+        }
+    }
+    .endre-knapper {
+        > :first-child {
+            margin-right: 0.5rem;
+        }
+    }
+}
+.notat-tekst {
+    margin-top: 0.25rem;
+    padding-right: 6.25rem;
 }
 
 .skjemaelement {
@@ -57,4 +331,193 @@
 .fullscreen-spinner {
     text-align: center;
     margin-top: 1.25rem;
+}
+
+.PresenterKandidaterModal {
+    width: 640px;
+
+    &.modal {
+        padding: 2rem;
+    }
+
+    .wrapper {
+        > * {
+            margin-bottom: 1.5rem;
+        }
+        :last-child {
+            margin-bottom: 0;
+        }
+        .forklaringstekst {
+            margin-right: 1rem;
+        }
+        label.skjemaelement__label {
+            margin-bottom: 0.5rem;
+        }
+        .skjemaelement__input {
+            border: 1px solid #b7b1a9;
+        }
+        .mailadresser {
+            .skjemaelement {
+                transition: all 0.4s ease-in-out;
+                margin-bottom: 0;
+                max-height: 0;
+                opacity: 0;
+            }
+            .skjemaelement.show {
+                margin-bottom: 1rem;
+                max-height: 100px;
+                opacity: 1;
+            }
+        }
+        .beskjed {
+            min-height: 6.25rem;
+        }
+        .avbryt--knapp {
+            margin-left: 1rem;
+        }
+    }
+}
+
+.LeggTilKandidatModal {
+    width: 640px;
+
+    &.modal {
+        padding: 2rem;
+    }
+
+    .tittel {
+        margin-bottom: 1.25rem;
+    }
+    .leggTilKandidatModal--feilmelding__ul {
+        margin: 0.5rem 0 0;
+    }
+    .skjemaelement__input {
+        border: 1px solid #b7b1a9;
+    }
+    .skjemaelement__label {
+        margin-bottom: 0.5rem;
+    }
+    .fodselsnummer {
+        margin-top: 1rem;
+    }
+    .legg-til-kandidat__advarsel {
+        margin-top: 2rem;
+    }
+    .legg-til--knapp {
+        margin: 2.5rem 1rem 0 0;
+    }
+    .avbryt--knapp {
+        margin-top: 2.5rem;
+    }
+
+    .skjemaelement.legg-til-kandidat__fodselsnummer {
+        margin-top: 2rem;
+    }
+
+    .legg-til-kandidat__notatoverskrift {
+        margin-top: 2rem;
+    }
+
+    .legg-til-kandidat__notat {
+        min-height: 10rem;
+    }
+}
+.RedigerNotatModal {
+    width: 40rem;
+    padding: 1rem;
+    .overskrift {
+        margin-bottom: 2rem;
+    }
+    .tekstomrade {
+        margin-bottom: 2rem;
+        .tekstomrade-input {
+            min-height: 6.25rem;
+            margin-top: 0.25rem;
+        }
+    }
+    .modalknapp {
+        margin-bottom: 0;
+    }
+    .venstre {
+        margin-right: 1rem;
+    }
+}
+.modal.SlettNotatModal {
+    width: 40rem;
+    padding: 2rem;
+    .overskrift {
+        margin-bottom: 2rem;
+    }
+    .notat-tekst {
+        margin-bottom: 2.5rem;
+        padding-right: 2rem;
+    }
+    .avbryt--knapp {
+        margin-left: 1rem;
+    }
+}
+
+.SendEpostModal {
+    width: 40rem;
+    color: #3e3832;
+
+    &.modal {
+        padding: 2rem;
+    }
+
+    .SendEpostModal-overskrift {
+        padding-bottom: 1.25rem;
+    }
+
+    .SendEpostModal-ingress {
+        padding-bottom: 1.25rem;
+    }
+
+    .bold {
+        font-weight: 600;
+    }
+
+    .kandidat-tabell {
+        border-top: 1px solid #d8d8d8;
+        margin-bottom: 2.5rem;
+
+        .kandidat-tabell-innhold {
+            max-height: 17.5rem;
+            overflow-y: scroll;
+        }
+
+        .kandidat-tabell-rad {
+            display: flex;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #d8d8d8;
+
+            .kandidat-tabell-rad-navn {
+                flex: 1;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                margin-right: 2rem;
+            }
+
+            .kandidat-tabell-rad-epost {
+                flex: 1;
+            }
+        }
+        .kandidat-tabell-rad__inaktiv {
+            background-color: #f6f5f5;
+        }
+    }
+
+    .SendEpostModal--knapperad {
+        display: flex;
+        justify-content: space-between;
+    }
+    .tekst {
+        margin: 1rem auto 2rem;
+        max-width: 27rem;
+    }
+    .lukk--knapp {
+        margin-bottom: 1rem;
+    }
 }

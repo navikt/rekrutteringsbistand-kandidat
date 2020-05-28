@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
-import './../kandidatrad/Kandidatrad.less';
+import StatusHjelpetekst from './StatusHjelpetekst';
 
 interface Props {
     stillingsId: string | null;
@@ -16,16 +16,16 @@ export const modifierTilListeradGrid = (
 ) => {
     if (visUtfallskolonne) {
         return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
-            : ' kandidatliste-kandidat__rad--vis-utfall';
+            ? ' liste-rad--vis-utfall-og-arkivering'
+            : ' liste-rad--vis-utfall';
     } else {
-        return visArkiveringskolonne ? ' kandidatliste-kandidat__rad--vis-arkivering' : '';
+        return visArkiveringskolonne ? ' liste-rad--vis-arkivering' : '';
     }
 };
 
 const Kolonnetittel = ({ className, children }: { className?: string; children: ReactNode }) => (
     <div className={className ? className : ''}>
-        <Element className="kandidatliste-kandidat__rad__kolonne-tittel">{children}</Element>
+        <Element className="kolonne-tittel">{children}</Element>
     </div>
 );
 
@@ -36,11 +36,10 @@ const ListeHeader: FunctionComponent<Props> = ({
     visArkiveringskolonne,
 }) => {
     const klassenavnForListerad =
-        'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+        'liste-rad' + modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     return (
-        <div className="kandidatliste-kandidat kandidatliste-kandidat__header">
+        <div className="liste-rad-wrapper liste-header">
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
@@ -56,13 +55,9 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <Kolonnetittel>Status</Kolonnetittel>
                 {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
                 <Kolonnetittel>Notater</Kolonnetittel>
-                <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">
-                    Info
-                </Kolonnetittel>
+                <Kolonnetittel className="kolonne-midtstilt">Info</Kolonnetittel>
                 {visArkiveringskolonne && (
-                    <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">
-                        Slett
-                    </Kolonnetittel>
+                    <Kolonnetittel className="kolonne-midtstilt">Slett</Kolonnetittel>
                 )}
             </div>
         </div>

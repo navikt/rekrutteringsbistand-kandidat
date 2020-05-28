@@ -1,4 +1,4 @@
-import { Utfall } from '../kandidatrad/Kandidatrad';
+import { Utfall } from './../kandidatrad/KandidatRad';
 import { Status } from './../kandidatrad/statusSelect/StatusSelect';
 
 export const lagTomtStatusfilter = (): Record<Status, boolean> => {
