@@ -4,11 +4,11 @@ import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
-import Typeahead from '../../../veileder/common/typeahead/Typeahead';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Navkontor.less';
 import { Knapp } from 'nav-frontend-knapper';
+import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 
 class NavkontorSearch extends React.Component {
     constructor(props) {
