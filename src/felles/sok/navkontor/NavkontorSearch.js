@@ -104,8 +104,13 @@ class NavkontorSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp onClick={this.onAddClick} id="leggtil-navkontor-knapp" mini>
-                                +Legg til NAV-kontor
+                            <Knapp
+                                onClick={this.onAddClick}
+                                id="leggtil-navkontor-knapp"
+                                kompakt
+                                className="filterknapp"
+                            >
+                                + Legg til NAV-kontor
                             </Knapp>
                         )}
                     </div>

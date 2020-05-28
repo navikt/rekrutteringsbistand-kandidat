@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Flatknapp, Knapp } from 'pam-frontend-knapper';
+import { Knapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
@@ -21,6 +21,7 @@ import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilte
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
+import { Flatknapp } from 'nav-frontend-knapper';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',

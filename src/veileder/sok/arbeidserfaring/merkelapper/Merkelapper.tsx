@@ -93,8 +93,13 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
                             onTypeAheadBlur={onTypeAheadBlur}
                         />
                     ) : (
-                        <Knapp mini onClick={onLeggTilClick} id="leggtil-arbeidserfaring-knapp">
-                            +Legg til arbeidserfaring
+                        <Knapp
+                            kompakt
+                            onClick={onLeggTilClick}
+                            id="leggtil-arbeidserfaring-knapp"
+                            className="filterknapp"
+                        >
+                            + Legg til arbeidserfaring
                         </Knapp>
                     )}
                 </div>
