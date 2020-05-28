@@ -7,6 +7,7 @@ import Hus from './Hus';
 
 import '../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import './Navigeringsmeny.less';
+import { sendEvent } from '../amplitude/amplitude';
 
 const kandidatsøkTab = {
     tittel: 'Kandidatsøk',
@@ -56,7 +57,12 @@ const Navigeringsmeny: FunctionComponent = () => {
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">
-                    <NyttIRekrutteringsbistand orientering={'under-hoyre' as any} />
+                    <NyttIRekrutteringsbistand
+                        onÅpneNyheter={(antallUlesteNyheter) => {
+                            sendEvent('nyheter', 'åpne', { antallUlesteNyheter });
+                        }}
+                        orientering={'under-hoyre' as any}
+                    />
                 </div>
             </div>
         </div>
