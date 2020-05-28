@@ -7,7 +7,7 @@ import {capitalizeEmployerName} from '../../../../felles/sok/utils';
 import './SideHeader.less';
 import {LenkeMedChevron} from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import {lenkeTilStilling} from '../../../application/paths';
-import ListeBeskrivelse from './ListeBeskrivelse';
+import Beskrivelse from './Beskrivelse';
 
 type Props = {
     tittel: string;
@@ -63,7 +63,7 @@ const SideHeader: FunctionComponent<Props> = ({
                             </span>
                         )}
                     </div>
-                    {beskrivelse && <ListeBeskrivelse beskrivelse={beskrivelse} />}
+                    {beskrivelse && <Beskrivelse beskrivelse={beskrivelse} />}
                 </div>
             </div>
         </header>

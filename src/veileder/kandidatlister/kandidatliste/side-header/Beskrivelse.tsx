@@ -8,7 +8,7 @@ interface Props {
     beskrivelse: string;
 }
 
-const ListeBeskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
+const Beskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
     const [skalViseHeleBeskrivelse, setSkalViseHele] = useState(false);
     const antTegnSomAlltidVises = 250;
 
@@ -20,8 +20,7 @@ const ListeBeskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
                     ? beskrivelse
                     : beskrivelse.substr(0, antTegnSomAlltidVises) + ' ...'}
                 {beskrivelse.length > antTegnSomAlltidVises && (
-                    <span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="Lenkeknapp__les-mer">
                         <Lenkeknapp onClick={() => setSkalViseHele(!skalViseHeleBeskrivelse)}>
                             {skalViseHeleBeskrivelse ? 'Skjul beskrivelse' : 'Les mer'}
                             <NavFrontendChevron type={skalViseHeleBeskrivelse ? 'opp' : 'ned'} />
@@ -33,4 +32,4 @@ const ListeBeskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
     );
 };
 
-export default ListeBeskrivelse;
+export default Beskrivelse;
