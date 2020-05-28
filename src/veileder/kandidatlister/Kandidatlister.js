@@ -44,6 +44,7 @@ export const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKa
             placeholder="Skriv inn navn på kandidatliste"
         />
         <Søkeknapp
+            type="flat"
             aria-label="sok-kandidatlister-knapp"
             className="kandidatlister__søkeknapp"
             id="sok-kandidatlister-knapp"

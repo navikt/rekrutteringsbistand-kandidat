@@ -37,6 +37,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
                 placeholder="Fritekstsøk"
             />
             <Søkeknapp
+                type="flat"
                 aria-label="fritekstsøk"
                 className="fritekst__search__søkeknapp"
                 id="fritekstsok-knapp"
