@@ -31,17 +31,20 @@ import { call, put, select } from 'redux-saga/effects';
 import AppState from '../AppState';
 import { mapTilSøkekriterierBackend } from './søkekriterierBackend';
 
-
 interface SetStateAction {
-    type: 'SET_STATE',
-    query: any,
+    type: 'SET_STATE';
+    query: any;
 }
 
 interface LukkAlleSøkepanelAction {
-    type: 'LUKK_ALLE_SOKEPANEL',
+    type: 'LUKK_ALLE_SOKEPANEL';
 }
 
-export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction;
+interface SearchAction {
+    type: 'SEARCH';
+}
+
+export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction | SearchAction;
 
 interface Søkeresultat {
     resultat: {

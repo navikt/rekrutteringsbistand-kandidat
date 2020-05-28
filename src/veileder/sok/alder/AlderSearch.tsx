@@ -3,9 +3,25 @@ import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/Sokekrit
 import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import './AlderSearch.less';
 import { SEARCH } from '../searchReducer';
-import { PermitteringActionType } from '../permittering/permitteringReducer';
+import { AlderAction, AlderActionType } from './alderReducer';
+import { useDispatch } from 'react-redux';
+
+interface Props {
+    search: () => void;
+    setAlderFra: (fra: number | undefined) => void;
+    setAlderTil: (til: number | undefined) => void;
+}
 
 export const AlderSearch: FunctionComponent = () => {
+    const dispatch = useDispatch();
+
+    const setAlderFra = (fra: number | undefined) =>
+        dispatch({ type: AlderActionType.SetAlderFra, fra });
+    const setAlderTil = (til: number | undefined) =>
+        dispatch({ type: AlderActionType.SetAlderTil, til });
+    const search = () => dispatch({ type: SEARCH });
+    const togglePanel = () => dispatch({ type: AlderActionType.ToggleAlderPanel });
+
     return (
         <SokekriteriePanel
             apen={true}
@@ -17,15 +33,9 @@ export const AlderSearch: FunctionComponent = () => {
                     <NyttFilterIkon />
                 </div>
             }
-            onClick={() => {}}
+            onClick={togglePanel}
         >
             hei test
         </SokekriteriePanel>
     );
 };
-
-const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    search: () => dispatch({ type: SEARCH }),
-    setAlder: () => {},
-    togglePanel: () => dispatch({ type: PermitteringActionType.TOGGLE_PERMITTERING_PANEL }),
-});
