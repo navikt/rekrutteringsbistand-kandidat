@@ -22,6 +22,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 import { Flatknapp } from 'nav-frontend-knapper';
+import { Nesteknapp } from 'nav-frontend-ikonknapper';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -306,10 +307,7 @@ const KandidatlisterPaginering = ({
                     </Flatknapp>
                 )}
                 {kandidatlisterSokeKriterier.pagenumber < sisteSide - 1 && (
-                    <Flatknapp onClick={nesteSide}>
-                        Neste
-                        <NavFrontendChevron type="høyre" />
-                    </Flatknapp>
+                    <Nesteknapp onClick={nesteSide} />
                 )}
             </div>
         </div>
