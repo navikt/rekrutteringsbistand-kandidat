@@ -54,8 +54,12 @@ export const alderReducer = (state: AlderState = initialState, action: AlderActi
             return { ...state, panelOpen: false };
         }
         case SET_STATE: {
-            const { fra, til } = action.query.alder;
-            return { fra, til, panelOpen: fra !== undefined || til !== undefined };
+            const { alderFra, alderTil } = action.query;
+            return {
+                fra: alderFra,
+                til: alderTil,
+                panelOpen: alderFra !== undefined || alderTil !== undefined,
+            };
         }
         default:
             return state;

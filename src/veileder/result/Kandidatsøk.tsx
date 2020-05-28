@@ -19,7 +19,6 @@ import TilretteleggingsbehovSearch from '../sok/tilretteleggingsbehov/Tilrettele
 import KandidaterVisning from './KandidaterVisning';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import { Column, Container } from 'nav-frontend-grid';
-import { AlderSearch } from '../sok/alder/AlderSearch';
 
 interface Props {
     visFantFåKandidater?: boolean;
