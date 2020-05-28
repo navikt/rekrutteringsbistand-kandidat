@@ -29,7 +29,22 @@ import { fetchKandidater, fetchKandidaterES } from '../api';
 import { SearchApiError } from '../../felles/api';
 import { call, put, select } from 'redux-saga/effects';
 import AppState from '../AppState';
-import { mapTilSøkekriterier } from './søkekriterier';
+import { mapTilSøkekriterierBackend } from './søkekriterierBackend';
+
+interface SetStateAction {
+    type: 'SET_STATE';
+    query: any;
+}
+
+interface LukkAlleSøkepanelAction {
+    type: 'LUKK_ALLE_SOKEPANEL';
+}
+
+interface SearchAction {
+    type: 'SEARCH';
+}
+
+export type FellesSøkekriterieActions = SetStateAction | LukkAlleSøkepanelAction | SearchAction;
 
 interface Søkeresultat {
     resultat: {
@@ -249,7 +264,7 @@ export function* search(action: any = '') {
 
         oppdaterUrlTilÅReflektereSøkekriterier(state);
 
-        const [søkekriterier, searchQueryHash] = mapTilSøkekriterier(state, action);
+        const [søkekriterier, searchQueryHash] = mapTilSøkekriterierBackend(state, action);
         const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
 

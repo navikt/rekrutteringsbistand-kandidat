@@ -32,6 +32,8 @@ interface SearchQuery {
     oppstartstidspunkter?: string;
     maksAlderArbeidserfaring?: number;
     midlertidigUtilgjengelig?: string;
+    alderFra?: number;
+    alderTil?: number;
 }
 
 const mapStateToSearchQuery = (state: AppState): SearchQuery => {
@@ -98,6 +100,8 @@ const mapStateToSearchQuery = (state: AppState): SearchQuery => {
         urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
             '_'
         );
+    if (state.alder.fra) urlQuery.alderFra = state.alder.fra;
+    if (state.alder.til) urlQuery.alderTil = state.alder.til;
 
     return urlQuery;
 };
@@ -136,6 +140,8 @@ export type InitialQuery = FritekstState &
         midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
         kandidatlisteId?: string;
+        alderFra?: number;
+        alderTil?: number;
     };
 
 export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): InitialQuery => {
@@ -162,6 +168,8 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
     const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
+    const alderFra = getUrlParameterByName('alderFra');
+    const alderTil = getUrlParameterByName('alderTil');
 
     if (fritekst) stateFromUrl.fritekst = fritekst;
     if (stillinger) stateFromUrl.stillinger = stillinger.split('_');
@@ -189,6 +197,8 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
     if (kandidatlisteId) stateFromUrl.kandidatlisteId = kandidatlisteId;
+    if (alderFra && !isNaN(parseInt(alderFra))) stateFromUrl.alderFra = parseInt(alderFra);
+    if (alderTil && !isNaN(parseInt(alderTil))) stateFromUrl.alderTil = parseInt(alderTil);
 
     return stateFromUrl;
 };

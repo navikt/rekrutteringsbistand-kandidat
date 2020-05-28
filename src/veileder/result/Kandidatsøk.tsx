@@ -74,6 +74,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                     <NavkontorSearch />
                                     <HovedmalSearch />
                                     <InnsatsgruppeSearch />
+                                    {/*<AlderSearch />*/}
                                     <TilretteleggingsbehovSearch />
                                 </div>
                             </div>
