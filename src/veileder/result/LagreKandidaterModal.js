@@ -282,9 +282,9 @@ class LagreKandidaterModal extends React.Component {
                             </Normaltekst>
                         )}
                         {kandidatlister.length < antallKandidatlister && (
-                            <Flatknapp onClick={this.onVisFlereListerClick}>
+                            <Knapp className="knapp-små-bokstaver" onClick={this.onVisFlereListerClick}>
                                 Se flere lister
-                            </Flatknapp>
+                            </Knapp>
                         )}
                         <Normaltekst className="annonsenummer__search--label">
                             Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter
