@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
-import { Knapp } from 'pam-frontend-knapper';
 import AppState from '../../AppState';
 import './Fritekst.less';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
