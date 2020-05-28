@@ -276,7 +276,7 @@ class VisKandidat extends React.Component {
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
                             />
-                            {this.state.visLenkeTilKandidatliste ? (
+                            {this.state.visLenkeTilKandidatliste || kandidatliste ? (
                                 <>
                                     Kandidaten er lagret i&nbsp;
                                     <Link
