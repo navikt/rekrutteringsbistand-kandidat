@@ -5,6 +5,7 @@ import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import { Knapp } from 'pam-frontend-knapper';
 import AppState from '../../AppState';
 import './Fritekst.less';
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 interface Props {
     search: () => void;
@@ -35,15 +36,13 @@ const FritekstSearch: FunctionComponent<Props> = ({
                 className="skjemaelement__input"
                 placeholder="Fritekstsøk"
             />
-            <Knapp
+            <Søkeknapp
                 aria-label="fritekstsøk"
-                className="search-button"
+                className="fritekst__search__søkeknapp"
                 id="fritekstsok-knapp"
                 htmlType="submit"
                 title="Søk"
-            >
-                <i className="search-button__icon" />
-            </Knapp>
+            />
         </form>
     );
 };
