@@ -7,7 +7,6 @@ import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReduc
 import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
-import { AlderState } from './sok/alder/alderReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
@@ -18,6 +17,7 @@ type AppState = {
     typeahead: TypeaheadState;
     cv: CvState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
+
     fritekst: FritekstState;
     stilling: StillingState;
     kompetanse: KompetanseState;
@@ -30,7 +30,6 @@ type AppState = {
     hovedmal: HovedmalState;
     tilretteleggingsbehov: TilretteleggingsbehovState;
     historikk: HistorikkState;
-    alder: AlderState;
 };
 
 // TODO Følgende burde defineres i sine respektive reducere

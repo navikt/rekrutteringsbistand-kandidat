@@ -8,9 +8,9 @@ import { Nettstatus, RemoteData } from '../../../felles/common/remoteData';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import HjelpetekstFading from '../../../felles/common/HjelpetekstFading';
-import KopierEpostModal from './KopierEpostModal';
-import LeggTilKandidatModal from './LeggTilKandidatModal';
-import PresenterKandidaterModal from './PresenterKandidaterModal';
+import KopierEpostModal from './modaler/KopierEpostModal';
+import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
+import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import {

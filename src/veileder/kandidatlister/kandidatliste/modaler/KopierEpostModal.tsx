@@ -5,10 +5,11 @@ import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typogr
 import Lenke from 'nav-frontend-lenker';
 import NavFrontendModal from 'nav-frontend-modal';
 
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
-import { FadingAlertStripeLiten } from '../../../felles/common/HjelpetekstFading';
-import { Kandidat } from '../kandidatlistetyper';
-import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';
+import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
+import { FadingAlertStripeLiten } from '../../../../felles/common/HjelpetekstFading';
+import { Kandidat } from '../../kandidatlistetyper';
+import { useTimeoutState } from '../../../../felles/common/hooks/useTimeoutState';
+import './KopierEpostModal.less';
 
 NavFrontendModal.setAppElement('#app');
 
@@ -52,12 +53,14 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
         <NavFrontendModal
             contentLabel="E-postadressene er kopiert"
             onRequestClose={onClose}
-            className="SendEpostModal"
+            className="KopierEpostModal"
             isOpen={vis}
         >
-            <Systemtittel className="SendEpostModal-overskrift">Kopier e-postadresser</Systemtittel>
+            <Systemtittel className="KopierEpostModal-overskrift">
+                Kopier e-postadresser
+            </Systemtittel>
             <FadingAlertStripeLiten alertStripeState={alertState} />
-            <Ingress className="SendEpostModal-ingress">
+            <Ingress className="KopierEpostModal-ingress">
                 <span className="bold">{kandidaterMedEpost.length} </span> av{' '}
                 <span className="bold">{kandidater.length}</span> markerte kandidater har registrert
                 e-postadresse
@@ -101,7 +104,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                     ))}
                 </div>
             </div>
-            <div className="SendEpostModal--knapperad">
+            <div className="KopierEpostModal--knapperad">
                 <Knapp onClick={onKopierEpostadresser} disabled={kandidaterMedEpost.length === 0}>
                     Kopier e-postadresser
                 </Knapp>
