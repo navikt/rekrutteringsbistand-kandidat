@@ -60,7 +60,7 @@ const SprakLabels = {
 };
 
 const KandidatCv = ({ cv }) => (
-    <div className="kandidat-cv">
+    <div className="kandidat-cv cv-side__panel">
         <Ekspanderbartpanel
             apen
             id="ekspanderbartpanel-cv"

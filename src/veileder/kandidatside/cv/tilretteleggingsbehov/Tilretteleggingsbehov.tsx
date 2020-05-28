@@ -15,7 +15,7 @@ const Tilretteleggingsbehov = ({ fnr }: Props) => {
     const arbeidsrettetOppfølgingUrl = `${ARBEIDSRETTET_OPPFOLGING_URL}/${fnr}?#visDetaljer&apneTilretteleggingsbehov`;
 
     return (
-        <div className="kandidat-tilretteleggingsbehov">
+        <div className="kandidat-tilretteleggingsbehov cv-side__panel">
             <EkspanderbartpanelBase
                 apen={apen}
                 onClick={() => toggleApen(!apen)}

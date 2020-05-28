@@ -5,6 +5,7 @@ import KandidatTilretteleggingsbehov from './tilretteleggingsbehov/Tilretteleggi
 import Knapperad from '../knapperad/Knapperad';
 import { useSelector } from 'react-redux';
 import AppState from '../../AppState';
+import './CvSide.less';
 
 const CvSide: FunctionComponent = () => {
     const { cv } = useSelector((state: AppState) => state.cv);
@@ -12,9 +13,13 @@ const CvSide: FunctionComponent = () => {
     return (
         <>
             <Knapperad aktørId={cv.aktorId} />
-            <KandidatJobbprofil cv={cv} />
-            <KandidatCv cv={cv} />
-            {cv.tilretteleggingsbehov && <KandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />}
+            <div className="cv-side__paneler">
+                <KandidatJobbprofil cv={cv} />
+                <KandidatCv cv={cv} />
+                {cv.tilretteleggingsbehov && (
+                    <KandidatTilretteleggingsbehov fnr={cv.fodselsnummer} />
+                )}
+            </div>
         </>
     );
 };

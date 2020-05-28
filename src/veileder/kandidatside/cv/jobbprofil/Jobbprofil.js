@@ -8,7 +8,7 @@ import { OPPSTARTSKODER } from '../../../../felles/konstanter';
 import './Jobbprofil.less';
 
 const KandidatJobbprofil = ({ cv }) => (
-    <div className="kandidat-jobbprofil">
+    <div className="kandidat-jobbprofil cv-side__panel">
         <Ekspanderbartpanel
             apen
             id="ekspanderbartpanel-jobbprofil"

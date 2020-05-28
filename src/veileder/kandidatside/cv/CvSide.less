@@ -1,0 +1,23 @@
+.cv-side {
+    &__paneler {
+        margin: 0 auto;
+        max-width: 1590px;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(35rem, 40rem));
+        grid-template-rows: auto;
+        grid-gap: 2rem;
+    }
+
+    &__panel {
+        max-width: 40rem;
+        width: 100%;
+        margin: 0 auto 1.25rem;
+    }
+
+    @media (min-width: 1590px) {
+        &__panel {
+            min-width: 32rem;
+        }
+    }
+}
