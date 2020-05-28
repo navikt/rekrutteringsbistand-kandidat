@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events,no-trailing-spaces */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'pam-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
