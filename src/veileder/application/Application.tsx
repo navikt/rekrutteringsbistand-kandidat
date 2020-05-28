@@ -22,6 +22,7 @@ const skjermerMedGråBakgrunn = [
     '/kandidater/lister/detaljer/',
     '/kandidater/cv',
     '/kandidater/kandidat/',
+    '/kandidater/lister',
 ];
 
 const skalBrukeGråBakgrunn = (url: string) =>
