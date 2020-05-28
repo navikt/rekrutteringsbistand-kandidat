@@ -332,6 +332,7 @@ class Kandidatlister extends React.Component {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
         this.resetSearchQuery();
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
+        this.props.fjernValgtKandidat();
     }
 
     componentDidUpdate(prevProps) {
@@ -646,6 +647,10 @@ const mapDispatchToProps = (dispatch) => ({
     resetSletteStatus: () => {
         dispatch({ type: KandidatlisteActionType.RESET_SLETTE_STATUS });
     },
+    fjernValgtKandidat: () =>
+        dispatch({
+            type: KandidatlisteActionType.VELG_KANDIDAT,
+        }),
 });
 
 export const KandidatlisteBeskrivelse = PropTypes.shape({
@@ -767,6 +772,7 @@ Kandidatlister.propTypes = {
             slettetTittel: PropTypes.string,
         }),
     }).isRequired,
+    fjernValgtKandidat: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
