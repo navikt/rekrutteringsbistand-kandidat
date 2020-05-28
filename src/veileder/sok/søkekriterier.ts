@@ -2,19 +2,18 @@ import AppState from '../AppState';
 import { getHashFromString } from '../../felles/sok/utils';
 import { Tilgjengelighet } from './Søkeresultat';
 
-type SøkekriterierBackend = any & {
+// TODO Skal i teorien matche objektet i endepunktet i backend
+type Søkekriterier = any & {
     hasValues: boolean;
     fraIndex: number;
     antallResultater: number;
-    antallAarFra?: number;
-    antallAarTil?: number;
 };
 
-export const mapTilSøkekriterierBackend = (
+export const mapTilSøkekriterier = (
     state: AppState,
     action: any
-): [SøkekriterierBackend, string | number] => {
-    const søkekriterierFraState = mapTilSøkekriterierBackendFraState(state);
+): [Søkekriterier, string | number] => {
+    const søkekriterierFraState = mapTilSøkekriterierFraState(state);
     const fraIndex = action.fraIndex || 0;
     const antallResultater = action.antallResultater
         ? Math.max(action.antallResultater, state.search.antallVisteKandidater)
@@ -35,7 +34,7 @@ export const mapTilSøkekriterierBackend = (
     ];
 };
 
-export const mapTilSøkekriterierBackendFraState = (state: AppState): SøkekriterierBackend => {
+export const mapTilSøkekriterierFraState = (state: AppState): any => {
     const forerkortState = state.forerkort.forerkortList;
     const forerkortListe =
         forerkortState && forerkortState.includes('Førerkort: Kl. M (Moped)')
@@ -79,8 +78,6 @@ export const mapTilSøkekriterierBackendFraState = (state: AppState): Søkekrite
         ),
         permittert: permittert,
         listeId: state.search.kandidatlisteId,
-        antallAarFra: state.alder.fra,
-        antallAarTil: state.alder.til,
     };
 };
 
