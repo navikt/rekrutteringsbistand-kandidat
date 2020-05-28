@@ -128,7 +128,7 @@ class GeografiSearch extends React.Component {
                                 onClick={this.onLeggTilClick}
                                 id="leggtil-sted-knapp"
                                 kompakt
-                                className="filterknapp"
+                                className="knapp-små-bokstaver"
                             >
                                 + Legg til fylke/kommune
                             </Knapp>

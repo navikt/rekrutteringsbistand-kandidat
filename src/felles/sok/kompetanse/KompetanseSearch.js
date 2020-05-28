@@ -117,7 +117,7 @@ class KompetanseSearch extends React.Component {
                                 onClick={this.onLeggTilKompetanseClick}
                                 id="leggtil-kompetanse-knapp"
                                 kompakt
-                                className="filterknapp"
+                                className="knapp-små-bokstaver"
                             >
                                 + Legg til kompetanse
                             </Knapp>

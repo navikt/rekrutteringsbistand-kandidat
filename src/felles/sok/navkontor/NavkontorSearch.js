@@ -108,7 +108,7 @@ class NavkontorSearch extends React.Component {
                                 onClick={this.onAddClick}
                                 id="leggtil-navkontor-knapp"
                                 kompakt
-                                className="filterknapp"
+                                className="knapp-små-bokstaver"
                             >
                                 + Legg til NAV-kontor
                             </Knapp>

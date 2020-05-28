@@ -97,7 +97,7 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
                             kompakt
                             onClick={onLeggTilClick}
                             id="leggtil-arbeidserfaring-knapp"
-                            className="filterknapp"
+                            className="knapp-små-bokstaver"
                         >
                             + Legg til arbeidserfaring
                         </Knapp>

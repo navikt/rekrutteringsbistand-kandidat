@@ -119,7 +119,7 @@ const ListeHeader = () => (
     </div>
 );
 
-const KanSletteEnum = {
+export const KanSletteEnum = {
     KAN_SLETTES: 'KAN_SLETTES',
     ER_IKKE_DIN: 'ER_IKKE_DIN',
     HAR_STILLING: 'HAR_STILLING',
