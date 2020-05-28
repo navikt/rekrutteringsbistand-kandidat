@@ -97,8 +97,13 @@ class SprakSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp onClick={this.onLeggTilClick} id="leggtil-sprak-knapp" mini>
-                                +Legg til språk
+                            <Knapp
+                                onClick={this.onLeggTilClick}
+                                id="leggtil-sprak-knapp"
+                                kompakt
+                                className="knapp-små-bokstaver"
+                            >
+                                + Legg til språk
                             </Knapp>
                         )}
                     </div>

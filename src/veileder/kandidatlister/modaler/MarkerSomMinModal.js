@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytClick }) => (
     <NavFrontendModal
@@ -26,10 +26,13 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                     For å markere stillingen og kandidatlisten som din må du gå til stillingen.
                 </Normaltekst>
                 <div>
-                    <a className="typo-element link" href={`/stilling/${stillingsId}`}>
+                    <a className="typo-element lenke" href={`/stilling/${stillingsId}`}>
                         Gå til stillingen
                     </a>
-                    <Flatknapp mini className="marker-som-min__avbryt" onClick={onAvbrytClick}>
+                    <Flatknapp
+                        className="marker-som-min__avbryt knapp-små-bokstaver"
+                        onClick={onAvbrytClick}
+                    >
                         Avbryt
                     </Flatknapp>
                 </div>
@@ -42,8 +45,13 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                     til kandidatene.
                 </Normaltekst>
                 <div>
-                    <Hovedknapp onClick={markerKandidatlisteSomMin}>Marker som min</Hovedknapp>
-                    <Flatknapp className="marker-som-min__avbryt" onClick={onAvbrytClick}>
+                    <Hovedknapp className="knapp-små-bokstaver" onClick={markerKandidatlisteSomMin}>
+                        Marker som min
+                    </Hovedknapp>
+                    <Flatknapp
+                        className="marker-som-min__avbryt knapp-små-bokstaver"
+                        onClick={onAvbrytClick}
+                    >
                         Avbryt
                     </Flatknapp>
                 </div>

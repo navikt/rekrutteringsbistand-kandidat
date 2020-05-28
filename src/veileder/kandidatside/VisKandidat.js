@@ -37,7 +37,6 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalVises: false,
             lagreKandidaterModalTilStillingVises: false,
             visKandidatLagret: false,
-            visLenkeTilKandidatliste: false,
         };
 
         this.kandidatnummer = kandidatNr;
@@ -102,7 +101,6 @@ class VisKandidat extends React.Component {
             sendEvent('cv', 'visning');
             this.setState({
                 forrigeKandidat: this.forrigeKandidatnummerIListen(this.kandidatnummer),
-                visLenkeTilKandidatliste: false,
             });
             if (gjeldendeKandidat === kandidater.length && kandidater.length < antallKandidater) {
                 lastFlereKandidater();
@@ -138,7 +136,6 @@ class VisKandidat extends React.Component {
 
         if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();
-            this.visLenkeTilKandidatliste();
         }
     };
 
@@ -153,10 +150,6 @@ class VisKandidat extends React.Component {
                 visKandidatLagret: false,
             });
         }, 5000);
-    };
-
-    visLenkeTilKandidatliste = () => {
-        this.setState({ visLenkeTilKandidatliste: true });
     };
 
     gjeldendeKandidatIListen = (kandidatnummer) => {
@@ -207,6 +200,7 @@ class VisKandidat extends React.Component {
             lagreKandidatIKandidatlisteStatus,
             kandidatliste,
             midlertidigUtilgjengelig,
+            kandidatNr,
         } = this.props;
 
         const {
@@ -248,6 +242,12 @@ class VisKandidat extends React.Component {
                 : undefined;
         }
 
+        const kandidatLiggerAlleredeIKandidatlisten =
+            kandidatliste &&
+            (stillingsId || kandidatlisteId) &&
+            kandidatliste.kandidater.findIndex((kandidat) => kandidat.kandidatnr === kandidatNr) !==
+                -1;
+
         if (hentStatus === HentCvStatus.Loading || hentStatus === HentCvStatus.IkkeHentet) {
             return (
                 <div className="text-center">
@@ -276,7 +276,7 @@ class VisKandidat extends React.Component {
                                 midlertidigUtilgjengelig={midlertidigUtilgjengelig}
                                 kandidatnr={cv.kandidatnummer}
                             />
-                            {this.state.visLenkeTilKandidatliste ? (
+                            {kandidatLiggerAlleredeIKandidatlisten ? (
                                 <>
                                     Kandidaten er lagret i&nbsp;
                                     <Link

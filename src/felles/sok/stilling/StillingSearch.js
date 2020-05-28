@@ -115,9 +115,10 @@ export default class StillingSearch extends React.Component {
                                 <Knapp
                                     onClick={this.onLeggTilClick}
                                     id="leggtil-stilling-knapp"
-                                    mini
+                                    className="knapp-små-bokstaver"
+                                    kompakt
                                 >
-                                    +Legg til stilling/yrke
+                                    + Legg til stilling/yrke
                                 </Knapp>
                             )}
                         </div>
