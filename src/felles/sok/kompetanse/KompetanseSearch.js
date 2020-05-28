@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
 import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Kompetanse.less';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
+import { Knapp } from 'nav-frontend-knapper';
 
 class KompetanseSearch extends React.Component {
     constructor(props) {
@@ -114,14 +113,13 @@ class KompetanseSearch extends React.Component {
                                 selectedSuggestions={this.props.kompetanser}
                             />
                         ) : (
-                            <LeggtilKnapp
+                            <Knapp
                                 onClick={this.onLeggTilKompetanseClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                 id="leggtil-kompetanse-knapp"
                                 mini
                             >
                                 +Legg til kompetanse
-                            </LeggtilKnapp>
+                            </Knapp>
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">

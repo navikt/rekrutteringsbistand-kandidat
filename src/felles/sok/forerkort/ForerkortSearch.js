@@ -7,8 +7,8 @@ import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 import { førerkortProptypes } from '../../../veileder/sok/forerkort/ForerkortSearch';
+import { Knapp } from 'nav-frontend-knapper';
 
 class ForerkortSearch extends React.Component {
     constructor(props) {
@@ -106,14 +106,13 @@ class ForerkortSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <LeggtilKnapp
-                                onClick={this.onLeggTilForerkortClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                                id="leggtil-forerkort-knapp"
+                            <Knapp
                                 mini
+                                onClick={this.onLeggTilForerkortClick}
+                                id="leggtil-forerkort-knapp"
                             >
                                 +Legg til førerkort
-                            </LeggtilKnapp>
+                            </Knapp>
                         )}
                         {this.state.feil && (
                             <Normaltekst className="skjemaelement__feilmelding">

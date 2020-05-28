@@ -8,7 +8,7 @@ import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Geografi.less';
 import CheckboxMedHjelpetekst from '../../common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
+import { Knapp } from 'nav-frontend-knapper';
 
 class GeografiSearch extends React.Component {
     constructor(props) {
@@ -124,14 +124,9 @@ class GeografiSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <LeggtilKnapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                                id="leggtil-sted-knapp"
-                                mini
-                            >
+                            <Knapp onClick={this.onLeggTilClick} id="leggtil-sted-knapp" mini>
                                 +Legg til fylke/kommune
-                            </LeggtilKnapp>
+                            </Knapp>
                         )}
                         <div className="Merkelapp__wrapper">
                             {this.props.geografiListKomplett &&

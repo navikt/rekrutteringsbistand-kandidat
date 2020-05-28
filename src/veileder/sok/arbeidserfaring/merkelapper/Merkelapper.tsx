@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
-import LeggtilKnapp from '../../../../felles/common/leggtilKnapp/LeggtilKnapp';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../../felles/konstanter';
@@ -15,6 +14,7 @@ import {
 } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../AppState';
+import { Knapp } from 'nav-frontend-knapper';
 
 interface Props {
     search: () => void;
@@ -93,13 +93,9 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
                             onTypeAheadBlur={onTypeAheadBlur}
                         />
                     ) : (
-                        <LeggtilKnapp
-                            onClick={onLeggTilClick}
-                            className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                            id="leggtil-arbeidserfaring-knapp"
-                        >
+                        <Knapp mini onClick={onLeggTilClick} id="leggtil-arbeidserfaring-knapp">
                             +Legg til arbeidserfaring
-                        </LeggtilKnapp>
+                        </Knapp>
                     )}
                 </div>
                 <div className="Merkelapp__wrapper">

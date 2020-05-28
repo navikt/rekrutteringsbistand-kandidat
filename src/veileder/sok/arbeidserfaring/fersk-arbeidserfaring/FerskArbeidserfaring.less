@@ -2,6 +2,11 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
 
+    // Dobbel selector for å overskrive styling fra nav-frontend
+    legend.skjemagruppe__legend {
+        margin-bottom: 0;
+    }
+
     .skjemaelement__sporsmal {
         margin-bottom: 0.25rem;
     }
@@ -10,8 +15,9 @@
         margin-bottom: 1rem;
     }
 
-    &__knapp + &__knapp {
-        margin-top: 0.5rem;
+    // Dobbel selector for å overskrive styling fra nav-frontend
+    &__knapp.skjemaelement{
+        margin-bottom: 0.5rem;
     }
 
     &__input-wrapper {

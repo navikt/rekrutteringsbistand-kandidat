@@ -6,7 +6,7 @@ import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel'
 import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
+import { Knapp } from 'nav-frontend-knapper';
 
 export default class StillingSearch extends React.Component {
     constructor(props) {
@@ -112,14 +112,13 @@ export default class StillingSearch extends React.Component {
                                     selectedSuggestions={this.props.stillinger}
                                 />
                             ) : (
-                                <LeggtilKnapp
+                                <Knapp
                                     onClick={this.onLeggTilClick}
-                                    className="leggtil--sokekriterier--knapp knapp--sokekriterier"
                                     id="leggtil-stilling-knapp"
                                     mini
                                 >
                                     +Legg til stilling/yrke
-                                </LeggtilKnapp>
+                                </Knapp>
                             )}
                         </div>
                     )}

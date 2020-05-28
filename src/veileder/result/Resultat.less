@@ -9,6 +9,10 @@
     }
 }
 
+.resultatvisning--container {
+    max-width: @container-lg;
+}
+
 .ResultatVisning--hovedside--header {
     background-color: #e3edf8;
     color: @navMorkGra;
@@ -43,6 +47,7 @@
             }
             .opprettet-av__row {
                 display: inline-flex;
+                align-items: baseline;
                 margin-top: 1.25rem;
                 overflow: hidden;
 
@@ -89,12 +94,6 @@
         margin-top: 4.75rem;
         align-self: start;
         justify-content: flex-end;
-        a {
-            border: none;
-        }
-        .lenke {
-            font-weight: 600;
-        }
     }
 
     @media (max-width: 991px) {

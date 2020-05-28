@@ -6,7 +6,7 @@ import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel'
 import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
+import { Knapp } from 'nav-frontend-knapper';
 
 class SprakSearch extends React.Component {
     constructor(props) {
@@ -97,14 +97,9 @@ class SprakSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <LeggtilKnapp
-                                onClick={this.onLeggTilClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                                id="leggtil-sprak-knapp"
-                                mini
-                            >
+                            <Knapp onClick={this.onLeggTilClick} id="leggtil-sprak-knapp" mini>
                                 +Legg til språk
-                            </LeggtilKnapp>
+                            </Knapp>
                         )}
                     </div>
                     <div className="Merkelapp__wrapper">
