@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 
 import me from './json/me.json';
-import kandidatliste from './json/kandidatliste.json';
+import { kandidatliste, kandidatlister } from './kandidatlister';
 import sok from './json/sok.json';
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
@@ -69,14 +69,10 @@ const getCv = (url: string) => {
     return kandidatnr ? alleCver[kandidatnr] : {};
 };
 
-const getKandidatlister = () => {
-    const liste = [kandidatliste];
-
-    return {
-        antall: liste.length,
-        liste,
-    };
-};
+const getKandidatlister = () => ({
+    antall: kandidatlister.length,
+    liste: kandidatlister,
+});
 
 const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];

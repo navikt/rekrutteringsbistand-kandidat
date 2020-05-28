@@ -498,6 +498,21 @@
     "verv": [],
     "geografiJobbonsker": [{ "geografiKode": "NO07.0712", "geografiKodeTekst": "Larvik" }],
     "yrkeJobbonsker": [
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
+        { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false },
         { "styrkKode": null, "styrkBeskrivelse": "Slakter", "primaertJobbonske": false }
     ],
     "omfangJobbprofil": [

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 import './TruncatedTextList.less';
 
 class TruncatedTextList extends React.Component {
@@ -23,8 +23,8 @@ class TruncatedTextList extends React.Component {
         if (this.props.tekstElementer.length > this.props.antallElementerSomVisesMinimert) {
             return (
                 <div>
-                    <Row className="row--truncatedTextList">
-                        <Normaltekst type="normaltekst">
+                    <Row>
+                        <Normaltekst>
                             {this.state.hideText
                                 ? this.props.tekstElementer
                                       .slice(0, this.props.antallElementerSomVisesMinimert)
@@ -47,8 +47,8 @@ class TruncatedTextList extends React.Component {
         }
         return (
             <div>
-                <Row className="row--truncatedTextList">
-                    <Normaltekst type="normaltekst">
+                <Row>
+                    <Normaltekst>
                         {this.props.tekstElementer.join(', ')}
                     </Normaltekst>
                 </Row>

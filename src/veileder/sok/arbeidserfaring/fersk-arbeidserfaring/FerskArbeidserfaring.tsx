@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Input, Radio, SkjemaGruppe } from 'nav-frontend-skjema';
 import './FerskArbeidserfaring.less';
-import { Knapp } from 'pam-frontend-knapper/dist';
 import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
 import { ALERTTYPE } from '../../../../felles/konstanter';
 import { Element } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 
 interface Props {
     search: () => void;
