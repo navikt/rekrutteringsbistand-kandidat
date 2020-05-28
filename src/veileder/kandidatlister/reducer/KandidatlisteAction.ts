@@ -243,6 +243,7 @@ export interface HentKandidatlisteMedAnnonsenummerSuccessAction {
 
 export interface HentKandidatlisteMedAnnonsenummerNotFoundAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND;
+    message: string;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerFailureAction {
