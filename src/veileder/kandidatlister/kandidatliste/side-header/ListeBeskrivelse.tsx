@@ -19,7 +19,7 @@ const ListeBeskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
                 {beskrivelse.length <= antTegnSomAlltidVises || skalViseHeleBeskrivelse
                     ? beskrivelse
                     : beskrivelse.substr(0, antTegnSomAlltidVises) + ' ...'}
-                {beskrivelse.length > 12 && (
+                {beskrivelse.length > antTegnSomAlltidVises && (
                     <Lenkeknapp onClick={() => setSkalViseHele(!skalViseHeleBeskrivelse)}>
                         {skalViseHeleBeskrivelse ? 'Skjul beskrivelse' : 'Les mer'}
                         <NavFrontendChevron type={skalViseHeleBeskrivelse ? 'opp' : 'ned'} />
