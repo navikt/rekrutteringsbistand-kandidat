@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import MidlertidigUtilgjengeligSearch from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 import OppstartstidspunktSearch from './oppstardstidspunkt/OppstartstidspunktSearch';
-import './TilgjengelighetSearch.less';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
 import { TilgjengelighetAction } from './tilgjengelighetReducer';
@@ -19,12 +17,7 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen, togglePane
             apen={panelOpen}
             id="Tilgjengelighet__SokekriteriePanel"
             fane="tilgjengelighet"
-            tittel={
-                <div className="tilgjengelighet-search__tittel">
-                    Tilgjengelighet
-                    <NyttFilterIkon />
-                </div>
-            }
+            tittel="Tilgjengelighet"
             onClick={togglePanelOpen}
         >
             <OppstartstidspunktSearch />

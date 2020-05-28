@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ChangeEvent } from 'react';
+import React, { ChangeEvent, FunctionComponent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
 import { PermitteringActionType } from './permitteringReducer';
 import './PermitteringSearch.less';
-import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     permittert: boolean;
@@ -47,12 +45,7 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             apen={panelOpen}
             id="Permittering__SokekriteriePanel"
             fane="permittering"
-            tittel={
-                <div className="permittering-search__tittel">
-                    Permittert
-                    <NyttFilterIkon />
-                </div>
-            }
+            tittel="Permittert"
             onClick={togglePanel}
         >
             <CheckboxGruppe>
