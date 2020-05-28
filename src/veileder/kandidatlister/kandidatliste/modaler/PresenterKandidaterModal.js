@@ -4,6 +4,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import './PresenterKandidaterModal.less';
 
 const initalState = () => ({
     beskjed: '',

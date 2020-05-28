@@ -11,14 +11,9 @@ import { TilgjengelighetAction } from './tilgjengelighetReducer';
 interface Props {
     panelOpen: boolean;
     togglePanelOpen: () => void;
-    visMidlertidigUtilgjengeligFilter: boolean;
 }
 
-const TilgjengelighetSearch: FunctionComponent<Props> = ({
-    panelOpen,
-    togglePanelOpen,
-    visMidlertidigUtilgjengeligFilter,
-}) => {
+const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen, togglePanelOpen }) => {
     return (
         <SokekriteriePanel
             apen={panelOpen}
@@ -33,15 +28,13 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({
             onClick={togglePanelOpen}
         >
             <OppstartstidspunktSearch />
-            {visMidlertidigUtilgjengeligFilter && <MidlertidigUtilgjengeligSearch />}
+            <MidlertidigUtilgjengeligSearch />
         </SokekriteriePanel>
     );
 };
 
 const mapStateToProps = (state: AppState) => ({
     panelOpen: state.tilgjengelighet.panelOpen,
-    visMidlertidigUtilgjengeligFilter:
-        state.search.featureToggles['vis-midlertidig-utilgjengelig-filter'],
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

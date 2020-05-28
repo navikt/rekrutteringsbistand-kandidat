@@ -76,9 +76,6 @@ class NavkontorSearch extends React.Component {
     };
 
     render() {
-        if (this.props.skjulNavkontor) {
-            return null;
-        }
         return (
             <SokekriteriePanel
                 id="NavKontor__SokekriteriePanel"
@@ -160,7 +157,6 @@ NavkontorSearch.propTypes = {
     navkontor: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulNavkontor: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     minekandidater: PropTypes.bool.isRequired,

@@ -25,7 +25,6 @@ const SprakSearch = ({ ...props }) => {
         typeAheadSuggestionsSprak,
         totaltAntallTreff,
         visAlertFaKandidater,
-        skjulSprak,
         panelOpen,
         togglePanelOpen,
     } = props;
@@ -40,7 +39,6 @@ const SprakSearch = ({ ...props }) => {
             typeAheadSuggestionsSprak={typeAheadSuggestionsSprak}
             totaltAntallTreff={totaltAntallTreff}
             visAlertFaKandidater={visAlertFaKandidater}
-            skjulSprak={skjulSprak}
             panelOpen={panelOpen}
             togglePanelOpen={togglePanelOpen}
         />
@@ -57,7 +55,6 @@ SprakSearch.propTypes = {
     typeAheadSuggestionsSprak: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulSprak: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
 };
@@ -67,7 +64,6 @@ const mapStateToProps = (state) => ({
     typeAheadSuggestionsSprak: state.typeahead.sprak.suggestions,
     totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.search.visAlertFaKandidater,
-    skjulSprak: state.search.featureToggles['skjul-spraak'],
     panelOpen: state.sprakReducer.sprakPanelOpen,
 });
 

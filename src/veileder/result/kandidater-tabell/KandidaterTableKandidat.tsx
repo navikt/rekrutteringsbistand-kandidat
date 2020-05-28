@@ -23,7 +23,6 @@ interface Props {
     stillingsId: string;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
-    visMidlertidigUtilgjengeligPopover: boolean;
 }
 
 const KandidaterTableKandidat: FunctionComponent<Props> = ({
@@ -36,7 +35,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     onKandidatValgt,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
-    visMidlertidigUtilgjengeligPopover,
 }) => {
     const onCheck = (kandidatnr) => {
         onKandidatValgt(!markert, kandidatnr);
@@ -91,7 +89,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
             <div className="kandidater-tabell__tilgjengelighet">
                 <TilgjengelighetFlagg
                     status={kandidat.midlertidigUtilgjengeligStatus}
-                    visMidlertidigUtilgjengeligPopover={visMidlertidigUtilgjengeligPopover}
                     merInformasjon={midlertidigUtilgjengeligMap[kandidatnummer]}
                     hentMerInformasjon={() =>
                         hentMidlertidigUtilgjengeligForKandidat(kandidat.aktorId, kandidatnummer)
@@ -120,8 +117,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-    visMidlertidigUtilgjengeligPopover:
-        state.search.featureToggles['vis-midlertidig-utilgjengelig-popover'],
 });
 
 const mapDispatchToProps = (dispatch) => ({

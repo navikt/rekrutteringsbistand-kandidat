@@ -1,25 +1,6 @@
 // "pam-kandidatsok" legges på som prefix før alle toggles på serveren,
 // så togglen "toggle-test" korresponderer med "pam-kandidatsok.toggle-test" i unleash
-const FEATURE_TOGGLES = [
-    'vis-manglende-arbeidserfaring-boks',
-    'skjul-yrke',
-    'skjul-kompetanse',
-    'skjul-utdanning',
-    'skjul-spraak',
-    'skjul-sted',
-    'skjul-navkontor',
-    'skjul-hovedmal',
-    'vis-matchforklaring',
-    'ingen-utdanning-filter',
-    'vis-lenke-til-kandidatsok-next',
-    'vis-notater-arbeidsgiver',
-    'vis-tilretteleggingsbehov-kategorier',
-    'vis-viktige-yrker-lenker',
-    'vis-midlertidig-utilgjengelig',
-    'vis-midlertidig-utilgjengelig-filter',
-    'vis-midlertidig-utilgjengelig-popover',
-    'vis-historikk',
-];
+const FEATURE_TOGGLES = [];
 export default FEATURE_TOGGLES;
 
 export const KANDIDATLISTE_CHUNK_SIZE = 100;

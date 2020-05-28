@@ -37,17 +37,12 @@ class HovedmalSearch extends React.Component {
 
     render() {
         const {
-            skjulHovedmal,
             togglePanelOpen,
             panelOpen,
             totaltHovedmal,
             totaltAntallTreff,
             visAlertFaKandidater,
         } = this.props;
-        if (skjulHovedmal) {
-            return null;
-        }
-
         return (
             <SokekriteriePanel
                 id="Hovedmaal__SokekriteriePanel"
@@ -84,7 +79,6 @@ HovedmalSearch.propTypes = {
     totaltHovedmal: PropTypes.arrayOf(PropTypes.string).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    skjulHovedmal: PropTypes.bool.isRequired,
     panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
 };
