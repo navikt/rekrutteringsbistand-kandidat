@@ -571,39 +571,36 @@ class Kandidatlister extends React.Component {
                             onVisAlleKandidatlister={this.onVisAlleKandidatlister}
                             onFilterChange={this.onFilterChange}
                         />
-                        <div className="kandidatlister-table__wrapper">
-                            <div className="kandidatlister-table--top">
-                                <Systemtittel>{`${
-                                    totaltAntallKandidatlister === undefined
-                                        ? '0'
-                                        : totaltAntallKandidatlister
-                                } kandidatliste${
-                                    totaltAntallKandidatlister === 1 ? '' : 'r'
-                                }`}</Systemtittel>
-                            </div>
-                            <div className="kandidatlister-table">
-                                <ListeHeader />
-                                <Kandidatlistevisning
-                                    kandidatlister={kandidatlister}
-                                    endreKandidatliste={this.onEndreClick}
-                                    onMenyClick={this.onMenyClick}
-                                    onSkjulMeny={this.onSkjulMeny}
-                                    markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
-                                    slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                                    visKandidatlisteMeny={visKandidatlisteMeny}
-                                    fetching={fetchingKandidatlister}
-                                />
-                            </div>
-                            {fetchingKandidatlister === 'SUCCESS' &&
-                                totaltAntallKandidatlister > 0 && (
-                                    <KandidatlisterPaginering
-                                        kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                        totaltAntallKandidatlister={totaltAntallKandidatlister}
-                                        forrigeSide={this.onHentKandidatlisterForrigeSide}
-                                        nesteSide={this.onHentKandidatlisterNesteSide}
-                                    />
-                                )}
+                        <div className="kandidatlister-table--top">
+                            <Systemtittel>{`${
+                                totaltAntallKandidatlister === undefined
+                                    ? '0'
+                                    : totaltAntallKandidatlister
+                            } kandidatliste${
+                                totaltAntallKandidatlister === 1 ? '' : 'r'
+                            }`}</Systemtittel>
                         </div>
+                        <div className="kandidatlister-table">
+                            <ListeHeader />
+                            <Kandidatlistevisning
+                                kandidatlister={kandidatlister}
+                                endreKandidatliste={this.onEndreClick}
+                                onMenyClick={this.onMenyClick}
+                                onSkjulMeny={this.onSkjulMeny}
+                                markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
+                                slettKandidatliste={this.onVisSlettKandidatlisteModal}
+                                visKandidatlisteMeny={visKandidatlisteMeny}
+                                fetching={fetchingKandidatlister}
+                            />
+                        </div>
+                        {fetchingKandidatlister === 'SUCCESS' && totaltAntallKandidatlister > 0 && (
+                            <KandidatlisterPaginering
+                                kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                                totaltAntallKandidatlister={totaltAntallKandidatlister}
+                                forrigeSide={this.onHentKandidatlisterForrigeSide}
+                                nesteSide={this.onHentKandidatlisterNesteSide}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

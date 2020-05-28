@@ -51,158 +51,161 @@
     }
 
     .kandidatlister-wrapper {
-        display: flex;
+        display: grid;
+        grid-template-areas:
+            'over-filter over-liste'
+            'filter liste'
+            'under-filter under-liste';
+        grid-gap: 2rem;
+        grid-template-columns: 300px auto;
+
         max-width: 1636px;
         margin: 0 auto;
-        padding-right: 0.5rem;
-        padding-left: 0.5rem;
+        padding: 0 0.5rem;
     }
 
-    .kandidatlister-table__wrapper {
-        max-width: 1312px;
-        width: 100%;
-        margin-left: auto;
+    .kandidatlister-table--top {
+        grid-area: over-liste;
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: space-between;
 
-        .kandidatlister-table--top {
-            margin-top: 2.5rem;
-            display: flex;
-            justify-content: space-between;
-
-            .kandidatlister-table--top__knapper {
-                border-radius: 0;
-                &:last-child {
-                    margin-left: 4rem;
-                }
-                padding: 0;
-                border: none;
-                background: none;
-
-                &:hover {
-                    border-bottom: 2px solid;
-                }
+        .kandidatlister-table--top__knapper {
+            border-radius: 0;
+            &:last-child {
+                margin-left: 4rem;
             }
+            padding: 0;
+            border: none;
+            background: none;
 
-            .knapp--aktiv {
-                .typo-element {
-                    border-bottom: 2px solid;
-                }
-
-                &:hover {
-                    border-bottom: none;
-                }
+            &:hover {
+                border-bottom: 2px solid;
             }
         }
 
-        .kandidatlister-table {
-            margin: 1.25rem 0 2rem;
-
-            .liste-header {
-                border: 1px solid #78706a;
-                height: 4rem;
-                padding-left: 1.25rem;
-                .typo-element {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
+        .knapp--aktiv {
+            .typo-element {
+                border-bottom: 2px solid;
             }
 
-            .hent-kandidatlister--spinner {
-                text-align: center;
-                margin-top: 2rem;
+            &:hover {
+                border-bottom: none;
             }
+        }
+    }
 
-            .liste-rad__tom {
-                display: flex;
-                justify-content: center;
-                margin-top: 4rem;
-            }
+    .kandidatlister-table {
+        grid-area: liste;
+        margin-bottom: 2rem;
 
-            .liste-rad {
-                border: 1px solid #d8d8d8;
-                height: 4rem;
-                padding-left: 1.25rem;
-                .tekst {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .edit-lenke {
-                    display: flex;
-                    align-items: center;
-                }
-            }
-
-            .liste-rad-innhold {
-                margin-bottom: 0.5rem;
-                border-radius: 4px;
-                background-color: white;
-                color: #3e3832;
-                min-width: 25rem;
-                display: flex;
-                justify-content: center;
-
-                .kolonne-smal {
-                    margin: auto 0;
-                    flex: 2;
-                    min-width: 4rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .kolonne-smal-knapp {
-                    height: 2.875rem;
-                    border-left: 1px solid #d8d8d8;
-                    display: flex;
-                    margin: auto 0;
-                    flex: 2;
-                    min-width: 4rem;
-                    justify-content: center;
-                    .Edit__icon {
-                        margin-left: 0;
-                    }
-                    .hjelpetekst {
-                        padding-left: 0;
-                        display: flex;
-
-                        .EditDisabled__icon {
-                            margin-right: 0;
-                        }
-                    }
-                }
-
-                .kolonne-middels {
-                    margin: auto 2rem auto 0;
-                    flex: 3;
-                    display: flex;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .kolonne-middels__finn-kandidater {
-                    margin: auto 2rem auto 0;
-                    flex: 3;
-                    display: flex;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    justify-content: center;
-                    max-width: 5rem;
-                }
-
-                .kolonne-bred {
-                    margin: auto 2rem auto 0;
-                    flex: 9;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
+        .liste-header {
+            border: 1px solid #78706a;
+            height: 4rem;
+            padding-left: 1.25rem;
+            .typo-element {
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
 
-        .kandidatlister-table--bottom {
+        .hent-kandidatlister--spinner {
             text-align: center;
+            margin-top: 2rem;
+        }
 
-            .kandidatlister-table--bottom__buttons {
-                margin-top: 1rem;
+        .liste-rad__tom {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+        }
+
+        .liste-rad {
+            border: 1px solid #d8d8d8;
+            height: 4rem;
+            padding-left: 1.25rem;
+            .tekst {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
+            .edit-lenke {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        .liste-rad-innhold {
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            background-color: white;
+            color: #3e3832;
+            min-width: 25rem;
+            display: flex;
+            justify-content: center;
+
+            .kolonne-smal {
+                margin: auto 0;
+                flex: 2;
+                min-width: 4rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .kolonne-smal-knapp {
+                height: 2.875rem;
+                border-left: 1px solid #d8d8d8;
+                display: flex;
+                margin: auto 0;
+                flex: 2;
+                min-width: 4rem;
+                justify-content: center;
+                .Edit__icon {
+                    margin-left: 0;
+                }
+                .hjelpetekst {
+                    padding-left: 0;
+                    display: flex;
+
+                    .EditDisabled__icon {
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            .kolonne-middels {
+                margin: auto 2rem auto 0;
+                flex: 3;
+                display: flex;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .kolonne-middels__finn-kandidater {
+                margin: auto 2rem auto 0;
+                flex: 3;
+                display: flex;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                justify-content: center;
+                max-width: 5rem;
+            }
+
+            .kolonne-bred {
+                margin: auto 2rem auto 0;
+                flex: 9;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .kandidatlister-table--bottom {
+        grid-area: under-liste;
+        text-align: center;
+
+        .kandidatlister-table--bottom__buttons {
+            margin-top: 1rem;
         }
     }
 }
