@@ -53,6 +53,7 @@ export interface KandidatlisteState {
         antall?: number;
     };
     hentListeMedAnnonsenummerStatus: HentStatus;
+    hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatIKandidatlisteStatus: string;
     kandidatlisterSokeKriterier: {
@@ -116,6 +117,8 @@ const initialState: KandidatlisteState = {
         antall: undefined,
     },
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
+    hentListeMedAnnonsenummerStatusMessage: '',
+    
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
     kandidatlisterSokeKriterier: {
@@ -615,6 +618,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.FinnesIkke,
+                hentListeMedAnnonsenummerStatusMessage: action.message
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
             return {

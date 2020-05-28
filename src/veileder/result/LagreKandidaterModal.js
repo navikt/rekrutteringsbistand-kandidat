@@ -53,7 +53,7 @@ class LagreKandidaterModal extends React.Component {
             });
         }
         if (
-            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus
+            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus || prevProps.hentListeMedAnnonsenummerStatusMessage !== this.props.hentListeMedAnnonsenummerStatusMessage
         ) {
             if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
                 this.setState({
@@ -62,7 +62,14 @@ class LagreKandidaterModal extends React.Component {
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
-                this.setState({
+                console.log('ddd', this.props.hentListeMedAnnonsenummerStatus, this.props.hentListeMedAnnonsenummerStatusMessage)
+                this.props.hentListeMedAnnonsenummerStatusMessage && this.props.hentListeMedAnnonsenummerStatusMessage.includes('Kandidatliste for stilling')
+                ? this.setState({
+                    hentetListe: undefined,
+                    showHentetListe: false,
+                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Opprett kandidatlisten først.',
+                })
+                : this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
                     hentListeFeilmelding: 'Stillingen finnes ikke',
@@ -362,6 +369,7 @@ LagreKandidaterModal.propTypes = {
     hentKandidatlisteMedAnnonsenummer: PropTypes.func.isRequired,
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
     hentListeMedAnnonsenummerStatus: PropTypes.string.isRequired,
+    hentListeMedAnnonsenummerStatusMessage: PropTypes.string.isRequired,
     kandidatlisteMedAnnonsenummer: PropTypes.shape(Kandidatliste),
     leggTilKandidaterStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
@@ -378,6 +386,7 @@ const mapStateToProps = (state) => ({
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
+    hentListeMedAnnonsenummerStatusMessage: state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
     leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
