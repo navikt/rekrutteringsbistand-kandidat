@@ -38,6 +38,7 @@ type Props = DefaultKandidatsøkProps & {
     leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
+    fjernValgtKandidat: () => void;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -57,6 +58,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     harHentetStilling,
     maksAntallTreff,
     kandidatlisteIdFraSøk,
+    fjernValgtKandidat,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -64,6 +66,10 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [resetKandidatlisterSokekriterier]);
 
     const stillingsId = match.params.stillingsId;
+
+    useEffect(() => {
+        fjernValgtKandidat();
+    }, [fjernValgtKandidat]);
 
     useEffect(() => {
         const søkestateKommerFraDenneKandidatlisten =
@@ -162,6 +168,10 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    fjernValgtKandidat: () =>
+        dispatch({
+            type: KandidatlisteActionType.VELG_KANDIDAT,
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkFraStilling);
