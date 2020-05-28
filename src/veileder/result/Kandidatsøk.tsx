@@ -47,7 +47,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                 </div>
             ) : (
                 <div>
-                    <Container className="blokk-l">
+                    <Container fluid className="resultatvisning--container blokk-l">
                         <ViktigeYrker />
                         <Column xs="12" sm="4">
                             <div className="sokekriterier--column" id="sokekriterier">

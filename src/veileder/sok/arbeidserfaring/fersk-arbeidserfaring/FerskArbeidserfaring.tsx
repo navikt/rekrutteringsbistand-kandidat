@@ -98,7 +98,11 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
     return (
         <SkjemaGruppe
             className="fersk-arbeidserfaring"
-            legend={<Element>Hvor fersk må erfaringen være?</Element>}
+            legend={
+                <Element className="fersk-arbeidserfaring__legend">
+                    Hvor fersk må erfaringen være?
+                </Element>
+            }
         >
             <div className="fersk-arbeidserfaring__hjelpetekst">
                 Husk å legge til arbeidserfaring over først
