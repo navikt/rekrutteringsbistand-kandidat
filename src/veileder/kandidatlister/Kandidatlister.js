@@ -22,7 +22,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 import { Flatknapp } from 'nav-frontend-knapper';
-import { Nesteknapp } from 'nav-frontend-ikonknapper';
+import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -43,14 +43,12 @@ export const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKa
             className="skjemaelement__input"
             placeholder="Skriv inn navn på kandidatliste"
         />
-        <Knapp
+        <Søkeknapp
             aria-label="sok-kandidatlister-knapp"
-            className="search-button"
+            className="kandidatlister__søkeknapp"
             id="sok-kandidatlister-knapp"
             onClick={onSubmitSokKandidatlister}
-        >
-            <i className="search-button__icon" />
-        </Knapp>
+        />
     </form>
 );
 
