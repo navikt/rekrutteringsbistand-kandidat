@@ -1,7 +1,6 @@
 import React from 'react';
 import './FantFåKandidater.less';
 import { Ingress, Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'pam-frontend-knapper';
 import { connect } from 'react-redux';
 import {
     FETCH_KOMPETANSE_SUGGESTIONS,
@@ -21,6 +20,7 @@ import {
     REMOVE_SELECTED_GEOGRAFI,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from '../../sok/geografi/geografiReducer';
+import { Knapp } from 'nav-frontend-knapper';
 
 export type Geografi = {
     geografiKodeTekst: string;
@@ -115,7 +115,12 @@ const FantFåKandidater = (props: Props) => {
                     <ValgteKriterier kriterier={kategorikriterier} />
                 </>
             )}
-            <Knapp onClick={props.onRemoveCriteriaClick}>Slett alle kriterier</Knapp>
+            <Knapp
+                className="fant-få-kandidater__slett-knapp"
+                onClick={props.onRemoveCriteriaClick}
+            >
+                Slett alle kriterier
+            </Knapp>
         </div>
     );
 };
