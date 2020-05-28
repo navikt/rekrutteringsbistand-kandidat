@@ -4,11 +4,11 @@ import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
-import LeggtilKnapp from '../../common/leggtilKnapp/LeggtilKnapp';
 import Typeahead from '../../../veileder/common/typeahead/Typeahead';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Navkontor.less';
+import { Knapp } from 'nav-frontend-knapper';
 
 class NavkontorSearch extends React.Component {
     constructor(props) {
@@ -104,14 +104,9 @@ class NavkontorSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <LeggtilKnapp
-                                onClick={this.onAddClick}
-                                className="leggtil--sokekriterier--knapp knapp--sokekriterier"
-                                id="leggtil-navkontor-knapp"
-                                mini
-                            >
-                                +Legg til NAV-Kontor
-                            </LeggtilKnapp>
+                            <Knapp onClick={this.onAddClick} id="leggtil-navkontor-knapp" mini>
+                                +Legg til NAV-kontor
+                            </Knapp>
                         )}
                     </div>
 
