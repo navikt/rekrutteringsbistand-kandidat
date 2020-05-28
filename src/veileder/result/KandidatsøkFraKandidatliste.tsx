@@ -18,6 +18,7 @@ import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
+import { Link } from 'react-router-dom';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -78,13 +79,13 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
         <Container className="container--header">
             <VeilederHeaderInfo kandidatliste={kandidatliste} />
             <div className="container--header__lenker">
-                <a
-                    className="TilKandidater"
-                    href={`/kandidater/lister/detaljer/${kandidatlisteId}`}
+                <Link
+                    className="TilKandidater lenke"
+                    to={`/kandidater/lister/detaljer/${kandidatlisteId}`}
                 >
                     <i className="TilKandidater__icon" />
-                    <span className="link">Se kandidatliste</span>
-                </a>
+                    Se kandidatliste
+                </Link>
             </div>
         </Container>
     );
