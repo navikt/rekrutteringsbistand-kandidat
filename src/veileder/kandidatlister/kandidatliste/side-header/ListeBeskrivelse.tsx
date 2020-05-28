@@ -1,6 +1,5 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import React, {FunctionComponent, useState} from 'react';
+import {Element, Normaltekst} from 'nav-frontend-typografi';
 import '../kandidatrad/Kandidatrad.less';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';

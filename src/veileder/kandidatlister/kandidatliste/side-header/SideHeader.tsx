@@ -1,15 +1,13 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import React, {FunctionComponent} from 'react';
+import {Element, Systemtittel} from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { OpprettetAv } from '../../kandidatlistetyper';
-import { capitalizeEmployerName } from '../../../../felles/sok/utils';
+import {OpprettetAv} from '../../kandidatlistetyper';
+import {capitalizeEmployerName} from '../../../../felles/sok/utils';
 import './SideHeader.less';
-import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { lenkeTilStilling } from '../../../application/paths';
-import ListeBeskrivelse from "./ListeBeskrivelse";
+import {LenkeMedChevron} from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
+import {lenkeTilStilling} from '../../../application/paths';
+import ListeBeskrivelse from './ListeBeskrivelse';
 
 type Props = {
     tittel: string;
@@ -32,7 +30,6 @@ const SideHeader: FunctionComponent<Props> = ({
     stillingsId,
     beskrivelse,
 }) => {
-    const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
@@ -65,26 +62,8 @@ const SideHeader: FunctionComponent<Props> = ({
                                 </Lenke>
                             </span>
                         )}
-                        {beskrivelse && (
-                            <Lenkeknapp
-                                onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
-                            >
-                                {beskrivelseSkalVises ? 'Skjul beskrivelse' : 'Vis beskrivelse'}
-                                <NavFrontendChevron type={beskrivelseSkalVises ? 'opp' : 'ned'} />
-                            </Lenkeknapp>
-                        )}
                     </div>
-                    {beskrivelseSkalVises && beskrivelse && (
-                        <ListeBeskrivelse beskrivelse={beskrivelse}/>
-                        // <>
-                        //     <Element className="side-header__beskrivelse-tittel">
-                        //         Beskrivelse
-                        //     </Element>
-                        //     <Normaltekst className="side-header__beskrivelse">
-                        //         {beskrivelse}
-                        //     </Normaltekst>
-                        // </>
-                    )}
+                    {beskrivelse && <ListeBeskrivelse beskrivelse={beskrivelse} />}
                 </div>
             </div>
         </header>
