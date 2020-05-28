@@ -47,6 +47,7 @@ import { searchReducer } from './sok/typedSearchReducer';
 import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
+import { alderReducer } from './sok/alder/alderReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -74,6 +75,7 @@ const store = createStore(
         hovedmal: hovedmalReducer,
         navKontor: navkontorReducer,
         historikk: historikkReducer,
+        alder: alderReducer,
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
