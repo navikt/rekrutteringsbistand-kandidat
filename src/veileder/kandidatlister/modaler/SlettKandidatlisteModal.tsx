@@ -1,8 +1,8 @@
 import * as React from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'pam-frontend-knapper';
 import { FunctionComponent } from 'react';
+import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 
 interface Props {
     slettKandidatliste: () => void;
