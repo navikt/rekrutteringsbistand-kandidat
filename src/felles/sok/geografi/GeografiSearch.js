@@ -124,8 +124,13 @@ class GeografiSearch extends React.Component {
                                 onTypeAheadBlur={this.onTypeAheadBlur}
                             />
                         ) : (
-                            <Knapp onClick={this.onLeggTilClick} id="leggtil-sted-knapp" mini>
-                                +Legg til fylke/kommune
+                            <Knapp
+                                onClick={this.onLeggTilClick}
+                                id="leggtil-sted-knapp"
+                                kompakt
+                                className="knapp-små-bokstaver"
+                            >
+                                + Legg til fylke/kommune
                             </Knapp>
                         )}
                         <div className="Merkelapp__wrapper">

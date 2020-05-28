@@ -107,11 +107,12 @@ class ForerkortSearch extends React.Component {
                             />
                         ) : (
                             <Knapp
-                                mini
                                 onClick={this.onLeggTilForerkortClick}
                                 id="leggtil-forerkort-knapp"
+                                className="knapp-små-bokstaver"
+                                kompakt
                             >
-                                +Legg til førerkort
+                                + Legg til førerkort
                             </Knapp>
                         )}
                         {this.state.feil && (
