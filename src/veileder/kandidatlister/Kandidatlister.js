@@ -20,7 +20,6 @@ import './Kandidatlister.less';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
-import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 import { Flatknapp } from 'nav-frontend-knapper';
 
 const MODALVISING = {
@@ -568,6 +567,8 @@ class Kandidatlister extends React.Component {
                     <div className="kandidatlister-wrapper">
                         <KandidatlisterFilter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                            onVisMineKandidatlister={this.onVisMineKandidatlister}
+                            onVisAlleKandidatlister={this.onVisAlleKandidatlister}
                             onFilterChange={this.onFilterChange}
                         />
                         <div className="kandidatlister-table__wrapper">
@@ -579,11 +580,6 @@ class Kandidatlister extends React.Component {
                                 } kandidatliste${
                                     totaltAntallKandidatlister === 1 ? '' : 'r'
                                 }`}</Systemtittel>
-                                <KandidatlisterKnappeFilter
-                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                    onVisMineKandidatlister={this.onVisMineKandidatlister}
-                                    onVisAlleKandidatlister={this.onVisAlleKandidatlister}
-                                />
                             </div>
                             <div className="kandidatlister-table">
                                 <ListeHeader />
@@ -681,18 +677,6 @@ SokKandidatlisterInput.propTypes = {
     sokeOrd: PropTypes.string.isRequired,
     onSokeOrdChange: PropTypes.func.isRequired,
     onSubmitSokKandidatlister: PropTypes.func.isRequired,
-};
-
-KandidatlisterKnappeFilter.propTypes = {
-    kandidatlisterSokeKriterier: PropTypes.shape({
-        query: PropTypes.string,
-        type: PropTypes.string,
-        kunEgne: PropTypes.bool,
-        pagenumber: PropTypes.number,
-        pagesize: PropTypes.number,
-    }).isRequired,
-    onVisMineKandidatlister: PropTypes.func.isRequired,
-    onVisAlleKandidatlister: PropTypes.func.isRequired,
 };
 
 KandidatlisterRad.defaultProps = {
