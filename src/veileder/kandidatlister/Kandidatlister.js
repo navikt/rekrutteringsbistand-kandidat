@@ -373,9 +373,9 @@ class Kandidatlister extends React.Component {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
 
-    onFilterChange = (e) => {
+    onFilterChange = (verdi) => {
         const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, PAGINERING_BATCH_SIZE);
+        this.props.hentKandidatlister(query, verdi, kunEgne, 0, PAGINERING_BATCH_SIZE);
     };
 
     onSokeOrdChange = (e) => {
