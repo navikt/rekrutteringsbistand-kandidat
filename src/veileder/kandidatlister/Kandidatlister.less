@@ -13,7 +13,7 @@
         grid-gap: 1rem;
 
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 0 2rem;
     }
 
     .kandidatlister-filter {
@@ -22,15 +22,12 @@
 
     .side-header {
         background-color: #e3edf8;
-        padding-top: 2.5rem;
-        padding-bottom: 2.5rem;
+        padding: 2.5rem 2rem;
         border-bottom: 1px solid #d8d8d8;
 
         .side-header__innhold {
-            max-width: 1636px;
             margin: auto;
-            padding-right: 0.5rem;
-            padding-left: 0.5rem;
+            padding: 0 1rem;
             display: flex;
             justify-content: center;
 
@@ -219,9 +216,13 @@
                 'over-filter over-liste'
                 'filter liste'
                 'under-filter under-liste';
-            grid-gap: 2rem;
+            grid-column-gap: 3rem;
             grid-template-columns: 300px auto;
-            max-width: 1636px;
+        }
+
+        .kandidatlister-wrapper,
+        .side-header__innhold {
+            max-width: 99.5rem;
         }
     }
 }
