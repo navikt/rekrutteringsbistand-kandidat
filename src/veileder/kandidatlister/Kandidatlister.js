@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
-import { Knapp } from 'pam-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
@@ -22,6 +21,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 import { Flatknapp } from 'nav-frontend-knapper';
+import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -42,14 +42,13 @@ export const SokKandidatlisterInput = ({ sokeOrd, onSokeOrdChange, onSubmitSokKa
             className="skjemaelement__input"
             placeholder="Skriv inn navn på kandidatliste"
         />
-        <Knapp
+        <Søkeknapp
+            type="flat"
             aria-label="sok-kandidatlister-knapp"
-            className="search-button"
+            className="kandidatlister__søkeknapp"
             id="sok-kandidatlister-knapp"
             onClick={onSubmitSokKandidatlister}
-        >
-            <i className="search-button__icon" />
-        </Knapp>
+        />
     </form>
 );
 
@@ -306,10 +305,7 @@ const KandidatlisterPaginering = ({
                     </Flatknapp>
                 )}
                 {kandidatlisterSokeKriterier.pagenumber < sisteSide - 1 && (
-                    <Flatknapp onClick={nesteSide}>
-                        Neste
-                        <NavFrontendChevron type="høyre" />
-                    </Flatknapp>
+                    <Nesteknapp onClick={nesteSide} />
                 )}
             </div>
         </div>
