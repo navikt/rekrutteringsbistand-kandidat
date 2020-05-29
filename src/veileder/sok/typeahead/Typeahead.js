@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events,no-trailing-spaces */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Knapp } from 'pam-frontend-knapper';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 export default class Typeahead extends React.Component {
     constructor(props) {
@@ -206,18 +206,16 @@ export default class Typeahead extends React.Component {
                     }}
                     className="skjemaelement__input input--fullbredde skjemaelement--blue"
                 />
-                <Knapp
+                <Søkeknapp
                     aria-label="søk"
-                    className="search-button"
+                    className="typeahead__søkeknapp"
                     id="search-button-typeahead"
                     onClick={this.props.onSubmit}
                     onBlur={this.onSearchButtonBlur}
                     onFocus={this.avoidBlur}
                     onMouseDown={this.avoidBlur}
                     onKeyDown={this.avoidBlur}
-                >
-                    <i className="search-button__icon" />
-                </Knapp>
+                />
                 <ul
                     id={`${this.props.id}-suggestions`}
                     role="listbox"

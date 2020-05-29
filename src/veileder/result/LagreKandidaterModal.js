@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
-import { Knapp as PamKnapp } from 'pam-frontend-knapper';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../kandidatlister/PropTypes';
@@ -14,7 +13,8 @@ import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import { HentStatus } from '../kandidatlister/kandidatlistetyper';
-import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -53,7 +53,7 @@ class LagreKandidaterModal extends React.Component {
             });
         }
         if (
-            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus
+            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus || prevProps.hentListeMedAnnonsenummerStatusMessage !== this.props.hentListeMedAnnonsenummerStatusMessage
         ) {
             if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
                 this.setState({
@@ -62,7 +62,14 @@ class LagreKandidaterModal extends React.Component {
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
-                this.setState({
+                console.log('ddd', this.props.hentListeMedAnnonsenummerStatus, this.props.hentListeMedAnnonsenummerStatusMessage)
+                this.props.hentListeMedAnnonsenummerStatusMessage && this.props.hentListeMedAnnonsenummerStatusMessage.includes('Kandidatliste for stilling')
+                ? this.setState({
+                    hentetListe: undefined,
+                    showHentetListe: false,
+                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
+                })
+                : this.setState({
                     hentetListe: undefined,
                     showHentetListe: false,
                     hentListeFeilmelding: 'Stillingen finnes ikke',
@@ -282,9 +289,12 @@ class LagreKandidaterModal extends React.Component {
                             </Normaltekst>
                         )}
                         {kandidatlister.length < antallKandidatlister && (
-                            <Flatknapp onClick={this.onVisFlereListerClick}>
+                            <Knapp
+                                className="knapp-små-bokstaver"
+                                onClick={this.onVisFlereListerClick}
+                            >
                                 Se flere lister
-                            </Flatknapp>
+                            </Knapp>
                         )}
                         <Normaltekst className="annonsenummer__search--label">
                             Fant du ikke kandidatlisten som er koblet til en stilling? Søk etter
@@ -304,14 +314,13 @@ class LagreKandidaterModal extends React.Component {
                                 }`}
                                 placeholder="Annonsenummer"
                             />
-                            <PamKnapp
+                            <Søkeknapp
                                 aria-label="søk"
-                                className="search-button"
+                                className="LagreKandidaterTilStillingModal__søkeknapp"
                                 id="sok-etter-stilling-knapp"
                                 onClick={this.hentListeMedAnnonsenummer}
-                            >
-                                <i className="search-button__icon" />
-                            </PamKnapp>
+                                type="flat"
+                            />
                             {hentListeFeilmelding && (
                                 <Normaltekst className="skjemaelement__feilmelding">
                                     {hentListeFeilmelding}
@@ -362,6 +371,7 @@ LagreKandidaterModal.propTypes = {
     hentKandidatlisteMedAnnonsenummer: PropTypes.func.isRequired,
     egneKandidatlister: PropTypes.arrayOf(PropTypes.shape(Kandidatliste)),
     hentListeMedAnnonsenummerStatus: PropTypes.string.isRequired,
+    hentListeMedAnnonsenummerStatusMessage: PropTypes.string.isRequired,
     kandidatlisteMedAnnonsenummer: PropTypes.shape(Kandidatliste),
     leggTilKandidaterStatus: PropTypes.string.isRequired,
     antallLagredeKandidater: PropTypes.number.isRequired,
@@ -378,6 +388,7 @@ const mapStateToProps = (state) => ({
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
+    hentListeMedAnnonsenummerStatusMessage: state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
     leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,

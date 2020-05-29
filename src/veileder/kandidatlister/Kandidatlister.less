@@ -62,11 +62,18 @@
         }
     }
 
+    // Dobbel selector for å overskrive styling fra nav-frontend
+    .kandidatlister__søkeknapp.knapp {
+        position: absolute;
+        right: 0;
+        height: 3.5rem;
+    }
+
     .kandidatlister-table--top {
-        grid-area: over-liste;
-        margin-top: 2.5rem;
         display: flex;
         justify-content: space-between;
+        grid-area: over-liste;
+        margin-top: 2.5rem;
 
         .kandidatlister-table--top__knapper {
             border-radius: 0;
