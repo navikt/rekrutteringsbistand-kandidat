@@ -3,7 +3,6 @@ import AppState from '../AppState';
 import FEATURE_TOGGLES from '../../felles/konstanter';
 
 export const useFeatureToggle = (toggle: string) => {
-    console.log('useFeatureToggle');
     if (!FEATURE_TOGGLES.includes(toggle)) {
         console.error(`'${toggle}' er ikke i listen over feature toggles`);
     }
