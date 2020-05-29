@@ -20,6 +20,7 @@ import KandidaterVisning from './KandidaterVisning';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import { Column, Container } from 'nav-frontend-grid';
 import { AlderSearch } from '../sok/alder/AlderSearch';
+import { useFeatureToggle } from '../mock/useFeatureToggle';
 
 interface Props {
     visFantFåKandidater?: boolean;
@@ -39,6 +40,8 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
     header,
     onRemoveCriteriaClick,
 }) => {
+    const visAldersfilter = useFeatureToggle('vis-aldersfilter');
+
     return (
         <div>
             <div className="ResultatVisning--hovedside--header">{header}</div>
@@ -75,7 +78,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                     <NavkontorSearch />
                                     <HovedmalSearch />
                                     <InnsatsgruppeSearch />
-                                    <AlderSearch />
+                                    {visAldersfilter && <AlderSearch />}
                                     <TilretteleggingsbehovSearch />
                                 </div>
                             </div>
