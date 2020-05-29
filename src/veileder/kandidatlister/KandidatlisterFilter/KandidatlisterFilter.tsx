@@ -24,8 +24,12 @@ export const KandidatlisterFilter: FunctionComponent<Props> = ({
     onVisAlleKandidatlister,
     onFilterChange,
 }) => {
-    const [utenStilling, setUtenStilling] = useState<boolean>(false);
-    const [medStilling, setMedStilling] = useState<boolean>(false);
+    const [utenStilling, setUtenStilling] = useState<boolean>(
+        kandidatlisterSokeKriterier.type === Stillingsfilter.UtenStilling
+    );
+    const [medStilling, setMedStilling] = useState<boolean>(
+        kandidatlisterSokeKriterier.type === Stillingsfilter.MedStilling
+    );
 
     const onStillingsfilterCheck = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value === Stillingsfilter.MedStilling) {
