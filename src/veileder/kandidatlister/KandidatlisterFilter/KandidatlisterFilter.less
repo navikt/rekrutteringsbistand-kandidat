@@ -1,7 +1,30 @@
 .kandidatlister-filter {
-    margin-top: 5.25rem;
+    &__innhold {
+        display: flex;
+        flex-direction: row;
+    }
 
     &__radio + &__radio {
         margin-top: 0.5rem;
+    }
+
+    &__skjemagruppe {
+        &:not(:last-child) {
+            margin-right: 5rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        &__innhold {
+            flex-direction: column;
+        }
+
+        &__skjemagruppe {
+            &:not(:last-child) {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid lightgray;
+            }
+        }
     }
 }
