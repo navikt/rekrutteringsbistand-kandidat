@@ -19,7 +19,6 @@ import './Kandidatlister.less';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
-import { KandidatlisterKnappeFilter } from './KandidatlisterKnappeFilter';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
 
@@ -370,9 +369,9 @@ class Kandidatlister extends React.Component {
         clearTimeout(this.skjulSuccessMeldingCallbackId);
     }
 
-    onFilterChange = (e) => {
+    onFilterChange = (verdi) => {
         const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, e.target.value, kunEgne, 0, PAGINERING_BATCH_SIZE);
+        this.props.hentKandidatlister(query, verdi, kunEgne, 0, PAGINERING_BATCH_SIZE);
     };
 
     onSokeOrdChange = (e) => {
@@ -564,46 +563,40 @@ class Kandidatlister extends React.Component {
                     <div className="kandidatlister-wrapper">
                         <KandidatlisterFilter
                             kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                            onVisMineKandidatlister={this.onVisMineKandidatlister}
+                            onVisAlleKandidatlister={this.onVisAlleKandidatlister}
                             onFilterChange={this.onFilterChange}
                         />
-                        <div className="kandidatlister-table__wrapper">
-                            <div className="kandidatlister-table--top">
-                                <Systemtittel>{`${
-                                    totaltAntallKandidatlister === undefined
-                                        ? '0'
-                                        : totaltAntallKandidatlister
-                                } kandidatliste${
-                                    totaltAntallKandidatlister === 1 ? '' : 'r'
-                                }`}</Systemtittel>
-                                <KandidatlisterKnappeFilter
-                                    kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                    onVisMineKandidatlister={this.onVisMineKandidatlister}
-                                    onVisAlleKandidatlister={this.onVisAlleKandidatlister}
-                                />
-                            </div>
-                            <div className="kandidatlister-table">
-                                <ListeHeader />
-                                <Kandidatlistevisning
-                                    kandidatlister={kandidatlister}
-                                    endreKandidatliste={this.onEndreClick}
-                                    onMenyClick={this.onMenyClick}
-                                    onSkjulMeny={this.onSkjulMeny}
-                                    markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
-                                    slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                                    visKandidatlisteMeny={visKandidatlisteMeny}
-                                    fetching={fetchingKandidatlister}
-                                />
-                            </div>
-                            {fetchingKandidatlister === 'SUCCESS' &&
-                                totaltAntallKandidatlister > 0 && (
-                                    <KandidatlisterPaginering
-                                        kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
-                                        totaltAntallKandidatlister={totaltAntallKandidatlister}
-                                        forrigeSide={this.onHentKandidatlisterForrigeSide}
-                                        nesteSide={this.onHentKandidatlisterNesteSide}
-                                    />
-                                )}
+                        <div className="kandidatlister-table--top">
+                            <Systemtittel>{`${
+                                totaltAntallKandidatlister === undefined
+                                    ? '0'
+                                    : totaltAntallKandidatlister
+                            } kandidatliste${
+                                totaltAntallKandidatlister === 1 ? '' : 'r'
+                            }`}</Systemtittel>
                         </div>
+                        <div className="kandidatlister-table">
+                            <ListeHeader />
+                            <Kandidatlistevisning
+                                kandidatlister={kandidatlister}
+                                endreKandidatliste={this.onEndreClick}
+                                onMenyClick={this.onMenyClick}
+                                onSkjulMeny={this.onSkjulMeny}
+                                markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
+                                slettKandidatliste={this.onVisSlettKandidatlisteModal}
+                                visKandidatlisteMeny={visKandidatlisteMeny}
+                                fetching={fetchingKandidatlister}
+                            />
+                        </div>
+                        {fetchingKandidatlister === 'SUCCESS' && totaltAntallKandidatlister > 0 && (
+                            <KandidatlisterPaginering
+                                kandidatlisterSokeKriterier={kandidatlisterSokeKriterier}
+                                totaltAntallKandidatlister={totaltAntallKandidatlister}
+                                forrigeSide={this.onHentKandidatlisterForrigeSide}
+                                nesteSide={this.onHentKandidatlisterNesteSide}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -677,18 +670,6 @@ SokKandidatlisterInput.propTypes = {
     sokeOrd: PropTypes.string.isRequired,
     onSokeOrdChange: PropTypes.func.isRequired,
     onSubmitSokKandidatlister: PropTypes.func.isRequired,
-};
-
-KandidatlisterKnappeFilter.propTypes = {
-    kandidatlisterSokeKriterier: PropTypes.shape({
-        query: PropTypes.string,
-        type: PropTypes.string,
-        kunEgne: PropTypes.bool,
-        pagenumber: PropTypes.number,
-        pagesize: PropTypes.number,
-    }).isRequired,
-    onVisMineKandidatlister: PropTypes.func.isRequired,
-    onVisAlleKandidatlister: PropTypes.func.isRequired,
 };
 
 KandidatlisterRad.defaultProps = {
