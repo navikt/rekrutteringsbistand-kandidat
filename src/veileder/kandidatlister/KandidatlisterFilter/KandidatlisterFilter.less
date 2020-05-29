@@ -1,12 +1,34 @@
 .kandidatlister-filter {
+    &__innhold {
+        display: flex;
+        flex-direction: row;
+    }
+
     &__radio + &__radio {
         margin-top: 0.5rem;
     }
 
     &__skjemagruppe {
         &:not(:last-child) {
-            margin-bottom: 1rem;
-            border-bottom: 1px solid lightgray;
+            padding-right: 2.5rem;
+            margin-right: 2.5rem;
+            border-right: 1px solid lightgray;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        &__innhold {
+            flex-direction: column;
+        }
+
+        &__skjemagruppe {
+            &:not(:last-child) {
+                padding: 0;
+                margin-right: 0;
+                margin-bottom: 1rem;
+                border-right: none;
+                border-bottom: 1px solid lightgray;
+            }
         }
     }
 }
