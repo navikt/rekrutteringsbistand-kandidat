@@ -1,3 +1,5 @@
+@import '../../variabler.less';
+
 .alder-search {
     &__tittel {
         display: flex;
@@ -6,5 +8,25 @@
         .nytt-filter-ikon {
             margin-left: 0.5rem;
         }
+    }
+
+    &__innhold {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    &__fra-input {
+        max-width: 5rem;
+    }
+
+    &__til-input.skjemaelement {
+        max-width: 5rem;
+        margin-right: 0.5rem;
+    }
+
+    &__tankestrek {
+        .typo-innholdstittel-mixin();
+        padding: 0.25rem 0.5rem;
+        top: 1rem;
     }
 }
