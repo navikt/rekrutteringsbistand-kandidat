@@ -370,8 +370,11 @@ class Kandidatlister extends React.Component {
     }
 
     onFilterChange = (verdi) => {
-        const { query, kunEgne } = this.props.kandidatlisterSokeKriterier;
-        this.props.hentKandidatlister(query, verdi, kunEgne, 0, PAGINERING_BATCH_SIZE);
+        const { query, kunEgne, type } = this.props.kandidatlisterSokeKriterier;
+
+        if (verdi !== type) {
+            this.props.hentKandidatlister(query, verdi, kunEgne, 0, PAGINERING_BATCH_SIZE);
+        }
     };
 
     onSokeOrdChange = (e) => {
