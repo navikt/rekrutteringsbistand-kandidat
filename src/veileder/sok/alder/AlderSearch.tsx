@@ -3,7 +3,7 @@ import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/Sokekrit
 import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import './AlderSearch.less';
 import { SEARCH } from '../searchReducer';
-import { AlderAction, AlderActionType } from './alderReducer';
+import { AlderActionType } from './alderReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
