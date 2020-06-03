@@ -1,6 +1,12 @@
 @import '../../variabler.less';
 
 .alder-search {
+    &__innhold {
+        display: grid;
+        grid-template-columns: 1fr 1.5rem 1fr;
+        grid-gap: 1rem 0.25rem;
+    }
+
     &__tittel {
         display: flex;
         align-items: center;
@@ -10,23 +16,11 @@
         }
     }
 
-    &__innhold {
-        display: flex;
-        align-items: flex-end;
-    }
-
-    &__fra-input {
-        max-width: 5rem;
-    }
-
-    &__til-input.skjemaelement {
-        max-width: 5rem;
-        margin-right: 0.5rem;
-    }
-
     &__tankestrek {
         .typo-innholdstittel-mixin();
-        padding: 0.25rem 0.5rem;
-        top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0.5rem;
     }
 }
