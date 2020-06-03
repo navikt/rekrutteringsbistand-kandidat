@@ -8,6 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input } from 'nav-frontend-skjema';
 import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import AppState from '../../AppState';
+import { Element } from 'nav-frontend-typografi';
+
+const inputPropsForAlder = {
+    type: 'number',
+    min: '15',
+    max: '100',
+};
 
 export const AlderSearch: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -77,6 +84,7 @@ export const AlderSearch: FunctionComponent = () => {
             }
             onClick={togglePanel}
         >
+            <Element className="alder-search__tittel">Skriv inn alder:</Element>
             <div className="alder-search__innhold">
                 <Input
                     className="alder-search__fra-input"
@@ -85,8 +93,11 @@ export const AlderSearch: FunctionComponent = () => {
                     onChange={(event) => onInputChange(event, setFra)}
                     onKeyPress={onKeyPress}
                     value={fra ?? ''}
+                    {...inputPropsForAlder}
                 />
-                <div className="alder-search__tankestrek">–</div>
+                <div className="alder-search__tankestrek">
+                    <div />
+                </div>
                 <Input
                     className="alder-search__til-input"
                     label="Til og med"
@@ -94,6 +105,7 @@ export const AlderSearch: FunctionComponent = () => {
                     onChange={(event) => onInputChange(event, setTil)}
                     onKeyPress={onKeyPress}
                     value={til ?? ''}
+                    {...inputPropsForAlder}
                 />
                 <Knapp className="alder-search__knapp" onClick={søkMedAlder}>
                     Bruk

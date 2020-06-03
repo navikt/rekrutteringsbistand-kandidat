@@ -1,6 +1,10 @@
 @import '../../variabler.less';
 
 .alder-search {
+    &__tittel {
+        padding-bottom: 0.5rem;
+    }
+
     &__innhold {
         display: grid;
         grid-template-columns: 1fr 1.5rem 1fr;
@@ -18,11 +22,17 @@
     }
 
     &__tankestrek {
-        .typo-innholdstittel-mixin();
         display: flex;
-        align-items: center;
         justify-content: center;
-        padding-top: 0.5rem;
+        position: relative;
+
+        div {
+            height: 2px;
+            width: 0.6rem;
+            background-color: black;
+            position: absolute;
+            bottom: 1.25rem;
+        }
     }
 
     &__knapp {
