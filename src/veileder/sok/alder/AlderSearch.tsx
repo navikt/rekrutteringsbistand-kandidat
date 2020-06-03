@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState, KeyboardEvent, useEffect } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import './AlderSearch.less';
@@ -6,7 +6,7 @@ import { SEARCH } from '../searchReducer';
 import { AlderActionType } from './alderReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
+import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import AppState from '../../AppState';
 
 export const AlderSearch: FunctionComponent = () => {
@@ -20,14 +20,27 @@ export const AlderSearch: FunctionComponent = () => {
     const [fra, setFra] = useState<number | undefined>(defaultAlder.fra);
     const [til, setTil] = useState<number | undefined>(defaultAlder.til);
 
+    useEffect(() => {
+        setFra(defaultAlder.fra);
+        setTil(defaultAlder.til);
+    }, [defaultAlder.fra, defaultAlder.til]);
+
     const setAlder = (fra: number | undefined, til: number | undefined) =>
         dispatch({ type: AlderActionType.SetAlder, fra, til });
+
     const search = () => dispatch({ type: SEARCH });
     const togglePanel = () => dispatch({ type: AlderActionType.ToggleAlderPanel });
     const erÅpen = useSelector((state: AppState) => state.alder.panelOpen);
 
-    const onBrukKlikk = () => {
+    const søkMedAlder = () => {
         setAlder(fra, til);
+        search();
+    };
+
+    const nullstill = () => {
+        setAlder(undefined, undefined);
+        setFra(undefined);
+        setTil(undefined);
         search();
     };
 
@@ -42,6 +55,12 @@ export const AlderSearch: FunctionComponent = () => {
         const value: number = parseInt(event.target.value);
         if (!isNaN(value)) {
             setState(value);
+        }
+    };
+
+    const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            søkMedAlder();
         }
     };
 
@@ -61,22 +80,28 @@ export const AlderSearch: FunctionComponent = () => {
             <div className="alder-search__innhold">
                 <Input
                     className="alder-search__fra-input"
-                    label="Fra"
-                    aria-label="Alder fra"
+                    label="Fra og med"
+                    aria-label="Alder fra og med"
                     onChange={(event) => onInputChange(event, setFra)}
+                    onKeyPress={onKeyPress}
                     value={fra ?? ''}
                 />
                 <div className="alder-search__tankestrek">–</div>
                 <Input
                     className="alder-search__til-input"
-                    label="Til"
-                    aria-label="Alder til"
+                    label="Til og med"
+                    aria-label="Alder til og med"
                     onChange={(event) => onInputChange(event, setTil)}
+                    onKeyPress={onKeyPress}
                     value={til ?? ''}
                 />
-                <Knapp kompakt onClick={onBrukKlikk}>
+                <Knapp className="alder-search__knapp" onClick={søkMedAlder}>
                     Bruk
                 </Knapp>
+                <span />
+                <Flatknapp className="alder-search__knapp" kompakt onClick={nullstill}>
+                    Nullstill
+                </Flatknapp>
             </div>
         </SokekriteriePanel>
     );
