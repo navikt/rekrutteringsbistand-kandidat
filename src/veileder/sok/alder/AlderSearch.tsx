@@ -95,11 +95,13 @@ export const AlderSearch: FunctionComponent = () => {
                     onKeyPress={onKeyPress}
                     value={til ?? ''}
                 />
-                <Flatknapp kompakt onClick={nullstill}>
+                <Knapp className="alder-search__knapp" onClick={søkMedAlder}>
+                    Bruk
+                </Knapp>
+                <span />
+                <Flatknapp className="alder-search__knapp" kompakt onClick={nullstill}>
                     Nullstill
                 </Flatknapp>
-                <span />
-                <Knapp onClick={søkMedAlder}>Bruk</Knapp>
             </div>
         </SokekriteriePanel>
     );
