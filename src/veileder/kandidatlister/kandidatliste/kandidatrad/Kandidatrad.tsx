@@ -188,7 +188,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
 
                 <div className="kandidatliste-kandidat__lagt-til">
-                    {moment(kandidat.lagtTilTidspunkt).format('DD.MM.YYYY')}
+                    <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
+                    <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
                 </div>
                 {visArkiveringskolonne ? (
                     <StatusSelect
