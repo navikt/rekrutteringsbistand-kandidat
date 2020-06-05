@@ -1,14 +1,19 @@
 import React, { FunctionComponent, ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import validator from '@navikt/fnrvalidator';
 
 import { Input } from 'nav-frontend-skjema';
-import { hentKandidatnr } from '../../api';
 import { SEARCH } from '../searchReducer';
-import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import {
+    utenKandidatnr,
+    Fritekststate,
+    Fritekstinput,
+    validerFritekstfelt,
+    lagFeilmeldingFraFritekstinput,
+} from './validering';
 import AppState from '../../AppState';
+import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import './FritekstSearch.less';
 
 interface Props {
@@ -24,22 +29,29 @@ const FritekstSearch: FunctionComponent<Props> = ({
 }) => {
     const history = useHistory();
     const [input, setInput] = useState<string>(fritekstSøkeord);
-    const [erGyldigFnr, setErGyldigFnr] = useState<boolean>(false);
-    const [fantIkkeKandidatnr, setFantIkkeKandidatnr] = useState<boolean>(false);
+    const [hasSubmit, setHasSubmit] = useState<boolean>(false);
+    const [state, setState] = useState<Fritekststate>(utenKandidatnr(Fritekstinput.IkkeEtFnr));
 
     useEffect(() => {
         setInput(fritekstSøkeord);
     }, [fritekstSøkeord]);
 
-    useEffect(() => {
-        const inputErGyldigFnr = validator.fnr(input).status === 'valid';
-        const feilmeldingBørFjernes = !inputErGyldigFnr && fantIkkeKandidatnr;
+    const valider = async (input: string) => {
+        const nyState = await validerFritekstfelt(input);
+        setState(nyState);
 
-        setErGyldigFnr(inputErGyldigFnr);
-        if (feilmeldingBørFjernes) {
-            setFantIkkeKandidatnr(false);
+        if (hasSubmit) {
+            if (state.input === Fritekstinput.FantKandidat) {
+                history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
+            }
+
+            setHasSubmit(false);
         }
-    }, [input, fantIkkeKandidatnr]);
+    };
+
+    useEffect(() => {
+        valider(input);
+    }, [input]);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
@@ -47,38 +59,34 @@ const FritekstSearch: FunctionComponent<Props> = ({
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setHasSubmit(true);
 
-        if (erGyldigFnr) {
-            try {
-                const kandidatnr = (await hentKandidatnr(input)).kandidatnr;
-                history.push(`/kandidater/kandidat/${kandidatnr}/cv`);
-            } catch (e) {
-                setFantIkkeKandidatnr(true);
-            }
-        } else {
+        if (state.input === Fritekstinput.IkkeEtFnr) {
             setFritekstSøkeord(input);
             search();
         }
     };
 
     let className = 'fritekst-search';
-    if (fantIkkeKandidatnr) {
-        className += ' fritekst-search--med-feilmelding';
-    }
-
     let knappClassName = 'fritekst-search__søkeknapp';
-    if (erGyldigFnr) {
+    const visFeilmelding =
+        hasSubmit &&
+        state.input !== Fritekstinput.FantKandidat &&
+        state.input !== Fritekstinput.IkkeEtFnr;
+
+    if (visFeilmelding) className += ' fritekst-search--med-feilmelding';
+    if (state.input === Fritekstinput.FantKandidat)
         knappClassName += ' fritekst-search__søkeknapp--uten-svg';
-    }
 
     return (
         <form className={className} onSubmit={onSubmit}>
             <Input
                 label="Fødselsnummer (11 sifre) eller fritekstsøk"
+                autoComplete="off"
                 id="fritekstsok-input"
                 value={input}
                 onChange={onInputChange}
-                feil={fantIkkeKandidatnr ? 'Fant ikke kandidaten' : undefined}
+                feil={hasSubmit ? lagFeilmeldingFraFritekstinput(state.input) : undefined}
             />
             <Søkeknapp
                 type="flat"
@@ -87,7 +95,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
                 id="fritekstsok-knapp"
                 htmlType="submit"
             >
-                {erGyldigFnr ? 'Gå til CV' : 'Søk'}
+                {state.input === Fritekstinput.FantKandidat ? 'Gå til CV' : 'Søk'}
             </Søkeknapp>
         </form>
     );
