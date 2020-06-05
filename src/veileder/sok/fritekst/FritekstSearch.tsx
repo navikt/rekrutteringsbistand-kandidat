@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import validator from '@navikt/fnrvalidator';
 
 import { Input } from 'nav-frontend-skjema';
-import { postFnrForKandidatnr } from '../../api';
+import { hentKandidatnr } from '../../api';
 import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
@@ -23,16 +23,17 @@ const FritekstSearch: FunctionComponent<Props> = ({
     setFritekstSøkeord,
 }) => {
     const history = useHistory();
+    const [input, setInput] = useState<string>(fritekstSøkeord);
     const [erGyldigFnr, setErGyldigFnr] = useState<boolean>(false);
     const [fantIkkeKandidatnr, setFantIkkeKandidatnr] = useState<boolean>(false);
 
-    const onFritekstChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setFritekstSøkeord(e.target.value);
-
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
         const inputErGyldigFnr = validator.fnr(e.target.value).status === 'valid';
         setErGyldigFnr(inputErGyldigFnr);
 
-        if (!inputErGyldigFnr && fantIkkeKandidatnr) {
+        const feilmeldingBørFjernes = !inputErGyldigFnr && fantIkkeKandidatnr;
+        if (feilmeldingBørFjernes) {
             setFantIkkeKandidatnr(false);
         }
     };
@@ -42,12 +43,13 @@ const FritekstSearch: FunctionComponent<Props> = ({
 
         if (erGyldigFnr) {
             try {
-                const kandidatnr = (await postFnrForKandidatnr(fritekstSøkeord)).kandidatnr;
+                const kandidatnr = (await hentKandidatnr(input)).kandidatnr;
                 history.push(`/kandidater/kandidat/${kandidatnr}/cv`);
             } catch (e) {
                 setFantIkkeKandidatnr(true);
             }
         } else {
+            setFritekstSøkeord(input);
             search();
         }
     };
@@ -67,8 +69,8 @@ const FritekstSearch: FunctionComponent<Props> = ({
             <Input
                 label="Fødselsnummer (11 sifre) eller fritekstsøk"
                 id="fritekstsok-input"
-                value={fritekstSøkeord}
-                onChange={onFritekstChange}
+                value={input}
+                onChange={onInputChange}
                 feil={fantIkkeKandidatnr ? 'Fant ikke kandidaten' : undefined}
             />
             <Søkeknapp
