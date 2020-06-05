@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ChangeEvent, FormEvent, useState } from 'react';
+import React, { FunctionComponent, ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import validator from '@navikt/fnrvalidator';
@@ -27,15 +27,22 @@ const FritekstSearch: FunctionComponent<Props> = ({
     const [erGyldigFnr, setErGyldigFnr] = useState<boolean>(false);
     const [fantIkkeKandidatnr, setFantIkkeKandidatnr] = useState<boolean>(false);
 
-    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value);
-        const inputErGyldigFnr = validator.fnr(e.target.value).status === 'valid';
-        setErGyldigFnr(inputErGyldigFnr);
+    useEffect(() => {
+        setInput(fritekstSøkeord);
+    }, [fritekstSøkeord]);
 
+    useEffect(() => {
+        const inputErGyldigFnr = validator.fnr(input).status === 'valid';
         const feilmeldingBørFjernes = !inputErGyldigFnr && fantIkkeKandidatnr;
+
+        setErGyldigFnr(inputErGyldigFnr);
         if (feilmeldingBørFjernes) {
             setFantIkkeKandidatnr(false);
         }
+    }, [input, fantIkkeKandidatnr]);
+
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
     };
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
