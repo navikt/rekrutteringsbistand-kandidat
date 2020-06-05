@@ -266,3 +266,7 @@ export const postFerdigutfylteStillingerKlikk = (
         `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
         JSON.stringify(ferdigutfylteStillingerKlikk)
     );
+
+export const postFnrForKandidatnr = (fnr: string): Promise<{ kandidatnr: string }> => {
+    return postJson(`${KANDIDATSOK_API}/fnr-til-kandidatnr`, JSON.stringify({ fnr }));
+};
