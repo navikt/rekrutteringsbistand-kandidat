@@ -57,6 +57,11 @@ const FritekstSearch: FunctionComponent<Props> = ({
         className += ' fritekst-search--med-feilmelding';
     }
 
+    let knappClassName = 'fritekst-search__søkeknapp';
+    if (erGyldigFnr) {
+        knappClassName += ' fritekst-search__søkeknapp--uten-svg';
+    }
+
     return (
         <form className={className} onSubmit={onSubmit}>
             <Input
@@ -69,7 +74,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
             <Søkeknapp
                 type="flat"
                 aria-label="fritekstsøk"
-                className="fritekst-search__søkeknapp"
+                className={knappClassName}
                 id="fritekstsok-knapp"
                 htmlType="submit"
             >
