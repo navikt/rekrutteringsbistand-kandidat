@@ -44,14 +44,12 @@ const FritekstSearch: FunctionComponent<Props> = ({
             if (state.input === Fritekstinput.FantKandidat) {
                 history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
             }
-
-            setHasSubmit(false);
         }
     };
 
     useEffect(() => {
         valider(input);
-    }, [input]);
+    }, [input, hasSubmit]);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
