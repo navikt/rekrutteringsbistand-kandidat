@@ -29,16 +29,12 @@ const FritekstSearch: FunctionComponent<Props> = ({
     setFritekstSøkeord,
 }) => {
     const history = useHistory();
+
     const [input, setInput] = useState<string>(fritekstSøkeord);
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
     const [validering, setValidering] = useState<Fritekstvalidering>(
         utenKandidatnr(Fritekststatus.IkkeEtFnr)
     );
-
-    const navigerTilCv = () => {
-        sendEvent('fødselsnummersøk', 'naviger_til_cv');
-        history.push(`/kandidater/kandidat/${validering.kandidatnr}/cv`);
-    };
 
     useEffect(() => {
         setInput(fritekstSøkeord);
@@ -46,20 +42,23 @@ const FritekstSearch: FunctionComponent<Props> = ({
 
     useEffect(() => {
         const valider = async () => {
-            if (hasSubmit) {
-                if (validering.status === Fritekststatus.FantKandidat) {
-                    navigerTilCv();
-                }
-            } else {
-                setValidering({
-                    status: Fritekststatus.Validerer,
-                });
-                setValidering(await validerFritekstfelt(input));
-            }
+            const validerer = {
+                status: Fritekststatus.Validerer,
+            };
+
+            setValidering(validerer);
+            setValidering(await validerFritekstfelt(input));
         };
 
         valider();
-    }, [input, hasSubmit]);
+    }, [input]);
+
+    useEffect(() => {
+        if (hasSubmit && validering.status === Fritekststatus.FantKandidat) {
+            sendEvent('fødselsnummersøk', 'naviger_til_cv');
+            history.push(`/kandidater/kandidat/${validering.kandidatnr}/cv`);
+        }
+    }, [hasSubmit, validering, history]);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (hasSubmit) {
