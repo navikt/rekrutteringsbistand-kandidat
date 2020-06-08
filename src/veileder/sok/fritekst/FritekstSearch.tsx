@@ -4,18 +4,12 @@ import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { useHistory } from 'react-router-dom';
 
+import { Fritekstvalidering, Fritekststatus, validerFritekstfelt } from './validering';
 import { SEARCH } from '../searchReducer';
-import {
-    utenKandidatnr,
-    Fritekstvalidering,
-    Fritekststatus,
-    validerFritekstfelt,
-    lagFeilmeldingFraFritekstinput,
-} from './validering';
-import AppState from '../../AppState';
-import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
-import './FritekstSearch.less';
 import { sendEvent } from '../../amplitude/amplitude';
+import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
+import AppState from '../../AppState';
+import './FritekstSearch.less';
 
 interface Props {
     search: () => void;
@@ -32,9 +26,9 @@ const FritekstSearch: FunctionComponent<Props> = ({
 
     const [input, setInput] = useState<string>(fritekstSøkeord);
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
-    const [validering, setValidering] = useState<Fritekstvalidering>(
-        utenKandidatnr(Fritekststatus.IkkeEtFnr)
-    );
+    const [validering, setValidering] = useState<Fritekstvalidering>({
+        status: Fritekststatus.IkkeEtFnr,
+    });
 
     useEffect(() => {
         setInput(fritekstSøkeord);
@@ -80,12 +74,9 @@ const FritekstSearch: FunctionComponent<Props> = ({
 
     let className = 'fritekst-search';
     let knappClassName = 'fritekst-search__søkeknapp';
-    const visFeilmelding =
-        hasSubmit &&
-        validering.status !== Fritekststatus.FantKandidat &&
-        validering.status !== Fritekststatus.IkkeEtFnr;
+    const feil = hasSubmit ? validering.feilmelding : undefined;
 
-    if (visFeilmelding) className += ' fritekst-search--med-feilmelding';
+    if (feil) className += ' fritekst-search--med-feilmelding';
     if (validering.status === Fritekststatus.FantKandidat)
         knappClassName += ' fritekst-search__søkeknapp--uten-svg';
 
@@ -97,7 +88,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
                 id="fritekstsok-input"
                 value={input}
                 onChange={onInputChange}
-                feil={hasSubmit ? lagFeilmeldingFraFritekstinput(validering.status) : undefined}
+                feil={feil && validering.feilmelding}
             />
             <Søkeknapp
                 type="flat"

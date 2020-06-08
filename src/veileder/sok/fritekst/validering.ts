@@ -14,11 +14,8 @@ export enum Fritekststatus {
 export type Fritekstvalidering = {
     status: Fritekststatus;
     kandidatnr?: string;
+    feilmelding?: string;
 };
-
-export const utenKandidatnr = (status: Fritekststatus): Fritekstvalidering => ({
-    status,
-});
 
 const erKunSifre = (s: string) => s.match(/^[0-9]+$/) !== null;
 const erGyldigFnr = (fnr: string) => validator.fnr(fnr).status === 'valid';
@@ -29,15 +26,21 @@ export const validerFritekstfelt = async (fnr: string): Promise<Fritekstvalideri
     }
 
     if (fnr.length < 11) {
-        return { status: Fritekststatus.ForFåSifre };
+        return {
+            status: Fritekststatus.ForFåSifre,
+            feilmelding: 'Fødselsnummeret har for få sifre',
+        };
     }
 
     if (fnr.length > 11) {
-        return { status: Fritekststatus.ForMangeSifre };
+        return {
+            status: Fritekststatus.ForMangeSifre,
+            feilmelding: 'Fødselsnummeret har for mange sifre',
+        };
     }
 
     if (!erGyldigFnr(fnr)) {
-        return { status: Fritekststatus.UgyldigFnr };
+        return { status: Fritekststatus.UgyldigFnr, feilmelding: 'Fødselsnummeret er ikke gyldig' };
     }
 
     try {
@@ -47,21 +50,9 @@ export const validerFritekstfelt = async (fnr: string): Promise<Fritekstvalideri
             kandidatnr,
         };
     } catch (e) {
-        return utenKandidatnr(Fritekststatus.FantIkkeKandidat);
-    }
-};
-
-export const lagFeilmeldingFraFritekstinput = (input: Fritekststatus): string | undefined => {
-    switch (input) {
-        case Fritekststatus.ForFåSifre:
-            return 'Fødselsnummeret har for få sifre';
-        case Fritekststatus.ForMangeSifre:
-            return 'Fødselsnummeret har for mange sifre';
-        case Fritekststatus.FantIkkeKandidat:
-            return 'Kandidaten er ikke synlig i kandidatsøket';
-        case Fritekststatus.UgyldigFnr:
-            return 'Fødselsnummeret er ikke gyldig';
-        default:
-            return undefined;
+        return {
+            status: Fritekststatus.FantIkkeKandidat,
+            feilmelding: 'Kandidaten er ikke synlig i kandidatsøket',
+        };
     }
 };
