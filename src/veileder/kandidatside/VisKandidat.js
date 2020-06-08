@@ -133,6 +133,7 @@ class VisKandidat extends React.Component {
     onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
+        sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
 
         if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();

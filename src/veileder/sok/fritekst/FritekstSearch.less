@@ -1,8 +1,13 @@
 @import '../../../../node_modules/pam-frontend-core/less/variables.less';
 
-.fritekst__search {
+.fritekst-search {
     position: relative;
     margin: auto;
+
+    &--med-feilmelding {
+        margin-bottom: 3rem;
+    }
+
     .skjemaelement__input {
         width: 100%;
         height: 3.4375rem;
@@ -14,9 +19,24 @@
         }
     }
 
+    .skjemaelement__feilmelding {
+        position: absolute;
+    }
+
     &__søkeknapp {
         position: absolute;
         right: 0;
+        bottom: 0;
         height: 3.5rem;
+
+        svg {
+            margin-right: 0.5rem;
+        }
+
+        &--uten-svg {
+            svg {
+                display: none;
+            }
+        }
     }
 }
