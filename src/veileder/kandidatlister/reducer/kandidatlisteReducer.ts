@@ -118,7 +118,7 @@ const initialState: KandidatlisteState = {
     },
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
-    
+
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
     kandidatlisterSokeKriterier: {
@@ -618,7 +618,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.FinnesIkke,
-                hentListeMedAnnonsenummerStatusMessage: action.message
+                hentListeMedAnnonsenummerStatusMessage: action.message,
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE:
             return {
