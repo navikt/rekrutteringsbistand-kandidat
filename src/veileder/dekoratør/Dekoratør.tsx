@@ -5,17 +5,18 @@ import NAVSPA from '@navikt/navspa';
 
 import { NavKontorAction, NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import DekoratørProps, { EnhetDisplay } from './DecoratørProps';
+import AppState from '../AppState';
 
 const InternflateDecorator = NAVSPA.importer<DekoratørProps>('internarbeidsflatefs');
 
 const Dekoratør = () => {
-    const { valgtKontor } = useSelector((state: any) => state.navKontor);
+    const { valgtNavKontor } = useSelector((state: AppState) => state.navKontor);
     const dispatch = useDispatch<Dispatch<NavKontorAction>>();
 
     const onEnhetChange = (enhet: string) => {
         dispatch({
             type: NavKontorActionTypes.VelgNavKontor,
-            valgtKontor: enhet,
+            valgtNavKontor: enhet,
         });
     };
 
@@ -23,7 +24,7 @@ const Dekoratør = () => {
         <InternflateDecorator
             appname="Rekrutteringsbistand"
             enhet={{
-                initialValue: valgtKontor,
+                initialValue: valgtNavKontor,
                 display: EnhetDisplay.ENHET_VALG,
                 onChange: onEnhetChange,
             }}

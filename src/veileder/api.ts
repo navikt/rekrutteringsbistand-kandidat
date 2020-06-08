@@ -123,13 +123,20 @@ export const fetchNotater = (kandidatlisteId, kandidatnr) =>
         true
     );
 
-export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) =>
+export const postDelteKandidater = (
+    beskjed,
+    mailadresser,
+    kandidatlisteId,
+    kandidatnummerListe,
+    navKontor
+) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/deltekandidater`,
         JSON.stringify({
             epostMottakere: mailadresser,
             epostTekst: beskjed,
             kandidater: kandidatnummerListe,
+            navKontor: navKontor,
         })
     );
 

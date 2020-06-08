@@ -4,22 +4,22 @@ export enum NavKontorActionTypes {
 
 export type NavKontorAction = {
     type: NavKontorActionTypes.VelgNavKontor;
-    valgtKontor: string;
+    valgtNavKontor: string;
 };
 
 export type NavKontorState = {
-    valgtKontor: string | null;
+    valgtNavKontor: string | null;
 };
 
 const initialState: NavKontorState = {
-    valgtKontor: null,
+    valgtNavKontor: null,
 };
 
 const reducer = (state: NavKontorState = initialState, action: NavKontorAction): NavKontorState => {
     switch (action.type) {
         case NavKontorActionTypes.VelgNavKontor: {
             return {
-                valgtKontor: action.valgtKontor,
+                valgtNavKontor: action.valgtNavKontor,
             };
         }
 

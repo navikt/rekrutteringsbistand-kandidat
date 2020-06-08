@@ -131,12 +131,13 @@ function* hentKandidatlisteMedKandidatlisteId(action: HentKandidatlisteMedKandid
 
 function* presenterKandidater(action: PresenterKandidaterAction) {
     try {
-        const { beskjed, mailadresser, kandidatlisteId, kandidatnummerListe } = action;
+        const { beskjed, mailadresser, kandidatlisteId, kandidatnummerListe, navKontor } = action;
         const response = yield postDelteKandidater(
             beskjed,
             mailadresser,
             kandidatlisteId,
-            kandidatnummerListe
+            kandidatnummerListe,
+            navKontor
         );
         yield put({
             type: KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS,
@@ -304,9 +305,9 @@ function* hentKandidatlisteMedAnnonsenummer(action) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
                 yield put({
-                        type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND,
-                        message: e.message
-                    });
+                    type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_NOT_FOUND,
+                    message: e.message,
+                });
             } else {
                 yield put({
                     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_FAILURE,

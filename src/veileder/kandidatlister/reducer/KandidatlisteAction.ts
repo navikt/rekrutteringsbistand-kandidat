@@ -63,6 +63,7 @@ export interface PresenterKandidaterAction {
     kandidatnummerListe: Array<string>;
     beskjed?: string;
     mailadresser: Array<string>;
+    navKontor: string;
 }
 
 export interface PresenterKandidaterSuccessAction {
