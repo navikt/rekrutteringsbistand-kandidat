@@ -31,19 +31,21 @@ const FritekstSearch: FunctionComponent<Props> = ({
     const [input, setInput] = useState<string>(fritekstSøkeord);
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
     const [state, setState] = useState<Fritekststate>(utenKandidatnr(Fritekstinput.IkkeEtFnr));
+    const [validerer, setValiderer] = useState<boolean>(false);
 
     useEffect(() => {
         setInput(fritekstSøkeord);
     }, [fritekstSøkeord]);
 
     const valider = async (input: string) => {
-        const nyState = await validerFritekstfelt(input);
-        setState(nyState);
-
         if (hasSubmit) {
             if (state.input === Fritekstinput.FantKandidat) {
                 history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
             }
+        } else {
+            setValiderer(true);
+            setState(await validerFritekstfelt(input));
+            setValiderer(false);
         }
     };
 
@@ -52,6 +54,10 @@ const FritekstSearch: FunctionComponent<Props> = ({
     }, [input, hasSubmit]);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (hasSubmit) {
+            setHasSubmit(false);
+        }
+
         setInput(e.target.value);
     };
 
@@ -88,6 +94,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
             />
             <Søkeknapp
                 type="flat"
+                disabled={validerer}
                 aria-label="fritekstsøk"
                 className={knappClassName}
                 id="fritekstsok-knapp"
