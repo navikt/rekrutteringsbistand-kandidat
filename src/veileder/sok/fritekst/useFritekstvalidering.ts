@@ -1,3 +1,4 @@
+import { lenkeTilCv } from './../../application/paths';
 import { useHistory } from 'react-router-dom';
 import { sendEvent } from './../../amplitude/amplitude';
 import { useState, useEffect } from 'react';
@@ -24,9 +25,13 @@ const useFritekstvalidering = (input: string, hasSubmit: boolean) => {
     }, [input]);
 
     useEffect(() => {
-        if (hasSubmit && validering.status === Fritekststatus.FantKandidat) {
+        if (
+            hasSubmit &&
+            validering.status === Fritekststatus.FantKandidat &&
+            validering.kandidatnr
+        ) {
             sendEvent('fødselsnummersøk', 'naviger_til_cv');
-            history.push(`/kandidater/kandidat/${validering.kandidatnr}/cv`);
+            history.push(lenkeTilCv(validering.kandidatnr));
         }
     }, [hasSubmit, validering, history]);
 
