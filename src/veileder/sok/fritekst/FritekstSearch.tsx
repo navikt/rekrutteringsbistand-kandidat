@@ -1,10 +1,10 @@
 import React, { FunctionComponent, ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Input } from 'nav-frontend-skjema';
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { useHistory } from 'react-router-dom';
 
-import { Input } from 'nav-frontend-skjema';
 import { SEARCH } from '../searchReducer';
-import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import {
     utenKandidatnr,
     Fritekststate,
@@ -94,7 +94,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
             />
             <Søkeknapp
                 type="flat"
-                spinner={state.input === Fritekstinput.Validerer}
+                disabled={state.input === Fritekstinput.Validerer}
                 aria-label="fritekstsøk"
                 className={knappClassName}
                 id="fritekstsok-knapp"
