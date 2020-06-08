@@ -15,6 +15,7 @@ import {
 import AppState from '../../AppState';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import './FritekstSearch.less';
+import { sendEvent } from '../../amplitude/amplitude';
 
 interface Props {
     search: () => void;
@@ -32,25 +33,30 @@ const FritekstSearch: FunctionComponent<Props> = ({
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
     const [state, setState] = useState<Fritekststate>(utenKandidatnr(Fritekstinput.IkkeEtFnr));
 
+    const navigerTilCv = () => {
+        sendEvent('fødselsnummersøk', 'naviger_til_cv');
+        history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
+    };
+
     useEffect(() => {
         setInput(fritekstSøkeord);
     }, [fritekstSøkeord]);
 
-    const valider = async (input: string) => {
-        if (hasSubmit) {
-            if (state.input === Fritekstinput.FantKandidat) {
-                history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
-            }
-        } else {
-            setState({
-                input: Fritekstinput.Validerer,
-            });
-            setState(await validerFritekstfelt(input));
-        }
-    };
-
     useEffect(() => {
-        valider(input);
+        const valider = async () => {
+            if (hasSubmit) {
+                if (state.input === Fritekstinput.FantKandidat) {
+                    navigerTilCv();
+                }
+            } else {
+                setState({
+                    input: Fritekstinput.Validerer,
+                });
+                setState(await validerFritekstfelt(input));
+            }
+        };
+
+        valider();
     }, [input, hasSubmit]);
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
