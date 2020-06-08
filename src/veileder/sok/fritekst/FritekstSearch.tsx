@@ -22,8 +22,8 @@ const FritekstSearch: FunctionComponent<Props> = ({
     setFritekstSøkeord,
 }) => {
     const [input, setInput] = useState<string>(fritekstSøkeord);
-    const [hasSubmit, setHasSubmit] = useState<boolean>(false);
-    const validering = useFritekstvalidering(input, hasSubmit);
+    const [harTrykketPåKnappISøkefelt, setHarTrykketPåKnappISøkefelt] = useState<boolean>(false);
+    const validering = useFritekstvalidering(input, harTrykketPåKnappISøkefelt);
 
     useEffect(() => {
         setInput(fritekstSøkeord);
@@ -32,14 +32,14 @@ const FritekstSearch: FunctionComponent<Props> = ({
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
 
-        if (hasSubmit) {
-            setHasSubmit(false);
+        if (harTrykketPåKnappISøkefelt) {
+            setHarTrykketPåKnappISøkefelt(false);
         }
     };
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setHasSubmit(true);
+        setHarTrykketPåKnappISøkefelt(true);
 
         if (validering.status === Fritekststatus.IkkeEtFnr) {
             setFritekstSøkeord(input);
@@ -47,7 +47,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
         }
     };
 
-    const feilmelding = hasSubmit ? validering.feilmelding : undefined;
+    const feilmelding = harTrykketPåKnappISøkefelt ? validering.feilmelding : undefined;
 
     let className = 'fritekst-search';
     if (feilmelding) className += ` ${className}--med-feilmelding`;
