@@ -24,7 +24,7 @@ const erKunSifre = (s: string) => s.match(/^[0-9]+$/) !== null;
 const erGyldigFnr = (fnr: string) => validator.fnr(fnr).status === 'valid';
 
 export const validerFritekstfelt = async (fnr: string): Promise<Fritekststate> => {
-    if (!erKunSifre || fnr.length < 9) {
+    if (!erKunSifre(fnr) || fnr.length < 9) {
         return { input: Fritekstinput.IkkeEtFnr };
     }
 
