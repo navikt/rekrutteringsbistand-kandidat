@@ -58,7 +58,7 @@ export const lagFeilmeldingFraFritekstinput = (input: Fritekstinput): string | u
         case Fritekstinput.ForMangeSifre:
             return 'Fødselsnummeret har for mange sifre';
         case Fritekstinput.FantIkkeKandidat:
-            return 'Kandidaten er ikke synlig her';
+            return 'Kandidaten er ikke synlig i kandidatsøket';
         case Fritekstinput.UgyldigFnr:
             return 'Fødselsnummeret er ikke gyldig';
         default:
