@@ -47,23 +47,24 @@ const FritekstSearch: FunctionComponent<Props> = ({
         }
     };
 
-    let className = 'fritekst-search';
-    let knappClassName = 'fritekst-search__søkeknapp';
-    const feil = hasSubmit ? validering.feilmelding : undefined;
+    const feilmelding = hasSubmit ? validering.feilmelding : undefined;
 
-    if (feil) className += ' fritekst-search--med-feilmelding';
+    let knappClassName = 'fritekst-search__søkeknapp';
     if (validering.status === Fritekststatus.FantKandidat)
         knappClassName += ' fritekst-search__søkeknapp--uten-svg';
 
     return (
-        <form className={className} onSubmit={onSubmit}>
+        <form
+            className={'fritekst-search' + feilmelding ? ' fritekst-search--med-feilmelding' : ''}
+            onSubmit={onSubmit}
+        >
             <Input
                 label="Fødselsnummer (11 sifre) eller fritekstsøk"
                 autoComplete="off"
                 id="fritekstsok-input"
                 value={input}
                 onChange={onInputChange}
-                feil={feil && validering.feilmelding}
+                feil={feilmelding && validering.feilmelding}
             />
             <Søkeknapp
                 type="flat"
