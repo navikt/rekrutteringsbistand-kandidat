@@ -7,8 +7,8 @@ import { useHistory } from 'react-router-dom';
 import { SEARCH } from '../searchReducer';
 import {
     utenKandidatnr,
-    Fritekststate,
-    Fritekstinput,
+    Fritekstvalidering,
+    Fritekststatus,
     validerFritekstfelt,
     lagFeilmeldingFraFritekstinput,
 } from './validering';
@@ -31,11 +31,13 @@ const FritekstSearch: FunctionComponent<Props> = ({
     const history = useHistory();
     const [input, setInput] = useState<string>(fritekstSøkeord);
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
-    const [state, setState] = useState<Fritekststate>(utenKandidatnr(Fritekstinput.IkkeEtFnr));
+    const [validering, setValidering] = useState<Fritekstvalidering>(
+        utenKandidatnr(Fritekststatus.IkkeEtFnr)
+    );
 
     const navigerTilCv = () => {
         sendEvent('fødselsnummersøk', 'naviger_til_cv');
-        history.push(`/kandidater/kandidat/${state.kandidatnr}/cv`);
+        history.push(`/kandidater/kandidat/${validering.kandidatnr}/cv`);
     };
 
     useEffect(() => {
@@ -45,14 +47,14 @@ const FritekstSearch: FunctionComponent<Props> = ({
     useEffect(() => {
         const valider = async () => {
             if (hasSubmit) {
-                if (state.input === Fritekstinput.FantKandidat) {
+                if (validering.status === Fritekststatus.FantKandidat) {
                     navigerTilCv();
                 }
             } else {
-                setState({
-                    input: Fritekstinput.Validerer,
+                setValidering({
+                    status: Fritekststatus.Validerer,
                 });
-                setState(await validerFritekstfelt(input));
+                setValidering(await validerFritekstfelt(input));
             }
         };
 
@@ -71,7 +73,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
         e.preventDefault();
         setHasSubmit(true);
 
-        if (state.input === Fritekstinput.IkkeEtFnr) {
+        if (validering.status === Fritekststatus.IkkeEtFnr) {
             setFritekstSøkeord(input);
             search();
         }
@@ -81,11 +83,11 @@ const FritekstSearch: FunctionComponent<Props> = ({
     let knappClassName = 'fritekst-search__søkeknapp';
     const visFeilmelding =
         hasSubmit &&
-        state.input !== Fritekstinput.FantKandidat &&
-        state.input !== Fritekstinput.IkkeEtFnr;
+        validering.status !== Fritekststatus.FantKandidat &&
+        validering.status !== Fritekststatus.IkkeEtFnr;
 
     if (visFeilmelding) className += ' fritekst-search--med-feilmelding';
-    if (state.input === Fritekstinput.FantKandidat)
+    if (validering.status === Fritekststatus.FantKandidat)
         knappClassName += ' fritekst-search__søkeknapp--uten-svg';
 
     return (
@@ -96,17 +98,17 @@ const FritekstSearch: FunctionComponent<Props> = ({
                 id="fritekstsok-input"
                 value={input}
                 onChange={onInputChange}
-                feil={hasSubmit ? lagFeilmeldingFraFritekstinput(state.input) : undefined}
+                feil={hasSubmit ? lagFeilmeldingFraFritekstinput(validering.status) : undefined}
             />
             <Søkeknapp
                 type="flat"
-                disabled={state.input === Fritekstinput.Validerer}
+                disabled={validering.status === Fritekststatus.Validerer}
                 aria-label="fritekstsøk"
                 className={knappClassName}
                 id="fritekstsok-knapp"
                 htmlType="submit"
             >
-                {state.input === Fritekstinput.FantKandidat ? 'Gå til CV' : 'Søk'}
+                {validering.status === Fritekststatus.FantKandidat ? 'Gå til CV' : 'Søk'}
             </Søkeknapp>
         </form>
     );

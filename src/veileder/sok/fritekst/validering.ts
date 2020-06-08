@@ -1,7 +1,7 @@
 import validator from '@navikt/fnrvalidator';
 import { hentKandidatnr } from '../../api';
 
-export enum Fritekstinput {
+export enum Fritekststatus {
     Validerer,
     IkkeEtFnr,
     ForFåSifre,
@@ -11,55 +11,55 @@ export enum Fritekstinput {
     FantKandidat,
 }
 
-export type Fritekststate = {
-    input: Fritekstinput;
+export type Fritekstvalidering = {
+    status: Fritekststatus;
     kandidatnr?: string;
 };
 
-export const utenKandidatnr = (input: Fritekstinput): Fritekststate => ({
-    input,
+export const utenKandidatnr = (status: Fritekststatus): Fritekstvalidering => ({
+    status,
 });
 
 const erKunSifre = (s: string) => s.match(/^[0-9]+$/) !== null;
 const erGyldigFnr = (fnr: string) => validator.fnr(fnr).status === 'valid';
 
-export const validerFritekstfelt = async (fnr: string): Promise<Fritekststate> => {
+export const validerFritekstfelt = async (fnr: string): Promise<Fritekstvalidering> => {
     if (!erKunSifre(fnr) || fnr.length < 9) {
-        return { input: Fritekstinput.IkkeEtFnr };
+        return { status: Fritekststatus.IkkeEtFnr };
     }
 
     if (fnr.length < 11) {
-        return { input: Fritekstinput.ForFåSifre };
+        return { status: Fritekststatus.ForFåSifre };
     }
 
     if (fnr.length > 11) {
-        return { input: Fritekstinput.ForMangeSifre };
+        return { status: Fritekststatus.ForMangeSifre };
     }
 
     if (!erGyldigFnr(fnr)) {
-        return { input: Fritekstinput.UgyldigFnr };
+        return { status: Fritekststatus.UgyldigFnr };
     }
 
     try {
         const kandidatnr = (await hentKandidatnr(fnr)).kandidatnr;
         return {
-            input: Fritekstinput.FantKandidat,
+            status: Fritekststatus.FantKandidat,
             kandidatnr,
         };
     } catch (e) {
-        return utenKandidatnr(Fritekstinput.FantIkkeKandidat);
+        return utenKandidatnr(Fritekststatus.FantIkkeKandidat);
     }
 };
 
-export const lagFeilmeldingFraFritekstinput = (input: Fritekstinput): string | undefined => {
+export const lagFeilmeldingFraFritekstinput = (input: Fritekststatus): string | undefined => {
     switch (input) {
-        case Fritekstinput.ForFåSifre:
+        case Fritekststatus.ForFåSifre:
             return 'Fødselsnummeret har for få sifre';
-        case Fritekstinput.ForMangeSifre:
+        case Fritekststatus.ForMangeSifre:
             return 'Fødselsnummeret har for mange sifre';
-        case Fritekstinput.FantIkkeKandidat:
+        case Fritekststatus.FantIkkeKandidat:
             return 'Kandidaten er ikke synlig i kandidatsøket';
-        case Fritekstinput.UgyldigFnr:
+        case Fritekststatus.UgyldigFnr:
             return 'Fødselsnummeret er ikke gyldig';
         default:
             return undefined;
