@@ -2,13 +2,12 @@ import React, { FunctionComponent, ChangeEvent, FormEvent, useState, useEffect }
 import { connect } from 'react-redux';
 import { Input } from 'nav-frontend-skjema';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import { useHistory } from 'react-router-dom';
 
-import { Fritekstvalidering, Fritekststatus, validerFritekstfelt } from './validering';
+import { Fritekststatus } from './validering';
 import { SEARCH } from '../searchReducer';
-import { sendEvent } from '../../amplitude/amplitude';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import AppState from '../../AppState';
+import useFritekstvalidering from './useFritekstvalidering';
 import './FritekstSearch.less';
 
 interface Props {
@@ -22,44 +21,20 @@ const FritekstSearch: FunctionComponent<Props> = ({
     fritekstSøkeord,
     setFritekstSøkeord,
 }) => {
-    const history = useHistory();
-
     const [input, setInput] = useState<string>(fritekstSøkeord);
     const [hasSubmit, setHasSubmit] = useState<boolean>(false);
-    const [validering, setValidering] = useState<Fritekstvalidering>({
-        status: Fritekststatus.IkkeEtFnr,
-    });
+    const validering = useFritekstvalidering(input, hasSubmit);
 
     useEffect(() => {
         setInput(fritekstSøkeord);
     }, [fritekstSøkeord]);
 
-    useEffect(() => {
-        const valider = async () => {
-            const validerer = {
-                status: Fritekststatus.Validerer,
-            };
-
-            setValidering(validerer);
-            setValidering(await validerFritekstfelt(input));
-        };
-
-        valider();
-    }, [input]);
-
-    useEffect(() => {
-        if (hasSubmit && validering.status === Fritekststatus.FantKandidat) {
-            sendEvent('fødselsnummersøk', 'naviger_til_cv');
-            history.push(`/kandidater/kandidat/${validering.kandidatnr}/cv`);
-        }
-    }, [hasSubmit, validering, history]);
-
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+
         if (hasSubmit) {
             setHasSubmit(false);
         }
-
-        setInput(e.target.value);
     };
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,7 +67,6 @@ const FritekstSearch: FunctionComponent<Props> = ({
             />
             <Søkeknapp
                 type="flat"
-                disabled={validering.status === Fritekststatus.Validerer}
                 aria-label="fritekstsøk"
                 className={knappClassName}
                 id="fritekstsok-knapp"
