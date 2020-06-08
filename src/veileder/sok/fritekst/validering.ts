@@ -2,6 +2,7 @@ import validator from '@navikt/fnrvalidator';
 import { hentKandidatnr } from '../../api';
 
 export enum Fritekstinput {
+    Validerer,
     IkkeEtFnr,
     ForFåSifre,
     ForMangeSifre,
