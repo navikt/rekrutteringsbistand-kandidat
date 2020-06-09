@@ -22,20 +22,16 @@ import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import './Kandidatrad.less';
+import UtfallSelect from './utfall-select/UtfallSelect';
+import { useFeatureToggle } from '../../../mock/useFeatureToggle';
+import { utfallToDisplayName } from './utfall-select/UtfallVisning';
 
+// TODO Vi har nå to typer Utfall.
+//      Når endring av utfall er slått på kan disse to typene slås sammen til én.
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
     Presentert = 'PRESENTERT',
 }
-
-export const utfallToString = (utfall: string) => {
-    if (utfall === Utfall.IkkePresentert) {
-        return 'Ikke presentert';
-    } else if (utfall === Utfall.Presentert) {
-        return 'Presentert';
-    }
-    return utfall;
-};
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -53,6 +49,12 @@ type Props = {
         kandidatnr: string
     ) => void;
     onKandidatStatusChange: any;
+    onKandidatUtfallChange: (
+        utfall: Utfall,
+        navKontor: string,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
     visArkiveringskolonne: boolean;
     setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
@@ -61,6 +63,7 @@ type Props = {
         kandidatlisteId: string;
         kandidatnr: string;
     };
+    valgtNavKontor: string;
 };
 
 const Kandidatrad: FunctionComponent<Props> = ({
@@ -75,13 +78,16 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onVisningChange,
     kanEditere,
     onKandidatStatusChange,
+    onKandidatUtfallChange,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
     setValgtKandidat,
     sistValgteKandidat,
+    valgtNavKontor,
 }) => {
     const kandidatRadRef = useRef<HTMLDivElement>(null);
+    const visEndreUtfall = useFeatureToggle('vis-endre-utfall-dropdown');
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -204,7 +210,22 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 )}
                 {stillingsId && (
                     <div className="kandidatliste-kandidat__tabell-tekst">
-                        {utfallToString(kandidat.utfall)}
+                        {visEndreUtfall ? (
+                            <UtfallSelect
+                                kanEndreUtfall={kanEditere}
+                                value={kandidat.utfall as Utfall}
+                                onChange={(utfall: Utfall) => {
+                                    onKandidatUtfallChange(
+                                        utfall,
+                                        valgtNavKontor,
+                                        kandidatlisteId,
+                                        kandidat.kandidatnr
+                                    );
+                                }}
+                            />
+                        ) : (
+                            utfallToDisplayName(kandidat.utfall as Utfall)
+                        )}
                     </div>
                 )}
                 <div>
@@ -279,6 +300,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
     sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
+    valgtNavKontor: state.navKontor.valgtNavKontor,
 });
 
 const mapDispatchToProps = (dispatch) => ({

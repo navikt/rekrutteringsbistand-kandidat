@@ -38,6 +38,12 @@ type Props = {
     fjernAllMarkering: () => void;
     markerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
+    onKandidatUtfallChange: (
+        utfall: Utfall,
+        navKontor: string,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;
@@ -177,6 +183,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         stillingsId={props.stillingsId}
                                         kandidatlisteId={props.kandidatlisteId}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
+                                        onKandidatUtfallChange={props.onKandidatUtfallChange}
                                         onToggleKandidat={props.toggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         opprettNotat={props.opprettNotat}
