@@ -48,6 +48,7 @@ import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 import { alderReducer } from './sok/alder/alderReducer';
+import valgtNavKontorReducer from './navKontor/navKontorReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -73,7 +74,7 @@ const store = createStore(
         enhetsregister: enhetsregisterReducer,
         navkontorReducer,
         hovedmal: hovedmalReducer,
-        navKontor: navkontorReducer,
+        navKontor: valgtNavKontorReducer,
         historikk: historikkReducer,
         alder: alderReducer,
     }),

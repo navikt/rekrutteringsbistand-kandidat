@@ -48,9 +48,7 @@ class TruncatedTextList extends React.Component {
         return (
             <div>
                 <Row>
-                    <Normaltekst>
-                        {this.props.tekstElementer.join(', ')}
-                    </Normaltekst>
+                    <Normaltekst>{this.props.tekstElementer.join(', ')}</Normaltekst>
                 </Row>
             </div>
         );

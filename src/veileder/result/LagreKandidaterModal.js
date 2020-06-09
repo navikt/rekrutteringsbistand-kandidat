@@ -53,7 +53,10 @@ class LagreKandidaterModal extends React.Component {
             });
         }
         if (
-            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus || prevProps.hentListeMedAnnonsenummerStatusMessage !== this.props.hentListeMedAnnonsenummerStatusMessage
+            prevProps.hentListeMedAnnonsenummerStatus !==
+                this.props.hentListeMedAnnonsenummerStatus ||
+            prevProps.hentListeMedAnnonsenummerStatusMessage !==
+                this.props.hentListeMedAnnonsenummerStatusMessage
         ) {
             if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
                 this.setState({
@@ -62,18 +65,21 @@ class LagreKandidaterModal extends React.Component {
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
-                console.log('ddd', this.props.hentListeMedAnnonsenummerStatus, this.props.hentListeMedAnnonsenummerStatusMessage)
-                this.props.hentListeMedAnnonsenummerStatusMessage && this.props.hentListeMedAnnonsenummerStatusMessage.includes('Kandidatliste for stilling')
-                ? this.setState({
-                    hentetListe: undefined,
-                    showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
-                })
-                : this.setState({
-                    hentetListe: undefined,
-                    showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen finnes ikke',
-                });
+                this.props.hentListeMedAnnonsenummerStatusMessage &&
+                this.props.hentListeMedAnnonsenummerStatusMessage.includes(
+                    'Kandidatliste for stilling'
+                )
+                    ? this.setState({
+                          hentetListe: undefined,
+                          showHentetListe: false,
+                          hentListeFeilmelding:
+                              'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
+                      })
+                    : this.setState({
+                          hentetListe: undefined,
+                          showHentetListe: false,
+                          hentListeFeilmelding: 'Stillingen finnes ikke',
+                      });
                 this.input.focus();
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Failure) {
                 this.setState({
@@ -388,7 +394,8 @@ const mapStateToProps = (state) => ({
     kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
     hentListerStatus: state.kandidatlister.hentListerStatus,
     hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
-    hentListeMedAnnonsenummerStatusMessage: state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
+    hentListeMedAnnonsenummerStatusMessage:
+        state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
     kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
     leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,

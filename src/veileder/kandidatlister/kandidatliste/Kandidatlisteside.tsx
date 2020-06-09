@@ -51,7 +51,13 @@ type Props = {
     kandidatliste: RemoteData<Kandidatlistetype>;
     sendteMeldinger: RemoteData<Sms[]>;
     endreStatusKandidat: any;
-    presenterKandidater: any;
+    presenterKandidater: (
+        beskjed: string,
+        mailadresser: Array<string>,
+        kandidatlisteId: string,
+        kandidatnummerListe: Array<string>,
+        navKontor: string
+    ) => void;
     resetDeleStatus: any;
     deleStatus: string;
     smsSendStatus: SmsStatus;
@@ -76,6 +82,7 @@ type Props = {
         kandidatlisteId: string;
         kandidatnr: string;
     };
+    valgtNavKontor: string;
 };
 
 class Kandidatlisteside extends React.Component<Props> {
@@ -364,7 +371,8 @@ class Kandidatlisteside extends React.Component<Props> {
                     this.props.kandidatliste.data.kandidatlisteId,
                     this.state.kandidater
                         .filter((kandidat) => kandidat.markert)
-                        .map((kandidat) => kandidat.kandidatnr)
+                        .map((kandidat) => kandidat.kandidatnr),
+                    this.props.valgtNavKontor
                 );
                 this.setState({
                     deleModalOpen: false,
@@ -537,6 +545,7 @@ const mapStateToProps = (state: AppState) => ({
     statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
     sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
+    valgtNavKontor: state.navKontor.valgtNavKontor,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
@@ -552,7 +561,8 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         beskjed: string,
         mailadresser: Array<string>,
         kandidatlisteId: string,
-        kandidatnummerListe: Array<string>
+        kandidatnummerListe: Array<string>,
+        navKontor: string
     ) => {
         dispatch({
             type: KandidatlisteActionType.PRESENTER_KANDIDATER,
@@ -560,6 +570,7 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             mailadresser,
             kandidatlisteId,
             kandidatnummerListe,
+            navKontor,
         });
     },
     resetDeleStatus: () => {

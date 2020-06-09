@@ -8,6 +8,7 @@ import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
 import { AlderState } from './sok/alder/alderReducer';
+import { NavKontorState } from './navKontor/navKontorReducer';
 
 type AppState = {
     kandidatlister: KandidatlisteState;
@@ -31,6 +32,7 @@ type AppState = {
     tilretteleggingsbehov: TilretteleggingsbehovState;
     historikk: HistorikkState;
     alder: AlderState;
+    navKontor: NavKontorState;
 };
 
 // TODO Følgende burde defineres i sine respektive reducere
