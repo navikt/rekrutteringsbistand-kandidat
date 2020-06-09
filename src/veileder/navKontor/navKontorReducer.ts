@@ -15,7 +15,10 @@ const initialState: NavKontorState = {
     valgtNavKontor: null,
 };
 
-const reducer = (state: NavKontorState = initialState, action: NavKontorAction): NavKontorState => {
+const valgtNavKontorReducer = (
+    state: NavKontorState = initialState,
+    action: NavKontorAction
+): NavKontorState => {
     switch (action.type) {
         case NavKontorActionTypes.VelgNavKontor: {
             return {
@@ -29,4 +32,4 @@ const reducer = (state: NavKontorState = initialState, action: NavKontorAction):
     }
 };
 
-export default reducer;
+export default valgtNavKontorReducer;
