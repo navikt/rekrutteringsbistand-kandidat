@@ -6,10 +6,9 @@ interface Props {
     utfall: Utfall;
 }
 
-// todo classnames
 const UtfallVisning: FunctionComponent<Props> = ({ utfall }) => (
-    <span className="StatusSelect__status">
-        <span className={`StatusSelect__sirkel StatusSelect__sirkel--${utfall.toLowerCase()}`} />
+    <span className="UtfallSelect__status">
+        <span className={`UtfallSelect__sirkel UtfallSelect__sirkel--${utfall.toLowerCase()}`} />
         <Normaltekst>{utfallToDisplayName(utfall)}</Normaltekst>
     </span>
 );

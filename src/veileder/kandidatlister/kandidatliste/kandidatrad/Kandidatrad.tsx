@@ -208,26 +208,23 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 ) : (
                     <Statusvisning status={kandidat.status as Status} />
                 )}
-                {stillingsId && (
-                    <div className="kandidatliste-kandidat__tabell-tekst">
-                        {visEndreUtfall ? (
-                            <UtfallSelect
-                                kanEndreUtfall={kanEditere}
-                                value={kandidat.utfall as Utfall}
-                                onChange={(utfall: Utfall) => {
-                                    onKandidatUtfallChange(
-                                        utfall,
-                                        valgtNavKontor,
-                                        kandidatlisteId,
-                                        kandidat.kandidatnr
-                                    );
-                                }}
-                            />
-                        ) : (
-                            utfallToDisplayName(kandidat.utfall as Utfall)
-                        )}
-                    </div>
-                )}
+                {stillingsId &&
+                    (visEndreUtfall ? (
+                        <UtfallSelect
+                            kanEndreUtfall={kanEditere}
+                            value={kandidat.utfall as Utfall}
+                            onChange={(utfall: Utfall) => {
+                                onKandidatUtfallChange(
+                                    utfall,
+                                    valgtNavKontor,
+                                    kandidatlisteId,
+                                    kandidat.kandidatnr
+                                );
+                            }}
+                        />
+                    ) : (
+                        utfallToDisplayName(kandidat.utfall as Utfall)
+                    ))}
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
