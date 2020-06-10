@@ -223,7 +223,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             }}
                         />
                     ) : (
-                        utfallToDisplayName(kandidat.utfall as Utfall)
+                        <div className="kandidatliste-kandidat__tabell-tekst">
+                            {utfallToDisplayName(kandidat.utfall as Utfall)}
+                        </div>
                     ))}
                 <div>
                     <Lenkeknapp
