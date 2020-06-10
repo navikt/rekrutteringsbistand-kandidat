@@ -1,9 +1,16 @@
 import { ApiError } from '../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
+import {
+    KandidatlisteResponse,
+    Notat,
+    Sms,
+    Kandidat,
+    KandidatResponse,
+} from '../kandidatlistetyper';
 import { ResponseData } from './../../../felles/common/remoteData';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import KandidatlisteActionType from './KandidatlisteActionType';
+import { Utfall } from '../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 
 export interface OpprettKandidatlisteAction {
     type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE;
@@ -141,6 +148,23 @@ export interface EndreStatusKandidatSuccessAction {
 
 export interface EndreStatusKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_FAILURE;
+}
+
+export interface EndreUtfallKandidatAction {
+    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT;
+    utfall: Utfall;
+    navKontor: string;
+    kandidatlisteId: string;
+    kandidatnr: string;
+}
+
+export interface EndreUtfallKandidatSuccessAction {
+    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS;
+    kandidatliste: KandidatlisteResponse;
+}
+
+export interface EndreUtfallKandidatFailureAction {
+    type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
 }
 
 export interface SetFodselsnummerAction {
@@ -415,6 +439,9 @@ type KandidatlisteAction =
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
+    | EndreUtfallKandidatAction
+    | EndreUtfallKandidatSuccessAction
+    | EndreUtfallKandidatFailureAction
     | SetFodselsnummerAction
     | SetNotatAction
     | HentKandidatMedFnrAction

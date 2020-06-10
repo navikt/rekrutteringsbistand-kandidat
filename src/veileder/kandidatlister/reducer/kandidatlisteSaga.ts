@@ -2,6 +2,7 @@ import {
     postSmsTilKandidater,
     fetchSendteMeldinger,
     putArkivertForFlereKandidater,
+    putUtfallKandidat,
 } from './../../api';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
@@ -26,6 +27,8 @@ import {
     ToggleArkivertSuccessAction,
     AngreArkiveringAction,
     AngreArkiveringSuccessAction,
+    EndreUtfallKandidatAction,
+    EndreUtfallKandidatSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteKandidatliste,
@@ -48,6 +51,7 @@ import {
     putArkivert,
 } from '../../api';
 import { Nettstatus } from '../../../felles/common/remoteData';
+import { KandidatlisteResponse, KandidatResponse } from '../kandidatlistetyper';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
@@ -163,6 +167,27 @@ function* endreKandidatstatus(action: EndreStatusKandidatAction) {
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
+    try {
+        const response: KandidatlisteResponse = yield putUtfallKandidat(
+            action.utfall,
+            action.navKontor,
+            action.kandidatlisteId,
+            action.kandidatnr
+        );
+        yield put<EndreUtfallKandidatSuccessAction>({
+            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS,
+            kandidatliste: response,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({ type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE, error: e });
         } else {
             throw e;
         }
@@ -511,6 +536,7 @@ function* kandidatlisteSaga() {
     );
     yield takeLatest(KandidatlisteActionType.PRESENTER_KANDIDATER, presenterKandidater);
     yield takeLatest(KandidatlisteActionType.ENDRE_STATUS_KANDIDAT, endreKandidatstatus);
+    yield takeLatest(KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT, endreKandidatUtfall);
     yield takeLatest(KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, hentKandidatMedFnr);
     yield takeLatest(KandidatlisteActionType.LEGG_TIL_KANDIDATER, leggTilKandidater);
     yield takeLatest(KandidatlisteActionType.HENT_NOTATER, hentNotater);

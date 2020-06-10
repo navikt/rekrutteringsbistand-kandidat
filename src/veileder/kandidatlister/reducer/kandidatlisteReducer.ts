@@ -360,6 +360,16 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     ),
                 },
             };
+        case KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS:
+            return {
+                ...state,
+                detaljer: {
+                    ...state.detaljer,
+                    kandidatliste: Suksess(
+                        leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
+                    ),
+                },
+            };
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {
                 ...state,

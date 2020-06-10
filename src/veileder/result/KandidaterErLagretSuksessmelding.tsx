@@ -42,7 +42,10 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent<Props> = ({
                     ? `${antallLagredeKandidater} kandidater`
                     : 'Kandidaten'}{' '}
                 er lagret i kandidatlisten{' '}
-                <Link to={lenkeTilKandidatliste(lagretKandidatliste.kandidatlisteId)}>
+                <Link
+                    className="lenke"
+                    to={lenkeTilKandidatliste(lagretKandidatliste.kandidatlisteId)}
+                >
                     {lagretKandidatliste.tittel}
                 </Link>
             </>

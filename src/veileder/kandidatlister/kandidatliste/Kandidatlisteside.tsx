@@ -12,7 +12,7 @@ import KopierEpostModal from './modaler/KopierEpostModal';
 import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import KandidatlisteAction from '../reducer/KandidatlisteAction';
+import KandidatlisteAction, { EndreUtfallKandidatAction } from '../reducer/KandidatlisteAction';
 import {
     Delestatus,
     KandidatIKandidatliste,
@@ -25,6 +25,7 @@ import { sendEvent } from '../../amplitude/amplitude';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
 import AppState from '../../AppState';
+import { Utfall } from './kandidatrad/Kandidatrad';
 
 const initialKandidatTilstand = (): Kandidattilstand => ({
     markert: false,
@@ -51,6 +52,12 @@ type Props = {
     kandidatliste: RemoteData<Kandidatlistetype>;
     sendteMeldinger: RemoteData<Sms[]>;
     endreStatusKandidat: any;
+    endreUtfallKandidat: (
+        utfall: Utfall,
+        navKontor: string,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => void;
     presenterKandidater: (
         beskjed: string,
         mailadresser: Array<string>,
@@ -517,6 +524,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     fjernAllMarkering={this.fjernAllMarkering}
                     markerKandidater={this.markerKandidater}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
+                    onKandidatUtfallChange={this.props.endreUtfallKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}
@@ -553,6 +561,20 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         dispatch({
             type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,
+            kandidatlisteId,
+            kandidatnr,
+        });
+    },
+    endreUtfallKandidat: (
+        utfall: Utfall,
+        navKontor: string,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT,
+            utfall,
+            navKontor,
             kandidatlisteId,
             kandidatnr,
         });

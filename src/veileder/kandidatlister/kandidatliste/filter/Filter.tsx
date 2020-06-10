@@ -7,10 +7,10 @@ import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Utfall } from '../kandidatrad/Kandidatrad';
-import { utfallToString } from '../kandidatrad/Kandidatrad';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from './useVinduErBredereEnn';
 import './Filter.less';
+import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
 
 interface Props {
     antallTreff: AntallFiltertreff;
@@ -50,7 +50,7 @@ const Filter: FunctionComponent<Props> = ({
               <Checkbox
                   key={utfall}
                   value={utfall}
-                  label={`${utfallToString(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
+                  label={`${utfallToDisplayName(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
                   checked={utfallsfilter[utfall]}
                   name="utfallsfilter"
                   className="kandidatliste-filter__checkbox"

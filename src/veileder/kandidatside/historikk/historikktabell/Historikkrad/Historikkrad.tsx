@@ -2,12 +2,12 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../application/paths';
 import { Statusvisning } from '../../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { utfallToString } from '../../../../kandidatlister/kandidatliste/kandidatrad/Kandidatrad';
 import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import './Historikkrad.less';
 import { Undertekst } from 'nav-frontend-typografi';
+import { utfallToDisplayName } from '../../../../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallVisning';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
@@ -41,7 +41,7 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             <td>
                 <Statusvisning status={kandidatliste.status} />
             </td>
-            <td className="historikkrad__utfall">{utfallToString(kandidatliste.utfall)}</td>
+            <td className="historikkrad__utfall">{utfallToDisplayName(kandidatliste.utfall)}</td>
             <td className="historikkrad__stilling">
                 {!kandidatliste.slettet && kandidatliste.stillingId && (
                     <Lenke href={lenkeTilStilling(kandidatliste.stillingId)}>Se stilling</Lenke>

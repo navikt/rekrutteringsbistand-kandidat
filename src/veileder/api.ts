@@ -21,6 +21,8 @@ import {
     putJson,
 } from '../felles/api';
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
+import { Utfall } from './kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { KandidatlisteResponse } from './kandidatlister/kandidatlistetyper';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -88,10 +90,25 @@ export const fetchKandidatlisteMedStillingsId = (stillingsId) =>
 export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
-export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) =>
+export const putStatusKandidat = (
+    status,
+    kandidatlisteId,
+    kandidatnr
+): Promise<KandidatlisteResponse> =>
     putJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`,
         JSON.stringify({ status })
+    );
+
+export const putUtfallKandidat = (
+    utfall: Utfall,
+    navKontor: string,
+    kandidatlisteId: string,
+    kandidatnr: string
+): Promise<KandidatlisteResponse> =>
+    putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/utfall`,
+        JSON.stringify({ utfall, navKontor })
     );
 
 export const postKandidatliste = (kandidatlisteInfo) =>
