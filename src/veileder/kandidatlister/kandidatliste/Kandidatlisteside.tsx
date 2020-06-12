@@ -372,16 +372,19 @@ class Kandidatlisteside extends React.Component<Props> {
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         if (this.state.kandidater) {
             if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
+                const kandidatNrTilPresentering = this.state.kandidater
+                    .filter((kandidat) => kandidat.markert)
+                    .map((kandidat) => kandidat.kandidatnr);
+
                 sendEvent('kandidatliste', 'presenter_kandidater', {
-                    antallKandidater: this.state.kandidater.length,
+                    antallKandidater: kandidatNrTilPresentering.length,
                 });
+
                 this.props.presenterKandidater(
                     beskjed,
                     mailadresser,
                     this.props.kandidatliste.data.kandidatlisteId,
-                    this.state.kandidater
-                        .filter((kandidat) => kandidat.markert)
-                        .map((kandidat) => kandidat.kandidatnr),
+                    kandidatNrTilPresentering,
                     this.props.valgtNavKontor
                 );
                 this.setState({
