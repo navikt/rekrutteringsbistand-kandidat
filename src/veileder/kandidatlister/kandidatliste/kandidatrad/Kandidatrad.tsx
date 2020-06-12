@@ -214,6 +214,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             kanEndreUtfall={kanEditere}
                             value={kandidat.utfall as Utfall}
                             onChange={(utfall: Utfall) => {
+                                sendEvent('kandidatliste', 'endre_utfall', { utfall: utfall });
                                 onKandidatUtfallChange(
                                     utfall,
                                     valgtNavKontor,

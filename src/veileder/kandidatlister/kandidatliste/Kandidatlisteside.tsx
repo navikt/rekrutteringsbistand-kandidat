@@ -372,6 +372,9 @@ class Kandidatlisteside extends React.Component<Props> {
     onDelMedArbeidsgiver = (beskjed, mailadresser) => {
         if (this.state.kandidater) {
             if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
+                sendEvent('kandidatliste', 'presenter_kandidater', {
+                    antallKandidater: this.state.kandidater.length,
+                });
                 this.props.presenterKandidater(
                     beskjed,
                     mailadresser,
