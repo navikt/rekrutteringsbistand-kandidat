@@ -57,11 +57,9 @@ const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/ak
 const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
 const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 
-// Midlertidig utilgjengelig
 const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig';
-
-// Sms-API
 const smsUrl = `/kandidater/api/sms`;
+const utfallUrl = `express:/pam-kandidatsok-api/rest/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -91,6 +89,22 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
     };
 };
 
+const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+    const kandidatnr = url.split('/').reverse()[1];
+    const utfall = JSON.parse(String(options.body)).utfall;
+    return {
+        ...kandidatliste,
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
+            kandidat.kandidatnr !== kandidatnr
+                ? kandidat
+                : {
+                      ...kandidat,
+                      utfall,
+                  }
+        ),
+    };
+};
+
 fetchMock
     .get(meUrl, me)
     .get(kandidatlisteUrl, kandidatliste)
@@ -98,7 +112,7 @@ fetchMock
     .get((url: string) => url.startsWith(ferdigutfyltesokurl), ferdigutfyltesok)
     .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
     .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .put((url: string) => url.startsWith(kandidatlisteKandidaterUrl), putKandidatlistestatus)
+    .put(kandidatlisteKandidaterUrl, putKandidatlistestatus)
     .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
     .get((url: string) => url.startsWith(hentCvUrl), getCv)
     .get((url: string) => url.startsWith(sokUrl), sok)
@@ -127,4 +141,5 @@ fetchMock
     .get(modiacontextholderDecoratorUrl, decorator)
     .mock((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
     .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
-    .post(modiacontextholderContextUrl, 200);
+    .post(modiacontextholderContextUrl, 200)
+    .put(utfallUrl, putUtfall);
