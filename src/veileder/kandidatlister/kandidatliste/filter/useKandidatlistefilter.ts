@@ -1,7 +1,16 @@
+import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/Kandidatrad';
+import { settFilterIUrl } from './filter-utils';
+
+export type Kandidatlistefilter = {
+    visArkiverte: boolean;
+    status: Record<Status, boolean>;
+    utfall: Record<Utfall, boolean>;
+    navn: string;
+};
 
 const useKandidatlistefilter = (
     kandidater: KandidatIKandidatliste[],
@@ -10,20 +19,35 @@ const useKandidatlistefilter = (
     utfallsfilter: Record<Utfall, boolean>,
     navnefilter: string
 ): KandidatIKandidatliste[] => {
+    const history = useHistory();
+
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter)
+        hentFiltrerteKandidater(kandidater, {
+            visArkiverte,
+            status: statusfilter,
+            utfall: utfallsfilter,
+            navn: navnefilter,
+        })
     );
 
     useEffect(() => {
-        setFiltrerteKandidater(
-            hentFiltrerteKandidater(
-                kandidater,
-                visArkiverte,
-                statusfilter,
-                utfallsfilter,
-                navnefilter
-            )
-        );
+        settFilterIUrl(history, {
+            visArkiverte,
+            status: statusfilter,
+            utfall: utfallsfilter,
+            navn: navnefilter,
+        });
+    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
+
+    useEffect(() => {
+        const filtrerte = hentFiltrerteKandidater(kandidater, {
+            visArkiverte,
+            status: statusfilter,
+            utfall: utfallsfilter,
+            navn: navnefilter,
+        });
+
+        setFiltrerteKandidater(filtrerte);
     }, [kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
 
     return filtrerteKandidater;
@@ -45,19 +69,16 @@ export const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatli
 
 export const hentFiltrerteKandidater = (
     kandidater: KandidatIKandidatliste[],
-    visArkiverte: boolean,
-    statusfilter: Record<Status, boolean>,
-    utfallsfilter: Record<Utfall, boolean>,
-    navnefilter: string
+    filter: Kandidatlistefilter
 ) => {
-    const statusfilterErValgt = new Set(Object.values(statusfilter)).size > 1;
-    const utfallsfilterErValgt = new Set(Object.values(utfallsfilter)).size > 1;
+    const statusfilterErValgt = new Set(Object.values(filter.status)).size > 1;
+    const utfallsfilterErValgt = new Set(Object.values(filter.utfall)).size > 1;
 
     return kandidater
-        .filter((kandidat) => kandidat.arkivert === visArkiverte)
-        .filter(matchNavn(navnefilter))
-        .filter((kandidat) => !statusfilterErValgt || statusfilter[kandidat.status])
-        .filter((kandidat) => !utfallsfilterErValgt || utfallsfilter[kandidat.utfall]);
+        .filter((kandidat) => kandidat.arkivert === filter.visArkiverte)
+        .filter(matchNavn(filter.navn))
+        .filter((kandidat) => !statusfilterErValgt || filter.status[kandidat.status])
+        .filter((kandidat) => !utfallsfilterErValgt || filter.utfall[kandidat.utfall]);
 };
 
 export default useKandidatlistefilter;
