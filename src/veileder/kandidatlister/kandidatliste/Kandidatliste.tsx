@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useMemo } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import {
@@ -23,6 +23,7 @@ import useAntallFiltertreff from './filter/useAntallFiltertreff';
 import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
 import Meny from './meny/Meny';
+import { useHistory } from 'react-router-dom';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -65,9 +66,13 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
-const initialFilter = queryParamsTilFilter(new URLSearchParams(window.location.search));
-
 const Kandidatliste: FunctionComponent<Props> = (props) => {
+    const history = useHistory();
+    const initialFilter = useMemo(
+        () => queryParamsTilFilter(new URLSearchParams(history.location.search)),
+        [history]
+    );
+
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(initialFilter.visArkiverte);
     const [navnefilter, setNavnefilter] = useState<string>('');
     const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(initialFilter.status);
