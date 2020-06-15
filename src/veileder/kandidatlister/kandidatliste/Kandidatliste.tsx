@@ -1,7 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import { lagTomtStatusfilter, lagTomtUtfallsfilter } from './filter/filter-utils';
+import {
+    lagTomtStatusfilter,
+    lagTomtUtfallsfilter,
+    queryParamsTilFilter,
+} from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -61,14 +65,14 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
+const initialFilter = queryParamsTilFilter(new URLSearchParams(window.location.search));
+
 const Kandidatliste: FunctionComponent<Props> = (props) => {
-    const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
+    const [visArkiverte, toggleVisArkiverte] = useState<boolean>(initialFilter.visArkiverte);
     const [navnefilter, setNavnefilter] = useState<string>('');
-    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
-        lagTomtStatusfilter()
-    );
+    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(initialFilter.status);
     const [utfallsfilter, setUtfallsfilter] = useState<Record<Utfall, boolean>>(
-        lagTomtUtfallsfilter()
+        initialFilter.utfall
     );
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);

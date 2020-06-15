@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/Kandidatrad';
-import { settFilterIUrl } from './filter-utils';
+import { filterTilQueryParams } from './filter-utils';
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
@@ -31,12 +31,14 @@ const useKandidatlistefilter = (
     );
 
     useEffect(() => {
-        settFilterIUrl(history, {
+        const queryParams = filterTilQueryParams({
             visArkiverte,
             status: statusfilter,
             utfall: utfallsfilter,
             navn: navnefilter,
         });
+
+        history.replace(`${history.location.pathname}?${queryParams.toString()}`);
     }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
 
     useEffect(() => {
