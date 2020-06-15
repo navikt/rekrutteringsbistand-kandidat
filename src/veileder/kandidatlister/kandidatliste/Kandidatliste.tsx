@@ -67,10 +67,10 @@ const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
-    const history = useHistory();
+    const { location } = useHistory();
     const initialFilter = useMemo(
-        () => queryParamsTilFilter(new URLSearchParams(history.location.search)),
-        [history]
+        () => queryParamsTilFilter(new URLSearchParams(location.search)),
+        [location.search]
     );
 
     const [visArkiverte, toggleVisArkiverte] = useState<boolean>(initialFilter.visArkiverte);
