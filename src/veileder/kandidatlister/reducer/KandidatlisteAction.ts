@@ -412,6 +412,12 @@ export interface HentSendteMeldingerFailureAction {
     error: SearchApiError;
 }
 
+export interface EndreKandidatlistefilterAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
+    query: string;
+    // filtrerteKandidater: KandidatIKandidatliste[];
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -488,6 +494,7 @@ type KandidatlisteAction =
     | AngreArkiveringAction
     | AngreArkiveringSuccessAction
     | AngreArkiveringFailureAction
-    | VelgKandidatAction;
+    | VelgKandidatAction
+    | EndreKandidatlistefilterAction;
 
 export default KandidatlisteAction;

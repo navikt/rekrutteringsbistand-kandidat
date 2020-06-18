@@ -83,6 +83,7 @@ export interface KandidatlisteState {
         kandidatlisteId: string;
         kandidatnr: string;
     };
+    filterQuery?: string;
 }
 
 const initialState: KandidatlisteState = {
@@ -737,6 +738,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sistValgteKandidat: sistValgteKandidat,
+            };
+        }
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER: {
+            return {
+                ...state,
+                filterQuery: action.query || undefined,
             };
         }
         default:

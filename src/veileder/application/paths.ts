@@ -2,8 +2,15 @@ import { KandidatQueryParam } from './../kandidatside/Kandidatside';
 
 const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
-export const lenkeTilKandidatliste = (kandidatlisteId: string) =>
-    `/kandidater/lister/detaljer/${kandidatlisteId}`;
+export const lenkeTilKandidatliste = (kandidatlisteId: string, filterQuery?: string) => {
+    let lenke = `/kandidater/lister/detaljer/${kandidatlisteId}`;
+
+    if (filterQuery) {
+        lenke += `?${filterQuery}`;
+    }
+
+    return lenke;
+};
 
 export const lenkeTilStilling = (stillingsId: string) => `/stilling/${stillingsId}`;
 

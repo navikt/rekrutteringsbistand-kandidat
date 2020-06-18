@@ -14,7 +14,7 @@ import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import '../../felles/common/ikoner/ikoner.less';
-import { lenkeTilCv } from '../application/paths';
+import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -79,6 +79,7 @@ class VisKandidatFraLister extends React.Component {
             kandidatliste,
             hentStatus,
             midlertidigUtilgjengelig,
+            kandidatlisteFilterQuery,
         } = this.props;
 
         const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(kandidatNr);
@@ -101,7 +102,7 @@ class VisKandidatFraLister extends React.Component {
             <div>
                 <Kandidatheader
                     cv={cv}
-                    tilbakeLink={`/kandidater/lister/detaljer/${kandidatlisteId}`}
+                    tilbakeLink={lenkeTilKandidatliste(kandidatlisteId, kandidatlisteFilterQuery)}
                     antallKandidater={kandidatliste.kandidater.length}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
@@ -166,6 +167,7 @@ VisKandidatFraLister.propTypes = {
         ),
     }),
     endreStatusKandidat: PropTypes.func.isRequired,
+    kandidatlisteFilterQuery: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
@@ -176,6 +178,7 @@ const mapStateToProps = (state) => ({
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
+    kandidatlisteFilterQuery: state.kandidatlister.filterQuery,
 });
 
 const mapDispatchToProps = (dispatch) => ({

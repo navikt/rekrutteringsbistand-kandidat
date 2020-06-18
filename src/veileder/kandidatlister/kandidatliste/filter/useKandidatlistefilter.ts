@@ -1,9 +1,12 @@
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/Kandidatrad';
 import { filterTilQueryParams } from './filter-utils';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
@@ -20,6 +23,7 @@ const useKandidatlistefilter = (
     navnefilter: string
 ): KandidatIKandidatliste[] => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
         hentFiltrerteKandidater(kandidater, {
@@ -38,8 +42,13 @@ const useKandidatlistefilter = (
             navn: navnefilter,
         });
 
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            query: queryParams.toString(),
+        });
+
         history.replace(`${history.location.pathname}?${queryParams.toString()}`);
-    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
+    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter, dispatch]);
 
     useEffect(() => {
         const filtrerte = hentFiltrerteKandidater(kandidater, {
