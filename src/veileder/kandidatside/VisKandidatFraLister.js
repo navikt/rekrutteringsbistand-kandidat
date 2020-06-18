@@ -4,7 +4,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 
 import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
-import { KandidatQueryParam } from './Kandidatside';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import cvPropTypes from '../../felles/PropTypes';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
