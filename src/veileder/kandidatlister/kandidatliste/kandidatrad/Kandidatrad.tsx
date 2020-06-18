@@ -25,6 +25,7 @@ import './Kandidatrad.less';
 import UtfallSelect from './utfall-select/UtfallSelect';
 import { useFeatureToggle } from '../../../mock/useFeatureToggle';
 import { utfallToDisplayName } from './utfall-select/UtfallVisning';
+import { lenkeTilCv } from '../../../application/paths';
 
 // TODO Vi har nå to typer Utfall.
 //      Når endring av utfall er slått på kan disse to typene slås sammen til én.
@@ -177,7 +178,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Link
                         title="Vis profil"
                         className="lenke"
-                        to={`/kandidater/kandidat/${kandidat.kandidatnr}/cv?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`}
+                        to={lenkeTilCv(kandidat.kandidatnr, kandidatlisteId, true)}
                         onClick={() => setValgtKandidat(kandidatlisteId, kandidat.kandidatnr)}
                     >
                         {`${etternavn}, ${fornavn}`}

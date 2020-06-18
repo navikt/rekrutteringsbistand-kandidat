@@ -15,6 +15,7 @@ import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import '../../felles/common/ikoner/ikoner.less';
+import { lenkeTilCv } from '../application/paths';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -68,13 +69,8 @@ class VisKandidatFraLister extends React.Component {
         );
     };
 
-    hentLenkeTilKandidat = (kandidatnummer) => {
-        const queryParams = `${KandidatQueryParam.KandidatlisteId}=${this.props.kandidatlisteId}&${KandidatQueryParam.FraKandidatliste}=true`;
-
-        return kandidatnummer
-            ? `/kandidater/kandidat/${kandidatnummer}/cv?${queryParams}`
-            : undefined;
-    };
+    hentLenkeTilKandidat = (kandidatnummer) =>
+        kandidatnummer ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, true) : undefined;
 
     render() {
         const {

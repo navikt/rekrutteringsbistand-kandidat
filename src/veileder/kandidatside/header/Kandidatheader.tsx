@@ -6,6 +6,7 @@ import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import './Kandidatheader.less';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
     cv: any;
@@ -34,6 +35,9 @@ const Kandidatheader: FunctionComponent<Props> = ({
     if (cv.etternavn) {
         etternavn = capitalizeFirstLetter(cv.etternavn);
     }
+
+    const his = useHistory();
+    console.log(his);
 
     const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
         ? 'Til kandidatlisten'
