@@ -21,12 +21,14 @@ class VisKandidatFraLister extends React.Component {
         window.scrollTo(0, 0);
         this.props.hentCvForKandidat(this.props.kandidatNr);
         this.props.hentKandidatliste(this.props.kandidatlisteId);
+        this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
             window.scrollTo(0, 0);
             this.props.hentCvForKandidat(this.props.kandidatNr);
+            this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
         }
     }
 
@@ -180,6 +182,7 @@ VisKandidatFraLister.propTypes = {
     endreStatusKandidat: PropTypes.func.isRequired,
     kandidatlisteFilterQuery: PropTypes.string,
     filtrerteKandidatnumre: PropTypes.arrayOf(PropTypes.string),
+    settValgtKandidat: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -201,6 +204,12 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
             kandidatlisteId,
+        }),
+    settValgtKandidat: (kandidatlisteId, kandidatnr) =>
+        dispatch({
+            type: KandidatlisteActionType.VELG_KANDIDAT,
+            kandidatlisteId,
+            kandidatnr,
         }),
     endreStatusKandidat: (status, kandidatlisteId, kandidatnr) =>
         dispatch({

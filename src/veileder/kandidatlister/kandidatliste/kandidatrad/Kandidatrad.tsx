@@ -7,14 +7,12 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
-import { KandidatQueryParam } from '../../../kandidatside/Kandidatside';
 import { MidlertidigUtilgjengeligState } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
 import AppState from '../../../AppState';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
@@ -57,7 +55,6 @@ type Props = {
         kandidatnr: string
     ) => void;
     visArkiveringskolonne: boolean;
-    setValgtKandidat: (kandidatlisteId: string, kandidatnr: string) => void;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
     sistValgteKandidat?: {
@@ -83,7 +80,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
-    setValgtKandidat,
     sistValgteKandidat,
     valgtNavKontor,
 }) => {
@@ -179,7 +175,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         title="Vis profil"
                         className="lenke"
                         to={lenkeTilCv(kandidat.kandidatnr, kandidatlisteId, true)}
-                        onClick={() => setValgtKandidat(kandidatlisteId, kandidat.kandidatnr)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -308,12 +303,6 @@ const mapDispatchToProps = (dispatch) => ({
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => {
         dispatch({ type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG', aktørId, kandidatnr });
     },
-    setValgtKandidat: (kandidatlisteId, kandidatnr) =>
-        dispatch({
-            type: KandidatlisteActionType.VELG_KANDIDAT,
-            kandidatlisteId,
-            kandidatnr,
-        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatrad);
