@@ -66,6 +66,11 @@ class VisKandidatFraLister extends React.Component {
         return this.props.kandidatliste.kandidater[gjeldendeIndex + 1]?.kandidatnr;
     };
 
+    hentAntallKandidater = () =>
+        this.props.filtrerteKandidatnumre
+            ? this.props.filtrerteKandidatnumre.length
+            : this.props.kandidatliste.kandidater.length;
+
     onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
             status,
@@ -109,7 +114,7 @@ class VisKandidatFraLister extends React.Component {
                 <Kandidatheader
                     cv={cv}
                     tilbakeLink={lenkeTilKandidatliste(kandidatlisteId, kandidatlisteFilterQuery)}
-                    antallKandidater={kandidatliste.kandidater.length}
+                    antallKandidater={this.hentAntallKandidater()}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
@@ -142,7 +147,7 @@ class VisKandidatFraLister extends React.Component {
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                antallKandidater={kandidatliste.kandidater.length}
+                                antallKandidater={this.hentAntallKandidater()}
                             />
                         </div>
                     </>
