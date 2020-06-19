@@ -36,9 +36,6 @@ const Kandidatheader: FunctionComponent<Props> = ({
         etternavn = capitalizeFirstLetter(cv.etternavn);
     }
 
-    const his = useHistory();
-    console.log(his);
-
     const tilbakeLenkeTekst = tilbakeLink.includes('kandidater/lister')
         ? 'Til kandidatlisten'
         : 'Til kandidatsøket';

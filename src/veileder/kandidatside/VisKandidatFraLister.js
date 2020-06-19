@@ -31,33 +31,39 @@ class VisKandidatFraLister extends React.Component {
     }
 
     hentGjeldendeKandidatIndex = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            (element) => element.kandidatnr === kandidatnummer
-        );
-        if (gjeldendeIndex === -1) {
-            return undefined;
+        let gjeldendeIndex;
+
+        if (this.props.filtrerteKandidatnumre) {
+            gjeldendeIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatnummer);
+        } else {
+            gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
+                (element) => element.kandidatnr === kandidatnummer
+            );
         }
-        return gjeldendeIndex;
+
+        return gjeldendeIndex === -1 ? undefined : gjeldendeIndex;
     };
 
-    hentForrigeKandidatNummer = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            (element) => element.kandidatnr === kandidatnummer
-        );
+    hentForrigeKandidatNummer = (gjeldendeIndex) => {
+        if (gjeldendeIndex === undefined) return undefined;
+
         if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
             return undefined;
         }
-        return this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
+
+        return this.props.filtrerteKandidatnumre
+            ? this.props.filtrerteKandidatnumre[gjeldendeIndex - 1]
+            : this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
     };
 
-    hentNesteKandidatNummer = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-            (element) => element.kandidatnr === kandidatnummer
-        );
-        if (gjeldendeIndex === this.props.kandidatliste.kandidater.length - 1) {
-            return undefined;
+    hentNesteKandidatNummer = (gjeldendeIndex) => {
+        if (gjeldendeIndex === undefined) return undefined;
+
+        if (this.props.filtrerteKandidatnumre) {
+            return this.props.filtrerteKandidatnumre[gjeldendeIndex + 1];
         }
-        return this.props.kandidatliste.kandidater[gjeldendeIndex + 1].kandidatnr;
+
+        return this.props.kandidatliste.kandidater[gjeldendeIndex + 1]?.kandidatnr;
     };
 
     onKandidatStatusChange = (status) => {
@@ -83,8 +89,8 @@ class VisKandidatFraLister extends React.Component {
         } = this.props;
 
         const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(kandidatNr);
-        const nesteKandidatNummer = this.hentNesteKandidatNummer(kandidatNr);
-        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(kandidatNr);
+        const nesteKandidatNummer = this.hentNesteKandidatNummer(gjeldendeKandidatIndex);
+        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(gjeldendeKandidatIndex);
         const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
         const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
 
@@ -168,6 +174,7 @@ VisKandidatFraLister.propTypes = {
     }),
     endreStatusKandidat: PropTypes.func.isRequired,
     kandidatlisteFilterQuery: PropTypes.string,
+    filtrerteKandidatnumre: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = (state) => ({
@@ -179,6 +186,7 @@ const mapStateToProps = (state) => ({
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
     kandidatlisteFilterQuery: state.kandidatlister.filterQuery,
+    filtrerteKandidatnumre: state.kandidatlister.filtrerteKandidatnumre,
 });
 
 const mapDispatchToProps = (dispatch) => ({

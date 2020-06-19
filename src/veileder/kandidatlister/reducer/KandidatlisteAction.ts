@@ -1,3 +1,4 @@
+import { KandidatIKandidatliste } from './../kandidatlistetyper';
 import { ApiError } from '../../../felles/common/remoteData';
 import {
     KandidatlisteResponse,
@@ -414,8 +415,8 @@ export interface HentSendteMeldingerFailureAction {
 
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
-    query: string;
-    // filtrerteKandidater: KandidatIKandidatliste[];
+    filtrerteKandidatnumre?: string[];
+    query?: string;
 }
 
 type KandidatlisteAction =

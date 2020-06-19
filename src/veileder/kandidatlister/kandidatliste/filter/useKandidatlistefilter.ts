@@ -25,6 +25,8 @@ const useKandidatlistefilter = (
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [filterQuery, setFilterQuery] = useState<string | undefined>(undefined);
+
     const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
         hentFiltrerteKandidater(kandidater, {
             visArkiverte,
@@ -35,20 +37,16 @@ const useKandidatlistefilter = (
     );
 
     useEffect(() => {
-        const queryParams = filterTilQueryParams({
+        const query = filterTilQueryParams({
             visArkiverte,
             status: statusfilter,
             utfall: utfallsfilter,
             navn: navnefilter,
-        });
+        }).toString();
 
-        dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
-            query: queryParams.toString(),
-        });
-
-        history.replace(`${history.location.pathname}?${queryParams.toString()}`);
-    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter, dispatch]);
+        setFilterQuery(query);
+        history.replace(`${history.location.pathname}?${query}`);
+    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
 
     useEffect(() => {
         const filtrerte = hentFiltrerteKandidater(kandidater, {
@@ -60,6 +58,16 @@ const useKandidatlistefilter = (
 
         setFiltrerteKandidater(filtrerte);
     }, [kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
+
+    useEffect(() => {
+        const kandidatnumre = filtrerteKandidater.map((kandidat) => kandidat.kandidatnr);
+
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            query: filterQuery || undefined,
+            filtrerteKandidatnumre: kandidatnumre.length === 0 ? undefined : kandidatnumre,
+        });
+    }, [filtrerteKandidater, filterQuery, dispatch]);
 
     return filtrerteKandidater;
 };
