@@ -83,6 +83,8 @@ export interface KandidatlisteState {
         kandidatlisteId: string;
         kandidatnr: string;
     };
+    filterQuery?: string;
+    filtrerteKandidatnumre?: string[];
 }
 
 const initialState: KandidatlisteState = {
@@ -139,7 +141,6 @@ const initialState: KandidatlisteState = {
         statusDearkivering: Nettstatus.IkkeLastet,
     },
     scrollPosition: {},
-    sistValgteKandidat: undefined,
 };
 
 const overforNotater: (
@@ -737,6 +738,13 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 sistValgteKandidat: sistValgteKandidat,
+            };
+        }
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER: {
+            return {
+                ...state,
+                filterQuery: action.query,
+                filtrerteKandidatnumre: action.filtrerteKandidatnumre,
             };
         }
         default:

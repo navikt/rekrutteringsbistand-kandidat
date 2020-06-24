@@ -6,6 +6,7 @@ import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import './Kandidatheader.less';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
     cv: any;

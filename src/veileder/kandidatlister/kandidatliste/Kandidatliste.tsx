@@ -1,7 +1,11 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useMemo } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import { lagTomtStatusfilter, lagTomtUtfallsfilter } from './filter/filter-utils';
+import {
+    lagTomtStatusfilter,
+    lagTomtUtfallsfilter,
+    queryParamsTilFilter,
+} from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -19,6 +23,7 @@ import useAntallFiltertreff from './filter/useAntallFiltertreff';
 import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
 import Meny from './meny/Meny';
+import { useHistory } from 'react-router-dom';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -62,13 +67,17 @@ const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
-    const [visArkiverte, toggleVisArkiverte] = useState<boolean>(false);
-    const [navnefilter, setNavnefilter] = useState<string>('');
-    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(
-        lagTomtStatusfilter()
+    const { location } = useHistory();
+    const initialFilter = useMemo(
+        () => queryParamsTilFilter(new URLSearchParams(location.search)),
+        [location.search]
     );
+
+    const [visArkiverte, toggleVisArkiverte] = useState<boolean>(initialFilter.visArkiverte);
+    const [navnefilter, setNavnefilter] = useState<string>('');
+    const [statusfilter, setStatusfilter] = useState<Record<Status, boolean>>(initialFilter.status);
     const [utfallsfilter, setUtfallsfilter] = useState<Record<Utfall, boolean>>(
-        lagTomtUtfallsfilter()
+        initialFilter.utfall
     );
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);

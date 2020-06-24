@@ -23,6 +23,7 @@ import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import './VisKandidat.less';
+import { lenkeTilCv } from '../application/paths';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -215,12 +216,8 @@ class VisKandidat extends React.Component {
         } = this.state;
 
         let tilbakeLink = '/kandidater';
-        let forrigeKandidatLink = forrigeKandidat
-            ? `/kandidater/kandidat/${forrigeKandidat}/cv`
-            : undefined;
-        let nesteKandidatLink = nesteKandidat
-            ? `/kandidater/kandidat/${nesteKandidat}/cv`
-            : undefined;
+        let forrigeKandidatLink = forrigeKandidat ? lenkeTilCv(forrigeKandidat) : undefined;
+        let nesteKandidatLink = nesteKandidat ? lenkeTilCv(nesteKandidat) : undefined;
 
         if (kandidatlisteId) {
             tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
