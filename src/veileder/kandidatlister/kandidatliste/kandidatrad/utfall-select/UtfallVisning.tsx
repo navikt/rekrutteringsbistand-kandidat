@@ -20,7 +20,7 @@ export const utfallToDisplayName = (utfall: Utfall) => {
         case Utfall.IkkePresentert:
             return 'Ikke presentert';
         case Utfall.FåttJobben:
-            return 'Fått jobben';
+            return 'Fått jobb';
     }
 };
 
