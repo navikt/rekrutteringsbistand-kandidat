@@ -184,9 +184,12 @@ const browserRegistrator = (req, res, next) => {
 const konfigurerProxyTilPamKandidatsøkApi = () => {
     server.use(
         '/kandidater/rest/',
-        proxy('http://pam-kandidatsok-api', {
+        proxy('http://rekrutteringsbistand-kandidat-api', {
             proxyReqPathResolver: (req) =>
-                req.originalUrl.replace(new RegExp('kandidater'), 'pam-kandidatsok-api'),
+                req.originalUrl.replace(
+                    new RegExp('kandidater'),
+                    'rekrutteringsbistand-kandidat-api'
+                ),
         })
     );
 };
