@@ -333,6 +333,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
+            let filtrerteKandidatnumre =
+                state.filtrerteKandidatnumre ||
+                action.kandidatliste.kandidater
+                    .filter((kandidat) => !kandidat.arkivert)
+                    .map((kandidat) => kandidat.kandidatnr);
+
             return {
                 ...state,
                 detaljer: {
@@ -341,6 +347,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
+                filtrerteKandidatnumre,
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
