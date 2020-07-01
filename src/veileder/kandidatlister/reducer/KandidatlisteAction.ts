@@ -1,12 +1,5 @@
-import { KandidatIKandidatliste } from './../kandidatlistetyper';
 import { ApiError } from '../../../felles/common/remoteData';
-import {
-    KandidatlisteResponse,
-    Notat,
-    Sms,
-    Kandidat,
-    KandidatResponse,
-} from '../kandidatlistetyper';
+import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
 import { ResponseData } from './../../../felles/common/remoteData';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
@@ -415,7 +408,7 @@ export interface HentSendteMeldingerFailureAction {
 
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
-    filtrerteKandidatnumre?: string[];
+    filtrerteKandidatnumre: string[];
     query?: string;
 }
 

@@ -33,16 +33,7 @@ class VisKandidatFraLister extends React.Component {
     }
 
     hentGjeldendeKandidatIndex = (kandidatnummer) => {
-        let gjeldendeIndex;
-
-        if (this.props.filtrerteKandidatnumre) {
-            gjeldendeIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatnummer);
-        } else {
-            gjeldendeIndex = this.props.kandidatliste.kandidater.findIndex(
-                (element) => element.kandidatnr === kandidatnummer
-            );
-        }
-
+        const gjeldendeIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatnummer);
         return gjeldendeIndex === -1 ? undefined : gjeldendeIndex;
     };
 
@@ -53,25 +44,13 @@ class VisKandidatFraLister extends React.Component {
             return undefined;
         }
 
-        return this.props.filtrerteKandidatnumre
-            ? this.props.filtrerteKandidatnumre[gjeldendeIndex - 1]
-            : this.props.kandidatliste.kandidater[gjeldendeIndex - 1].kandidatnr;
+        return this.props.filtrerteKandidatnumre[gjeldendeIndex - 1];
     };
 
     hentNesteKandidatNummer = (gjeldendeIndex) => {
         if (gjeldendeIndex === undefined) return undefined;
-
-        if (this.props.filtrerteKandidatnumre) {
-            return this.props.filtrerteKandidatnumre[gjeldendeIndex + 1];
-        }
-
-        return this.props.kandidatliste.kandidater[gjeldendeIndex + 1]?.kandidatnr;
+        return this.props.filtrerteKandidatnumre[gjeldendeIndex + 1];
     };
-
-    hentAntallKandidater = () =>
-        this.props.filtrerteKandidatnumre
-            ? this.props.filtrerteKandidatnumre.length
-            : this.props.kandidatliste.kandidater.length;
 
     onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
@@ -100,6 +79,11 @@ class VisKandidatFraLister extends React.Component {
         const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
         const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
 
+        console.log('filtrerte', this.props.filtrerteKandidatnumre);
+        console.log('gjeldendeKandidatIndex', gjeldendeKandidatIndex);
+        console.log('nesteKandidatNummer', nesteKandidatNummer);
+        console.log('forrigeKandidatNummer', forrigeKandidatNummer);
+
         const gjeldendeKandidat = this.props.kandidatliste.kandidater.find(
             (kandidat) => kandidat.kandidatnr === kandidatNr
         );
@@ -117,7 +101,7 @@ class VisKandidatFraLister extends React.Component {
                 <Kandidatheader
                     cv={cv}
                     tilbakeLink={lenkeTilKandidatliste(kandidatlisteId, kandidatlisteFilterQuery)}
-                    antallKandidater={this.hentAntallKandidater()}
+                    antallKandidater={this.props.filtrerteKandidatnumre.length}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
@@ -150,7 +134,7 @@ class VisKandidatFraLister extends React.Component {
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                antallKandidater={this.hentAntallKandidater()}
+                                antallKandidater={this.props.filtrerteKandidatnumre.length}
                             />
                         </div>
                     </>
