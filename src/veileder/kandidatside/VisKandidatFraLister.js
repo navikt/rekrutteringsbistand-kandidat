@@ -94,14 +94,15 @@ class VisKandidatFraLister extends React.Component {
             midlertidigUtilgjengelig,
             kandidatlisteFilterQuery,
         } = this.props;
-
         const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(kandidatNr);
         const nesteKandidatNummer = this.hentNesteKandidatNummer(gjeldendeKandidatIndex);
         const forrigeKandidatNummer = this.hentForrigeKandidatNummer(gjeldendeKandidatIndex);
         const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
         const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
 
-        const gjeldendeKandidat = kandidatliste.kandidater[gjeldendeKandidatIndex];
+        const gjeldendeKandidat = this.props.kandidatliste.kandidater.find(
+            (kandidat) => kandidat.kandidatnr === kandidatNr
+        );
 
         if (hentStatus === HentCvStatus.Loading) {
             return (
