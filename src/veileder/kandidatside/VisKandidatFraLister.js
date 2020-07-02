@@ -32,26 +32,6 @@ class VisKandidatFraLister extends React.Component {
         }
     }
 
-    hentGjeldendeKandidatIndex = (kandidatnummer) => {
-        const gjeldendeIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatnummer);
-        return gjeldendeIndex === -1 ? undefined : gjeldendeIndex;
-    };
-
-    hentForrigeKandidatNummer = (gjeldendeIndex) => {
-        if (gjeldendeIndex === undefined) return undefined;
-
-        if (gjeldendeIndex === 0 || gjeldendeIndex === -1) {
-            return undefined;
-        }
-
-        return this.props.filtrerteKandidatnumre[gjeldendeIndex - 1];
-    };
-
-    hentNesteKandidatNummer = (gjeldendeIndex) => {
-        if (gjeldendeIndex === undefined) return undefined;
-        return this.props.filtrerteKandidatnumre[gjeldendeIndex + 1];
-    };
-
     onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
             status,
@@ -72,29 +52,27 @@ class VisKandidatFraLister extends React.Component {
             hentStatus,
             midlertidigUtilgjengelig,
             kandidatlisteFilterQuery,
+            filtrerteKandidatnumre,
         } = this.props;
-        const gjeldendeKandidatIndex = this.hentGjeldendeKandidatIndex(kandidatNr);
-        const nesteKandidatNummer = this.hentNesteKandidatNummer(gjeldendeKandidatIndex);
-        const forrigeKandidatNummer = this.hentForrigeKandidatNummer(gjeldendeKandidatIndex);
-        const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
-        const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
+        const gjeldendeKandidatIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatNr);
 
-        console.log('filtrerte', this.props.filtrerteKandidatnumre);
-        console.log('gjeldendeKandidatIndex', gjeldendeKandidatIndex);
-        console.log('nesteKandidatNummer', nesteKandidatNummer);
-        console.log('forrigeKandidatNummer', forrigeKandidatNummer);
-
-        const gjeldendeKandidat = this.props.kandidatliste.kandidater.find(
-            (kandidat) => kandidat.kandidatnr === kandidatNr
-        );
-
-        if (hentStatus === HentCvStatus.Loading) {
+        if (hentStatus === HentCvStatus.Loading || gjeldendeKandidatIndex === -1) {
             return (
                 <div className="text-center">
                     <NavFrontendSpinner type="L" />
                 </div>
             );
         }
+
+        const nesteKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex + 1];
+        const forrigeKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex - 1];
+
+        const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
+        const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
+
+        const gjeldendeKandidat = this.props.kandidatliste.kandidater.find(
+            (kandidat) => kandidat.kandidatnr === kandidatNr
+        );
 
         return (
             <div>
