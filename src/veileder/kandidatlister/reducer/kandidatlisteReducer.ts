@@ -334,17 +334,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
-            let filtrerteKandidatnumre = state.filtrerteKandidatnumre;
-            if (filtrerteKandidatnumre.length === 0 && state.sistValgteKandidat) {
-                const valgtKandidat = action.kandidatliste.kandidater.find(
-                    (kandidat) => kandidat.kandidatnr === state.sistValgteKandidat?.kandidatnr
-                );
-                console.log('VALGTE:', valgtKandidat);
-                filtrerteKandidatnumre = action.kandidatliste.kandidater
-                    .filter((kandidat) => kandidat.arkivert === valgtKandidat?.arkivert)
-                    .map((kandidat) => kandidat.kandidatnr);
-            }
-
             return {
                 ...state,
                 detaljer: {
@@ -353,7 +342,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
-                filtrerteKandidatnumre,
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:

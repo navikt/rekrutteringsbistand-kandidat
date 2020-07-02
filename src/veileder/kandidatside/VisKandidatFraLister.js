@@ -25,12 +25,35 @@ class VisKandidatFraLister extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined) {
+        const harNavigertTilNyKandidat =
+            prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined;
+        const harLastetInnKandidatliste =
+            prevProps.kandidatliste !== this.props.kandidatliste &&
+            this.props.kandidatliste.kandidater.length > 0;
+
+        if (harNavigertTilNyKandidat) {
             window.scrollTo(0, 0);
             this.props.hentCvForKandidat(this.props.kandidatNr);
             this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
         }
+
+        if (harLastetInnKandidatliste) {
+            const harIkkeAktivtKandidatlistefilter = this.props.filtrerteKandidatnumre.length === 0;
+            if (harIkkeAktivtKandidatlistefilter) {
+                this.settFallbackKandidatlistefilter();
+            }
+        }
     }
+
+    settFallbackKandidatlistefilter = () => {
+        const gjeldendeKandidat = this.hentGjeldendeKandidat();
+
+        this.props.settKandidatlistefilter(
+            this.props.kandidatliste.kandidater
+                .filter((kandidat) => kandidat.arkivert === gjeldendeKandidat.arkivert)
+                .map((kandidat) => kandidat.kandidatnr)
+        );
+    };
 
     onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
@@ -39,6 +62,11 @@ class VisKandidatFraLister extends React.Component {
             this.props.cv.kandidatnummer
         );
     };
+
+    hentGjeldendeKandidat = () =>
+        this.props.kandidatliste.kandidater.find(
+            (kandidat) => kandidat.kandidatnr === this.props.kandidatNr
+        );
 
     hentLenkeTilKandidat = (kandidatnummer) =>
         kandidatnummer ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, true) : undefined;
@@ -70,9 +98,7 @@ class VisKandidatFraLister extends React.Component {
         const forrigeKandidatLink = this.hentLenkeTilKandidat(forrigeKandidatNummer);
         const nesteKandidatLink = this.hentLenkeTilKandidat(nesteKandidatNummer);
 
-        const gjeldendeKandidat = this.props.kandidatliste.kandidater.find(
-            (kandidat) => kandidat.kandidatnr === kandidatNr
-        );
+        const gjeldendeKandidat = this.hentGjeldendeKandidat();
 
         return (
             <div>
@@ -180,6 +206,11 @@ const mapDispatchToProps = (dispatch) => ({
             status,
             kandidatlisteId,
             kandidatnr,
+        }),
+    settKandidatlistefilter: (filtrerteKandidatnumre) =>
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            filtrerteKandidatnumre,
         }),
 });
 
