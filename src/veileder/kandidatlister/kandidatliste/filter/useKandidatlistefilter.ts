@@ -65,7 +65,7 @@ const useKandidatlistefilter = (
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
             query: filterQuery || undefined,
-            filtrerteKandidatnumre: kandidatnumre.length === 0 ? undefined : kandidatnumre,
+            filtrerteKandidatnumre: kandidatnumre,
         });
     }, [filtrerteKandidater, filterQuery, dispatch]);
 

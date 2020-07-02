@@ -84,7 +84,7 @@ export interface KandidatlisteState {
         kandidatnr: string;
     };
     filterQuery?: string;
-    filtrerteKandidatnumre?: string[];
+    filtrerteKandidatnumre: string[];
 }
 
 const initialState: KandidatlisteState = {
@@ -141,6 +141,7 @@ const initialState: KandidatlisteState = {
         statusDearkivering: Nettstatus.IkkeLastet,
     },
     scrollPosition: {},
+    filtrerteKandidatnumre: [],
 };
 
 const overforNotater: (

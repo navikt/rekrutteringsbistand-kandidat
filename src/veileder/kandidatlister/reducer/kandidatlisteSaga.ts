@@ -51,7 +51,7 @@ import {
     putArkivert,
 } from '../../api';
 import { Nettstatus } from '../../../felles/common/remoteData';
-import { KandidatlisteResponse, KandidatResponse } from '../kandidatlistetyper';
+import { KandidatlisteResponse } from '../kandidatlistetyper';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
