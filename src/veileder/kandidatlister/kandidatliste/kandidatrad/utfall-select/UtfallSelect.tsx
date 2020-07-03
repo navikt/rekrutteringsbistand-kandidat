@@ -17,9 +17,16 @@ interface Props {
 }
 
 const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange }) => {
+    const onSelect = (utfall: Utfall) => {
+        if (utfall !== value) {
+            onChange(utfall);
+        }
+    };
+
     if (!kanEndreUtfall) {
         return <UtfallVisning utfall={value} />;
     }
+
     return (
         <div className="UtfallSelect skjemaelement">
             <Menu>
@@ -30,7 +37,7 @@ const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChang
                     {Object.keys(Utfall).map((utfall) => (
                         <MenuItem
                             key={utfall}
-                            onSelect={() => onChange(Utfall[utfall])}
+                            onSelect={() => onSelect(Utfall[utfall])}
                             className="UtfallSelect__menuItem"
                             aria-selected={Utfall[utfall] === value}
                         >

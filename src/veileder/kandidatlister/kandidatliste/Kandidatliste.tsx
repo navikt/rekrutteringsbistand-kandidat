@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useState, useMemo } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import {
-    lagTomtStatusfilter,
-    lagTomtUtfallsfilter,
-    queryParamsTilFilter,
-} from './filter/filter-utils';
+import { queryParamsTilFilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -43,12 +39,7 @@ type Props = {
     fjernAllMarkering: () => void;
     markerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (
-        utfall: Utfall,
-        navKontor: string,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => void;
+    onKandidatUtfallChange: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;

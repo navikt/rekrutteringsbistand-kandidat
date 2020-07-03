@@ -12,7 +12,7 @@ import KopierEpostModal from './modaler/KopierEpostModal';
 import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import KandidatlisteAction, { EndreUtfallKandidatAction } from '../reducer/KandidatlisteAction';
+import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import {
     Delestatus,
     KandidatIKandidatliste,
@@ -25,7 +25,8 @@ import { sendEvent } from '../../amplitude/amplitude';
 import './Kandidatliste.less';
 import SendSmsModal from '../modaler/SendSmsModal';
 import AppState from '../../AppState';
-import { Utfall } from './kandidatrad/Kandidatrad';
+import EndreUtfallModal from './modaler/EndreUtfallModal';
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 
 const initialKandidatTilstand = (): Kandidattilstand => ({
     markert: false,
@@ -108,6 +109,11 @@ class Kandidatlisteside extends React.Component<Props> {
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
         sendSmsModalOpen: boolean;
+        endreUtfallModal: {
+            open: boolean;
+            kandidat?: KandidatIKandidatliste;
+            utfall?: Utfall;
+        };
         infobanner: {
             vis: boolean;
             tekst: string;
@@ -129,6 +135,9 @@ class Kandidatlisteside extends React.Component<Props> {
             leggTilModalOpen: false,
             kopierEpostModalOpen: false,
             sendSmsModalOpen: false,
+            endreUtfallModal: {
+                open: false,
+            },
             infobanner: {
                 vis: false,
                 tekst: '',
@@ -435,6 +444,51 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
+    endreUtfallForKandidat = (utfall: Utfall, kandidatnr: string) => {
+        if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
+            const kandidatlisteId = this.props.kandidatliste.data.kandidatlisteId;
+            this.props.endreUtfallKandidat(
+                utfall,
+                this.props.valgtNavKontor,
+                kandidatlisteId,
+                kandidatnr
+            );
+        }
+    };
+
+    bekreftModalOgEndreUtfallForKandidat = () => {
+        if (this.state.endreUtfallModal.utfall && this.state.endreUtfallModal.kandidat) {
+            this.endreUtfallForKandidat(
+                this.state.endreUtfallModal.utfall,
+                this.state.endreUtfallModal.kandidat.kandidatnr
+            );
+
+            this.lukkEndreUtfallModal();
+        }
+    };
+
+    onKandidatUtfallChange = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
+        if (utfall === Utfall.FåttJobben || utfall === Utfall.Presentert) {
+            this.setState({
+                endreUtfallModal: {
+                    open: true,
+                    kandidat,
+                    utfall,
+                },
+            });
+        } else {
+            this.endreUtfallForKandidat(utfall, kandidat.kandidatnr);
+        }
+    };
+
+    lukkEndreUtfallModal = () => {
+        this.setState({
+            endreUtfallModal: {
+                open: false,
+            },
+        });
+    };
+
     visInfobanner = (tekst: string, type = 'suksess') => {
         clearTimeout(this.infobannerCallbackId);
         this.setState({
@@ -500,13 +554,25 @@ class Kandidatlisteside extends React.Component<Props> {
                     />
                 )}
                 {stillingId && (
-                    <SendSmsModal
-                        vis={this.state.sendSmsModalOpen}
-                        onClose={() => this.onToggleSendSmsModal(false)}
-                        kandidatlisteId={kandidatlisteId}
-                        kandidater={this.state.kandidater}
-                        stillingId={stillingId}
-                    />
+                    <>
+                        <SendSmsModal
+                            vis={this.state.sendSmsModalOpen}
+                            onClose={() => this.onToggleSendSmsModal(false)}
+                            kandidatlisteId={kandidatlisteId}
+                            kandidater={this.state.kandidater}
+                            stillingId={stillingId}
+                        />
+                        {this.state.endreUtfallModal.kandidat &&
+                            this.state.endreUtfallModal.utfall && (
+                                <EndreUtfallModal
+                                    vis={this.state.endreUtfallModal.open}
+                                    onLukk={this.lukkEndreUtfallModal}
+                                    kandidat={this.state.endreUtfallModal.kandidat}
+                                    utfall={this.state.endreUtfallModal.utfall}
+                                    onBekreft={this.bekreftModalOgEndreUtfallForKandidat}
+                                />
+                            )}
+                    </>
                 )}
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
@@ -530,7 +596,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     fjernAllMarkering={this.fjernAllMarkering}
                     markerKandidater={this.markerKandidater}
                     onKandidatStatusChange={this.props.endreStatusKandidat}
-                    onKandidatUtfallChange={this.props.endreUtfallKandidat}
+                    onKandidatUtfallChange={this.onKandidatUtfallChange}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}

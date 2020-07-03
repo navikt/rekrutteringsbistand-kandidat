@@ -5,6 +5,7 @@ import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning'
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import './endreUtfallModal.less';
 
 interface Props {
     vis: boolean;
@@ -27,15 +28,20 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             isOpen={vis}
             contentLabel="Endre utfall for kandidat"
             onRequestClose={onLukk}
+            className="endreUtfallModal"
         >
-            <Systemtittel>{utfallToDisplayName(utfall)}</Systemtittel>
-            <Normaltekst>
+            <Systemtittel className="endreUtfallModal__tittel">
+                {utfallToDisplayName(utfall)}
+            </Systemtittel>
+            <div className="endreUtfallModal__beskrivelse">
                 <Endringsbeskrivelse
                     utfall={utfall}
                     kandidatnavn={`${kandidat.fornavn} ${kandidat.etternavn}`}
                 />
-            </Normaltekst>
-            <Hovedknapp onClick={onBekreft}>Fullfør</Hovedknapp>
+            </div>
+            <Hovedknapp onClick={onBekreft} className="endreUtfallModal__bekreftknapp">
+                Fullfør
+            </Hovedknapp>
             <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>
         </NavFrontendModal>
     );
