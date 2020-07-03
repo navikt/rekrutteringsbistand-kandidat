@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useState, useMemo } from 'react';
 
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
-import {
-    lagTomtStatusfilter,
-    lagTomtUtfallsfilter,
-    queryParamsTilFilter,
-} from './filter/filter-utils';
+import { queryParamsTilFilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -45,9 +41,8 @@ type Props = {
     onKandidatStatusChange: any;
     onKandidatUtfallChange: (
         utfall: Utfall,
-        navKontor: string,
-        kandidatlisteId: string,
-        kandidatnr: string
+        kandidat: KandidatIKandidatliste,
+        visModal: boolean
     ) => void;
     onKandidatShare: any;
     onEmailKandidater: any;

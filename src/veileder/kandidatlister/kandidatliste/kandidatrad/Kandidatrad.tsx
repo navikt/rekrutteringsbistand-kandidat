@@ -50,9 +50,8 @@ type Props = {
     onKandidatStatusChange: any;
     onKandidatUtfallChange: (
         utfall: Utfall,
-        navKontor: string,
-        kandidatlisteId: string,
-        kandidatnr: string
+        kandidat: KandidatIKandidatliste,
+        visModal: boolean
     ) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
@@ -61,7 +60,6 @@ type Props = {
         kandidatlisteId: string;
         kandidatnr: string;
     };
-    valgtNavKontor: string;
 };
 
 const Kandidatrad: FunctionComponent<Props> = ({
@@ -81,7 +79,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
     sistValgteKandidat,
-    valgtNavKontor,
 }) => {
     const kandidatRadRef = useRef<HTMLDivElement>(null);
     const visEndreUtfall = useFeatureToggle('vis-endre-utfall-dropdown');
@@ -209,15 +206,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <UtfallSelect
                             kanEndreUtfall={kanEditere}
                             value={kandidat.utfall as Utfall}
-                            onChange={(utfall: Utfall) => {
-                                sendEvent('kandidatliste', 'endre_utfall', { utfall: utfall });
-                                onKandidatUtfallChange(
-                                    utfall,
-                                    valgtNavKontor,
-                                    kandidatlisteId,
-                                    kandidat.kandidatnr
-                                );
-                            }}
+                            onChange={(utfall: Utfall, visModal: boolean) =>
+                                onKandidatUtfallChange(utfall, kandidat, visModal)
+                            }
                         />
                     ) : (
                         <div className="kandidatliste-kandidat__tabell-tekst">
@@ -296,7 +287,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
     sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
-    valgtNavKontor: state.navKontor.valgtNavKontor,
 });
 
 const mapDispatchToProps = (dispatch) => ({

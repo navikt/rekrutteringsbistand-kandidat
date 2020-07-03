@@ -13,13 +13,32 @@ export enum Utfall {
 interface Props {
     kanEndreUtfall: boolean;
     value: Utfall;
-    onChange: (utfall: Utfall) => void;
+    onChange: (utfall: Utfall, visModal: boolean) => void;
 }
 
+const skalViseModalVedEndring = (gammeltUtfall: Utfall, nyttUtfall: Utfall) => {
+    if (gammeltUtfall === Utfall.IkkePresentert) {
+        return true;
+    }
+
+    if (gammeltUtfall === Utfall.Presentert && nyttUtfall === Utfall.FåttJobben) {
+        return true;
+    }
+
+    return false;
+};
+
 const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange }) => {
+    const onSelect = (utfall: Utfall) => {
+        if (utfall !== value) {
+            onChange(utfall, skalViseModalVedEndring(value, utfall));
+        }
+    };
+
     if (!kanEndreUtfall) {
         return <UtfallVisning utfall={value} />;
     }
+
     return (
         <div className="UtfallSelect skjemaelement">
             <Menu>
@@ -30,7 +49,7 @@ const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChang
                     {Object.keys(Utfall).map((utfall) => (
                         <MenuItem
                             key={utfall}
-                            onSelect={() => onChange(Utfall[utfall])}
+                            onSelect={() => onSelect(Utfall[utfall])}
                             className="UtfallSelect__menuItem"
                             aria-selected={Utfall[utfall] === value}
                         >
