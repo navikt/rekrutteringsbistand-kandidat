@@ -39,7 +39,11 @@ type Props = {
     fjernAllMarkering: () => void;
     markerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
+    onKandidatUtfallChange: (
+        utfall: Utfall,
+        kandidat: KandidatIKandidatliste,
+        visModal: boolean
+    ) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;

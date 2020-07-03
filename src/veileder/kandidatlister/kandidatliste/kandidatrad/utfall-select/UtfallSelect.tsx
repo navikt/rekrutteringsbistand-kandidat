@@ -13,13 +13,25 @@ export enum Utfall {
 interface Props {
     kanEndreUtfall: boolean;
     value: Utfall;
-    onChange: (utfall: Utfall) => void;
+    onChange: (utfall: Utfall, visModal: boolean) => void;
 }
+
+const skalViseModalVedEndring = (gammeltUtfall: Utfall, nyttUtfall: Utfall) => {
+    if (gammeltUtfall === Utfall.IkkePresentert) {
+        return true;
+    }
+
+    if (gammeltUtfall === Utfall.Presentert && nyttUtfall === Utfall.FåttJobben) {
+        return true;
+    }
+
+    return false;
+};
 
 const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange }) => {
     const onSelect = (utfall: Utfall) => {
         if (utfall !== value) {
-            onChange(utfall);
+            onChange(utfall, skalViseModalVedEndring(value, utfall));
         }
     };
 

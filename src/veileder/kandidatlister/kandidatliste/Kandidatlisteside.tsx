@@ -458,6 +458,11 @@ class Kandidatlisteside extends React.Component<Props> {
 
     bekreftModalOgEndreUtfallForKandidat = () => {
         if (this.state.endreUtfallModal.utfall && this.state.endreUtfallModal.kandidat) {
+            sendEvent('kandidatliste', 'endre_utfall', {
+                utfall: this.state.endreUtfallModal.utfall,
+                forrigeUtfall: undefined, // TODO: Logg forrige utfall
+            });
+
             this.endreUtfallForKandidat(
                 this.state.endreUtfallModal.utfall,
                 this.state.endreUtfallModal.kandidat.kandidatnr
@@ -467,8 +472,12 @@ class Kandidatlisteside extends React.Component<Props> {
         }
     };
 
-    onKandidatUtfallChange = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
-        if (utfall === Utfall.FåttJobben || utfall === Utfall.Presentert) {
+    onKandidatUtfallChange = (
+        utfall: Utfall,
+        kandidat: KandidatIKandidatliste,
+        visModal: boolean
+    ) => {
+        if (visModal) {
             this.setState({
                 endreUtfallModal: {
                     open: true,

@@ -48,7 +48,11 @@ type Props = {
         kandidatnr: string
     ) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
+    onKandidatUtfallChange: (
+        utfall: Utfall,
+        kandidat: KandidatIKandidatliste,
+        visModal: boolean
+    ) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -202,9 +206,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <UtfallSelect
                             kanEndreUtfall={kanEditere}
                             value={kandidat.utfall as Utfall}
-                            onChange={(utfall: Utfall) => {
-                                sendEvent('kandidatliste', 'endre_utfall', { utfall: utfall });
-                                onKandidatUtfallChange(utfall, kandidat);
+                            onChange={(utfall: Utfall, visModal: boolean) => {
+                                onKandidatUtfallChange(utfall, kandidat, visModal);
                             }}
                         />
                     ) : (
