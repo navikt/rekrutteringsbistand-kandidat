@@ -206,9 +206,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <UtfallSelect
                             kanEndreUtfall={kanEditere}
                             value={kandidat.utfall as Utfall}
-                            onChange={(utfall: Utfall, visModal: boolean) => {
-                                onKandidatUtfallChange(utfall, kandidat, visModal);
-                            }}
+                            onChange={(utfall: Utfall, visModal: boolean) =>
+                                onKandidatUtfallChange(utfall, kandidat, visModal)
+                            }
                         />
                     ) : (
                         <div className="kandidatliste-kandidat__tabell-tekst">

@@ -444,34 +444,6 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    endreUtfallForKandidat = (utfall: Utfall, kandidatnr: string) => {
-        if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
-            const kandidatlisteId = this.props.kandidatliste.data.kandidatlisteId;
-            this.props.endreUtfallKandidat(
-                utfall,
-                this.props.valgtNavKontor,
-                kandidatlisteId,
-                kandidatnr
-            );
-        }
-    };
-
-    bekreftModalOgEndreUtfallForKandidat = () => {
-        if (this.state.endreUtfallModal.utfall && this.state.endreUtfallModal.kandidat) {
-            sendEvent('kandidatliste', 'endre_utfall', {
-                utfall: this.state.endreUtfallModal.utfall,
-                forrigeUtfall: undefined, // TODO: Logg forrige utfall
-            });
-
-            this.endreUtfallForKandidat(
-                this.state.endreUtfallModal.utfall,
-                this.state.endreUtfallModal.kandidat.kandidatnr
-            );
-
-            this.lukkEndreUtfallModal();
-        }
-    };
-
     onKandidatUtfallChange = (
         utfall: Utfall,
         kandidat: KandidatIKandidatliste,
@@ -486,7 +458,36 @@ class Kandidatlisteside extends React.Component<Props> {
                 },
             });
         } else {
-            this.endreUtfallForKandidat(utfall, kandidat.kandidatnr);
+            this.endreUtfallForKandidat(utfall, kandidat);
+        }
+    };
+
+    endreUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
+        if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
+            const kandidatlisteId = this.props.kandidatliste.data.kandidatlisteId;
+
+            this.props.endreUtfallKandidat(
+                utfall,
+                this.props.valgtNavKontor,
+                kandidatlisteId,
+                kandidat.kandidatnr
+            );
+
+            sendEvent('kandidatliste', 'endre_utfall', {
+                utfall,
+                forrigeUtfall: kandidat.utfall,
+            });
+        }
+    };
+
+    bekreftEndreUtfallModal = () => {
+        if (this.state.endreUtfallModal.utfall && this.state.endreUtfallModal.kandidat) {
+            this.endreUtfallForKandidat(
+                this.state.endreUtfallModal.utfall,
+                this.state.endreUtfallModal.kandidat
+            );
+
+            this.lukkEndreUtfallModal();
         }
     };
 
@@ -578,7 +579,7 @@ class Kandidatlisteside extends React.Component<Props> {
                                     onLukk={this.lukkEndreUtfallModal}
                                     kandidat={this.state.endreUtfallModal.kandidat}
                                     utfall={this.state.endreUtfallModal.utfall}
-                                    onBekreft={this.bekreftModalOgEndreUtfallForKandidat}
+                                    onBekreft={this.bekreftEndreUtfallModal}
                                 />
                             )}
                     </>
