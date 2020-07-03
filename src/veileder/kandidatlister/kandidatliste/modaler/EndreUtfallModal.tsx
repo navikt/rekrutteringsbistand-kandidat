@@ -58,7 +58,7 @@ const Endringsbeskrivelse: FunctionComponent<{ utfall: Utfall; kandidatnavn: str
                     Du registrerer nå at {kandidatnavn} har fått jobb. Formidlingen vil bli telt, og
                     tellingen vil bli brukt til statistikk.
                 </Normaltekst>
-                <Normaltekst>Ønsker du å fullføre formidlingen?</Normaltekst>
+                <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
             </>
         );
     }
@@ -70,7 +70,7 @@ const Endringsbeskrivelse: FunctionComponent<{ utfall: Utfall; kandidatnavn: str
                     Du registrerer nå at {kandidatnavn} har blitt presentert for en arbeidsgiver.
                     Formidlingen vil bli telt, og tellingen vil bli brukt til statistikk.
                 </Normaltekst>
-                <Normaltekst>Ønsker du å fullføre formidlingen?</Normaltekst>
+                <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
             </>
         );
     }
