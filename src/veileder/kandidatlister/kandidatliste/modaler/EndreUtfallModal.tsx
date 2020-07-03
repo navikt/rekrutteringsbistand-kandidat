@@ -5,7 +5,7 @@ import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning'
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
-import './endreUtfallModal.less';
+import './EndreUtfallModal.less';
 
 interface Props {
     vis: boolean;
