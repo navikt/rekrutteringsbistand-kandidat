@@ -45,7 +45,8 @@ const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
                 <Element>{hentTittel(status, erKnyttetTilStilling)}</Element>
                 {erKnyttetTilStilling && (
                     <Normaltekst>
-                        {besatteStillinger} av {antallStillinger} stillinger er besatt.
+                        {besatteStillinger} av {antallStillinger} stilling
+                        {antallStillinger === 1 ? '' : 'er'} er besatt.
                     </Normaltekst>
                 )}
             </div>
