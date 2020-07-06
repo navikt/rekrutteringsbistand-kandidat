@@ -6,11 +6,11 @@ import { AntallFiltertreff } from './useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Utfall } from '../kandidatrad/Kandidatrad';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from './useVinduErBredereEnn';
-import './Filter.less';
 import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import './Filter.less';
 
 interface Props {
     antallTreff: AntallFiltertreff;

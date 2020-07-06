@@ -20,17 +20,10 @@ import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import './Kandidatrad.less';
-import UtfallSelect from './utfall-select/UtfallSelect';
+import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
 import { useFeatureToggle } from '../../../mock/useFeatureToggle';
 import { utfallToDisplayName } from './utfall-select/UtfallVisning';
 import { lenkeTilCv } from '../../../application/paths';
-
-// TODO Vi har nå to typer Utfall.
-//      Når endring av utfall er slått på kan disse to typene slås sammen til én.
-export enum Utfall {
-    IkkePresentert = 'IKKE_PRESENTERT',
-    Presentert = 'PRESENTERT',
-}
 
 type Props = {
     kandidat: KandidatIKandidatliste;

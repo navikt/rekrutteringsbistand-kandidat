@@ -1,3 +1,4 @@
+import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
 import { Status } from './../kandidatrad/statusSelect/StatusSelect';
 import { Kandidatlistefilter } from './useKandidatlistefilter';
 
@@ -11,12 +12,6 @@ export const lagTomtStatusfilter = (): Record<Status, boolean> => {
 
     return statusfilter;
 };
-
-// TODO: Denne er undefined i starten hvis den importeres fra Kandidatrad
-enum Utfall {
-    IkkePresentert = 'IKKE_PRESENTERT',
-    Presentert = 'PRESENTERT',
-}
 
 export const lagTomtUtfallsfilter = (): Record<Utfall, boolean> => {
     const utfallsfilter: Record<string, boolean> = {};

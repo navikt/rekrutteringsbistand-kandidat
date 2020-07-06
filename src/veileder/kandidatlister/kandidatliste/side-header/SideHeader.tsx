@@ -2,23 +2,26 @@ import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { OpprettetAv } from '../../kandidatlistetyper';
 import { capitalizeEmployerName } from '../../../../felles/sok/utils';
-import './SideHeader.less';
 import { LenkeMedChevron } from '../../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
+import { lenkeTilStilling } from '../../../application/paths';
+import { OpprettetAv } from '../../kandidatlistetyper';
+import Rekrutteringsstatus, { Status } from './rekrutteringsstatus/Rekrutteringsstatus';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import { lenkeTilStilling } from '../../../application/paths';
+import './SideHeader.less';
 
 type Props = {
     tittel: string;
     antallKandidater: number;
     antallAktuelleKandidater: number;
     antallPresenterteKandidater: number;
+    antallKandidaterSomHarFåttJobb: number;
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
     stillingsId: string | null;
     beskrivelse?: string;
+    erEierAvListen: boolean;
 };
 
 const SideHeader: FunctionComponent<Props> = ({
@@ -26,10 +29,12 @@ const SideHeader: FunctionComponent<Props> = ({
     antallKandidater,
     antallAktuelleKandidater,
     antallPresenterteKandidater,
+    antallKandidaterSomHarFåttJobb,
     arbeidsgiver,
     opprettetAv,
     stillingsId,
     beskrivelse,
+    erEierAvListen,
 }) => {
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
@@ -84,6 +89,16 @@ const SideHeader: FunctionComponent<Props> = ({
                         </>
                     )}
                 </div>
+                <Rekrutteringsstatus
+                    erKnyttetTilStilling={stillingsId !== null}
+                    onEndreStatus={() => {
+                        console.log('TODO: Endre status');
+                    }}
+                    erEierAvListen={erEierAvListen}
+                    besatteStillinger={antallKandidaterSomHarFåttJobb}
+                    antallStillinger={0} // TODO: Hent dette fra stillingen.
+                    status={Status.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
+                />
             </div>
         </header>
     );

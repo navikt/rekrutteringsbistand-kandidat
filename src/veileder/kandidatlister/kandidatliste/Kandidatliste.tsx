@@ -6,7 +6,7 @@ import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
-import Kandidatrad, { Utfall } from './kandidatrad/Kandidatrad';
+import Kandidatrad from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
@@ -20,6 +20,7 @@ import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import '../../../felles/common/ikoner/ikoner.less';
 import Meny from './meny/Meny';
 import { useHistory } from 'react-router-dom';
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -60,6 +61,7 @@ type Props = {
 const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const { location } = useHistory();
@@ -123,9 +125,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                 antallPresenterteKandidater={
                     props.kandidater.filter(erIkkeArkivert).filter(erPresentert).length
                 }
+                antallKandidaterSomHarFåttJobb={
+                    props.kandidater.filter(erIkkeArkivert).filter(harFåttJobb).length
+                }
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}
+                erEierAvListen={props.kanEditere}
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
             />
