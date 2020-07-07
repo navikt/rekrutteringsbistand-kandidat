@@ -1,9 +1,9 @@
+import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import { Utfall } from '../kandidatrad/Kandidatrad';
 import { filterTilQueryParams } from './filter-utils';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';

@@ -1,5 +1,5 @@
+import { Utfall } from './../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import { KandidatlisteForKandidat } from '../kandidatside/historikk/historikkReducer';
-import { Utfall } from '../kandidatlister/kandidatliste/kandidatrad/Kandidatrad';
 import { Status } from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
