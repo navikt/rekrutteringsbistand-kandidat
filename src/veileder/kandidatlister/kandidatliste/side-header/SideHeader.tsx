@@ -10,6 +10,8 @@ import Rekrutteringsstatus, { Status } from './rekrutteringsstatus/Rekrutterings
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import './SideHeader.less';
+import { useSelector } from 'react-redux';
+import AppState from '../../../AppState';
 
 type Props = {
     tittel: string;
@@ -36,10 +38,15 @@ const SideHeader: FunctionComponent<Props> = ({
     beskrivelse,
     erEierAvListen,
 }) => {
+    const visRekrutteringsstatus = useSelector(
+        (state: AppState) => state.search.featureToggles['vis-rekrutteringsstatus']
+    );
+
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
+
     return (
         <header className="side-header">
             <div className="side-header__inner">
@@ -89,16 +96,18 @@ const SideHeader: FunctionComponent<Props> = ({
                         </>
                     )}
                 </div>
-                <Rekrutteringsstatus
-                    erKnyttetTilStilling={stillingsId !== null}
-                    onEndreStatus={() => {
-                        console.log('TODO: Endre status');
-                    }}
-                    erEierAvListen={erEierAvListen}
-                    besatteStillinger={antallKandidaterSomHarFåttJobb}
-                    antallStillinger={0} // TODO: Hent dette fra stillingen.
-                    status={Status.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
-                />
+                {visRekrutteringsstatus && (
+                    <Rekrutteringsstatus
+                        erKnyttetTilStilling={stillingsId !== null}
+                        onEndreStatus={() => {
+                            console.log('TODO: Endre status');
+                        }}
+                        erEierAvListen={erEierAvListen}
+                        besatteStillinger={antallKandidaterSomHarFåttJobb}
+                        antallStillinger={0} // TODO: Hent dette fra stillingen.
+                        status={Status.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
+                    />
+                )}
             </div>
         </header>
     );
