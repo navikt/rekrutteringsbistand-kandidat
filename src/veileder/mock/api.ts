@@ -8,6 +8,7 @@ import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
+import fnrsok from './json/fnrsok.json';
 
 import DC294105 from './json/DC294105.json';
 import CD430805 from './json/CD430805.json';
@@ -60,6 +61,7 @@ const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
 const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig';
 const smsUrl = `/kandidater/api/sms`;
 const utfallUrl = `express:/pam-kandidatsok-api/rest/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`;
+const fnrsokUrl = `express:/pam-kandidatsok-api/rest/veileder/kandidatsok/fnrsok/:fnr`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
@@ -142,4 +144,5 @@ fetchMock
     .mock((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
     .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
     .post(modiacontextholderContextUrl, 200)
-    .put(utfallUrl, putUtfall);
+    .put(utfallUrl, putUtfall)
+    .get(fnrsokUrl, fnrsok);

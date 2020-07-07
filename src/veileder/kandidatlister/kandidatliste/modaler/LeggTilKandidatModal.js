@@ -166,10 +166,14 @@ class LeggTilKandidatModal extends React.Component {
                 )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
-                        <Element>
-                            <i className="advarsel__icon" />
-                            Kandidaten er allerede lagt til i listen
-                        </Element>
+                        <i className="advarsel__icon" />
+                        <div className="legg-til-kandidat__advarsel-tekst">
+                            <Element>Kandidaten er allerede lagt til i listen</Element>
+                            <Normaltekst>
+                                Finner du ikke kandidaten i kandidatlisten? Husk å sjekk om
+                                kandidaten er slettet ved å huke av "Vis kun slettede".
+                            </Normaltekst>
+                        </div>
                     </div>
                 )}
                 <div className="legg-til-kandidat__notatoverskrift" />
