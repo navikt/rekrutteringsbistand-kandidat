@@ -29,7 +29,7 @@ type Cv = {
     kandidatnummer: string;
     kompetanse: any[];
     kurs: any[];
-    mobiltelefon: string;
+    mobiltelefon: string | null;
     omfangJobbprofil: any[];
     oppstartKode: string;
     samtykkeDato: string;
@@ -38,7 +38,7 @@ type Cv = {
     sistEndret: string;
     sprak: any[];
     sprakferdigheter: any[];
-    statsborgerskap: string;
+    statsborgerskap: string | null;
     telefon: string;
     tilretteleggingsbehov: boolean;
     utdanning: any[];

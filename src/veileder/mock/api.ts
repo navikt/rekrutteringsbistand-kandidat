@@ -1,8 +1,5 @@
-import fetchMock from 'fetch-mock';
+import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
-import me from './json/me.json';
-import { kandidatliste, kandidatlister } from './kandidatlister';
-import sok from './json/sok.json';
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
@@ -10,8 +7,6 @@ import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import fnrsok from './json/fnrsok.json';
 
-import DC294105 from './json/DC294105.json';
-import CD430805 from './json/CD430805.json';
 import sms from './json/sms.json';
 
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
@@ -20,53 +15,61 @@ import aktivEnhet from './json/dekoratør/aktivenhet.json';
 import aktivBruker from './json/dekoratør/aktivbruker.json';
 import decorator from './json/dekoratør/decorator.json';
 
-import { SEARCH_API } from '../common/fasitProperties.js';
-import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat-mock';
-import { featureToggles } from './featureToggles';
+import cver from './data/cver';
+import { kandidatliste, kandidatlister } from './data/kandidatlister';
+import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat-mock';
+import { featureToggles } from './data/featureToggles';
+import søk from './data/søk';
 
-const veilederUrl = SEARCH_API.split('/kandidatsok')[0];
-const kandidatsokUrl = SEARCH_API.split('/veileder')[0] + '/kandidatsok';
+const api = 'express:/pam-kandidatsok-api/rest';
 
-const alleCver = {
-    DC294105,
-    CD430805,
+const url = {
+    // Kandidatsøket
+    kandidatsøk: `${api}/veileder/kandidatsok/sok`,
+    kandidatlisteFraStilling: `${api}/veileder/stilling/:stillingsId/kandidatliste`,
+    søkeord: `${api}/kandidatsok/stilling/sokeord/:kandidatlisteId`,
+    arenageografikoder: `${api}/kodeverk/arenageografikoder/:kode`,
+    ferdigutfyltesokurl: `${api}/veileder/ferdigutfyltesok`,
+    ferdigutfyltesokurlPost: `${api}/veileder/ferdigutfyltesok/klikk`,
+    typeahead: `${api}/veileder/kandidatsok/typeahead`,
+    fnrsok: `${api}/veileder/kandidatsok/fnrsok/:fnr`,
+
+    // Cv
+    cv: `${api}/veileder/kandidatsok/hentcv`,
+    listeoversikt: `${api}/veileder/kandidater/:kandidatnr/listeoversikt`,
+
+    // Kandidatliste
+    kandidatlister: `${api}/veileder/kandidatlister`,
+    kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
+    kandidatlistePost: `${api}/veileder/me/kandidatlister`,
+    notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
+    statusPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/status`,
+    utfallPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`,
+    arkivertPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/arkivert`,
+    delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
+
+    // Alternative backends
+    sms: `express:/kandidater/api/sms/:kandidatlisteId`,
+    smsPost: `/kandidater/api/sms`,
+    midlertidigUtilgjengelig: `express:/kandidater/midlertidig-utilgjengelig/:fnr`,
+
+    // Misc
+    toggles: `${api}/veileder/kandidatsok/toggles`,
+    modiaContext: `/modiacontextholder/api/context`,
+    modiaAktivEnhet: `/modiacontextholder/api/context/aktivenhet`,
+    modiaAktivBruker: `/modiacontextholder/api/context/aktivbruker`,
+    modiaDecorator: `/modiacontextholder/api/decorator`,
 };
-
-// Veileder
-const meUrl = `${veilederUrl}/me`;
-const kandidatlisteUrl = `${veilederUrl}/kandidatlister/bf6877fa-5c82-4610-8cf7-ff7a0df18e29`;
-const kandidatlisteKandidaterUrl = `${kandidatlisteUrl}/kandidater`;
-const hentCvUrl = `${veilederUrl}/kandidatsok/hentcv`;
-const typeaheadGeoUrl = `${veilederUrl}/kandidatsok/typeahead?geo=`;
-const alleKandidatlisterUrl = `${veilederUrl}/kandidatlister`;
-const sokUrl = `${veilederUrl}/kandidatsok/sok`;
-const togglesUrl = `${veilederUrl}/kandidatsok/toggles`;
-const stillingsKandidatlisteUrl = `${veilederUrl}/stilling/ce3da214-8771-4115-9362-b83145150551/kandidatliste`;
-const ferdigutfyltesokurl = `${veilederUrl}/ferdigutfyltesok`;
-const kandidatlisterForKandidatUrl = `${veilederUrl}/kandidater/CD430805/listeoversikt`;
-
-// Kodeverk
-const arenageografikoderUrl = `http://localhost:8766/pam-kandidatsok-api/rest/kodeverk/arenageografikoder`;
-
-// Kandidatsøk
-const sokeordUrl = `${kandidatsokUrl}/stilling/sokeord`;
-
-// Modia context holder
-const modiacontextholderApiUrl = '/modiacontextholder/api';
-const modiacontextholderAktivEnhetUrl = `${modiacontextholderApiUrl}/context/aktivenhet`;
-const modiacontextholderAktivBrukerUrl = `${modiacontextholderApiUrl}/context/aktivbruker`;
-const modiacontextholderContextUrl = `${modiacontextholderApiUrl}/context`;
-const modiacontextholderDecoratorUrl = `${modiacontextholderApiUrl}/decorator`;
-
-const midlertidigUtilgjengeligApiUrl = '/kandidater/midlertidig-utilgjengelig';
-const smsUrl = `/kandidater/api/sms`;
-const utfallUrl = `express:/pam-kandidatsok-api/rest/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`;
-const fnrsokUrl = `express:/pam-kandidatsok-api/rest/veileder/kandidatsok/fnrsok/:fnr`;
 
 const getCv = (url: string) => {
     const urlObject = new URL(url);
     const kandidatnr = urlObject.searchParams.get('kandidatnr');
-    return kandidatnr ? alleCver[kandidatnr] : {};
+
+    if (kandidatnr) {
+        return cver.find((cv) => cv.kandidatnummer === kandidatnr);
+    } else {
+        return null;
+    }
 };
 
 const getKandidatlister = () => ({
@@ -74,7 +77,12 @@ const getKandidatlister = () => ({
     liste: kandidatlister,
 });
 
-const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+const getKandidatliste = (url: string, options: fetchMock.MockOptionsMethodGet) => {
+    const kandidatlisteId = url.split('/').pop();
+    return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
+
+const putStatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];
     const status = JSON.parse(String(options.body)).status;
 
@@ -107,42 +115,66 @@ const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     };
 };
 
+const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+    const kandidatnr = url.split('/').reverse()[1];
+    const arkivert = JSON.parse(String(options.body)).arkivert;
+    return {
+        ...kandidatliste,
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
+            kandidat.kandidatnr !== kandidatnr
+                ? kandidat
+                : {
+                      ...kandidat,
+                      arkivert,
+                  }
+        ),
+    };
+};
+
+const log = (response: MockResponse | MockResponseFunction) => {
+    return (url: string, options) => {
+        console.log(
+            '%cMOCK %s %s',
+            'color: lightgray;',
+            options.method || 'GET',
+            url.includes('pam-kandidatsok-api') ? url.substring(46) : url,
+            typeof response === 'function' ? response(url, options) : response
+        );
+        return response;
+    };
+};
+
 fetchMock
-    .get(meUrl, me)
-    .get(kandidatlisteUrl, kandidatliste)
-    .get(stillingsKandidatlisteUrl, kandidatliste)
-    .get((url: string) => url.startsWith(ferdigutfyltesokurl), ferdigutfyltesok)
-    .get((url: string) => url.startsWith(typeaheadGeoUrl), typeaheadgeo)
-    .mock((url: string) => url.startsWith(kandidatlisteUrl) && url.includes('notater'), notater)
-    .put(kandidatlisteKandidaterUrl, putKandidatlistestatus)
-    .get((url: string) => url.startsWith(alleKandidatlisterUrl), getKandidatlister)
-    .get((url: string) => url.startsWith(hentCvUrl), getCv)
-    .get((url: string) => url.startsWith(sokUrl), sok)
-    .get((url: string) => url.startsWith(togglesUrl), featureToggles)
-    .get((url: string) => url.startsWith(sokeordUrl), sokeord)
-    .get(
-        (url: string) => url.startsWith(kandidatlisterForKandidatUrl),
-        kandidatlisterForKandidatMock
-    )
-    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
-    .post(
-        (url: string) => url.startsWith(kandidatlisteUrl) && url.includes('deltekandidater'),
-        kandidatliste
-    )
-    .get((url: string) => url.startsWith(smsUrl), sms)
-    .post(
-        (url: string) => url.startsWith(smsUrl),
-        new Response('SMS er lagret', {
-            status: 201,
-        })
-    )
-    .get((url: string) => url.startsWith(arenageografikoderUrl), arenageografikoder)
-    .get(modiacontextholderAktivEnhetUrl, aktivEnhet)
-    .get(modiacontextholderAktivBrukerUrl, aktivBruker)
-    .delete(modiacontextholderAktivBrukerUrl, aktivBruker)
-    .get(modiacontextholderDecoratorUrl, decorator)
-    .mock((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), midlertidigUtilgjengelig)
-    .delete((url) => url.startsWith(midlertidigUtilgjengeligApiUrl), 200)
-    .post(modiacontextholderContextUrl, 200)
-    .put(utfallUrl, putUtfall)
-    .get(fnrsokUrl, fnrsok);
+    // Kandidatsøk
+    .get(url.kandidatsøk, log(søk))
+    .get(url.kandidatlisteFraStilling, log(kandidatliste))
+    .get(url.ferdigutfyltesokurl, log(ferdigutfyltesok))
+    .post(url.ferdigutfyltesokurlPost, log(ferdigutfyltesok))
+    .get(url.typeahead, log(typeaheadgeo))
+
+    // CV
+    .get(url.cv, log(getCv))
+    .get(url.listeoversikt, log(kandidatlisterForKandidatMock))
+    .mock(url.midlertidigUtilgjengelig, log(midlertidigUtilgjengelig))
+
+    // Kandidatliste
+    .get(url.kandidatlister, log(getKandidatlister))
+    .get(url.kandidatliste, log(getKandidatliste))
+    .post(url.kandidatlistePost, log(201))
+    .mock(url.notater, log(notater))
+    .get(url.sms, log(sms))
+    .post(url.smsPost, log(201))
+    .put(url.utfallPut, log(putUtfall))
+    .put(url.statusPut, log(putStatus))
+    .put(url.arkivertPut, log(putArkivert))
+    .get(url.fnrsok, log(fnrsok))
+    .post(url.delKandidater, log(kandidatliste))
+    .get(url.søkeord, log(sokeord))
+    .get(url.arenageografikoder, log(arenageografikoder))
+
+    // Misc
+    .get(url.toggles, log(featureToggles))
+    .get(url.modiaAktivEnhet, log(aktivEnhet))
+    .get(url.modiaAktivBruker, log(aktivBruker))
+    .get(url.modiaDecorator, log(decorator))
+    .post(url.modiaContext, log(201));

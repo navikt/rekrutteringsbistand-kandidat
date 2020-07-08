@@ -59,8 +59,8 @@ export interface KandidatResponse {
     erSynlig: boolean;
     antallNotater?: number;
     arkivert: boolean;
-    arkivertTidspunkt?: string;
-    arkivertAv?: string;
+    arkivertTidspunkt: string | null;
+    arkivertAv: string | null;
     aktørid?: string;
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
@@ -106,6 +106,7 @@ interface KandidatlisteBase {
     opprettetAv: OpprettetAv;
     opprettetTidspunkt: string;
     kanEditere: boolean;
+    kanSlette: string;
 }
 
 interface KandidatlisteResponseExtension {
