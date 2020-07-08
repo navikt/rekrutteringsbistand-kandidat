@@ -1,8 +1,5 @@
 import fetchMock, { MockResponse, MockResponseFunction } from 'fetch-mock';
 
-import me from './json/me.json';
-import { kandidatliste, kandidatlister } from './kandidatlister';
-import sok from './json/sok.json';
 import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
@@ -10,8 +7,6 @@ import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import fnrsok from './json/fnrsok.json';
 
-import DC294105 from './json/DC294105.json';
-import CD430805 from './json/CD430805.json';
 import sms from './json/sms.json';
 
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
@@ -20,8 +15,11 @@ import aktivEnhet from './json/dekoratør/aktivenhet.json';
 import aktivBruker from './json/dekoratør/aktivbruker.json';
 import decorator from './json/dekoratør/decorator.json';
 
-import { kandidatlisterForKandidatMock } from './kandidatlister-for-kandidat-mock';
-import { featureToggles } from './featureToggles';
+import cver from './data/cver';
+import { kandidatliste, kandidatlister } from './data/kandidatlister';
+import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat-mock';
+import { featureToggles } from './data/featureToggles';
+import søk from './data/søk';
 
 const api = 'express:/pam-kandidatsok-api/rest';
 
@@ -62,19 +60,14 @@ const url = {
     modiaDecorator: `/modiacontextholder/api/decorator`,
 };
 
-const alleCver = {
-    DC294105,
-    CD430805,
-};
-
 const getCv = (url: string) => {
     const urlObject = new URL(url);
     const kandidatnr = urlObject.searchParams.get('kandidatnr');
 
-    if (kandidatnr && Object.keys(alleCver).includes(kandidatnr)) {
-        return alleCver[kandidatnr];
+    if (kandidatnr) {
+        return cver.find((cv) => cv.kandidatnummer === kandidatnr);
     } else {
-        return alleCver.CD430805;
+        return null;
     }
 };
 
@@ -131,7 +124,7 @@ const log = (response: MockResponse | MockResponseFunction) => {
 
 fetchMock
     // Kandidatsøk
-    .get(url.kandidatsøk, log(sok))
+    .get(url.kandidatsøk, log(søk))
     .get(url.kandidatlisteFraStilling, log(kandidatliste))
     .get(url.ferdigutfyltesokurl, log(ferdigutfyltesok))
     .post(url.ferdigutfyltesokurlPost, log(ferdigutfyltesok))

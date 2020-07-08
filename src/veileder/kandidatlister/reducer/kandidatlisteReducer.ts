@@ -268,7 +268,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
                                 ? {
                                       ...utdatertKandidat,
                                       arkivert: false,
-                                      arkivertTidspunkt: undefined,
+                                      arkivertTidspunkt: null,
                                   }
                                 : utdatertKandidat
                         ),
