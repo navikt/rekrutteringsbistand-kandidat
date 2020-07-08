@@ -27,6 +27,8 @@ const bedrifter = [
     'Visma',
 ];
 
+const verb = ['søker', 'trenger', 'har behov for', 'ønsker å ansette', 'leter etter'];
+
 const yrker = [
     'piloter',
     'leger',
@@ -41,7 +43,7 @@ const yrker = [
     'dyrleger',
     'nødhjelpsarbeidere',
     'lærere',
-    'sportsstjerner',
+    'influencere',
     'dykkere',
     'forfattere',
     'musikkstjerner',
@@ -51,7 +53,7 @@ const yrker = [
 ];
 
 const lagTittel = (i: number) =>
-    `${bedrifter[i % bedrifter.length]} søker ${yrker[i % bedrifter.length]}`;
+    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % bedrifter.length]}`;
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
