@@ -13,7 +13,7 @@ const fornavn = [
     'Gro',
     'Håvard',
     'Henrietta',
-    'Hilse',
+    'Hilde',
     'Joar',
     'Kjetil',
     'Lars Andreas',

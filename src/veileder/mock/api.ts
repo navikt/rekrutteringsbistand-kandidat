@@ -45,6 +45,7 @@ const url = {
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
     statusPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/status`,
     utfallPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`,
+    arkivertPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/arkivert`,
     delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
 
     // Alternative backends
@@ -75,6 +76,11 @@ const getKandidatlister = () => ({
     antall: kandidatlister.length,
     liste: kandidatlister,
 });
+
+const getKandidatliste = (url: string, options: fetchMock.MockOptionsMethodGet) => {
+    const kandidatlisteId = url.split('/').pop();
+    return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+};
 
 const putStatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];
@@ -109,6 +115,22 @@ const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     };
 };
 
+const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+    const kandidatnr = url.split('/').reverse()[1];
+    const arkivert = JSON.parse(String(options.body)).arkivert;
+    return {
+        ...kandidatliste,
+        kandidater: kandidatliste.kandidater.map((kandidat) =>
+            kandidat.kandidatnr !== kandidatnr
+                ? kandidat
+                : {
+                      ...kandidat,
+                      arkivert,
+                  }
+        ),
+    };
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -137,13 +159,14 @@ fetchMock
 
     // Kandidatliste
     .get(url.kandidatlister, log(getKandidatlister))
-    .get(url.kandidatliste, log(kandidatliste))
+    .get(url.kandidatliste, log(getKandidatliste))
     .post(url.kandidatlistePost, log(201))
     .mock(url.notater, log(notater))
     .get(url.sms, log(sms))
     .post(url.smsPost, log(201))
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
+    .put(url.arkivertPut, log(putArkivert))
     .get(url.fnrsok, log(fnrsok))
     .post(url.delKandidater, log(kandidatliste))
     .get(url.søkeord, log(sokeord))

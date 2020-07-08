@@ -5,6 +5,7 @@ import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
 import cver from './cver';
 import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import Cv from '../../kandidatside/cv/reducer/cv-typer';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -74,39 +75,45 @@ const baseKandidatliste: Omit<KandidatlisteResponse, 'kandidater'> = {
     kanSlette: KanSletteEnum.KAN_SLETTES,
 };
 
-const enCv = cver[0];
+const fraCvTilKandidat = (cv: Cv) => ({
+    kandidatId: lagUuid(cv.kandidatnummer),
+    kandidatnr: cv.kandidatnummer,
+    sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
+    status: Status.Vurderes,
+    lagtTilTidspunkt: new Date().toISOString(),
+    lagtTilAv: {
+        ident: 'Z990315',
+        navn: 'F_Z990315 E_Z990315',
+    },
+    fornavn: cv.fornavn,
+    etternavn: cv.etternavn,
+    fodselsdato: cv.fodselsdato,
+    fodselsnr: cv.fodselsnummer,
+    utfall: Utfall.IkkePresentert,
+    telefon: '(+47) 123456789',
+    eepost: 'spammenot@mailinator.com',
+    innsatsgruppe: 'Situasjonsbestemt innsats',
+    arkivert: false,
+    antallNotater: 1,
+    arkivertTidspunkt: null,
+    arkivertAv: null,
+    aktørId: '12345678910',
+    midlertidigUtilgjengeligStatus: Tilgjengelighet.TilgjengeligInnen1Uke,
+    erSynlig: true,
+});
 
 export const kandidatlister: KandidatlisteResponse[] = tomListe.map((_, i) => ({
     ...baseKandidatliste,
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
     kandidater: [
-        {
-            kandidatId: lagUuid(enCv.kandidatnummer),
-            kandidatnr: enCv.kandidatnummer,
-            sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
-            status: Status.Vurderes,
-            lagtTilTidspunkt: new Date().toISOString(),
-            lagtTilAv: {
-                ident: 'Z990315',
-                navn: 'F_Z990315 E_Z990315',
-            },
-            fornavn: enCv.fornavn,
-            etternavn: enCv.etternavn,
-            fodselsdato: enCv.fodselsdato,
-            fodselsnr: enCv.fodselsnummer,
-            utfall: Utfall.IkkePresentert,
-            telefon: '(+47) 123456789',
-            eepost: 'spammenot@mailinator.com',
-            innsatsgruppe: 'Situasjonsbestemt innsats',
-            arkivert: false,
-            antallNotater: 1,
-            arkivertTidspunkt: null,
-            arkivertAv: null,
-            aktørId: '12345678910',
-            midlertidigUtilgjengeligStatus: Tilgjengelighet.TilgjengeligInnen1Uke,
-            erSynlig: true,
-        },
+        fraCvTilKandidat(cver[0]),
+        fraCvTilKandidat(cver[2]),
+        fraCvTilKandidat(cver[3]),
+        fraCvTilKandidat(cver[6]),
+        fraCvTilKandidat(cver[1]),
+        fraCvTilKandidat(cver[9]),
+        fraCvTilKandidat(cver[15]),
     ],
 }));
 
