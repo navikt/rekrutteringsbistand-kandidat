@@ -632,7 +632,7 @@ const mapDispatchToProps = (dispatch) => ({
             pagenumber,
             pagesize,
         }),
-    resetLagreStatus: () => dispatch({ type: ListeoversiktActionType.RESET_LAGRE_STATUS }),
+    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
     markerKandidatlisteSomMin: (kandidatlisteId) => {
         dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
