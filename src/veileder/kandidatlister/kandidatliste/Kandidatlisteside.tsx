@@ -77,9 +77,6 @@ type Props = {
         etternavn?: string;
     };
     hentNotater: any;
-    opprettNotat: any;
-    endreNotat: any;
-    slettNotat: any;
     hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
@@ -613,9 +610,6 @@ class Kandidatlisteside extends React.Component<Props> {
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
-                    opprettNotat={this.props.opprettNotat}
-                    endreNotat={this.props.endreNotat}
-                    slettNotat={this.props.slettNotat}
                     beskrivelse={beskrivelse}
                     toggleArkivert={this.props.toggleArkivert}
                 />
@@ -685,31 +679,6 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
     },
     hentNotater: (kandidatlisteId, kandidatnr) => {
         dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
-    },
-    opprettNotat: (kandidatlisteId, kandidatnr, tekst) => {
-        dispatch({
-            type: KandidatlisteActionType.OPPRETT_NOTAT,
-            kandidatlisteId,
-            kandidatnr,
-            tekst,
-        });
-    },
-    endreNotat: (kandidatlisteId, kandidatnr, notatId, tekst) => {
-        dispatch({
-            type: KandidatlisteActionType.ENDRE_NOTAT,
-            kandidatlisteId,
-            kandidatnr,
-            notatId,
-            tekst,
-        });
-    },
-    slettNotat: (kandidatlisteId, kandidatnr, notatId) => {
-        dispatch({
-            type: KandidatlisteActionType.SLETT_NOTAT,
-            kandidatlisteId,
-            kandidatnr,
-            notatId,
-        });
     },
     toggleArkivert: (kandidatlisteId, kandidatnr, arkivert) => {
         dispatch({
