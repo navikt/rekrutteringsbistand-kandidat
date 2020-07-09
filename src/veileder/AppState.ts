@@ -14,7 +14,6 @@ import { TilretteleggingsbehovState } from './sok/tilretteleggingsbehov/tilrette
 type AppState = {
     cv: CvState;
     enhetsregister: any;
-    feedback: any;
     historikk: HistorikkState;
     kandidatlister: KandidatlisteState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;

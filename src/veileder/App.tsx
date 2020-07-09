@@ -14,7 +14,6 @@ import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
 import enhetsregisterReducer, {
     enhetsregisterSaga,
 } from './common/typeahead/enhetsregisterReducer';
-import feedbackReducer from './feedback/feedbackReducer';
 import forerkortReducer from './sok/forerkort/forerkortReducer';
 import fritekstReducer from './sok/fritekst/fritekstReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
@@ -63,7 +62,6 @@ const store = createStore(
     combineReducers({
         cv: cvReducer,
         enhetsregister: enhetsregisterReducer,
-        feedback: feedbackReducer,
         historikk: historikkReducer,
         kandidatlister: kandidatlisteReducer,
         midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
