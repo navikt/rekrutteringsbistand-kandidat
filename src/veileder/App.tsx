@@ -48,7 +48,7 @@ const søkefiltreReducer = combineReducers({
     hovedmal: hovedmalReducer,
     innsatsgruppe: innsatsgruppeReducer,
     kompetanse: kompetanseReducer,
-    navkontorReducer,
+    navkontor: navkontorReducer,
     permittering: permitteringReducer,
     sprakReducer,
     stilling: stillingReducer,

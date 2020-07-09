@@ -29,7 +29,7 @@ type AppState = {
         hovedmal: HovedmalState;
         innsatsgruppe: InnsatsgruppeState;
         kompetanse: KompetanseState;
-        navkontorReducer: NavkontorReducerState;
+        navkontor: NavkontorReducerState;
         permittering: PermitteringState;
         sprakReducer: SprakReducerState;
         stilling: StillingState;

@@ -74,10 +74,10 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
     if (søkefilter.geografi.maaBoInnenforGeografi)
         urlQuery.maaBoInnenforGeografi = søkefilter.geografi.maaBoInnenforGeografi;
     if (søk.harHentetStilling) urlQuery.harHentetStilling = søk.harHentetStilling;
-    if (søkefilter.navkontorReducer.navkontor && søkefilter.navkontorReducer.navkontor.length > 0)
-        urlQuery.navkontor = søkefilter.navkontorReducer.navkontor.join('_');
-    if (søkefilter.navkontorReducer.minekandidater)
-        urlQuery.minekandidater = søkefilter.navkontorReducer.minekandidater;
+    if (søkefilter.navkontor.navkontor && søkefilter.navkontor.navkontor.length > 0)
+        urlQuery.navkontor = søkefilter.navkontor.navkontor.join('_');
+    if (søkefilter.navkontor.minekandidater)
+        urlQuery.minekandidater = søkefilter.navkontor.minekandidater;
     if (søkefilter.hovedmal.totaltHovedmal && søkefilter.hovedmal.totaltHovedmal.length > 0)
         urlQuery.hovedmal = søkefilter.hovedmal.totaltHovedmal.join('_');
     if (søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov)
