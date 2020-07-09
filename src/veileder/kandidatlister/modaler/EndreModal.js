@@ -7,7 +7,6 @@ import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm from '../OpprettKandidatlisteForm';
 import { KandidatlisteBeskrivelse } from '../Kandidatlister';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import { ListeoversiktActionType } from '../listeoversiktReducer';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
