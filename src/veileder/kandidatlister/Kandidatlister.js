@@ -610,14 +610,14 @@ class Kandidatlister extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus,
-    opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
+    lagreStatus: state.kandidatliste.opprett.lagreStatus,
+    opprettetTittel: state.kandidatliste.opprett.opprettetKandidatlisteTittel,
     kandidatlister: state.listeoversikt.kandidatlister.liste,
     totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
     fetchingKandidatlister: state.listeoversikt.hentListerStatus,
     kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
-    markerSomMinStatus: state.kandidatlister.markerSomMinStatus,
-    sletteStatus: state.kandidatlister.slettKandidatlisteStatus,
+    markerSomMinStatus: state.kandidatliste.markerSomMinStatus,
+    sletteStatus: state.kandidatliste.slettKandidatlisteStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({

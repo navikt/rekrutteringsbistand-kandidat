@@ -98,8 +98,8 @@ const mapStateToProps = (state: AppState) => ({
     isInitialSearch: state.søk.isInitialSearch,
     harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.detaljer.kandidatliste.data
             : undefined,
     søkestateKommerFraAnnetSøk: !!state.søk.kandidatlisteId,
 });

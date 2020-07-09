@@ -16,7 +16,7 @@ type AppState = {
     cv: CvState;
     enhetsregister: any;
     historikk: HistorikkState;
-    kandidatlister: KandidatlisteState;
+    kandidatliste: KandidatlisteState;
     listeoversikt: ListeoversiktState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
     navKontor: NavKontorState;

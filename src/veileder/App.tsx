@@ -65,7 +65,7 @@ const store = createStore(
         cv: cvReducer,
         enhetsregister: enhetsregisterReducer,
         historikk: historikkReducer,
-        kandidatlister: kandidatlisteReducer,
+        kandidatliste: kandidatlisteReducer,
         listeoversikt: listeoversiktReducer,
         midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         navKontor: valgtNavKontorReducer,

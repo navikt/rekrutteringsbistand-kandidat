@@ -45,7 +45,7 @@ class LagreKandidaterModal extends React.Component {
         ) {
             this.setState({
                 kandidatlister: [
-                    ...this.state.kandidatlister,
+                    ...this.state.kandidatliste,
                     ...this.props.egneKandidatlister.map((liste) => ({
                         ...liste,
                         alleredeLagtTil: false,
@@ -154,7 +154,7 @@ class LagreKandidaterModal extends React.Component {
     };
 
     onLagreKandidat = (kandidatliste) => () => {
-        const kandidatlister = this.state.kandidatlister.map((liste) =>
+        const kandidatlister = this.state.kandidatliste.map((liste) =>
             liste.kandidatlisteId === kandidatliste.kandidatlisteId
                 ? { ...liste, alleredeLagtTil: true }
                 : liste
@@ -390,17 +390,17 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    egneKandidatlister: state.kandidatlister.kandidatlister.liste,
-    antallKandidatlister: state.kandidatlister.kandidatlister.antall,
-    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
-    hentListerStatus: state.kandidatlister.hentListerStatus,
-    hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
+    egneKandidatlister: state.kandidatliste.kandidatlister.liste,
+    antallKandidatlister: state.kandidatliste.kandidatlister.antall,
+    kandidatlisterSokeKriterier: state.kandidatliste.kandidatlisterSokeKriterier,
+    hentListerStatus: state.kandidatliste.hentListerStatus,
+    hentListeMedAnnonsenummerStatus: state.kandidatliste.hentListeMedAnnonsenummerStatus,
     hentListeMedAnnonsenummerStatusMessage:
-        state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
-    kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
-    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
+        state.kandidatliste.hentListeMedAnnonsenummerStatusMessage,
+    kandidatlisteMedAnnonsenummer: state.kandidatliste.kandidatlisteMedAnnonsenummer,
+    leggTilKandidaterStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
+    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
 });
 
 const mapDispatchToProps = (dispatch) => ({

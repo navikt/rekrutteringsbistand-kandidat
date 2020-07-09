@@ -242,11 +242,11 @@ LeggTilKandidatModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    fodselsnummer: state.kandidatlister.fodselsnummer,
-    kandidat: state.kandidatlister.kandidat,
-    hentStatus: state.kandidatlister.hentStatus,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    notat: state.kandidatlister.notat,
+    fodselsnummer: state.kandidatliste.fodselsnummer,
+    kandidat: state.kandidatliste.kandidat,
+    hentStatus: state.kandidatliste.hentStatus,
+    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    notat: state.kandidatliste.notat,
 });
 
 const mapDispatchToProps = (dispatch) => ({

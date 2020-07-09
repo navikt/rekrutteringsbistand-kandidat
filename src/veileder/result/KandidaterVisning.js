@@ -309,14 +309,14 @@ const mapStateToProps = (state) => ({
     totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
     isEmptyQuery: state.søk.isEmptyQuery,
     isSearching: state.søk.isSearching,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
+    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     searchQueryHash: state.søk.searchQueryHash,
     antallKandidater: state.søk.antallVisteKandidater,
     valgtKandidatNr: state.søk.valgtKandidatNr,
     scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.detaljer.kandidatliste.data
             : undefined,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });

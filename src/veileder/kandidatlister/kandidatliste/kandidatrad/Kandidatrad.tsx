@@ -291,7 +291,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     midlertidigUtilgjengeligMap: state.midlertidigUtilgjengelig,
-    sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
+    sistValgteKandidat: state.kandidatliste.sistValgteKandidat,
 });
 
 const mapDispatchToProps = (dispatch) => ({

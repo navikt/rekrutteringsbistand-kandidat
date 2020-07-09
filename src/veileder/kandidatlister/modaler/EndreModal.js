@@ -51,7 +51,7 @@ EndreModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus,
+    lagreStatus: state.kandidatliste.opprett.lagreStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
