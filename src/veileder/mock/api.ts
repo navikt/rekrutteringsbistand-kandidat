@@ -43,6 +43,7 @@ const url = {
     kandidatliste: `${api}/veileder/kandidatlister/:kandidatlisteId`,
     kandidatlistePost: `${api}/veileder/me/kandidatlister`,
     notater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater`,
+    notaterPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/notater/:notatId`,
     statusPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/status`,
     utfallPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`,
     arkivertPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/arkivert`,
@@ -161,7 +162,9 @@ fetchMock
     .get(url.kandidatlister, log(getKandidatlister))
     .get(url.kandidatliste, log(getKandidatliste))
     .post(url.kandidatlistePost, log(201))
-    .mock(url.notater, log(notater))
+    .get(url.notater, log(notater))
+    .post(url.notater, log(notater))
+    .put(url.notaterPut, log(notater))
     .get(url.sms, log(sms))
     .post(url.smsPost, log(201))
     .put(url.utfallPut, log(putUtfall))

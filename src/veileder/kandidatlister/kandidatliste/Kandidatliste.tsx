@@ -3,6 +3,8 @@ import React, { FunctionComponent, useState, useMemo } from 'react';
 import { KandidatIKandidatliste, OpprettetAv } from '../kandidatlistetyper';
 import { queryParamsTilFilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
+import { useHistory } from 'react-router-dom';
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
@@ -10,17 +12,15 @@ import Kandidatrad from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
 import ListeHeader from './liste-header/ListeHeader';
+import Meny from './meny/Meny';
 import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useKandidatlistefilter from './filter/useKandidatlistefilter';
-import useAntallFiltertreff from './filter/useAntallFiltertreff';
 import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
+import useAntallFiltertreff from './filter/useAntallFiltertreff';
+import useKandidatlistefilter from './filter/useKandidatlistefilter';
 import '../../../felles/common/ikoner/ikoner.less';
-import Meny from './meny/Meny';
-import { useHistory } from 'react-router-dom';
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -51,9 +51,6 @@ type Props = {
     onSendSmsClick: any;
     onLeggTilKandidat: any;
     onVisningChange: any;
-    opprettNotat: any;
-    endreNotat: any;
-    slettNotat: any;
     toggleArkivert: any;
     beskrivelse?: string;
 };
@@ -65,6 +62,7 @@ const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJob
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const { location } = useHistory();
+
     const initialFilter = useMemo(
         () => queryParamsTilFilter(new URLSearchParams(location.search)),
         [location.search]
@@ -188,7 +186,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                     <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
-                                        endreNotat={props.endreNotat}
                                         kanEditere={props.kanEditere}
                                         stillingsId={props.stillingsId}
                                         kandidatlisteId={props.kandidatlisteId}
@@ -196,8 +193,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         onKandidatUtfallChange={props.onKandidatUtfallChange}
                                         onToggleKandidat={props.toggleMarkert}
                                         onVisningChange={props.onVisningChange}
-                                        opprettNotat={props.opprettNotat}
-                                        slettNotat={props.slettNotat}
                                         toggleArkivert={props.toggleArkivert}
                                         visArkiveringskolonne={!visArkiverte}
                                     />

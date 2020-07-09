@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -24,14 +24,13 @@ import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
 import { useFeatureToggle } from '../../../mock/useFeatureToggle';
 import { utfallToDisplayName } from './utfall-select/UtfallVisning';
 import { lenkeTilCv } from '../../../application/paths';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
     stillingsId: string | null;
-    endreNotat: any;
-    slettNotat: any;
-    opprettNotat: any;
     toggleArkivert: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
@@ -59,9 +58,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
     kandidat,
     kandidatlisteId,
     stillingsId,
-    endreNotat,
-    slettNotat,
-    opprettNotat,
     toggleArkivert,
     onToggleKandidat,
     onVisningChange,
@@ -73,6 +69,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     hentMidlertidigUtilgjengeligForKandidat,
     sistValgteKandidat,
 }) => {
+    const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
     const visEndreUtfall = useFeatureToggle('vis-endre-utfall-dropdown');
 
@@ -91,6 +88,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         kandidat.notater.kind === Nettstatus.Suksess
             ? kandidat.notater.data.length
             : kandidat.antallNotater;
+
     const toggleNotater = () => {
         onVisningChange(
             kandidat.visningsstatus === Visningsstatus.VisNotater
@@ -112,12 +110,32 @@ const Kandidatrad: FunctionComponent<Props> = ({
         }
     };
 
-    const onEndreNotat = (notatId, tekst) => {
-        endreNotat(kandidatlisteId, kandidat.kandidatnr, notatId, tekst);
+    const onOpprettNotat = (tekst: string) => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.OPPRETT_NOTAT,
+            kandidatlisteId,
+            kandidatnr: kandidat.kandidatnr,
+            tekst,
+        });
     };
 
-    const onSletteNotat = (notatId) => {
-        slettNotat(kandidatlisteId, kandidat.kandidatnr, notatId);
+    const onEndreNotat = (notatId: string, tekst: string) => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.ENDRE_NOTAT,
+            kandidatlisteId,
+            kandidatnr: kandidat.kandidatnr,
+            notatId,
+            tekst,
+        });
+    };
+
+    const onSlettNotat = (notatId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.SLETT_NOTAT,
+            kandidatlisteId,
+            kandidatnr: kandidat.kandidatnr,
+            notatId,
+        });
     };
 
     const onToggleArkivert = () => {
@@ -263,11 +281,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             ? kandidat.notater.data.length
                             : kandidat.antallNotater
                     }
-                    onOpprettNotat={(tekst) => {
-                        opprettNotat(kandidatlisteId, kandidat.kandidatnr, tekst);
-                    }}
+                    onOpprettNotat={onOpprettNotat}
                     onEndreNotat={onEndreNotat}
-                    onSletteNotat={onSletteNotat}
+                    onSletteNotat={onSlettNotat}
                 />
             )}
             {kandidat.visningsstatus === Visningsstatus.VisMerInfo && (
