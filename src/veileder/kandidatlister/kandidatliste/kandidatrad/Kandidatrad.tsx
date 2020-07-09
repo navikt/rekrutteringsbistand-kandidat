@@ -7,25 +7,25 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import { lenkeTilCv } from '../../../application/paths';
 import { MidlertidigUtilgjengeligState } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import { sendEvent } from '../../../amplitude/amplitude';
+import { useFeatureToggle } from '../../../mock/useFeatureToggle';
+import { utfallToDisplayName } from './utfall-select/UtfallVisning';
 import { Visningsstatus } from '../Kandidatliste';
 import AppState from '../../../AppState';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusIkon from './smsstatus/SmsStatusIkon';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import './Kandidatrad.less';
 import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
-import { useFeatureToggle } from '../../../mock/useFeatureToggle';
-import { utfallToDisplayName } from './utfall-select/UtfallVisning';
-import { lenkeTilCv } from '../../../application/paths';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import './Kandidatrad.less';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -276,14 +276,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
             {kandidat.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
                     notater={kandidat.notater}
-                    antallNotater={
-                        kandidat.notater.kind === Nettstatus.Suksess
-                            ? kandidat.notater.data.length
-                            : kandidat.antallNotater
-                    }
+                    antallNotater={antallNotater}
                     onOpprettNotat={onOpprettNotat}
                     onEndreNotat={onEndreNotat}
-                    onSletteNotat={onSlettNotat}
+                    onSlettNotat={onSlettNotat}
                 />
             )}
             {kandidat.visningsstatus === Visningsstatus.VisMerInfo && (
