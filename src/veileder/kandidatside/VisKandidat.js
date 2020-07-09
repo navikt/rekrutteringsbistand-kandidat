@@ -379,8 +379,8 @@ VisKandidat.propTypes = {
 
 const mapStateToProps = (state) => ({
     cv: state.cv.cv,
-    kandidater: state.search.searchResultat.resultat.kandidater,
-    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
+    kandidater: state.søk.searchResultat.resultat.kandidater,
+    antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess

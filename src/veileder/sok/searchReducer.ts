@@ -1,9 +1,10 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api.ts';
-import { SearchApiError } from '../../felles/api.ts';
+import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api';
+import { SearchApiError } from '../../felles/api';
 import { postFerdigutfylteStillingerKlikk } from '../api';
 import { esSearch, hentFlereKandidater } from './typedSearchReducer';
 import { leggInfoFraStillingIStateOgSøk, leggUrlParametereIStateOgSøk } from './initialSearch';
+import AppState from '../AppState';
 
 /** *********************************************************
  * ACTIONS
@@ -54,13 +55,16 @@ export const FJERN_ERROR = 'FJERN_ERROR';
 
 function* fetchKompetanseSuggestions() {
     try {
-        const state = yield select();
+        const state: AppState = yield select();
 
-        if (state.stilling.stillinger.length !== 0) {
+        if (
+            state.søkefilter.stilling.stillinger &&
+            state.søkefilter.stilling.stillinger.length !== 0
+        ) {
             yield put({ type: SET_KOMPETANSE_SUGGESTIONS_BEGIN });
 
             const response = yield call(fetchKandidaterES, {
-                stillinger: state.stilling.stillinger,
+                stillinger: state.søkefilter.stilling.stillinger,
             });
             const aggregeringerKompetanse = response.aggregeringer.find(
                 (a) => a.navn === 'kompetanse'
@@ -118,10 +122,11 @@ function* registrerFerdigutfylteStillingerKlikk(action) {
 export const harEnParameter = (...arrays) =>
     arrays.some((array) => array !== undefined && array.length > 0);
 
+/* tslint:disable */
 export const saga = function* saga() {
     yield takeLatest(SEARCH, esSearch);
-    yield takeLatest(SØK_MED_INFO_FRA_STILLING, leggInfoFraStillingIStateOgSøk);
-    yield takeLatest(SØK_MED_URL_PARAMETERE, leggUrlParametereIStateOgSøk);
+    yield takeLatest(SØK_MED_INFO_FRA_STILLING as any, leggInfoFraStillingIStateOgSøk);
+    yield takeLatest(SØK_MED_URL_PARAMETERE as any, leggUrlParametereIStateOgSøk);
     yield takeLatest(FETCH_KOMPETANSE_SUGGESTIONS, fetchKompetanseSuggestions);
     yield takeLatest(FETCH_FEATURE_TOGGLES_BEGIN, hentFeatureToggles);
     yield takeLatest(LAST_FLERE_KANDIDATER, hentFlereKandidater);

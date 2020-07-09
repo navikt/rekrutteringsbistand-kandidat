@@ -27,7 +27,7 @@ const TilgjengelighetSearch: FunctionComponent<Props> = ({ panelOpen, togglePane
 };
 
 const mapStateToProps = (state: AppState) => ({
-    panelOpen: state.tilgjengelighet.panelOpen,
+    panelOpen: state.søkefilter.tilgjengelighet.panelOpen,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

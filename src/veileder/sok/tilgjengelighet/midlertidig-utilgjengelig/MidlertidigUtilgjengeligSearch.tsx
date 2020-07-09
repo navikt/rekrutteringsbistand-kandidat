@@ -78,7 +78,7 @@ const MidlertidigUtilgjengeligSearch: FunctionComponent<Props> = (props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    midlertidigUtilgjengelig: state.tilgjengelighet.midlertidigUtilgjengelig,
+    midlertidigUtilgjengelig: state.søkefilter.tilgjengelighet.midlertidigUtilgjengelig,
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({

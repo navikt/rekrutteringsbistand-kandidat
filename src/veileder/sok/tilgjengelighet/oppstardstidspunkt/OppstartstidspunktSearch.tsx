@@ -55,7 +55,7 @@ const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    oppstartstidspunkter: state.tilgjengelighet.oppstartstidspunkter,
+    oppstartstidspunkter: state.søkefilter.tilgjengelighet.oppstartstidspunkter,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

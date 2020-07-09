@@ -1,38 +1,43 @@
-import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
-import { PermitteringState } from './sok/permittering/permitteringReducer';
+import { AlderState } from './sok/alder/alderReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './kandidatside/cv/reducer/cvReducer';
-import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
-import { SearchState } from './sok/typedSearchReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
-import { AlderState } from './sok/alder/alderReducer';
+import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
+import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
+import { PermitteringState } from './sok/permittering/permitteringReducer';
+import { SearchState } from './sok/typedSearchReducer';
+import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
+import { TilretteleggingsbehovState } from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 
 type AppState = {
-    kandidatlister: KandidatlisteState;
-    permittering: PermitteringState;
-    tilgjengelighet: TilgjengelighetState;
-    search: SearchState;
-    arbeidserfaring: ArbeidserfaringState;
-    typeahead: TypeaheadState;
     cv: CvState;
-    midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
-    fritekst: FritekstState;
-    stilling: StillingState;
-    kompetanse: KompetanseState;
-    utdanning: UtdanningState;
-    geografi: GeografiState;
-    sprakReducer: SprakReducerState;
-    forerkort: ForerkortState;
-    innsatsgruppe: InnsatsgruppeState;
-    navkontorReducer: NavkontorReducerState;
-    hovedmal: HovedmalState;
-    tilretteleggingsbehov: TilretteleggingsbehovState;
+    enhetsregister: any;
+    feedback: any;
     historikk: HistorikkState;
-    alder: AlderState;
+    kandidatlister: KandidatlisteState;
+    midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
     navKontor: NavKontorState;
+    søk: SearchState;
+    søkefilter: {
+        alder: AlderState;
+        arbeidserfaring: ArbeidserfaringState;
+        forerkort: ForerkortState;
+        fritekst: FritekstState;
+        geografi: GeografiState;
+        hovedmal: HovedmalState;
+        innsatsgruppe: InnsatsgruppeState;
+        kompetanse: KompetanseState;
+        navkontorReducer: NavkontorReducerState;
+        permittering: PermitteringState;
+        sprakReducer: SprakReducerState;
+        stilling: StillingState;
+        tilgjengelighet: TilgjengelighetState;
+        tilretteleggingsbehov: TilretteleggingsbehovState;
+        typeahead: TypeaheadState;
+        utdanning: UtdanningState;
+    };
 };
 
 // TODO Følgende burde defineres i sine respektive reducere
@@ -69,10 +74,6 @@ export interface NavkontorReducerState {
 }
 export interface HovedmalState {
     totaltHovedmal: string[];
-}
-export interface TilretteleggingsbehovState {
-    harTilretteleggingsbehov?: boolean;
-    kategorier?: string[];
 }
 
 export default AppState;

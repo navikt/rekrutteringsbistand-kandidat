@@ -44,6 +44,8 @@ const convertToUrlParams = (query) =>
                     return `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`;
                 }
             }
+
+            return '';
         })
         .join('&')
         .replace(/%20/g, '+');
@@ -279,7 +281,7 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
         })
     );
 
-export const fetchFerdigutfylteStillinger = (bransjer) => {
+export const fetchFerdigutfylteStillinger = () => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
 

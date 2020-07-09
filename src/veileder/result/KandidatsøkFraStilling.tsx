@@ -85,6 +85,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         } else if (!harHentetStilling) {
             leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
         }
+        // eslint-disable-next-line
     }, [
         kandidatliste,
         kandidatlisteIdFraSøk,
@@ -143,17 +144,17 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    isInitialSearch: state.search.isInitialSearch,
+    isInitialSearch: state.søk.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
-    harHentetStilling: state.search.harHentetStilling,
+    harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    maksAntallTreff: state.search.maksAntallTreff,
-    kandidatlisteIdFraSøk: state.search.kandidatlisteId,
+    maksAntallTreff: state.søk.maksAntallTreff,
+    kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

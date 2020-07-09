@@ -62,11 +62,11 @@ export const førerkortProptypes = {
 ForerkortSearch.propTypes = førerkortProptypes;
 
 const mapStateToProps = (state) => ({
-    forerkortList: state.forerkort.forerkortList,
-    typeAheadSuggestionsForerkort: state.typeahead.forerkort.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.forerkort.forerkortPanelOpen,
+    forerkortList: state.søkefilter.forerkort.forerkortList,
+    typeAheadSuggestionsForerkort: state.søkefilter.typeahead.forerkort.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.forerkort.forerkortPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

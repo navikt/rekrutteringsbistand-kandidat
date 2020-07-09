@@ -305,15 +305,15 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-    kandidater: state.search.searchResultat.resultat.kandidater,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    isEmptyQuery: state.search.isEmptyQuery,
-    isSearching: state.search.isSearching,
+    kandidater: state.søk.searchResultat.resultat.kandidater,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    isEmptyQuery: state.søk.isEmptyQuery,
+    isSearching: state.søk.isSearching,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.antallVisteKandidater,
-    valgtKandidatNr: state.search.valgtKandidatNr,
-    scrolletFraToppen: state.search.scrolletFraToppen,
+    searchQueryHash: state.søk.searchQueryHash,
+    antallKandidater: state.søk.antallVisteKandidater,
+    valgtKandidatNr: state.søk.valgtKandidatNr,
+    scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data

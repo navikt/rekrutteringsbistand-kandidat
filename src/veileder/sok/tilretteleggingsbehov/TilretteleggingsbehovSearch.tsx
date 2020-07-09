@@ -13,6 +13,7 @@ import {
 import Infoikon from './Infoikon';
 import './Tilretteleggingsbehov.less';
 import Kategori, { getKategoriLabel } from './Kategori';
+import AppState from '../../AppState';
 
 interface TilretteleggingsbehovSearchProps {
     search: () => void;
@@ -99,10 +100,10 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
     );
 };
 
-const mapStateToProps = (state) => ({
-    harValgtTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-    kategorier: state.tilretteleggingsbehov.kategorier,
-    panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen,
+const mapStateToProps = (state: AppState) => ({
+    harValgtTilretteleggingsbehov: state.søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov,
+    kategorier: state.søkefilter.tilretteleggingsbehov.kategorier,
+    panelOpen: state.søkefilter.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

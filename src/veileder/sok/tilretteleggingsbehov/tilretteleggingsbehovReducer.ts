@@ -1,16 +1,14 @@
 import { SET_STATE, harEnParameter, LUKK_ALLE_SOKEPANEL } from '../searchReducer';
 
-/** *********************************************************
- * ACTIONS
- ********************************************************* */
-
 export const TOGGLE_TILRETTELEGGINGSBEHOV = 'TOGGLE_TILRETTELEGGINGSBEHOV';
 export const CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER = 'CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER';
 export const TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN = 'TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN';
 
-/** *********************************************************
- * REDUCER
- ********************************************************* */
+export interface TilretteleggingsbehovState {
+    harTilretteleggingsbehov?: boolean;
+    kategorier?: string[];
+    tilretteleggingsbehovPanelOpen: boolean;
+}
 
 const initialState = {
     harTilretteleggingsbehov: false,
@@ -18,7 +16,10 @@ const initialState = {
     kategorier: [],
 };
 
-export default function tilretteleggingsbehovReducer(state = initialState, action) {
+export default function tilretteleggingsbehovReducer(
+    state: TilretteleggingsbehovState = initialState,
+    action: any
+) {
     switch (action.type) {
         case SET_STATE: {
             const { tilretteleggingsbehov, kategorier } = action.query;

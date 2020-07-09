@@ -39,7 +39,7 @@ const SideHeader: FunctionComponent<Props> = ({
     erEierAvListen,
 }) => {
     const visRekrutteringsstatus = useSelector(
-        (state: AppState) => state.search.featureToggles['vis-rekrutteringsstatus']
+        (state: AppState) => state.søk.featureToggles['vis-rekrutteringsstatus']
     );
 
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);

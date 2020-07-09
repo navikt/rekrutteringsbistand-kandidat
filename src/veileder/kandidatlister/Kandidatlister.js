@@ -228,6 +228,7 @@ export const KandidatlisterMenyDropdown = ({
     useEffect(() => {
         document.addEventListener('click', handleCloseMenu, true);
         return () => document.removeEventListener('click', handleCloseMenu, true);
+        // eslint-disable-next-line
     }, []);
 
     const onMarkerClick = () => {

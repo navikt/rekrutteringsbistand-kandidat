@@ -68,12 +68,12 @@ NavkontorSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    navkontor: state.navkontorReducer.navkontor,
-    typeAheadSuggestionsNavkontor: state.typeahead.navkontor.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.navkontorReducer.navkontorPanelOpen,
-    minekandidater: state.navkontorReducer.minekandidater,
+    navkontor: state.søkefilter.navkontorReducer.navkontor,
+    typeAheadSuggestionsNavkontor: state.søkefilter.typeahead.navkontor.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.navkontorReducer.navkontorPanelOpen,
+    minekandidater: state.søkefilter.navkontorReducer.minekandidater,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -70,12 +70,12 @@ KompetanseSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    kompetanser: state.kompetanse.kompetanser,
-    kompetanseSuggestions: state.search.searchResultat.kompetanseSuggestions,
-    typeAheadSuggestionsKompetanse: state.typeahead.kompetanse.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.kompetanse.kompetansePanelOpen,
+    kompetanser: state.søkefilter.kompetanse.kompetanser,
+    kompetanseSuggestions: state.søk.searchResultat.kompetanseSuggestions,
+    typeAheadSuggestionsKompetanse: state.søkefilter.typeahead.kompetanse.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.kompetanse.kompetansePanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

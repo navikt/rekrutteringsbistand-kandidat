@@ -121,16 +121,16 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    isInitialSearch: state.search.isInitialSearch,
+    isInitialSearch: state.søk.isInitialSearch,
     leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
     antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
     lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
-    harHentetStilling: state.search.harHentetStilling,
+    harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    kandidatlisteIdFraSøk: state.search.kandidatlisteId,
+    kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

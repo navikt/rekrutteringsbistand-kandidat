@@ -95,13 +95,13 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    isInitialSearch: state.search.isInitialSearch,
-    harHentetStilling: state.search.harHentetStilling,
+    isInitialSearch: state.søk.isInitialSearch,
+    harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
         state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatlister.detaljer.kandidatliste.data
             : undefined,
-    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
+    søkestateKommerFraAnnetSøk: !!state.søk.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({

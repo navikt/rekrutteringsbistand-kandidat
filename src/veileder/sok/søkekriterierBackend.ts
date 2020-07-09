@@ -17,8 +17,8 @@ export const mapTilSøkekriterierBackend = (
     const søkekriterierFraState = mapTilSøkekriterierBackendFraState(state);
     const fraIndex = action.fraIndex || 0;
     const antallResultater = action.antallResultater
-        ? Math.max(action.antallResultater, state.search.antallVisteKandidater)
-        : state.search.antallVisteKandidater;
+        ? Math.max(action.antallResultater, state.søk.antallVisteKandidater)
+        : state.søk.antallVisteKandidater;
 
     const søkekriterierHash = getHashFromString(JSON.stringify(søkekriterierFraState));
 
@@ -35,52 +35,55 @@ export const mapTilSøkekriterierBackend = (
     ];
 };
 
-export const mapTilSøkekriterierBackendFraState = (state: AppState): SøkekriterierBackend => {
-    const forerkortState = state.forerkort.forerkortList;
+export const mapTilSøkekriterierBackendFraState = ({
+    søk,
+    søkefilter,
+}: AppState): SøkekriterierBackend => {
+    const forerkortState = søkefilter.forerkort.forerkortList;
     const forerkortListe =
         forerkortState && forerkortState.includes('Førerkort: Kl. M (Moped)')
             ? [...forerkortState, 'Mopedførerbevis']
             : forerkortState;
 
-    const geografiListKomplett = state.geografi.geografiListKomplett;
+    const geografiListKomplett = søkefilter.geografi.geografiListKomplett;
     const lokasjoner = geografiListKomplett
         ? geografiListKomplett.map((sted) => `${sted.geografiKodeTekst}:${sted.geografiKode}`)
         : undefined;
 
     const permittert =
-        state.permittering.permittert !== state.permittering.ikkePermittert
-            ? JSON.stringify(state.permittering.permittert)
+        søkefilter.permittering.permittert !== søkefilter.permittering.ikkePermittert
+            ? JSON.stringify(søkefilter.permittering.permittert)
             : undefined;
 
     return {
-        fritekst: state.fritekst.fritekst,
-        stillinger: state.stilling.stillinger,
-        arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-        utdanninger: state.utdanning.utdanninger,
-        kompetanser: state.kompetanse.kompetanser,
-        geografiList: state.geografi.geografiList,
+        fritekst: søkefilter.fritekst.fritekst,
+        stillinger: søkefilter.stilling.stillinger,
+        arbeidserfaringer: søkefilter.arbeidserfaring.arbeidserfaringer,
+        utdanninger: søkefilter.utdanning.utdanninger,
+        kompetanser: søkefilter.kompetanse.kompetanser,
+        geografiList: søkefilter.geografi.geografiList,
         geografiListKomplett: geografiListKomplett,
         lokasjoner: lokasjoner,
-        totalErfaring: state.arbeidserfaring.totalErfaring,
-        utdanningsniva: state.utdanning.utdanningsniva,
-        sprak: state.sprakReducer.sprak,
-        kvalifiseringsgruppeKoder: state.innsatsgruppe.kvalifiseringsgruppeKoder,
-        maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
+        totalErfaring: søkefilter.arbeidserfaring.totalErfaring,
+        utdanningsniva: søkefilter.utdanning.utdanningsniva,
+        sprak: søkefilter.sprakReducer.sprak,
+        kvalifiseringsgruppeKoder: søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder,
+        maaBoInnenforGeografi: søkefilter.geografi.maaBoInnenforGeografi,
         forerkort: forerkortListe,
-        navkontor: state.navkontorReducer.navkontor,
-        minekandidater: state.navkontorReducer.minekandidater,
-        hovedmal: state.hovedmal.totaltHovedmal,
-        tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-        kategorier: state.tilretteleggingsbehov.kategorier,
-        oppstartKoder: state.tilgjengelighet.oppstartstidspunkter,
-        maksAlderYrkeserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
+        navkontor: søkefilter.navkontorReducer.navkontor,
+        minekandidater: søkefilter.navkontorReducer.minekandidater,
+        hovedmal: søkefilter.hovedmal.totaltHovedmal,
+        tilretteleggingsbehov: søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov,
+        kategorier: søkefilter.tilretteleggingsbehov.kategorier,
+        oppstartKoder: søkefilter.tilgjengelighet.oppstartstidspunkter,
+        maksAlderYrkeserfaring: søkefilter.arbeidserfaring.maksAlderArbeidserfaring,
         midlertidigUtilgjengelig: inverterMidlertidigUtilgjengeligFordiFilteretErInvertert(
-            state.tilgjengelighet.midlertidigUtilgjengelig
+            søkefilter.tilgjengelighet.midlertidigUtilgjengelig
         ),
         permittert: permittert,
-        listeId: state.search.kandidatlisteId,
-        antallAarFra: state.alder.fra,
-        antallAarTil: state.alder.til,
+        listeId: søk.kandidatlisteId,
+        antallAarFra: søkefilter.alder.fra,
+        antallAarTil: søkefilter.alder.til,
     };
 };
 
