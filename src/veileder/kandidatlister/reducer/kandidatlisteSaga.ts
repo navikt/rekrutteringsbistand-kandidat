@@ -4,7 +4,7 @@ import {
     putArkivertForFlereKandidater,
     putUtfallKandidat,
 } from './../../api';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
@@ -37,7 +37,6 @@ import {
     fetchKandidatlisteMedAnnonsenummer,
     fetchKandidatlisteMedKandidatlisteId,
     fetchKandidatlisteMedStillingsId,
-    fetchKandidatlister,
     fetchKandidatMedFnr,
     fetchNotater,
     postDelteKandidater,
@@ -303,22 +302,6 @@ function* opprettNotat(action: OpprettNotatAction) {
     }
 }
 
-function* hentKandidatlister() {
-    const state = yield select();
-    try {
-        const kandidatlister = yield fetchKandidatlister(
-            state.kandidatlister.kandidatlisterSokeKriterier
-        );
-        yield put({ type: KandidatlisteActionType.HENT_KANDIDATLISTER_SUCCESS, kandidatlister });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({ type: KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE, error: e });
-        } else {
-            throw e;
-        }
-    }
-}
-
 function* hentKandidatlisteMedAnnonsenummer(action) {
     try {
         const kandidatliste = yield fetchKandidatlisteMedAnnonsenummer(action.annonsenummer);
@@ -544,7 +527,6 @@ function* kandidatlisteSaga() {
     yield takeLatest(KandidatlisteActionType.ENDRE_NOTAT, endreNotat);
     yield takeLatest(KandidatlisteActionType.SLETT_NOTAT, slettNotat);
     yield takeLatest(KandidatlisteActionType.TOGGLE_ARKIVERT, toggleArkivert);
-    yield takeLatest(KandidatlisteActionType.HENT_KANDIDATLISTER, hentKandidatlister);
     yield takeLatest(
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
         hentKandidatlisteMedAnnonsenummer
@@ -573,7 +555,6 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.ENDRE_NOTAT_FAILURE,
             KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE,
             KandidatlisteActionType.SLETT_NOTAT_FAILURE,
-            KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE,
             KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
             KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
         ],

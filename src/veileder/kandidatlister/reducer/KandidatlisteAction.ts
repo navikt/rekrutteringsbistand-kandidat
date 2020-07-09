@@ -226,31 +226,6 @@ export interface OpprettNotatFailureAction {
     type: KandidatlisteActionType.OPPRETT_NOTAT_FAILURE;
 }
 
-export interface HentKandidatlisterAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTER;
-    query: string;
-    listetype: string;
-    kunEgne: boolean;
-    pagenumber: number;
-    pagesize: number;
-}
-
-export interface HentKandidatlisterSuccessAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTER_SUCCESS;
-    kandidatlister: {
-        liste: any;
-        antall: number;
-    };
-}
-
-export interface HentKandidatlisterFailureAction {
-    type: KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE;
-}
-
-export interface ResetKandidatlisterSokekriterierAction {
-    type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER;
-}
-
 export interface HentKandidatlisteMedAnnonsenummerAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER;
 }
@@ -455,10 +430,6 @@ type KandidatlisteAction =
     | OpprettNotatAction
     | OpprettNotatSuccessAction
     | OpprettNotatFailureAction
-    | HentKandidatlisterAction
-    | HentKandidatlisterSuccessAction
-    | HentKandidatlisterFailureAction
-    | ResetKandidatlisterSokekriterierAction
     | HentKandidatlisteMedAnnonsenummerAction
     | HentKandidatlisteMedAnnonsenummerSuccessAction
     | HentKandidatlisteMedAnnonsenummerNotFoundAction

@@ -19,6 +19,7 @@ import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandi
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
+import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -140,7 +141,7 @@ const mapDispatchToProps = (dispatch) => ({
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     fjernValgtKandidat: () =>

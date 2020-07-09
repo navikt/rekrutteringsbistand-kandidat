@@ -47,22 +47,10 @@ export interface KandidatlisteState {
         antallLagredeKandidater: number;
         lagretListe: {};
     };
-    hentListerStatus: HentStatus;
-    kandidatlister: {
-        liste: Array<any>;
-        antall?: number;
-    };
     hentListeMedAnnonsenummerStatus: HentStatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatIKandidatlisteStatus: string;
-    kandidatlisterSokeKriterier: {
-        query: string;
-        type: string;
-        kunEgne: boolean;
-        pagenumber: number;
-        pagesize: number;
-    };
     markerSomMinStatus: MarkerSomMinStatus;
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
@@ -113,23 +101,10 @@ const initialState: KandidatlisteState = {
         antallLagredeKandidater: 0,
         lagretListe: {},
     },
-    hentListerStatus: HentStatus.IkkeHentet,
-    kandidatlister: {
-        liste: [],
-        antall: undefined,
-    },
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
-
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
-    kandidatlisterSokeKriterier: {
-        query: '',
-        type: '',
-        kunEgne: true,
-        pagenumber: 0,
-        pagesize: 20,
-    },
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
     slettKandidatlisteStatus: IkkeLastet(),
     sms: {
@@ -569,47 +544,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 arkivering: {
                     ...state.arkivering,
                     statusDearkivering: Nettstatus.Suksess,
-                },
-            };
-        case KandidatlisteActionType.HENT_KANDIDATLISTER:
-            return {
-                ...state,
-                hentListerStatus: HentStatus.Loading,
-                kandidatlisterSokeKriterier: {
-                    query: action.query,
-                    type: action.listetype,
-                    kunEgne: action.kunEgne,
-                    pagenumber: action.pagenumber,
-                    pagesize: action.pagesize,
-                },
-            };
-        case KandidatlisteActionType.HENT_KANDIDATLISTER_SUCCESS:
-            return {
-                ...state,
-                hentListerStatus: HentStatus.Success,
-                kandidatlister: {
-                    liste: action.kandidatlister.liste,
-                    antall: action.kandidatlister.antall,
-                },
-            };
-        case KandidatlisteActionType.HENT_KANDIDATLISTER_FAILURE:
-            return {
-                ...state,
-                hentListerStatus: HentStatus.Failure,
-            };
-        case KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER:
-            return {
-                ...state,
-                kandidatlister: {
-                    liste: [],
-                    antall: undefined,
-                },
-                kandidatlisterSokeKriterier: {
-                    query: '',
-                    type: '',
-                    kunEgne: true,
-                    pagenumber: 0,
-                    pagesize: 20,
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER:

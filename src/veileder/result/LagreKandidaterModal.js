@@ -15,6 +15,7 @@ import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActi
 import { HentStatus } from '../kandidatlister/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -405,7 +406,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
             query: '',
             listetype: '',
             kunEgne: true,
@@ -420,7 +421,7 @@ const mapDispatchToProps = (dispatch) => ({
         });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
 });
 

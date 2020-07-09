@@ -10,6 +10,7 @@ import { historikkReducer, historikkSaga } from './kandidatside/historikk/histor
 import { searchReducer } from './sok/typedSearchReducer';
 import { saga } from './sok/searchReducer';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
+import listeoversiktSaga from './kandidatlister/listeoversiktSaga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
 import enhetsregisterReducer, {
     enhetsregisterSaga,
@@ -35,6 +36,7 @@ import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilrettele
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
+import listeoversiktReducer from './kandidatlister/listeoversiktReducer';
 import '../felles/styles.less';
 import './sok/sok.less';
 
@@ -64,6 +66,7 @@ const store = createStore(
         enhetsregister: enhetsregisterReducer,
         historikk: historikkReducer,
         kandidatlister: kandidatlisteReducer,
+        listeoversikt: listeoversiktReducer,
         midlertidigUtilgjengelig: midlertidigUtilgjengeligReducer,
         navKontor: valgtNavKontorReducer,
         søk: searchReducer,
@@ -71,8 +74,6 @@ const store = createStore(
     }),
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
-
-console.log('STORE:', store.getState());
 
 export const reduxStore = store;
 
@@ -89,5 +90,6 @@ sagaMiddleware.run(midlertidigUtilgjengeligSaga);
 sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
+sagaMiddleware.run(listeoversiktSaga);
 
 ReactDOM.render(<App />, document.getElementById('app'));

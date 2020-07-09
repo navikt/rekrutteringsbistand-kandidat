@@ -21,6 +21,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
+import { ListeoversiktActionType } from './listeoversiktReducer';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -611,10 +612,10 @@ class Kandidatlister extends React.Component {
 const mapStateToProps = (state) => ({
     lagreStatus: state.kandidatlister.opprett.lagreStatus,
     opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
-    kandidatlister: state.kandidatlister.kandidatlister.liste,
-    totaltAntallKandidatlister: state.kandidatlister.kandidatlister.antall,
-    fetchingKandidatlister: state.kandidatlister.hentListerStatus,
-    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
+    kandidatlister: state.listeoversikt.kandidatlister.liste,
+    totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
+    fetchingKandidatlister: state.listeoversikt.hentListerStatus,
+    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
     markerSomMinStatus: state.kandidatlister.markerSomMinStatus,
     sletteStatus: state.kandidatlister.slettKandidatlisteStatus,
 });
@@ -624,7 +625,7 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
             query,
             listetype: type,
             kunEgne,

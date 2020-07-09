@@ -1,3 +1,4 @@
+import { ListeoversiktState } from './kandidatlister/listeoversiktReducer';
 import { AlderState } from './sok/alder/alderReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './kandidatside/cv/reducer/cvReducer';
@@ -16,6 +17,7 @@ type AppState = {
     enhetsregister: any;
     historikk: HistorikkState;
     kandidatlister: KandidatlisteState;
+    listeoversikt: ListeoversiktState;
     midlertidigUtilgjengelig: MidlertidigUtilgjengeligState;
     navKontor: NavKontorState;
     søk: SearchState;
