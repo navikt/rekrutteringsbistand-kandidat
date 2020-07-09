@@ -1,28 +1,9 @@
 import { ApiError } from '../../../felles/common/remoteData';
 import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
-import { ResponseData } from './../../../felles/common/remoteData';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
-
-export interface OpprettKandidatlisteAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE;
-    kandidatlisteInfo: {
-        tittel: string;
-        beskrivelse?: string;
-        bedrift?: any;
-    };
-}
-
-export interface OpprettKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS;
-    tittel: string;
-}
-
-export interface OpprettKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE;
-}
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;
@@ -52,6 +33,37 @@ export interface HentKandidatlisteMedKandidatlisteIdSuccessAction {
 export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE;
     error: ApiError;
+}
+
+export interface OpprettKandidatlisteAction {
+    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE;
+    kandidatlisteInfo: {
+        tittel: string;
+        beskrivelse?: string;
+        bedrift?: any;
+    };
+}
+
+export interface OpprettKandidatlisteSuccessAction {
+    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_SUCCESS;
+    tittel: string;
+}
+
+export interface OpprettKandidatlisteFailureAction {
+    type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE_FAILURE;
+}
+
+export interface OppdaterKandidatlisteAction {
+    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE;
+}
+
+export interface OppdaterKandidatlisteSuccessAction {
+    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS;
+    tittel: string;
+}
+
+export interface OppdaterKandidatlisteFailureAction {
+    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE;
 }
 
 export interface ResetLagreStatusAction {
@@ -113,19 +125,6 @@ export interface LagreKandidatIKandidatlisteSuccessAction {
 
 export interface LagreKandidatIKandidatlisteFailureAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE;
-}
-
-export interface OppdaterKandidatlisteAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE;
-}
-
-export interface OppdaterKandidatlisteSuccessAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_SUCCESS;
-    tittel: string;
-}
-
-export interface OppdaterKandidatlisteFailureAction {
-    type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE_FAILURE;
 }
 
 export interface EndreStatusKandidatAction {
@@ -279,36 +278,6 @@ export interface SlettNotatFailureAction {
     type: KandidatlisteActionType.SLETT_NOTAT_FAILURE;
 }
 
-export interface MarkerKandidatlisteSomMinAction {
-    type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN;
-}
-
-export interface MarkerKandidatlisteSomMinSuccessAction {
-    type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS;
-}
-
-export interface MarkerKandidatlisteSomMinFailureAction {
-    type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE;
-}
-
-export interface SlettKandidatlisteAction {
-    type: KandidatlisteActionType.SLETT_KANDIDATLISTE;
-    kandidatliste: {
-        tittel: string;
-        kandidatlisteId: string;
-    };
-}
-
-export interface SlettKandidatlisteFerdigAction {
-    type: KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG;
-    result: ResponseData<any>;
-    kandidatlisteTittel: string;
-}
-
-export interface ResetSletteStatusAction {
-    type: KandidatlisteActionType.RESET_SLETTE_STATUS;
-}
-
 export interface ToggleArkivertAction {
     type: KandidatlisteActionType.TOGGLE_ARKIVERT;
     kandidatlisteId: string;
@@ -391,13 +360,16 @@ type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
     | OpprettKandidatlisteFailureAction
+    | OppdaterKandidatlisteAction
+    | OppdaterKandidatlisteSuccessAction
+    | OppdaterKandidatlisteFailureAction
+    | ResetLagreStatusAction
     | HentKandidatlisteMedStillingsIdAction
     | HentKandidatlisteMedStillingsIdSuccessAction
     | HentKandidatlisteMedStillingsIdFailureAction
     | HentKandidatlisteMedKandidatlisteIdAction
     | HentKandidatlisteMedKandidatlisteIdSuccessAction
     | HentKandidatlisteMedKandidatlisteIdFailureAction
-    | ResetLagreStatusAction
     | PresenterKandidaterAction
     | PresenterKandidaterSuccessAction
     | PresenterKandidaterFailureAction
@@ -408,9 +380,6 @@ type KandidatlisteAction =
     | LagreKandidatIKandidatlisteAction
     | LagreKandidatIKandidatlisteSuccessAction
     | LagreKandidatIKandidatlisteFailureAction
-    | OppdaterKandidatlisteAction
-    | OppdaterKandidatlisteSuccessAction
-    | OppdaterKandidatlisteFailureAction
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction
@@ -440,12 +409,6 @@ type KandidatlisteAction =
     | SlettNotatAction
     | SlettNotatSuccessAction
     | SlettNotatFailureAction
-    | MarkerKandidatlisteSomMinAction
-    | MarkerKandidatlisteSomMinSuccessAction
-    | MarkerKandidatlisteSomMinFailureAction
-    | SlettKandidatlisteAction
-    | SlettKandidatlisteFerdigAction
-    | ResetSletteStatusAction
     | ToggleArkivertAction
     | ToggleArkivertSuccessAction
     | ToggleArkivertFailureAction

@@ -616,8 +616,8 @@ const mapStateToProps = (state) => ({
     totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
     fetchingKandidatlister: state.listeoversikt.hentListerStatus,
     kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
-    markerSomMinStatus: state.kandidatliste.markerSomMinStatus,
-    sletteStatus: state.kandidatliste.slettKandidatlisteStatus,
+    markerSomMinStatus: state.listeoversikt.markerSomMinStatus,
+    sletteStatus: state.listeoversikt.slettKandidatlisteStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -632,15 +632,15 @@ const mapDispatchToProps = (dispatch) => ({
             pagenumber,
             pagesize,
         }),
-    resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
+    resetLagreStatus: () => dispatch({ type: ListeoversiktActionType.RESET_LAGRE_STATUS }),
     markerKandidatlisteSomMin: (kandidatlisteId) => {
-        dispatch({ type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
+        dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
     slettKandidatliste: (kandidatliste) => {
-        dispatch({ type: KandidatlisteActionType.SLETT_KANDIDATLISTE, kandidatliste });
+        dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste });
     },
     resetSletteStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_SLETTE_STATUS });
+        dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });
     },
     fjernValgtKandidat: () =>
         dispatch({

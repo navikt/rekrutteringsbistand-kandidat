@@ -17,19 +17,18 @@ import {
     HentStatus,
     Kandidatliste,
     KandidatlisteResponse,
-    MarkerSomMinStatus,
     Notat,
 } from '../kandidatlistetyper';
 
 export interface KandidatlisteState {
     lagreStatus: string;
-    detaljer: {
-        kandidatliste: RemoteData<Kandidatliste>;
-        deleStatus: Delestatus;
-    };
     opprett: {
         lagreStatus: string;
         opprettetKandidatlisteTittel?: string;
+    };
+    detaljer: {
+        kandidatliste: RemoteData<Kandidatliste>;
+        deleStatus: Delestatus;
     };
     fodselsnummer?: string;
     hentStatus: HentStatus;
@@ -51,10 +50,6 @@ export interface KandidatlisteState {
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatIKandidatlisteStatus: string;
-    markerSomMinStatus: MarkerSomMinStatus;
-    slettKandidatlisteStatus: RemoteData<{
-        slettetTittel: string;
-    }>;
     sms: {
         sendStatus: SmsStatus;
         sendteMeldinger: RemoteData<Sms[]>;
@@ -77,13 +72,12 @@ export interface KandidatlisteState {
 
 const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
+    opprett: {
+        lagreStatus: LAGRE_STATUS.UNSAVED,
+    },
     detaljer: {
         kandidatliste: IkkeLastet(),
         deleStatus: Delestatus.IkkeSpurt,
-    },
-    opprett: {
-        lagreStatus: LAGRE_STATUS.UNSAVED,
-        opprettetKandidatlisteTittel: undefined,
     },
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
@@ -105,8 +99,6 @@ const initialState: KandidatlisteState = {
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
-    markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
-    slettKandidatlisteStatus: IkkeLastet(),
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: IkkeLastet(),
@@ -374,6 +366,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     deleStatus: Delestatus.IkkeSpurt,
                 },
             };
+
         case KandidatlisteActionType.RESET_DELESTATUS:
             return {
                 ...state,
@@ -570,39 +563,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 hentListeMedAnnonsenummerStatus: HentStatus.Failure,
-            };
-        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN:
-            return {
-                ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Loading,
-            };
-        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS:
-            return {
-                ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Success,
-            };
-        case KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE:
-            return {
-                ...state,
-                markerSomMinStatus: MarkerSomMinStatus.Failure,
-            };
-        case KandidatlisteActionType.SLETT_KANDIDATLISTE:
-            return {
-                ...state,
-                slettKandidatlisteStatus: LasterInn(),
-            };
-        case KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG:
-            return {
-                ...state,
-                slettKandidatlisteStatus:
-                    action.result.kind === Nettstatus.Suksess
-                        ? Suksess({ slettetTittel: action.kandidatlisteTittel })
-                        : action.result,
-            };
-        case KandidatlisteActionType.RESET_SLETTE_STATUS:
-            return {
-                ...state,
-                slettKandidatlisteStatus: IkkeLastet(),
             };
         case KandidatlisteActionType.SEND_SMS:
             return {

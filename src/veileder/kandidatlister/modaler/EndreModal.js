@@ -7,6 +7,7 @@ import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm from '../OpprettKandidatlisteForm';
 import { KandidatlisteBeskrivelse } from '../Kandidatlister';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import { ListeoversiktActionType } from '../listeoversiktReducer';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
@@ -56,7 +57,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     oppdaterKandidatliste: (kandidatlisteInfo) => {
-        dispatch({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
+        dispatch({ type: ListeoversiktActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
         dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS });

@@ -9,8 +9,6 @@ import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import {
-    SlettKandidatlisteAction,
-    SlettKandidatlisteFerdigAction,
     OpprettKandidatlisteAction,
     HentKandidatlisteMedStillingsIdAction,
     HentKandidatlisteMedKandidatlisteIdAction,
@@ -31,9 +29,7 @@ import {
     EndreUtfallKandidatSuccessAction,
 } from './KandidatlisteAction';
 import {
-    deleteKandidatliste,
     deleteNotat,
-    endreEierskapPaKandidatliste,
     fetchKandidatlisteMedAnnonsenummer,
     fetchKandidatlisteMedKandidatlisteId,
     fetchKandidatlisteMedStillingsId,
@@ -49,7 +45,6 @@ import {
     putStatusKandidat,
     putArkivert,
 } from '../../api';
-import { Nettstatus } from '../../../felles/common/remoteData';
 import { KandidatlisteResponse } from '../kandidatlistetyper';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
@@ -429,39 +424,8 @@ function* oppdaterKandidatliste(action) {
     }
 }
 
-function* markerKandidatlisteSomMin(action) {
-    try {
-        yield endreEierskapPaKandidatliste(action.kandidatlisteId);
-        yield put({ type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_SUCCESS });
-    } catch (e) {
-        if (e instanceof SearchApiError) {
-            yield put({
-                type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
-                error: e,
-            });
-        } else {
-            throw e;
-        }
-    }
-}
-
-function* slettKandidatliste(action: SlettKandidatlisteAction) {
-    const response = yield call(deleteKandidatliste, action.kandidatliste.kandidatlisteId);
-    yield put({
-        type: KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG,
-        result: response,
-        kandidatlisteTittel: action.kandidatliste.tittel,
-    });
-}
-
 function* sjekkError(action) {
     yield put({ type: INVALID_RESPONSE_STATUS, error: action.error });
-}
-
-function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
-    if (action.result.kind === Nettstatus.Feil) {
-        yield put({ type: INVALID_RESPONSE_STATUS, error: action.result.error });
-    }
 }
 
 function* hentSendteMeldinger(action: HentSendteMeldingerAction) {
@@ -536,11 +500,6 @@ function* kandidatlisteSaga() {
         lagreKandidatIKandidatliste
     );
     yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
-    yield takeLatest(
-        KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN,
-        markerKandidatlisteSomMin
-    );
-    yield takeLatest(KandidatlisteActionType.SLETT_KANDIDATLISTE, slettKandidatliste);
     yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
         [
@@ -556,13 +515,8 @@ function* kandidatlisteSaga() {
             KandidatlisteActionType.TOGGLE_ARKIVERT_FAILURE,
             KandidatlisteActionType.SLETT_NOTAT_FAILURE,
             KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE,
-            KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN_FAILURE,
         ],
         sjekkError
-    );
-    yield takeLatest(
-        [KandidatlisteActionType.SLETT_KANDIDATLISTE_FERDIG],
-        sjekkFerdigActionForError
     );
     yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
     yield takeLatest(KandidatlisteActionType.HENT_SENDTE_MELDINGER, hentSendteMeldinger);
