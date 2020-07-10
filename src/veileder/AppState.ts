@@ -1,10 +1,10 @@
-import { ListeoversiktState } from './kandidatlister/listeoversiktReducer';
+import { ListeoversiktState } from './listeoversikt/reducer/listeoversiktReducer';
 import { AlderState } from './sok/alder/alderReducer';
 import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './kandidatside/cv/reducer/cvReducer';
 import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
-import { KandidatlisteState } from './kandidatlister/reducer/kandidatlisteReducer';
+import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';
 import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
 import { PermitteringState } from './sok/permittering/permitteringReducer';

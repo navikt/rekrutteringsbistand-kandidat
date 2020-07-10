@@ -9,10 +9,10 @@ import cvPropTypes from '../../felles/PropTypes';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import StatusSelect from '../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import '../../felles/common/ikoner/ikoner.less';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
 

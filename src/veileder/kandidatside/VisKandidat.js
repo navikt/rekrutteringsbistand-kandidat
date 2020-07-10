@@ -17,7 +17,7 @@ import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';

@@ -1,13 +1,13 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../application/paths';
-import { Statusvisning } from '../../../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Statusvisning } from '../../../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import Lenke from 'nav-frontend-lenker';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import './Historikkrad.less';
 import { Undertekst } from 'nav-frontend-typografi';
-import { utfallToDisplayName } from '../../../../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallVisning';
+import { utfallToDisplayName } from '../../../../kandidatliste/kandidatrad/utfall-select/UtfallVisning';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;

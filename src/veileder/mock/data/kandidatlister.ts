@@ -1,10 +1,10 @@
-import { Status } from './../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { KandidatlisteResponse } from './../../kandidatlister/kandidatlistetyper';
-import { KanSletteEnum } from '../../kandidatlister/Kandidatlister';
+import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { KandidatlisteResponse } from './../../kandidatliste/kandidatlistetyper';
+import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
 import cver from './cver';
-import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
 
 const antall = 15;
