@@ -45,7 +45,7 @@ class LagreKandidaterModal extends React.Component {
         ) {
             this.setState({
                 kandidatlister: [
-                    ...this.state.kandidatliste,
+                    ...this.state.kandidatlister,
                     ...this.props.egneKandidatlister.map((liste) => ({
                         ...liste,
                         alleredeLagtTil: false,
@@ -154,7 +154,7 @@ class LagreKandidaterModal extends React.Component {
     };
 
     onLagreKandidat = (kandidatliste) => () => {
-        const kandidatlister = this.state.kandidatliste.map((liste) =>
+        const kandidatlister = this.state.kandidatlister.map((liste) =>
             liste.kandidatlisteId === kandidatliste.kandidatlisteId
                 ? { ...liste, alleredeLagtTil: true }
                 : liste
@@ -390,10 +390,11 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    egneKandidatlister: state.kandidatliste.kandidatlister.liste,
-    antallKandidatlister: state.kandidatliste.kandidatlister.antall,
-    kandidatlisterSokeKriterier: state.kandidatliste.kandidatlisterSokeKriterier,
-    hentListerStatus: state.kandidatliste.hentListerStatus,
+    egneKandidatlister: state.listeoversikt.kandidatlister.liste,
+    antallKandidatlister: state.listeoversikt.kandidatlister.antall,
+    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
+    hentListerStatus: state.listeoversikt.hentListerStatus,
+
     hentListeMedAnnonsenummerStatus: state.kandidatliste.hentListeMedAnnonsenummerStatus,
     hentListeMedAnnonsenummerStatusMessage:
         state.kandidatliste.hentListeMedAnnonsenummerStatusMessage,
