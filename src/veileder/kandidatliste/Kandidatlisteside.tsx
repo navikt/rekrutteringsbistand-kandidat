@@ -66,8 +66,8 @@ type Props = {
         kandidatnummerListe: Array<string>,
         navKontor: string
     ) => void;
-    resetDeleStatus: any;
-    deleStatus: string;
+    resetDeleStatus: () => void;
+    deleStatus: Delestatus;
     smsSendStatus: SmsStatus;
     resetSmsSendStatus: () => void;
     leggTilStatus: string;
@@ -375,7 +375,7 @@ class Kandidatlisteside extends React.Component<Props> {
         });
     };
 
-    onDelMedArbeidsgiver = (beskjed, mailadresser) => {
+    onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
         if (this.state.kandidater) {
             if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
                 const kandidatNrTilPresentering = this.state.kandidater
@@ -619,7 +619,7 @@ class Kandidatlisteside extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    deleStatus: state.kandidatliste.detaljer.deleStatus,
+    deleStatus: state.kandidatliste.deleStatus,
     smsSendStatus: state.kandidatliste.sms.sendStatus,
     leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatliste.fodselsnummer,

@@ -1,3 +1,4 @@
+import { Visningsstatus } from './Kandidatliste';
 import { RemoteData } from '../../felles/common/remoteData';
 
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
@@ -85,7 +86,7 @@ export type Kandidat = KandidatResponse & KandidatExtension;
 
 export type Kandidattilstand = {
     markert: boolean;
-    visningsstatus: string;
+    visningsstatus: Visningsstatus;
     sms?: Sms;
 };
 

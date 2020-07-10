@@ -21,17 +21,17 @@ import {
 } from '../kandidatlistetyper';
 
 export interface KandidatlisteState {
+    hentStatus: HentStatus;
     lagreStatus: string;
+    deleStatus: Delestatus;
     opprett: {
         lagreStatus: string;
         opprettetKandidatlisteTittel?: string;
     };
     detaljer: {
         kandidatliste: RemoteData<Kandidatliste>;
-        deleStatus: Delestatus;
     };
     fodselsnummer?: string;
-    hentStatus: HentStatus;
     kandidat: {
         arenaKandidatnr?: string;
         fornavn?: string;
@@ -68,16 +68,17 @@ export interface KandidatlisteState {
     };
     filterQuery?: string;
     filtrerteKandidatnumre: string[];
+    notat?: string;
 }
 
 const initialState: KandidatlisteState = {
     lagreStatus: LAGRE_STATUS.UNSAVED,
+    deleStatus: Delestatus.IkkeSpurt,
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
     },
     detaljer: {
         kandidatliste: IkkeLastet(),
-        deleStatus: Delestatus.IkkeSpurt,
     },
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
@@ -250,7 +251,7 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     state = initialState,
     action
-) => {
+): KandidatlisteState => {
     switch (action.type) {
         case KandidatlisteActionType.OPPRETT_KANDIDATLISTE:
         case KandidatlisteActionType.OPPDATER_KANDIDATLISTE:
@@ -342,10 +343,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {
                 ...state,
-                detaljer: {
-                    ...state.detaljer,
-                    deleStatus: Delestatus.Loading,
-                },
+                deleStatus: Delestatus.Loading,
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS:
             return {
@@ -355,25 +353,19 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
-                    deleStatus: Delestatus.Success,
                 },
+                deleStatus: Delestatus.Success,
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE:
             return {
                 ...state,
-                detaljer: {
-                    ...state.detaljer,
-                    deleStatus: Delestatus.IkkeSpurt,
-                },
+                deleStatus: Delestatus.IkkeSpurt,
             };
 
         case KandidatlisteActionType.RESET_DELESTATUS:
             return {
                 ...state,
-                detaljer: {
-                    ...state.detaljer,
-                    deleStatus: Delestatus.IkkeSpurt,
-                },
+                deleStatus: Delestatus.IkkeSpurt,
             };
         case KandidatlisteActionType.SET_FODSELSNUMMER: {
             return {
