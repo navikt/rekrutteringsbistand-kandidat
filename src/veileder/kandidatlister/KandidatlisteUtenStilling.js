@@ -40,7 +40,7 @@ KandidatlisteUtenStilling.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    kandidatliste: state.kandidatliste.detaljer.kandidatliste,
 });
 
 const mapDispatchToProps = (dispatch) => ({

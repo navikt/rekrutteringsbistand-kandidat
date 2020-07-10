@@ -46,6 +46,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
         if (harNettoppKlikketPåEgendefinert) {
             inputRef.focus();
         }
+        // eslint-disable-next-line
     }, [inputRef, valgtKnapp]);
 
     const onRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -156,7 +157,7 @@ const FerskArbeidserfaring: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    maksAlderArbeidserfaring: state.arbeidserfaring.maksAlderArbeidserfaring,
+    maksAlderArbeidserfaring: state.søkefilter.arbeidserfaring.maksAlderArbeidserfaring,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

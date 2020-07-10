@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const commonConfig = {
     entry: {
-        sok: ['babel-polyfill', 'whatwg-fetch', './src/veileder/app.js'],
+        sok: ['babel-polyfill', 'whatwg-fetch', './src/veileder/App.tsx'],
     },
     output: {
         path: `${__dirname}/dist`,

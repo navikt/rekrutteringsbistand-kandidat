@@ -88,13 +88,13 @@ GeografiSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    geografiListKomplett: state.geografi.geografiListKomplett,
-    typeAheadSuggestionsGeografi: state.typeahead.geografi.suggestions,
-    typeAheadSuggestionsGeografiKomplett: state.typeahead.geografiKomplett.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.geografi.geografiPanelOpen,
-    maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
+    geografiListKomplett: state.søkefilter.geografi.geografiListKomplett,
+    typeAheadSuggestionsGeografi: state.søkefilter.typeahead.geografi.suggestions,
+    typeAheadSuggestionsGeografiKomplett: state.søkefilter.typeahead.geografiKomplett.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.geografi.geografiPanelOpen,
+    maaBoInnenforGeografi: state.søkefilter.geografi.maaBoInnenforGeografi,
 });
 
 const mapDispatchToProps = (dispatch) => ({

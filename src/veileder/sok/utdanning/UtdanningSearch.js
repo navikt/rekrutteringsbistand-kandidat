@@ -71,12 +71,12 @@ UtdanningSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    utdanninger: state.utdanning.utdanninger,
-    typeAheadSuggestionsUtdanning: state.typeahead.utdanning.suggestions,
-    utdanningsniva: state.utdanning.utdanningsniva,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.utdanning.utdanningPanelOpen,
+    utdanninger: state.søkefilter.utdanning.utdanninger,
+    typeAheadSuggestionsUtdanning: state.søkefilter.typeahead.utdanning.suggestions,
+    utdanningsniva: state.søkefilter.utdanning.utdanningsniva,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.utdanning.utdanningPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

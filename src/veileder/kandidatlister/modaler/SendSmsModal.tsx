@@ -160,7 +160,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
 
 export default connect(
     (state: AppState) => ({
-        sendStatus: state.kandidatlister.sms.sendStatus,
+        sendStatus: state.kandidatliste.sms.sendStatus,
     }),
     (dispatch: (action: KandidatlisteAction) => void) => ({
         sendSmsTilKandidater: (melding: string, fnr: string[], kandidatlisteId: string) =>

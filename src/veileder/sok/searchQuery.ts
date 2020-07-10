@@ -36,72 +36,78 @@ interface SearchQuery {
     alderTil?: number;
 }
 
-const mapStateToSearchQuery = (state: AppState): SearchQuery => {
+const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => {
     const urlQuery: SearchQuery = {};
-    if (state.fritekst.fritekst) urlQuery.fritekst = state.fritekst.fritekst;
-    if (state.stilling.stillinger && state.stilling.stillinger.length > 0)
-        urlQuery.stillinger = state.stilling.stillinger.join('_');
+    if (søkefilter.fritekst.fritekst) urlQuery.fritekst = søkefilter.fritekst.fritekst;
+    if (søkefilter.stilling.stillinger && søkefilter.stilling.stillinger.length > 0)
+        urlQuery.stillinger = søkefilter.stilling.stillinger.join('_');
     if (
-        state.arbeidserfaring.arbeidserfaringer &&
-        state.arbeidserfaring.arbeidserfaringer.length > 0
+        søkefilter.arbeidserfaring.arbeidserfaringer &&
+        søkefilter.arbeidserfaring.arbeidserfaringer.length > 0
     )
-        urlQuery.arbeidserfaringer = state.arbeidserfaring.arbeidserfaringer.join('_');
+        urlQuery.arbeidserfaringer = søkefilter.arbeidserfaring.arbeidserfaringer.join('_');
 
-    if (state.kompetanse.kompetanser && state.kompetanse.kompetanser.length > 0)
-        urlQuery.kompetanser = state.kompetanse.kompetanser.join('_');
-    if (state.utdanning.utdanninger && state.utdanning.utdanninger.length > 0)
-        urlQuery.utdanninger = state.utdanning.utdanninger.join('_');
-    if (state.geografi.geografiList && state.geografi.geografiList.length > 0)
-        urlQuery.geografiList = state.geografi.geografiList.join('_');
-    if (state.arbeidserfaring.totalErfaring && state.arbeidserfaring.totalErfaring.length > 0)
-        urlQuery.totalErfaring = state.arbeidserfaring.totalErfaring.join('_');
-    if (state.utdanning.utdanningsniva && state.utdanning.utdanningsniva.length > 0)
-        urlQuery.utdanningsniva = state.utdanning.utdanningsniva.join('_');
-    if (state.sprakReducer.sprak && state.sprakReducer.sprak.length > 0)
-        urlQuery.sprak = state.sprakReducer.sprak.join('_');
-    if (state.forerkort.forerkortList && state.forerkort.forerkortList.length > 0)
-        urlQuery.forerkort = state.forerkort.forerkortList.join('_');
+    if (søkefilter.kompetanse.kompetanser && søkefilter.kompetanse.kompetanser.length > 0)
+        urlQuery.kompetanser = søkefilter.kompetanse.kompetanser.join('_');
+    if (søkefilter.utdanning.utdanninger && søkefilter.utdanning.utdanninger.length > 0)
+        urlQuery.utdanninger = søkefilter.utdanning.utdanninger.join('_');
+    if (søkefilter.geografi.geografiList && søkefilter.geografi.geografiList.length > 0)
+        urlQuery.geografiList = søkefilter.geografi.geografiList.join('_');
     if (
-        state.innsatsgruppe.kvalifiseringsgruppeKoder &&
-        state.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
+        søkefilter.arbeidserfaring.totalErfaring &&
+        søkefilter.arbeidserfaring.totalErfaring.length > 0
     )
-        urlQuery.kvalifiseringsgruppeKoder = state.innsatsgruppe.kvalifiseringsgruppeKoder.join(
+        urlQuery.totalErfaring = søkefilter.arbeidserfaring.totalErfaring.join('_');
+    if (søkefilter.utdanning.utdanningsniva && søkefilter.utdanning.utdanningsniva.length > 0)
+        urlQuery.utdanningsniva = søkefilter.utdanning.utdanningsniva.join('_');
+    if (søkefilter.sprakReducer.sprak && søkefilter.sprakReducer.sprak.length > 0)
+        urlQuery.sprak = søkefilter.sprakReducer.sprak.join('_');
+    if (søkefilter.forerkort.forerkortList && søkefilter.forerkort.forerkortList.length > 0)
+        urlQuery.forerkort = søkefilter.forerkort.forerkortList.join('_');
+    if (
+        søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder &&
+        søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder.length > 0
+    )
+        urlQuery.kvalifiseringsgruppeKoder = søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder.join(
             '_'
         );
-    if (state.geografi.maaBoInnenforGeografi)
-        urlQuery.maaBoInnenforGeografi = state.geografi.maaBoInnenforGeografi;
-    if (state.search.harHentetStilling) urlQuery.harHentetStilling = state.search.harHentetStilling;
-    if (state.navkontorReducer.navkontor && state.navkontorReducer.navkontor.length > 0)
-        urlQuery.navkontor = state.navkontorReducer.navkontor.join('_');
-    if (state.navkontorReducer.minekandidater)
-        urlQuery.minekandidater = state.navkontorReducer.minekandidater;
-    if (state.hovedmal.totaltHovedmal && state.hovedmal.totaltHovedmal.length > 0)
-        urlQuery.hovedmal = state.hovedmal.totaltHovedmal.join('_');
-    if (state.tilretteleggingsbehov.harTilretteleggingsbehov)
-        urlQuery.tilretteleggingsbehov = state.tilretteleggingsbehov.harTilretteleggingsbehov;
-    if (state.tilretteleggingsbehov.kategorier && state.tilretteleggingsbehov.kategorier.length > 0)
-        urlQuery.kategorier = state.tilretteleggingsbehov.kategorier.join('_');
-    if (state.permittering.permittert !== state.permittering.ikkePermittert)
-        urlQuery.permittert = state.permittering.permittert;
+    if (søkefilter.geografi.maaBoInnenforGeografi)
+        urlQuery.maaBoInnenforGeografi = søkefilter.geografi.maaBoInnenforGeografi;
+    if (søk.harHentetStilling) urlQuery.harHentetStilling = søk.harHentetStilling;
+    if (søkefilter.navkontor.navkontor && søkefilter.navkontor.navkontor.length > 0)
+        urlQuery.navkontor = søkefilter.navkontor.navkontor.join('_');
+    if (søkefilter.navkontor.minekandidater)
+        urlQuery.minekandidater = søkefilter.navkontor.minekandidater;
+    if (søkefilter.hovedmal.totaltHovedmal && søkefilter.hovedmal.totaltHovedmal.length > 0)
+        urlQuery.hovedmal = søkefilter.hovedmal.totaltHovedmal.join('_');
+    if (søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov)
+        urlQuery.tilretteleggingsbehov = søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov;
     if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.oppstartstidspunkter &&
-        state.tilgjengelighet.oppstartstidspunkter.length > 0
+        søkefilter.tilretteleggingsbehov.kategorier &&
+        søkefilter.tilretteleggingsbehov.kategorier.length > 0
     )
-        urlQuery.oppstartstidspunkter = state.tilgjengelighet.oppstartstidspunkter.join('-');
-    if (state.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
-        urlQuery.maksAlderArbeidserfaring = state.arbeidserfaring.maksAlderArbeidserfaring;
+        urlQuery.kategorier = søkefilter.tilretteleggingsbehov.kategorier.join('_');
+    if (søkefilter.permittering.permittert !== søkefilter.permittering.ikkePermittert)
+        urlQuery.permittert = søkefilter.permittering.permittert;
+    if (
+        søkefilter.tilgjengelighet &&
+        søkefilter.tilgjengelighet.oppstartstidspunkter &&
+        søkefilter.tilgjengelighet.oppstartstidspunkter.length > 0
+    )
+        urlQuery.oppstartstidspunkter = søkefilter.tilgjengelighet.oppstartstidspunkter.join('-');
+    if (søkefilter.arbeidserfaring.maksAlderArbeidserfaring !== undefined)
+        urlQuery.maksAlderArbeidserfaring = søkefilter.arbeidserfaring.maksAlderArbeidserfaring;
 
     if (
-        state.tilgjengelighet &&
-        state.tilgjengelighet.midlertidigUtilgjengelig &&
-        state.tilgjengelighet.midlertidigUtilgjengelig.length > 0
+        søkefilter.tilgjengelighet &&
+        søkefilter.tilgjengelighet.midlertidigUtilgjengelig &&
+        søkefilter.tilgjengelighet.midlertidigUtilgjengelig.length > 0
     )
-        urlQuery.midlertidigUtilgjengelig = state.tilgjengelighet.midlertidigUtilgjengelig.join(
+        urlQuery.midlertidigUtilgjengelig = søkefilter.tilgjengelighet.midlertidigUtilgjengelig.join(
             '_'
         );
-    if (state.alder.fra) urlQuery.alderFra = state.alder.fra;
-    if (state.alder.til) urlQuery.alderTil = state.alder.til;
+    if (søkefilter.alder.fra) urlQuery.alderFra = søkefilter.alder.fra;
+    if (søkefilter.alder.til) urlQuery.alderTil = søkefilter.alder.til;
 
     return urlQuery;
 };

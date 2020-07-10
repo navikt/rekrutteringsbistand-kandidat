@@ -21,6 +21,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
+import { ListeoversiktActionType } from './listeoversiktReducer';
 
 const MODALVISING = {
     INGEN_MODAL: 'INGEN_MODAL',
@@ -228,6 +229,7 @@ export const KandidatlisterMenyDropdown = ({
     useEffect(() => {
         document.addEventListener('click', handleCloseMenu, true);
         return () => document.removeEventListener('click', handleCloseMenu, true);
+        // eslint-disable-next-line
     }, []);
 
     const onMarkerClick = () => {
@@ -608,14 +610,14 @@ class Kandidatlister extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    lagreStatus: state.kandidatlister.opprett.lagreStatus,
-    opprettetTittel: state.kandidatlister.opprett.opprettetKandidatlisteTittel,
-    kandidatlister: state.kandidatlister.kandidatlister.liste,
-    totaltAntallKandidatlister: state.kandidatlister.kandidatlister.antall,
-    fetchingKandidatlister: state.kandidatlister.hentListerStatus,
-    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
-    markerSomMinStatus: state.kandidatlister.markerSomMinStatus,
-    sletteStatus: state.kandidatlister.slettKandidatlisteStatus,
+    lagreStatus: state.kandidatliste.opprett.lagreStatus,
+    opprettetTittel: state.kandidatliste.opprett.opprettetKandidatlisteTittel,
+    kandidatlister: state.listeoversikt.kandidatlister.liste,
+    totaltAntallKandidatlister: state.listeoversikt.kandidatlister.antall,
+    fetchingKandidatlister: state.listeoversikt.hentListerStatus,
+    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
+    markerSomMinStatus: state.listeoversikt.markerSomMinStatus,
+    sletteStatus: state.listeoversikt.slettKandidatlisteStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -623,7 +625,7 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
             query,
             listetype: type,
             kunEgne,
@@ -632,13 +634,13 @@ const mapDispatchToProps = (dispatch) => ({
         }),
     resetLagreStatus: () => dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS }),
     markerKandidatlisteSomMin: (kandidatlisteId) => {
-        dispatch({ type: KandidatlisteActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
+        dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
     slettKandidatliste: (kandidatliste) => {
-        dispatch({ type: KandidatlisteActionType.SLETT_KANDIDATLISTE, kandidatliste });
+        dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste });
     },
     resetSletteStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_SLETTE_STATUS });
+        dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });
     },
     fjernValgtKandidat: () =>
         dispatch({

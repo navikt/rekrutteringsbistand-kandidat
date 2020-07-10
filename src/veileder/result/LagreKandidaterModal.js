@@ -15,6 +15,7 @@ import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActi
 import { HentStatus } from '../kandidatlister/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -389,23 +390,24 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    egneKandidatlister: state.kandidatlister.kandidatlister.liste,
-    antallKandidatlister: state.kandidatlister.kandidatlister.antall,
-    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
-    hentListerStatus: state.kandidatlister.hentListerStatus,
-    hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
+    egneKandidatlister: state.listeoversikt.kandidatlister.liste,
+    antallKandidatlister: state.listeoversikt.kandidatlister.antall,
+    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
+    hentListerStatus: state.listeoversikt.hentListerStatus,
+
+    hentListeMedAnnonsenummerStatus: state.kandidatliste.hentListeMedAnnonsenummerStatus,
     hentListeMedAnnonsenummerStatusMessage:
-        state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
-    kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
-    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
+        state.kandidatliste.hentListeMedAnnonsenummerStatusMessage,
+    kandidatlisteMedAnnonsenummer: state.kandidatliste.kandidatlisteMedAnnonsenummer,
+    leggTilKandidaterStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
+    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
             query: '',
             listetype: '',
             kunEgne: true,
@@ -420,7 +422,7 @@ const mapDispatchToProps = (dispatch) => ({
         });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
 });
 

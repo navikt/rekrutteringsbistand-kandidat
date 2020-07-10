@@ -619,15 +619,15 @@ class Kandidatlisteside extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    deleStatus: state.kandidatlister.detaljer.deleStatus,
-    smsSendStatus: state.kandidatlister.sms.sendStatus,
-    leggTilStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    fodselsnummer: state.kandidatlister.fodselsnummer,
-    kandidat: state.kandidatlister.kandidat,
-    sendteMeldinger: state.kandidatlister.sms.sendteMeldinger,
-    statusArkivering: state.kandidatlister.arkivering.statusArkivering,
-    statusDearkivering: state.kandidatlister.arkivering.statusDearkivering,
-    sistValgteKandidat: state.kandidatlister.sistValgteKandidat,
+    deleStatus: state.kandidatliste.detaljer.deleStatus,
+    smsSendStatus: state.kandidatliste.sms.sendStatus,
+    leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    fodselsnummer: state.kandidatliste.fodselsnummer,
+    kandidat: state.kandidatliste.kandidat,
+    sendteMeldinger: state.kandidatliste.sms.sendteMeldinger,
+    statusArkivering: state.kandidatliste.arkivering.statusArkivering,
+    statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
+    sistValgteKandidat: state.kandidatliste.sistValgteKandidat,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
     valgtNavKontor: state.navKontor.valgtNavKontor,
 });

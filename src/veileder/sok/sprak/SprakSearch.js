@@ -60,11 +60,11 @@ SprakSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    sprak: state.sprakReducer.sprak,
-    typeAheadSuggestionsSprak: state.typeahead.sprak.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.sprakReducer.sprakPanelOpen,
+    sprak: state.søkefilter.sprakReducer.sprak,
+    typeAheadSuggestionsSprak: state.søkefilter.typeahead.sprak.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.sprakReducer.sprakPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

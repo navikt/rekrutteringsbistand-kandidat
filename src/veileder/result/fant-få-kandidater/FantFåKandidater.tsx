@@ -21,6 +21,7 @@ import {
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from '../../sok/geografi/geografiReducer';
 import { Knapp } from 'nav-frontend-knapper';
+import AppState from '../../AppState';
 
 export type Geografi = {
     geografiKodeTekst: string;
@@ -125,14 +126,14 @@ const FantFåKandidater = (props: Props) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    tilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-    kategorier: state.tilretteleggingsbehov.kategorier,
-    harHentetStilling: state.search.harHentetStilling,
-    stillinger: state.stilling.stillinger,
-    geografiListKomplett: state.geografi.geografiListKomplett,
-    maaBoInnenforGeografi: state.geografi.maaBoInnenforGeografi,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
+const mapStateToProps = (state: AppState) => ({
+    tilretteleggingsbehov: state.søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov,
+    kategorier: state.søkefilter.tilretteleggingsbehov.kategorier,
+    harHentetStilling: state.søk.harHentetStilling,
+    stillinger: state.søkefilter.stilling.stillinger,
+    geografiListKomplett: state.søkefilter.geografi.geografiListKomplett,
+    maaBoInnenforGeografi: state.søkefilter.geografi.maaBoInnenforGeografi,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
 });
 
 const mapDispatchToProps = (dispatch) => ({

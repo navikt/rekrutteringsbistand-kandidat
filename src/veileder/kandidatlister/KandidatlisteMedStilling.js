@@ -38,8 +38,8 @@ KandidatlisteMedStilling.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    fetching: state.kandidatlister.detaljer.fetching,
-    kandidatliste: state.kandidatlister.detaljer.kandidatliste,
+    fetching: state.kandidatliste.detaljer.fetching,
+    kandidatliste: state.kandidatliste.detaljer.kandidatliste,
 });
 
 const mapDispatchToProps = (dispatch) => ({

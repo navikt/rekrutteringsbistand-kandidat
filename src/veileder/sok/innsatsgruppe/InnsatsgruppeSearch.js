@@ -77,10 +77,10 @@ InnsatsgruppeSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    innsatsgrupper: state.innsatsgruppe.kvalifiseringsgruppeKoder,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.innsatsgruppe.innsatsgruppePanelOpen,
+    innsatsgrupper: state.søkefilter.innsatsgruppe.kvalifiseringsgruppeKoder,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.innsatsgruppe.innsatsgruppePanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
