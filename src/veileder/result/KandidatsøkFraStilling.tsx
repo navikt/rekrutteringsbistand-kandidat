@@ -10,8 +10,8 @@ import {
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { Nettstatus } from '../../felles/common/remoteData';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
 import { VeilederHeaderInfo } from './VeilederHeaderInfo';
 import { Container } from 'nav-frontend-grid';
@@ -20,7 +20,7 @@ import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandi
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
-import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;

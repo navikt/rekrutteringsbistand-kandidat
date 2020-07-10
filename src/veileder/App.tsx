@@ -10,7 +10,7 @@ import { historikkReducer, historikkSaga } from './kandidatside/historikk/histor
 import { searchReducer } from './sok/typedSearchReducer';
 import { saga } from './sok/searchReducer';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
-import listeoversiktSaga from './kandidatlister/listeoversiktSaga';
+import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
 import enhetsregisterReducer, {
     enhetsregisterSaga,
@@ -20,8 +20,8 @@ import fritekstReducer from './sok/fritekst/fritekstReducer';
 import geografiReducer from './sok/geografi/geografiReducer';
 import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
 import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
-import kandidatlisteReducer from './kandidatlister/reducer/kandidatlisteReducer';
-import kandidatlisteSaga from './kandidatlister/reducer/kandidatlisteSaga';
+import kandidatlisteReducer from './kandidatliste/reducer/kandidatlisteReducer';
+import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
 import midlertidigUtilgjengeligReducer, {
     midlertidigUtilgjengeligSaga,
@@ -36,7 +36,7 @@ import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilrettele
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
-import listeoversiktReducer from './kandidatlister/listeoversiktReducer';
+import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
 import '../felles/styles.less';
 import './sok/sok.less';
 

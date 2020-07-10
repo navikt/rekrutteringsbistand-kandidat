@@ -1,4 +1,4 @@
-import { Status } from '../../kandidatlister/kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Status } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import {
     ApiError,
     Feil,
@@ -10,7 +10,7 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
-import { Utfall } from '../../kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;

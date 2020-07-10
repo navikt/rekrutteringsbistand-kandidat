@@ -4,7 +4,7 @@ import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import React, { FunctionComponent, useState } from 'react';
-import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
+import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 
 interface Props {
     kandidatliste?: Kandidatliste;

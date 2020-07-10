@@ -14,7 +14,7 @@ import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { harUrlParametere } from '../sok/searchQuery';
-import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 export const hentQueryUtenKriterier = (
     harHentetStilling: boolean,

@@ -6,16 +6,16 @@ import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Kandidatliste } from '../kandidatlister/PropTypes';
+import { Kandidatliste } from '../kandidatliste/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { HentStatus } from '../kandidatlister/kandidatlistetyper';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import { HentStatus } from '../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import { ListeoversiktActionType } from '../kandidatlister/listeoversiktReducer';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 const PAGINERING_BATCH_SIZE = 5;
 

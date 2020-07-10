@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
-import { Kandidatliste } from '../kandidatlister/PropTypes';
+import { Kandidatliste } from '../kandidatliste/PropTypes';
 import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
@@ -18,7 +18,7 @@ import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidat
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { sendEvent } from '../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
