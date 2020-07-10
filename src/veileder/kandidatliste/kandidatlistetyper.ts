@@ -88,6 +88,7 @@ export type Kandidattilstand = {
     markert: boolean;
     visningsstatus: Visningsstatus;
     sms?: Sms;
+    // notater: RemoteData<Notat[]>; // TODO: Flytt notater hit?
 };
 
 export type KandidatIKandidatliste = Kandidat & Kandidattilstand;

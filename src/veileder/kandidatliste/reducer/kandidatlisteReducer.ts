@@ -1,5 +1,6 @@
+import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
-import { Kandidat, Sms, SmsStatus } from './../kandidatlistetyper';
+import { Kandidat, Sms, SmsStatus, Kandidattilstand } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
@@ -29,7 +30,9 @@ export interface KandidatlisteState {
         opprettetKandidatlisteTittel?: string;
     };
     detaljer: {
+        forrigeKandidatlisteId?: string;
         kandidatliste: RemoteData<Kandidatliste>;
+        kandidattilstander: Record<string, Kandidattilstand>;
     };
     fodselsnummer?: string;
     kandidat: {
@@ -79,6 +82,7 @@ const initialState: KandidatlisteState = {
     },
     detaljer: {
         kandidatliste: IkkeLastet(),
+        kandidattilstander: {},
     },
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
@@ -292,25 +296,51 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID:
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID: {
+            const forrigeKandidatlisteId =
+                state.detaljer.kandidatliste.kind !== Nettstatus.Suksess
+                    ? undefined
+                    : state.detaljer.kandidatliste.data.kandidatlisteId;
+
             return {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
+                    forrigeKandidatlisteId,
                     kandidatliste: LasterInn(),
                 },
             };
+        }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
-        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS:
+        case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS: {
+            const erSammeListeSomSist =
+                state.detaljer.forrigeKandidatlisteId === action.kandidatliste.kandidatlisteId;
+
+            // Reset tilstander hvis ny liste.
+            const kandidattilstander = {
+                ...state.detaljer.kandidattilstander,
+            };
+
+            if (!erSammeListeSomSist) {
+                action.kandidatliste.kandidater.forEach((kandidat) => {
+                    kandidattilstander[kandidat.kandidatnr] = {
+                        markert: false,
+                        visningsstatus: Visningsstatus.SkjulPanel,
+                    };
+                });
+            }
+
             return {
                 ...state,
                 detaljer: {
                     ...state.detaljer,
+                    kandidattilstander,
                     kandidatliste: Suksess(
                         leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
                     ),
                 },
             };
+        }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
             return {
