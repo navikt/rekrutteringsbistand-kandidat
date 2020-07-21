@@ -1,6 +1,4 @@
 import { Visningsstatus } from './Kandidatliste';
-import { RemoteData } from '../../felles/common/remoteData';
-
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
 
 export enum Delestatus {
@@ -39,7 +37,7 @@ export interface Sms {
     status: SmsStatus;
 }
 
-export interface KandidatResponse {
+export interface Kandidat {
     kandidatId: string;
     kandidatnr: string;
     sisteArbeidserfaring: string;
@@ -78,27 +76,12 @@ export interface Notat {
     };
 }
 
-interface KandidatExtension {
-    notater: RemoteData<Array<Notat>>;
-}
-
-export type Kandidat = KandidatResponse & KandidatExtension;
-
-export type Kandidattilstand = {
-    markert: boolean;
-    visningsstatus: Visningsstatus;
-    sms?: Sms;
-    // notater: RemoteData<Notat[]>; // TODO: Flytt notater hit?
-};
-
-export type KandidatIKandidatliste = Kandidat & Kandidattilstand;
-
 export type OpprettetAv = {
     ident: string;
     navn: string;
 };
 
-interface KandidatlisteBase {
+export type Kandidatliste = {
     kandidatlisteId: string;
     tittel: string;
     beskrivelse: string;
@@ -109,16 +92,10 @@ interface KandidatlisteBase {
     opprettetTidspunkt: string;
     kanEditere: boolean;
     kanSlette: string;
-}
-
-interface KandidatlisteResponseExtension {
-    kandidater: Array<KandidatResponse>;
-}
-
-interface KandidatlisteExtension {
     kandidater: Array<Kandidat>;
-}
+};
 
-export type KandidatlisteResponse = KandidatlisteBase & KandidatlisteResponseExtension;
-
-export type Kandidatliste = KandidatlisteBase & KandidatlisteExtension;
+export type Kandidattilstand = {
+    markert: boolean;
+    visningsstatus: Visningsstatus;
+};

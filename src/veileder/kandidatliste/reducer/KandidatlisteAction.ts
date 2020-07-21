@@ -1,5 +1,5 @@
 import { ApiError } from '../../../felles/common/remoteData';
-import { KandidatlisteResponse, Notat, Sms, Kandidat } from '../kandidatlistetyper';
+import { Kandidatliste, Notat, Sms, Kandidat } from '../kandidatlistetyper';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import KandidatlisteActionType from './KandidatlisteActionType';
@@ -12,7 +12,7 @@ export interface HentKandidatlisteMedStillingsIdAction {
 
 export interface HentKandidatlisteMedStillingsIdSuccessAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedStillingsIdFailureAction {
@@ -27,7 +27,7 @@ export interface HentKandidatlisteMedKandidatlisteIdAction {
 
 export interface HentKandidatlisteMedKandidatlisteIdSuccessAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedKandidatlisteIdFailureAction {
@@ -81,7 +81,7 @@ export interface PresenterKandidaterAction {
 
 export interface PresenterKandidaterSuccessAction {
     type: KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface PresenterKandidaterFailureAction {
@@ -108,7 +108,7 @@ export interface LeggTilKandidaterSuccessAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
     antallLagredeKandidater: number;
     lagretListe: any;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface LeggTilKandidaterFailureAction {
@@ -136,7 +136,7 @@ export interface EndreStatusKandidatAction {
 
 export interface EndreStatusKandidatSuccessAction {
     type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface EndreStatusKandidatFailureAction {
@@ -153,7 +153,7 @@ export interface EndreUtfallKandidatAction {
 
 export interface EndreUtfallKandidatSuccessAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface EndreUtfallKandidatFailureAction {
@@ -231,7 +231,7 @@ export interface HentKandidatlisteMedAnnonsenummerAction {
 
 export interface HentKandidatlisteMedAnnonsenummerSuccessAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER_SUCCESS;
-    kandidatliste: KandidatlisteResponse;
+    kandidatliste: Kandidatliste;
 }
 
 export interface HentKandidatlisteMedAnnonsenummerNotFoundAction {
