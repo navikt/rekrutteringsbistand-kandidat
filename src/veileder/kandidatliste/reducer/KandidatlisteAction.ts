@@ -1,3 +1,4 @@
+import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
 import { Kandidatliste, Notat, Sms, Kandidat } from '../kandidatlistetyper';
 import { SearchApiError } from './../../../felles/api';
@@ -356,6 +357,22 @@ export interface EndreKandidatlistefilterAction {
     query?: string;
 }
 
+export interface ToggleMarkeringAvKandidat {
+    type: KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT;
+    kandidatnr: string;
+}
+
+export interface EndreMarkeringAvKandidaterAction {
+    type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER;
+    kandidatnumre: string[];
+}
+
+export interface EndreVisningsstatusKandidatAction {
+    type: KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT;
+    kandidatnr: string;
+    visningsstatus: Visningsstatus;
+}
+
 type KandidatlisteAction =
     | OpprettKandidatlisteAction
     | OpprettKandidatlisteSuccessAction
@@ -423,6 +440,9 @@ type KandidatlisteAction =
     | AngreArkiveringSuccessAction
     | AngreArkiveringFailureAction
     | VelgKandidatAction
-    | EndreKandidatlistefilterAction;
+    | EndreKandidatlistefilterAction
+    | ToggleMarkeringAvKandidat
+    | EndreMarkeringAvKandidaterAction
+    | EndreVisningsstatusKandidatAction;
 
 export default KandidatlisteAction;

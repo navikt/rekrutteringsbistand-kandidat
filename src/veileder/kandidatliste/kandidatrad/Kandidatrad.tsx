@@ -34,11 +34,7 @@ type Props = {
     toggleArkivert: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
-    onVisningChange: (
-        visningsstatus: Visningsstatus,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => void;
+    onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
     onKandidatUtfallChange: (
         utfall: Utfall,
@@ -94,7 +90,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
             kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisNotater,
-            kandidatlisteId,
             kandidat.kandidatnr
         );
     };
@@ -104,7 +99,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
             kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisMerInfo;
-        onVisningChange(nyStatus, kandidatlisteId, kandidat.kandidatnr);
+        onVisningChange(nyStatus, kandidat.kandidatnr);
         if (nyStatus === Visningsstatus.VisMerInfo) {
             sendEvent('kandidatliste_mer_info', 'åpne');
         }

@@ -61,6 +61,9 @@ type ConnectedProps = {
     statusDearkivering: Nettstatus;
     midlertidigUtilgjengeligEndretTidspunkt: any;
     valgtNavKontor: string;
+    toggleMarkeringAvKandidat: (kandidatnr: string) => void;
+    endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
+    endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => void;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -210,50 +213,15 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 
     fjernAllMarkering = () => {
-        // TODO: Fjern all markering i redux
-        /*
-        if (this.state.kandidater) {
-            this.setState({
-                kandidater: this.state.kandidater.map((kandidat) => ({
-                    ...kandidat,
-                    markert: false,
-                })),
-            });
-        }*/
+        this.props.endreMarkeringAvKandidater([]);
     };
 
     toggleMarkert = (kandidatnr: string) => {
-        // TODO: Toggle markering av kandidat i redux
-        /*
-        if (this.state.kandidater) {
-            const kandidater = this.state.kandidater.map((kandidat) => {
-                return kandidat.kandidatnr !== kandidatnr
-                    ? kandidat
-                    : {
-                          ...kandidat,
-                          markert: !kandidat.tilstand.markert,
-                      };
-            });
-            this.setState({
-                kandidater,
-            });
-        }*/
+        this.props.toggleMarkeringAvKandidat(kandidatnr);
     };
 
     markerKandidater = (kandidatnumre: string[]) => {
-        // TODO: Marker gitte kandidater i redux
-        /*
-        if (this.state.kandidater) {
-            const kandidater = this.state.kandidater.map((kandidat) => ({
-                ...kandidat,
-                markert: kandidatnumre.includes(kandidat.kandidatnr),
-            }));
-
-            this.setState({
-                kandidater,
-            });
-        }
-        */
+        this.props.endreMarkeringAvKandidater(kandidatnumre);
     };
 
     onToggleDeleModal = () => {
@@ -310,34 +278,12 @@ class Kandidatlisteside extends React.Component<Props> {
         );
     };
 
-    onVisningChange = (
-        visningsstatus: Visningsstatus,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => {
-        if (this.props.kandidater) {
-            if (visningsstatus === Visningsstatus.VisNotater) {
-                this.props.hentNotater(kandidatlisteId, kandidatnr);
-            }
-
-            // TODO: Sett ny visning på kandidat i redux
-            /*
-            this.setState({
-                kandidater: this.props.kandidater.map((kandidat) => {
-                    if (kandidat.kandidatnr === kandidatnr) {
-                        return {
-                            ...kandidat,
-                            visningsstatus,
-                        };
-                    }
-                    return {
-                        ...kandidat,
-                        visningsstatus: Visningsstatus.SkjulPanel,
-                    };
-                }),
-            });
-            */
+    onVisningChange = (visningsstatus: Visningsstatus, kandidatnr: string) => {
+        if (visningsstatus === Visningsstatus.VisNotater) {
+            this.props.hentNotater(this.props.kandidatliste.kandidatlisteId, kandidatnr);
         }
+
+        this.props.endreVisningsstatusKandidat(kandidatnr, visningsstatus);
     };
 
     onEmailKandidater = () => {
@@ -582,6 +528,25 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             type: KandidatlisteActionType.ANGRE_ARKIVERING,
             kandidatlisteId,
             kandidatnumre,
+        });
+    },
+    toggleMarkeringAvKandidat: (kandidatnr: string) => {
+        dispatch({
+            type: KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT,
+            kandidatnr,
+        });
+    },
+    endreMarkeringAvKandidater: (kandidatnumre: string[]) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER,
+            kandidatnumre,
+        });
+    },
+    endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT,
+            kandidatnr,
+            visningsstatus,
         });
     },
 });

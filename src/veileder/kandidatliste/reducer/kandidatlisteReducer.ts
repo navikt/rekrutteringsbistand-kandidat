@@ -6,6 +6,7 @@ import {
     SmsStatus,
     Kandidattilstander,
     Kandidatnotater,
+    Kandidattilstand,
 } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
@@ -116,6 +117,11 @@ const initialState: KandidatlisteState = {
     scrollPosition: {},
     filtrerteKandidatnumre: [],
 };
+
+const initialKandidattilstand = (): Kandidattilstand => ({
+    markert: false,
+    visningsstatus: Visningsstatus.SkjulPanel,
+});
 
 const oppdaterArkivertIKandidatlisteDetaljer = (
     state: KandidatlisteState,
@@ -247,11 +253,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatnotater = {};
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
-                    kandidattilstander[kandidat.kandidatnr] = {
-                        markert: false,
-                        visningsstatus: Visningsstatus.SkjulPanel,
-                    };
-
+                    kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
                     kandidatnotater[kandidat.kandidatnr] = IkkeLastet();
                 });
             }
@@ -550,13 +552,55 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sistValgteKandidat: sistValgteKandidat,
             };
         }
-        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER: {
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER:
             return {
                 ...state,
                 filterQuery: action.query,
                 filtrerteKandidatnumre: action.filtrerteKandidatnumre,
             };
+
+        case KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT:
+            return {
+                ...state,
+                kandidattilstander: {
+                    ...state.kandidattilstander,
+                    [action.kandidatnr]: {
+                        ...state.kandidattilstander[action.kandidatnr],
+                        markert: !state.kandidattilstander[action.kandidatnr].markert,
+                    },
+                },
+            };
+
+        case KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER: {
+            const kandidattilstander = {
+                ...state.kandidattilstander,
+            };
+
+            Object.entries(state.kandidattilstander).forEach(([kandidatnr, tilstand]) => {
+                kandidattilstander[kandidatnr] = {
+                    ...tilstand,
+                    markert: action.kandidatnumre.includes(kandidatnr),
+                };
+            });
+
+            return {
+                ...state,
+                kandidattilstander,
+            };
         }
+
+        case KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT:
+            return {
+                ...state,
+                kandidattilstander: {
+                    ...state.kandidattilstander,
+                    [action.kandidatnr]: {
+                        ...state.kandidattilstander[action.kandidatnr],
+                        visningsstatus: action.visningsstatus,
+                    },
+                },
+            };
+
         default:
             return state;
     }
