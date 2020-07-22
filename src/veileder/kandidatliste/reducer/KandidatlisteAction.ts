@@ -116,15 +116,15 @@ export interface LeggTilKandidaterFailureAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE;
 }
 
-export interface LagreKandidatAction {
+export interface LagreKandidatIKandidatlisteAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE;
 }
 
-export interface LagreKandidatSuccessAction {
+export interface LagreKandidatIKandidatlisteSuccessAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS;
 }
 
-export interface LagreKandidatFailureAction {
+export interface LagreKandidatIKandidatlisteFailureAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE;
 }
 
@@ -394,9 +394,9 @@ type KandidatlisteAction =
     | LeggTilKandidaterAction
     | LeggTilKandidaterSuccessAction
     | LeggTilKandidaterFailureAction
-    | LagreKandidatAction
-    | LagreKandidatSuccessAction
-    | LagreKandidatFailureAction
+    | LagreKandidatIKandidatlisteAction
+    | LagreKandidatIKandidatlisteSuccessAction
+    | LagreKandidatIKandidatlisteFailureAction
     | EndreStatusKandidatAction
     | EndreStatusKandidatSuccessAction
     | EndreStatusKandidatFailureAction

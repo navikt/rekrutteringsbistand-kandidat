@@ -233,7 +233,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
     }
 }
 
-function* lagreKandidat(action) {
+function* lagreKandidatIKandidatliste(action) {
     try {
         const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
         yield call(leggTilKandidater, {
@@ -495,7 +495,10 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
         hentKandidatlisteMedAnnonsenummer
     );
-    yield takeLatest(KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidat);
+    yield takeLatest(
+        KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
+        lagreKandidatIKandidatliste
+    );
     yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
