@@ -21,8 +21,6 @@ import {
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 
-type Kandidatnr = string;
-
 export interface KandidatlisteState {
     hentStatus: HentStatus;
     kandidat: {
@@ -46,6 +44,11 @@ export interface KandidatlisteState {
     kandidatliste: RemoteData<Kandidatliste>;
     kandidattilstander: Kandidattilstander;
     kandidatnotater: Kandidatnotater;
+    sms: {
+        sendStatus: SmsStatus;
+        sendteMeldinger: RemoteData<Sms[]>;
+        error?: SearchApiError;
+    };
 
     fodselsnummer?: string;
     leggTilKandidater: {
@@ -57,11 +60,6 @@ export interface KandidatlisteState {
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
     lagreKandidatStatus: string;
-    sms: {
-        sendStatus: SmsStatus;
-        sendteMeldinger: RemoteData<Sms[]>;
-        error?: SearchApiError;
-    };
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;

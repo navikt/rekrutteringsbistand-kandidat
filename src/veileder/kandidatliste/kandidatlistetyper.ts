@@ -105,3 +105,9 @@ type Kandidatnr = string;
 
 export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
 export type Kandidatnotater = Record<Kandidatnr, RemoteData<Notat[]>>;
+
+export type KandidatIKandidatliste = Kandidat & {
+    tilstand: Kandidattilstand;
+    notater: RemoteData<Notat[]>;
+    sms?: Sms;
+};
