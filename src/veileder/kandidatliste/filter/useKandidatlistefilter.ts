@@ -69,10 +69,6 @@ const useKandidatlistefilter = (
         });
     }, [filtrerteKandidater, filterQuery, dispatch]);
 
-    useEffect(() => {
-        console.log('Hey intsda');
-    }, [filtrerteKandidater]);
-
     return filtrerteKandidater;
 };
 

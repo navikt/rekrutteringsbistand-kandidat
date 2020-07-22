@@ -1,5 +1,5 @@
 import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { KandidatlisteResponse } from './../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from './../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
@@ -58,7 +58,7 @@ const lagTittel = (i: number) =>
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
-const baseKandidatliste: Omit<KandidatlisteResponse, 'kandidater'> = {
+const baseKandidatliste: Omit<Kandidatliste, 'kandidater'> = {
     kandidatlisteId: 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29',
     tittel: 'Tulleskolen søker tøysekopper',
     beskrivelse:
@@ -102,7 +102,7 @@ const fraCvTilKandidat = (cv: Cv) => ({
     erSynlig: true,
 });
 
-export const kandidatlister: KandidatlisteResponse[] = tomListe.map((_, i) => ({
+export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     ...baseKandidatliste,
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),

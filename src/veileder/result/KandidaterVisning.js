@@ -14,8 +14,8 @@ import {
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
 } from '../sok/searchReducer';
-import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidaterTilStillingModal';
-import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from './LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from './LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
@@ -131,7 +131,7 @@ class KandidaterVisning extends React.Component {
         this.props.leggTilKandidaterIKandidatliste(
             kandidatliste,
             this.state.kandidater
-                .filter((kandidat) => kandidat.markert)
+                .filter((kandidat) => kandidat.tilstand.markert)
                 .map((kandidat) => ({
                     kandidatnr: kandidat.arenaKandidatnr,
                     sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
@@ -315,8 +315,8 @@ const mapStateToProps = (state) => ({
     valgtKandidatNr: state.søk.valgtKandidatNr,
     scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
-        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });

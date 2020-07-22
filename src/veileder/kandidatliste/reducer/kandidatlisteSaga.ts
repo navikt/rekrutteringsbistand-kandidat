@@ -516,7 +516,10 @@ function* kandidatlisteSaga() {
         sjekkError
     );
     yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
-    yield takeLatest(KandidatlisteActionType.HENT_SENDTE_MELDINGER, hentSendteMeldinger);
+    yield takeLatest(
+        [KandidatlisteActionType.HENT_SENDTE_MELDINGER, KandidatlisteActionType.SEND_SMS_SUCCESS],
+        hentSendteMeldinger
+    );
 }
 
 export default kandidatlisteSaga;

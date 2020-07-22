@@ -85,7 +85,7 @@ const KnappeRad: FunctionComponent<Props> = ({
 }) => {
     const skalViseSendSms = kanEditere && stillingsId && !visArkiverte;
 
-    const markerteKandidater = kandidater.filter((kandidat) => kandidat.markert);
+    const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
     const minstEnKandidatHarIkkeFåttSms = markerteKandidater.some((kandidat) => !kandidat.sms);
 

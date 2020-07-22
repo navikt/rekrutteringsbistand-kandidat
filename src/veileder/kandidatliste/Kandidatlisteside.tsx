@@ -1,57 +1,35 @@
-/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import { connect } from 'react-redux';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
+import {
+    Delestatus,
+    Kandidatliste as Kandidatlistetype,
+    SmsStatus,
+    KandidatIKandidatliste,
+} from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import { Nettstatus, RemoteData } from '../../felles/common/remoteData';
+import { Nettstatus } from '../../felles/common/remoteData';
+import { sendEvent } from '../amplitude/amplitude';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
-import Kandidatliste, { Visningsstatus } from './Kandidatliste';
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import AppState from '../AppState';
+import EndreUtfallModal from './modaler/EndreUtfallModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import Kandidatliste, { Visningsstatus } from './Kandidatliste';
+import KandidatlisteAction from './reducer/KandidatlisteAction';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
 import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
-import KandidatlisteActionType from './reducer/KandidatlisteActionType';
-import KandidatlisteAction from './reducer/KandidatlisteAction';
-import {
-    Delestatus,
-    KandidatIKandidatliste,
-    Kandidatliste as Kandidatlistetype,
-    Kandidattilstand,
-    Sms,
-    SmsStatus,
-} from './kandidatlistetyper';
-import { sendEvent } from '../amplitude/amplitude';
-import './Kandidatliste.less';
 import SendSmsModal from './modaler/SendSmsModal';
-import AppState from '../AppState';
-import EndreUtfallModal from './modaler/EndreUtfallModal';
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import './Kandidatliste.less';
 
-const initialKandidatTilstand = (): Kandidattilstand => ({
-    markert: false,
-    visningsstatus: Visningsstatus.SkjulPanel,
-});
-
-type Kandidattilstander = {
-    [kandidatnr: string]: Kandidattilstand;
+type OwnProps = {
+    kandidatliste: Kandidatlistetype;
+    kandidater: KandidatIKandidatliste[];
 };
 
-const trekkUtKandidatTilstander = (kandidater: KandidatIKandidatliste[] = []): Kandidattilstander =>
-    kandidater.reduce(
-        (tilstand: Kandidattilstander, kandidat: KandidatIKandidatliste) => ({
-            ...tilstand,
-            [kandidat.kandidatnr]: {
-                markert: kandidat.markert,
-                visningsstatus: kandidat.visningsstatus,
-            },
-        }),
-        {}
-    );
-
-type Props = {
-    kandidatliste: RemoteData<Kandidatlistetype>;
-    sendteMeldinger: RemoteData<Sms[]>;
+type ConnectedProps = {
     endreStatusKandidat: any;
     endreUtfallKandidat: (
         utfall: Utfall,
@@ -77,18 +55,15 @@ type Props = {
         etternavn?: string;
     };
     hentNotater: any;
-    hentSendteMeldinger: (kandidatlisteId: string) => void;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
     statusArkivering: Nettstatus;
     statusDearkivering: Nettstatus;
     midlertidigUtilgjengeligEndretTidspunkt: any;
-    sistValgteKandidat?: {
-        kandidatlisteId: string;
-        kandidatnr: string;
-    };
     valgtNavKontor: string;
 };
+
+type Props = ConnectedProps & OwnProps;
 
 class Kandidatlisteside extends React.Component<Props> {
     infobannerCallbackId: any;
@@ -101,7 +76,6 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     state: {
-        kandidater?: KandidatIKandidatliste[];
         deleModalOpen: boolean;
         leggTilModalOpen: boolean;
         kopierEpostModalOpen: boolean;
@@ -121,13 +95,6 @@ class Kandidatlisteside extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            kandidater:
-                props.kandidatliste.kind !== Nettstatus.Suksess
-                    ? undefined
-                    : props.kandidatliste.data.kandidater.map((kandidat) => ({
-                          ...kandidat,
-                          ...initialKandidatTilstand(),
-                      })),
             deleModalOpen: false,
             leggTilModalOpen: false,
             kopierEpostModalOpen: false,
@@ -166,8 +133,6 @@ class Kandidatlisteside extends React.Component<Props> {
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Feil;
 
-        const kandidatlisteErIkkeLastet = this.props.kandidatliste.kind !== Nettstatus.Suksess;
-
         const enKandidatErNettoppArkivert =
             prevProps.statusArkivering === Nettstatus.LasterInn &&
             this.props.statusArkivering === Nettstatus.Suksess;
@@ -184,13 +149,11 @@ class Kandidatlisteside extends React.Component<Props> {
             prevProps.statusDearkivering === Nettstatus.LasterInn &&
             this.props.statusDearkivering === Nettstatus.Feil;
 
-        const kandidatlistenVarIkkeLastet = prevProps.kandidatliste.kind !== Nettstatus.Suksess;
-
         if (kandidaterHarNettoppBlittPresentert) {
             this.props.resetDeleStatus();
 
-            const antallMarkerteKandidater = (this.state.kandidater || []).filter(
-                (kandidat) => kandidat.markert
+            const antallMarkerteKandidater = (this.props.kandidater || []).filter(
+                (kandidat) => kandidat.tilstand.markert
             ).length;
 
             this.fjernAllMarkering();
@@ -240,71 +203,6 @@ class Kandidatlisteside extends React.Component<Props> {
                 sendSmsModalOpen: false,
             });
         }
-
-        if (kandidatlisteErIkkeLastet) {
-            return;
-        }
-
-        if (this.props.kandidatliste.kind === Nettstatus.Suksess && kandidatlistenVarIkkeLastet) {
-            const { sistValgteKandidat, kandidatliste } = this.props;
-            const ingenKandidatHarBlittValgt =
-                !sistValgteKandidat ||
-                sistValgteKandidat.kandidatlisteId !== kandidatliste.data.kandidatlisteId;
-
-            if (ingenKandidatHarBlittValgt) {
-                window.scrollTo(0, 0);
-            }
-        }
-
-        if (
-            this.props.kandidatliste.kind === Nettstatus.Suksess &&
-            (kandidatlistenVarIkkeLastet || smsErNettoppSendtTilKandidater)
-        ) {
-            this.props.hentSendteMeldinger(this.props.kandidatliste.data.kandidatlisteId);
-        }
-
-        const sendteMeldingerErNettoppLastet =
-            prevProps.sendteMeldinger.kind === Nettstatus.LasterInn &&
-            this.props.sendteMeldinger.kind === Nettstatus.Suksess;
-
-        if (
-            this.props.kandidatliste.kind === Nettstatus.Suksess &&
-            (kandidatlistenVarIkkeLastet ||
-                sendteMeldingerErNettoppLastet ||
-                (prevProps.kandidatliste.kind === Nettstatus.Suksess &&
-                    prevProps.kandidatliste.data.kandidater !==
-                        this.props.kandidatliste.data.kandidater))
-        ) {
-            const kandidatTilstander: Kandidattilstander = trekkUtKandidatTilstander(
-                this.state.kandidater
-            );
-
-            const sendteMeldinger =
-                this.props.sendteMeldinger.kind === Nettstatus.Suksess
-                    ? this.props.sendteMeldinger.data
-                    : [];
-
-            const kandidater = this.props.kandidatliste.data.kandidater.map((kandidat) => {
-                const kandidatTilstand =
-                    (!kandidaterHarNettoppBlittPresentert &&
-                        kandidatTilstander[kandidat.kandidatnr]) ||
-                    initialKandidatTilstand();
-
-                const sendtMelding = sendteMeldinger.find(
-                    (melding) => melding.fnr === kandidat.fodselsnr
-                );
-
-                return {
-                    ...kandidat,
-                    ...kandidatTilstand,
-                    sms: sendtMelding,
-                };
-            });
-
-            this.setState({
-                kandidater,
-            });
-        }
     }
 
     componentWillUnmount() {
@@ -312,6 +210,8 @@ class Kandidatlisteside extends React.Component<Props> {
     }
 
     fjernAllMarkering = () => {
+        // TODO: Fjern all markering i redux
+        /*
         if (this.state.kandidater) {
             this.setState({
                 kandidater: this.state.kandidater.map((kandidat) => ({
@@ -319,26 +219,30 @@ class Kandidatlisteside extends React.Component<Props> {
                     markert: false,
                 })),
             });
-        }
+        }*/
     };
 
     toggleMarkert = (kandidatnr: string) => {
+        // TODO: Toggle markering av kandidat i redux
+        /*
         if (this.state.kandidater) {
             const kandidater = this.state.kandidater.map((kandidat) => {
                 return kandidat.kandidatnr !== kandidatnr
                     ? kandidat
                     : {
                           ...kandidat,
-                          markert: !kandidat.markert,
+                          markert: !kandidat.tilstand.markert,
                       };
             });
             this.setState({
                 kandidater,
             });
-        }
+        }*/
     };
 
     markerKandidater = (kandidatnumre: string[]) => {
+        // TODO: Marker gitte kandidater i redux
+        /*
         if (this.state.kandidater) {
             const kandidater = this.state.kandidater.map((kandidat) => ({
                 ...kandidat,
@@ -349,6 +253,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 kandidater,
             });
         }
+        */
     };
 
     onToggleDeleModal = () => {
@@ -376,50 +281,49 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     onDelMedArbeidsgiver = (beskjed: string, mailadresser: string[]) => {
-        if (this.state.kandidater) {
-            if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
-                const kandidatNrTilPresentering = this.state.kandidater
-                    .filter((kandidat) => kandidat.markert)
-                    .map((kandidat) => kandidat.kandidatnr);
+        const kandidatNrTilPresentering = this.props.kandidater
+            .filter((kandidat) => kandidat.tilstand.markert)
+            .map((kandidat) => kandidat.kandidatnr);
 
-                sendEvent('kandidatliste', 'presenter_kandidater', {
-                    antallKandidater: kandidatNrTilPresentering.length,
-                });
+        sendEvent('kandidatliste', 'presenter_kandidater', {
+            antallKandidater: kandidatNrTilPresentering.length,
+        });
 
-                this.props.presenterKandidater(
-                    beskjed,
-                    mailadresser,
-                    this.props.kandidatliste.data.kandidatlisteId,
-                    kandidatNrTilPresentering,
-                    this.props.valgtNavKontor
-                );
-                this.setState({
-                    deleModalOpen: false,
-                });
-            }
-        }
+        this.props.presenterKandidater(
+            beskjed,
+            mailadresser,
+            this.props.kandidatliste.kandidatlisteId,
+            kandidatNrTilPresentering,
+            this.props.valgtNavKontor
+        );
+        this.setState({
+            deleModalOpen: false,
+        });
     };
 
     onKandidaterAngreArkivering = () => {
-        if (this.state.kandidater) {
-            if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
-                this.props.angreArkiveringForKandidater(
-                    this.props.kandidatliste.data.kandidatlisteId,
-                    this.state.kandidater
-                        .filter((kandidat) => kandidat.markert)
-                        .map((kandidat) => kandidat.kandidatnr)
-                );
-            }
-        }
+        this.props.angreArkiveringForKandidater(
+            this.props.kandidatliste.kandidatlisteId,
+            this.props.kandidater
+                .filter((kandidat) => kandidat.tilstand.markert)
+                .map((kandidat) => kandidat.kandidatnr)
+        );
     };
 
-    onVisningChange = (visningsstatus, kandidatlisteId, kandidatnr) => {
-        if (this.state.kandidater) {
+    onVisningChange = (
+        visningsstatus: Visningsstatus,
+        kandidatlisteId: string,
+        kandidatnr: string
+    ) => {
+        if (this.props.kandidater) {
             if (visningsstatus === Visningsstatus.VisNotater) {
                 this.props.hentNotater(kandidatlisteId, kandidatnr);
             }
+
+            // TODO: Sett ny visning på kandidat i redux
+            /*
             this.setState({
-                kandidater: this.state.kandidater.map((kandidat) => {
+                kandidater: this.props.kandidater.map((kandidat) => {
                     if (kandidat.kandidatnr === kandidatnr) {
                         return {
                             ...kandidat,
@@ -432,6 +336,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     };
                 }),
             });
+            */
         }
     };
 
@@ -460,21 +365,19 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     endreUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
-        if (this.props.kandidatliste.kind === Nettstatus.Suksess) {
-            const kandidatlisteId = this.props.kandidatliste.data.kandidatlisteId;
+        const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
-            this.props.endreUtfallKandidat(
-                utfall,
-                this.props.valgtNavKontor,
-                kandidatlisteId,
-                kandidat.kandidatnr
-            );
+        this.props.endreUtfallKandidat(
+            utfall,
+            this.props.valgtNavKontor,
+            kandidatlisteId,
+            kandidat.kandidatnr
+        );
 
-            sendEvent('kandidatliste', 'endre_utfall', {
-                utfall,
-                forrigeUtfall: kandidat.utfall,
-            });
-        }
+        sendEvent('kandidatliste', 'endre_utfall', {
+            utfall,
+            forrigeUtfall: kandidat.utfall,
+        });
     };
 
     bekreftEndreUtfallModal = () => {
@@ -516,15 +419,8 @@ class Kandidatlisteside extends React.Component<Props> {
     };
 
     render() {
-        if (this.props.kandidatliste.kind === Nettstatus.LasterInn || !this.state.kandidater) {
-            return (
-                <div className="fullscreen-spinner">
-                    <NavFrontendSpinner type="L" />
-                </div>
-            );
-        } else if (this.props.kandidatliste.kind !== Nettstatus.Suksess) {
-            return null;
-        }
+        const { deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen } = this.state;
+        const { kandidater, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
 
         const {
             tittel,
@@ -534,14 +430,7 @@ class Kandidatlisteside extends React.Component<Props> {
             stillingId,
             kanEditere,
             beskrivelse,
-        } = this.props.kandidatliste.data;
-        const {
-            kandidater,
-            deleModalOpen,
-            infobanner,
-            leggTilModalOpen,
-            kopierEpostModalOpen,
-        } = this.state;
+        } = kandidatliste;
         return (
             <div>
                 {deleModalOpen && (
@@ -549,7 +438,9 @@ class Kandidatlisteside extends React.Component<Props> {
                         vis={this.state.deleModalOpen}
                         onClose={this.onToggleDeleModal}
                         onSubmit={this.onDelMedArbeidsgiver}
-                        antallKandidater={kandidater.filter((kandidat) => kandidat.markert).length}
+                        antallKandidater={
+                            kandidater.filter((kandidat) => kandidat.tilstand.markert).length
+                        }
                     />
                 )}
                 {leggTilModalOpen && (
@@ -557,7 +448,7 @@ class Kandidatlisteside extends React.Component<Props> {
                         vis={this.state.leggTilModalOpen}
                         onClose={this.onToggleLeggTilKandidatModal}
                         stillingsId={stillingId}
-                        kandidatliste={this.props.kandidatliste.data}
+                        kandidatliste={kandidatliste}
                     />
                 )}
                 {stillingId && (
@@ -566,7 +457,7 @@ class Kandidatlisteside extends React.Component<Props> {
                             vis={this.state.sendSmsModalOpen}
                             onClose={() => this.onToggleSendSmsModal(false)}
                             kandidatlisteId={kandidatlisteId}
-                            kandidater={this.state.kandidater}
+                            kandidater={kandidater}
                             stillingId={stillingId}
                         />
                         {this.state.endreUtfallModal.kandidat &&
@@ -584,7 +475,7 @@ class Kandidatlisteside extends React.Component<Props> {
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
-                    kandidater={this.state.kandidater.filter((kandidat) => kandidat.markert)}
+                    kandidater={kandidater.filter((kandidat) => kandidat.tilstand.markert)}
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}
@@ -602,7 +493,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     toggleMarkert={this.toggleMarkert}
                     fjernAllMarkering={this.fjernAllMarkering}
                     markerKandidater={this.markerKandidater}
-                    onKandidatStatusChange={this.props.endreStatusKandidat}
+                    onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
@@ -611,7 +502,7 @@ class Kandidatlisteside extends React.Component<Props> {
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
                     beskrivelse={beskrivelse}
-                    toggleArkivert={this.props.toggleArkivert}
+                    toggleArkivert={toggleArkivert}
                 />
             </div>
         );
@@ -624,10 +515,8 @@ const mapStateToProps = (state: AppState) => ({
     leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
-    sendteMeldinger: state.kandidatliste.sms.sendteMeldinger,
     statusArkivering: state.kandidatliste.arkivering.statusArkivering,
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
-    sistValgteKandidat: state.kandidatliste.sistValgteKandidat,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
     valgtNavKontor: state.navKontor.valgtNavKontor,
 });
@@ -677,21 +566,15 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
     resetSmsSendStatus: () => {
         dispatch({ type: KandidatlisteActionType.RESET_SEND_SMS_STATUS });
     },
-    hentNotater: (kandidatlisteId, kandidatnr) => {
+    hentNotater: (kandidatlisteId: string, kandidatnr: string) => {
         dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
     },
-    toggleArkivert: (kandidatlisteId, kandidatnr, arkivert) => {
+    toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => {
         dispatch({
             type: KandidatlisteActionType.TOGGLE_ARKIVERT,
             kandidatlisteId,
             kandidatnr,
             arkivert,
-        });
-    },
-    hentSendteMeldinger: (kandidatlisteId: string) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
-            kandidatlisteId,
         });
     },
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => {

@@ -176,8 +176,8 @@ VisKandidatFraLister.propTypes = {
 
 const mapStateToProps = (state) => ({
     kandidatliste:
-        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,

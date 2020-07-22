@@ -59,7 +59,7 @@ export interface KandidatlisteState {
     hentListeMedAnnonsenummerStatus: HentStatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
-    lagreKandidatStatus: string;
+    lagreKandidatIKandidatlisteStatus: string;
     arkivering: {
         statusArkivering: Nettstatus;
         statusDearkivering: Nettstatus;
@@ -104,7 +104,7 @@ const initialState: KandidatlisteState = {
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatStatus: LAGRE_STATUS.UNSAVED,
+    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: IkkeLastet(),
@@ -375,17 +375,17 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
             return {
                 ...state,
-                lagreKandidatStatus: LAGRE_STATUS.LOADING,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING,
             };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                lagreKandidatStatus: LAGRE_STATUS.SUCCESS,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS,
             };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                lagreKandidatStatus: LAGRE_STATUS.FAILURE,
+                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
         case KandidatlisteActionType.HENT_NOTATER:
             return {

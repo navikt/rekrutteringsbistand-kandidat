@@ -128,8 +128,8 @@ const mapStateToProps = (state: AppState) => ({
     lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
     harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
-        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
     kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
 });

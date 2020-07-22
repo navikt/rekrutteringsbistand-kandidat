@@ -11,6 +11,8 @@ import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import Kandidatlisteside from '../Kandidatlisteside';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 
 const hentMeldingForKandidat = (
     kandidatmeldinger: RemoteData<Sms[]>,
@@ -32,32 +34,48 @@ type ConnectedProps = {
     kandidatmeldinger: RemoteData<Sms[]>;
     hentKandidatlisteMedStilling: (stillingsId: string) => void;
     hentKandidatlisteUtenStilling: (kandidatlisteId: string) => void;
+    hentSendteMeldinger: (kandidatlisteId: string) => void;
+    sistValgteKandidat?: {
+        kandidatlisteId: string;
+        kandidatnr: string;
+    };
 };
 
 type Props = OwnProps & ConnectedProps;
 
 const KandidatlisteRoute: FunctionComponent<Props> = (props) => {
     const {
-        stillingsId,
-        kandidatlisteId,
+        stillingsId: stillingsIdFraUrl,
+        kandidatlisteId: kandidatlisteIdFraUrl,
         hentKandidatlisteMedStilling,
         hentKandidatlisteUtenStilling,
+        hentSendteMeldinger,
 
         kandidatliste,
         kandidattilstander,
         kandidatnotater,
         kandidatmeldinger,
+        sistValgteKandidat,
     } = props;
-
+    const kandidatlisteId =
+        kandidatlisteIdFraUrl ||
+        (kandidatliste.kind === Nettstatus.Suksess
+            ? kandidatliste.data.kandidatlisteId
+            : undefined);
     const [kandidaterMedState, setKandidaterMedState] = useState<KandidatIKandidatliste[]>([]);
 
     useEffect(() => {
-        if (stillingsId) {
-            hentKandidatlisteMedStilling(stillingsId);
-        } else if (kandidatlisteId) {
-            hentKandidatlisteUtenStilling(kandidatlisteId);
+        if (stillingsIdFraUrl) {
+            hentKandidatlisteMedStilling(stillingsIdFraUrl);
+        } else if (kandidatlisteIdFraUrl) {
+            hentKandidatlisteUtenStilling(kandidatlisteIdFraUrl);
         }
-    }, [stillingsId, kandidatlisteId, hentKandidatlisteMedStilling, hentKandidatlisteUtenStilling]);
+    }, [
+        stillingsIdFraUrl,
+        kandidatlisteIdFraUrl,
+        hentKandidatlisteMedStilling,
+        hentKandidatlisteUtenStilling,
+    ]);
 
     useEffect(() => {
         if (kandidatliste.kind === Nettstatus.Suksess) {
@@ -74,12 +92,40 @@ const KandidatlisteRoute: FunctionComponent<Props> = (props) => {
         }
     }, [kandidatliste, kandidattilstander, kandidatnotater, kandidatmeldinger]);
 
+    useEffect(() => {
+        if (
+            kandidatliste.kind === Nettstatus.Suksess &&
+            kandidatmeldinger.kind === Nettstatus.IkkeLastet
+        ) {
+            hentSendteMeldinger(kandidatliste.data.kandidatlisteId);
+        }
+    }, [kandidatliste, kandidatmeldinger, hentSendteMeldinger]);
+
+    // Scoll til toppen hvis ny kandidat
+    useEffect(() => {
+        if (kandidatliste.kind === Nettstatus.Suksess) {
+            const ingenKandidatHarBlittValgt =
+                !sistValgteKandidat || sistValgteKandidat.kandidatlisteId !== kandidatlisteId;
+
+            if (ingenKandidatHarBlittValgt) {
+                window.scrollTo(0, 0);
+            }
+        }
+    }, [kandidatliste.kind, kandidatlisteId, sistValgteKandidat]);
+
+    if (kandidatliste.kind === Nettstatus.LasterInn) {
+        return (
+            <div className="fullscreen-spinner">
+                <NavFrontendSpinner type="L" />
+            </div>
+        );
+    } else if (kandidatliste.kind !== Nettstatus.Suksess) {
+        return null;
+    }
+
     return (
         <div>
-            <KandidatlistesideRouter
-                kandidatliste={kandidatliste}
-                kandidater={kandidaterMedState}
-            />
+            <Kandidatlisteside kandidatliste={kandidatliste.data} kandidater={kandidaterMedState} />
         </div>
     );
 };
@@ -89,6 +135,7 @@ const mapStateToProps = (state: AppState) => ({
     kandidattilstander: state.kandidatliste.kandidattilstander,
     kandidatnotater: state.kandidatliste.kandidatnotater,
     kandidatmeldinger: state.kandidatliste.sms.sendteMeldinger,
+    sistValgteKandidat: state.kandidatliste.sistValgteKandidat,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
@@ -101,6 +148,12 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
     hentKandidatlisteUtenStilling: (kandidatlisteId: string) => {
         dispatch({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
+            kandidatlisteId,
+        });
+    },
+    hentSendteMeldinger: (kandidatlisteId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
             kandidatlisteId,
         });
     },
