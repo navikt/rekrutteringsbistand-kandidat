@@ -1,3 +1,4 @@
+import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
 
@@ -99,3 +100,8 @@ export type Kandidattilstand = {
     markert: boolean;
     visningsstatus: Visningsstatus;
 };
+
+type Kandidatnr = string;
+
+export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
+export type Kandidatnotater = Record<Kandidatnr, RemoteData<Notat[]>>;

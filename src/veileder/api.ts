@@ -1,3 +1,4 @@
+import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 /* eslint-disable no-underscore-dangle */
 
 import {
@@ -22,7 +23,7 @@ import {
 } from '../felles/api';
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
-import { KandidatlisteResponse } from './kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -93,10 +94,10 @@ export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
 export const putStatusKandidat = (
-    status,
-    kandidatlisteId,
-    kandidatnr
-): Promise<KandidatlisteResponse> =>
+    status: Status,
+    kandidatlisteId: string,
+    kandidatnr: string
+): Promise<Kandidatliste> =>
     putJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`,
         JSON.stringify({ status })
@@ -107,7 +108,7 @@ export const putUtfallKandidat = (
     navKontor: string,
     kandidatlisteId: string,
     kandidatnr: string
-): Promise<KandidatlisteResponse> =>
+): Promise<Kandidatliste> =>
     putJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/utfall`,
         JSON.stringify({ utfall, navKontor })

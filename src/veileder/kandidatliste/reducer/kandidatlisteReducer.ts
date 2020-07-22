@@ -4,8 +4,8 @@ import {
     Kandidat,
     Sms,
     SmsStatus,
-    Kandidattilstand,
-    KandidatIKandidatliste,
+    Kandidattilstander,
+    Kandidatnotater,
 } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
@@ -19,12 +19,11 @@ import {
     Suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
-import { Delestatus, HentStatus, Kandidatliste, Notat } from '../kandidatlistetyper';
+import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 
 type Kandidatnr = string;
 
 export interface KandidatlisteState {
-    // TODO: Disse brukes kun av LeggTilKandidatModal. Refaktor til RemoteData og bytt navn?
     hentStatus: HentStatus;
     kandidat: {
         arenaKandidatnr?: string;
@@ -43,20 +42,10 @@ export interface KandidatlisteState {
         opprettetKandidatlisteTittel?: string;
     };
 
-    // Ny state
     id?: string;
-    notater: Record<Kandidatnr, RemoteData<Notat[]>>;
-    kandidattilstander: Record<Kandidatnr, Kandidattilstand>;
     kandidatliste: RemoteData<Kandidatliste>;
-
-    /*
-    detaljer: {
-        forrigeKandidatlisteId?: string;
-        kandidatliste: RemoteData<KandidatlisteResponse>;
-        kandidattilstander: Record<string, Kandidattilstand>;
-        kandidater: KandidatIKandidatliste[];
-    };
-    */
+    kandidattilstander: Kandidattilstander;
+    kandidatnotater: Kandidatnotater;
 
     fodselsnummer?: string;
     leggTilKandidater: {
@@ -67,7 +56,7 @@ export interface KandidatlisteState {
     hentListeMedAnnonsenummerStatus: HentStatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
     kandidatlisteMedAnnonsenummer?: any;
-    lagreKandidatIKandidatlisteStatus: string;
+    lagreKandidatStatus: string;
     sms: {
         sendStatus: SmsStatus;
         sendteMeldinger: RemoteData<Sms[]>;
@@ -95,9 +84,9 @@ const initialState: KandidatlisteState = {
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
     },
-    notater: {},
-    kandidattilstander: {},
     kandidatliste: IkkeLastet(),
+    kandidattilstander: {},
+    kandidatnotater: {},
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
     kandidat: {
@@ -117,7 +106,7 @@ const initialState: KandidatlisteState = {
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
     kandidatlisteMedAnnonsenummer: undefined,
-    lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
+    lagreKandidatStatus: LAGRE_STATUS.UNSAVED,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
         sendteMeldinger: IkkeLastet(),
@@ -129,82 +118,6 @@ const initialState: KandidatlisteState = {
     scrollPosition: {},
     filtrerteKandidatnumre: [],
 };
-
-/*
-const overforNotater: (
-    response: KandidatlisteResponse,
-    prevKandidatliste: Kandidatliste
-) => Kandidatliste = (response, prevKandidatliste) => {
-    const notaterMap: { [index: string]: Array<Notat> } = prevKandidatliste.kandidater.reduce(
-        (notaterMap, kandidat) => {
-            if (kandidat.notater.kind === Nettstatus.Suksess) {
-                return {
-                    ...notaterMap,
-                    [kandidat.kandidatId]: kandidat.notater.data,
-                };
-            }
-            return notaterMap;
-        },
-        {}
-    );
-    return {
-        ...response,
-        kandidater: response.kandidater.map((kandidat) => ({
-            ...kandidat,
-            notater: notaterMap[kandidat.kandidatId]
-                ? Suksess(notaterMap[kandidat.kandidatId])
-                : IkkeLastet(),
-        })),
-    };
-};
-
-const leggTilNotater: (
-    response: KandidatlisteResponse,
-    prevKandidatliste: RemoteData<Kandidatliste>
-) => Kandidatliste = (response, prevKandidatliste) => {
-    if (prevKandidatliste.kind === Nettstatus.Suksess) {
-        return overforNotater(response, prevKandidatliste.data);
-    }
-    return {
-        ...response,
-        kandidater: response.kandidater.map((kandidat) => ({
-            ...kandidat,
-            notater: IkkeLastet(),
-        })),
-    };
-};
-
-const oppdaterNotaterIKandidatlisteDetaljer: (
-    state: KandidatlisteState,
-    kandidatnr: string,
-    notater: RemoteData<Array<Notat>>
-) => KandidatlisteState = (state, kandidatnr, notater) => {
-    if (state.detaljer.kandidatliste.kind === Nettstatus.Suksess) {
-        return {
-            ...state,
-            detaljer: {
-                ...state.detaljer,
-                kandidatliste: {
-                    ...state.detaljer.kandidatliste,
-                    data: {
-                        ...state.detaljer.kandidatliste.data,
-                        kandidater: state.detaljer.kandidatliste.data.kandidater.map((kandidat) => {
-                            if (kandidat.kandidatnr === kandidatnr) {
-                                return {
-                                    ...kandidat,
-                                    notater: notater,
-                                };
-                            }
-                            return kandidat;
-                        }),
-                    },
-                },
-            },
-        };
-    }
-    return state;
-};
-*/
 
 const oppdaterArkivertIKandidatlisteDetaljer = (
     state: KandidatlisteState,
@@ -316,7 +229,9 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 kandidatliste: LasterInn(),
-                notater: lasterAnnenListe ? initialState.notater : state.notater,
+                kandidatnotater: lasterAnnenListe
+                    ? initialState.kandidatnotater
+                    : state.kandidatnotater,
                 kandidattilstander: lasterAnnenListe
                     ? initialState.kandidattilstander
                     : state.kandidattilstander,
@@ -326,45 +241,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS: {
             const id = action.kandidatliste.kandidatlisteId;
             const erNyListe = id !== state.id;
-
-            /*
-            const erSammeListeSomSist =
-                state.detaljer.forrigeKandidatlisteId === action.kandidatliste.kandidatlisteId;
-
-            // Reset tilstander hvis ny liste.
-            const kandidattilstander = {
-                ...state.detaljer.kandidattilstander,
-            };
-
-            // Bygg opp nye kandidater
-            const kandidater: KandidatIKandidatliste[] = action.kandidatliste.kandidater.map(
-                (kandidat) => ({
-                    ...kandidat,
-                    ...(kandidattilstander[kandidat.kandidatnr] || {}),
-                    notater: IkkeLastet(), // TODO: Fiks notater.
-                })
-            );
-
-            if (!erSammeListeSomSist) {
-                action.kandidatliste.kandidater.forEach((kandidat) => {
-                    kandidattilstander[kandidat.kandidatnr] = {
-                        markert: false,
-                        visningsstatus: Visningsstatus.SkjulPanel,
-                    };
-                });
-            }*/
-
-            const kandidattilstander = state.kandidattilstander;
-            const notater = state.notater;
+            let kandidattilstander = state.kandidattilstander;
+            let kandidatnotater = state.kandidatnotater;
 
             if (erNyListe) {
+                kandidattilstander = {};
+                kandidatnotater = {};
+
                 action.kandidatliste.kandidater.forEach((kandidat) => {
                     kandidattilstander[kandidat.kandidatnr] = {
                         markert: false,
                         visningsstatus: Visningsstatus.SkjulPanel,
                     };
 
-                    notater[kandidat.kandidatnr] = IkkeLastet();
+                    kandidatnotater[kandidat.kandidatnr] = IkkeLastet();
                 });
             }
 
@@ -373,7 +263,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 id,
                 kandidatliste: Suksess(action.kandidatliste),
                 kandidattilstander,
-                notater,
+                kandidatnotater,
             };
         }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
@@ -385,16 +275,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(
-                    action.kandidatliste //leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
-                ),
+                kandidatliste: Suksess(action.kandidatliste),
             };
         case KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(
-                    action.kandidatliste //leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
-                ),
+                kandidatliste: Suksess(action.kandidatliste),
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {
@@ -404,9 +290,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(
-                    action.kandidatliste //leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
-                ),
+                kandidatliste: Suksess(action.kandidatliste),
                 deleStatus: Delestatus.Success,
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE:
@@ -480,9 +364,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     antallLagredeKandidater: action.antallLagredeKandidater,
                     lagretListe: action.lagretListe,
                 },
-                kandidatliste: Suksess(
-                    action.kandidatliste //leggTilNotater(action.kandidatliste, state.detaljer.kandidatliste)
-                ),
+                kandidatliste: Suksess(action.kandidatliste),
             };
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE:
             return {
@@ -495,23 +377,23 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.LOADING,
+                lagreKandidatStatus: LAGRE_STATUS.LOADING,
             };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_SUCCESS:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.SUCCESS,
+                lagreKandidatStatus: LAGRE_STATUS.SUCCESS,
             };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE:
             return {
                 ...state,
-                lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
+                lagreKandidatStatus: LAGRE_STATUS.FAILURE,
             };
         case KandidatlisteActionType.HENT_NOTATER:
             return {
                 ...state,
-                notater: {
-                    ...state.notater,
+                kandidatnotater: {
+                    ...state.kandidatnotater,
                     [action.kandidatnr]: LasterInn(),
                 },
             };
@@ -521,8 +403,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.SLETT_NOTAT_SUCCESS:
             return {
                 ...state,
-                notater: {
-                    ...state.notater,
+                kandidatnotater: {
+                    ...state.kandidatnotater,
                     [action.kandidatnr]: Suksess(action.notater),
                 },
             };

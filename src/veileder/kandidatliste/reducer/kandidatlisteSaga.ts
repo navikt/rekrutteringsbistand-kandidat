@@ -45,7 +45,7 @@ import {
     putStatusKandidat,
     putArkivert,
 } from '../../api';
-import { KandidatlisteResponse } from '../kandidatlistetyper';
+import { Kandidatliste } from '../kandidatlistetyper';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
@@ -169,7 +169,7 @@ function* endreKandidatstatus(action: EndreStatusKandidatAction) {
 
 function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
     try {
-        const response: KandidatlisteResponse = yield putUtfallKandidat(
+        const response: Kandidatliste = yield putUtfallKandidat(
             action.utfall,
             action.navKontor,
             action.kandidatlisteId,
@@ -233,7 +233,7 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
     }
 }
 
-function* lagreKandidatIKandidatliste(action) {
+function* lagreKandidat(action) {
     try {
         const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
         yield call(leggTilKandidater, {
@@ -495,10 +495,7 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.HENT_KANDIDATLISTE_MED_ANNONSENUMMER,
         hentKandidatlisteMedAnnonsenummer
     );
-    yield takeLatest(
-        KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
-        lagreKandidatIKandidatliste
-    );
+    yield takeLatest(KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE, lagreKandidat);
     yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
