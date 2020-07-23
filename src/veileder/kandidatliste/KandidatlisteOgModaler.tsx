@@ -23,6 +23,7 @@ import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
+import { Kandidatlistefilter } from './filter/useKandidatlistefilter';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -30,6 +31,7 @@ type OwnProps = {
 };
 
 type ConnectedProps = {
+    filter: Kandidatlistefilter;
     endreStatusKandidat: any;
     endreUtfallKandidat: (
         utfall: Utfall,
@@ -436,6 +438,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     stillingsId={stillingId}
                     kanEditere={kanEditere}
                     kandidater={kandidater}
+                    filter={this.props.filter}
                     toggleMarkert={this.toggleMarkert}
                     fjernAllMarkering={this.fjernAllMarkering}
                     markerKandidater={this.markerKandidater}
@@ -456,6 +459,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 }
 
 const mapStateToProps = (state: AppState) => ({
+    filter: state.kandidatliste.filter,
     deleStatus: state.kandidatliste.deleStatus,
     smsSendStatus: state.kandidatliste.sms.sendStatus,
     leggTilStatus: state.kandidatliste.leggTilKandidater.lagreStatus,

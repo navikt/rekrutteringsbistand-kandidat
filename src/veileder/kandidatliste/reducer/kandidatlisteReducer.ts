@@ -1,3 +1,4 @@
+import { Kandidatlistefilter, hentFiltrerteKandidater } from './../filter/useKandidatlistefilter';
 import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
 import {
@@ -72,8 +73,7 @@ export interface KandidatlisteState {
         kandidatlisteId: string;
         kandidatnr: string;
     };
-    filterQuery?: string;
-    filtrerteKandidatnumre: string[];
+    filter?: Kandidatlistefilter;
     notat?: string;
 }
 
@@ -115,11 +115,11 @@ const initialState: KandidatlisteState = {
         statusDearkivering: Nettstatus.IkkeLastet,
     },
     scrollPosition: {},
-    filtrerteKandidatnumre: [],
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
     markert: false,
+    filtrertBort: false,
     visningsstatus: Visningsstatus.SkjulPanel,
 });
 
@@ -184,8 +184,8 @@ const markerGitteKandidater = (kandidattilstander: Kandidattilstander, kandidatn
         ...kandidattilstander,
     };
 
-    Object.entries(kandidattilstander).forEach(([kandidatnr, tilstand]) => {
-        kandidattilstander[kandidatnr] = {
+    Object.entries(nyeTilstander).forEach(([kandidatnr, tilstand]) => {
+        nyeTilstander[kandidatnr] = {
             ...tilstand,
             markert: kandidatnumre.includes(kandidatnr),
         };
@@ -567,12 +567,33 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 sistValgteKandidat: sistValgteKandidat,
             };
         }
-        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER:
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER: {
+            const kandidattilstander = {
+                ...state.kandidattilstander,
+            };
+
+            if (state.kandidatliste.kind === Nettstatus.Suksess) {
+                const filtrerteKandidater = hentFiltrerteKandidater(
+                    state.kandidatliste.data.kandidater,
+                    action.filter
+                );
+
+                Object.keys(kandidattilstander).forEach((kandidatnr) => {
+                    if (filtrerteKandidater.includes(kandidatnr)) {
+                        kandidattilstander[kandidatnr].filtrertBort = false;
+                    } else {
+                        kandidattilstander[kandidatnr].filtrertBort = true;
+                        kandidattilstander[kandidatnr].markert = false;
+                    }
+                });
+            }
+
             return {
                 ...state,
-                filterQuery: action.query,
-                filtrerteKandidatnumre: action.filtrerteKandidatnumre,
+                filter: action.filter,
+                kandidattilstander,
             };
+        }
 
         case KandidatlisteActionType.TOGGLE_MARKERING_AV_KANDIDAT:
             return {

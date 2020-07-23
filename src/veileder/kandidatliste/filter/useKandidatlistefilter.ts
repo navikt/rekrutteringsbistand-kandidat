@@ -1,12 +1,11 @@
-import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
-import { useDispatch } from 'react-redux';
+import { Kandidat } from './../kandidatlistetyper';
+import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+
+import { filterTilQueryParams } from './filter-utils';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import { filterTilQueryParams } from './filter-utils';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import KandidatlisteAction from '../reducer/KandidatlisteAction';
+import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
@@ -15,61 +14,13 @@ export type Kandidatlistefilter = {
     navn: string;
 };
 
-const useKandidatlistefilter = (
-    kandidater: KandidatIKandidatliste[],
-    visArkiverte: boolean,
-    statusfilter: Record<Status, boolean>,
-    utfallsfilter: Record<Utfall, boolean>,
-    navnefilter: string
-): KandidatIKandidatliste[] => {
+const useKandidatlistefilter = (filter: Kandidatlistefilter) => {
     const history = useHistory();
-    const dispatch = useDispatch();
-
-    const [filterQuery, setFilterQuery] = useState<string | undefined>(undefined);
-
-    const [filtrerteKandidater, setFiltrerteKandidater] = useState<KandidatIKandidatliste[]>(
-        hentFiltrerteKandidater(kandidater, {
-            visArkiverte,
-            status: statusfilter,
-            utfall: utfallsfilter,
-            navn: navnefilter,
-        })
-    );
 
     useEffect(() => {
-        const query = filterTilQueryParams({
-            visArkiverte,
-            status: statusfilter,
-            utfall: utfallsfilter,
-            navn: navnefilter,
-        }).toString();
-
-        setFilterQuery(query);
+        const query = filterTilQueryParams(filter).toString();
         history.replace(`${history.location.pathname}?${query}`);
-    }, [history, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
-
-    useEffect(() => {
-        const filtrerte = hentFiltrerteKandidater(kandidater, {
-            visArkiverte,
-            status: statusfilter,
-            utfall: utfallsfilter,
-            navn: navnefilter,
-        });
-
-        setFiltrerteKandidater(filtrerte);
-    }, [kandidater, visArkiverte, statusfilter, utfallsfilter, navnefilter]);
-
-    useEffect(() => {
-        const kandidatnumre = filtrerteKandidater.map((kandidat) => kandidat.kandidatnr);
-
-        dispatch<KandidatlisteAction>({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
-            query: filterQuery || undefined,
-            filtrerteKandidatnumre: kandidatnumre,
-        });
-    }, [filtrerteKandidater, filterQuery, dispatch]);
-
-    return filtrerteKandidater;
+    }, [history, filter]);
 };
 
 export const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatliste) => {
@@ -86,10 +37,11 @@ export const matchNavn = (navnefilter: string) => (kandidat: KandidatIKandidatli
     return navn.includes(normalisertFilter);
 };
 
-export const hentFiltrerteKandidater = (
-    kandidater: KandidatIKandidatliste[],
-    filter: Kandidatlistefilter
-) => {
+export const hentFiltrerteKandidater = (kandidater: Kandidat[], filter?: Kandidatlistefilter) => {
+    if (!filter) {
+        return kandidater.map((kandidat) => kandidat.kandidatnr);
+    }
+
     const statusfilterErValgt = new Set(Object.values(filter.status)).size > 1;
     const utfallsfilterErValgt = new Set(Object.values(filter.utfall)).size > 1;
 
@@ -97,7 +49,8 @@ export const hentFiltrerteKandidater = (
         .filter((kandidat) => kandidat.arkivert === filter.visArkiverte)
         .filter(matchNavn(filter.navn))
         .filter((kandidat) => !statusfilterErValgt || filter.status[kandidat.status])
-        .filter((kandidat) => !utfallsfilterErValgt || filter.utfall[kandidat.utfall]);
+        .filter((kandidat) => !utfallsfilterErValgt || filter.utfall[kandidat.utfall])
+        .map((kandidat) => kandidat.kandidatnr);
 };
 
 export default useKandidatlistefilter;

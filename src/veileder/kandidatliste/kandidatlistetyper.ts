@@ -98,6 +98,7 @@ export type Kandidatliste = {
 
 export type Kandidattilstand = {
     markert: boolean;
+    filtrertBort: boolean;
     visningsstatus: Visningsstatus;
 };
 

@@ -22,7 +22,7 @@ export const lagTomtUtfallsfilter = (): Record<Utfall, boolean> => {
     return utfallsfilter;
 };
 
-export const queryParamsTilFilter = (queryParams: URLSearchParams) => {
+export const queryParamsTilFilter = (queryParams: URLSearchParams): Kandidatlistefilter => {
     const status = lagTomtStatusfilter();
     const utfall = lagTomtUtfallsfilter();
 
@@ -43,6 +43,7 @@ export const queryParamsTilFilter = (queryParams: URLSearchParams) => {
     return {
         status,
         utfall,
+        navn: '',
         visArkiverte: queryParams.get('visArkiverte') === 'true',
     };
 };
@@ -52,8 +53,11 @@ const getTrueKeys = (obj: Record<string, boolean>) =>
         .filter(([key, value]) => value)
         .map(([key, value]) => key);
 
-export const filterTilQueryParams = (filter: Kandidatlistefilter): URLSearchParams => {
+export const filterTilQueryParams = (filter?: Kandidatlistefilter): URLSearchParams => {
     let queryParams = new URLSearchParams();
+    if (!filter) {
+        return queryParams;
+    }
 
     const statusfiltre = getTrueKeys(filter.status);
     if (statusfiltre.length > 0) {

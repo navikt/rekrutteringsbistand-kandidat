@@ -107,7 +107,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
     kandidater: [
-        fraCvTilKandidat(cver[0]),
+        { ...fraCvTilKandidat(cver[0]), status: Status.Aktuell },
         fraCvTilKandidat(cver[2]),
         fraCvTilKandidat(cver[3]),
         fraCvTilKandidat(cver[6]),

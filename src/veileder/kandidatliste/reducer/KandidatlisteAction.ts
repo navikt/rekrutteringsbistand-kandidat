@@ -1,3 +1,4 @@
+import { Kandidatlistefilter } from './../filter/useKandidatlistefilter';
 import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
 import { Kandidatliste, Notat, Sms, Kandidat } from '../kandidatlistetyper';
@@ -353,8 +354,7 @@ export interface HentSendteMeldingerFailureAction {
 
 export interface EndreKandidatlistefilterAction {
     type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER;
-    filtrerteKandidatnumre: string[];
-    query?: string;
+    filter: Kandidatlistefilter;
 }
 
 export interface ToggleMarkeringAvKandidat {
