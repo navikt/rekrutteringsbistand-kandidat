@@ -7,9 +7,9 @@ import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Historikkside from '../kandidatside/historikk/Historikkside';
-import KandidatlisteMedStilling from '../kandidatliste/route/KandidatlisteMedStilling';
+import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import Kandidatlister from '../listeoversikt/Kandidatlister';
-import KandidatlisteUtenStilling from '../kandidatliste/route/KandidatlisteUtenStilling';
+import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
@@ -62,7 +62,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                         <Route
                             exact
                             path="/kandidater/lister/stilling/:id/detaljer"
-                            component={KandidatlisteMedStilling}
+                            component={KandidatlistesideMedStilling}
                         />
                         <Route
                             exact
