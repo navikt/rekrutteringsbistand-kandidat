@@ -179,6 +179,21 @@ const oppdaterDearkiverteKandidaterIKandidatlisteDetaljer = (
     return state;
 };
 
+const markerGitteKandidater = (kandidattilstander: Kandidattilstander, kandidatnumre: string[]) => {
+    const nyeTilstander = {
+        ...kandidattilstander,
+    };
+
+    Object.entries(kandidattilstander).forEach(([kandidatnr, tilstand]) => {
+        kandidattilstander[kandidatnr] = {
+            ...tilstand,
+            markert: kandidatnumre.includes(kandidatnr),
+        };
+    });
+
+    return nyeTilstander;
+};
+
 const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
     state = initialState,
     action
@@ -571,23 +586,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 },
             };
 
-        case KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER: {
-            const kandidattilstander = {
-                ...state.kandidattilstander,
-            };
-
-            Object.entries(state.kandidattilstander).forEach(([kandidatnr, tilstand]) => {
-                kandidattilstander[kandidatnr] = {
-                    ...tilstand,
-                    markert: action.kandidatnumre.includes(kandidatnr),
-                };
-            });
-
+        case KandidatlisteActionType.ENDRE_MARKERING_AV_KANDIDATER:
             return {
                 ...state,
-                kandidattilstander,
+                kandidattilstander: markerGitteKandidater(
+                    state.kandidattilstander,
+                    action.kandidatnumre
+                ),
             };
-        }
 
         case KandidatlisteActionType.ENDRE_VISNINGSSTATUS_KANDIDAT:
             return {
