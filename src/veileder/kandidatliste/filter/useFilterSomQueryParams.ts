@@ -9,10 +9,8 @@ const useFilterSomQueryParams = (filter: Kandidatlistefilter) => {
     const query = filterTilQueryParams(filter).toString();
 
     useEffect(() => {
-        if (query.length > 0) {
-            history.replace(`${history.location.pathname}?${query}`);
-        }
-    }, [history, query, filter]);
+        history.replace(`${history.location.pathname}?${query}`);
+    }, [history, query]);
 };
 
 export default useFilterSomQueryParams;
