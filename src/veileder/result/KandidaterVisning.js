@@ -131,7 +131,7 @@ class KandidaterVisning extends React.Component {
         this.props.leggTilKandidaterIKandidatliste(
             kandidatliste,
             this.state.kandidater
-                .filter((kandidat) => kandidat.tilstand.markert)
+                .filter((kandidat) => kandidat.markert)
                 .map((kandidat) => ({
                     kandidatnr: kandidat.arenaKandidatnr,
                     sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
