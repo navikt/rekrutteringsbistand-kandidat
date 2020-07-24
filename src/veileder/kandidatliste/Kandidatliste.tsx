@@ -77,7 +77,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         (kandidat) => !kandidat.tilstand.filtrertBort
     );
 
-    const endreFilter = (filter: Kandidatlistefilter) => {
+    const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();
         history.replace({
             pathname: history.location.pathname,
@@ -86,7 +86,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const toggleVisArkiverteOgFjernMarkering = () => {
-        endreFilter({
+        setFilterIUrl({
             ...props.filter,
             visArkiverte: !props.filter.visArkiverte,
         });
@@ -95,7 +95,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const onToggleStatus = (status: Status) => {
-        endreFilter({
+        setFilterIUrl({
             ...props.filter,
             status: {
                 ...props.filter.status,
@@ -105,7 +105,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const onToggleUtfall = (utfall: Utfall) => {
-        endreFilter({
+        setFilterIUrl({
             ...props.filter,
             utfall: {
                 ...props.filter.utfall,
@@ -115,9 +115,12 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     };
 
     const setNavnefilter = (navn: string) => {
-        endreFilter({
-            ...props.filter,
-            navn,
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
+            filter: {
+                ...props.filter,
+                navn,
+            },
         });
     };
 
