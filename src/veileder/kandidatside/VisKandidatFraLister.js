@@ -13,9 +13,9 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import '../../felles/common/ikoner/ikoner.less';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
+import '../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -70,10 +70,7 @@ class VisKandidatFraLister extends React.Component {
                 return !tilstand || !tilstand.filtrertBort;
             });
 
-        console.log('FILTRERTE:', kandidattilstander, filtrerteKandidatnumre);
-
         const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatNr);
-
         if (hentStatus === HentCvStatus.Loading || gjeldendeKandidatIndex === -1) {
             return (
                 <div className="text-center">

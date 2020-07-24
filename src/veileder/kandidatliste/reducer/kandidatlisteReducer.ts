@@ -1,4 +1,8 @@
-import { filtrerKandidater } from './../filter/filter-utils';
+import {
+    filtrerKandidater,
+    lagTomtStatusfilter,
+    lagTomtUtfallsfilter,
+} from './../filter/filter-utils';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
@@ -74,7 +78,7 @@ export interface KandidatlisteState {
         kandidatlisteId: string;
         kandidatnr: string;
     };
-    filter?: Kandidatlistefilter;
+    filter: Kandidatlistefilter;
     notat?: string;
 }
 
@@ -116,6 +120,12 @@ const initialState: KandidatlisteState = {
         statusDearkivering: Nettstatus.IkkeLastet,
     },
     scrollPosition: {},
+    filter: {
+        visArkiverte: false,
+        status: lagTomtStatusfilter(),
+        utfall: lagTomtUtfallsfilter(),
+        navn: '',
+    },
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -263,12 +273,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             const erNyListe = id !== state.id;
             let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
-            let filter = state.filter;
 
             if (erNyListe) {
                 kandidattilstander = {};
                 kandidatnotater = {};
-                filter = undefined;
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
                     kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
@@ -282,7 +290,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatliste: Suksess(action.kandidatliste),
                 kandidattilstander,
                 kandidatnotater,
-                filter,
             };
         }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:

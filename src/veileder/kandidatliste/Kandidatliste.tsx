@@ -64,6 +64,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
+
     useFilterSomQueryParams(props.filter);
 
     useEffect(() => {

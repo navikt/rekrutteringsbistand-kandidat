@@ -6,11 +6,13 @@ import { Kandidatlistefilter } from './../kandidatlistetyper';
 
 const useFilterSomQueryParams = (filter: Kandidatlistefilter) => {
     const history = useHistory();
+    const query = filterTilQueryParams(filter).toString();
 
     useEffect(() => {
-        const query = filterTilQueryParams(filter).toString();
-        history.replace(`${history.location.pathname}?${query}`);
-    }, [history, filter]);
+        if (query.length > 0) {
+            history.replace(`${history.location.pathname}?${query}`);
+        }
+    }, [history, query, filter]);
 };
 
 export default useFilterSomQueryParams;
