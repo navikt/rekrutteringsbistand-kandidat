@@ -2,9 +2,9 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';
-import { queryParamsTilFilter } from './filter/filter-utils';
+import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
@@ -19,9 +19,8 @@ import Navnefilter from './navnefilter/Navnefilter';
 import SideHeader from './side-header/SideHeader';
 import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
-import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
-import useAntallFiltertreff from './filter/useAntallFiltertreff';
-import useFilterSomQueryParams from './filter/useFilterSomQueryParams';
+import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
+import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import '../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -60,28 +59,29 @@ type Props = {
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const dispatch = useDispatch();
-    const { location } = useHistory();
+    const history = useHistory();
+    const location = useLocation();
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
 
-    useFilterSomQueryParams(props.filter);
-
     useEffect(() => {
+        const filter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
-            filter: queryParamsTilFilter(new URLSearchParams(location.search)),
+            filter,
         });
-    }, []);
+    }, [dispatch, history, location.search]);
 
     const filtrerteKandidater = props.kandidater.filter(
         (kandidat) => !kandidat.tilstand.filtrertBort
     );
 
     const endreFilter = (filter: Kandidatlistefilter) => {
-        dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
-            filter,
+        const query = filterTilQueryParams(filter).toString();
+        history.replace({
+            pathname: history.location.pathname,
+            search: query,
         });
     };
 

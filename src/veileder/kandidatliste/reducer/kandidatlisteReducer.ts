@@ -1,3 +1,4 @@
+import { ListeoversiktActionType } from './../../listeoversikt/reducer/ListeoversiktAction';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,

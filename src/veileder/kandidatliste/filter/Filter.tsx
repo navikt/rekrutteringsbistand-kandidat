@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
+import { Undertittel } from 'nav-frontend-typografi';
 
-import { AntallFiltertreff } from './useAntallFiltertreff';
+import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { Undertittel } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import useVinduErBredereEnn from './useVinduErBredereEnn';
+import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import './Filter.less';
