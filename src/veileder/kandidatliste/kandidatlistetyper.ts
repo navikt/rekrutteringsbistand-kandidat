@@ -1,3 +1,5 @@
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
@@ -111,4 +113,11 @@ export type KandidatIKandidatliste = Kandidat & {
     tilstand: Kandidattilstand;
     notater: RemoteData<Notat[]>;
     sms?: Sms;
+};
+
+export type Kandidatlistefilter = {
+    visArkiverte: boolean;
+    status: Record<Status, boolean>;
+    utfall: Record<Utfall, boolean>;
+    navn: string;
 };

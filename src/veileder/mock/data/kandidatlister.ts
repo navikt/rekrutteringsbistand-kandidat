@@ -91,7 +91,7 @@ const fraCvTilKandidat = (cv: Cv) => ({
     fodselsnr: cv.fodselsnummer,
     utfall: Utfall.IkkePresentert,
     telefon: '(+47) 123456789',
-    eepost: 'spammenot@mailinator.com',
+    epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
     arkivert: false,
     antallNotater: 1,

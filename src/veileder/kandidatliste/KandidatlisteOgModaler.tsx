@@ -8,6 +8,7 @@ import {
     KandidatIKandidatliste,
 } from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
+import { Kandidatlistefilter } from './kandidatlistetyper';
 import { Nettstatus } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
@@ -23,7 +24,6 @@ import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
-import { Kandidatlistefilter } from './filter/useKandidatlistefilter';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;

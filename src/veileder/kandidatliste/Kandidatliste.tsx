@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { KandidatIKandidatliste, OpprettetAv } from './kandidatlistetyper';
+import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';
 import { queryParamsTilFilter } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
+import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import Kandidatrad from './kandidatrad/Kandidatrad';
 import KnappeRad from './knappe-rad/KnappeRad';
 import LeggTilKandidatKnapp from './meny/LeggTilKandidatKnapp';
@@ -19,10 +21,8 @@ import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './filter/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './filter/useAntallFiltertreff';
-import useKandidatlistefilter, { Kandidatlistefilter } from './filter/useKandidatlistefilter';
+import useFilterSomQueryParams from './filter/useFilterSomQueryParams';
 import '../../felles/common/ikoner/ikoner.less';
-import { useDispatch } from 'react-redux';
-import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -58,23 +58,24 @@ type Props = {
     beskrivelse?: string;
 };
 
-const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
-const erAktuell = (k: KandidatIKandidatliste) => k.status === Status.Aktuell;
-const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
-const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
-
 const Kandidatliste: FunctionComponent<Props> = (props) => {
     const dispatch = useDispatch();
     const { location } = useHistory();
+
+    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
+    useFilterSomQueryParams(props.filter);
 
     useEffect(() => {
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
             filter: queryParamsTilFilter(new URLSearchParams(location.search)),
         });
-    }, [dispatch, location.search]);
+    }, []);
 
-    const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const filtrerteKandidater = props.kandidater.filter(
+        (kandidat) => !kandidat.tilstand.filtrertBort
+    );
 
     const endreFilter = (filter: Kandidatlistefilter) => {
         dispatch({
@@ -83,12 +84,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         });
     };
 
-    useKandidatlistefilter(props.filter);
-    const filtrerteKandidater = props.kandidater.filter(
-        (kandidat) => !kandidat.tilstand.filtrertBort
-    );
-    const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
-
     const toggleVisArkiverteOgFjernMarkering = () => {
         endreFilter({
             ...props.filter,
@@ -96,18 +91,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         });
 
         props.fjernAllMarkering();
-    };
-
-    const onCheckAlleKandidater = () => {
-        if (alleFiltrerteErMarkerte) {
-            props.fjernAllMarkering();
-        } else {
-            console.log(
-                'Check dis!',
-                filtrerteKandidater.map((k) => k.kandidatnr)
-            );
-            props.markerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
-        }
     };
 
     const onToggleStatus = (status: Status) => {
@@ -137,19 +120,18 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         });
     };
 
+    const onCheckAlleKandidater = () => {
+        if (alleFiltrerteErMarkerte) {
+            props.fjernAllMarkering();
+        } else {
+            props.markerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
+        }
+    };
+
     return (
         <div className="kandidatliste">
             <SideHeader
-                antallKandidater={props.kandidater.length - antallFiltertreff.arkiverte}
-                antallAktuelleKandidater={
-                    props.kandidater.filter(erIkkeArkivert).filter(erAktuell).length
-                }
-                antallPresenterteKandidater={
-                    props.kandidater.filter(erIkkeArkivert).filter(erPresentert).length
-                }
-                antallKandidaterSomHarFåttJobb={
-                    props.kandidater.filter(erIkkeArkivert).filter(harFåttJobb).length
-                }
+                kandidater={props.kandidater}
                 opprettetAv={props.opprettetAv}
                 stillingsId={props.stillingsId}
                 tittel={props.tittel}

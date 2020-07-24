@@ -1,4 +1,4 @@
-import { Kandidatlistefilter } from './../filter/useKandidatlistefilter';
+import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
 import { Kandidatliste, Notat, Sms, Kandidat } from '../kandidatlistetyper';

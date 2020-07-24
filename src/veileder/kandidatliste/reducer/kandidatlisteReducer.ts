@@ -1,4 +1,5 @@
-import { Kandidatlistefilter, hentFiltrerteKandidater } from './../filter/useKandidatlistefilter';
+import { filtrerKandidater } from './../filter/filter-utils';
+import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
 import {
@@ -262,10 +263,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             const erNyListe = id !== state.id;
             let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
+            let filter = state.filter;
 
             if (erNyListe) {
                 kandidattilstander = {};
                 kandidatnotater = {};
+                filter = undefined;
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
                     kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
@@ -279,6 +282,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidatliste: Suksess(action.kandidatliste),
                 kandidattilstander,
                 kandidatnotater,
+                filter,
             };
         }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_FAILURE:
@@ -573,7 +577,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
 
             if (state.kandidatliste.kind === Nettstatus.Suksess) {
-                const filtrerteKandidater = hentFiltrerteKandidater(
+                const filtrerteKandidater = filtrerKandidater(
                     state.kandidatliste.data.kandidater,
                     action.filter
                 );

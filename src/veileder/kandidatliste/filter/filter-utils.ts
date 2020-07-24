@@ -1,8 +1,39 @@
+import { Kandidat } from './../kandidatlistetyper';
 import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
 import { Status } from './../kandidatrad/statusSelect/StatusSelect';
-import { Kandidatlistefilter } from './useKandidatlistefilter';
+import { Kandidatlistefilter } from '../kandidatlistetyper';
 
 const QUERY_PARAM_SEPARATOR = '-';
+
+export const matchNavn = (navnefilter: string) => (kandidat: Kandidat) => {
+    const trimmet = navnefilter.trim();
+    if (trimmet.length === 0) return true;
+
+    const [normalisertFilter, normalisertFornavn, normalisertEtternavn] = [
+        trimmet,
+        kandidat.fornavn,
+        kandidat.etternavn,
+    ].map((s) => s.toLowerCase());
+
+    const navn = normalisertFornavn + ' ' + normalisertEtternavn;
+    return navn.includes(normalisertFilter);
+};
+
+export const filtrerKandidater = (kandidater: Kandidat[], filter?: Kandidatlistefilter) => {
+    if (!filter) {
+        return kandidater.map((kandidat) => kandidat.kandidatnr);
+    }
+
+    const statusfilterErValgt = new Set(Object.values(filter.status)).size > 1;
+    const utfallsfilterErValgt = new Set(Object.values(filter.utfall)).size > 1;
+
+    return kandidater
+        .filter((kandidat) => kandidat.arkivert === filter.visArkiverte)
+        .filter(matchNavn(filter.navn))
+        .filter((kandidat) => !statusfilterErValgt || filter.status[kandidat.status])
+        .filter((kandidat) => !utfallsfilterErValgt || filter.utfall[kandidat.utfall])
+        .map((kandidat) => kandidat.kandidatnr);
+};
 
 export const lagTomtStatusfilter = (): Record<Status, boolean> => {
     const statusfilter: Record<string, boolean> = {};
