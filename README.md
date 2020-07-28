@@ -61,5 +61,5 @@ For å se endringene må man restarte webpack-serveren.
 ## For folk utenfor Nav
 * Opprett gjerne en issue i Github for alle typer spørsmål
 * IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/arbeidsgiver
-* IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon)
+* IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon) 
 
