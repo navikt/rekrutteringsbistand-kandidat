@@ -12,8 +12,6 @@ import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-ut
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../felles/common/remoteData';
 import { sendEvent } from '../../amplitude/amplitude';
-import { useFeatureToggle } from '../../mock/useFeatureToggle';
-import { utfallToDisplayName } from './utfall-select/UtfallVisning';
 import { Visningsstatus } from '../Kandidatliste';
 import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
@@ -71,7 +69,6 @@ const Kandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
-    const visEndreUtfall = useFeatureToggle('vis-endre-utfall-dropdown');
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -212,20 +209,15 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 ) : (
                     <Statusvisning status={kandidat.status as Status} />
                 )}
-                {stillingsId &&
-                    (visEndreUtfall ? (
-                        <UtfallSelect
-                            kanEndreUtfall={kanEditere}
-                            value={kandidat.utfall as Utfall}
-                            onChange={(utfall: Utfall, visModal: boolean) =>
-                                onKandidatUtfallChange(utfall, kandidat, visModal)
-                            }
-                        />
-                    ) : (
-                        <div className="kandidatliste-kandidat__tabell-tekst">
-                            {utfallToDisplayName(kandidat.utfall as Utfall)}
-                        </div>
-                    ))}
+                {stillingsId && (
+                    <UtfallSelect
+                        kanEndreUtfall={kanEditere}
+                        value={kandidat.utfall as Utfall}
+                        onChange={(utfall: Utfall, visModal: boolean) =>
+                            onKandidatUtfallChange(utfall, kandidat, visModal)
+                        }
+                    />
+                )}
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
