@@ -72,11 +72,11 @@ StillingSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    stillinger: state.stilling.stillinger,
-    typeAheadSuggestionsStilling: state.typeahead.stilling.suggestions,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.stilling.stillingPanelOpen,
+    stillinger: state.søkefilter.stilling.stillinger,
+    typeAheadSuggestionsStilling: state.søkefilter.typeahead.stilling.suggestions,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.stilling.stillingPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

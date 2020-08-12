@@ -20,8 +20,8 @@ export const AlderSearch: FunctionComponent = () => {
     const dispatch = useDispatch();
 
     const defaultAlder = useSelector((state: AppState) => ({
-        fra: state.alder.fra,
-        til: state.alder.til,
+        fra: state.søkefilter.alder.fra,
+        til: state.søkefilter.alder.til,
     }));
 
     const [fra, setFra] = useState<number | undefined>(defaultAlder.fra);
@@ -37,7 +37,7 @@ export const AlderSearch: FunctionComponent = () => {
 
     const search = () => dispatch({ type: SEARCH });
     const togglePanel = () => dispatch({ type: AlderActionType.ToggleAlderPanel });
-    const erÅpen = useSelector((state: AppState) => state.alder.panelOpen);
+    const erÅpen = useSelector((state: AppState) => state.søkefilter.alder.panelOpen);
 
     const søkMedAlder = () => {
         setAlder(fra, til);

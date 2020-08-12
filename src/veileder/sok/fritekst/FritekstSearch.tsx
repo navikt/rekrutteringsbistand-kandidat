@@ -80,7 +80,7 @@ const FritekstSearch: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    fritekstSøkeord: state.fritekst.fritekst,
+    fritekstSøkeord: state.søkefilter.fritekst.fritekst,
 });
 
 const mapDispatchToProps = (dispatch) => ({

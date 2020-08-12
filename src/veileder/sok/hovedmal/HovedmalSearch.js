@@ -48,10 +48,10 @@ HovedmalSearch.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    totaltHovedmal: state.hovedmal.totaltHovedmal,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.hovedmal.panelOpen,
+    totaltHovedmal: state.søkefilter.hovedmal.totaltHovedmal,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.hovedmal.panelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -260,12 +260,12 @@ export const oppdaterUrlTilÅReflektereSøkekriterier = (state: AppState): void 
 export function* search(action: any = '') {
     try {
         yield put({ type: SEARCH_BEGIN });
-        const state = yield select();
+        const state: AppState = yield select();
 
         oppdaterUrlTilÅReflektereSøkekriterier(state);
 
         const [søkekriterier, searchQueryHash] = mapTilSøkekriterierBackend(state, action);
-        const harNyeSokekriterier = searchQueryHash !== state.search.searchQueryHash;
+        const harNyeSokekriterier = searchQueryHash !== state.søk.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
 
         let response = yield call(
@@ -274,7 +274,7 @@ export function* search(action: any = '') {
         );
 
         if (!harNyeSokekriterier) {
-            const kandidater = state.search.searchResultat.resultat.kandidater;
+            const kandidater = state.søk.searchResultat.resultat.kandidater;
             const kandidaterMedMarkering = response.kandidater.map((kFraResponse) => ({
                 ...kFraResponse,
                 markert: kandidater.some(
@@ -307,7 +307,7 @@ export function* esSearch(action = '') {
 }
 
 export function* hentFlereKandidater(action) {
-    const state = yield select();
-    const fraIndex = state.search.searchResultat.resultat.kandidater.length;
+    const state: AppState = yield select();
+    const fraIndex = state.søk.searchResultat.resultat.kandidater.length;
     yield esSearch({ ...action, fraIndex, antallResultater: KANDIDATLISTE_CHUNK_SIZE });
 }

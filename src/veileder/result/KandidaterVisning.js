@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../../felles/PropTypes';
-import { Kandidatliste } from '../kandidatlister/PropTypes';
+import { Kandidatliste } from '../kandidatliste/PropTypes';
 import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
@@ -18,7 +18,7 @@ import LagreKandidaterTilStillingModal from '../../veileder/result/LagreKandidat
 import LagreKandidaterModal from '../../veileder/result/LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
 import { formatterInt } from '../../felles/sok/utils';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { sendEvent } from '../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
@@ -305,18 +305,18 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-    kandidater: state.search.searchResultat.resultat.kandidater,
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    isEmptyQuery: state.search.isEmptyQuery,
-    isSearching: state.search.isSearching,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    searchQueryHash: state.search.searchQueryHash,
-    antallKandidater: state.search.antallVisteKandidater,
-    valgtKandidatNr: state.search.valgtKandidatNr,
-    scrolletFraToppen: state.search.scrolletFraToppen,
+    kandidater: state.søk.searchResultat.resultat.kandidater,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    isEmptyQuery: state.søk.isEmptyQuery,
+    isSearching: state.søk.isSearching,
+    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    searchQueryHash: state.søk.searchQueryHash,
+    antallKandidater: state.søk.antallVisteKandidater,
+    valgtKandidatNr: state.søk.valgtKandidatNr,
+    scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.detaljer.kandidatliste.data
             : undefined,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });

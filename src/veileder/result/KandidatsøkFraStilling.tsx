@@ -10,8 +10,8 @@ import {
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { Nettstatus } from '../../felles/common/remoteData';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { Kandidatliste } from '../kandidatlister/kandidatlistetyper';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
 import { VeilederHeaderInfo } from './VeilederHeaderInfo';
 import { Container } from 'nav-frontend-grid';
@@ -20,6 +20,7 @@ import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandi
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -85,6 +86,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         } else if (!harHentetStilling) {
             leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
         }
+        // eslint-disable-next-line
     }, [
         kandidatliste,
         kandidatlisteIdFraSøk,
@@ -143,17 +145,17 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    isInitialSearch: state.search.isInitialSearch,
-    leggTilKandidatStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
-    harHentetStilling: state.search.harHentetStilling,
+    isInitialSearch: state.søk.isInitialSearch,
+    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
+    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
+    harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.detaljer.kandidatliste.data
             : undefined,
-    maksAntallTreff: state.search.maksAntallTreff,
-    kandidatlisteIdFraSøk: state.search.kandidatlisteId,
+    maksAntallTreff: state.søk.maksAntallTreff,
+    kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -165,7 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     fjernValgtKandidat: () =>

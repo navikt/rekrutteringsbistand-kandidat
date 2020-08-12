@@ -17,7 +17,7 @@ import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
@@ -379,14 +379,14 @@ VisKandidat.propTypes = {
 
 const mapStateToProps = (state) => ({
     cv: state.cv.cv,
-    kandidater: state.search.searchResultat.resultat.kandidater,
-    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
+    kandidater: state.søk.searchResultat.resultat.kandidater,
+    antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.detaljer.kandidatliste.data
             : undefined,
-    lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
+    lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 

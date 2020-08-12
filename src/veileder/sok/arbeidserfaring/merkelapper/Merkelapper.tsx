@@ -121,8 +121,8 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
 
 const mapStateToProps = (state: AppState) => {
     return {
-        arbeidserfaringer: state.arbeidserfaring.arbeidserfaringer,
-        typeAheadSuggestionsArbeidserfaring: (state as any).typeahead.arbeidserfaring.suggestions,
+        arbeidserfaringer: state.søkefilter.arbeidserfaring.arbeidserfaringer,
+        typeAheadSuggestionsArbeidserfaring: state.søkefilter.typeahead.arbeidserfaring.suggestions,
     };
 };
 

@@ -21,8 +21,8 @@ import {
     putJson,
 } from '../felles/api';
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
-import { Utfall } from './kandidatlister/kandidatliste/kandidatrad/utfall-select/UtfallSelect';
-import { KandidatlisteResponse } from './kandidatlister/kandidatlistetyper';
+import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { KandidatlisteResponse } from './kandidatliste/kandidatlistetyper';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -44,6 +44,8 @@ const convertToUrlParams = (query) =>
                     return `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`;
                 }
             }
+
+            return '';
         })
         .join('&')
         .replace(/%20/g, '+');
@@ -279,7 +281,7 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
         })
     );
 
-export const fetchFerdigutfylteStillinger = (bransjer) => {
+export const fetchFerdigutfylteStillinger = () => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
 
