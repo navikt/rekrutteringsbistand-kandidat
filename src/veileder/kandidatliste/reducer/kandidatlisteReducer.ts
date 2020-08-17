@@ -251,27 +251,16 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             };
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID: {
-            const id =
-                action.type === KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID
-                    ? action.kandidatlisteId
-                    : action.stillingsId;
-            const lasterAnnenListe = id !== state.id;
-
             return {
                 ...state,
                 kandidatliste: LasterInn(),
-                kandidatnotater: lasterAnnenListe
-                    ? initialState.kandidatnotater
-                    : state.kandidatnotater,
-                kandidattilstander: lasterAnnenListe
-                    ? initialState.kandidattilstander
-                    : state.kandidattilstander,
             };
         }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS: {
             const id = action.kandidatliste.kandidatlisteId;
             const erNyListe = id !== state.id;
+
             let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
 
