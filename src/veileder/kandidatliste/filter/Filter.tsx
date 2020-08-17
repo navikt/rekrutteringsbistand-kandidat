@@ -2,10 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
-
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
-import { statusToDisplayName } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
