@@ -261,10 +261,17 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             const id = action.kandidatliste.kandidatlisteId;
             const erNyListe = id !== state.id;
 
+            const eksisterendeKandidattilstander = Object.keys(state.kandidattilstander);
+            const noenKandidaterManglerTilstand = action.kandidatliste.kandidater.some(
+                ({ kandidatnr }) => !eksisterendeKandidattilstander.includes(kandidatnr)
+            );
+
             let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
 
-            if (erNyListe) {
+            // Reset kandidattilstander hvis bruker laster inn ny liste eller
+            // en kandidat er lagt til i listen siden sist.
+            if (erNyListe || noenKandidaterManglerTilstand) {
                 kandidattilstander = {};
                 kandidatnotater = {};
 
