@@ -26,16 +26,21 @@ const useKandidaterMedState = (
 
     useEffect(() => {
         if (kandidatliste.kind === Nettstatus.Suksess) {
-            const kandidaterMedState: KandidatIKandidatliste[] = kandidatliste.data.kandidater.map(
-                (kandidat) => ({
-                    ...kandidat,
-                    tilstand: kandidattilstander[kandidat.kandidatnr],
-                    notater: kandidatnotater[kandidat.kandidatnr],
-                    sms: hentMeldingForKandidat(kandidatmeldinger, kandidat.fodselsnr),
-                })
-            );
+            const tilstanderErInitialisert =
+                kandidatliste.data.kandidater.length === Object.keys(kandidattilstander).length;
 
-            setKandidaterMedState(kandidaterMedState);
+            if (tilstanderErInitialisert) {
+                const kandidaterMedState: KandidatIKandidatliste[] = kandidatliste.data.kandidater.map(
+                    (kandidat) => ({
+                        ...kandidat,
+                        tilstand: kandidattilstander[kandidat.kandidatnr],
+                        notater: kandidatnotater[kandidat.kandidatnr],
+                        sms: hentMeldingForKandidat(kandidatmeldinger, kandidat.fodselsnr),
+                    })
+                );
+
+                setKandidaterMedState(kandidaterMedState);
+            }
         }
     }, [kandidatliste, kandidattilstander, kandidatnotater, kandidatmeldinger]);
 
