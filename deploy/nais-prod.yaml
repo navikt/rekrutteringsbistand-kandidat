@@ -44,8 +44,6 @@ spec:
           value: https://loginservice.nais.adeo.no/slo
         - name: LAST_NED_CV_URL
           value: https://pam-cv-veileder.nais.adeo.no/cv/pdf
-        - name: PAM_KANDIDATSOK_API_URL
-          value: https://pam-kandidatsok-api.nais.adeo.no/
         - name: PAM_SEARCH_API_RESTSERVICE_URL
           value: https://api-gw.adeo.no/pam-search-api/
         - name: PAMPORTAL_URL
