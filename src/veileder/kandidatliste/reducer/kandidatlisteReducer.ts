@@ -266,6 +266,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ({ kandidatnr }) => !eksisterendeKandidattilstander.includes(kandidatnr)
             );
 
+            console.log('Er det noen som mangler tilstand?', {
+                nyeKandidater: action.kandidatliste.kandidater,
+                eksisterendeKandidattilstander,
+                noenMangler: noenKandidaterManglerTilstand,
+            });
+
             let kandidattilstander = state.kandidattilstander;
             let kandidatnotater = state.kandidatnotater;
 
@@ -274,6 +280,8 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             if (erNyListe || noenKandidaterManglerTilstand) {
                 kandidattilstander = {};
                 kandidatnotater = {};
+
+                console.log('Noen mangler tilstand, så initialiserer alle på nytt.');
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
                     kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
