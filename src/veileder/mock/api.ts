@@ -118,17 +118,14 @@ const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
 
 const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];
-    const arkivert = JSON.parse(String(options.body)).arkivert;
+    const arkivert = JSON.parse(String(options.body));
+    const kandidat = kandidatliste.kandidater.find(
+        (kandidat) => kandidat.kandidatnr === kandidatnr
+    );
+
     return {
-        ...kandidatliste,
-        kandidater: kandidatliste.kandidater.map((kandidat) =>
-            kandidat.kandidatnr !== kandidatnr
-                ? kandidat
-                : {
-                      ...kandidat,
-                      arkivert,
-                  }
-        ),
+        ...kandidat,
+        arkivert,
     };
 };
 

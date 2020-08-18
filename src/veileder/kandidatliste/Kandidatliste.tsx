@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';
@@ -63,6 +63,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const location = useLocation();
 
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);
+    const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
 
     useEffect(() => {
@@ -71,7 +72,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
             filter,
         });
-    }, [dispatch, history, location.search]);
+    }, [dispatch, history, location.search, antallFilterTreffJSON]);
 
     const filtrerteKandidater = props.kandidater.filter(
         (kandidat) => !kandidat.tilstand.filtrertBort

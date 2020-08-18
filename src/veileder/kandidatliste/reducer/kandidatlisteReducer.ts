@@ -141,7 +141,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
 ): KandidatlisteState => {
     const kandidatliste = state.kandidatliste;
     if (kandidatliste.kind === Nettstatus.Suksess) {
-        return {
+        const stateMedOppdatertKandidat = {
             ...state,
             kandidatliste: {
                 ...kandidatliste,
@@ -152,6 +152,7 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                             ? {
                                   ...utdatertKandidat,
                                   arkivert: kandidat.arkivert,
+                                  arkivertAv: kandidat.arkivertAv,
                                   arkivertTidspunkt: kandidat.arkivertTidspunkt,
                               }
                             : utdatertKandidat
@@ -159,7 +160,10 @@ const oppdaterArkivertIKandidatlisteDetaljer = (
                 },
             },
         };
+
+        return stateMedOppdatertKandidat;
     }
+
     return state;
 };
 

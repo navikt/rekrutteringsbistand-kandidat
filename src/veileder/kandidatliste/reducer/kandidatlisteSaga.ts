@@ -373,6 +373,7 @@ function* toggleArkivert(action: ToggleArkivertAction) {
             action.kandidatnr,
             action.arkivert
         );
+
         yield put<ToggleArkivertSuccessAction>({
             type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
             kandidat: arkivertKandidat,
