@@ -595,6 +595,9 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         kandidattilstander[kandidatnr].filtrertBort = false;
                     } else {
                         kandidattilstander[kandidatnr].filtrertBort = true;
+
+                        // Kan fjernes hvis man ønsker at kandidater fremdeles skal
+                        // være markerte etter de er filtrert bort.
                         kandidattilstander[kandidatnr].markert = false;
                     }
                 });
