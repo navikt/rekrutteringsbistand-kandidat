@@ -1,5 +1,5 @@
 import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { KandidatlisteResponse } from './../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from './../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
@@ -58,7 +58,7 @@ const lagTittel = (i: number) =>
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
-const baseKandidatliste: Omit<KandidatlisteResponse, 'kandidater'> = {
+const baseKandidatliste: Omit<Kandidatliste, 'kandidater'> = {
     kandidatlisteId: 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29',
     tittel: 'Tulleskolen søker tøysekopper',
     beskrivelse:
@@ -91,7 +91,7 @@ const fraCvTilKandidat = (cv: Cv) => ({
     fodselsnr: cv.fodselsnummer,
     utfall: Utfall.IkkePresentert,
     telefon: '(+47) 123456789',
-    eepost: 'spammenot@mailinator.com',
+    epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
     arkivert: false,
     antallNotater: 1,
@@ -102,12 +102,12 @@ const fraCvTilKandidat = (cv: Cv) => ({
     erSynlig: true,
 });
 
-export const kandidatlister: KandidatlisteResponse[] = tomListe.map((_, i) => ({
+export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     ...baseKandidatliste,
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
     kandidater: [
-        fraCvTilKandidat(cver[0]),
+        { ...fraCvTilKandidat(cver[0]), status: Status.Aktuell },
         fraCvTilKandidat(cver[2]),
         fraCvTilKandidat(cver[3]),
         fraCvTilKandidat(cver[6]),

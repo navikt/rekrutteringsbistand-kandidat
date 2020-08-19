@@ -32,11 +32,7 @@ type Props = {
     toggleArkivert: any;
     kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
-    onVisningChange: (
-        visningsstatus: Visningsstatus,
-        kandidatlisteId: string,
-        kandidatnr: string
-    ) => void;
+    onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
     onKandidatUtfallChange: (
         utfall: Utfall,
@@ -88,20 +84,19 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const toggleNotater = () => {
         onVisningChange(
-            kandidat.visningsstatus === Visningsstatus.VisNotater
+            kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisNotater,
-            kandidatlisteId,
             kandidat.kandidatnr
         );
     };
 
     const toggleMerInfo = () => {
         const nyStatus =
-            kandidat.visningsstatus === Visningsstatus.VisMerInfo
+            kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
                 ? Visningsstatus.SkjulPanel
                 : Visningsstatus.VisMerInfo;
-        onVisningChange(nyStatus, kandidatlisteId, kandidat.kandidatnr);
+        onVisningChange(nyStatus, kandidat.kandidatnr);
         if (nyStatus === Visningsstatus.VisMerInfo) {
             sendEvent('kandidatliste_mer_info', 'åpne');
         }
@@ -147,7 +142,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
         modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
 
     const klassenavn = `kandidatliste-kandidat ${
-        kandidat.markert ? 'kandidatliste-kandidat--checked' : ''
+        kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''
     }`;
 
     return (
@@ -156,7 +151,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
-                    checked={kandidat.markert}
+                    checked={kandidat.tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);
                     }}
@@ -230,7 +225,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <NavFrontendChevron
                             className="kandidatliste-kandidat__chevron"
                             type={
-                                kandidat.visningsstatus === Visningsstatus.VisNotater
+                                kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -246,7 +241,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         <NavFrontendChevron
                             className="kandidatliste-kandidat__chevron"
                             type={
-                                kandidat.visningsstatus === Visningsstatus.VisMerInfo
+                                kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo
                                     ? 'opp'
                                     : 'ned'
                             }
@@ -265,7 +260,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </div>
                 )}
             </div>
-            {kandidat.visningsstatus === Visningsstatus.VisNotater && (
+            {kandidat.tilstand.visningsstatus === Visningsstatus.VisNotater && (
                 <Notater
                     notater={kandidat.notater}
                     antallNotater={antallNotater}
@@ -274,7 +269,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     onSlettNotat={onSlettNotat}
                 />
             )}
-            {kandidat.visningsstatus === Visningsstatus.VisMerInfo && (
+            {kandidat.tilstand.visningsstatus === Visningsstatus.VisMerInfo && (
                 <MerInfo kandidat={kandidat} />
             )}
         </div>

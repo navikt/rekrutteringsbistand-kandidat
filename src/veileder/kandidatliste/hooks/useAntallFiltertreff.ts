@@ -1,4 +1,4 @@
-import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { useState, useEffect } from 'react';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
@@ -9,7 +9,7 @@ export type AntallFiltertreff = {
     utfall: Record<Utfall, number>;
 };
 
-const useKandidatlistefilter = (kandidater: KandidatIKandidatliste[]): AntallFiltertreff => {
+const useAntallFiltertreff = (kandidater: KandidatIKandidatliste[]): AntallFiltertreff => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
     const [antallMedStatus, setAntallMedStatus] = useState<Record<Status, number>>(
         hentAntallMedStatus(kandidater)
@@ -63,4 +63,4 @@ const hentAntallMedUtfall = (kandidater: KandidatIKandidatliste[]) => {
     return antallMedUtfall;
 };
 
-export default useKandidatlistefilter;
+export default useAntallFiltertreff;

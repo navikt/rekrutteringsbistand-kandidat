@@ -78,7 +78,7 @@ const Historikkside: FunctionComponent = () => {
 };
 
 const hentStatus = (kandidatnr: string) => (state: AppState) => {
-    const kandidatliste = state.kandidatliste.detaljer.kandidatliste;
+    const kandidatliste = state.kandidatliste.kandidatliste;
     if (kandidatliste.kind !== Nettstatus.Suksess) return;
     const kandidat = kandidatliste.data.kandidater.find((k) => k.kandidatnr === kandidatnr);
     return kandidat?.status;

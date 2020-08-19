@@ -13,8 +13,9 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import '../../felles/common/ikoner/ikoner.less';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
+import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
+import '../../felles/common/ikoner/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {
@@ -27,33 +28,13 @@ class VisKandidatFraLister extends React.Component {
     componentDidUpdate(prevProps) {
         const harNavigertTilNyKandidat =
             prevProps.kandidatNr !== this.props.kandidatNr && this.props.kandidatNr !== undefined;
-        const harLastetInnKandidatliste =
-            prevProps.kandidatliste !== this.props.kandidatliste &&
-            this.props.kandidatliste.kandidater.length > 0;
 
         if (harNavigertTilNyKandidat) {
             window.scrollTo(0, 0);
             this.props.hentCvForKandidat(this.props.kandidatNr);
             this.props.settValgtKandidat(this.props.kandidatlisteId, this.props.kandidatNr);
         }
-
-        if (harLastetInnKandidatliste) {
-            const harIkkeAktivtKandidatlistefilter = this.props.filtrerteKandidatnumre.length === 0;
-            if (harIkkeAktivtKandidatlistefilter) {
-                this.settFallbackKandidatlistefilter();
-            }
-        }
     }
-
-    settFallbackKandidatlistefilter = () => {
-        const gjeldendeKandidat = this.hentGjeldendeKandidat();
-
-        this.props.settKandidatlistefilter(
-            this.props.kandidatliste.kandidater
-                .filter((kandidat) => kandidat.arkivert === gjeldendeKandidat.arkivert)
-                .map((kandidat) => kandidat.kandidatnr)
-        );
-    };
 
     onKandidatStatusChange = (status) => {
         this.props.endreStatusKandidat(
@@ -79,11 +60,17 @@ class VisKandidatFraLister extends React.Component {
             kandidatliste,
             hentStatus,
             midlertidigUtilgjengelig,
-            kandidatlisteFilterQuery,
-            filtrerteKandidatnumre,
+            kandidatlistefilter,
+            kandidattilstander,
         } = this.props;
-        const gjeldendeKandidatIndex = this.props.filtrerteKandidatnumre.indexOf(kandidatNr);
+        const filtrerteKandidatnumre = kandidatliste.kandidater
+            .map((kandidat) => kandidat.kandidatnr)
+            .filter((kandidatnr) => {
+                const tilstand = kandidattilstander[kandidatnr];
+                return !tilstand || !tilstand.filtrertBort;
+            });
 
+        const gjeldendeKandidatIndex = filtrerteKandidatnumre.indexOf(kandidatNr);
         if (hentStatus === HentCvStatus.Loading || gjeldendeKandidatIndex === -1) {
             return (
                 <div className="text-center">
@@ -91,7 +78,6 @@ class VisKandidatFraLister extends React.Component {
                 </div>
             );
         }
-
         const nesteKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex + 1];
         const forrigeKandidatNummer = filtrerteKandidatnumre[gjeldendeKandidatIndex - 1];
 
@@ -104,8 +90,11 @@ class VisKandidatFraLister extends React.Component {
             <div>
                 <Kandidatheader
                     cv={cv}
-                    tilbakeLink={lenkeTilKandidatliste(kandidatlisteId, kandidatlisteFilterQuery)}
-                    antallKandidater={this.props.filtrerteKandidatnumre.length}
+                    tilbakeLink={lenkeTilKandidatliste(
+                        kandidatlisteId,
+                        filterTilQueryParams(kandidatlistefilter)
+                    )}
+                    antallKandidater={filtrerteKandidatnumre.length}
                     gjeldendeKandidatIndex={gjeldendeKandidatIndex}
                     nesteKandidat={nesteKandidatLink}
                     forrigeKandidat={forrigeKandidatLink}
@@ -138,7 +127,7 @@ class VisKandidatFraLister extends React.Component {
                                 forrigeKandidat={forrigeKandidatLink}
                                 nesteKandidat={nesteKandidatLink}
                                 gjeldendeKandidatIndex={gjeldendeKandidatIndex}
-                                antallKandidater={this.props.filtrerteKandidatnumre.length}
+                                antallKandidater={filtrerteKandidatnumre.length}
                             />
                         </div>
                     </>
@@ -169,21 +158,27 @@ VisKandidatFraLister.propTypes = {
         ),
     }),
     endreStatusKandidat: PropTypes.func.isRequired,
-    kandidatlisteFilterQuery: PropTypes.string,
     filtrerteKandidatnumre: PropTypes.arrayOf(PropTypes.string),
     settValgtKandidat: PropTypes.func.isRequired,
+    kandidatlistefilter: PropTypes.shape({
+        visArkiverte: PropTypes.bool.isRequired,
+        status: PropTypes.object.isRequired,
+        utfall: PropTypes.object.isRequired,
+        navn: PropTypes.string.isRequired,
+    }),
+    kandidattilstander: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     kandidatliste:
-        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
     hentStatus: state.cv.hentStatus,
     cv: state.cv.cv,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    kandidatlisteFilterQuery: state.kandidatliste.filterQuery,
-    filtrerteKandidatnumre: state.kandidatliste.filtrerteKandidatnumre,
+    kandidatlistefilter: state.kandidatliste.filter,
+    kandidattilstander: state.kandidatliste.kandidattilstander,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -207,10 +202,10 @@ const mapDispatchToProps = (dispatch) => ({
             kandidatlisteId,
             kandidatnr,
         }),
-    settKandidatlistefilter: (filtrerteKandidatnumre) =>
+    settKandidatlistefilter: (filter) =>
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,
-            filtrerteKandidatnumre,
+            filter,
         }),
 });
 

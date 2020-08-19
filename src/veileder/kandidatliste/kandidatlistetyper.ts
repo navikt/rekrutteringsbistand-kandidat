@@ -1,5 +1,7 @@
-import { RemoteData } from '../../felles/common/remoteData';
-
+import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import { Status } from './kandidatrad/statusSelect/StatusSelect';
+import { RemoteData } from './../../felles/common/remoteData';
+import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
 
 export enum Delestatus {
@@ -38,7 +40,7 @@ export interface Sms {
     status: SmsStatus;
 }
 
-export interface KandidatResponse {
+export interface Kandidat {
     kandidatId: string;
     kandidatnr: string;
     sisteArbeidserfaring: string;
@@ -77,26 +79,12 @@ export interface Notat {
     };
 }
 
-interface KandidatExtension {
-    notater: RemoteData<Array<Notat>>;
-}
-
-export type Kandidat = KandidatResponse & KandidatExtension;
-
-export type Kandidattilstand = {
-    markert: boolean;
-    visningsstatus: string;
-    sms?: Sms;
-};
-
-export type KandidatIKandidatliste = Kandidat & Kandidattilstand;
-
 export type OpprettetAv = {
     ident: string;
     navn: string;
 };
 
-interface KandidatlisteBase {
+export type Kandidatliste = {
     kandidatlisteId: string;
     tittel: string;
     beskrivelse: string;
@@ -107,16 +95,29 @@ interface KandidatlisteBase {
     opprettetTidspunkt: string;
     kanEditere: boolean;
     kanSlette: string;
-}
-
-interface KandidatlisteResponseExtension {
-    kandidater: Array<KandidatResponse>;
-}
-
-interface KandidatlisteExtension {
     kandidater: Array<Kandidat>;
-}
+};
 
-export type KandidatlisteResponse = KandidatlisteBase & KandidatlisteResponseExtension;
+export type Kandidattilstand = {
+    markert: boolean;
+    filtrertBort: boolean;
+    visningsstatus: Visningsstatus;
+};
 
-export type Kandidatliste = KandidatlisteBase & KandidatlisteExtension;
+type Kandidatnr = string;
+
+export type Kandidattilstander = Record<Kandidatnr, Kandidattilstand>;
+export type Kandidatnotater = Record<Kandidatnr, RemoteData<Notat[]>>;
+
+export type KandidatIKandidatliste = Kandidat & {
+    tilstand: Kandidattilstand;
+    notater: RemoteData<Notat[]>;
+    sms?: Sms;
+};
+
+export type Kandidatlistefilter = {
+    visArkiverte: boolean;
+    status: Record<Status, boolean>;
+    utfall: Record<Utfall, boolean>;
+    navn: string;
+};

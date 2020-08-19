@@ -45,7 +45,7 @@ import {
     putStatusKandidat,
     putArkivert,
 } from '../../api';
-import { KandidatlisteResponse } from '../kandidatlistetyper';
+import { Kandidatliste } from '../kandidatlistetyper';
 
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
@@ -169,7 +169,7 @@ function* endreKandidatstatus(action: EndreStatusKandidatAction) {
 
 function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
     try {
-        const response: KandidatlisteResponse = yield putUtfallKandidat(
+        const response: Kandidatliste = yield putUtfallKandidat(
             action.utfall,
             action.navKontor,
             action.kandidatlisteId,
@@ -373,6 +373,7 @@ function* toggleArkivert(action: ToggleArkivertAction) {
             action.kandidatnr,
             action.arkivert
         );
+
         yield put<ToggleArkivertSuccessAction>({
             type: KandidatlisteActionType.TOGGLE_ARKIVERT_SUCCESS,
             kandidat: arkivertKandidat,
@@ -519,7 +520,10 @@ function* kandidatlisteSaga() {
         sjekkError
     );
     yield takeLatest(KandidatlisteActionType.SEND_SMS, sendSmsTilKandidater);
-    yield takeLatest(KandidatlisteActionType.HENT_SENDTE_MELDINGER, hentSendteMeldinger);
+    yield takeLatest(
+        [KandidatlisteActionType.HENT_SENDTE_MELDINGER, KandidatlisteActionType.SEND_SMS_SUCCESS],
+        hentSendteMeldinger
+    );
 }
 
 export default kandidatlisteSaga;

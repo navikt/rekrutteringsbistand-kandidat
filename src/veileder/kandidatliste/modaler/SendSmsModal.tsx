@@ -60,7 +60,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
         sendSmsTilKandidater,
     } = props;
 
-    const markerteMandidater = kandidater.filter((kandidat) => kandidat.markert);
+    const markerteMandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
     const kandidaterSomHarFåttSms = markerteMandidater.filter((kandidat) => kandidat.sms);
     const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter((kandidat) => !kandidat.sms);
 

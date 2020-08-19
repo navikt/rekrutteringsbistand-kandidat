@@ -383,8 +383,8 @@ const mapStateToProps = (state) => ({
     antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatliste.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],

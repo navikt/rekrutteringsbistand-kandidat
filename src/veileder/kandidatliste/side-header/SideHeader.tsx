@@ -1,24 +1,25 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { useSelector } from 'react-redux';
 import Lenke from 'nav-frontend-lenker';
+import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilStilling } from '../../application/paths';
-import { OpprettetAv } from '../kandidatlistetyper';
-import Rekrutteringsstatus, { Status } from './rekrutteringsstatus/Rekrutteringsstatus';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import './SideHeader.less';
-import { useSelector } from 'react-redux';
+import { OpprettetAv, KandidatIKandidatliste } from '../kandidatlistetyper';
+import { Status as Kandidatstatus } from '../kandidatrad/statusSelect/StatusSelect';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../../AppState';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import Rekrutteringsstatus, {
+    Status as RekStatus,
+} from './rekrutteringsstatus/Rekrutteringsstatus';
+import './SideHeader.less';
 
 type Props = {
     tittel: string;
-    antallKandidater: number;
-    antallAktuelleKandidater: number;
-    antallPresenterteKandidater: number;
-    antallKandidaterSomHarFåttJobb: number;
+    kandidater: KandidatIKandidatliste[];
     arbeidsgiver?: string;
     opprettetAv: OpprettetAv;
     stillingsId: string | null;
@@ -26,12 +27,14 @@ type Props = {
     erEierAvListen: boolean;
 };
 
+const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
+const erAktuell = (k: KandidatIKandidatliste) => k.status === Kandidatstatus.Aktuell;
+const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
+const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
+
 const SideHeader: FunctionComponent<Props> = ({
     tittel,
-    antallKandidater,
-    antallAktuelleKandidater,
-    antallPresenterteKandidater,
-    antallKandidaterSomHarFåttJobb,
+    kandidater,
     arbeidsgiver,
     opprettetAv,
     stillingsId,
@@ -42,8 +45,15 @@ const SideHeader: FunctionComponent<Props> = ({
         (state: AppState) => state.søk.featureToggles['vis-rekrutteringsstatus']
     );
 
+    const ikkeArkiverteKandidater = kandidater.filter(erIkkeArkivert);
+    const antallAktuelleKandidater = ikkeArkiverteKandidater.filter(erAktuell).length;
+    const antallPresenterteKandidater = ikkeArkiverteKandidater.filter(erPresentert).length;
+    const antallKandidaterSomHarFåttJobb = ikkeArkiverteKandidater.filter(harFåttJobb).length;
+
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
-    const oppsummeringTekst = `${antallKandidater} kandidater (${antallAktuelleKandidater} er aktuelle${
+    const oppsummeringTekst = `${
+        kandidater.length
+    } kandidater (${antallAktuelleKandidater} er aktuelle${
         stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
 
@@ -105,7 +115,7 @@ const SideHeader: FunctionComponent<Props> = ({
                         erEierAvListen={erEierAvListen}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
                         antallStillinger={0} // TODO: Hent dette fra stillingen.
-                        status={Status.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
+                        status={RekStatus.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
                     />
                 )}
             </div>
