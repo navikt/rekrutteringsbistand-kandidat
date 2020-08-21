@@ -1,3 +1,4 @@
+import { sendEvent } from './../../amplitude/amplitude';
 import {
     postSmsTilKandidater,
     fetchSendteMeldinger,
@@ -47,6 +48,19 @@ import {
 } from '../../api';
 import { Kandidatliste } from '../kandidatlistetyper';
 
+const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
+    const aktøridRegex = /[0-9]{13}/;
+    const noenKandidaterManglerAktørId = kandidatliste.kandidater.some(
+        (kandidat) => !kandidat.aktørid || !kandidat.aktørid.match(aktøridRegex)
+    );
+
+    if (noenKandidaterManglerAktørId) {
+        sendEvent('kandidatliste', 'kandidat_mangler_aktørid', {
+            kandidatlisteId: kandidatliste.kandidatlisteId,
+        });
+    }
+};
+
 function* opprettKandidatliste(action: OpprettKandidatlisteAction) {
     try {
         yield postKandidatliste(action.kandidatlisteInfo);
@@ -87,6 +101,7 @@ function* hentKandidatlisteMedStillingsId(action: HentKandidatlisteMedStillingsI
     const { stillingsId } = action;
     try {
         const kandidatliste = yield fetchKandidatlisteMedStillingsId(stillingsId);
+        loggManglendeAktørId(kandidatliste);
         yield put({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS,
             kandidatliste,
@@ -111,6 +126,7 @@ function* hentKandidatlisteMedKandidatlisteId(action: HentKandidatlisteMedKandid
     const { kandidatlisteId } = action;
     try {
         const kandidatliste = yield fetchKandidatlisteMedKandidatlisteId(kandidatlisteId);
+        loggManglendeAktørId(kandidatliste);
         yield put({
             type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_SUCCESS,
             kandidatliste,

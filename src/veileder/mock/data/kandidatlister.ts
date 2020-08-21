@@ -1,5 +1,5 @@
 import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { Kandidatliste } from './../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste, Kandidat } from './../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
@@ -75,7 +75,7 @@ const baseKandidatliste: Omit<Kandidatliste, 'kandidater'> = {
     kanSlette: KanSletteEnum.KAN_SLETTES,
 };
 
-const fraCvTilKandidat = (cv: Cv) => ({
+const fraCvTilKandidat = (cv: Cv): Kandidat => ({
     kandidatId: lagUuid(cv.kandidatnummer),
     kandidatnr: cv.kandidatnummer,
     sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
@@ -97,7 +97,7 @@ const fraCvTilKandidat = (cv: Cv) => ({
     antallNotater: 1,
     arkivertTidspunkt: null,
     arkivertAv: null,
-    aktørId: '12345678910',
+    aktørid: '1234567891023',
     midlertidigUtilgjengeligStatus: Tilgjengelighet.TilgjengeligInnen1Uke,
     erSynlig: true,
 });
