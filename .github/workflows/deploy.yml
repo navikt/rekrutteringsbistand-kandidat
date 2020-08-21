@@ -1,6 +1,7 @@
-  name: Bygg og deploy
+name: Bygg og deploy
 
-on: [push]
+on:
+  [push]
 
 env:
     IMAGE: docker.pkg.github.com/${{ github.repository }}/rekrutteringsbistand-kandidat:${{ github.sha }}
