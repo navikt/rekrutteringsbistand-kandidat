@@ -118,6 +118,7 @@ const tokenValidator = (req, res, next) => {
         const redirectUrl = `${
             miljøvariablerTilFrontend.LOGIN_URL
         }?redirect=${protocol}://${req.get('host')}/kandidater`;
+        console.log('Redirecting unauthenticated user to ', redirectUrl);
         return res.redirect(redirectUrl);
     }
     return next();

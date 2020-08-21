@@ -1,4 +1,4 @@
-name: Bygg og deploy
+  name: Bygg og deploy
 
 on: [push]
 
@@ -35,7 +35,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/behold-avhuking'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feilsok-login'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
