@@ -142,7 +142,7 @@ class LeggTilKandidatModal extends React.Component {
 
         let usynligKandidat;
         if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
-            usynligKandidat = this.props.usynligKandidat.data.navn[0];
+            usynligKandidat = this.props.usynligKandidat.data[0];
         }
 
         return (

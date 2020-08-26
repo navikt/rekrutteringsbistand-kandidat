@@ -124,6 +124,6 @@ export type Kandidatlistefilter = {
 
 export type Navn = {
     fornavn: string;
-    mellomnavn?: string;
+    mellomnavn: string | null;
     etternavn: string;
 };
