@@ -1,3 +1,4 @@
+import { Navn } from './../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
@@ -192,6 +193,21 @@ export interface HentKandidatMedFnrFailureAction {
 
 export interface HentKandidatMedFnrResetAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET;
+}
+
+export interface HentNavnFraPdlAction {
+    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL;
+    fodselsnummer: string;
+}
+
+export interface HentNavnFraPdlSuccessAction {
+    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL_SUCCESS;
+    navn: Navn[];
+}
+
+export interface HentNavnFraPdlFailureAction {
+    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL_FAILURE;
+    error: ApiError;
 }
 
 export interface HentNotaterAction {
@@ -410,6 +426,9 @@ type KandidatlisteAction =
     | HentKandidatMedFnrNotFoundAction
     | HentKandidatMedFnrFailureAction
     | HentKandidatMedFnrResetAction
+    | HentNavnFraPdlAction
+    | HentNavnFraPdlSuccessAction
+    | HentNavnFraPdlFailureAction
     | HentNotaterAction
     | HentNotaterSuccessAction
     | HentNotaterFailureAction

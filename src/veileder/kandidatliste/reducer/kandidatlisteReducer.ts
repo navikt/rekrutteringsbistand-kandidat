@@ -1,10 +1,10 @@
-import { ListeoversiktActionType } from './../../listeoversikt/reducer/ListeoversiktAction';
+import { Nettressurs } from './../../../felles/common/remoteData';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
     lagTomtUtfallsfilter,
 } from './../filter/filter-utils';
-import { Kandidatlistefilter } from '../kandidatlistetyper';
+import { Kandidatlistefilter, Navn } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
 import {
@@ -81,6 +81,7 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
+    navnFraPdl: Nettressurs<Navn[]>;
 }
 
 const initialState: KandidatlisteState = {
@@ -127,6 +128,7 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
+    navnFraPdl: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -372,6 +374,24 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
+            };
+        }
+        case KandidatlisteActionType.HENT_NAVN_FRA_PDL: {
+            return {
+                ...state,
+                navnFraPdl: LasterInn(),
+            };
+        }
+        case KandidatlisteActionType.HENT_NAVN_FRA_PDL_SUCCESS: {
+            return {
+                ...state,
+                navnFraPdl: Suksess(action.navn),
+            };
+        }
+        case KandidatlisteActionType.HENT_NAVN_FRA_PDL_FAILURE: {
+            return {
+                ...state,
+                navnFraPdl: Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
