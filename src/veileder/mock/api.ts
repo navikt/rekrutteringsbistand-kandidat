@@ -48,6 +48,7 @@ const url = {
     utfallPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`,
     arkivertPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/arkivert`,
     delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
+    usynligKandidat: `${api}/veileder/kandidater/navn`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -72,6 +73,15 @@ const getCv = (url: string) => {
         return null;
     }
 };
+
+const getUsynligKandidat = () => ({
+    navn: [
+        {
+            fornavn: 'Are',
+            etternavn: 'Husby',
+        },
+    ],
+});
 
 const getKandidatlister = () => ({
     antall: kandidatlister.length,
@@ -167,10 +177,11 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .get(url.fnrsok, log(fnrsok))
+    .get(url.fnrsok, log(404))
     .post(url.delKandidater, log(kandidatliste))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
+    .post(url.usynligKandidat, log(getUsynligKandidat))
 
     // Misc
     .get(url.toggles, log(featureToggles))

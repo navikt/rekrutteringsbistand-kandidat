@@ -1,4 +1,4 @@
-import { Nettressurs } from './../../../felles/common/remoteData';
+import { Nettressurs, FinnesIkke } from './../../../felles/common/remoteData';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -391,7 +391,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                usynligKandidat: Feil(action.error),
+                usynligKandidat: action.error.status === 404 ? FinnesIkke() : Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:

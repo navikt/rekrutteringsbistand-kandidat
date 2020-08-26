@@ -4,12 +4,13 @@ import {
     fetchSendteMeldinger,
     putArkivertForFlereKandidater,
     putUtfallKandidat,
+    fetchUsynligKandidat,
 } from './../../api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
 import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
-import {
+import KandidatlisteAction, {
     OpprettKandidatlisteAction,
     HentKandidatlisteMedStillingsIdAction,
     HentKandidatlisteMedKandidatlisteIdAction,
@@ -28,6 +29,7 @@ import {
     AngreArkiveringSuccessAction,
     EndreUtfallKandidatAction,
     EndreUtfallKandidatSuccessAction,
+    HentUsynligKandidatAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -215,6 +217,10 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
         if (e instanceof SearchApiError) {
             if (e.status === 404) {
                 yield put({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_NOT_FOUND });
+                yield put({
+                    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT,
+                    fodselsnummer: action.fodselsnummer,
+                });
             } else {
                 yield put({
                     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE,
@@ -224,6 +230,21 @@ function* hentKandidatMedFnr(action: HentKandidatMedFnrAction) {
         } else {
             throw e;
         }
+    }
+}
+
+function* hentUsynligKandidat(action: HentUsynligKandidatAction) {
+    try {
+        const response = yield fetchUsynligKandidat(action.fodselsnummer);
+        yield put<KandidatlisteAction>({
+            type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS,
+            navn: response,
+        });
+    } catch (e) {
+        yield put({
+            type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE,
+            error: e,
+        });
     }
 }
 
@@ -540,6 +561,7 @@ function* kandidatlisteSaga() {
         [KandidatlisteActionType.HENT_SENDTE_MELDINGER, KandidatlisteActionType.SEND_SMS_SUCCESS],
         hentSendteMeldinger
     );
+    yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
 }
 
 export default kandidatlisteSaga;

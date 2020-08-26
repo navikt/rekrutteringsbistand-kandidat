@@ -246,6 +246,15 @@ export const fetchKandidatlisterForKandidat = (
     );
 };
 
+export const fetchUsynligKandidat = (fodselsnummer: string) => {
+    return postJson(
+        `${KANDIDATLISTE_API}/kandidater/navn`,
+        JSON.stringify({
+            fnr: fodselsnummer,
+        })
+    );
+};
+
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
     fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true);
 
