@@ -12,6 +12,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import { HentStatus } from '../kandidatlistetyper';
 import './LeggTilKandidatModal.less';
+import { Nettstatus } from '../../../felles/common/remoteData';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {
@@ -138,6 +139,12 @@ class LeggTilKandidatModal extends React.Component {
 
     render() {
         const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus, notat } = this.props;
+
+        let usynligKandidat;
+        if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
+            usynligKandidat = this.props.usynligKandidat.data.navn[0];
+        }
+
         return (
             <NavFrontendModal
                 contentLabel="Modal legg til kandidat"
@@ -163,6 +170,9 @@ class LeggTilKandidatModal extends React.Component {
                 />
                 {this.state.showFodselsnummer && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
+                )}
+                {usynligKandidat && (
+                    <Normaltekst className="fodselsnummer">{`${usynligKandidat.fornavn} ${usynligKandidat.etternavn} (${fodselsnummer}) (fra PDL)`}</Normaltekst>
                 )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
@@ -237,6 +247,13 @@ LeggTilKandidatModal.propTypes = {
             yrkeserfaringManeder: PropTypes.number,
         }),
     }).isRequired,
+    usynligKandidat: PropTypes.shape({
+        navn: PropTypes.arrayOf({
+            fornavn: PropTypes.string.isRequired,
+            mellomnavn: PropTypes.string,
+            etternavn: PropTypes.string.isRequired,
+        }),
+    }),
     hentStatus: PropTypes.string.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
 };
@@ -244,6 +261,7 @@ LeggTilKandidatModal.propTypes = {
 const mapStateToProps = (state) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
+    usynligKandidat: state.kandidatliste.usynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     notat: state.kandidatliste.notat,
