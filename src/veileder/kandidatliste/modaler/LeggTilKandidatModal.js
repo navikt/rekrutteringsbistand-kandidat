@@ -144,7 +144,7 @@ class LeggTilKandidatModal extends React.Component {
 
         let usynligKandidat;
         if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
-            usynligKandidat = this.props.usynligKandidat.data[0];
+            usynligKandidat = this.props.usynligKandidat.data;
         }
 
         return (
@@ -173,9 +173,14 @@ class LeggTilKandidatModal extends React.Component {
                 {this.state.showFodselsnummer && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
-                {usynligKandidat && (
-                    <Normaltekst className="fodselsnummer">{`${usynligKandidat.fornavn} ${usynligKandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
-                )}
+                {usynligKandidat &&
+                    usynligKandidat.map((navn) => (
+                        <Normaltekst key={JSON.stringify(navn)} className="fodselsnummer">{`${
+                            navn.fornavn
+                        }${navn.mellomnavn ? ' ' + navn.mellomnavn : ''} ${
+                            navn.etternavn
+                        } (${fodselsnummer})`}</Normaltekst>
+                    ))}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
                         <i className="advarsel__icon" />
@@ -249,13 +254,7 @@ LeggTilKandidatModal.propTypes = {
             yrkeserfaringManeder: PropTypes.number,
         }),
     }).isRequired,
-    usynligKandidat: PropTypes.shape({
-        navn: PropTypes.arrayOf({
-            fornavn: PropTypes.string.isRequired,
-            mellomnavn: PropTypes.string,
-            etternavn: PropTypes.string.isRequired,
-        }),
-    }),
+    usynligKandidat: PropTypes.any,
     hentStatus: PropTypes.string.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
 };

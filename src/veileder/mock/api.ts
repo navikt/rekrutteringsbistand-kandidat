@@ -74,14 +74,13 @@ const getCv = (url: string) => {
     }
 };
 
-const getUsynligKandidat = () => ({
-    navn: [
-        {
-            fornavn: 'Are',
-            etternavn: 'Husby',
-        },
-    ],
-});
+const getUsynligKandidat = () => [
+    {
+        fornavn: 'Petter',
+        mellomnavn: '"Usynlig"',
+        etternavn: 'Hansen',
+    },
+];
 
 const getKandidatlister = () => ({
     antall: kandidatlister.length,
@@ -177,7 +176,7 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .get(url.fnrsok, log(fnrsok))
+    .get(url.fnrsok, log(404))
     .post(url.delKandidater, log(kandidatliste))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
