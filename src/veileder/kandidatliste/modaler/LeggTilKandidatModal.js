@@ -172,7 +172,7 @@ class LeggTilKandidatModal extends React.Component {
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
                 {usynligKandidat && (
-                    <Normaltekst className="fodselsnummer">{`${usynligKandidat.fornavn} ${usynligKandidat.etternavn} (${fodselsnummer}) (fra PDL)`}</Normaltekst>
+                    <Normaltekst className="fodselsnummer">{`${usynligKandidat.fornavn} ${usynligKandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
