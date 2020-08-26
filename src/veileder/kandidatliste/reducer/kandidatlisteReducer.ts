@@ -81,7 +81,7 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
-    navnFraPdl: Nettressurs<Navn[]>;
+    usynligKandidat: Nettressurs<Navn[]>;
 }
 
 const initialState: KandidatlisteState = {
@@ -128,7 +128,7 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
-    navnFraPdl: IkkeLastet(),
+    usynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -379,19 +379,19 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                navnFraPdl: LasterInn(),
+                usynligKandidat: LasterInn(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                navnFraPdl: Suksess(action.navn),
+                usynligKandidat: Suksess(action.navn),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                navnFraPdl: Feil(action.error),
+                usynligKandidat: Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
