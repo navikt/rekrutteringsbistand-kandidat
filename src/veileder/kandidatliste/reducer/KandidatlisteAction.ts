@@ -195,18 +195,18 @@ export interface HentKandidatMedFnrResetAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET;
 }
 
-export interface HentNavnFraPdlAction {
-    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL;
+export interface HentUsynligKandidatAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT;
     fodselsnummer: string;
 }
 
-export interface HentNavnFraPdlSuccessAction {
-    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL_SUCCESS;
+export interface HentUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS;
     navn: Navn[];
 }
 
-export interface HentNavnFraPdlFailureAction {
-    type: KandidatlisteActionType.HENT_NAVN_FRA_PDL_FAILURE;
+export interface HentUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE;
     error: ApiError;
 }
 
@@ -426,9 +426,9 @@ type KandidatlisteAction =
     | HentKandidatMedFnrNotFoundAction
     | HentKandidatMedFnrFailureAction
     | HentKandidatMedFnrResetAction
-    | HentNavnFraPdlAction
-    | HentNavnFraPdlSuccessAction
-    | HentNavnFraPdlFailureAction
+    | HentUsynligKandidatAction
+    | HentUsynligKandidatSuccessAction
+    | HentUsynligKandidatFailureAction
     | HentNotaterAction
     | HentNotaterSuccessAction
     | HentNotaterFailureAction

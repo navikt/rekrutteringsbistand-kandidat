@@ -376,19 +376,19 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 kandidat: initialState.kandidat,
             };
         }
-        case KandidatlisteActionType.HENT_NAVN_FRA_PDL: {
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
             return {
                 ...state,
                 navnFraPdl: LasterInn(),
             };
         }
-        case KandidatlisteActionType.HENT_NAVN_FRA_PDL_SUCCESS: {
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
                 navnFraPdl: Suksess(action.navn),
             };
         }
-        case KandidatlisteActionType.HENT_NAVN_FRA_PDL_FAILURE: {
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
                 navnFraPdl: Feil(action.error),
