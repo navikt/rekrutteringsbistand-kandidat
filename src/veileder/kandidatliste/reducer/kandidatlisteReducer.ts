@@ -369,11 +369,12 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 hentStatus: HentStatus.Failure,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET: {
+        case KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET: {
             return {
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
+                usynligKandidat: IkkeLastet(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {

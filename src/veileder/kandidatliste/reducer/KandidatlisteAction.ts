@@ -191,8 +191,8 @@ export interface HentKandidatMedFnrFailureAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE;
 }
 
-export interface HentKandidatMedFnrResetAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET;
+export interface LeggTilKandidatSøkReset {
+    type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET;
 }
 
 export interface HentUsynligKandidatAction {
@@ -425,7 +425,7 @@ type KandidatlisteAction =
     | HentKandidatMedFnrSuccessAction
     | HentKandidatMedFnrNotFoundAction
     | HentKandidatMedFnrFailureAction
-    | HentKandidatMedFnrResetAction
+    | LeggTilKandidatSøkReset
     | HentUsynligKandidatAction
     | HentUsynligKandidatSuccessAction
     | HentUsynligKandidatFailureAction

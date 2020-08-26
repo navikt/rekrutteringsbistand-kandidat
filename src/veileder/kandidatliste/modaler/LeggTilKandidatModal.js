@@ -28,7 +28,7 @@ class LeggTilKandidatModal extends React.Component {
     componentDidMount() {
         this.props.setFodselsnummer(undefined);
         this.props.setNotat('');
-        this.props.resetHentKandidatMedFnr();
+        this.props.resetSøk();
     }
 
     componentDidUpdate(prevProps) {
@@ -55,14 +55,16 @@ class LeggTilKandidatModal extends React.Component {
         if (fnr.length === 11) {
             this.props.hentKandidatMedFnr(fnr);
         } else if (fnr.length > 11) {
-            this.props.resetHentKandidatMedFnr();
+            this.props.resetSøk();
+
             this.setState({
                 showFodselsnummer: false,
                 errorMessage: 'Fødselsnummeret er for langt',
                 showAlleredeLagtTilWarning: false,
             });
         } else {
-            this.props.resetHentKandidatMedFnr();
+            this.props.resetSøk();
+
             this.setState({
                 showFodselsnummer: false,
                 errorMessage: undefined,
@@ -236,7 +238,7 @@ LeggTilKandidatModal.propTypes = {
     kandidatliste: PropTypes.shape(Kandidatliste),
     setFodselsnummer: PropTypes.func.isRequired,
     hentKandidatMedFnr: PropTypes.func.isRequired,
-    resetHentKandidatMedFnr: PropTypes.func.isRequired,
+    resetSøk: PropTypes.func.isRequired,
     leggTilKandidatMedFnr: PropTypes.func.isRequired,
     kandidat: PropTypes.shape({
         arenaKandidatnr: PropTypes.string,
@@ -274,8 +276,8 @@ const mapDispatchToProps = (dispatch) => ({
     hentKandidatMedFnr: (fodselsnummer) => {
         dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
     },
-    resetHentKandidatMedFnr: () => {
-        dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET });
+    resetSøk: () => {
+        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
     },
     leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
