@@ -193,21 +193,29 @@ class LeggTilKandidatModal extends React.Component {
                         </div>
                     </div>
                 )}
-                <div className="legg-til-kandidat__notatoverskrift" />
-                <Textarea
-                    id="legg-til-kandidat-notat-input"
-                    label="Notat om kandidaten"
-                    textareaClass="legg-til-kandidat__notat skjemaelement--pink"
-                    description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
-                    placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
-                    value={notat || ''}
-                    maxLength={NOTATLENGDE}
-                    feil={notat && notat.length > NOTATLENGDE ? 'Notatet er for langt' : undefined}
-                    onChange={this.onNotatChange}
-                    textareaRef={(textArea) => {
-                        this.textArea = textArea;
-                    }}
-                />
+                {this.state.showFodselsnummer && (
+                    <>
+                        <div className="legg-til-kandidat__notatoverskrift" />
+                        <Textarea
+                            id="legg-til-kandidat-notat-input"
+                            label="Notat om kandidaten"
+                            textareaClass="legg-til-kandidat__notat skjemaelement--pink"
+                            description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
+                            placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
+                            value={notat || ''}
+                            maxLength={NOTATLENGDE}
+                            feil={
+                                notat && notat.length > NOTATLENGDE
+                                    ? 'Notatet er for langt'
+                                    : undefined
+                            }
+                            onChange={this.onNotatChange}
+                            textareaRef={(textArea) => {
+                                this.textArea = textArea;
+                            }}
+                        />
+                    </>
+                )}
 
                 <div>
                     <Hovedknapp
