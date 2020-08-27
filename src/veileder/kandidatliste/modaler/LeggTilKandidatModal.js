@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
-import { Input, Textarea } from 'nav-frontend-skjema';
+import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Kandidatliste } from '../PropTypes';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
@@ -163,7 +163,7 @@ class LeggTilKandidatModal extends React.Component {
                 <Input
                     className="skjemaelement--pink legg-til-kandidat__fodselsnummer"
                     onChange={this.onChange}
-                    feil={this.state.errorMessage && this.state.errorMessage}
+                    feil={!!this.state.errorMessage}
                     bredde="S"
                     label="Fødselsnummer på kandidaten (11 siffer)"
                     inputRef={(input) => {
@@ -181,6 +181,9 @@ class LeggTilKandidatModal extends React.Component {
                             navn.etternavn
                         } (${fodselsnummer})`}</Normaltekst>
                     ))}
+                {this.state.errorMessage && (
+                    <SkjemaelementFeilmelding>{this.state.errorMessage}</SkjemaelementFeilmelding>
+                )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
                         <i className="advarsel__icon" />
