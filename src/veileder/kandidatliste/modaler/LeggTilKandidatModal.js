@@ -13,6 +13,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import { HentStatus } from '../kandidatlistetyper';
 import './LeggTilKandidatModal.less';
 import { Nettstatus } from '../../../felles/common/remoteData';
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {
@@ -178,11 +179,14 @@ class LeggTilKandidatModal extends React.Component {
                 )}
                 {usynligKandidat &&
                     usynligKandidat.map((navn) => (
-                        <Normaltekst key={JSON.stringify(navn)} className="fodselsnummer">{`${
-                            navn.fornavn
-                        }${navn.mellomnavn ? ' ' + navn.mellomnavn : ''} ${
+                        <Normaltekst
+                            key={JSON.stringify(navn)}
+                            className="fodselsnummer"
+                        >{`${capitalizeFirstLetter(navn.fornavn)}${
+                            navn.mellomnavn ? ' ' + capitalizeFirstLetter(navn.mellomnavn) : ''
+                        } ${capitalizeFirstLetter(
                             navn.etternavn
-                        } (${fodselsnummer})`}</Normaltekst>
+                        )} (${fodselsnummer})`}</Normaltekst>
                     ))}
                 {this.state.errorMessage && (
                     <SkjemaelementFeilmelding>{this.state.errorMessage}</SkjemaelementFeilmelding>
