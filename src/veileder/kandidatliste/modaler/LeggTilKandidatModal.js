@@ -20,7 +20,7 @@ class LeggTilKandidatModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showFodselsnummer: false,
+            visResultatFraCvSøk: false,
             showAlleredeLagtTilWarning: false,
             errorMessage: undefined,
         };
@@ -37,13 +37,13 @@ class LeggTilKandidatModal extends React.Component {
         if (prevProps.hentStatus !== hentStatus) {
             if (hentStatus === HentStatus.Success) {
                 this.setState({
-                    showFodselsnummer: true,
+                    visResultatFraCvSøk: true,
                     errorMessage: undefined,
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
             } else if (hentStatus === HentStatus.FinnesIkke) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: this.kandidatenFinnesIkke(),
                 });
             }
@@ -59,7 +59,7 @@ class LeggTilKandidatModal extends React.Component {
             this.props.resetSøk();
 
             this.setState({
-                showFodselsnummer: false,
+                visResultatFraCvSøk: false,
                 errorMessage: 'Fødselsnummeret er for langt',
                 showAlleredeLagtTilWarning: false,
             });
@@ -67,7 +67,7 @@ class LeggTilKandidatModal extends React.Component {
             this.props.resetSøk();
 
             this.setState({
-                showFodselsnummer: false,
+                visResultatFraCvSøk: false,
                 errorMessage: undefined,
                 showAlleredeLagtTilWarning: false,
             });
@@ -106,13 +106,13 @@ class LeggTilKandidatModal extends React.Component {
         } else {
             if (!fodselsnummer) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummer må fylles inn',
                 });
                 this.fnrinput.focus();
             } else if (fodselsnummer.length < 11) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummeret er for kort',
                 });
                 this.fnrinput.focus();
@@ -174,7 +174,7 @@ class LeggTilKandidatModal extends React.Component {
                         this.fnrinput = input;
                     }}
                 />
-                {this.state.showFodselsnummer && (
+                {this.state.visResultatFraCvSøk && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
                 {usynligKandidat &&
@@ -203,7 +203,7 @@ class LeggTilKandidatModal extends React.Component {
                         </div>
                     </div>
                 )}
-                {this.state.showFodselsnummer && (
+                {this.state.visResultatFraCvSøk && (
                     <>
                         <div className="legg-til-kandidat__notatoverskrift" />
                         <Textarea

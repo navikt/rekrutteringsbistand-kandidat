@@ -102,8 +102,8 @@ const fraCvTilKandidat = (cv: Cv): Kandidat => ({
     erSynlig: true,
 });
 
-export const hentTestkandidat = (nr: number) => ({
-    ...fraCvTilKandidat(cver[nr]),
+export const hentTestkandidat = (index: number) => ({
+    ...fraCvTilKandidat(cver[index]),
 });
 
 export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
