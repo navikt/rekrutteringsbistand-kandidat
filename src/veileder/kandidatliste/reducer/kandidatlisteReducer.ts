@@ -1,4 +1,3 @@
-import { Nettressurs, FinnesIkke } from './../../../felles/common/remoteData';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -19,8 +18,10 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
-    Feil,
+    Nettressurs,
+    FinnesIkke,
     IkkeLastet,
+    Feil,
     LasterInn,
     Nettstatus,
     RemoteData,
@@ -403,7 +404,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.LOADING,
                 },
             };
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS:
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS: {
+            const kandidatnotater = {
+                ...state.kandidatnotater,
+            };
+
+            const kandidattilstander = {
+                ...state.kandidattilstander,
+            };
+
+            action.lagredeKandidater.forEach((lagretKandidat) => {
+                kandidattilstander[lagretKandidat.kandidatnr] = initialKandidattilstand();
+                kandidatnotater[lagretKandidat.kandidatnr] = IkkeLastet();
+            });
+
             return {
                 ...state,
                 leggTilKandidater: {
@@ -413,7 +427,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagretListe: action.lagretListe,
                 },
                 kandidatliste: Suksess(action.kandidatliste),
+                kandidattilstander,
+                kandidatnotater,
             };
+        }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE:
             return {
                 ...state,

@@ -95,22 +95,25 @@ export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.RESET_DELESTATUS;
 }
 
+type LagretKandidat = {
+    kandidatnr: string;
+    notat: string;
+    sisteArbeidserfaring: string;
+};
+
 export interface LeggTilKandidaterAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER;
     kandidatliste: {
         kandidatlisteId: string;
     };
-    kandidater: Array<{
-        kandidatnr: string;
-        notat: string;
-        sisteArbeidserfaring: string;
-    }>;
+    kandidater: Array<LagretKandidat>;
 }
 
 export interface LeggTilKandidaterSuccessAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
     antallLagredeKandidater: number;
     lagretListe: any;
+    lagredeKandidater: Array<LagretKandidat>;
     kandidatliste: Kandidatliste;
 }
 

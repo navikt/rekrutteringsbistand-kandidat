@@ -254,11 +254,12 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
             action.kandidatliste.kandidatlisteId,
             action.kandidater
         );
-        yield put({
+        yield put<KandidatlisteAction>({
             type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS,
             kandidatliste: response,
             antallLagredeKandidater: action.kandidater.length,
             lagretListe: action.kandidatliste,
+            lagredeKandidater: action.kandidater,
         });
         yield put({ type: SEARCH });
     } catch (e) {
