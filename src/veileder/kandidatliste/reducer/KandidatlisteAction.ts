@@ -1,3 +1,4 @@
+import { Navn } from './../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
@@ -94,22 +95,25 @@ export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.RESET_DELESTATUS;
 }
 
+type LagretKandidat = {
+    kandidatnr: string;
+    notat: string;
+    sisteArbeidserfaring: string;
+};
+
 export interface LeggTilKandidaterAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER;
     kandidatliste: {
         kandidatlisteId: string;
     };
-    kandidater: Array<{
-        kandidatnr: string;
-        notat: string;
-        sisteArbeidserfaring: string;
-    }>;
+    kandidater: Array<LagretKandidat>;
 }
 
 export interface LeggTilKandidaterSuccessAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
     antallLagredeKandidater: number;
     lagretListe: any;
+    lagredeKandidater: Array<LagretKandidat>;
     kandidatliste: Kandidatliste;
 }
 
@@ -190,8 +194,23 @@ export interface HentKandidatMedFnrFailureAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_FAILURE;
 }
 
-export interface HentKandidatMedFnrResetAction {
-    type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET;
+export interface LeggTilKandidatSøkReset {
+    type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET;
+}
+
+export interface HentUsynligKandidatAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT;
+    fodselsnummer: string;
+}
+
+export interface HentUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS;
+    navn: Navn[];
+}
+
+export interface HentUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE;
+    error: ApiError;
 }
 
 export interface HentNotaterAction {
@@ -409,7 +428,10 @@ type KandidatlisteAction =
     | HentKandidatMedFnrSuccessAction
     | HentKandidatMedFnrNotFoundAction
     | HentKandidatMedFnrFailureAction
-    | HentKandidatMedFnrResetAction
+    | LeggTilKandidatSøkReset
+    | HentUsynligKandidatAction
+    | HentUsynligKandidatSuccessAction
+    | HentUsynligKandidatFailureAction
     | HentNotaterAction
     | HentNotaterSuccessAction
     | HentNotaterFailureAction

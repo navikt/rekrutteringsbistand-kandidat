@@ -379,6 +379,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             kanEditere,
             beskrivelse,
         } = kandidatliste;
+
         return (
             <div>
                 {deleModalOpen && (

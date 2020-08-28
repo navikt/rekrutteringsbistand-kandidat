@@ -1,10 +1,9 @@
-import { ListeoversiktActionType } from './../../listeoversikt/reducer/ListeoversiktAction';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
     lagTomtUtfallsfilter,
 } from './../filter/filter-utils';
-import { Kandidatlistefilter } from '../kandidatlistetyper';
+import { Kandidatlistefilter, Navn } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { SearchApiError } from './../../../felles/api';
 import {
@@ -19,8 +18,10 @@ import KandidatlisteActionType from './KandidatlisteActionType';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
-    Feil,
+    Nettressurs,
+    FinnesIkke,
     IkkeLastet,
+    Feil,
     LasterInn,
     Nettstatus,
     RemoteData,
@@ -81,6 +82,7 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
+    usynligKandidat: Nettressurs<Navn[]>;
 }
 
 const initialState: KandidatlisteState = {
@@ -127,6 +129,7 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
+    usynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -367,11 +370,30 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 hentStatus: HentStatus.Failure,
             };
         }
-        case KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET: {
+        case KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET: {
             return {
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
+                usynligKandidat: IkkeLastet(),
+            };
+        }
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
+            return {
+                ...state,
+                usynligKandidat: LasterInn(),
+            };
+        }
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
+            return {
+                ...state,
+                usynligKandidat: Suksess(action.navn),
+            };
+        }
+        case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
+            return {
+                ...state,
+                usynligKandidat: action.error.status === 404 ? FinnesIkke() : Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
@@ -382,7 +404,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.LOADING,
                 },
             };
-        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS:
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS: {
+            const kandidatnotater = {
+                ...state.kandidatnotater,
+            };
+
+            const kandidattilstander = {
+                ...state.kandidattilstander,
+            };
+
+            action.lagredeKandidater.forEach((lagretKandidat) => {
+                kandidattilstander[lagretKandidat.kandidatnr] = initialKandidattilstand();
+                kandidatnotater[lagretKandidat.kandidatnr] = IkkeLastet();
+            });
+
             return {
                 ...state,
                 leggTilKandidater: {
@@ -392,7 +427,10 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagretListe: action.lagretListe,
                 },
                 kandidatliste: Suksess(action.kandidatliste),
+                kandidattilstander,
+                kandidatnotater,
             };
+        }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE:
             return {
                 ...state,

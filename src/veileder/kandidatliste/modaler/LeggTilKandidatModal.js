@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
-import { Input, Textarea } from 'nav-frontend-skjema';
+import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Kandidatliste } from '../PropTypes';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
@@ -12,13 +12,15 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import { HentStatus } from '../kandidatlistetyper';
 import './LeggTilKandidatModal.less';
+import { Nettstatus } from '../../../felles/common/remoteData';
+import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showFodselsnummer: false,
+            visResultatFraCvSøk: false,
             showAlleredeLagtTilWarning: false,
             errorMessage: undefined,
         };
@@ -27,7 +29,7 @@ class LeggTilKandidatModal extends React.Component {
     componentDidMount() {
         this.props.setFodselsnummer(undefined);
         this.props.setNotat('');
-        this.props.resetHentKandidatMedFnr();
+        this.props.resetSøk();
     }
 
     componentDidUpdate(prevProps) {
@@ -35,13 +37,13 @@ class LeggTilKandidatModal extends React.Component {
         if (prevProps.hentStatus !== hentStatus) {
             if (hentStatus === HentStatus.Success) {
                 this.setState({
-                    showFodselsnummer: true,
+                    visResultatFraCvSøk: true,
                     errorMessage: undefined,
                     showAlleredeLagtTilWarning: this.kandidatenFinnesAllerede(),
                 });
             } else if (hentStatus === HentStatus.FinnesIkke) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: this.kandidatenFinnesIkke(),
                 });
             }
@@ -54,16 +56,18 @@ class LeggTilKandidatModal extends React.Component {
         if (fnr.length === 11) {
             this.props.hentKandidatMedFnr(fnr);
         } else if (fnr.length > 11) {
-            this.props.resetHentKandidatMedFnr();
+            this.props.resetSøk();
+
             this.setState({
-                showFodselsnummer: false,
+                visResultatFraCvSøk: false,
                 errorMessage: 'Fødselsnummeret er for langt',
                 showAlleredeLagtTilWarning: false,
             });
         } else {
-            this.props.resetHentKandidatMedFnr();
+            this.props.resetSøk();
+
             this.setState({
-                showFodselsnummer: false,
+                visResultatFraCvSøk: false,
                 errorMessage: undefined,
                 showAlleredeLagtTilWarning: false,
             });
@@ -102,13 +106,13 @@ class LeggTilKandidatModal extends React.Component {
         } else {
             if (!fodselsnummer) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummer må fylles inn',
                 });
                 this.fnrinput.focus();
             } else if (fodselsnummer.length < 11) {
                 this.setState({
-                    showFodselsnummer: false,
+                    visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummeret er for kort',
                 });
                 this.fnrinput.focus();
@@ -121,7 +125,10 @@ class LeggTilKandidatModal extends React.Component {
 
     kandidatenFinnesIkke = () => (
         <div className="skjemaelement__feilmelding">
-            <div className="blokk-xxs">Du kan ikke legge til kandidaten.</div>
+            <div className="blokk-xxs">
+                Du kan ikke legge til kandidaten, fordi personen ikke er synlig i
+                Rekrutteringsbistand.
+            </div>
             <div>Mulige årsaker:</div>
             <ul className="leggTilKandidatModal--feilmelding__ul">
                 <li>Fødselsnummeret er feil</li>
@@ -129,15 +136,21 @@ class LeggTilKandidatModal extends React.Component {
                 <li>Kandidaten har ikke CV</li>
                 <li>Kandidaten har ikke lest hjemmel i ny CV-løsning</li>
                 <li>Kandidaten er egen ansatt, og du har ikke tilgang</li>
-                <li>{'Kandidaten har "Nei nav.no" i Formidlingsinformasjon i Arena'}</li>
-                <li>{'Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena'}</li>
-                <li>{'Kandidaten er sperret "Egen ansatt"'}</li>
+                <li>Kandidaten har "Nei nav.no" i Formidlingsinformasjon i Arena</li>
+                <li>Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena</li>
+                <li>Kandidaten er sperret "Egen ansatt"</li>
             </ul>
         </div>
     );
 
     render() {
         const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus, notat } = this.props;
+
+        let usynligKandidat;
+        if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
+            usynligKandidat = this.props.usynligKandidat.data;
+        }
+
         return (
             <NavFrontendModal
                 contentLabel="Modal legg til kandidat"
@@ -154,15 +167,29 @@ class LeggTilKandidatModal extends React.Component {
                 <Input
                     className="skjemaelement--pink legg-til-kandidat__fodselsnummer"
                     onChange={this.onChange}
-                    feil={this.state.errorMessage && this.state.errorMessage}
+                    feil={!!this.state.errorMessage}
                     bredde="S"
                     label="Fødselsnummer på kandidaten (11 siffer)"
                     inputRef={(input) => {
                         this.fnrinput = input;
                     }}
                 />
-                {this.state.showFodselsnummer && (
+                {this.state.visResultatFraCvSøk && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
+                )}
+                {usynligKandidat &&
+                    usynligKandidat.map((navn) => (
+                        <Normaltekst
+                            key={JSON.stringify(navn)}
+                            className="fodselsnummer"
+                        >{`${capitalizeFirstLetter(navn.fornavn)}${
+                            navn.mellomnavn ? ' ' + capitalizeFirstLetter(navn.mellomnavn) : ''
+                        } ${capitalizeFirstLetter(
+                            navn.etternavn
+                        )} (${fodselsnummer})`}</Normaltekst>
+                    ))}
+                {this.state.errorMessage && (
+                    <SkjemaelementFeilmelding>{this.state.errorMessage}</SkjemaelementFeilmelding>
                 )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
@@ -176,21 +203,29 @@ class LeggTilKandidatModal extends React.Component {
                         </div>
                     </div>
                 )}
-                <div className="legg-til-kandidat__notatoverskrift" />
-                <Textarea
-                    id="legg-til-kandidat-notat-input"
-                    label="Notat om kandidaten"
-                    textareaClass="legg-til-kandidat__notat skjemaelement--pink"
-                    description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
-                    placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
-                    value={notat || ''}
-                    maxLength={NOTATLENGDE}
-                    feil={notat && notat.length > NOTATLENGDE ? 'Notatet er for langt' : undefined}
-                    onChange={this.onNotatChange}
-                    textareaRef={(textArea) => {
-                        this.textArea = textArea;
-                    }}
-                />
+                {this.state.visResultatFraCvSøk && (
+                    <>
+                        <div className="legg-til-kandidat__notatoverskrift" />
+                        <Textarea
+                            id="legg-til-kandidat-notat-input"
+                            label="Notat om kandidaten"
+                            textareaClass="legg-til-kandidat__notat skjemaelement--pink"
+                            description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
+                            placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
+                            value={notat || ''}
+                            maxLength={NOTATLENGDE}
+                            feil={
+                                notat && notat.length > NOTATLENGDE
+                                    ? 'Notatet er for langt'
+                                    : undefined
+                            }
+                            onChange={this.onNotatChange}
+                            textareaRef={(textArea) => {
+                                this.textArea = textArea;
+                            }}
+                        />
+                    </>
+                )}
 
                 <div>
                     <Hovedknapp
@@ -226,7 +261,7 @@ LeggTilKandidatModal.propTypes = {
     kandidatliste: PropTypes.shape(Kandidatliste),
     setFodselsnummer: PropTypes.func.isRequired,
     hentKandidatMedFnr: PropTypes.func.isRequired,
-    resetHentKandidatMedFnr: PropTypes.func.isRequired,
+    resetSøk: PropTypes.func.isRequired,
     leggTilKandidatMedFnr: PropTypes.func.isRequired,
     kandidat: PropTypes.shape({
         arenaKandidatnr: PropTypes.string,
@@ -237,6 +272,7 @@ LeggTilKandidatModal.propTypes = {
             yrkeserfaringManeder: PropTypes.number,
         }),
     }).isRequired,
+    usynligKandidat: PropTypes.any,
     hentStatus: PropTypes.string.isRequired,
     leggTilKandidatStatus: PropTypes.string.isRequired,
 };
@@ -244,6 +280,7 @@ LeggTilKandidatModal.propTypes = {
 const mapStateToProps = (state) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
+    usynligKandidat: state.kandidatliste.usynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     notat: state.kandidatliste.notat,
@@ -256,8 +293,8 @@ const mapDispatchToProps = (dispatch) => ({
     hentKandidatMedFnr: (fodselsnummer) => {
         dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
     },
-    resetHentKandidatMedFnr: () => {
-        dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_RESET });
+    resetSøk: () => {
+        dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
     },
     leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });

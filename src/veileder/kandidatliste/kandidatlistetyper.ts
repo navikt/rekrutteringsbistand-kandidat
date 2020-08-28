@@ -121,3 +121,9 @@ export type Kandidatlistefilter = {
     utfall: Record<Utfall, boolean>;
     navn: string;
 };
+
+export type Navn = {
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
+};
