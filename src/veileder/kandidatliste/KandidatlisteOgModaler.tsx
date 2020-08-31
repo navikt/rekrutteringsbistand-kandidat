@@ -20,11 +20,11 @@ import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
-import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
 import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
+import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;

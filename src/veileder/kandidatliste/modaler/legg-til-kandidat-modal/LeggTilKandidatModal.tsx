@@ -1,23 +1,58 @@
 /* eslint-disable react/no-did-update-set-state */
-import React from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Kandidatliste } from '../../PropTypes';
+import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { LAGRE_STATUS } from '../../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import { HentStatus } from '../../kandidatlistetyper';
+import { HentStatus, Kandidatliste, LagretKandidat, Navn } from '../../kandidatlistetyper';
 import './LeggTilKandidatModal.less';
-import { Nettstatus } from '../../../../felles/common/remoteData';
+import { Nettstatus, Nettressurs } from '../../../../felles/common/remoteData';
 import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
+import AppState from '../../../AppState';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
 const NOTATLENGDE = 2000;
-class LeggTilKandidatModal extends React.Component {
-    constructor(props) {
+
+type Props = {
+    vis: boolean;
+    stillingsId?: string;
+    onClose: () => void;
+    fodselsnummer?: string;
+    kandidatliste: Kandidatliste;
+    setFodselsnummer: (fnr?: string) => void;
+    hentKandidatMedFnr: (fnr: string) => void;
+    leggTilKandidatMedFnr: (
+        kandidater: Array<LagretKandidat>,
+        kandidatliste: {
+            kandidatlisteId: string;
+        }
+    ) => void;
+    notat: string;
+    setNotat: (notat: string) => void;
+    kandidat: Kandidatresultat;
+    resetSøk: () => void;
+    usynligKandidat: Nettressurs<Array<Navn>>;
+    hentStatus: HentStatus;
+    leggTilKandidatStatus: string;
+};
+
+class LeggTilKandidatModal extends React.Component<Props> {
+    fnrinput: any;
+    textArea: any;
+
+    state: {
+        visResultatFraCvSøk: boolean;
+        showAlleredeLagtTilWarning: boolean;
+        errorMessage?: Component;
+    };
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             visResultatFraCvSøk: false,
@@ -32,7 +67,7 @@ class LeggTilKandidatModal extends React.Component {
         this.props.resetSøk();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const { hentStatus } = this.props;
         if (prevProps.hentStatus !== hentStatus) {
             if (hentStatus === HentStatus.Success) {
@@ -50,9 +85,10 @@ class LeggTilKandidatModal extends React.Component {
         }
     }
 
-    onChange = (input) => {
+    onChange = (input: ChangeEvent<HTMLInputElement>) => {
         const fnr = input.target.value;
         this.props.setFodselsnummer(fnr);
+
         if (fnr.length === 11) {
             this.props.hentKandidatMedFnr(fnr);
         } else if (fnr.length > 11) {
@@ -74,7 +110,7 @@ class LeggTilKandidatModal extends React.Component {
         }
     };
 
-    onNotatChange = (event) => {
+    onNotatChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         this.props.setNotat(event.target.value);
     };
 
@@ -87,7 +123,7 @@ class LeggTilKandidatModal extends React.Component {
 
     leggTilKandidat = () => {
         const { kandidat, kandidatliste, hentStatus, fodselsnummer, notat } = this.props;
-        const kandidater = [
+        const kandidater: LagretKandidat[] = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
                 notat,
@@ -96,6 +132,7 @@ class LeggTilKandidatModal extends React.Component {
                     : '',
             },
         ];
+
         if (
             hentStatus === HentStatus.Success &&
             !this.kandidatenFinnesAllerede() &&
@@ -144,9 +181,16 @@ class LeggTilKandidatModal extends React.Component {
     );
 
     render() {
-        const { vis, onClose, fodselsnummer, kandidat, leggTilKandidatStatus, notat } = this.props;
+        const {
+            vis = true,
+            onClose,
+            fodselsnummer,
+            kandidat,
+            leggTilKandidatStatus,
+            notat,
+        } = this.props;
 
-        let usynligKandidat;
+        let usynligKandidat: Array<Navn> | undefined;
         if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
             usynligKandidat = this.props.usynligKandidat.data;
         }
@@ -157,7 +201,6 @@ class LeggTilKandidatModal extends React.Component {
                 isOpen={vis}
                 onRequestClose={onClose}
                 className="LeggTilKandidatModal"
-                appElement={document.getElementById('app')}
             >
                 <Systemtittel className="tittel">Legg til kandidat</Systemtittel>
                 <AlertStripeAdvarsel>
@@ -248,36 +291,8 @@ class LeggTilKandidatModal extends React.Component {
         );
     }
 }
-LeggTilKandidatModal.defaultProps = {
-    vis: true,
-    fodselsnummer: undefined,
-    kandidatliste: undefined,
-};
 
-LeggTilKandidatModal.propTypes = {
-    vis: PropTypes.bool,
-    onClose: PropTypes.func.isRequired,
-    fodselsnummer: PropTypes.string,
-    kandidatliste: PropTypes.shape(Kandidatliste),
-    setFodselsnummer: PropTypes.func.isRequired,
-    hentKandidatMedFnr: PropTypes.func.isRequired,
-    resetSøk: PropTypes.func.isRequired,
-    leggTilKandidatMedFnr: PropTypes.func.isRequired,
-    kandidat: PropTypes.shape({
-        arenaKandidatnr: PropTypes.string,
-        fornavn: PropTypes.string,
-        etternavn: PropTypes.string,
-        mestRelevanteYrkeserfaring: PropTypes.shape({
-            styrkKodeStillingstittel: PropTypes.string,
-            yrkeserfaringManeder: PropTypes.number,
-        }),
-    }).isRequired,
-    usynligKandidat: PropTypes.any,
-    hentStatus: PropTypes.string.isRequired,
-    leggTilKandidatStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
     usynligKandidat: state.kandidatliste.usynligKandidat,
@@ -286,20 +301,25 @@ const mapStateToProps = (state) => ({
     notat: state.kandidatliste.notat,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setFodselsnummer: (fodselsnummer) => {
+const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
+    setFodselsnummer: (fodselsnummer: string) => {
         dispatch({ type: KandidatlisteActionType.SET_FODSELSNUMMER, fodselsnummer });
     },
-    hentKandidatMedFnr: (fodselsnummer) => {
+    hentKandidatMedFnr: (fodselsnummer: string) => {
         dispatch({ type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR, fodselsnummer });
     },
     resetSøk: () => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
     },
-    leggTilKandidatMedFnr: (kandidater, kandidatliste) => {
+    leggTilKandidatMedFnr: (
+        kandidater: Array<LagretKandidat>,
+        kandidatliste: {
+            kandidatlisteId: string;
+        }
+    ) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
     },
-    setNotat: (notat) => {
+    setNotat: (notat: string) => {
         dispatch({ type: KandidatlisteActionType.SET_NOTAT, notat });
     },
 });

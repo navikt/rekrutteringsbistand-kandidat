@@ -1,5 +1,5 @@
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
-import { Navn } from './../kandidatlistetyper';
+import { Navn, LagretKandidat } from './../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
 import { ApiError } from '../../../felles/common/remoteData';
@@ -95,12 +95,6 @@ export interface PresenterKandidaterFailureAction {
 export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.RESET_DELESTATUS;
 }
-
-type LagretKandidat = {
-    kandidatnr: string;
-    notat: string;
-    sisteArbeidserfaring: string;
-};
 
 export interface LeggTilKandidaterAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER;
