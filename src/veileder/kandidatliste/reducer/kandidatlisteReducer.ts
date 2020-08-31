@@ -75,7 +75,7 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
-    usynligKandidat: Nettressurs<Navn[]>;
+    søkPåusynligKandidat: Nettressurs<Navn[]>;
 }
 
 const initialState: KandidatlisteState = {
@@ -113,7 +113,7 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
-    usynligKandidat: IkkeLastet(),
+    søkPåusynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -359,25 +359,26 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
-                usynligKandidat: IkkeLastet(),
+                søkPåusynligKandidat: IkkeLastet(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                usynligKandidat: LasterInn(),
+                søkPåusynligKandidat: LasterInn(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                usynligKandidat: Suksess(action.navn),
+                søkPåusynligKandidat: Suksess(action.navn),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                usynligKandidat: action.error.status === 404 ? FinnesIkke() : Feil(action.error),
+                søkPåusynligKandidat:
+                    action.error.status === 404 ? FinnesIkke() : Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:

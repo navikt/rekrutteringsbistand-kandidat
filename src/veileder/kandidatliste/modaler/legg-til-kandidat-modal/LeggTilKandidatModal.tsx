@@ -1,23 +1,24 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component, ChangeEvent } from 'react';
-import PropTypes from 'prop-types';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { connect } from 'react-redux';
-import NavFrontendModal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
-import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
+import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
+import NavFrontendModal from 'nav-frontend-modal';
+
+import { HentStatus, Kandidatliste, LagretKandidat, Navn } from '../../kandidatlistetyper';
 import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { LAGRE_STATUS } from '../../../../felles/konstanter';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
-import { HentStatus, Kandidatliste, LagretKandidat, Navn } from '../../kandidatlistetyper';
-import './LeggTilKandidatModal.less';
 import { Nettstatus, Nettressurs } from '../../../../felles/common/remoteData';
-import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 import AppState from '../../../AppState';
+import KandidatenFinnesIkke from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
+import './LeggTilKandidatModal.less';
 
-const NOTATLENGDE = 2000;
+const MAKS_NOTATLENGDE = 2000;
 
 type Props = {
     vis: boolean;
@@ -37,7 +38,7 @@ type Props = {
     setNotat: (notat: string) => void;
     kandidat: Kandidatresultat;
     resetSøk: () => void;
-    usynligKandidat: Nettressurs<Array<Navn>>;
+    søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: HentStatus;
     leggTilKandidatStatus: string;
 };
@@ -79,7 +80,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
             } else if (hentStatus === HentStatus.FinnesIkke) {
                 this.setState({
                     visResultatFraCvSøk: false,
-                    errorMessage: this.kandidatenFinnesIkke(),
+                    errorMessage: <KandidatenFinnesIkke />,
                 });
             }
         }
@@ -136,7 +137,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
         if (
             hentStatus === HentStatus.Success &&
             !this.kandidatenFinnesAllerede() &&
-            notat.length <= NOTATLENGDE
+            notat.length <= MAKS_NOTATLENGDE
         ) {
             this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
             this.props.onClose();
@@ -160,26 +161,6 @@ class LeggTilKandidatModal extends React.Component<Props> {
         }
     };
 
-    kandidatenFinnesIkke = () => (
-        <div className="skjemaelement__feilmelding">
-            <div className="blokk-xxs">
-                Du kan ikke legge til kandidaten, fordi personen ikke er synlig i
-                Rekrutteringsbistand.
-            </div>
-            <div>Mulige årsaker:</div>
-            <ul className="leggTilKandidatModal--feilmelding__ul">
-                <li>Fødselsnummeret er feil</li>
-                <li>Kandidaten har ikke jobbprofil</li>
-                <li>Kandidaten har ikke CV</li>
-                <li>Kandidaten har ikke lest hjemmel i ny CV-løsning</li>
-                <li>Kandidaten er egen ansatt, og du har ikke tilgang</li>
-                <li>Kandidaten har "Nei nav.no" i Formidlingsinformasjon i Arena</li>
-                <li>Kandidaten har personforhold "Fritatt for kandidatsøk" i Arena</li>
-                <li>Kandidaten er sperret "Egen ansatt"</li>
-            </ul>
-        </div>
-    );
-
     render() {
         const {
             vis = true,
@@ -189,11 +170,6 @@ class LeggTilKandidatModal extends React.Component<Props> {
             leggTilKandidatStatus,
             notat,
         } = this.props;
-
-        let usynligKandidat: Array<Navn> | undefined;
-        if (this.props.usynligKandidat.kind === Nettstatus.Suksess) {
-            usynligKandidat = this.props.usynligKandidat.data;
-        }
 
         return (
             <NavFrontendModal
@@ -220,17 +196,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 {this.state.visResultatFraCvSøk && (
                     <Normaltekst className="fodselsnummer">{`${kandidat.fornavn} ${kandidat.etternavn} (${fodselsnummer})`}</Normaltekst>
                 )}
-                {usynligKandidat &&
-                    usynligKandidat.map((navn) => (
-                        <Normaltekst
-                            key={JSON.stringify(navn)}
-                            className="fodselsnummer"
-                        >{`${capitalizeFirstLetter(navn.fornavn)}${
-                            navn.mellomnavn ? ' ' + capitalizeFirstLetter(navn.mellomnavn) : ''
-                        } ${capitalizeFirstLetter(
-                            navn.etternavn
-                        )} (${fodselsnummer})`}</Normaltekst>
-                    ))}
+                {this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess && (
+                    <NavnPåUsynligKandidat
+                        fnr={fodselsnummer}
+                        navn={this.props.søkPåusynligKandidat.data}
+                    />
+                )}
                 {this.state.errorMessage && (
                     <SkjemaelementFeilmelding>{this.state.errorMessage}</SkjemaelementFeilmelding>
                 )}
@@ -256,9 +227,9 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             description="Du skal ikke skrive sensitive opplysninger her. Notatet er synlig for alle veiledere."
                             placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                             value={notat || ''}
-                            maxLength={NOTATLENGDE}
+                            maxLength={MAKS_NOTATLENGDE}
                             feil={
-                                notat && notat.length > NOTATLENGDE
+                                notat && notat.length > MAKS_NOTATLENGDE
                                     ? 'Notatet er for langt'
                                     : undefined
                             }
@@ -295,7 +266,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
 const mapStateToProps = (state: AppState) => ({
     fodselsnummer: state.kandidatliste.fodselsnummer,
     kandidat: state.kandidatliste.kandidat,
-    usynligKandidat: state.kandidatliste.usynligKandidat,
+    søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     notat: state.kandidatliste.notat,
