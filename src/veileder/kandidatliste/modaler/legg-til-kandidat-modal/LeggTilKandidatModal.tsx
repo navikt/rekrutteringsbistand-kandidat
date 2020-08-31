@@ -44,8 +44,7 @@ type Props = {
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
-    fnrinput: any;
-    textArea: any;
+    fnrinput?: HTMLInputElement | null;
 
     state: {
         visResultatFraCvSøk: boolean;
@@ -147,16 +146,16 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummer må fylles inn',
                 });
-                this.fnrinput.focus();
+                this.fnrinput?.focus();
             } else if (fodselsnummer.length < 11) {
                 this.setState({
                     visResultatFraCvSøk: false,
                     errorMessage: 'Fødselsnummeret er for kort',
                 });
-                this.fnrinput.focus();
+                this.fnrinput?.focus();
             } else if (this.kandidatenFinnesAllerede()) {
                 this.setState({ errorMessage: 'Kandidaten er allerede lagt til i listen' });
-                this.fnrinput.focus();
+                this.fnrinput?.focus();
             }
         }
     };
@@ -228,15 +227,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             placeholder="Skriv inn en kort tekst om hvorfor kandidaten passer til stillingen"
                             value={notat || ''}
                             maxLength={MAKS_NOTATLENGDE}
+                            onChange={this.onNotatChange}
                             feil={
                                 notat && notat.length > MAKS_NOTATLENGDE
                                     ? 'Notatet er for langt'
                                     : undefined
                             }
-                            onChange={this.onNotatChange}
-                            textareaRef={(textArea) => {
-                                this.textArea = textArea;
-                            }}
                         />
                     </>
                 )}
