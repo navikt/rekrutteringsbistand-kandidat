@@ -10,6 +10,7 @@ export enum Nettstatus {
     Suksess = 'Suksess',
     FinnesIkke = 'FinnesIkke',
     Feil = 'Feil',
+    SendtInn = 'SendtInn',
 }
 
 interface IkkeLastet {
@@ -28,6 +29,10 @@ interface SenderInn<T> {
 interface Suksess<T> {
     kind: Nettstatus.Suksess;
     data: T;
+}
+
+interface SendtInn {
+    kind: Nettstatus.SendtInn;
 }
 
 interface FinnesIkke {
@@ -52,6 +57,10 @@ export const SenderInn = <T>(data: T): SenderInn<T> => ({
     data,
 });
 
+export const SendtInn = (): SendtInn => ({
+    kind: Nettstatus.SendtInn,
+});
+
 export const Suksess = <T>(data: T): Suksess<T> => ({
     kind: Nettstatus.Suksess,
     data,
@@ -68,6 +77,13 @@ export const Feil = (error: ApiError): Feil => ({
 
 export type RemoteData<T> = IkkeLastet | LasterInn | Feil | Suksess<T>;
 
-export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn<T> | Feil | Suksess<T> | FinnesIkke;
+export type Nettressurs<T> =
+    | IkkeLastet
+    | LasterInn
+    | SenderInn<T>
+    | Feil
+    | Suksess<T>
+    | SendtInn
+    | FinnesIkke;
 
 export type ResponseData<T> = Feil | Suksess<T>;

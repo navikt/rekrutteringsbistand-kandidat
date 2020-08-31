@@ -143,9 +143,3 @@ export type Navn = {
     mellomnavn: string | null;
     etternavn: string;
 };
-
-export type LagretKandidat = {
-    kandidatnr: string;
-    notat: string;
-    sisteArbeidserfaring?: string;
-};

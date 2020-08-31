@@ -7,7 +7,7 @@ import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import NavFrontendModal from 'nav-frontend-modal';
 
-import { HentStatus, Kandidatliste, LagretKandidat, Navn } from '../../kandidatlistetyper';
+import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
 import { LAGRE_STATUS } from '../../../../felles/konstanter';
 import { Nettstatus, Nettressurs } from '../../../../felles/common/remoteData';
@@ -16,9 +16,22 @@ import KandidatenFinnesIkke from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
+import RegistrerUsynligKandidat from './RegistrerUsynligKandidat';
 import './LeggTilKandidatModal.less';
 
 const MAKS_NOTATLENGDE = 2000;
+
+export type NyKandidat = {
+    kandidatnr: string;
+    notat: string;
+    sisteArbeidserfaring?: string;
+};
+
+export type NyUsynligKandidat = {
+    fnr: string;
+    harBlittPresentert: boolean;
+    harFåttJobb: boolean;
+};
 
 type Props = {
     vis: boolean;
@@ -29,7 +42,7 @@ type Props = {
     setFodselsnummer: (fnr?: string) => void;
     hentKandidatMedFnr: (fnr: string) => void;
     leggTilKandidatMedFnr: (
-        kandidater: Array<LagretKandidat>,
+        kandidater: Array<NyKandidat>,
         kandidatliste: {
             kandidatlisteId: string;
         }
@@ -41,6 +54,7 @@ type Props = {
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: HentStatus;
     leggTilKandidatStatus: string;
+    registrerUsynligKandidat: Nettressurs<NyUsynligKandidat>;
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
@@ -50,6 +64,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
         visResultatFraCvSøk: boolean;
         showAlleredeLagtTilWarning: boolean;
         errorMessage?: Component;
+        nyUsynligKandidat?: NyUsynligKandidat;
     };
 
     constructor(props: Props) {
@@ -64,11 +79,11 @@ class LeggTilKandidatModal extends React.Component<Props> {
     componentDidMount() {
         this.props.setFodselsnummer(undefined);
         this.props.setNotat('');
-        this.props.resetSøk();
+        this.resetStateOgSøk();
     }
 
     componentDidUpdate(prevProps: Props) {
-        const { hentStatus } = this.props;
+        const { hentStatus, søkPåusynligKandidat, fodselsnummer } = this.props;
         if (prevProps.hentStatus !== hentStatus) {
             if (hentStatus === HentStatus.Success) {
                 this.setState({
@@ -83,6 +98,19 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 });
             }
         }
+
+        if (
+            prevProps.søkPåusynligKandidat.kind !== søkPåusynligKandidat.kind &&
+            søkPåusynligKandidat.kind === Nettstatus.Suksess
+        ) {
+            this.setState({
+                nyUsynligKandidat: {
+                    fnr: fodselsnummer,
+                    harFåttJobb: false,
+                    harBlittPresentert: false,
+                },
+            });
+        }
     }
 
     onChange = (input: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +120,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
         if (fnr.length === 11) {
             this.props.hentKandidatMedFnr(fnr);
         } else if (fnr.length > 11) {
-            this.props.resetSøk();
+            this.resetStateOgSøk();
 
             this.setState({
                 visResultatFraCvSøk: false,
@@ -100,7 +128,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 showAlleredeLagtTilWarning: false,
             });
         } else {
-            this.props.resetSøk();
+            this.resetStateOgSøk();
 
             this.setState({
                 visResultatFraCvSøk: false,
@@ -108,6 +136,13 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 showAlleredeLagtTilWarning: false,
             });
         }
+    };
+
+    resetStateOgSøk = () => {
+        this.props.resetSøk();
+        this.setState({
+            nyUsynligKandidat: undefined,
+        });
     };
 
     onNotatChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -123,7 +158,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
 
     leggTilKandidat = () => {
         const { kandidat, kandidatliste, hentStatus, fodselsnummer, notat } = this.props;
-        const kandidater: LagretKandidat[] = [
+        const kandidater: NyKandidat[] = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
                 notat,
@@ -160,6 +195,16 @@ class LeggTilKandidatModal extends React.Component<Props> {
         }
     };
 
+    onNyUsynligKandidatChange = (nyUsynligKandidat: NyUsynligKandidat) => {
+        this.setState({
+            nyUsynligKandidat,
+        });
+    };
+
+    registrerFormidlingAvUsynligKandidat = () => {
+        console.log('Registrer');
+    };
+
     render() {
         const {
             vis = true,
@@ -169,6 +214,8 @@ class LeggTilKandidatModal extends React.Component<Props> {
             leggTilKandidatStatus,
             notat,
         } = this.props;
+
+        const harValgtUsynligKandidat = this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess;
 
         return (
             <NavFrontendModal
@@ -236,16 +283,36 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         />
                     </>
                 )}
-
+                {harValgtUsynligKandidat && fodselsnummer && this.state.nyUsynligKandidat && (
+                    <RegistrerUsynligKandidat
+                        nyUsynligKandidat={this.state.nyUsynligKandidat}
+                        onChange={this.onNyUsynligKandidatChange}
+                    />
+                )}
                 <div>
-                    <Hovedknapp
-                        className="legg-til--knapp"
-                        onClick={this.leggTilKandidat}
-                        spinner={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
-                        disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
-                    >
-                        Legg til
-                    </Hovedknapp>
+                    {harValgtUsynligKandidat ? (
+                        <Hovedknapp
+                            className="legg-til--knapp"
+                            onClick={this.registrerFormidlingAvUsynligKandidat}
+                            spinner={
+                                this.props.registrerUsynligKandidat.kind === Nettstatus.SenderInn
+                            }
+                            disabled={
+                                this.props.registrerUsynligKandidat.kind === Nettstatus.SenderInn
+                            }
+                        >
+                            Lagre
+                        </Hovedknapp>
+                    ) : (
+                        <Hovedknapp
+                            className="legg-til--knapp"
+                            onClick={this.leggTilKandidat}
+                            spinner={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                            disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                        >
+                            Legg til
+                        </Hovedknapp>
+                    )}
                     <Flatknapp
                         className="avbryt--knapp"
                         onClick={onClose}
@@ -265,6 +332,7 @@ const mapStateToProps = (state: AppState) => ({
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    registrerUsynligKandidat: state.kandidatliste.registrerUsynligKandidat,
     notat: state.kandidatliste.notat,
 });
 
@@ -279,7 +347,7 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
     },
     leggTilKandidatMedFnr: (
-        kandidater: Array<LagretKandidat>,
+        kandidater: Array<NyKandidat>,
         kandidatliste: {
             kandidatlisteId: string;
         }
