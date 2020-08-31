@@ -6,14 +6,14 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
 import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Kandidatliste } from '../PropTypes';
-import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { Kandidatliste } from '../../PropTypes';
+import { LAGRE_STATUS } from '../../../../felles/konstanter';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import { HentStatus } from '../kandidatlistetyper';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
+import { HentStatus } from '../../kandidatlistetyper';
 import './LeggTilKandidatModal.less';
-import { Nettstatus } from '../../../felles/common/remoteData';
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { Nettstatus } from '../../../../felles/common/remoteData';
+import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
 
 const NOTATLENGDE = 2000;
 class LeggTilKandidatModal extends React.Component {

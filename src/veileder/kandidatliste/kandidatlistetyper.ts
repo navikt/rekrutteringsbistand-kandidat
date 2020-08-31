@@ -67,6 +67,21 @@ export interface Kandidat {
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
 
+export interface UsynligKandidat {
+    fnr: string;
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
+    utfall: Utfall;
+    lagtTilTidspunkt: string;
+    lagtTilAv: {
+        ident: string;
+        navn: string;
+    };
+    arkivert: boolean;
+    // TODO: arkivertAv og arkivertTidspunkt?
+}
+
 export interface Notat {
     tekst: string;
     notatId: string;
@@ -96,6 +111,7 @@ export type Kandidatliste = {
     kanEditere: boolean;
     kanSlette: string;
     kandidater: Array<Kandidat>;
+    usynligeKandidater: Array<UsynligKandidat>;
 };
 
 export type Kandidattilstand = {

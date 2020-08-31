@@ -16,7 +16,12 @@ import aktivBruker from './json/dekoratør/aktivbruker.json';
 import decorator from './json/dekoratør/decorator.json';
 
 import cver from './data/cver';
-import { kandidatliste, kandidatlister, hentTestkandidat } from './data/kandidatlister';
+import {
+    kandidatliste,
+    kandidatlister,
+    hentMocketKandidat,
+    hentMocketUsynligKandidat,
+} from './data/kandidatlister';
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat-mock';
 import { featureToggles } from './data/featureToggles';
 import søk from './data/søk';
@@ -48,8 +53,9 @@ const url = {
     utfallPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/utfall`,
     arkivertPut: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater/:kandidatnr/arkivert`,
     delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
-    postKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater`,
-    usynligKandidat: `${api}/veileder/kandidater/navn`,
+    postKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater`,
+    søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
+    postUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/usynligkandidat`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -93,7 +99,7 @@ const getKandidatliste = (url: string) => {
     return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
 
-const postKandidat = (url: string, options: MockOptionsMethodPost) => {
+const postKandidater = (url: string) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
     const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 
@@ -103,7 +109,21 @@ const postKandidat = (url: string, options: MockOptionsMethodPost) => {
 
     return {
         ...kandidatliste,
-        kandidater: [...kandidatliste.kandidater, hentTestkandidat(4)],
+        kandidater: [...kandidatliste.kandidater, hentMocketKandidat(4)],
+    };
+};
+
+const postUsynligKandidat = (url: string) => {
+    const kandidatlisteId = url.split('/')[url.split('/').length - 2];
+    const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+
+    if (!kandidatliste) {
+        return null;
+    }
+
+    return {
+        ...kandidatliste,
+        usynligeKandidater: [...kandidatliste.usynligeKandidater, hentMocketUsynligKandidat(7)],
     };
 };
 
@@ -192,11 +212,12 @@ fetchMock
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
     .get(url.fnrsok, log(fnrsok))
-    .post(url.postKandidat, log(postKandidat))
+    .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(kandidatliste))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
-    .post(url.usynligKandidat, log(getUsynligKandidat))
+    .post(url.søkUsynligKandidat, log(getUsynligKandidat))
+    .post(url.postUsynligKandidat, log(postUsynligKandidat))
 
     // Misc
     .get(url.toggles, log(featureToggles))

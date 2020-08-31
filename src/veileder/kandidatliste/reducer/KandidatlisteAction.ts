@@ -1,3 +1,4 @@
+import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import { Navn } from './../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
@@ -183,7 +184,7 @@ export interface HentKandidatMedFnrAction {
 
 export interface HentKandidatMedFnrSuccessAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS;
-    kandidat: any;
+    kandidat: Kandidatresultat;
 }
 
 export interface HentKandidatMedFnrNotFoundAction {

@@ -1,3 +1,4 @@
+import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -32,15 +33,7 @@ import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 
 export interface KandidatlisteState {
     hentStatus: HentStatus;
-    kandidat: {
-        arenaKandidatnr?: string;
-        fornavn?: string;
-        etternavn?: string;
-        mestRelevanteYrkeserfaring: {
-            styrkKodeStillingstittel?: string;
-            yrkeserfaringManeder?: string;
-        };
-    };
+    kandidat?: Kandidatresultat;
 
     lagreStatus: string;
     deleStatus: Delestatus;
@@ -96,15 +89,6 @@ const initialState: KandidatlisteState = {
     kandidatnotater: {},
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
-    kandidat: {
-        arenaKandidatnr: undefined,
-        fornavn: undefined,
-        etternavn: undefined,
-        mestRelevanteYrkeserfaring: {
-            styrkKodeStillingstittel: undefined,
-            yrkeserfaringManeder: undefined,
-        },
-    },
     leggTilKandidater: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         antallLagredeKandidater: 0,

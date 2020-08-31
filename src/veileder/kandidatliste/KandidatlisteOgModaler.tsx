@@ -20,10 +20,11 @@ import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
-import LeggTilKandidatModal from './modaler/LeggTilKandidatModal';
+import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
+import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -52,10 +53,7 @@ type ConnectedProps = {
     resetSmsSendStatus: () => void;
     leggTilStatus: string;
     fodselsnummer?: string;
-    kandidat: {
-        fornavn?: string;
-        etternavn?: string;
-    };
+    kandidat?: Kandidatresultat;
     hentNotater: any;
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => void;
     angreArkiveringForKandidater: (kandidatlisteId: string, kandidatnumre: string[]) => void;
@@ -72,13 +70,6 @@ type Props = ConnectedProps & OwnProps;
 
 class KandidatlisteOgModaler extends React.Component<Props> {
     infobannerCallbackId: any;
-
-    static defaultProps: Partial<Props> = {
-        kandidat: {
-            fornavn: '',
-            etternavn: '',
-        },
-    };
 
     state: {
         deleModalOpen: boolean;
@@ -170,7 +161,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         }
         if (kandidaterHarNettoppBlittLagtTil) {
             this.visInfobanner(
-                `Kandidat ${this.props.kandidat.fornavn} ${this.props.kandidat.etternavn} (${this.props.fodselsnummer}) er lagt til`
+                `Kandidat ${this.props.kandidat?.fornavn} ${this.props.kandidat?.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
         }
 
