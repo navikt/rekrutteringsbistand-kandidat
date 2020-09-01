@@ -39,7 +39,7 @@ import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
 import '../felles/styles.less';
 import './sok/sok.less';
-import Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/browser';
 import { getMiljø } from '../felles/common/miljøUtils';
 
 Sentry.init({
