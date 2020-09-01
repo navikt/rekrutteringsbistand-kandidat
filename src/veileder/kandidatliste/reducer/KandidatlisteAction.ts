@@ -1,11 +1,11 @@
+import {
+    KandidatOutboundDto,
+    FormidlingAvUsynligKandidatOutboundDto,
+} from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { ApiError } from '../../../felles/common/remoteData';
 import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
-import {
-    NyKandidat,
-    NyUsynligKandidat,
-} from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
@@ -104,14 +104,14 @@ export interface LeggTilKandidaterAction {
     kandidatliste: {
         kandidatlisteId: string;
     };
-    kandidater: Array<NyKandidat>;
+    kandidater: Array<KandidatOutboundDto>;
 }
 
 export interface LeggTilKandidaterSuccessAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
     antallLagredeKandidater: number;
     lagretListe: any;
-    lagredeKandidater: Array<NyKandidat>;
+    lagredeKandidater: Array<KandidatOutboundDto>;
     kandidatliste: Kandidatliste;
 }
 
@@ -132,20 +132,20 @@ export interface LagreKandidatIKandidatlisteFailureAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE;
 }
 
-export interface RegistrerUsynligKandidatAction {
-    type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT;
+export interface FormidleUsynligKandidatAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT;
     kandidatlisteId: string;
-    nyUsynligKandidat: NyUsynligKandidat;
+    formidling: FormidlingAvUsynligKandidatOutboundDto;
 }
 
-export interface RegistrerUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS;
+export interface FormidleUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS;
     kandidatliste: Kandidatliste;
-    nyUsynligKandidat: NyUsynligKandidat;
+    formidling: FormidlingAvUsynligKandidatOutboundDto;
 }
 
-export interface RegistrerUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_FAILURE;
+export interface FormidleUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE;
     error: ApiError;
 }
 
@@ -482,8 +482,8 @@ type KandidatlisteAction =
     | ToggleMarkeringAvKandidat
     | EndreMarkeringAvKandidaterAction
     | EndreVisningsstatusKandidatAction
-    | RegistrerUsynligKandidatAction
-    | RegistrerUsynligKandidatSuccessAction
-    | RegistrerUsynligKandidatFailureAction;
+    | FormidleUsynligKandidatAction
+    | FormidleUsynligKandidatSuccessAction
+    | FormidleUsynligKandidatFailureAction;
 
 export default KandidatlisteAction;

@@ -1,5 +1,9 @@
 import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { Kandidatliste, Kandidat, UsynligKandidat } from './../../kandidatliste/kandidatlistetyper';
+import {
+    Kandidatliste,
+    Kandidat,
+    FormidlingAvUsynligKandidat,
+} from './../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
@@ -58,7 +62,10 @@ const lagTittel = (i: number) =>
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
-const baseKandidatliste: Omit<Omit<Kandidatliste, 'kandidater'>, 'usynligeKandidater'> = {
+const baseKandidatliste: Omit<
+    Omit<Kandidatliste, 'kandidater'>,
+    'formidlingerAvUsynligKandidat'
+> = {
     kandidatlisteId: 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29',
     tittel: 'Tulleskolen søker tøysekopper',
     beskrivelse:
@@ -102,8 +109,7 @@ const fraCvTilKandidat = (cv: Cv): Kandidat => ({
     erSynlig: true,
 });
 
-const fraCvTilUsynligKandidat = (cv: Cv): UsynligKandidat => ({
-    fnr: cv.fodselsnummer,
+const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
     fornavn: cv.fornavn,
     mellomnavn: '"Usynlig"',
     etternavn: cv.etternavn,
@@ -120,7 +126,7 @@ export const hentMocketKandidat = (index: number): Kandidat => ({
     ...fraCvTilKandidat(cver[index]),
 });
 
-export const hentMocketUsynligKandidat = (index: number): UsynligKandidat => ({
+export const hentMocketUsynligKandidat = (index: number): FormidlingAvUsynligKandidat => ({
     ...fraCvTilUsynligKandidat(cver[index]),
 });
 
@@ -137,7 +143,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
         fraCvTilKandidat(cver[9]),
         fraCvTilKandidat(cver[15]),
     ],
-    usynligeKandidater: [],
+    formidlingerAvUsynligKandidat: [],
 }));
 
 export const kandidatliste = kandidatlister[0];

@@ -16,18 +16,18 @@ import KandidatenFinnesIkke from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
-import RegistrerUsynligKandidat from './RegistrerUsynligKandidat';
+import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynligKandidat';
 import './LeggTilKandidatModal.less';
 
 const MAKS_NOTATLENGDE = 2000;
 
-export type NyKandidat = {
+export type KandidatOutboundDto = {
     kandidatnr: string;
     notat: string;
     sisteArbeidserfaring?: string;
 };
 
-export type NyUsynligKandidat = {
+export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
     harBlittPresentert: boolean;
     harFåttJobb: boolean;
@@ -42,7 +42,7 @@ type Props = {
     setFodselsnummer: (fnr?: string) => void;
     hentKandidatMedFnr: (fnr: string) => void;
     leggTilKandidatMedFnr: (
-        kandidater: Array<NyKandidat>,
+        kandidater: Array<KandidatOutboundDto>,
         kandidatliste: {
             kandidatlisteId: string;
         }
@@ -54,11 +54,11 @@ type Props = {
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: HentStatus;
     leggTilKandidatStatus: string;
-    registrerUsynligKandidat: (
+    formidleUsynligKandidat: (
         kandidatlisteId: string,
-        nyUsynligKandidat: NyUsynligKandidat
+        formidling: FormidlingAvUsynligKandidatOutboundDto
     ) => void;
-    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
@@ -68,7 +68,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
         visResultatFraCvSøk: boolean;
         showAlleredeLagtTilWarning: boolean;
         errorMessage?: Component;
-        nyUsynligKandidat?: NyUsynligKandidat;
+        formidlingAvUsynligKandidat?: FormidlingAvUsynligKandidatOutboundDto;
     };
 
     constructor(props: Props) {
@@ -108,7 +108,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
             søkPåusynligKandidat.kind === Nettstatus.Suksess
         ) {
             this.setState({
-                nyUsynligKandidat: {
+                formidlingAvUsynligKandidat: {
                     fnr: fodselsnummer,
                     harFåttJobb: false,
                     harBlittPresentert: false,
@@ -145,7 +145,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
     resetStateOgSøk = () => {
         this.props.resetSøk();
         this.setState({
-            nyUsynligKandidat: undefined,
+            formidlingAvUsynligKandidat: undefined,
         });
     };
 
@@ -162,7 +162,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
 
     leggTilKandidat = () => {
         const { kandidat, kandidatliste, hentStatus, fodselsnummer, notat } = this.props;
-        const kandidater: NyKandidat[] = [
+        const kandidater: KandidatOutboundDto[] = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
                 notat,
@@ -199,17 +199,19 @@ class LeggTilKandidatModal extends React.Component<Props> {
         }
     };
 
-    onNyUsynligKandidatChange = (nyUsynligKandidat: NyUsynligKandidat) => {
+    onNyUsynligKandidatChange = (
+        formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
+    ) => {
         this.setState({
-            nyUsynligKandidat,
+            formidlingAvUsynligKandidat,
         });
     };
 
     registrerFormidlingAvUsynligKandidat = () => {
-        if (this.state.nyUsynligKandidat) {
-            this.props.registrerUsynligKandidat(
+        if (this.state.formidlingAvUsynligKandidat) {
+            this.props.formidleUsynligKandidat(
                 this.props.kandidatliste.kandidatlisteId,
-                this.state.nyUsynligKandidat
+                this.state.formidlingAvUsynligKandidat
             );
         }
     };
@@ -298,13 +300,15 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         />
                     </>
                 )}
-                {harValgtUsynligKandidat && fodselsnummer && this.state.nyUsynligKandidat && (
-                    <RegistrerUsynligKandidat
-                        nyUsynligKandidat={this.state.nyUsynligKandidat}
-                        onChange={this.onNyUsynligKandidatChange}
-                    />
-                )}
-                {this.props.nyUsynligKandidat.kind === Nettstatus.Feil && (
+                {harValgtUsynligKandidat &&
+                    fodselsnummer &&
+                    this.state.formidlingAvUsynligKandidat && (
+                        <RegistrerFormidlingAvUsynligKandidat
+                            formidling={this.state.formidlingAvUsynligKandidat}
+                            onChange={this.onNyUsynligKandidatChange}
+                        />
+                    )}
+                {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
                     <Feilmelding className="LeggTilKandidatModal__feil-ved-registrering">
                         Det skjedde en feil ved registrering.
                     </Feilmelding>
@@ -314,8 +318,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         <Hovedknapp
                             className="legg-til--knapp"
                             onClick={this.registrerFormidlingAvUsynligKandidat}
-                            spinner={this.props.nyUsynligKandidat.kind === Nettstatus.SenderInn}
-                            disabled={this.props.nyUsynligKandidat.kind === Nettstatus.SenderInn}
+                            spinner={
+                                this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
+                            }
+                            disabled={
+                                this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
+                            }
                         >
                             Lagre
                         </Hovedknapp>
@@ -348,7 +356,7 @@ const mapStateToProps = (state: AppState) => ({
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    nyUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
+    formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
     notat: state.kandidatliste.notat,
 });
 
@@ -363,18 +371,21 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDAT_SØK_RESET });
     },
     leggTilKandidatMedFnr: (
-        kandidater: Array<NyKandidat>,
+        kandidater: Array<KandidatOutboundDto>,
         kandidatliste: {
             kandidatlisteId: string;
         }
     ) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
     },
-    registrerUsynligKandidat: (kandidatlisteId: string, nyUsynligKandidat: NyUsynligKandidat) => {
+    formidleUsynligKandidat: (
+        kandidatlisteId: string,
+        formidling: FormidlingAvUsynligKandidatOutboundDto
+    ) => {
         dispatch({
-            type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT,
+            type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT,
             kandidatlisteId,
-            nyUsynligKandidat,
+            formidling,
         });
     },
     setNotat: (notat: string) => {

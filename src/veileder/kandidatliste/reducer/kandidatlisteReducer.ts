@@ -1,3 +1,4 @@
+import { FormidlingAvUsynligKandidatOutboundDto } from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
@@ -31,7 +32,6 @@ import {
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
-import { NyUsynligKandidat } from '../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export interface KandidatlisteState {
     hentStatus: HentStatus;
@@ -78,7 +78,7 @@ export interface KandidatlisteState {
     filter: Kandidatlistefilter;
     notat?: string;
     søkPåusynligKandidat: Nettressurs<Navn[]>;
-    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
 }
 
 const initialState: KandidatlisteState = {
@@ -117,7 +117,7 @@ const initialState: KandidatlisteState = {
         navn: '',
     },
     søkPåusynligKandidat: IkkeLastet(),
-    nyUsynligKandidat: IkkeLastet(),
+    formidlingAvUsynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -443,22 +443,22 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
-        case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT: {
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                nyUsynligKandidat: SenderInn(action.nyUsynligKandidat),
+                formidlingAvUsynligKandidat: SenderInn(action.formidling),
             };
         }
-        case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS: {
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                nyUsynligKandidat: Suksess(action.nyUsynligKandidat),
+                formidlingAvUsynligKandidat: Suksess(action.formidling),
             };
         }
-        case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_FAILURE: {
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                nyUsynligKandidat: Feil(action.error),
+                formidlingAvUsynligKandidat: Feil(action.error),
             };
         }
         case KandidatlisteActionType.HENT_NOTATER:

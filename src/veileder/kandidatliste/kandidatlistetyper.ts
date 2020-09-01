@@ -67,8 +67,7 @@ export interface Kandidat {
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
 
-export interface UsynligKandidat {
-    fnr: string; // TODO: Fjern fnr fordi det er sensitivt
+export interface FormidlingAvUsynligKandidat {
     fornavn: string;
     mellomnavn: string | null;
     etternavn: string;
@@ -111,7 +110,7 @@ export type Kandidatliste = {
     kanEditere: boolean;
     kanSlette: string;
     kandidater: Array<Kandidat>;
-    usynligeKandidater: Array<UsynligKandidat>;
+    formidlingerAvUsynligKandidat: Array<FormidlingAvUsynligKandidat>;
 };
 
 export type Kandidattilstand = {

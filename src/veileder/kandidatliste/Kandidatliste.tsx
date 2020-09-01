@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';

@@ -25,7 +25,7 @@ import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
 import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
-    NyUsynligKandidat,
+    FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type OwnProps = {
@@ -66,7 +66,7 @@ type ConnectedProps = {
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
     endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => void;
-    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -129,8 +129,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             this.props.leggTilStatus === LAGRE_STATUS.SUCCESS;
 
         const usynligKandidatHarNettoppBlittRegistrert =
-            this.props.nyUsynligKandidat.kind !== prevProps.nyUsynligKandidat.kind &&
-            this.props.nyUsynligKandidat.kind === Nettstatus.Suksess;
+            this.props.formidlingAvUsynligKandidat.kind !==
+                prevProps.formidlingAvUsynligKandidat.kind &&
+            this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess;
 
         const feilMedSmsUtsending =
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
@@ -173,9 +174,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         }
 
         if (usynligKandidatHarNettoppBlittRegistrert) {
-            if (this.props.nyUsynligKandidat.kind === Nettstatus.Suksess) {
+            if (this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess) {
                 this.visInfobanner(
-                    `Kandidaten med fødselsnummer ${this.props.nyUsynligKandidat.data.fnr} har blitt registrert`
+                    `Kandidaten med fødselsnummer ${this.props.formidlingAvUsynligKandidat.data.fnr} har blitt registrert`
                 );
                 this.onToggleLeggTilKandidatModal();
             }
@@ -477,7 +478,7 @@ const mapStateToProps = (state: AppState) => ({
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
     valgtNavKontor: state.navKontor.valgtNavKontor,
-    nyUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
+    formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

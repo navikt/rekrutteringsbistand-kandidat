@@ -123,7 +123,10 @@ const postUsynligKandidat = (url: string) => {
 
     return {
         ...kandidatliste,
-        usynligeKandidater: [...kandidatliste.usynligeKandidater, hentMocketUsynligKandidat(7)],
+        usynligeKandidater: [
+            ...kandidatliste.formidlingerAvUsynligKandidat,
+            hentMocketUsynligKandidat(7),
+        ],
     };
 };
 

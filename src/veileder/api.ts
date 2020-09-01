@@ -1,4 +1,3 @@
-import { NyUsynligKandidat } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 /* eslint-disable no-underscore-dangle */
 
@@ -25,6 +24,7 @@ import {
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
+import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -167,13 +167,13 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) =>
         JSON.stringify(kandidater)
     );
 
-export const postUsynligKandidat = (
+export const postFormidlingerAvUsynligKandidat = (
     kandidatlisteId: string,
-    nyUsynligKandidat: NyUsynligKandidat
+    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
 ) =>
     postJson(
-        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/usynligKandidat`,
-        JSON.stringify(nyUsynligKandidat)
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingerAvUsynligKandidat`,
+        JSON.stringify(formidlingAvUsynligKandidat)
     );
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>

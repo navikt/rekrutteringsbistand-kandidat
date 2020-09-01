@@ -5,7 +5,7 @@ import {
     putArkivertForFlereKandidater,
     putUtfallKandidat,
     fetchUsynligKandidat,
-    postUsynligKandidat,
+    postFormidlingerAvUsynligKandidat,
 } from './../../api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
@@ -31,7 +31,7 @@ import KandidatlisteAction, {
     EndreUtfallKandidatAction,
     EndreUtfallKandidatSuccessAction,
     HentUsynligKandidatAction,
-    RegistrerUsynligKandidatAction,
+    FormidleUsynligKandidatAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -303,17 +303,17 @@ function* lagreKandidatIKandidatliste(action) {
     }
 }
 
-function* registrerUsynligKandidat(action: RegistrerUsynligKandidatAction) {
+function* formidleUsynligKandidat(action: FormidleUsynligKandidatAction) {
     try {
-        yield postUsynligKandidat(action.kandidatlisteId, action.nyUsynligKandidat);
+        yield postFormidlingerAvUsynligKandidat(action.kandidatlisteId, action.formidling);
         yield put({
-            type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS,
-            nyUsynligKandidat: action.nyUsynligKandidat,
+            type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS,
+            formidling: action.formidling,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_FAILURE,
+                type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE,
                 error: e,
             });
         } else {
@@ -559,7 +559,7 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
         lagreKandidatIKandidatliste
     );
-    yield takeLatest(KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT, registrerUsynligKandidat);
+    yield takeLatest(KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT, formidleUsynligKandidat);
     yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(
