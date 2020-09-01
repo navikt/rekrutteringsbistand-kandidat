@@ -3,8 +3,8 @@ import React, { Component, ChangeEvent } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { connect } from 'react-redux';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Input, Textarea, SkjemaelementFeilmelding } from 'nav-frontend-skjema';
-import { Systemtittel, Normaltekst, Element } from 'nav-frontend-typografi';
+import { Input, Textarea } from 'nav-frontend-skjema';
+import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import NavFrontendModal from 'nav-frontend-modal';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
@@ -54,7 +54,11 @@ type Props = {
     søkPåusynligKandidat: Nettressurs<Array<Navn>>;
     hentStatus: HentStatus;
     leggTilKandidatStatus: string;
-    registrerUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    registrerUsynligKandidat: (
+        kandidatlisteId: string,
+        nyUsynligKandidat: NyUsynligKandidat
+    ) => void;
+    registrertUsynligKandidat: Nettressurs<NyUsynligKandidat>;
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
@@ -202,7 +206,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     registrerFormidlingAvUsynligKandidat = () => {
-        console.log('Registrer');
+        if (this.state.nyUsynligKandidat) {
+            this.props.registrerUsynligKandidat(
+                this.props.kandidatliste.kandidatlisteId,
+                this.state.nyUsynligKandidat
+            );
+        }
     };
 
     render() {
@@ -249,7 +258,13 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     />
                 )}
                 {this.state.errorMessage && (
-                    <SkjemaelementFeilmelding>{this.state.errorMessage}</SkjemaelementFeilmelding>
+                    <Feilmelding
+                        tag="div"
+                        aria-live="polite"
+                        className="skjemaelement__feilmelding"
+                    >
+                        {this.state.errorMessage}
+                    </Feilmelding>
                 )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
@@ -295,10 +310,10 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             className="legg-til--knapp"
                             onClick={this.registrerFormidlingAvUsynligKandidat}
                             spinner={
-                                this.props.registrerUsynligKandidat.kind === Nettstatus.SenderInn
+                                this.props.registrertUsynligKandidat.kind === Nettstatus.SenderInn
                             }
                             disabled={
-                                this.props.registrerUsynligKandidat.kind === Nettstatus.SenderInn
+                                this.props.registrertUsynligKandidat.kind === Nettstatus.SenderInn
                             }
                         >
                             Lagre
@@ -332,7 +347,7 @@ const mapStateToProps = (state: AppState) => ({
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    registrerUsynligKandidat: state.kandidatliste.registrerUsynligKandidat,
+    registrertUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
     notat: state.kandidatliste.notat,
 });
 
@@ -353,6 +368,13 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         }
     ) => {
         dispatch({ type: KandidatlisteActionType.LEGG_TIL_KANDIDATER, kandidater, kandidatliste });
+    },
+    registrerUsynligKandidat: (kandidatlisteId: string, nyUsynligKandidat: NyUsynligKandidat) => {
+        dispatch({
+            type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT,
+            kandidatlisteId,
+            nyUsynligKandidat,
+        });
     },
     setNotat: (notat: string) => {
         dispatch({ type: KandidatlisteActionType.SET_NOTAT, notat });

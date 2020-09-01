@@ -1,4 +1,3 @@
-import { SenderInn, SendtInn } from './../../../felles/common/remoteData';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
@@ -27,6 +26,7 @@ import {
     LasterInn,
     Nettstatus,
     RemoteData,
+    SenderInn,
     Suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
@@ -78,7 +78,7 @@ export interface KandidatlisteState {
     filter: Kandidatlistefilter;
     notat?: string;
     søkPåusynligKandidat: Nettressurs<Navn[]>;
-    registrerUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
 }
 
 const initialState: KandidatlisteState = {
@@ -117,7 +117,7 @@ const initialState: KandidatlisteState = {
         navn: '',
     },
     søkPåusynligKandidat: IkkeLastet(),
-    registrerUsynligKandidat: IkkeLastet(),
+    nyUsynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -446,19 +446,19 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                registrerUsynligKandidat: SenderInn(action.nyUsynligKandidat),
+                nyUsynligKandidat: SenderInn(action.nyUsynligKandidat),
             };
         }
         case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                registrerUsynligKandidat: SendtInn(),
+                nyUsynligKandidat: Suksess(action.nyUsynligKandidat),
             };
         }
         case KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                registrerUsynligKandidat: Feil(action.error),
+                nyUsynligKandidat: Feil(action.error),
             };
         }
         case KandidatlisteActionType.HENT_NOTATER:

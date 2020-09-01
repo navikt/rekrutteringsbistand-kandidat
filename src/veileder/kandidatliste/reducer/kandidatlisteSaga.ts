@@ -5,6 +5,7 @@ import {
     putArkivertForFlereKandidater,
     putUtfallKandidat,
     fetchUsynligKandidat,
+    postUsynligKandidat,
 } from './../../api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
@@ -30,6 +31,7 @@ import KandidatlisteAction, {
     EndreUtfallKandidatAction,
     EndreUtfallKandidatSuccessAction,
     HentUsynligKandidatAction,
+    RegistrerUsynligKandidatAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -301,6 +303,25 @@ function* lagreKandidatIKandidatliste(action) {
     }
 }
 
+function* registrerUsynligKandidat(action: RegistrerUsynligKandidatAction) {
+    try {
+        yield postUsynligKandidat(action.kandidatlisteId, action.nyUsynligKandidat);
+        yield put({
+            type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS,
+            nyUsynligKandidat: action.nyUsynligKandidat,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({
+                type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_FAILURE,
+                error: e,
+            });
+        } else {
+            throw e;
+        }
+    }
+}
+
 function* hentNotater(action: HentNotaterAction) {
     try {
         const response = yield fetchNotater(action.kandidatlisteId, action.kandidatnr);
@@ -538,6 +559,7 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE,
         lagreKandidatIKandidatliste
     );
+    yield takeLatest(KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT, registrerUsynligKandidat);
     yield takeLatest(KandidatlisteActionType.OPPDATER_KANDIDATLISTE, oppdaterKandidatliste);
     yield takeLatest(KandidatlisteActionType.ANGRE_ARKIVERING, angreArkiveringForKandidater);
     yield takeLatest(

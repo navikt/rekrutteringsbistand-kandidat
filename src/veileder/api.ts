@@ -1,3 +1,4 @@
+import { NyUsynligKandidat } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 /* eslint-disable no-underscore-dangle */
 
@@ -164,6 +165,15 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`,
         JSON.stringify(kandidater)
+    );
+
+export const postUsynligKandidat = (
+    kandidatlisteId: string,
+    nyUsynligKandidat: NyUsynligKandidat
+) =>
+    postJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/usynligKandidat`,
+        JSON.stringify(nyUsynligKandidat)
     );
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>

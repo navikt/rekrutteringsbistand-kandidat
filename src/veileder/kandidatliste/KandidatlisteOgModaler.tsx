@@ -9,7 +9,7 @@ import {
 } from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Kandidatlistefilter } from './kandidatlistetyper';
-import { Nettstatus } from '../../felles/common/remoteData';
+import { Nettstatus, Nettressurs } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
@@ -24,7 +24,9 @@ import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
 import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
-import LeggTilKandidatModal from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import LeggTilKandidatModal, {
+    NyUsynligKandidat,
+} from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -64,6 +66,7 @@ type ConnectedProps = {
     toggleMarkeringAvKandidat: (kandidatnr: string) => void;
     endreMarkeringAvKandidater: (kandidatnumre: string[]) => void;
     endreVisningsstatusKandidat: (kandidatnr: string, visningsstatus: Visningsstatus) => void;
+    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
 };
 
 type Props = ConnectedProps & OwnProps;
@@ -125,6 +128,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             this.props.leggTilStatus !== prevProps.leggTilStatus &&
             this.props.leggTilStatus === LAGRE_STATUS.SUCCESS;
 
+        const usynligKandidatHarNettoppBlittRegistrert =
+            this.props.nyUsynligKandidat.kind !== prevProps.nyUsynligKandidat.kind &&
+            this.props.nyUsynligKandidat.kind === Nettstatus.Suksess;
+
         const feilMedSmsUtsending =
             this.props.smsSendStatus !== prevProps.smsSendStatus &&
             this.props.smsSendStatus === SmsStatus.Feil;
@@ -163,6 +170,15 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             this.visInfobanner(
                 `Kandidat ${this.props.kandidat?.fornavn} ${this.props.kandidat?.etternavn} (${this.props.fodselsnummer}) er lagt til`
             );
+        }
+
+        if (usynligKandidatHarNettoppBlittRegistrert) {
+            if (this.props.nyUsynligKandidat.kind === Nettstatus.Suksess) {
+                this.visInfobanner(
+                    `Kandidaten med fødselsnummer ${this.props.nyUsynligKandidat.data.fnr} har blitt registrert`
+                );
+                this.onToggleLeggTilKandidatModal();
+            }
         }
 
         if (enKandidatErNettoppArkivert) {
@@ -461,6 +477,7 @@ const mapStateToProps = (state: AppState) => ({
     statusDearkivering: state.kandidatliste.arkivering.statusDearkivering,
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
     valgtNavKontor: state.navKontor.valgtNavKontor,
+    nyUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({

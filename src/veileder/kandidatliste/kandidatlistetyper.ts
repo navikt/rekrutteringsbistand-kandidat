@@ -68,7 +68,7 @@ export interface Kandidat {
 }
 
 export interface UsynligKandidat {
-    fnr: string;
+    fnr: string; // TODO: Fjern fnr fordi det er sensitivt
     fornavn: string;
     mellomnavn: string | null;
     etternavn: string;

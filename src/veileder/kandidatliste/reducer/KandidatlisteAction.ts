@@ -134,12 +134,14 @@ export interface LagreKandidatIKandidatlisteFailureAction {
 
 export interface RegistrerUsynligKandidatAction {
     type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT;
+    kandidatlisteId: string;
     nyUsynligKandidat: NyUsynligKandidat;
 }
 
 export interface RegistrerUsynligKandidatSuccessAction {
     type: KandidatlisteActionType.REGISTRER_USYNLIG_KANDIDAT_SUCCESS;
     kandidatliste: Kandidatliste;
+    nyUsynligKandidat: NyUsynligKandidat;
 }
 
 export interface RegistrerUsynligKandidatFailureAction {
