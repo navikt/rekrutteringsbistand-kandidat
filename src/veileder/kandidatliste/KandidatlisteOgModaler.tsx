@@ -386,6 +386,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             stillingId,
             kanEditere,
             beskrivelse,
+            formidlingerAvUsynligKandidat,
         } = kandidatliste;
 
         return (
@@ -447,6 +448,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     stillingsId={stillingId}
                     kanEditere={kanEditere}
                     kandidater={kandidater}
+                    formidlingerAvUsynligKandidat={formidlingerAvUsynligKandidat}
                     filter={this.props.filter}
                     toggleMarkert={this.toggleMarkert}
                     fjernAllMarkering={this.fjernAllMarkering}

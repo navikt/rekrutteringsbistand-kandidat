@@ -1,7 +1,12 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';
+import {
+    KandidatIKandidatliste,
+    OpprettetAv,
+    Kandidatlistefilter,
+    FormidlingAvUsynligKandidat,
+} from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -22,6 +27,7 @@ import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import '../../felles/common/ikoner/ikoner.less';
+import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -31,6 +37,7 @@ export enum Visningsstatus {
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
+    formidlingerAvUsynligKandidat: FormidlingAvUsynligKandidat[];
     filter: Kandidatlistefilter;
     arbeidsgiver?: string;
     stillingsId: string | null;
@@ -192,6 +199,14 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 stillingsId={props.stillingsId}
                                 visArkiveringskolonne={!props.filter.visArkiverte}
                             />
+                            {props.formidlingerAvUsynligKandidat.map(
+                                (formidlingAvUsynligKandidat) => (
+                                    <FormidlingAvUsynligKandidatrad
+                                        key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
+                                        formidlingAvUsynligKandidat={formidlingAvUsynligKandidat}
+                                    />
+                                )
+                            )}
                             {filtrerteKandidater.length > 0 ? (
                                 filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
                                     <Kandidatrad

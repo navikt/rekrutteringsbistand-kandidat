@@ -143,7 +143,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
         fraCvTilKandidat(cver[9]),
         fraCvTilKandidat(cver[15]),
     ],
-    formidlingerAvUsynligKandidat: [],
+    formidlingerAvUsynligKandidat: [hentMocketUsynligKandidat(7)],
 }));
 
 export const kandidatliste = kandidatlister[0];
