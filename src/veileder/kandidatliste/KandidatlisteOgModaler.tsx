@@ -436,7 +436,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 />
                 <HjelpetekstFading
                     synlig={infobanner.vis}
-                    type={infobanner.type}
+                    type={infobanner.type || 'suksess'}
                     innhold={infobanner.tekst}
                 />
                 <Kandidatliste
