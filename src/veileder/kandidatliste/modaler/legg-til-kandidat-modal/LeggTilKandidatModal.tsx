@@ -6,6 +6,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
 import NavFrontendModal from 'nav-frontend-modal';
+import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
@@ -122,7 +123,15 @@ class LeggTilKandidatModal extends React.Component<Props> {
         this.props.setFodselsnummer(fnr);
 
         if (fnr.length === 11) {
-            this.props.hentKandidatMedFnr(fnr);
+            const fnrErGyldig = fnrValidator.idnr(fnr).status === 'valid';
+
+            if (fnrErGyldig) {
+                this.props.hentKandidatMedFnr(fnr);
+            } else {
+                this.setState({
+                    errorMessage: 'Fødselsnummeret er ikke gyldig',
+                });
+            }
         } else if (fnr.length > 11) {
             this.resetStateOgSøk();
 
