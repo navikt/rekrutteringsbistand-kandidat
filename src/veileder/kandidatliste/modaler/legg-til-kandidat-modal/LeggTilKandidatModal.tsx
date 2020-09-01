@@ -58,7 +58,7 @@ type Props = {
         kandidatlisteId: string,
         nyUsynligKandidat: NyUsynligKandidat
     ) => void;
-    registrertUsynligKandidat: Nettressurs<NyUsynligKandidat>;
+    nyUsynligKandidat: Nettressurs<NyUsynligKandidat>;
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
@@ -304,17 +304,18 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         onChange={this.onNyUsynligKandidatChange}
                     />
                 )}
+                {this.props.nyUsynligKandidat.kind === Nettstatus.Feil && (
+                    <Feilmelding className="LeggTilKandidatModal__feil-ved-registrering">
+                        Det skjedde en feil ved registrering.
+                    </Feilmelding>
+                )}
                 <div>
                     {harValgtUsynligKandidat ? (
                         <Hovedknapp
                             className="legg-til--knapp"
                             onClick={this.registrerFormidlingAvUsynligKandidat}
-                            spinner={
-                                this.props.registrertUsynligKandidat.kind === Nettstatus.SenderInn
-                            }
-                            disabled={
-                                this.props.registrertUsynligKandidat.kind === Nettstatus.SenderInn
-                            }
+                            spinner={this.props.nyUsynligKandidat.kind === Nettstatus.SenderInn}
+                            disabled={this.props.nyUsynligKandidat.kind === Nettstatus.SenderInn}
                         >
                             Lagre
                         </Hovedknapp>
@@ -347,7 +348,7 @@ const mapStateToProps = (state: AppState) => ({
     søkPåusynligKandidat: state.kandidatliste.søkPåusynligKandidat,
     hentStatus: state.kandidatliste.hentStatus,
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    registrertUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
+    nyUsynligKandidat: state.kandidatliste.nyUsynligKandidat,
     notat: state.kandidatliste.notat,
 });
 
