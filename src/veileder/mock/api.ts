@@ -55,7 +55,7 @@ const url = {
     delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
     postKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater`,
     søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
-    postUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/usynligkandidat`,
+    postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingerAvUsynligKandidat`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -113,7 +113,7 @@ const postKandidater = (url: string) => {
     };
 };
 
-const postUsynligKandidat = (url: string) => {
+const postFormidlingerAvUsynligKandidat = (url: string) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
     const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 
@@ -220,7 +220,7 @@ fetchMock
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
-    .post(url.postUsynligKandidat, log(postUsynligKandidat))
+    .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
 
     // Misc
     .get(url.toggles, log(featureToggles))
