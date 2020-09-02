@@ -364,6 +364,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
                 søkPåusynligKandidat: IkkeLastet(),
+                formidlingAvUsynligKandidat: IkkeLastet(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {

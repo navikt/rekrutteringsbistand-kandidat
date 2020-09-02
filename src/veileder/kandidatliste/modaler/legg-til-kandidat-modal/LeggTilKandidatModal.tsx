@@ -334,7 +334,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                                 this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
                             }
                         >
-                            Lagre
+                            Legg til
                         </Hovedknapp>
                     ) : (
                         <Hovedknapp

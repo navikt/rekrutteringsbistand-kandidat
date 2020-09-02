@@ -16,8 +16,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 
     return (
         <div className="formidling-av-usynlig-kandidatrad">
-            <div />
-            <div />
+            <span />
             <div className="formidling-av-usynlig-kandidatrad__navn">{fulltNavn}</div>
             <div className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
                 Ikke synlig i Rekrutteringsbistand
@@ -29,7 +28,6 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                     kanEndreUtfall={false}
                 />
             </div>
-            <span />
         </div>
     );
 };
