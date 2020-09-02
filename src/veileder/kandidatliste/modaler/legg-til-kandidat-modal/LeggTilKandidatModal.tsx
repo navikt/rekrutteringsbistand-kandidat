@@ -169,8 +169,13 @@ class LeggTilKandidatModal extends React.Component<Props> {
         return kandidat.length > 0;
     };
 
+    kandidatenKanLeggesTil = () =>
+        this.props.hentStatus === HentStatus.Success &&
+        !this.kandidatenFinnesAllerede() &&
+        this.props.notat.length <= MAKS_NOTATLENGDE;
+
     leggTilKandidat = () => {
-        const { kandidat, kandidatliste, hentStatus, fodselsnummer, notat } = this.props;
+        const { kandidat, kandidatliste, fodselsnummer, notat } = this.props;
         const kandidater: KandidatOutboundDto[] = [
             {
                 kandidatnr: kandidat.arenaKandidatnr,
@@ -181,11 +186,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
             },
         ];
 
-        if (
-            hentStatus === HentStatus.Success &&
-            !this.kandidatenFinnesAllerede() &&
-            notat.length <= MAKS_NOTATLENGDE
-        ) {
+        if (this.kandidatenKanLeggesTil()) {
             this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
             this.props.onClose();
         } else {
@@ -236,6 +237,9 @@ class LeggTilKandidatModal extends React.Component<Props> {
         } = this.props;
 
         const harValgtUsynligKandidat = this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess;
+        const harValgtEtAlternativ =
+            this.state.formidlingAvUsynligKandidat?.harBlittPresentert ||
+            this.state.formidlingAvUsynligKandidat?.harFåttJobb;
 
         return (
             <NavFrontendModal
@@ -331,7 +335,8 @@ class LeggTilKandidatModal extends React.Component<Props> {
                                 this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
                             }
                             disabled={
-                                this.props.formidlingAvUsynligKandidat.kind === Nettstatus.SenderInn
+                                this.props.formidlingAvUsynligKandidat.kind ===
+                                    Nettstatus.SenderInn || !harValgtEtAlternativ
                             }
                         >
                             Legg til
@@ -341,7 +346,10 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             className="legg-til--knapp"
                             onClick={this.leggTilKandidat}
                             spinner={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
-                            disabled={leggTilKandidatStatus === LAGRE_STATUS.LOADING}
+                            disabled={
+                                leggTilKandidatStatus === LAGRE_STATUS.LOADING ||
+                                !this.kandidatenKanLeggesTil()
+                            }
                         >
                             Legg til
                         </Hovedknapp>

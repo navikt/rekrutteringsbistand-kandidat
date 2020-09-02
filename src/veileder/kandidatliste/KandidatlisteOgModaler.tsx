@@ -176,7 +176,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         if (usynligKandidatHarNettoppBlittRegistrert) {
             if (this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess) {
                 this.visInfobanner(
-                    `Kandidaten med fødselsnummer ${this.props.formidlingAvUsynligKandidat.data.fnr} har blitt registrert`
+                    `Kandidaten (${this.props.formidlingAvUsynligKandidat.data.fnr}) er blitt formidlet`
                 );
                 this.onToggleLeggTilKandidatModal();
             }

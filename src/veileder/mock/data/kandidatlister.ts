@@ -111,7 +111,7 @@ const fraCvTilKandidat = (cv: Cv): Kandidat => ({
 
 const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
     fornavn: cv.fornavn,
-    mellomnavn: '"Usynlig"',
+    mellomnavn: null,
     etternavn: cv.etternavn,
     arkivert: false,
     lagtTilAv: {
