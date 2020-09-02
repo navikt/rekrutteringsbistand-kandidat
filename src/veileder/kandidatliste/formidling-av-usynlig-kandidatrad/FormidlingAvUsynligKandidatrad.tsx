@@ -10,9 +10,10 @@ type Props = {
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidlingAvUsynligKandidat,
 }) => {
-    const fulltNavn = `${formidlingAvUsynligKandidat.fornavn}${
-        formidlingAvUsynligKandidat.mellomnavn ? ' ' + formidlingAvUsynligKandidat.mellomnavn : ''
-    } ${formidlingAvUsynligKandidat.etternavn}`;
+    let fulltNavn = `${formidlingAvUsynligKandidat.etternavn}, ${formidlingAvUsynligKandidat.fornavn}`;
+    if (formidlingAvUsynligKandidat.mellomnavn) {
+        fulltNavn += ' ' + formidlingAvUsynligKandidat.mellomnavn;
+    }
 
     return (
         <div className="formidling-av-usynlig-kandidatrad">
