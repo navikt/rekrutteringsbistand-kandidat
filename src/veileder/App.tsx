@@ -39,6 +39,19 @@ import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
 import '../felles/styles.less';
 import './sok/sok.less';
+import * as Sentry from '@sentry/react';
+import { Event } from '@sentry/types';
+import { getMiljø } from '../felles/common/miljøUtils';
+
+Sentry.init({
+    dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
+    environment: getMiljø(),
+    enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
+    beforeSend(event: Event): Event {
+        delete event.request?.url;
+        return event;
+    },
+});
 
 const søkefiltreReducer = combineReducers({
     alder: alderReducer,
@@ -75,12 +88,12 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-export const reduxStore = store;
-
 const App = () => (
-    <Provider store={store}>
-        <RekrutteringsbistandKandidat />
-    </Provider>
+    <Sentry.ErrorBoundary>
+        <Provider store={store}>
+            <RekrutteringsbistandKandidat />
+        </Provider>
+    </Sentry.ErrorBoundary>
 );
 
 sagaMiddleware.run(saga);
