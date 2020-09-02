@@ -110,16 +110,18 @@ const fraCvTilKandidat = (cv: Cv): Kandidat => ({
 });
 
 const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
+    id: '0',
     fornavn: cv.fornavn,
     mellomnavn: null,
     etternavn: cv.etternavn,
-    arkivert: false,
-    lagtTilAv: {
-        ident: cv.veilederIdent || 'AB123456',
-        navn: cv.veilederNavn || 'Ola Nordmann',
-    },
+    lagtTilAvIdent: cv.veilederIdent || 'AB123456',
+    lagtTilAvNavn: cv.veilederNavn || 'Ola Nordmann',
     lagtTilTidspunkt: new Date().toISOString(),
     utfall: Utfall.Presentert,
+    arkivert: false,
+    arkivertAvIdent: null,
+    arkivertAvNavn: null,
+    arkivertTidspunkt: null,
 });
 
 export const hentMocketKandidat = (index: number): Kandidat => ({

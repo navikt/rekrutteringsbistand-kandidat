@@ -68,17 +68,18 @@ export interface Kandidat {
 }
 
 export interface FormidlingAvUsynligKandidat {
+    id: string;
     fornavn: string;
     mellomnavn: string | null;
     etternavn: string;
     utfall: Utfall;
     lagtTilTidspunkt: string;
-    lagtTilAv: {
-        ident: string;
-        navn: string;
-    };
+    lagtTilAvIdent: string;
+    lagtTilAvNavn: string;
     arkivert: boolean;
-    // TODO: arkivertAv og arkivertTidspunkt?
+    arkivertAvIdent: string | null;
+    arkivertAvNavn: string | null;
+    arkivertTidspunkt: string | null;
 }
 
 export interface Notat {
