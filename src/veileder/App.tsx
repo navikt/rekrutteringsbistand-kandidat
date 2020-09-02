@@ -88,12 +88,12 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-export const reduxStore = store;
-
 const App = () => (
-    <Provider store={store}>
-        <RekrutteringsbistandKandidat />
-    </Provider>
+    <Sentry.ErrorBoundary>
+        <Provider store={store}>
+            <RekrutteringsbistandKandidat />
+        </Provider>
+    </Sentry.ErrorBoundary>
 );
 
 sagaMiddleware.run(saga);
