@@ -15,18 +15,18 @@ const RegistrerFormidlingAvUsynligKandidat: FunctionComponent<Props> = ({
         <CheckboxGruppe>
             <Checkbox
                 label="Registrer likevel at personen har blitt presentert"
-                checked={formidling.harBlittPresentert}
+                checked={formidling.presentert}
                 onChange={() =>
                     onChange({
                         ...formidling,
-                        harBlittPresentert: !formidling.harBlittPresentert,
+                        presentert: !formidling.presentert,
                     })
                 }
             />
             <Checkbox
                 label="Registrer likevel at personen har fått jobb"
-                checked={formidling.harFåttJobb}
-                onChange={() => onChange({ ...formidling, harFåttJobb: !formidling.harFåttJobb })}
+                checked={formidling.fåttJobb}
+                onChange={() => onChange({ ...formidling, fåttJobb: !formidling.fåttJobb })}
             />
         </CheckboxGruppe>
     </div>

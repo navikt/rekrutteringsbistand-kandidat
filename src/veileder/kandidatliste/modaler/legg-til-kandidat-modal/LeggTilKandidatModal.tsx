@@ -30,8 +30,10 @@ export type KandidatOutboundDto = {
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
     fnr: string;
-    harBlittPresentert: boolean;
-    harFåttJobb: boolean;
+    presentert: boolean;
+    fåttJobb: boolean;
+    navKontor: string;
+    stillingsId: string;
 };
 
 type Props = {
@@ -60,6 +62,7 @@ type Props = {
         formidling: FormidlingAvUsynligKandidatOutboundDto
     ) => void;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
+    navKontor: string;
 };
 
 class LeggTilKandidatModal extends React.Component<Props> {
@@ -111,8 +114,8 @@ class LeggTilKandidatModal extends React.Component<Props> {
             this.setState({
                 formidlingAvUsynligKandidat: {
                     fnr: fodselsnummer,
-                    harFåttJobb: false,
-                    harBlittPresentert: false,
+                    fåttJobb: false,
+                    presentert: false,
                 },
             });
         }
@@ -218,11 +221,12 @@ class LeggTilKandidatModal extends React.Component<Props> {
     };
 
     registrerFormidlingAvUsynligKandidat = () => {
-        if (this.state.formidlingAvUsynligKandidat) {
-            this.props.formidleUsynligKandidat(
-                this.props.kandidatliste.kandidatlisteId,
-                this.state.formidlingAvUsynligKandidat
-            );
+        if (this.state.formidlingAvUsynligKandidat && this.props.stillingsId) {
+            this.props.formidleUsynligKandidat(this.props.kandidatliste.kandidatlisteId, {
+                ...this.state.formidlingAvUsynligKandidat,
+                stillingsId: this.props.stillingsId,
+                navKontor: this.props.navKontor,
+            });
         }
     };
 
@@ -238,8 +242,8 @@ class LeggTilKandidatModal extends React.Component<Props> {
 
         const harValgtUsynligKandidat = this.props.søkPåusynligKandidat.kind === Nettstatus.Suksess;
         const harValgtEtAlternativ =
-            this.state.formidlingAvUsynligKandidat?.harBlittPresentert ||
-            this.state.formidlingAvUsynligKandidat?.harFåttJobb;
+            this.state.formidlingAvUsynligKandidat?.presentert ||
+            this.state.formidlingAvUsynligKandidat?.fåttJobb;
 
         return (
             <NavFrontendModal
@@ -315,6 +319,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 )}
                 {harValgtUsynligKandidat &&
                     fodselsnummer &&
+                    this.props.stillingsId &&
                     this.state.formidlingAvUsynligKandidat && (
                         <RegistrerFormidlingAvUsynligKandidat
                             formidling={this.state.formidlingAvUsynligKandidat}
@@ -327,7 +332,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     </Feilmelding>
                 )}
                 <div>
-                    {harValgtUsynligKandidat ? (
+                    {harValgtUsynligKandidat && this.props.stillingsId ? (
                         <Hovedknapp
                             className="legg-til--knapp"
                             onClick={this.registrerFormidlingAvUsynligKandidat}
@@ -375,6 +380,7 @@ const mapStateToProps = (state: AppState) => ({
     leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
     formidlingAvUsynligKandidat: state.kandidatliste.formidlingAvUsynligKandidat,
     notat: state.kandidatliste.notat,
+    navKontor: state.navKontor.valgtNavKontor,
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
