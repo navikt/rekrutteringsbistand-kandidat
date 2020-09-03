@@ -217,7 +217,7 @@ fetchMock
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
 
     // Misc
-    .get(formidlingeravusynligkandidat.toggles, formidlingeravusynligkandidat(featureToggles))
+    .get(url.toggles, log(featureToggles))
     .get(url.modiaAktivEnhet, log(aktivEnhet))
     .get(url.modiaAktivBruker, log(aktivBruker))
     .get(url.modiaDecorator, log(decorator))
