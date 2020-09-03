@@ -172,7 +172,7 @@ export const postFormidlingerAvUsynligKandidat = (
     formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
 ) =>
     postJson(
-        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingerAvUsynligKandidat`,
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,
         JSON.stringify(formidlingAvUsynligKandidat)
     );
 

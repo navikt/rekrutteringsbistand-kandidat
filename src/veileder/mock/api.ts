@@ -55,7 +55,7 @@ const url = {
     delKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/deltekandidater`,
     postKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater`,
     søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
-    postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingerAvUsynligKandidat`,
+    postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -217,7 +217,7 @@ fetchMock
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
 
     // Misc
-    .get(url.toggles, log(featureToggles))
+    .get(formidlingeravusynligkandidat.toggles, formidlingeravusynligkandidat(featureToggles))
     .get(url.modiaAktivEnhet, log(aktivEnhet))
     .get(url.modiaAktivBruker, log(aktivBruker))
     .get(url.modiaDecorator, log(decorator))
