@@ -89,13 +89,6 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                     })}
                 </fieldset>
             )}
-            <div className="tilretteleggingsbehov__informasjon">
-                <Infoikon />
-                <Normaltekst>
-                    Vi tester ut ny funksjonalitet. Du vil kun få treff på noen få kandidater som
-                    har denne informasjonen.
-                </Normaltekst>
-            </div>
         </SokekriteriePanel>
     );
 };
