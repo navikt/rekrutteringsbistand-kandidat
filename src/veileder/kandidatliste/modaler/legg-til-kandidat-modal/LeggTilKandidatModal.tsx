@@ -328,7 +328,9 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     )}
                 {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
                     <Feilmelding className="LeggTilKandidatModal__feil-ved-registrering">
-                        Det skjedde en feil ved registrering.
+                        {this.props.formidlingAvUsynligKandidat.error.status === 409
+                            ? 'Kandidaten er allerede formidlet.'
+                            : 'Det skjedde en feil ved registrering.'}
                     </Feilmelding>
                 )}
                 <div>
