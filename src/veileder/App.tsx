@@ -40,17 +40,14 @@ import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
 import '../felles/styles.less';
 import './sok/sok.less';
 import * as Sentry from '@sentry/react';
-import { Event } from '@sentry/types';
 import { getMiljø } from '../felles/common/miljøUtils';
+import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
-    beforeSend(event: Event): Event {
-        delete event.request?.url;
-        return event;
-    },
+    beforeSend: fjernPersonopplysninger,
 });
 
 const søkefiltreReducer = combineReducers({
