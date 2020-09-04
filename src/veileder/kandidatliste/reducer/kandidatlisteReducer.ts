@@ -454,6 +454,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 formidlingAvUsynligKandidat: Suksess(action.formidling),
+                kandidatliste: Suksess(action.kandidatliste),
             };
         }
         case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE: {

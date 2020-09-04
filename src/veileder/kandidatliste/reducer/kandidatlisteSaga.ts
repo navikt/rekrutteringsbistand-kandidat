@@ -305,10 +305,14 @@ function* lagreKandidatIKandidatliste(action) {
 
 function* formidleUsynligKandidat(action: FormidleUsynligKandidatAction) {
     try {
-        yield postFormidlingerAvUsynligKandidat(action.kandidatlisteId, action.formidling);
+        const response = yield postFormidlingerAvUsynligKandidat(
+            action.kandidatlisteId,
+            action.formidling
+        );
         yield put({
             type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS,
             formidling: action.formidling,
+            kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
