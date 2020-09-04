@@ -9,16 +9,16 @@ npm install
 npm start
 ```
 
-For å få inn testdata må prosjektet pam-kandidatsok-api kjøre på port 8766 med Elastic Search i bakgrunnen.
+For å få inn testdata må prosjektet rekrutteringsbistand-kandidat-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 
 ## Hvordan kjøre opp applikasjonen i Docker
 
 ```sh
-docker build -t pam-kandidatsok . -f Dockerfile
-docker run -p 8080:8080 --name pam-kandidatsok -e "PAM_KANDIDATSOK=http://localhost:8766/rest/kandidatsok/ -t pam-kandidatsok
+docker build -t rekrutteringsbistand-kandidat . -f Dockerfile
+docker run -p 8080:8080 --name rekrutteringsbistand-kandidat -e "PAM_KANDIDATSOK=http://localhost:8766/rest/kandidatsok/ -t rekrutteringsbistand-kandidat
 ```
 
-Appliksjonen vil da kjøre på port 8080. For å få data må pam-kandidatsok-api også her kjøre på port 8766 med Elastic Search i bakgrunnen.
+Appliksjonen vil da kjøre på port 8080. For å få data må rekrutteringsbistand-kandidat-api også her kjøre på port 8766 med Elastic Search i bakgrunnen.
 
 ## Kjør lokalt uten backend (mock)
 
@@ -36,9 +36,9 @@ For å legge til en feature toggle med navn `'test-toggle'` må man legge den ti
 
 - Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
 - Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
-- Legg til `pam-kandidatsok.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
+- Legg til `rekrutteringsbistand-kandidat.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
 
-Toggle-endepunktet i kandidatsøket sin backend legger på prefixet `pam-kandidatsok` selv,
+Toggle-endepunktet i kandidatsøket sin backend legger på prefixet `rekrutteringsbistand-kandidat` selv,
 som gjør at det kun er mulig å bruke feature toggles som starter med dette prefixet.
 
 For utvikling lokalt brukes togglene i `webpack.config.dev.js`.
