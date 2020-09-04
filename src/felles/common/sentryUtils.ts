@@ -35,7 +35,9 @@ const maskeringsregler = [
     },
 ];
 
-export const maskerPersonopplysninger = (tekst: string) => {
+export const maskerPersonopplysninger = (tekst?: string) => {
+    if (!tekst) return undefined;
+
     let maskert = tekst;
     maskeringsregler.forEach(({ regex, erstatning }) => {
         maskert = maskert.replace(regex, erstatning);
