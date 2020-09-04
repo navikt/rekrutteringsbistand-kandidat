@@ -10,6 +10,7 @@ export const fjernPersonopplysninger = (event: Event): Event => {
         },
         breadcrumbs: (event.breadcrumbs || []).map((breadcrumb) => ({
             ...breadcrumb,
+            message: maskerPersonopplysninger(breadcrumb.message),
             data: {
                 from: maskerPersonopplysninger(breadcrumb.data?.from),
                 to: maskerPersonopplysninger(breadcrumb.data?.to),
