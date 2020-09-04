@@ -140,6 +140,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
+    const listenInneholderKandidater =
+        props.kandidater.length > 0 || props.formidlingerAvUsynligKandidat.length > 0;
+
     return (
         <div className="kandidatliste">
             <SideHeader
@@ -151,7 +154,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
             />
-            {props.kandidater.length > 0 ? (
+            {listenInneholderKandidater ? (
                 <>
                     <Meny
                         kandidatlisteId={props.kandidatlisteId}
@@ -226,8 +229,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             ) : (
                                 <IngenKandidater>
                                     {props.filter.visArkiverte
-                                        ? 'Det er ingen kandidater som passer med valgte kriterier'
-                                        : 'Du har ingen kandidater i kandidatlisten'}
+                                        ? 'Det er ingen vanlige kandidater som passer med valgte kriterier'
+                                        : 'Du har ingen vanlige kandidater i kandidatlisten'}
                                 </IngenKandidater>
                             )}
                         </div>
