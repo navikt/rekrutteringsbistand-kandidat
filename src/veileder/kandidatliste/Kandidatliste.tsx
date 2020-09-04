@@ -133,6 +133,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
+    throw new Error('FJERN MEG');
+
     return (
         <div className="kandidatliste">
             <SideHeader
