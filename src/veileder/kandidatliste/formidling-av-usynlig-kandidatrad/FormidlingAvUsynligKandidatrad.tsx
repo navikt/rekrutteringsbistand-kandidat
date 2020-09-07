@@ -5,7 +5,11 @@ import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {
     formidlingAvUsynligKandidat: FormidlingAvUsynligKandidat;
-    onUtfallChange: (utfall: Utfall, formidlingId: string, visModal: boolean) => void;
+    onUtfallChange: (
+        utfall: Utfall,
+        formidling: FormidlingAvUsynligKandidat,
+        visModal: boolean
+    ) => void;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
@@ -29,7 +33,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                     kanEndreUtfall
                     value={formidlingAvUsynligKandidat.utfall}
                     onChange={(utfall, visModal) =>
-                        onUtfallChange(utfall, formidlingAvUsynligKandidat.id, visModal)
+                        onUtfallChange(utfall, formidlingAvUsynligKandidat, visModal)
                     }
                 />
             </div>

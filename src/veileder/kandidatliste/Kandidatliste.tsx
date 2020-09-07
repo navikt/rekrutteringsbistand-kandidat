@@ -56,7 +56,7 @@ type Props = {
     ) => void;
     onFormidlingAvUsynligKandidatUtfallChange: (
         utfall: Utfall,
-        formidlingId: string,
+        formidling: FormidlingAvUsynligKandidat,
         visModal: true
     ) => void;
     onKandidatShare: any;
