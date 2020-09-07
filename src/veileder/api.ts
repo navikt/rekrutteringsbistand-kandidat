@@ -24,6 +24,7 @@ import {
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
 import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
+import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -164,6 +165,15 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`,
         JSON.stringify(kandidater)
+    );
+
+export const postFormidlingerAvUsynligKandidat = (
+    kandidatlisteId: string,
+    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
+) =>
+    postJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,
+        JSON.stringify(formidlingAvUsynligKandidat)
     );
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>

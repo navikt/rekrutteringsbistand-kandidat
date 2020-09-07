@@ -26,7 +26,6 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
             contentLabel={'Rediger notat'}
             onRequestClose={onCloseSletteModal}
             className="slett-notat-modal"
-            // appElement={document.getElementById('app')}
         >
             <Systemtittel className="slett-notat-modal__overskrift">Slett notat</Systemtittel>
             <Normaltekst className="slett-notat-modal__tekst">

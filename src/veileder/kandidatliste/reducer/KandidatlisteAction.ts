@@ -1,12 +1,16 @@
-import { Navn } from './../kandidatlistetyper';
-import { Kandidatlistefilter } from '../kandidatlistetyper';
-import { Visningsstatus } from './../Kandidatliste';
+import {
+    KandidatOutboundDto,
+    FormidlingAvUsynligKandidatOutboundDto,
+} from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { ApiError } from '../../../felles/common/remoteData';
-import { Kandidatliste, Notat, Sms, Kandidat } from '../kandidatlistetyper';
+import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
+import { Kandidatlistefilter } from '../kandidatlistetyper';
+import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import { SearchApiError } from './../../../felles/api';
 import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import KandidatlisteActionType from './KandidatlisteActionType';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import { Visningsstatus } from './../Kandidatliste';
+import KandidatlisteActionType from './KandidatlisteActionType';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;
@@ -95,25 +99,19 @@ export interface ResetDeleStatusAction {
     type: KandidatlisteActionType.RESET_DELESTATUS;
 }
 
-type LagretKandidat = {
-    kandidatnr: string;
-    notat: string;
-    sisteArbeidserfaring: string;
-};
-
 export interface LeggTilKandidaterAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER;
     kandidatliste: {
         kandidatlisteId: string;
     };
-    kandidater: Array<LagretKandidat>;
+    kandidater: Array<KandidatOutboundDto>;
 }
 
 export interface LeggTilKandidaterSuccessAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_SUCCESS;
     antallLagredeKandidater: number;
     lagretListe: any;
-    lagredeKandidater: Array<LagretKandidat>;
+    lagredeKandidater: Array<KandidatOutboundDto>;
     kandidatliste: Kandidatliste;
 }
 
@@ -123,6 +121,9 @@ export interface LeggTilKandidaterFailureAction {
 
 export interface LagreKandidatIKandidatlisteAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE;
+    kandidatliste: any;
+    fodselsnummer: string;
+    kandidatnr: string;
 }
 
 export interface LagreKandidatIKandidatlisteSuccessAction {
@@ -131,6 +132,23 @@ export interface LagreKandidatIKandidatlisteSuccessAction {
 
 export interface LagreKandidatIKandidatlisteFailureAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE_FAILURE;
+}
+
+export interface FormidleUsynligKandidatAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT;
+    kandidatlisteId: string;
+    formidling: FormidlingAvUsynligKandidatOutboundDto;
+}
+
+export interface FormidleUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS;
+    kandidatliste: Kandidatliste;
+    formidling: FormidlingAvUsynligKandidatOutboundDto;
+}
+
+export interface FormidleUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE;
+    error: ApiError;
 }
 
 export interface EndreStatusKandidatAction {
@@ -183,7 +201,7 @@ export interface HentKandidatMedFnrAction {
 
 export interface HentKandidatMedFnrSuccessAction {
     type: KandidatlisteActionType.HENT_KANDIDAT_MED_FNR_SUCCESS;
-    kandidat: any;
+    kandidat: Kandidatresultat;
 }
 
 export interface HentKandidatMedFnrNotFoundAction {
@@ -465,6 +483,9 @@ type KandidatlisteAction =
     | EndreKandidatlistefilterAction
     | ToggleMarkeringAvKandidat
     | EndreMarkeringAvKandidaterAction
-    | EndreVisningsstatusKandidatAction;
+    | EndreVisningsstatusKandidatAction
+    | FormidleUsynligKandidatAction
+    | FormidleUsynligKandidatSuccessAction
+    | FormidleUsynligKandidatFailureAction;
 
 export default KandidatlisteAction;

@@ -1,3 +1,5 @@
+import { FormidlingAvUsynligKandidatOutboundDto } from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import {
     filtrerKandidater,
     lagTomtStatusfilter,
@@ -25,6 +27,7 @@ import {
     LasterInn,
     Nettstatus,
     RemoteData,
+    SenderInn,
     Suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
@@ -32,15 +35,7 @@ import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 
 export interface KandidatlisteState {
     hentStatus: HentStatus;
-    kandidat: {
-        arenaKandidatnr?: string;
-        fornavn?: string;
-        etternavn?: string;
-        mestRelevanteYrkeserfaring: {
-            styrkKodeStillingstittel?: string;
-            yrkeserfaringManeder?: string;
-        };
-    };
+    kandidat?: Kandidatresultat;
 
     lagreStatus: string;
     deleStatus: Delestatus;
@@ -82,7 +77,8 @@ export interface KandidatlisteState {
     };
     filter: Kandidatlistefilter;
     notat?: string;
-    usynligKandidat: Nettressurs<Navn[]>;
+    søkPåusynligKandidat: Nettressurs<Navn[]>;
+    formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
 }
 
 const initialState: KandidatlisteState = {
@@ -96,15 +92,6 @@ const initialState: KandidatlisteState = {
     kandidatnotater: {},
     fodselsnummer: undefined,
     hentStatus: HentStatus.IkkeHentet,
-    kandidat: {
-        arenaKandidatnr: undefined,
-        fornavn: undefined,
-        etternavn: undefined,
-        mestRelevanteYrkeserfaring: {
-            styrkKodeStillingstittel: undefined,
-            yrkeserfaringManeder: undefined,
-        },
-    },
     leggTilKandidater: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         antallLagredeKandidater: 0,
@@ -129,7 +116,8 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
-    usynligKandidat: IkkeLastet(),
+    søkPåusynligKandidat: IkkeLastet(),
+    formidlingAvUsynligKandidat: IkkeLastet(),
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -375,25 +363,27 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
-                usynligKandidat: IkkeLastet(),
+                søkPåusynligKandidat: IkkeLastet(),
+                formidlingAvUsynligKandidat: IkkeLastet(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                usynligKandidat: LasterInn(),
+                søkPåusynligKandidat: LasterInn(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                usynligKandidat: Suksess(action.navn),
+                søkPåusynligKandidat: Suksess(action.navn),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                usynligKandidat: action.error.status === 404 ? FinnesIkke() : Feil(action.error),
+                søkPåusynligKandidat:
+                    action.error.status === 404 ? FinnesIkke() : Feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
@@ -454,6 +444,25 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.FAILURE,
             };
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT: {
+            return {
+                ...state,
+                formidlingAvUsynligKandidat: SenderInn(action.formidling),
+            };
+        }
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS: {
+            return {
+                ...state,
+                formidlingAvUsynligKandidat: Suksess(action.formidling),
+                kandidatliste: Suksess(action.kandidatliste),
+            };
+        }
+        case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE: {
+            return {
+                ...state,
+                formidlingAvUsynligKandidat: Feil(action.error),
+            };
+        }
         case KandidatlisteActionType.HENT_NOTATER:
             return {
                 ...state,

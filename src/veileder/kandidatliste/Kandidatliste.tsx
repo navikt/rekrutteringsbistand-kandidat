@@ -1,7 +1,12 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { KandidatIKandidatliste, OpprettetAv, Kandidatlistefilter } from './kandidatlistetyper';
+import {
+    KandidatIKandidatliste,
+    OpprettetAv,
+    Kandidatlistefilter,
+    FormidlingAvUsynligKandidat,
+} from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -22,6 +27,7 @@ import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import '../../felles/common/ikoner/ikoner.less';
+import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -31,6 +37,7 @@ export enum Visningsstatus {
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
+    formidlingerAvUsynligKandidat: FormidlingAvUsynligKandidat[];
     filter: Kandidatlistefilter;
     arbeidsgiver?: string;
     stillingsId: string | null;
@@ -133,6 +140,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         }
     };
 
+    const listenInneholderKandidater =
+        props.kandidater.length > 0 || props.formidlingerAvUsynligKandidat.length > 0;
+
     return (
         <div className="kandidatliste">
             <SideHeader
@@ -144,7 +154,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                 arbeidsgiver={props.arbeidsgiver}
                 beskrivelse={props.beskrivelse}
             />
-            {props.kandidater.length > 0 ? (
+            {listenInneholderKandidater ? (
                 <>
                     <Meny
                         kandidatlisteId={props.kandidatlisteId}
@@ -192,6 +202,14 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 stillingsId={props.stillingsId}
                                 visArkiveringskolonne={!props.filter.visArkiverte}
                             />
+                            {props.formidlingerAvUsynligKandidat.map(
+                                (formidlingAvUsynligKandidat) => (
+                                    <FormidlingAvUsynligKandidatrad
+                                        key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
+                                        formidlingAvUsynligKandidat={formidlingAvUsynligKandidat}
+                                    />
+                                )
+                            )}
                             {filtrerteKandidater.length > 0 ? (
                                 filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
                                     <Kandidatrad
@@ -211,8 +229,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             ) : (
                                 <IngenKandidater>
                                     {props.filter.visArkiverte
-                                        ? 'Det er ingen kandidater som passer med valgte kriterier'
-                                        : 'Du har ingen kandidater i kandidatlisten'}
+                                        ? 'Det er ingen vanlige kandidater som passer med valgte kriterier'
+                                        : 'Du har ingen vanlige kandidater i kandidatlisten'}
                                 </IngenKandidater>
                             )}
                         </div>
