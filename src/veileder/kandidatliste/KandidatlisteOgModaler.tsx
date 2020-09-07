@@ -366,9 +366,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     },
                 },
             });
+        } else {
+            this.endreUtfallForFormidletUsynligKandidat(utfall, formidling.id);
         }
-
-        this.endreUtfallForFormidletUsynligKandidat(utfall, formidling.id);
     };
 
     endreUtfallForFormidletUsynligKandidat = (utfall: Utfall, formidlingId: string) => {
