@@ -19,6 +19,7 @@ import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
 import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynligKandidat';
 import './LeggTilKandidatModal.less';
+import { sendEvent } from '../../../amplitude/amplitude';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -191,6 +192,10 @@ class LeggTilKandidatModal extends React.Component<Props> {
 
         if (this.kandidatenKanLeggesTil()) {
             this.props.leggTilKandidatMedFnr(kandidater, kandidatliste);
+            sendEvent('legg_til_kandidat', 'klikk', {
+                app: 'kandidat',
+            });
+
             this.props.onClose();
         } else {
             if (!fodselsnummer) {
