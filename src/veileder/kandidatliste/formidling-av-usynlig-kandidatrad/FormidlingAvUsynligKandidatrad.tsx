@@ -37,6 +37,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                     }
                 />
             </div>
+            <span />
         </div>
     );
 };
