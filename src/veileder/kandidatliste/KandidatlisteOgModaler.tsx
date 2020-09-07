@@ -42,6 +42,12 @@ type ConnectedProps = {
         kandidatlisteId: string,
         kandidatnr: string
     ) => void;
+    endreUtfallForFormidlingAvUsynligKandidat: (
+        kandidatlisteId: string,
+        formidlingId: string,
+        utfall: Utfall,
+        navKontor: string
+    ) => void;
     presenterKandidater: (
         beskjed: string,
         mailadresser: Array<string>,
@@ -336,6 +342,25 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
+    onFormidlingAvUsynligKandidatUtfallChange = (
+        utfall: Utfall,
+        formidlingId: string,
+        visModal: boolean
+    ) => {
+        this.endreUtfallForFormidletUsynligKandidat(utfall, formidlingId);
+    };
+
+    endreUtfallForFormidletUsynligKandidat = (utfall: Utfall, formidlingId: string) => {
+        const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
+
+        this.props.endreUtfallForFormidlingAvUsynligKandidat(
+            kandidatlisteId,
+            formidlingId,
+            utfall,
+            this.props.valgtNavKontor
+        );
+    };
+
     bekreftEndreUtfallModal = () => {
         if (this.state.endreUtfallModal.utfall && this.state.endreUtfallModal.kandidat) {
             this.endreUtfallForKandidat(
@@ -455,6 +480,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     markerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
+                    onFormidlingAvUsynligKandidatUtfallChange={
+                        this.onFormidlingAvUsynligKandidatUtfallChange
+                    }
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}
@@ -504,6 +532,20 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             navKontor,
             kandidatlisteId,
             kandidatnr,
+        });
+    },
+    endreUtfallForFormidlingAvUsynligKandidat: (
+        kandidatlisteId: string,
+        formidlingId: string,
+        utfall: Utfall,
+        navKontor: string
+    ) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT,
+            kandidatlisteId,
+            formidlingId,
+            utfall,
+            navKontor,
         });
     },
     presenterKandidater: (

@@ -176,6 +176,17 @@ export const postFormidlingerAvUsynligKandidat = (
         JSON.stringify(formidlingAvUsynligKandidat)
     );
 
+export const putUtfallFormidlingAvUsynligKandidat = (
+    kandidatlisteId: string,
+    formidlingId: string,
+    utfall: Utfall,
+    navKontor: string
+): Promise<Kandidatliste> =>
+    putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat/${formidlingId}/utfall`,
+        JSON.stringify({ utfall, navKontor })
+    );
+
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/notater`,

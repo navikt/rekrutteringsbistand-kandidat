@@ -300,6 +300,11 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatliste: Suksess(action.kandidatliste),
             };
+        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS:
+            return {
+                ...state,
+                kandidatliste: Suksess(action.kandidatliste),
+            };
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {
                 ...state,

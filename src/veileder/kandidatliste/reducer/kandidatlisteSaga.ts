@@ -32,6 +32,8 @@ import KandidatlisteAction, {
     EndreUtfallKandidatSuccessAction,
     HentUsynligKandidatAction,
     FormidleUsynligKandidatAction,
+    EndreUtfallFormidlingAvUsynligKandidatAction,
+    EndreUtfallFormidlingAvUsynligKandidatSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -49,6 +51,7 @@ import {
     putOppdaterKandidatliste,
     putStatusKandidat,
     putArkivert,
+    putUtfallFormidlingAvUsynligKandidat,
 } from '../../api';
 import { Kandidatliste } from '../kandidatlistetyper';
 
@@ -202,6 +205,33 @@ function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* endreUtfallForFormidlingAvUsynligKandidat(
+    action: EndreUtfallFormidlingAvUsynligKandidatAction
+) {
+    try {
+        const response: Kandidatliste = yield putUtfallFormidlingAvUsynligKandidat(
+            action.kandidatlisteId,
+            action.formidlingId,
+            action.utfall,
+            action.navKontor
+        );
+
+        yield put<EndreUtfallFormidlingAvUsynligKandidatSuccessAction>({
+            type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS,
+            kandidatliste: response,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({
+                type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE,
+                error: e,
+            });
         } else {
             throw e;
         }
@@ -589,6 +619,10 @@ function* kandidatlisteSaga() {
         hentSendteMeldinger
     );
     yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
+    yield takeLatest(
+        KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT,
+        endreUtfallForFormidlingAvUsynligKandidat
+    );
 }
 
 export default kandidatlisteSaga;

@@ -1,14 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallSelect from '../kandidatrad/utfall-select/UtfallSelect';
+import UtfallSelect, { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {
     formidlingAvUsynligKandidat: FormidlingAvUsynligKandidat;
+    onUtfallChange: (utfall: Utfall, formidlingId: string, visModal: boolean) => void;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidlingAvUsynligKandidat,
+    onUtfallChange,
 }) => {
     let fulltNavn = `${formidlingAvUsynligKandidat.etternavn}, ${formidlingAvUsynligKandidat.fornavn}`;
     if (formidlingAvUsynligKandidat.mellomnavn) {
@@ -24,9 +26,11 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
                 <UtfallSelect
+                    kanEndreUtfall
                     value={formidlingAvUsynligKandidat.utfall}
-                    onChange={() => {}}
-                    kanEndreUtfall={false}
+                    onChange={(utfall, visModal) =>
+                        onUtfallChange(utfall, formidlingAvUsynligKandidat.id, visModal)
+                    }
                 />
             </div>
         </div>
