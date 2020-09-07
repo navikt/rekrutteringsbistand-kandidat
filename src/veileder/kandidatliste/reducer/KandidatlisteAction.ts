@@ -121,7 +121,9 @@ export interface LeggTilKandidaterFailureAction {
 
 export interface LagreKandidatIKandidatlisteAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE;
-    // TODO: Typesett denne skikkelig
+    kandidatliste: any;
+    fodselsnummer: string;
+    kandidatnr: string;
 }
 
 export interface LagreKandidatIKandidatlisteSuccessAction {
