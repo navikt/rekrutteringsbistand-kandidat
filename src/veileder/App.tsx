@@ -46,7 +46,6 @@ import { getMiljø } from '../felles/common/miljøUtils';
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
-    release: 'rekrutteringsbistand-kandidat@0',
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
     beforeSend(event: Event): Event {
         delete event.request?.url;
