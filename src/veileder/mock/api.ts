@@ -26,7 +26,7 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/featureToggles';
 import søk from './data/søk';
 
-const api = 'express:/pam-kandidatsok-api/rest';
+const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
 const url = {
     // Kandidatsøket
@@ -176,7 +176,7 @@ const log = (response: MockResponse | MockResponseFunction) => {
             '%cMOCK %s %s',
             'color: lightgray;',
             options.method || 'GET',
-            url.includes('pam-kandidatsok-api') ? url.substring(46) : url,
+            url.includes('rekrutteringsbistand-kandidat-api') ? url.substring(46) : url,
             typeof response === 'function' ? response(url, options) : response
         );
         return response;
