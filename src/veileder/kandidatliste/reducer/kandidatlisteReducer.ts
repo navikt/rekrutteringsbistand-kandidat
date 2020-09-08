@@ -304,7 +304,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatliste: Suksess(action.kandidatliste),
             };
-        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT:
+        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT:
             return {
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
@@ -312,7 +312,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.formidlingId]: SenderInn(action.formidlingId),
                 },
             };
-        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS:
+        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS:
             return {
                 ...state,
                 kandidatliste: Suksess(action.kandidatliste),
@@ -321,7 +321,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     [action.formidlingId]: Suksess(action.formidlingId),
                 },
             };
-        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE:
+        case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE:
             return {
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {

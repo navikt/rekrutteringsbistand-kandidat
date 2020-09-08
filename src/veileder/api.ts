@@ -176,7 +176,7 @@ export const postFormidlingerAvUsynligKandidat = (
         JSON.stringify(formidlingAvUsynligKandidat)
     );
 
-export const putUtfallFormidlingAvUsynligKandidat = (
+export const putFormidlingsutfallForUsynligKandidat = (
     kandidatlisteId: string,
     formidlingId: string,
     utfall: Utfall,

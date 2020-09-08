@@ -184,22 +184,22 @@ export interface EndreUtfallKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
 }
 
-export interface EndreUtfallFormidlingAvUsynligKandidatAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT;
+export interface EndreFormidlingsutfallForUsynligKandidatAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT;
     formidlingId: string;
     utfall: Utfall;
     navKontor: string;
     kandidatlisteId: string;
 }
 
-export interface EndreUtfallFormidlingAvUsynligKandidatSuccessAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS;
+export interface EndreFormidlingsutfallForUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS;
     formidlingId: string;
     kandidatliste: Kandidatliste;
 }
 
-export interface EndreUtfallFormidlingAvUsynligKandidatFailureAction {
-    type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE;
+export interface EndreFormidlingsutfallForUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE;
     formidlingId: string;
     error: SearchApiError;
 }
@@ -507,8 +507,8 @@ type KandidatlisteAction =
     | FormidleUsynligKandidatAction
     | FormidleUsynligKandidatSuccessAction
     | FormidleUsynligKandidatFailureAction
-    | EndreUtfallFormidlingAvUsynligKandidatAction
-    | EndreUtfallFormidlingAvUsynligKandidatSuccessAction
-    | EndreUtfallFormidlingAvUsynligKandidatFailureAction;
+    | EndreFormidlingsutfallForUsynligKandidatAction
+    | EndreFormidlingsutfallForUsynligKandidatSuccessAction
+    | EndreFormidlingsutfallForUsynligKandidatFailureAction;
 
 export default KandidatlisteAction;

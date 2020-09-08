@@ -32,8 +32,8 @@ import KandidatlisteAction, {
     EndreUtfallKandidatSuccessAction,
     HentUsynligKandidatAction,
     FormidleUsynligKandidatAction,
-    EndreUtfallFormidlingAvUsynligKandidatAction,
-    EndreUtfallFormidlingAvUsynligKandidatSuccessAction,
+    EndreFormidlingsutfallForUsynligKandidatAction,
+    EndreFormidlingsutfallForUsynligKandidatSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -51,7 +51,7 @@ import {
     putOppdaterKandidatliste,
     putStatusKandidat,
     putArkivert,
-    putUtfallFormidlingAvUsynligKandidat,
+    putFormidlingsutfallForUsynligKandidat,
 } from '../../api';
 import { Kandidatliste } from '../kandidatlistetyper';
 
@@ -212,25 +212,25 @@ function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
 }
 
 function* endreUtfallForFormidlingAvUsynligKandidat(
-    action: EndreUtfallFormidlingAvUsynligKandidatAction
+    action: EndreFormidlingsutfallForUsynligKandidatAction
 ) {
     try {
-        const response: Kandidatliste = yield putUtfallFormidlingAvUsynligKandidat(
+        const response: Kandidatliste = yield putFormidlingsutfallForUsynligKandidat(
             action.kandidatlisteId,
             action.formidlingId,
             action.utfall,
             action.navKontor
         );
 
-        yield put<EndreUtfallFormidlingAvUsynligKandidatSuccessAction>({
-            type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS,
+        yield put<EndreFormidlingsutfallForUsynligKandidatSuccessAction>({
+            type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS,
             formidlingId: action.formidlingId,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
-                type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE,
+                type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE,
                 formidlingId: action.formidlingId,
                 error: e,
             });
@@ -622,7 +622,7 @@ function* kandidatlisteSaga() {
     );
     yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
     yield takeLatest(
-        KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT,
+        KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
         endreUtfallForFormidlingAvUsynligKandidat
     );
 }

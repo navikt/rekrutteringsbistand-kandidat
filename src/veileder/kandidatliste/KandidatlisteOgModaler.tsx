@@ -43,7 +43,7 @@ type ConnectedProps = {
         kandidatlisteId: string,
         kandidatnr: string
     ) => void;
-    endreUtfallForFormidlingAvUsynligKandidat: (
+    endreFormidlingsutfallForUsynligKandidat: (
         kandidatlisteId: string,
         formidlingId: string,
         utfall: Utfall,
@@ -324,16 +324,16 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     fornavn: kandidat.fornavn,
                     etternavn: kandidat.etternavn,
                     onBekreft: () => {
-                        this.endreUtfallForKandidat(utfall, kandidat);
+                        this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
                     },
                 },
             });
         } else {
-            this.endreUtfallForKandidat(utfall, kandidat);
+            this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
         }
     };
 
-    endreUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
+    bekreftEndringAvUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
         const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
         this.props.endreUtfallKandidat(
@@ -349,7 +349,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    onFormidlingAvUsynligKandidatUtfallChange = (
+    onUsynligKandidatFormidlingsutfallChange = (
         utfall: Utfall,
         formidling: FormidlingAvUsynligKandidat,
         visModal: boolean
@@ -362,19 +362,25 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     fornavn: formidling.fornavn,
                     etternavn: formidling.etternavn,
                     onBekreft: () => {
-                        this.endreUtfallForFormidletUsynligKandidat(utfall, formidling.id);
+                        this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(
+                            utfall,
+                            formidling.id
+                        );
                     },
                 },
             });
         } else {
-            this.endreUtfallForFormidletUsynligKandidat(utfall, formidling.id);
+            this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(utfall, formidling.id);
         }
     };
 
-    endreUtfallForFormidletUsynligKandidat = (utfall: Utfall, formidlingId: string) => {
+    bekreftEndringAvFormidlingsutfallForUsynligKandidat = (
+        utfall: Utfall,
+        formidlingId: string
+    ) => {
         const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
-        this.props.endreUtfallForFormidlingAvUsynligKandidat(
+        this.props.endreFormidlingsutfallForUsynligKandidat(
             kandidatlisteId,
             formidlingId,
             utfall,
@@ -497,8 +503,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     markerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
-                    onFormidlingAvUsynligKandidatUtfallChange={
-                        this.onFormidlingAvUsynligKandidatUtfallChange
+                    onUsynligKandidatFormidlingsutfallChange={
+                        this.onUsynligKandidatFormidlingsutfallChange
                     }
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
@@ -551,14 +557,14 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatnr,
         });
     },
-    endreUtfallForFormidlingAvUsynligKandidat: (
+    endreFormidlingsutfallForUsynligKandidat: (
         kandidatlisteId: string,
         formidlingId: string,
         utfall: Utfall,
         navKontor: string
     ) => {
         dispatch({
-            type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT,
+            type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
             kandidatlisteId,
             formidlingId,
             utfall,
