@@ -386,6 +386,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             utfall,
             this.props.valgtNavKontor
         );
+
+        sendEvent('kandidatliste', 'endre_utfall_for_usynlig_kandidat', {
+            utfall,
+        });
     };
 
     bekreftEndreUtfallModal = () => {
