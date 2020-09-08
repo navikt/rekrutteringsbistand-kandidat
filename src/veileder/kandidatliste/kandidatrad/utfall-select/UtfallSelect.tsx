@@ -11,6 +11,7 @@ export enum Utfall {
 }
 
 interface Props {
+    disabled?: boolean;
     kanEndreUtfall: boolean;
     value: Utfall;
     onChange: (utfall: Utfall, visModal: boolean) => void;
@@ -28,7 +29,7 @@ const skalViseModalVedEndring = (gammeltUtfall: Utfall, nyttUtfall: Utfall) => {
     return false;
 };
 
-const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange }) => {
+const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange, disabled }) => {
     const onSelect = (utfall: Utfall) => {
         if (utfall !== value) {
             onChange(utfall, skalViseModalVedEndring(value, utfall));
@@ -42,7 +43,10 @@ const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChang
     return (
         <div className="UtfallSelect skjemaelement">
             <Menu>
-                <MenuButton className="UtfallSelect__button selectContainer skjemaelement__input">
+                <MenuButton
+                    disabled={disabled}
+                    className="UtfallSelect__button selectContainer skjemaelement__input"
+                >
                     <UtfallVisning utfall={value} />
                 </MenuButton>
                 <MenuList className="UtfallSelect__menu">

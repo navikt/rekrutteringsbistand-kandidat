@@ -194,11 +194,13 @@ export interface EndreUtfallFormidlingAvUsynligKandidatAction {
 
 export interface EndreUtfallFormidlingAvUsynligKandidatSuccessAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS;
+    formidlingId: string;
     kandidatliste: Kandidatliste;
 }
 
 export interface EndreUtfallFormidlingAvUsynligKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE;
+    formidlingId: string;
     error: SearchApiError;
 }
 

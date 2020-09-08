@@ -33,6 +33,8 @@ import {
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
 
+type FormidlingId = string;
+
 export interface KandidatlisteState {
     hentStatus: HentStatus;
     kandidat?: Kandidatresultat;
@@ -79,6 +81,7 @@ export interface KandidatlisteState {
     notat?: string;
     søkPåusynligKandidat: Nettressurs<Navn[]>;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
+    endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
 }
 
 const initialState: KandidatlisteState = {
@@ -118,6 +121,7 @@ const initialState: KandidatlisteState = {
     },
     søkPåusynligKandidat: IkkeLastet(),
     formidlingAvUsynligKandidat: IkkeLastet(),
+    endreFormidlingsutfallForUsynligKandidat: {},
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -300,10 +304,30 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatliste: Suksess(action.kandidatliste),
             };
+        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT:
+            return {
+                ...state,
+                endreFormidlingsutfallForUsynligKandidat: {
+                    ...state.endreFormidlingsutfallForUsynligKandidat,
+                    [action.formidlingId]: SenderInn(action.formidlingId),
+                },
+            };
         case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS:
             return {
                 ...state,
                 kandidatliste: Suksess(action.kandidatliste),
+                endreFormidlingsutfallForUsynligKandidat: {
+                    ...state.endreFormidlingsutfallForUsynligKandidat,
+                    [action.formidlingId]: Suksess(action.formidlingId),
+                },
+            };
+        case KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE:
+            return {
+                ...state,
+                endreFormidlingsutfallForUsynligKandidat: {
+                    ...state.endreFormidlingsutfallForUsynligKandidat,
+                    [action.formidlingId]: Feil(action.error),
+                },
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
             return {

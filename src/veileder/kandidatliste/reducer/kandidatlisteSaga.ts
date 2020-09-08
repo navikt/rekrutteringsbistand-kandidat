@@ -224,12 +224,14 @@ function* endreUtfallForFormidlingAvUsynligKandidat(
 
         yield put<EndreUtfallFormidlingAvUsynligKandidatSuccessAction>({
             type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_SUCCESS,
+            formidlingId: action.formidlingId,
             kandidatliste: response,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({
                 type: KandidatlisteActionType.ENDRE_UTFALL_FORMIDLING_AV_USYNLIG_KANDIDAT_FAILURE,
+                formidlingId: action.formidlingId,
                 error: e,
             });
         } else {

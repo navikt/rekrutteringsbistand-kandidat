@@ -211,7 +211,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
-                                        formidlingAvUsynligKandidat={formidlingAvUsynligKandidat}
+                                        formidling={formidlingAvUsynligKandidat}
                                         onUtfallChange={
                                             props.onFormidlingAvUsynligKandidatUtfallChange
                                         }
