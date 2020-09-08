@@ -32,6 +32,8 @@ import KandidatlisteAction, {
     EndreUtfallKandidatSuccessAction,
     HentUsynligKandidatAction,
     FormidleUsynligKandidatAction,
+    EndreFormidlingsutfallForUsynligKandidatAction,
+    EndreFormidlingsutfallForUsynligKandidatSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -49,6 +51,7 @@ import {
     putOppdaterKandidatliste,
     putStatusKandidat,
     putArkivert,
+    putFormidlingsutfallForUsynligKandidat,
 } from '../../api';
 import { Kandidatliste } from '../kandidatlistetyper';
 
@@ -202,6 +205,35 @@ function* endreKandidatUtfall(action: EndreUtfallKandidatAction) {
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE, error: e });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* endreUtfallForFormidlingAvUsynligKandidat(
+    action: EndreFormidlingsutfallForUsynligKandidatAction
+) {
+    try {
+        const response: Kandidatliste = yield putFormidlingsutfallForUsynligKandidat(
+            action.kandidatlisteId,
+            action.formidlingId,
+            action.utfall,
+            action.navKontor
+        );
+
+        yield put<EndreFormidlingsutfallForUsynligKandidatSuccessAction>({
+            type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS,
+            formidlingId: action.formidlingId,
+            kandidatliste: response,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({
+                type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE,
+                formidlingId: action.formidlingId,
+                error: e,
+            });
         } else {
             throw e;
         }
@@ -589,6 +621,10 @@ function* kandidatlisteSaga() {
         hentSendteMeldinger
     );
     yield takeLatest(KandidatlisteActionType.HENT_USYNLIG_KANDIDAT, hentUsynligKandidat);
+    yield takeLatest(
+        KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
+        endreUtfallForFormidlingAvUsynligKandidat
+    );
 }
 
 export default kandidatlisteSaga;

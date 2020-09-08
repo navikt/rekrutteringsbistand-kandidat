@@ -56,6 +56,7 @@ const url = {
     postKandidater: `${api}/veileder/kandidatlister/:kandidatlisteId/kandidater`,
     søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
+    putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -157,6 +158,27 @@ const putUtfall = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     };
 };
 
+const putUtfallForFormidlingAvUsynligKandidat = (
+    url: string,
+    options: fetchMock.MockOptionsMethodPut
+) => {
+    const formidlingId = url.split('/').reverse()[1];
+    const utfall = JSON.parse(String(options.body)).utfall;
+
+    return {
+        ...kandidatliste,
+        formidlingerAvUsynligKandidat: kandidatliste.formidlingerAvUsynligKandidat.map(
+            (formidling) =>
+                formidling.id !== formidlingId
+                    ? formidling
+                    : {
+                          ...formidling,
+                          utfall,
+                      }
+        ),
+    };
+};
+
 const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatnr = url.split('/').reverse()[1];
     const arkivert = JSON.parse(String(options.body));
@@ -215,6 +237,7 @@ fetchMock
     .get(url.arenageografikoder, log(arenageografikoder))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
+    .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
 
     // Misc
     .get(url.toggles, log(featureToggles))

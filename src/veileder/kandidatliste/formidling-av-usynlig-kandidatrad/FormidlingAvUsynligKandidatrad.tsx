@@ -1,19 +1,33 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallSelect from '../kandidatrad/utfall-select/UtfallSelect';
+import UtfallSelect, { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import './FormidlingAvUsynligKandidatrad.less';
+import AppState from '../../AppState';
+import { useSelector } from 'react-redux';
+import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
 
 type Props = {
-    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidat;
+    formidling: FormidlingAvUsynligKandidat;
+    onUtfallChange: (
+        utfall: Utfall,
+        formidling: FormidlingAvUsynligKandidat,
+        visModal: boolean
+    ) => void;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
-    formidlingAvUsynligKandidat,
+    formidling,
+    onUtfallChange,
 }) => {
-    let fulltNavn = `${formidlingAvUsynligKandidat.etternavn}, ${formidlingAvUsynligKandidat.fornavn}`;
-    if (formidlingAvUsynligKandidat.mellomnavn) {
-        fulltNavn += ' ' + formidlingAvUsynligKandidat.mellomnavn;
+    let fulltNavn = `${formidling.etternavn}, ${formidling.fornavn}`;
+    if (formidling.mellomnavn) {
+        fulltNavn += ' ' + formidling.mellomnavn;
     }
+
+    const endreState: Nettressurs<string> | undefined = useSelector(
+        (state: AppState) =>
+            state.kandidatliste.endreFormidlingsutfallForUsynligKandidat[formidling.id]
+    );
 
     return (
         <div className="formidling-av-usynlig-kandidatrad">
@@ -24,11 +38,13 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
                 <UtfallSelect
-                    value={formidlingAvUsynligKandidat.utfall}
-                    onChange={() => {}}
-                    kanEndreUtfall={false}
+                    kanEndreUtfall
+                    disabled={endreState?.kind === Nettstatus.SenderInn}
+                    value={formidling.utfall}
+                    onChange={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)}
                 />
             </div>
+            <span />
         </div>
     );
 };

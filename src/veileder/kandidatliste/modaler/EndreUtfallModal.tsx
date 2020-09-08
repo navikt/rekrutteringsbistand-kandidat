@@ -4,20 +4,21 @@ import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
 import './EndreUtfallModal.less';
 
 interface Props {
     vis: boolean;
-    kandidat: KandidatIKandidatliste;
     utfall: Utfall;
-    onBekreft: () => void;
+    fornavn?: string;
+    etternavn?: string;
+    onBekreft?: () => void;
     onLukk: () => void;
 }
 
 const EndreUtfallModal: FunctionComponent<Props> = ({
     vis,
-    kandidat,
+    fornavn,
+    etternavn,
     utfall,
     onBekreft,
     onLukk,
@@ -36,10 +37,13 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             <div className="endreUtfallModal__beskrivelse">
                 <Endringsbeskrivelse
                     utfall={utfall}
-                    kandidatnavn={`${kandidat.fornavn} ${kandidat.etternavn}`}
+                    kandidatnavn={`${fornavn || ''} ${etternavn || ''}`}
                 />
             </div>
-            <Hovedknapp onClick={onBekreft} className="endreUtfallModal__bekreftknapp">
+            <Hovedknapp
+                onClick={onBekreft ? onBekreft : () => {}}
+                className="endreUtfallModal__bekreftknapp"
+            >
                 Fullfør
             </Hovedknapp>
             <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>

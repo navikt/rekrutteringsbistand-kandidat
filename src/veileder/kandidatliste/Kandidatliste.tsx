@@ -54,6 +54,11 @@ type Props = {
         kandidat: KandidatIKandidatliste,
         visModal: boolean
     ) => void;
+    onUsynligKandidatFormidlingsutfallChange: (
+        utfall: Utfall,
+        formidling: FormidlingAvUsynligKandidat,
+        visModal: true
+    ) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;
@@ -206,7 +211,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
-                                        formidlingAvUsynligKandidat={formidlingAvUsynligKandidat}
+                                        formidling={formidlingAvUsynligKandidat}
+                                        onUtfallChange={
+                                            props.onUsynligKandidatFormidlingsutfallChange
+                                        }
                                     />
                                 )
                             )}

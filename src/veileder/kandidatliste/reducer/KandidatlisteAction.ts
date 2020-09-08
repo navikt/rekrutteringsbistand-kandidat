@@ -184,6 +184,26 @@ export interface EndreUtfallKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
 }
 
+export interface EndreFormidlingsutfallForUsynligKandidatAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT;
+    formidlingId: string;
+    utfall: Utfall;
+    navKontor: string;
+    kandidatlisteId: string;
+}
+
+export interface EndreFormidlingsutfallForUsynligKandidatSuccessAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS;
+    formidlingId: string;
+    kandidatliste: Kandidatliste;
+}
+
+export interface EndreFormidlingsutfallForUsynligKandidatFailureAction {
+    type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE;
+    formidlingId: string;
+    error: SearchApiError;
+}
+
 export interface SetFodselsnummerAction {
     type: KandidatlisteActionType.SET_FODSELSNUMMER;
     fodselsnummer: string;
@@ -486,6 +506,9 @@ type KandidatlisteAction =
     | EndreVisningsstatusKandidatAction
     | FormidleUsynligKandidatAction
     | FormidleUsynligKandidatSuccessAction
-    | FormidleUsynligKandidatFailureAction;
+    | FormidleUsynligKandidatFailureAction
+    | EndreFormidlingsutfallForUsynligKandidatAction
+    | EndreFormidlingsutfallForUsynligKandidatSuccessAction
+    | EndreFormidlingsutfallForUsynligKandidatFailureAction;
 
 export default KandidatlisteAction;
