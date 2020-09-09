@@ -1,18 +1,16 @@
 import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
+// import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { KandidatlisterMenyDropdown } from '../Kandidatlister';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
+import HjelpetekstMedAnker from '../../../felles/common/hjelpetekst-med-anker/HjelpetekstMedAnker';
 
 export const KandidatlisterRad: FunctionComponent<any> = ({
     kandidatliste,
     endreKandidatliste,
-    onMenyClick,
-    onSkjulMeny,
-    visKandidatlisteMeny,
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
@@ -40,12 +38,9 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
-        <HjelpetekstUnderVenstre
-            id="rediger-knapp"
-            anchor={() => <i className="EditDisabled__icon" />}
-        >
-            Du kan ikke redigere en kandidatliste som ikke er din.
-        </HjelpetekstUnderVenstre>
+        <HjelpetekstMedAnker innhold="Du kan ikke redigere en kandidatliste som ikke er din.">
+            <i className="EditDisabled__icon" />
+        </HjelpetekstMedAnker>
     );
 
     return (
@@ -85,24 +80,21 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
             <div className="kolonne-smal-knapp">
                 {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
             </div>
-            <div className="kolonne-smal-knapp">
-                <Hamburgerknapp
-                    aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
-                    onClick={() => {
-                        onMenyClick(kandidatliste);
-                    }}
-                    className="KandidatlisteMeny"
-                />
-            </div>
-            {visKandidatlisteMeny &&
-                visKandidatlisteMeny.kandidatlisteId === kandidatliste.kandidatlisteId && (
+            <HjelpetekstMedAnker
+                className="kolonne-smal-knapp"
+                innhold={
                     <KandidatlisterMenyDropdown
                         kandidatliste={kandidatliste}
-                        onSkjulMeny={onSkjulMeny}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
                     />
-                )}
+                }
+            >
+                <Hamburgerknapp
+                    aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
+                    className="KandidatlisteMeny"
+                />
+            </HjelpetekstMedAnker>
         </div>
     );
 };

@@ -1,0 +1,20 @@
+@import '../../../veileder/variabler.less';
+
+.hjelpetekst-med-anker {
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px @fokusFarge;
+    }
+
+    .popover {
+        &__pil {
+            background-color: #e0f5fb;
+        }
+    }
+
+    &__popup {
+        padding: 1rem;
+        background-color: #e0f5fb;
+        max-width: 20rem;
+    }
+}

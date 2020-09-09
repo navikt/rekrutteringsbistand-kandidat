@@ -1,3 +1,5 @@
+@import '../../veileder/variabler.less';
+
 .Kandidatlister {
     font-family: 'Source Sans Pro', Arial, sans-serif;
 
@@ -165,6 +167,8 @@
                 flex: 2;
                 min-width: 4rem;
                 justify-content: center;
+                align-items: center;
+
                 .Edit__icon {
                     margin-left: 0;
                 }
@@ -292,58 +296,35 @@
 }
 
 .kandidatlister-meny {
-    background: #e3edf8;
-    border: 1px solid #c6c2bf;
-    border-radius: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0.5rem;
-    position: absolute;
-    transform: translate(calc(-160px), calc(55px));
-    width: 160px;
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
 
-    > div {
-        color: #0067c5;
-        margin: 0.5rem 0;
-        padding: 3px;
-        display: list-item;
+    button {
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        padding: 0.25rem 0;
 
         &:focus {
-            border: 3px solid #ffbd66;
             outline: none;
-            padding: 0;
+            box-shadow: 0 0 0 3px @fokusFarge;
         }
 
-        &:hover {
-            cursor: pointer;
-            text-decoration: underline;
-        }
-    }
+        &:not(:disabled) {
+            color: #0067c5;
 
-    .marker-hjelpetekst-tekst {
-        color: #59514b;
-    }
-
-    .marker-hjelpetekst {
-        transform: translateX(-120px);
-    }
-
-    .slett-hjelpetekst-tekst {
-        color: #59514b;
-    }
-
-    .slett-hjelpetekst {
-        transform: translateX(-120px);
-        .slett-hjelpetekst-lenke {
-            color: white;
-        }
-        ul {
-            padding-left: 1.5rem;
-            list-style-type: disc;
-            li {
-                padding-top: 0.25rem;
+            &:hover {
+                text-decoration: underline;
             }
+        }
+
+        &:disabled {
+            color: #59514b;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 0.25rem;
         }
     }
 }

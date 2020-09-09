@@ -19,7 +19,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
-import SmsStatusIkon from './smsstatus/SmsStatusIkon';
+import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
@@ -178,7 +178,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
-                    {kandidat.sms && <SmsStatusIkon sms={kandidat.sms} />}
+                    {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
                 <div className="kandidatliste-kandidat__wrap-hvor-som-helst">
                     {kandidat.fodselsnr}
