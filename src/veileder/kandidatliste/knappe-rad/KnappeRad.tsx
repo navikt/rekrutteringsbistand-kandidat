@@ -80,7 +80,6 @@ const KnappeRad: FunctionComponent<Props> = ({
                         </Lenkeknapp>
                     ) : (
                         <HjelpetekstMedAnker
-                            id="marker-kandidater-sms-hjelpetekst"
                             tittel="Send SMS til de markerte kandidatene"
                             innhold={
                                 minstEnKandidatErMarkert
@@ -103,7 +102,6 @@ const KnappeRad: FunctionComponent<Props> = ({
                         </Lenkeknapp>
                     ) : (
                         <HjelpetekstMedAnker
-                            id="marker-kandidater-epost-hjelpetekst"
                             innhold="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
                             tittel="Send e-post til de markerte kandidatene"
                         >
@@ -124,7 +122,6 @@ const KnappeRad: FunctionComponent<Props> = ({
                         </Lenkeknapp>
                     ) : (
                         <HjelpetekstMedAnker
-                            id="marker-kandidater-presentere-hjelpetekst"
                             innhold="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                             tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                         >
@@ -145,7 +142,6 @@ const KnappeRad: FunctionComponent<Props> = ({
                         <HjelpetekstMedAnker
                             orientering={PopoverOrientering.UnderVenstre}
                             innhold="Du må huke av for kandidatene du ønsker å angre sletting for."
-                            id="marker-kandidater-angre-arkivering-hjelpetekst"
                             tittel="Angre sletting for de markerte kandidatene"
                         >
                             <Lenkeknapp className="kandidatlisteknapper__knapp Delete">

@@ -15,7 +15,7 @@ const StatusHjelpetekst: FunctionComponent = () => (
         <strong>Forklaring til status</strong>
         <ul className="statusliste">
             {Object.entries(forklaringer).map(([status, forklaring]) => (
-                <li>
+                <li key={status}>
                     {statusToDisplayName(status as Status)} &ndash; {forklaring}
                 </li>
             ))}

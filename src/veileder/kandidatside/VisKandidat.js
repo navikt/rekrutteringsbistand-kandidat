@@ -289,8 +289,8 @@ class VisKandidat extends React.Component {
                                 </>
                             ) : (
                                 <Knapp
-                                    mini
                                     type="flat"
+                                    className="vis-kandidat__lagreknapp"
                                     onClick={this.onLagreKandidatClick(
                                         kandidatlisteId,
                                         stillingsId

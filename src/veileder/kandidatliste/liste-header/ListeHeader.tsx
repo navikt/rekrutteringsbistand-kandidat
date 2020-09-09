@@ -1,9 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
-import './../kandidatrad/Kandidatrad.less';
 import StatusHjelpetekst from './StatusHjelpetekst';
-import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import './../kandidatrad/Kandidatrad.less';
 
 interface Props {
     stillingsId: string | null;

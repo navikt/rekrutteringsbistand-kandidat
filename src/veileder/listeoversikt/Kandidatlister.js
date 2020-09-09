@@ -596,7 +596,6 @@ KandidatlisterMenyDropdown.propTypes = {
 
 SlettKandidatlisteMenyValg.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
-    handleKeyDown: PropTypes.func.isRequired,
     slettKandidatliste: PropTypes.func.isRequired,
 };
 
