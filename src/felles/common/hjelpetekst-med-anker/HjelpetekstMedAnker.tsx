@@ -5,6 +5,7 @@ import './HjelpetekstMedAnker.less';
 
 type Props = {
     id?: string;
+    tittel?: string;
     innhold: ReactNode;
     orientering?: PopoverOrientering;
     className?: string;
@@ -12,6 +13,7 @@ type Props = {
 
 const HjelpetekstMedAnker: FunctionComponent<Props> = ({
     id,
+    tittel,
     innhold,
     orientering,
     className,
@@ -31,6 +33,7 @@ const HjelpetekstMedAnker: FunctionComponent<Props> = ({
         <div
             id={id}
             role="button"
+            title={tittel}
             onClick={toggleAnker}
             className={`hjelpetekst-med-anker${className ? ' ' + className : ''}`}
         >
