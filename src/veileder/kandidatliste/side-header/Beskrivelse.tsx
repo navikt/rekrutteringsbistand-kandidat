@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useState} from 'react';
 import {Element, Normaltekst} from 'nav-frontend-typografi';
 import '../kandidatrad/Kandidatrad.less';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
 interface Props {
