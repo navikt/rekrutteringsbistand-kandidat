@@ -1,3 +1,4 @@
+import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
 /* eslint-disable no-underscore-dangle */
 
 import {
@@ -21,6 +22,9 @@ import {
     putJson,
 } from '../felles/api';
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
+import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
+import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 declare const __MOCK_API__: boolean;
 const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
@@ -42,6 +46,8 @@ const convertToUrlParams = (query) =>
                     return `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`;
                 }
             }
+
+            return '';
         })
         .join('&')
         .replace(/%20/g, '+');
@@ -88,10 +94,25 @@ export const fetchKandidatlisteMedStillingsId = (stillingsId) =>
 export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
-export const putStatusKandidat = (status, kandidatlisteId, kandidatnr) =>
+export const putStatusKandidat = (
+    status: Status,
+    kandidatlisteId: string,
+    kandidatnr: string
+): Promise<Kandidatliste> =>
     putJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/status`,
         JSON.stringify({ status })
+    );
+
+export const putUtfallKandidat = (
+    utfall: Utfall,
+    navKontor: string,
+    kandidatlisteId: string,
+    kandidatnr: string
+): Promise<Kandidatliste> =>
+    putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater/${kandidatnr}/utfall`,
+        JSON.stringify({ utfall, navKontor })
     );
 
 export const postKandidatliste = (kandidatlisteInfo) =>
@@ -123,13 +144,20 @@ export const fetchNotater = (kandidatlisteId, kandidatnr) =>
         true
     );
 
-export const postDelteKandidater = (beskjed, mailadresser, kandidatlisteId, kandidatnummerListe) =>
+export const postDelteKandidater = (
+    beskjed,
+    mailadresser,
+    kandidatlisteId,
+    kandidatnummerListe,
+    navKontor
+) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/deltekandidater`,
         JSON.stringify({
             epostMottakere: mailadresser,
             epostTekst: beskjed,
             kandidater: kandidatnummerListe,
+            navKontor: navKontor,
         })
     );
 
@@ -137,6 +165,26 @@ export const postKandidaterTilKandidatliste = (kandidatlisteId, kandidater) =>
     postJson(
         `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/kandidater`,
         JSON.stringify(kandidater)
+    );
+
+export const postFormidlingerAvUsynligKandidat = (
+    kandidatlisteId: string,
+    formidlingAvUsynligKandidat: FormidlingAvUsynligKandidatOutboundDto
+) =>
+    postJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat`,
+        JSON.stringify(formidlingAvUsynligKandidat)
+    );
+
+export const putFormidlingsutfallForUsynligKandidat = (
+    kandidatlisteId: string,
+    formidlingId: string,
+    utfall: Utfall,
+    navKontor: string
+): Promise<Kandidatliste> =>
+    putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/formidlingeravusynligkandidat/${formidlingId}/utfall`,
+        JSON.stringify({ utfall, navKontor })
     );
 
 export const postNotat = (kandidatlisteId, kandidatnr, tekst) =>
@@ -219,6 +267,15 @@ export const fetchKandidatlisterForKandidat = (
     );
 };
 
+export const fetchUsynligKandidat = (fodselsnummer: string) => {
+    return postJson(
+        `${KANDIDATLISTE_API}/kandidater/navn`,
+        JSON.stringify({
+            fnr: fodselsnummer,
+        })
+    );
+};
+
 export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
     fetchJson(`${KANDIDATLISTE_API}/stilling/byNr/${annonsenummer}/kandidatliste`, true);
 
@@ -255,7 +312,7 @@ export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlis
         })
     );
 
-export const fetchFerdigutfylteStillinger = (bransjer) => {
+export const fetchFerdigutfylteStillinger = () => {
     return fetchJson(`${KANDIDATSOK_API}/veileder/ferdigutfyltesok`, true);
 };
 
@@ -266,3 +323,7 @@ export const postFerdigutfylteStillingerKlikk = (
         `${KANDIDATSOK_API}/veileder/ferdigutfyltesok/klikk`,
         JSON.stringify(ferdigutfylteStillingerKlikk)
     );
+
+export const hentKandidatnr = (fnr: string): Promise<{ kandidatnr: string }> => {
+    return postJson(`${KANDIDATSOK_API}/fnr-til-kandidatnr`, JSON.stringify({ fnr }));
+};

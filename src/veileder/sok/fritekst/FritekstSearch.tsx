@@ -1,15 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Input } from 'nav-frontend-skjema';
+import { Søkeknapp } from 'nav-frontend-ikonknapper';
+
+import { Fritekststatus } from './validering';
 import { SEARCH } from '../searchReducer';
 import { SET_FRITEKST_SOKEORD } from './fritekstReducer';
 import AppState from '../../AppState';
-import './Fritekst.less';
-import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import useFritekstvalidering from './useFritekstvalidering';
+import './FritekstSearch.less';
 
 interface Props {
     search: () => void;
     fritekstSøkeord: string;
-    setFritekstSøkeord: (søkeord) => void;
+    setFritekstSøkeord: (søkeord: string) => void;
 }
 
 const FritekstSearch: FunctionComponent<Props> = ({
@@ -17,43 +21,71 @@ const FritekstSearch: FunctionComponent<Props> = ({
     fritekstSøkeord,
     setFritekstSøkeord,
 }) => {
-    const onFritekstChange = (e) => {
-        setFritekstSøkeord(e.target.value);
+    const [input, setInput] = useState<string>(fritekstSøkeord);
+    const [harTrykketPåKnappISøkefelt, setHarTrykketPåKnappISøkefelt] = useState<boolean>(false);
+    const validering = useFritekstvalidering(input, harTrykketPåKnappISøkefelt);
+
+    useEffect(() => {
+        setInput(fritekstSøkeord);
+    }, [fritekstSøkeord]);
+
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+
+        if (harTrykketPåKnappISøkefelt) {
+            setHarTrykketPåKnappISøkefelt(false);
+        }
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        search();
+        setHarTrykketPåKnappISøkefelt(true);
+
+        if (validering.status === Fritekststatus.IkkeEtFnr) {
+            setFritekstSøkeord(input);
+            search();
+        }
     };
+
+    const feilmelding = harTrykketPåKnappISøkefelt ? validering.feilmelding : undefined;
+
+    let className = 'fritekst-search';
+    if (feilmelding) className += ` ${className}--med-feilmelding`;
+
+    let knappClassName = 'fritekst-search__søkeknapp';
+    if (validering.status === Fritekststatus.FantKandidat)
+        knappClassName += ' fritekst-search__søkeknapp--uten-svg';
 
     return (
-        <form className="fritekst__search" onSubmit={onSubmit}>
-            <input
-                id={'fritekstsok-input'}
-                value={fritekstSøkeord}
-                onChange={onFritekstChange}
-                className="skjemaelement__input"
-                placeholder="Fritekstsøk"
+        <form className={className} onSubmit={onSubmit}>
+            <Input
+                label="Fødselsnummer (11 sifre) eller fritekstsøk"
+                autoComplete="off"
+                id="fritekstsok-input"
+                value={input}
+                onChange={onInputChange}
+                feil={feilmelding && validering.feilmelding}
             />
             <Søkeknapp
                 type="flat"
                 aria-label="fritekstsøk"
-                className="fritekst__search__søkeknapp"
+                className={knappClassName}
                 id="fritekstsok-knapp"
                 htmlType="submit"
-                title="Søk"
-            />
+            >
+                {validering.status === Fritekststatus.FantKandidat ? 'Gå til CV' : 'Søk'}
+            </Søkeknapp>
         </form>
     );
 };
 
 const mapStateToProps = (state: AppState) => ({
-    fritekstSøkeord: state.fritekst.fritekst,
+    fritekstSøkeord: state.søkefilter.fritekst.fritekst,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH }),
-    setFritekstSøkeord: (fritekstSøkeord) =>
+    setFritekstSøkeord: (fritekstSøkeord: string) =>
         dispatch({ type: SET_FRITEKST_SOKEORD, fritekst: fritekstSøkeord }),
 });
 

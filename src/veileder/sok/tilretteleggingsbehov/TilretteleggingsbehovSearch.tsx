@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
-import { Normaltekst } from 'nav-frontend-typografi';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 
 import { SEARCH } from '../searchReducer';
@@ -10,9 +9,9 @@ import {
     TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN,
     CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER,
 } from './tilretteleggingsbehovReducer';
-import Infoikon from './Infoikon';
 import './Tilretteleggingsbehov.less';
 import Kategori, { getKategoriLabel } from './Kategori';
+import AppState from '../../AppState';
 
 interface TilretteleggingsbehovSearchProps {
     search: () => void;
@@ -88,21 +87,14 @@ const TilretteleggingsbehovSearch = (props: TilretteleggingsbehovSearchProps) =>
                     })}
                 </fieldset>
             )}
-            <div className="tilretteleggingsbehov__informasjon">
-                <Infoikon />
-                <Normaltekst>
-                    Vi tester ut ny funksjonalitet. Du vil kun få treff på noen få kandidater som
-                    har denne informasjonen.
-                </Normaltekst>
-            </div>
         </SokekriteriePanel>
     );
 };
 
-const mapStateToProps = (state) => ({
-    harValgtTilretteleggingsbehov: state.tilretteleggingsbehov.harTilretteleggingsbehov,
-    kategorier: state.tilretteleggingsbehov.kategorier,
-    panelOpen: state.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen,
+const mapStateToProps = (state: AppState) => ({
+    harValgtTilretteleggingsbehov: state.søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov,
+    kategorier: state.søkefilter.tilretteleggingsbehov.kategorier,
+    panelOpen: state.søkefilter.tilretteleggingsbehov.tilretteleggingsbehovPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

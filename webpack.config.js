@@ -9,6 +9,7 @@ const PATH = {
 
 const prodOverride = {
     mode: 'production',
+    devtool: 'source-map',
     plugins: [
         new webpack.DefinePlugin({
             __PATH__: PATH['production'],

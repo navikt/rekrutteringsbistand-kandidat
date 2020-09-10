@@ -182,7 +182,7 @@ class KompetanseSearch extends React.Component {
 }
 
 KompetanseSearch.defaultProps = {
-    kompetanseExamples: 'For eksempel: fagbrev, kurs, sertifisering, ferdigheter, programmer',
+    kompetanseExamples: 'For eksempel: fagbrev, sertifisering, ferdigheter, programmer',
     allowOnlyTypeaheadSuggestions: false,
 };
 

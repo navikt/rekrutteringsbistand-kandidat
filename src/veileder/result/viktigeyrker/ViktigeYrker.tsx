@@ -11,6 +11,7 @@ import {
     FERDIGUTFYLTESTILLINGER_KLIKK,
 } from '../../sok/searchReducer';
 import { FerdigutfylteStillinger, FerdigutfylteStillingerKlikk } from './Bransje';
+import AppState from '../../AppState';
 
 interface ViktigeYrkerProps {
     hentFerdigutfylteStillinger: () => void;
@@ -80,9 +81,9 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: FERDIGUTFYLTESTILLINGER_KLIKK, ferdigutfylteStillingerKlikk }),
 });
 
-const mapStateToProps = (state) => ({
-    ferdigutfylteStillinger: state.search.ferdigutfylteStillinger,
-    viktigeYrkerApen: state.search.viktigeYrkerApen,
+const mapStateToProps = (state: AppState) => ({
+    ferdigutfylteStillinger: state.søk.ferdigutfylteStillinger,
+    viktigeYrkerApen: state.søk.viktigeYrkerApen,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViktigeYrker);

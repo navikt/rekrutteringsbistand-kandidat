@@ -19,7 +19,7 @@ const Historikkside: FunctionComponent = () => {
     const historikk = useSelector((state: AppState) => state.historikk);
     const cv = useSelector((state: AppState) => state.cv);
     const lagreKandidatIKandidatlisteStatus = useSelector(
-        (state: AppState) => state.kandidatlister.lagreKandidatIKandidatlisteStatus
+        (state: AppState) => state.kandidatliste.lagreKandidatIKandidatlisteStatus
     );
     const dispatch = useDispatch();
 
@@ -78,7 +78,7 @@ const Historikkside: FunctionComponent = () => {
 };
 
 const hentStatus = (kandidatnr: string) => (state: AppState) => {
-    const kandidatliste = state.kandidatlister.detaljer.kandidatliste;
+    const kandidatliste = state.kandidatliste.kandidatliste;
     if (kandidatliste.kind !== Nettstatus.Suksess) return;
     const kandidat = kandidatliste.data.kandidater.find((k) => k.kandidatnr === kandidatnr);
     return kandidat?.status;

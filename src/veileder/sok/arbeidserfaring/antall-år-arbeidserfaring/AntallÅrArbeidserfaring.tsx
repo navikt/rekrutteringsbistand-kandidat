@@ -61,7 +61,7 @@ const AntallÅrArbeidserfaring: FunctionComponent<Props> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    totalErfaring: state.arbeidserfaring.totalErfaring,
+    totalErfaring: state.søkefilter.arbeidserfaring.totalErfaring,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -35,9 +35,9 @@ const ArbeidserfaringSearch: FunctionComponent<Props> = (props) => (
 );
 
 const mapStateToProps = (state: AppState) => ({
-    totaltAntallTreff: state.search.searchResultat.resultat.totaltAntallTreff,
-    visAlertFaKandidater: state.search.visAlertFaKandidater,
-    panelOpen: state.arbeidserfaring.arbeidserfaringPanelOpen,
+    totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
+    visAlertFaKandidater: state.søk.visAlertFaKandidater,
+    panelOpen: state.søkefilter.arbeidserfaring.arbeidserfaringPanelOpen,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

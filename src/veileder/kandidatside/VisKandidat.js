@@ -1,7 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Knapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
@@ -17,12 +17,13 @@ import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import './VisKandidat.less';
+import { lenkeTilCv } from '../application/paths';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -133,6 +134,7 @@ class VisKandidat extends React.Component {
     onLagreKandidatliste = (kandidatliste) => {
         const { cv, lagreKandidatIKandidatliste } = this.props;
         lagreKandidatIKandidatliste(kandidatliste, cv.fodselsnummer, cv.kandidatnummer);
+        sendEvent('cv', 'lagre_kandidat_i_kandidatliste');
 
         if (this.props.kandidatlisteId || this.props.stillingsId) {
             this.visAlertstripeLagreKandidater();
@@ -214,12 +216,8 @@ class VisKandidat extends React.Component {
         } = this.state;
 
         let tilbakeLink = '/kandidater';
-        let forrigeKandidatLink = forrigeKandidat
-            ? `/kandidater/kandidat/${forrigeKandidat}/cv`
-            : undefined;
-        let nesteKandidatLink = nesteKandidat
-            ? `/kandidater/kandidat/${nesteKandidat}/cv`
-            : undefined;
+        let forrigeKandidatLink = forrigeKandidat ? lenkeTilCv(forrigeKandidat) : undefined;
+        let nesteKandidatLink = nesteKandidat ? lenkeTilCv(nesteKandidat) : undefined;
 
         if (kandidatlisteId) {
             tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
@@ -290,16 +288,15 @@ class VisKandidat extends React.Component {
                                     </Link>
                                 </>
                             ) : (
-                                <Knapp
-                                    mini
-                                    type="flat"
+                                <Hovedknapp
+                                    className="vis-kandidat__lagreknapp"
                                     onClick={this.onLagreKandidatClick(
                                         kandidatlisteId,
                                         stillingsId
                                     )}
                                 >
                                     Lagre kandidat i kandidatliste
-                                </Knapp>
+                                </Hovedknapp>
                             )}
                         </Kandidatmeny>
                         {this.props.children}
@@ -381,14 +378,14 @@ VisKandidat.propTypes = {
 
 const mapStateToProps = (state) => ({
     cv: state.cv.cv,
-    kandidater: state.search.searchResultat.resultat.kandidater,
-    antallKandidater: state.search.searchResultat.resultat.totaltAntallTreff,
+    kandidater: state.søk.searchResultat.resultat.kandidater,
+    antallKandidater: state.søk.searchResultat.resultat.totaltAntallTreff,
     hentStatus: state.cv.hentStatus,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
-    lagreKandidatIKandidatlisteStatus: state.kandidatlister.lagreKandidatIKandidatlisteStatus,
+    lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
 });
 

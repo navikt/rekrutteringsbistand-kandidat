@@ -72,9 +72,9 @@ const PermitteringSearch: FunctionComponent<Props> = ({
 
 export default connect(
     (state: AppState) => ({
-        permittert: state.permittering.permittert,
-        ikkePermittert: state.permittering.ikkePermittert,
-        panelOpen: state.permittering.panelOpen,
+        permittert: state.søkefilter.permittering.permittert,
+        ikkePermittert: state.søkefilter.permittering.ikkePermittert,
+        panelOpen: state.søkefilter.permittering.panelOpen,
     }),
     (dispatch: (action: any) => void) => ({
         search: () => dispatch({ type: SEARCH }),

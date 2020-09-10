@@ -1,4 +1,13 @@
+@import '../../variabler.less';
+
 .alder-search {
+    &__innhold {
+        display: grid;
+        grid-template-columns: 1fr 1.5rem 1fr;
+        grid-gap: 1rem 0.25rem;
+        max-width: 20rem;
+    }
+
     &__tittel {
         display: flex;
         align-items: center;
@@ -6,5 +15,23 @@
         .nytt-filter-ikon {
             margin-left: 0.5rem;
         }
+    }
+
+    &__tankestrek {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        div {
+            height: 2px;
+            width: 0.6rem;
+            background-color: black;
+            position: absolute;
+            bottom: 1.25rem;
+        }
+    }
+
+    &__knapp {
+        padding: 0;
     }
 }

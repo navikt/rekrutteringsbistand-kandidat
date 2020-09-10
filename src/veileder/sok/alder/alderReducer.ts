@@ -3,28 +3,22 @@ import { FellesSøkekriterieActions } from '../typedSearchReducer';
 
 export enum AlderActionType {
     ToggleAlderPanel = 'ToggleAlderPanel',
-    SetAlderFra = 'SetAlderFra',
-    SetAlderTil = 'SetAlderTil',
+    SetAlder = 'SetAlder',
 }
 
 interface ToggleAlderPanelActionType {
     type: AlderActionType.ToggleAlderPanel;
 }
 
-interface SetAlderFraActionType {
-    type: AlderActionType.SetAlderFra;
+interface SetAlderActionType {
+    type: AlderActionType.SetAlder;
     fra: number | undefined;
-}
-
-interface SetAlderTilActionType {
-    type: AlderActionType.SetAlderTil;
     til: number | undefined;
 }
 
 export type AlderAction =
     | ToggleAlderPanelActionType
-    | SetAlderFraActionType
-    | SetAlderTilActionType
+    | SetAlderActionType
     | FellesSøkekriterieActions;
 
 export interface AlderState {
@@ -41,11 +35,8 @@ const initialState: AlderState = {
 
 export const alderReducer = (state: AlderState = initialState, action: AlderAction) => {
     switch (action.type) {
-        case AlderActionType.SetAlderFra: {
-            return { ...state, fra: action.fra };
-        }
-        case AlderActionType.SetAlderTil: {
-            return { ...state, til: action.til };
+        case AlderActionType.SetAlder: {
+            return { ...state, fra: action.fra, til: action.til };
         }
         case AlderActionType.ToggleAlderPanel: {
             return { ...state, panelOpen: !state.panelOpen };

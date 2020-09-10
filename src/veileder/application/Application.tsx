@@ -7,9 +7,9 @@ import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Historikkside from '../kandidatside/historikk/Historikkside';
-import KandidatlisteMedStilling from '../kandidatlister/KandidatlisteMedStilling';
-import Kandidatlister from '../kandidatlister/Kandidatlister';
-import KandidatlisteUtenStilling from '../kandidatlister/KandidatlisteUtenStilling';
+import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
+import Kandidatlister from '../listeoversikt/Kandidatlister';
+import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
@@ -22,6 +22,7 @@ const skjermerMedGråBakgrunn = [
     '/kandidater/lister/detaljer/',
     '/kandidater/cv',
     '/kandidater/kandidat/',
+    '/kandidater/lister',
 ];
 
 const skalBrukeGråBakgrunn = (url: string) =>
@@ -61,7 +62,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                         <Route
                             exact
                             path="/kandidater/lister/stilling/:id/detaljer"
-                            component={KandidatlisteMedStilling}
+                            component={KandidatlistesideMedStilling}
                         />
                         <Route
                             exact

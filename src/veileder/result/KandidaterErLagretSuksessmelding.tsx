@@ -1,6 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
+import Lenke from 'nav-frontend-lenker';
+import { Link } from 'react-router-dom';
+import { lenkeTilKandidatliste } from '../application/paths';
 
 interface Props {
     antallLagredeKandidater?: number;
@@ -33,15 +36,26 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent<Props> = ({
     }, [leggTilKandidatStatus]);
 
     if (antallLagredeKandidater !== undefined && lagretKandidatliste) {
+        const innhold = (
+            <>
+                {antallLagredeKandidater > 1
+                    ? `${antallLagredeKandidater} kandidater`
+                    : 'Kandidaten'}{' '}
+                er lagret i kandidatlisten{' '}
+                <Link
+                    className="lenke"
+                    to={lenkeTilKandidatliste(lagretKandidatliste.kandidatlisteId)}
+                >
+                    {lagretKandidatliste.tittel}
+                </Link>
+            </>
+        );
+
         return (
             <HjelpetekstFading
                 synlig={!!suksessmeldingLagreKandidatVises}
                 type="suksess"
-                innhold={`${
-                    antallLagredeKandidater > 1
-                        ? `${antallLagredeKandidater} kandidater`
-                        : 'Kandidaten'
-                } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
+                innhold={innhold}
                 id="hjelpetekstfading"
             />
         );

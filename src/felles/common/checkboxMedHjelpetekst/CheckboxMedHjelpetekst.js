@@ -1,38 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'nav-frontend-skjema';
-import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
+import { PopoverOrientering } from 'nav-frontend-popover';
+import MedPopover from '../med-popover/MedPopover';
 import './CheckboxMedHjelpetekst.less';
 
-const DisabledCheckbox = () => (
-    <Checkbox
-        className="Checkbox--ma-bo-pa-geografi-disabled"
-        id="geografi-checkbox-hjelpetekst-disabled"
-        label="Vis bare kandidater som bor i området"
-        disabled
-    />
-);
-
-const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel }) =>
-    disabled ? (
-        <HjelpetekstUnder
-            id="geografi-checkbox-hjelpetekst"
-            anchor={DisabledCheckbox}
-            className="CheckboxMedHjelpetekst"
-            tittel={tittel}
+const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel }) => {
+    return (
+        <MedPopover
+            hjelpetekst="Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater."
+            orientering={PopoverOrientering.Under}
         >
-            Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater.
-        </HjelpetekstUnder>
-    ) : (
-        <Checkbox
-            className="Checkbox--ma-bo-pa-geografi"
-            id={id}
-            label={label}
-            checked={checked}
-            onChange={onChange}
-            disabled={false}
-        />
+            <Checkbox
+                className="Checkbox--ma-bo-pa-geografi"
+                id={id}
+                label={label}
+                checked={checked}
+                onChange={onChange}
+                disabled={disabled}
+            />
+        </MedPopover>
     );
+};
 
 CheckboxMedHjelpetekst.propTypes = {
     id: PropTypes.string.isRequired,

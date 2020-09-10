@@ -6,15 +6,16 @@ import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Kandidatliste } from '../kandidatlister/PropTypes';
+import { Kandidatliste } from '../kandidatliste/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
 import { capitalizeEmployerName } from '../../felles/sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
-import { HentStatus } from '../kandidatlister/kandidatlistetyper';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import { HentStatus } from '../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -53,7 +54,10 @@ class LagreKandidaterModal extends React.Component {
             });
         }
         if (
-            prevProps.hentListeMedAnnonsenummerStatus !== this.props.hentListeMedAnnonsenummerStatus || prevProps.hentListeMedAnnonsenummerStatusMessage !== this.props.hentListeMedAnnonsenummerStatusMessage
+            prevProps.hentListeMedAnnonsenummerStatus !==
+                this.props.hentListeMedAnnonsenummerStatus ||
+            prevProps.hentListeMedAnnonsenummerStatusMessage !==
+                this.props.hentListeMedAnnonsenummerStatusMessage
         ) {
             if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Success) {
                 this.setState({
@@ -62,18 +66,21 @@ class LagreKandidaterModal extends React.Component {
                     hentetListe: this.props.kandidatlisteMedAnnonsenummer,
                 });
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.FinnesIkke) {
-                console.log('ddd', this.props.hentListeMedAnnonsenummerStatus, this.props.hentListeMedAnnonsenummerStatusMessage)
-                this.props.hentListeMedAnnonsenummerStatusMessage && this.props.hentListeMedAnnonsenummerStatusMessage.includes('Kandidatliste for stilling')
-                ? this.setState({
-                    hentetListe: undefined,
-                    showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
-                })
-                : this.setState({
-                    hentetListe: undefined,
-                    showHentetListe: false,
-                    hentListeFeilmelding: 'Stillingen finnes ikke',
-                });
+                this.props.hentListeMedAnnonsenummerStatusMessage &&
+                this.props.hentListeMedAnnonsenummerStatusMessage.includes(
+                    'Kandidatliste for stilling'
+                )
+                    ? this.setState({
+                          hentetListe: undefined,
+                          showHentetListe: false,
+                          hentListeFeilmelding:
+                              'Stillingen har ingen kandidatliste. Gå til stillingen og opprett kandidatliste.',
+                      })
+                    : this.setState({
+                          hentetListe: undefined,
+                          showHentetListe: false,
+                          hentListeFeilmelding: 'Stillingen finnes ikke',
+                      });
                 this.input.focus();
             } else if (this.props.hentListeMedAnnonsenummerStatus === HentStatus.Failure) {
                 this.setState({
@@ -383,22 +390,24 @@ LagreKandidaterModal.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    egneKandidatlister: state.kandidatlister.kandidatlister.liste,
-    antallKandidatlister: state.kandidatlister.kandidatlister.antall,
-    kandidatlisterSokeKriterier: state.kandidatlister.kandidatlisterSokeKriterier,
-    hentListerStatus: state.kandidatlister.hentListerStatus,
-    hentListeMedAnnonsenummerStatus: state.kandidatlister.hentListeMedAnnonsenummerStatus,
-    hentListeMedAnnonsenummerStatusMessage: state.kandidatlister.hentListeMedAnnonsenummerStatusMessage,
-    kandidatlisteMedAnnonsenummer: state.kandidatlister.kandidatlisteMedAnnonsenummer,
-    leggTilKandidaterStatus: state.kandidatlister.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatlister.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatlister.leggTilKandidater.lagretListe,
+    egneKandidatlister: state.listeoversikt.kandidatlister.liste,
+    antallKandidatlister: state.listeoversikt.kandidatlister.antall,
+    kandidatlisterSokeKriterier: state.listeoversikt.søkekriterier,
+    hentListerStatus: state.listeoversikt.hentListerStatus,
+
+    hentListeMedAnnonsenummerStatus: state.kandidatliste.hentListeMedAnnonsenummerStatus,
+    hentListeMedAnnonsenummerStatusMessage:
+        state.kandidatliste.hentListeMedAnnonsenummerStatusMessage,
+    kandidatlisteMedAnnonsenummer: state.kandidatliste.kandidatlisteMedAnnonsenummer,
+    leggTilKandidaterStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
+    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
+    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     hentEgneKandidatlister: (pagenumber, pagesize) => {
         dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTER,
+            type: ListeoversiktActionType.HENT_KANDIDATLISTER,
             query: '',
             listetype: '',
             kunEgne: true,
@@ -413,7 +422,7 @@ const mapDispatchToProps = (dispatch) => ({
         });
     },
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
 });
 

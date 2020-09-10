@@ -9,12 +9,12 @@ import {
 } from '../sok/searchReducer';
 import './Resultat.less';
 import { Nettstatus } from '../../felles/common/remoteData';
-import KandidatlisteActionType from '../kandidatlister/reducer/KandidatlisteActionType';
 import { Kandidatsøk } from './Kandidatsøk';
 import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { harUrlParametere } from '../sok/searchQuery';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 export const hentQueryUtenKriterier = (
     harHentetStilling: boolean,
@@ -95,13 +95,13 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
 };
 
 const mapStateToProps = (state: AppState) => ({
-    isInitialSearch: state.search.isInitialSearch,
-    harHentetStilling: state.search.harHentetStilling,
+    isInitialSearch: state.søk.isInitialSearch,
+    harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
-        state.kandidatlister.detaljer.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatlister.detaljer.kandidatliste.data
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
             : undefined,
-    søkestateKommerFraAnnetSøk: !!state.search.kandidatlisteId,
+    søkestateKommerFraAnnetSøk: !!state.søk.kandidatlisteId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -111,7 +111,7 @@ const mapDispatchToProps = (dispatch) => ({
     leggUrlParametereIStateOgSøk: (href: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
     },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
