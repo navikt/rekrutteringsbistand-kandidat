@@ -231,7 +231,7 @@ class Kandidatlister extends React.Component {
         ) {
             const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
             this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-            this.visSuccessMelding(`Kandidatliste "${this.props.opprettetTittel}" er opprettet`);
+            this.visSuccessMelding('Endringen er lagret.');
             this.onLukkModalClick();
             this.props.resetLagreStatus();
         }
