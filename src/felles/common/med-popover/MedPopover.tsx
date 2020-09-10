@@ -43,7 +43,7 @@ const MedPopover: FunctionComponent<Props> = ({
                 ankerEl={anker}
                 onRequestClose={lukkAnker}
             >
-                <Normaltekst className="med-popover__popup">{hjelpetekst}</Normaltekst>
+                <Normaltekst tag="div" className="med-popover__popup">{hjelpetekst || ''}</Normaltekst>
             </Popover>
         </div>
     );
