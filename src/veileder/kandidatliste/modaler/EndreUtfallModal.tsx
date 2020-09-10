@@ -72,7 +72,7 @@ const Endringsbeskrivelse: FunctionComponent<{ utfall: Utfall; kandidatnavn: str
             <>
                 <Normaltekst>
                     Du registrerer nå at {kandidatnavn} har blitt presentert for en arbeidsgiver.
-                    Formidlingen vil bli telt, og tellingen vil bli brukt til statistikk.
+                    Tellingen vil bli brukt til statistikk.
                 </Normaltekst>
                 <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
             </>
