@@ -37,13 +37,17 @@ interface Props {
 
 const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange }) => {
     if (!kanEditere) {
-        return <Statusvisning status={value} />;
+        return (
+            <div className="StatusSelect">
+                <Statusvisning status={value} />
+            </div>
+        );
     }
 
     const statuserIDropdown = Object.keys(Status);
 
     return (
-        <div className="StatusSelect skjemaelement">
+        <div className="StatusSelect StatusSelect__dropdown skjemaelement">
             <Menu>
                 <MenuButton className="StatusSelect__button selectContainer skjemaelement__input">
                     <Statusvisning status={value} />
