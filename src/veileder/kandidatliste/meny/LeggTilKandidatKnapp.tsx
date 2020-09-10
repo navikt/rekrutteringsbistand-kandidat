@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import { Flatknapp } from 'nav-frontend-knapper';
 
 type Props = {
     onLeggTilKandidat: () => void;
 };
 
 const LeggTilKandidatKnapp: FunctionComponent<Props> = ({ onLeggTilKandidat }) => (
-    <Lenkeknapp
-        tittel="Legg til kandidat"
+    <Flatknapp
+        mini
         onClick={onLeggTilKandidat}
-        className="legg-til-kandidat LeggTilKandidat lenke"
+        className="LeggTilKandidat"
     >
         <i className="LeggTilKandidat__icon" />
-        Legg til kandidat
-    </Lenkeknapp>
+        <span>Legg til kandidat</span>
+    </Flatknapp>
 );
 
 export default LeggTilKandidatKnapp;
