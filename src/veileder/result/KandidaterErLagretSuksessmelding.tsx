@@ -35,7 +35,7 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent<Props> = ({
         }
     }, [leggTilKandidatStatus]);
 
-    if (antallLagredeKandidater !== undefined && lagretKandidatliste) {
+    if (antallLagredeKandidater && lagretKandidatliste) {
         const innhold = (
             <>
                 {antallLagredeKandidater > 1

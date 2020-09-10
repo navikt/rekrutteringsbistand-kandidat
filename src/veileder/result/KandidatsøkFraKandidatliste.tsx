@@ -38,6 +38,7 @@ type Props = DefaultKandidatsøkProps & {
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) => void;
     kandidatlisteIdFraSøk?: string;
     fjernValgtKandidat: () => void;
+    leggTilKandidaterReset: () => void;
 };
 
 const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
@@ -56,6 +57,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     harHentetStilling,
     kandidatlisteIdFraSøk,
     fjernValgtKandidat,
+    leggTilKandidaterReset,
 }) => {
     const kandidatlisteId = match.params.kandidatlisteId;
 
@@ -81,6 +83,10 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
             leggUrlParametereIStateOgSøk(window.location.href, kandidatlisteId);
         }
     }, [kandidatlisteId, kandidatlisteIdFraSøk, leggUrlParametereIStateOgSøk, search]);
+
+    useEffect(() => {
+        leggTilKandidaterReset()
+    }, [leggTilKandidaterReset]);
 
     const header = (
         <Container className="container--header">
@@ -148,6 +154,10 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
+    leggTilKandidaterReset: () => 
+        dispatch({
+            type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
+        })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkFraKandidatliste);

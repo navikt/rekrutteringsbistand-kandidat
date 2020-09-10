@@ -458,6 +458,17 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.FAILURE,
                 },
             };
+        
+        case KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET:
+            return {
+                ...state,
+                leggTilKandidater: {
+                    lagreStatus: LAGRE_STATUS.UNSAVED,
+                    antallLagredeKandidater: 0,
+                    lagretListe: {},
+                },
+
+            }
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
             return {
                 ...state,

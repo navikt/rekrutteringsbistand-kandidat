@@ -119,6 +119,10 @@ export interface LeggTilKandidaterFailureAction {
     type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_FAILURE;
 }
 
+export interface LeggTilKandidaterResetAction {
+    type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET;
+}
+
 export interface LagreKandidatIKandidatlisteAction {
     type: KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE;
     kandidatliste: any;
@@ -509,6 +513,7 @@ type KandidatlisteAction =
     | FormidleUsynligKandidatFailureAction
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
-    | EndreFormidlingsutfallForUsynligKandidatFailureAction;
+    | EndreFormidlingsutfallForUsynligKandidatFailureAction
+    | LeggTilKandidaterResetAction;
 
 export default KandidatlisteAction;
