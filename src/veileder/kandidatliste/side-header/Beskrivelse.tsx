@@ -8,7 +8,7 @@ interface Props {
     beskrivelse: string;
 }
 
-const Beskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
+const Beskrivelse: FunctionComponent<Props> = ({beskrivelse}) => {
     const [skalViseHele, setSkalViseHele] = useState(false);
     const antTegnSomAlltidVises = 250;
 
@@ -17,15 +17,15 @@ const Beskrivelse: FunctionComponent<Props> = ({ beskrivelse }) => {
             <Element className="side-header__beskrivelse-tittel">Beskrivelse</Element>
             <Normaltekst className="side-header__beskrivelse">
                 {beskrivelse.length <= antTegnSomAlltidVises || skalViseHele
-                    ? beskrivelse
-                    : beskrivelse.substr(0, antTegnSomAlltidVises) + ' ...'}
+                    ? <span className="side-header__beskrivelsestekst">{beskrivelse}</span>
+                    : <span className="side-header__beskrivelsestekst">
+                        {beskrivelse.substr(0, antTegnSomAlltidVises) + ' ...'}
+                    </span>}
                 {beskrivelse.length > antTegnSomAlltidVises && (
-                    <span className="Lenkeknapp__les-mer">
-                        <Lenkeknapp onClick={() => setSkalViseHele(!skalViseHele)}>
-                            {skalViseHele ? 'Skjul beskrivelse' : 'Les mer'}
-                            <NavFrontendChevron type={skalViseHele ? 'opp' : 'ned'} />
-                        </Lenkeknapp>
-                    </span>
+                    <Lenkeknapp onClick={() => setSkalViseHele(!skalViseHele)}>
+                        {skalViseHele ? 'Skjul beskrivelse' : 'Les mer'}
+                        <NavFrontendChevron type={skalViseHele ? 'opp' : 'ned'}/>
+                    </Lenkeknapp>
                 )}
             </Normaltekst>
         </>
