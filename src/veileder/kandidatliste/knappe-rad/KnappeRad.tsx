@@ -1,7 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import { HjelpetekstMidt, HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import MedPopover from '../../../felles/common/med-popover/MedPopover';
+import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
 
 type Props = {
@@ -20,55 +21,31 @@ type Props = {
 };
 
 const SmsKnapp: FunctionComponent = () => (
-    <div className="kandidatlisteknapper__knapp">
+    <>
         <i className="Sms__icon" />
         <span>Send SMS</span>
-    </div>
+    </>
 );
 
 const Epostknapp: FunctionComponent = () => (
-    <div className="kandidatlisteknapper__knapp">
+    <>
         <i className="Email__icon" />
         Kopier e-postadresser
-    </div>
+    </>
 );
 
 const Deleknapp: FunctionComponent = () => (
-    <div className="kandidatlisteknapper__knapp">
+    <>
         <i className="Share__icon" />
         <span>Del med arbeidsgiver (presenter)</span>
-    </div>
+    </>
 );
 
 const Sletteknapp: FunctionComponent = () => (
-    <div className="kandidatlisteknapper__knapp">
+    <>
         <i className="Delete__icon" />
         <span>Angre sletting</span>
-    </div>
-);
-
-const SmsKnappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Sms">
-        <SmsKnapp />
-    </div>
-);
-
-const EpostknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Email">
-        <Epostknapp />
-    </div>
-);
-
-const DeleknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Share">
-        <Deleknapp />
-    </div>
-);
-
-const SletteknappMedHjelpetekst: FunctionComponent = () => (
-    <div className="Delete">
-        <Sletteknapp />
-    </div>
+    </>
 );
 
 const KnappeRad: FunctionComponent<Props> = ({
@@ -95,71 +72,82 @@ const KnappeRad: FunctionComponent<Props> = ({
             <div className="kandidatlisteknapper__høyre">
                 {skalViseSendSms &&
                     (minstEnKandidatErMarkert && minstEnKandidatHarIkkeFåttSms ? (
-                        <div className="hjelpetekst">
-                            <Lenkeknapp onClick={onSendSmsClick} className="Sms">
+                        <Lenkeknapp
+                            onClick={onSendSmsClick}
+                            className="kandidatlisteknapper__knapp Sms"
+                        >
+                            <SmsKnapp />
+                        </Lenkeknapp>
+                    ) : (
+                        <MedPopover
+                            tittel="Send SMS til de markerte kandidatene"
+                            hjelpetekst={
+                                minstEnKandidatErMarkert
+                                    ? 'Du har allerede sendt SMS til alle markerte kandidater.'
+                                    : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
+                            }
+                        >
+                            <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
                                 <SmsKnapp />
                             </Lenkeknapp>
-                        </div>
-                    ) : (
-                        <HjelpetekstMidt
-                            id="marker-kandidater-sms-hjelpetekst"
-                            anchor={SmsKnappMedHjelpetekst}
-                            tittel="Send SMS til de markerte kandidatene"
-                        >
-                            {minstEnKandidatErMarkert
-                                ? 'Du har allerede sendt SMS til alle markerte kandidater.'
-                                : 'Du må huke av for kandidatene du ønsker å sende SMS til.'}
-                        </HjelpetekstMidt>
+                        </MedPopover>
                     ))}
                 {!visArkiverte &&
                     (minstEnKandidatErMarkert ? (
-                        <div className="hjelpetekst">
-                            <Lenkeknapp onClick={onEmailKandidater} className="Email">
-                                <Epostknapp />
-                            </Lenkeknapp>
-                        </div>
+                        <Lenkeknapp
+                            onClick={onEmailKandidater}
+                            className="kandidatlisteknapper__knapp Email"
+                        >
+                            <Epostknapp />
+                        </Lenkeknapp>
                     ) : (
-                        <HjelpetekstUnderVenstre
-                            id="marker-kandidater-epost-hjelpetekst"
-                            anchor={EpostknappMedHjelpetekst}
+                        <MedPopover
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
                             tittel="Send e-post til de markerte kandidatene"
                         >
-                            Du må huke av for kandidatene du ønsker å kopiere e-postadressen til.
-                        </HjelpetekstUnderVenstre>
+                            <Lenkeknapp className="kandidatlisteknapper__knapp Email">
+                                <Epostknapp />
+                            </Lenkeknapp>
+                        </MedPopover>
                     ))}
                 {kanEditere &&
                     !visArkiverte &&
                     arbeidsgiver &&
                     (minstEnKandidatErMarkert ? (
-                        <div className="hjelpetekst">
-                            <Lenkeknapp onClick={onKandidatShare} className="Share">
-                                <Deleknapp />
-                            </Lenkeknapp>
-                        </div>
+                        <Lenkeknapp
+                            onClick={onKandidatShare}
+                            className="kandidatlisteknapper__knapp Share"
+                        >
+                            <Deleknapp />
+                        </Lenkeknapp>
                     ) : (
-                        <HjelpetekstMidt
-                            id="marker-kandidater-presentere-hjelpetekst"
-                            anchor={DeleknappMedHjelpetekst}
+                        <MedPopover
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                             tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                         >
-                            Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver.
-                        </HjelpetekstMidt>
+                            <Lenkeknapp className="kandidatlisteknapper__knapp Share">
+                                <Deleknapp />
+                            </Lenkeknapp>
+                        </MedPopover>
                     ))}
                 {visArkiverte &&
                     (minstEnKandidatErMarkert ? (
-                        <div className="hjelpetekst">
-                            <Lenkeknapp onClick={onKandidaterAngreArkivering} className="Delete">
-                                <Sletteknapp />
-                            </Lenkeknapp>
-                        </div>
+                        <Lenkeknapp
+                            onClick={onKandidaterAngreArkivering}
+                            className="kandidatlisteknapper__knapp Delete"
+                        >
+                            <Sletteknapp />
+                        </Lenkeknapp>
                     ) : (
-                        <HjelpetekstUnderVenstre
-                            id="marker-kandidater-angre-arkivering-hjelpetekst"
-                            anchor={SletteknappMedHjelpetekst}
+                        <MedPopover
+                            orientering={PopoverOrientering.UnderVenstre}
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                             tittel="Angre sletting for de markerte kandidatene"
                         >
-                            Du må huke av for kandidatene du ønsker å angre sletting for.
-                        </HjelpetekstUnderVenstre>
+                            <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
+                                <Sletteknapp />
+                            </Lenkeknapp>
+                        </MedPopover>
                     ))}
             </div>
         </div>

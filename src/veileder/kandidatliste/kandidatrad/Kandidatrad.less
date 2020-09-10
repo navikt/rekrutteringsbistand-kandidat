@@ -83,6 +83,15 @@
         white-space: nowrap;
     }
 
+    &__kolonne-med-hjelpetekst {
+        display: flex;
+        align-items: center;
+
+        .hjelpetekst {
+            margin-left: 1rem;
+        }
+    }
+
     &__kolonne-tittel {
         display: inline-block;
         overflow: hidden;
@@ -112,13 +121,9 @@
         }
 
         &--vis-utfall-og-arkivering {
-            grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(
-                    0,
-                    8fr
-                ) minmax(0, 4fr) minmax(0, 9fr) minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(
-                    0,
-                    2fr
-                );
+            grid-template-columns:
+                minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr)
+                minmax(0, 4fr) minmax(0, 9fr) minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
         }
 
         > * {

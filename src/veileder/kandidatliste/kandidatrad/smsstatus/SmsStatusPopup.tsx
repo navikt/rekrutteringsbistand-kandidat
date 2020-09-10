@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { HjelpetekstUnder } from 'nav-frontend-hjelpetekst';
 import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../kandidatlistetyper';
-import './smsStatusIkon.less';
+import { PopoverOrientering } from 'nav-frontend-popover';
+import MedPopover from '../../../../felles/common/med-popover/MedPopover';
+import './SmsStatusPopup.less';
 
 const formaterSendtDato = (dato: Date) => {
     return `${dato.toLocaleString('no-NB', {
@@ -18,23 +19,33 @@ type Props = {
     sms: Sms;
 };
 
-const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
-    if (sms.status === SmsStatus.IkkeSendt) return null;
-
+const Popuptekst: FunctionComponent<{ sms: Sms }> = ({ sms }) => {
     const popupTekst =
         sms.status === SmsStatus.Feil
             ? 'SMS-en ble dessverre ikke sendt. ' +
               'En mulig årsak kan være ugyldig telefonnummer i Kontakt- og reservasjonsregisteret.'
             : 'En SMS blir sendt til kandidaten.';
 
-    const ikon = () => <SendSmsIkon feil={sms.status === SmsStatus.Feil} />;
-
     return (
-        <HjelpetekstUnder className="sms-status-popup" id="hjelpetekst-sms-status" anchor={ikon}>
+        <>
             {formaterSendtDato(new Date(sms.opprettet))}
             <br />
             {popupTekst}
-        </HjelpetekstUnder>
+        </>
+    );
+};
+
+const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
+    if (sms.status === SmsStatus.IkkeSendt) return null;
+
+    return (
+        <MedPopover
+            className="sms-status-popup"
+            hjelpetekst={<Popuptekst sms={sms} />}
+            orientering={PopoverOrientering.Under}
+        >
+            <SendSmsIkon feil={sms.status === SmsStatus.Feil} />
+        </MedPopover>
     );
 };
 

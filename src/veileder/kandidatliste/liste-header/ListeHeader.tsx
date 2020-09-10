@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import StatusHjelpetekst from './StatusHjelpetekst';
 import './../kandidatrad/Kandidatrad.less';
 
 interface Props {
@@ -53,7 +54,12 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <Kolonnetittel>Fødselsnummer</Kolonnetittel>
                 <Kolonnetittel>Lagt til av</Kolonnetittel>
                 <Kolonnetittel>Lagt til</Kolonnetittel>
-                <Kolonnetittel>Status</Kolonnetittel>
+                <div className="kandidatliste-kandidat__kolonne-med-hjelpetekst">
+                    <Element className="kandidatliste-kandidat__rad__kolonne-tittel">
+                        Status
+                    </Element>
+                    <StatusHjelpetekst />
+                </div>
                 {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
                 <Kolonnetittel>Notater</Kolonnetittel>
                 <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">

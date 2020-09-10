@@ -1,28 +1,27 @@
 import React, { FunctionComponent } from 'react';
-import { HjelpetekstMidt } from 'nav-frontend-hjelpetekst';
+import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import { Status, statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
 
-const Spørsmalstegn: FunctionComponent = () => (
-    <span className="Sporsmalstegn">
-        <span className="Sporsmalstegn__icon" />
-    </span>
-);
+const forklaringer: Record<Status, string> = {
+    [Status.Vurderes]: 'Kandidater som er lagt i en kandidatliste får status vurderes',
+    [Status.Kontaktet]: 'Kandidaten er kontaktet, og det ventes på svar',
+    [Status.Aktuell]: 'Kandidaten er vurdert som aktuell for stillingen',
+    [Status.Uaktuell]: 'Kandidaten er vurdert som ikke aktuell for stillingen',
+    [Status.Uinteressert]: 'Kandidaten er ikke interessert i stillingen',
+};
 
 const StatusHjelpetekst: FunctionComponent = () => (
-    <HjelpetekstMidt
-        id="sd"
-        anchor={Spørsmalstegn}
-        className="bred-hjelpetekst statusforklaring-stor"
-    >
+    <Hjelpetekst>
         <strong>Forklaring til status</strong>
         <ul className="statusliste">
-            <li>Vurderes &ndash; Kandidater som er lagt i en kandidatliste får status vurderes</li>
-            <li>Kontaktet &ndash; Kandidaten er kontaktet, og det ventes på svar</li>
-            <li>Aktuell &ndash; Kandidaten er vurdert som aktuell for stillingen</li>
-            <li>Ikke aktuell &ndash; Kandidaten er vurdert som ikke aktuell for stillingen</li>
-            <li>Ikke interessert &ndash; Kandidaten er ikke interessert i stillingen</li>
+            {Object.entries(forklaringer).map(([status, forklaring]) => (
+                <li key={status}>
+                    {statusToDisplayName(status as Status)} &ndash; {forklaring}
+                </li>
+            ))}
         </ul>
         Statusene er kun synlig internt og vil ikke bli delt med arbeidsgiver.
-    </HjelpetekstMidt>
+    </Hjelpetekst>
 );
 
 export default StatusHjelpetekst;

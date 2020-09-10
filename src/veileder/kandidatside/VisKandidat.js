@@ -1,7 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import { connect } from 'react-redux';
-import { Knapp } from 'nav-frontend-knapper';
+import { Hovedknapp } from 'nav-frontend-knapper';
 import { Link } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
@@ -288,16 +288,15 @@ class VisKandidat extends React.Component {
                                     </Link>
                                 </>
                             ) : (
-                                <Knapp
-                                    mini
-                                    type="flat"
+                                <Hovedknapp
+                                    className="vis-kandidat__lagreknapp"
                                     onClick={this.onLagreKandidatClick(
                                         kandidatlisteId,
                                         stillingsId
                                     )}
                                 >
                                     Lagre kandidat i kandidatliste
-                                </Knapp>
+                                </Hovedknapp>
                             )}
                         </Kandidatmeny>
                         {this.props.children}

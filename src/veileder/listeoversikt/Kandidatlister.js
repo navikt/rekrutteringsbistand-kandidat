@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp } from 'nav-frontend-knapper';
-import { HjelpetekstVenstre } from 'nav-frontend-hjelpetekst';
 import { Nesteknapp, Søkeknapp } from 'nav-frontend-ikonknapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -57,9 +56,6 @@ const Kandidatlistevisning = ({
     fetching,
     kandidatlister,
     endreKandidatliste,
-    onMenyClick,
-    onSkjulMeny,
-    visKandidatlisteMeny,
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
@@ -81,9 +77,6 @@ const Kandidatlistevisning = ({
         <KandidatlisterRad
             kandidatliste={kandidatliste}
             endreKandidatliste={endreKandidatliste}
-            onMenyClick={onMenyClick}
-            onSkjulMeny={onSkjulMeny}
-            visKandidatlisteMeny={visKandidatlisteMeny}
             markerKandidatlisteSomMin={markerKandidatlisteSomMin}
             slettKandidatliste={() => {
                 slettKandidatliste(kandidatliste);
@@ -126,163 +119,60 @@ export const KanSletteEnum = {
     ER_IKKE_DIN_OG_HAR_STILLING: 'ER_IKKE_DIN_OG_HAR_STILLING',
 };
 
-const SlettKandidatlisteMenyValg = ({
-    kandidatliste,
-    slettRef,
-    handleKeyDown,
-    slettKandidatliste,
-}) => {
+const SlettKandidatlisteMenyValg = ({ kandidatliste, slettKandidatliste }) => {
     if (kandidatliste.kanSlette === KanSletteEnum.KAN_SLETTES) {
         return (
-            <div
-                onClick={slettKandidatliste}
-                onKeyDown={handleKeyDown}
-                role="button"
-                tabIndex={0}
-                ref={slettRef}
-            >
+            <button className="kandidatlister-meny__valg" onClick={slettKandidatliste}>
                 Slett
-            </div>
+            </button>
         );
-    } else if (kandidatliste.kanSlette === KanSletteEnum.HAR_STILLING) {
+    } else {
+        let årsak = '';
+        if (kandidatliste.kanSlette === KanSletteEnum.HAR_STILLING) {
+            årsak = 'Denne kandidatlisten er knyttet til en stilling og kan ikke slettes.';
+        } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN) {
+            årsak = `Denne kandidatlisten tilhører: ${kandidatliste.opprettetAv.navn}. Du kan bare slette dine egne lister.`;
+        } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN_OG_HAR_STILLING) {
+            årsak =
+                'Du kan ikke slette kandidatlisten fordi den enten tilhører en annen kandidat, eller er knyttet til en stilling.';
+        }
+
         return (
-            <HjelpetekstVenstre
-                className="slett-hjelpetekst"
-                id="slett-kandidatliste"
-                anchor={() => (
-                    <div className="slett-hjelpetekst-tekst" ref={slettRef}>
-                        Slett
-                    </div>
-                )}
-            >
-                Denne kandidatlisten er knyttet til en stilling og kan ikke slettes.
-            </HjelpetekstVenstre>
-        );
-    } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN) {
-        return (
-            <HjelpetekstVenstre
-                className="slett-hjelpetekst"
-                id="slett-kandidatliste"
-                anchor={() => (
-                    <div className="slett-hjelpetekst-tekst" ref={slettRef}>
-                        Slett
-                    </div>
-                )}
-            >
-                Denne kandidatlisten tilhører: {kandidatliste.opprettetAv.navn}. Du kan bare slette
-                dine egne lister.
-            </HjelpetekstVenstre>
-        );
-    } else if (kandidatliste.kanSlette === KanSletteEnum.ER_IKKE_DIN_OG_HAR_STILLING) {
-        return (
-            <HjelpetekstVenstre
-                className="slett-hjelpetekst"
-                id="slett-kandidatliste"
-                anchor={() => (
-                    <div className="slett-hjelpetekst-tekst" ref={slettRef}>
-                        Slett
-                    </div>
-                )}
-            >
-                Du kan ikke slette kandidatlisten fordi den
-                <ul>
-                    <li>tilhører en annen</li>
-                    <li>er knyttet til en stilling</li>
-                </ul>
-            </HjelpetekstVenstre>
+            <button className="kandidatlister-meny__valg" title={årsak} disabled>
+                Slett
+            </button>
         );
     }
-    return null;
 };
 
 export const KandidatlisterMenyDropdown = ({
     kandidatliste,
-    onSkjulMeny,
     markerSomMinModal,
     slettKandidatliste,
 }) => {
-    const markerRef = useRef(null);
-    const slettRef = useRef(null);
-
-    const hasFocus = () => {
-        const active = document.activeElement;
-        return (
-            markerRef.current === active ||
-            slettRef.current === active ||
-            active.lastChild === markerRef.current ||
-            active.lastChild === slettRef.current ||
-            active.className.includes('marker-hjelpetekst') ||
-            active.className.includes('lukknapp') ||
-            active.className.includes('KandidatlisteMeny') ||
-            active.className.includes('slett-hjelpetekst') ||
-            active.className.includes('slett-hjelpetekst-lenke')
-        );
-    };
-
-    const handleCloseMenu = () => {
-        window.setTimeout(() => {
-            if (!hasFocus()) {
-                onSkjulMeny();
-            }
-        }, 0);
-    };
-
-    useEffect(() => {
-        document.addEventListener('click', handleCloseMenu, true);
-        return () => document.removeEventListener('click', handleCloseMenu, true);
-        // eslint-disable-next-line
-    }, []);
-
     const onMarkerClick = () => {
         markerSomMinModal(kandidatliste);
-        onSkjulMeny();
-    };
-
-    const handleKeyDown = (event) => {
-        if (event.keyCode === 13 || event.keyCode === 32) {
-            const active = document.activeElement;
-            if (active === markerRef.current) {
-                onMarkerClick();
-            } else if (active === slettRef.current) {
-                slettKandidatliste();
-            }
-        }
     };
 
     return (
-        <div>
-            <ul className="kandidatlister-meny" onBlur={handleCloseMenu}>
-                {kandidatliste.kanEditere ? (
-                    <HjelpetekstVenstre
-                        className="marker-hjelpetekst"
-                        id="marker-som-min"
-                        anchor={() => (
-                            <div className="marker-hjelpetekst-tekst" ref={markerRef}>
-                                Marker som min
-                            </div>
-                        )}
-                    >
-                        Du eier allerede kandidatlisten.
-                    </HjelpetekstVenstre>
-                ) : (
-                    <div
-                        onClick={onMarkerClick}
-                        onKeyDown={handleKeyDown}
-                        role="button"
-                        tabIndex={0}
-                        ref={markerRef}
-                    >
-                        Marker som min
-                    </div>
-                )}
-                <SlettKandidatlisteMenyValg
-                    kandidatliste={kandidatliste}
-                    slettRef={slettRef}
-                    handleKeyDown={handleKeyDown}
-                    slettKandidatliste={slettKandidatliste}
-                />
-            </ul>
-            <div className="arrow-up" />
+        <div className="kandidatlister-meny">
+            {kandidatliste.kanEditere ? (
+                <button
+                    disabled
+                    title="Du eier allerede kandidatlisten"
+                    className="kandidatlister-meny__valg"
+                >
+                    Marker som min
+                </button>
+            ) : (
+                <button className="kandidatlister-meny__valg" onClick={onMarkerClick}>
+                    Marker som min
+                </button>
+            )}
+            <SlettKandidatlisteMenyValg
+                kandidatliste={kandidatliste}
+                slettKandidatliste={slettKandidatliste}
+            />
         </div>
     );
 };
@@ -524,7 +414,6 @@ class Kandidatlister extends React.Component {
             visSuccessMelding,
             successMelding,
             sokeOrd,
-            visKandidatlisteMeny,
         } = this.state;
         return (
             <div>
@@ -587,11 +476,8 @@ class Kandidatlister extends React.Component {
                             <Kandidatlistevisning
                                 kandidatlister={kandidatlister}
                                 endreKandidatliste={this.onEndreClick}
-                                onMenyClick={this.onMenyClick}
-                                onSkjulMeny={this.onSkjulMeny}
                                 markerKandidatlisteSomMin={this.onVisMarkerSomMinModal}
                                 slettKandidatliste={this.onVisSlettKandidatlisteModal}
-                                visKandidatlisteMeny={visKandidatlisteMeny}
                                 fetching={fetchingKandidatlister}
                             />
                         </div>
@@ -678,16 +564,9 @@ SokKandidatlisterInput.propTypes = {
     onSubmitSokKandidatlister: PropTypes.func.isRequired,
 };
 
-KandidatlisterRad.defaultProps = {
-    visKandidatlisteMeny: undefined,
-};
-
 KandidatlisterRad.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
     endreKandidatliste: PropTypes.func.isRequired,
-    onMenyClick: PropTypes.func.isRequired,
-    onSkjulMeny: PropTypes.func.isRequired,
-    visKandidatlisteMeny: KandidatlisteBeskrivelse,
     markerKandidatlisteSomMin: PropTypes.func.isRequired,
     slettKandidatliste: PropTypes.func.isRequired,
 };
@@ -711,15 +590,12 @@ KandidatlisterPaginering.propTypes = {
 
 KandidatlisterMenyDropdown.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
-    onSkjulMeny: PropTypes.func.isRequired,
     markerSomMinModal: PropTypes.func.isRequired,
     slettKandidatliste: PropTypes.func.isRequired,
 };
 
 SlettKandidatlisteMenyValg.propTypes = {
     kandidatliste: KandidatlisteBeskrivelse.isRequired,
-    slettRef: PropTypes.any.isRequired, // eslint-disable-line
-    handleKeyDown: PropTypes.func.isRequired,
     slettKandidatliste: PropTypes.func.isRequired,
 };
 
