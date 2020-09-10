@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
-import HjelpetekstMedAnker from '../../../felles/common/hjelpetekst-med-anker/HjelpetekstMedAnker';
+import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
 
@@ -79,9 +79,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <SmsKnapp />
                         </Lenkeknapp>
                     ) : (
-                        <HjelpetekstMedAnker
+                        <MedPopover
                             tittel="Send SMS til de markerte kandidatene"
-                            innhold={
+                            hjelpetekst={
                                 minstEnKandidatErMarkert
                                     ? 'Du har allerede sendt SMS til alle markerte kandidater.'
                                     : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
@@ -90,7 +90,7 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
                                 <SmsKnapp />
                             </Lenkeknapp>
-                        </HjelpetekstMedAnker>
+                        </MedPopover>
                     ))}
                 {!visArkiverte &&
                     (minstEnKandidatErMarkert ? (
@@ -101,14 +101,14 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <Epostknapp />
                         </Lenkeknapp>
                     ) : (
-                        <HjelpetekstMedAnker
-                            innhold="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
+                        <MedPopover
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
                             tittel="Send e-post til de markerte kandidatene"
                         >
                             <Lenkeknapp className="kandidatlisteknapper__knapp Email">
                                 <Epostknapp />
                             </Lenkeknapp>
-                        </HjelpetekstMedAnker>
+                        </MedPopover>
                     ))}
                 {kanEditere &&
                     !visArkiverte &&
@@ -121,14 +121,14 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <Deleknapp />
                         </Lenkeknapp>
                     ) : (
-                        <HjelpetekstMedAnker
-                            innhold="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
+                        <MedPopover
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
                             tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                         >
                             <Lenkeknapp className="kandidatlisteknapper__knapp Share">
                                 <Deleknapp />
                             </Lenkeknapp>
-                        </HjelpetekstMedAnker>
+                        </MedPopover>
                     ))}
                 {visArkiverte &&
                     (minstEnKandidatErMarkert ? (
@@ -139,15 +139,15 @@ const KnappeRad: FunctionComponent<Props> = ({
                             <Sletteknapp />
                         </Lenkeknapp>
                     ) : (
-                        <HjelpetekstMedAnker
+                        <MedPopover
                             orientering={PopoverOrientering.UnderVenstre}
-                            innhold="Du må huke av for kandidatene du ønsker å angre sletting for."
+                            hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
                             tittel="Angre sletting for de markerte kandidatene"
                         >
                             <Lenkeknapp className="kandidatlisteknapper__knapp Delete">
                                 <Sletteknapp />
                             </Lenkeknapp>
-                        </HjelpetekstMedAnker>
+                        </MedPopover>
                     ))}
             </div>
         </div>

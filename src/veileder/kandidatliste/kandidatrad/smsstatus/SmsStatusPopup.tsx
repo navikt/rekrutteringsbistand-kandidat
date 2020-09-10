@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
-import Popover from 'nav-frontend-popover';
+import React, { FunctionComponent } from 'react';
 import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../kandidatlistetyper';
 import { PopoverOrientering } from 'nav-frontend-popover';
+import MedPopover from '../../../../felles/common/med-popover/MedPopover';
 import './SmsStatusPopup.less';
-import HjelpetekstMedAnker from '../../../../felles/common/hjelpetekst-med-anker/HjelpetekstMedAnker';
 
 const formaterSendtDato = (dato: Date) => {
     return `${dato.toLocaleString('no-NB', {
@@ -40,13 +39,13 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
     if (sms.status === SmsStatus.IkkeSendt) return null;
 
     return (
-        <HjelpetekstMedAnker
+        <MedPopover
             className="sms-status-popup"
-            innhold={<Popuptekst sms={sms} />}
+            hjelpetekst={<Popuptekst sms={sms} />}
             orientering={PopoverOrientering.Under}
         >
             <SendSmsIkon feil={sms.status === SmsStatus.Feil} />
-        </HjelpetekstMedAnker>
+        </MedPopover>
     );
 };
 

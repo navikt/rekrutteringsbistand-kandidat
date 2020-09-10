@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'nav-frontend-skjema';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import HjelpetekstMedAnker from '../hjelpetekst-med-anker/HjelpetekstMedAnker';
+import MedPopover from '../med-popover/MedPopover';
 import './CheckboxMedHjelpetekst.less';
 
 const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel }) => {
     return (
-        <HjelpetekstMedAnker
-            innhold="Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater."
+        <MedPopover
+            hjelpetekst="Du må legge til fylke eller kommune for å kunne huke av for lokale kandidater."
             orientering={PopoverOrientering.Under}
         >
             <Checkbox
@@ -19,7 +19,7 @@ const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel
                 onChange={onChange}
                 disabled={disabled}
             />
-        </HjelpetekstMedAnker>
+        </MedPopover>
     );
 };
 

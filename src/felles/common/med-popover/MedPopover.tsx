@@ -1,20 +1,20 @@
 import React, { FunctionComponent, useState, MouseEvent, ReactNode } from 'react';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import { Normaltekst } from 'nav-frontend-typografi';
-import './HjelpetekstMedAnker.less';
+import './MedPopover.less';
 
 type Props = {
     id?: string;
     tittel?: string;
-    innhold: ReactNode;
+    hjelpetekst: ReactNode;
     orientering?: PopoverOrientering;
     className?: string;
 };
 
-const HjelpetekstMedAnker: FunctionComponent<Props> = ({
+const MedPopover: FunctionComponent<Props> = ({
     id,
     tittel,
-    innhold,
+    hjelpetekst,
     orientering,
     className,
     children,
@@ -35,7 +35,7 @@ const HjelpetekstMedAnker: FunctionComponent<Props> = ({
             role="button"
             title={tittel}
             onClick={toggleAnker}
-            className={`hjelpetekst-med-anker${className ? ' ' + className : ''}`}
+            className={`med-popover${className ? ' ' + className : ''}`}
         >
             {children}
             <Popover
@@ -43,10 +43,10 @@ const HjelpetekstMedAnker: FunctionComponent<Props> = ({
                 ankerEl={anker}
                 onRequestClose={lukkAnker}
             >
-                <Normaltekst className="hjelpetekst-med-anker__popup">{innhold}</Normaltekst>
+                <Normaltekst className="med-popover__popup">{hjelpetekst}</Normaltekst>
             </Popover>
         </div>
     );
 };
 
-export default HjelpetekstMedAnker;
+export default MedPopover;

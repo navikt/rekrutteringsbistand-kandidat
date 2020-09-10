@@ -1,12 +1,11 @@
+import React, { FunctionComponent } from 'react';
+import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
+import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-// import { HjelpetekstUnderVenstre } from 'nav-frontend-hjelpetekst';
-import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 import { KandidatlisterMenyDropdown } from '../Kandidatlister';
-import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
-import HjelpetekstMedAnker from '../../../felles/common/hjelpetekst-med-anker/HjelpetekstMedAnker';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import MedPopover from '../../../felles/common/med-popover/MedPopover';
 
 export const KandidatlisterRad: FunctionComponent<any> = ({
     kandidatliste,
@@ -38,9 +37,9 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
-        <HjelpetekstMedAnker innhold="Du kan ikke redigere en kandidatliste som ikke er din.">
+        <MedPopover hjelpetekst="Du kan ikke redigere en kandidatliste som ikke er din.">
             <i className="EditDisabled__icon" />
-        </HjelpetekstMedAnker>
+        </MedPopover>
     );
 
     return (
@@ -80,9 +79,9 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
             <div className="kolonne-smal-knapp">
                 {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
             </div>
-            <HjelpetekstMedAnker
+            <MedPopover
                 className="kolonne-smal-knapp"
-                innhold={
+                hjelpetekst={
                     <KandidatlisterMenyDropdown
                         kandidatliste={kandidatliste}
                         markerSomMinModal={markerKandidatlisteSomMin}
@@ -94,7 +93,7 @@ export const KandidatlisterRad: FunctionComponent<any> = ({
                     aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
                     className="KandidatlisteMeny"
                 />
-            </HjelpetekstMedAnker>
+            </MedPopover>
         </div>
     );
 };

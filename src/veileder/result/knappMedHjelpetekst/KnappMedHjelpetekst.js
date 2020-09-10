@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import HjelpetekstMedAnker from '../../../felles/common/hjelpetekst-med-anker/HjelpetekstMedAnker';
+import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import './KnappMedHjelpetekst.less';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) =>
     disabled ? (
-        <HjelpetekstMedAnker innhold={hjelpetekst} orientering={PopoverOrientering.Under}>
+        <MedPopover innhold={hjelpetekst} orientering={PopoverOrientering.Under}>
             <div title={tittel} className="knapp-med-hjelpetekst__knapp knapp knapp--disabled">
                 {children}
             </div>
-        </HjelpetekstMedAnker>
+        </MedPopover>
     ) : (
         <Hovedknapp
             id={id}
