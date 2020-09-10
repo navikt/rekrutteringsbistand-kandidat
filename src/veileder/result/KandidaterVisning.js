@@ -94,7 +94,9 @@ class KandidaterVisning extends React.Component {
             prevProps.leggTilKandidatStatus !== leggTilKandidatStatus &&
             leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
         ) {
-            this.setState({ lagreKandidaterModalTilStillingVises: false });
+            if (this.state.lagreKandidaterModalTilStillingVises) {
+                this.lukkLagreKandidaterTilStillingModal();
+            }
         }
     }
 
@@ -158,16 +160,36 @@ class KandidaterVisning extends React.Component {
         this.props.oppdaterMarkerteKandidater(kandidaterMedMarkering);
     };
 
-    toggleLagreKandidaterModal = () => {
+    åpneLagreKandidaterModal = () => {
         this.setState({
-            lagreKandidaterModalVises: !this.state.lagreKandidaterModalVises,
+            lagreKandidaterModalVises: true,
         });
     };
 
-    toggleLagreKandidaterTilStillingModal = () => {
+    lukkLagreKandidaterModal = () => {
         this.setState({
-            lagreKandidaterModalTilStillingVises: !this.state.lagreKandidaterModalTilStillingVises,
+            lagreKandidaterModalVises: false,
         });
+
+        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.toggleMarkeringAlleKandidater(false);
+        }
+    }
+
+    åpneLagreKandidaterTilStillingModal = () => {
+        this.setState({
+            lagreKandidaterModalTilStillingVises: true,
+        });
+    };
+
+    lukkLagreKandidaterTilStillingModal = () => {
+        this.setState({
+            lagreKandidaterModalTilStillingVises: false,
+        });
+
+        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.toggleMarkeringAlleKandidater(false);
+        }
     };
 
     render() {
@@ -194,14 +216,14 @@ class KandidaterVisning extends React.Component {
                 {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
                         vis={lagreKandidaterModalVises}
-                        onRequestClose={this.toggleLagreKandidaterModal}
+                        onRequestClose={this.lukkLagreKandidaterModal}
                         onLagre={this.onLagreKandidatliste}
                     />
                 )}
                 {lagreKandidaterModalTilStillingVises && (
                     <LagreKandidaterTilStillingModal
                         vis={lagreKandidaterModalTilStillingVises}
-                        onRequestClose={this.toggleLagreKandidaterTilStillingModal}
+                        onRequestClose={this.lukkLagreKandidaterTilStillingModal}
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={antallMarkert}
                         kandidatliste={kandidatliste}
@@ -220,8 +242,8 @@ class KandidaterVisning extends React.Component {
                         disabled={antallMarkert === 0}
                         onClick={
                             kandidatlisteId || stillingsId
-                                ? this.toggleLagreKandidaterTilStillingModal
-                                : this.toggleLagreKandidaterModal
+                                ? this.åpneLagreKandidaterTilStillingModal
+                                : this.åpneLagreKandidaterModal
                         }
                         id="lagre-kandidater-knapp"
                         tittel={lagreKandidaterTilStillingKnappTekst(antallMarkert)}
