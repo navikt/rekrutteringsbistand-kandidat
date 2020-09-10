@@ -95,7 +95,7 @@ class KandidaterVisning extends React.Component {
             leggTilKandidatStatus === LAGRE_STATUS.SUCCESS
         ) {
             if (this.state.lagreKandidaterModalTilStillingVises) {
-                this.lukkLagreKandidaterTilStillingModalOgFjernMarkering();
+                this.lukkLagreKandidaterTilStillingModal();
             }
         }
     }
@@ -166,12 +166,14 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    lukkLagreKandidaterModalOgFjernMarkering = () => {
+    lukkLagreKandidaterModal = () => {
         this.setState({
             lagreKandidaterModalVises: false,
         });
 
-        this.toggleMarkeringAlleKandidater(false);
+        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.toggleMarkeringAlleKandidater(false);
+        }
     }
 
     åpneLagreKandidaterTilStillingModal = () => {
@@ -180,12 +182,14 @@ class KandidaterVisning extends React.Component {
         });
     };
 
-    lukkLagreKandidaterTilStillingModalOgFjernMarkering = () => {
+    lukkLagreKandidaterTilStillingModal = () => {
         this.setState({
             lagreKandidaterModalTilStillingVises: false,
         });
 
-        this.toggleMarkeringAlleKandidater(false);
+        if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+            this.toggleMarkeringAlleKandidater(false);
+        }
     };
 
     render() {
@@ -212,14 +216,14 @@ class KandidaterVisning extends React.Component {
                 {lagreKandidaterModalVises && (
                     <LagreKandidaterModal
                         vis={lagreKandidaterModalVises}
-                        onRequestClose={this.lukkLagreKandidaterModalOgFjernMarkering}
+                        onRequestClose={this.lukkLagreKandidaterModal}
                         onLagre={this.onLagreKandidatliste}
                     />
                 )}
                 {lagreKandidaterModalTilStillingVises && (
                     <LagreKandidaterTilStillingModal
                         vis={lagreKandidaterModalTilStillingVises}
-                        onRequestClose={this.lukkLagreKandidaterTilStillingModalOgFjernMarkering}
+                        onRequestClose={this.lukkLagreKandidaterTilStillingModal}
                         onLagre={this.onLagreKandidatliste}
                         antallMarkerteKandidater={antallMarkert}
                         kandidatliste={kandidatliste}
