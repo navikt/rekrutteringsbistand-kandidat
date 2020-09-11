@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const devConfig = require('./webpack.config.dev.js');
 
 const mockOverride = merge(devConfig, {
