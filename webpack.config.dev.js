@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
 const devOverride = {
@@ -19,8 +19,10 @@ const devOverride = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            __PAM_KANDIDATSOK_API_URL__: "'http://localhost:8766/rekrutteringsbistand-kandidat-api/rest'",
-            __LOGIN_URL__: "'http://localhost:8766/rekrutteringsbistand-kandidat-api/local/cookie-isso'",
+            __PAM_KANDIDATSOK_API_URL__:
+                "'http://localhost:8766/rekrutteringsbistand-kandidat-api/rest'",
+            __LOGIN_URL__:
+                "'http://localhost:8766/rekrutteringsbistand-kandidat-api/local/cookie-isso'",
             __LOGOUT_URL__: "'#'",
             __PAMPORTAL_URL__: "'#'",
             __PAM_SEARCH_API_GATEWAY_URL__: "'https://pam-search-api.nais.oera-q.local'",
