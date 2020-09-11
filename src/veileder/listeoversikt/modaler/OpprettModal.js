@@ -4,50 +4,40 @@ import { connect } from 'react-redux';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
-import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
-import { KandidatlisteBeskrivelse } from '../../listeoversikt/Kandidatlister';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 
-const kandidatlisteInfoWrapper = (kandidatliste) => ({
-    ...kandidatliste,
-    tittel: kandidatliste.tittel || '',
-    beskrivelse: kandidatliste.beskrivelse || '',
-    oppdragsgiver: kandidatliste.oppdragsgiver || '',
-});
-
-const EndreModal = ({
-    oppdaterKandidatliste,
+const OpprettModal = ({
+    opprettKandidatliste,
     resetStatusTilUnsaved,
     lagreStatus,
-    kandidatliste,
     onAvbrytClick,
 }) => (
     <NavFrontendModal
         isOpen
-        contentLabel="modal endre kandidatliste"
+        contentLabel="modal opprett kandidatliste"
         onRequestClose={onAvbrytClick}
         className="modal--opprett-kandidatliste__veileder"
         closeButton
         appElement={document.getElementById('app')}
     >
-        <Systemtittel className="blokk-s">Endre kandidatlisten</Systemtittel>
+        <Systemtittel className="blokk-s">Opprett kandidatliste</Systemtittel>
         <OpprettKandidatlisteForm
-            onSave={oppdaterKandidatliste}
+            onSave={opprettKandidatliste}
             resetStatusTilUnsaved={resetStatusTilUnsaved}
-            kandidatlisteInfo={kandidatlisteInfoWrapper(kandidatliste)}
+            kandidatlisteInfo={tomKandidatlisteInfo()}
             saving={lagreStatus === LAGRE_STATUS.LOADING}
             onAvbrytClick={onAvbrytClick}
-            knappTekst="Lagre endringer"
+            knappTekst="Opprett"
         />
     </NavFrontendModal>
 );
 
-EndreModal.propTypes = {
-    oppdaterKandidatliste: PropTypes.func.isRequired,
+OpprettModal.propTypes = {
+    opprettKandidatliste: PropTypes.func.isRequired,
     resetStatusTilUnsaved: PropTypes.func.isRequired,
     lagreStatus: PropTypes.string.isRequired,
     onAvbrytClick: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape(KandidatlisteBeskrivelse).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -55,12 +45,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    oppdaterKandidatliste: (kandidatlisteInfo) => {
-        dispatch({ type: KandidatlisteActionType.OPPDATER_KANDIDATLISTE, kandidatlisteInfo });
+    opprettKandidatliste: (kandidatlisteInfo) => {
+        dispatch({ type: KandidatlisteActionType.OPPRETT_KANDIDATLISTE, kandidatlisteInfo });
     },
     resetStatusTilUnsaved: () => {
         dispatch({ type: KandidatlisteActionType.RESET_LAGRE_STATUS });
     },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EndreModal);
+export default connect(mapStateToProps, mapDispatchToProps)(OpprettModal);

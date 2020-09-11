@@ -1,36 +1,36 @@
+import React, { ChangeEvent } from 'react';
 import { FunctionComponent } from 'react';
-import React from 'react';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { SokKandidatlisterInput } from '../Kandidatlister';
+import SøkKandidatlisterInput from './SøkKandidatlisterInput';
 import './KandidatlisterSideHeader.less';
 
 interface Props {
-    sokeOrd?: string;
-    onSokeOrdChange: any;
-    onSubmitSokKandidatlister?: any;
-    nullstillSok: () => void;
+    søkeOrd?: string;
+    onSøkeOrdChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onSubmitSøkKandidatlister?: any;
+    nullstillSøk: () => void;
     opprettListe: () => void;
 }
 
 export const KandidatlisterSideHeader: FunctionComponent<Props> = ({
-    sokeOrd,
-    onSokeOrdChange,
-    onSubmitSokKandidatlister,
-    nullstillSok,
+    søkeOrd,
+    onSøkeOrdChange,
+    onSubmitSøkKandidatlister,
+    nullstillSøk,
     opprettListe,
 }) => (
     <div className="side-header">
         <div className="side-header__innhold">
             <div className="header-child" />
             <div className="header-child tittel-wrapper">
-                <SokKandidatlisterInput
-                    sokeOrd={sokeOrd || ''}
-                    onSokeOrdChange={onSokeOrdChange}
-                    onSubmitSokKandidatlister={onSubmitSokKandidatlister}
+                <SøkKandidatlisterInput
+                    søkeOrd={søkeOrd || ''}
+                    onSøkeOrdChange={onSøkeOrdChange}
+                    onSubmitSøkKandidatlister={onSubmitSøkKandidatlister}
                 />
             </div>
             <div className="header-child knapp-wrapper">
-                <Flatknapp onClick={nullstillSok} className="nullstill-sok__knapp" mini>
+                <Flatknapp onClick={nullstillSøk} className="nullstill-sok__knapp" mini>
                     Nullstill søk
                 </Flatknapp>
                 <Hovedknapp
