@@ -3,7 +3,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { Nesteknapp } from 'nav-frontend-ikonknapper';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { KandidatlisterSøkekriterier } from './Kandidatlister';
+import { KandidatlisterSøkekriterier } from './Kandidatlisteoversikt';
 
 type Props = {
     kandidatlisterSokeKriterier: KandidatlisterSøkekriterier;

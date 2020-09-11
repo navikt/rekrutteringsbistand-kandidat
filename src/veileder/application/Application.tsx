@@ -8,7 +8,7 @@ import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Historikkside from '../kandidatside/historikk/Historikkside';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
-import Kandidatlister from '../listeoversikt/Kandidatlister';
+import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
@@ -58,7 +58,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                             path="/kandidater/stilling/:stillingsId"
                             component={KandidatsøkFraStilling}
                         />
-                        <Route exact path="/kandidater/lister" component={Kandidatlister} />
+                        <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route
                             exact
                             path="/kandidater/lister/stilling/:id/detaljer"

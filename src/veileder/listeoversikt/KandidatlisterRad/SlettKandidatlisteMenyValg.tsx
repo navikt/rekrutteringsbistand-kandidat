@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
-import { KanSletteEnum } from '../Kandidatlister';
+import { KanSletteEnum } from '../Kandidatlisteoversikt';
 
 type Props = {
     kandidatliste: Kandidatliste;

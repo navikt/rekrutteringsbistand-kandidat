@@ -4,7 +4,7 @@ import {
     Kandidat,
     FormidlingAvUsynligKandidat,
 } from './../../kandidatliste/kandidatlistetyper';
-import { KanSletteEnum } from '../../listeoversikt/Kandidatlister';
+import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
 import cver from './cver';

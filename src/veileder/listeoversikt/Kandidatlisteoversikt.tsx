@@ -19,7 +19,7 @@ import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
-import './Kandidatlister.less';
+import './Kandidatlisteoversikt.less';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -37,49 +37,6 @@ export const KanSletteEnum = {
     HAR_STILLING: 'HAR_STILLING',
     ER_IKKE_DIN_OG_HAR_STILLING: 'ER_IKKE_DIN_OG_HAR_STILLING',
 };
-/*
-export const KandidatlisteBeskrivelse = PropTypes.shape({
-    tittel: PropTypes.string.isRequired,
-    kandidatlisteId: PropTypes.string.isRequired,
-    opprettetTidspunkt: PropTypes.string.isRequired,
-    opprettetAv: PropTypes.shape({
-        navn: PropTypes.string,
-        ident: PropTypes.string,
-    }).isRequired,
-    stillingId: PropTypes.string,
-    kanSlette: PropTypes.string.isRequired,
-});
-
-Kandidatlister.propTypes = {
-    resetQuery: PropTypes.func.isRequired,
-    removeKompetanseSuggestions: PropTypes.func.isRequired,
-    hentKandidatlister: PropTypes.func.isRequired,
-    fetchingKandidatlister: PropTypes.string.isRequired,
-    kandidatlister: PropTypes.arrayOf(KandidatlisteBeskrivelse),
-    totaltAntallKandidatlister: PropTypes.number,
-    lagreStatus: PropTypes.string.isRequired,
-    resetLagreStatus: PropTypes.func.isRequired,
-    opprettetTittel: PropTypes.string,
-    kandidatlisterSokeKriterier: PropTypes.shape({
-        query: PropTypes.string,
-        type: PropTypes.string,
-        kunEgne: PropTypes.bool,
-        pagenumber: PropTypes.number,
-        pagesize: PropTypes.number,
-    }).isRequired,
-    markerKandidatlisteSomMin: PropTypes.func.isRequired,
-    markerSomMinStatus: PropTypes.string.isRequired,
-    slettKandidatliste: PropTypes.func.isRequired,
-    resetSletteStatus: PropTypes.func.isRequired,
-    sletteStatus: PropTypes.shape({
-        kind: PropTypes.string.isRequired,
-        data: PropTypes.shape({
-            slettetTittel: PropTypes.string,
-        }),
-    }).isRequired,
-    fjernValgtKandidat: PropTypes.func.isRequired,
-};
-*/
 
 export type KandidatlisterSøkekriterier = {
     query: string;
@@ -108,8 +65,8 @@ type Props = {
     fjernValgtKandidat: any;
 };
 
-class Kandidatlister extends React.Component<Props> {
-    skjulSuccessMeldingCallbackId?: NodeJS.Timeout;
+class Kandidatlisteoversikt extends React.Component<Props> {
+    skjulSuccessMeldingCallbackId: any;
 
     state: {
         modalstatus: Modalvisning;
@@ -454,4 +411,4 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlister);
+export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlisteoversikt);

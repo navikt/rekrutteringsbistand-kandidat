@@ -34,9 +34,9 @@ const OpprettModal = ({
 );
 
 OpprettModal.propTypes = {
-    opprettKandidatliste: PropTypes.func.isRequired,
-    resetStatusTilUnsaved: PropTypes.func.isRequired,
-    lagreStatus: PropTypes.string.isRequired,
+    opprettKandidatliste: PropTypes.func,
+    resetStatusTilUnsaved: PropTypes.func,
+    lagreStatus: PropTypes.string,
     onAvbrytClick: PropTypes.func.isRequired,
 };
 
