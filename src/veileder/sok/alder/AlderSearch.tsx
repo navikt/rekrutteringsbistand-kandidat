@@ -9,6 +9,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import AppState from '../../AppState';
 import { Element } from 'nav-frontend-typografi';
+import { sendEvent } from '../../amplitude/amplitude';
 
 const inputPropsForAlder = {
     type: 'number',
@@ -42,6 +43,11 @@ export const AlderSearch: FunctionComponent = () => {
     const søkMedAlder = () => {
         setAlder(fra, til);
         search();
+
+        sendEvent('kandidatsøk', 'filtrer_på_alder', {
+            fra,
+            til,
+        });
     };
 
     const nullstill = () => {
