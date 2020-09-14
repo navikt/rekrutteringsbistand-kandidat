@@ -7,11 +7,12 @@ import AppState from '../../../AppState';
 import { SEARCH } from '../../searchReducer';
 import { TilgjengelighetAction } from '../tilgjengelighetReducer';
 import './OppstartstidspunktSearch.less';
+import { sendEvent } from '../../../amplitude/amplitude';
 
 export enum Oppstartstidspunkt {
-    LEDIG_NAA = 'LEDIG_NAA',
-    ETTER_TRE_MND = 'ETTER_TRE_MND',
-    ETTER_AVTALE = 'ETTER_AVTALE',
+    LedigNå = 'LEDIG_NAA',
+    EtterTreMåneder = 'ETTER_TRE_MND',
+    EtterAvtale = 'ETTER_AVTALE',
 }
 
 interface Props {
@@ -22,25 +23,30 @@ interface Props {
 }
 
 const alleOppstartstidspunkter = [
-    { label: 'Ledig nå', value: Oppstartstidspunkt.LEDIG_NAA },
-    { label: 'Ledig om 3 måneder', value: Oppstartstidspunkt.ETTER_TRE_MND },
-    { label: 'Ledig etter avtale', value: Oppstartstidspunkt.ETTER_AVTALE },
+    { label: 'Ledig nå', value: Oppstartstidspunkt.LedigNå },
+    { label: 'Ledig om 3 måneder', value: Oppstartstidspunkt.EtterTreMåneder },
+    { label: 'Ledig etter avtale', value: Oppstartstidspunkt.EtterAvtale },
 ];
 
 const OppstartstidspunktSearch: FunctionComponent<Props> = (props) => {
     const onOppstartstidspunktChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const oppstartstidspunkt = e.target.value as Oppstartstidspunkt;
+
         if (e.target.checked) {
-            props.checkOppstartstidspunkt(e.target.value as Oppstartstidspunkt);
+            sendEvent('kandidatsøk', 'filtrer-på-oppstartstidspunkt', {
+                oppstartstidspunkt,
+            });
+            props.checkOppstartstidspunkt(oppstartstidspunkt);
         } else {
-            props.uncheckOppstartstidspunkt(e.target.value as Oppstartstidspunkt);
+            props.uncheckOppstartstidspunkt(oppstartstidspunkt);
         }
         props.search();
     };
 
     return (
-        <SkjemaGruppe 
-        legend={<Element>Registrert i kandidatens jobbprofil</Element>}
-        className="registrert-i-jobbprofil-search"
+        <SkjemaGruppe
+            legend={<Element>Registrert i kandidatens jobbprofil</Element>}
+            className="registrert-i-jobbprofil-search"
         >
             {alleOppstartstidspunkter.map((tidspunkt) => (
                 <Checkbox
