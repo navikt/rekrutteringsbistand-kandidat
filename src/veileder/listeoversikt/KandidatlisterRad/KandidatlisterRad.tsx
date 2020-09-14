@@ -3,11 +3,19 @@ import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
-import { KandidatlisterMenyDropdown } from '../Kandidatlister';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
+import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import KandidatlisterMenyDropdown from './KandidatlisterMenyDropdown';
 
-export const KandidatlisterRad: FunctionComponent<any> = ({
+type Props = {
+    kandidatliste: Kandidatliste;
+    endreKandidatliste: (kandidatliste: Kandidatliste) => void;
+    markerKandidatlisteSomMin: (kandidatliste: Kandidatliste) => void;
+    slettKandidatliste: () => void;
+};
+
+export const KandidatlisterRad: FunctionComponent<Props> = ({
     kandidatliste,
     endreKandidatliste,
     markerKandidatlisteSomMin,

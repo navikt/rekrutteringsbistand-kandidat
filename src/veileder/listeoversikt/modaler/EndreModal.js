@@ -5,8 +5,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
-import { KandidatlisteBeskrivelse } from '../../listeoversikt/Kandidatlister';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
@@ -43,11 +42,11 @@ const EndreModal = ({
 );
 
 EndreModal.propTypes = {
-    oppdaterKandidatliste: PropTypes.func.isRequired,
-    resetStatusTilUnsaved: PropTypes.func.isRequired,
-    lagreStatus: PropTypes.string.isRequired,
+    oppdaterKandidatliste: PropTypes.func,
+    resetStatusTilUnsaved: PropTypes.func,
+    lagreStatus: PropTypes.string,
     onAvbrytClick: PropTypes.func.isRequired,
-    kandidatliste: PropTypes.shape(KandidatlisteBeskrivelse).isRequired,
+    kandidatliste: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

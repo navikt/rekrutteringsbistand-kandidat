@@ -5,7 +5,7 @@ import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
-import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 
 const OpprettModal = ({
     opprettKandidatliste,
@@ -34,9 +34,9 @@ const OpprettModal = ({
 );
 
 OpprettModal.propTypes = {
-    opprettKandidatliste: PropTypes.func.isRequired,
-    resetStatusTilUnsaved: PropTypes.func.isRequired,
-    lagreStatus: PropTypes.string.isRequired,
+    opprettKandidatliste: PropTypes.func,
+    resetStatusTilUnsaved: PropTypes.func,
+    lagreStatus: PropTypes.string,
     onAvbrytClick: PropTypes.func.isRequired,
 };
 

@@ -39,7 +39,7 @@ export type FormidlingAvUsynligKandidatOutboundDto = {
 
 type Props = {
     vis: boolean;
-    stillingsId?: string;
+    stillingsId: string | null;
     onClose: () => void;
     fodselsnummer?: string;
     kandidatliste: Kandidatliste;
