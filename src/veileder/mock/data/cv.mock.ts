@@ -1,5 +1,6 @@
-import * as cvData from './cvData';
+import * as cvData from './cv-data.mock';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
+import meg from './meg.mock';
 
 export const antall = 20;
 
@@ -75,10 +76,16 @@ const fødselsnumre = [
 ];
 
 const baseCv: Cv = {
+    fornavn: '<fornavn>',
+    etternavn: '<etternavn>',
+    kandidatnummer: '<kandidatnr>',
+
+    veilederEpost: meg.epost,
+    veilederIdent: meg.ident,
+    veilederNavn: meg.navn,
+
     aktorId: '1000055261743',
     fodselsdato: '2019-01-09',
-    fornavn: 'aasmund',
-    etternavn: 'nordstoga',
     statsborgerskap: null,
     samtykkeDato: '2019-01-29',
     samtykkeStatus: 'G',
@@ -96,7 +103,6 @@ const baseCv: Cv = {
         adrlinje2: '',
         adrlinje3: '',
     },
-    kandidatnummer: 'CD430805',
     sistEndret: '2019-11-18T12:17:17.005',
     oppstartKode: 'ETTER_AVTALE',
     utdanning: cvData.utdanning,
@@ -131,9 +137,6 @@ const baseCv: Cv = {
     annenErfaring: [{ fraDato: '2004-01-02', tilDato: null, rolle: 'ss', beskrivelse: 'sas' }],
     fodselsnummer: '21067630103',
     tilretteleggingsbehov: true,
-    veilederEpost: 'james.bond@nav.no',
-    veilederIdent: 'X123456',
-    veilederNavn: 'James Bond',
 };
 
 const bokstaver = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode, useState } from 'react';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -6,7 +6,14 @@ import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
-import KandidatlisterMenyDropdown from './KandidatlisterMenyDropdown';
+import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+import './KandidatlisterRad.less';
+
+export type FeilmeldingIMeny = {
+    anker?: HTMLElement;
+    feilmelding?: ReactNode;
+};
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -21,6 +28,30 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
+    const [feilmeldingIMeny, setFeilmeldingIMeny] = useState<FeilmeldingIMeny>({
+        anker: undefined,
+    });
+
+    const onSetFeilmelding = (nyFeilmeldingIMeny: FeilmeldingIMeny) => {
+        setFeilmeldingIMeny({
+            anker: undefined,
+        });
+
+        const erNyttAnker =
+            !feilmeldingIMeny.anker ||
+            !nyFeilmeldingIMeny.anker ||
+            feilmeldingIMeny.anker.id !== nyFeilmeldingIMeny.anker.id;
+
+        if (erNyttAnker) {
+            setTimeout(() => {
+                setFeilmeldingIMeny({
+                    anker: nyFeilmeldingIMeny.anker,
+                    feilmelding: nyFeilmeldingIMeny.feilmelding,
+                });
+            }, 0);
+        }
+    };
+
     const lenkeTilStilling = (
         <a
             href={`/stilling/${kandidatliste.stillingId}?redigeringsmodus=true`}
@@ -88,12 +119,13 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
             </div>
             <MedPopover
-                className="kolonne-smal-knapp"
+                className="kolonne-smal-knapp kandidatlister-rad__popover"
                 hjelpetekst={
                     <KandidatlisterMenyDropdown
                         kandidatliste={kandidatliste}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
+                        setFeilmelding={onSetFeilmelding}
                     />
                 }
             >
@@ -102,6 +134,18 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                     className="KandidatlisteMeny"
                 />
             </MedPopover>
+            <Popover
+                avstandTilAnker={16}
+                orientering={PopoverOrientering.Venstre}
+                ankerEl={feilmeldingIMeny.anker}
+                onRequestClose={() => {
+                    setFeilmeldingIMeny({ anker: undefined });
+                }}
+            >
+                <div className="kandidatlister-rad__feilmelding">
+                    {feilmeldingIMeny.feilmelding}
+                </div>
+            </Popover>
         </div>
     );
 };

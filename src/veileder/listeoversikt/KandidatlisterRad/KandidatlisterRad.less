@@ -1,0 +1,18 @@
+.kandidatlister-rad {
+    // Overstyr styling fra nav-frontend
+    &__popover[role='button'] {
+        cursor: unset;
+    }
+
+    &__feilmelding {
+        padding: 1rem;
+        background-color: #e0f5fb;
+        max-width: 20rem;
+    }
+
+    &__dropdown-valg {
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+    }
+}

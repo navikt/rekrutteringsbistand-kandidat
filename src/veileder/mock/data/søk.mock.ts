@@ -1,5 +1,5 @@
-import { Tilgjengelighet, Innsatsgruppe } from './../../sok/Søkeresultat';
-import cver, { antall } from './cver';
+import { Tilgjengelighet, Innsatsgruppe } from '../../sok/Søkeresultat';
+import cver, { antall } from './cv.mock';
 import Søkeresultat from '../../sok/Søkeresultat';
 
 const resultater: Søkeresultat[] = cver.map((cv) => ({
