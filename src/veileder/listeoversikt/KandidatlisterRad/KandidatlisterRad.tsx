@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -6,7 +6,15 @@ import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
-import KandidatlisterMenyDropdown from './KandidatlisterMenyDropdown';
+import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+import './KandidatlisterRad.less';
+import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
+
+export type FeilmeldingIMeny = {
+    anker?: HTMLElement;
+    feilmelding?: ReactNode;
+};
 
 type Props = {
     kandidatliste: Kandidatliste;
@@ -21,6 +29,31 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
+    const [disabledMarkerSomMinAnker, setDisabledMarkerSomMinAnker] = useState<
+        HTMLElement | undefined
+    >(undefined);
+    const [disabledSlettknappAnker, setDisabledSlettknappAnker] = useState<HTMLElement | undefined>(
+        undefined
+    );
+
+    const toggleDisabledMarkerSomMinAnker = (event: MouseEvent<HTMLElement>) => {
+        setDisabledMarkerSomMinAnker(disabledMarkerSomMinAnker ? undefined : event.currentTarget);
+    };
+
+    const toggleDisabledSlettknappAnker = (event: MouseEvent<HTMLElement>) => {
+        setDisabledSlettknappAnker(disabledSlettknappAnker ? undefined : event.currentTarget);
+    };
+
+    const onDropdownPopoverClick = () => {
+        if (disabledMarkerSomMinAnker) {
+            setDisabledMarkerSomMinAnker(undefined);
+        }
+
+        if (disabledSlettknappAnker) {
+            setDisabledSlettknappAnker(undefined);
+        }
+    };
+
     const lenkeTilStilling = (
         <a
             href={`/stilling/${kandidatliste.stillingId}?redigeringsmodus=true`}
@@ -88,12 +121,15 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
             </div>
             <MedPopover
-                className="kolonne-smal-knapp"
+                className="kolonne-smal-knapp kandidatlister-rad__popover"
+                onPopoverClick={onDropdownPopoverClick}
                 hjelpetekst={
                     <KandidatlisterMenyDropdown
                         kandidatliste={kandidatliste}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
+                        toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
+                        toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
                     />
                 }
             >
@@ -102,6 +138,28 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                     className="KandidatlisteMeny"
                 />
             </MedPopover>
+            <Popover
+                ankerEl={disabledMarkerSomMinAnker}
+                orientering={PopoverOrientering.Venstre}
+                onRequestClose={() => {
+                    setDisabledMarkerSomMinAnker(undefined);
+                }}
+            >
+                <div className="kandidatlister-rad__feilmelding">
+                    Du eier allerede kandidatlisten
+                </div>
+            </Popover>
+            <Popover
+                ankerEl={disabledSlettknappAnker}
+                orientering={PopoverOrientering.Venstre}
+                onRequestClose={() => {
+                    setDisabledSlettknappAnker(undefined);
+                }}
+            >
+                <div className="kandidatlister-rad__feilmelding">
+                    <ÅrsakTilAtListenIkkeKanSlettes kandidatliste={kandidatliste} />
+                </div>
+            </Popover>
         </div>
     );
 };

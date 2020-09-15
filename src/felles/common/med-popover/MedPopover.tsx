@@ -8,6 +8,7 @@ type Props = {
     tittel?: string;
     hjelpetekst: ReactNode;
     orientering?: PopoverOrientering;
+    onPopoverClick?: () => void;
     className?: string;
 };
 
@@ -16,6 +17,7 @@ const MedPopover: FunctionComponent<Props> = ({
     tittel,
     hjelpetekst,
     orientering,
+    onPopoverClick,
     className,
     children,
 }) => {
@@ -43,7 +45,9 @@ const MedPopover: FunctionComponent<Props> = ({
                 ankerEl={anker}
                 onRequestClose={lukkAnker}
             >
-                <Normaltekst tag="div" className="med-popover__popup">{hjelpetekst || ''}</Normaltekst>
+                <Normaltekst onClick={onPopoverClick} tag="div" className="med-popover__popup">
+                    {hjelpetekst || ''}
+                </Normaltekst>
             </Popover>
         </div>
     );

@@ -1,15 +1,16 @@
-import { Status } from './../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Status } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import {
     Kandidatliste,
     Kandidat,
     FormidlingAvUsynligKandidat,
-} from './../../kandidatliste/kandidatlistetyper';
+} from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
-import cver from './cver';
+import cver from './cv.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
+import meg from './meg.mock';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -74,8 +75,8 @@ const baseKandidatliste: Omit<
     organisasjonNavn: 'TULLEKONTORET AS',
     stillingId: 'ce3da214-8771-4115-9362-b83145150551',
     opprettetAv: {
-        ident: 'Z992777',
-        navn: 'F_Z992776 E_Z992776',
+        ident: meg.ident,
+        navn: meg.navn,
     },
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
@@ -114,8 +115,8 @@ const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({
     fornavn: cv.fornavn,
     mellomnavn: null,
     etternavn: cv.etternavn,
-    lagtTilAvIdent: cv.veilederIdent || 'AB123456',
-    lagtTilAvNavn: cv.veilederNavn || 'Ola Nordmann',
+    lagtTilAvIdent: cv.veilederIdent || meg.ident,
+    lagtTilAvNavn: cv.veilederNavn || meg.navn,
     lagtTilTidspunkt: new Date().toISOString(),
     utfall: Utfall.Presentert,
     arkivert: false,

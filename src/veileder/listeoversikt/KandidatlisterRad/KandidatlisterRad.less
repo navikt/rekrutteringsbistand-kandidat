@@ -1,0 +1,22 @@
+@import '../../variabler.less';
+
+.kandidatlister-rad {
+    &__popover {
+        // Overstyr styling fra nav-frontend
+        &[role='button'] {
+            cursor: unset;
+        }
+    }
+
+    &__feilmelding {
+        padding: 1rem;
+        background-color: @navLysBlaLighten80;
+        max-width: 20rem;
+    }
+
+    &__dropdown-valg {
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+    }
+}

@@ -13,18 +13,18 @@ import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
 import aktivEnhet from './json/dekoratør/aktivenhet.json';
 import aktivBruker from './json/dekoratør/aktivbruker.json';
-import decorator from './json/dekoratør/decorator.json';
 
-import cver from './data/cver';
+import cver from './data/cv.mock';
 import {
     kandidatliste,
     kandidatlister,
     hentMocketKandidat,
     hentMocketUsynligKandidat,
-} from './data/kandidatlister';
-import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat-mock';
-import { featureToggles } from './data/featureToggles';
-import søk from './data/søk';
+} from './data/kandidatliste.mock';
+import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
+import { featureToggles } from './data/feature-toggles.mock';
+import søk from './data/søk.mock';
+import dekoratør from './data/dekoratør.mock';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -243,5 +243,5 @@ fetchMock
     .get(url.toggles, log(featureToggles))
     .get(url.modiaAktivEnhet, log(aktivEnhet))
     .get(url.modiaAktivBruker, log(aktivBruker))
-    .get(url.modiaDecorator, log(decorator))
+    .get(url.modiaDecorator, log(dekoratør))
     .post(url.modiaContext, log(201));
