@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react';
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -9,6 +9,7 @@ import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import './KandidatlisterRad.less';
+import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -28,27 +29,28 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     markerKandidatlisteSomMin,
     slettKandidatliste,
 }) => {
-    const [feilmeldingIMeny, setFeilmeldingIMeny] = useState<FeilmeldingIMeny>({
-        anker: undefined,
-    });
+    const [disabledMarkerSomMinAnker, setDisabledMarkerSomMinAnker] = useState<
+        HTMLElement | undefined
+    >(undefined);
+    const [disabledSlettknappAnker, setDisabledSlettknappAnker] = useState<HTMLElement | undefined>(
+        undefined
+    );
 
-    const onSetFeilmelding = (nyFeilmeldingIMeny: FeilmeldingIMeny) => {
-        setFeilmeldingIMeny({
-            anker: undefined,
-        });
+    const toggleDisabledMarkerSomMinAnker = (event: MouseEvent<HTMLElement>) => {
+        setDisabledMarkerSomMinAnker(disabledMarkerSomMinAnker ? undefined : event.currentTarget);
+    };
 
-        const erNyttAnker =
-            !feilmeldingIMeny.anker ||
-            !nyFeilmeldingIMeny.anker ||
-            feilmeldingIMeny.anker.id !== nyFeilmeldingIMeny.anker.id;
+    const toggleDisabledSlettknappAnker = (event: MouseEvent<HTMLElement>) => {
+        setDisabledSlettknappAnker(disabledSlettknappAnker ? undefined : event.currentTarget);
+    };
 
-        if (erNyttAnker) {
-            setTimeout(() => {
-                setFeilmeldingIMeny({
-                    anker: nyFeilmeldingIMeny.anker,
-                    feilmelding: nyFeilmeldingIMeny.feilmelding,
-                });
-            }, 0);
+    const onDropdownPopoverClick = () => {
+        if (disabledMarkerSomMinAnker) {
+            setDisabledMarkerSomMinAnker(undefined);
+        }
+
+        if (disabledSlettknappAnker) {
+            setDisabledSlettknappAnker(undefined);
         }
     };
 
@@ -120,12 +122,14 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
             </div>
             <MedPopover
                 className="kolonne-smal-knapp kandidatlister-rad__popover"
+                onPopoverClick={onDropdownPopoverClick}
                 hjelpetekst={
                     <KandidatlisterMenyDropdown
                         kandidatliste={kandidatliste}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
-                        setFeilmelding={onSetFeilmelding}
+                        toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
+                        toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
                     />
                 }
             >
@@ -135,15 +139,25 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 />
             </MedPopover>
             <Popover
-                avstandTilAnker={16}
+                ankerEl={disabledMarkerSomMinAnker}
                 orientering={PopoverOrientering.Venstre}
-                ankerEl={feilmeldingIMeny.anker}
                 onRequestClose={() => {
-                    setFeilmeldingIMeny({ anker: undefined });
+                    setDisabledMarkerSomMinAnker(undefined);
                 }}
             >
                 <div className="kandidatlister-rad__feilmelding">
-                    {feilmeldingIMeny.feilmelding}
+                    Du eier allerede kandidatlisten
+                </div>
+            </Popover>
+            <Popover
+                ankerEl={disabledSlettknappAnker}
+                orientering={PopoverOrientering.Venstre}
+                onRequestClose={() => {
+                    setDisabledSlettknappAnker(undefined);
+                }}
+            >
+                <div className="kandidatlister-rad__feilmelding">
+                    <ÅrsakTilAtListenIkkeKanSlettes kandidatliste={kandidatliste} />
                 </div>
             </Popover>
         </div>

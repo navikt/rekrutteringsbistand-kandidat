@@ -1,38 +1,24 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../Kandidatlisteoversikt';
-import { FeilmeldingIMeny } from './KandidatlisterRad';
-import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
 
 type Props = {
     kandidatliste: Kandidatliste;
     markerSomMinModal: (kandidatliste: Kandidatliste) => void;
     slettKandidatliste: () => void;
-    setFeilmelding: (feilmeldingIMeny: FeilmeldingIMeny) => void;
+    toggleDisabledMarkerSomMinAnker: (e: MouseEvent<HTMLElement>) => void;
+    toggleDisabledSlettknappAnker: (e: MouseEvent<HTMLElement>) => void;
 };
 
 export const KandidatlisterDropdown: FunctionComponent<Props> = ({
     kandidatliste,
     markerSomMinModal,
     slettKandidatliste,
-    setFeilmelding,
+    toggleDisabledMarkerSomMinAnker,
+    toggleDisabledSlettknappAnker,
 }) => {
     const onMarkerClick = () => {
         markerSomMinModal(kandidatliste);
-    };
-
-    const onDeaktivertMarkerSomMinClick = (event: MouseEvent<HTMLElement>) => {
-        setFeilmelding({
-            anker: event.currentTarget,
-            feilmelding: 'Du eier allerede kandidatlisten',
-        });
-    };
-
-    const onDeaktivertSlettClick = (event: MouseEvent<HTMLElement>) => {
-        setFeilmelding({
-            anker: event.currentTarget,
-            feilmelding: <ÅrsakTilAtListenIkkeKanSlettes kandidatliste={kandidatliste} />,
-        });
     };
 
     return (
@@ -41,7 +27,7 @@ export const KandidatlisterDropdown: FunctionComponent<Props> = ({
                 <div
                     id="kandidatliste-meny-kan-ikke-markere-som-min"
                     className="kandidatlister-rad__dropdown-valg"
-                    onClick={onDeaktivertMarkerSomMinClick}
+                    onClick={toggleDisabledMarkerSomMinAnker}
                 >
                     Marker som min
                 </div>
@@ -61,7 +47,7 @@ export const KandidatlisterDropdown: FunctionComponent<Props> = ({
                 <div
                     className="kandidatlister-rad__dropdown-valg"
                     id="kandidatliste-meny-kan-ikke-slette"
-                    onClick={onDeaktivertSlettClick}
+                    onClick={toggleDisabledSlettknappAnker}
                 >
                     Slett
                 </div>
