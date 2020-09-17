@@ -107,8 +107,8 @@ export type OpprettetAv = {
 };
 
 export enum Kandidatlistestatus {
-    Pågår = 'PAGAR',
-    Avsluttet = 'AVSLUTTET',
+    Åpen = 'ÅPEN',
+    Lukket = 'LUKKET',
 }
 
 export type Kandidatliste = {

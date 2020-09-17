@@ -82,6 +82,7 @@ export interface KandidatlisteState {
     søkPåusynligKandidat: Nettressurs<Navn[]>;
     formidlingAvUsynligKandidat: Nettressurs<FormidlingAvUsynligKandidatOutboundDto>;
     endreFormidlingsutfallForUsynligKandidat: Record<FormidlingId, Nettressurs<FormidlingId>>;
+    endreKandidatlistestatus: Nettstatus;
 }
 
 const initialState: KandidatlisteState = {
@@ -122,6 +123,7 @@ const initialState: KandidatlisteState = {
     søkPåusynligKandidat: IkkeLastet(),
     formidlingAvUsynligKandidat: IkkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
+    endreKandidatlistestatus: Nettstatus.IkkeLastet,
 };
 
 const initialKandidattilstand = (): Kandidattilstand => ({
@@ -458,7 +460,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     lagreStatus: LAGRE_STATUS.FAILURE,
                 },
             };
-        
+
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET:
             return {
                 ...state,
@@ -467,8 +469,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     antallLagredeKandidater: 0,
                     lagretListe: {},
                 },
-
-            }
+            };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:
             return {
                 ...state,
@@ -728,6 +729,19 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                         visningsstatus: action.visningsstatus,
                     },
                 },
+            };
+
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS:
+            return {
+                ...state,
+                endreKandidatlistestatus: Nettstatus.SenderInn,
+            };
+
+        case KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS:
+            return {
+                ...state,
+                endreKandidatlistestatus: Nettstatus.Suksess,
+                kandidatliste: Suksess(action.kandidatliste),
             };
 
         default:

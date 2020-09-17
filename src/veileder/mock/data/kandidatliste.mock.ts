@@ -82,7 +82,7 @@ const baseKandidatliste: Omit<
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
     kanSlette: KanSletteEnum.KAN_SLETTES,
-    status: Kandidatlistestatus.Pågår,
+    status: Kandidatlistestatus.Åpen,
 };
 
 const fraCvTilKandidat = (cv: Cv): Kandidat => ({

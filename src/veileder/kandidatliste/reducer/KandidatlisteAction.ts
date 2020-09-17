@@ -1,4 +1,4 @@
-import { Kandidatstatus } from './../kandidatlistetyper';
+import { Kandidatstatus, Kandidatlistestatus } from './../kandidatlistetyper';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
@@ -186,6 +186,22 @@ export interface EndreUtfallKandidatSuccessAction {
 
 export interface EndreUtfallKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
+}
+
+export interface EndreKandidatlistestatusAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS;
+    kandidatlisteId: string;
+    status: Kandidatlistestatus;
+}
+
+export interface EndreKandidatlistestatusSuccessAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS;
+    kandidatliste: Kandidatliste;
+}
+
+export interface EndreKandidatlistestatusFailureAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_FAILURE;
+    error: SearchApiError;
 }
 
 export interface EndreFormidlingsutfallForUsynligKandidatAction {
@@ -514,6 +530,9 @@ type KandidatlisteAction =
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
-    | LeggTilKandidaterResetAction;
+    | LeggTilKandidaterResetAction
+    | EndreKandidatlistestatusAction
+    | EndreKandidatlistestatusSuccessAction
+    | EndreKandidatlistestatusFailureAction;
 
 export default KandidatlisteAction;

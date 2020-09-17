@@ -57,6 +57,7 @@ const url = {
     søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
+    putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -192,6 +193,20 @@ const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     };
 };
 
+const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+    const kandidatlisteId = url.split('/').reverse()[1];
+    const status = JSON.parse(String(options.body)).status;
+    const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+
+    return {
+        body: {
+            ...kandidatliste,
+            status,
+        },
+        status: 200,
+    };
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -238,6 +253,7 @@ fetchMock
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
+    .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
 
     // Misc
     .get(url.toggles, log(featureToggles))

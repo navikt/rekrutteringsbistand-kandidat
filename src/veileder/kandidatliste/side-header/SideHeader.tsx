@@ -100,12 +100,10 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                     <Kandidatlistestatus
                         status={kandidatliste.status}
                         erKnyttetTilStilling={kandidatliste.stillingId !== null}
-                        onEndreStatus={() => {
-                            console.log('TODO: Endre status');
-                        }}
                         kanEditere={kandidatliste.kanEditere}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
                         antallStillinger={0} // TODO: Hent dette fra stillingen.
+                        kandidatlisteId={kandidatliste.kandidatlisteId}
                     />
                 )}
             </div>

@@ -1,15 +1,20 @@
 import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import { useDispatch, useSelector } from 'react-redux';
 import Panel from 'nav-frontend-paneler';
 
 import { Kandidatlistestatus as Status } from '../../kandidatlistetyper';
 import ÅpenHengelås from './ÅpenHengelås';
 import LåstHengelås from './LåstHengelås';
+import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import './Kandidatlistestatus.less';
+import AppState from '../../../AppState';
+import { Nettstatus } from '../../../../felles/common/remoteData';
+import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 
-const hentTittel = (rekrutteringsstatus: Status) => {
-    return rekrutteringsstatus === Status.Pågår ? `Åpen` : `Avsluttet`;
+const kandidatlistestatusToDisplayName = (status: Status) => {
+    return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
 type Props = {
@@ -17,27 +22,38 @@ type Props = {
     kanEditere: boolean;
     besatteStillinger: number;
     antallStillinger: number;
-    onEndreStatus: () => void;
     erKnyttetTilStilling: boolean;
+    kandidatlisteId: string;
 };
 
-const Kandidatlistestatus: FunctionComponent<Props> = (props) => {
-    const {
-        status,
-        kanEditere,
-        besatteStillinger,
-        antallStillinger,
-        onEndreStatus,
-        erKnyttetTilStilling,
-    } = props;
+const Kandidatlistestatus: FunctionComponent<Props> = ({
+    status,
+    kanEditere,
+    besatteStillinger,
+    antallStillinger,
+    erKnyttetTilStilling,
+    kandidatlisteId,
+}) => {
+    const dispatch = useDispatch();
+    const endreStatusNettstatus = useSelector(
+        (state: AppState) => state.kandidatliste.endreKandidatlistestatus
+    );
+
+    const onEndreStatusClick = () => {
+        dispatch<KandidatlisteAction>({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            kandidatlisteId: kandidatlisteId,
+            status: status === Status.Åpen ? Status.Lukket : Status.Åpen,
+        });
+    };
 
     return (
         <Panel border className="side-header__kandidatlistestatus kandidatlistestatus">
             <div className="kandidatlistestatus__ikon">
-                {status === Status.Pågår ? <ÅpenHengelås /> : <LåstHengelås />}
+                {status === Status.Åpen ? <ÅpenHengelås /> : <LåstHengelås />}
             </div>
             <div className="kandidatlistestatus__informasjon">
-                <Element>{hentTittel(status)}</Element>
+                <Element>{kandidatlistestatusToDisplayName(status)}</Element>
                 {erKnyttetTilStilling && (
                     <Normaltekst>
                         {besatteStillinger} av {antallStillinger} stilling
@@ -46,8 +62,12 @@ const Kandidatlistestatus: FunctionComponent<Props> = (props) => {
                 )}
             </div>
             {kanEditere && (
-                <Knapp mini onClick={onEndreStatus}>
-                    {status === Status.Pågår ? 'Avslutt' : 'Gjenåpne'}
+                <Knapp
+                    mini
+                    disabled={endreStatusNettstatus === Nettstatus.SenderInn}
+                    onClick={onEndreStatusClick}
+                >
+                    {status === Status.Åpen ? 'Avslutt' : 'Gjenåpne'}
                 </Knapp>
             )}
         </Panel>
