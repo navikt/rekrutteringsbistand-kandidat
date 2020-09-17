@@ -143,8 +143,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const listenInneholderKandidater =
         props.kandidater.length > 0 || props.kandidatliste.formidlingerAvUsynligKandidat.length > 0;
 
-    const kanArkivereKandidater =
-        !props.filter.visArkiverte && props.kandidatliste.status === Kandidatlistestatus.Åpen;
+    const kandidatlistenErLukket = props.kandidatliste.status === Kandidatlistestatus.Lukket;
+    const kanArkivereKandidater = !props.filter.visArkiverte && !kandidatlistenErLukket;
 
     return (
         <div className="kandidatliste">
@@ -199,10 +199,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
-                                        kandidatlistenErLukket={
-                                            props.kandidatliste.status ===
-                                            Kandidatlistestatus.Lukket
-                                        }
+                                        kandidatlistenErLukket={kandidatlistenErLukket}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
                                         onUtfallChange={
