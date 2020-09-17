@@ -1,4 +1,4 @@
-import meg from './meg.mock';
+import { meg } from './veiledere.mock';
 
 const dekoratør = {
     ident: meg.ident,

@@ -18,8 +18,8 @@ import cver from './data/cv.mock';
 import {
     kandidatliste,
     kandidatlister,
-    hentMocketKandidat,
-    hentMocketUsynligKandidat,
+    mockKandidat,
+    mockUsynligKandidat,
 } from './data/kandidatliste.mock';
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
 import { featureToggles } from './data/feature-toggles.mock';
@@ -83,7 +83,7 @@ const getCv = (url: string) => {
     }
 };
 
-const getUsynligKandidat = () => [hentMocketUsynligKandidat(7)];
+const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
 const getKandidatlister = () => ({
     antall: kandidatlister.length,
@@ -105,7 +105,7 @@ const postKandidater = (url: string) => {
 
     return {
         ...kandidatliste,
-        kandidater: [...kandidatliste.kandidater, hentMocketKandidat(4)],
+        kandidater: [...kandidatliste.kandidater, mockKandidat(4)],
     };
 };
 
