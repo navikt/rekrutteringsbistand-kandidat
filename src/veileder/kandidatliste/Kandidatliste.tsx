@@ -7,6 +7,7 @@ import {
     Kandidatlistefilter,
     FormidlingAvUsynligKandidat,
     Kandidatstatus,
+    Kandidatlistestatus,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -142,6 +143,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const listenInneholderKandidater =
         props.kandidater.length > 0 || props.kandidatliste.formidlingerAvUsynligKandidat.length > 0;
 
+    const kanArkivereKandidater =
+        !props.filter.visArkiverte && props.kandidatliste.status === Kandidatlistestatus.Åpen;
+
     return (
         <div className="kandidatliste">
             <SideHeader kandidater={props.kandidater} kandidatliste={props.kandidatliste} />
@@ -158,16 +162,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 <SmsFeilAlertStripe kandidater={props.kandidater} />
                             )}
                             <KnappeRad
-                                arbeidsgiver={props.kandidatliste.organisasjonNavn}
-                                kanEditere={props.kandidatliste.kanEditere}
                                 kandidater={props.kandidater}
+                                kandidatliste={props.kandidatliste}
                                 onEmailKandidater={props.onEmailKandidater}
                                 onSendSmsClick={props.onSendSmsClick}
                                 onKandidatShare={props.onKandidatShare}
                                 onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
-                                kandidatlisteId={props.kandidatliste.kandidatlisteId}
                                 onLeggTilKandidat={props.onLeggTilKandidat}
-                                stillingsId={props.kandidatliste.stillingId}
                                 visArkiverte={props.filter.visArkiverte}
                             >
                                 <Navnefilter
@@ -193,11 +194,15 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
                                 stillingsId={props.kandidatliste.stillingId}
-                                visArkiveringskolonne={!props.filter.visArkiverte}
+                                visArkiveringskolonne={kanArkivereKandidater}
                             />
                             {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
+                                        kandidatlistenErLukket={
+                                            props.kandidatliste.status ===
+                                            Kandidatlistestatus.Lukket
+                                        }
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
                                         onUtfallChange={
@@ -211,15 +216,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                     <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
-                                        kanEditere={props.kandidatliste.kanEditere}
-                                        stillingsId={props.kandidatliste.stillingId}
-                                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                                        kandidatliste={props.kandidatliste}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
                                         onKandidatUtfallChange={props.onKandidatUtfallChange}
                                         onToggleKandidat={props.onToggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         toggleArkivert={props.onToggleArkivert}
-                                        visArkiveringskolonne={!props.filter.visArkiverte}
+                                        visArkiveringskolonne={kanArkivereKandidater}
                                     />
                                 ))
                             ) : (

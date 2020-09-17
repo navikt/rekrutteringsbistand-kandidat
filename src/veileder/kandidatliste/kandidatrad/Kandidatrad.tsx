@@ -6,7 +6,7 @@ import moment from 'moment';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../application/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
@@ -27,10 +27,8 @@ import './Kandidatrad.less';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
-    kandidatlisteId: string;
-    stillingsId: string | null;
+    kandidatliste: Kandidatliste;
     toggleArkivert: any;
-    kanEditere: boolean;
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
@@ -50,12 +48,10 @@ type Props = {
 
 const Kandidatrad: FunctionComponent<Props> = ({
     kandidat,
-    kandidatlisteId,
-    stillingsId,
+    kandidatliste,
     toggleArkivert,
     onToggleKandidat,
     onVisningChange,
-    kanEditere,
     onKandidatStatusChange,
     onKandidatUtfallChange,
     visArkiveringskolonne,
@@ -70,12 +66,12 @@ const Kandidatrad: FunctionComponent<Props> = ({
         const erSistValgteKandidat =
             sistValgteKandidat &&
             sistValgteKandidat.kandidatnr === kandidat.kandidatnr &&
-            sistValgteKandidat.kandidatlisteId === kandidatlisteId;
+            sistValgteKandidat.kandidatlisteId === kandidatliste.kandidatlisteId;
 
         if (erSistValgteKandidat) {
             kandidatRadRef?.current?.focus();
         }
-    }, [sistValgteKandidat, kandidat.kandidatnr, kandidatlisteId, kandidatRadRef]);
+    }, [sistValgteKandidat, kandidat.kandidatnr, kandidatliste.kandidatlisteId, kandidatRadRef]);
 
     const antallNotater =
         kandidat.notater.kind === Nettstatus.Suksess
@@ -105,7 +101,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const onOpprettNotat = (tekst: string) => {
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.OPPRETT_NOTAT,
-            kandidatlisteId,
+            kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             tekst,
         });
@@ -114,7 +110,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const onEndreNotat = (notatId: string, tekst: string) => {
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.ENDRE_NOTAT,
-            kandidatlisteId,
+            kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             notatId,
             tekst,
@@ -124,14 +120,14 @@ const Kandidatrad: FunctionComponent<Props> = ({
     const onSlettNotat = (notatId: string) => {
         dispatch({
             type: KandidatlisteActionType.SLETT_NOTAT,
-            kandidatlisteId,
+            kandidatlisteId: kandidatliste.kandidatlisteId,
             kandidatnr: kandidat.kandidatnr,
             notatId,
         });
     };
 
     const onToggleArkivert = () => {
-        toggleArkivert(kandidatlisteId, kandidat.kandidatnr, true);
+        toggleArkivert(kandidatliste.kandidatlisteId, kandidat.kandidatnr, true);
     };
 
     const fornavn = kandidat.fornavn ? capitalizeFirstLetter(kandidat.fornavn) : '';
@@ -139,11 +135,13 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
-    const klassenavn = `kandidatliste-kandidat ${
-        kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''
-    }`;
+    const klassenavn = `kandidatliste-kandidat${
+        kandidatliste.status === Kandidatlistestatus.Lukket
+            ? ' kandidatliste-kandidat--disabled'
+            : ''
+    } ${kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
     return (
         <div tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
@@ -174,7 +172,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Link
                         title="Vis profil"
                         className="lenke"
-                        to={lenkeTilCv(kandidat.kandidatnr, kandidatlisteId, true)}
+                        to={lenkeTilCv(kandidat.kandidatnr, kandidatliste.kandidatlisteId, true)}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>
@@ -195,18 +193,28 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
                 {visArkiveringskolonne ? (
                     <StatusSelect
-                        kanEditere={kanEditere}
+                        kanEditere={
+                            kandidatliste.status === Kandidatlistestatus.Åpen &&
+                            kandidatliste.kanEditere
+                        }
                         value={kandidat.status}
                         onChange={(status) => {
-                            onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
+                            onKandidatStatusChange(
+                                status,
+                                kandidatliste.kandidatlisteId,
+                                kandidat.kandidatnr
+                            );
                         }}
                     />
                 ) : (
                     <Statusvisning status={kandidat.status} />
                 )}
-                {stillingsId && (
+                {kandidatliste.stillingId && (
                     <UtfallSelect
-                        kanEndreUtfall={kanEditere}
+                        kanEndreUtfall={
+                            kandidatliste.status === Kandidatlistestatus.Åpen &&
+                            kandidatliste.kanEditere
+                        }
                         value={kandidat.utfall as Utfall}
                         onChange={(utfall: Utfall, visModal: boolean) =>
                             onKandidatUtfallChange(utfall, kandidat, visModal)

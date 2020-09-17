@@ -1,23 +1,20 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatliste } from '../kandidatlistetyper';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
+    kandidatliste: Kandidatliste;
     onKandidatShare: () => void;
     onEmailKandidater: () => void;
     onLeggTilKandidat: () => void;
     onSendSmsClick: () => void;
     onKandidaterAngreArkivering: () => void;
-    kanEditere: boolean;
-    arbeidsgiver?: string;
-    kandidatlisteId: string;
-    stillingsId: string | null;
-    children: ReactNode;
     visArkiverte: boolean;
+    children: ReactNode;
 };
 
 const SmsKnapp: FunctionComponent = () => (
@@ -50,17 +47,15 @@ const Sletteknapp: FunctionComponent = () => (
 
 const KnappeRad: FunctionComponent<Props> = ({
     kandidater,
+    kandidatliste,
     onKandidatShare,
     onEmailKandidater,
     onSendSmsClick,
     onKandidaterAngreArkivering,
-    kanEditere,
-    arbeidsgiver,
     children,
-    stillingsId,
     visArkiverte,
 }) => {
-    const skalViseSendSms = kanEditere && stillingsId && !visArkiverte;
+    const skalViseSendSms = kandidatliste.kanEditere && kandidatliste.stillingId && !visArkiverte;
 
     const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
     const minstEnKandidatErMarkert = markerteKandidater.length > 0;
@@ -110,9 +105,9 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </Lenkeknapp>
                         </MedPopover>
                     ))}
-                {kanEditere &&
+                {kandidatliste.kanEditere &&
                     !visArkiverte &&
-                    arbeidsgiver &&
+                    kandidatliste.organisasjonNavn &&
                     (minstEnKandidatErMarkert ? (
                         <Lenkeknapp
                             onClick={onKandidatShare}
