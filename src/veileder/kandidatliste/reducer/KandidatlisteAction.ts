@@ -1,3 +1,4 @@
+import { Kandidatstatus } from './../kandidatlistetyper';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
@@ -7,7 +8,6 @@ import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import { SearchApiError } from './../../../felles/api';
-import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Visningsstatus } from './../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
@@ -157,7 +157,7 @@ export interface FormidleUsynligKandidatFailureAction {
 
 export interface EndreStatusKandidatAction {
     type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT;
-    status: Status;
+    status: Kandidatstatus;
     kandidatlisteId: string;
     kandidatnr: string;
 }

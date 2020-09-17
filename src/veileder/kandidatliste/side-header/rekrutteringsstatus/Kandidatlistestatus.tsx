@@ -1,32 +1,27 @@
 import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import Panel from 'nav-frontend-paneler';
+
+import { Kandidatlistestatus as Status } from '../../kandidatlistetyper';
 import ÅpenHengelås from './ÅpenHengelås';
 import LåstHengelås from './LåstHengelås';
-import Panel from 'nav-frontend-paneler';
-import './Rekrutteringsstatus.less';
+import './Kandidatlistestatus.less';
 
-export enum Status {
-    Pågår = 'PAGAR',
-    Avsluttet = 'AVSLUTTET',
-}
-
-const hentTittel = (rekrutteringsstatus: Status, erKnyttetTilStilling: boolean) => {
-    const begrep = erKnyttetTilStilling ? 'Rekruttering' : 'Oppdraget';
-
-    return rekrutteringsstatus === Status.Pågår ? `${begrep} pågår` : `${begrep} avsluttet`;
+const hentTittel = (rekrutteringsstatus: Status) => {
+    return rekrutteringsstatus === Status.Pågår ? `Åpen` : `Avsluttet`;
 };
 
-interface Props {
+type Props = {
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
     antallStillinger: number;
     onEndreStatus: () => void;
     erKnyttetTilStilling: boolean;
-}
+};
 
-const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
+const Kandidatlistestatus: FunctionComponent<Props> = (props) => {
     const {
         status,
         kanEditere,
@@ -37,12 +32,12 @@ const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
     } = props;
 
     return (
-        <Panel border className="rekrutteringsstatus">
-            <div className="rekrutteringsstatus__ikon">
+        <Panel border className="side-header__kandidatlistestatus kandidatlistestatus">
+            <div className="kandidatlistestatus__ikon">
                 {status === Status.Pågår ? <ÅpenHengelås /> : <LåstHengelås />}
             </div>
-            <div className="rekrutteringsstatus__informasjon">
-                <Element>{hentTittel(status, erKnyttetTilStilling)}</Element>
+            <div className="kandidatlistestatus__informasjon">
+                <Element>{hentTittel(status)}</Element>
                 {erKnyttetTilStilling && (
                     <Normaltekst>
                         {besatteStillinger} av {antallStillinger} stilling
@@ -59,4 +54,4 @@ const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
     );
 };
 
-export default Rekrutteringsstatus;
+export default Kandidatlistestatus;

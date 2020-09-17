@@ -1,5 +1,3 @@
-import { Status as Kandidatlistestatus } from './side-header/rekrutteringsstatus/Rekrutteringsstatus';
-import { Status as Kandidatstatus } from './kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
@@ -41,11 +39,19 @@ export interface Sms {
     status: SmsStatus;
 }
 
+export enum Kandidatstatus {
+    Vurderes = 'VURDERES',
+    Kontaktet = 'KONTAKTET',
+    Aktuell = 'AKTUELL',
+    Uaktuell = 'UAKTUELL',
+    Uinteressert = 'UINTERESSERT',
+}
+
 export interface Kandidat {
     kandidatId: string;
     kandidatnr: string;
     sisteArbeidserfaring: string;
-    status: string;
+    status: Kandidatstatus;
     lagtTilTidspunkt: string;
     lagtTilAv: {
         ident: string;
@@ -99,6 +105,11 @@ export type OpprettetAv = {
     ident: string;
     navn: string;
 };
+
+export enum Kandidatlistestatus {
+    Pågår = 'PAGAR',
+    Avsluttet = 'AVSLUTTET',
+}
 
 export type Kandidatliste = {
     kandidatlisteId: string;

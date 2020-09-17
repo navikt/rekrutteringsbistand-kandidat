@@ -6,9 +6,9 @@ import {
     KandidatIKandidatliste,
     Kandidatlistefilter,
     FormidlingAvUsynligKandidat,
+    Kandidatstatus,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import Filter from './filter/Filter';
@@ -101,7 +101,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
         props.onFjernAllMarkering();
     };
 
-    const onToggleStatus = (status: Status) => {
+    const onToggleStatus = (status: Kandidatstatus) => {
         setFilterIUrl({
             ...props.filter,
             status: {

@@ -1,38 +1,31 @@
 import React, { FunctionComponent } from 'react';
 import { Menu, MenuList, MenuButton, MenuItem } from '@reach/menu-button';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Kandidatstatus } from '../../kandidatlistetyper';
 import '@reach/menu-button/styles.css';
 import './StatusSelect.less';
 
-export enum Status {
-    Vurderes = 'VURDERES',
-    Kontaktet = 'KONTAKTET',
-    Aktuell = 'AKTUELL',
-    Uaktuell = 'UAKTUELL',
-    Uinteressert = 'UINTERESSERT',
-}
-
-export const statusToDisplayName = (status: Status) => {
+export const statusToDisplayName = (status: Kandidatstatus) => {
     switch (status) {
-        case Status.Vurderes:
+        case Kandidatstatus.Vurderes:
             return 'Vurderes';
-        case Status.Kontaktet:
+        case Kandidatstatus.Kontaktet:
             return 'Kontaktet';
-        case Status.Aktuell:
+        case Kandidatstatus.Aktuell:
             return 'Aktuell';
-        case Status.Uaktuell:
+        case Kandidatstatus.Uaktuell:
             return 'Ikke aktuell';
-        case Status.Uinteressert:
+        case Kandidatstatus.Uinteressert:
             return 'Ikke interessert';
     }
 };
 
-const statusToClassname = (status: Status) => status.toLowerCase();
+const statusToClassname = (status: Kandidatstatus) => status.toLowerCase();
 
 interface Props {
     kanEditere: boolean;
-    value: Status;
-    onChange: (status: Status) => void;
+    value: Kandidatstatus;
+    onChange: (status: Kandidatstatus) => void;
 }
 
 const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange }) => {
@@ -44,7 +37,7 @@ const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange })
         );
     }
 
-    const statuserIDropdown = Object.keys(Status);
+    const statuserIDropdown = Object.keys(Kandidatstatus);
 
     return (
         <div className="StatusSelect StatusSelect__dropdown skjemaelement">
@@ -56,11 +49,11 @@ const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange })
                     {statuserIDropdown.map((status) => (
                         <MenuItem
                             key={status}
-                            onSelect={() => onChange(Status[status])}
+                            onSelect={() => onChange(Kandidatstatus[status])}
                             className="StatusSelect__menuItem"
-                            aria-selected={Status[status] === value}
+                            aria-selected={Kandidatstatus[status] === value}
                         >
-                            <Statusvisning status={Status[status]} />
+                            <Statusvisning status={Kandidatstatus[status]} />
                         </MenuItem>
                     ))}
                 </MenuList>
@@ -70,7 +63,7 @@ const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange })
 };
 
 interface StatusvisningProps {
-    status: Status;
+    status: Kandidatstatus;
 }
 
 export const Statusvisning: FunctionComponent<StatusvisningProps> = ({ status }) => (

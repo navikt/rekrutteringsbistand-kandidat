@@ -7,12 +7,12 @@ import {
     SmsStatus,
     KandidatIKandidatliste,
     FormidlingAvUsynligKandidat,
+    Kandidatstatus,
 } from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Kandidatlistefilter } from './kandidatlistetyper';
 import { Nettstatus, Nettressurs } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
@@ -521,7 +521,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
-    endreStatusKandidat: (status: Status, kandidatlisteId: string, kandidatnr: string) => {
+    endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
             type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,

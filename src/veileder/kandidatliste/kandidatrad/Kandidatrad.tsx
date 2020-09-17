@@ -20,7 +20,7 @@ import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MerInfo from './mer-info/MerInfo';
 import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
-import StatusSelect, { Status, Statusvisning } from './statusSelect/StatusSelect';
+import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
 import './Kandidatrad.less';
@@ -196,13 +196,13 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 {visArkiveringskolonne ? (
                     <StatusSelect
                         kanEditere={kanEditere}
-                        value={kandidat.status as Status}
+                        value={kandidat.status}
                         onChange={(status) => {
                             onKandidatStatusChange(status, kandidatlisteId, kandidat.kandidatnr);
                         }}
                     />
                 ) : (
-                    <Statusvisning status={kandidat.status as Status} />
+                    <Statusvisning status={kandidat.status} />
                 )}
                 {stillingsId && (
                     <UtfallSelect

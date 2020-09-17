@@ -7,14 +7,11 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilStilling } from '../../application/paths';
-import { KandidatIKandidatliste, Kandidatliste } from '../kandidatlistetyper';
-import { Status as Kandidatstatus } from '../kandidatrad/statusSelect/StatusSelect';
+import { KandidatIKandidatliste, Kandidatliste, Kandidatstatus } from '../kandidatlistetyper';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../../AppState';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import Rekrutteringsstatus, {
-    Status as RekStatus,
-} from './rekrutteringsstatus/Rekrutteringsstatus';
+import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
 
 type Props = {
@@ -100,7 +97,8 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                     )}
                 </div>
                 {visRekrutteringsstatus && (
-                    <Rekrutteringsstatus
+                    <Kandidatlistestatus
+                        status={kandidatliste.status}
                         erKnyttetTilStilling={kandidatliste.stillingId !== null}
                         onEndreStatus={() => {
                             console.log('TODO: Endre status');
@@ -108,7 +106,6 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         kanEditere={kandidatliste.kanEditere}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
                         antallStillinger={0} // TODO: Hent dette fra stillingen.
-                        status={RekStatus.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus
                     />
                 )}
             </div>

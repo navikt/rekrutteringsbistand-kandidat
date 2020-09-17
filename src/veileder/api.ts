@@ -1,4 +1,4 @@
-import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Kandidatstatus } from './kandidatliste/kandidatlistetyper';
 /* eslint-disable no-underscore-dangle */
 
 import {
@@ -95,7 +95,7 @@ export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
 export const putStatusKandidat = (
-    status: Status,
+    status: Kandidatstatus,
     kandidatlisteId: string,
     kandidatnr: string
 ): Promise<Kandidatliste> =>

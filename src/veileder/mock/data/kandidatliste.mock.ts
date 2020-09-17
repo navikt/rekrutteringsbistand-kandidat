@@ -1,6 +1,6 @@
-import { Status as Kandidatlistestatus } from './../../kandidatliste/side-header/rekrutteringsstatus/Rekrutteringsstatus';
-import { Status as Kandidatstatus } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import {
+    Kandidatstatus,
+    Kandidatlistestatus,
     Kandidatliste,
     Kandidat,
     FormidlingAvUsynligKandidat,
@@ -139,8 +139,16 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     ...baseKandidatliste,
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
-    kandidater: [],
-    formidlingerAvUsynligKandidat: [],
+    kandidater: [
+        { ...fraCvTilKandidat(cver[0]), status: Kandidatstatus.Aktuell },
+        fraCvTilKandidat(cver[2]),
+        fraCvTilKandidat(cver[3]),
+        fraCvTilKandidat(cver[6]),
+        fraCvTilKandidat(cver[1]),
+        fraCvTilKandidat(cver[9]),
+        fraCvTilKandidat(cver[15]),
+    ],
+    formidlingerAvUsynligKandidat: [hentMocketUsynligKandidat(7)],
 }));
 
 export const kandidatliste = kandidatlister[0];

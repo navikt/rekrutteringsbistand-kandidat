@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
@@ -10,14 +9,15 @@ import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
 import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import './Filter.less';
+import { Kandidatstatus } from '../kandidatlistetyper';
 
 interface Props {
     antallTreff: AntallFiltertreff;
     visArkiverte: boolean;
-    statusfilter: Record<Status, boolean>;
+    statusfilter: Record<Kandidatstatus, boolean>;
     utfallsfilter?: Record<Utfall, boolean>;
     onToggleArkiverte: () => void;
-    onToggleStatus: (status: Status) => void;
+    onToggleStatus: (status: Kandidatstatus) => void;
     onToggleUtfall: (utfall: Utfall) => void;
 }
 
@@ -32,7 +32,7 @@ const Filter: FunctionComponent<Props> = ({
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
 
-    const statuscheckbokser = Object.values(Status).map((status) => (
+    const statuscheckbokser = Object.values(Kandidatstatus).map((status) => (
         <Checkbox
             key={status}
             value={status}
@@ -40,7 +40,7 @@ const Filter: FunctionComponent<Props> = ({
             checked={statusfilter[status]}
             name="statusfilter"
             className="kandidatliste-filter__checkbox"
-            onChange={(e) => onToggleStatus(e.currentTarget.value as Status)}
+            onChange={(e) => onToggleStatus(e.currentTarget.value as Kandidatstatus)}
         />
     ));
 
