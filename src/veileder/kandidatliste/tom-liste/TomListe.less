@@ -20,9 +20,10 @@
     &__knapper {
         display: flex;
         justify-content: center;
+        align-items: center;
 
-        .legg-til-kandidat {
-            margin-left: 1rem;
+        & > *:not(:last-child) {
+            margin-right: 1rem;
         }
     }
 }

@@ -2,8 +2,8 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
+    Kandidatliste as Kandidatlistetype,
     KandidatIKandidatliste,
-    OpprettetAv,
     Kandidatlistefilter,
     FormidlingAvUsynligKandidat,
 } from './kandidatlistetyper';
@@ -26,8 +26,8 @@ import SmsFeilAlertStripe from './smsFeilAlertStripe/SmsFeilAlertStripe';
 import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
-import '../../felles/common/ikoner/ikoner.less';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
+import '../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -37,17 +37,12 @@ export enum Visningsstatus {
 
 type Props = {
     kandidater: KandidatIKandidatliste[];
-    formidlingerAvUsynligKandidat: FormidlingAvUsynligKandidat[];
+    kandidatliste: Kandidatlistetype;
+
     filter: Kandidatlistefilter;
-    arbeidsgiver?: string;
-    stillingsId: string | null;
-    tittel: string;
-    opprettetAv: OpprettetAv;
-    kandidatlisteId: string;
-    kanEditere: boolean;
-    toggleMarkert: (kandidatnr: string) => void;
-    fjernAllMarkering: () => void;
-    markerKandidater: (kandidatnumre: string[]) => void;
+    onToggleMarkert: (kandidatnr: string) => void;
+    onFjernAllMarkering: () => void;
+    onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     onKandidatUtfallChange: (
         utfall: Utfall,
@@ -65,8 +60,7 @@ type Props = {
     onSendSmsClick: any;
     onLeggTilKandidat: any;
     onVisningChange: any;
-    toggleArkivert: any;
-    beskrivelse?: string;
+    onToggleArkivert: any;
 };
 
 const Kandidatliste: FunctionComponent<Props> = (props) => {
@@ -104,7 +98,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             visArkiverte: !props.filter.visArkiverte,
         });
 
-        props.fjernAllMarkering();
+        props.onFjernAllMarkering();
     };
 
     const onToggleStatus = (status: Status) => {
@@ -139,49 +133,41 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
     const onCheckAlleKandidater = () => {
         if (alleFiltrerteErMarkerte) {
-            props.fjernAllMarkering();
+            props.onFjernAllMarkering();
         } else {
-            props.markerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
+            props.onMarkerKandidater(filtrerteKandidater.map((k) => k.kandidatnr));
         }
     };
 
     const listenInneholderKandidater =
-        props.kandidater.length > 0 || props.formidlingerAvUsynligKandidat.length > 0;
+        props.kandidater.length > 0 || props.kandidatliste.formidlingerAvUsynligKandidat.length > 0;
 
     return (
         <div className="kandidatliste">
-            <SideHeader
-                kandidater={props.kandidater}
-                opprettetAv={props.opprettetAv}
-                stillingsId={props.stillingsId}
-                tittel={props.tittel}
-                erEierAvListen={props.kanEditere}
-                arbeidsgiver={props.arbeidsgiver}
-                beskrivelse={props.beskrivelse}
-            />
+            <SideHeader kandidater={props.kandidater} kandidatliste={props.kandidatliste} />
             {listenInneholderKandidater ? (
                 <>
                     <Meny
-                        kandidatlisteId={props.kandidatlisteId}
-                        stillingsId={props.stillingsId}
+                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                        stillingId={props.kandidatliste.stillingId}
                         onLeggTilKandidat={props.onLeggTilKandidat}
                     />
                     <div className="kandidatliste__grid">
                         <div className="kandidatliste__knapperad-container">
-                            {props.kanEditere && (
+                            {props.kandidatliste.kanEditere && (
                                 <SmsFeilAlertStripe kandidater={props.kandidater} />
                             )}
                             <KnappeRad
-                                arbeidsgiver={props.arbeidsgiver}
-                                kanEditere={props.kanEditere}
+                                arbeidsgiver={props.kandidatliste.organisasjonNavn}
+                                kanEditere={props.kandidatliste.kanEditere}
                                 kandidater={props.kandidater}
                                 onEmailKandidater={props.onEmailKandidater}
                                 onSendSmsClick={props.onSendSmsClick}
                                 onKandidatShare={props.onKandidatShare}
                                 onKandidaterAngreArkivering={props.onKandidaterAngreArkivering}
-                                kandidatlisteId={props.kandidatlisteId}
+                                kandidatlisteId={props.kandidatliste.kandidatlisteId}
                                 onLeggTilKandidat={props.onLeggTilKandidat}
-                                stillingsId={props.stillingsId}
+                                stillingsId={props.kandidatliste.stillingId}
                                 visArkiverte={props.filter.visArkiverte}
                             >
                                 <Navnefilter
@@ -195,7 +181,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             antallTreff={antallFiltertreff}
                             visArkiverte={props.filter.visArkiverte}
                             statusfilter={props.filter.status}
-                            utfallsfilter={props.stillingsId ? props.filter.utfall : undefined}
+                            utfallsfilter={
+                                props.kandidatliste.stillingId ? props.filter.utfall : undefined
+                            }
                             onToggleArkiverte={toggleVisArkiverteOgFjernMarkering}
                             onToggleStatus={onToggleStatus}
                             onToggleUtfall={onToggleUtfall}
@@ -204,10 +192,10 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             <ListeHeader
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
-                                stillingsId={props.stillingsId}
+                                stillingsId={props.kandidatliste.stillingId}
                                 visArkiveringskolonne={!props.filter.visArkiverte}
                             />
-                            {props.formidlingerAvUsynligKandidat.map(
+                            {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
@@ -223,14 +211,14 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                     <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}
-                                        kanEditere={props.kanEditere}
-                                        stillingsId={props.stillingsId}
-                                        kandidatlisteId={props.kandidatlisteId}
+                                        kanEditere={props.kandidatliste.kanEditere}
+                                        stillingsId={props.kandidatliste.stillingId}
+                                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
                                         onKandidatUtfallChange={props.onKandidatUtfallChange}
-                                        onToggleKandidat={props.toggleMarkert}
+                                        onToggleKandidat={props.onToggleMarkert}
                                         onVisningChange={props.onVisningChange}
-                                        toggleArkivert={props.toggleArkivert}
+                                        toggleArkivert={props.onToggleArkivert}
                                         visArkiveringskolonne={!props.filter.visArkiverte}
                                     />
                                 ))
@@ -247,8 +235,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             ) : (
                 <TomListe>
                     <FinnKandidaterLenke
-                        kandidatlisteId={props.kandidatlisteId}
-                        stillingsId={props.stillingsId}
+                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                        stillingId={props.kandidatliste.stillingId}
                     />
                     <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
                 </TomListe>

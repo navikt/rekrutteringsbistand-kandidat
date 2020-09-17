@@ -19,7 +19,7 @@ const hentTittel = (rekrutteringsstatus: Status, erKnyttetTilStilling: boolean) 
 
 interface Props {
     status: Status;
-    erEierAvListen: boolean;
+    kanEditere: boolean;
     besatteStillinger: number;
     antallStillinger: number;
     onEndreStatus: () => void;
@@ -29,7 +29,7 @@ interface Props {
 const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
     const {
         status,
-        erEierAvListen,
+        kanEditere,
         besatteStillinger,
         antallStillinger,
         onEndreStatus,
@@ -50,7 +50,7 @@ const Rekrutteringsstatus: FunctionComponent<Props> = (props) => {
                     </Normaltekst>
                 )}
             </div>
-            {erEierAvListen && (
+            {kanEditere && (
                 <Knapp mini onClick={onEndreStatus}>
                     {status === Status.Pågår ? 'Avslutt' : 'Gjenåpne'}
                 </Knapp>

@@ -7,7 +7,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilStilling } from '../../application/paths';
-import { OpprettetAv, KandidatIKandidatliste } from '../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatliste } from '../kandidatlistetyper';
 import { Status as Kandidatstatus } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../../AppState';
@@ -18,13 +18,8 @@ import Rekrutteringsstatus, {
 import './SideHeader.less';
 
 type Props = {
-    tittel: string;
     kandidater: KandidatIKandidatliste[];
-    arbeidsgiver?: string;
-    opprettetAv: OpprettetAv;
-    stillingsId: string | null;
-    beskrivelse?: string;
-    erEierAvListen: boolean;
+    kandidatliste: Kandidatliste;
 };
 
 const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
@@ -32,15 +27,7 @@ const erAktuell = (k: KandidatIKandidatliste) => k.status === Kandidatstatus.Akt
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
 
-const SideHeader: FunctionComponent<Props> = ({
-    tittel,
-    kandidater,
-    arbeidsgiver,
-    opprettetAv,
-    stillingsId,
-    beskrivelse,
-    erEierAvListen,
-}) => {
+const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => {
     const visRekrutteringsstatus = useSelector(
         (state: AppState) => state.søk.featureToggles['vis-rekrutteringsstatus']
     );
@@ -54,7 +41,7 @@ const SideHeader: FunctionComponent<Props> = ({
     const oppsummeringTekst = `${
         kandidater.length
     } kandidater (${antallAktuelleKandidater} er aktuelle${
-        stillingsId ? ` / ${antallPresenterteKandidater} er presentert` : ''
+        kandidatliste.stillingId ? ` / ${antallPresenterteKandidater} er presentert` : ''
     })`;
 
     return (
@@ -68,25 +55,31 @@ const SideHeader: FunctionComponent<Props> = ({
                     />
                 </div>
                 <div className="side-header__informasjon">
-                    <Systemtittel className="side-header__tittel">{tittel}</Systemtittel>
+                    <Systemtittel className="side-header__tittel">
+                        {kandidatliste.tittel}
+                    </Systemtittel>
                     <Element className="side-header__antall-kandidater">
                         {oppsummeringTekst}
                     </Element>
                     <div className="side-header__om-kandidatlisten">
-                        {arbeidsgiver && (
-                            <span>Arbeidsgiver: {capitalizeEmployerName(arbeidsgiver)}</span>
+                        {kandidatliste.organisasjonNavn && (
+                            <span>
+                                Arbeidsgiver:{' '}
+                                {capitalizeEmployerName(kandidatliste.organisasjonNavn)}
+                            </span>
                         )}
                         <span>
-                            Registrert av: {opprettetAv.navn} ({opprettetAv.ident})
+                            Registrert av: {kandidatliste.opprettetAv.navn} (
+                            {kandidatliste.opprettetAv.ident})
                         </span>
-                        {stillingsId && (
+                        {kandidatliste.stillingId && (
                             <span>
-                                <Lenke href={lenkeTilStilling(stillingsId)}>
+                                <Lenke href={lenkeTilStilling(kandidatliste.stillingId)}>
                                     Se stillingsannonse
                                 </Lenke>
                             </span>
                         )}
-                        {beskrivelse && (
+                        {kandidatliste.beskrivelse && (
                             <Lenkeknapp
                                 onClick={() => setBeskrivelseSkalVises(!beskrivelseSkalVises)}
                             >
@@ -101,18 +94,18 @@ const SideHeader: FunctionComponent<Props> = ({
                                 Beskrivelse
                             </Element>
                             <Normaltekst className="side-header__beskrivelse">
-                                {beskrivelse}
+                                {kandidatliste.beskrivelse}
                             </Normaltekst>
                         </>
                     )}
                 </div>
                 {visRekrutteringsstatus && (
                     <Rekrutteringsstatus
-                        erKnyttetTilStilling={stillingsId !== null}
+                        erKnyttetTilStilling={kandidatliste.stillingId !== null}
                         onEndreStatus={() => {
                             console.log('TODO: Endre status');
                         }}
-                        erEierAvListen={erEierAvListen}
+                        kanEditere={kandidatliste.kanEditere}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
                         antallStillinger={0} // TODO: Hent dette fra stillingen.
                         status={RekStatus.Pågår} // TODO: TODO: Lag nytt backend-felt for rekrutteringsstatus

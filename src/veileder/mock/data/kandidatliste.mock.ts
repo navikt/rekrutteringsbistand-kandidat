@@ -1,4 +1,5 @@
-import { Status } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Status as Kandidatlistestatus } from './../../kandidatliste/side-header/rekrutteringsstatus/Rekrutteringsstatus';
+import { Status as Kandidatstatus } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import {
     Kandidatliste,
     Kandidat,
@@ -81,13 +82,14 @@ const baseKandidatliste: Omit<
     opprettetTidspunkt: '2019-11-18T11:40:34.732',
     kanEditere: true,
     kanSlette: KanSletteEnum.KAN_SLETTES,
+    status: Kandidatlistestatus.Pågår,
 };
 
 const fraCvTilKandidat = (cv: Cv): Kandidat => ({
     kandidatId: lagUuid(cv.kandidatnummer),
     kandidatnr: cv.kandidatnummer,
     sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
-    status: Status.Vurderes,
+    status: Kandidatstatus.Vurderes,
     lagtTilTidspunkt: new Date().toISOString(),
     lagtTilAv: {
         ident: 'Z990315',
@@ -137,16 +139,8 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     ...baseKandidatliste,
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
-    kandidater: [
-        { ...fraCvTilKandidat(cver[0]), status: Status.Aktuell },
-        fraCvTilKandidat(cver[2]),
-        fraCvTilKandidat(cver[3]),
-        fraCvTilKandidat(cver[6]),
-        fraCvTilKandidat(cver[1]),
-        fraCvTilKandidat(cver[9]),
-        fraCvTilKandidat(cver[15]),
-    ],
-    formidlingerAvUsynligKandidat: [hentMocketUsynligKandidat(7)],
+    kandidater: [],
+    formidlingerAvUsynligKandidat: [],
 }));
 
 export const kandidatliste = kandidatlister[0];

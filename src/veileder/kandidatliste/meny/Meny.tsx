@@ -5,14 +5,14 @@ import './Meny.less';
 
 interface Props {
     kandidatlisteId: string;
-    stillingsId: string | null;
+    stillingId: string | null;
     onLeggTilKandidat: () => void;
 }
 
-const Meny: FunctionComponent<Props> = ({ kandidatlisteId, stillingsId, onLeggTilKandidat }) => {
+const Meny: FunctionComponent<Props> = ({ kandidatlisteId, stillingId, onLeggTilKandidat }) => {
     return (
         <div className="kandidatliste-meny">
-            <FinnKandidaterLenke kandidatlisteId={kandidatlisteId} stillingsId={stillingsId} />
+            <FinnKandidaterLenke kandidatlisteId={kandidatlisteId} stillingId={stillingId} />
             <LeggTilKandidatKnapp onLeggTilKandidat={onLeggTilKandidat} />
         </div>
     );

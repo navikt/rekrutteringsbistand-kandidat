@@ -1,5 +1,6 @@
+import { Status as Kandidatlistestatus } from './side-header/rekrutteringsstatus/Rekrutteringsstatus';
+import { Status as Kandidatstatus } from './kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
@@ -112,6 +113,7 @@ export type Kandidatliste = {
     kanSlette: string;
     kandidater: Array<Kandidat>;
     formidlingerAvUsynligKandidat: Array<FormidlingAvUsynligKandidat>;
+    status: Kandidatlistestatus;
 };
 
 export type Kandidattilstand = {
@@ -133,7 +135,7 @@ export type KandidatIKandidatliste = Kandidat & {
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
-    status: Record<Status, boolean>;
+    status: Record<Kandidatstatus, boolean>;
     utfall: Record<Utfall, boolean>;
     navn: string;
 };
