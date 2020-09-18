@@ -61,8 +61,8 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                 <Element>{kandidatlistestatusToDisplayName(status)}</Element>
                 {erKnyttetTilStilling && (
                     <Normaltekst>
-                        {besatteStillinger} av {antallStillinger} stilling
-                        {antallStillinger === 1 ? '' : 'er'} er besatt.
+                        {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
+                        {besatteStillinger === 1 ? '' : 'er'} er besatt
                     </Normaltekst>
                 )}
             </div>
