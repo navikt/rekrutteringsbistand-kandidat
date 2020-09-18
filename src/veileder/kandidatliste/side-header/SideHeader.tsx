@@ -7,7 +7,12 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilStilling } from '../../application/paths';
-import { KandidatIKandidatliste, Kandidatliste, Kandidatstatus } from '../kandidatlistetyper';
+import {
+    FormidlingAvUsynligKandidat,
+    KandidatIKandidatliste,
+    Kandidatliste,
+    Kandidatstatus,
+} from '../kandidatlistetyper';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../../AppState';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
@@ -23,6 +28,8 @@ const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
 const erAktuell = (k: KandidatIKandidatliste) => k.status === Kandidatstatus.Aktuell;
 const erPresentert = (k: KandidatIKandidatliste) => k.utfall === Utfall.Presentert;
 const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
+const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
+    f.utfall === Utfall.FåttJobben;
 
 const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => {
     const visRekrutteringsstatus = useSelector(
@@ -32,7 +39,9 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
     const ikkeArkiverteKandidater = kandidater.filter(erIkkeArkivert);
     const antallAktuelleKandidater = ikkeArkiverteKandidater.filter(erAktuell).length;
     const antallPresenterteKandidater = ikkeArkiverteKandidater.filter(erPresentert).length;
-    const antallKandidaterSomHarFåttJobb = ikkeArkiverteKandidater.filter(harFåttJobb).length;
+    const antallKandidaterSomHarFåttJobb =
+        ikkeArkiverteKandidater.filter(harFåttJobb).length +
+        kandidatliste.formidlingerAvUsynligKandidat.filter(usynligKandidatHarFåttJobb).length;
 
     const [beskrivelseSkalVises, setBeskrivelseSkalVises] = useState(false);
     const oppsummeringTekst = `${
@@ -102,7 +111,6 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         erKnyttetTilStilling={kandidatliste.stillingId !== null}
                         kanEditere={kandidatliste.kanEditere}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
-                        antallStillinger={0} // TODO: Hent dette fra stillingen.
                         kandidatlisteId={kandidatliste.kandidatlisteId}
                     />
                 )}

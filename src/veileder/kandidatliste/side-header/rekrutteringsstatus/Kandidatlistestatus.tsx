@@ -21,7 +21,6 @@ type Props = {
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
-    antallStillinger: number;
     erKnyttetTilStilling: boolean;
     kandidatlisteId: string;
 };
@@ -30,7 +29,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
     kanEditere,
     besatteStillinger,
-    antallStillinger,
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
