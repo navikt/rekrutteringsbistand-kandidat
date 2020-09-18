@@ -157,6 +157,8 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
     tittel: lagTittel(i),
     kandidatlisteId: lagUuid(lagTittel(i)),
     status: i === 2 ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
+    organisasjonNavn: null,
+    stillingId: null,
     kanEditere: i < 10 ? standard.kanEditere : false,
     kanSlette: i < 10 ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
     opprettetAv:

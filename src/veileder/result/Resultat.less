@@ -1,4 +1,4 @@
-@import '../../felles/Variables';
+@import '../../veileder/variabler.less';
 
 .resultatvisning--sokekriterier {
     .checkbox--sokekriterier--unchecked,
@@ -14,9 +14,9 @@
 }
 
 .ResultatVisning--hovedside--header {
-    background-color: #e3edf8;
+    background-color: @rekrutteringsbistandBla;
     color: @navMorkGra;
-    border: solid 1px #d8d8d8;
+    border: solid 1px @navGra20;
     .container--header {
         display: flex;
         padding: 0 1.5rem;
@@ -233,7 +233,7 @@ a.tilbake--lenke {
             display: flex;
             margin: 0 0 1rem;
             padding-bottom: 1rem;
-            border-bottom: solid 2px #d8d8d8;
+            border-bottom: solid 2px @navGra20;
             .opprettet__col {
                 flex: 2;
             }
@@ -307,7 +307,7 @@ a.tilbake--lenke {
         .hentet-stilling__row {
             margin: 1rem 0 0;
             padding-top: 1rem;
-            border-top: solid 2px #d8d8d8;
+            border-top: solid 2px @navGra20;
         }
         .lagre--knapp {
             margin: 2.5rem 1rem 0 0;
