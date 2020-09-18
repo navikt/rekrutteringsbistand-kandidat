@@ -7,7 +7,7 @@ import './KnappMedHjelpetekst.less';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) =>
     disabled ? (
-        <MedPopover innhold={hjelpetekst} orientering={PopoverOrientering.Under}>
+        <MedPopover hjelpetekst={hjelpetekst} orientering={PopoverOrientering.Under}>
             <div title={tittel} className="knapp-med-hjelpetekst__knapp knapp knapp--disabled">
                 {children}
             </div>
