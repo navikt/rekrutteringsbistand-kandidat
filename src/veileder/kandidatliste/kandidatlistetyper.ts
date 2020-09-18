@@ -115,8 +115,8 @@ export type Kandidatliste = {
     kandidatlisteId: string;
     tittel: string;
     beskrivelse: string;
-    organisasjonReferanse: string;
-    organisasjonNavn: string;
+    organisasjonReferanse: string | null;
+    organisasjonNavn: string | null;
     stillingId: string | null;
     opprettetAv: OpprettetAv;
     opprettetTidspunkt: string;

@@ -47,8 +47,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         });
     };
 
+    let klassenavn = 'side-header__kandidatlistestatus kandidatlistestatus';
+    if (erKnyttetTilStilling) {
+        klassenavn += ' kandidatlistestatus--med-stilling';
+    }
+
     return (
-        <Panel border className="side-header__kandidatlistestatus kandidatlistestatus">
+        <Panel border className={klassenavn}>
             <div className="kandidatlistestatus__ikon">
                 {status === Status.Åpen ? <ÅpenHengelås /> : <LåstHengelås />}
             </div>
