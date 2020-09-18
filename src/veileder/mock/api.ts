@@ -121,7 +121,7 @@ const postFormidlingerAvUsynligKandidat = (url: string) => {
         ...kandidatliste,
         formidlingerAvUsynligKandidat: [
             ...kandidatliste.formidlingerAvUsynligKandidat,
-            hentMocketUsynligKandidat(7),
+            mockUsynligKandidat(7),
         ],
     };
 };

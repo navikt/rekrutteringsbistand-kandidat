@@ -149,6 +149,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
+                    disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     checked={kandidat.tilstand.markert}
                     onChange={() => {
                         onToggleKandidat(kandidat.kandidatnr);

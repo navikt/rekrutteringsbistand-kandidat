@@ -143,19 +143,21 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const listenInneholderKandidater =
         props.kandidater.length > 0 || props.kandidatliste.formidlingerAvUsynligKandidat.length > 0;
 
-    const kandidatlistenErLukket = props.kandidatliste.status === Kandidatlistestatus.Lukket;
-    const kanArkivereKandidater = !props.filter.visArkiverte && !kandidatlistenErLukket;
+    const kandidatlistenErÅpen = props.kandidatliste.status === Kandidatlistestatus.Åpen;
+    const kanArkivereKandidater = !props.filter.visArkiverte && kandidatlistenErÅpen;
 
     return (
         <div className="kandidatliste">
             <SideHeader kandidater={props.kandidater} kandidatliste={props.kandidatliste} />
             {listenInneholderKandidater ? (
                 <>
-                    <Meny
-                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
-                        stillingId={props.kandidatliste.stillingId}
-                        onLeggTilKandidat={props.onLeggTilKandidat}
-                    />
+                    {kandidatlistenErÅpen && (
+                        <Meny
+                            kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                            stillingId={props.kandidatliste.stillingId}
+                            onLeggTilKandidat={props.onLeggTilKandidat}
+                        />
+                    )}
                     <div className="kandidatliste__grid">
                         <div className="kandidatliste__knapperad-container">
                             {props.kandidatliste.kanEditere && (
@@ -191,15 +193,15 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                         />
                         <div className="kandidatliste__liste">
                             <ListeHeader
+                                kandidatliste={props.kandidatliste}
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
-                                stillingsId={props.kandidatliste.stillingId}
                                 visArkiveringskolonne={kanArkivereKandidater}
                             />
                             {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
-                                        kandidatlistenErLukket={kandidatlistenErLukket}
+                                        kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
                                         onUtfallChange={

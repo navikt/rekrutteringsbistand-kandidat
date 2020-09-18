@@ -1,20 +1,21 @@
 @import '../../variabler.less';
 
 .kandidatliste-kandidat {
-    border: 1px solid #d8d8d8;
+    border: 1px solid @navGra20;
     border-radius: 4px;
     background-color: white;
-
-    &:not(&__header) {
-        margin-top: 0.5rem;
-    }
 
     &--checked {
         border-color: #0067c5;
     }
 
     &--disabled {
+        border-color: @navGra40;
         background-color: @navLysGra;
+    }
+
+    &:not(&__header) {
+        margin-top: 0.5rem;
     }
 
     &:focus {
