@@ -16,6 +16,7 @@ import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
 import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
 import './Application.less';
+import useLoggNavigering from './useLoggNavigering';
 
 const skjermerMedGråBakgrunn = [
     '/kandidater/lister/stilling/',
@@ -29,6 +30,8 @@ const skalBrukeGråBakgrunn = (url: string) =>
     skjermerMedGråBakgrunn.some((urlMedGråBakgrunn) => url.includes(urlMedGråBakgrunn));
 
 const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
+    useLoggNavigering();
+
     const [brukGråBakgrunn, setBrukGråBakgrunn] = useState<boolean>(
         skalBrukeGråBakgrunn(location.pathname)
     );
