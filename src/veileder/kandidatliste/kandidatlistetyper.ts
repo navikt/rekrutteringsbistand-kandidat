@@ -1,5 +1,4 @@
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
@@ -40,11 +39,19 @@ export interface Sms {
     status: SmsStatus;
 }
 
+export enum Kandidatstatus {
+    Vurderes = 'VURDERES',
+    Kontaktet = 'KONTAKTET',
+    Aktuell = 'AKTUELL',
+    Uaktuell = 'UAKTUELL',
+    Uinteressert = 'UINTERESSERT',
+}
+
 export interface Kandidat {
     kandidatId: string;
     kandidatnr: string;
     sisteArbeidserfaring: string;
-    status: string;
+    status: Kandidatstatus;
     lagtTilTidspunkt: string;
     lagtTilAv: {
         ident: string;
@@ -99,12 +106,17 @@ export type OpprettetAv = {
     navn: string;
 };
 
+export enum Kandidatlistestatus {
+    Åpen = 'ÅPEN',
+    Lukket = 'LUKKET',
+}
+
 export type Kandidatliste = {
     kandidatlisteId: string;
     tittel: string;
     beskrivelse: string;
-    organisasjonReferanse: string;
-    organisasjonNavn: string;
+    organisasjonReferanse: string | null;
+    organisasjonNavn: string | null;
     stillingId: string | null;
     opprettetAv: OpprettetAv;
     opprettetTidspunkt: string;
@@ -112,6 +124,7 @@ export type Kandidatliste = {
     kanSlette: string;
     kandidater: Array<Kandidat>;
     formidlingerAvUsynligKandidat: Array<FormidlingAvUsynligKandidat>;
+    status: Kandidatlistestatus;
 };
 
 export type Kandidattilstand = {
@@ -133,7 +146,7 @@ export type KandidatIKandidatliste = Kandidat & {
 
 export type Kandidatlistefilter = {
     visArkiverte: boolean;
-    status: Record<Status, boolean>;
+    status: Record<Kandidatstatus, boolean>;
     utfall: Record<Utfall, boolean>;
     navn: string;
 };

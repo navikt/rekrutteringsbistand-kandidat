@@ -1,17 +1,16 @@
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { useState, useEffect } from 'react';
-import { Status } from '../kandidatrad/statusSelect/StatusSelect';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
+import { Kandidatstatus, KandidatIKandidatliste } from '../kandidatlistetyper';
 
 export type AntallFiltertreff = {
     arkiverte: number;
-    status: Record<Status, number>;
+    status: Record<Kandidatstatus, number>;
     utfall: Record<Utfall, number>;
 };
 
 const useAntallFiltertreff = (kandidater: KandidatIKandidatliste[]): AntallFiltertreff => {
     const [antallArkiverte, setAntallArkiverte] = useState<number>(hentAntallArkiverte(kandidater));
-    const [antallMedStatus, setAntallMedStatus] = useState<Record<Status, number>>(
+    const [antallMedStatus, setAntallMedStatus] = useState<Record<Kandidatstatus, number>>(
         hentAntallMedStatus(kandidater)
     );
     const [antallMedUtfall, setAntallMedUtfall] = useState<Record<Utfall, number>>(
@@ -39,7 +38,7 @@ const hentAntallArkiverte = (kandidater: KandidatIKandidatliste[]) => {
 
 const hentAntallMedStatus = (kandidater: KandidatIKandidatliste[]) => {
     const antallMedStatus: Record<string, number> = {};
-    Object.values(Status).forEach((status) => {
+    Object.values(Kandidatstatus).forEach((status) => {
         antallMedStatus[status] = 0;
     });
 

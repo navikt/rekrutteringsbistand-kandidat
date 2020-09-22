@@ -2,15 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-    stillingsId: string | null;
+    stillingId: string | null;
     kandidatlisteId: string;
 };
 
-const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingsId, kandidatlisteId }) => (
+const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlisteId }) => (
     <Link
         to={
-            stillingsId
-                ? `/kandidater/stilling/${stillingsId}`
+            stillingId
+                ? `/kandidater/stilling/${stillingId}`
                 : `/kandidater/kandidatliste/${kandidatlisteId}`
         }
         className="finn-kandidater FinnKandidater lenke"

@@ -1,11 +1,12 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
 import './../kandidatrad/Kandidatrad.less';
 
 interface Props {
-    stillingsId: string | null;
+    kandidatliste: Kandidatliste;
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
@@ -31,22 +32,29 @@ const Kolonnetittel = ({ className, children }: { className?: string; children: 
 );
 
 const ListeHeader: FunctionComponent<Props> = ({
-    stillingsId,
+    kandidatliste,
     alleMarkert,
     onCheckAlleKandidater,
     visArkiveringskolonne,
 }) => {
+    const klassenavn =
+        'kandidatliste-kandidat kandidatliste-kandidat__header' +
+        (kandidatliste.status === Kandidatlistestatus.Lukket
+            ? ' kandidatliste-kandidat--disabled'
+            : '');
+
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(stillingsId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
     return (
-        <div className="kandidatliste-kandidat kandidatliste-kandidat__header">
+        <div className={klassenavn}>
             <div className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
                     checked={alleMarkert}
+                    disabled={kandidatliste.status === Kandidatlistestatus.Lukket}
                     onChange={() => onCheckAlleKandidater()}
                 />
                 <div />
@@ -60,7 +68,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                     </Element>
                     <StatusHjelpetekst />
                 </div>
-                {stillingsId && <Kolonnetittel>Utfall</Kolonnetittel>}
+                {kandidatliste.stillingId && <Kolonnetittel>Utfall</Kolonnetittel>}
                 <Kolonnetittel>Notater</Kolonnetittel>
                 <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">
                     Info

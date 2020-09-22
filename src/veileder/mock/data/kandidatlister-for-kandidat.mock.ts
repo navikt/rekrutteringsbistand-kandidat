@@ -1,6 +1,6 @@
+import { Kandidatstatus } from './../../kandidatliste/kandidatlistetyper';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
 import { KandidatlisteForKandidat } from '../../kandidatside/historikk/historikkReducer';
-import { Status } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 
 const kandidatlisteId = 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29';
 const kandidatlisteId2 = '53d32269-08df-4950-a4f9-41ad6f36129f';
@@ -13,7 +13,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         tittel: 'test',
         kandidatnr: 'CD430805',
         utfall: Utfall.IkkePresentert,
-        status: Status.Vurderes,
+        status: Kandidatstatus.Vurderes,
         fornavn: 'OLA',
         etternavn: 'NORDMANN',
         lagtTilAvEpost: 'clark.kent@nav.no',
@@ -30,7 +30,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         tittel: 'Stillingsliste til stillingen min',
         kandidatnr: 'FK185344',
         utfall: Utfall.Presentert,
-        status: Status.Vurderes,
+        status: Kandidatstatus.Vurderes,
         fornavn: 'kurt',
         etternavn: 'helmer',
         lagtTilAvEpost: 'clark.kent@nav.no',
@@ -44,7 +44,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         tittel: 'Liste til gammel jobbmesse',
         kandidatnr: 'FZ856234',
         utfall: Utfall.Presentert,
-        status: Status.Uinteressert,
+        status: Kandidatstatus.Uinteressert,
         fornavn: 'helga',
         etternavn: 'håsblås',
         lagtTilAvEpost: 'clark.kent@nav.no',

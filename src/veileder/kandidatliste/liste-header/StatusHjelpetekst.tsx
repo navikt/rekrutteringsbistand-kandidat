@@ -1,22 +1,23 @@
 import React, { FunctionComponent } from 'react';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { Status, statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
+import { statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
+import { Kandidatstatus } from '../kandidatlistetyper';
 
-const forklaringer: Record<Status, string> = {
-    [Status.Vurderes]: 'Kandidater som er lagt i en kandidatliste får status vurderes',
-    [Status.Kontaktet]: 'Kandidaten er kontaktet, og det ventes på svar',
-    [Status.Aktuell]: 'Kandidaten er vurdert som aktuell for stillingen',
-    [Status.Uaktuell]: 'Kandidaten er vurdert som ikke aktuell for stillingen',
-    [Status.Uinteressert]: 'Kandidaten er ikke interessert i stillingen',
+const forklaringer: Record<Kandidatstatus, string> = {
+    [Kandidatstatus.Vurderes]: 'Kandidater som er lagt i en kandidatliste får status vurderes',
+    [Kandidatstatus.Kontaktet]: 'Kandidaten er kontaktet, og det ventes på svar',
+    [Kandidatstatus.Aktuell]: 'Kandidaten er vurdert som aktuell for stillingen',
+    [Kandidatstatus.Uaktuell]: 'Kandidaten er vurdert som ikke aktuell for stillingen',
+    [Kandidatstatus.Uinteressert]: 'Kandidaten er ikke interessert i stillingen',
 };
 
 const StatusHjelpetekst: FunctionComponent = () => (
     <Hjelpetekst>
         <strong>Forklaring til status</strong>
         <ul className="statusliste">
-            {Object.entries(forklaringer).map(([status, forklaring]) => (
+            {Object.entries(forklaringer).map(([status, forklaring]: [Kandidatstatus, string]) => (
                 <li key={status}>
-                    {statusToDisplayName(status as Status)} &ndash; {forklaring}
+                    {statusToDisplayName(status)} &ndash; {forklaring}
                 </li>
             ))}
         </ul>

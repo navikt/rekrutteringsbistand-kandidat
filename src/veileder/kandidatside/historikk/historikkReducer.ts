@@ -1,4 +1,4 @@
-import { Status } from '../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Kandidatstatus } from './../../kandidatliste/kandidatlistetyper';
 import {
     ApiError,
     Feil,
@@ -20,7 +20,7 @@ export interface KandidatlisteForKandidat {
     lagtTilAvIdent: string;
     lagtTilAvEpost: string;
     lagtTilAvNavn: string;
-    status: Status;
+    status: Kandidatstatus;
     utfall: Utfall;
     uuid: string;
     tittel: string;

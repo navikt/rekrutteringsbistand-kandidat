@@ -6,6 +6,7 @@ import {
     putUtfallKandidat,
     fetchUsynligKandidat,
     postFormidlingerAvUsynligKandidat,
+    putKandidatlistestatus,
 } from './../../api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
@@ -34,6 +35,8 @@ import KandidatlisteAction, {
     FormidleUsynligKandidatAction,
     EndreFormidlingsutfallForUsynligKandidatAction,
     EndreFormidlingsutfallForUsynligKandidatSuccessAction,
+    EndreKandidatlistestatusAction,
+    EndreKandidatlistestatusSuccessAction,
 } from './KandidatlisteAction';
 import {
     deleteNotat,
@@ -232,6 +235,29 @@ function* endreUtfallForFormidlingAvUsynligKandidat(
             yield put({
                 type: KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE,
                 formidlingId: action.formidlingId,
+                error: e,
+            });
+        } else {
+            throw e;
+        }
+    }
+}
+
+function* endreKandidatlistestatus(action: EndreKandidatlistestatusAction) {
+    try {
+        const kandidatliste: Kandidatliste = yield putKandidatlistestatus(
+            action.kandidatlisteId,
+            action.status
+        );
+
+        yield put<EndreKandidatlistestatusSuccessAction>({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS,
+            kandidatliste,
+        });
+    } catch (e) {
+        if (e instanceof SearchApiError) {
+            yield put({
+                type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_FAILURE,
                 error: e,
             });
         } else {
@@ -625,6 +651,7 @@ function* kandidatlisteSaga() {
         KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT,
         endreUtfallForFormidlingAvUsynligKandidat
     );
+    yield takeLatest(KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS, endreKandidatlistestatus);
 }
 
 export default kandidatlisteSaga;

@@ -1,3 +1,4 @@
+import { Kandidatstatus, Kandidatlistestatus } from './../kandidatlistetyper';
 import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
@@ -7,7 +8,6 @@ import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import { SearchApiError } from './../../../felles/api';
-import { Status } from '../kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Visningsstatus } from './../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
@@ -157,7 +157,7 @@ export interface FormidleUsynligKandidatFailureAction {
 
 export interface EndreStatusKandidatAction {
     type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT;
-    status: Status;
+    status: Kandidatstatus;
     kandidatlisteId: string;
     kandidatnr: string;
 }
@@ -186,6 +186,22 @@ export interface EndreUtfallKandidatSuccessAction {
 
 export interface EndreUtfallKandidatFailureAction {
     type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_FAILURE;
+}
+
+export interface EndreKandidatlistestatusAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS;
+    kandidatlisteId: string;
+    status: Kandidatlistestatus;
+}
+
+export interface EndreKandidatlistestatusSuccessAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_SUCCESS;
+    kandidatliste: Kandidatliste;
+}
+
+export interface EndreKandidatlistestatusFailureAction {
+    type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS_FAILURE;
+    error: SearchApiError;
 }
 
 export interface EndreFormidlingsutfallForUsynligKandidatAction {
@@ -514,6 +530,9 @@ type KandidatlisteAction =
     | EndreFormidlingsutfallForUsynligKandidatAction
     | EndreFormidlingsutfallForUsynligKandidatSuccessAction
     | EndreFormidlingsutfallForUsynligKandidatFailureAction
-    | LeggTilKandidaterResetAction;
+    | LeggTilKandidaterResetAction
+    | EndreKandidatlistestatusAction
+    | EndreKandidatlistestatusSuccessAction
+    | EndreKandidatlistestatusFailureAction;
 
 export default KandidatlisteAction;

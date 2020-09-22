@@ -13,11 +13,13 @@ type Props = {
         formidling: FormidlingAvUsynligKandidat,
         visModal: boolean
     ) => void;
+    kandidatlistenErLukket: boolean;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidling,
     onUtfallChange,
+    kandidatlistenErLukket,
 }) => {
     let fulltNavn = `${formidling.etternavn}, ${formidling.fornavn}`;
     if (formidling.mellomnavn) {
@@ -30,7 +32,11 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     );
 
     return (
-        <div className="formidling-av-usynlig-kandidatrad">
+        <div
+            className={`formidling-av-usynlig-kandidatrad${
+                kandidatlistenErLukket ? ' formidling-av-usynlig-kandidatrad--lukket-liste' : ''
+            }`}
+        >
             <span />
             <div className="formidling-av-usynlig-kandidatrad__navn">{fulltNavn}</div>
             <div className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
@@ -38,7 +44,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
                 <UtfallSelect
-                    kanEndreUtfall
+                    kanEndreUtfall={!kandidatlistenErLukket}
                     disabled={endreState?.kind === Nettstatus.SenderInn}
                     value={formidling.utfall}
                     onChange={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)}

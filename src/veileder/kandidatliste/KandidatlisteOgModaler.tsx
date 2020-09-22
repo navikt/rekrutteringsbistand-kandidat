@@ -7,12 +7,12 @@ import {
     SmsStatus,
     KandidatIKandidatliste,
     FormidlingAvUsynligKandidat,
+    Kandidatstatus,
 } from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Kandidatlistefilter } from './kandidatlistetyper';
 import { Nettstatus, Nettressurs } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
-import { Status } from './kandidatrad/statusSelect/StatusSelect';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
@@ -430,17 +430,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         const { deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen } = this.state;
         const { kandidater, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
 
-        const {
-            tittel,
-            organisasjonNavn,
-            opprettetAv,
-            kandidatlisteId,
-            stillingId,
-            kanEditere,
-            beskrivelse,
-            formidlingerAvUsynligKandidat,
-        } = kandidatliste;
-
         return (
             <div>
                 {deleModalOpen && (
@@ -457,18 +446,18 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     <LeggTilKandidatModal
                         vis={this.state.leggTilModalOpen}
                         onClose={this.onToggleLeggTilKandidatModal}
-                        stillingsId={stillingId}
+                        stillingsId={kandidatliste.stillingId}
                         kandidatliste={kandidatliste}
                     />
                 )}
-                {stillingId && (
+                {kandidatliste.stillingId && (
                     <>
                         <SendSmsModal
                             vis={this.state.sendSmsModalOpen}
                             onClose={() => this.onToggleSendSmsModal(false)}
-                            kandidatlisteId={kandidatlisteId}
+                            kandidatlisteId={kandidatliste.kandidatlisteId}
                             kandidater={kandidater}
-                            stillingId={stillingId}
+                            stillingId={kandidatliste.stillingId}
                         />
                         {this.state.endreUtfallModal.open && this.state.endreUtfallModal.utfall && (
                             <EndreUtfallModal
@@ -493,18 +482,12 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     innhold={infobanner.tekst}
                 />
                 <Kandidatliste
-                    tittel={tittel}
-                    arbeidsgiver={organisasjonNavn}
-                    opprettetAv={opprettetAv}
-                    kandidatlisteId={kandidatlisteId}
-                    stillingsId={stillingId}
-                    kanEditere={kanEditere}
+                    kandidatliste={kandidatliste}
                     kandidater={kandidater}
-                    formidlingerAvUsynligKandidat={formidlingerAvUsynligKandidat}
                     filter={this.props.filter}
-                    toggleMarkert={this.toggleMarkert}
-                    fjernAllMarkering={this.fjernAllMarkering}
-                    markerKandidater={this.markerKandidater}
+                    onToggleMarkert={this.toggleMarkert}
+                    onFjernAllMarkering={this.fjernAllMarkering}
+                    onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
                     onUsynligKandidatFormidlingsutfallChange={
@@ -516,8 +499,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onSendSmsClick={() => this.onToggleSendSmsModal(true)}
                     onLeggTilKandidat={this.onToggleLeggTilKandidatModal}
                     onVisningChange={this.onVisningChange}
-                    beskrivelse={beskrivelse}
-                    toggleArkivert={toggleArkivert}
+                    onToggleArkivert={toggleArkivert}
                 />
             </div>
         );
@@ -539,7 +521,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => ({
-    endreStatusKandidat: (status: Status, kandidatlisteId: string, kandidatnr: string) => {
+    endreStatusKandidat: (status: Kandidatstatus, kandidatlisteId: string, kandidatnr: string) => {
         dispatch({
             type: KandidatlisteActionType.ENDRE_STATUS_KANDIDAT,
             status,

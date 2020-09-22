@@ -1,6 +1,6 @@
 import * as cvData from './cv-data.mock';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import meg from './meg.mock';
+import { meg } from './veiledere.mock';
 
 export const antall = 20;
 

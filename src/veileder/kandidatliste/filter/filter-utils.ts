@@ -1,6 +1,5 @@
-import { Kandidat } from './../kandidatlistetyper';
+import { Kandidat, Kandidatstatus } from './../kandidatlistetyper';
 import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
-import { Status } from './../kandidatrad/statusSelect/StatusSelect';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 
 const QUERY_PARAM_SEPARATOR = '-';
@@ -35,9 +34,9 @@ export const filtrerKandidater = (kandidater: Kandidat[], filter?: Kandidatliste
         .map((kandidat) => kandidat.kandidatnr);
 };
 
-export const lagTomtStatusfilter = (): Record<Status, boolean> => {
+export const lagTomtStatusfilter = (): Record<Kandidatstatus, boolean> => {
     const statusfilter: Record<string, boolean> = {};
-    Object.values(Status).forEach((status) => {
+    Object.values(Kandidatstatus).forEach((status) => {
         statusfilter[status] = false;
     });
 

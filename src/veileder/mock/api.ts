@@ -18,8 +18,8 @@ import cver from './data/cv.mock';
 import {
     kandidatliste,
     kandidatlister,
-    hentMocketKandidat,
-    hentMocketUsynligKandidat,
+    mockKandidat,
+    mockUsynligKandidat,
 } from './data/kandidatliste.mock';
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
 import { featureToggles } from './data/feature-toggles.mock';
@@ -57,6 +57,7 @@ const url = {
     søkUsynligKandidat: `${api}/veileder/kandidater/navn`,
     postFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat`,
     putFormidlingerAvUsynligKandidat: `${api}/veileder/kandidatlister/:kandidatlisteId/formidlingeravusynligkandidat/:formidlingId/utfall`,
+    putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
 
     // Alternative backends
     sms: `express:/kandidater/api/sms/:kandidatlisteId`,
@@ -82,7 +83,7 @@ const getCv = (url: string) => {
     }
 };
 
-const getUsynligKandidat = () => [hentMocketUsynligKandidat(7)];
+const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
 const getKandidatlister = () => ({
     antall: kandidatlister.length,
@@ -104,7 +105,7 @@ const postKandidater = (url: string) => {
 
     return {
         ...kandidatliste,
-        kandidater: [...kandidatliste.kandidater, hentMocketKandidat(4)],
+        kandidater: [...kandidatliste.kandidater, mockKandidat(4)],
     };
 };
 
@@ -120,7 +121,7 @@ const postFormidlingerAvUsynligKandidat = (url: string) => {
         ...kandidatliste,
         formidlingerAvUsynligKandidat: [
             ...kandidatliste.formidlingerAvUsynligKandidat,
-            hentMocketUsynligKandidat(7),
+            mockUsynligKandidat(7),
         ],
     };
 };
@@ -192,6 +193,20 @@ const putArkivert = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     };
 };
 
+const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMethodPut) => {
+    const kandidatlisteId = url.split('/').reverse()[1];
+    const status = JSON.parse(String(options.body)).status;
+    const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+
+    return {
+        body: {
+            ...kandidatliste,
+            status,
+        },
+        status: 200,
+    };
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -238,6 +253,7 @@ fetchMock
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
     .post(url.postFormidlingerAvUsynligKandidat, log(postFormidlingerAvUsynligKandidat))
     .put(url.putFormidlingerAvUsynligKandidat, log(putUtfallForFormidlingAvUsynligKandidat))
+    .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
 
     // Misc
     .get(url.toggles, log(featureToggles))

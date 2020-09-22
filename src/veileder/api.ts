@@ -1,4 +1,4 @@
-import { Status } from './kandidatliste/kandidatrad/statusSelect/StatusSelect';
+import { Kandidatlistestatus, Kandidatstatus } from './kandidatliste/kandidatlistetyper';
 /* eslint-disable no-underscore-dangle */
 
 import {
@@ -95,7 +95,7 @@ export const fetchKandidatlisteMedKandidatlisteId = (kandidatlisteId) =>
     fetchJson(`${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}`, true);
 
 export const putStatusKandidat = (
-    status: Status,
+    status: Kandidatstatus,
     kandidatlisteId: string,
     kandidatnr: string
 ): Promise<Kandidatliste> =>
@@ -326,4 +326,14 @@ export const postFerdigutfylteStillingerKlikk = (
 
 export const hentKandidatnr = (fnr: string): Promise<{ kandidatnr: string }> => {
     return postJson(`${KANDIDATSOK_API}/fnr-til-kandidatnr`, JSON.stringify({ fnr }));
+};
+
+export const putKandidatlistestatus = (
+    kandidatlisteId: string,
+    status: Kandidatlistestatus
+): Promise<Kandidatliste> => {
+    return putJson(
+        `${KANDIDATLISTE_API}/kandidatlister/${kandidatlisteId}/status`,
+        JSON.stringify({ status })
+    );
 };

@@ -21,9 +21,9 @@
     }
 
     .side-header {
-        background-color: #e3edf8;
+        background-color: @rekrutteringsbistandBla;
         padding: 2.5rem 0rem;
-        border-bottom: 1px solid #d8d8d8;
+        border-bottom: 1px solid @navGra40;
 
         .side-header__innhold {
             margin: auto;
@@ -45,7 +45,7 @@
                         width: 640px;
                         height: 3.5rem;
                         padding: 1rem;
-                        border: 1px solid #d8d8d8;
+                        border: 1px solid @navGra40;
                     }
                     .search-button {
                         padding: 18px !important;
@@ -107,7 +107,7 @@
         margin-bottom: 2rem;
 
         .liste-header {
-            border: 1px solid #78706a;
+            border: 1px solid @navGra60;
             height: 4rem;
             padding-left: 1.25rem;
             .typo-element {
@@ -128,7 +128,7 @@
         }
 
         .liste-rad {
-            border: 1px solid #d8d8d8;
+            border: 1px solid @navGra40;
             height: 4rem;
             padding-left: 1.25rem;
 
@@ -167,7 +167,7 @@
 
             .kolonne-smal-knapp {
                 height: 2.875rem;
-                border-left: 1px solid #d8d8d8;
+                border-left: 1px solid @navGra20;
                 display: flex;
                 margin: auto 0;
                 flex: 2;
@@ -318,7 +318,7 @@
         }
 
         &:not(:disabled) {
-            color: #0067c5;
+            color: @navBla;
 
             &:hover {
                 text-decoration: underline;
@@ -326,7 +326,7 @@
         }
 
         &:disabled {
-            color: #59514b;
+            color: @navGra80;
         }
 
         &:not(:last-child) {
@@ -340,8 +340,8 @@
     transform: rotate(45deg) translate(calc(5px), calc(65px));
     width: 10px;
     height: 10px;
-    background: #e3edf8;
-    border-left: 1px solid #c6c2bf;
-    border-top: 1px solid #c6c2bf;
+    background: @rekrutteringsbistandBla;
+    border-left: 1px solid @navGra20;
+    border-top: 1px solid @navGra20;
     z-index: 1;
 }
