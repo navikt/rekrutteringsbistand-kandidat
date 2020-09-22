@@ -68,6 +68,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                 <Knapp
                     mini
                     kompakt
+                    className="kandidatlistestatus__knapp"
                     disabled={endreStatusNettstatus === Nettstatus.SenderInn}
                     onClick={onEndreStatusClick}
                 >
