@@ -235,12 +235,16 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                     </div>
                 </>
             ) : (
-                <TomListe>
-                    <FinnKandidaterLenke
-                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
-                        stillingId={props.kandidatliste.stillingId}
-                    />
-                    <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                <TomListe kandidatlistenErLukket={!kandidatlistenErÅpen}>
+                    {kandidatlistenErÅpen && (
+                        <>
+                            <FinnKandidaterLenke
+                                kandidatlisteId={props.kandidatliste.kandidatlisteId}
+                                stillingId={props.kandidatliste.stillingId}
+                            />
+                            <LeggTilKandidatKnapp onLeggTilKandidat={props.onLeggTilKandidat} />
+                        </>
+                    )}
                 </TomListe>
             )}
         </div>

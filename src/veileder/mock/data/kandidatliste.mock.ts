@@ -157,6 +157,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     const harStilling = i % 5 < 3;
     const erLukket = i % 5 === 2;
     const harUsynligKandidat = i % 5 === 1;
+    const erTomListe = i === 9;
 
     return {
         ...standard,
@@ -173,16 +174,19 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
                   ident: deg.ident,
                   navn: deg.navn,
               },
-        kandidater: [
-            { ...mockKandidat(0, meg), status: Kandidatstatus.Aktuell },
-            mockKandidat(1, meg),
-            mockKandidat(2, meg),
-            mockKandidat(3, meg),
-            mockKandidat(4, meg),
-            mockKandidat(5, meg),
-            mockKandidat(6, meg),
-        ],
-        formidlingerAvUsynligKandidat: harUsynligKandidat ? [mockUsynligKandidat(7)] : [],
+        kandidater: erTomListe
+            ? []
+            : [
+                  { ...mockKandidat(0, meg), status: Kandidatstatus.Aktuell },
+                  mockKandidat(1, meg),
+                  mockKandidat(2, meg),
+                  mockKandidat(3, meg),
+                  mockKandidat(4, meg),
+                  mockKandidat(5, meg),
+                  mockKandidat(6, meg),
+              ],
+        formidlingerAvUsynligKandidat:
+            harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
     };
 });
 
