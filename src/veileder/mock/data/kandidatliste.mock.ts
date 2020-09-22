@@ -152,30 +152,42 @@ export const mockUsynligKandidat = (index: number): FormidlingAvUsynligKandidat 
     ...fraCvTilUsynligKandidat(cver[index]),
 });
 
-export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => ({
-    ...standard,
-    tittel: lagTittel(i),
-    kandidatlisteId: lagUuid(lagTittel(i)),
-    status: i === 2 ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
-    kanEditere: i < 10 ? standard.kanEditere : false,
-    kanSlette: i < 10 ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
-    opprettetAv:
-        i < 10
+export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
+    const erEier = i < 10;
+    const harStilling = i % 5 < 3;
+    const erLukket = i % 5 === 2;
+    const harUsynligKandidat = i % 5 === 1;
+    const erTomListe = i === 9;
+
+    return {
+        ...standard,
+        tittel: lagTittel(i),
+        kandidatlisteId: lagUuid(lagTittel(i)),
+        status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
+        kanEditere: erEier ? standard.kanEditere : false,
+        kanSlette: erEier ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
+        organisasjonNavn: harStilling ? standard.organisasjonNavn : null,
+        stillingId: harStilling ? standard.organisasjonNavn : null,
+        opprettetAv: erEier
             ? standard.opprettetAv
             : {
                   ident: deg.ident,
                   navn: deg.navn,
               },
-    kandidater: [
-        { ...mockKandidat(0, meg), status: Kandidatstatus.Aktuell },
-        mockKandidat(1, meg),
-        mockKandidat(2, meg),
-        mockKandidat(3, meg),
-        mockKandidat(4, meg),
-        mockKandidat(5, meg),
-        mockKandidat(6, meg),
-    ],
-    formidlingerAvUsynligKandidat: [mockUsynligKandidat(7)],
-}));
+        kandidater: erTomListe
+            ? []
+            : [
+                  { ...mockKandidat(0, meg), status: Kandidatstatus.Aktuell },
+                  mockKandidat(1, meg),
+                  mockKandidat(2, meg),
+                  mockKandidat(3, meg),
+                  mockKandidat(4, meg),
+                  mockKandidat(5, meg),
+                  mockKandidat(6, meg),
+              ],
+        formidlingerAvUsynligKandidat:
+            harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
+    };
+});
 
 export const kandidatliste = kandidatlister[0];
