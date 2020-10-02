@@ -125,6 +125,7 @@ export type Kandidatliste = {
     kandidater: Array<Kandidat>;
     formidlingerAvUsynligKandidat: Array<FormidlingAvUsynligKandidat>;
     status: Kandidatlistestatus;
+    antallStillinger: number;
 };
 
 export type Kandidattilstand = {

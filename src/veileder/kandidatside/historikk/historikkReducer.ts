@@ -28,6 +28,7 @@ export interface KandidatlisteForKandidat {
     organisasjonNavn?: string;
     stillingId?: string;
     slettet?: boolean;
+    antallStillinger?: number;
 }
 
 type KandidatlisterForKandidatResponse = KandidatlisteForKandidat[];

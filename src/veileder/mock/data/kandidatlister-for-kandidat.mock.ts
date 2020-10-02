@@ -23,6 +23,7 @@ export const kandidatlisterForKandidatMock: KandidatlisteForKandidat[] = [
         organisasjonNavn: 'EN DYR BEDRIFT AS',
         stillingId: stillingsId,
         slettet: false,
+        antallStillinger: 4,
     },
     {
         uuid: kandidatlisteId2,

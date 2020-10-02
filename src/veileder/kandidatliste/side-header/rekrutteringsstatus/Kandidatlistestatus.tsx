@@ -21,6 +21,7 @@ type Props = {
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
+    antallStillinger: number;
     erKnyttetTilStilling: boolean;
     kandidatlisteId: string;
 };
@@ -29,6 +30,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
     kanEditere,
     besatteStillinger,
+    antallStillinger,
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
@@ -59,8 +61,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                 <Element>{kandidatlistestatusToDisplayName(status)}</Element>
                 {erKnyttetTilStilling && (
                     <Normaltekst>
-                        {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
-                        {besatteStillinger === 1 ? '' : 'er'} er besatt
+                        {besatteStillinger} av {antallStillinger} {antallStillinger === 1 ? 'stilling' : 'stillinger'} er besatt
                     </Normaltekst>
                 )}
             </div>

@@ -111,6 +111,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         erKnyttetTilStilling={kandidatliste.stillingId !== null}
                         kanEditere={kandidatliste.kanEditere}
                         besatteStillinger={antallKandidaterSomHarFåttJobb}
+                        antallStillinger={kandidatliste.antallStillinger}
                         kandidatlisteId={kandidatliste.kandidatlisteId}
                     />
                 )}
