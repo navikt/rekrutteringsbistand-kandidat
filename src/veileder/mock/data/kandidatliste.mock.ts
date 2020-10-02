@@ -82,7 +82,7 @@ const standard: Kandidatliste = {
     status: Kandidatlistestatus.Åpen,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
-    antallStillinger: 1,
+    antallStillinger: 0,
 };
 
 export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat => ({
