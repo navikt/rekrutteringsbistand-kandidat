@@ -21,7 +21,7 @@ type Props = {
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
-    antallStillinger: number;
+    antallStillinger: number | null;
     erKnyttetTilStilling: boolean;
     kandidatlisteId: string;
 };
