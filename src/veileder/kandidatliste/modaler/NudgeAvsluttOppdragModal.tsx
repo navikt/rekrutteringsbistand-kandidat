@@ -27,22 +27,20 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
         <NavFrontendModal
             closeButton
             isOpen={vis}
-            contentLabel="Endre utfall for kandidat"
+            contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
             onRequestClose={onLukk}
-            className="endreUtfallModal"
+            className="nudgeAvsluttOppdragModal"
         >
-            <Systemtittel className="endreUtfallModal__tittel">
-                {utfallToDisplayName(utfall)}
-            </Systemtittel>
-            <div className="endreUtfallModal__beskrivelse">
-                <Endringsbeskrivelse
-                    utfall={utfall}
-                    kandidatnavn={`${fornavn || ''} ${etternavn || ''}`}
+            <Systemtittel className="nudgeAvsluttOppdragModal__tittel">Ferdig med oppdraget?</Systemtittel>
+            <div className="nudgeAvsluttOppdragModal__beskrivelse">
+                <NudgeAvsluttOppdragBeskrivelse
+                    antallBesatt={666}
+                    totaltAntall={666}
                 />
             </div>
             <Hovedknapp
                 onClick={onBekreft ? onBekreft : () => {}}
-                className="endreUtfallModal__bekreftknapp"
+                className="nudgeAvsluttOppdragModal__bekreftknapp"
             >
                 Fullfør
             </Hovedknapp>
@@ -51,15 +49,14 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     );
 };
 
-const Endringsbeskrivelse: FunctionComponent<{ utfall: Utfall; kandidatnavn: string }> = ({
-    utfall,
-    kandidatnavn,
+const NudgeAvsluttOppdragBeskrivelse: FunctionComponent<{ antallBesatt: int; totaltAntall: int }> = ({
+    antallBesatt ,
+    totaltAntall
 }) => {
-    if (utfall === Utfall.FåttJobben) {
         return (
             <>
                 <Normaltekst>
-                    Du registrerer nå at {kandidatnavn} har fått jobb. Formidlingen vil bli telt, og
+                    Du registrerer nå at Draugen har fått jobb. Formidlingen vil bli telt, og
                     tellingen vil bli brukt til statistikk.
                 </Normaltekst>
                 <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
@@ -67,19 +64,5 @@ const Endringsbeskrivelse: FunctionComponent<{ utfall: Utfall; kandidatnavn: str
         );
     }
 
-    if (utfall === Utfall.Presentert) {
-        return (
-            <>
-                <Normaltekst>
-                    Du registrerer nå at {kandidatnavn} har blitt presentert for en arbeidsgiver.
-                    Tellingen vil bli brukt til statistikk.
-                </Normaltekst>
-                <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
-            </>
-        );
-    }
-
-    return null;
-};
 
 export default NudgeAvsluttOppdragModal;
