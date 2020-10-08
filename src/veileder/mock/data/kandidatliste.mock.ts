@@ -82,7 +82,7 @@ const standard: Kandidatliste = {
     status: Kandidatlistestatus.Åpen,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
-    antallStillinger: 0,
+    antallStillinger: 7,
 };
 
 export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat => ({
@@ -99,7 +99,7 @@ export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat =>
     etternavn: cver[cvIndex].etternavn,
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
-    utfall: Utfall.IkkePresentert,
+    utfall: Utfall.FåttJobben,
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
