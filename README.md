@@ -2,7 +2,14 @@
 
 Kandidatsøk og kandidatlister for veiledere. Delte tidligere repository med kandidatsøk for arbeidsgivere i [pam-kandidatsok](https://github.com/navikt/pam-kandidatsok/). Koden inneholder derfor noen arkitekturiske avgjørelser fra den tidligere, felles kodebasen.
 
-## Kjør applikasjonen lokalt
+## Kjør lokalt uten backend (mock)
+
+```sh
+npm install
+npm run mock
+```
+
+## Kjør applikasjonen lokalt med backend
 
 ```sh
 npm install
@@ -10,6 +17,7 @@ npm start
 ```
 
 For å få inn testdata må prosjektet rekrutteringsbistand-kandidat-api kjøre på port 8766 med Elastic Search i bakgrunnen.
+
 
 ## Hvordan kjøre opp applikasjonen i Docker
 
@@ -20,11 +28,6 @@ docker run -p 8080:8080 --name rekrutteringsbistand-kandidat -e "PAM_KANDIDATSOK
 
 Appliksjonen vil da kjøre på port 8080. For å få data må rekrutteringsbistand-kandidat-api også her kjøre på port 8766 med Elastic Search i bakgrunnen.
 
-## Kjør lokalt uten backend (mock)
-
-```sh
-npm run mock
-```
 
 ## Feature toggles
 

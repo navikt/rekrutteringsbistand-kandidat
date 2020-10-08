@@ -28,6 +28,7 @@ import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import NudgeAvsluttOppdragModal from './modaler/NudgeAvsluttOppdragModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -471,6 +472,14 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         )}
                     </>
                 )}
+                <NudgeAvsluttOppdragModal
+                    vis={true}
+                    onLukk={this.lukkEndreUtfallModal}
+                    fornavn={this.state.endreUtfallModal.fornavn}
+                    etternavn={this.state.endreUtfallModal.etternavn}
+                    utfall={Utfall.FåttJobben}
+                    onBekreft={this.bekreftEndreUtfallModal}
+                />
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}
