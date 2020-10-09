@@ -86,16 +86,19 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
             const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
                 f.utfall === Utfall.FåttJobben;
             const ikkeArkiverteKandidater = props.kandidater.filter(erIkkeArkivert);
-            const antallKandidaterSomHarFåttJobb =
-                ikkeArkiverteKandidater.filter(harFåttJobb).length +
+            return ikkeArkiverteKandidater.filter(harFåttJobb).length +
                 props.kandidatliste.formidlingerAvUsynligKandidat.filter(usynligKandidatHarFåttJobb)
                     .length;
-            return antallKandidaterSomHarFåttJobb;
         };
 
+        const antallStillinger = props.kandidatliste.antallStillinger;
+        const besatteStillinger = antallKandidaterSomHarFåttJobb(props.kandidatliste)
+        const visModal = antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && props.kandidatliste.kanEditere
+
         props.onNudgeAvsluttOppdrag(
-            true,
-            antallKandidaterSomHarFåttJobb(props.kandidatliste), props.kandidatliste.antallStillinger || 0
+            visModal,
+            besatteStillinger, 
+            props.kandidatliste.antallStillinger || 0
         );
         const filter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
