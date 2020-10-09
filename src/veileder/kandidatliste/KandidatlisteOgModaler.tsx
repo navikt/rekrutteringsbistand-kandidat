@@ -1,33 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import {
     Delestatus,
-    Kandidatliste as Kandidatlistetype,
-    SmsStatus,
-    KandidatIKandidatliste,
     FormidlingAvUsynligKandidat,
+    KandidatIKandidatliste,
+    Kandidatliste as Kandidatlistetype,
+    Kandidatlistefilter,
+    Kandidatlistestatus as Status,
     Kandidatstatus,
+    SmsStatus,
 } from './kandidatlistetyper';
-import { LAGRE_STATUS } from '../../felles/konstanter';
-import { Kandidatlistefilter } from './kandidatlistetyper';
-import { Nettstatus, Nettressurs } from '../../felles/common/remoteData';
-import { sendEvent } from '../amplitude/amplitude';
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import {LAGRE_STATUS} from '../../felles/konstanter';
+import {Nettressurs, Nettstatus} from '../../felles/common/remoteData';
+import {sendEvent} from '../amplitude/amplitude';
+import {Utfall} from './kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
-import Kandidatliste, { Visningsstatus } from './Kandidatliste';
+import Kandidatliste, {Visningsstatus} from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
 import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
-import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
-import LeggTilKandidatModal, {
-    FormidlingAvUsynligKandidatOutboundDto,
-} from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import {Kandidatresultat} from '../kandidatside/cv/reducer/cv-typer';
+import LeggTilKandidatModal, {FormidlingAvUsynligKandidatOutboundDto,} from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import NudgeAvsluttOppdragModal from './modaler/NudgeAvsluttOppdragModal';
 
 type OwnProps = {
@@ -49,6 +48,9 @@ type ConnectedProps = {
         formidlingId: string,
         utfall: Utfall,
         navKontor: string
+    ) => void;
+    setKandidatlistestatusLukket: (
+        kandidatlisteId: string,
     ) => void;
     presenterKandidater: (
         beskjed: string,
@@ -98,6 +100,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             open: boolean;
             antallKandidaterSomHarFåttJobb: Number;
             antallStillinger: Number;
+            onBekreft?: () => void;
         };
         infobanner: {
             vis: boolean;
@@ -130,7 +133,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         if (props.midlertidigUtilgjengeligEndretTidspunkt) {
             const tid = Date.now() - props.midlertidigUtilgjengeligEndretTidspunkt;
             if (tid < 10000) {
-                sendEvent('kandidatliste', 'fra_midlertidig_utilgjengelig', { tid: tid });
+                sendEvent('kandidatliste', 'fra_midlertidig_utilgjengelig', {tid: tid});
             }
         }
     }
@@ -150,7 +153,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
         const usynligKandidatHarNettoppBlittRegistrert =
             this.props.formidlingAvUsynligKandidat.kind !==
-                prevProps.formidlingAvUsynligKandidat.kind &&
+            prevProps.formidlingAvUsynligKandidat.kind &&
             this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Suksess;
 
         const feilMedSmsUtsending =
@@ -350,7 +353,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 nudgeAvsluttOppdragModal: {
                     open: true,
                     antallKandidaterSomHarFåttJobb,
-                    antallStillinger
+                    antallStillinger,
+                    onBekreft: () => {
+                        this.bekreftNudgeAvsluttOppdragModal()
+                    }
                 },
             });
         }
@@ -430,6 +436,20 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
+
+    bekreftNudgeAvsluttOppdragModal = () => {
+        this.props.setKandidatlistestatusLukket(this.props.kandidatliste.kandidatlisteId);
+        this.lukkNudgeAvsluttOppdragModal();
+    }
+
+    lukkNudgeAvsluttOppdragModal = () => {
+        this.setState({
+            nudgeAvsluttOppdragModal: {
+                open: false,
+            },
+        });
+    }
+
     visInfobanner = (tekst: string, type = 'suksess') => {
         clearTimeout(this.infobannerCallbackId);
         this.setState({
@@ -450,8 +470,8 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     };
 
     render() {
-        const { deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen } = this.state;
-        const { kandidater, kandidatliste, endreStatusKandidat, toggleArkivert } = this.props;
+        const {deleModalOpen, infobanner, leggTilModalOpen, kopierEpostModalOpen} = this.state;
+        const {kandidater, kandidatliste, endreStatusKandidat, toggleArkivert} = this.props;
 
         return (
             <div>
@@ -496,11 +516,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                 )}
                 <NudgeAvsluttOppdragModal
                     vis={this.state.nudgeAvsluttOppdragModal.open}
-                    onLukk={this.lukkEndreUtfallModal}
                     antallKandidaterSomHarFåttJobb={this.state.nudgeAvsluttOppdragModal.antallKandidaterSomHarFåttJobb}
                     antallStillinger={this.state.nudgeAvsluttOppdragModal.antallStillinger}
-                    utfall={Utfall.FåttJobben}
-                    onBekreft={this.bekreftEndreUtfallModal}
+                    onBekreft={this.bekreftNudgeAvsluttOppdragModal}
+                    onAvbryt={this.lukkNudgeAvsluttOppdragModal}
                 />
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
@@ -575,6 +594,15 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             kandidatnr,
         });
     },
+    setKandidatlistestatusLukket: (
+        kandidatlisteId: string,
+    ) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            kandidatlisteId: kandidatlisteId,
+            status: Status.Lukket
+        });
+    },
     endreFormidlingsutfallForUsynligKandidat: (
         kandidatlisteId: string,
         formidlingId: string,
@@ -606,13 +634,13 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
         });
     },
     resetDeleStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_DELESTATUS });
+        dispatch({type: KandidatlisteActionType.RESET_DELESTATUS});
     },
     resetSmsSendStatus: () => {
-        dispatch({ type: KandidatlisteActionType.RESET_SEND_SMS_STATUS });
+        dispatch({type: KandidatlisteActionType.RESET_SEND_SMS_STATUS});
     },
     hentNotater: (kandidatlisteId: string, kandidatnr: string) => {
-        dispatch({ type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr });
+        dispatch({type: KandidatlisteActionType.HENT_NOTATER, kandidatlisteId, kandidatnr});
     },
     toggleArkivert: (kandidatlisteId: string, kandidatnr: string, arkivert: boolean) => {
         dispatch({

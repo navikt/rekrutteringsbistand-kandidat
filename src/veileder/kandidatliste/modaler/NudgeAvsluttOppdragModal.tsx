@@ -10,11 +10,8 @@ interface Props {
     vis: boolean;
     antallKandidaterSomHarFåttJobb: Number;
     antallStillinger: Number;
-    utfall: Utfall;
-    fornavn?: string;
-    etternavn?: string;
     onBekreft?: () => void;
-    onLukk: () => void;
+    onAvbryt: () => void;
 }
 
 const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
@@ -22,14 +19,14 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     antallKandidaterSomHarFåttJobb,
     antallStillinger,
     onBekreft,
-    onLukk,
+    onAvbryt,
 }) => {
     return (
         <NavFrontendModal
             closeButton
             isOpen={vis}
             contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
-            onRequestClose={onLukk}
+            onRequestClose={onAvbryt}
             className="nudgeAvsluttOppdragModal"
         >
             <Systemtittel className="nudgeAvsluttOppdragModal__tittel">Ferdig med oppdraget?</Systemtittel>
@@ -45,7 +42,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             >
                 Ja, Avslutt
             </Hovedknapp>
-            <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>
+            <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
         </NavFrontendModal>
     );
 };
