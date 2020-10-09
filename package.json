@@ -13,7 +13,8 @@
     "mock": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.mock.js",
     "lint": "eslint \"./src/**/*.{js,jsx}\"",
     "lint-staged": "bash ./scripts/pre-commit.sh",
-    "test": "snyk test"
+    "test": "jest",
+    "test:snyk": "snyk test"
   },
   "config": {
     "ghooks": {
@@ -79,6 +80,7 @@
   },
   "devDependencies": {
     "@types/amplitude-js": "^5.11.0",
+    "@types/jest": "^26.0.14",
     "@types/node": "^14.10.0",
     "@types/react": "^16.9.49",
     "@types/react-collapse": "^5.0.0",
@@ -103,6 +105,7 @@
     "eslint-plugin-react-hooks": "^4.1.1",
     "fetch-mock": "^9.10.7",
     "ghooks": "^2.0.4",
+    "jest": "^26.5.2",
     "less": "^3.12.2",
     "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "^0.11.1",
@@ -111,6 +114,7 @@
     "redux-devtools-extension": "^2.13.5",
     "snyk": "^1.393.0",
     "style-loader": "^1.2.1",
+    "ts-jest": "^26.4.1",
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "uuid": "^8.3.0",
