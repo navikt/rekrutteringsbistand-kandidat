@@ -22,6 +22,8 @@ jobs:
                       ${{ runner.os }}-node-
             - name: Installer avhengigheter
               run: npm install
+            - name: Kjør tester
+              run: npm run test
             - name: Bygg applikasjon
               run: npm run build
             - name: Bygg og publiser Docker-image
