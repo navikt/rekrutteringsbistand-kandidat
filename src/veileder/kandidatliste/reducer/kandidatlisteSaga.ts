@@ -577,6 +577,7 @@ function* sendSmsTilKandidater(action: SendSmsAction) {
         yield call(postSmsTilKandidater, action.melding, action.fnr, action.kandidatlisteId);
         yield put({
             type: KandidatlisteActionType.SEND_SMS_SUCCESS,
+            kandidatlisteId: action.kandidatlisteId,
         });
     } catch (e) {
         if (e instanceof SearchApiError) {
