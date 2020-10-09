@@ -8,6 +8,7 @@ import {
     FormidlingAvUsynligKandidat,
     Kandidatstatus,
     Kandidatlistestatus,
+    Kandidatliste
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -50,6 +51,11 @@ type Props = {
         kandidat: KandidatIKandidatliste,
         visModal: boolean
     ) => void;
+    onNudgeAvsluttOppdrag: (
+        visModal: boolean,
+        antallKandidaterSomHarFåttJobb: Number,
+        antallStillinger: Number
+    ) => void;
     onUsynligKandidatFormidlingsutfallChange: (
         utfall: Utfall,
         formidling: FormidlingAvUsynligKandidat,
@@ -74,6 +80,23 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
 
     useEffect(() => {
+        const antallKandidaterSomHarFåttJobb = (kandidatliste: Kandidatliste) => {
+            const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
+            const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
+            const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
+                f.utfall === Utfall.FåttJobben;
+            const ikkeArkiverteKandidater = props.kandidater.filter(erIkkeArkivert);
+            const antallKandidaterSomHarFåttJobb =
+                ikkeArkiverteKandidater.filter(harFåttJobb).length +
+                props.kandidatliste.formidlingerAvUsynligKandidat.filter(usynligKandidatHarFåttJobb)
+                    .length;
+            return antallKandidaterSomHarFåttJobb;
+        };
+
+        props.onNudgeAvsluttOppdrag(
+            true,
+            antallKandidaterSomHarFåttJobb(props.kandidatliste), props.kandidatliste.antallStillinger || 0
+        );
         const filter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,

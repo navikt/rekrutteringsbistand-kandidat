@@ -8,6 +8,8 @@ import './NudgeAvsluttOppdragModal.less';
 
 interface Props {
     vis: boolean;
+    antallKandidaterSomHarFåttJobb: Number;
+    antallStillinger: Number;
     utfall: Utfall;
     fornavn?: string;
     etternavn?: string;
@@ -17,9 +19,8 @@ interface Props {
 
 const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     vis,
-    fornavn,
-    etternavn,
-    utfall,
+    antallKandidaterSomHarFåttJobb,
+    antallStillinger,
     onBekreft,
     onLukk,
 }) => {
@@ -34,32 +35,31 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             <Systemtittel className="nudgeAvsluttOppdragModal__tittel">Ferdig med oppdraget?</Systemtittel>
             <div className="nudgeAvsluttOppdragModal__beskrivelse">
                 <NudgeAvsluttOppdragBeskrivelse
-                    antallBesatt={666}
-                    totaltAntall={666}
+                    antallBesatt={antallKandidaterSomHarFåttJobb}
+                    totaltAntall={antallStillinger}
                 />
             </div>
             <Hovedknapp
                 onClick={onBekreft ? onBekreft : () => {}}
                 className="nudgeAvsluttOppdragModal__bekreftknapp"
             >
-                Fullfør
+                Ja, Avslutt
             </Hovedknapp>
             <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>
         </NavFrontendModal>
     );
 };
 
-const NudgeAvsluttOppdragBeskrivelse: FunctionComponent<{ antallBesatt: int; totaltAntall: int }> = ({
+const NudgeAvsluttOppdragBeskrivelse: FunctionComponent<{ antallBesatt: Number; totaltAntall: Number }> = ({
     antallBesatt ,
     totaltAntall
 }) => {
         return (
             <>
                 <Normaltekst>
-                    Du registrerer nå at Draugen har fått jobb. Formidlingen vil bli telt, og
-                    tellingen vil bli brukt til statistikk.
+                    {antallBesatt} av {totaltAntall} er besatt
                 </Normaltekst>
-                <Normaltekst>Ønsker du å fullføre registreringen?</Normaltekst>
+                <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
             </>
         );
     }

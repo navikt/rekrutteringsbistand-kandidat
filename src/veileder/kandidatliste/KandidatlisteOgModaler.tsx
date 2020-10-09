@@ -94,6 +94,11 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             utfall?: Utfall;
             onBekreft?: () => void;
         };
+        nudgeAvsluttOppdragModal: {
+            open: boolean;
+            antallKandidaterSomHarFåttJobb: Number;
+            antallStillinger: Number;
+        };
         infobanner: {
             vis: boolean;
             tekst: string;
@@ -110,6 +115,11 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             sendSmsModalOpen: false,
             endreUtfallModal: {
                 open: false,
+            },
+            nudgeAvsluttOppdragModal: {
+                open: false,
+                antallStillinger: 0,
+                antallKandidaterSomHarFåttJobb: -1,
             },
             infobanner: {
                 vis: false,
@@ -334,6 +344,18 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         }
     };
 
+    onNudgeAvsluttOppdrag = (visModal: boolean, antallKandidaterSomHarFåttJobb: Number, antallStillinger: Number) => {
+        if (visModal) {
+            this.setState({
+                nudgeAvsluttOppdragModal: {
+                    open: true,
+                    antallKandidaterSomHarFåttJobb,
+                    antallStillinger
+                },
+            });
+        }
+    };
+
     bekreftEndringAvUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
         const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
@@ -473,10 +495,10 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     </>
                 )}
                 <NudgeAvsluttOppdragModal
-                    vis={true}
+                    vis={this.state.nudgeAvsluttOppdragModal.open}
                     onLukk={this.lukkEndreUtfallModal}
-                    fornavn={this.state.endreUtfallModal.fornavn}
-                    etternavn={this.state.endreUtfallModal.etternavn}
+                    antallKandidaterSomHarFåttJobb={this.state.nudgeAvsluttOppdragModal.antallKandidaterSomHarFåttJobb}
+                    antallStillinger={this.state.nudgeAvsluttOppdragModal.antallStillinger}
                     utfall={Utfall.FåttJobben}
                     onBekreft={this.bekreftEndreUtfallModal}
                 />
@@ -499,6 +521,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
+                    onNudgeAvsluttOppdrag={this.onNudgeAvsluttOppdrag}
                     onUsynligKandidatFormidlingsutfallChange={
                         this.onUsynligKandidatFormidlingsutfallChange
                     }
