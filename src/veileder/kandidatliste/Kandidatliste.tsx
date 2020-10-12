@@ -51,11 +51,6 @@ type Props = {
         kandidat: KandidatIKandidatliste,
         visModal: boolean
     ) => void;
-    onNudgeAvsluttOppdrag: (
-        visModal: boolean,
-        antallKandidaterSomHarFåttJobb: Number,
-        antallStillinger: Number
-    ) => void;
     onUsynligKandidatFormidlingsutfallChange: (
         utfall: Utfall,
         formidling: FormidlingAvUsynligKandidat,
@@ -80,28 +75,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
 
     useEffect(() => {
-        const antallKandidaterSomHarFåttJobb = (kandidatliste: Kandidatliste) => {
-            const erIkkeArkivert = (k: KandidatIKandidatliste) => !k.arkivert;
-            const harFåttJobb = (k: KandidatIKandidatliste) => k.utfall === Utfall.FåttJobben;
-            const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
-                f.utfall === Utfall.FåttJobben;
-            const ikkeArkiverteKandidater = props.kandidater.filter(erIkkeArkivert);
-            return ikkeArkiverteKandidater.filter(harFåttJobb).length +
-                props.kandidatliste.formidlingerAvUsynligKandidat.filter(usynligKandidatHarFåttJobb)
-                    .length;
-        };
-
-        const antallStillinger = props.kandidatliste.antallStillinger;
-        const besatteStillinger = antallKandidaterSomHarFåttJobb(props.kandidatliste)
-        const kandidatlisteErÅpen = props.kandidatliste.status == Kandidatlistestatus.Åpen
-
-        const visModal = kandidatlisteErÅpen && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && props.kandidatliste.kanEditere
-
-        props.onNudgeAvsluttOppdrag(
-            visModal,
-            besatteStillinger, 
-            props.kandidatliste.antallStillinger || 0
-        );
         const filter = queryParamsTilFilter(new URLSearchParams(location.search));
         dispatch({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTE_FILTER,

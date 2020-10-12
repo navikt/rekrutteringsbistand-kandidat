@@ -29,7 +29,6 @@ import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';
 import LeggTilKandidatModal, {
     FormidlingAvUsynligKandidatOutboundDto,
 } from './modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import NudgeAvsluttOppdragModal from './modaler/NudgeAvsluttOppdragModal';
 
 type OwnProps = {
     kandidatliste: Kandidatlistetype;
@@ -96,12 +95,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             utfall?: Utfall;
             onBekreft?: () => void;
         };
-        nudgeAvsluttOppdragModal: {
-            open: boolean;
-            antallKandidaterSomHarFåttJobb: Number;
-            antallStillinger: Number;
-            onBekreft?: () => void;
-        };
         infobanner: {
             vis: boolean;
             tekst: string;
@@ -118,11 +111,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             sendSmsModalOpen: false,
             endreUtfallModal: {
                 open: false,
-            },
-            nudgeAvsluttOppdragModal: {
-                open: false,
-                antallStillinger: 0,
-                antallKandidaterSomHarFåttJobb: -1,
             },
             infobanner: {
                 vis: false,
@@ -347,25 +335,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         }
     };
 
-    onNudgeAvsluttOppdrag = (
-        visModal: boolean,
-        antallKandidaterSomHarFåttJobb: Number,
-        antallStillinger: Number
-    ) => {
-        if (visModal) {
-            this.setState({
-                nudgeAvsluttOppdragModal: {
-                    open: true,
-                    antallKandidaterSomHarFåttJobb,
-                    antallStillinger,
-                    onBekreft: () => {
-                        this.bekreftNudgeAvsluttOppdragModal();
-                    },
-                },
-            });
-        }
-    };
-
     bekreftEndringAvUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
         const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
@@ -435,19 +404,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
     lukkEndreUtfallModal = () => {
         this.setState({
             endreUtfallModal: {
-                open: false,
-            },
-        });
-    };
-
-    bekreftNudgeAvsluttOppdragModal = () => {
-        this.props.setKandidatlistestatusLukket(this.props.kandidatliste.kandidatlisteId);
-        this.lukkNudgeAvsluttOppdragModal();
-    };
-
-    lukkNudgeAvsluttOppdragModal = () => {
-        this.setState({
-            nudgeAvsluttOppdragModal: {
                 open: false,
             },
         });
@@ -536,7 +492,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     onKandidatUtfallChange={this.onKandidatUtfallChange}
-                    onNudgeAvsluttOppdrag={this.onNudgeAvsluttOppdrag}
                     onUsynligKandidatFormidlingsutfallChange={
                         this.onUsynligKandidatFormidlingsutfallChange
                     }
