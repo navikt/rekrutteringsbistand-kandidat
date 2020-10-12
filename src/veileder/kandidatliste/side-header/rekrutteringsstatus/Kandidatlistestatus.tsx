@@ -112,7 +112,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
                         </Normaltekst>
                     )}
-                {skalViseModal && (
+                {skalViseModal() && (
                     <NudgeAvsluttOppdragModal
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
