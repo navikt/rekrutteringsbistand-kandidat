@@ -71,7 +71,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     //     });
     // };
 
-    function lukkNudgeAvsluttOppdragModal() {
+    const lukkNudgeAvsluttOppdragModal = () => {
         setModalHarBlittLukket(true);
         // TODO Are: Lagre til localstorage
         /*this.setState({
@@ -81,7 +81,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         });*/
     }
 
-    function skalViseModal() {
+    const skalViseModal = () => {
         return (
             !modalHarBlittLukket &&
             status === Status.Åpen &&
