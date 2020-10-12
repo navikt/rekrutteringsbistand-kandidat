@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
-import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import './NudgeAvsluttOppdragModal.less';
 
@@ -29,9 +27,11 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             onRequestClose={onAvbryt}
             className="nudgeAvsluttOppdragModal"
         >
-            <Systemtittel className="nudgeAvsluttOppdragModal__tittel">Ferdig med oppdraget?</Systemtittel>
+            <Systemtittel className="nudgeAvsluttOppdragModal__tittel">
+                Ferdig med oppdraget?
+            </Systemtittel>
             <div className="nudgeAvsluttOppdragModal__beskrivelse">
-            <Normaltekst>
+                <Normaltekst>
                     {antallKandidaterSomHarFåttJobb} av {antallStillinger} er besatt
                 </Normaltekst>
                 <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>

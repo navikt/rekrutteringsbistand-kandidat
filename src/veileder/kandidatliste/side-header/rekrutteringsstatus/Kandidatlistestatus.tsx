@@ -34,7 +34,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    const featuretoggleNudgePå = false;
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
         (state: AppState) => state.kandidatliste.endreKandidatlistestatus
@@ -71,9 +70,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                         {besatteStillinger === 1 ? '' : 'er'} er besatt
                     </Normaltekst>
                 )}
-                {
-                    featuretoggleNudgePå && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && kanEditere && 'nudge'
-                }
             </div>
             {kanEditere && (
                 <Knapp
