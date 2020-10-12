@@ -18,6 +18,17 @@ const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
+export const skalViseModal = (modalHarBlittLukket: boolean, status: Status, antallStillinger: number, besatteStillinger: number, kanEditere: boolean) => {
+    return (
+        !modalHarBlittLukket &&
+        status === Status.Åpen &&
+        antallStillinger != null &&
+        antallStillinger > 0 &&
+        besatteStillinger >= antallStillinger &&
+        kanEditere
+    );
+}
+
 type Props = {
     status: Status;
     kanEditere: boolean;
