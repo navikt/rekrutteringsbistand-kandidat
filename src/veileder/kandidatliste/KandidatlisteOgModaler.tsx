@@ -517,15 +517,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                         )}
                     </>
                 )}
-                <NudgeAvsluttOppdragModal
-                    vis={this.state.nudgeAvsluttOppdragModal.open}
-                    antallKandidaterSomHarFåttJobb={
-                        this.state.nudgeAvsluttOppdragModal.antallKandidaterSomHarFåttJobb
-                    }
-                    antallStillinger={this.state.nudgeAvsluttOppdragModal.antallStillinger}
-                    onBekreft={this.bekreftNudgeAvsluttOppdragModal}
-                    onAvbryt={this.lukkNudgeAvsluttOppdragModal}
-                />
                 <KopierEpostModal
                     vis={kopierEpostModalOpen}
                     onClose={this.onToggleKopierEpostModal}

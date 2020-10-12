@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import './Kandidatlistestatus.less';
 import AppState from '../../../AppState';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -52,6 +53,35 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         klassenavn += ' kandidatlistestatus--med-stilling';
     }
 
+    const bekreftNudgeAvsluttOppdragModal = () => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            kandidatlisteId: kandidatlisteId,
+            status: Status.Lukket,
+        });
+        //this.lukkNudgeAvsluttOppdragModal();
+    };
+
+    setKandidatlistestatusLukket: (kandidatlisteId: string) => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            kandidatlisteId: kandidatlisteId,
+            status: Status.Lukket,
+        });
+    }
+
+    const lukkNudgeAvsluttOppdragModal = () => {
+        /*this.setState({
+            nudgeAvsluttOppdragModal: {
+                open: false,
+            },
+        });*/
+    };
+
+    const skalViseModal = () => {  
+        return status === Status.Åpen && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && kanEditere
+    }
+
     return (
         <Panel border className={klassenavn}>
             <div className="kandidatlistestatus__ikon">
@@ -70,6 +100,15 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                         {besatteStillinger === 1 ? '' : 'er'} er besatt
                     </Normaltekst>
                 )}
+                { skalViseModal &&
+                    <NudgeAvsluttOppdragModal
+                        vis={true}
+                        antallKandidaterSomHarFåttJobb={besatteStillinger}
+                        antallStillinger={antallStillinger || 0}
+                        onBekreft={bekreftNudgeAvsluttOppdragModal}
+                        onAvbryt={lukkNudgeAvsluttOppdragModal}
+                    />
+                }
             </div>
             {kanEditere && (
                 <Knapp
