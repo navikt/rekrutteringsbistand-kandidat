@@ -110,7 +110,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                     )}
                 {skalViseModal && (
                     <NudgeAvsluttOppdragModal
-                        vis={true}
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
                         onBekreft={bekreftNudgeAvsluttOppdragModal}

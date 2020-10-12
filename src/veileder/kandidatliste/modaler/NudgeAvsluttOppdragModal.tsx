@@ -1,19 +1,17 @@
 import React, { FunctionComponent } from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
-import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './NudgeAvsluttOppdragModal.less';
 
 interface Props {
-    vis: boolean;
-    antallKandidaterSomHarFåttJobb: Number;
-    antallStillinger: Number;
+    antallKandidaterSomHarFåttJobb: number;
+    antallStillinger: number;
     onBekreft?: () => void;
     onAvbryt: () => void;
 }
 
 const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
-    vis,
     antallKandidaterSomHarFåttJobb,
     antallStillinger,
     onBekreft,
@@ -22,7 +20,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     return (
         <NavFrontendModal
             closeButton
-            isOpen={vis}
+            isOpen={true}
             contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
             onRequestClose={onAvbryt}
             className="nudgeAvsluttOppdragModal"
@@ -36,10 +34,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
                 </Normaltekst>
                 <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
             </div>
-            <Hovedknapp
-                onClick={onBekreft ? onBekreft : () => {}}
-                className="nudgeAvsluttOppdragModal__bekreftknapp"
-            >
+            <Hovedknapp onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
                 Ja, Avslutt
             </Hovedknapp>
             <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
