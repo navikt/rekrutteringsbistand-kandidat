@@ -22,6 +22,8 @@ jobs:
                       ${{ runner.os }}-node-
             - name: Installer avhengigheter
               run: npm install
+            - name: Kjør tester
+              run: npm run test
             - name: Bygg applikasjon
               run: npm run build
             - name: Bygg og publiser Docker-image
@@ -35,7 +37,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/legg-til-antall-stillinger'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/sms-mal-jobbarrangement'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

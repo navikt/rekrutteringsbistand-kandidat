@@ -31,6 +31,7 @@ type Props = OwnProps & ConnectedProps;
 enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
     EtterspurtPgaKorona = 'etterspurt_pga_korona',
+    Jobbarrangement = 'jobbarrangement',
 }
 
 const genererLenkeTilStilling = (stillingId: string) => {
@@ -42,6 +43,8 @@ const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
         return `Hei, vi har vurdert at kompetansen din kan passe til denne stillingen, hilsen NAV`;
     } else if (valgtMal === Meldingsmal.EtterspurtPgaKorona) {
         return `Hei, koronasituasjonen gjør kompetansen din etterspurt. Se denne stillingen, hilsen NAV`;
+    } else if (valgtMal === Meldingsmal.Jobbarrangement) {
+        return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
     }
 };
 
@@ -131,6 +134,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     <option value={Meldingsmal.EtterspurtPgaKorona}>
                         Koronavirus og behov for arbeidskraft
                     </option>
+                    <option value={Meldingsmal.Jobbarrangement}>Jobbarrangement</option>
                 </Select>
 
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
