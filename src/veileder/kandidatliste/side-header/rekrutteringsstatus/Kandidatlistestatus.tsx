@@ -39,6 +39,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const endreStatusNettstatus = useSelector(
         (state: AppState) => state.kandidatliste.endreKandidatlistestatus
     );
+    const [modalHarBlittLukket, setModalHarBlittLukket] = useState(false);
 
     const onEndreStatusClick = () => {
         dispatch<KandidatlisteAction>({
@@ -59,34 +60,37 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
             kandidatlisteId: kandidatlisteId,
             status: Status.Lukket,
         });
-        //this.lukkNudgeAvsluttOppdragModal();
+        lukkNudgeAvsluttOppdragModal();
     };
 
-    setKandidatlistestatusLukket: (kandidatlisteId: string) => {
-        dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
-            kandidatlisteId: kandidatlisteId,
-            status: Status.Lukket,
-        });
-    };
+    // setKandidatlistestatusLukket: (kandidatlisteId: string) => {
+    //     dispatch({
+    //         type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+    //         kandidatlisteId: kandidatlisteId,
+    //         status: Status.Lukket,
+    //     });
+    // };
 
-    const lukkNudgeAvsluttOppdragModal = () => {
+    function lukkNudgeAvsluttOppdragModal() {
+        setModalHarBlittLukket(true);
+        // TODO Are: Lagre til localstorage
         /*this.setState({
             nudgeAvsluttOppdragModal: {
                 open: false,
             },
         });*/
-    };
+    }
 
-    const skalViseModal = () => {
+    function skalViseModal() {
         return (
+            !modalHarBlittLukket &&
             status === Status.Åpen &&
             antallStillinger != null &&
             antallStillinger > 0 &&
             besatteStillinger >= antallStillinger &&
             kanEditere
         );
-    };
+    }
 
     return (
         <Panel border className={klassenavn}>
