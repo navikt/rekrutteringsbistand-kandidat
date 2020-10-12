@@ -13,12 +13,20 @@ import AppState from '../../../AppState';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
+import { skalViseModal as skalViseModalLukkKandliste } from './testables';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
-export const skalViseModal = (modalHarBlittLukket: boolean, status: Status, antallStillinger: number, besatteStillinger: number, kanEditere: boolean) => {
+// TODO Are: Slett?
+export const skalViseModal = (
+    modalHarBlittLukket: boolean,
+    status: String,
+    antallStillinger: number,
+    besatteStillinger: number,
+    kanEditere: boolean
+) => {
     return (
         !modalHarBlittLukket &&
         status === Status.Åpen &&
@@ -27,7 +35,7 @@ export const skalViseModal = (modalHarBlittLukket: boolean, status: Status, anta
         besatteStillinger >= antallStillinger &&
         kanEditere
     );
-}
+};
 
 type Props = {
     status: Status;
@@ -76,18 +84,19 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 
     const lukkNudgeAvsluttOppdragModal = () => {
         setModalHarBlittLukket(true);
-    }
+    };
 
-    const skalViseModal = () => {
-        return (
-            !modalHarBlittLukket &&
-            status === Status.Åpen &&
-            antallStillinger != null &&
-            antallStillinger > 0 &&
-            besatteStillinger >= antallStillinger &&
-            kanEditere
-        );
-    }
+    // TODO Are: Slett?
+    // const skalViseModal = () => {
+    //     return (
+    //         !modalHarBlittLukket &&
+    //         status === Status.Åpen &&
+    //         antallStillinger != null &&
+    //         antallStillinger > 0 &&
+    //         besatteStillinger >= antallStillinger &&
+    //         kanEditere
+    //     );
+    // };
 
     return (
         <Panel border className={klassenavn}>
@@ -109,7 +118,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
                         </Normaltekst>
                     )}
-                {skalViseModal() && (
+                {skalViseModalLukkKandliste(
+                    modalHarBlittLukket,
+                    status.toString(),
+                    antallStillinger,
+                    besatteStillinger,
+                    kanEditere
+                ) && (
                     <NudgeAvsluttOppdragModal
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
