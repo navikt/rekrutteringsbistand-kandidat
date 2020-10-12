@@ -168,7 +168,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kanEditere: erEier ? standard.kanEditere : false,
         kanSlette: erEier ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
         organisasjonNavn: harStilling ? standard.organisasjonNavn : null,
-        stillingId: harStilling ? standard.organisasjonNavn : null,
+        stillingId: harStilling ? standard.stillingId : null,
         opprettetAv: erEier
             ? standard.opprettetAv
             : {
