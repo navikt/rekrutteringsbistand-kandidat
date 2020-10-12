@@ -68,7 +68,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
             kandidatlisteId: kandidatlisteId,
             status: Status.Lukket,
         });
-    }
+    };
 
     const lukkNudgeAvsluttOppdragModal = () => {
         /*this.setState({
@@ -78,9 +78,15 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         });*/
     };
 
-    const skalViseModal = () => {  
-        return status === Status.Åpen && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && kanEditere
-    }
+    const skalViseModal = () => {
+        return (
+            status === Status.Åpen &&
+            antallStillinger != null &&
+            antallStillinger > 0 &&
+            besatteStillinger >= antallStillinger &&
+            kanEditere
+        );
+    };
 
     return (
         <Panel border className={klassenavn}>
@@ -91,16 +97,18 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                 <Element>{kandidatlistestatusToDisplayName(status)}</Element>
                 {erKnyttetTilStilling && antallStillinger != null && antallStillinger > 0 && (
                     <Normaltekst>
-                        {besatteStillinger} av {antallStillinger} {antallStillinger === 1 ? 'stilling' : 'stillinger'} er besatt
+                        {besatteStillinger} av {antallStillinger}{' '}
+                        {antallStillinger === 1 ? 'stilling' : 'stillinger'} er besatt
                     </Normaltekst>
                 )}
-                 {erKnyttetTilStilling && !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
-                    <Normaltekst>
-                        {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
-                        {besatteStillinger === 1 ? '' : 'er'} er besatt
-                    </Normaltekst>
-                )}
-                { skalViseModal &&
+                {erKnyttetTilStilling &&
+                    !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
+                        <Normaltekst>
+                            {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
+                            {besatteStillinger === 1 ? '' : 'er'} er besatt
+                        </Normaltekst>
+                    )}
+                {skalViseModal && (
                     <NudgeAvsluttOppdragModal
                         vis={true}
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
@@ -108,7 +116,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                         onBekreft={bekreftNudgeAvsluttOppdragModal}
                         onAvbryt={lukkNudgeAvsluttOppdragModal}
                     />
-                }
+                )}
             </div>
             {kanEditere && (
                 <Knapp
