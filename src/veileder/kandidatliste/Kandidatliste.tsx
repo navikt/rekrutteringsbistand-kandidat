@@ -93,9 +93,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
 
         const antallStillinger = props.kandidatliste.antallStillinger;
         const besatteStillinger = antallKandidaterSomHarFåttJobb(props.kandidatliste)
-        const erÅpen = props.kandidatliste.status == Kandidatlistestatus.Åpen
+        const kandidatlisteErÅpen = props.kandidatliste.status == Kandidatlistestatus.Åpen
 
-        const visModal = erÅpen && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && props.kandidatliste.kanEditere
+        const visModal = kandidatlisteErÅpen && antallStillinger != null && antallStillinger > 0 && besatteStillinger >= antallStillinger && props.kandidatliste.kanEditere
 
         props.onNudgeAvsluttOppdrag(
             visModal,
