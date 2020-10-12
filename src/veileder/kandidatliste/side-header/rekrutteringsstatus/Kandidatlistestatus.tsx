@@ -63,22 +63,8 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         lukkNudgeAvsluttOppdragModal();
     };
 
-    // setKandidatlistestatusLukket: (kandidatlisteId: string) => {
-    //     dispatch({
-    //         type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
-    //         kandidatlisteId: kandidatlisteId,
-    //         status: Status.Lukket,
-    //     });
-    // };
-
     const lukkNudgeAvsluttOppdragModal = () => {
         setModalHarBlittLukket(true);
-        // TODO Are: Lagre til localstorage
-        /*this.setState({
-            nudgeAvsluttOppdragModal: {
-                open: false,
-            },
-        });*/
     }
 
     const skalViseModal = () => {
