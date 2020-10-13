@@ -38,18 +38,18 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    type Rec = Record<string, number>;
+    type LagretAntallStillinger = Record<string, number>;
 
-    const defaultMap: Rec = {};
+    const defaultMapAntallStillinger: LagretAntallStillinger = {};
 
-    const [lukkedata, setLukkedata] = useState(defaultMap);
+    const [lukkedata, setLukkedata] = useState(defaultMapAntallStillinger);
     useEffect(() => {
         try {
             const localStorageValue: string | null = window.localStorage.getItem(
                 LOCAL_STORAGE_KEY_ANTALL_STILLINGER
             );
             if (localStorageValue != null) {
-                const ls: Rec = JSON.parse(localStorageValue);
+                const ls: LagretAntallStillinger = JSON.parse(localStorageValue);
                 setLukkedata(ls);
             }
         } catch (error) {
