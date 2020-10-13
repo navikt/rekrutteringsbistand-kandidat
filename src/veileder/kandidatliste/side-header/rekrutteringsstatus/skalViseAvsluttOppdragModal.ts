@@ -12,6 +12,6 @@ export const skalViseModal = (
         besatteStillinger >= antallStillinger &&
         kanEditere &&
         (antallStillingerVedSisteAvsluttOppdragBekreftelse == null ||
-            antallStillingerVedSisteAvsluttOppdragBekreftelse >= antallStillinger)
+            antallStillingerVedSisteAvsluttOppdragBekreftelse < antallStillinger)
     );
 };
