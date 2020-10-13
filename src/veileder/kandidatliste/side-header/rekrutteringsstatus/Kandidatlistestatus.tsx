@@ -21,8 +21,6 @@ const kandidatlistestatusToDisplayName = (status: Status) => {
 
 const LOCAL_STORAGE_KEY_ANTALL_STILLINGER = 'antallStillingerVedSisteAvsluttOppdragBekreftelse';
 
- null
-
 type Props = {
     status: Status;
     kanEditere: boolean;
