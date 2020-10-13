@@ -13,28 +13,10 @@ import AppState from '../../../AppState';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
-import { skalViseModal as skalViseModalLukkKandliste } from './testables';
+import { skalViseModal } from './skalViseAvsluttOppdragModal';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
-};
-
-// TODO Are: Slett?
-export const skalViseModal = (
-    modalHarBlittLukket: boolean,
-    status: String,
-    antallStillinger: number,
-    besatteStillinger: number,
-    kanEditere: boolean
-) => {
-    return (
-        !modalHarBlittLukket &&
-        status === Status.Åpen &&
-        antallStillinger != null &&
-        antallStillinger > 0 &&
-        besatteStillinger >= antallStillinger &&
-        kanEditere
-    );
 };
 
 type Props = {
@@ -86,18 +68,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         setModalHarBlittLukket(true);
     };
 
-    // TODO Are: Slett?
-    // const skalViseModal = () => {
-    //     return (
-    //         !modalHarBlittLukket &&
-    //         status === Status.Åpen &&
-    //         antallStillinger != null &&
-    //         antallStillinger > 0 &&
-    //         besatteStillinger >= antallStillinger &&
-    //         kanEditere
-    //     );
-    // };
-
     return (
         <Panel border className={klassenavn}>
             <div className="kandidatlistestatus__ikon">
@@ -118,7 +88,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
                         </Normaltekst>
                     )}
-                {skalViseModalLukkKandliste(
+                {skalViseModal(
                     modalHarBlittLukket,
                     status.toString(),
                     antallStillinger,

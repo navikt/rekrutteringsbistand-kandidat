@@ -1,4 +1,4 @@
-import { skalViseModal } from './testables';
+import { skalViseModal } from './skalViseAvsluttOppdragModal';
 
 describe('Funksjonen skalViseModal for nudging av lukking av kandidatliste når alle stillinger i listen er besatt', () => {
     test('skal returnere true', () => {
