@@ -93,13 +93,11 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         try {
             lukkedata[kandidatlisteId] = antallStillinger || 0;
-            const stringify = JSON.stringify(lukkedata)
             window.localStorage.setItem(
                 LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
-                stringify
+                JSON.stringify(lukkedata)
             );
-            const ls: Rec = JSON.parse(stringify);
-            setLukkedata(ls);
+            setLukkedata({...lukkedata})
         } catch (error) {
             console.error('Kunne ikke lagre til local storage:', error);
         }
