@@ -1,16 +1,17 @@
 export const skalViseModal = (
-    modalHarBlittLukket: boolean,
     status: String,
     antallStillinger: number | null,
     besatteStillinger: number,
-    kanEditere: boolean
+    kanEditere: boolean,
+    antallStillingerVedSisteAvsluttOppdragBekreftelse: number | null
 ) => {
     return (
-        !modalHarBlittLukket &&
         status === 'ÅPEN' &&
         antallStillinger != null &&
         antallStillinger > 0 &&
         besatteStillinger >= antallStillinger &&
-        kanEditere
+        kanEditere &&
+        (antallStillingerVedSisteAvsluttOppdragBekreftelse == null ||
+            antallStillingerVedSisteAvsluttOppdragBekreftelse >= antallStillinger)
     );
 };

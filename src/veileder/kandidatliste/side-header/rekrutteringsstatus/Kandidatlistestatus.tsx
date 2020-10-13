@@ -19,6 +19,10 @@ const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
+const LOCAL_STORAGE_KEY_ANTALL_STILLINGER = 'antallStillingerVedSisteAvsluttOppdragBekreftelse';
+
+ null
+
 type Props = {
     status: Status;
     kanEditere: boolean;
@@ -36,11 +40,29 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
+
+    type Rec = Record<string, number >
+
+    const defaultMap: Rec = {}
+
+    const [lukkedata, setLukkedata] = useState(defaultMap);
+
+    try {
+        
+        const localStorageValue: string | null = window.localStorage.getItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER);
+        if(localStorageValue != null) {
+            const ls: Rec = JSON.parse(localStorageValue);
+            setLukkedata(ls)
+        }
+
+    } catch (error) {
+        console.error('Kunne ikke hente fra local storage:', error);
+    }
+
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
         (state: AppState) => state.kandidatliste.endreKandidatlistestatus
     );
-    const [modalHarBlittLukket, setModalHarBlittLukket] = useState(false);
 
     const onEndreStatusClick = () => {
         dispatch<KandidatlisteAction>({
@@ -61,11 +83,16 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
             kandidatlisteId: kandidatlisteId,
             status: Status.Lukket,
         });
-        lukkNudgeAvsluttOppdragModal();
     };
 
-    const lukkNudgeAvsluttOppdragModal = () => {
-        setModalHarBlittLukket(true);
+    const avvisNudgeAvsluttOppdragModal = () => {
+        try {
+            lukkedata[kandidatlisteId] =  antallStillinger || 0;
+            setLukkedata(lukkedata)
+            window.localStorage.setItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER, JSON.stringify(lukkedata));
+        } catch (error) {
+            console.error('Kunne ikke lagre til local storage:', error);
+        }
     };
 
     return (
@@ -89,17 +116,17 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                         </Normaltekst>
                     )}
                 {skalViseModal(
-                    modalHarBlittLukket,
                     status.toString(),
                     antallStillinger,
                     besatteStillinger,
-                    kanEditere
+                    kanEditere,
+                    lukkedata[kandidatlisteId]
                 ) && (
                     <NudgeAvsluttOppdragModal
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
                         onBekreft={bekreftNudgeAvsluttOppdragModal}
-                        onAvbryt={lukkNudgeAvsluttOppdragModal}
+                        onAvbryt={avvisNudgeAvsluttOppdragModal}
                     />
                 )}
             </div>
