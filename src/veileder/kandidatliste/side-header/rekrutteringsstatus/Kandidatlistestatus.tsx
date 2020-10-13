@@ -44,18 +44,19 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const defaultMap: Rec = {}
 
     const [lukkedata, setLukkedata] = useState(defaultMap);
+    useEffect(() => {
 
-    try {
-        
-        const localStorageValue: string | null = window.localStorage.getItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER);
-        if(localStorageValue != null) {
-            const ls: Rec = JSON.parse(localStorageValue);
-            setLukkedata(ls)
+        try {
+            const localStorageValue: string | null = window.localStorage.getItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER);
+            if(localStorageValue != null) {
+                const ls: Rec = JSON.parse(localStorageValue);
+                setLukkedata(ls)
+            }
+
+        } catch (error) {
+            console.error('Kunne ikke hente fra local storage:', error);
         }
-
-    } catch (error) {
-        console.error('Kunne ikke hente fra local storage:', error);
-    }
+    }, [status, kanEditere, besatteStillinger, antallStillinger, erKnyttetTilStilling, kandidatlisteId]);
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
