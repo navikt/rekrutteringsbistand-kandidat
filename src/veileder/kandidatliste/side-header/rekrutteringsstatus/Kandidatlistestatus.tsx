@@ -38,25 +38,34 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
+    type Rec = Record<string, number>;
 
-    type Rec = Record<string, number >
-
-    const defaultMap: Rec = {}
+    const defaultMap: Rec = {};
 
     const [lukkedata, setLukkedata] = useState(defaultMap);
+    const [force, setForce] = useState(0);
     useEffect(() => {
-
         try {
-            const localStorageValue: string | null = window.localStorage.getItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER);
-            if(localStorageValue != null) {
+            const localStorageValue: string | null = window.localStorage.getItem(
+                LOCAL_STORAGE_KEY_ANTALL_STILLINGER
+            );
+            if (localStorageValue != null) {
                 const ls: Rec = JSON.parse(localStorageValue);
-                setLukkedata(ls)
+                setLukkedata(ls);
             }
-
         } catch (error) {
             console.error('Kunne ikke hente fra local storage:', error);
         }
-    }, [status, kanEditere, besatteStillinger, antallStillinger, erKnyttetTilStilling, kandidatlisteId]);
+    }, [
+        status,
+        kanEditere,
+        besatteStillinger,
+        antallStillinger,
+        erKnyttetTilStilling,
+        kandidatlisteId,
+        JSON.stringify(lukkedata),
+        force
+    ]);
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -86,9 +95,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 
     const avvisNudgeAvsluttOppdragModal = () => {
         try {
-            lukkedata[kandidatlisteId] =  antallStillinger || 0;
-            setLukkedata(lukkedata)
-            window.localStorage.setItem(LOCAL_STORAGE_KEY_ANTALL_STILLINGER, JSON.stringify(lukkedata));
+            lukkedata[kandidatlisteId] = antallStillinger || 0;
+            console.log('sssss', lukkedata);
+            window.localStorage.setItem(
+                LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
+                JSON.stringify(lukkedata)
+            );
+            setForce(force + 1);
         } catch (error) {
             console.error('Kunne ikke lagre til local storage:', error);
         }
