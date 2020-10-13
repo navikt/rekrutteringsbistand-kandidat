@@ -43,7 +43,6 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const defaultMap: Rec = {};
 
     const [lukkedata, setLukkedata] = useState(defaultMap);
-    const [force, setForce] = useState(0);
     useEffect(() => {
         try {
             const localStorageValue: string | null = window.localStorage.getItem(
@@ -62,9 +61,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         besatteStillinger,
         antallStillinger,
         erKnyttetTilStilling,
-        kandidatlisteId,
-        JSON.stringify(lukkedata),
-        force
+        kandidatlisteId
     ]);
 
     const dispatch = useDispatch();
@@ -96,12 +93,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         try {
             lukkedata[kandidatlisteId] = antallStillinger || 0;
-            console.log('sssss', lukkedata);
+            const stringify = JSON.stringify(lukkedata)
             window.localStorage.setItem(
                 LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
-                JSON.stringify(lukkedata)
+                stringify
             );
-            setForce(force + 1);
+            const ls: Rec = JSON.parse(stringify);
+            setLukkedata(ls);
         } catch (error) {
             console.error('Kunne ikke lagre til local storage:', error);
         }
