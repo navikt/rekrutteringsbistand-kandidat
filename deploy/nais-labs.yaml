@@ -6,15 +6,15 @@ metadata:
     labels:
         team: arbeidsgiver
 spec:
-    image: {{ image }}
+    image: { { image } }
     port: 8080
     liveness:
-        path: /rekrutteringsbistand-kandidat
+        path: /rekrutteringsbistand-kandidat/index.html
         initialDelay: 5
         timeout: 1
         failureThreshold: 2
     readiness:
-        path: /rekrutteringsbistand-kandidat
+        path: /rekrutteringsbistand-kandidat/index.html
         initialDelay: 5
         timeout: 1
     replicas:
