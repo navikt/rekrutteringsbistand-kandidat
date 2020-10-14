@@ -30,7 +30,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             </Systemtittel>
             <div className="nudgeAvsluttOppdragModal__beskrivelse">
                 <Normaltekst>
-                    {antallKandidaterSomHarFåttJobb} av {antallStillinger} er besatt
+                    {antallKandidaterSomHarFåttJobb} av {antallStillinger} stillinger er besatt
                 </Normaltekst>
                 <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
             </div>
