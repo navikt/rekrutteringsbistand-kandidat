@@ -14,7 +14,7 @@ import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
-import useAntallLagredeStillinger, { LagretAntallStillinger } from './useAntallLagredeStillinger';
+import useAntallLagredeStillinger from './useAntallLagredeStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';

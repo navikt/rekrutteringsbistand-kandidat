@@ -15,7 +15,7 @@ const hentAntallLagredeStillinger = (): LagretAntallStillinger => {
     return {};
 };
 
-const useAntallLagredeStillinger = (kandidatlisteId: string) => {
+const useAntallLagredeStillinger = (kandidatlisteId: string) : [LagretAntallStillinger, (lagretAntallStillinger: LagretAntallStillinger) => void] => {
     const [lukkedata, setLukkedata] = useState<LagretAntallStillinger>(
         hentAntallLagredeStillinger()
     );
