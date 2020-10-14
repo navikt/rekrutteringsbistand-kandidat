@@ -14,7 +14,7 @@ import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
-import useAntallLagredeStillinger from './useAntallLagredeStillinger';
+import useLagretAntallStillinger from './useLagretAntallStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -37,7 +37,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    const [lukkedata, setLukkedata] = useAntallLagredeStillinger(kandidatlisteId);
+    const [lukkedata, setLukkedata] = useLagretAntallStillinger(kandidatlisteId);
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -73,7 +73,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     };
 
     const visModal = skalViseModal(
-        status.toString(), // send inn enum
+        status,
         antallStillinger,
         besatteStillinger,
         kanEditere,
