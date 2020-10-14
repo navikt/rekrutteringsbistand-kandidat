@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
@@ -17,7 +17,14 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     onBekreft,
     onAvbryt,
 }) => {
+    const [klar, setKlar] = useState<Boolean>(false);
+    useEffect(() => {
+        setTimeout(() => {
+            setKlar(true);
+        }, 500)
+    }, [klar]);
     return (
+        klar &&
         <NavFrontendModal
             closeButton
             isOpen={true}
