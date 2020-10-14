@@ -2,10 +2,11 @@ apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
     name: rekrutteringsbistand-kandidat
+    namespace: arbeidsgiver
     labels:
         team: arbeidsgiver
 spec:
-    image: { { image } }
+    image: {{ image }}
     port: 8080
     liveness:
         path: /rekrutteringsbistand-kandidat
