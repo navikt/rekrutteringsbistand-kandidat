@@ -2,8 +2,10 @@ FROM navikt/node-express:14-alpine
 
 WORKDIR /usr/src/app
 
-COPY labs/views/ ./
+COPY labs/ ./
 COPY dist/ ./
+
+RUN npm ci
 
 EXPOSE 8080
 
