@@ -19,10 +19,13 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
 }) => {
     const [klar, setKlar] = useState<Boolean>(false);
     useEffect(() => {
-        setTimeout(() => {
+        const klarTimeout = setTimeout(() => {
             setKlar(true);
-        }, 500)
-    }, [klar]);
+        }, 5000);
+        return () => {
+            clearTimeout(klarTimeout)
+        }
+    }, []);
     return (
         klar &&
         <NavFrontendModal
