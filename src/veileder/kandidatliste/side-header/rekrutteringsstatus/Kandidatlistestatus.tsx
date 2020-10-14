@@ -68,7 +68,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         setLukkedata({
             ...lukkedata,
-            [kandidatlisteId]: antallStillinger || 0
+            [kandidatlisteId]: antallStillinger || 0,
         });
     };
 
