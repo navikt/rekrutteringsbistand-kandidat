@@ -20,7 +20,6 @@ const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
-
 type Props = {
     status: Status;
     kanEditere: boolean;
@@ -69,8 +68,8 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         setLukkedata({
             ...lukkedata,
-            [kandidatlisteId]: antallStillinger || 0
-        })
+            [kandidatlisteId]: antallStillinger || 0,
+        });
     };
 
     const visModal = skalViseModal(
@@ -79,7 +78,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         besatteStillinger,
         kanEditere,
         lukkedata[kandidatlisteId]
-    )
+    );
 
     return (
         <Panel border className={klassenavn}>
