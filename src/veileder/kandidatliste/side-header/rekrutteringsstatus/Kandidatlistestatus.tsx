@@ -30,8 +30,6 @@ type Props = {
     kandidatlisteId: string;
 };
 
-
-
 const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
     kanEditere,
