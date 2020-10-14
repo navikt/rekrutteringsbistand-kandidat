@@ -43,4 +43,4 @@ const useAvvisModalFraLocalStorage = (
 //
 //     return [lukkedata, setLukkedata];
 // };
-export default useLagretAntallStillinger;
+export default useAvvisModalFraLocalStorage;
