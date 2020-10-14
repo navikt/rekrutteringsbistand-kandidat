@@ -7,7 +7,6 @@ import {
     KandidatIKandidatliste,
     Kandidatliste as Kandidatlistetype,
     Kandidatlistefilter,
-    Kandidatlistestatus as Status,
     Kandidatstatus,
     SmsStatus,
 } from './kandidatlistetyper';
@@ -50,7 +49,6 @@ type ConnectedProps = {
         utfall: Utfall,
         navKontor: string
     ) => void;
-    setKandidatlistestatusLukket: (kandidatlisteId: string) => void;
     presenterKandidater: (
         beskjed: string,
         mailadresser: Array<string>,
@@ -543,13 +541,6 @@ const mapDispatchToProps = (dispatch: (action: KandidatlisteAction) => void) => 
             navKontor,
             kandidatlisteId,
             kandidatnr,
-        });
-    },
-    setKandidatlistestatusLukket: (kandidatlisteId: string) => {
-        dispatch({
-            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
-            kandidatlisteId: kandidatlisteId,
-            status: Status.Lukket,
         });
     },
     endreFormidlingsutfallForUsynligKandidat: (
