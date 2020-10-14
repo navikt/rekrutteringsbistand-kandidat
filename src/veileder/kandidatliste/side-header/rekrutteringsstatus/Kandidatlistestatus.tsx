@@ -14,12 +14,12 @@ import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
+import useAntallLagredeStillinger from './useAntallLagredeStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
 };
 
-const LOCAL_STORAGE_KEY_ANTALL_STILLINGER = 'antallStillingerVedSisteAvsluttOppdragBekreftelse';
 
 type Props = {
     status: Status;
@@ -30,22 +30,7 @@ type Props = {
     kandidatlisteId: string;
 };
 
-type LagretAntallStillinger = Record<string, number>;
 
-const hentAntallLagredeStillinger  = () : LagretAntallStillinger => {
-    try {
-        const localStorageValue = window.localStorage.getItem(
-            LOCAL_STORAGE_KEY_ANTALL_STILLINGER
-        );
-        if (localStorageValue) {
-            return JSON.parse(localStorageValue);
-        } 
-    } catch (error) {
-        console.error('Kunne ikke hente fra local storage:', error);
-    }
-    return {};
-    
-}
 
 const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
@@ -55,15 +40,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-
-    const [lukkedata, setLukkedata] = useState<LagretAntallStillinger>(hentAntallLagredeStillinger());
-
-    useEffect(() => {
-        window.localStorage.setItem(
-            LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
-            JSON.stringify(lukkedata)
-        );
-    }, [lukkedata[kandidatlisteId]])
+    const [lukkedata, setLukkedata] = useAntallLagredeStillinger(kandidatlisteId);
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -92,12 +69,10 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     };
 
     const avvisNudgeAvsluttOppdragModal = () => {
-        try {
-            lukkedata[kandidatlisteId] = antallStillinger || 0;
-            setLukkedata({...lukkedata})
-        } catch (error) {
-            console.error('Kunne ikke lagre til local storage:', error);
-        }
+        setLukkedata({
+            ...lukkedata,
+            [kandidatlisteId]: antallStillinger || 0
+        })
     };
 
     const visModal = skalViseModal(
