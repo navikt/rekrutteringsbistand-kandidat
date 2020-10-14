@@ -8,6 +8,7 @@
     "build": "npm run clean-build && webpack --config webpack.config.js",
     "build:dev": "npm run clean-build && webpack --config webpack.config.dev.js",
     "build:dev:express": "npm run build:dev && sh localserver.sh",
+    "build:mock": "npm run clean-build && webpack --config webpack.config.mock.js",
     "start-express": "node ./server/server.js",
     "start": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.dev.js",
     "mock": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.mock.js",
