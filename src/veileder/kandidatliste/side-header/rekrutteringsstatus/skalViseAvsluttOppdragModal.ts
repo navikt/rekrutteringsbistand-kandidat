@@ -3,15 +3,15 @@ export const skalViseModal = (
     antallStillinger: number | null,
     besatteStillinger: number,
     kanEditere: boolean,
-    antallStillingerVedSisteAvsluttOppdragBekreftelse: number | null
+    antallStillingerVedSisteAvsluttOppdragBekreftelse?: number
 ) => {
     return (
         status === 'ÅPEN' &&
-        antallStillinger != null &&
+        antallStillinger !== null &&
         antallStillinger > 0 &&
         besatteStillinger >= antallStillinger &&
         kanEditere &&
-        (antallStillingerVedSisteAvsluttOppdragBekreftelse == null ||
+        (antallStillingerVedSisteAvsluttOppdragBekreftelse === undefined ||
             antallStillingerVedSisteAvsluttOppdragBekreftelse < antallStillinger)
     );
 };

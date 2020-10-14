@@ -30,6 +30,23 @@ type Props = {
     kandidatlisteId: string;
 };
 
+type LagretAntallStillinger = Record<string, number>;
+
+const hentAntallLagredeStillinger  = () : LagretAntallStillinger => {
+    try {
+        const localStorageValue = window.localStorage.getItem(
+            LOCAL_STORAGE_KEY_ANTALL_STILLINGER
+        );
+        if (localStorageValue) {
+            return JSON.parse(localStorageValue);
+        } 
+    } catch (error) {
+        console.error('Kunne ikke hente fra local storage:', error);
+    }
+    return {};
+    
+}
+
 const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
     kanEditere,
@@ -38,31 +55,15 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    type LagretAntallStillinger = Record<string, number>;
 
-    const defaultMapAntallStillinger: LagretAntallStillinger = {};
+    const [lukkedata, setLukkedata] = useState<LagretAntallStillinger>(hentAntallLagredeStillinger());
 
-    const [lukkedata, setLukkedata] = useState(defaultMapAntallStillinger);
     useEffect(() => {
-        try {
-            const localStorageValue: string | null = window.localStorage.getItem(
-                LOCAL_STORAGE_KEY_ANTALL_STILLINGER
-            );
-            if (localStorageValue != null) {
-                const ls: LagretAntallStillinger = JSON.parse(localStorageValue);
-                setLukkedata(ls);
-            }
-        } catch (error) {
-            console.error('Kunne ikke hente fra local storage:', error);
-        }
-    }, [
-        status,
-        kanEditere,
-        besatteStillinger,
-        antallStillinger,
-        erKnyttetTilStilling,
-        kandidatlisteId
-    ]);
+        window.localStorage.setItem(
+            LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
+            JSON.stringify(lukkedata)
+        );
+    }, [lukkedata[kandidatlisteId]])
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -93,15 +94,19 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         try {
             lukkedata[kandidatlisteId] = antallStillinger || 0;
-            window.localStorage.setItem(
-                LOCAL_STORAGE_KEY_ANTALL_STILLINGER,
-                JSON.stringify(lukkedata)
-            );
             setLukkedata({...lukkedata})
         } catch (error) {
             console.error('Kunne ikke lagre til local storage:', error);
         }
     };
+
+    const visModal = skalViseModal(
+        status.toString(), // send inn enum
+        antallStillinger,
+        besatteStillinger,
+        kanEditere,
+        lukkedata[kandidatlisteId]
+    )
 
     return (
         <Panel border className={klassenavn}>
@@ -123,13 +128,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
                         </Normaltekst>
                     )}
-                {skalViseModal(
-                    status.toString(),
-                    antallStillinger,
-                    besatteStillinger,
-                    kanEditere,
-                    lukkedata[kandidatlisteId]
-                ) && (
+                {visModal && (
                     <NudgeAvsluttOppdragModal
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
