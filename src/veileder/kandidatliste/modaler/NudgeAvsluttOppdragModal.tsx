@@ -7,7 +7,7 @@ import './NudgeAvsluttOppdragModal.less';
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
     antallStillinger: number;
-    onBekreft?: () => void;
+    onBekreft: () => void;
     onAvbryt: () => void;
 }
 
