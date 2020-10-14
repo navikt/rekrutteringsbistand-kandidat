@@ -68,11 +68,11 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     const avvisNudgeAvsluttOppdragModal = () => {
         setLukkedata({
             ...lukkedata,
-            [kandidatlisteId]: antallStillinger || 0,
+            [kandidatlisteId]: antallStillinger || 0
         });
     };
 
-    const visModal = skalViseModal(
+    const skalViseAvsluttOppdragModal = skalViseModal(
         status,
         antallStillinger,
         besatteStillinger,
@@ -100,7 +100,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                             {besatteStillinger === 1 ? '' : 'er'} er besatt
                         </Normaltekst>
                     )}
-                {visModal && (
+                {skalViseAvsluttOppdragModal && (
                     <NudgeAvsluttOppdragModal
                         antallKandidaterSomHarFåttJobb={besatteStillinger}
                         antallStillinger={antallStillinger || 0}
