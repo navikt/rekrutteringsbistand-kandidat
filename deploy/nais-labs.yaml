@@ -9,12 +9,12 @@ spec:
     image: {{ image }}
     port: 8080
     liveness:
-        path: /rekrutteringsbistand-kandidat
+        path: /rekrutteringsbistand-kandidat/internal/isAlive
         initialDelay: 15
         timeout: 1
         failureThreshold: 2
     readiness:
-        path: /rekrutteringsbistand-kandidat
+        path: /rekrutteringsbistand-kandidat/internal/isAlive
         initialDelay: 15
         timeout: 1
     replicas:
