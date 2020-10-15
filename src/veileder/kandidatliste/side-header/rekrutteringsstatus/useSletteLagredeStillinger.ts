@@ -10,14 +10,16 @@ const useSletteLagredeStillinger = (
     setLukkedata: (lagretAntallStillinger: LagretAntallStillinger) => void
 ) => {
     useEffect(() => {
-        if (lukkedata && lukkedata[kandidatlisteId] && antallStillinger && besatteStillinger < antallStillinger) {
-            
-            const m = {
+        if (
+            lukkedata &&
+            lukkedata[kandidatlisteId] &&
+            antallStillinger &&
+            besatteStillinger < antallStillinger
+        ) {
+            setLukkedata({
                 ...lukkedata,
                 [kandidatlisteId]: undefined,
-            }
-            console.log('sssss', lukkedata, besatteStillinger, antallStillinger, m )
-            setLukkedata(m);
+            });
         }
     }, [besatteStillinger, antallStillinger]);
 };

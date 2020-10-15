@@ -1,13 +1,9 @@
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
-import { Kandidatlistestatus} from '../../kandidatlistetyper';
-
+import { Kandidatlistestatus } from '../../kandidatlistetyper';
 
 describe('Nudging av lukking av kandidatliste', () => {
     test('Skal vise modal hvis alle stillinger er besatte og du eier kandidatlisten', () => {
         expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, undefined)).toBe(true);
-    });
-    test('Skal vise modal hvis antall stillinger var lavere når den sist ble lukket', () => {
-        expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, 6)).toBe(true);
     });
 
     test('Skal ikke vise modal hvis kandidatlisten allerede er lukket', () => {
@@ -35,6 +31,6 @@ describe('Nudging av lukking av kandidatliste', () => {
     });
 
     test('Skal ikke vise modal hvis veileder har lukket den tidligere', () => {
-        expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, 7)).toBe(false);
+        expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, 7)).toBe(false); // TODO Are: Tallet kan være hva som helst, skal blir boolean?
     });
 });

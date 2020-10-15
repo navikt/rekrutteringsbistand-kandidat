@@ -1,4 +1,4 @@
-import { Kandidatlistestatus} from '../../kandidatlistetyper';
+import { Kandidatlistestatus } from '../../kandidatlistetyper';
 
 export const skalViseModal = (
     status: Kandidatlistestatus,
@@ -13,7 +13,6 @@ export const skalViseModal = (
         antallStillinger > 0 &&
         besatteStillinger >= antallStillinger &&
         kanEditere &&
-        (antallStillingerVedSisteAvsluttOppdragBekreftelse === undefined ||
-            antallStillingerVedSisteAvsluttOppdragBekreftelse < antallStillinger)
+        antallStillingerVedSisteAvsluttOppdragBekreftelse === undefined
     );
 };
