@@ -21,7 +21,7 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
     useEffect(() => {
         const klarTimeout = setTimeout(() => {
             setKlar(true);
-        }, 5000);
+        }, 400);
         return () => {
             clearTimeout(klarTimeout)
         }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 const LOCAL_STORAGE_KEY_ANTALL_STILLINGER = 'antallStillingerVedSisteAvsluttOppdragBekreftelse';
 
-type LagretAntallStillinger = Record<string, number>;
+type LagretAntallStillinger = Record<string, number | undefined>;
 
 const hentAntallLagredeStillinger = (): LagretAntallStillinger => {
     try {

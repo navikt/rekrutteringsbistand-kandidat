@@ -15,6 +15,7 @@ import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
 import useLagretAntallStillinger from './useLagretAntallStillinger';
+import useSletteLagredeStillinger from './useSletteLagredeStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -38,6 +39,8 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     kandidatlisteId,
 }) => {
     const [lukkedata, setLukkedata] = useLagretAntallStillinger(kandidatlisteId);
+
+    useSletteLagredeStillinger(kandidatlisteId,besatteStillinger,antallStillinger, lukkedata, setLukkedata)
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -77,7 +80,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         antallStillinger,
         besatteStillinger,
         kanEditere,
-        lukkedata[kandidatlisteId]
+        lukkedata[kandidatlisteId] 
     );
 
     return (
