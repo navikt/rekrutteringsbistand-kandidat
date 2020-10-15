@@ -40,7 +40,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 }) => {
     const [lukkedata, setLukkedata] = useLagretAntallStillinger(kandidatlisteId);
 
-    useSletteLagredeStillinger(kandidatlisteId,besatteStillinger,antallStillinger, lukkedata, setLukkedata)
+    useSletteLagredeStillinger(
+        kandidatlisteId,
+        besatteStillinger,
+        antallStillinger,
+        lukkedata,
+        setLukkedata
+    );
 
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
@@ -48,6 +54,13 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     );
 
     const onEndreStatusClick = () => {
+        if (status === Status.Lukket) {
+            setLukkedata({
+                ...lukkedata,
+                [kandidatlisteId]: antallStillinger || 0,
+            });
+        }
+
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
             kandidatlisteId: kandidatlisteId,
@@ -80,7 +93,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         antallStillinger,
         besatteStillinger,
         kanEditere,
-        lukkedata[kandidatlisteId] 
+        lukkedata[kandidatlisteId]
     );
 
     return (
