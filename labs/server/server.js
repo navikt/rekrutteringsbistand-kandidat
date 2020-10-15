@@ -14,11 +14,20 @@ const startServer = () => {
         res.sendStatus(200)
     );
 
-    server.use('/kandidater/js', express.static(path.resolve(__dirname, '../dist/js')));
-    server.use('/kandidater/css', express.static(path.resolve(__dirname, '../dist/css')));
+    server.use(
+        '/rekrutteringsbistand-kandidat/kandidater/js',
+        express.static(path.resolve(__dirname, '../dist/js'))
+    );
+    server.use(
+        '/rekrutteringsbistand-kandidat/kandidater/css',
+        express.static(path.resolve(__dirname, '../dist/css'))
+    );
 
     server.use(
-        ['/kandidater', '/kandidater/*'],
+        [
+            '/rekrutteringsbistand-kandidat/kandidater',
+            '/rekrutteringsbistand-kandidat/kandidater/*',
+        ],
         express.static(path.resolve(__dirname, 'index.html'))
     );
 
