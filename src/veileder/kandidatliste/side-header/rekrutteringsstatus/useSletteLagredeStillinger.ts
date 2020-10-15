@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-
-type KandidatlisteIder = Set<string>;
+import { KandidatlisteIder } from './useLagreKandidatlisteIder';
 
 const useSletteKandidatlisteIderFraLukkedata = (
     kandidatlisteId: string,
     besatteStillinger: number,
     antallStillinger: number | null,
     lukkedata: KandidatlisteIder,
-    setLukkedata: (lagretAntallStillinger: KandidatlisteIder) => void
+    setLukkedata: (KandidatlisteIder) => void
 ) => {
     useEffect(() => {
         if (

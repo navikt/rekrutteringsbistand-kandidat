@@ -30,7 +30,7 @@ describe('Nudging av lukking av kandidatliste', () => {
         expect(skalViseModal(Kandidatlistestatus.Åpen, null, 7, true, false)).toBe(false);
     });
 
-    test('Skal ikke vise modal hvis veileder har lukket den tidligere', () => {
-        expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, true)).toBe(false); // TODO Are: Tallet kan være hva som helst, skal blir boolean?
+    test('Skal ikke vise modal hvis veileder har avvist den tidligere', () => {
+        expect(skalViseModal(Kandidatlistestatus.Åpen, 7, 7, true, true)).toBe(false);
     });
 });

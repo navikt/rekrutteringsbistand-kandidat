@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +38,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    const [lukkedata, setLukkedata] = useLagreKandidatlisteIder(kandidatlisteId);
+    const [lukkedata, setLukkedata] = useLagreKandidatlisteIder();
 
     useSletteKandidatlisteIderFraLukkedata(
         kandidatlisteId,
