@@ -1,27 +1,26 @@
 import { useEffect } from 'react';
 
-type LagretAntallStillinger = Record<string, number | undefined>;
+type KandidatlisteIder = Set<string>;
 
-const useSletteLagredeStillinger = (
+const useSletteKandidatlisteIderFraLukkedata = (
     kandidatlisteId: string,
     besatteStillinger: number,
     antallStillinger: number | null,
-    lukkedata: LagretAntallStillinger,
-    setLukkedata: (lagretAntallStillinger: LagretAntallStillinger) => void
+    lukkedata: KandidatlisteIder,
+    setLukkedata: (lagretAntallStillinger: KandidatlisteIder) => void
 ) => {
     useEffect(() => {
         if (
             lukkedata &&
-            lukkedata[kandidatlisteId] &&
+            Array.from(lukkedata).includes(kandidatlisteId) &&
             antallStillinger &&
             besatteStillinger < antallStillinger
         ) {
-            setLukkedata({
-                ...lukkedata,
-                [kandidatlisteId]: undefined,
-            });
+            const newSet = new Set(lukkedata);
+            newSet.delete(kandidatlisteId);
+            setLukkedata(newSet);
         }
     }, [besatteStillinger, antallStillinger]);
 };
 
-export default useSletteLagredeStillinger;
+export default useSletteKandidatlisteIderFraLukkedata;

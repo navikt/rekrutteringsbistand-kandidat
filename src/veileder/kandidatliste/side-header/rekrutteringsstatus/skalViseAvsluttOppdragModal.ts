@@ -5,14 +5,15 @@ export const skalViseModal = (
     antallStillinger: number | null,
     besatteStillinger: number,
     kanEditere: boolean,
-    antallStillingerVedSisteAvsluttOppdragBekreftelse?: number
+    harAvbrutt: boolean
 ) => {
+    console.log 
     return (
         status === Kandidatlistestatus.Åpen &&
         antallStillinger !== null &&
         antallStillinger > 0 &&
         besatteStillinger >= antallStillinger &&
         kanEditere &&
-        antallStillingerVedSisteAvsluttOppdragBekreftelse === undefined
+        !harAvbrutt
     );
 };

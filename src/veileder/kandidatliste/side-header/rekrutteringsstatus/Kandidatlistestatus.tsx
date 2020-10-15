@@ -14,8 +14,8 @@ import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
-import useLagretAntallStillinger from './useLagretAntallStillinger';
-import useSletteLagredeStillinger from './useSletteLagredeStillinger';
+import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
+import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -38,9 +38,9 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
-    const [lukkedata, setLukkedata] = useLagretAntallStillinger(kandidatlisteId);
+    const [lukkedata, setLukkedata] = useLagreKandidatlisteIder(kandidatlisteId);
 
-    useSletteLagredeStillinger(
+    useSletteKandidatlisteIderFraLukkedata(
         kandidatlisteId,
         besatteStillinger,
         antallStillinger,
@@ -55,10 +55,9 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
 
     const onEndreStatusClick = () => {
         if (status === Status.Lukket) {
-            setLukkedata({
-                ...lukkedata,
-                [kandidatlisteId]: antallStillinger || 0,
-            });
+            const newSet = new Set(lukkedata);
+            newSet.add(kandidatlisteId);
+            setLukkedata(newSet);
         }
 
         dispatch<KandidatlisteAction>({
@@ -82,10 +81,9 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     };
 
     const avvisNudgeAvsluttOppdragModal = () => {
-        setLukkedata({
-            ...lukkedata,
-            [kandidatlisteId]: antallStillinger || 0,
-        });
+        const newSet = new Set(lukkedata);
+        newSet.add(kandidatlisteId);
+        setLukkedata(newSet);
     };
 
     const skalViseAvsluttOppdragModal = skalViseModal(
@@ -93,7 +91,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         antallStillinger,
         besatteStillinger,
         kanEditere,
-        lukkedata[kandidatlisteId]
+        Array.from(lukkedata).includes(kandidatlisteId)
     );
 
     return (
