@@ -157,8 +157,6 @@ const fjernDobleCookies = (req, res, next) => {
     next();
 };
 
-const logError = (errorMessage, details) => console.log(errorMessage, details);
-
 const browserRegistrator = (req, res, next) => {
     try {
         const browserInfo = useragent.lookup(req.headers['user-agent']);
