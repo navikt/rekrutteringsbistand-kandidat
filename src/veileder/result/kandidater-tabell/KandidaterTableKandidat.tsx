@@ -10,7 +10,6 @@ import TilgjengelighetFlagg from './tilgjengelighet-flagg/TilgjengelighetFlagg';
 import Søkeresultat from '../../sok/Søkeresultat';
 import './KandidaterTabell.less';
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
-import { KandidatQueryParam } from '../../kandidatside/Kandidatside';
 import { Checkbox } from 'nav-frontend-skjema';
 import { lenkeTilKandidat } from '../../application/paths';
 

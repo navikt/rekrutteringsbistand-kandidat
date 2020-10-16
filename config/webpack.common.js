@@ -6,9 +6,9 @@ const commonConfig = {
         sok: ['babel-polyfill', 'whatwg-fetch', './src/veileder/App.tsx'],
     },
     output: {
-        path: `${__dirname}/dist`,
+        path: `${__dirname}/../dist`,
         filename: 'js/[name].js',
-        publicPath: '/sok',
+        publicPath: '/kandidater',
     },
     module: {
         rules: [
@@ -37,7 +37,7 @@ const commonConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: './css/[name].css',
+            filename: 'css/[name].css',
         }),
     ],
 };

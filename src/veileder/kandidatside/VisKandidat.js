@@ -7,7 +7,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 
 import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
-import { KandidatQueryParam } from './Kandidatside';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
 import { sendEvent } from '../amplitude/amplitude';

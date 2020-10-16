@@ -6,9 +6,7 @@ const devOverride = {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        historyApiFallback: {
-            index: './viewsDev/index.html',
-        },
+        historyApiFallback: true,
         proxy: {
             '/kandidater/midlertidig-utilgjengelig': {
                 target: 'http://localhost:8080/finn-kandidat-api',

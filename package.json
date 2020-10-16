@@ -4,20 +4,19 @@
     "repository": "https://github.com/navikt/rekrutteringsbistand-kandidat/",
     "license": "MIT",
     "scripts": {
-        "build": "webpack --config webpack.config.js",
-        "build:dev": "webpack --config webpack.config.dev.js",
-        "build:dev:express": "npm run build:dev && sh localserver.sh",
-        "build:mock": "webpack --config webpack.config.mock.js",
+        "build": "webpack --config config/webpack.config.prod.js",
+        "build:dev": "webpack --config config/webpack.config.dev.js",
+        "build:labs": "webpack --config config/webpack.config.labs.js",
+        "docker:labs:build": "docker build --tag rekbis-kandidat-lab . -f labs/Dockerfile",
+        "docker:labs:run": "docker run -p 8080:8080 rekbis-kandidat-lab",
+        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs",
         "start-express": "node ./server/server.js",
-        "start": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.dev.js",
-        "mock": "webpack-dev-server --port 9010 --inline --env.dev --config webpack.config.mock.js",
-        "lint": "eslint \"./src/**/*.{js,jsx}\"",
+        "start": "webpack-dev-server --port 9010 --inline --env.dev --config config/webpack.config.dev.js",
+        "mock": "webpack-dev-server --port 9010 --inline --env.dev --config config/webpack.config.mock.js",
+        "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
         "lint-staged": "bash ./scripts/pre-commit.sh",
         "test": "jest",
-        "test:snyk": "snyk test",
-        "docker:build-labs": "docker build --tag rekbis-kandidat-lab . -f labs/Dockerfile",
-        "docker:run-labs": "docker run -p 8080:8080 rekbis-kandidat-lab",
-        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs"
+        "test:snyk": "snyk test"
     },
     "config": {
         "ghooks": {
@@ -31,6 +30,7 @@
         "@reach/menu-button": "^0.11.2",
         "@sentry/react": "^5.23.0",
         "amplitude-js": "^7.1.1",
+        "html-webpack-plugin": "^4.5.0",
         "lodash.throttle": "^4.1.1",
         "moment": "^2.27.0",
         "nav-datovelger": "^6.1.9",
