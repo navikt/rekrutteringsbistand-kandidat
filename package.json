@@ -14,7 +14,10 @@
         "lint": "eslint \"./src/**/*.{js,jsx}\"",
         "lint-staged": "bash ./scripts/pre-commit.sh",
         "test": "jest",
-        "test:snyk": "snyk test"
+        "test:snyk": "snyk test",
+        "docker:build-labs": "docker build --tag rekbis-kandidat-lab . -f labs/Dockerfile",
+        "docker:run-labs": "docker run -p 8080:8080 rekbis-kandidat-lab",
+        "docker:labs": "npm run docker:build-labs && npm run docker:run-labs"
     },
     "config": {
         "ghooks": {

@@ -23,7 +23,13 @@ import LagreKandidaterModal from '../result/LagreKandidaterModal';
 import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import './VisKandidat.less';
-import { lenkeTilCv } from '../application/paths';
+import {
+    lenkeTilCv,
+    lenkeTilFinnKandidaterMedStilling,
+    lenkeTilFinnKandidaterUtenStilling,
+    lenkeTilKandidatliste,
+    lenkeTilKandidatsøk,
+} from '../application/paths';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -215,28 +221,29 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises,
         } = this.state;
 
-        let tilbakeLink = '/kandidater';
+        let tilbakeLink = lenkeTilKandidatsøk;
         let forrigeKandidatLink = forrigeKandidat ? lenkeTilCv(forrigeKandidat) : undefined;
         let nesteKandidatLink = nesteKandidat ? lenkeTilCv(nesteKandidat) : undefined;
 
         if (kandidatlisteId) {
-            tilbakeLink = `/kandidater/kandidatliste/${kandidatlisteId}`;
+            tilbakeLink = lenkeTilFinnKandidaterUtenStilling(kandidatlisteId);
+
             forrigeKandidatLink = forrigeKandidat
-                ? (forrigeKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
+                ? lenkeTilCv(forrigeKandidat, kandidatlisteId)
                 : undefined;
 
             nesteKandidatLink = nesteKandidat
-                ? (nesteKandidatLink += `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`)
+                ? lenkeTilCv(nesteKandidat, kandidatlisteId)
                 : undefined;
         } else if (stillingsId) {
-            tilbakeLink = `/kandidater/stilling/${stillingsId}`;
+            tilbakeLink = lenkeTilFinnKandidaterMedStilling(stillingsId);
 
             forrigeKandidatLink = forrigeKandidat
-                ? (forrigeKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
+                ? lenkeTilCv(forrigeKandidat, undefined, stillingsId)
                 : undefined;
 
             nesteKandidatLink = nesteKandidat
-                ? (nesteKandidatLink += `?${KandidatQueryParam.StillingId}=${stillingsId}`)
+                ? lenkeTilCv(nesteKandidat, undefined, stillingsId)
                 : undefined;
         }
 
@@ -278,10 +285,7 @@ class VisKandidat extends React.Component {
                                 <>
                                     Kandidaten er lagret i&nbsp;
                                     <Link
-                                        to={
-                                            '/kandidater/lister/detaljer/' +
-                                            kandidatliste.kandidatlisteId
-                                        }
+                                        to={lenkeTilKandidatliste(kandidatlisteId)}
                                         className="lenke"
                                     >
                                         kandidatlisten

@@ -6,7 +6,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
-import { lenkeTilStilling } from '../../application/paths';
+import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../application/paths';
 import {
     FormidlingAvUsynligKandidat,
     KandidatIKandidatliste,
@@ -55,7 +55,7 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
             <div className="side-header__inner">
                 <div className="side-header__tilbake">
                     <LenkeMedChevron
-                        to="/kandidater/lister"
+                        to={lenkeTilKandidatlisteoversikt}
                         text="Til kandidatlister"
                         type="venstre"
                     />

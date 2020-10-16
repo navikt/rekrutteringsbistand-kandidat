@@ -12,6 +12,7 @@ import './KandidaterTabell.less';
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
 import { KandidatQueryParam } from '../../kandidatside/Kandidatside';
 import { Checkbox } from 'nav-frontend-skjema';
+import { lenkeTilKandidat } from '../../application/paths';
 
 interface Props {
     kandidat: Søkeresultat;
@@ -57,16 +58,6 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
     const innsatsgruppe = kandidat.servicebehov;
     const bosted = kandidat.poststed ? capitalizePoststed(kandidat.poststed) : '-';
 
-    const linkTilKandidat = () => {
-        const path = `/kandidater/kandidat/${kandidatnummer}/cv`;
-
-        if (kandidatlisteId)
-            return path + `?${KandidatQueryParam.KandidatlisteId}=${kandidatlisteId}`;
-        if (stillingsId) return path + `?${KandidatQueryParam.StillingId}=${stillingsId}`;
-
-        return path;
-    };
-
     let klassenavn = 'kandidater-tabell__rad kandidater-tabell__rad--kandidat';
     const markertRadKlasse = checkedClass(markert, nettoppValgt);
     if (markertRadKlasse) {
@@ -98,7 +89,7 @@ const KandidaterTableKandidat: FunctionComponent<Props> = ({
             <div className="kandidater-tabell__navn-og-lagt-i-liste-ikon">
                 <Link
                     className="kandidater-tabell__navn lenke"
-                    to={linkTilKandidat()}
+                    to={lenkeTilKandidat(kandidatnummer, kandidatlisteId, stillingsId)}
                     onClick={() => setScrollPosition(window.pageYOffset)}
                     aria-label={`Se CV for ${navn}`}
                 >

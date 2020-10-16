@@ -17,13 +17,14 @@ import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
 import './Application.less';
 import useLoggNavigering from './useLoggNavigering';
+import { appPrefiks } from './paths';
 
 const skjermerMedGråBakgrunn = [
-    '/kandidater/lister/stilling/',
-    '/kandidater/lister/detaljer/',
-    '/kandidater/cv',
-    '/kandidater/kandidat/',
-    '/kandidater/lister',
+    `${appPrefiks}/kandidater/lister/stilling/`,
+    `${appPrefiks}/kandidater/lister/detaljer/`,
+    `${appPrefiks}/kandidater/cv`,
+    `${appPrefiks}/kandidater/kandidat/`,
+    `${appPrefiks}/kandidater/lister`,
 ];
 
 const skalBrukeGråBakgrunn = (url: string) =>
@@ -50,38 +51,52 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                     <Dekoratør />
                     <Navigeringsmeny />
                     <Switch>
-                        <Route exact path="/kandidater" component={DefaultKandidatsøk} />
                         <Route
                             exact
-                            path="/kandidater/kandidatliste/:kandidatlisteId"
+                            path={`${appPrefiks}/kandidater`}
+                            component={DefaultKandidatsøk}
+                        />
+                        <Route
+                            exact
+                            path={`${appPrefiks}/kandidater/kandidatliste/:kandidatlisteId`}
                             component={KandidatsøkFraKandidatliste}
                         />
                         <Route
                             exact
-                            path="/kandidater/stilling/:stillingsId"
+                            path={`${appPrefiks}/kandidater/stilling/:stillingsId`}
                             component={KandidatsøkFraStilling}
                         />
-                        <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route
                             exact
-                            path="/kandidater/lister/stilling/:id/detaljer"
+                            path={`${appPrefiks}/kandidater/lister`}
+                            component={Kandidatlisteoversikt}
+                        />
+                        <Route
+                            exact
+                            path={`${appPrefiks}/kandidater/lister/stilling/:id/detaljer`}
                             component={KandidatlistesideMedStilling}
                         />
                         <Route
                             exact
-                            path="/kandidater/lister/detaljer/:listeid"
+                            path={`${appPrefiks}/kandidater/lister/detaljer/:listeid`}
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path="/kandidater/kandidat/:kandidatnr">
+                        <Route path={`${appPrefiks}/kandidater/kandidat/:kandidatnr`}>
                             <Kandidatside>
                                 <Switch>
-                                    <Route path="/kandidater/kandidat/:kandidatnr/cv">
+                                    <Route
+                                        path={`${appPrefiks}/kandidater/kandidat/:kandidatnr/cv`}
+                                    >
                                         <CvSide />
                                     </Route>
-                                    <Route path="/kandidater/kandidat/:kandidatnr/historikk">
+                                    <Route
+                                        path={`${appPrefiks}/kandidater/kandidat/:kandidatnr/historikk`}
+                                    >
                                         <Historikkside />
                                     </Route>
-                                    <Redirect to="/kandidater/kandidat/:kandidatnr/cv" />
+                                    <Redirect
+                                        to={`${appPrefiks}/kandidater/kandidat/:kandidatnr/cv`}
+                                    />
                                 </Switch>
                             </Kandidatside>
                         </Route>

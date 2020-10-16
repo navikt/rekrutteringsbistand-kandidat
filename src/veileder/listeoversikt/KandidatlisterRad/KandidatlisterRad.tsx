@@ -10,6 +10,13 @@ import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import './KandidatlisterRad.less';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
+import {
+    appPrefiks,
+    lenkeTilFinnKandidaterMedStilling,
+    lenkeTilFinnKandidaterUtenStilling,
+    lenkeTilKandidatliste,
+    lenkeTilStilling,
+} from '../../application/paths';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -54,11 +61,8 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         }
     };
 
-    const lenkeTilStilling = (
-        <a
-            href={`/stilling/${kandidatliste.stillingId}?redigeringsmodus=true`}
-            className="edit-lenke"
-        >
+    const lenkeTilStillingElement = (stillingId: string) => (
+        <a href={lenkeTilStilling(stillingId, true)} className="edit-lenke">
             <span className="Edit__icon" />
         </a>
     );
@@ -74,7 +78,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     );
 
     const visKanEndre = kandidatliste.stillingId
-        ? lenkeTilStilling
+        ? lenkeTilStillingElement(kandidatliste.stillingId)
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
@@ -92,7 +96,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
             </div>
             <div className="kolonne-bred">
                 <Link
-                    to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
+                    to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
                     className="tekst lenke"
                 >
                     {kandidatliste.tittel}
@@ -106,13 +110,13 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
             </div>
             <div className="kolonne-middels__finn-kandidater">
                 <Link
+                    className="FinnKandidater"
                     aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
                     to={
                         kandidatliste.stillingId
-                            ? `/kandidater/stilling/${kandidatliste.stillingId}`
-                            : `/kandidater/kandidatliste/${kandidatliste.kandidatlisteId}`
+                            ? lenkeTilFinnKandidaterMedStilling(kandidatliste.stillingId)
+                            : lenkeTilFinnKandidaterUtenStilling(kandidatliste.kandidatlisteId)
                     }
-                    className="FinnKandidater"
                 >
                     <i className="FinnKandidater__icon" />
                 </Link>
