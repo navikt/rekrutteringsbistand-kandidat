@@ -91,7 +91,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         antallStillinger,
         besatteStillinger,
         kanEditere,
-        Array.from(lukkedata).includes(kandidatlisteId)
+        lukkedata.has(kandidatlisteId)
     );
 
     return (

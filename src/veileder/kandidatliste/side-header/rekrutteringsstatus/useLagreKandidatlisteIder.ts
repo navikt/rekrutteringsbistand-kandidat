@@ -8,7 +8,7 @@ const hentKandidatlisteIder = (): KandidatlisteIder => {
     try {
         const localstorageValue = window.localStorage.getItem(LOCALSTORAGE_KEY);
         if (localstorageValue) {
-            return JSON.parse(localstorageValue);
+            return new Set(JSON.parse(localstorageValue));
         }
     } catch (error) {
         console.error('Kunne ikke hente fra local storage:', error);
@@ -16,7 +16,10 @@ const hentKandidatlisteIder = (): KandidatlisteIder => {
     return new Set();
 };
 
-const useLagreKandidatlisteIder = (): [KandidatlisteIder, (KandidatlisteIder) => void] => {
+const useLagreKandidatlisteIder = (): [
+    KandidatlisteIder,
+    (kandidatlisteIder: KandidatlisteIder) => void
+] => {
     const [lukkedata, setLukkedata] = useState<KandidatlisteIder>(hentKandidatlisteIder);
 
     useEffect(() => {
