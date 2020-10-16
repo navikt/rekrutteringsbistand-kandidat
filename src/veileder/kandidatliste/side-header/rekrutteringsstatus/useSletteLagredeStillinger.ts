@@ -11,7 +11,7 @@ const useSletteKandidatlisteIderFraLukkedata = (
     useEffect(() => {
         if (
             lukkedata &&
-            Array.from(lukkedata).includes(kandidatlisteId) &&
+            lukkedata.has(kandidatlisteId) &&
             antallStillinger &&
             besatteStillinger < antallStillinger
         ) {
