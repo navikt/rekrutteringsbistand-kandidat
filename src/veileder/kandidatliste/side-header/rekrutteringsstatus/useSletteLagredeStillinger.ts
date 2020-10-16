@@ -19,7 +19,7 @@ const useSletteKandidatlisteIderFraLukkedata = (
             newSet.delete(kandidatlisteId);
             setLukkedata(newSet);
         }
-    }, [besatteStillinger, antallStillinger]);
+    });
 };
 
 export default useSletteKandidatlisteIderFraLukkedata;
