@@ -25,7 +25,7 @@ jobs:
             - name: Kjør tester
               run: npm run test
             - name: Bygg mocket applikasjon
-              run: npm run build:mock
+              run: npm run build:labs
             - name: Bygg og publiser Docker-image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
