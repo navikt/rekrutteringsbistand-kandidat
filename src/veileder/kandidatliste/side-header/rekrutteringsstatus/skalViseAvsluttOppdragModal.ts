@@ -7,7 +7,6 @@ export const skalViseModal = (
     kanEditere: boolean,
     harAvbrutt: boolean
 ) => {
-    console.log 
     return (
         status === Kandidatlistestatus.Åpen &&
         antallStillinger !== null &&
