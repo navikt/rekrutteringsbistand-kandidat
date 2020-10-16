@@ -13,7 +13,7 @@ const startServer = () => {
 
     server.use(
         [`${prefix}/kandidater`, `${prefix}/kandidater/*`],
-        express.static(path.resolve(__dirname, 'index.html'))
+        express.static(path.resolve(__dirname, '../dist/index.html'))
     );
 
     server.listen(8080, () => {
