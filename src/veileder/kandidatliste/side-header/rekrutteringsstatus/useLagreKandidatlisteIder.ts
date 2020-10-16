@@ -21,7 +21,7 @@ const useLagreKandidatlisteIder = (): [KandidatlisteIder, (KandidatlisteIder) =>
 
     useEffect(() => {
         window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(lukkedata));
-    }, [JSON.stringify(lukkedata)]);
+    }, [lukkedata]);
     return [lukkedata, setLukkedata];
 };
 
