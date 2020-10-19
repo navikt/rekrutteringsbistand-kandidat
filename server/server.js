@@ -273,8 +273,8 @@ const startServer = () => {
     konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
-    server.use(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
-        express.static(path.resolve(__dirname, '../dist/index.html'));
+    server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
+        res.send(server.render(path.resolve(__dirname, '../dist/css')));
     });
 
     server.listen(port, () => {

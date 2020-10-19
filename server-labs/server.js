@@ -11,10 +11,9 @@ const startServer = () => {
     server.use(`${prefix}/kandidater/js`, express.static(path.resolve(__dirname, '../dist/js')));
     server.use(`${prefix}/kandidater/css`, express.static(path.resolve(__dirname, '../dist/css')));
 
-    server.use(
-        [`${prefix}/kandidater`, `${prefix}/kandidater/*`],
-        express.static(path.resolve(__dirname, '../dist/index.html'))
-    );
+    server.get([`${prefix}/kandidater`, `${prefix}/kandidater/*`], (req, res) => {
+        res.send(server.render(path.resolve(__dirname, '../dist/css')));
+    });
 
     server.listen(8080, () => {
         console.log(`\nServer for mock av Rekrutteringsbistand har startet!`);
