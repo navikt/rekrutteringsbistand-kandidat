@@ -9,13 +9,13 @@ spec:
     image: {{ image }}
     port: 8080
     liveness:
-        path: /rekrutteringsbistand-kandidat/internal/isAlive
+        path: /rekrutteringsbistand/internal/isAlive
         initialDelay: 5
     readiness:
-        path: /rekrutteringsbistand-kandidat/internal/isReady
+        path: /rekrutteringsbistand/internal/isReady
         initialDelay: 5
     ingresses:
-        - https://arbeidsgiver.labs.nais.io/rekrutteringsbistand-kandidat
+        - https://arbeidsgiver.labs.nais.io/rekrutteringsbistand
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem

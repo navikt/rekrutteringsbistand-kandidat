@@ -3,7 +3,7 @@ import { KandidatQueryParam } from './../kandidatside/Kandidatside';
 
 const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
-export const appPrefiks = getMiljø() === Miljø.LabsGcp ? '/rekrutteringsbistand-kandidat' : '';
+export const appPrefiks = getMiljø() === Miljø.LabsGcp ? '/rekrutteringsbistand' : '';
 
 export const lenkeTilKandidatsøk = `${appPrefiks}/kandidater`;
 
