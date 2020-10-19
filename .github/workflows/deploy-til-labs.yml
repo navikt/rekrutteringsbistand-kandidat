@@ -8,6 +8,7 @@ env:
 jobs:
     bygg-og-push-docker-image:
         name: Bygg og push
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -37,7 +38,7 @@ jobs:
     deploy-til-labs:
         name: Deploy til labs
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/nav-labs'
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
