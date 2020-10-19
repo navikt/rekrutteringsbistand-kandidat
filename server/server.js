@@ -265,16 +265,16 @@ const startServer = () => {
     );
 
     konfigurerProxyTilPamKandidatsøkApi();
-
-    server.use('/kandidater/js', express.static(path.resolve(__dirname, '../dist/js')));
-    server.use('/kandidater/css', express.static(path.resolve(__dirname, '../dist/css')));
-
     konfigurerProxyTilEnhetsregister();
     konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
+    const build = path.resolve(__dirname, '../dist');
+
+    server.use('/kandidater/js', express.static(`${build}/js`));
+    server.use('/kandidater/css', express.static(`${build}/css`));
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
-        res.send(server.render(path.resolve(__dirname, '../dist/css')));
+        res.sendFile(`${build}/index.html`);
     });
 
     server.listen(port, () => {

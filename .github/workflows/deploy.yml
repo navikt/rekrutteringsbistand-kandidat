@@ -7,7 +7,7 @@ env:
 
 jobs:
     bygg-og-push-docker-image:
-        name: Bygg applikasjon
+        name: Bygg og push
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

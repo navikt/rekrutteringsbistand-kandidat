@@ -6,13 +6,15 @@ const server = express();
 const prefix = `/rekrutteringsbistand-kandidat`;
 
 const startServer = () => {
-    server.get(`${prefix}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`${prefix}/internal/isReady`, (req, res) => res.sendStatus(200));
-    server.use(`${prefix}/kandidater/js`, express.static(path.resolve(__dirname, '../dist/js')));
-    server.use(`${prefix}/kandidater/css`, express.static(path.resolve(__dirname, '../dist/css')));
+    server.get(`${prefix}/internal/isAlive`, (_, res) => res.sendStatus(200));
+    server.get(`${prefix}/internal/isReady`, (_, res) => res.sendStatus(200));
 
-    server.get([`${prefix}/kandidater`, `${prefix}/kandidater/*`], (req, res) => {
-        res.send(server.render(path.resolve(__dirname, '../dist/css')));
+    const build = path.resolve(__dirname, '../dist');
+
+    server.use(`${prefix}/kandidater/js`, express.static(`${build}/js`));
+    server.use(`${prefix}/kandidater/css`, express.static(`${build}/css`));
+    server.get([`${prefix}/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
+        res.sendFile(`${build}/index.html`);
     });
 
     server.listen(8080, () => {
