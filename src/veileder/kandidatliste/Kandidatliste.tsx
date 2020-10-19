@@ -8,6 +8,7 @@ import {
     FormidlingAvUsynligKandidat,
     Kandidatstatus,
     Kandidatlistestatus,
+    Kandidatliste
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
