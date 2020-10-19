@@ -5,9 +5,7 @@ const express = require('express');
 const fs = require('fs');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
-const mustacheExpress = require('mustache-express');
 const path = require('path');
-const Promise = require('promise');
 const proxy = require('express-http-proxy');
 const useragent = require('useragent');
 
@@ -159,8 +157,6 @@ const fjernDobleCookies = (req, res, next) => {
     next();
 };
 
-const logError = (errorMessage, details) => console.log(errorMessage, details);
-
 const browserRegistrator = (req, res, next) => {
     try {
         const browserInfo = useragent.lookup(req.headers['user-agent']);
@@ -257,22 +253,8 @@ server.set('port', port);
 
 server.disable('x-powered-by');
 server.use(helmet());
-server.set('views', `${__dirname}/views`);
-server.set('view engine', 'mustache');
-server.engine('html', mustacheExpress());
 
-const renderSøk = () =>
-    new Promise((resolve, reject) => {
-        server.render('index.html', miljøvariablerTilFrontend, (err, html) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(html);
-            }
-        });
-    });
-
-const startServer = (html) => {
+const startServer = () => {
     writeEnvironmentVariablesToFile();
 
     server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) =>
@@ -283,16 +265,16 @@ const startServer = (html) => {
     );
 
     konfigurerProxyTilPamKandidatsøkApi();
-
-    server.use('/kandidater/js', express.static(path.resolve(__dirname, '../dist/js')));
-    server.use('/kandidater/css', express.static(path.resolve(__dirname, '../dist/css')));
-
     konfigurerProxyTilEnhetsregister();
     konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
+    const build = path.resolve(__dirname, '../dist');
+
+    server.use('/kandidater/js', express.static(`${build}/js`));
+    server.use('/kandidater/css', express.static(`${build}/css`));
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
-        res.send(html);
+        res.sendFile(`${build}/index.html`);
     });
 
     server.listen(port, () => {
@@ -301,4 +283,4 @@ const startServer = (html) => {
     });
 };
 
-renderSøk().then(startServer, (error) => logError('Failed to render app', error));
+startServer();
