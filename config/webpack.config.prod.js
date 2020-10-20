@@ -5,6 +5,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const prodOverride = {
     mode: 'production',
     devtool: 'source-map',
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                },
+            },
+        },
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Kandidatsøk - Tjeneste',

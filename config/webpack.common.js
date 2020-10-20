@@ -7,7 +7,7 @@ const commonConfig = {
     },
     output: {
         path: `${__dirname}/../dist`,
-        filename: 'js/[name].js',
+        filename: 'js/[name].[contenthash:7].js',
         publicPath: '/kandidater',
     },
     module: {
