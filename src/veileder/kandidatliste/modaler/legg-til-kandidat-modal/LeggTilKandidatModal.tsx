@@ -338,7 +338,9 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             Registrer formidling på kandidater som ikke er synlige i
                             Rekrutteringsbistand
                         </Element>
-                        Du er ikke eier av stillingen og kan derfor ikke registrere formidling
+                        <Normaltekst>
+                            Du er ikke eier av stillingen og kan derfor ikke registrere formidling
+                        </Normaltekst>
                     </>
                 )}
                 {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
