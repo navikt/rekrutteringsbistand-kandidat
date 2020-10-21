@@ -290,6 +290,11 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         {this.state.errorMessage}
                     </Feilmelding>
                 )}
+                {!this.props.kandidatliste.kanEditere && harValgtUsynligKandidat && (
+                    <Feilmelding>
+                        Du er ikke eier av stillingen og kan derfor ikke registrere formidling
+                    </Feilmelding>
+                )}
                 {this.state.showAlleredeLagtTilWarning && (
                     <div className="legg-til-kandidat__advarsel">
                         <i className="advarsel__icon" />
