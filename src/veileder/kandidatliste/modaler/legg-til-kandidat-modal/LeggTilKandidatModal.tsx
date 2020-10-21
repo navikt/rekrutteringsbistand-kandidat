@@ -334,13 +334,11 @@ class LeggTilKandidatModal extends React.Component<Props> {
                     )}
                 {!this.props.kandidatliste.kanEditere && harValgtUsynligKandidat && (
                     <>
-                        <Element tag="h2">
+                        <Element className="legg-til-kandidat__ikke-eier-feilmelding" tag="h2">
                             Registrer formidling på kandidater som ikke er synlige i
                             Rekrutteringsbistand
                         </Element>
-                        <Feilmelding>
-                            Du er ikke eier av stillingen og kan derfor ikke registrere formidling
-                        </Feilmelding>
+                        Du er ikke eier av stillingen og kan derfor ikke registrere formidling
                     </>
                 )}
                 {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
