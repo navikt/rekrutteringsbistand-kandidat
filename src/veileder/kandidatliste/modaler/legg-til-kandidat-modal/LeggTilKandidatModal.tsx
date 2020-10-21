@@ -339,7 +339,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             Rekrutteringsbistand
                         </Element>
                         <Normaltekst>
-                            Du er ikke eier av stillingen og kan derfor ikke registrere formidling
+                            Du er ikke eier av stillingen og kan derfor ikke registrere formidling.
                         </Normaltekst>
                     </>
                 )}
