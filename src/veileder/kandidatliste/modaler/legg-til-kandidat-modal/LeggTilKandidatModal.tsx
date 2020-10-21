@@ -332,17 +332,20 @@ class LeggTilKandidatModal extends React.Component<Props> {
                             onChange={this.onNyUsynligKandidatChange}
                         />
                     )}
-                {!this.props.kandidatliste.kanEditere && harValgtUsynligKandidat && (
-                    <>
-                        <Element className="legg-til-kandidat__ikke-eier-feilmelding" tag="h2">
-                            Registrer formidling på kandidater som ikke er synlige i
-                            Rekrutteringsbistand
-                        </Element>
-                        <Normaltekst>
-                            Du er ikke eier av stillingen og kan derfor ikke registrere formidling.
-                        </Normaltekst>
-                    </>
-                )}
+                {this.props.stillingsId &&
+                    !this.props.kandidatliste.kanEditere &&
+                    harValgtUsynligKandidat && (
+                        <>
+                            <Element className="legg-til-kandidat__ikke-eier-feilmelding" tag="h2">
+                                Registrer formidling på kandidater som ikke er synlige i
+                                Rekrutteringsbistand
+                            </Element>
+                            <Normaltekst>
+                                Du er ikke eier av stillingen og kan derfor ikke registrere
+                                formidling.
+                            </Normaltekst>
+                        </>
+                    )}
                 {this.props.formidlingAvUsynligKandidat.kind === Nettstatus.Feil && (
                     <Feilmelding className="LeggTilKandidatModal__feil-ved-registrering">
                         {this.props.formidlingAvUsynligKandidat.error.status === 409
