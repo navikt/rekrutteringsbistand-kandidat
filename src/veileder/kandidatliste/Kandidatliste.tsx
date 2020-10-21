@@ -8,7 +8,7 @@ import {
     FormidlingAvUsynligKandidat,
     Kandidatstatus,
     Kandidatlistestatus,
-    Kandidatliste
+    Kandidatliste,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -208,6 +208,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         onUtfallChange={
                                             props.onUsynligKandidatFormidlingsutfallChange
                                         }
+                                        erEierAvKandidatlisten={props.kandidatliste.kanEditere}
                                     />
                                 )
                             )}
