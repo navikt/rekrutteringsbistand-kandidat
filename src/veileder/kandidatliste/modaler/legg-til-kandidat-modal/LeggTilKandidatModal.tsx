@@ -325,6 +325,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                 {harValgtUsynligKandidat &&
                     fodselsnummer &&
                     this.props.stillingsId &&
+                    this.props.kandidatliste.kanEditere &&
                     this.state.formidlingAvUsynligKandidat && (
                         <RegistrerFormidlingAvUsynligKandidat
                             formidling={this.state.formidlingAvUsynligKandidat}
