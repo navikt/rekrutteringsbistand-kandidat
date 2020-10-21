@@ -31,7 +31,7 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
         kandidatnotater
     );
 
-    if (kandidatliste.kind === Nettstatus.LasterInn) {
+    if (kandidatliste.kind === Nettstatus.LasterInn || kandidaterMedState === undefined) {
         return (
             <div className="fullscreen-spinner">
                 <NavFrontendSpinner type="L" />

@@ -8,28 +8,29 @@ import Hus from './Hus';
 import '../../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import './Navigeringsmeny.less';
 import { sendEvent } from '../amplitude/amplitude';
+import { appPrefiks } from '../application/paths';
 
 const kandidatsøkTab = {
     tittel: 'Kandidatsøk',
-    href: '/kandidater',
+    href: `${appPrefiks}/kandidater`,
     erSammeApp: true,
 };
 
 const kandidatlisterTab = {
     tittel: 'Kandidatlister',
-    href: '/kandidater/lister',
+    href: `${appPrefiks}/kandidater/lister`,
     erSammeApp: true,
 };
 
 const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
-        href: '/stillinger',
+        href: `${appPrefiks}/stillinger`,
         erSammeApp: false,
     },
     {
         tittel: 'Mine stillinger',
-        href: '/minestillinger',
+        href: `${appPrefiks}/minestillinger`,
         erSammeApp: false,
     },
     kandidatsøkTab,
@@ -37,7 +38,7 @@ const tabs: TabConfig[] = [
 ];
 
 const aktivTab = (pathname: string): TabConfig => {
-    if (pathname.startsWith('/kandidater/lister')) {
+    if (pathname.startsWith(`${appPrefiks}/kandidater/lister`)) {
         return kandidatlisterTab;
     } else {
         return kandidatsøkTab;
@@ -51,7 +52,7 @@ const Navigeringsmeny: FunctionComponent = () => {
         <div className="navigeringsmeny">
             <div className="navigeringsmeny__inner">
                 <nav className="navigeringsmeny__tabs">
-                    <Hus href="/" />
+                    <Hus href={`${appPrefiks}/`} />
                     {tabs.map((tab) => (
                         <Tab key={tab.href} config={tab} erAktiv={tab === aktivTab(pathname)} />
                     ))}

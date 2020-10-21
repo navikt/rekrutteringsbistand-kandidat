@@ -82,6 +82,7 @@ const standard: Kandidatliste = {
     status: Kandidatlistestatus.Åpen,
     kandidater: [],
     formidlingerAvUsynligKandidat: [],
+    antallStillinger: 7,
 };
 
 export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat => ({
@@ -98,7 +99,7 @@ export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat =>
     etternavn: cver[cvIndex].etternavn,
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
-    utfall: Utfall.IkkePresentert,
+    utfall: Utfall.FåttJobben,
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
@@ -167,7 +168,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kanEditere: erEier ? standard.kanEditere : false,
         kanSlette: erEier ? standard.kanSlette : KanSletteEnum.ER_IKKE_DIN,
         organisasjonNavn: harStilling ? standard.organisasjonNavn : null,
-        stillingId: harStilling ? standard.organisasjonNavn : null,
+        stillingId: harStilling ? standard.stillingId : null,
         opprettetAv: erEier
             ? standard.opprettetAv
             : {
@@ -177,7 +178,11 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kandidater: erTomListe
             ? []
             : [
-                  { ...mockKandidat(0, meg), status: Kandidatstatus.Aktuell },
+                  {
+                      ...mockKandidat(0, meg),
+                      status: Kandidatstatus.Aktuell,
+                      utfall: Utfall.FåttJobben,
+                  },
                   mockKandidat(1, meg),
                   mockKandidat(2, meg),
                   mockKandidat(3, meg),

@@ -12,6 +12,10 @@ import './Kandidatlistestatus.less';
 import AppState from '../../../AppState';
 import { Nettstatus } from '../../../../felles/common/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
+import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
+import { skalViseModal } from './skalViseAvsluttOppdragModal';
+import useLagreKandidatlisteIder from './useLagreKandidatlisteIder';
+import useSletteKandidatlisteIderFraLukkedata from './useSletteLagredeStillinger';
 
 const kandidatlistestatusToDisplayName = (status: Status) => {
     return status === Status.Åpen ? 'Åpen' : 'Avsluttet';
@@ -21,6 +25,7 @@ type Props = {
     status: Status;
     kanEditere: boolean;
     besatteStillinger: number;
+    antallStillinger: number | null;
     erKnyttetTilStilling: boolean;
     kandidatlisteId: string;
 };
@@ -29,15 +34,32 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
     status,
     kanEditere,
     besatteStillinger,
+    antallStillinger,
     erKnyttetTilStilling,
     kandidatlisteId,
 }) => {
+    const [lukkedata, setLukkedata] = useLagreKandidatlisteIder();
+
+    useSletteKandidatlisteIderFraLukkedata(
+        kandidatlisteId,
+        besatteStillinger,
+        antallStillinger,
+        lukkedata,
+        setLukkedata
+    );
+
     const dispatch = useDispatch();
     const endreStatusNettstatus = useSelector(
         (state: AppState) => state.kandidatliste.endreKandidatlistestatus
     );
 
     const onEndreStatusClick = () => {
+        if (status === Status.Lukket) {
+            const newSet = new Set(lukkedata);
+            newSet.add(kandidatlisteId);
+            setLukkedata(newSet);
+        }
+
         dispatch<KandidatlisteAction>({
             type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
             kandidatlisteId: kandidatlisteId,
@@ -50,6 +72,28 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
         klassenavn += ' kandidatlistestatus--med-stilling';
     }
 
+    const bekreftNudgeAvsluttOppdragModal = () => {
+        dispatch({
+            type: KandidatlisteActionType.ENDRE_KANDIDATLISTESTATUS,
+            kandidatlisteId: kandidatlisteId,
+            status: Status.Lukket,
+        });
+    };
+
+    const avvisNudgeAvsluttOppdragModal = () => {
+        const newSet = new Set(lukkedata);
+        newSet.add(kandidatlisteId);
+        setLukkedata(newSet);
+    };
+
+    const skalViseAvsluttOppdragModal = skalViseModal(
+        status,
+        antallStillinger,
+        besatteStillinger,
+        kanEditere,
+        lukkedata.has(kandidatlisteId)
+    );
+
     return (
         <Panel border className={klassenavn}>
             <div className="kandidatlistestatus__ikon">
@@ -57,11 +101,26 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
             </div>
             <div className="kandidatlistestatus__informasjon">
                 <Element>{kandidatlistestatusToDisplayName(status)}</Element>
-                {erKnyttetTilStilling && (
+                {erKnyttetTilStilling && antallStillinger != null && antallStillinger > 0 && (
                     <Normaltekst>
-                        {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
-                        {besatteStillinger === 1 ? '' : 'er'} er besatt
+                        {besatteStillinger} av {antallStillinger}{' '}
+                        {antallStillinger === 1 ? 'stilling' : 'stillinger'} er besatt
                     </Normaltekst>
+                )}
+                {erKnyttetTilStilling &&
+                    !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
+                        <Normaltekst>
+                            {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
+                            {besatteStillinger === 1 ? '' : 'er'} er besatt
+                        </Normaltekst>
+                    )}
+                {skalViseAvsluttOppdragModal && (
+                    <NudgeAvsluttOppdragModal
+                        antallKandidaterSomHarFåttJobb={besatteStillinger}
+                        antallStillinger={antallStillinger || 0}
+                        onBekreft={bekreftNudgeAvsluttOppdragModal}
+                        onAvbryt={avvisNudgeAvsluttOppdragModal}
+                    />
                 )}
             </div>
             {kanEditere && (

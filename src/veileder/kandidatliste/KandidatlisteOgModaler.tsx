@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 
 import {
     Delestatus,
-    Kandidatliste as Kandidatlistetype,
-    SmsStatus,
-    KandidatIKandidatliste,
     FormidlingAvUsynligKandidat,
+    KandidatIKandidatliste,
+    Kandidatliste as Kandidatlistetype,
+    Kandidatlistefilter,
     Kandidatstatus,
+    SmsStatus,
 } from './kandidatlistetyper';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import { Kandidatlistefilter } from './kandidatlistetyper';
-import { Nettstatus, Nettressurs } from '../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
 import AppState from '../AppState';

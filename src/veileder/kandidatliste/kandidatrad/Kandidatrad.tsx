@@ -173,7 +173,12 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Link
                         title="Vis profil"
                         className="lenke"
-                        to={lenkeTilCv(kandidat.kandidatnr, kandidatliste.kandidatlisteId, true)}
+                        to={lenkeTilCv(
+                            kandidat.kandidatnr,
+                            kandidatliste.kandidatlisteId,
+                            undefined,
+                            true
+                        )}
                     >
                         {`${etternavn}, ${fornavn}`}
                     </Link>

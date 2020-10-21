@@ -1,5 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
+import {
+    lenkeTilFinnKandidaterMedStilling,
+    lenkeTilFinnKandidaterUtenStilling,
+} from '../../application/paths';
 
 type Props = {
     stillingId: string | null;
@@ -10,8 +14,8 @@ const FinnKandidaterLenke: FunctionComponent<Props> = ({ stillingId, kandidatlis
     <Link
         to={
             stillingId
-                ? `/kandidater/stilling/${stillingId}`
-                : `/kandidater/kandidatliste/${kandidatlisteId}`
+                ? lenkeTilFinnKandidaterMedStilling(stillingId)
+                : lenkeTilFinnKandidaterUtenStilling(kandidatlisteId)
         }
         className="finn-kandidater FinnKandidater lenke"
     >

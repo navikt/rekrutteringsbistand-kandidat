@@ -50,7 +50,9 @@ class VisKandidatFraLister extends React.Component {
         );
 
     hentLenkeTilKandidat = (kandidatnummer) =>
-        kandidatnummer ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, true) : undefined;
+        kandidatnummer
+            ? lenkeTilCv(kandidatnummer, this.props.kandidatlisteId, undefined, true)
+            : undefined;
 
     render() {
         const {

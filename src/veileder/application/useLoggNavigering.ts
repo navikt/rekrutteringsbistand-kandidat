@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const statiskeStierSomSkalLogges = ['/', '/kandidater', '/kandidater/lister'];
-const begynnelsenAvStierSomSkalLogges = ['/kandidater/lister/detaljer', '/kandidater/kandidat/'];
+const begynnelsenAvStierSomSkalLogges = [
+    '/kandidater/lister/detaljer',
+    '/kandidater/lister/stilling',
+    '/kandidater/kandidat/',
+];
 
 const useLoggNavigering = () => {
     const history = useHistory();
