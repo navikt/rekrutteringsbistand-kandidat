@@ -24,6 +24,8 @@ import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
 import './Kandidatrad.less';
+import UtfallVisning from './utfall-select/UtfallVisning';
+import LåstHengelås from '../side-header/rekrutteringsstatus/LåstHengelås';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -216,17 +218,31 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status} />
                 )}
                 {kandidatliste.stillingId && (
-                    <UtfallSelect
-                        kanEndreUtfall={
-                            kandidatliste.status === Kandidatlistestatus.Åpen &&
-                            kandidatliste.kanEditere
-                        }
-                        value={kandidat.utfall as Utfall}
-                        onChange={(utfall: Utfall, visModal: boolean) =>
-                            onKandidatUtfallChange(utfall, kandidat, visModal)
-                        }
-                    />
+                    // <>
+                    <Lenkeknapp
+                        className="Edit "
+                        onClick={() => {
+                            console.log('AAA Inne i lenkeknapp onClick()');
+                        }}
+                    >
+                        <UtfallVisning utfall={kandidat.utfall as Utfall} />
+                        {((kandidat.utfall as Utfall) === Utfall.FåttJobben && (
+                            <LåstHengelås />
+                        )) || <i className="Edit__icon" style={{ marginLeft: '.5em' }} />}
+                    </Lenkeknapp>
                 )}
+                {/*<UtfallSelect*/}
+                {/*    kanEndreUtfall={*/}
+                {/*        kandidatliste.status === Kandidatlistestatus.Åpen &&*/}
+                {/*        kandidatliste.kanEditere*/}
+                {/*    }*/}
+                {/*    value={kandidat.utfall as Utfall}*/}
+                {/*    onChange={(utfall: Utfall, visModal: boolean) =>*/}
+                {/*        onKandidatUtfallChange(utfall, kandidat, visModal)*/}
+                {/*    }*/}
+                {/*/>*/}
+                {/*</>*/}
+                {/*)}*/}
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
