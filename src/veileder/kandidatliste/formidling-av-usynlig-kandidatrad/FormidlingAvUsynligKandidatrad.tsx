@@ -5,7 +5,6 @@ import './FormidlingAvUsynligKandidatrad.less';
 import AppState from '../../AppState';
 import { useSelector } from 'react-redux';
 import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
-import UtfallVisning from '../kandidatrad/utfall-select/UtfallVisning';
 
 type Props = {
     formidling: FormidlingAvUsynligKandidat;
@@ -46,18 +45,12 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 Ikke synlig i Rekrutteringsbistand
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
-                {erEierAvKandidatlisten ? (
-                    <UtfallSelect
-                        kanEndreUtfall={!kandidatlistenErLukket}
-                        disabled={endreState?.kind === Nettstatus.SenderInn}
-                        value={formidling.utfall}
-                        onChange={(utfall, visModal) =>
-                            onUtfallChange(utfall, formidling, visModal)
-                        }
-                    />
-                ) : (
-                    <UtfallVisning utfall={formidling.utfall} />
-                )}
+                <UtfallSelect
+                    kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
+                    disabled={endreState?.kind === Nettstatus.SenderInn}
+                    value={formidling.utfall}
+                    onChange={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)}
+                />
             </div>
             <span />
         </div>
