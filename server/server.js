@@ -273,6 +273,7 @@ const startServer = () => {
 
     server.use('/kandidater/js', express.static(`${build}/js`));
     server.use('/kandidater/css', express.static(`${build}/css`));
+    server.use('/kandidater/asset-manifest.json', express.static(`${build}/asset-manifest.json`));
     server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
         res.sendFile(`${build}/index.html`);
     });
