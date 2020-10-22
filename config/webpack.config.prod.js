@@ -3,6 +3,17 @@ const common = require('./webpack.common.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 
+const manifest = new WebpackAssetsManifest({
+    output: 'asset-manifest.json',
+    publicPath(filename) {
+        return '/kandidater/' + filename;
+    },
+});
+
+manifest.hooks.transform.tap('FilesPlugin', (assets, manifest) => ({
+    files: assets,
+}));
+
 const prodOverride = {
     mode: 'production',
     devtool: 'source-map',
@@ -29,12 +40,7 @@ const prodOverride = {
                     '<link rel="stylesheet" href="https://internarbeidsflatedecorator.nais.adeo.no/internarbeidsflatedecorator/v2.1/static/css/main.css"></link>',
             },
         }),
-        new WebpackAssetsManifest({
-            output: 'asset-manifest.json',
-            publicPath(filename) {
-                return '/kandidater/' + filename;
-            },
-        }),
+        manifest,
     ],
 };
 
