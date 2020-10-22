@@ -311,26 +311,18 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    onKandidatUtfallChange = (
-        utfall: Utfall,
-        kandidat: KandidatIKandidatliste,
-        visModal: boolean
-    ) => {
-        if (visModal) {
-            this.setState({
-                endreUtfallModal: {
-                    open: true,
-                    utfall,
-                    fornavn: kandidat.fornavn,
-                    etternavn: kandidat.etternavn,
-                    onBekreft: () => {
-                        this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
-                    },
+    onKandidatUtfallChange = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
+        this.setState({
+            endreUtfallModal: {
+                open: true,
+                utfall,
+                fornavn: kandidat.fornavn,
+                etternavn: kandidat.etternavn,
+                onBekreft: () => {
+                    this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
                 },
-            });
-        } else {
-            this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
-        }
+            },
+        });
     };
 
     bekreftEndringAvUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {

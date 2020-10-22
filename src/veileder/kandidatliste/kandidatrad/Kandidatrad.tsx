@@ -34,11 +34,7 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (
-        utfall: Utfall,
-        kandidat: KandidatIKandidatliste,
-        visModal: boolean
-    ) => void;
+    onKandidatUtfallChange: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -222,7 +218,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Lenkeknapp
                         className="Edit "
                         onClick={() => {
-                            console.log('AAA Inne i lenkeknapp onClick()');
+                            onKandidatUtfallChange(Utfall.IkkePresentert, kandidat);
                         }}
                     >
                         <UtfallVisning utfall={kandidat.utfall as Utfall} />
