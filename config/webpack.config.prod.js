@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 const prodOverride = {
     mode: 'production',
@@ -26,6 +27,12 @@ const prodOverride = {
                     '<script src="https://internarbeidsflatedecorator.nais.adeo.no/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"></script>',
                 modiaCss:
                     '<link rel="stylesheet" href="https://internarbeidsflatedecorator.nais.adeo.no/internarbeidsflatedecorator/v2.1/static/css/main.css"></link>',
+            },
+        }),
+        new WebpackAssetsManifest({
+            output: 'asset-manifest.json',
+            publicPath(filename) {
+                return '/kandidater/' + filename;
             },
         }),
     ],
