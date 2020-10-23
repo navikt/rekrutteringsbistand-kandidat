@@ -47,9 +47,8 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             <div className="formidling-av-usynlig-kandidatrad__utfall">
                 <UtfallSelect
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
-                    disabled={endreState?.kind === Nettstatus.SenderInn}
-                    value={formidling.utfall}
-                    onChange={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)}
+                    utfall={formidling.utfall}
+                    onClick={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)} // TODO Are
                 />
             </div>
             <span />

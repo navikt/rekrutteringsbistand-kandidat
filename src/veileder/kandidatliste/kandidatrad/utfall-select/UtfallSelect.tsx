@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Menu, MenuButton, MenuItem, MenuList } from '@reach/menu-button';
 import UtfallVisning from './UtfallVisning';
 import '@reach/menu-button/styles.css';
 import './UtfallSelect.less';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import LåstHengelås from '../../side-header/rekrutteringsstatus/LåstHengelås';
 
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
@@ -11,58 +12,25 @@ export enum Utfall {
 }
 
 interface Props {
-    disabled?: boolean;
     kanEndreUtfall: boolean;
-    value: Utfall;
-    onChange: (utfall: Utfall, visModal: boolean) => void;
+    utfall: Utfall;
+    onClick: () => void;
 }
 
-const skalViseModalVedEndring = (gammeltUtfall: Utfall, nyttUtfall: Utfall) => {
-    if (gammeltUtfall === Utfall.IkkePresentert) {
-        return true;
-    }
-
-    if (gammeltUtfall === Utfall.Presentert && nyttUtfall === Utfall.FåttJobben) {
-        return true;
-    }
-
-    return false;
-};
-
-const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, value, onChange, disabled }) => {
-    const onSelect = (utfall: Utfall) => {
-        if (utfall !== value) {
-            onChange(utfall, skalViseModalVedEndring(value, utfall));
-        }
-    };
-
-    if (!kanEndreUtfall) {
-        return <UtfallVisning utfall={value} />;
-    }
-
+const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, onClick }) => {
     return (
-        <div className="UtfallSelect skjemaelement">
-            <Menu>
-                <MenuButton
-                    disabled={disabled}
-                    className="UtfallSelect__button selectContainer skjemaelement__input"
-                >
-                    <UtfallVisning utfall={value} />
-                </MenuButton>
-                <MenuList className="UtfallSelect__menu">
-                    {Object.keys(Utfall).map((utfall) => (
-                        <MenuItem
-                            key={utfall}
-                            onSelect={() => onSelect(Utfall[utfall])}
-                            className="UtfallSelect__menuItem"
-                            aria-selected={Utfall[utfall] === value}
-                        >
-                            <UtfallVisning utfall={Utfall[utfall]} />
-                        </MenuItem>
-                    ))}
-                </MenuList>
-            </Menu>
-        </div>
+        <>
+            {kanEndreUtfall ? (
+                <Lenkeknapp className="Edit " onClick={onClick}>
+                    <UtfallVisning utfall={utfall} />
+                    {(utfall === Utfall.FåttJobben && <LåstHengelås />) || (
+                        <i className="Edit__icon" style={{ marginLeft: '.5em' }} />
+                    )}
+                </Lenkeknapp>
+            ) : (
+                <UtfallVisning utfall={utfall} />
+            )}
+        </>
     );
 };
 

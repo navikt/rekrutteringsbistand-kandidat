@@ -341,28 +341,17 @@ class KandidatlisteOgModaler extends React.Component<Props> {
 
     // TODO kan vi bruke samme logikk for både usynlig og vanlig kandidat?
     onUsynligKandidatFormidlingsutfallChange = (
-        utfall: Utfall,
         formidling: FormidlingAvUsynligKandidat,
-        visModal: boolean
     ) => {
-        if (visModal) {
-            // this.setState({
-            //     endreUtfallModal: {
-            //         open: true,
-            //         utfall,
-            //         fornavn: formidling.fornavn,
-            //         etternavn: formidling.etternavn,
-            //         onBekreft: () => {
-            //             this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(
-            //                 utfall,
-            //                 formidling.id
-            //             );
-            //         },
-            //     },
-            // });
-        } else {
-            this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(utfall, formidling.id);
-        }
+        this.setState({
+            endreUtfallModal: {
+                open: true,
+                utfall: formidling.utfall,
+                kandidat: kandidat,
+                fornavn: kandidat.fornavn,
+                etternavn: kandidat.etternavn,
+            },
+        });
     };
 
     bekreftEndringAvFormidlingsutfallForUsynligKandidat = (

@@ -3,7 +3,6 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
@@ -13,19 +12,18 @@ import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../felles/common/remoteData';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
-import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import MerInfo from './mer-info/MerInfo';
-import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
 import './Kandidatrad.less';
-import UtfallVisning from './utfall-select/UtfallVisning';
-import LåstHengelås from '../side-header/rekrutteringsstatus/LåstHengelås';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import Notater from './notater/Notater';
+import MerInfo from './mer-info/MerInfo';
+import AppState from '../../AppState';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -214,30 +212,19 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status} />
                 )}
                 {kandidatliste.stillingId && (
-                    <Lenkeknapp
-                        className="Edit "
+                    <UtfallSelect
+                        kanEndreUtfall={
+                            kandidatliste.kanEditere &&
+                            kandidatliste.status === Kandidatlistestatus.Åpen
+                        }
+                        utfall={kandidat.utfall as Utfall}
                         onClick={() => {
+                            console.log('AAA Inne i onClick');
                             onClickEndreUtfall(kandidat);
                         }}
-                    >
-                        <UtfallVisning utfall={kandidat.utfall as Utfall} />
-                        {((kandidat.utfall as Utfall) === Utfall.FåttJobben && (
-                            <LåstHengelås />
-                        )) || <i className="Edit__icon" style={{ marginLeft: '.5em' }} />}
-                    </Lenkeknapp>
+                    />
                 )}
-                {/*<UtfallSelect*/}
-                {/*    kanEndreUtfall={*/}
-                {/*        kandidatliste.status === Kandidatlistestatus.Åpen &&*/}
-                {/*        kandidatliste.kanEditere*/}
-                {/*    }*/}
-                {/*    value={kandidat.utfall as Utfall}*/}
-                {/*    onChange={(utfall: Utfall, visModal: boolean) =>*/}
-                {/*        onKandidatUtfallChange(utfall, kandidat, visModal)*/}
-                {/*    }*/}
-                {/*/>*/}
-                {/*</>*/}
-                {/*)}*/}
+
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}

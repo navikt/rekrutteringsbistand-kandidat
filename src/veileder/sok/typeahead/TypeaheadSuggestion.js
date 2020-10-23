@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export default class TypeaheadSuggestion extends React.Component {
     constructor(props) {
         super();
-        this.value = props.value;
+        this.utfall = props.value;
     }
 
     onClick = () => {
