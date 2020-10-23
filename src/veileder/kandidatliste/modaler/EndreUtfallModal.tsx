@@ -7,6 +7,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './EndreUtfallModal.less';
 import { KandidatIKandidatliste } from '../kandidatlistetyper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 interface Props {
     vis: boolean;
@@ -35,6 +36,13 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
 
     const navn = `${fornavn || ''} ${etternavn || ''}`;
 
+    const alertForPresentert =
+        'Endrer du utfallet til «ikke presentert», vil tellingen av «presentert» tas bort.';
+
+    const alertForFåttJobb =
+        'Endrer du utfallet til «ikke presentert» eller «presentert», vil tellingen av ' +
+        '«fått jobb» tas bort.';
+
     return (
         <NavFrontendModal
             closeButton
@@ -50,10 +58,10 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             </Normaltekst>
             {/* TODO: Alertstripe og rett tekst */}
             {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
-                <div>
-                    Endrer du utfallet til «ikke presentert», vil tellingen på «presentert» tas
-                    bort.
-                </div>
+                <AlertStripeAdvarsel className="blokk-m">
+                    {nyttUtfall === Utfall.FåttJobben && alertForFåttJobb}
+                    {nyttUtfall === Utfall.Presentert && alertForPresentert}
+                </AlertStripeAdvarsel>
             )}
             <RadioGruppe legend="Velg utfall:">
                 {/* TODO: Farget prikk bak labelen */}

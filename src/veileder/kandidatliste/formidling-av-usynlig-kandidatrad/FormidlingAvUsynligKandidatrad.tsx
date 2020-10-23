@@ -48,7 +48,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 <UtfallSelect
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
-                    onClick={(utfall, visModal) => onUtfallChange(utfall, formidling, visModal)} // TODO Are
+                    onClick={() => console.log('TODO')} // TODO Are
                 />
             </div>
             <span />
