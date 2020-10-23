@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devOverride = {
     mode: 'development',
@@ -29,6 +30,16 @@ const devOverride = {
             __ARBEIDSRETTET_OPPFOLGING_URL__: "'#'",
             __MIDLERTIDIG_UTILGJENGELIG_PROXY__: "'/kandidater/midlertidig-utilgjengelig'",
             __SMS_PROXY__: "'/kandidater/api/sms'",
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Kandidatsøk (TEST)',
+            templateParameters: {
+                envVariables: '',
+                modiaJs:
+                    '<script src="https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"></script>',
+                modiaCss:
+                    '<link rel="stylesheet" href="https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/css/main.css"></link>',
+            },
         }),
     ],
 };
