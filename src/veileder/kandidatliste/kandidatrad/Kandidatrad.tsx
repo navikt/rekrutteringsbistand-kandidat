@@ -34,7 +34,7 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
+    onClickEndreUtfall: (kandidat: KandidatIKandidatliste) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -51,7 +51,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onToggleKandidat,
     onVisningChange,
     onKandidatStatusChange,
-    onKandidatUtfallChange,
+    onClickEndreUtfall,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
@@ -214,11 +214,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status} />
                 )}
                 {kandidatliste.stillingId && (
-                    // <>
                     <Lenkeknapp
                         className="Edit "
                         onClick={() => {
-                            onKandidatUtfallChange(Utfall.IkkePresentert, kandidat);
+                            onClickEndreUtfall(kandidat);
                         }}
                     >
                         <UtfallVisning utfall={kandidat.utfall as Utfall} />

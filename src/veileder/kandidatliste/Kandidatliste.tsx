@@ -46,11 +46,7 @@ type Props = {
     onFjernAllMarkering: () => void;
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (
-        utfall: Utfall,
-        kandidat: KandidatIKandidatliste,
-        visModal: boolean
-    ) => void;
+    onClickEndreUtfall: (kandidat: KandidatIKandidatliste) => void;
     onUsynligKandidatFormidlingsutfallChange: (
         utfall: Utfall,
         formidling: FormidlingAvUsynligKandidat,
@@ -219,7 +215,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidat={kandidat}
                                         kandidatliste={props.kandidatliste}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
-                                        onKandidatUtfallChange={props.onKandidatUtfallChange}
+                                        onClickEndreUtfall={props.onClickEndreUtfall}
                                         onToggleKandidat={props.onToggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         toggleArkivert={props.onToggleArkivert}
