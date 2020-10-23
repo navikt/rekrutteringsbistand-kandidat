@@ -37,7 +37,7 @@ const commonConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
+            filename: 'css/[name].[contenthash:7].css',
         }),
     ],
 };
