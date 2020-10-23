@@ -83,7 +83,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             <div className="endreUtfallModal__knapper">
                 <Hovedknapp
                     onClick={() => {
-                        onBekreft(utfall, kandidat);
+                        onBekreft(nyttUtfall, kandidat);
                     }}
                     className="endreUtfallModal__bekreftknapp"
                 >
