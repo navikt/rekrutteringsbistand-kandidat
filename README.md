@@ -1,4 +1,4 @@
-# rekrutteringsbistand-kandidat 
+# rekrutteringsbistand-kandidat
 
 Kandidatsøk og kandidatlister for veiledere. Delte tidligere repository med kandidatsøk for arbeidsgivere i [pam-kandidatsok](https://github.com/navikt/pam-kandidatsok/). Koden inneholder derfor noen arkitekturiske avgjørelser fra den tidligere, felles kodebasen.
 
@@ -18,7 +18,6 @@ npm start
 
 For å få inn testdata må prosjektet rekrutteringsbistand-kandidat-api kjøre på port 8766 med Elastic Search i bakgrunnen.
 
-
 ## Hvordan kjøre opp applikasjonen i Docker
 
 ```sh
@@ -28,7 +27,6 @@ docker run -p 8080:8080 --name rekrutteringsbistand-kandidat -e "PAM_KANDIDATSOK
 
 Appliksjonen vil da kjøre på port 8080. For å få data må rekrutteringsbistand-kandidat-api også her kjøre på port 8766 med Elastic Search i bakgrunnen.
 
-
 ## Feature toggles
 
 Applikasjonen bruker feature toggles fra Unleash for å skru av og på funksjonalitet.
@@ -37,9 +35,9 @@ Disse ligger også i `webpack.config.dev.js` for toggles under utvikling lokalt.
 
 For å legge til en feature toggle med navn `'test-toggle'` må man legge den til 3 steder:
 
-- Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
-- Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
-- Legg til `rekrutteringsbistand-kandidat.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
+-   Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
+-   Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
+-   Legg til `rekrutteringsbistand-kandidat.test-toggle` i unleash admin i [https://unleash.nais.adeo.no](https://unleash.nais.adeo.no).
 
 Toggle-endepunktet i kandidatsøket sin backend legger på prefixet `rekrutteringsbistand-kandidat` selv,
 som gjør at det kun er mulig å bruke feature toggles som starter med dette prefixet.
@@ -51,18 +49,18 @@ For å se endringene må man restarte webpack-serveren.
 
 [1]: https://logs.adeo.no/app/kibana#/visualize/edit/5778a2f0-963f-11e8-829c-67cd76ba3446?_g=%28refreshInterval%3A%28display%3AOff%2Cpause%3A!f%2Cvalue%3A0%29%2Ctime%3A%28from%3Anow-24h%2Cmode%3Aquick%2Cto%3Anow%29%29%29
 
-
 # Henvendelser
 
 ## For Nav-ansatte
-* Dette Git-repositoriet eies av [Team inkludering i Produktområde arbeidsgiver](https://navno.sharepoint.com/sites/intranett-prosjekter-og-utvikling/SitePages/Produktomr%C3%A5de-arbeidsgiver.aspx).
-* Slack-kanaler:
-  * [#inkludering-utvikling](https://nav-it.slack.com/archives/CQZU35J6A)
-  * [#arbeidsgiver-utvikling](https://nav-it.slack.com/archives/CD4MES6BB)
-  * [#arbeidsgiver-general](https://nav-it.slack.com/archives/CCM649PDH)
+
+-   Dette Git-repositoriet eies av [Team inkludering i Produktområde arbeidsgiver](https://navno.sharepoint.com/sites/intranett-prosjekter-og-utvikling/SitePages/Produktomr%C3%A5de-arbeidsgiver.aspx).
+-   Slack-kanaler:
+    -   [#inkludering-utvikling](https://nav-it.slack.com/archives/CQZU35J6A)
+    -   [#arbeidsgiver-utvikling](https://nav-it.slack.com/archives/CD4MES6BB)
+    -   [#arbeidsgiver-general](https://nav-it.slack.com/archives/CCM649PDH)
 
 ## For folk utenfor Nav
-* Opprett gjerne en issue i Github for alle typer spørsmål
-* IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/arbeidsgiver
-* IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon) 
 
+-   Opprett gjerne en issue i Github for alle typer spørsmål
+-   IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/arbeidsgiver
+-   IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon)
