@@ -36,12 +36,30 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
 
     const navn = `${fornavn || ''} ${etternavn || ''}`;
 
-    const alertForPresentert =
-        'Endrer du utfallet til «ikke presentert», vil tellingen av «presentert» tas bort.';
+    function alertTekst(valgtUtfall: Utfall): string {
+        const alertForPresentert = `Endrer du utfallet til 
+        «${utfallToDisplayName(Utfall.IkkePresentert)}»
+        vil tellingen av 
+        «${utfallToDisplayName(Utfall.Presentert)}»
+        tas bort.`;
 
-    const alertForFåttJobb =
-        'Endrer du utfallet til «ikke presentert» eller «presentert», vil tellingen av ' +
-        '«fått jobb» tas bort.';
+        const alertForFåttJobb = `Endrer du utfallet til
+        «${utfallToDisplayName(Utfall.IkkePresentert)}»
+        eller 
+        «${utfallToDisplayName(Utfall.Presentert)}»
+        vil tellingen av 
+        «${utfallToDisplayName(Utfall.FåttJobben)}»
+        tas bort.`;
+
+        switch (valgtUtfall) {
+            case Utfall.FåttJobben:
+                return alertForFåttJobb;
+            case Utfall.Presentert:
+                return alertForPresentert;
+            default:
+                throw new Error('Skal ikke komme hit. valgtUtfall=' + valgtUtfall);
+        }
+    }
 
     return (
         <NavFrontendModal
@@ -56,11 +74,9 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 Utfallet du registrerer på {navn} vil bli telt, og tellingen vil bli brukt til
                 statistikk.
             </Normaltekst>
-            {/* TODO: Alertstripe og rett tekst */}
             {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
                 <AlertStripeAdvarsel className="blokk-m">
-                    {nyttUtfall === Utfall.FåttJobben && alertForFåttJobb}
-                    {nyttUtfall === Utfall.Presentert && alertForPresentert}
+                    {alertTekst(nyttUtfall)}
                 </AlertStripeAdvarsel>
             )}
             <RadioGruppe legend="Velg utfall:">
