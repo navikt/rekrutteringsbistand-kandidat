@@ -75,8 +75,16 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                     checked={nyttUtfall === Utfall.FåttJobben}
                     onChange={onEndreUtfall}
                     name="endreUtfall"
-                />
-                {/* TODO Beskrivelse om fått jobben */}
+                >
+                    {/* TODO Are: Denne teksten skal være inne i radioknapp-teksten */}
+                    <Normaltekst className="endreUtfallModal__beskrivelse">
+                        {`Velger du utfallet 
+                «${utfallToDisplayName(Utfall.FåttJobben)}»
+                 får du også telling på 
+                 «${utfallToDisplayName(Utfall.Presentert)}»
+                 .`}
+                    </Normaltekst>
+                </Radio>
             </RadioGruppe>
             <div className="endreUtfallModal__knapper">
                 <Hovedknapp

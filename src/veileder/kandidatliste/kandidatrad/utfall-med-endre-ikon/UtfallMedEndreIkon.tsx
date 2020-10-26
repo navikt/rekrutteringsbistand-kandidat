@@ -3,7 +3,6 @@ import UtfallLabel from './UtfallLabel';
 import '@reach/menu-button/styles.css';
 import './UtfallMedEndreIkon.less';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
-import LåstHengelås from '../../side-header/rekrutteringsstatus/LåstHengelås';
 
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
@@ -23,9 +22,9 @@ const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, 
             {kanEndreUtfall ? (
                 <Lenkeknapp className="Edit " onClick={onClick}>
                     <UtfallLabel utfall={utfall} />
-                    {(utfall === Utfall.FåttJobben && <LåstHengelås />) || (
-                        <i className="Edit__icon" style={{ marginLeft: '.5em' }} />
-                    )}
+                    {(utfall === Utfall.FåttJobben && (
+                        <i className="UtfallMedEndreIkon__hengelås" />
+                    )) || <i className="Edit__icon" style={{ marginLeft: '.5em' }} />}
                 </Lenkeknapp>
             ) : (
                 <UtfallLabel utfall={utfall} />

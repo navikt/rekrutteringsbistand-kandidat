@@ -1,86 +1,51 @@
-@import '../../../variabler.less';
-
-@borderRadius: 0.25rem;
 
 .UtfallMedEndreIkon {
-    width: 100%;
-    max-width: 11rem;
-    min-width: 6rem;
 
-    &__button {
-        width: 100%;
-        color: #59514b;
-        border-radius: @borderRadius;
+  &__status {
+    display: flex;
+    align-items: center;
+  }
 
-        .typo-normal {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            padding-right: 1rem;
-        }
+  &__sirkel {
+    min-width: 10px;
+    height: 10px;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+
+    &--ikke_presentert {
+      background-color: white;
+      border: 1px solid #3e3832;
     }
 
-    &__menu {
-        border: 1px solid #666;
-        border-radius: @borderRadius;
-        padding: 0;
+    &--presentert {
+      background-color: #a2ad00;
     }
 
-    &__menuItem {
-        padding: 0.5rem 1rem 0.5rem 0.5rem;
-        color: #59514b;
-
-        &:hover,
-        &:focus {
-            color: white;
-            background-color: @navBla;
-        }
-
-        &[aria-selected='true'] {
-            .typo-normal {
-                font-weight: 600;
-            }
-        }
-
-        &:first-child {
-            border-top-left-radius: @borderRadius / 2;
-            border-top-right-radius: @borderRadius / 2;
-        }
-
-        &:last-child {
-            border-bottom-left-radius: @borderRadius / 2;
-            border-bottom-right-radius: @borderRadius / 2;
-        }
+    &--fatt_jobben {
+      background-color: #06893a;
     }
+  }
 
-    &__status {
-        display: flex;
-        align-items: center;
-    }
+  &__hengelås {
+    width: 16px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: 0.5em;
+    background-image: url("data:image/svg+xml, %3Csvg width='16' height='20' viewBox='0 0 16 20' fill='none' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13 7.5H15.0833C15.3133 7.5 15.5 7.68667 15.5 7.91667V19.5833C15.5 19.8133 15.3133 20 15.0833 20H0.916667C0.686667 20 0.5 19.8133 0.5 19.5833V7.91667C0.5 7.68667 0.686667 7.5 0.916667 7.5H3V5C3 2.2425 5.2425 0 8 0C10.7575 0 13 2.2425 13 5V7.5ZM8 0.833333C5.7025 0.833333 3.83333 2.7025 3.83333 5V7.5H12.1667V5C12.1667 2.7025 10.2975 0.833333 8 0.833333ZM1.33333 19.1667V8.33333H3.41667H12.5833H14.6667V19.1667H1.33333ZM7.16667 12.5C7.16667 12.04 7.54 11.6667 8 11.6667C8.46 11.6667 8.83333 12.04 8.83333 12.5C8.83333 12.8042 8.66083 13.06 8.41667 13.2058V15.4167C8.41667 15.6467 8.23 15.8333 8 15.8333C7.77 15.8333 7.58333 15.6467 7.58333 15.4167V13.2058C7.33917 13.06 7.16667 12.8042 7.16667 12.5Z' fill='%230067C5' /%3E%3C/svg%3E");
 
-    &__sirkel {
-        min-width: 10px;
-        height: 10px;
-        margin-right: 0.5rem;
-        border-radius: 50%;
+  }
 
-        &--ikke_presentert {
-            background-color: white;
-            border: 1px solid #3e3832;
-        }
-
-        &--presentert {
-            background-color: #a2ad00;
-        }
-
-        &--fatt_jobben {
-            background-color: #06893a;
-        }
-    }
-
-    // Skjul chevrons gjennom dropdown
-    .selectContainer:before,
-    .selectContainer:after {
-        z-index: 0;
-    }
 }
+
+.Lenkeknapp { // TODO Are: Blæh, vil ikke gjøre dette
+  &:hover,
+  &:active,
+  &:focus {
+    .UtfallMedEndreIkon__hengelås {
+      background-image: url("data:image/svg+xml, %3Csvg width='16' height='20' viewBox='0 0 16 20' fill='none' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0.5 20H15.5V7.5H13V5C13 2.2425 10.7567 0 8 0C5.2425 0 3 2.2425 3 5V7.5H0.5V20ZM7.16667 12.5C7.16667 12.0392 7.54 11.6667 8 11.6667C8.45917 11.6667 8.83333 12.0392 8.83333 12.5C8.83333 12.8058 8.66417 13.0733 8.41667 13.2158V15.4167C8.41667 15.6458 8.22917 15.8333 8 15.8333C7.77 15.8333 7.58333 15.6458 7.58333 15.4167V13.2158C7.33417 13.0733 7.16667 12.8058 7.16667 12.5ZM3.83333 5C3.83333 2.70167 5.70167 0.833333 8 0.833333C10.2975 0.833333 12.1667 2.70167 12.1667 5V7.5H3.83333V5Z' fill='%230067C5' /%3E%3C/svg%3E");
+    }
+  }
+
+}
+
