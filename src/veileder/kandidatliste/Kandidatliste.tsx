@@ -12,7 +12,7 @@ import {
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from './kandidatrad/utfall-select/UtfallMedEndreIkon';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
@@ -46,7 +46,7 @@ type Props = {
     onFjernAllMarkering: () => void;
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
-    onClickEndreUtfall: (kandidat: KandidatIKandidatliste) => void;
+    visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
     onUsynligKandidatFormidlingsutfallChange: (formidling: FormidlingAvUsynligKandidat) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
@@ -211,7 +211,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidat={kandidat}
                                         kandidatliste={props.kandidatliste}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
-                                        onClickEndreUtfall={props.onClickEndreUtfall}
+                                        visEndreUtfallModal={props.visEndreUtfallModal}
                                         onToggleKandidat={props.onToggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         toggleArkivert={props.onToggleArkivert}

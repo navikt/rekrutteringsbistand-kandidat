@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallSelect from '../kandidatrad/utfall-select/UtfallSelect';
+import UtfallMedEndreIkon from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
 import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {
@@ -33,7 +33,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 Ikke synlig i Rekrutteringsbistand
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
-                <UtfallSelect
+                <UtfallMedEndreIkon
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
                     onClick={() => onUtfallChange(formidling)}

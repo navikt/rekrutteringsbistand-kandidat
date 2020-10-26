@@ -1,5 +1,5 @@
 import { Kandidat, Kandidatstatus } from './../kandidatlistetyper';
-import { Utfall } from './../kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 
 const QUERY_PARAM_SEPARATOR = '-';

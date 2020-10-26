@@ -13,7 +13,7 @@ import {
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettressurs, Nettstatus } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from './kandidatrad/utfall-select/UtfallMedEndreIkon';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
@@ -92,7 +92,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             etternavn?: string;
             utfall?: Utfall;
             kandidat?: KandidatIKandidatliste;
-            onBekreftUtfall?: (utfall: Utfall) => void;
+            onClickEndreUtfall?: (utfall: Utfall) => void;
         };
         infobanner: {
             vis: boolean;
@@ -312,71 +312,68 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    onClickEndreUtfall = (kandidat: KandidatIKandidatliste) => {
+    visEndreUtfallModal = (kandidat: KandidatIKandidatliste) => {
+        const onClickEndreUtfall = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
+            const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
+
+            this.props.endreUtfallKandidat(
+                utfall,
+                this.props.valgtNavKontor,
+                kandidatlisteId,
+                kandidat.kandidatnr
+            );
+
+            sendEvent('kandidatliste', 'endre_utfall', {
+                utfall,
+                forrigeUtfall: kandidat.utfall,
+            });
+        };
+
         this.setState({
             endreUtfallModal: {
                 open: true,
                 utfall: kandidat.utfall,
                 fornavn: kandidat.fornavn,
                 etternavn: kandidat.etternavn,
-                onBekreftUtfall: (utfall: Utfall) => {
-                    this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
+                onClickEndreUtfall: (utfall: Utfall) => {
+                    onClickEndreUtfall(utfall, kandidat);
                 },
             },
         });
     };
 
-    bekreftEndringAvUtfallForKandidat = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
-        const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
+    visEndreUtfallModalUsynligKandidat = (formidling: FormidlingAvUsynligKandidat) => {
+        const onClickEndreUtfall = (utfall: Utfall, formidlingId: string) => {
+            const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
 
-        this.props.endreUtfallKandidat(
-            utfall,
-            this.props.valgtNavKontor,
-            kandidatlisteId,
-            kandidat.kandidatnr
-        );
+            this.props.endreFormidlingsutfallForUsynligKandidat(
+                kandidatlisteId,
+                formidlingId,
+                utfall,
+                this.props.valgtNavKontor
+            );
 
-        sendEvent('kandidatliste', 'endre_utfall', {
-            utfall,
-            forrigeUtfall: kandidat.utfall,
-        });
-    };
+            sendEvent('kandidatliste', 'endre_utfall_for_usynlig_kandidat', {
+                utfall,
+            });
+        };
 
-    onUsynligKandidatFormidlingsutfallChange = (formidling: FormidlingAvUsynligKandidat) => {
         this.setState({
             endreUtfallModal: {
                 open: true,
                 utfall: formidling.utfall,
                 fornavn: formidling.fornavn,
                 etternavn: formidling.etternavn,
-                onBekreftUtfall: (utfall: Utfall) => {
-                    this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(utfall, formidling.id);
+                onClickEndreUtfall: (utfall: Utfall) => {
+                    onClickEndreUtfall(utfall, formidling.id);
                 },
             },
         });
     };
 
-    bekreftEndringAvFormidlingsutfallForUsynligKandidat = (
-        utfall: Utfall,
-        formidlingId: string
-    ) => {
-        const kandidatlisteId = this.props.kandidatliste.kandidatlisteId;
-
-        this.props.endreFormidlingsutfallForUsynligKandidat(
-            kandidatlisteId,
-            formidlingId,
-            utfall,
-            this.props.valgtNavKontor
-        );
-
-        sendEvent('kandidatliste', 'endre_utfall_for_usynlig_kandidat', {
-            utfall,
-        });
-    };
-
     bekreftEndreUtfallModal = (utfall: Utfall) => {
-        if (this.state.endreUtfallModal.onBekreftUtfall) {
-            this.state.endreUtfallModal.onBekreftUtfall(utfall);
+        if (this.state.endreUtfallModal.onClickEndreUtfall) {
+            this.state.endreUtfallModal.onClickEndreUtfall(utfall);
             this.lukkEndreUtfallModal();
         }
     };
@@ -471,9 +468,9 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onFjernAllMarkering={this.fjernAllMarkering}
                     onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
-                    onClickEndreUtfall={this.onClickEndreUtfall}
+                    visEndreUtfallModal={this.visEndreUtfallModal}
                     onUsynligKandidatFormidlingsutfallChange={
-                        this.onUsynligKandidatFormidlingsutfallChange
+                        this.visEndreUtfallModalUsynligKandidat
                     }
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}

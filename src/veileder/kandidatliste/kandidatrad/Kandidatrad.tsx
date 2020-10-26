@@ -17,7 +17,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
+import UtfallMedEndreIkon, { Utfall } from './utfall-select/UtfallMedEndreIkon';
 import './Kandidatrad.less';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -32,7 +32,7 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
-    onClickEndreUtfall: (kandidat: KandidatIKandidatliste) => void;
+    visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -49,7 +49,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onToggleKandidat,
     onVisningChange,
     onKandidatStatusChange,
-    onClickEndreUtfall,
+    visEndreUtfallModal,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
@@ -212,15 +212,14 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status} />
                 )}
                 {kandidatliste.stillingId && (
-                    <UtfallSelect
+                    <UtfallMedEndreIkon
                         kanEndreUtfall={
                             kandidatliste.kanEditere &&
                             kandidatliste.status === Kandidatlistestatus.Åpen
                         }
                         utfall={kandidat.utfall as Utfall}
                         onClick={() => {
-                            console.log('AAA Inne i onClick');
-                            onClickEndreUtfall(kandidat);
+                            visEndreUtfallModal(kandidat);
                         }}
                     />
                 )}

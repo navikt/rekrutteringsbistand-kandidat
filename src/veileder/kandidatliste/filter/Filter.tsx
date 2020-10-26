@@ -6,8 +6,8 @@ import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
 import { statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
-import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning';
-import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
 import './Filter.less';
 import { Kandidatstatus } from '../kandidatlistetyper';
 

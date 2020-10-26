@@ -10,7 +10,7 @@ import {
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
 import { SearchApiError } from '../../../felles/api';
-import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallMedEndreIkon';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;

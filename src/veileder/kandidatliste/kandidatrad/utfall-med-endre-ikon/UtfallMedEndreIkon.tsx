@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import UtfallVisning from './UtfallVisning';
+import UtfallLabel from './UtfallLabel';
 import '@reach/menu-button/styles.css';
-import './UtfallSelect.less';
+import './UtfallMedEndreIkon.less';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import LåstHengelås from '../../side-header/rekrutteringsstatus/LåstHengelås';
 
@@ -17,21 +17,32 @@ interface Props {
     onClick: () => void;
 }
 
-const UtfallSelect: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, onClick }) => {
+const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, onClick }) => {
     return (
         <>
             {kanEndreUtfall ? (
                 <Lenkeknapp className="Edit " onClick={onClick}>
-                    <UtfallVisning utfall={utfall} />
+                    <UtfallLabel utfall={utfall} />
                     {(utfall === Utfall.FåttJobben && <LåstHengelås />) || (
                         <i className="Edit__icon" style={{ marginLeft: '.5em' }} />
                     )}
                 </Lenkeknapp>
             ) : (
-                <UtfallVisning utfall={utfall} />
+                <UtfallLabel utfall={utfall} />
             )}
         </>
     );
 };
 
-export default UtfallSelect;
+export const utfallToDisplayName = (utfall: Utfall) => {
+    switch (utfall) {
+        case Utfall.Presentert:
+            return 'Presentert';
+        case Utfall.IkkePresentert:
+            return 'Ikke presentert';
+        case Utfall.FåttJobben:
+            return 'Fått jobb';
+    }
+};
+
+export default UtfallMedEndreIkon;

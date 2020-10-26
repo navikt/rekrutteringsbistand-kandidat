@@ -8,7 +8,7 @@ import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
 import { SearchApiError } from './../../../felles/api';
-import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
 import { Visningsstatus } from './../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 
