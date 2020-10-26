@@ -47,11 +47,7 @@ type Props = {
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     onClickEndreUtfall: (kandidat: KandidatIKandidatliste) => void;
-    onUsynligKandidatFormidlingsutfallChange: (
-        utfall: Utfall,
-        formidling: FormidlingAvUsynligKandidat,
-        visModal: true
-    ) => void;
+    onUsynligKandidatFormidlingsutfallChange: (formidling: FormidlingAvUsynligKandidat) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;

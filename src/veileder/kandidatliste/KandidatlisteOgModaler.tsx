@@ -92,6 +92,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             etternavn?: string;
             utfall?: Utfall;
             kandidat?: KandidatIKandidatliste;
+            onBekreftUtfall?: (utfall: Utfall) => void;
         };
         infobanner: {
             vis: boolean;
@@ -316,9 +317,11 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             endreUtfallModal: {
                 open: true,
                 utfall: kandidat.utfall,
-                kandidat: kandidat,
                 fornavn: kandidat.fornavn,
                 etternavn: kandidat.etternavn,
+                onBekreftUtfall: (utfall: Utfall) => {
+                    this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
+                },
             },
         });
     };
@@ -339,22 +342,18 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    // TODO kan vi bruke samme logikk for både usynlig og vanlig kandidat?
-    onUsynligKandidatFormidlingsutfallChange = (
-        utfall: Utfall,
-        formidling: FormidlingAvUsynligKandidat,
-        visModal: boolean
-    ) => {
-        // TODO Are
-        // this.setState({
-        //     endreUtfallModal: {
-        //         open: true,
-        //         utfall: formidling.utfall,
-        //         kandidat: kandidat,
-        //         fornavn: kandidat.fornavn,
-        //         etternavn: kandidat.etternavn,
-        //     },
-        // });
+    onUsynligKandidatFormidlingsutfallChange = (formidling: FormidlingAvUsynligKandidat) => {
+        this.setState({
+            endreUtfallModal: {
+                open: true,
+                utfall: formidling.utfall,
+                fornavn: formidling.fornavn,
+                etternavn: formidling.etternavn,
+                onBekreftUtfall: (utfall: Utfall) => {
+                    this.bekreftEndringAvFormidlingsutfallForUsynligKandidat(utfall, formidling.id);
+                },
+            },
+        });
     };
 
     bekreftEndringAvFormidlingsutfallForUsynligKandidat = (
@@ -375,9 +374,11 @@ class KandidatlisteOgModaler extends React.Component<Props> {
         });
     };
 
-    bekreftEndreUtfallModal = (utfall: Utfall, kandidat: KandidatIKandidatliste) => {
-        this.bekreftEndringAvUtfallForKandidat(utfall, kandidat);
-        this.lukkEndreUtfallModal();
+    bekreftEndreUtfallModal = (utfall: Utfall) => {
+        if (this.state.endreUtfallModal.onBekreftUtfall) {
+            this.state.endreUtfallModal.onBekreftUtfall(utfall);
+            this.lukkEndreUtfallModal();
+        }
     };
 
     lukkEndreUtfallModal = () => {
@@ -440,19 +441,16 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                             kandidater={kandidater}
                             stillingId={kandidatliste.stillingId}
                         />
-                        {this.state.endreUtfallModal.open &&
-                            this.state.endreUtfallModal.kandidat &&
-                            this.state.endreUtfallModal.utfall && (
-                                <EndreUtfallModal
-                                    vis={this.state.endreUtfallModal.open}
-                                    onLukk={this.lukkEndreUtfallModal}
-                                    fornavn={this.state.endreUtfallModal.fornavn}
-                                    etternavn={this.state.endreUtfallModal.etternavn}
-                                    utfall={this.state.endreUtfallModal.utfall}
-                                    kandidat={this.state.endreUtfallModal.kandidat}
-                                    onBekreft={this.bekreftEndreUtfallModal}
-                                />
-                            )}
+                        {this.state.endreUtfallModal.open && this.state.endreUtfallModal.utfall && (
+                            <EndreUtfallModal
+                                vis={this.state.endreUtfallModal.open}
+                                onLukk={this.lukkEndreUtfallModal}
+                                fornavn={this.state.endreUtfallModal.fornavn}
+                                etternavn={this.state.endreUtfallModal.etternavn}
+                                utfall={this.state.endreUtfallModal.utfall}
+                                onBekreft={this.bekreftEndreUtfallModal}
+                            />
+                        )}
                     </>
                 )}
                 <KopierEpostModal

@@ -5,17 +5,15 @@ import { utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallVisning'
 import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './EndreUtfallModal.less';
-import { KandidatIKandidatliste } from '../kandidatlistetyper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 interface Props {
     vis: boolean;
     utfall: Utfall;
-    kandidat: KandidatIKandidatliste;
     fornavn?: string;
     etternavn?: string;
-    onBekreft: (utfall: Utfall, kandidat: KandidatIKandidatliste) => void;
+    onBekreft: (utfall: Utfall) => void;
     onLukk: () => void;
 }
 
@@ -26,7 +24,6 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
     utfall,
     onBekreft,
     onLukk,
-    kandidat,
 }) => {
     const [nyttUtfall, setNyttUtfall] = useState<Utfall>(utfall);
 
@@ -35,31 +32,6 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
     };
 
     const navn = `${fornavn || ''} ${etternavn || ''}`;
-
-    function alertTekst(valgtUtfall: Utfall): string {
-        const alertForPresentert = `Endrer du utfallet til 
-        «${utfallToDisplayName(Utfall.IkkePresentert)}»
-        vil tellingen av 
-        «${utfallToDisplayName(Utfall.Presentert)}»
-        tas bort.`;
-
-        const alertForFåttJobb = `Endrer du utfallet til
-        «${utfallToDisplayName(Utfall.IkkePresentert)}»
-        eller 
-        «${utfallToDisplayName(Utfall.Presentert)}»
-        vil tellingen av 
-        «${utfallToDisplayName(Utfall.FåttJobben)}»
-        tas bort.`;
-
-        switch (valgtUtfall) {
-            case Utfall.FåttJobben:
-                return alertForFåttJobb;
-            case Utfall.Presentert:
-                return alertForPresentert;
-            default:
-                throw new Error('Skal ikke komme hit. valgtUtfall=' + valgtUtfall);
-        }
-    }
 
     return (
         <NavFrontendModal
@@ -107,7 +79,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             <div className="endreUtfallModal__knapper">
                 <Hovedknapp
                     onClick={() => {
-                        onBekreft(nyttUtfall, kandidat);
+                        onBekreft(nyttUtfall);
                     }}
                     className="endreUtfallModal__bekreftknapp"
                 >
@@ -117,6 +89,30 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             </div>
         </NavFrontendModal>
     );
+};
+
+const alertTekst = (valgtUtfall: Utfall): string => {
+    const alertForPresentert = `Endrer du utfallet til 
+        «${utfallToDisplayName(Utfall.IkkePresentert)}»
+        vil tellingen av 
+        «${utfallToDisplayName(Utfall.Presentert)}»
+        tas bort.`;
+
+    const alertForFåttJobb = `Endrer du utfallet til
+        «${utfallToDisplayName(Utfall.IkkePresentert)}» eller 
+        «${utfallToDisplayName(Utfall.Presentert)}»
+        vil tellingen av 
+        «${utfallToDisplayName(Utfall.FåttJobben)}»
+        tas bort.`;
+
+    switch (valgtUtfall) {
+        case Utfall.FåttJobben:
+            return alertForFåttJobb;
+        case Utfall.Presentert:
+            return alertForPresentert;
+        default:
+            throw new Error('Skal ikke komme hit. valgtUtfall=' + valgtUtfall);
+    }
 };
 
 export default EndreUtfallModal;

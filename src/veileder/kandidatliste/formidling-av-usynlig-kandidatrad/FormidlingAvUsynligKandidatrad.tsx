@@ -1,18 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallSelect, { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import UtfallSelect from '../kandidatrad/utfall-select/UtfallSelect';
 import './FormidlingAvUsynligKandidatrad.less';
-import AppState from '../../AppState';
-import { useSelector } from 'react-redux';
-import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
 
 type Props = {
     formidling: FormidlingAvUsynligKandidat;
-    onUtfallChange: (
-        utfall: Utfall,
-        formidling: FormidlingAvUsynligKandidat,
-        visModal: boolean
-    ) => void;
+    onUtfallChange: (formidling: FormidlingAvUsynligKandidat) => void;
     kandidatlistenErLukket: boolean;
     erEierAvKandidatlisten: boolean;
 };
@@ -27,11 +20,6 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     if (formidling.mellomnavn) {
         fulltNavn += ' ' + formidling.mellomnavn;
     }
-
-    const endreState: Nettressurs<string> | undefined = useSelector(
-        (state: AppState) =>
-            state.kandidatliste.endreFormidlingsutfallForUsynligKandidat[formidling.id]
-    );
 
     return (
         <div
@@ -48,7 +36,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 <UtfallSelect
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
-                    onClick={() => console.log('TODO')} // TODO Are
+                    onClick={() => onUtfallChange(formidling)}
                 />
             </div>
             <span />
