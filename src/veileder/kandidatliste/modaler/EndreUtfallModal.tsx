@@ -1,7 +1,10 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Utfall, utfallToDisplayName } from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
+import {
+    Utfall,
+    utfallToDisplayName,
+} from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './EndreUtfallModal.less';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';

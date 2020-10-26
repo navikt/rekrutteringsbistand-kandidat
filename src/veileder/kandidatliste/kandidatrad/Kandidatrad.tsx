@@ -17,7 +17,7 @@ import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import UtfallMedEndreIkon, { Utfall } from './utfall-select/UtfallMedEndreIkon';
+import UtfallMedEndreIkon, { Utfall } from './utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Kandidatrad.less';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';

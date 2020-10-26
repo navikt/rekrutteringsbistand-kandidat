@@ -7,7 +7,7 @@ import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
 import './Historikkrad.less';
 import { Undertekst } from 'nav-frontend-typografi';
-import { utfallToDisplayName } from '../../../../kandidatliste/kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { utfallToDisplayName } from '../../../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;

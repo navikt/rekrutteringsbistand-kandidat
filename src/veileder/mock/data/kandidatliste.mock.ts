@@ -9,7 +9,7 @@ import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
 import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
-import { Utfall } from '../../kandidatliste/kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
 import { meg, deg, Veileder } from './veiledere.mock';
 

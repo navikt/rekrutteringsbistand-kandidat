@@ -13,7 +13,7 @@ import {
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import { Nettressurs, Nettstatus } from '../../felles/common/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
-import { Utfall } from './kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallMedEndreIkon from '../kandidatrad/utfall-select/UtfallMedEndreIkon';
+import UtfallMedEndreIkon from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {

@@ -1,4 +1,4 @@
-import { Utfall } from './kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';

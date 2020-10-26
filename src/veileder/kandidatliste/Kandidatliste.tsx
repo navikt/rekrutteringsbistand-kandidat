@@ -12,7 +12,7 @@ import {
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Utfall } from './kandidatrad/utfall-select/UtfallMedEndreIkon';
+import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
