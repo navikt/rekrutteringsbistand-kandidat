@@ -14,7 +14,7 @@ export enum Orientering {
 }
 
 const UtfallLabel: FunctionComponent<Props> = ({ utfall, prikkOrientering }) => (
-    <span className="UtfallMedEndreIkon__status">
+    <span className="utfall-med-endre-ikon__status">
         {prikkOrientering === Orientering.Foran && <FargetPrikk type={utfall} />}
         <Normaltekst>{utfallToDisplayName(utfall)}</Normaltekst>
         {prikkOrientering === Orientering.Bak && <FargetPrikk type={utfall} />}

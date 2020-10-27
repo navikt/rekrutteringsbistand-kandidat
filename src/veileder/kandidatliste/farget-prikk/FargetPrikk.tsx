@@ -8,7 +8,7 @@ interface Props {
 }
 
 const FargetPrikk: FunctionComponent<Props> = ({ type }) => (
-    <span className={`FargetPrikk FargetPrikk--${type.toLowerCase()}`} />
+    <span className={`farget-prikk farget-prikk--${type.toLowerCase()}`} />
 );
 
 export default FargetPrikk;

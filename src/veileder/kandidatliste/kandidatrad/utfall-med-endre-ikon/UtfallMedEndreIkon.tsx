@@ -20,12 +20,12 @@ const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, 
     return (
         <>
             {kanEndreUtfall ? (
-                <Lenkeknapp className="UtfallMedEndreIkon" onClick={onClick}>
+                <Lenkeknapp className="utfall-med-endre-ikon" onClick={onClick}>
                     <UtfallLabel utfall={utfall} prikkOrientering={Orientering.Foran} />
                     {utfall === Utfall.FåttJobben ? (
-                        <i className="UtfallMedEndreIkon__hengelås" />
+                        <i className="utfall-med-endre-ikon__hengelås" />
                     ) : (
-                        <i className="UtfallMedEndreIkon__blyant" />
+                        <i className="utfall-med-endre-ikon__blyant" />
                     )}
                 </Lenkeknapp>
             ) : (
