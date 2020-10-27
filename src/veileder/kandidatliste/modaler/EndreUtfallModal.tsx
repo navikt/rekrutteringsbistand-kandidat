@@ -55,11 +55,10 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 </AlertStripeAdvarsel>
             )}
             <RadioGruppe legend="Velg utfall:">
-                {/* TODO: Farget prikk bak labelen */}
                 <Radio
                     label={
                         <>
-                            {utfallToDisplayName(Utfall.IkkePresentert)}
+                            <span>{utfallToDisplayName(Utfall.IkkePresentert)}</span>
                             <FargetPrikk type={Utfall.IkkePresentert} />
                         </>
                     }
@@ -71,7 +70,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 <Radio
                     label={
                         <>
-                            {utfallToDisplayName(Utfall.Presentert)}
+                            <span>{utfallToDisplayName(Utfall.Presentert)}</span>
                             <FargetPrikk type={Utfall.Presentert} />
                         </>
                     }
@@ -83,7 +82,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 <Radio
                     label={
                         <>
-                            {utfallToDisplayName(Utfall.FåttJobben)}
+                            <span>{utfallToDisplayName(Utfall.FåttJobben)}</span>
                             <FargetPrikk type={Utfall.FåttJobben} />
                             <Normaltekst className="endreUtfallModal__beskrivelse">
                                 Velger du utfallet «{utfallToDisplayName(Utfall.FåttJobben)}» får du

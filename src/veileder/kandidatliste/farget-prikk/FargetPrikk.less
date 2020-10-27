@@ -2,9 +2,15 @@
     display: inline-block;
     min-width: 10px;
     height: 10px;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
     border-radius: 50%;
+
+    &:first-child {
+        margin-right: 0.5rem;
+    }
+
+    &:not(:first-child) {
+        margin-left: 0.5rem;
+    }
 
     &--vurderes {
         background-color: rgba(62, 56, 50, 0.6);
