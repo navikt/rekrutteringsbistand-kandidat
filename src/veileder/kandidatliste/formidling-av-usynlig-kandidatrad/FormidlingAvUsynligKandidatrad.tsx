@@ -5,14 +5,14 @@ import './FormidlingAvUsynligKandidatrad.less';
 
 type Props = {
     formidling: FormidlingAvUsynligKandidat;
-    onUtfallChange: (formidling: FormidlingAvUsynligKandidat) => void;
+    visEndreUtfallModalUsynligKandidat: (formidling: FormidlingAvUsynligKandidat) => void;
     kandidatlistenErLukket: boolean;
     erEierAvKandidatlisten: boolean;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidling,
-    onUtfallChange,
+    visEndreUtfallModalUsynligKandidat,
     kandidatlistenErLukket,
     erEierAvKandidatlisten,
 }) => {
@@ -36,7 +36,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 <UtfallMedEndreIkon
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
-                    onClick={() => onUtfallChange(formidling)}
+                    onClick={() => visEndreUtfallModalUsynligKandidat(formidling)}
                 />
             </div>
             <span />

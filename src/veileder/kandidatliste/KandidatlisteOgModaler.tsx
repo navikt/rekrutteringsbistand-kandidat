@@ -468,9 +468,7 @@ class KandidatlisteOgModaler extends React.Component<Props> {
                     onMarkerKandidater={this.markerKandidater}
                     onKandidatStatusChange={endreStatusKandidat}
                     visEndreUtfallModal={this.visEndreUtfallModal}
-                    onUsynligKandidatFormidlingsutfallChange={
-                        this.visEndreUtfallModalUsynligKandidat
-                    }
+                    visEndreUtfallModalUsynligKandidat={this.visEndreUtfallModalUsynligKandidat}
                     onKandidatShare={this.onToggleDeleModal}
                     onEmailKandidater={this.onEmailKandidater}
                     onKandidaterAngreArkivering={this.onKandidaterAngreArkivering}

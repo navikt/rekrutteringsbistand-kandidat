@@ -47,7 +47,7 @@ type Props = {
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
     visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
-    onUsynligKandidatFormidlingsutfallChange: (formidling: FormidlingAvUsynligKandidat) => void;
+    visEndreUtfallModalUsynligKandidat: (formidling: FormidlingAvUsynligKandidat) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;
@@ -197,9 +197,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
-                                        onUtfallChange={
-                                            props.onUsynligKandidatFormidlingsutfallChange
-                                        }
+                                        onUtfallChange={props.visEndreUtfallModalUsynligKandidat}
                                         erEierAvKandidatlisten={props.kandidatliste.kanEditere}
                                     />
                                 )
