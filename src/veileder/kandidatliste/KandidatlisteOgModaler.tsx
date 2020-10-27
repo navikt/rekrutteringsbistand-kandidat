@@ -91,7 +91,6 @@ class KandidatlisteOgModaler extends React.Component<Props> {
             fornavn?: string;
             etternavn?: string;
             utfall?: Utfall;
-            kandidat?: KandidatIKandidatliste;
             onClickEndreUtfall?: (utfall: Utfall) => void;
         };
         infobanner: {
