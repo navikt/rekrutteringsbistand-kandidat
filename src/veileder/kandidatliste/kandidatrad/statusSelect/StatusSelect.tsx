@@ -66,6 +66,7 @@ interface StatusvisningProps {
     status: Kandidatstatus;
 }
 
+// TODO Kan fjernes siden vi har dratt ut FargetPrikk til egen komponent
 export const Statusvisning: FunctionComponent<StatusvisningProps> = ({ status }) => (
     <span className="StatusSelect__status">
         <span

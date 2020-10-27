@@ -9,6 +9,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './EndreUtfallModal.less';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import FargetPrikk from '../farget-prikk/FargetPrikk';
 
 interface Props {
     vis: boolean;
@@ -56,14 +57,24 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             <RadioGruppe legend="Velg utfall:">
                 {/* TODO: Farget prikk bak labelen */}
                 <Radio
-                    label={utfallToDisplayName(Utfall.IkkePresentert)}
+                    label={
+                        <>
+                            {utfallToDisplayName(Utfall.IkkePresentert)}
+                            <FargetPrikk type={Utfall.IkkePresentert} />
+                        </>
+                    }
                     value={Utfall.IkkePresentert}
                     checked={nyttUtfall === Utfall.IkkePresentert}
                     onChange={onEndreUtfall}
                     name="endreUtfall"
                 />
                 <Radio
-                    label={utfallToDisplayName(Utfall.Presentert)}
+                    label={
+                        <>
+                            {utfallToDisplayName(Utfall.Presentert)}
+                            <FargetPrikk type={Utfall.Presentert} />
+                        </>
+                    }
                     value={Utfall.Presentert}
                     checked={nyttUtfall === Utfall.Presentert}
                     onChange={onEndreUtfall}
@@ -73,6 +84,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                     label={
                         <>
                             {utfallToDisplayName(Utfall.FåttJobben)}
+                            <FargetPrikk type={Utfall.FåttJobben} />
                             <Normaltekst className="endreUtfallModal__beskrivelse">
                                 Velger du utfallet «{utfallToDisplayName(Utfall.FåttJobben)}» får du
                                 også telling på «{utfallToDisplayName(Utfall.Presentert)}» .

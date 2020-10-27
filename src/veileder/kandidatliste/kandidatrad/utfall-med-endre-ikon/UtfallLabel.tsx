@@ -6,6 +6,7 @@ interface Props {
     utfall: Utfall;
 }
 
+// TODO Kan fjernes siden vi har dratt ut FargetPrikk til egen komponent
 const UtfallLabel: FunctionComponent<Props> = ({ utfall }) => (
     <span className="UtfallMedEndreIkon__status">
         <span
