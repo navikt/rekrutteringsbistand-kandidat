@@ -197,7 +197,9 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
-                                        onUtfallChange={props.visEndreUtfallModalUsynligKandidat}
+                                        visEndreUtfallModalUsynligKandidat={
+                                            props.visEndreUtfallModalUsynligKandidat
+                                        }
                                         erEierAvKandidatlisten={props.kandidatliste.kanEditere}
                                     />
                                 )
