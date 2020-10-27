@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
@@ -101,5 +102,21 @@ sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
 
-// ReactDOM.render(<App />, document.getElementById('app'));
-(window as any)['rekrutteringsbistand-kandidat'] = App;
+const renderApp = (component: React.FunctionComponent) => (
+    element: HTMLElement,
+    props: Object = {}
+) => {
+    ReactDOM.render(React.createElement(component, props), element);
+};
+
+const unmountApp = (element: HTMLElement) => {
+    ReactDOM.unmountComponentAtNode(element);
+};
+
+const eksporterApp = (navn: string, component: any) => {
+    (window as any)[navn] = {};
+    (window as any)[navn].render = renderApp(component);
+    (window as any)[navn].unmount = unmountApp;
+};
+
+eksporterApp('rekrutteringsbistand-kandidat', App);
