@@ -5,7 +5,7 @@ import FargetPrikk from '../../farget-prikk/FargetPrikk';
 
 interface Props {
     utfall: Utfall;
-    prikkOrientering: Orientering;
+    prikkOrientering?: Orientering;
 }
 
 export enum Orientering {
@@ -13,7 +13,10 @@ export enum Orientering {
     Bak,
 }
 
-const UtfallLabel: FunctionComponent<Props> = ({ utfall, prikkOrientering }) => (
+const UtfallLabel: FunctionComponent<Props> = ({
+    utfall,
+    prikkOrientering = Orientering.Foran,
+}) => (
     <span className="utfall-med-endre-ikon__status">
         {prikkOrientering === Orientering.Foran && <FargetPrikk type={utfall} />}
         <Normaltekst>{utfallToDisplayName(utfall)}</Normaltekst>
