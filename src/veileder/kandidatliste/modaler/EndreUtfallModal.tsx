@@ -90,7 +90,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                             />
                             <Normaltekst className="endreUtfallModal__beskrivelse">
                                 Velger du utfallet «{utfallToDisplayName(Utfall.FåttJobben)}» får du
-                                også telling på «{utfallToDisplayName(Utfall.Presentert)}» .
+                                også telling på «{utfallToDisplayName(Utfall.Presentert)}».
                             </Normaltekst>
                         </>
                     }
