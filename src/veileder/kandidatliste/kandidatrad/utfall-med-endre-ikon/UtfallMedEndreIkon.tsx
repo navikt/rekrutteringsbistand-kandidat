@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import UtfallLabel from './UtfallLabel';
+import UtfallLabel, { Orientering } from './UtfallLabel';
 import '@reach/menu-button/styles.css';
 import './UtfallMedEndreIkon.less';
 import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
@@ -21,7 +21,7 @@ const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, 
         <>
             {kanEndreUtfall ? (
                 <Lenkeknapp className="UtfallMedEndreIkon" onClick={onClick}>
-                    <UtfallLabel utfall={utfall} />
+                    <UtfallLabel utfall={utfall} prikkOrientering={Orientering.Foran} />
                     {utfall === Utfall.FåttJobben ? (
                         <i className="UtfallMedEndreIkon__hengelås" />
                     ) : (
@@ -29,7 +29,7 @@ const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, 
                     )}
                 </Lenkeknapp>
             ) : (
-                <UtfallLabel utfall={utfall} />
+                <UtfallLabel utfall={utfall} prikkOrientering={Orientering.Foran} />
             )}
         </>
     );

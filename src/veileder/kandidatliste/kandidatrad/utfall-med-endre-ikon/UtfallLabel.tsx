@@ -5,12 +5,19 @@ import FargetPrikk from '../../farget-prikk/FargetPrikk';
 
 interface Props {
     utfall: Utfall;
+    prikkOrientering: Orientering;
 }
 
-const UtfallLabel: FunctionComponent<Props> = ({ utfall }) => (
+export enum Orientering {
+    Foran,
+    Bak,
+}
+
+const UtfallLabel: FunctionComponent<Props> = ({ utfall, prikkOrientering }) => (
     <span className="UtfallMedEndreIkon__status">
-        <FargetPrikk type={utfall} />
+        {prikkOrientering === Orientering.Foran && <FargetPrikk type={utfall} />}
         <Normaltekst>{utfallToDisplayName(utfall)}</Normaltekst>
+        {prikkOrientering === Orientering.Bak && <FargetPrikk type={utfall} />}
     </span>
 );
 

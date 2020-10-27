@@ -10,6 +10,8 @@ import './EndreUtfallModal.less';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import FargetPrikk from '../farget-prikk/FargetPrikk';
+import UtfallLabel, { Orientering } from '../kandidatrad/utfall-med-endre-ikon/UtfallLabel';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 
 interface Props {
     vis: boolean;
@@ -57,10 +59,10 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
             <RadioGruppe legend="Velg utfall:">
                 <Radio
                     label={
-                        <>
-                            <span>{utfallToDisplayName(Utfall.IkkePresentert)}</span>
-                            <FargetPrikk type={Utfall.IkkePresentert} />
-                        </>
+                        <UtfallLabel
+                            utfall={Utfall.IkkePresentert}
+                            prikkOrientering={Orientering.Bak}
+                        />
                     }
                     value={Utfall.IkkePresentert}
                     checked={nyttUtfall === Utfall.IkkePresentert}
@@ -69,10 +71,10 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 />
                 <Radio
                     label={
-                        <>
-                            <span>{utfallToDisplayName(Utfall.Presentert)}</span>
-                            <FargetPrikk type={Utfall.Presentert} />
-                        </>
+                        <UtfallLabel
+                            utfall={Utfall.Presentert}
+                            prikkOrientering={Orientering.Bak}
+                        />
                     }
                     value={Utfall.Presentert}
                     checked={nyttUtfall === Utfall.Presentert}
@@ -82,8 +84,10 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 <Radio
                     label={
                         <>
-                            <span>{utfallToDisplayName(Utfall.FåttJobben)}</span>
-                            <FargetPrikk type={Utfall.FåttJobben} />
+                            <UtfallLabel
+                                utfall={Utfall.FåttJobben}
+                                prikkOrientering={Orientering.Bak}
+                            />
                             <Normaltekst className="endreUtfallModal__beskrivelse">
                                 Velger du utfallet «{utfallToDisplayName(Utfall.FåttJobben)}» får du
                                 også telling på «{utfallToDisplayName(Utfall.Presentert)}» .
