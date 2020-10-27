@@ -51,11 +51,6 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 Utfallet du registrerer på {navn} vil bli telt, og tellingen vil bli brukt til
                 statistikk.
             </Normaltekst>
-            {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
-                <AlertStripeAdvarsel className="blokk-m">
-                    {alertTekst(nyttUtfall)}
-                </AlertStripeAdvarsel>
-            )}
             <RadioGruppe legend="Velg utfall:">
                 <Radio
                     label={
@@ -100,6 +95,11 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                     name="endreUtfall"
                 />
             </RadioGruppe>
+            {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
+                <AlertStripeAdvarsel className="blokk-m">
+                    {alertTekst(nyttUtfall)}
+                </AlertStripeAdvarsel>
+            )}
             <div className="endreUtfallModal__knapper">
                 <Hovedknapp
                     onClick={() => {
