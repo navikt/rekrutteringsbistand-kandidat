@@ -4,23 +4,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Kandidatstatus } from '../../kandidatlistetyper';
 import '@reach/menu-button/styles.css';
 import './StatusSelect.less';
-
-export const statusToDisplayName = (status: Kandidatstatus) => {
-    switch (status) {
-        case Kandidatstatus.Vurderes:
-            return 'Vurderes';
-        case Kandidatstatus.Kontaktet:
-            return 'Kontaktet';
-        case Kandidatstatus.Aktuell:
-            return 'Aktuell';
-        case Kandidatstatus.Uaktuell:
-            return 'Ikke aktuell';
-        case Kandidatstatus.Uinteressert:
-            return 'Ikke interessert';
-    }
-};
-
-const statusToClassname = (status: Kandidatstatus) => status.toLowerCase();
+import FargetPrikk from '../../farget-prikk/FargetPrikk';
 
 interface Props {
     kanEditere: boolean;
@@ -68,11 +52,24 @@ interface StatusvisningProps {
 
 export const Statusvisning: FunctionComponent<StatusvisningProps> = ({ status }) => (
     <span className="StatusSelect__status">
-        <span
-            className={`StatusSelect__sirkel StatusSelect__sirkel--${statusToClassname(status)}`}
-        />
+        <FargetPrikk type={status} />
         <Normaltekst>{statusToDisplayName(status)}</Normaltekst>
     </span>
 );
+
+export const statusToDisplayName = (status: Kandidatstatus) => {
+    switch (status) {
+        case Kandidatstatus.Vurderes:
+            return 'Vurderes';
+        case Kandidatstatus.Kontaktet:
+            return 'Kontaktet';
+        case Kandidatstatus.Aktuell:
+            return 'Aktuell';
+        case Kandidatstatus.Uaktuell:
+            return 'Ikke aktuell';
+        case Kandidatstatus.Uinteressert:
+            return 'Ikke interessert';
+    }
+};
 
 export default StatusSelect;

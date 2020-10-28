@@ -1,4 +1,4 @@
-import { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { useState, useEffect } from 'react';
 import { Kandidatstatus, KandidatIKandidatliste } from '../kandidatlistetyper';
 

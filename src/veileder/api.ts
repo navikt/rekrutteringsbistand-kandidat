@@ -22,7 +22,7 @@ import {
     putJson,
 } from '../felles/api';
 import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
-import { Utfall } from './kandidatliste/kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from './kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 

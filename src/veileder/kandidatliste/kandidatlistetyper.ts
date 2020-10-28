@@ -1,15 +1,15 @@
-import { Utfall } from './kandidatrad/utfall-select/UtfallSelect';
+import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { RemoteData } from './../../felles/common/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
 
-export enum Delestatus {
+export enum Delestatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
     IkkeSpurt = 'IKKE_SPURT',
     Loading = 'LOADING',
     Success = 'SUCCESS',
 }
 
-export enum HentStatus {
+export enum HentStatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
     IkkeHentet = 'IKKE_HENTET',
     Loading = 'LOADING',
     Success = 'SUCCESS',
@@ -24,7 +24,7 @@ export enum SmsStatus {
     Feil = 'FEIL',
 }
 
-export enum MarkerSomMinStatus {
+export enum MarkerSomMinStatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
     IkkeGjort = 'IKKE_GJORT',
     Loading = 'LOADING',
     Success = 'SUCCESS',

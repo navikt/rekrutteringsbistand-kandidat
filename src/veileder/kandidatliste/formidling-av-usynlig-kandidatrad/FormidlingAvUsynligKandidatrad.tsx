@@ -1,26 +1,18 @@
 import React, { FunctionComponent } from 'react';
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallSelect, { Utfall } from '../kandidatrad/utfall-select/UtfallSelect';
+import UtfallMedEndreIkon from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './FormidlingAvUsynligKandidatrad.less';
-import AppState from '../../AppState';
-import { useSelector } from 'react-redux';
-import { Nettstatus, Nettressurs } from '../../../felles/common/remoteData';
-import UtfallVisning from '../kandidatrad/utfall-select/UtfallVisning';
 
 type Props = {
     formidling: FormidlingAvUsynligKandidat;
-    onUtfallChange: (
-        utfall: Utfall,
-        formidling: FormidlingAvUsynligKandidat,
-        visModal: boolean
-    ) => void;
+    visEndreUtfallModalUsynligKandidat: (formidling: FormidlingAvUsynligKandidat) => void;
     kandidatlistenErLukket: boolean;
     erEierAvKandidatlisten: boolean;
 };
 
 const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     formidling,
-    onUtfallChange,
+    visEndreUtfallModalUsynligKandidat,
     kandidatlistenErLukket,
     erEierAvKandidatlisten,
 }) => {
@@ -28,11 +20,6 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
     if (formidling.mellomnavn) {
         fulltNavn += ' ' + formidling.mellomnavn;
     }
-
-    const endreState: Nettressurs<string> | undefined = useSelector(
-        (state: AppState) =>
-            state.kandidatliste.endreFormidlingsutfallForUsynligKandidat[formidling.id]
-    );
 
     return (
         <div
@@ -46,18 +33,11 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 Ikke synlig i Rekrutteringsbistand
             </div>
             <div className="formidling-av-usynlig-kandidatrad__utfall">
-                {erEierAvKandidatlisten ? (
-                    <UtfallSelect
-                        kanEndreUtfall={!kandidatlistenErLukket}
-                        disabled={endreState?.kind === Nettstatus.SenderInn}
-                        value={formidling.utfall}
-                        onChange={(utfall, visModal) =>
-                            onUtfallChange(utfall, formidling, visModal)
-                        }
-                    />
-                ) : (
-                    <UtfallVisning utfall={formidling.utfall} />
-                )}
+                <UtfallMedEndreIkon
+                    kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
+                    utfall={formidling.utfall}
+                    onClick={() => visEndreUtfallModalUsynligKandidat(formidling)}
+                />
             </div>
             <span />
         </div>

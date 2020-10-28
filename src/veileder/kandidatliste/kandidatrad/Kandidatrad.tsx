@@ -3,7 +3,6 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
@@ -13,17 +12,18 @@ import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../../felles/common/remoteData';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
-import AppState from '../../AppState';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import MerInfo from './mer-info/MerInfo';
-import Notater from './notater/Notater';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
-import UtfallSelect, { Utfall } from './utfall-select/UtfallSelect';
+import UtfallMedEndreIkon, { Utfall } from './utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Kandidatrad.less';
+import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import NavFrontendChevron from 'nav-frontend-chevron';
+import Notater from './notater/Notater';
+import MerInfo from './mer-info/MerInfo';
+import AppState from '../../AppState';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -32,11 +32,7 @@ type Props = {
     onToggleKandidat: (kandidatnr: string) => void;
     onVisningChange: (visningsstatus: Visningsstatus, kandidatnr: string) => void;
     onKandidatStatusChange: any;
-    onKandidatUtfallChange: (
-        utfall: Utfall,
-        kandidat: KandidatIKandidatliste,
-        visModal: boolean
-    ) => void;
+    visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
     visArkiveringskolonne: boolean;
     midlertidigUtilgjengeligMap: MidlertidigUtilgjengeligState;
     hentMidlertidigUtilgjengeligForKandidat: (aktørId: string, kandidatnr: string) => void;
@@ -53,7 +49,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
     onToggleKandidat,
     onVisningChange,
     onKandidatStatusChange,
-    onKandidatUtfallChange,
+    visEndreUtfallModal,
     visArkiveringskolonne,
     midlertidigUtilgjengeligMap,
     hentMidlertidigUtilgjengeligForKandidat,
@@ -216,17 +212,18 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <Statusvisning status={kandidat.status} />
                 )}
                 {kandidatliste.stillingId && (
-                    <UtfallSelect
+                    <UtfallMedEndreIkon
                         kanEndreUtfall={
-                            kandidatliste.status === Kandidatlistestatus.Åpen &&
-                            kandidatliste.kanEditere
+                            kandidatliste.kanEditere &&
+                            kandidatliste.status === Kandidatlistestatus.Åpen
                         }
-                        value={kandidat.utfall as Utfall}
-                        onChange={(utfall: Utfall, visModal: boolean) =>
-                            onKandidatUtfallChange(utfall, kandidat, visModal)
-                        }
+                        utfall={kandidat.utfall as Utfall}
+                        onClick={() => {
+                            visEndreUtfallModal(kandidat);
+                        }}
                     />
                 )}
+
                 <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
