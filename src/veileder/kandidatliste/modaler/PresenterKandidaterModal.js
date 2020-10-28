@@ -5,6 +5,7 @@ import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './PresenterKandidaterModal.less';
+import { erGyldigEpost } from '../../../felles/epostValidering';
 
 const initalState = () => ({
     beskjed: '',
@@ -81,19 +82,10 @@ export default class PresenterKandidaterModal extends React.Component {
                     ...mailadresseFelt,
                     errorTekst: 'Feltet er påkrevd',
                 };
-            } else if (mailadresseFelt.value.trim() && !mailadresseFelt.value.includes('@')) {
+            } else if (!erGyldigEpost(mailadresseFelt.value.trim())) {
                 return {
                     ...mailadresseFelt,
-                    errorTekst: 'Mailadresse må inneholde @',
-                };
-            } else if (
-                mailadresseFelt.value.trim() &&
-                mailadresseFelt.value.split('@').length > 2
-            ) {
-                return {
-                    ...mailadresseFelt,
-                    errorTekst:
-                        'Du kan kun skrive én e-postadresse. Bruk "+ Legg til flere" for å dele listen med flere',
+                    errorTekst: 'Mailadressen er ugyldig',
                 };
             }
             return mailadresseFelt;
