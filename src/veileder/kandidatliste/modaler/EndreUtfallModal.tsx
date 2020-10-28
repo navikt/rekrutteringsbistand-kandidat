@@ -34,6 +34,14 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
         setNyttUtfall(event.target.value as Utfall);
     };
 
+    const endrerFraPresentertTilIkkePresentert =
+        utfall === Utfall.Presentert && nyttUtfall === Utfall.IkkePresentert;
+    const endrerFraFåttJobbenTilPresentertEllerIkkePresentert =
+        utfall === Utfall.FåttJobben &&
+        (nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.IkkePresentert);
+    const skalViseAdvarsel =
+        endrerFraPresentertTilIkkePresentert || endrerFraFåttJobbenTilPresentertEllerIkkePresentert;
+
     const navn = `${fornavn || ''} ${etternavn || ''}`;
 
     return (
@@ -93,9 +101,9 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                     name="endreUtfall"
                 />
             </RadioGruppe>
-            {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
+            {skalViseAdvarsel && (
                 <AlertStripeAdvarsel className="endreUtfallModal__advarsel">
-                    {alertTekst(nyttUtfall)}
+                    {alertTekst(nyttUtfall, utfall)}
                 </AlertStripeAdvarsel>
             )}
             <div className="endreUtfallModal__knapper">
@@ -113,7 +121,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
     );
 };
 
-const alertTekst = (valgtUtfall: Utfall): string => {
+const alertTekst = (nyttUtfall: Utfall, gammeltUtfall: Utfall): string => {
     const alertForPresentert = `Endrer du utfallet til 
         «${utfallToDisplayName(Utfall.IkkePresentert)}»
         vil tellingen av 
@@ -127,13 +135,20 @@ const alertTekst = (valgtUtfall: Utfall): string => {
         «${utfallToDisplayName(Utfall.FåttJobben)}»
         tas bort.`;
 
-    switch (valgtUtfall) {
-        case Utfall.FåttJobben:
-            return alertForFåttJobb;
-        case Utfall.Presentert:
-            return alertForPresentert;
-        default:
-            throw new Error('Skal ikke komme hit. valgtUtfall=' + valgtUtfall);
+    const endrerFraPresentertTilIkkePresentert =
+        gammeltUtfall === Utfall.Presentert && nyttUtfall === Utfall.IkkePresentert;
+    const endrerFraFåttJobbenTilPresentertEllerIkkePresentert =
+        gammeltUtfall === Utfall.FåttJobben &&
+        (nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.IkkePresentert);
+
+    if (endrerFraPresentertTilIkkePresentert) {
+        return alertForPresentert;
+    } else if (endrerFraFåttJobbenTilPresentertEllerIkkePresentert) {
+        return alertForFåttJobb;
+    } else {
+        throw new Error(
+            `Skal ikke komme hit. nyttUtfall=${nyttUtfall}, gammeltUtfall:${gammeltUtfall}`
+        );
     }
 };
 
