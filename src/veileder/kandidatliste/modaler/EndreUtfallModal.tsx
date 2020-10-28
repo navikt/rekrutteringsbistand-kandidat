@@ -9,9 +9,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './EndreUtfallModal.less';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import FargetPrikk from '../farget-prikk/FargetPrikk';
 import UtfallLabel, { Orientering } from '../kandidatrad/utfall-med-endre-ikon/UtfallLabel';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 
 interface Props {
     vis: boolean;
@@ -83,7 +81,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                                 utfall={Utfall.FåttJobben}
                                 prikkOrientering={Orientering.Bak}
                             />
-                            <Normaltekst className="endreUtfallModal__beskrivelse">
+                            <Normaltekst>
                                 Velger du utfallet «{utfallToDisplayName(Utfall.FåttJobben)}» får du
                                 også telling på «{utfallToDisplayName(Utfall.Presentert)}».
                             </Normaltekst>
@@ -96,7 +94,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 />
             </RadioGruppe>
             {(nyttUtfall === Utfall.Presentert || nyttUtfall === Utfall.FåttJobben) && (
-                <AlertStripeAdvarsel className="blokk-m">
+                <AlertStripeAdvarsel className="endreUtfallModal__advarsel">
                     {alertTekst(nyttUtfall)}
                 </AlertStripeAdvarsel>
             )}
