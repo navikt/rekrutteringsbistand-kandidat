@@ -42,6 +42,7 @@ import './sok/sok.less';
 import * as Sentry from '@sentry/react';
 import { getMiljø } from '../felles/common/miljøUtils';
 import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
+import NAVSPA from '@navikt/navspa';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
@@ -102,21 +103,4 @@ sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
 
-const renderApp = (component: React.FunctionComponent) => (
-    element: HTMLElement,
-    props: Object = {}
-) => {
-    ReactDOM.render(React.createElement(component, props), element);
-};
-
-const unmountApp = (element: HTMLElement) => {
-    ReactDOM.unmountComponentAtNode(element);
-};
-
-const eksporterApp = (navn: string, component: any) => {
-    (window as any)[navn] = {};
-    (window as any)[navn].render = renderApp(component);
-    (window as any)[navn].unmount = unmountApp;
-};
-
-eksporterApp('rekrutteringsbistand-kandidat', App);
+NAVSPA.eksporter('rekrutteringsbistand-kandidat', App);
