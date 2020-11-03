@@ -32,7 +32,9 @@ export const lenkeTilKandidat = (
 };
 
 export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean) =>
-    `${appPrefiks}/stilling/${stillingsId}${redigeringsmodus ? '?redigeringsmodus=true' : ''}`;
+    `${appPrefiks}/stillinger/stilling/${stillingsId}${
+        redigeringsmodus ? '?redigeringsmodus=true' : ''
+    }`;
 
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string) =>
     `${appPrefiks}/kandidater/stilling/${stillingsId}`;

@@ -21,6 +21,7 @@ import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmel
 import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -100,14 +101,14 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         <Container className="container--header">
             <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsId} />
             <div className="container--header__lenker">
-                <a className="SeStilling lenke" href={`/stilling/${stillingsId}`}>
+                <a className="SeStilling lenke" href={lenkeTilStilling(stillingsId)}>
                     <i className="SeStilling__icon" />
                     Se stilling
                 </a>
                 {kandidatliste && (
                     <Link
                         className="TilKandidater lenke"
-                        to={`/kandidater/lister/detaljer/${kandidatliste.kandidatlisteId}`}
+                        to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
                     >
                         <i className="TilKandidater__icon" />
                         Se kandidatliste
