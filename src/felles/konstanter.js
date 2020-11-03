@@ -1,4 +1,4 @@
-const FEATURE_TOGGLES = ['vis-rekrutteringsstatus'];
+const FEATURE_TOGGLES = [];
 
 export default FEATURE_TOGGLES;
 
