@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { useSelector } from 'react-redux';
 import Lenke from 'nav-frontend-lenker';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
@@ -14,7 +13,6 @@ import {
     Kandidatstatus,
 } from '../kandidatlistetyper';
 import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import AppState from '../../AppState';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
@@ -32,10 +30,6 @@ const usynligKandidatHarFåttJobb = (f: FormidlingAvUsynligKandidat) =>
     f.utfall === Utfall.FåttJobben;
 
 const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => {
-    const visRekrutteringsstatus = useSelector(
-        (state: AppState) => state.søk.featureToggles['vis-rekrutteringsstatus']
-    );
-
     const ikkeArkiverteKandidater = kandidater.filter(erIkkeArkivert);
     const antallAktuelleKandidater = ikkeArkiverteKandidater.filter(erAktuell).length;
     const antallPresenterteKandidater = ikkeArkiverteKandidater.filter(erPresentert).length;
@@ -105,16 +99,14 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         </>
                     )}
                 </div>
-                {visRekrutteringsstatus && (
-                    <Kandidatlistestatus
-                        status={kandidatliste.status}
-                        erKnyttetTilStilling={kandidatliste.stillingId !== null}
-                        kanEditere={kandidatliste.kanEditere}
-                        besatteStillinger={antallKandidaterSomHarFåttJobb}
-                        antallStillinger={kandidatliste.antallStillinger}
-                        kandidatlisteId={kandidatliste.kandidatlisteId}
-                    />
-                )}
+                <Kandidatlistestatus
+                    status={kandidatliste.status}
+                    erKnyttetTilStilling={kandidatliste.stillingId !== null}
+                    kanEditere={kandidatliste.kanEditere}
+                    besatteStillinger={antallKandidaterSomHarFåttJobb}
+                    antallStillinger={kandidatliste.antallStillinger}
+                    kandidatlisteId={kandidatliste.kandidatlisteId}
+                />
             </div>
         </header>
     );
