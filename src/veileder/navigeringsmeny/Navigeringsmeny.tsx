@@ -30,7 +30,7 @@ const tabs: TabConfig[] = [
     },
     {
         tittel: 'Mine stillinger',
-        href: `${appPrefiks}/minestillinger`,
+        href: `${appPrefiks}/stillinger/minestillinger`,
         erSammeApp: false,
     },
     kandidatsøkTab,

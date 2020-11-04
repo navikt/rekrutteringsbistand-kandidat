@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { lenkeTilStilling } from '../../application/paths';
 
 const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytClick }) => (
     <NavFrontendModal
@@ -26,7 +27,7 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                     For å markere stillingen og kandidatlisten som din må du gå til stillingen.
                 </Normaltekst>
                 <div>
-                    <a className="typo-element lenke" href={`/stilling/${stillingsId}`}>
+                    <a className="typo-element lenke" href={lenkeTilStilling(stillingsId)}>
                         Gå til stillingen
                     </a>
                     <Flatknapp
