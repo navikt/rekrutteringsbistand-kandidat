@@ -37,7 +37,7 @@ const url = {
     ferdigutfyltesokurl: `${api}/veileder/ferdigutfyltesok`,
     ferdigutfyltesokurlPost: `${api}/veileder/ferdigutfyltesok/klikk`,
     typeahead: `${api}/veileder/kandidatsok/typeahead`,
-    fnrsok: `${api}/veileder/kandidatsok/fnrsok/:fnr`,
+    fnrsok: `${api}/veileder/kandidatsok/fnrsok`,
 
     // Cv
     cv: `${api}/veileder/kandidatsok/hentcv`,
@@ -245,7 +245,7 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .get(url.fnrsok, log(fnrsok))
+    .post(url.fnrsok, log(fnrsok))
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(kandidatliste))
     .get(url.søkeord, log(sokeord))

@@ -136,7 +136,8 @@ export function fetchGeografiKode(geografiKode) {
 export const fetchStillingFraListe = (stillingsId) =>
     fetchJson(`${KANDIDATSOK_API}/kandidatsok/stilling/sokeord/${stillingsId}`, true);
 
-export const fetchKandidatMedFnr = (fnr) => fetchJson(`${SEARCH_API}/fnrsok/${fnr}`, true);
+export const fetchKandidatMedFnr = (fnr: string) =>
+    postJson(`${SEARCH_API}/fnrsok`, JSON.stringify({ fnr }));
 
 export const fetchNotater = (kandidatlisteId, kandidatnr) =>
     fetchJson(
