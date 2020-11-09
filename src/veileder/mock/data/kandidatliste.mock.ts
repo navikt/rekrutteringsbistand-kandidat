@@ -99,7 +99,7 @@ export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat =>
     etternavn: cver[cvIndex].etternavn,
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
-    utfall: Utfall.FåttJobben,
+    utfall: Utfall.IkkePresentert,
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',

@@ -26,6 +26,7 @@ import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Kandidatstatus } from '../kandidatliste/kandidatlistetyper';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
