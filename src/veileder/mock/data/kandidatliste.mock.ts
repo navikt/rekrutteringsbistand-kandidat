@@ -12,6 +12,7 @@ import cver from './cv.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
 import { meg, deg, Veileder } from './veiledere.mock';
+import UtfallLabel from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallLabel';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -159,6 +160,33 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     const erLukket = i % 5 === 2;
     const harUsynligKandidat = i % 5 === 1;
     const erTomListe = i === 9;
+    const harAlleSomFåttJobb = i === 1;
+
+    let kandidater: Kandidat[] = [];
+    let standardKandidater: Kandidat[] = [
+        {
+            ...mockKandidat(0, meg),
+            status: Kandidatstatus.Aktuell,
+            utfall: Utfall.FåttJobben,
+        },
+        mockKandidat(1, meg),
+        mockKandidat(2, meg),
+        mockKandidat(3, meg),
+        mockKandidat(4, meg),
+        mockKandidat(5, meg),
+        mockKandidat(6, meg),
+    ];
+
+    if (!erTomListe) {
+        kandidater = standardKandidater;
+    }
+
+    if (harAlleSomFåttJobb) {
+        kandidater = kandidater.map((kandidat) => ({
+            ...kandidat,
+            utfall: Utfall.FåttJobben,
+        }));
+    }
 
     return {
         ...standard,
@@ -175,21 +203,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
                   ident: deg.ident,
                   navn: deg.navn,
               },
-        kandidater: erTomListe
-            ? []
-            : [
-                  {
-                      ...mockKandidat(0, meg),
-                      status: Kandidatstatus.Aktuell,
-                      utfall: Utfall.FåttJobben,
-                  },
-                  mockKandidat(1, meg),
-                  mockKandidat(2, meg),
-                  mockKandidat(3, meg),
-                  mockKandidat(4, meg),
-                  mockKandidat(5, meg),
-                  mockKandidat(6, meg),
-              ],
+        kandidater,
         formidlingerAvUsynligKandidat:
             harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
     };
