@@ -97,35 +97,11 @@
         }
     }
 
-    &__kolonne--sorterbar {
-        display: flex;
-        align-items: center;
-    }
-
     &__kolonne-tittel {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
-
-        &--sorterbar {
-            &:visited {
-                color: @navBla;
-            }
-
-            &:focus {
-                background-color: @navBlaDarken80;
-                color: white;
-            }
-
-            &:hover,
-            &:focus {
-                text-decoration: none;
-            }
-        }
-    }
-
-    &__kolonne-chevron {
-        margin-left: 0.25rem;
+        padding-left: 0.5rem;
     }
 
     &__rad {
@@ -133,7 +109,6 @@
         display: grid;
         padding-left: 1.25rem;
         padding-right: 0.5rem;
-        grid-gap: 1rem;
         grid-template-columns:
             1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
             minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
@@ -159,6 +134,7 @@
         > * {
             display: flex;
             align-items: center;
+            padding: 0 0.5rem;
         }
     }
 

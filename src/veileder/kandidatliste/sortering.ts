@@ -2,15 +2,16 @@ import { KandidatIKandidatliste } from './kandidatlistetyper';
 
 export type Kandidatsortering = null | {
     algoritme: Sorteringsalgoritme;
-    variant: Sorteringsvarianter;
+    variant: Sorteringsvariant;
 };
 
 export enum Sorteringsalgoritme {
     Navn,
     Fødselsnummer,
+    Status,
 }
 
-export enum Sorteringsvarianter {
+export enum Sorteringsvariant {
     Stigende,
     Synkende,
 }
@@ -32,16 +33,26 @@ const sorterEtterFødselsnummer = (synkende?: boolean): Kandidatsammenlikning =>
         : k1.fodselsnr.localeCompare(k2.fodselsnr, 'no');
 };
 
+const sorterEtterStatus = (synkende?: boolean): Kandidatsammenlikning => (k1, k2) => {
+    return synkende
+        ? k2.status.localeCompare(k1.status, 'no')
+        : k1.status.localeCompare(k2.status, 'no');
+};
+
 export const sorteringsalgoritmer: Record<
     Sorteringsalgoritme,
-    Record<Sorteringsvarianter, Kandidatsammenlikning>
+    Record<Sorteringsvariant, Kandidatsammenlikning>
 > = {
     [Sorteringsalgoritme.Navn]: {
-        [Sorteringsvarianter.Stigende]: sorterEtterNavn(),
-        [Sorteringsvarianter.Synkende]: sorterEtterNavn(true),
+        [Sorteringsvariant.Stigende]: sorterEtterNavn(),
+        [Sorteringsvariant.Synkende]: sorterEtterNavn(true),
     },
     [Sorteringsalgoritme.Fødselsnummer]: {
-        [Sorteringsvarianter.Stigende]: sorterEtterFødselsnummer(),
-        [Sorteringsvarianter.Synkende]: sorterEtterFødselsnummer(true),
+        [Sorteringsvariant.Stigende]: sorterEtterFødselsnummer(),
+        [Sorteringsvariant.Synkende]: sorterEtterFødselsnummer(true),
+    },
+    [Sorteringsalgoritme.Status]: {
+        [Sorteringsvariant.Stigende]: sorterEtterStatus(),
+        [Sorteringsvariant.Synkende]: sorterEtterStatus(true),
     },
 };

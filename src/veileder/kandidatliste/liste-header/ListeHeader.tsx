@@ -1,12 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
-import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvarianter } from '../sortering';
+import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvariant } from '../sortering';
+import SorterbarKolonne from './SorterbarKolonne';
 import './../kandidatrad/Kandidatrad.less';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { Link } from 'react-router-dom';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -30,51 +29,19 @@ export const modifierTilListeradGrid = (
     }
 };
 
-const Kolonnetittel = ({
-    sortering,
-    sorteringsalgoritme,
-    className,
-    children,
-    onClick,
-}: {
-    sortering?: Kandidatsortering;
-    sorteringsalgoritme?: Sorteringsalgoritme;
+const Kolonne: FunctionComponent<{
+    tekst: string;
     className?: string;
-    onClick?: () => void;
-    children: ReactNode;
-}) => {
-    let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
-    if (sortering && sortering.algoritme === sorteringsalgoritme) {
-        ariaSort = sortering.variant === Sorteringsvarianter.Stigende ? 'ascending' : 'descending';
-    }
-
-    const tekstClassName = 'kandidatliste-kandidat__kolonne-tittel';
-    const sorterbarClassName = 'kandidatliste-kandidat__kolonne-tittel--sorterbar';
-    const chevronClassName = 'kandidatliste-kandidat__kolonne-chevron';
-
+}> = ({ tekst, className, children }) => {
     return (
-        <div
+        <Element
             role="columnheader"
-            aria-sort={ariaSort}
-            onClick={onClick}
-            className={className ? className : undefined}
+            tag="div"
+            className={`kandidatliste-kandidat__kolonne-tittel${className ? className : ''}`}
         >
-            <Element className={tekstClassName}>
-                {sorteringsalgoritme !== undefined ? (
-                    <Link to="#" className={sorterbarClassName}>
-                        {children}
-                    </Link>
-                ) : (
-                    children
-                )}
-            </Element>
-            {ariaSort !== 'none' &&
-                (ariaSort === 'ascending' ? (
-                    <OppChevron className={chevronClassName} />
-                ) : (
-                    <NedChevron className={chevronClassName} />
-                ))}
-        </div>
+            {tekst}
+            {children}
+        </Element>
     );
 };
 
@@ -100,12 +67,12 @@ const ListeHeader: FunctionComponent<Props> = ({
         if (sortering === null || sortering.algoritme !== sorteringsalgoritme) {
             setSortering({
                 algoritme: sorteringsalgoritme,
-                variant: Sorteringsvarianter.Stigende,
+                variant: Sorteringsvariant.Stigende,
             });
-        } else if (sortering.variant === Sorteringsvarianter.Stigende) {
+        } else if (sortering.variant === Sorteringsvariant.Stigende) {
             setSortering({
                 algoritme: sorteringsalgoritme,
-                variant: Sorteringsvarianter.Synkende,
+                variant: Sorteringsvariant.Synkende,
             });
         } else {
             setSortering(null);
@@ -123,37 +90,34 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onChange={() => onCheckAlleKandidater()}
                 />
                 <div />
-                <Kolonnetittel
+                <SorterbarKolonne
+                    tekst="Navn"
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Navn}
                     onClick={byttSortering(Sorteringsalgoritme.Navn)}
-                >
-                    Navn
-                </Kolonnetittel>
-                <Kolonnetittel
+                />
+                <SorterbarKolonne
+                    tekst="Fødselsnummer"
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
                     onClick={byttSortering(Sorteringsalgoritme.Fødselsnummer)}
+                />
+                <Kolonne tekst="Lagt til av" />
+                <Kolonne tekst="Lagt til" />
+                <SorterbarKolonne
+                    sortering={sortering}
+                    sorteringsalgoritme={Sorteringsalgoritme.Status}
+                    onClick={byttSortering(Sorteringsalgoritme.Status)}
+                    tekst="Status"
+                    className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
-                    Fødselsnummer
-                </Kolonnetittel>
-                <Kolonnetittel>Lagt til av</Kolonnetittel>
-                <Kolonnetittel>Lagt til</Kolonnetittel>
-                <div className="kandidatliste-kandidat__kolonne-med-hjelpetekst">
-                    <Element className="kandidatliste-kandidat__rad__kolonne-tittel">
-                        Status
-                    </Element>
                     <StatusHjelpetekst />
-                </div>
-                {kandidatliste.stillingId && <Kolonnetittel>Utfall</Kolonnetittel>}
-                <Kolonnetittel>Notater</Kolonnetittel>
-                <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">
-                    Info
-                </Kolonnetittel>
+                </SorterbarKolonne>
+                {kandidatliste.stillingId && <Kolonne tekst="Utfall" />}
+                <Kolonne tekst="Notater" />
+                <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
                 {visArkiveringskolonne && (
-                    <Kolonnetittel className="kandidatliste-kandidat__kolonne-midtstilt">
-                        Slett
-                    </Kolonnetittel>
+                    <Kolonne tekst="Slett" className="kandidatliste-kandidat__kolonne-midtstilt" />
                 )}
             </div>
         </div>

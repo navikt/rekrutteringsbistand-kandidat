@@ -1,0 +1,51 @@
+@import '../../variabler.less';
+
+.sorterbar-kolonne {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+
+    &__tekst {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &:visited {
+        color: @navBla;
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:focus {
+        color: white;
+        background-color: @navBla;
+
+        .hjelpetekst__ikon {
+            fill: white;
+        }
+    }
+
+    &__chevron {
+        margin-left: 0.25rem;
+    }
+
+    /*
+    &:visited {
+                color: @navBla;
+            }
+
+            &:focus {
+                background-color: @navBlaDarken80;
+                color: white;
+            }
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+            }
+            */
+}
