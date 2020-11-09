@@ -5,6 +5,8 @@ import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
 import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvarianter } from '../sortering';
 import './../kandidatrad/Kandidatrad.less';
+import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import { Link } from 'react-router-dom';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -29,18 +31,49 @@ export const modifierTilListeradGrid = (
 };
 
 const Kolonnetittel = ({
+    sortering,
+    sorteringsalgoritme,
     className,
     children,
     onClick,
 }: {
+    sortering?: Kandidatsortering;
+    sorteringsalgoritme?: Sorteringsalgoritme;
     className?: string;
     onClick?: () => void;
     children: ReactNode;
-}) => (
-    <div onClick={onClick} className={className ? className : ''}>
-        <Element className="kandidatliste-kandidat__rad__kolonne-tittel">{children}</Element>
-    </div>
-);
+}) => {
+    let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
+    if (sortering && sortering.algoritme === sorteringsalgoritme) {
+        ariaSort = sortering.variant === Sorteringsvarianter.Stigende ? 'ascending' : 'descending';
+    }
+
+    const tekstClassName = 'kandidatliste-kandidat__rad__kolonne-tittel';
+    const chevronClassName = 'kandidatliste-kandidat__kolonne-chevron';
+
+    return (
+        <div
+            role="columnheader"
+            aria-sort={ariaSort}
+            onClick={onClick}
+            className={className ? className : undefined}
+        >
+            {sorteringsalgoritme !== undefined ? (
+                <Link to="#" className={tekstClassName}>
+                    {children}
+                </Link>
+            ) : (
+                <Element className={tekstClassName}>{children}</Element>
+            )}
+            {ariaSort !== 'none' &&
+                (ariaSort === 'ascending' ? (
+                    <OppChevron className={chevronClassName} />
+                ) : (
+                    <NedChevron className={chevronClassName} />
+                ))}
+        </div>
+    );
+};
 
 const ListeHeader: FunctionComponent<Props> = ({
     kandidatliste,
@@ -88,7 +121,11 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onChange={() => onCheckAlleKandidater()}
                 />
                 <div />
-                <Kolonnetittel onClick={byttSortering(Sorteringsalgoritme.Navn)}>
+                <Kolonnetittel
+                    sortering={sortering}
+                    sorteringsalgoritme={Sorteringsalgoritme.Navn}
+                    onClick={byttSortering(Sorteringsalgoritme.Navn)}
+                >
                     Navn
                 </Kolonnetittel>
                 <Kolonnetittel>Fødselsnummer</Kolonnetittel>
