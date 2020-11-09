@@ -1,23 +1,25 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 
+import { appPrefiks } from './paths';
+import { getMiljø, Miljø } from '../../felles/common/miljøUtils';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
 import Dekoratør from '../dekoratør/Dekoratør';
 import Historikkside from '../kandidatside/historikk/Historikkside';
-import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
+import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
 import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
-import './Application.less';
 import useLoggNavigering from './useLoggNavigering';
-import { appPrefiks } from './paths';
+import './Application.less';
 
 const skjermerMedGråBakgrunn = [
     `${appPrefiks}/kandidater/lister/stilling/`,
@@ -49,6 +51,7 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
             >
                 <main className="Application__main">
                     <Dekoratør />
+                    {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Navigeringsmeny />
                     <Switch>
                         <Route
@@ -108,5 +111,13 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
         </>
     );
 };
+
+const AdvarselOmMocketApp = () => (
+    <AlertStripeAdvarsel>
+        <b>Dette er en testversjon av Rekrutteringsbistand. </b>
+        Den er ikke knyttet til noen database, så handlinger har ingen konsekvenser utenom enkle,
+        grafiske tilbakemeldinger.
+    </AlertStripeAdvarsel>
+);
 
 export default withRouter(Application);
