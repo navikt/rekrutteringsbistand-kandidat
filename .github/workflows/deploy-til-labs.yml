@@ -38,7 +38,7 @@ jobs:
     deploy-til-labs:
         name: Deploy til labs
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/bedre-mocking-for-labs'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
