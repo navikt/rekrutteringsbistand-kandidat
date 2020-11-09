@@ -25,6 +25,7 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
+import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -207,6 +208,27 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
     };
 };
 
+const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost) => {
+    const kandidatlisteId = url.split('/').reverse()[1];
+    const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+    const delteKandidater = JSON.parse(String(options.body)).kandidater;
+
+    return {
+        body: {
+            ...kandidatliste,
+            kandidater: kandidatliste?.kandidater.map((kandidat) => {
+                return delteKandidater.includes(kandidat.kandidatnr)
+                    ? {
+                          ...kandidat,
+                          utfall: Utfall.Presentert,
+                      }
+                    : kandidat;
+            }),
+        },
+        status: 201,
+    };
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -247,7 +269,7 @@ fetchMock
     .put(url.arkivertPut, log(putArkivert))
     .post(url.fnrsok, log(fnrsok))
     .post(url.postKandidater, log(postKandidater))
-    .post(url.delKandidater, log(kandidatliste))
+    .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
