@@ -12,7 +12,6 @@ import cver from './cv.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
 import { meg, deg, Veileder } from './veiledere.mock';
-import UtfallLabel from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallLabel';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -86,7 +85,7 @@ const standard: Kandidatliste = {
     antallStillinger: 7,
 };
 
-export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat => ({
+export const mockKandidat = (cvIndex: number, lagtTilAv: Veileder = meg): Kandidat => ({
     kandidatId: lagUuid(cver[cvIndex].kandidatnummer),
     kandidatnr: cver[cvIndex].kandidatnummer,
     sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',

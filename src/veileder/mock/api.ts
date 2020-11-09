@@ -5,7 +5,6 @@ import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
-import fnrsok from './json/fnrsok.json';
 
 import sms from './json/sms.json';
 
@@ -26,7 +25,6 @@ import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import { Kandidatstatus } from '../kandidatliste/kandidatlistetyper';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -97,17 +95,26 @@ const getKandidatliste = (url: string) => {
     return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
 
-const postKandidater = (url: string) => {
+const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
     const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 
     if (!kandidatliste) {
-        return null;
+        return {
+            status: 404,
+        };
     }
+
+    const kandidatnumre = JSON.parse(String(options.body));
+    const cvIndekser: number[] = kandidatnumre.map((kandidat: any) =>
+        cver.findIndex((cv) => cv.kandidatnummer === kandidat.kandidatnr)
+    );
+
+    const nyeKandidater = cvIndekser.map((cvIndeks) => mockKandidat(cvIndeks));
 
     return {
         ...kandidatliste,
-        kandidater: [...kandidatliste.kandidater, mockKandidat(4)],
+        kandidater: [...kandidatliste.kandidater, ...nyeKandidater],
     };
 };
 
@@ -230,6 +237,24 @@ const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost
     };
 };
 
+const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
+    const fnr = JSON.parse(String(options.body)).fnr;
+    const cv = cver.find((k) => k.fodselsnummer === fnr);
+
+    if (cv) {
+        return {
+            arenaKandidatnr: cv.kandidatnummer,
+            fornavn: cv.fornavn,
+            etternavn: cv.etternavn,
+            mestRelevanteYrkeserfaring: null,
+        };
+    } else {
+        return {
+            status: 404,
+        };
+    }
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -268,7 +293,7 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .post(url.fnrsok, log(fnrsok))
+    .post(url.fnrsok, log(postFnrsok))
     .post(url.postKandidater, log(postKandidater))
     .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))
