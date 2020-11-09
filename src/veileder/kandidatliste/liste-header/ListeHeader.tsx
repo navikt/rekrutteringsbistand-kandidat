@@ -48,7 +48,8 @@ const Kolonnetittel = ({
         ariaSort = sortering.variant === Sorteringsvarianter.Stigende ? 'ascending' : 'descending';
     }
 
-    const tekstClassName = 'kandidatliste-kandidat__rad__kolonne-tittel';
+    const tekstClassName = 'kandidatliste-kandidat__kolonne-tittel';
+    const sorterbarClassName = 'kandidatliste-kandidat__kolonne-tittel--sorterbar';
     const chevronClassName = 'kandidatliste-kandidat__kolonne-chevron';
 
     return (
@@ -58,13 +59,15 @@ const Kolonnetittel = ({
             onClick={onClick}
             className={className ? className : undefined}
         >
-            {sorteringsalgoritme !== undefined ? (
-                <Link to="#" className={tekstClassName}>
-                    {children}
-                </Link>
-            ) : (
-                <Element className={tekstClassName}>{children}</Element>
-            )}
+            <Element className={tekstClassName}>
+                {sorteringsalgoritme !== undefined ? (
+                    <Link to="#" className={sorterbarClassName}>
+                        {children}
+                    </Link>
+                ) : (
+                    children
+                )}
+            </Element>
             {ariaSort !== 'none' &&
                 (ariaSort === 'ascending' ? (
                     <OppChevron className={chevronClassName} />
@@ -94,8 +97,7 @@ const ListeHeader: FunctionComponent<Props> = ({
         modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
     const byttSortering = (sorteringsalgoritme: Sorteringsalgoritme) => () => {
-        console.log('Bytt til:', sorteringsalgoritme, 'Var fra før:', sortering);
-        if (sortering === null || sortering.algoritme !== Sorteringsalgoritme.Navn) {
+        if (sortering === null || sortering.algoritme !== sorteringsalgoritme) {
             setSortering({
                 algoritme: sorteringsalgoritme,
                 variant: Sorteringsvarianter.Stigende,
@@ -128,7 +130,13 @@ const ListeHeader: FunctionComponent<Props> = ({
                 >
                     Navn
                 </Kolonnetittel>
-                <Kolonnetittel>Fødselsnummer</Kolonnetittel>
+                <Kolonnetittel
+                    sortering={sortering}
+                    sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
+                    onClick={byttSortering(Sorteringsalgoritme.Fødselsnummer)}
+                >
+                    Fødselsnummer
+                </Kolonnetittel>
                 <Kolonnetittel>Lagt til av</Kolonnetittel>
                 <Kolonnetittel>Lagt til</Kolonnetittel>
                 <div className="kandidatliste-kandidat__kolonne-med-hjelpetekst">

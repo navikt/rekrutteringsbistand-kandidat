@@ -7,6 +7,7 @@ export type Kandidatsortering = null | {
 
 export enum Sorteringsalgoritme {
     Navn,
+    Fødselsnummer,
 }
 
 export enum Sorteringsvarianter {
@@ -19,10 +20,16 @@ export type Kandidatsammenlikning = (
     k2: KandidatIKandidatliste
 ) => number;
 
-export const sorterEtterNavn = (inverter?: boolean): Kandidatsammenlikning => (k1, k2) => {
-    return inverter
+const sorterEtterNavn = (synkende?: boolean): Kandidatsammenlikning => (k1, k2) => {
+    return synkende
         ? k2.etternavn.localeCompare(k1.etternavn, 'no')
         : k1.etternavn.localeCompare(k2.etternavn, 'no');
+};
+
+const sorterEtterFødselsnummer = (synkende?: boolean): Kandidatsammenlikning => (k1, k2) => {
+    return synkende
+        ? k2.fodselsnr.localeCompare(k1.fodselsnr, 'no')
+        : k1.fodselsnr.localeCompare(k2.fodselsnr, 'no');
 };
 
 export const sorteringsalgoritmer: Record<
@@ -32,5 +39,9 @@ export const sorteringsalgoritmer: Record<
     [Sorteringsalgoritme.Navn]: {
         [Sorteringsvarianter.Stigende]: sorterEtterNavn(),
         [Sorteringsvarianter.Synkende]: sorterEtterNavn(true),
+    },
+    [Sorteringsalgoritme.Fødselsnummer]: {
+        [Sorteringsvarianter.Stigende]: sorterEtterFødselsnummer(),
+        [Sorteringsvarianter.Synkende]: sorterEtterFødselsnummer(true),
     },
 };

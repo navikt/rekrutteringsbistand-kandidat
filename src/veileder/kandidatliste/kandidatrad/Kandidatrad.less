@@ -97,10 +97,31 @@
         }
     }
 
+    &__kolonne--sorterbar {
+        display: flex;
+        align-items: center;
+    }
+
     &__kolonne-tittel {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &--sorterbar {
+            &:visited {
+                color: @navBla;
+            }
+
+            &:focus {
+                background-color: @navBlaDarken80;
+                color: white;
+            }
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+            }
+        }
     }
 
     &__kolonne-chevron {
