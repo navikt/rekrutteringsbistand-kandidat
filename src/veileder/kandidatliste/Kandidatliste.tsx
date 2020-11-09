@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -8,7 +8,6 @@ import {
     FormidlingAvUsynligKandidat,
     Kandidatstatus,
     Kandidatlistestatus,
-    Kandidatliste,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -29,6 +28,7 @@ import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
+import { Kandidatsortering, sorteringsalgoritmer } from './sortering';
 import '../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -62,6 +62,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const history = useHistory();
     const location = useLocation();
 
+    const [sortering, setSortering] = useState<Kandidatsortering>(null);
+
     const antallFiltertreff = useAntallFiltertreff(props.kandidater);
     const antallFilterTreffJSON = JSON.stringify(antallFiltertreff);
     const alleFiltrerteErMarkerte = useAlleFiltrerteErMarkerte(props.kandidater);
@@ -77,6 +79,13 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const filtrerteKandidater = props.kandidater.filter(
         (kandidat) => !kandidat.tilstand.filtrertBort
     );
+
+    const sorterteKandidater =
+        sortering === null
+            ? filtrerteKandidater
+            : filtrerteKandidater.sort(
+                  sorteringsalgoritmer[sortering.algoritme][sortering.variant]
+              );
 
     const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();
@@ -190,6 +199,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                 alleMarkert={alleFiltrerteErMarkerte}
                                 onCheckAlleKandidater={onCheckAlleKandidater}
                                 visArkiveringskolonne={kanArkivereKandidater}
+                                sortering={sortering}
+                                setSortering={setSortering}
                             />
                             {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
@@ -204,8 +215,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                     />
                                 )
                             )}
-                            {filtrerteKandidater.length > 0 ? (
-                                filtrerteKandidater.map((kandidat: KandidatIKandidatliste) => (
+                            {sorterteKandidater.length > 0 ? (
+                                sorterteKandidater.map((kandidat: KandidatIKandidatliste) => (
                                     <Kandidatrad
                                         key={kandidat.kandidatnr}
                                         kandidat={kandidat}

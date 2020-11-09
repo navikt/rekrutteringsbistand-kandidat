@@ -3,6 +3,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
+import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvarianter } from '../sortering';
 import './../kandidatrad/Kandidatrad.less';
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
     alleMarkert: boolean;
     onCheckAlleKandidater: () => void;
     visArkiveringskolonne: boolean;
+    sortering: Kandidatsortering;
+    setSortering: (sortering: Kandidatsortering) => void;
 }
 
 export const modifierTilListeradGrid = (
@@ -25,8 +28,16 @@ export const modifierTilListeradGrid = (
     }
 };
 
-const Kolonnetittel = ({ className, children }: { className?: string; children: ReactNode }) => (
-    <div className={className ? className : ''}>
+const Kolonnetittel = ({
+    className,
+    children,
+    onClick,
+}: {
+    className?: string;
+    onClick?: () => void;
+    children: ReactNode;
+}) => (
+    <div onClick={onClick} className={className ? className : ''}>
         <Element className="kandidatliste-kandidat__rad__kolonne-tittel">{children}</Element>
     </div>
 );
@@ -36,6 +47,8 @@ const ListeHeader: FunctionComponent<Props> = ({
     alleMarkert,
     onCheckAlleKandidater,
     visArkiveringskolonne,
+    sortering,
+    setSortering,
 }) => {
     const klassenavn =
         'kandidatliste-kandidat kandidatliste-kandidat__header' +
@@ -46,6 +59,23 @@ const ListeHeader: FunctionComponent<Props> = ({
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
         modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+
+    const byttSortering = (sorteringsalgoritme: Sorteringsalgoritme) => () => {
+        console.log('Bytt til:', sorteringsalgoritme, 'Var fra før:', sortering);
+        if (sortering === null || sortering.algoritme !== Sorteringsalgoritme.Navn) {
+            setSortering({
+                algoritme: sorteringsalgoritme,
+                variant: Sorteringsvarianter.Stigende,
+            });
+        } else if (sortering.variant === Sorteringsvarianter.Stigende) {
+            setSortering({
+                algoritme: sorteringsalgoritme,
+                variant: Sorteringsvarianter.Synkende,
+            });
+        } else {
+            setSortering(null);
+        }
+    };
 
     return (
         <div className={klassenavn}>
@@ -58,7 +88,9 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onChange={() => onCheckAlleKandidater()}
                 />
                 <div />
-                <Kolonnetittel>Navn</Kolonnetittel>
+                <Kolonnetittel onClick={byttSortering(Sorteringsalgoritme.Navn)}>
+                    Navn
+                </Kolonnetittel>
                 <Kolonnetittel>Fødselsnummer</Kolonnetittel>
                 <Kolonnetittel>Lagt til av</Kolonnetittel>
                 <Kolonnetittel>Lagt til</Kolonnetittel>
