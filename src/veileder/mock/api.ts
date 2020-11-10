@@ -5,7 +5,6 @@ import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
-import fnrsok from './json/fnrsok.json';
 
 import sms from './json/sms.json';
 
@@ -25,6 +24,8 @@ import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandida
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
+import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { meg } from './data/veiledere.mock';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -85,27 +86,53 @@ const getCv = (url: string) => {
 
 const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
-const getKandidatlister = () => ({
-    antall: kandidatlister.length,
-    liste: kandidatlister,
-});
+const getKandidatlister = (url: string) => {
+    const params = new URLSearchParams(url);
+    const stillingsfilter = params.get('type');
+    const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
+
+    let filtrerteKandidatlister = kandidatlister;
+    if (stillingsfilter) {
+        filtrerteKandidatlister = kandidatlister.filter((k) =>
+            stillingsfilter === 'MED_STILLING' ? !!k.stillingId : !k.stillingId
+        );
+    }
+
+    filtrerteKandidatlister = filtrerteKandidatlister.filter((k) =>
+        eierfilter ? k.opprettetAv.ident === meg.ident : true
+    );
+
+    return {
+        antall: filtrerteKandidatlister.length,
+        liste: filtrerteKandidatlister,
+    };
+};
 
 const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();
     return kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 };
 
-const postKandidater = (url: string) => {
+const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
     const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
 
     if (!kandidatliste) {
-        return null;
+        return {
+            status: 404,
+        };
     }
+
+    const kandidatnumre = JSON.parse(String(options.body));
+    const cvIndekser: number[] = kandidatnumre.map((kandidat: any) =>
+        cver.findIndex((cv) => cv.kandidatnummer === kandidat.kandidatnr)
+    );
+
+    const nyeKandidater = cvIndekser.map((cvIndeks) => mockKandidat(cvIndeks));
 
     return {
         ...kandidatliste,
-        kandidater: [...kandidatliste.kandidater, mockKandidat(4)],
+        kandidater: [...kandidatliste.kandidater, ...nyeKandidater],
     };
 };
 
@@ -207,6 +234,45 @@ const putKandidatlistestatus = (url: string, options: fetchMock.MockOptionsMetho
     };
 };
 
+const postDelKandidater = (url: string, options: fetchMock.MockOptionsMethodPost) => {
+    const kandidatlisteId = url.split('/').reverse()[1];
+    const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+    const delteKandidater = JSON.parse(String(options.body)).kandidater;
+
+    return {
+        body: {
+            ...kandidatliste,
+            kandidater: kandidatliste?.kandidater.map((kandidat) => {
+                return delteKandidater.includes(kandidat.kandidatnr)
+                    ? {
+                          ...kandidat,
+                          utfall: Utfall.Presentert,
+                      }
+                    : kandidat;
+            }),
+        },
+        status: 201,
+    };
+};
+
+const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
+    const fnr = JSON.parse(String(options.body)).fnr;
+    const cv = cver.find((k) => k.fodselsnummer === fnr);
+
+    if (cv) {
+        return {
+            arenaKandidatnr: cv.kandidatnummer,
+            fornavn: cv.fornavn,
+            etternavn: cv.etternavn,
+            mestRelevanteYrkeserfaring: null,
+        };
+    } else {
+        return {
+            status: 404,
+        };
+    }
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -245,9 +311,9 @@ fetchMock
     .put(url.utfallPut, log(putUtfall))
     .put(url.statusPut, log(putStatus))
     .put(url.arkivertPut, log(putArkivert))
-    .post(url.fnrsok, log(fnrsok))
+    .post(url.fnrsok, log(postFnrsok))
     .post(url.postKandidater, log(postKandidater))
-    .post(url.delKandidater, log(kandidatliste))
+    .post(url.delKandidater, log(postDelKandidater))
     .get(url.søkeord, log(sokeord))
     .get(url.arenageografikoder, log(arenageografikoder))
     .post(url.søkUsynligKandidat, log(getUsynligKandidat))
