@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { Kandidatsortering } from '../Kandidatliste';
 import { Sorteringsalgoritme, Sorteringsvariant } from '../kandidatsortering';
 import './SorterbarKolonne.less';
+import Indikator from './Indikator';
 
 type Props = {
     tekst: string;
@@ -51,12 +52,13 @@ const SorterbarKolonne: FunctionComponent<Props> = ({
                 {tekst}
             </Element>
             {children}
-            {ariaSort !== 'none' &&
-                (ariaSort === 'ascending' ? (
-                    <OppChevron className="sorterbar-kolonne__chevron" />
-                ) : (
-                    <NedChevron className="sorterbar-kolonne__chevron" />
-                ))}
+            {ariaSort === 'none' ? (
+                <Indikator />
+            ) : ariaSort === 'ascending' ? (
+                <OppChevron className="sorterbar-kolonne__chevron" />
+            ) : (
+                <NedChevron className="sorterbar-kolonne__chevron" />
+            )}
         </Link>
     );
 };

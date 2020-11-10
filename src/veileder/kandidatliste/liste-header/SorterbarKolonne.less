@@ -18,7 +18,8 @@
         background-color: @fokusFarge;
         outline: none;
 
-        .hjelpetekst__ikon {
+        .hjelpetekst__ikon,
+        path {
             fill: white;
         }
     }
@@ -31,9 +32,10 @@
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-right: 0.5rem;
     }
 
-    &__chevron {
-        margin-left: 0.25rem;
+    .nav-frontend-chevron {
+        transform: scale(0.8) translateX(-4px);
     }
 }
