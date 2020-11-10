@@ -26,7 +26,11 @@ const sorterPåNavn = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1
 };
 
 const sorterPåFnr = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.fodselsnr, k2.fodselsnr, variant === Sorteringsvariant.Stigende);
+    return sorterAlfabetisk(
+        k1.fodselsnr || '',
+        k2.fodselsnr || '',
+        variant === Sorteringsvariant.Stigende
+    );
 };
 
 const sorterPåStatus = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {

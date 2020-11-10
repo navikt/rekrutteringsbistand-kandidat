@@ -22,7 +22,9 @@ const useKandidaterMedState = (
     kandidatmeldinger: RemoteData<Sms[]>,
     kandidatnotater: Kandidatnotater
 ) => {
-    const [kandidaterMedState, setKandidaterMedState] = useState<KandidatIKandidatliste[] | undefined>(undefined);
+    const [kandidaterMedState, setKandidaterMedState] = useState<
+        KandidatIKandidatliste[] | undefined
+    >(undefined);
 
     useEffect(() => {
         if (kandidatliste.kind === Nettstatus.Suksess) {
@@ -35,7 +37,9 @@ const useKandidaterMedState = (
                         ...kandidat,
                         tilstand: kandidattilstander[kandidat.kandidatnr],
                         notater: kandidatnotater[kandidat.kandidatnr],
-                        sms: hentMeldingForKandidat(kandidatmeldinger, kandidat.fodselsnr),
+                        sms: kandidat.fodselsnr
+                            ? hentMeldingForKandidat(kandidatmeldinger, kandidat.fodselsnr)
+                            : undefined,
                     })
                 );
 

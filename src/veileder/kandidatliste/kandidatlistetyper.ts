@@ -62,7 +62,7 @@ export interface Kandidat {
     epost?: string;
     telefon?: string;
     fodselsdato: string;
-    fodselsnr: string;
+    fodselsnr: string | null;
     innsatsgruppe: string;
     utfall: string;
     erSynlig: boolean;
