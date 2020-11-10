@@ -25,6 +25,7 @@ import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { meg } from './data/veiledere.mock';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -85,10 +86,27 @@ const getCv = (url: string) => {
 
 const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
-const getKandidatlister = () => ({
-    antall: kandidatlister.length,
-    liste: kandidatlister,
-});
+const getKandidatlister = (url: string) => {
+    const params = new URLSearchParams(url);
+    const stillingsfilter = params.get('type');
+    const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
+
+    let filtrerteKandidatlister = kandidatlister;
+    if (stillingsfilter) {
+        filtrerteKandidatlister = kandidatlister.filter((k) =>
+            stillingsfilter === 'MED_STILLING' ? !!k.stillingId : !k.stillingId
+        );
+    }
+
+    filtrerteKandidatlister = filtrerteKandidatlister.filter((k) =>
+        eierfilter ? k.opprettetAv.ident === meg.ident : true
+    );
+
+    return {
+        antall: filtrerteKandidatlister.length,
+        liste: filtrerteKandidatlister,
+    };
+};
 
 const getKandidatliste = (url: string) => {
     const kandidatlisteId = url.split('/').pop();

@@ -60,7 +60,9 @@ const yrker = [
 ];
 
 const lagTittel = (i: number) =>
-    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % bedrifter.length]}`;
+    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % yrker.length]}`;
+
+const lagTittelForListeUtenStilling = (i: number) => `Liste over ${yrker[i % yrker.length]}`;
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
@@ -189,7 +191,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
 
     return {
         ...standard,
-        tittel: lagTittel(i),
+        tittel: harStilling ? lagTittel(i) : lagTittelForListeUtenStilling(i),
         kandidatlisteId: lagUuid(lagTittel(i)),
         status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
         kanEditere: erEier ? standard.kanEditere : false,
