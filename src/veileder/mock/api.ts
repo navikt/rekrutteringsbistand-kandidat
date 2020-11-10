@@ -26,6 +26,8 @@ import søk from './data/søk.mock';
 import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
+import { FormidlingAvUsynligKandidat } from '../kandidatliste/kandidatlistetyper';
+import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
 
@@ -136,9 +138,13 @@ const postKandidater = (url: string, options: fetchMock.MockOptionsMethodPut) =>
     };
 };
 
-const postFormidlingerAvUsynligKandidat = (url: string) => {
+const postFormidlingerAvUsynligKandidat = (
+    url: string,
+    options: fetchMock.MockOptionsMethodPost
+) => {
     const kandidatlisteId = url.split('/')[url.split('/').length - 2];
     const kandidatliste = kandidatlister.find((liste) => liste.kandidatlisteId === kandidatlisteId);
+    const body: FormidlingAvUsynligKandidatOutboundDto = JSON.parse(String(options.body));
 
     if (!kandidatliste) {
         return null;
@@ -148,7 +154,10 @@ const postFormidlingerAvUsynligKandidat = (url: string) => {
         ...kandidatliste,
         formidlingerAvUsynligKandidat: [
             ...kandidatliste.formidlingerAvUsynligKandidat,
-            mockUsynligKandidat(7),
+            {
+                ...mockUsynligKandidat(7),
+                utfall: body.fåttJobb ? Utfall.FåttJobben : Utfall.Presentert,
+            },
         ],
     };
 };
