@@ -14,8 +14,6 @@ import Dekoratør from './dekoratør/Dekoratør';
 import ErrorSide from './sok/error/ErrorSide';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import AppState from './AppState';
-import { getMiljø, Miljø } from '../felles/common/miljøUtils';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 type RekrutteringsbistandKandidatProps = {
     error: {
@@ -50,19 +48,11 @@ class RekrutteringsbistandKandidat extends React.Component<RekrutteringsbistandK
 
         return (
             <BrowserRouter>
-                {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                 <Application />
             </BrowserRouter>
         );
     }
 }
-
-const AdvarselOmMocketApp = () => (
-    <AlertStripeAdvarsel>
-        Dette er en testversjon av Rekrutteringsbistand. Den er ikke knyttet til noen database, så
-        handlinger har ingen konsekvenser utenom enkle, grafiske tilbakemeldinger.
-    </AlertStripeAdvarsel>
-);
 
 const mapStateToProps = (state: AppState) => ({
     error: state.søk.error,

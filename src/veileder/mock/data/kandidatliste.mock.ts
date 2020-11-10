@@ -41,7 +41,7 @@ const yrker = [
     'leger',
     'brannslukkere',
     'politifolk',
-    'modeller',
+    'rørleggere',
     'ambulansesjåfører',
     'sykepleiere',
     'ambassadører',
@@ -60,7 +60,9 @@ const yrker = [
 ];
 
 const lagTittel = (i: number) =>
-    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % bedrifter.length]}`;
+    `${bedrifter[i % bedrifter.length]} ${verb[i % verb.length]} ${yrker[i % yrker.length]}`;
+
+const lagTittelForListeUtenStilling = (i: number) => `Liste over ${yrker[i % yrker.length]}`;
 
 const lagUuid = (seed: string) => uuid(seed, 'bf6877fa-5c82-4610-8cf7-ff7a0df18e29');
 
@@ -85,7 +87,7 @@ const standard: Kandidatliste = {
     antallStillinger: 7,
 };
 
-export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat => ({
+export const mockKandidat = (cvIndex: number, lagtTilAv: Veileder = meg): Kandidat => ({
     kandidatId: lagUuid(cver[cvIndex].kandidatnummer),
     kandidatnr: cver[cvIndex].kandidatnummer,
     sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
@@ -99,7 +101,7 @@ export const mockKandidat = (cvIndex: number, lagtTilAv?: Veileder): Kandidat =>
     etternavn: cver[cvIndex].etternavn,
     fodselsdato: cver[cvIndex].fodselsdato,
     fodselsnr: cver[cvIndex].fodselsnummer,
-    utfall: Utfall.FåttJobben,
+    utfall: Utfall.IkkePresentert,
     telefon: '(+47) 123456789',
     epost: 'spammenot@mailinator.com',
     innsatsgruppe: 'Situasjonsbestemt innsats',
@@ -159,10 +161,37 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     const erLukket = i % 5 === 2;
     const harUsynligKandidat = i % 5 === 1;
     const erTomListe = i === 9;
+    const harAlleSomFåttJobb = i === 1;
+
+    let kandidater: Kandidat[] = [];
+    let standardKandidater: Kandidat[] = [
+        {
+            ...mockKandidat(0, meg),
+            status: Kandidatstatus.Aktuell,
+            utfall: Utfall.FåttJobben,
+        },
+        mockKandidat(1, meg),
+        mockKandidat(2, meg),
+        mockKandidat(3, meg),
+        mockKandidat(4, meg),
+        mockKandidat(5, meg),
+        mockKandidat(6, meg),
+    ];
+
+    if (!erTomListe) {
+        kandidater = standardKandidater;
+    }
+
+    if (harAlleSomFåttJobb) {
+        kandidater = kandidater.map((kandidat) => ({
+            ...kandidat,
+            utfall: Utfall.FåttJobben,
+        }));
+    }
 
     return {
         ...standard,
-        tittel: lagTittel(i),
+        tittel: harStilling ? lagTittel(i) : lagTittelForListeUtenStilling(i),
         kandidatlisteId: lagUuid(lagTittel(i)),
         status: erLukket ? Kandidatlistestatus.Lukket : Kandidatlistestatus.Åpen,
         kanEditere: erEier ? standard.kanEditere : false,
@@ -175,21 +204,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
                   ident: deg.ident,
                   navn: deg.navn,
               },
-        kandidater: erTomListe
-            ? []
-            : [
-                  {
-                      ...mockKandidat(0, meg),
-                      status: Kandidatstatus.Aktuell,
-                      utfall: Utfall.FåttJobben,
-                  },
-                  mockKandidat(1, meg),
-                  mockKandidat(2, meg),
-                  mockKandidat(3, meg),
-                  mockKandidat(4, meg),
-                  mockKandidat(5, meg),
-                  mockKandidat(6, meg),
-              ],
+        kandidater,
         formidlingerAvUsynligKandidat:
             harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
     };
