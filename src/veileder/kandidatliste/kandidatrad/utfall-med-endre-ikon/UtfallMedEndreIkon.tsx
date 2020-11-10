@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import UtfallLabel, { Orientering } from './UtfallLabel';
+import UtfallLabel from './UtfallLabel';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import '@reach/menu-button/styles.css';
 import './UtfallMedEndreIkon.less';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',

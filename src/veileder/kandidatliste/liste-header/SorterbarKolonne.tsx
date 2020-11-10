@@ -3,6 +3,7 @@ import { Element } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvariant } from '../sortering';
+import classnames from 'classnames';
 import './SorterbarKolonne.less';
 
 type Props = {
@@ -26,13 +27,17 @@ const SorterbarKolonne: FunctionComponent<Props> = ({
         ariaSort = sortering.variant === Sorteringsvariant.Stigende ? 'ascending' : 'descending';
     }
 
+    const mainClassName = classnames('sorterbar-kolonne', className ? className : undefined, {
+        'sorterbar-kolonne--valgt': ariaSort !== 'none',
+    });
+
     return (
         <Link
             to="#"
             role="columnheader"
             aria-sort={ariaSort}
             onClick={onClick}
-            className={`sorterbar-kolonne${className ? ' ' + className : ''}`}
+            className={mainClassName}
         >
             <Element tag="div" className="sorterbar-kolonne__tekst">
                 {tekst}

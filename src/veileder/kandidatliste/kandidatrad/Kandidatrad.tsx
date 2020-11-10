@@ -165,7 +165,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     )}
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-med-sms">
+                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__rad-kolonne">
                     <Link
                         title="Vis profil"
                         className="lenke"
@@ -180,51 +180,55 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Link>
                     {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
-                <div className="kandidatliste-kandidat__wrap-hvor-som-helst">
+                <div className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__rad-kolonne">
                     {kandidat.fodselsnr}
                 </div>
-                <div className="kandidatliste-kandidat__tabell-tekst">
+                <div className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__rad-kolonne">
                     <span className="kandidatliste-kandidat__tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
                 </div>
 
-                <div className="kandidatliste-kandidat__lagt-til">
+                <div className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__rad-kolonne">
                     <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
                     <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
                 </div>
-                {visArkiveringskolonne ? (
-                    <StatusSelect
-                        kanEditere={
-                            kandidatliste.status === Kandidatlistestatus.Åpen &&
-                            kandidatliste.kanEditere
-                        }
-                        value={kandidat.status}
-                        onChange={(status) => {
-                            onKandidatStatusChange(
-                                status,
-                                kandidatliste.kandidatlisteId,
-                                kandidat.kandidatnr
-                            );
-                        }}
-                    />
-                ) : (
-                    <Statusvisning status={kandidat.status} />
-                )}
+                <div className="kandidatliste-kandidat__rad-kolonne">
+                    {visArkiveringskolonne ? (
+                        <StatusSelect
+                            kanEditere={
+                                kandidatliste.status === Kandidatlistestatus.Åpen &&
+                                kandidatliste.kanEditere
+                            }
+                            value={kandidat.status}
+                            onChange={(status) => {
+                                onKandidatStatusChange(
+                                    status,
+                                    kandidatliste.kandidatlisteId,
+                                    kandidat.kandidatnr
+                                );
+                            }}
+                        />
+                    ) : (
+                        <Statusvisning status={kandidat.status} />
+                    )}
+                </div>
                 {kandidatliste.stillingId && (
-                    <UtfallMedEndreIkon
-                        kanEndreUtfall={
-                            kandidatliste.kanEditere &&
-                            kandidatliste.status === Kandidatlistestatus.Åpen
-                        }
-                        utfall={kandidat.utfall as Utfall}
-                        onClick={() => {
-                            visEndreUtfallModal(kandidat);
-                        }}
-                    />
+                    <div className="kandidatliste-kandidat__rad-kolonne">
+                        <UtfallMedEndreIkon
+                            kanEndreUtfall={
+                                kandidatliste.kanEditere &&
+                                kandidatliste.status === Kandidatlistestatus.Åpen
+                            }
+                            utfall={kandidat.utfall as Utfall}
+                            onClick={() => {
+                                visEndreUtfallModal(kandidat);
+                            }}
+                        />
+                    </div>
                 )}
 
-                <div>
+                <div className="kandidatliste-kandidat__rad-kolonne">
                     <Lenkeknapp
                         onClick={toggleNotater}
                         className="Notat kandidatliste-kandidat__ekspanderbar-knapp"
