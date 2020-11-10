@@ -41,7 +41,7 @@ const yrker = [
     'leger',
     'brannslukkere',
     'politifolk',
-    'modeller',
+    'rørleggere',
     'ambulansesjåfører',
     'sykepleiere',
     'ambassadører',
