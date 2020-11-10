@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { Element } from 'nav-frontend-typografi';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvariant } from '../sortering';
 import classnames from 'classnames';
+
+import { Kandidatsortering } from '../Kandidatliste';
+import { Sorteringsalgoritme, Sorteringsvariant } from '../kandidatsortering';
 import './SorterbarKolonne.less';
 
 type Props = {
@@ -11,7 +13,7 @@ type Props = {
     sortering?: Kandidatsortering;
     sorteringsalgoritme: Sorteringsalgoritme;
     className?: string;
-    onClick?: () => void;
+    onClick: (sorteringsalgoritme: Sorteringsalgoritme) => void;
 };
 
 const SorterbarKolonne: FunctionComponent<Props> = ({
@@ -22,6 +24,8 @@ const SorterbarKolonne: FunctionComponent<Props> = ({
     children,
     onClick,
 }) => {
+    let { pathname, search } = useLocation();
+
     let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
     if (sortering && sortering.algoritme === sorteringsalgoritme) {
         ariaSort = sortering.variant === Sorteringsvariant.Stigende ? 'ascending' : 'descending';
@@ -31,12 +35,16 @@ const SorterbarKolonne: FunctionComponent<Props> = ({
         'sorterbar-kolonne--valgt': ariaSort !== 'none',
     });
 
+    const onLinkClick = () => {
+        onClick(sorteringsalgoritme);
+    };
+
     return (
         <Link
-            to="#"
+            to={pathname + search + '#'}
             role="columnheader"
             aria-sort={ariaSort}
-            onClick={onClick}
+            onClick={onLinkClick}
             className={mainClassName}
         >
             <Element tag="div" className="sorterbar-kolonne__tekst">

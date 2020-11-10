@@ -5,22 +5,11 @@
     align-items: center;
     padding: 0 0.5rem;
 
-    &--valgt {
-        background-color: #efefef;
-    }
-
-    &__tekst {
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
     &:visited {
         color: @navBla;
     }
 
-    &:hover,
-    &:focus {
+    &:hover {
         text-decoration: none;
     }
 
@@ -31,6 +20,16 @@
         .hjelpetekst__ikon {
             fill: white;
         }
+    }
+
+    &--valgt {
+        background-color: #efefef;
+    }
+
+    &__tekst {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &__chevron {

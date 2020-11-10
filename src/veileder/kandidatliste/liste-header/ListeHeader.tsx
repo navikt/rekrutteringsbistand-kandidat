@@ -3,8 +3,9 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
-import { Kandidatsortering, Sorteringsalgoritme, Sorteringsvariant } from '../sortering';
+import { Sorteringsalgoritme, Sorteringsvariant } from '../kandidatsortering';
 import SorterbarKolonne from './SorterbarKolonne';
+import { Kandidatsortering } from '../Kandidatliste';
 import './../kandidatrad/Kandidatrad.less';
 
 interface Props {
@@ -37,7 +38,7 @@ const Kolonne: FunctionComponent<{
         <Element
             role="columnheader"
             tag="div"
-            className={`kandidatliste-kandidat__kolonne-tittel${className ? className : ''}`}
+            className={`kandidatliste-kandidat__kolonne-tittel${className ? ' ' + className : ''}`}
         >
             {tekst}
             {children}
@@ -63,7 +64,7 @@ const ListeHeader: FunctionComponent<Props> = ({
         'kandidatliste-kandidat__rad' +
         modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
-    const byttSortering = (sorteringsalgoritme: Sorteringsalgoritme) => () => {
+    const endreSortering = (sorteringsalgoritme: Sorteringsalgoritme) => {
         if (sortering === null || sortering.algoritme !== sorteringsalgoritme) {
             setSortering({
                 algoritme: sorteringsalgoritme,
@@ -94,26 +95,33 @@ const ListeHeader: FunctionComponent<Props> = ({
                     tekst="Navn"
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Navn}
-                    onClick={byttSortering(Sorteringsalgoritme.Navn)}
+                    onClick={endreSortering}
                 />
                 <SorterbarKolonne
                     tekst="Fødselsnummer"
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
-                    onClick={byttSortering(Sorteringsalgoritme.Fødselsnummer)}
+                    onClick={endreSortering}
                 />
                 <Kolonne tekst="Lagt til av" />
                 <Kolonne tekst="Lagt til" />
                 <SorterbarKolonne
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Status}
-                    onClick={byttSortering(Sorteringsalgoritme.Status)}
+                    onClick={endreSortering}
                     tekst="Status"
                     className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
                     <StatusHjelpetekst />
                 </SorterbarKolonne>
-                {kandidatliste.stillingId && <Kolonne tekst="Utfall" />}
+                {kandidatliste.stillingId && (
+                    <SorterbarKolonne
+                        sortering={sortering}
+                        sorteringsalgoritme={Sorteringsalgoritme.Utfall}
+                        onClick={endreSortering}
+                        tekst="Utfall"
+                    />
+                )}
                 <Kolonne tekst="Notater" />
                 <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
                 {visArkiveringskolonne && (

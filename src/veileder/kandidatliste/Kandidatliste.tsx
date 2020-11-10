@@ -28,7 +28,7 @@ import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
-import { Kandidatsortering, sorteringsalgoritmer } from './sortering';
+import { Sorteringsalgoritme, Sorteringsvariant, sorteringsalgoritmer } from './kandidatsortering';
 import '../../felles/common/ikoner/ikoner.less';
 
 export enum Visningsstatus {
@@ -36,6 +36,11 @@ export enum Visningsstatus {
     VisNotater = 'VIS_NOTATER',
     VisMerInfo = 'VIS_MER_INFO',
 }
+
+export type Kandidatsortering = null | {
+    algoritme: Sorteringsalgoritme;
+    variant: Sorteringsvariant;
+};
 
 type Props = {
     kandidater: KandidatIKandidatliste[];

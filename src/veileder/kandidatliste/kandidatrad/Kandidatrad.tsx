@@ -228,7 +228,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </div>
                 )}
 
-                <div className="kandidatliste-kandidat__rad-kolonne">
+                <div>
                     <Lenkeknapp
                         onClick={toggleNotater}
                         className="Notat kandidatliste-kandidat__ekspanderbar-knapp"

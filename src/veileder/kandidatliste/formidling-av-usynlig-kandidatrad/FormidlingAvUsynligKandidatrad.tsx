@@ -28,11 +28,13 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             }`}
         >
             <span />
-            <div className="formidling-av-usynlig-kandidatrad__navn">{fulltNavn}</div>
+            <div className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne">
+                {fulltNavn}
+            </div>
             <div className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
                 Ikke synlig i Rekrutteringsbistand
             </div>
-            <div className="formidling-av-usynlig-kandidatrad__utfall">
+            <div className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne">
                 <UtfallMedEndreIkon
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
