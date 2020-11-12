@@ -103,13 +103,23 @@ const ListeHeader: FunctionComponent<Props> = ({
                     sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
                     onClick={endreSortering}
                 />
-                <Kolonne tekst="Lagt til av" />
-                <Kolonne tekst="Lagt til" />
                 <SorterbarKolonne
+                    tekst="Lagt til av"
+                    sortering={sortering}
+                    sorteringsalgoritme={Sorteringsalgoritme.LagtTilAv}
+                    onClick={endreSortering}
+                />
+                <SorterbarKolonne
+                    tekst="Lagt til"
+                    sortering={sortering}
+                    sorteringsalgoritme={Sorteringsalgoritme.LagtTilTidspunkt}
+                    onClick={endreSortering}
+                />
+                <SorterbarKolonne
+                    tekst="Status"
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Status}
                     onClick={endreSortering}
-                    tekst="Status"
                     className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
                     <StatusHjelpetekst />

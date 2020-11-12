@@ -5,6 +5,8 @@ export enum Sorteringsalgoritme {
     Fødselsnummer,
     Status,
     Utfall,
+    LagtTilAv,
+    LagtTilTidspunkt,
 }
 
 export enum Sorteringsvariant {
@@ -41,6 +43,32 @@ const sorterPåUtfall = (variant: Sorteringsvariant): Kandidatsammenlikning => (
     return sorterAlfabetisk(k1.utfall, k2.utfall, variant === Sorteringsvariant.Stigende);
 };
 
+const sorterPåLagtTilAv = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(
+        k1.lagtTilAv.navn,
+        k2.lagtTilAv.navn,
+        variant === Sorteringsvariant.Stigende
+    );
+};
+
+const sorterPåLagtTilTidspunkt = (variant: Sorteringsvariant): Kandidatsammenlikning => (
+    k1,
+    k2
+) => {
+    const dato1 = Number(new Date(k1.lagtTilTidspunkt)),
+        dato2 = Number(new Date(k2.lagtTilTidspunkt));
+
+    if (dato1 - dato2 === 0) {
+        return 0;
+    }
+
+    if (variant === Sorteringsvariant.Stigende) {
+        return dato1 - dato2 < 0 ? +1 : -1;
+    } else {
+        return dato2 - dato1 < 0 ? +1 : -1;
+    }
+};
+
 export const sorteringsalgoritmer: Record<
     Sorteringsalgoritme,
     Record<Sorteringsvariant, Kandidatsammenlikning>
@@ -60,5 +88,13 @@ export const sorteringsalgoritmer: Record<
     [Sorteringsalgoritme.Utfall]: {
         [Sorteringsvariant.Stigende]: sorterPåUtfall(Sorteringsvariant.Stigende),
         [Sorteringsvariant.Synkende]: sorterPåUtfall(Sorteringsvariant.Synkende),
+    },
+    [Sorteringsalgoritme.LagtTilAv]: {
+        [Sorteringsvariant.Stigende]: sorterPåLagtTilAv(Sorteringsvariant.Stigende),
+        [Sorteringsvariant.Synkende]: sorterPåLagtTilAv(Sorteringsvariant.Synkende),
+    },
+    [Sorteringsalgoritme.LagtTilTidspunkt]: {
+        [Sorteringsvariant.Stigende]: sorterPåLagtTilTidspunkt(Sorteringsvariant.Stigende),
+        [Sorteringsvariant.Synkende]: sorterPåLagtTilTidspunkt(Sorteringsvariant.Synkende),
     },
 };
