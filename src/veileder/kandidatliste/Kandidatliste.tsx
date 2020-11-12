@@ -198,7 +198,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             onToggleStatus={onToggleStatus}
                             onToggleUtfall={onToggleUtfall}
                         />
-                        <div className="kandidatliste__liste">
+                        <div role="table" aria-label="Kandidater" className="kandidatliste__liste">
                             <ListeHeader
                                 kandidatliste={props.kandidatliste}
                                 alleMarkert={alleFiltrerteErMarkerte}

@@ -23,18 +23,25 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
 
     return (
         <div
+            role="row"
             className={`formidling-av-usynlig-kandidatrad${
                 kandidatlistenErLukket ? ' formidling-av-usynlig-kandidatrad--lukket-liste' : ''
             }`}
         >
             <span />
-            <div className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne">
+            <div
+                role="cell"
+                className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne"
+            >
                 {fulltNavn}
             </div>
-            <div className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
+            <div role="cell" className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
                 Ikke synlig i Rekrutteringsbistand
             </div>
-            <div className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne">
+            <div
+                role="cell"
+                className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
+            >
                 <UtfallMedEndreIkon
                     kanEndreUtfall={erEierAvKandidatlisten && !kandidatlistenErLukket}
                     utfall={formidling.utfall}
