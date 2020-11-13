@@ -28,14 +28,14 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 kandidatlistenErLukket ? ' formidling-av-usynlig-kandidatrad--lukket-liste' : ''
             }`}
         >
-            <span />
+            <span className="formidling-av-usynlig-kandidatrad__før-navn" />
             <div
                 role="cell"
                 className="formidling-av-usynlig-kandidatrad__navn formidling-av-usynlig-kandidatrad__kolonne"
             >
                 {fulltNavn}
             </div>
-            <div role="cell" className="formidling-av-usynlig-kandidatrad__ikkeSynlig">
+            <div role="cell" className="formidling-av-usynlig-kandidatrad__ikke-synlig">
                 Ikke synlig i Rekrutteringsbistand
             </div>
             <div
