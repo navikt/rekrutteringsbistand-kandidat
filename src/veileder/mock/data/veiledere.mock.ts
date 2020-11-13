@@ -14,10 +14,18 @@ export const meg: Veileder = {
     epost: 'clark.kent@trygdeetaten.no',
 };
 
-export const deg: Veileder = {
+export const enVeileder: Veileder = {
     ident: 'X123456',
     navn: 'Bruce Wayne',
     fornavn: 'Bruce',
     etternavn: 'Wayne',
     epost: 'bruce.wayne@trygdeetaten.no',
+};
+
+export const enAnnenVeileder: Veileder = {
+    ident: 'Y123456',
+    navn: 'Peter Parker',
+    fornavn: 'Peter',
+    etternavn: 'Parker',
+    epost: 'peter.parker@trygdeetaten.no',
 };

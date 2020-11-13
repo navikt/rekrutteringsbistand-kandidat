@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import UtfallLabel, { Orientering } from './UtfallLabel';
+import UtfallLabel from './UtfallLabel';
+import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 import '@reach/menu-button/styles.css';
 import './UtfallMedEndreIkon.less';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
 
 export enum Utfall {
     IkkePresentert = 'IKKE_PRESENTERT',
@@ -14,13 +14,22 @@ interface Props {
     kanEndreUtfall: boolean;
     utfall: Utfall;
     onClick: () => void;
+    className?: string;
 }
 
-const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, onClick }) => {
+const UtfallMedEndreIkon: FunctionComponent<Props> = ({
+    kanEndreUtfall,
+    utfall,
+    onClick,
+    className,
+}) => {
     return (
         <>
             {kanEndreUtfall ? (
-                <Lenkeknapp className="utfall-med-endre-ikon" onClick={onClick}>
+                <Lenkeknapp
+                    className={`utfall-med-endre-ikon${className ? ' ' + className : ''}`}
+                    onClick={onClick}
+                >
                     <UtfallLabel utfall={utfall} />
                     {utfall === Utfall.FåttJobben ? (
                         <i className="utfall-med-endre-ikon__hengelås" />

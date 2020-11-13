@@ -23,15 +23,6 @@
         box-shadow: 0 0 0 3px @fokusFarge;
     }
 
-    &__ekspanderbar-knapp {
-        display: flex;
-        align-items: center;
-
-        i {
-            margin-right: 0.4rem;
-        }
-    }
-
     &__header {
         border: 1px solid #78706a;
     }
@@ -88,13 +79,22 @@
         white-space: nowrap;
     }
 
+    &__kolonne-høyrestilt {
+        justify-content: flex-end;
+    }
+
     &__kolonne-med-hjelpetekst {
         display: flex;
         align-items: center;
 
         .hjelpetekst {
-            margin-left: 1rem;
+            margin-right: 0.5rem;
+            color: @navMorkGra;
         }
+    }
+
+    &__fokuserbar-knapp {
+        padding: 0.25rem;
     }
 
     &__kolonne-tittel {
@@ -107,34 +107,69 @@
         height: 4.5rem;
         display: grid;
         padding-left: 1.25rem;
-        padding-right: 0.5rem;
-        grid-gap: 1rem;
+        padding-right: 1.25rem;
         grid-template-columns:
-            1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
-            minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr);
+            1.6fr
+            minmax(0, 1fr)
+            minmax(0, 9fr)
+            minmax(0, 7fr)
+            minmax(0, 8fr)
+            minmax(0, 5fr)
+            minmax(0, 9fr)
+            minmax(0, 3fr)
+            minmax(0, 3fr);
 
         &--vis-arkivering {
             grid-template-columns:
-                1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 5fr)
-                minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
         }
 
         &--vis-utfall {
             grid-template-columns:
-                1.6fr minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr) minmax(0, 4fr)
-                minmax(0, 9fr) minmax(0, 9fr) minmax(0, 3fr) minmax(0, 2fr);
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 10fr)
+                minmax(0, 7fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 7fr)
+                minmax(0, 10fr)
+                minmax(0, 4fr)
+                minmax(0, 3fr);
         }
 
         &--vis-utfall-og-arkivering {
             grid-template-columns:
-                minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 9fr) minmax(0, 7fr) minmax(0, 8fr)
-                minmax(0, 4fr) minmax(0, 9fr) minmax(0, 9fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr);
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
         }
 
         > * {
             display: flex;
             align-items: center;
         }
+    }
+
+    &__kolonne-sorterbar {
+        padding-left: 0.5rem;
     }
 
     .mer-info {

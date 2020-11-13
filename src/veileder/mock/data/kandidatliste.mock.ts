@@ -11,7 +11,7 @@ import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { meg, deg, Veileder } from './veiledere.mock';
+import { meg, enVeileder, Veileder, enAnnenVeileder } from './veiledere.mock';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -87,12 +87,19 @@ const standard: Kandidatliste = {
     antallStillinger: 7,
 };
 
-export const mockKandidat = (cvIndex: number, lagtTilAv: Veileder = meg): Kandidat => ({
+const iDag = new Date();
+const forrigeUke = new Date(Number(new Date()) - 1000 * 60 * 60 * 24 * 7);
+
+export const mockKandidat = (
+    cvIndex: number,
+    lagtTilAv: Veileder = meg,
+    lagtTilTidspunkt = iDag
+): Kandidat => ({
     kandidatId: lagUuid(cver[cvIndex].kandidatnummer),
     kandidatnr: cver[cvIndex].kandidatnummer,
     sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
     status: Kandidatstatus.Vurderes,
-    lagtTilTidspunkt: new Date().toISOString(),
+    lagtTilTidspunkt: lagtTilTidspunkt.toISOString(),
     lagtTilAv: {
         ident: lagtTilAv?.ident || '<ident>',
         navn: lagtTilAv?.navn || '<veileders-navn>',
@@ -130,8 +137,8 @@ export const mockMidlertidigUtilgjengelig = (cvIndex: number) => {
             tilDato: '2020-05-26T00:00:00',
             registrertAvIdent: meg.ident,
             registrertAvNavn: meg.navn,
-            sistEndretAvIdent: deg.ident,
-            sistEndretAvNavn: deg.navn,
+            sistEndretAvIdent: enVeileder.ident,
+            sistEndretAvNavn: enVeileder.navn,
         },
     };
 };
@@ -162,6 +169,7 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
     const harUsynligKandidat = i % 5 === 1;
     const erTomListe = i === 9;
     const harAlleSomFåttJobb = i === 1;
+    const enAnnenVeilederHarOgsåLagtTilKandidater = i === 0;
 
     let kandidater: Kandidat[] = [];
     let standardKandidater: Kandidat[] = [
@@ -171,11 +179,11 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             utfall: Utfall.FåttJobben,
         },
         mockKandidat(1, meg),
-        mockKandidat(2, meg),
-        mockKandidat(3, meg),
+        mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+        mockKandidat(3, meg, forrigeUke),
         mockKandidat(4, meg),
-        mockKandidat(5, meg),
-        mockKandidat(6, meg),
+        mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+        mockKandidat(6, meg, forrigeUke),
     ];
 
     if (!erTomListe) {
@@ -201,8 +209,8 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         opprettetAv: erEier
             ? standard.opprettetAv
             : {
-                  ident: deg.ident,
-                  navn: deg.navn,
+                  ident: enVeileder.ident,
+                  navn: enVeileder.navn,
               },
         kandidater,
         formidlingerAvUsynligKandidat:

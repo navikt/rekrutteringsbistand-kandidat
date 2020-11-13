@@ -140,8 +140,8 @@ const Kandidatrad: FunctionComponent<Props> = ({
     } ${kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
     return (
-        <div tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
-            <div className={klassenavnForListerad}>
+        <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
+            <div role="row" className={klassenavnForListerad}>
                 <Checkbox
                     label="&#8203;" // <- tegnet for tom streng
                     className="text-hide"
@@ -154,6 +154,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <div className="kandidater-tabell__tilgjengelighet">
                     {kandidat.aktørid && (
                         <TilgjengelighetFlagg
+                            className="kandidatliste-kandidat__fokuserbar-knapp"
                             status={kandidat.midlertidigUtilgjengeligStatus}
                             merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
                             hentMerInformasjon={() =>
@@ -165,8 +166,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     )}
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-med-sms">
+                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
                     <Link
+                        role="cell"
                         title="Vis profil"
                         className="lenke"
                         to={lenkeTilCv(
@@ -180,54 +182,72 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Link>
                     {kandidat.sms && <SmsStatusPopup sms={kandidat.sms} />}
                 </div>
-                <div className="kandidatliste-kandidat__wrap-hvor-som-helst">
+                <div
+                    role="cell"
+                    className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__kolonne-sorterbar"
+                >
                     {kandidat.fodselsnr}
                 </div>
-                <div className="kandidatliste-kandidat__tabell-tekst">
+                <div
+                    role="cell"
+                    className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__kolonne-sorterbar"
+                >
                     <span className="kandidatliste-kandidat__tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
                     </span>
                 </div>
 
-                <div className="kandidatliste-kandidat__lagt-til">
+                <div
+                    role="cell"
+                    className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__kolonne-sorterbar"
+                >
                     <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
                     <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
                 </div>
-                {visArkiveringskolonne ? (
-                    <StatusSelect
-                        kanEditere={
-                            kandidatliste.status === Kandidatlistestatus.Åpen &&
-                            kandidatliste.kanEditere
-                        }
-                        value={kandidat.status}
-                        onChange={(status) => {
-                            onKandidatStatusChange(
-                                status,
-                                kandidatliste.kandidatlisteId,
-                                kandidat.kandidatnr
-                            );
-                        }}
-                    />
-                ) : (
-                    <Statusvisning status={kandidat.status} />
-                )}
+                <div
+                    role="cell"
+                    aria-label="Status"
+                    className="kandidatliste-kandidat__kolonne-sorterbar"
+                >
+                    {visArkiveringskolonne ? (
+                        <StatusSelect
+                            kanEditere={
+                                kandidatliste.status === Kandidatlistestatus.Åpen &&
+                                kandidatliste.kanEditere
+                            }
+                            value={kandidat.status}
+                            onChange={(status) => {
+                                onKandidatStatusChange(
+                                    status,
+                                    kandidatliste.kandidatlisteId,
+                                    kandidat.kandidatnr
+                                );
+                            }}
+                        />
+                    ) : (
+                        <Statusvisning status={kandidat.status} />
+                    )}
+                </div>
                 {kandidatliste.stillingId && (
-                    <UtfallMedEndreIkon
-                        kanEndreUtfall={
-                            kandidatliste.kanEditere &&
-                            kandidatliste.status === Kandidatlistestatus.Åpen
-                        }
-                        utfall={kandidat.utfall as Utfall}
-                        onClick={() => {
-                            visEndreUtfallModal(kandidat);
-                        }}
-                    />
+                    <div role="cell" className="kandidatliste-kandidat__kolonne-sorterbar">
+                        <UtfallMedEndreIkon
+                            kanEndreUtfall={
+                                kandidatliste.kanEditere &&
+                                kandidatliste.status === Kandidatlistestatus.Åpen
+                            }
+                            utfall={kandidat.utfall as Utfall}
+                            onClick={() => {
+                                visEndreUtfallModal(kandidat);
+                            }}
+                            className="Notat kandidatliste-kandidat__fokuserbar-knapp"
+                        />
+                    </div>
                 )}
 
-                <div>
+                <div role="cell">
                     <Lenkeknapp
                         onClick={toggleNotater}
-                        className="Notat kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="Notat kandidatliste-kandidat__fokuserbar-knapp"
                     >
                         <i className="Notat__icon" />
                         <span className="kandidatliste-kandidat__antall-notater">
@@ -243,10 +263,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     </Lenkeknapp>
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-midtstilt">
+                <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
                     <Lenkeknapp
                         onClick={toggleMerInfo}
-                        className="MerInfo kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
                     >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
@@ -260,11 +280,11 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 {visArkiveringskolonne && (
-                    <div className="kandidatliste-kandidat__kolonne-midtstilt">
+                    <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">
                         <Lenkeknapp
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className="Delete"
+                            className="Delete kandidatliste-kandidat__fokuserbar-knapp"
                         >
                             <div className="Delete__icon" />
                         </Lenkeknapp>
