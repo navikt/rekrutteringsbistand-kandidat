@@ -14,13 +14,22 @@ interface Props {
     kanEndreUtfall: boolean;
     utfall: Utfall;
     onClick: () => void;
+    className?: string;
 }
 
-const UtfallMedEndreIkon: FunctionComponent<Props> = ({ kanEndreUtfall, utfall, onClick }) => {
+const UtfallMedEndreIkon: FunctionComponent<Props> = ({
+    kanEndreUtfall,
+    utfall,
+    onClick,
+    className,
+}) => {
     return (
         <>
             {kanEndreUtfall ? (
-                <Lenkeknapp className="utfall-med-endre-ikon" onClick={onClick}>
+                <Lenkeknapp
+                    className={`utfall-med-endre-ikon${className ? ' ' + className : ''}`}
+                    onClick={onClick}
+                >
                     <UtfallLabel utfall={utfall} />
                     {utfall === Utfall.FåttJobben ? (
                         <i className="utfall-med-endre-ikon__hengelås" />

@@ -98,7 +98,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onClick={endreSortering}
                 />
                 <SorterbarKolonne
-                    tekst="Fødselsnummer"
+                    tekst="Fødselsnr."
                     sortering={sortering}
                     sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
                     onClick={endreSortering}
@@ -135,7 +135,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <Kolonne tekst="Notater" />
                 <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />
                 {visArkiveringskolonne && (
-                    <Kolonne tekst="Slett" className="kandidatliste-kandidat__kolonne-midtstilt" />
+                    <Kolonne tekst="Slett" className="kandidatliste-kandidat__kolonne-høyrestilt" />
                 )}
             </div>
         </div>

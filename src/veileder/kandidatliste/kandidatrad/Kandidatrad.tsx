@@ -154,6 +154,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <div className="kandidater-tabell__tilgjengelighet">
                     {kandidat.aktørid && (
                         <TilgjengelighetFlagg
+                            className="kandidatliste-kandidat__fokuserbar-knapp"
                             status={kandidat.midlertidigUtilgjengeligStatus}
                             merInformasjon={midlertidigUtilgjengeligMap[kandidat.kandidatnr]}
                             hentMerInformasjon={() =>
@@ -165,7 +166,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                         />
                     )}
                 </div>
-                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__rad-kolonne">
+                <div className="kandidatliste-kandidat__kolonne-med-sms kandidatliste-kandidat__kolonne-sorterbar">
                     <Link
                         role="cell"
                         title="Vis profil"
@@ -183,13 +184,13 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
                 <div
                     role="cell"
-                    className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__rad-kolonne"
+                    className="kandidatliste-kandidat__wrap-hvor-som-helst kandidatliste-kandidat__kolonne-sorterbar"
                 >
                     {kandidat.fodselsnr}
                 </div>
                 <div
                     role="cell"
-                    className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__rad-kolonne"
+                    className="kandidatliste-kandidat__tabell-tekst kandidatliste-kandidat__kolonne-sorterbar"
                 >
                     <span className="kandidatliste-kandidat__tabell-tekst-inner">
                         {kandidat.lagtTilAv.navn} ({kandidat.lagtTilAv.ident})
@@ -198,7 +199,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
                 <div
                     role="cell"
-                    className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__rad-kolonne"
+                    className="kandidatliste-kandidat__lagt-til kandidatliste-kandidat__kolonne-sorterbar"
                 >
                     <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
                     <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
@@ -206,7 +207,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <div
                     role="cell"
                     aria-label="Status"
-                    className="kandidatliste-kandidat__rad-kolonne"
+                    className="kandidatliste-kandidat__kolonne-sorterbar"
                 >
                     {visArkiveringskolonne ? (
                         <StatusSelect
@@ -228,7 +229,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     )}
                 </div>
                 {kandidatliste.stillingId && (
-                    <div role="cell" className="kandidatliste-kandidat__rad-kolonne">
+                    <div role="cell" className="kandidatliste-kandidat__kolonne-sorterbar">
                         <UtfallMedEndreIkon
                             kanEndreUtfall={
                                 kandidatliste.kanEditere &&
@@ -238,6 +239,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                             onClick={() => {
                                 visEndreUtfallModal(kandidat);
                             }}
+                            className="Notat kandidatliste-kandidat__fokuserbar-knapp"
                         />
                     </div>
                 )}
@@ -245,7 +247,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <div role="cell">
                     <Lenkeknapp
                         onClick={toggleNotater}
-                        className="Notat kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="Notat kandidatliste-kandidat__fokuserbar-knapp"
                     >
                         <i className="Notat__icon" />
                         <span className="kandidatliste-kandidat__antall-notater">
@@ -264,7 +266,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
                     <Lenkeknapp
                         onClick={toggleMerInfo}
-                        className="MerInfo kandidatliste-kandidat__ekspanderbar-knapp"
+                        className="MerInfo kandidatliste-kandidat__fokuserbar-knapp"
                     >
                         <i className="MerInfo__icon" />
                         <NavFrontendChevron
@@ -278,11 +280,11 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     </Lenkeknapp>
                 </div>
                 {visArkiveringskolonne && (
-                    <div role="cell" className="kandidatliste-kandidat__kolonne-midtstilt">
+                    <div role="cell" className="kandidatliste-kandidat__kolonne-høyrestilt">
                         <Lenkeknapp
                             tittel="Slett kandidat"
                             onClick={onToggleArkivert}
-                            className="Delete"
+                            className="Delete kandidatliste-kandidat__fokuserbar-knapp"
                         >
                             <div className="Delete__icon" />
                         </Lenkeknapp>

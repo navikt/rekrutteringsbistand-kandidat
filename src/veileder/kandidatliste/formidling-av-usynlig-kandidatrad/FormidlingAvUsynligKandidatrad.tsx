@@ -48,7 +48,6 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                     onClick={() => visEndreUtfallModalUsynligKandidat(formidling)}
                 />
             </div>
-            <span />
         </div>
     );
 };

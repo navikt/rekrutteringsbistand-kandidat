@@ -12,12 +12,14 @@ type Props = {
     status: Tilgjengelighet;
     hentMerInformasjon: () => void;
     merInformasjon?: Nettressurs<MidlertidigUtilgjengeligResponse>;
+    className?: string;
 };
 
 const TilgjengelighetFlagg: FunctionComponent<Props> = ({
     status,
     merInformasjon,
     hentMerInformasjon,
+    className,
 }) => {
     const [anker, setAnker] = useState<any>(undefined);
 
@@ -37,7 +39,10 @@ const TilgjengelighetFlagg: FunctionComponent<Props> = ({
 
     return (
         <>
-            <button className="tilgjengelighet-flagg__knapp" onClick={togglePopover}>
+            <button
+                className={`tilgjengelighet-flagg__knapp${className ? ' ' + className : ''}`}
+                onClick={togglePopover}
+            >
                 <TilgjengelighetIkon
                     tilgjengelighet={status}
                     className="tilgjengelighet-flagg__ikon"
