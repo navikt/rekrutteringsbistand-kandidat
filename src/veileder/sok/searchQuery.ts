@@ -228,16 +228,19 @@ const mapTilTilretteleggingsbehov = (tagsFraStilling: string[]) => {
 };
 
 export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
-    const stillingHarTilretteleggingsmuligheter = stilling.tag.includes('INKLUDERING');
-    const tilretteleggingsbehov = stillingHarTilretteleggingsmuligheter
-        ? mapTilTilretteleggingsbehov(stilling.tag)
-        : undefined;
+    // TODO: Fjern utkommentering når vi ønsker å filtrere kandidater basert på mulighetene til stillingen
+    /*
+        const stillingHarTilretteleggingsmuligheter = stilling.tag.includes('INKLUDERING');
+        const tilretteleggingsbehov = stillingHarTilretteleggingsmuligheter
+            ? mapTilTilretteleggingsbehov(stilling.tag)
+            : undefined;
+    */
 
     return {
         stillinger: stilling.stilling,
         geografiList: stilling.kommune,
         harHentetStilling: true,
-        tilretteleggingsbehov: stillingHarTilretteleggingsmuligheter,
-        kategorier: tilretteleggingsbehov,
+        // tilretteleggingsbehov: stillingHarTilretteleggingsmuligheter,
+        // kategorier: tilretteleggingsbehov,
     };
 };
