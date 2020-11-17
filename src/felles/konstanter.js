@@ -1,4 +1,4 @@
-const FEATURE_TOGGLES = ['rekrutteringsbistand-kandidat.masker-fødselsnumre'];
+const FEATURE_TOGGLES = ['masker-fødselsnumre'];
 
 export default FEATURE_TOGGLES;
 
