@@ -26,10 +26,7 @@ import { Utfall } from './kandidatliste/kandidatrad/utfall-med-endre-ikon/Utfall
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
-declare const __MOCK_API__: boolean;
-export const appIsMocked = typeof __MOCK_API__ !== 'undefined' && __MOCK_API__;
-
-if (appIsMocked) {
+if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
 }
 

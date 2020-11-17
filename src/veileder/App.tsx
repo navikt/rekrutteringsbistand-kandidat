@@ -3,7 +3,6 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import ReactDOM from 'react-dom';
 
 import { alderReducer } from './sok/alder/alderReducer';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
@@ -42,6 +41,7 @@ import './sok/sok.less';
 import * as Sentry from '@sentry/react';
 import { getMiljø } from '../felles/common/miljøUtils';
 import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
+import { useSyncHistorikkMedContainer } from '../useSyncHistorikkMedContainer';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
@@ -85,14 +85,6 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-const App = () => (
-    <Sentry.ErrorBoundary>
-        <Provider store={store}>
-            <RekrutteringsbistandKandidat />
-        </Provider>
-    </Sentry.ErrorBoundary>
-);
-
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
@@ -102,4 +94,13 @@ sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export const Main = () => {
+    useSyncHistorikkMedContainer();
+    return (
+        <Sentry.ErrorBoundary>
+            <Provider store={store}>
+                <RekrutteringsbistandKandidat />
+            </Provider>
+        </Sentry.ErrorBoundary>
+    );
+};

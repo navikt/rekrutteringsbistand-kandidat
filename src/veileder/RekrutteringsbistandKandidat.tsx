@@ -38,8 +38,6 @@ class RekrutteringsbistandKandidat extends React.Component<RekrutteringsbistandK
             return (
                 <BrowserRouter>
                     <div>
-                        <Dekoratør />
-                        <Navigeringsmeny />
                         <ErrorSide error={error} fjernError={fjernError} />
                     </div>
                 </BrowserRouter>

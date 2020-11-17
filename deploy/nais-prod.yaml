@@ -6,6 +6,7 @@ metadata:
     labels:
         team: arbeidsgiver
 spec:
+    # prettier-ignore
     image: {{ image }}
     port: 8080
     liveness:
@@ -33,9 +34,11 @@ spec:
     prometheus:
         enabled: false
         path: /metrics
-    ingresses:
-        - https://rekrutteringsbistand.nais.adeo.no/kandidater
-    env:
+        ingresses:
+          - https://rekrutteringsbistand.nais.adeo.no/rekrutteringsbistand-kandidat
+      env:
+        - name: KANDIDAT_KANDIDATSOK_API
+          value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
         - name: LOGINSERVICE_VEILEDER_URL

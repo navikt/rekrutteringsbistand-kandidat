@@ -3,7 +3,7 @@ FROM navikt/node-express:14-alpine
 WORKDIR /usr/src/app
 
 COPY server-labs/ server/
-COPY dist/ dist/
+COPY build/ build/
 
 WORKDIR /usr/src/app/server
 

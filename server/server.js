@@ -1,13 +1,14 @@
 /* eslint-disable no-param-reassign, no-console */
-const { isNullOrUndefined } = require('util');
-const compression = require('compression');
-const express = require('express');
-const fs = require('fs');
-const helmet = require('helmet');
-const jwt = require('jsonwebtoken');
 const path = require('path');
-const proxy = require('express-http-proxy');
-const useragent = require('useragent');
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+const fs = require('fs');
+const app = express();
+const port = process.env.PORT || 8080;
+
+const basePath = '/rekrutteringsbistand-kandidat';
+const buildPath = path.join(__dirname, 'build');
 
 const isProd = process.env.NODE_ENV !== 'development';
 
@@ -35,17 +36,15 @@ const frontendProxyUrls = {
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.__PAM_KANDIDATSOK_API_URL__="${frontendProxyUrls.PAM_KANDIDATSOK}";\n` +
-        `window.__PAM_SEARCH_API__="${frontendProxyUrls.PAM_SEARCH}";\n` +
-        `window.__PAM_SEARCH_API_GATEWAY_URL__="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
-        `window.__SMS_PROXY__="${frontendProxyUrls.SMS}";\n` +
-        `window.__MIDLERTIDIG_UTILGJENGELIG_PROXY__="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
-        `window.__LOGIN_URL__="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
-        `window.__LOGOUT_URL__="${miljøvariablerTilFrontend.LOGOUT_URL}";\n` +
-        `window.__LAST_NED_CV_URL__="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
-        `window.__ARBEIDSRETTET_OPPFOLGING_URL__="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
+        `window.KANDIDAT_KANDIDATSOK_API_URL="${process.env.KANDIDAT_KANDIDATSOK_API_URL}";\n` +
+        `window.KANDIDAT_PAM_SEARCH_API_GATEWAY_URL="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
+        `window.KANDIDAT_SMS_PROXY="${frontendProxyUrls.SMS}";\n` +
+        `window.KANDIDAT_MIDLERTIDIG_UTILGJENGELIG_PROXY="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
+        `window.KANDIDAT_LOGIN_URL="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
+        `window.KANDIDAT_LAST_NED_CV_URL="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
+        `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
-    fs.writeFile(path.resolve(__dirname, '../dist/js/env.js'), fileContent, (err) => {
+    fs.writeFile(path.resolve(__dirname, 'build/static/js/env.js'), fileContent, (err) => {
         if (err) throw err;
     });
 };
@@ -79,47 +78,6 @@ const gatewayPrefix = () => {
 // proxy til backend
 console.log(`proxy host: ${backendHost()}`);
 console.log(`proxy prefix: ${gatewayPrefix()}`);
-
-const normalizedTokenExpiration = (token) => {
-    const expiration = jwt.decode(token).exp;
-    if (expiration.toString().length === 10) {
-        return expiration * 1000;
-    }
-    return expiration;
-};
-
-const unsafeTokenIsExpired = (token) => {
-    if (token) {
-        const normalizedExpirationTime = normalizedTokenExpiration(token);
-        return normalizedExpirationTime - Date.now() < 0;
-    }
-    return true;
-};
-
-const extractTokenFromCookie = (cookie) => {
-    if (cookie !== undefined) {
-        const token = cookie
-            .split(';')
-            .filter((s) => s && s.indexOf('-idtoken') !== -1)
-            .pop();
-        if (token) {
-            return token.split('=').pop().trim();
-        }
-    }
-    return null;
-};
-
-const tokenValidator = (req, res, next) => {
-    const token = extractTokenFromCookie(req.headers.cookie);
-    if (isNullOrUndefined(token) || unsafeTokenIsExpired(token)) {
-        const protocol = isProd ? 'https' : req.protocol; // produksjon får også inn http, så må tvinge https der
-        const redirectUrl = `${
-            miljøvariablerTilFrontend.LOGIN_URL
-        }?redirect=${protocol}://${req.get('host')}/kandidater`;
-        return res.redirect(redirectUrl);
-    }
-    return next();
-};
 
 const mapToCookies = (cookieString) =>
     cookieString
@@ -157,28 +115,8 @@ const fjernDobleCookies = (req, res, next) => {
     next();
 };
 
-const browserRegistrator = (req, res, next) => {
-    try {
-        const browserInfo = useragent.lookup(req.headers['user-agent']);
-        console.log(
-            JSON.stringify({
-                browserFamily: browserInfo.family,
-                browserVersionMajor: browserInfo.major,
-                browserVersionMinor: browserInfo.minor,
-                browserVersionPatch: browserInfo.patch,
-                url: req.url,
-                method: req.method,
-                navCallId: req.headers['Nav-CallId'] || req.headers['nav-callid'] || undefined,
-            })
-        );
-    } catch (e) {
-        console.log(e);
-    }
-    return next();
-};
-
-const konfigurerProxyTilPamKandidatsøkApi = () => {
-    server.use(
+/*const konfigurerProxyTilPamKandidatsøkApi = () => {
+    app.use(
         '/kandidater/rest/',
         proxy('http://rekrutteringsbistand-kandidat-api', {
             proxyReqPathResolver: (req) =>
@@ -188,10 +126,10 @@ const konfigurerProxyTilPamKandidatsøkApi = () => {
                 ),
         })
     );
-};
+};*/
 
 const konfigurerProxyTilEnhetsregister = () => {
-    server.use(
+    app.use(
         '/kandidater/api/search/enhetsregister/',
         proxy(backendHost(), {
             https: true,
@@ -217,7 +155,7 @@ const konfigurerProxyTilEnhetsregister = () => {
 const konfigurerProxyTilSmsApi = () => {
     const [, , host, path] = miljøvariablerTilNode.SMS_API.split('/');
 
-    server.use(
+    app.use(
         frontendProxyUrls.SMS,
         proxy(host, {
             https: true,
@@ -231,7 +169,7 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     const [, , host, ...pathParts] = miljøvariablerTilNode.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const path = pathParts.join('/');
 
-    server.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
+    app.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
         fjernDobleCookies,
         proxy(host, {
             https: true,
@@ -244,42 +182,34 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     ]);
 };
 
-// Konfigurer server
-const server = express();
-server.use(compression(), browserRegistrator);
-
-const port = process.env.PORT || 8080;
-server.set('port', port);
-
-server.disable('x-powered-by');
-server.use(helmet());
+const setupProxy = (fraPath, tilTarget) =>
+    createProxyMiddleware(fraPath, {
+        target: tilTarget,
+        changeOrigin: true,
+        secure: true,
+        pathRewrite: (path) => path.replace(fraPath, ''),
+    });
 
 const startServer = () => {
     writeEnvironmentVariablesToFile();
 
-    server.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) =>
-        res.sendStatus(200)
-    );
-    server.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) =>
-        res.sendStatus(200)
-    );
+    app.use(setupProxy(`${basePath}/rest`, KANDIDAT_KANDIDATSOK_API));
 
-    konfigurerProxyTilPamKandidatsøkApi();
     konfigurerProxyTilEnhetsregister();
     konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
-    const build = path.resolve(__dirname, '../dist');
+    app.use(`${basePath}/static`, express.static(buildPath + '/static'));
+    app.use(`${basePath}/asset-manifest.json`, express.static(`${buildPath}/asset-manifest.json`));
 
-    server.use('/kandidater/js', express.static(`${build}/js`));
-    server.use('/kandidater/css', express.static(`${build}/css`));
-    server.get(['/kandidater', '/kandidater/*'], tokenValidator, (req, res) => {
-        res.sendFile(`${build}/index.html`);
-    });
+    app.get(`${basePath}/internal/isAlive`, (req, res) => res.sendStatus(200));
+    app.get(`${basePath}/internal/isReady`, (req, res) => res.sendStatus(200));
 
-    server.listen(port, () => {
-        console.log(`Express-server startet. Server filer fra ./dist/ til localhost:${port}/`);
-        console.log(`Versjon: ${process.env.APP_VERSION}`);
+    app.get('/rekrutteringsbistand-kandidat/internal/isAlive', (req, res) => res.sendStatus(200));
+    app.get('/rekrutteringsbistand-kandidat/internal/isReady', (req, res) => res.sendStatus(200));
+
+    app.listen(port, () => {
+        console.log('Server kjører på port', port);
     });
 };
 
