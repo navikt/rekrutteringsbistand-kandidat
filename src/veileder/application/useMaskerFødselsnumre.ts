@@ -7,7 +7,8 @@ const erstatningstegn = '*';
 
 const useMaskerFødselsnumre = () => {
     const maskerFødselsnumre = useSelector(
-        (state: AppState) => state.søk.featureToggles['masker-fødselsnumre']
+        (state: AppState) =>
+            state.søk.featureToggles['rekrutteringsbistand-kandidat.masker-fødselsnumre']
     );
 
     useLayoutEffect(() => {
