@@ -214,33 +214,10 @@ export const harUrlParametere = (url: string): boolean => {
     return Object.keys(query).length > 0;
 };
 
-const mapTilTilretteleggingsbehov = (tagsFraStilling: string[]) => {
-    const tilretteleggingsmuligheterTilBehov = {
-        INKLUDERING__ARBEIDSTID: 'arbeidstid',
-        INKLUDERING__FYSISK: 'fysisk',
-        INKLUDERING__ARBEIDSMILJØ: 'arbeidshverdagen',
-        INKLUDERING__GRUNNLEGGENDE: 'utfordringerMedNorsk',
-    };
-
-    return tagsFraStilling
-        .filter((t) => Object.keys(tilretteleggingsmuligheterTilBehov).includes(t))
-        .map((t) => tilretteleggingsmuligheterTilBehov[t]);
-};
-
 export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
-    // TODO: Fjern utkommentering når vi ønsker å filtrere kandidater basert på mulighetene til stillingen
-    /*
-        const stillingHarTilretteleggingsmuligheter = stilling.tag.includes('INKLUDERING');
-        const tilretteleggingsbehov = stillingHarTilretteleggingsmuligheter
-            ? mapTilTilretteleggingsbehov(stilling.tag)
-            : undefined;
-    */
-
     return {
         stillinger: stilling.stilling,
         geografiList: stilling.kommune,
         harHentetStilling: true,
-        // tilretteleggingsbehov: stillingHarTilretteleggingsmuligheter,
-        // kategorier: tilretteleggingsbehov,
     };
 };
