@@ -1,11 +1,19 @@
 import { useLayoutEffect } from 'react';
 import { fnr } from '@navikt/fnrvalidator';
+import { useSelector } from 'react-redux';
+import AppState from '../AppState';
 
 const erstatningstegn = '*';
 
 const useMaskerFødselsnumre = () => {
+    const maskerFødselsnumre = useSelector(
+        (state: AppState) => state.søk.featureToggles['masker-fødselsnumre']
+    );
+
     useLayoutEffect(() => {
-        maskerAlleFødselsnumre(document.getElementById('app'));
+        if (maskerFødselsnumre) {
+            maskerAlleFødselsnumre(document.getElementById('app'));
+        }
     });
 };
 
