@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
+import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
 import VisKandidat from './VisKandidat';
 import VisKandidatFraLister from './VisKandidatFraLister';
 
