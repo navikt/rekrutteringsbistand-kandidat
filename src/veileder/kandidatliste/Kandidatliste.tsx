@@ -30,6 +30,7 @@ import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import { Sorteringsalgoritme, Sorteringsvariant, sorteringsalgoritmer } from './kandidatsortering';
 import '../../felles/common/ikoner/ikoner.less';
+import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -66,6 +67,8 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
+
+    useMaskerFødselsnumre();
 
     const [sortering, setSortering] = useState<Kandidatsortering>(null);
 

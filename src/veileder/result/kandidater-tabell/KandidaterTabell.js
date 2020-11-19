@@ -6,6 +6,7 @@ import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import cvPropTypes from '../../../felles/PropTypes';
 import './KandidaterTabell.less';
+import useMaskerFødselsnumre from '../../application/useMaskerFødselsnumre';
 
 export default function KandidaterTabell({
     antallResultater,
@@ -20,6 +21,8 @@ export default function KandidaterTabell({
     kandidatlisteId,
     stillingsId,
 }) {
+    useMaskerFødselsnumre();
+
     return (
         <div className="kandidater-tabell">
             <KandidaterTableHeader

@@ -37,7 +37,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ikke-bruk-muligheter-fra-stilling-i-filter'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/masker-fodselsnumre-toggle'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

@@ -1,4 +1,4 @@
-const FEATURE_TOGGLES = [];
+const FEATURE_TOGGLES = ['masker-fnr'];
 
 export default FEATURE_TOGGLES;
 
