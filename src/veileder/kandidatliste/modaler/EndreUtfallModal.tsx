@@ -46,8 +46,11 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
 
     const onClickEndreUtfall = () => {
         const utfalletErEndret = nyttUtfall !== utfall;
+
         if (utfalletErEndret) {
             onBekreft(nyttUtfall);
+        } else {
+            onLukk();
         }
     };
 
