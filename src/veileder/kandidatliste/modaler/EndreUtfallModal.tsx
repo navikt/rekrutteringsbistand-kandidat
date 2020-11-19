@@ -44,6 +44,16 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
 
     const navn = `${fornavn || ''} ${etternavn || ''}`;
 
+    const onClickEndreUtfall = () => {
+        const utfalletErEndret = nyttUtfall !== utfall;
+
+        if (utfalletErEndret) {
+            onBekreft(nyttUtfall);
+        } else {
+            onLukk();
+        }
+    };
+
     return (
         <NavFrontendModal
             closeButton
@@ -107,12 +117,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 </AlertStripeAdvarsel>
             )}
             <div className="endreUtfallModal__knapper">
-                <Hovedknapp
-                    onClick={() => {
-                        onBekreft(nyttUtfall);
-                    }}
-                    className="endreUtfallModal__bekreftknapp"
-                >
+                <Hovedknapp onClick={onClickEndreUtfall} className="endreUtfallModal__bekreftknapp">
                     Endre utfall
                 </Hovedknapp>
                 <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>
