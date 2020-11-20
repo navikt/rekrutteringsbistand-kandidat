@@ -11,8 +11,6 @@ import { Kandidat } from '../kandidatlistetyper';
 import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';
 import './KopierEpostModal.less';
 
-NavFrontendModal.setAppElement('#app');
-
 interface Props {
     vis?: boolean;
     onClose: () => void;

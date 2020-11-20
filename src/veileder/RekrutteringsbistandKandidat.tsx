@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {
@@ -36,19 +35,13 @@ class RekrutteringsbistandKandidat extends React.Component<RekrutteringsbistandK
 
         if (error) {
             return (
-                <BrowserRouter>
-                    <div>
-                        <ErrorSide error={error} fjernError={fjernError} />
-                    </div>
-                </BrowserRouter>
+                <div>
+                    <ErrorSide error={error} fjernError={fjernError} />
+                </div>
             );
         }
 
-        return (
-            <BrowserRouter>
-                <Application />
-            </BrowserRouter>
-        );
+        return <Application />;
     }
 }
 

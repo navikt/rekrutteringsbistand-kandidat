@@ -36,6 +36,4 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({
     </NavFrontendModal>
 );
 
-NavFrontendModal.setAppElement('#app');
-
 export default SlettKandidatlisteModal;

@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { cssScopeForApp } from '../index';
 import './Utviklingsapp.less';
@@ -20,16 +21,18 @@ const Utviklingsapp: FunctionComponent = () => {
     return (
         <div className={cssScopeForApp}>
             <header className="utviklingsapp">
-                <Systemtittel>Utviklingsapp for rekrutteringsbistand-stilling</Systemtittel>
+                <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
                 <div className="lenke">
-                    <a href="http://localhost:3002/stillinger/">stilling</a>
+                    <a href="http://localhost:3003/kandidater/kandidat/">kandidatsøk</a>
                 </div>
                 <div className="lenke">
-                    <a href="http://localhost:3002/stillinger/minestillinger">mine stillinger</a>
+                    <a href="http://localhost:3003/kandidater/lister">kandidatliste</a>
                 </div>
             </header>
             <main>
-                <Main />
+                <BrowserRouter>
+                    <Main />
+                </BrowserRouter>
             </main>
         </div>
     );

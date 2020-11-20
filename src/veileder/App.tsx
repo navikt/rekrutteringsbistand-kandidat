@@ -1,9 +1,9 @@
 import React from 'react';
+import Modal from 'react-modal';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-
 import { alderReducer } from './sok/alder/alderReducer';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 import { searchReducer } from './sok/typedSearchReducer';
@@ -93,6 +93,11 @@ sagaMiddleware.run(historikkSaga);
 sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
+
+const appElement = document.getElementById('rekrutteringsbistand-container');
+if (appElement) {
+    Modal.setAppElement(appElement);
+}
 
 export const Main = () => {
     useSyncHistorikkMedContainer();
