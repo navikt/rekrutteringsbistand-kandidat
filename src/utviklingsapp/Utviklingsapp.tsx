@@ -23,7 +23,7 @@ const Utviklingsapp: FunctionComponent = () => {
             <header className="utviklingsapp">
                 <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
                 <div className="lenke">
-                    <a href="http://localhost:3003/kandidater/kandidat/">kandidatsøk</a>
+                    <a href="http://localhost:3003/kandidater/">kandidatsøk</a>
                 </div>
                 <div className="lenke">
                     <a href="http://localhost:3003/kandidater/lister">kandidatliste</a>

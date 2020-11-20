@@ -9,9 +9,7 @@ import {
 } from './sok/searchReducer';
 import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
-import Dekoratør from './dekoratør/Dekoratør';
 import ErrorSide from './sok/error/ErrorSide';
-import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import AppState from './AppState';
 
 type RekrutteringsbistandKandidatProps = {

@@ -16,7 +16,6 @@ import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenSti
 import Kandidatside from '../kandidatside/Kandidatside';
 import KandidatsøkFraKandidatliste from '../result/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../result/KandidatsøkFraStilling';
-import Navigeringsmeny from '../navigeringsmeny/Navigeringsmeny';
 import NotFound from '../sok/error/NotFound';
 import useLoggNavigering from './useLoggNavigering';
 import './Application.less';
@@ -52,7 +51,6 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                 <main className="Application__main">
                     <Dekoratør />
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
-                    <Navigeringsmeny />
                     <Switch>
                         <Route
                             exact
