@@ -6,6 +6,8 @@ import { createBrowserHistory } from 'history';
 import './Utviklingsapp.less';
 import { Main } from '../veileder/App';
 
+const history = createBrowserHistory();
+
 const Utviklingsapp: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
