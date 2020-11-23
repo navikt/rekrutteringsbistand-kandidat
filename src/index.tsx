@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import { Main } from './veileder/App';
 import eksporterApp from './eksporterApp';
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
@@ -13,9 +12,7 @@ export const cssScopeForApp = 'rek-kandidat';
 
 const AppMedCssScope: FunctionComponent = (props: any) => (
     <div className={cssScopeForApp}>
-        <BrowserRouter>
-            <Main {...props} />
-        </BrowserRouter>
+        <Main {...props} />
     </div>
 );
 

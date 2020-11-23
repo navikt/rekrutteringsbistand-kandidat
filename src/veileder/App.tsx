@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
 import Modal from 'react-modal';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -41,7 +42,6 @@ import './sok/sok.less';
 import * as Sentry from '@sentry/react';
 import { getMiljø } from '../felles/common/miljøUtils';
 import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
-import { useSyncHistorikkMedContainer } from '../useSyncHistorikkMedContainer';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
@@ -99,12 +99,13 @@ if (appElement) {
     Modal.setAppElement(appElement);
 }
 
-export const Main = () => {
-    useSyncHistorikkMedContainer();
+export const Main = ({ history }) => {
     return (
         <Sentry.ErrorBoundary>
             <Provider store={store}>
-                <RekrutteringsbistandKandidat />
+                <Router history={history}>
+                    <RekrutteringsbistandKandidat />
+                </Router>
             </Provider>
         </Sentry.ErrorBoundary>
     );

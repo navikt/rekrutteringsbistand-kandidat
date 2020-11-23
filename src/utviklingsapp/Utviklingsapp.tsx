@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { cssScopeForApp } from '../index';
+import { createBrowserHistory } from 'history';
 import './Utviklingsapp.less';
 import { Main } from '../veileder/App';
 
@@ -31,7 +32,7 @@ const Utviklingsapp: FunctionComponent = () => {
             </header>
             <main>
                 <BrowserRouter>
-                    <Main />
+                    <Main history={history} />
                 </BrowserRouter>
             </main>
         </div>
