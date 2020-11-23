@@ -10,8 +10,6 @@ const port = process.env.PORT || 8080;
 const basePath = '/rekrutteringsbistand-kandidat';
 const buildPath = path.join(__dirname, 'build');
 
-const isProd = process.env.NODE_ENV !== 'development';
-
 const miljøvariablerTilFrontend = {
     LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
     LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
@@ -114,19 +112,6 @@ const fjernDobleCookies = (req, res, next) => {
     req.headers.cookie = lagCookieStringUtenDobleCookies(req.headers.cookie);
     next();
 };
-
-/*const konfigurerProxyTilPamKandidatsøkApi = () => {
-    app.use(
-        '/kandidater/rest/',
-        proxy('http://rekrutteringsbistand-kandidat-api', {
-            proxyReqPathResolver: (req) =>
-                req.originalUrl.replace(
-                    new RegExp('kandidater'),
-                    'rekrutteringsbistand-kandidat-api'
-                ),
-        })
-    );
-};*/
 
 const konfigurerProxyTilEnhetsregister = () => {
     app.use(
