@@ -10,9 +10,6 @@ import sms from './json/sms.json';
 
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
-import aktivEnhet from './json/dekoratør/aktivenhet.json';
-import aktivBruker from './json/dekoratør/aktivbruker.json';
-
 import cver from './data/cv.mock';
 import {
     kandidatliste,
@@ -23,10 +20,8 @@ import {
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
-import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
-import { FormidlingAvUsynligKandidat } from '../kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
@@ -72,7 +67,6 @@ const url = {
     modiaContext: `/modiacontextholder/api/context`,
     modiaAktivEnhet: `/modiacontextholder/api/context/aktivenhet`,
     modiaAktivBruker: `/modiacontextholder/api/context/aktivbruker`,
-    modiaDecorator: `/modiacontextholder/api/decorator`,
 };
 
 const getCv = (url: string) => {
@@ -332,7 +326,4 @@ fetchMock
 
     // Misc
     .get(url.toggles, log(featureToggles))
-    .get(url.modiaAktivEnhet, log(aktivEnhet))
-    .get(url.modiaAktivBruker, log(aktivBruker))
-    .get(url.modiaDecorator, log(dekoratør))
     .post(url.modiaContext, log(201));

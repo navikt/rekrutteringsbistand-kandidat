@@ -8,7 +8,6 @@ import { getMiljø, Miljø } from '../../felles/common/miljøUtils';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';
-import Dekoratør from '../dekoratør/Dekoratør';
 import Historikkside from '../kandidatside/historikk/Historikkside';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
@@ -49,7 +48,6 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
                 className={`Application${brukGråBakgrunn ? ' Application--grå' : ''}`}
             >
                 <main className="Application__main">
-                    <Dekoratør />
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
                         <Route
