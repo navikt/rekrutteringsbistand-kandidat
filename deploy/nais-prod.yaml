@@ -38,7 +38,7 @@ spec:
           - https://rekrutteringsbistand.nais.adeo.no/rekrutteringsbistand-kandidat
       env:
         - name: KANDIDATSOK_API
-          value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no
+          value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no/rest
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
         - name: LOGINSERVICE_VEILEDER_URL
