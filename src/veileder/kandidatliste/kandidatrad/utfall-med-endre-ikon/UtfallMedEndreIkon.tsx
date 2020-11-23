@@ -30,6 +30,7 @@ const UtfallMedEndreIkon: FunctionComponent<Props> = ({
                 <Lenkeknapp
                     className={`utfall-med-endre-ikon${className ? ' ' + className : ''}`}
                     onClick={onClick}
+                    tittel={'Endre utfall'}
                 >
                     {utfall === Utfall.FåttJobben ? (
                         <i className="utfall-med-endre-ikon__hengelås" />
