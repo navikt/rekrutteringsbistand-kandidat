@@ -3,7 +3,6 @@ import { Kandidatlistestatus, Kandidatstatus } from './kandidatliste/kandidatlis
 
 import {
     SEARCH_API,
-    KANDIDATSOK_API,
     KANDIDATLISTE_API,
     KODEVERK_API,
     PAM_SEARCH_API_GATEWAY_URL,
@@ -29,6 +28,8 @@ import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/
 if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
 }
+
+const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/rest';
 
 const convertToUrlParams = (query) =>
     Object.keys(query)
