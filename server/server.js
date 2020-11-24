@@ -173,7 +173,11 @@ const setupProxy = (fraPath, tilTarget) =>
         target: tilTarget,
         changeOrigin: true,
         secure: true,
-        pathRewrite: (path) => path.replace(fraPath, ''),
+        pathRewrite: (path) => {
+            console.warn(`~> Proxy fra '${fraPath}' til '${tilTarget}'`);
+
+            return path.replace(fraPath, '');
+        },
     });
 
 const startServer = () => {
