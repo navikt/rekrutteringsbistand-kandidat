@@ -179,7 +179,7 @@ const setupProxy = (fraPath, tilTarget) =>
 const startServer = () => {
     writeEnvironmentVariablesToFile();
 
-    app.use(setupProxy(`${basePath}/rest`, process.env.KANDIDATSOK_API_URL));
+    app.use(setupProxy(`${basePath}/rest`, process.env.KANDIDATSOK_API_URL + '/kandidater'));
 
     konfigurerProxyTilEnhetsregister();
     konfigurerProxyTilSmsApi();
