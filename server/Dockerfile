@@ -2,8 +2,8 @@ FROM navikt/node-express:12.2.0-alpine
 
 WORKDIR /usr/src/app
 
-COPY server/ server/
 COPY build/ build/
+COPY server/ ./
 
 WORKDIR /usr/src/app/server
 RUN npm ci
