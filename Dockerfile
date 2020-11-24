@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 COPY build/ build/
 COPY server/ ./
 
-WORKDIR /usr/src/app/server
 RUN npm ci
 
 EXPOSE 8080
