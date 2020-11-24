@@ -37,7 +37,7 @@ spec:
     ingresses:
       - https://rekrutteringsbistand.nais.preprod.local/rekrutteringsbistand-kandidat
     env:
-      - name: KANDIDATSOK_API
+      - name: KANDIDATSOK_API_URL
         value: https://rekrutteringsbistand-kandidat-api.nais.preprod.local/rest
       - name: NODE_EXTRA_CA_CERTS
         value: /etc/ssl/ca-bundle.pem

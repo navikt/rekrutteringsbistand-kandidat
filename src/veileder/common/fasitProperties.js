@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 export const KANDIDATSOK_API =
-    window.KANDIDAT_KANDIDATSOK_API || process.env.REACT_APP_KANDIDATSOK_API;
+    window.KANDIDAT_KANDIDATSOK_API_URL || process.env.REACT_APP_KANDIDATSOK_API_URL;
 export const SEARCH_API = `${KANDIDATSOK_API}/veileder/kandidatsok`;
 export const KANDIDATLISTE_API = `${KANDIDATSOK_API}/veileder`;
 export const KODEVERK_API = `${KANDIDATSOK_API}/kodeverk`;
