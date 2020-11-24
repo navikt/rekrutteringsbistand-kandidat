@@ -175,7 +175,7 @@ const setupProxy = (fraPath, tilTarget) =>
         secure: true,
         pathRewrite: (path) => {
             const nyPath = path.replace(fraPath, '');
-            console.warn(`~> Proxy fra '${fraPath + path}' til '${nyPath}'`);
+            console.warn(`~> Proxy fra '${path}' til '${tilTarget + nyPath}'`);
 
             return nyPath;
         },
