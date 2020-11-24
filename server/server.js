@@ -174,9 +174,10 @@ const setupProxy = (fraPath, tilTarget) =>
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => {
-            console.warn(`~> Proxy fra '${fraPath}' til '${tilTarget}'`);
+            const nyPath = path.replace(fraPath, '');
+            console.warn(`~> Proxy fra '${fraPath + path}' til '${nyPath}'`);
 
-            return path.replace(fraPath, '');
+            return nyPath;
         },
     });
 
