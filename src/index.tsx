@@ -4,7 +4,7 @@ import { AppProps, Main } from './veileder/App';
 import eksporterApp from './eksporterApp';
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 
-const skalEksporteres = process.env.REACT_APP_EXPORT || process.env.NODE_ENV === 'production';
+const skalEksporteres = process.env.REACT_APP_EXPORT;
 
 // Alle klassenavn blir prefikset med ".rek-kandidat" i craco-configen, så også koden
 // som brukes under utvikling må wrappes i et element med dette klassenavnet.

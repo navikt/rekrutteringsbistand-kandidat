@@ -24,7 +24,3 @@ spec:
           value: '#'
         - name: ARBEIDSRETTET_OPPFOLGING_URL
           value: '#'
-        -name: REACT_APP_EXPORT
-          value: false
-        -name: REACT_APP_MOCK
-          value: true
