@@ -3,7 +3,7 @@ const path = require('path');
 
 const server = express();
 
-const prefix = `/rekrutteringsbistand-kandidat`;
+const prefix = ``;
 
 const startServer = () => {
     server.get(`${prefix}/internal/isAlive`, (_, res) => res.sendStatus(200));
