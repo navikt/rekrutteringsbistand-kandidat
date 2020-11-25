@@ -8,13 +8,13 @@ env:
 jobs:
     bygg-og-push-docker-image:
         name: Bygg og push
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/bedre-mocking-for-labs'
+        if: github.ref == 'refs/heads/labs'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
               with:
-                  node-version: 10
+                  node-version: 15
             - uses: actions/cache@v1
               with:
                   path: ~/.npm
