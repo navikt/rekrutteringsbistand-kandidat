@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-    name: rekrutteringsbistand-kandidat
+    name: rekrutteringsbistand-kandidat-labs
     namespace: arbeidsgiver
     labels:
         team: arbeidsgiver
@@ -16,7 +16,7 @@ spec:
         path: /rekrutteringsbistand/internal/isReady
         initialDelay: 5
     ingresses:
-        - https://arbeidsgiver.labs.nais.io/rekrutteringsbistand
+        - https://rekrutteringsbistand.labs.nais.io/rekrutteringsbistand-kandidat
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
@@ -24,3 +24,7 @@ spec:
           value: '#'
         - name: ARBEIDSRETTET_OPPFOLGING_URL
           value: '#'
+        -name: REACT_APP_EXPORT
+          value: false
+        -name: REACT_APP_MOCK
+          value: true
