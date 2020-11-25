@@ -2,10 +2,8 @@ FROM navikt/node-express:14-alpine
 
 WORKDIR /usr/src/app
 
-COPY server-labs/ server/
 COPY build/ build/
-
-WORKDIR /usr/src/app/server
+COPY server-labs/ ./
 
 EXPOSE 8080
 
