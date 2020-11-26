@@ -94,7 +94,9 @@ sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
 
-const appElement = document.getElementById('rekrutteringsbistand-container');
+const appElement =
+    document.getElementById('rekrutteringsbistand-container') ||
+    document.getElementById('utviklingsapp');
 if (appElement) {
     Modal.setAppElement(appElement);
 }
