@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Element } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
-import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel.tsx';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Navkontor.less';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'nav-frontend-skjema';
-import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel.tsx';
 import { ALERTTYPE } from '../../konstanter';
 import AlertStripeInfo from '../../common/AlertStripeInfo';
 import './Hovedmal.less';

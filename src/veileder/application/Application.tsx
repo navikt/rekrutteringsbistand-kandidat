@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
@@ -19,34 +19,12 @@ import NotFound from '../sok/error/NotFound';
 import useLoggNavigering from './useLoggNavigering';
 import './Application.less';
 
-const skjermerMedGråBakgrunn = [
-    `${appPrefiks}/kandidater/lister/stilling/`,
-    `${appPrefiks}/kandidater/lister/detaljer/`,
-    `${appPrefiks}/kandidater/cv`,
-    `${appPrefiks}/kandidater/kandidat/`,
-    `${appPrefiks}/kandidater/lister`,
-];
-
-const skalBrukeGråBakgrunn = (url: string) =>
-    skjermerMedGråBakgrunn.some((urlMedGråBakgrunn) => url.includes(urlMedGråBakgrunn));
-
 const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
     useLoggNavigering();
 
-    const [brukGråBakgrunn, setBrukGråBakgrunn] = useState<boolean>(
-        skalBrukeGråBakgrunn(location.pathname)
-    );
-
-    useEffect(() => {
-        setBrukGråBakgrunn(skalBrukeGråBakgrunn(location.pathname));
-    }, [location.pathname]);
-
     return (
         <>
-            <Normaltekst
-                tag="div"
-                className={`Application${brukGråBakgrunn ? ' Application--grå' : ''}`}
-            >
+            <Normaltekst tag="div" className="Application">
                 <main className="Application__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
