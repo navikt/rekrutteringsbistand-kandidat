@@ -35,7 +35,6 @@ const frontendProxyUrls = {
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.KANDIDAT_KANDIDATSOK_API_URL="${process.env.KANDIDATSOK_API_URL}";\n` +
         `window.KANDIDAT_PAM_SEARCH_API_GATEWAY_URL="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
         `window.KANDIDAT_SMS_PROXY="${frontendProxyUrls.SMS}";\n` +
         `window.KANDIDAT_MIDLERTIDIG_UTILGJENGELIG_PROXY="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +

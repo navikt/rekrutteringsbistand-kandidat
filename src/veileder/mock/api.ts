@@ -23,8 +23,9 @@ import søk from './data/søk.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { KANDIDATSOK_API } from '../api';
 
-const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
+const api = `express:${KANDIDATSOK_API}`;
 
 const url = {
     // Kandidatsøket
@@ -70,8 +71,8 @@ const url = {
 };
 
 const getCv = (url: string) => {
-    const urlObject = new URL(url);
-    const kandidatnr = urlObject.searchParams.get('kandidatnr');
+    const queryParams = url.split('?').pop();
+    const kandidatnr = new URLSearchParams(queryParams).get('kandidatnr');
 
     if (kandidatnr) {
         return cver.find((cv) => cv.kandidatnummer === kandidatnr);
@@ -83,7 +84,8 @@ const getCv = (url: string) => {
 const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
 const getKandidatlister = (url: string) => {
-    const params = new URLSearchParams(url);
+    const queryParams = url.split('?').pop();
+    const params = new URLSearchParams(queryParams);
     const stillingsfilter = params.get('type');
     const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
 
