@@ -65,9 +65,6 @@ const url = {
 
     // Misc
     toggles: `${api}/veileder/kandidatsok/toggles`,
-    modiaContext: `/modiacontextholder/api/context`,
-    modiaAktivEnhet: `/modiacontextholder/api/context/aktivenhet`,
-    modiaAktivBruker: `/modiacontextholder/api/context/aktivbruker`,
 };
 
 const getCv = (url: string) => {
@@ -327,5 +324,4 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
 
     // Misc
-    .get(url.toggles, log(featureToggles))
-    .post(url.modiaContext, log(201));
+    .get(url.toggles, log(featureToggles));
