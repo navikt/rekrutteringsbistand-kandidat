@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import ModalMedKandidatScope from '../../ModalMedKandidatScope';
 
 const LagreKandidaterTilStillingModal = (props) => {
     const {
@@ -30,7 +30,7 @@ const LagreKandidaterTilStillingModal = (props) => {
     };
 
     return (
-        <Modal
+        <ModalMedKandidatScope
             isOpen={vis}
             onRequestClose={onRequestClose}
             contentLabel="LagreKandidaterModal."
@@ -60,7 +60,7 @@ const LagreKandidaterTilStillingModal = (props) => {
                     </Flatknapp>
                 </div>
             </div>
-        </Modal>
+        </ModalMedKandidatScope>
     );
 };
 

@@ -5,13 +5,13 @@ import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import { Systemtittel, Ingress, Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import Modal from 'nav-frontend-modal';
 
 import { KandidatIKandidatliste, SmsStatus } from '../kandidatlistetyper';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
-import './SendSmsModal.less';
 import AppState from '../../AppState';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
+import './SendSmsModal.less';
 
 type OwnProps = {
     vis: boolean;
@@ -85,7 +85,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
     };
 
     return (
-        <Modal
+        <ModalMedKandidatScope
             isOpen={vis}
             className="send-sms-modal"
             onRequestClose={onClose}
@@ -158,7 +158,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                     <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
                 </div>
             </div>
-        </Modal>
+        </ModalMedKandidatScope>
     );
 };
 

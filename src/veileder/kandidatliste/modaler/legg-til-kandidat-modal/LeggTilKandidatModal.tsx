@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
-import NavFrontendModal from 'nav-frontend-modal';
 import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';

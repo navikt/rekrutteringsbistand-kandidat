@@ -22,7 +22,7 @@ import { Utfall } from './kandidatliste/kandidatrad/utfall-med-endre-ikon/Utfall
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
-export const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/api';
+export const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/kandidat-api';
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
