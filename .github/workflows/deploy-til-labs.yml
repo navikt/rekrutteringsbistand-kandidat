@@ -8,7 +8,7 @@ env:
 jobs:
     bygg-og-push-docker-image:
         name: Bygg og push
-        if: github.ref == 'refs/heads/labs'
+        if: github.ref == 'refs/heads/eksporter-app-labs'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
