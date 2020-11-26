@@ -9,12 +9,12 @@ const startServer = () => {
     server.get(`${prefix}/internal/isAlive`, (_, res) => res.sendStatus(200));
     server.get(`${prefix}/internal/isReady`, (_, res) => res.sendStatus(200));
 
-    const build = path.resolve(__dirname, '../build');
+    const buildPath = path.join(__dirname, 'build');
 
-    server.use(`${prefix}/kandidater/js`, express.static(`${build}/static/js`));
-    server.use(`${prefix}/kandidater/css`, express.static(`${build}/static/css`));
+    server.use(`${prefix}/kandidater/js`, express.static(`${buildPath}/static/js`));
+    server.use(`${prefix}/kandidater/css`, express.static(`${buildPath}/static/css`));
     server.get([`${prefix}/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
-        res.sendFile(`${build}/index.html`);
+        res.sendFile(`${buildPath}/index.html`);
     });
 
     server.listen(8080, () => {
