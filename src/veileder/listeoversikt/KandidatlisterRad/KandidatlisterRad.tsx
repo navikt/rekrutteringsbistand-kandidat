@@ -11,7 +11,6 @@ import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import './KandidatlisterRad.less';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
 import {
-    appPrefiks,
     lenkeTilFinnKandidaterMedStilling,
     lenkeTilFinnKandidaterUtenStilling,
     lenkeTilKandidatliste,
@@ -62,9 +61,9 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
     };
 
     const lenkeTilStillingElement = (stillingId: string) => (
-        <a href={lenkeTilStilling(stillingId, true)} className="edit-lenke">
+        <Link to={lenkeTilStilling(stillingId, true)} className="edit-lenke">
             <span className="Edit__icon" />
-        </a>
+        </Link>
     );
 
     const lenkeknappTilEndreUtenStilling = (
