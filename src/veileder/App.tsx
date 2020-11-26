@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Router } from 'react-router-dom';
 import Modal from 'react-modal';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -9,6 +9,7 @@ import { alderReducer } from './sok/alder/alderReducer';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { saga } from './sok/searchReducer';
+import { History } from 'history';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
@@ -101,12 +102,17 @@ if (appElement) {
     Modal.setAppElement(appElement);
 }
 
-export const Main = ({ history }) => {
+export type AppProps = {
+    history: History;
+    navKontor: string | null;
+};
+
+export const Main: FunctionComponent<AppProps> = ({ history, navKontor }) => {
     return (
         <Sentry.ErrorBoundary>
             <Provider store={store}>
                 <Router history={history}>
-                    <RekrutteringsbistandKandidat />
+                    <RekrutteringsbistandKandidat navKontor={navKontor} />
                 </Router>
             </Provider>
         </Sentry.ErrorBoundary>

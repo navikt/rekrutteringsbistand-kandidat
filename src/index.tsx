@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { Main } from './veileder/App';
+import { AppProps, Main } from './veileder/App';
 import eksporterApp from './eksporterApp';
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 
@@ -10,7 +10,7 @@ const skalEksporteres = process.env.REACT_APP_EXPORT || process.env.NODE_ENV ===
 // som brukes under utvikling må wrappes i et element med dette klassenavnet.
 export const cssScopeForApp = 'rek-kandidat';
 
-const AppMedCssScope: FunctionComponent = (props: any) => (
+const AppMedCssScope: FunctionComponent<AppProps> = (props) => (
     <div className={cssScopeForApp}>
         <Main {...props} />
     </div>

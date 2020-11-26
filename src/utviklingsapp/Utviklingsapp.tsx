@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { Link, Router } from 'react-router-dom';
 
@@ -8,6 +8,18 @@ import history from './history';
 import './Utviklingsapp.less';
 
 const Utviklingsapp: FunctionComponent = () => {
+    const [navKontor, setNavKontor] = useState<string | null>(null);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setNavKontor('0239');
+        }, 500);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    });
+
     return (
         <div className={cssScopeForApp}>
             <Router history={history}>
@@ -21,7 +33,7 @@ const Utviklingsapp: FunctionComponent = () => {
                     </div>
                 </header>
                 <main>
-                    <Main history={history} />
+                    <Main history={history} navKontor={navKontor} />
                 </main>
             </Router>
         </div>
