@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Notat } from '../../PropTypes';
+import ModalMedKandidatScope from '../../../../ModalMedKandidatScope';
 
 export default class RedigerNotatModal extends React.Component {
     constructor(props) {
@@ -35,7 +35,7 @@ export default class RedigerNotatModal extends React.Component {
         const { onClose } = this.props;
         const { notatTekst, feilmelding } = this.state;
         return (
-            <NavFrontendModal
+            <ModalMedKandidatScope
                 isOpen
                 contentLabel={'Rediger notat'}
                 onRequestClose={onClose}
@@ -60,7 +60,7 @@ export default class RedigerNotatModal extends React.Component {
                         Avbryt
                     </Flatknapp>
                 </div>
-            </NavFrontendModal>
+            </ModalMedKandidatScope>
         );
     }
 }

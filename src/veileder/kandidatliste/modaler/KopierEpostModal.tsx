@@ -3,12 +3,12 @@ import { FunctionComponent, useEffect } from 'react';
 import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import NavFrontendModal from 'nav-frontend-modal';
 
 import { capitalizeFirstLetter } from '../../../felles/sok/utils';
 import { FadingAlertStripeLiten } from '../../../felles/common/HjelpetekstFading';
 import { Kandidat } from '../kandidatlistetyper';
 import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 import './KopierEpostModal.less';
 
 interface Props {
@@ -48,7 +48,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
         );
     };
     return (
-        <NavFrontendModal
+        <ModalMedKandidatScope
             contentLabel="E-postadressene er kopiert"
             onRequestClose={onClose}
             className="KopierEpostModal"
@@ -108,7 +108,7 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
                 </Knapp>
                 <Flatknapp onClick={onClose}>Lukk</Flatknapp>
             </div>
-        </NavFrontendModal>
+        </ModalMedKandidatScope>
     );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import './PresenterKandidaterModal.less';
 import { erGyldigEpost } from '../../../felles/epostValidering';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
+import './PresenterKandidaterModal.less';
 
 const initalState = () => ({
     beskjed: '',
@@ -111,7 +111,7 @@ export default class PresenterKandidaterModal extends React.Component {
     render() {
         const { vis, antallKandidater } = this.props;
         return (
-            <NavFrontendModal
+            <ModalMedKandidatScope
                 contentLabel="modal del kandidater"
                 isOpen={vis}
                 onRequestClose={this.props.onClose}
@@ -173,7 +173,7 @@ export default class PresenterKandidaterModal extends React.Component {
                         </Flatknapp>
                     </div>
                 </div>
-            </NavFrontendModal>
+            </ModalMedKandidatScope>
         );
     }
 }

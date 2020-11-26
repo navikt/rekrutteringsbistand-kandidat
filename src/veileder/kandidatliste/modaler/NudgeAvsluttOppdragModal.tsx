@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import './NudgeAvsluttOppdragModal.less';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 
 interface Props {
     antallKandidaterSomHarFåttJobb: number;
@@ -23,32 +23,34 @@ const NudgeAvsluttOppdragModal: FunctionComponent<Props> = ({
             setKlar(true);
         }, 400);
         return () => {
-            clearTimeout(klarTimeout)
-        }
+            clearTimeout(klarTimeout);
+        };
     }, []);
     return (
-        klar &&
-        <NavFrontendModal
-            closeButton
-            isOpen={true}
-            contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
-            onRequestClose={onAvbryt}
-            className="nudgeAvsluttOppdragModal"
-        >
-            <Systemtittel className="nudgeAvsluttOppdragModal__tittel">
-                Ferdig med oppdraget?
-            </Systemtittel>
-            <div className="nudgeAvsluttOppdragModal__beskrivelse">
-                <Normaltekst>
-                    {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling{antallStillinger === 1 ? '' : 'er'} er besatt
-                </Normaltekst>
-                <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
-            </div>
-            <Hovedknapp onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
-                Ja, Avslutt
-            </Hovedknapp>
-            <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
-        </NavFrontendModal>
+        klar && (
+            <ModalMedKandidatScope
+                closeButton
+                isOpen={true}
+                contentLabel="Foreslå å avslutte oppdraget (lukke kandidatlisten)"
+                onRequestClose={onAvbryt}
+                className="nudgeAvsluttOppdragModal"
+            >
+                <Systemtittel className="nudgeAvsluttOppdragModal__tittel">
+                    Ferdig med oppdraget?
+                </Systemtittel>
+                <div className="nudgeAvsluttOppdragModal__beskrivelse">
+                    <Normaltekst>
+                        {antallKandidaterSomHarFåttJobb} av {antallStillinger} stilling
+                        {antallStillinger === 1 ? '' : 'er'} er besatt
+                    </Normaltekst>
+                    <Normaltekst>Er du ferdig med oppdraget og vil avslutte?</Normaltekst>
+                </div>
+                <Hovedknapp onClick={onBekreft} className="nudgeAvsluttOppdragModal__bekreftknapp">
+                    Ja, Avslutt
+                </Hovedknapp>
+                <Flatknapp onClick={onAvbryt}>Avbryt</Flatknapp>
+            </ModalMedKandidatScope>
+        )
     );
 };
 
