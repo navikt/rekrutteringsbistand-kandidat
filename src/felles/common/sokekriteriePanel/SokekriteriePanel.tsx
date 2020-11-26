@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 
 import { sendEvent } from '../../../veileder/amplitude/amplitude';
 import './SokekriteriePanel.less';
@@ -29,14 +29,14 @@ const SokekriteriePanel: FunctionComponent<Props> = ({
     };
 
     return (
-        <Ekspanderbartpanel
+        <EkspanderbartpanelBase
             apen={apen}
             tittel={tittel}
             className="sokekriterie-panel"
             onClick={onClickMedLogging}
         >
             <div id={`${id}-innhold`}>{children}</div>
-        </Ekspanderbartpanel>
+        </EkspanderbartpanelBase>
     );
 };
 
