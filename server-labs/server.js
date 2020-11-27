@@ -3,13 +3,16 @@ const path = require('path');
 
 const server = express();
 
+const basePath = '/rekrutteringsbistand-kandidat';
+
 const startServer = () => {
-    server.get(`/internal/isAlive`, (_, res) => res.sendStatus(200));
-    server.get(`/internal/isReady`, (_, res) => res.sendStatus(200));
+    server.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res) =>
+        res.sendStatus(200)
+    );
 
     const buildPath = path.join(__dirname, 'build');
 
-    server.use(`/rekrutteringsbistand-kandidat/static`, express.static(buildPath + '/static'));
+    server.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     server.get([`/kandidater`, `/kandidater/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
