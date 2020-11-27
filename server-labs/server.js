@@ -11,7 +11,7 @@ const startServer = () => {
 
     server.use(`/rekrutteringsbistand-kandidat/static`, express.static(buildPath + '/static'));
 
-    server.get([`/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
+    server.get([`/kandidater`, `/kandidater/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 
