@@ -9,7 +9,7 @@ const startServer = () => {
 
     const buildPath = path.join(__dirname, 'build');
 
-    app.use(`/rekrutteringsbistand-kandidat/static`, express.static(buildPath + '/static'));
+    server.use(`/rekrutteringsbistand-kandidat/static`, express.static(buildPath + '/static'));
 
     server.get([`/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
