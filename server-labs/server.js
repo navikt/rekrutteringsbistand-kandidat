@@ -11,8 +11,8 @@ const startServer = () => {
 
     const buildPath = path.join(__dirname, 'build');
 
-    server.use(`${prefix}/kandidater/js`, express.static(`${buildPath}/static/js`));
-    server.use(`${prefix}/kandidater/css`, express.static(`${buildPath}/static/css`));
+    server.use(`${prefix}/js`, express.static(`${buildPath}/static/js`));
+    server.use(`${prefix}/css`, express.static(`${buildPath}/static/css`));
     server.get([`${prefix}/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
