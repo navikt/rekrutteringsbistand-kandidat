@@ -129,6 +129,11 @@ const konfigurerProxyTilEnhetsregister = () => {
                     .split('/search/enhetsregister/')
                     .pop()}`;
                 console.log(convertedPath);
+
+                console.log(
+                    `Enhetsproxy videresendte request fra ${req.originalUrl} til ${convertedPath}`
+                );
+
                 return convertedPath;
             },
         })
