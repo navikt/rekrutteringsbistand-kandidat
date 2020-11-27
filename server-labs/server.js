@@ -9,21 +9,15 @@ const startServer = () => {
 
     const buildPath = path.join(__dirname, 'build');
 
-    server.use(
-        `/rekrutteringsbistand-kandidat/static/js`,
-        express.static(`${buildPath}/static/js`)
-    );
-    server.use(
-        `/rekrutteringsbistand-kandidat/static/css`,
-        express.static(`${buildPath}/static/css`)
-    );
+    app.use(`/rekrutteringsbistand-kandidat/static`, express.static(buildPath + '/static'));
+
     server.get([`/kandidater`, `${prefix}/kandidater/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 
     server.listen(8080, () => {
         console.log(`\nServer for mock av Rekrutteringsbistand har startet!`);
-        console.log(`Se "https://rekrutteringsbistand.labs.nais.io${prefix}/kandidater"`);
+        console.log(`Se "https://rekrutteringsbistand.labs.nais.io/kandidater"`);
     });
 };
 
