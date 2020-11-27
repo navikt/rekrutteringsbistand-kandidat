@@ -26,14 +26,14 @@ const miljøvariablerTilNode = {
 };
 
 const frontendProxyUrls = {
-    PAM_SEARCH_API_GATEWAY: '/kandidater/api/search/enhetsregister',
+    ENHETSREGISTER: '/kandidater/api/search/enhetsregister',
     SMS: '/kandidater/api/sms',
     MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.KANDIDAT_PAM_SEARCH_API_GATEWAY_URL="${frontendProxyUrls.PAM_SEARCH_API_GATEWAY}";\n` +
+        `window.KANDIDAT_ENHETSREGISTER_URL="${frontendProxyUrls.ENHETSREGISTER}";\n` +
         `window.KANDIDAT_SMS_PROXY="${frontendProxyUrls.SMS}";\n` +
         `window.KANDIDAT_MIDLERTIDIG_UTILGJENGELIG_PROXY="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
         `window.KANDIDAT_LOGIN_URL="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
