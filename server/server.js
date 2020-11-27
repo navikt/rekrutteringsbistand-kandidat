@@ -26,7 +26,6 @@ const miljøvariablerTilNode = {
 };
 
 const frontendProxyUrls = {
-    PAM_KANDIDATSOK: '/kandidater/rest',
     PAM_SEARCH_API_GATEWAY: '/kandidater/api/search/enhetsregister',
     SMS: '/kandidater/api/sms',
     MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
