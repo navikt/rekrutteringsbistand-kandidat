@@ -11,18 +11,15 @@ const port = process.env.PORT || 8080;
 const basePath = '/rekrutteringsbistand-kandidat';
 const buildPath = path.join(__dirname, 'build');
 
-const miljøvariablerTilFrontend = {
-    LOGIN_URL: process.env.LOGINSERVICE_VEILEDER_URL,
-    LOGOUT_URL: process.env.LOGINSERVICE_LOGOUT_VEILEDER_URL,
-    LAST_NED_CV_URL: process.env.LAST_NED_CV_URL,
-    ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
+const miljøvariablerFraVault = {
+    ENHETSREGISTER_GATEWAY_APIKEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.KANDIDAT_LOGIN_URL="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
-        `window.KANDIDAT_LAST_NED_CV_URL="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
-        `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
+        `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
+        `window.KANDIDAT_LAST_NED_CV_URL="${process.env.LAST_NED_CV_URL}";\n` +
+        `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${process.env.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
     fs.writeFile(path.resolve(__dirname, 'build/static/js/env.js'), fileContent, (err) => {
         if (err) throw err;
@@ -102,7 +99,7 @@ const startServer = () => {
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
     app.use(
         setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API, {
-            'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
+            'x-nav-apiKey': miljøvariablerFraVault.ENHETSREGISTER_GATEWAY_APIKEY,
         })
     );
 
