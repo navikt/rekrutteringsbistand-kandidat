@@ -26,14 +26,12 @@ const miljøvariablerTilNode = {
 };
 
 const frontendProxyUrls = {
-    ENHETSREGISTER: '/kandidater/api/search/enhetsregister',
     SMS: '/kandidater/api/sms',
     MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
 };
 
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.KANDIDAT_ENHETSREGISTER_URL="${frontendProxyUrls.ENHETSREGISTER}";\n` +
         `window.KANDIDAT_SMS_PROXY="${frontendProxyUrls.SMS}";\n` +
         `window.KANDIDAT_MIDLERTIDIG_UTILGJENGELIG_PROXY="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
         `window.KANDIDAT_LOGIN_URL="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
@@ -83,9 +81,11 @@ const fjernDobleCookies = (req, res, next) => {
 
 const konfigurerProxyTilEnhetsregister = () => {
     const [, , host, path] = miljøvariablerTilNode.API_GATEWAY.split('/');
+
     console.warn(`~> Enhetsregister Proxy satt opp, host: ${host} path:${path}`);
+
     app.use(
-        frontendProxyUrls.ENHETSREGISTER,
+        '/kandidater/api/search/enhetsregister',
         proxy(host, {
             https: true,
             proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
@@ -100,6 +100,7 @@ const konfigurerProxyTilEnhetsregister = () => {
                 const originalUrl = request.originalUrl;
                 const nyUrl = originalUrl.replace(new RegExp('kandidater/api'), path);
                 console.warn(`~> Enhetsregister Proxy fra '${originalUrl}' til '${nyUrl}'`);
+
                 return nyUrl;
             },
         })

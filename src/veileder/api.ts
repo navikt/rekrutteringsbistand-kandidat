@@ -1,11 +1,7 @@
 import { Kandidatlistestatus, Kandidatstatus } from './kandidatliste/kandidatlistetyper';
 /* eslint-disable no-underscore-dangle */
 
-import {
-    PAM_SEARCH_API_GATEWAY_URL,
-    MIDLERTIDIG_UTILGJENGELIG_PROXY,
-    SMS_PROXY,
-} from './common/fasitProperties';
+import { MIDLERTIDIG_UTILGJENGELIG_PROXY, SMS_PROXY } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 import { ResponseData } from '../felles/common/remoteData';
 import {
@@ -23,6 +19,7 @@ import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/kandidat-api';
+export const ENHETSREGISTER_API = '/kandidater/api/search/enhetsregister';
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
@@ -291,15 +288,13 @@ export const fetchKandidatlisteMedAnnonsenummer = (annonsenummer) =>
 
 export const fetchArbeidsgivereEnhetsregister = (query) =>
     postJson(
-        `${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search`,
+        `${ENHETSREGISTER_API}/underenhet/_search`,
         JSON.stringify(employerNameCompletionQueryTemplate(query))
     );
 
 export const fetchArbeidsgivereEnhetsregisterOrgnr = (orgnr) => {
     const query = orgnr.replace(/\s/g, '');
-    return fetchJson(
-        `${PAM_SEARCH_API_GATEWAY_URL}/underenhet/_search?q=organisasjonsnummer:${query}*`
-    );
+    return fetchJson(`${ENHETSREGISTER_API}/underenhet/_search?q=organisasjonsnummer:${query}*`);
 };
 
 export const endreEierskapPaKandidatliste = (kandidatlisteId) =>
