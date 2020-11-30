@@ -83,7 +83,6 @@ const fjernDobleCookies = (req, res, next) => {
 
 const konfigurerProxyTilEnhetsregister = () => {
     const [, , host, path] = miljøvariablerTilNode.API_GATEWAY.split('/');
-
     app.use(
         frontendProxyUrls.ENHETSREGISTER,
         proxy(host, {
