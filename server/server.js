@@ -155,9 +155,11 @@ const startServer = () => {
     writeEnvironmentVariablesToFile();
 
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
-    app.use(setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API), {
-        'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
-    });
+    app.use(
+        setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API, {
+            'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
+        })
+    );
 
     //konfigurerProxyTilEnhetsregister();
 
