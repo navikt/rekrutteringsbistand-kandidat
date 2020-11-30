@@ -81,16 +81,26 @@ const fjernDobleCookies = (req, res, next) => {
 
 const konfigurerProxyTilEnhetsregister = () => {
     const [, , host, path] = miljøvariablerTilNode.API_GATEWAY.split('/');
-
     console.warn(`~> Enhetsregister Proxy satt opp, host: ${host} path:${path}`);
 
     app.use(
-        '/kandidater/api/search/enhetsregister',
+        `${basePath}/enhetsregister-api`,
         proxy(host, {
             https: true,
+            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
+                ...proxyReqOpts,
+                cookie: srcReq.headers.cookie,
+                headers: {
+                    ...proxyReqOpts.headers,
+                    'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
+                },
+            }),
             proxyReqPathResolver: (request) => {
                 const originalUrl = request.originalUrl;
-                const nyUrl = originalUrl.replace(new RegExp('kandidater/api'), path);
+                const nyUrl = originalUrl.replace(
+                    new RegExp(`${basePath}/enhetsregister-api`),
+                    path
+                );
                 console.warn(`~> Enhetsregister Proxy fra '${originalUrl}' til '${nyUrl}'`);
 
                 return nyUrl;

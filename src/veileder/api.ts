@@ -19,7 +19,7 @@ import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 export const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/kandidat-api';
-export const ENHETSREGISTER_API = '/kandidater/api/search/enhetsregister';
+export const ENHETSREGISTER_API = '/rekrutteringsbistand-kandidat/enhetsregister-api';
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
