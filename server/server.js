@@ -88,14 +88,6 @@ const konfigurerProxyTilEnhetsregister = () => {
         '/kandidater/api/search/enhetsregister',
         proxy(host, {
             https: true,
-            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
-                ...proxyReqOpts,
-                cookie: srcReq.headers.cookie,
-                headers: {
-                    ...proxyReqOpts.headers,
-                    'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
-                },
-            }),
             proxyReqPathResolver: (request) => {
                 const originalUrl = request.originalUrl;
                 const nyUrl = originalUrl.replace(new RegExp('kandidater/api'), path);
