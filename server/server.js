@@ -20,8 +20,6 @@ const miljøvariablerTilFrontend = {
 
 const miljøvariablerTilNode = {
     SMS_API: process.env.SMS_API,
-    ENHETSREGISTER_API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
-    PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
 };
 
@@ -80,7 +78,7 @@ const fjernDobleCookies = (req, res, next) => {
 };
 
 const konfigurerProxyTilEnhetsregister = () => {
-    const [, , host, path] = miljøvariablerTilNode.API_GATEWAY.split('/');
+    const [, , host, path] = process.env.ENHETSREGISTER_API.split('/');
     console.warn(`~> Enhetsregister Proxy satt opp, host: ${host} path:${path}`);
 
     app.use(
@@ -92,7 +90,7 @@ const konfigurerProxyTilEnhetsregister = () => {
                 cookie: srcReq.headers.cookie,
                 headers: {
                     ...proxyReqOpts.headers,
-                    'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
+                    'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
                 },
             }),
             proxyReqPathResolver: (request) => {
@@ -157,8 +155,8 @@ const startServer = () => {
     writeEnvironmentVariablesToFile();
 
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
-    app.use(setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API_GATEWAY), {
-        'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
+    app.use(setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API), {
+        'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     });
 
     //konfigurerProxyTilEnhetsregister();
