@@ -18,20 +18,8 @@ const miljøvariablerTilFrontend = {
     ARBEIDSRETTET_OPPFOLGING_URL: process.env.ARBEIDSRETTET_OPPFOLGING_URL,
 };
 
-const miljøvariablerTilNode = {
-    SMS_API: process.env.SMS_API,
-    MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
-};
-
-const frontendProxyUrls = {
-    SMS: '/kandidater/api/sms',
-    MIDLERTIDIG_UTILGJENGELIG: '/kandidater/midlertidig-utilgjengelig',
-};
-
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
-        `window.KANDIDAT_SMS_PROXY="${frontendProxyUrls.SMS}";\n` +
-        `window.KANDIDAT_MIDLERTIDIG_UTILGJENGELIG_PROXY="${frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG}";\n` +
         `window.KANDIDAT_LOGIN_URL="${miljøvariablerTilFrontend.LOGIN_URL}";\n` +
         `window.KANDIDAT_LAST_NED_CV_URL="${miljøvariablerTilFrontend.LAST_NED_CV_URL}";\n` +
         `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${miljøvariablerTilFrontend.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
@@ -77,60 +65,17 @@ const fjernDobleCookies = (req, res, next) => {
     next();
 };
 
-const konfigurerProxyTilEnhetsregister = () => {
-    const [, , host, path] = process.env.ENHETSREGISTER_API.split('/');
-    console.warn(`~> Enhetsregister Proxy satt opp, host: ${host} path:${path}`);
-
-    app.use(
-        `${basePath}/enhetsregister-api`,
-        proxy(host, {
-            https: true,
-            proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
-                ...proxyReqOpts,
-                cookie: srcReq.headers.cookie,
-                headers: {
-                    ...proxyReqOpts.headers,
-                    'x-nav-apiKey': process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
-                },
-            }),
-            proxyReqPathResolver: (request) => {
-                const originalUrl = request.originalUrl;
-                const nyUrl = originalUrl.replace(
-                    new RegExp(`${basePath}/enhetsregister-api`),
-                    path
-                );
-                console.warn(`~> Enhetsregister Proxy fra '${originalUrl}' til '${nyUrl}'`);
-
-                return nyUrl;
-            },
-        })
-    );
-};
-
-const konfigurerProxyTilSmsApi = () => {
-    const [, , host, path] = miljøvariablerTilNode.SMS_API.split('/');
-
-    app.use(
-        frontendProxyUrls.SMS,
-        proxy(host, {
-            https: true,
-            proxyReqPathResolver: (request) =>
-                request.originalUrl.replace(new RegExp('kandidater/api'), path),
-        })
-    );
-};
-
 const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
-    const [, , host, ...pathParts] = miljøvariablerTilNode.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
+    const [, , host, ...pathParts] = process.env.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const path = pathParts.join('/');
 
-    app.use(frontendProxyUrls.MIDLERTIDIG_UTILGJENGELIG, [
+    app.use(`${basePath}/midlertidig-utilgjengelig-api`, [
         fjernDobleCookies,
         proxy(host, {
             https: true,
             proxyReqPathResolver: (request) =>
                 request.originalUrl.replace(
-                    new RegExp('kandidater/midlertidig-utilgjengelig'),
+                    new RegExp(`${basePath}/midlertidig-utilgjengelig-api`),
                     path
                 ),
         }),
@@ -161,9 +106,8 @@ const startServer = () => {
         })
     );
 
-    //konfigurerProxyTilEnhetsregister();
+    app.use(setupProxy(`${basePath}/sms-api`, process.env.SMS_API));
 
-    konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));

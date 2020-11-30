@@ -1,7 +1,4 @@
 import { Kandidatlistestatus, Kandidatstatus } from './kandidatliste/kandidatlistetyper';
-/* eslint-disable no-underscore-dangle */
-
-import { MIDLERTIDIG_UTILGJENGELIG_PROXY, SMS_PROXY } from './common/fasitProperties';
 import FEATURE_TOGGLES from './../felles/konstanter';
 import { ResponseData } from '../felles/common/remoteData';
 import {
@@ -18,8 +15,12 @@ import { Utfall } from './kandidatliste/kandidatrad/utfall-med-endre-ikon/Utfall
 import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
-export const KANDIDATSOK_API = '/rekrutteringsbistand-kandidat/kandidat-api';
-export const ENHETSREGISTER_API = '/rekrutteringsbistand-kandidat/enhetsregister-api';
+const baseUrl = `/rekrutteringsbistand-kandidat`;
+
+export const KANDIDATSOK_API = `${baseUrl}/kandidat-api`;
+export const ENHETSREGISTER_API = `${baseUrl}/enhetsregister-api`;
+export const SMS_API = `${baseUrl}/sms-api`;
+export const MIDLERTIDIG_UTILGJENGELIG_API = `${baseUrl}/midlertidig-utilgjengelig-api`;
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock/api.ts');
@@ -219,12 +220,12 @@ export const putArkivert = (kandidatlisteId: string, kandidatNr: string, arkiver
 };
 
 export const fetchMidlertidigUtilgjengelig = (aktørId: string) => {
-    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`, true);
+    return fetchJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`, true);
 };
 
 export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
     return postJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_PROXY}`,
+        `${MIDLERTIDIG_UTILGJENGELIG_API}`,
         JSON.stringify({
             aktørId,
             tilDato,
@@ -234,13 +235,13 @@ export const postMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) 
 
 export const putMidlertidigUtilgjengelig = (aktørId: string, tilDato: string) => {
     return putJson(
-        `${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`,
+        `${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`,
         JSON.stringify({ aktørId, tilDato })
     );
 };
 
 export const deleteMidlertidigUtilgjengelig = (aktørId: string) => {
-    return deleteWithoutJson(`${MIDLERTIDIG_UTILGJENGELIG_PROXY}/${aktørId}`);
+    return deleteWithoutJson(`${MIDLERTIDIG_UTILGJENGELIG_API}/${aktørId}`);
 };
 
 export const putArkivertForFlereKandidater = (
@@ -307,11 +308,11 @@ export async function deleteKandidatliste(kandidatlisteId: string): Promise<Resp
 }
 
 export const fetchSendteMeldinger = (kandidatlisteId: string) =>
-    fetchJson(`${SMS_PROXY}/${kandidatlisteId}`, true);
+    fetchJson(`${SMS_API}/${kandidatlisteId}`, true);
 
 export const postSmsTilKandidater = (melding: string, fnr: string[], kandidatlisteId: string) =>
     postJson(
-        `${SMS_PROXY}`,
+        `${SMS_API}`,
         JSON.stringify({
             melding,
             fnr,
