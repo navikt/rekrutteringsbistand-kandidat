@@ -45,36 +45,6 @@ const writeEnvironmentVariablesToFile = () => {
     });
 };
 
-const backendHost = () => {
-    if (miljøvariablerTilNode.API_GATEWAY) {
-        const hostAndPath = miljøvariablerTilNode.API_GATEWAY.split('://').pop();
-        if (!hostAndPath) {
-            throw Error(
-                `Error: Kunne ikke hente host fra miljøvariabler (${miljøvariablerTilNode.API_GATEWAY})`
-            );
-        }
-        const host = hostAndPath.split('/').shift();
-        if (!host) {
-            throw Error('Error: Kunne ikke hente host fra path');
-        }
-        return host;
-    }
-    throw Error('Error: process.env.PAM_SEARCH_API_RESTSERVICE_URL mangler');
-};
-
-const gatewayPrefix = () => {
-    if (miljøvariablerTilNode.API_GATEWAY) {
-        const pathUnchecked = miljøvariablerTilNode.API_GATEWAY.split(backendHost()).pop();
-        const pathFinal = pathUnchecked.replace(/\//g, ''); // replace all / with ''
-        return pathFinal;
-    }
-    throw new Error('Error: error getting gateway prefix');
-};
-
-// proxy til backend
-console.log(`proxy host: ${backendHost()}`);
-console.log(`proxy prefix: ${gatewayPrefix()}`);
-
 const mapToCookies = (cookieString) =>
     cookieString
         .split(';')
@@ -112,9 +82,10 @@ const fjernDobleCookies = (req, res, next) => {
 };
 
 const konfigurerProxyTilEnhetsregister = () => {
+    const [, , host, path] = miljøvariablerTilNode.API_GATEWAY.split('/');
     app.use(
-        '/kandidater/api/search/enhetsregister/',
-        proxy(backendHost(), {
+        ENHETSREGISTER,
+        proxy(host, {
             https: true,
             proxyReqOptDecorator: (proxyReqOpts, srcReq) => ({
                 ...proxyReqOpts,
@@ -124,17 +95,8 @@ const konfigurerProxyTilEnhetsregister = () => {
                     'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
                 },
             }),
-            proxyReqPathResolver: (req) => {
-                const convertedPath = `/${gatewayPrefix()}/${req.originalUrl
-                    .split('/search/enhetsregister/')
-                    .pop()}`;
-                console.log(convertedPath);
-
-                console.log(
-                    `Enhetsproxy videresendte request fra ${req.originalUrl} til ${convertedPath}`
-                );
-
-                return convertedPath;
+            proxyReqPathResolver: (request) => {
+                request.originalUrl.replace(new RegExp('kandidater/api'), path);
             },
         })
     );
