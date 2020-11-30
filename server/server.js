@@ -20,7 +20,7 @@ const miljøvariablerTilFrontend = {
 
 const miljøvariablerTilNode = {
     SMS_API: process.env.SMS_API,
-    API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
+    ENHETSREGISTER_API_GATEWAY: process.env.PAM_SEARCH_API_RESTSERVICE_URL,
     PROXY_API_KEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
     MIDLERTIDIG_UTILGJENGELIG_API: process.env.MIDLERTIDIG_UTILGJENGELIG_API,
 };
@@ -139,11 +139,12 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     ]);
 };
 
-const setupProxy = (fraPath, tilTarget) =>
+const setupProxy = (fraPath, tilTarget, headers = undefined) =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
         changeOrigin: true,
         secure: true,
+        headers: headers,
         pathRewrite: (path) => {
             const nyPath = path.replace(fraPath, '');
             console.warn(`~> Proxy fra '${path}' til '${tilTarget + nyPath}'`);
@@ -156,8 +157,12 @@ const startServer = () => {
     writeEnvironmentVariablesToFile();
 
     app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
+    app.use(setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API_GATEWAY), {
+        'x-nav-apiKey': miljøvariablerTilNode.PROXY_API_KEY,
+    });
 
-    konfigurerProxyTilEnhetsregister();
+    //konfigurerProxyTilEnhetsregister();
+
     konfigurerProxyTilSmsApi();
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
