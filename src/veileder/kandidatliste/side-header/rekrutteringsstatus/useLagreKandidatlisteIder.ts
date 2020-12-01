@@ -23,7 +23,7 @@ const useLagreKandidatlisteIder = (): [
     const [lukkedata, setLukkedata] = useState<KandidatlisteIder>(hentKandidatlisteIder);
 
     useEffect(() => {
-        window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(lukkedata));
+        window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(Array.from(lukkedata)));
     }, [lukkedata]);
     return [lukkedata, setLukkedata];
 };

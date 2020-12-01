@@ -1,9 +1,8 @@
-import { getMiljø, Miljø } from '../../felles/common/miljøUtils';
 import { KandidatQueryParam } from './../kandidatside/Kandidatside';
 
 const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
-export const appPrefiks = getMiljø() === Miljø.LabsGcp ? '/rekrutteringsbistand' : '';
+export const appPrefiks = '';
 
 export const lenkeTilKandidatsøk = `${appPrefiks}/kandidater`;
 

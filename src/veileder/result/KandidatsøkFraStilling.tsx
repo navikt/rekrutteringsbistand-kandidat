@@ -101,10 +101,10 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         <Container className="container--header">
             <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsId} />
             <div className="container--header__lenker">
-                <a className="SeStilling lenke" href={lenkeTilStilling(stillingsId)}>
+                <Link className="SeStilling lenke" to={lenkeTilStilling(stillingsId)}>
                     <i className="SeStilling__icon" />
                     Se stilling
-                </a>
+                </Link>
                 {kandidatliste && (
                     <Link
                         className="TilKandidater lenke"

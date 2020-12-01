@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 
 const kandidatlisteInfoWrapper = (kandidatliste) => ({
     ...kandidatliste,
@@ -21,7 +21,7 @@ const EndreModal = ({
     kandidatliste,
     onAvbrytClick,
 }) => (
-    <NavFrontendModal
+    <ModalMedKandidatScope
         isOpen
         contentLabel="modal endre kandidatliste"
         onRequestClose={onAvbrytClick}
@@ -38,7 +38,7 @@ const EndreModal = ({
             onAvbrytClick={onAvbrytClick}
             knappTekst="Lagre endringer"
         />
-    </NavFrontendModal>
+    </ModalMedKandidatScope>
 );
 
 EndreModal.propTypes = {

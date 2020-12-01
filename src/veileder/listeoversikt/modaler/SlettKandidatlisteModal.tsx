@@ -1,8 +1,8 @@
 import * as React from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { FunctionComponent } from 'react';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 
 interface Props {
     slettKandidatliste: () => void;
@@ -13,7 +13,7 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({
     slettKandidatliste,
     onAvbrytClick,
 }) => (
-    <NavFrontendModal
+    <ModalMedKandidatScope
         isOpen
         contentLabel="modal opprett kandidatliste"
         onRequestClose={onAvbrytClick}
@@ -33,9 +33,7 @@ const SlettKandidatlisteModal: FunctionComponent<Props> = ({
                 </Flatknapp>
             </div>
         </div>
-    </NavFrontendModal>
+    </ModalMedKandidatScope>
 );
-
-NavFrontendModal.setAppElement('#app');
 
 export default SlettKandidatlisteModal;

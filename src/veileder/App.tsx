@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+import { Router } from 'react-router-dom';
+import Modal from 'react-modal';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import ReactDOM from 'react-dom';
-
 import { alderReducer } from './sok/alder/alderReducer';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
 import { searchReducer } from './sok/typedSearchReducer';
 import { saga } from './sok/searchReducer';
+import { History } from 'history';
 import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
@@ -85,14 +86,6 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-const App = () => (
-    <Sentry.ErrorBoundary>
-        <Provider store={store}>
-            <RekrutteringsbistandKandidat />
-        </Provider>
-    </Sentry.ErrorBoundary>
-);
-
 sagaMiddleware.run(saga);
 sagaMiddleware.run(typeaheadSaga);
 sagaMiddleware.run(cvSaga);
@@ -102,4 +95,26 @@ sagaMiddleware.run(kandidatlisteSaga);
 sagaMiddleware.run(enhetsregisterSaga);
 sagaMiddleware.run(listeoversiktSaga);
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const appElement =
+    document.getElementById('rekrutteringsbistand-container') ||
+    document.getElementById('utviklingsapp');
+if (appElement) {
+    Modal.setAppElement(appElement);
+}
+
+export type AppProps = {
+    history: History;
+    navKontor: string | null;
+};
+
+export const Main: FunctionComponent<AppProps> = ({ history, navKontor }) => {
+    return (
+        <Sentry.ErrorBoundary>
+            <Provider store={store}>
+                <Router history={history}>
+                    <RekrutteringsbistandKandidat navKontor={navKontor} />
+                </Router>
+            </Provider>
+        </Sentry.ErrorBoundary>
+    );
+};

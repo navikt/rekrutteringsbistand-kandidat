@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
+import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../../felles/sok/utils';
@@ -74,9 +74,12 @@ const SideHeader: FunctionComponent<Props> = ({ kandidater, kandidatliste }) => 
                         </span>
                         {kandidatliste.stillingId && (
                             <span>
-                                <Lenke href={lenkeTilStilling(kandidatliste.stillingId)}>
+                                <Link
+                                    to={lenkeTilStilling(kandidatliste.stillingId)}
+                                    className="lenke"
+                                >
                                     Se stillingsannonse
-                                </Lenke>
+                                </Link>
                             </span>
                         )}
                         {kandidatliste.beskrivelse && (

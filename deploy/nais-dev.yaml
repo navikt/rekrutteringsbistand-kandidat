@@ -6,6 +6,7 @@ metadata:
     labels:
         team: arbeidsgiver
 spec:
+    # prettier-ignore
     image: {{ image }}
     port: 8080
     liveness:
@@ -34,23 +35,25 @@ spec:
         enabled: false
         path: /metrics
     ingresses:
-        - https://rekrutteringsbistand.nais.preprod.local/kandidater
+      - https://rekrutteringsbistand.nais.preprod.local/rekrutteringsbistand-kandidat
     env:
-        - name: NODE_EXTRA_CA_CERTS
-          value: /etc/ssl/ca-bundle.pem
-        - name: LOGINSERVICE_VEILEDER_URL
-          value: https://loginservice.nais.preprod.local/login
-        - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
-          value: https://loginservice.nais.preprod.local/slo
-        - name: LAST_NED_CV_URL
-          value: https://pam-cv-veileder.nais.preprod.local/cv/pdf
-        - name: PAM_SEARCH_API_RESTSERVICE_URL
-          value: https://api-gw-q0.adeo.no/pam-search-api/
-        - name: PAMPORTAL_URL
-          value: https://arbeidsplassen-q.nav.no/
-        - name: ARBEIDSRETTET_OPPFOLGING_URL
-          value: https://app-q0.adeo.no/veilarbpersonflatefs
-        - name: SMS_API
-          value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms
-        - name: MIDLERTIDIG_UTILGJENGELIG_API
-          value: https://arbeidsgiver.nais.preprod.local/finn-kandidat-api/midlertidig-utilgjengelig
+      - name: KANDIDATSOK_API_URL
+        value: https://rekrutteringsbistand-kandidat-api.nais.preprod.local/rekrutteringsbistand-kandidat-api/rest
+      - name: NODE_EXTRA_CA_CERTS
+        value: /etc/ssl/ca-bundle.pem
+      - name: LOGINSERVICE_VEILEDER_URL
+        value: https://loginservice.nais.preprod.local/login
+      - name: LOGINSERVICE_LOGOUT_VEILEDER_URL
+        value: https://loginservice.nais.preprod.local/slo
+      - name: LAST_NED_CV_URL
+        value: https://pam-cv-veileder.nais.preprod.local/cv/pdf
+      - name: ENHETSREGISTER_API
+        value: https://api-gw-q0.adeo.no/pam-search-api
+      - name: PAMPORTAL_URL
+        value: https://arbeidsplassen-q.nav.no/
+      - name: ARBEIDSRETTET_OPPFOLGING_URL
+        value: https://app-q0.adeo.no/veilarbpersonflatefs
+      - name: SMS_API
+        value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms/sms
+      - name: MIDLERTIDIG_UTILGJENGELIG_API
+        value: https://arbeidsgiver.nais.preprod.local/finn-kandidat-api/midlertidig-utilgjengelig

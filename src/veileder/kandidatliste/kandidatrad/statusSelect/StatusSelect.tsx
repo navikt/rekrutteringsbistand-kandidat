@@ -29,7 +29,7 @@ const StatusSelect: FunctionComponent<Props> = ({ kanEditere, value, onChange })
                 <MenuButton className="StatusSelect__button selectContainer skjemaelement__input">
                     <Statusvisning status={value} />
                 </MenuButton>
-                <MenuList className="StatusSelect__menu">
+                <MenuList portal={false} className="StatusSelect__menu">
                     {statuserIDropdown.map((status) => (
                         <MenuItem
                             key={status}

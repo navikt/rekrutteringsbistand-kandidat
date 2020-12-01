@@ -1,9 +1,5 @@
 {
     "dependencies": {
-        "compression": "^1.7.3",
-        "express-http-proxy": "^1.6.0",
-        "helmet": "^3.22.0",
-        "jsonwebtoken": "^8.3.0",
-        "useragent": "^2.3.0"
+        "http-proxy-middleware": "^1.0.6"
     }
 }

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Systemtittel, Normaltekst, Element, Feilmelding } from 'nav-frontend-typografi';
-import NavFrontendModal from 'nav-frontend-modal';
 import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
@@ -20,6 +19,7 @@ import NavnPåUsynligKandidat from './NavnPåUsynligKandidat';
 import RegistrerFormidlingAvUsynligKandidat from './RegistrerFormidlingAvUsynligKandidat';
 import './LeggTilKandidatModal.less';
 import { sendEvent } from '../../../amplitude/amplitude';
+import ModalMedKandidatScope from '../../../../ModalMedKandidatScope';
 
 const MAKS_NOTATLENGDE = 2000;
 
@@ -251,7 +251,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
             this.state.formidlingAvUsynligKandidat?.fåttJobb;
 
         return (
-            <NavFrontendModal
+            <ModalMedKandidatScope
                 contentLabel="Modal legg til kandidat"
                 isOpen={vis}
                 onRequestClose={onClose}
@@ -389,7 +389,7 @@ class LeggTilKandidatModal extends React.Component<Props> {
                         Avbryt
                     </Flatknapp>
                 </div>
-            </NavFrontendModal>
+            </ModalMedKandidatScope>
         );
     }
 }

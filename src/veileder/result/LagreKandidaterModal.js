@@ -2,7 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -16,6 +15,7 @@ import { HentStatus } from '../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
+import ModalMedKandidatScope from '../../ModalMedKandidatScope';
 
 const PAGINERING_BATCH_SIZE = 5;
 
@@ -245,7 +245,7 @@ class LagreKandidaterModal extends React.Component {
             ));
 
         return (
-            <Modal
+            <ModalMedKandidatScope
                 isOpen={vis}
                 onRequestClose={onRequestClose}
                 contentLabel="LagreKandidaterModal."
@@ -349,7 +349,7 @@ class LagreKandidaterModal extends React.Component {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </ModalMedKandidatScope>
         );
     }
 }

@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Notat } from '../../kandidatlistetyper';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import NotatInfo from './NotatInfo';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
+import ModalMedKandidatScope from '../../../../ModalMedKandidatScope';
 
 interface SlettemodalProps {
     notat: Notat;
@@ -21,7 +21,7 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
     };
 
     return (
-        <NavFrontendModal
+        <ModalMedKandidatScope
             isOpen
             contentLabel={'Rediger notat'}
             onRequestClose={onCloseSletteModal}
@@ -39,7 +39,7 @@ const Slettemodal: FunctionComponent<SlettemodalProps> = ({
             <Flatknapp className="slett-notat-modal__avbryt--knapp" onClick={onCloseSletteModal}>
                 Avbryt
             </Flatknapp>
-        </NavFrontendModal>
+        </ModalMedKandidatScope>
     );
 };
 

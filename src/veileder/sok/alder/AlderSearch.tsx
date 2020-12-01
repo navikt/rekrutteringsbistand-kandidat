@@ -82,12 +82,7 @@ export const AlderSearch: FunctionComponent = () => {
             apen={erÅpen}
             id="Alder__SokekriteriePanel"
             fane="alder"
-            tittel={
-                <div className="alder-search__tittel">
-                    Alder
-                    <NyttFilterIkon />
-                </div>
-            }
+            tittel="Alder"
             onClick={togglePanel}
         >
             <Element className="alder-search__tittel">Skriv inn alder:</Element>

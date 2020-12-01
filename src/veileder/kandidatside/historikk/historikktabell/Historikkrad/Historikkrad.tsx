@@ -44,7 +44,9 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
             <td className="historikkrad__utfall">{utfallToDisplayName(kandidatliste.utfall)}</td>
             <td className="historikkrad__stilling">
                 {!kandidatliste.slettet && kandidatliste.stillingId && (
-                    <Lenke href={lenkeTilStilling(kandidatliste.stillingId)}>Se stilling</Lenke>
+                    <Link to={lenkeTilStilling(kandidatliste.stillingId)} className="lenke">
+                        Se stilling
+                    </Link>
                 )}
             </td>
         </tr>

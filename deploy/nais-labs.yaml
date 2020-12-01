@@ -1,21 +1,22 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-    name: rekrutteringsbistand-kandidat
+    name: rekrutteringsbistand-kandidat-labs
     namespace: arbeidsgiver
     labels:
         team: arbeidsgiver
 spec:
+    # prettier-ignore
     image: {{ image }}
     port: 8080
     liveness:
-        path: /rekrutteringsbistand/internal/isAlive
+        path: /rekrutteringsbistand-kandidat/internal/isAlive
         initialDelay: 5
     readiness:
-        path: /rekrutteringsbistand/internal/isReady
+        path: /rekrutteringsbistand-kandidat/internal/isReady
         initialDelay: 5
     ingresses:
-        - https://arbeidsgiver.labs.nais.io/rekrutteringsbistand
+        - https://rekrutteringsbistand.labs.nais.io
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem

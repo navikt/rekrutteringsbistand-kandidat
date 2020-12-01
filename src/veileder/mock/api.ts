@@ -10,9 +10,6 @@ import sms from './json/sms.json';
 
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
 
-import aktivEnhet from './json/dekoratør/aktivenhet.json';
-import aktivBruker from './json/dekoratør/aktivbruker.json';
-
 import cver from './data/cv.mock';
 import {
     kandidatliste,
@@ -23,13 +20,12 @@ import {
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
-import dekoratør from './data/dekoratør.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
-import { FormidlingAvUsynligKandidat } from '../kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+import { KANDIDATSOK_API } from '../api';
 
-const api = 'express:/rekrutteringsbistand-kandidat-api/rest';
+const api = `express:${KANDIDATSOK_API}`;
 
 const url = {
     // Kandidatsøket
@@ -69,15 +65,11 @@ const url = {
 
     // Misc
     toggles: `${api}/veileder/kandidatsok/toggles`,
-    modiaContext: `/modiacontextholder/api/context`,
-    modiaAktivEnhet: `/modiacontextholder/api/context/aktivenhet`,
-    modiaAktivBruker: `/modiacontextholder/api/context/aktivbruker`,
-    modiaDecorator: `/modiacontextholder/api/decorator`,
 };
 
 const getCv = (url: string) => {
-    const urlObject = new URL(url);
-    const kandidatnr = urlObject.searchParams.get('kandidatnr');
+    const queryParams = url.split('?').pop();
+    const kandidatnr = new URLSearchParams(queryParams).get('kandidatnr');
 
     if (kandidatnr) {
         return cver.find((cv) => cv.kandidatnummer === kandidatnr);
@@ -89,7 +81,8 @@ const getCv = (url: string) => {
 const getUsynligKandidat = () => [mockUsynligKandidat(7)];
 
 const getKandidatlister = (url: string) => {
-    const params = new URLSearchParams(url);
+    const queryParams = url.split('?').pop();
+    const params = new URLSearchParams(queryParams);
     const stillingsfilter = params.get('type');
     const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
 
@@ -331,8 +324,4 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
 
     // Misc
-    .get(url.toggles, log(featureToggles))
-    .get(url.modiaAktivEnhet, log(aktivEnhet))
-    .get(url.modiaAktivBruker, log(aktivBruker))
-    .get(url.modiaDecorator, log(dekoratør))
-    .post(url.modiaContext, log(201));
+    .get(url.toggles, log(featureToggles));

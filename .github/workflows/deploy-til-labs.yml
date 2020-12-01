@@ -8,13 +8,13 @@ env:
 jobs:
     bygg-og-push-docker-image:
         name: Bygg og push
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/bedre-mocking-for-labs'
+        if: github.ref == 'refs/heads/eksporter-app-labs'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v1
               with:
-                  node-version: 10
+                  node-version: 15
             - uses: actions/cache@v1
               with:
                   path: ~/.npm
@@ -26,12 +26,12 @@ jobs:
             - name: Kjør tester
               run: npm run test
             - name: Bygg mocket applikasjon
-              run: npm run build:labs
+              run: CI=false npm run build:labs
             - name: Bygg og publiser Docker-image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  docker build --tag ${IMAGE} . -f server-labs/Dockerfile
+                  docker build --tag ${IMAGE} . -f DockerfileLabs
                   echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
                   docker push ${IMAGE}
 

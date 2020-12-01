@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import {
     Utfall,
@@ -10,6 +9,7 @@ import './EndreUtfallModal.less';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import UtfallLabel, { Orientering } from '../kandidatrad/utfall-med-endre-ikon/UtfallLabel';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 
 interface Props {
     vis: boolean;
@@ -55,7 +55,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
     };
 
     return (
-        <NavFrontendModal
+        <ModalMedKandidatScope
             closeButton
             isOpen={vis}
             contentLabel="Endre utfall for kandidat"
@@ -122,7 +122,7 @@ const EndreUtfallModal: FunctionComponent<Props> = ({
                 </Hovedknapp>
                 <Flatknapp onClick={onLukk}>Avbryt</Flatknapp>
             </div>
-        </NavFrontendModal>
+        </ModalMedKandidatScope>
     );
 };
 

@@ -26,7 +26,11 @@ export const Historikktabell: FunctionComponent<Props> = ({
         </thead>
         <tbody>
             {kandidatlister.map((liste) => (
-                <Historikkrad kandidatliste={liste} aktiv={liste.uuid === aktivKandidatlisteId} />
+                <Historikkrad
+                    key={liste.uuid}
+                    kandidatliste={liste}
+                    aktiv={liste.uuid === aktivKandidatlisteId}
+                />
             ))}
         </tbody>
     </table>

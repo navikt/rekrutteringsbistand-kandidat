@@ -1,14 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../../common/sokekriteriePanel/SokekriteriePanel.tsx';
 import { erGyldigForerkort } from './forerkort.ts';
 import Typeahead from '../../../veileder/sok/typeahead/Typeahead';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { ALERTTYPE } from '../../../felles/konstanter';
 import './Forerkort.less';
-import { førerkortProptypes } from '../../../veileder/sok/forerkort/ForerkortSearch';
 import { Knapp } from 'nav-frontend-knapper';
+
+export const førerkortProptypes = {
+    search: PropTypes.func.isRequired,
+    removeForerkort: PropTypes.func.isRequired,
+    fetchTypeAheadSuggestionsForerkort: PropTypes.func.isRequired,
+    selectTypeAheadValueForerkort: PropTypes.func.isRequired,
+    forerkortList: PropTypes.arrayOf(PropTypes.string).isRequired,
+    typeAheadSuggestionsForerkort: PropTypes.arrayOf(PropTypes.string).isRequired,
+    clearTypeAheadForerkort: PropTypes.func.isRequired,
+    totaltAntallTreff: PropTypes.number.isRequired,
+    visAlertFaKandidater: PropTypes.string.isRequired,
+    togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
+};
 
 class ForerkortSearch extends React.Component {
     constructor(props) {

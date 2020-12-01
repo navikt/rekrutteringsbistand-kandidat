@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LAGRE_STATUS } from '../../../felles/konstanter';
 import OpprettKandidatlisteForm, { tomKandidatlisteInfo } from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 
 const OpprettModal = ({
     opprettKandidatliste,
@@ -13,7 +13,7 @@ const OpprettModal = ({
     lagreStatus,
     onAvbrytClick,
 }) => (
-    <NavFrontendModal
+    <ModalMedKandidatScope
         isOpen
         contentLabel="modal opprett kandidatliste"
         onRequestClose={onAvbrytClick}
@@ -30,7 +30,7 @@ const OpprettModal = ({
             onAvbrytClick={onAvbrytClick}
             knappTekst="Opprett"
         />
-    </NavFrontendModal>
+    </ModalMedKandidatScope>
 );
 
 OpprettModal.propTypes = {

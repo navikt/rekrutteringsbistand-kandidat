@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -10,49 +9,46 @@ import {
 } from './sok/searchReducer';
 import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
-import Dekoratør from './dekoratør/Dekoratør';
 import ErrorSide from './sok/error/ErrorSide';
-import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import AppState from './AppState';
+import { NavKontorActionTypes } from './navKontor/navKontorReducer';
 
-type RekrutteringsbistandKandidatProps = {
+type Props = {
     error: {
         status: number;
     };
     fetchFeatureToggles: () => void;
     fjernError: () => void;
+    navKontor: string | null;
+    velgNavKontor: (navKontor: string | null) => void;
 };
 
-class RekrutteringsbistandKandidat extends React.Component<RekrutteringsbistandKandidatProps> {
-    componentDidMount() {
-        this.props.fetchFeatureToggles();
+const RekrutteringsbistandKandidat: FunctionComponent<Props> = (props) => {
+    const { error, fetchFeatureToggles, fjernError, navKontor, velgNavKontor } = props;
+
+    useEffect(() => {
+        fetchFeatureToggles();
         sendEvent('app', 'åpne', {
             skjermbredde: window.screen.width,
         });
-    }
+    }, []);
 
-    render() {
-        const { error, fjernError } = this.props;
-
-        if (error) {
-            return (
-                <BrowserRouter>
-                    <div>
-                        <Dekoratør />
-                        <Navigeringsmeny />
-                        <ErrorSide error={error} fjernError={fjernError} />
-                    </div>
-                </BrowserRouter>
-            );
+    useEffect(() => {
+        if (navKontor) {
+            velgNavKontor(navKontor);
         }
+    }, [navKontor, velgNavKontor]);
 
+    if (error) {
         return (
-            <BrowserRouter>
-                <Application />
-            </BrowserRouter>
+            <div>
+                <ErrorSide error={error} fjernError={fjernError} />
+            </div>
         );
     }
-}
+
+    return <Application />;
+};
 
 const mapStateToProps = (state: AppState) => ({
     error: state.søk.error,
@@ -63,6 +59,8 @@ const mapDispatchToProps = (dispatch) => ({
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
     resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+    velgNavKontor: (valgtNavKontor: string) =>
+        dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RekrutteringsbistandKandidat);

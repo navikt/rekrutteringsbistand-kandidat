@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavFrontendModal from 'nav-frontend-modal';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { lenkeTilStilling } from '../../application/paths';
+import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
+import { Link } from 'react-router-dom';
 
 const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytClick }) => (
-    <NavFrontendModal
+    <ModalMedKandidatScope
         isOpen
         contentLabel="modal opprett kandidatliste"
         onRequestClose={onAvbrytClick}
@@ -27,9 +28,9 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                     For å markere stillingen og kandidatlisten som din må du gå til stillingen.
                 </Normaltekst>
                 <div>
-                    <a className="typo-element lenke" href={lenkeTilStilling(stillingsId)}>
+                    <Link className="typo-element lenke" to={lenkeTilStilling(stillingsId)}>
                         Gå til stillingen
-                    </a>
+                    </Link>
                     <Flatknapp
                         className="marker-som-min__avbryt knapp-små-bokstaver"
                         onClick={onAvbrytClick}
@@ -58,7 +59,7 @@ const MarkerSomMinModal = ({ stillingsId, markerKandidatlisteSomMin, onAvbrytCli
                 </div>
             </div>
         )}
-    </NavFrontendModal>
+    </ModalMedKandidatScope>
 );
 
 MarkerSomMinModal.defaultProps = {

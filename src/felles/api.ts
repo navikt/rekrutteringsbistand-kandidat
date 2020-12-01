@@ -54,7 +54,7 @@ export async function deleteJsonMedType<T>(
 ): Promise<ResponseData<T>> {
     try {
         const response: unknown = await deleteReq(url, bodyString);
-        return Suksess(<T>response);
+        return Suksess(response as T);
     } catch (e) {
         if (e instanceof SearchApiError) {
             return Feil(e);
