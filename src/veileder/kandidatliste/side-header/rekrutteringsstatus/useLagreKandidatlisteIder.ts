@@ -8,14 +8,7 @@ const hentKandidatlisteIder = (): KandidatlisteIder => {
     try {
         const localstorageValue = window.localStorage.getItem(LOCALSTORAGE_KEY);
         if (localstorageValue) {
-            const parsedValue = JSON.parse(localstorageValue);
-            const valueErItererbar = typeof parsedValue[Symbol.iterator] === 'function';
-
-            if (valueErItererbar) {
-                return new Set(parsedValue);
-            } else {
-                return new Set([]);
-            }
+            return new Set(JSON.parse(localstorageValue));
         }
     } catch (error) {
         console.error('Kunne ikke hente fra local storage:', error);
@@ -30,7 +23,7 @@ const useLagreKandidatlisteIder = (): [
     const [lukkedata, setLukkedata] = useState<KandidatlisteIder>(hentKandidatlisteIder);
 
     useEffect(() => {
-        window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(lukkedata));
+        window.localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(Array.from(lukkedata)));
     }, [lukkedata]);
     return [lukkedata, setLukkedata];
 };
