@@ -110,8 +110,15 @@ const startServer = () => {
     );
 
     app.use(setupProxy(`${basePath}/sms-api`, process.env.SMS_API));
+    app.use(`${basePath}/midlertidig-utilgjengelig-api`, [
+        fjernDobleCookies,
+        setupProxy(
+            `${basePath}/midlertidig-utilgjengelig-api`,
+            process.env.MIDLERTIDIG_UTILGJENGELIG_API
+        ),
+    ]);
 
-    konfigurerProxyTilMidlertidigUtilgjengeligApi();
+    // konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
     app.use(`${basePath}/asset-manifest.json`, express.static(`${buildPath}/asset-manifest.json`));
