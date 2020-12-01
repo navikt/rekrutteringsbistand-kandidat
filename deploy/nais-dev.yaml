@@ -54,6 +54,6 @@ spec:
       - name: ARBEIDSRETTET_OPPFOLGING_URL
         value: https://app-q0.adeo.no/veilarbpersonflatefs
       - name: SMS_API
-        value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms
+        value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms/sms
       - name: MIDLERTIDIG_UTILGJENGELIG_API
         value: https://arbeidsgiver.nais.preprod.local/finn-kandidat-api/midlertidig-utilgjengelig
