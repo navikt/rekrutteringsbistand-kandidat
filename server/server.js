@@ -45,13 +45,16 @@ const startServer = () => {
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
-    const asset = fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8');
+    const assetString = fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8');
+    const asset = JSON.parse(assetString);
     console.log('asset original', asset);
     if (asset.files) {
         asset.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
     }
     console.log('asset endret', asset);
-    app.get(`${basePath}/asset-manifest.json`, asset);
+    app.get(`${basePath}/asset-manifest.json`, () => {
+        res.send(asset);
+    });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
         res.sendStatus(200)
