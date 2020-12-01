@@ -62,19 +62,6 @@ const fjernDobleCookies = (req, res, next) => {
     next();
 };
 
-const konfigurerProxyTilSmsApi = () => {
-    const [, , host, path] = process.env.SMS_API.split('/');
-
-    app.use(
-        `${basePath}/sms-api`,
-        proxy(host, {
-            https: true,
-            proxyReqPathResolver: (request) =>
-                request.originalUrl.replace(new RegExp(`${basePath}/sms-api`), path),
-        })
-    );
-};
-
 const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
     const [, , host, ...pathParts] = process.env.MIDLERTIDIG_UTILGJENGELIG_API.split('/');
     const path = pathParts.join('/');
@@ -116,7 +103,8 @@ const startServer = () => {
         })
     );
 
-    konfigurerProxyTilSmsApi();
+    app.use(setupProxy(`${basePath}/sms-api`, process.env.SMS_API));
+
     konfigurerProxyTilMidlertidigUtilgjengeligApi();
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
