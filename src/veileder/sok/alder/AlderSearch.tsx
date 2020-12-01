@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FunctionComponent, useState, KeyboardEvent, useEffect } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import NyttFilterIkon from '../nytt-filter-ikon/NyttFilterIkon';
 import './AlderSearch.less';
 import { SEARCH } from '../searchReducer';
 import { AlderActionType } from './alderReducer';

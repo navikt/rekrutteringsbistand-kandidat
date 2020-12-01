@@ -32,6 +32,8 @@ const KopierEpostModal: FunctionComponent<Props> = ({ vis = true, onClose, kandi
         if (!vis) {
             clearTimouts();
         }
+        // clearTimouts som dep gir evig løkke
+        // eslint-disable-next-line
     }, [vis]);
     const kandidaterMedEpost = kandidater.filter((kandidat) => kandidat.epost);
     const onKopierEpostadresser = () => {

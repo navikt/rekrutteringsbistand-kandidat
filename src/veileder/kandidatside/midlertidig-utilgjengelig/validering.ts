@@ -1,4 +1,4 @@
-import moment, { Moment, MomentInput } from 'moment';
+import moment, { MomentInput } from 'moment';
 
 export const dagensDato = () => moment(new Date()).startOf('day');
 export const minDatoMidlertidigUtilgjengelig = () => dagensDato();

@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../../felles/konstanter';
-import Lenke from 'nav-frontend-lenker';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../application/paths';
 
