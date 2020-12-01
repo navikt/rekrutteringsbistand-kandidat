@@ -45,11 +45,10 @@ const startServer = () => {
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
-    const assets = readFileAsync(`${buildPath}/asset-manifest.json`).then((buffer) =>
-        JSON.parse(buffer.toString())
-    );
-    assets.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
-    app.get(`${basePath}/asset-manifest.json`, assets);
+    fs.readFile(`${buildPath}/asset-manifest.json`, 'utf8', function (err, data) {
+        data.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
+        app.get(`${basePath}/asset-manifest.json`, data);
+    });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
         res.sendStatus(200)
