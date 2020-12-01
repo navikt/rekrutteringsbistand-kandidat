@@ -70,11 +70,17 @@ const konfigurerProxyTilMidlertidigUtilgjengeligApi = () => {
         fjernDobleCookies,
         proxy(host, {
             https: true,
-            proxyReqPathResolver: (request) =>
-                request.originalUrl.replace(
+            proxyReqPathResolver: (request) => {
+                const nyPath = request.originalUrl.replace(
                     new RegExp(`${basePath}/midlertidig-utilgjengelig-api`),
                     path
-                ),
+                );
+
+                console.log(
+                    `~> Proxy midl.util. fra path '${request.originalUrl}' til URL '${host}/${nyPath}`
+                );
+                return nyPath;
+            },
         }),
     ]);
 };
