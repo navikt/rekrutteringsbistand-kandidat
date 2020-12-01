@@ -43,26 +43,13 @@ const setupProxy = (fraPath, tilTarget, headers = undefined) =>
 const startServer = () => {
     writeEnvironmentVariablesToFile();
 
-    app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
-
-    app.use(
-        setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API, {
-            'x-nav-apiKey': miljøvariablerFraVault.ENHETSREGISTER_GATEWAY_APIKEY,
-        })
-    );
-
-    app.use(setupProxy(`${basePath}/sms-api`, process.env.SMS_API));
-
-    app.use(`${basePath}/midlertidig-utilgjengelig-api`, [
-        fjernDobleCookies,
-        setupProxy(
-            `${basePath}/midlertidig-utilgjengelig-api`,
-            process.env.MIDLERTIDIG_UTILGJENGELIG_API
-        ),
-    ]);
-
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
-    app.use(`${basePath}/asset-manifest.json`, express.static(`${buildPath}/asset-manifest.json`));
+
+    const assets = readFileAsync(`${buildPath}/asset-manifest.json`).then((buffer) =>
+        JSON.parse(buffer.toString())
+    );
+    assets.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
+    app.get(`${basePath}/asset-manifest.json`, assets);
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
         res.sendStatus(200)
