@@ -52,7 +52,7 @@ const startServer = () => {
         asset.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
     }
     console.log('asset endret', asset);
-    app.get(`${basePath}/asset-manifest.json`, () => {
+    app.get(`${basePath}/asset-manifest.json`, (req, res) => {
         res.send(asset);
     });
 
