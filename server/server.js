@@ -15,13 +15,15 @@ const miljøvariablerFraVault = {
     ENHETSREGISTER_GATEWAY_APIKEY: process.env.PAM_KANDIDATSOK_VEILEDER_PROXY_API_APIKEY,
 };
 
+const envPath = 'static/js/env.js';
+
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
         `window.KANDIDAT_LAST_NED_CV_URL="${process.env.LAST_NED_CV_URL}";\n` +
         `window.KANDIDAT_ARBEIDSRETTET_OPPFOLGING_URL="${process.env.ARBEIDSRETTET_OPPFOLGING_URL}";\n`;
 
-    fs.writeFile(path.resolve(__dirname, 'build/static/js/env.js'), fileContent, (err) => {
+    fs.writeFile(path.resolve(__dirname, `build/${envPath}`), fileContent, (err) => {
         if (err) throw err;
     });
 };
@@ -75,9 +77,7 @@ const startServer = () => {
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.type('json').send(
-            manifestMedFlereFiler('/rekrutteringsbistand-kandidat/static/js/env.js')
-        );
+        res.type('json').send(manifestMedFlereFiler(`/rekrutteringsbistand-kandidat/${envPath}`));
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
