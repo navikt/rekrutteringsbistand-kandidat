@@ -1,6 +1,6 @@
-import { Nettressurs, Nettstatus, SenderInn } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus, senderInn } from '../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { ApiError, Feil, IkkeLastet, LasterInn, Suksess } from '../../../felles/common/remoteData';
+import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../../felles/common/remoteData';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../cv/reducer/cvReducer';
 import {
     deleteMidlertidigUtilgjengelig,
@@ -122,13 +122,13 @@ const midlertidigUtilgjengeligReducer = (
         case CvActionType.FETCH_CV: {
             return {
                 ...state,
-                [action.arenaKandidatnr]: IkkeLastet(),
+                [action.arenaKandidatnr]: ikkeLastet(),
             };
         }
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG':
             return {
                 ...state,
-                [action.kandidatnr]: LasterInn(),
+                [action.kandidatnr]: lasterInn(),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG': {
@@ -141,13 +141,13 @@ const midlertidigUtilgjengeligReducer = (
 
             return {
                 ...state,
-                [action.kandidatnr]: SenderInn(data),
+                [action.kandidatnr]: senderInn(data),
             };
         }
         case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
-                [action.kandidatnr]: Suksess({
+                [action.kandidatnr]: suksess({
                     midlertidigUtilgjengelig: null,
                 }),
                 endretTidspunkt: action.endretTidspunkt,
@@ -155,26 +155,26 @@ const midlertidigUtilgjengeligReducer = (
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
             return {
                 ...state,
-                [action.kandidatnr]: Suksess(action.response),
+                [action.kandidatnr]: suksess(action.response),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_SUCCESS':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_SUKSESS':
             return {
                 ...state,
-                [action.kandidatnr]: Suksess(action.response),
+                [action.kandidatnr]: suksess(action.response),
                 endretTidspunkt: action.endretTidspunkt,
             };
         case 'FETCH_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
-                [action.kandidatnr]: Feil(action.error),
+                [action.kandidatnr]: feil(action.error),
             };
         case 'LAGRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
         case 'ENDRE_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
         case 'SLETT_MIDLERTIDIG_UTILGJENGELIG_FAILURE':
             return {
                 ...state,
-                [action.kandidatnr]: Feil(action.error),
+                [action.kandidatnr]: feil(action.error),
             };
         default:
             return state;

@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { useLocation, useRouteMatch, Link } from 'react-router-dom';
-import { Normaltekst, Element } from 'nav-frontend-typografi';
 
 interface Props {
     sti: string;

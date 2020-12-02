@@ -31,7 +31,7 @@ const RekrutteringsbistandKandidat: FunctionComponent<Props> = (props) => {
         sendEvent('app', 'åpne', {
             skjermbredde: window.screen.width,
         });
-    }, []);
+    }, [fetchFeatureToggles]);
 
     useEffect(() => {
         if (navKontor) {

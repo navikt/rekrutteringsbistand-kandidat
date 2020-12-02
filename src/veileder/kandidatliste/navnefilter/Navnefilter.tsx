@@ -1,4 +1,4 @@
-import React, { FunctionComponent, createRef, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 
 import Søkeikon from './Søkeikon';

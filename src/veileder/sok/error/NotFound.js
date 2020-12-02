@@ -2,7 +2,7 @@ import React from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { Column, Container, Row } from 'nav-frontend-grid';
 
-export default () => (
+const NotFound = () => (
     <Container className="blokk-s">
         <Row>
             <Column className="text-center feilside">
@@ -16,3 +16,5 @@ export default () => (
         </Row>
     </Container>
 );
+
+export default NotFound;

@@ -39,29 +39,29 @@ interface Feil {
     error: ApiError;
 }
 
-export const IkkeLastet = (): IkkeLastet => ({
+export const ikkeLastet = (): IkkeLastet => ({
     kind: Nettstatus.IkkeLastet,
 });
 
-export const LasterInn = (): LasterInn => ({
+export const lasterInn = (): LasterInn => ({
     kind: Nettstatus.LasterInn,
 });
 
-export const SenderInn = <T>(data: T): SenderInn<T> => ({
+export const senderInn = <T>(data: T): SenderInn<T> => ({
     kind: Nettstatus.SenderInn,
     data,
 });
 
-export const Suksess = <T>(data: T): Suksess<T> => ({
+export const suksess = <T>(data: T): Suksess<T> => ({
     kind: Nettstatus.Suksess,
     data,
 });
 
-export const FinnesIkke = (): FinnesIkke => ({
+export const finnesIkke = (): FinnesIkke => ({
     kind: Nettstatus.FinnesIkke,
 });
 
-export const Feil = (error: ApiError): Feil => ({
+export const feil = (error: ApiError): Feil => ({
     kind: Nettstatus.Feil,
     error,
 });

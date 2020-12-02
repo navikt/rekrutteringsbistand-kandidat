@@ -21,14 +21,14 @@ import { LAGRE_STATUS } from '../../../felles/konstanter';
 import { Reducer } from 'redux';
 import {
     Nettressurs,
-    FinnesIkke,
-    IkkeLastet,
-    Feil,
-    LasterInn,
+    finnesIkke,
+    ikkeLastet,
+    feil,
+    lasterInn,
     Nettstatus,
     RemoteData,
-    SenderInn,
-    Suksess,
+    senderInn,
+    suksess,
 } from '../../../felles/common/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
@@ -91,7 +91,7 @@ const initialState: KandidatlisteState = {
     opprett: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
     },
-    kandidatliste: IkkeLastet(),
+    kandidatliste: ikkeLastet(),
     kandidattilstander: {},
     kandidatnotater: {},
     fodselsnummer: undefined,
@@ -107,7 +107,7 @@ const initialState: KandidatlisteState = {
     lagreKandidatIKandidatlisteStatus: LAGRE_STATUS.UNSAVED,
     sms: {
         sendStatus: SmsStatus.IkkeSendt,
-        sendteMeldinger: IkkeLastet(),
+        sendteMeldinger: ikkeLastet(),
     },
     arkivering: {
         statusArkivering: Nettstatus.IkkeLastet,
@@ -120,8 +120,8 @@ const initialState: KandidatlisteState = {
         utfall: lagTomtUtfallsfilter(),
         navn: '',
     },
-    søkPåusynligKandidat: IkkeLastet(),
-    formidlingAvUsynligKandidat: IkkeLastet(),
+    søkPåusynligKandidat: ikkeLastet(),
+    formidlingAvUsynligKandidat: ikkeLastet(),
     endreFormidlingsutfallForUsynligKandidat: {},
     endreKandidatlistestatus: Nettstatus.IkkeLastet,
 };
@@ -254,7 +254,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID: {
             return {
                 ...state,
-                kandidatliste: LasterInn(),
+                kandidatliste: lasterInn(),
             };
         }
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID_SUCCESS:
@@ -278,14 +278,14 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
 
                 action.kandidatliste.kandidater.forEach((kandidat) => {
                     kandidattilstander[kandidat.kandidatnr] = initialKandidattilstand();
-                    kandidatnotater[kandidat.kandidatnr] = IkkeLastet();
+                    kandidatnotater[kandidat.kandidatnr] = ikkeLastet();
                 });
             }
 
             return {
                 ...state,
                 id,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
                 kandidattilstander,
                 kandidatnotater,
             };
@@ -294,33 +294,33 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID_FAILURE:
             return {
                 ...state,
-                kandidatliste: Feil(action.error),
+                kandidatliste: feil(action.error),
             };
         case KandidatlisteActionType.ENDRE_STATUS_KANDIDAT_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
             };
         case KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
             };
         case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT:
             return {
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
                     ...state.endreFormidlingsutfallForUsynligKandidat,
-                    [action.formidlingId]: SenderInn(action.formidlingId),
+                    [action.formidlingId]: senderInn(action.formidlingId),
                 },
             };
         case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
                 endreFormidlingsutfallForUsynligKandidat: {
                     ...state.endreFormidlingsutfallForUsynligKandidat,
-                    [action.formidlingId]: Suksess(action.formidlingId),
+                    [action.formidlingId]: suksess(action.formidlingId),
                 },
             };
         case KandidatlisteActionType.ENDRE_FORMIDLINGSUTFALL_FOR_USYNLIG_KANDIDAT_FAILURE:
@@ -328,7 +328,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 endreFormidlingsutfallForUsynligKandidat: {
                     ...state.endreFormidlingsutfallForUsynligKandidat,
-                    [action.formidlingId]: Feil(action.error),
+                    [action.formidlingId]: feil(action.error),
                 },
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER:
@@ -339,7 +339,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.PRESENTER_KANDIDATER_SUCCESS:
             return {
                 ...state,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
                 deleStatus: Delestatus.Success,
             };
         case KandidatlisteActionType.PRESENTER_KANDIDATER_FAILURE:
@@ -394,27 +394,27 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 hentStatus: HentStatus.IkkeHentet,
                 kandidat: initialState.kandidat,
-                søkPåusynligKandidat: IkkeLastet(),
-                formidlingAvUsynligKandidat: IkkeLastet(),
+                søkPåusynligKandidat: ikkeLastet(),
+                formidlingAvUsynligKandidat: ikkeLastet(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                søkPåusynligKandidat: LasterInn(),
+                søkPåusynligKandidat: lasterInn(),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                søkPåusynligKandidat: Suksess(action.navn),
+                søkPåusynligKandidat: suksess(action.navn),
             };
         }
         case KandidatlisteActionType.HENT_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
                 søkPåusynligKandidat:
-                    action.error.status === 404 ? FinnesIkke() : Feil(action.error),
+                    action.error.status === 404 ? finnesIkke() : feil(action.error),
             };
         }
         case KandidatlisteActionType.LEGG_TIL_KANDIDATER:
@@ -436,7 +436,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
 
             action.lagredeKandidater.forEach((lagretKandidat) => {
                 kandidattilstander[lagretKandidat.kandidatnr] = initialKandidattilstand();
-                kandidatnotater[lagretKandidat.kandidatnr] = IkkeLastet();
+                kandidatnotater[lagretKandidat.kandidatnr] = ikkeLastet();
             });
 
             return {
@@ -447,7 +447,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                     antallLagredeKandidater: action.antallLagredeKandidater,
                     lagretListe: action.lagretListe,
                 },
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
                 kandidattilstander,
                 kandidatnotater,
             };
@@ -488,20 +488,20 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
         case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT: {
             return {
                 ...state,
-                formidlingAvUsynligKandidat: SenderInn(action.formidling),
+                formidlingAvUsynligKandidat: senderInn(action.formidling),
             };
         }
         case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_SUCCESS: {
             return {
                 ...state,
-                formidlingAvUsynligKandidat: Suksess(action.formidling),
-                kandidatliste: Suksess(action.kandidatliste),
+                formidlingAvUsynligKandidat: suksess(action.formidling),
+                kandidatliste: suksess(action.kandidatliste),
             };
         }
         case KandidatlisteActionType.FORMIDLE_USYNLIG_KANDIDAT_FAILURE: {
             return {
                 ...state,
-                formidlingAvUsynligKandidat: Feil(action.error),
+                formidlingAvUsynligKandidat: feil(action.error),
             };
         }
         case KandidatlisteActionType.HENT_NOTATER:
@@ -509,7 +509,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatnotater: {
                     ...state.kandidatnotater,
-                    [action.kandidatnr]: LasterInn(),
+                    [action.kandidatnr]: lasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_NOTATER_SUCCESS:
@@ -520,7 +520,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 kandidatnotater: {
                     ...state.kandidatnotater,
-                    [action.kandidatnr]: Suksess(action.notater),
+                    [action.kandidatnr]: suksess(action.notater),
                 },
             };
         case KandidatlisteActionType.TOGGLE_ARKIVERT:
@@ -634,7 +634,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: LasterInn(),
+                    sendteMeldinger: lasterInn(),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_SUCCESS:
@@ -642,7 +642,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Suksess<Sms[]>(action.sendteMeldinger),
+                    sendteMeldinger: suksess<Sms[]>(action.sendteMeldinger),
                 },
             };
         case KandidatlisteActionType.HENT_SENDTE_MELDINGER_FAILURE:
@@ -650,7 +650,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 ...state,
                 sms: {
                     ...state.sms,
-                    sendteMeldinger: Feil(action.error),
+                    sendteMeldinger: feil(action.error),
                 },
             };
         case KandidatlisteActionType.VELG_KANDIDAT: {
@@ -741,7 +741,7 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
             return {
                 ...state,
                 endreKandidatlistestatus: Nettstatus.Suksess,
-                kandidatliste: Suksess(action.kandidatliste),
+                kandidatliste: suksess(action.kandidatliste),
             };
 
         default:

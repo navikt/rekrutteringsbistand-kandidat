@@ -69,6 +69,7 @@ const useKriterier = (
 
             setKriterierInnenTilretteleggingsbehov([...kategoriKriterier]);
         },
+        // eslint-disable-next-line
         []
     );
 
