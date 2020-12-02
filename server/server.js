@@ -40,6 +40,14 @@ const setupProxy = (fraPath, tilTarget, headers = undefined) =>
         },
     });
 
+const manifestMedEnv = () => {
+    const asset = JSON.parse(fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8'));
+    if (asset.files) {
+        asset.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
+    }
+    return JSON.stringify(asset, null, 4);
+};
+
 const startServer = () => {
     writeEnvironmentVariablesToFile();
 
@@ -63,15 +71,8 @@ const startServer = () => {
 
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
-    const assetString = fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8');
-    const asset = JSON.parse(assetString);
-    console.log('asset original', asset);
-    if (asset.files) {
-        asset.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
-    }
-    console.log('asset endret', asset);
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.type('json').send(JSON.stringify(asset, null, 4));
+        res.type('json').send(manifestMedEnv());
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
