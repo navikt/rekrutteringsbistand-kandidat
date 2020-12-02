@@ -84,7 +84,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
             search();
         } else if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else if (!harHentetStilling) {
+        } else {
             leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
         }
         // eslint-disable-next-line
