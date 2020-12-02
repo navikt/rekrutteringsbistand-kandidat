@@ -40,10 +40,13 @@ const setupProxy = (fraPath, tilTarget, headers = undefined) =>
         },
     });
 
-const manifestMedEnv = () => {
+const manifestMedFlereFiler = (...filUrlStrenger) => {
     const asset = JSON.parse(fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8'));
     if (asset.files) {
-        asset.files['env.js'] = '/rekrutteringsbistand-kandidat/static/js/env.js';
+        filUrlStrenger.forEach((url) => {
+            const name = url.split('/').pop();
+            asset.files[name] = url;
+        });
     }
     return JSON.stringify(asset, null, 4);
 };
@@ -72,7 +75,9 @@ const startServer = () => {
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.type('json').send(manifestMedEnv());
+        res.type('json').send(
+            manifestMedFlereFiler('/rekrutteringsbistand-kandidat/static/js/env.js')
+        );
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
