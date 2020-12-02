@@ -83,7 +83,9 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         const skalSøkeMedEksisterendeSøkestate =
             !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
 
-        if (skalSøkeMedEksisterendeSøkestate) {
+        if (!stillingsId || stillingsId !== stillingsIdParam) {
+            leggInfoFraStillingIStateOgSøk(stillingsIdParam, kandidatliste?.kandidatlisteId);
+        } else if (skalSøkeMedEksisterendeSøkestate) {
             search();
         } else if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
