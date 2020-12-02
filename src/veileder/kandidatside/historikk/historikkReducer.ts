@@ -1,11 +1,11 @@
 import { Kandidatstatus } from './../../kandidatliste/kandidatlistetyper';
 import {
     ApiError,
-    Feil,
-    IkkeLastet,
-    LasterInn,
+    feil,
+    ikkeLastet,
+    lasterInn,
     Nettressurs,
-    Suksess,
+    suksess,
 } from '../../../felles/common/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchKandidatlisterForKandidat } from '../../api';
@@ -64,7 +64,7 @@ type HistorikkAction =
     | FetchMidlertidigUtilgjengeligSuccessAction
     | FetchMidlertidigUtilgjengeligFailureAction;
 
-const initialState: HistorikkState = { kandidatlisterForKandidat: IkkeLastet() };
+const initialState: HistorikkState = { kandidatlisterForKandidat: ikkeLastet() };
 
 export const historikkReducer = (
     state: HistorikkState = initialState,
@@ -74,17 +74,17 @@ export const historikkReducer = (
         case KandidatlisterForKandidatActionType.Fetch:
             return {
                 ...state,
-                kandidatlisterForKandidat: LasterInn(),
+                kandidatlisterForKandidat: lasterInn(),
             };
         case KandidatlisterForKandidatActionType.FetchSuccess:
             return {
                 ...state,
-                kandidatlisterForKandidat: Suksess(action.response),
+                kandidatlisterForKandidat: suksess(action.response),
             };
         case KandidatlisterForKandidatActionType.FetchFailure:
             return {
                 ...state,
-                kandidatlisterForKandidat: Feil(action.error),
+                kandidatlisterForKandidat: feil(action.error),
             };
         default:
             return state;

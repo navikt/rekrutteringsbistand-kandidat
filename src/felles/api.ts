@@ -1,4 +1,4 @@
-import { Feil, ResponseData, Suksess } from './common/remoteData';
+import { feil, ResponseData, suksess } from './common/remoteData';
 
 export const createCallIdHeader = () => ({
     'Nav-CallId': Math.random().toString(16).substr(2),
@@ -54,10 +54,10 @@ export async function deleteJsonMedType<T>(
 ): Promise<ResponseData<T>> {
     try {
         const response: unknown = await deleteReq(url, bodyString);
-        return Suksess(response as T);
+        return suksess(response as T);
     } catch (e) {
         if (e instanceof SearchApiError) {
-            return Feil(e);
+            return feil(e);
         } else {
             throw e;
         }

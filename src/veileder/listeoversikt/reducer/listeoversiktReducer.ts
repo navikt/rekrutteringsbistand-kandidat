@@ -1,9 +1,9 @@
 import {
-    IkkeLastet,
-    LasterInn,
+    ikkeLastet,
+    lasterInn,
     Nettstatus,
     RemoteData,
-    Suksess,
+    suksess,
 } from '../../../felles/common/remoteData';
 import { HentStatus, MarkerSomMinStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Reducer } from 'redux';
@@ -40,7 +40,7 @@ const initialState = {
         pagenumber: 0,
         pagesize: 20,
     },
-    slettKandidatlisteStatus: IkkeLastet(),
+    slettKandidatlisteStatus: ikkeLastet(),
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
 };
 
@@ -93,20 +93,20 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.SLETT_KANDIDATLISTE:
             return {
                 ...state,
-                slettKandidatlisteStatus: LasterInn(),
+                slettKandidatlisteStatus: lasterInn(),
             };
         case ListeoversiktActionType.SLETT_KANDIDATLISTE_FERDIG:
             return {
                 ...state,
                 slettKandidatlisteStatus:
                     action.result.kind === Nettstatus.Suksess
-                        ? Suksess({ slettetTittel: action.kandidatlisteTittel })
+                        ? suksess({ slettetTittel: action.kandidatlisteTittel })
                         : action.result,
             };
         case ListeoversiktActionType.RESET_SLETTE_STATUS:
             return {
                 ...state,
-                slettKandidatlisteStatus: IkkeLastet(),
+                slettKandidatlisteStatus: ikkeLastet(),
             };
         case ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER:
             return {

@@ -12,68 +12,62 @@ export enum Nettstatus {
     Feil = 'Feil',
 }
 
-interface IIkkeLastet {
+interface IkkeLastet {
     kind: Nettstatus.IkkeLastet;
 }
 
-interface ILasterInn {
+interface LasterInn {
     kind: Nettstatus.LasterInn;
 }
 
-interface ISenderInn<T> {
+interface SenderInn<T> {
     kind: Nettstatus.SenderInn;
     data: T;
 }
 
-interface ISuksess<T> {
+interface Suksess<T> {
     kind: Nettstatus.Suksess;
     data: T;
 }
 
-interface IFinnesIkke {
+interface FinnesIkke {
     kind: Nettstatus.FinnesIkke;
 }
 
-interface IFeil {
+interface Feil {
     kind: Nettstatus.Feil;
     error: ApiError;
 }
 
-export const IkkeLastet = (): IIkkeLastet => ({
+export const ikkeLastet = (): IkkeLastet => ({
     kind: Nettstatus.IkkeLastet,
 });
 
-export const LasterInn = (): ILasterInn => ({
+export const lasterInn = (): LasterInn => ({
     kind: Nettstatus.LasterInn,
 });
 
-export const SenderInn = <T>(data: T): ISenderInn<T> => ({
+export const senderInn = <T>(data: T): SenderInn<T> => ({
     kind: Nettstatus.SenderInn,
     data,
 });
 
-export const Suksess = <T>(data: T): ISuksess<T> => ({
+export const suksess = <T>(data: T): Suksess<T> => ({
     kind: Nettstatus.Suksess,
     data,
 });
 
-export const FinnesIkke = (): IFinnesIkke => ({
+export const finnesIkke = (): FinnesIkke => ({
     kind: Nettstatus.FinnesIkke,
 });
 
-export const Feil = (error: ApiError): IFeil => ({
+export const feil = (error: ApiError): Feil => ({
     kind: Nettstatus.Feil,
     error,
 });
 
-export type RemoteData<T> = IIkkeLastet | ILasterInn | IFeil | ISuksess<T>;
+export type RemoteData<T> = IkkeLastet | LasterInn | Feil | Suksess<T>;
 
-export type Nettressurs<T> =
-    | IIkkeLastet
-    | ILasterInn
-    | ISenderInn<T>
-    | IFeil
-    | ISuksess<T>
-    | IFinnesIkke;
+export type Nettressurs<T> = IkkeLastet | LasterInn | SenderInn<T> | Feil | Suksess<T> | FinnesIkke;
 
-export type ResponseData<T> = IFeil | ISuksess<T>;
+export type ResponseData<T> = Feil | Suksess<T>;
