@@ -22,6 +22,7 @@ import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
+import { stat } from 'fs';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
@@ -41,6 +42,7 @@ type Props = DefaultKandidatsøkProps & {
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
     fjernValgtKandidat: () => void;
+    stillingsId: string;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -61,19 +63,21 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     maksAntallTreff,
     kandidatlisteIdFraSøk,
     fjernValgtKandidat,
+    stillingsId,
 }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
         resetKandidatlisterSokekriterier();
     }, [resetKandidatlisterSokekriterier]);
 
-    const stillingsId = match.params.stillingsId;
+    const stillingsIdParam = match.params.stillingsId;
 
     useEffect(() => {
         fjernValgtKandidat();
     }, [fjernValgtKandidat]);
 
     useEffect(() => {
+        console.log('sok stillingsId', stillingsId, stillingsIdParam);
         const søkestateKommerFraDenneKandidatlisten =
             !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatliste?.kandidatlisteId;
 
@@ -84,14 +88,14 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
             search();
         } else if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else {
-            leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
+        } else if (!harHentetStilling) {
+            leggInfoFraStillingIStateOgSøk(stillingsIdParam, kandidatliste?.kandidatlisteId);
         }
         // eslint-disable-next-line
     }, [
         kandidatliste,
         kandidatlisteIdFraSøk,
-        stillingsId,
+        stillingsIdParam,
         harHentetStilling,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
@@ -157,6 +161,7 @@ const mapStateToProps = (state: AppState) => ({
             : undefined,
     maksAntallTreff: state.søk.maksAntallTreff,
     kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
+    stillingsId: state.søk.stillingsId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
