@@ -53,8 +53,7 @@ const startServer = () => {
     }
     console.log('asset endret', asset);
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.header('Content-Type', 'application/json');
-        res.send(asset);
+        res.type('json').send(JSON.stringify(results, null, 4));
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
