@@ -76,7 +76,6 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [fjernValgtKandidat]);
 
     useEffect(() => {
-        console.log('sok stillingsId', stillingsId, stillingsIdParam);
         const søkestateKommerFraDenneKandidatlisten =
             !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatliste?.kandidatlisteId;
 
@@ -95,6 +94,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         kandidatliste,
         kandidatlisteIdFraSøk,
         stillingsIdParam,
+        stillingsId,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
