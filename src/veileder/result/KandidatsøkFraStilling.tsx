@@ -22,7 +22,6 @@ import { harUrlParametere } from '../sok/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
-import { stat } from 'fs';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
