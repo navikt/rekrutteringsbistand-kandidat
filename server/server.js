@@ -43,6 +43,24 @@ const setupProxy = (fraPath, tilTarget, headers = undefined) =>
 const startServer = () => {
     writeEnvironmentVariablesToFile();
 
+    app.use(setupProxy(`${basePath}/kandidat-api`, process.env.KANDIDATSOK_API_URL));
+
+    app.use(
+        setupProxy(`${basePath}/enhetsregister-api`, process.env.ENHETSREGISTER_API, {
+            'x-nav-apiKey': miljøvariablerFraVault.ENHETSREGISTER_GATEWAY_APIKEY,
+        })
+    );
+
+    app.use(setupProxy(`${basePath}/sms-api`, process.env.SMS_API));
+
+    app.use(`${basePath}/midlertidig-utilgjengelig-api`, [
+        fjernDobleCookies,
+        setupProxy(
+            `${basePath}/midlertidig-utilgjengelig-api`,
+            process.env.MIDLERTIDIG_UTILGJENGELIG_API
+        ),
+    ]);
+
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     const assetString = fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8');
