@@ -19,7 +19,7 @@ import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
 
@@ -64,6 +64,13 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     fjernValgtKandidat,
     stillingsId,
 }) => {
+    const history = useHistory();
+
+    useEffect(() => {
+        console.log('***history', history.location.pathname);
+        leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+    }, [history.location.pathname]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
         resetKandidatlisterSokekriterier();
@@ -82,9 +89,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         const skalSøkeMedEksisterendeSøkestate =
             !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
 
-        if (!stillingsId || stillingsId !== stillingsIdFraUrl) {
-            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
-        } else if (skalSøkeMedEksisterendeSøkestate) {
+        if (skalSøkeMedEksisterendeSøkestate) {
             search();
         } else if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
