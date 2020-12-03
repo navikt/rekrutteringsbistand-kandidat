@@ -19,7 +19,7 @@ import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from '../sok/searchQuery';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
 
@@ -60,23 +60,10 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
-    kandidatlisteIdFraSøk,
     fjernValgtKandidat,
     stillingsId,
 }) => {
-    const history = useHistory();
-
     const stillingsIdFraUrl = match.params.stillingsId;
-
-    useEffect(() => {
-        console.log('***history', history.location.pathname);
-        leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
-    }, [
-        history.location.pathname,
-        stillingsIdFraUrl,
-        kandidatliste?.kandidatlisteId,
-        leggInfoFraStillingIStateOgSøk,
-    ]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -88,23 +75,14 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [fjernValgtKandidat]);
 
     useEffect(() => {
-        const søkestateKommerFraDenneKandidatlisten =
-            !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatliste?.kandidatlisteId;
-
-        const skalSøkeMedEksisterendeSøkestate =
-            !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
-
-        if (skalSøkeMedEksisterendeSøkestate) {
-            search();
-        } else if (harUrlParametere(window.location.href)) {
+        if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
+        } else {
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         }
-        // eslint-disable-next-line
     }, [
         kandidatliste,
-        kandidatlisteIdFraSøk,
         stillingsIdFraUrl,
-        stillingsId,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
