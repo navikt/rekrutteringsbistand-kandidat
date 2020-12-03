@@ -29,6 +29,7 @@ import {
     lenkeTilKandidatliste,
     lenkeTilKandidatsøk,
 } from '../application/paths';
+import { toUrlQuery } from '../sok/searchQuery';
 
 class VisKandidat extends React.Component {
     constructor(props) {
@@ -235,7 +236,10 @@ class VisKandidat extends React.Component {
                 ? lenkeTilCv(nesteKandidat, kandidatlisteId)
                 : undefined;
         } else if (stillingsId) {
-            tilbakeLink = lenkeTilFinnKandidaterMedStilling(stillingsId);
+            tilbakeLink = lenkeTilFinnKandidaterMedStilling(
+                stillingsId,
+                this.props.kandidatsokMedStillingparams
+            );
 
             forrigeKandidatLink = forrigeKandidat
                 ? lenkeTilCv(forrigeKandidat, undefined, stillingsId)
@@ -390,6 +394,7 @@ const mapStateToProps = (state) => ({
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
+    kandidatsokMedStillingparams: toUrlQuery(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
