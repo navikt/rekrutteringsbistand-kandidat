@@ -69,7 +69,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         resetKandidatlisterSokekriterier();
     }, [resetKandidatlisterSokekriterier]);
 
-    const stillingsIdParam = match.params.stillingsId;
+    const stillingsIdFraUrl = match.params.stillingsId;
 
     useEffect(() => {
         fjernValgtKandidat();
@@ -82,8 +82,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         const skalSøkeMedEksisterendeSøkestate =
             !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
 
-        if (!stillingsId || stillingsId !== stillingsIdParam) {
-            leggInfoFraStillingIStateOgSøk(stillingsIdParam, kandidatliste?.kandidatlisteId);
+        if (!stillingsId || stillingsId !== stillingsIdFraUrl) {
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         } else if (skalSøkeMedEksisterendeSøkestate) {
             search();
         } else if (harUrlParametere(window.location.href)) {
@@ -93,7 +93,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [
         kandidatliste,
         kandidatlisteIdFraSøk,
-        stillingsIdParam,
+        stillingsIdFraUrl,
         stillingsId,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
