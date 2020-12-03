@@ -71,7 +71,12 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     useEffect(() => {
         console.log('***history', history.location.pathname);
         leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
-    }, [history.location.pathname, stillingsIdFraUrl, kandidatliste?.kandidatlisteId]);
+    }, [
+        history.location.pathname,
+        stillingsIdFraUrl,
+        kandidatliste?.kandidatlisteId,
+        leggInfoFraStillingIStateOgSøk,
+    ]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
