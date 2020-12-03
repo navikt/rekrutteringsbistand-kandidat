@@ -5,12 +5,10 @@ import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
-
 import sms from './json/sms.json';
-
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
-
 import cver from './data/cv.mock';
+
 import {
     kandidatliste,
     kandidatlister,
@@ -24,6 +22,8 @@ import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/Utfal
 import { meg } from './data/veiledere.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import { KANDIDATSOK_API } from '../api';
+
+fetchMock.config.fallbackToNetwork = true;
 
 const api = `express:${KANDIDATSOK_API}`;
 
