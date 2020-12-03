@@ -70,12 +70,19 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     useEffect(() => {
         console.log('***history', history.location.pathname);
-        leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+        if (harUrlParametere(window.location.href)) {
+            console.log('***url', history.location.pathname);
+            leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
+        } else {
+            console.log('***bytt state', history.location.pathname);
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+        }
     }, [
         history.location.pathname,
         stillingsIdFraUrl,
         kandidatliste?.kandidatlisteId,
         leggInfoFraStillingIStateOgSøk,
+        leggUrlParametereIStateOgSøk,
     ]);
 
     useEffect(() => {
