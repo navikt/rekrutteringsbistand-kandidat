@@ -80,8 +80,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
         } else {
-            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
             hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         }
     }, [
         kandidatliste,
