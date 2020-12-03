@@ -88,6 +88,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         stillingsIdFraUrl,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
+        hentKandidatlisteMedStillingsId,
     ]);
 
     const header = (
