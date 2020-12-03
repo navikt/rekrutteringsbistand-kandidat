@@ -66,17 +66,17 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 }) => {
     const history = useHistory();
 
+    const stillingsIdFraUrl = match.params.stillingsId;
+
     useEffect(() => {
         console.log('***history', history.location.pathname);
         leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
-    }, [history.location.pathname]);
+    }, [history.location.pathname, stillingsIdFraUrl, kandidatliste?.kandidatlisteId]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         resetKandidatlisterSokekriterier();
     }, [resetKandidatlisterSokekriterier]);
-
-    const stillingsIdFraUrl = match.params.stillingsId;
 
     useEffect(() => {
         fjernValgtKandidat();
