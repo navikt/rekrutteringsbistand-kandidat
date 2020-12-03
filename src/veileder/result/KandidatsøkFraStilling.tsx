@@ -38,6 +38,7 @@ type Props = DefaultKandidatsøkProps & {
         tittel: string;
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
+    hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
     fjernValgtKandidat: () => void;
@@ -52,6 +53,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     lagretKandidatliste,
     leggTilKandidatStatus,
     leggInfoFraStillingIStateOgSøk,
+    hentKandidatlisteMedStillingsId,
     leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
@@ -79,6 +81,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
         } else {
             leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+            hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
         }
     }, [
         kandidatliste,
@@ -166,6 +169,12 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
+    hentKandidatlisteMedStillingsId: (stillingsId) => {
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkFraStilling);
