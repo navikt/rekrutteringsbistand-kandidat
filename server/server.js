@@ -17,8 +17,6 @@ const miljøvariablerFraVault = {
 
 const envPath = 'static/js/env.js';
 
-const manifest = manifestMedEkstraFil(`${envPath}`);
-
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
@@ -52,6 +50,8 @@ const manifestMedEkstraFil = (url) => {
     }
     return JSON.stringify(asset, null, 4);
 };
+
+const manifest = manifestMedEkstraFil(`${envPath}`);
 
 const startServer = () => {
     writeEnvironmentVariablesToFile();
