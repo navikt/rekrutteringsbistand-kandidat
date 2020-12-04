@@ -17,6 +17,8 @@ const miljøvariablerFraVault = {
 
 const envPath = 'static/js/env.js';
 
+const manifest = manifestMedEkstraFil(`${envPath}`);
+
 const writeEnvironmentVariablesToFile = () => {
     const fileContent =
         `window.KANDIDAT_LOGIN_URL="${process.env.LOGINSERVICE_VEILEDER_URL}";\n` +
@@ -75,7 +77,7 @@ const startServer = () => {
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.type('json').send(manifestMedEkstraFil(`${envPath}`));
+        res.type('json').send(manifest);
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
