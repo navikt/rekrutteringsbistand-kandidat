@@ -42,13 +42,11 @@ const setupProxy = (fraPath, tilTarget, headers = undefined) =>
         },
     });
 
-const manifestMedFlereFiler = (...filUrlStrenger) => {
+const manifestMedEkstraFil = (url) => {
     const asset = JSON.parse(fs.readFileSync(`${buildPath}/asset-manifest.json`, 'utf8'));
     if (asset.files) {
-        filUrlStrenger.forEach((url) => {
-            const name = url.split('/').pop();
-            asset.files[name] = url;
-        });
+        const name = url.split('/').pop();
+        asset.files[name] = `${basePath}/${url}`;
     }
     return JSON.stringify(asset, null, 4);
 };
@@ -77,7 +75,7 @@ const startServer = () => {
     app.use(`${basePath}/static`, express.static(buildPath + '/static'));
 
     app.get(`${basePath}/asset-manifest.json`, (req, res) => {
-        res.type('json').send(manifestMedFlereFiler(`/rekrutteringsbistand-kandidat/${envPath}`));
+        res.type('json').send(manifestMedEkstraFil(`${envPath}`));
     });
 
     app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (req, res) =>
