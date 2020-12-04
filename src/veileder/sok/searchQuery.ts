@@ -51,8 +51,11 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
         urlQuery.kompetanser = søkefilter.kompetanse.kompetanser.join('_');
     if (søkefilter.utdanning.utdanninger && søkefilter.utdanning.utdanninger.length > 0)
         urlQuery.utdanninger = søkefilter.utdanning.utdanninger.join('_');
-    if (søkefilter.geografi.geografiList && søkefilter.geografi.geografiList.length > 0)
-        urlQuery.geografiList = søkefilter.geografi.geografiList.join('_');
+    if (
+        søkefilter.geografi.geografiListKomplett &&
+        søkefilter.geografi.geografiListKomplett.length > 0
+    )
+        urlQuery.geografiList = søkefilter.geografi.geografiListKomplett.join('_');
     if (
         søkefilter.arbeidserfaring.totalErfaring &&
         søkefilter.arbeidserfaring.totalErfaring.length > 0
