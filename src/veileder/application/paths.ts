@@ -35,8 +35,8 @@ export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean
         redigeringsmodus ? '?redigeringsmodus=true' : ''
     }`;
 
-export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string) =>
-    `${appPrefiks}/kandidater/stilling/${stillingsId}`;
+export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
+    `${appPrefiks}/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;
 
 export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string) =>
     `${appPrefiks}/kandidater/kandidatliste/${stillingsId}`;

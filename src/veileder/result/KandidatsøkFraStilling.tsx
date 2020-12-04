@@ -38,9 +38,11 @@ type Props = DefaultKandidatsøkProps & {
         tittel: string;
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
+    hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
     fjernValgtKandidat: () => void;
+    stillingsId: string;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -51,6 +53,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     lagretKandidatliste,
     leggTilKandidatStatus,
     leggInfoFraStillingIStateOgSøk,
+    hentKandidatlisteMedStillingsId,
     leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
@@ -59,43 +62,38 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
-    kandidatlisteIdFraSøk,
     fjernValgtKandidat,
+    stillingsId,
 }) => {
+    const stillingsIdFraUrl = match.params.stillingsId;
+
     useEffect(() => {
         window.scrollTo(0, 0);
         resetKandidatlisterSokekriterier();
     }, [resetKandidatlisterSokekriterier]);
-
-    const stillingsId = match.params.stillingsId;
 
     useEffect(() => {
         fjernValgtKandidat();
     }, [fjernValgtKandidat]);
 
     useEffect(() => {
-        const søkestateKommerFraDenneKandidatlisten =
-            !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatliste?.kandidatlisteId;
-
-        const skalSøkeMedEksisterendeSøkestate =
-            !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
-
-        if (skalSøkeMedEksisterendeSøkestate) {
-            search();
-        } else if (harUrlParametere(window.location.href)) {
+        if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else if (!harHentetStilling) {
-            leggInfoFraStillingIStateOgSøk(stillingsId, kandidatliste?.kandidatlisteId);
+        } else {
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         }
-        // eslint-disable-next-line
     }, [
         kandidatliste,
-        kandidatlisteIdFraSøk,
-        stillingsId,
-        harHentetStilling,
+        stillingsIdFraUrl,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
     ]);
+
+    useEffect(() => {
+        if (!harUrlParametere(window.location.href)) {
+            hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
+        }
+    }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
 
     const header = (
         <Container className="container--header">
@@ -157,6 +155,7 @@ const mapStateToProps = (state: AppState) => ({
             : undefined,
     maksAntallTreff: state.søk.maksAntallTreff,
     kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
+    stillingsId: state.søk.stillingsId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -175,6 +174,12 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
+    hentKandidatlisteMedStillingsId: (stillingsId) => {
+        dispatch({
+            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
+            stillingsId,
+        });
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkFraStilling);

@@ -1,6 +1,6 @@
 {
     "stilling": ["Siviltjenestearbeider", "Hjelpearbeider (privat/offentlig virksomhet)"],
-    "kommune": ["NO03.0301"],
+    "kommune": ["NO03.0301", "NO03.0302"],
     "tag": ["INKLUDERING", "INKLUDERING__FYSISK"],
     "inkludering": true
 }

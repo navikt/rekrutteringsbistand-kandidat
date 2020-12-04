@@ -109,6 +109,7 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
             return {
                 ...state,
                 maksAntallTreff: 0,
+                stillingsId: action.stillingsId,
             };
         case SEARCH_BEGIN:
             return {
