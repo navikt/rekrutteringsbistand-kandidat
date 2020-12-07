@@ -1,17 +1,23 @@
-import { Event } from '@sentry/types';
+import { Breadcrumb, Event } from '@sentry/types';
 
 export const fjernPersonopplysninger = (event: Event): Event => {
     const url = event.request?.url ? maskerPersonopplysninger(event.request.url) : '';
 
     return {
+        ...event,
         request: {
             ...event.request,
             url,
+            headers: {
+                Referer: maskerPersonopplysninger(event.request?.headers?.Referer) || '',
+            },
         },
-        breadcrumbs: (event.breadcrumbs || []).map((breadcrumb) => ({
+        breadcrumbs: (event.breadcrumbs || []).map((breadcrumb: Breadcrumb) => ({
             ...breadcrumb,
             message: maskerPersonopplysninger(breadcrumb.message),
             data: {
+                ...breadcrumb.data,
+                url: maskerPersonopplysninger(breadcrumb.data?.url),
                 from: maskerPersonopplysninger(breadcrumb.data?.from),
                 to: maskerPersonopplysninger(breadcrumb.data?.to),
             },

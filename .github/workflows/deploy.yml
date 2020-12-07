@@ -26,6 +26,10 @@ jobs:
               run: npm run test
             - name: Bygg applikasjon
               run: npm run build
+            - name: Opprett release med Sentry
+              run: npm run sentry-release
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
             - name: Bygg og publiser Docker-image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

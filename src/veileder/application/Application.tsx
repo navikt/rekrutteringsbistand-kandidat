@@ -27,6 +27,13 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
             <Normaltekst tag="div" className="Application">
                 <main className="Application__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
+                    <button
+                        onClick={() => {
+                            throw new Error('Fremprovosert feil!');
+                        }}
+                    >
+                        Trykk meg!
+                    </button>
                     <Switch>
                         <Route
                             exact
