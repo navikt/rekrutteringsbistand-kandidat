@@ -10,8 +10,9 @@
         "start:mock": "REACT_APP_MOCK=true craco start",
         "start:mock:export": "BROWSER=none REACT_APP_EXPORT=true REACT_APP_MOCK=true craco start",
         "start:express": "MIDLERTIDIG_UTILGJENGELIG_API='https://arbeidsgiver.nais.preprod.local/finn-kandidat-api/midlertidig-utilgjengelig' node ./server/server.js",
-        "build": "REACT_APP_EXPORT=true craco build",
+        "build": "REACT_APP_EXPORT=true REACT_APP_SENTRY_RELEASE=$(git rev-parse --short HEAD)  craco build",
         "build:labs": "REACT_APP_MOCK=true craco build",
+        "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node scripts/sentry-release)",
         "test": "craco test",
         "docker-build": "npm run build && docker build . -t rekrutteringsbistand-kandidat",
         "docker-start": "docker run --name rekrutteringsbistand-kandidat -p 8080:8080 -d rekrutteringsbistand-kandidat",
@@ -94,6 +95,7 @@
     },
     "devDependencies": {
         "@craco/craco": "^5.8.0",
+        "@sentry/cli": "^1.60.1",
         "@types/amplitude-js": "^5.11.0",
         "@types/http-proxy-middleware": "^0.19.3",
         "@types/node": "^14.10.0",

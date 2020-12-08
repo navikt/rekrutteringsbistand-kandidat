@@ -47,6 +47,7 @@ import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
     environment: getMiljø(),
+    release: process.env.REACT_APP_SENTRY_RELEASE || 'unknown',
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
     beforeSend: fjernPersonopplysninger,
 });

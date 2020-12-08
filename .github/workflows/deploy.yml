@@ -26,6 +26,10 @@ jobs:
               run: npm run test
             - name: Bygg applikasjon
               run: npm run build
+            - name: Opprett release med Sentry
+              run: npm run sentry-release
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
             - name: Bygg og publiser Docker-image
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,7 +41,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/envjs-i-manifest'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/fiks-sentry'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
