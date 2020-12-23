@@ -72,9 +72,13 @@ const ListeHeader: FunctionComponent = () => {
                 onClick={endreSortering}
                 className="kolonne-middels"
             />
-            <div className="kolonne-bred">
-                <Element>Navn på kandidatliste</Element>
-            </div>
+            <SorterbarKolonneheader
+                tekst={'Navn på kandidatliste'}
+                sorteringsfelt={KandidatlisteSorteringsfelt.Tittel}
+                sorteringsretning={hentSorteringsretning(KandidatlisteSorteringsfelt.Tittel)}
+                onClick={endreSortering}
+                className="kolonne-bred"
+            />
             <div className="kolonne-middels">
                 <Element>Antall kandidater</Element>
             </div>
