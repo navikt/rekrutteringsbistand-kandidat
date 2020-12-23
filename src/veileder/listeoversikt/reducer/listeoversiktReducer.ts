@@ -123,6 +123,7 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
         case ListeoversiktActionType.SET_SORTERING:
             return {
                 ...state,
+                hentListerStatus: HentStatus.Loading,
                 sortering: {
                     sortField: action.sortering.sortField,
                     sortDirection: action.sortering.sortDirection,
