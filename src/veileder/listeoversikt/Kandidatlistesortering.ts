@@ -1,5 +1,5 @@
 export enum KandidatlisteSorteringsfelt {
-    OpprettetDato = 'opprettetDato',
+    OpprettetTidspunkt = 'opprettetTidspunkt',
     Tittel = 'tittel',
 }
 

@@ -65,8 +65,10 @@ const ListeHeader: FunctionComponent = () => {
         <div className="liste-header liste-rad-innhold">
             <SorterbarKolonneheader
                 tekst={'Dato opprettet'}
-                sorteringsfelt={KandidatlisteSorteringsfelt.OpprettetDato}
-                sorteringsretning={hentSorteringsretning(KandidatlisteSorteringsfelt.OpprettetDato)}
+                sorteringsfelt={KandidatlisteSorteringsfelt.OpprettetTidspunkt}
+                sorteringsretning={hentSorteringsretning(
+                    KandidatlisteSorteringsfelt.OpprettetTidspunkt
+                )}
                 onClick={endreSortering}
                 className="kolonne-middels"
             />
