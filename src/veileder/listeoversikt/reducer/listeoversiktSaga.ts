@@ -1,8 +1,8 @@
 import { Nettstatus } from '../../../felles/common/remoteData';
 import { SearchApiError } from '../../../felles/api';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
-import { select, put, takeLatest, call } from 'redux-saga/effects';
-import { fetchKandidatlister, deleteKandidatliste, endreEierskapPaKandidatliste } from '../../api';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { deleteKandidatliste, endreEierskapPaKandidatliste, fetchKandidatlister } from '../../api';
 import AppState from '../../AppState';
 import {
     ListeoversiktActionType,
@@ -13,7 +13,11 @@ import {
 function* hentKandidatlister() {
     const state: AppState = yield select();
     try {
-        const kandidatlister = yield fetchKandidatlister(state.listeoversikt.søkekriterier);
+        let mergedQuery = {
+            ...state.listeoversikt.søkekriterier,
+            ...state.listeoversikt.sortering,
+        };
+        const kandidatlister = yield fetchKandidatlister(mergedQuery);
         yield put({ type: ListeoversiktActionType.HENT_KANDIDATLISTER_SUCCESS, kandidatlister });
     } catch (e) {
         if (e instanceof SearchApiError) {
@@ -60,7 +64,10 @@ function* sjekkFerdigActionForError(action: SlettKandidatlisteFerdigAction) {
 }
 
 function* listeoversiktSaga() {
-    yield takeLatest(ListeoversiktActionType.HENT_KANDIDATLISTER, hentKandidatlister);
+    yield takeLatest(
+        [ListeoversiktActionType.HENT_KANDIDATLISTER, ListeoversiktActionType.SET_SORTERING],
+        hentKandidatlister
+    );
     yield takeLatest(
         [
             ListeoversiktActionType.HENT_KANDIDATLISTER_FAILURE,

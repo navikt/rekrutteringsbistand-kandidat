@@ -8,6 +8,10 @@ import {
 import { HentStatus, MarkerSomMinStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';
+import {
+    KandidatlisteSorteringsfelt,
+    KandidatlisteSorteringsretning,
+} from '../Kandidatlistesortering';
 
 export type ListeoversiktState = {
     hentListerStatus: HentStatus;
@@ -21,6 +25,10 @@ export type ListeoversiktState = {
         kunEgne: boolean;
         pagenumber: number;
         pagesize: number;
+    };
+    sortering: {
+        sortField: KandidatlisteSorteringsfelt | null;
+        sortDirection: KandidatlisteSorteringsretning | null;
     };
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
@@ -39,6 +47,10 @@ const initialState = {
         kunEgne: true,
         pagenumber: 0,
         pagesize: 20,
+    },
+    sortering: {
+        sortField: null,
+        sortDirection: null,
     },
     slettKandidatlisteStatus: ikkeLastet(),
     markerSomMinStatus: MarkerSomMinStatus.IkkeGjort,
@@ -108,6 +120,14 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                 ...state,
                 slettKandidatlisteStatus: ikkeLastet(),
             };
+        case ListeoversiktActionType.SET_SORTERING:
+            return {
+                ...state,
+                sortering: {
+                    sortField: action.sortering.sortField,
+                    sortDirection: action.sortering.sortDirection,
+                },
+            };
         case ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER:
             return {
                 ...state,
@@ -121,6 +141,10 @@ const listeoversiktReducer: Reducer<ListeoversiktState, ListeoversiktAction> = (
                     kunEgne: true,
                     pagenumber: 0,
                     pagesize: 20,
+                },
+                sortering: {
+                    sortDirection: null,
+                    sortField: null,
                 },
             };
         default:
