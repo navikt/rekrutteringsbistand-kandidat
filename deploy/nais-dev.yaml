@@ -7,7 +7,7 @@ metadata:
     team: arbeidsgiver
 spec:
   # prettier-ignore
-  image: { { image } }
+  image: {{ image }}
   port: 8080
   liveness:
     path: /rekrutteringsbistand-kandidat/internal/isAlive
@@ -48,7 +48,7 @@ spec:
     - name: LAST_NED_CV_URL
       value: https://pam-cv-veileder.nais.preprod.local/cv/pdf
     - name: ENHETSREGISTER_API
-      value: https://pam-ad-api.nais.preprod.local/
+      value: https://pam-ad-api.nais.preprod.local/search-api
     - name: PAMPORTAL_URL
       value: https://arbeidsplassen-q.nav.no/
     - name: ARBEIDSRETTET_OPPFOLGING_URL

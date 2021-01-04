@@ -48,7 +48,7 @@ spec:
     - name: LAST_NED_CV_URL
       value: https://pam-cv-veileder.nais.adeo.no/cv/pdf
     - name: ENHETSREGISTER_API
-      value: https://pam-ad-api.nais.adeo.no/
+      value: https://pam-ad-api.nais.adeo.no/search-api
     - name: PAMPORTAL_URL
       value: https://arbeidsplassen.nav.no/
     - name: ARBEIDSRETTET_OPPFOLGING_URL
