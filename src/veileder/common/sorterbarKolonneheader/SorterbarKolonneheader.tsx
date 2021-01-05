@@ -5,6 +5,7 @@ import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Link, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 import { Retning } from './Retning';
+import './SorterbarKolonneheader.less';
 
 interface Props {
     tekst: string;
@@ -29,8 +30,8 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
         ariaSort = sorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
     }
 
-    const mainClassName = classnames('sorterbar-kolonne', className ? className : undefined, {
-        'sorterbar-kolonne--valgt': ariaSort !== 'none',
+    const mainClassName = classnames('sorterbar-kolonneheader', className ? className : undefined, {
+        'sorterbar-kolonneheader--valgt': ariaSort !== 'none',
     });
 
     return (
@@ -41,16 +42,16 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
             onClick={() => onClick(sorteringsfelt)}
             className={mainClassName}
         >
-            <Element tag="div" className="sorterbar-kolonne__tekst">
+            <Element tag="div" className="sorterbar-kolonneheader__tekst">
                 {tekst}
             </Element>
             {children}
             {ariaSort === 'none' ? (
                 <Indikator />
             ) : ariaSort === 'ascending' ? (
-                <OppChevron className="sorterbar-kolonne__chevron" />
+                <OppChevron className="sorterbar-kolonneheader__chevron" />
             ) : (
-                <NedChevron className="sorterbar-kolonne__chevron" />
+                <NedChevron className="sorterbar-kolonneheader__chevron" />
             )}
         </Link>
     );
