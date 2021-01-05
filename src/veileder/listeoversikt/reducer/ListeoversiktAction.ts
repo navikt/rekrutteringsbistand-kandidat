@@ -1,8 +1,6 @@
 import { ResponseData } from '../../../felles/common/remoteData';
-import {
-    KandidatlisteSorteringsfelt,
-    KandidatlisteSorteringsretning,
-} from '../Kandidatlistesortering';
+import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
+import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 export enum ListeoversiktActionType {
     HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER',
@@ -26,7 +24,7 @@ export interface HentKandidatlisterAction {
     pagenumber: number;
     pagesize: number;
     sortField: KandidatlisteSorteringsfelt;
-    sortDirection: KandidatlisteSorteringsretning;
+    sortDirection: Retning;
 }
 
 export interface HentKandidatlisterSuccessAction {
@@ -75,7 +73,7 @@ export interface SetSortering {
     type: ListeoversiktActionType.SET_SORTERING;
     sortering: {
         sortField: KandidatlisteSorteringsfelt;
-        sortDirection: KandidatlisteSorteringsretning;
+        sortDirection: Retning;
     };
 }
 

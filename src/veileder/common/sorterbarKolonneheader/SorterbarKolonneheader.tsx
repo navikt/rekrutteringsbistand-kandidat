@@ -1,19 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { Element } from 'nav-frontend-typografi';
-import Indikator from '../kandidatliste/liste-header/Indikator';
+import Indikator from '../../kandidatliste/liste-header/Indikator';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { Link, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
-import {
-    KandidatlisteSorteringsfelt,
-    KandidatlisteSorteringsretning,
-} from './Kandidatlistesortering';
+import { Retning } from './Retning';
 
 interface Props {
     tekst: string;
-    sorteringsfelt: KandidatlisteSorteringsfelt;
-    sorteringsretning: null | KandidatlisteSorteringsretning;
-    onClick: (sorteringsfelt: KandidatlisteSorteringsfelt) => void;
+    sorteringsfelt: string;
+    sorteringsretning: null | Retning;
+    onClick: (sorteringsfelt: string) => void;
     className?: string;
 }
 
@@ -29,10 +26,7 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
 
     let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
     if (sorteringsretning) {
-        ariaSort =
-            sorteringsretning === KandidatlisteSorteringsretning.Stigende
-                ? 'ascending'
-                : 'descending';
+        ariaSort = sorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
     }
 
     const mainClassName = classnames('sorterbar-kolonne', className ? className : undefined, {

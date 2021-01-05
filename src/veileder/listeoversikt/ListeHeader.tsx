@@ -1,18 +1,15 @@
 import { Element } from 'nav-frontend-typografi';
 import React, { FunctionComponent } from 'react';
-import SorterbarKolonneheader from './SorterbarKolonneheader';
-import {
-    KandidatlisteSorteringsfelt,
-    KandidatlisteSorteringsretning,
-} from './Kandidatlistesortering';
+import SorterbarKolonneheader from '../common/sorterbarKolonneheader/SorterbarKolonneheader';
+import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../AppState';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
+import { Retning } from '../common/sorterbarKolonneheader/Retning';
 
 const ListeHeader: FunctionComponent = () => {
     const dispatch = useDispatch();
 
-    // TODO: Prøv med Kandidatlistestate
     const aktivtSorteringsfelt = useSelector(
         (state: AppState) => state.listeoversikt.sortering.sortField
     );
@@ -20,7 +17,7 @@ const ListeHeader: FunctionComponent = () => {
         (state: AppState) => state.listeoversikt.sortering.sortDirection
     );
 
-    const endreSortering = (sorteringsfelt: KandidatlisteSorteringsfelt) => {
+    const endreSortering = (sorteringsfelt: string) => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
 
         if (endringPåAktivtFelt) {
@@ -35,25 +32,19 @@ const ListeHeader: FunctionComponent = () => {
                 type: ListeoversiktActionType.SET_SORTERING,
                 sortering: {
                     sortField: sorteringsfelt,
-                    sortDirection: KandidatlisteSorteringsretning.Stigende,
+                    sortDirection: Retning.Stigende,
                 },
             });
         }
     };
 
-    const nesteSorteringsretning = (): null | KandidatlisteSorteringsretning => {
-        const retninger = [
-            null,
-            KandidatlisteSorteringsretning.Stigende,
-            KandidatlisteSorteringsretning.Synkende,
-        ];
+    const nesteSorteringsretning = (): null | Retning => {
+        const retninger = [null, Retning.Stigende, Retning.Synkende];
         const aktivIndex = retninger.indexOf(aktivRetning);
         return aktivIndex === retninger.length - 1 ? retninger[0] : retninger[aktivIndex + 1];
     };
 
-    const hentSorteringsretning = (
-        felt: KandidatlisteSorteringsfelt
-    ): null | KandidatlisteSorteringsretning => {
+    const hentSorteringsretning = (felt: KandidatlisteSorteringsfelt): null | Retning => {
         if (felt === aktivtSorteringsfelt) {
             return aktivRetning;
         } else {

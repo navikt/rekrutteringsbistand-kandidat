@@ -8,10 +8,8 @@ import {
 import { HentStatus, MarkerSomMinStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';
-import {
-    KandidatlisteSorteringsfelt,
-    KandidatlisteSorteringsretning,
-} from '../Kandidatlistesortering';
+import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
+import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 export type ListeoversiktState = {
     hentListerStatus: HentStatus;
@@ -28,7 +26,7 @@ export type ListeoversiktState = {
     };
     sortering: {
         sortField: KandidatlisteSorteringsfelt | null;
-        sortDirection: KandidatlisteSorteringsretning | null;
+        sortDirection: Retning | null;
     };
     slettKandidatlisteStatus: RemoteData<{
         slettetTittel: string;
