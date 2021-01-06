@@ -11,7 +11,8 @@ import { KandidatSorteringsfelt } from '../../kandidatliste/kandidatsortering';
 interface Props {
     tekst: string;
     sorteringsfelt: string;
-    sorteringsretning: null | Retning;
+    aktivtSorteringsfelt: string | null;
+    aktivSorteringsretning: Retning | null;
     onClick: (sorteringsfelt: string) => void;
     className?: string;
 }
@@ -19,7 +20,8 @@ interface Props {
 const SorterbarKolonneheader: FunctionComponent<Props> = ({
     tekst,
     sorteringsfelt,
-    sorteringsretning,
+    aktivtSorteringsfelt,
+    aktivSorteringsretning,
     onClick,
     className,
     children,
@@ -27,8 +29,9 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
     let { pathname, search } = useLocation();
 
     let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
-    if (sorteringsretning) {
-        ariaSort = sorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
+
+    if (sorteringsfelt === aktivtSorteringsfelt) {
+        ariaSort = aktivSorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
     }
 
     const mainClassName = classnames('sorterbar-kolonneheader', className ? className : undefined, {

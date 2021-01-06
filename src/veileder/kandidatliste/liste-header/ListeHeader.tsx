@@ -105,34 +105,37 @@ const ListeHeader: FunctionComponent<Props> = ({
                 <SorterbarKolonneheader
                     tekst="Navn"
                     sorteringsfelt={KandidatSorteringsfelt.Navn}
-                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Navn)}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                     className="kolonne-middels"
                 />
                 <SorterbarKolonneheader
                     tekst="Fødselsnr."
                     sorteringsfelt={KandidatSorteringsfelt.Fødselsnummer}
-                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Fødselsnummer)}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
                     tekst="Lagt til av"
                     sorteringsfelt={KandidatSorteringsfelt.LagtTilAv}
-                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.LagtTilAv)}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
                     tekst="Lagt til"
                     sorteringsfelt={KandidatSorteringsfelt.LagtTilTidspunkt}
-                    sorteringsretning={hentSorteringsretning(
-                        KandidatSorteringsfelt.LagtTilTidspunkt
-                    )}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
                     tekst="Status"
                     sorteringsfelt={KandidatSorteringsfelt.Status}
-                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Status)}
+                    aktivtSorteringsfelt={aktivtSorteringsfelt}
+                    aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                     className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
@@ -142,7 +145,8 @@ const ListeHeader: FunctionComponent<Props> = ({
                     <SorterbarKolonneheader
                         tekst="Utfall"
                         sorteringsfelt={KandidatSorteringsfelt.Utfall}
-                        sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Utfall)}
+                        aktivtSorteringsfelt={aktivtSorteringsfelt}
+                        aktivSorteringsretning={aktivSorteringsretning}
                         onClick={endreSortering}
                     />
                 )}

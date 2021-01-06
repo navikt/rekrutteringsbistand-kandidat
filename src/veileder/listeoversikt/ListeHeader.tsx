@@ -38,29 +38,21 @@ const ListeHeader: FunctionComponent = () => {
         }
     };
 
-    const hentSorteringsretning = (felt: KandidatlisteSorteringsfelt): null | Retning => {
-        if (felt === aktivtSorteringsfelt) {
-            return aktivRetning;
-        } else {
-            return null;
-        }
-    };
-
     return (
         <div className="liste-header liste-rad-innhold">
             <SorterbarKolonneheader
                 tekst={'Dato opprettet'}
                 sorteringsfelt={KandidatlisteSorteringsfelt.OpprettetTidspunkt}
-                sorteringsretning={hentSorteringsretning(
-                    KandidatlisteSorteringsfelt.OpprettetTidspunkt
-                )}
+                aktivtSorteringsfelt={aktivtSorteringsfelt}
+                aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-middels"
             />
             <SorterbarKolonneheader
                 tekst={'Navn på kandidatliste'}
                 sorteringsfelt={KandidatlisteSorteringsfelt.Tittel}
-                sorteringsretning={hentSorteringsretning(KandidatlisteSorteringsfelt.Tittel)}
+                aktivtSorteringsfelt={aktivtSorteringsfelt}
+                aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-bred"
             />
