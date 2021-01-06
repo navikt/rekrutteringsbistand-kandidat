@@ -52,7 +52,6 @@ const ListeHeader: FunctionComponent<Props> = ({
     alleMarkert,
     onCheckAlleKandidater,
     visArkiveringskolonne,
-    sortering,
     setSortering,
 }) => {
     const klassenavn =

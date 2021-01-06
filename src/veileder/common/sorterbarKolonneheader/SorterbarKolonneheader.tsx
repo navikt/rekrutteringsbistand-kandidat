@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 import { Retning } from './Retning';
 import './SorterbarKolonneheader.less';
-import { KandidatSorteringsfelt } from '../../kandidatliste/kandidatsortering';
 
 interface Props {
     tekst: string;
