@@ -28,9 +28,10 @@ import TomListe from './tom-liste/TomListe';
 import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
-import { Sorteringsalgoritme, Sorteringsvariant, sorteringsalgoritmer } from './kandidatsortering';
+import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
 import '../../felles/common/ikoner/ikoner.less';
 import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
+import { Retning } from '../common/sorterbarKolonneheader/Retning';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -39,8 +40,8 @@ export enum Visningsstatus {
 }
 
 export type Kandidatsortering = null | {
-    algoritme: Sorteringsalgoritme;
-    variant: Sorteringsvariant;
+    felt: KandidatSorteringsfelt;
+    retning: Retning;
 };
 
 type Props = {
@@ -91,9 +92,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const sorterteKandidater =
         sortering === null
             ? filtrerteKandidater
-            : filtrerteKandidater.sort(
-                  sorteringsalgoritmer[sortering.algoritme][sortering.variant]
-              );
+            : filtrerteKandidater.sort(sorteringsalgoritmer[sortering.felt][sortering.retning]);
 
     const setFilterIUrl = (filter: Kandidatlistefilter) => {
         const query = filterTilQueryParams(filter).toString();

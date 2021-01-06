@@ -1,12 +1,13 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
-import { Sorteringsalgoritme, Sorteringsvariant } from '../kandidatsortering';
-import SorterbarKolonne from './SorterbarKolonne';
+import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Kandidatsortering } from '../Kandidatliste';
+import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 import './../kandidatrad/Kandidatrad.less';
+import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -64,20 +65,32 @@ const ListeHeader: FunctionComponent<Props> = ({
         'kandidatliste-kandidat__rad' +
         modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
 
-    const endreSortering = (sorteringsalgoritme: Sorteringsalgoritme) => {
-        if (sortering === null || sortering.algoritme !== sorteringsalgoritme) {
-            setSortering({
-                algoritme: sorteringsalgoritme,
-                variant: Sorteringsvariant.Stigende,
-            });
-        } else if (sortering.variant === Sorteringsvariant.Stigende) {
-            setSortering({
-                algoritme: sorteringsalgoritme,
-                variant: Sorteringsvariant.Synkende,
-            });
+    const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
+        null
+    );
+    const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(null);
+
+    const hentSorteringsretning = (felt: KandidatSorteringsfelt | null): null | Retning => {
+        if (felt === aktivtSorteringsfelt) {
+            return aktivSorteringsretning;
         } else {
-            setSortering(null);
+            return null;
         }
+    };
+
+    const nesteSorteringsretning = (): null | Retning => {
+        const retninger = [null, Retning.Stigende, Retning.Synkende];
+        const aktivIndex = retninger.indexOf(aktivSorteringsretning);
+        return aktivIndex === retninger.length - 1 ? retninger[0] : retninger[aktivIndex + 1];
+    };
+
+    const endreSortering2 = (sorteringsfelt: string) => {
+        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
+        const retning = endringPåAktivtFelt ? nesteSorteringsretning() : Retning.Stigende;
+
+        setAktivSorteringsretning(retning);
+        setAktivtSorteringsfelt(sorteringsfelt);
+        setSortering({ felt: sorteringsfelt, retning: retning! });
     };
 
     return (
@@ -91,45 +104,48 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onChange={() => onCheckAlleKandidater()}
                 />
                 <div />
-                <SorterbarKolonne
+                <SorterbarKolonneheader
                     tekst="Navn"
-                    sortering={sortering}
-                    sorteringsalgoritme={Sorteringsalgoritme.Navn}
-                    onClick={endreSortering}
+                    sorteringsfelt={KandidatSorteringsfelt.Navn}
+                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Navn)}
+                    onClick={endreSortering2}
+                    className="kolonne-middels"
                 />
-                <SorterbarKolonne
+                <SorterbarKolonneheader
                     tekst="Fødselsnr."
-                    sortering={sortering}
-                    sorteringsalgoritme={Sorteringsalgoritme.Fødselsnummer}
-                    onClick={endreSortering}
+                    sorteringsfelt={KandidatSorteringsfelt.Fødselsnummer}
+                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Fødselsnummer)}
+                    onClick={endreSortering2}
                 />
-                <SorterbarKolonne
-                    tekst="Lagt til av"
-                    sortering={sortering}
-                    sorteringsalgoritme={Sorteringsalgoritme.LagtTilAv}
-                    onClick={endreSortering}
+                <SorterbarKolonneheader
+                    tekst="Fødselsnr."
+                    sorteringsfelt={KandidatSorteringsfelt.LagtTilAv}
+                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.LagtTilAv)}
+                    onClick={endreSortering2}
                 />
-                <SorterbarKolonne
+                <SorterbarKolonneheader
                     tekst="Lagt til"
-                    sortering={sortering}
-                    sorteringsalgoritme={Sorteringsalgoritme.LagtTilTidspunkt}
-                    onClick={endreSortering}
+                    sorteringsfelt={KandidatSorteringsfelt.LagtTilTidspunkt}
+                    sorteringsretning={hentSorteringsretning(
+                        KandidatSorteringsfelt.LagtTilTidspunkt
+                    )}
+                    onClick={endreSortering2}
                 />
-                <SorterbarKolonne
+                <SorterbarKolonneheader
                     tekst="Status"
-                    sortering={sortering}
-                    sorteringsalgoritme={Sorteringsalgoritme.Status}
-                    onClick={endreSortering}
+                    sorteringsfelt={KandidatSorteringsfelt.Status}
+                    sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Status)}
+                    onClick={endreSortering2}
                     className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
                     <StatusHjelpetekst />
-                </SorterbarKolonne>
+                </SorterbarKolonneheader>
                 {kandidatliste.stillingId && (
-                    <SorterbarKolonne
-                        sortering={sortering}
-                        sorteringsalgoritme={Sorteringsalgoritme.Utfall}
-                        onClick={endreSortering}
+                    <SorterbarKolonneheader
                         tekst="Utfall"
+                        sorteringsfelt={KandidatSorteringsfelt.Utfall}
+                        sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Utfall)}
+                        onClick={endreSortering2}
                     />
                 )}
                 <Kolonne tekst="Notater" />

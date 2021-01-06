@@ -1,17 +1,13 @@
 import { KandidatIKandidatliste } from './kandidatlistetyper';
+import { Retning } from '../common/sorterbarKolonneheader/Retning';
 
-export enum Sorteringsalgoritme {
-    Navn,
-    Fødselsnummer,
-    Status,
-    Utfall,
-    LagtTilAv,
-    LagtTilTidspunkt,
-}
-
-export enum Sorteringsvariant {
-    Stigende,
-    Synkende,
+export enum KandidatSorteringsfelt {
+    Navn = 'Navn',
+    Fødselsnummer = 'Fødselsnummer',
+    Status = 'Status',
+    Utfall = 'Utfall',
+    LagtTilAv = 'Lagt til av',
+    LagtTilTidspunkt = 'Lagt til tidspunkt',
 }
 
 export type Kandidatsammenlikning = (
@@ -23,38 +19,27 @@ const sorterAlfabetisk = (string1: string, string2: string, stigende: boolean) =
     return stigende ? string1.localeCompare(string2, 'no') : string2.localeCompare(string1, 'no');
 };
 
-const sorterPåNavn = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.etternavn, k2.etternavn, variant === Sorteringsvariant.Stigende);
+const sorterPåNavn = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(k1.etternavn, k2.etternavn, retning === Retning.Stigende);
 };
 
-const sorterPåFnr = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(
-        k1.fodselsnr || '',
-        k2.fodselsnr || '',
-        variant === Sorteringsvariant.Stigende
-    );
+const sorterPåFnr = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(k1.fodselsnr || '', k2.fodselsnr || '', retning === Retning.Stigende);
 };
 
-const sorterPåStatus = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.status, k2.status, variant === Sorteringsvariant.Stigende);
+const sorterPåStatus = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(k1.status, k2.status, retning === Retning.Stigende);
 };
 
-const sorterPåUtfall = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(k1.utfall, k2.utfall, variant === Sorteringsvariant.Stigende);
+const sorterPåUtfall = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(k1.utfall, k2.utfall, retning === Retning.Stigende);
 };
 
-const sorterPåLagtTilAv = (variant: Sorteringsvariant): Kandidatsammenlikning => (k1, k2) => {
-    return sorterAlfabetisk(
-        k1.lagtTilAv.navn,
-        k2.lagtTilAv.navn,
-        variant === Sorteringsvariant.Stigende
-    );
+const sorterPåLagtTilAv = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return sorterAlfabetisk(k1.lagtTilAv.navn, k2.lagtTilAv.navn, retning === Retning.Stigende);
 };
 
-const sorterPåLagtTilTidspunkt = (variant: Sorteringsvariant): Kandidatsammenlikning => (
-    k1,
-    k2
-) => {
+const sorterPåLagtTilTidspunkt = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
     const dato1 = Number(new Date(k1.lagtTilTidspunkt)),
         dato2 = Number(new Date(k2.lagtTilTidspunkt));
 
@@ -62,7 +47,7 @@ const sorterPåLagtTilTidspunkt = (variant: Sorteringsvariant): Kandidatsammenli
         return 0;
     }
 
-    if (variant === Sorteringsvariant.Stigende) {
+    if (retning === Retning.Stigende) {
         return dato1 - dato2 < 0 ? +1 : -1;
     } else {
         return dato2 - dato1 < 0 ? +1 : -1;
@@ -70,31 +55,31 @@ const sorterPåLagtTilTidspunkt = (variant: Sorteringsvariant): Kandidatsammenli
 };
 
 export const sorteringsalgoritmer: Record<
-    Sorteringsalgoritme,
-    Record<Sorteringsvariant, Kandidatsammenlikning>
+    KandidatSorteringsfelt,
+    Record<Retning, Kandidatsammenlikning>
 > = {
-    [Sorteringsalgoritme.Navn]: {
-        [Sorteringsvariant.Stigende]: sorterPåNavn(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåNavn(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.Navn]: {
+        [Retning.Stigende]: sorterPåNavn(Retning.Stigende),
+        [Retning.Synkende]: sorterPåNavn(Retning.Synkende),
     },
-    [Sorteringsalgoritme.Fødselsnummer]: {
-        [Sorteringsvariant.Stigende]: sorterPåFnr(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåFnr(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.Fødselsnummer]: {
+        [Retning.Stigende]: sorterPåFnr(Retning.Stigende),
+        [Retning.Synkende]: sorterPåFnr(Retning.Synkende),
     },
-    [Sorteringsalgoritme.Status]: {
-        [Sorteringsvariant.Stigende]: sorterPåStatus(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåStatus(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.Status]: {
+        [Retning.Stigende]: sorterPåStatus(Retning.Stigende),
+        [Retning.Synkende]: sorterPåStatus(Retning.Synkende),
     },
-    [Sorteringsalgoritme.Utfall]: {
-        [Sorteringsvariant.Stigende]: sorterPåUtfall(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåUtfall(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.Utfall]: {
+        [Retning.Stigende]: sorterPåUtfall(Retning.Stigende),
+        [Retning.Synkende]: sorterPåUtfall(Retning.Synkende),
     },
-    [Sorteringsalgoritme.LagtTilAv]: {
-        [Sorteringsvariant.Stigende]: sorterPåLagtTilAv(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåLagtTilAv(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.LagtTilAv]: {
+        [Retning.Stigende]: sorterPåLagtTilAv(Retning.Stigende),
+        [Retning.Synkende]: sorterPåLagtTilAv(Retning.Synkende),
     },
-    [Sorteringsalgoritme.LagtTilTidspunkt]: {
-        [Sorteringsvariant.Stigende]: sorterPåLagtTilTidspunkt(Sorteringsvariant.Stigende),
-        [Sorteringsvariant.Synkende]: sorterPåLagtTilTidspunkt(Sorteringsvariant.Synkende),
+    [KandidatSorteringsfelt.LagtTilTidspunkt]: {
+        [Retning.Stigende]: sorterPåLagtTilTidspunkt(Retning.Stigende),
+        [Retning.Synkende]: sorterPåLagtTilTidspunkt(Retning.Synkende),
     },
 };
