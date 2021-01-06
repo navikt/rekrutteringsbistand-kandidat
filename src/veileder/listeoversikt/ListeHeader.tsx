@@ -5,7 +5,7 @@ import { KandidatlisteSorteringsfelt } from './Kandidatlistesortering';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../AppState';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
-import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import { nesteSorteringsretning, Retning } from '../common/sorterbarKolonneheader/Retning';
 
 const ListeHeader: FunctionComponent = () => {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const ListeHeader: FunctionComponent = () => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
 
         if (endringPåAktivtFelt) {
-            const nyRetning = nesteSorteringsretning();
+            const nyRetning = nesteSorteringsretning(aktivRetning);
             const felt = nyRetning === null ? null : aktivtSorteringsfelt;
             dispatch({
                 type: ListeoversiktActionType.SET_SORTERING,
@@ -36,12 +36,6 @@ const ListeHeader: FunctionComponent = () => {
                 },
             });
         }
-    };
-
-    const nesteSorteringsretning = (): null | Retning => {
-        const retninger = [null, Retning.Stigende, Retning.Synkende];
-        const aktivIndex = retninger.indexOf(aktivRetning);
-        return aktivIndex === retninger.length - 1 ? retninger[0] : retninger[aktivIndex + 1];
     };
 
     const hentSorteringsretning = (felt: KandidatlisteSorteringsfelt): null | Retning => {

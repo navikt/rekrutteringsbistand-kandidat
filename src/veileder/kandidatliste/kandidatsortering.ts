@@ -6,8 +6,8 @@ export enum KandidatSorteringsfelt {
     Fødselsnummer = 'Fødselsnummer',
     Status = 'Status',
     Utfall = 'Utfall',
-    LagtTilAv = 'Lagt til av',
-    LagtTilTidspunkt = 'Lagt til tidspunkt',
+    LagtTilAv = 'LagtTilAv',
+    LagtTilTidspunkt = 'LagtTilTidspunkt',
 }
 
 export type Kandidatsammenlikning = (

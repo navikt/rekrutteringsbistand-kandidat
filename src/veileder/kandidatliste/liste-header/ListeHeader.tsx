@@ -5,7 +5,7 @@ import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import StatusHjelpetekst from './StatusHjelpetekst';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Kandidatsortering } from '../Kandidatliste';
-import { Retning } from '../../common/sorterbarKolonneheader/Retning';
+import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import './../kandidatrad/Kandidatrad.less';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
 
@@ -78,19 +78,17 @@ const ListeHeader: FunctionComponent<Props> = ({
         }
     };
 
-    const nesteSorteringsretning = (): null | Retning => {
-        const retninger = [null, Retning.Stigende, Retning.Synkende];
-        const aktivIndex = retninger.indexOf(aktivSorteringsretning);
-        return aktivIndex === retninger.length - 1 ? retninger[0] : retninger[aktivIndex + 1];
-    };
-
-    const endreSortering2 = (sorteringsfelt: string) => {
+    const endreSortering = (sorteringsfelt: string) => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
-        const retning = endringPåAktivtFelt ? nesteSorteringsretning() : Retning.Stigende;
+
+        const felt = KandidatSorteringsfelt[sorteringsfelt];
+        const retning = endringPåAktivtFelt
+            ? nesteSorteringsretning(aktivSorteringsretning)
+            : Retning.Stigende;
 
         setAktivSorteringsretning(retning);
-        setAktivtSorteringsfelt(sorteringsfelt);
-        setSortering({ felt: sorteringsfelt, retning: retning! });
+        setAktivtSorteringsfelt(felt);
+        setSortering({ felt: felt, retning: retning! });
     };
 
     return (
@@ -108,20 +106,20 @@ const ListeHeader: FunctionComponent<Props> = ({
                     tekst="Navn"
                     sorteringsfelt={KandidatSorteringsfelt.Navn}
                     sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Navn)}
-                    onClick={endreSortering2}
+                    onClick={endreSortering}
                     className="kolonne-middels"
                 />
                 <SorterbarKolonneheader
                     tekst="Fødselsnr."
                     sorteringsfelt={KandidatSorteringsfelt.Fødselsnummer}
                     sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Fødselsnummer)}
-                    onClick={endreSortering2}
+                    onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
-                    tekst="Fødselsnr."
+                    tekst="Lagt til av"
                     sorteringsfelt={KandidatSorteringsfelt.LagtTilAv}
                     sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.LagtTilAv)}
-                    onClick={endreSortering2}
+                    onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
                     tekst="Lagt til"
@@ -129,13 +127,13 @@ const ListeHeader: FunctionComponent<Props> = ({
                     sorteringsretning={hentSorteringsretning(
                         KandidatSorteringsfelt.LagtTilTidspunkt
                     )}
-                    onClick={endreSortering2}
+                    onClick={endreSortering}
                 />
                 <SorterbarKolonneheader
                     tekst="Status"
                     sorteringsfelt={KandidatSorteringsfelt.Status}
                     sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Status)}
-                    onClick={endreSortering2}
+                    onClick={endreSortering}
                     className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
                 >
                     <StatusHjelpetekst />
@@ -145,7 +143,7 @@ const ListeHeader: FunctionComponent<Props> = ({
                         tekst="Utfall"
                         sorteringsfelt={KandidatSorteringsfelt.Utfall}
                         sorteringsretning={hentSorteringsretning(KandidatSorteringsfelt.Utfall)}
-                        onClick={endreSortering2}
+                        onClick={endreSortering}
                     />
                 )}
                 <Kolonne tekst="Notater" />
