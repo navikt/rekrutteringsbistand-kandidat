@@ -69,14 +69,6 @@ const ListeHeader: FunctionComponent<Props> = ({
     );
     const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(null);
 
-    const hentSorteringsretning = (felt: KandidatSorteringsfelt | null): null | Retning => {
-        if (felt === aktivtSorteringsfelt) {
-            return aktivSorteringsretning;
-        } else {
-            return null;
-        }
-    };
-
     const endreSortering = (sorteringsfelt: string) => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
 
