@@ -8,7 +8,6 @@ import MedPopover from '../../../felles/common/med-popover/MedPopover';
 import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import './KandidatlisterRad.less';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
 import {
     lenkeTilFinnKandidaterMedStilling,
@@ -16,6 +15,7 @@ import {
     lenkeTilKandidatliste,
     lenkeTilStilling,
 } from '../../application/paths';
+import './KandidatlisterRad.less';
 
 export type FeilmeldingIMeny = {
     anker?: HTMLElement;
@@ -88,12 +88,12 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
 
     return (
         <div className="liste-rad liste-rad-innhold">
-            <div className="kolonne-middels">
+            <div className="kolonne-middels sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${formatterDato(
                     new Date(kandidatliste.opprettetTidspunkt)
                 )}`}</Normaltekst>
             </div>
-            <div className="kolonne-bred">
+            <div className="kolonne-bred sorterbar-kolonne">
                 <Link
                     to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
                     className="tekst lenke"
