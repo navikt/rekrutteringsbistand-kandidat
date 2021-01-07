@@ -109,7 +109,7 @@
         .liste-header {
             border: 1px solid @navGra60;
             height: 4rem;
-            padding-left: 0.75rem;
+
             .typo-element {
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -215,8 +215,13 @@
                 max-width: 15rem;
             }
 
-            .sorterbar-kolonne {
-                padding-left: 0.5rem;
+            .sorterbar-kolonne-header {
+                padding-right: 2rem;
+                margin-right: 0;
+
+                &:first-of-type {
+                    padding-left: 1.5rem;
+                }
             }
         }
     }

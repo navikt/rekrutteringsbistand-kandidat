@@ -88,12 +88,12 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
 
     return (
         <div className="liste-rad liste-rad-innhold">
-            <div className="kolonne-middels sorterbar-kolonne">
+            <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${formatterDato(
                     new Date(kandidatliste.opprettetTidspunkt)
                 )}`}</Normaltekst>
             </div>
-            <div className="kolonne-bred sorterbar-kolonne">
+            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
                 <Link
                     to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
                     className="tekst lenke"

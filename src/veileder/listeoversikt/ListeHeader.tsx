@@ -46,7 +46,7 @@ const ListeHeader: FunctionComponent = () => {
                 aktivtSorteringsfelt={aktivtSorteringsfelt}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
-                className="kolonne-middels"
+                className="kolonne-middels sorterbar-kolonne-header"
             />
             <SorterbarKolonneheader
                 tekst={'Navn på kandidatliste'}
