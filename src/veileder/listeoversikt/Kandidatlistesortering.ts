@@ -6,6 +6,6 @@ export enum KandidatlisteSorteringsfelt {
 }
 
 export type Kandidatlistesortering = {
-    sortField: KandidatlisteSorteringsfelt;
-    sortDirection: Retning;
+    felt: KandidatlisteSorteringsfelt;
+    retning: Retning;
 };

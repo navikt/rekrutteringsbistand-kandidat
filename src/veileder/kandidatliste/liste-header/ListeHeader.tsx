@@ -72,14 +72,14 @@ const ListeHeader: FunctionComponent<Props> = ({
     const endreSortering = (sorteringsfeltIndex: number) => {
         const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfeltIndex;
 
-        const felt = KandidatSorteringsfelt[sorteringsfeltIndex];
+        const felt = KandidatSorteringsfelt[KandidatSorteringsfelt[sorteringsfeltIndex]];
         const retning = endringPåAktivtFelt
             ? nesteSorteringsretning(aktivSorteringsretning)
             : Retning.Stigende;
 
         setAktivSorteringsretning(retning);
-        setAktivtSorteringsfelt(KandidatSorteringsfelt[felt]);
-        setSortering({ felt: KandidatSorteringsfelt[felt], retning: retning! });
+        setAktivtSorteringsfelt(felt);
+        setSortering({ felt, retning });
     };
 
     return (

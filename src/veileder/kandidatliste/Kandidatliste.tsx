@@ -41,7 +41,7 @@ export enum Visningsstatus {
 
 export type Kandidatsortering = null | {
     felt: KandidatSorteringsfelt;
-    retning: Retning;
+    retning: Retning | null;
 };
 
 type Props = {
@@ -90,7 +90,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     );
 
     const sorterteKandidater =
-        sortering === null
+        sortering === null || sortering.retning === null
             ? filtrerteKandidater
             : filtrerteKandidater.sort(sorteringsalgoritmer[sortering.felt][sortering.retning]);
 
