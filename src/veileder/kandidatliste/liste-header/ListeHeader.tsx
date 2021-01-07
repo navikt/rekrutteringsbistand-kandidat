@@ -69,17 +69,17 @@ const ListeHeader: FunctionComponent<Props> = ({
     );
     const [aktivSorteringsretning, setAktivSorteringsretning] = useState<Retning | null>(null);
 
-    const endreSortering = (sorteringsfelt: string) => {
-        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
+    const endreSortering = (sorteringsfeltIndex: number) => {
+        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfeltIndex;
 
-        const felt = KandidatSorteringsfelt[sorteringsfelt];
+        const felt = KandidatSorteringsfelt[sorteringsfeltIndex];
         const retning = endringPåAktivtFelt
             ? nesteSorteringsretning(aktivSorteringsretning)
             : Retning.Stigende;
 
         setAktivSorteringsretning(retning);
-        setAktivtSorteringsfelt(felt);
-        setSortering({ felt: felt, retning: retning! });
+        setAktivtSorteringsfelt(KandidatSorteringsfelt[felt]);
+        setSortering({ felt: KandidatSorteringsfelt[felt], retning: retning! });
     };
 
     return (

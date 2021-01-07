@@ -2,12 +2,12 @@ import { KandidatIKandidatliste } from './kandidatlistetyper';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 
 export enum KandidatSorteringsfelt {
-    Navn = 'Navn',
-    Fødselsnummer = 'Fødselsnummer',
-    Status = 'Status',
-    Utfall = 'Utfall',
-    LagtTilAv = 'LagtTilAv',
-    LagtTilTidspunkt = 'LagtTilTidspunkt',
+    Navn,
+    Fødselsnummer,
+    Status,
+    Utfall,
+    LagtTilAv,
+    LagtTilTidspunkt,
 }
 
 export type Kandidatsammenlikning = (

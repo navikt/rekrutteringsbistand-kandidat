@@ -17,8 +17,15 @@ const ListeHeader: FunctionComponent = () => {
         (state: AppState) => state.listeoversikt.sortering.sortDirection
     );
 
-    const endreSortering = (sorteringsfelt: string) => {
-        const endringPåAktivtFelt = aktivtSorteringsfelt === sorteringsfelt;
+    const indeksFra = (kandidatlisteSorteringsfelt: KandidatlisteSorteringsfelt | null) => {
+        return (
+            kandidatlisteSorteringsfelt != null &&
+            Object.keys(KandidatlisteSorteringsfelt)[kandidatlisteSorteringsfelt]
+        );
+    };
+
+    const endreSortering = (sorteringsfeltIndex: number) => {
+        const endringPåAktivtFelt = indeksFra(aktivtSorteringsfelt) === sorteringsfeltIndex;
 
         if (endringPåAktivtFelt) {
             const nyRetning = nesteSorteringsretning(aktivRetning);
@@ -31,7 +38,7 @@ const ListeHeader: FunctionComponent = () => {
             dispatch({
                 type: ListeoversiktActionType.SET_SORTERING,
                 sortering: {
-                    sortField: sorteringsfelt,
+                    sortField: sorteringsfeltIndex,
                     sortDirection: Retning.Stigende,
                 },
             });
@@ -42,16 +49,16 @@ const ListeHeader: FunctionComponent = () => {
         <div className="liste-header liste-rad-innhold">
             <SorterbarKolonneheader
                 tekst={'Dato opprettet'}
-                sorteringsfelt={KandidatlisteSorteringsfelt.OpprettetTidspunkt}
-                aktivtSorteringsfelt={aktivtSorteringsfelt}
+                sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.OpprettetTidspunkt)}
+                aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-middels sorterbar-kolonne-header"
             />
             <SorterbarKolonneheader
                 tekst={'Navn på kandidatliste'}
-                sorteringsfelt={KandidatlisteSorteringsfelt.Tittel}
-                aktivtSorteringsfelt={aktivtSorteringsfelt}
+                sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.Tittel)}
+                aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-bred"

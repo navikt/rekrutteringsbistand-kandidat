@@ -9,10 +9,10 @@ import './SorterbarKolonneheader.less';
 
 interface Props {
     tekst: string;
-    sorteringsfelt: string;
-    aktivtSorteringsfelt: string | null;
+    sorteringsfelt: number;
+    aktivtSorteringsfelt: number | null;
     aktivSorteringsretning: Retning | null;
-    onClick: (sorteringsfelt: string) => void;
+    onClick: (sorteringsfelt: number) => void;
     className?: string;
 }
 
