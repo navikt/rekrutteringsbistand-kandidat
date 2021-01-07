@@ -48,7 +48,7 @@ const ListeHeader: FunctionComponent = () => {
     return (
         <div className="liste-header liste-rad-innhold">
             <SorterbarKolonneheader
-                tekst={'Dato opprettet'}
+                tekst="Dato opprettet"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.OpprettetTidspunkt)}
                 aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
                 aktivSorteringsretning={aktivRetning}
@@ -56,7 +56,7 @@ const ListeHeader: FunctionComponent = () => {
                 className="kolonne-middels sorterbar-kolonne-header"
             />
             <SorterbarKolonneheader
-                tekst={'Navn på kandidatliste'}
+                tekst="Navn på kandidatliste"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.Tittel)}
                 aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
                 aktivSorteringsretning={aktivRetning}
