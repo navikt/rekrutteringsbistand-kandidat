@@ -77,7 +77,6 @@ const ListeHeader: FunctionComponent<Props> = ({
             ? nesteSorteringsretning(aktivSorteringsretning)
             : Retning.Stigende;
 
-        console.log('Neste retning er: ' + retning);
         setAktivSorteringsretning(retning);
         setAktivtSorteringsfelt(felt);
         setSortering({ felt: felt, retning: retning! });
