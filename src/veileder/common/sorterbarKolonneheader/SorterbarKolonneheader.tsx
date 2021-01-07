@@ -29,7 +29,7 @@ const SorterbarKolonneheader: FunctionComponent<Props> = ({
 
     let ariaSort: 'none' | 'ascending' | 'descending' = 'none';
 
-    if (sorteringsfelt === aktivtSorteringsfelt) {
+    if (sorteringsfelt === aktivtSorteringsfelt && aktivSorteringsretning !== null) {
         ariaSort = aktivSorteringsretning === Retning.Stigende ? 'ascending' : 'descending';
     }
 
