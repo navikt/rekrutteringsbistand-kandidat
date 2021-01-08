@@ -1,8 +1,8 @@
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 
 export enum KandidatlisteSorteringsfelt {
-    OpprettetTidspunkt = 'opprettetTidspunkt',
-    Tittel = 'tittel',
+    OpprettetTidspunkt = 'OpprettetTidspunkt',
+    Tittel = 'Tittel',
 }
 
 export type Kandidatlistesortering = {
