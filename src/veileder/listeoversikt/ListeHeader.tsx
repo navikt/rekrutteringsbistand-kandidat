@@ -17,32 +17,29 @@ const ListeHeader: FunctionComponent = () => {
         (state: AppState) => state.listeoversikt.sortering.sortDirection
     );
 
-    const indeksFra = (kandidatlisteSorteringsfelt: KandidatlisteSorteringsfelt | null) => {
-        return (
-            kandidatlisteSorteringsfelt != null &&
-            Object.keys(KandidatlisteSorteringsfelt)[kandidatlisteSorteringsfelt]
-        );
-    };
+    const indeksFra = (kandidatlisteSorteringsfelt: KandidatlisteSorteringsfelt): number =>
+        Object.keys(KandidatlisteSorteringsfelt).indexOf(kandidatlisteSorteringsfelt);
+
+    const aktivtSorteringsfeltIndeks = (): number | null =>
+        aktivtSorteringsfelt === null
+            ? null
+            : Object.keys(KandidatlisteSorteringsfelt).indexOf(aktivtSorteringsfelt);
 
     const endreSortering = (sorteringsfeltIndex: number) => {
-        const endringPåAktivtFelt = indeksFra(aktivtSorteringsfelt) === sorteringsfeltIndex;
+        const endringPåAktivtFelt = aktivtSorteringsfeltIndeks() === sorteringsfeltIndex;
 
-        if (endringPåAktivtFelt) {
-            const nyRetning = nesteSorteringsretning(aktivRetning);
-            const felt = nyRetning === null ? null : aktivtSorteringsfelt;
-            dispatch({
-                type: ListeoversiktActionType.SET_SORTERING,
-                sortering: { sortField: felt, sortDirection: nyRetning },
-            });
-        } else {
-            dispatch({
-                type: ListeoversiktActionType.SET_SORTERING,
-                sortering: {
-                    sortField: sorteringsfeltIndex,
-                    sortDirection: Retning.Stigende,
-                },
-            });
-        }
+        const nyRetning = endringPåAktivtFelt
+            ? nesteSorteringsretning(aktivRetning)
+            : Retning.Stigende;
+        const felt =
+            nyRetning === null
+                ? null
+                : Object.keys(KandidatlisteSorteringsfelt)[sorteringsfeltIndex];
+
+        dispatch({
+            type: ListeoversiktActionType.SET_SORTERING,
+            sortering: { sortField: felt, sortDirection: nyRetning },
+        });
     };
 
     return (
@@ -50,7 +47,7 @@ const ListeHeader: FunctionComponent = () => {
             <SorterbarKolonneheader
                 tekst="Dato opprettet"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.OpprettetTidspunkt)}
-                aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
+                aktivtSorteringsfelt={aktivtSorteringsfeltIndeks()}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-middels sorterbar-kolonne-header"
@@ -58,7 +55,7 @@ const ListeHeader: FunctionComponent = () => {
             <SorterbarKolonneheader
                 tekst="Navn på kandidatliste"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.Tittel)}
-                aktivtSorteringsfelt={indeksFra(aktivtSorteringsfelt)}
+                aktivtSorteringsfelt={aktivtSorteringsfeltIndeks()}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
                 className="kolonne-bred"
