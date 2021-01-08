@@ -1,4 +1,6 @@
 import { ResponseData } from '../../../felles/common/remoteData';
+import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
+import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 
 export enum ListeoversiktActionType {
     HENT_KANDIDATLISTER = 'HENT_KANDIDATLISTER',
@@ -10,6 +12,7 @@ export enum ListeoversiktActionType {
     SLETT_KANDIDATLISTE = 'SLETT_KANDIDATLISTE',
     SLETT_KANDIDATLISTE_FERDIG = 'SLETT_KANDIDATLISTE_FERDIG',
     RESET_SLETTE_STATUS = 'RESET_SLETTE_STATUS',
+    SET_SORTERING = 'SET_SORTERING',
     RESET_KANDIDATLISTER_SOKEKRITERIER = 'RESET_KANDIDATLISTER_SOKEKRITERIER',
 }
 
@@ -20,6 +23,8 @@ export interface HentKandidatlisterAction {
     kunEgne: boolean;
     pagenumber: number;
     pagesize: number;
+    sortField: KandidatlisteSorteringsfelt;
+    sortDirection: Retning;
 }
 
 export interface HentKandidatlisterSuccessAction {
@@ -64,6 +69,14 @@ export interface ResetSletteStatusAction {
     type: ListeoversiktActionType.RESET_SLETTE_STATUS;
 }
 
+export interface SetSortering {
+    type: ListeoversiktActionType.SET_SORTERING;
+    sortering: {
+        sortField: KandidatlisteSorteringsfelt;
+        sortDirection: Retning;
+    };
+}
+
 export interface ResetKandidatlisterSokekriterierAction {
     type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER;
 }
@@ -78,4 +91,5 @@ export type ListeoversiktAction =
     | SlettKandidatlisteAction
     | SlettKandidatlisteFerdigAction
     | ResetSletteStatusAction
+    | SetSortering
     | ResetKandidatlisterSokekriterierAction;
