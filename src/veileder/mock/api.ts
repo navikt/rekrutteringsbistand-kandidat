@@ -21,11 +21,13 @@ import søk from './data/søk.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { KANDIDATSOK_API } from '../api';
+import { KANDIDATSOK_API, MIDLERTIDIG_UTILGJENGELIG_API, SMS_API } from '../api';
 
 fetchMock.config.fallbackToNetwork = true;
 
 const api = `express:${KANDIDATSOK_API}`;
+const smsApi = `express:${SMS_API}`;
+const midlertidigUtilgjengeligApi = `express:${MIDLERTIDIG_UTILGJENGELIG_API}`;
 
 const url = {
     // Kandidatsøket
@@ -59,9 +61,9 @@ const url = {
     putKandidatlistestatus: `${api}/veileder/kandidatlister/:kandidatlisteId/status`,
 
     // Alternative backends
-    sms: `express:/kandidater/api/sms/:kandidatlisteId`,
-    smsPost: `/kandidater/api/sms`,
-    midlertidigUtilgjengelig: `express:/kandidater/midlertidig-utilgjengelig/:fnr`,
+    sms: `${smsApi}/:kandidatlisteId`,
+    smsPost: `${smsApi}`,
+    midlertidigUtilgjengelig: `${midlertidigUtilgjengeligApi}/:fnr`,
 
     // Misc
     toggles: `${api}/veileder/kandidatsok/toggles`,
