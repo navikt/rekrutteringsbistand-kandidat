@@ -9,7 +9,7 @@ const useHentSendteMeldinger = (kandidatlisteId: string) => {
             type: KandidatlisteActionType.HENT_SENDTE_MELDINGER,
             kandidatlisteId: kandidatlisteId,
         });
-    }, [kandidatlisteId]);
+    }, [dispatch, kandidatlisteId]);
 };
 
 export default useHentSendteMeldinger;
