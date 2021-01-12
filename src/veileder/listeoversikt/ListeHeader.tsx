@@ -58,7 +58,7 @@ const ListeHeader: FunctionComponent = () => {
                 aktivtSorteringsfelt={aktivtSorteringsfeltIndeks()}
                 aktivSorteringsretning={aktivRetning}
                 onClick={endreSortering}
-                className="kolonne-bred sorterbar-kolonne-header"
+                className="kolonne-bred"
             />
             <div className="kolonne-middels">
                 <Element>Antall kandidater</Element>
