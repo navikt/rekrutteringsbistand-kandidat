@@ -60,14 +60,9 @@ const ListeHeader: FunctionComponent = () => {
                 onClick={endreSortering}
                 className="kolonne-bred sorterbar-kolonne-header"
             />
-            <SorterbarKolonneheader
-                tekst="Antall kandidater"
-                sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.AntallKandidater)}
-                aktivtSorteringsfelt={aktivtSorteringsfeltIndeks()}
-                aktivSorteringsretning={aktivRetning}
-                onClick={endreSortering}
-                className="kolonne-middels sorterbar-kolonne-header"
-            />
+            <div className="kolonne-middels">
+                <Element>Antall kandidater</Element>
+            </div>
             <SorterbarKolonneheader
                 tekst="Veileder"
                 sorteringsfelt={indeksFra(KandidatlisteSorteringsfelt.OpprettetAv)}
