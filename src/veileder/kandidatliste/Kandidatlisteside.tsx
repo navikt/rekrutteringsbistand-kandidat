@@ -8,7 +8,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import useKandidaterMedState from './hooks/useKandidaterMedState';
 import useScrollTilToppen from './hooks/useScrollTilToppen';
 import useHentKandidatlisteMedId from './hooks/useHentKandidatlisteMedId';
-import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 
 type Props = {
     stillingsId?: string;
@@ -22,7 +21,6 @@ const Kandidatlisteside: FunctionComponent<Props> = ({ stillingsId, kandidatlist
 
     useScrollTilToppen(kandidatliste);
     useHentKandidatlisteMedId(stillingsId, kandidatlisteId);
-    useHentSendteMeldinger(kandidatliste, sms.sendteMeldinger);
 
     const kandidaterMedState = useKandidaterMedState(
         kandidatliste,

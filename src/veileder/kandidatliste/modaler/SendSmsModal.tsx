@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { connect } from 'react-redux';
 import { Hovedknapp, Flatknapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
@@ -63,9 +63,12 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
         sendSmsTilKandidater,
     } = props;
 
-    const markerteMandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
-    const kandidaterSomHarFåttSms = markerteMandidater.filter((kandidat) => kandidat.sms);
-    const kandidaterSomIkkeHarFåttSms = markerteMandidater.filter((kandidat) => !kandidat.sms);
+    const markerteKandidater = kandidater.filter((kandidat) => kandidat.tilstand.markert);
+    const kandidaterSomHarFåttSms = markerteKandidater.filter((kandidat) => kandidat.sms);
+    const kandidaterSomIkkeHarFåttSms = markerteKandidater.filter((kandidat) => !kandidat.sms);
+    const harInaktiveKandidater = markerteKandidater.some(
+        (kandidat) => kandidat.fodselsnr === null
+    );
 
     const lenkeTilStilling = genererLenkeTilStilling(stillingId);
     const lenkeMedPrefiks = `https://www.${lenkeTilStilling}`;
@@ -92,20 +95,27 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
             contentLabel={`Send SMS til ${kandidater.length} kandidater`}
             closeButton
         >
-            {kandidaterSomHarFåttSms.length > 0 && (
+            {(kandidaterSomHarFåttSms.length > 0 || harInaktiveKandidater) && (
                 <AlertStripeAdvarsel className="send-sms-modal__allerede-sendt-advarsel">
-                    {kandidaterSomHarFåttSms.length === 1 ? (
-                        <>
-                            Du har allerede sendt SMS til én av kandidatene. Kandidaten vil ikke
-                            motta stillingen.
-                        </>
-                    ) : (
-                        <>
-                            Du har allerede sendt SMS til {kandidaterSomHarFåttSms.length} av de{' '}
-                            {markerteMandidater.length} valgte kandidatene. Disse kandidatene vil
-                            ikke motta en ny SMS.
-                        </>
-                    )}
+                    Ikke alle kandidatene vil motta SMS-en
+                    <ul>
+                        {kandidaterSomHarFåttSms.length > 0 && (
+                            <li>
+                                {kandidaterSomHarFåttSms.length === 1 ? (
+                                    <>Du har allerede sendt SMS til én av kandidatene.</>
+                                ) : (
+                                    <>
+                                        Du har allerede sendt SMS til{' '}
+                                        {kandidaterSomHarFåttSms.length} av de{' '}
+                                        {markerteKandidater.length} valgte kandidatene.
+                                    </>
+                                )}
+                            </li>
+                        )}
+                        {harInaktiveKandidater && (
+                            <li>Én eller flere av kandidatene er inaktive.</li>
+                        )}
+                    </ul>
                 </AlertStripeAdvarsel>
             )}
             <div className="send-sms-modal__innhold">
@@ -117,9 +127,9 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                 <Normaltekst className="send-sms-modal__ingressbeskrivelse">
                     Telefonnummerene blir hentet fra Kontakt- og reservasjonsregisteret.
                 </Normaltekst>
-                <AlertStripeAdvarsel className="send-sms-modal__kontortid-advarsel">
+                <AlertStripeInfo className="send-sms-modal__kontortid-advarsel">
                     SMS sendes ut mellom 09:00 og 17:15 hver dag. Det kan oppstå forsinkelser.
-                </AlertStripeAdvarsel>
+                </AlertStripeInfo>
 
                 <Select
                     className="send-sms-modal__velg-mal"

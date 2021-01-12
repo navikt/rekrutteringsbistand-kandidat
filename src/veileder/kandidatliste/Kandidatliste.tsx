@@ -32,6 +32,7 @@ import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsorterin
 import '../../felles/common/ikoner/ikoner.less';
 import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -70,6 +71,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
     const location = useLocation();
 
     useMaskerFødselsnumre();
+    useHentSendteMeldinger(props.kandidatliste.kandidatlisteId);
 
     const [sortering, setSortering] = useState<Kandidatsortering>(null);
 
