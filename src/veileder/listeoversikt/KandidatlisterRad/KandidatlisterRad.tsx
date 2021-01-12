@@ -104,7 +104,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
             <div className="kolonne-middels">
                 <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
             </div>
-            <div className="kolonne-bred">
+            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
             </div>
             <div className="kolonne-middels__finn-kandidater">
