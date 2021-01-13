@@ -5,7 +5,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
-import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste, KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
@@ -23,9 +23,9 @@ export type FeilmeldingIMeny = {
 };
 
 type Props = {
-    kandidatliste: Kandidatliste;
-    endreKandidatliste: (kandidatliste: Kandidatliste) => void;
-    markerKandidatlisteSomMin: (kandidatliste: Kandidatliste) => void;
+    kandidatliste: KandidatlisteView;
+    endreKandidatliste: (kandidatliste: KandidatlisteView) => void;
+    markerKandidatlisteSomMin: (kandidatliste: KandidatlisteView) => void;
     slettKandidatliste: () => void;
 };
 
@@ -102,7 +102,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 </Link>
             </div>
             <div className="kolonne-middels">
-                <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
+                <Normaltekst className="tekst">{kandidatliste.antallKandidater}</Normaltekst>
             </div>
             <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>

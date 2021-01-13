@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { Kandidatliste, KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../Kandidatlisteoversikt';
 
 type Props = {
-    kandidatliste: Kandidatliste;
+    kandidatliste: KandidatlisteView;
 };
 
 const ÅrsakTilAtListenIkkeKanSlettes: FunctionComponent<Props> = ({ kandidatliste }) => {

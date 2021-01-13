@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { Kandidatliste, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteView, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -51,7 +51,7 @@ type Props = {
     removeKompetanseSuggestions: any;
     hentKandidatlister: any;
     fetchingKandidatlister: any;
-    kandidatlister: Kandidatliste[];
+    kandidatlister: KandidatlisteView[];
     totaltAntallKandidatlister: any;
     lagreStatus: any;
     resetLagreStatus: any;
@@ -171,14 +171,14 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         });
     };
 
-    onEndreClick = (kandidatliste: Kandidatliste) => {
+    onEndreClick = (kandidatliste: KandidatlisteView) => {
         this.setState({
             modalstatus: Modalvisning.Endre,
             kandidatlisteIEndring: kandidatliste,
         });
     };
 
-    onMenyClick = (kandidatliste: Kandidatliste) => {
+    onMenyClick = (kandidatliste: KandidatlisteView) => {
         if (kandidatliste === this.state.visKandidatlisteMeny) {
             this.setState({ visKandidatlisteMeny: undefined });
         } else {
@@ -190,14 +190,14 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         this.setState({ visKandidatlisteMeny: undefined });
     };
 
-    onVisMarkerSomMinModal = (kandidatliste: Kandidatliste) => {
+    onVisMarkerSomMinModal = (kandidatliste: KandidatlisteView) => {
         this.setState({
             modalstatus: Modalvisning.MarkerSomMin,
             kandidatlisteIEndring: kandidatliste,
         });
     };
 
-    onVisSlettKandidatlisteModal = (kandidatliste: Kandidatliste) => {
+    onVisSlettKandidatlisteModal = (kandidatliste: KandidatlisteView) => {
         this.setState({
             modalstatus: Modalvisning.Slette,
             kandidatlisteIEndring: kandidatliste,
@@ -399,7 +399,7 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
     markerKandidatlisteSomMin: (kandidatlisteId: string) => {
         dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
-    slettKandidatliste: (kandidatliste: Kandidatliste) => {
+    slettKandidatliste: (kandidatliste: KandidatlisteView) => {
         dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste });
     },
     resetSletteStatus: () => {

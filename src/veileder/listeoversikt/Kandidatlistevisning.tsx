@@ -3,14 +3,14 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Systemtittel } from 'nav-frontend-typografi';
 
 import { KandidatlisterRad } from './KandidatlisterRad/KandidatlisterRad';
-import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteView } from '../kandidatliste/kandidatlistetyper';
 
 type Props = {
     fetching: string;
-    kandidatlister: Kandidatliste[];
-    endreKandidatliste: (kandidatliste: Kandidatliste) => void;
-    markerKandidatlisteSomMin: (kandidatliste: Kandidatliste) => void;
-    slettKandidatliste: (kandidatliste: Kandidatliste) => void;
+    kandidatlister: KandidatlisteView[];
+    endreKandidatliste: (kandidatliste: KandidatlisteView) => void;
+    markerKandidatlisteSomMin: (kandidatliste: KandidatlisteView) => void;
+    slettKandidatliste: (kandidatliste: KandidatlisteView) => void;
 };
 
 const Kandidatlistevisning: FunctionComponent<Props> = ({
