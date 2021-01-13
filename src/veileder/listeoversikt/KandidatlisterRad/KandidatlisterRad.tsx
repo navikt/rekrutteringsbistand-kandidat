@@ -5,7 +5,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
-import { Kandidatliste, KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
+import { KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';

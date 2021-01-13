@@ -1,5 +1,5 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
-import { Kandidatliste, KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
+import { KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../Kandidatlisteoversikt';
 
 type Props = {
