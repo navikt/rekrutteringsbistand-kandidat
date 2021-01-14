@@ -5,7 +5,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { formatterDato } from '../../../felles/common/dateUtils';
 import Lenkeknapp from '../../../felles/common/Lenkeknapp';
 import MedPopover from '../../../felles/common/med-popover/MedPopover';
-import { Kandidatliste } from '../../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import ÅrsakTilAtListenIkkeKanSlettes from './ÅrsakTilAtListenIkkeKanSlettes';
@@ -23,14 +23,14 @@ export type FeilmeldingIMeny = {
 };
 
 type Props = {
-    kandidatliste: Kandidatliste;
-    endreKandidatliste: (kandidatliste: Kandidatliste) => void;
-    markerKandidatlisteSomMin: (kandidatliste: Kandidatliste) => void;
+    kandidatlisteSammendrag;
+    endreKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
+    markerKandidatlisteSomMin: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
     slettKandidatliste: () => void;
 };
 
 export const KandidatlisterRad: FunctionComponent<Props> = ({
-    kandidatliste,
+    kandidatlisteSammendrag,
     endreKandidatliste,
     markerKandidatlisteSomMin,
     slettKandidatliste,
@@ -68,16 +68,16 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
 
     const lenkeknappTilEndreUtenStilling = (
         <Lenkeknapp
-            aria-label={`Endre kandidatlisten ${kandidatliste.tittel}`}
-            onClick={() => endreKandidatliste(kandidatliste)}
+            aria-label={`Endre kandidatlisten ${kandidatlisteSammendrag.tittel}`}
+            onClick={() => endreKandidatliste(kandidatlisteSammendrag)}
             className="Edit"
         >
             <i className="Edit__icon" />
         </Lenkeknapp>
     );
 
-    const visKanEndre = kandidatliste.stillingId
-        ? lenkeTilStillingElement(kandidatliste.stillingId)
+    const visKanEndre = kandidatlisteSammendrag.stillingId
+        ? lenkeTilStillingElement(kandidatlisteSammendrag.stillingId)
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
@@ -90,45 +90,49 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         <div className="liste-rad liste-rad-innhold">
             <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">{`${formatterDato(
-                    new Date(kandidatliste.opprettetTidspunkt)
+                    new Date(kandidatlisteSammendrag.opprettetTidspunkt)
                 )}`}</Normaltekst>
             </div>
             <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
                 <Link
-                    to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
+                    to={lenkeTilKandidatliste(kandidatlisteSammendrag.kandidatlisteId)}
                     className="tekst lenke"
                 >
-                    {kandidatliste.tittel}
+                    {kandidatlisteSammendrag.tittel}
                 </Link>
             </div>
-            <div className="kolonne-middels">
-                <Normaltekst className="tekst">{kandidatliste.kandidater.length}</Normaltekst>
+            <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
+                <Normaltekst className="tekst">
+                    {kandidatlisteSammendrag.antallKandidater}
+                </Normaltekst>
             </div>
-            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne">
-                <Normaltekst className="tekst">{`${kandidatliste.opprettetAv.navn} (${kandidatliste.opprettetAv.ident})`}</Normaltekst>
+            <div className="kolonne-bred kandidatlister-rad__sorterbar-kolonne__last">
+                <Normaltekst className="tekst">{`${kandidatlisteSammendrag.opprettetAv.navn} (${kandidatlisteSammendrag.opprettetAv.ident})`}</Normaltekst>
             </div>
             <div className="kolonne-middels__finn-kandidater">
                 <Link
                     className="FinnKandidater"
-                    aria-label={`Finn kandidater til listen ${kandidatliste.tittel}`}
+                    aria-label={`Finn kandidater til listen ${kandidatlisteSammendrag.tittel}`}
                     to={
-                        kandidatliste.stillingId
-                            ? lenkeTilFinnKandidaterMedStilling(kandidatliste.stillingId)
-                            : lenkeTilFinnKandidaterUtenStilling(kandidatliste.kandidatlisteId)
+                        kandidatlisteSammendrag.stillingId
+                            ? lenkeTilFinnKandidaterMedStilling(kandidatlisteSammendrag.stillingId)
+                            : lenkeTilFinnKandidaterUtenStilling(
+                                  kandidatlisteSammendrag.kandidatlisteId
+                              )
                     }
                 >
                     <i className="FinnKandidater__icon" />
                 </Link>
             </div>
             <div className="kolonne-smal-knapp">
-                {kandidatliste.kanEditere ? visKanEndre : visKanIkkeEndre}
+                {kandidatlisteSammendrag.kanEditere ? visKanEndre : visKanIkkeEndre}
             </div>
             <MedPopover
                 className="kolonne-smal-knapp kandidatlister-rad__popover"
                 onPopoverClick={onDropdownPopoverClick}
                 hjelpetekst={
                     <KandidatlisterMenyDropdown
-                        kandidatliste={kandidatliste}
+                        kandidatliste={kandidatlisteSammendrag}
                         markerSomMinModal={markerKandidatlisteSomMin}
                         slettKandidatliste={slettKandidatliste}
                         toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
@@ -137,7 +141,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 }
             >
                 <Hamburgerknapp
-                    aria-label={`Meny for kandidatlisten ${kandidatliste.tittel}`}
+                    aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}
                     className="KandidatlisteMeny"
                 />
             </MedPopover>
@@ -160,7 +164,9 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                 }}
             >
                 <div className="kandidatlister-rad__feilmelding">
-                    <ÅrsakTilAtListenIkkeKanSlettes kandidatliste={kandidatliste} />
+                    <ÅrsakTilAtListenIkkeKanSlettes
+                        kandidatlisteSammendrag={kandidatlisteSammendrag}
+                    />
                 </div>
             </Popover>
         </div>

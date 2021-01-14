@@ -12,6 +12,7 @@ import cver from './data/cv.mock';
 import {
     kandidatliste,
     kandidatlister,
+    kandidatlistesammendragLister,
     mockKandidat,
     mockUsynligKandidat,
 } from './data/kandidatliste.mock';
@@ -88,9 +89,9 @@ const getKandidatlister = (url: string) => {
     const stillingsfilter = params.get('type');
     const eierfilter = params.get('kunEgne') && Boolean(params.get('kunEgne'));
 
-    let filtrerteKandidatlister = kandidatlister;
+    let filtrerteKandidatlister = kandidatlistesammendragLister;
     if (stillingsfilter) {
-        filtrerteKandidatlister = kandidatlister.filter((k) =>
+        filtrerteKandidatlister = kandidatlistesammendragLister.filter((k) =>
             stillingsfilter === 'MED_STILLING' ? !!k.stillingId : !k.stillingId
         );
     }

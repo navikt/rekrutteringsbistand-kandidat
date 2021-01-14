@@ -128,6 +128,23 @@ export type Kandidatliste = {
     antallStillinger: number | null;
 };
 
+export type KandidatlisteSammendrag = {
+    kandidatlisteId: string;
+    tittel: string;
+    beskrivelse: string;
+    organisasjonReferanse: string | null;
+    organisasjonNavn: string | null;
+    stillingId: string | null;
+    opprettetAv: OpprettetAv;
+    opprettetTidspunkt: string;
+    kanEditere: boolean;
+    kanSlette: string;
+    antallKandidater: number;
+    antallUsynligeKandidater: number;
+    status: Kandidatlistestatus;
+    antallStillinger: number | null;
+};
+
 export type Kandidattilstand = {
     markert: boolean;
     filtrertBort: boolean;
