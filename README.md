@@ -1,7 +1,7 @@
 # rekrutteringsbistand-kandidat
 
 Kandidatsøk og kandidatlister for veiledere. Delte tidligere repository med kandidatsøk for arbeidsgivere i [pam-kandidatsok](https://github.com/navikt/pam-kandidatsok/).
-Koden inneholder derfor noen arkitekturavgjørelser fra den tidligere, felles kodebasen.
+Koden inneholder derfor noen arkitektur-avgjørelser fra den tidligere, felles kodebasen.
 
 ## Kjør lokalt uten backend (mock)
 
