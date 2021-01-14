@@ -34,7 +34,7 @@ Applikasjonen bruker feature toggles fra Unleash for å skru av og på funksjona
 I `src/felles/konstanter.js` ligger en liste med navnene på feature togglene som appen bruker.
 Disse ligger også i `webpack.config.dev.js` for toggles under utvikling lokalt.
 
-For å legge til en feature toggle med navn `'test-toggle'` må man legge den til 3 steder:
+For å legge til en feature-toggle med navn `'test-toggle'` må man legge den til 3 steder:
 
 -   Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
 -   Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
