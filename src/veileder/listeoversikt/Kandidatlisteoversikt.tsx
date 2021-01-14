@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { KandidatlisteView, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
 import { LAGRE_STATUS } from '../../felles/konstanter';
@@ -51,7 +51,7 @@ type Props = {
     removeKompetanseSuggestions: any;
     hentKandidatlister: any;
     fetchingKandidatlister: any;
-    kandidatlister: KandidatlisteView[];
+    kandidatlister: KandidatlisteSammendrag[];
     totaltAntallKandidatlister: any;
     lagreStatus: any;
     resetLagreStatus: any;
@@ -171,18 +171,18 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         });
     };
 
-    onEndreClick = (kandidatliste: KandidatlisteView) => {
+    onEndreClick = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
         this.setState({
             modalstatus: Modalvisning.Endre,
-            kandidatlisteIEndring: kandidatliste,
+            kandidatlisteIEndring: kandidatlisteSammendrag,
         });
     };
 
-    onMenyClick = (kandidatliste: KandidatlisteView) => {
-        if (kandidatliste === this.state.visKandidatlisteMeny) {
+    onMenyClick = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
+        if (kandidatlisteSammendrag === this.state.visKandidatlisteMeny) {
             this.setState({ visKandidatlisteMeny: undefined });
         } else {
-            this.setState({ visKandidatlisteMeny: kandidatliste });
+            this.setState({ visKandidatlisteMeny: kandidatlisteSammendrag });
         }
     };
 
@@ -190,17 +190,17 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         this.setState({ visKandidatlisteMeny: undefined });
     };
 
-    onVisMarkerSomMinModal = (kandidatliste: KandidatlisteView) => {
+    onVisMarkerSomMinModal = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
         this.setState({
             modalstatus: Modalvisning.MarkerSomMin,
-            kandidatlisteIEndring: kandidatliste,
+            kandidatlisteIEndring: kandidatlisteSammendrag,
         });
     };
 
-    onVisSlettKandidatlisteModal = (kandidatliste: KandidatlisteView) => {
+    onVisSlettKandidatlisteModal = (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
         this.setState({
             modalstatus: Modalvisning.Slette,
-            kandidatlisteIEndring: kandidatliste,
+            kandidatlisteIEndring: kandidatlisteSammendrag,
         });
     };
 
@@ -399,8 +399,8 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
     markerKandidatlisteSomMin: (kandidatlisteId: string) => {
         dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
-    slettKandidatliste: (kandidatliste: KandidatlisteView) => {
-        dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste });
+    slettKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
+        dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste: kandidatlisteSammendrag });
     },
     resetSletteStatus: () => {
         dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });

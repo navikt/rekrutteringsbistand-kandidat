@@ -128,7 +128,7 @@ export type Kandidatliste = {
     antallStillinger: number | null;
 };
 
-export type KandidatlisteView = {
+export type KandidatlisteSammendrag = {
     kandidatlisteId: string;
     tittel: string;
     beskrivelse: string;

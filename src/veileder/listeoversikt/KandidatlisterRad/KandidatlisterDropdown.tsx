@@ -1,10 +1,10 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
-import { KandidatlisteView } from '../../kandidatliste/kandidatlistetyper';
+import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../Kandidatlisteoversikt';
 
 type Props = {
-    kandidatliste: KandidatlisteView;
-    markerSomMinModal: (kandidatliste: KandidatlisteView) => void;
+    kandidatliste: KandidatlisteSammendrag;
+    markerSomMinModal: (kandidatliste: KandidatlisteSammendrag) => void;
     slettKandidatliste: () => void;
     toggleDisabledMarkerSomMinAnker: (e: MouseEvent<HTMLElement>) => void;
     toggleDisabledSlettknappAnker: (e: MouseEvent<HTMLElement>) => void;

@@ -4,6 +4,7 @@ import {
     Kandidatliste,
     Kandidat,
     FormidlingAvUsynligKandidat,
+    KandidatlisteSammendrag,
 } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { Tilgjengelighet } from '../../sok/Søkeresultat';
@@ -215,6 +216,14 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
         kandidater,
         formidlingerAvUsynligKandidat:
             harUsynligKandidat && !erTomListe ? [mockUsynligKandidat(7)] : [],
+    };
+});
+
+export const kandidatlistesammendragLister: KandidatlisteSammendrag[] = kandidatlister.map((l) => {
+    return {
+        ...((l as unknown) as KandidatlisteSammendrag),
+        antallKandidater: l.kandidater.length,
+        antallUsynligeKandidater: l.formidlingerAvUsynligKandidat.length,
     };
 });
 
