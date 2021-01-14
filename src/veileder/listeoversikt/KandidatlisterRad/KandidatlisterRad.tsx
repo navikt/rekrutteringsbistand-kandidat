@@ -30,7 +30,7 @@ type Props = {
 };
 
 export const KandidatlisterRad: FunctionComponent<Props> = ({
-    kandidatlisteSammendrag: kandidatlisteSammendrag,
+    kandidatlisteSammendrag,
     endreKandidatliste,
     markerKandidatlisteSomMin,
     slettKandidatliste,
