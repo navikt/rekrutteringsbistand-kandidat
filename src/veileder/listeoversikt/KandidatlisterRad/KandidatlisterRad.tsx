@@ -101,7 +101,7 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
                     {kandidatlisteSammendrag.tittel}
                 </Link>
             </div>
-            <div className="kolonne-middels">
+            <div className="kolonne-middels kandidatlister-rad__sorterbar-kolonne">
                 <Normaltekst className="tekst">
                     {kandidatlisteSammendrag.antallKandidater}
                 </Normaltekst>
