@@ -23,7 +23,7 @@ export type FeilmeldingIMeny = {
 };
 
 type Props = {
-    kandidatlisteSammendrag: KandidatlisteSammendrag;
+    kandidatlisteSammendrag;
     endreKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
     markerKandidatlisteSomMin: (kandidatlisteSammendrag: KandidatlisteSammendrag) => void;
     slettKandidatliste: () => void;

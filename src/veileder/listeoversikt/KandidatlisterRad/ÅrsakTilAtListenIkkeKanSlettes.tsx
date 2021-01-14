@@ -6,9 +6,7 @@ type Props = {
     kandidatlisteSammendrag: KandidatlisteSammendrag;
 };
 
-const ÅrsakTilAtListenIkkeKanSlettes: FunctionComponent<Props> = ({
-    kandidatlisteSammendrag: kandidatlisteSammendrag,
-}) => {
+const ÅrsakTilAtListenIkkeKanSlettes: FunctionComponent<Props> = ({ kandidatlisteSammendrag }) => {
     switch (kandidatlisteSammendrag.kanSlette) {
         case KanSletteEnum.HAR_STILLING:
             return (
