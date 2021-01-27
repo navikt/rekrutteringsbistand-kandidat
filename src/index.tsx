@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
+import Navspa from '@navikt/navspa';
+
 import { AppProps, Main } from './veileder/App';
-import eksporterApp from './eksporterApp';
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 
 // Alle klassenavn blir prefikset med ".rek-kandidat" i craco-configen, så også koden
@@ -15,7 +16,7 @@ const AppMedCssScope: FunctionComponent<AppProps> = (props) => (
 );
 
 if (process.env.REACT_APP_EXPORT) {
-    eksporterApp('rekrutteringsbistand-kandidat', AppMedCssScope);
+    Navspa.eksporter('rekrutteringsbistand-kandidat', AppMedCssScope);
 } else {
     ReactDOM.render(<Utviklingsapp />, document.getElementById('utviklingsapp'));
 }
