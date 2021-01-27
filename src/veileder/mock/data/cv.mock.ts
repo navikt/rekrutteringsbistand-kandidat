@@ -109,6 +109,7 @@ const baseCv: Cv = {
     fagdokumentasjon: [
         { tittel: 'Fagbrev maritime fag', type: 'Fagbrev/svennebrev', beskrivelse: null },
         { tittel: 'Svennebrev urmaker', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Autorisasjon test', type: 'Autorisasjon', beskrivelse: 'aut' },
     ],
     yrkeserfaring: cvData.yrkeserfaring,
     sertifikater: cvData.sertifikater,

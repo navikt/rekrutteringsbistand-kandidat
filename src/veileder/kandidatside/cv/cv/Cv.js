@@ -102,27 +102,31 @@ const KandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.fagdokumentasjon && cv.fagdokumentasjon.length !== 0 && (
-                <Row className="kandidat-cv__row">
-                    <Column xs="12" sm="5">
-                        <Undertittel className="kandidat-cv__overskrift">
-                            Fagbrev/svennebrev, mesterbrev og autorisasjon
-                        </Undertittel>
-                    </Column>
-                    <Column xs="12" sm="7">
-                        {cv.fagdokumentasjon.map((f, i) => (
-                            <Row
-                                className="kandidat-cv__row-kategori"
-                                key={JSON.stringify({ ...f, index: i })}
-                            >
-                                {(f.tittel || f.type) && (
-                                    <Element>{f.tittel ? f.tittel : f.type}</Element>
-                                )}
-                            </Row>
-                        ))}
-                    </Column>
-                </Row>
-            )}
+            {cv.fagdokumentasjon &&
+                cv.fagdokumentasjon.length !== 0 &&
+                cv.fagdokumentasjon.some((f) => f.type !== 'Autorisasjon') && (
+                    <Row className="kandidat-cv__row">
+                        <Column xs="12" sm="5">
+                            <Undertittel className="kandidat-cv__overskrift">
+                                Fagbrev/svennebrev, mesterbrev og autorisasjon
+                            </Undertittel>
+                        </Column>
+                        <Column xs="12" sm="7">
+                            {cv.fagdokumentasjon
+                                .filter((f) => f.type !== 'Autorisasjon')
+                                .map((f, i) => (
+                                    <Row
+                                        className="kandidat-cv__row-kategori"
+                                        key={JSON.stringify({ ...f, index: i })}
+                                    >
+                                        {(f.tittel || f.type) && (
+                                            <Element>{f.tittel ? f.tittel : f.type}</Element>
+                                        )}
+                                    </Row>
+                                ))}
+                        </Column>
+                    </Row>
+                )}
             {cv.yrkeserfaring && cv.yrkeserfaring.length !== 0 && (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
