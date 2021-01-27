@@ -135,6 +135,15 @@ const baseCv: Cv = {
         { arbeidstidKode: 'KVELD', arbeidstidKodeTekst: 'Kveld' },
     ],
     annenErfaring: [{ fraDato: '2004-01-02', tilDato: null, rolle: 'ss', beskrivelse: 'sas' }],
+    godkjenninger: [
+        {
+            tittel: 'Førerbevis anleggsmaskinførere: Gravemaskin',
+            utsteder: '',
+            gjennomfoert: '2010-12-02',
+            utloeper: '2118-12-02',
+            konseptId: '381828',
+        },
+    ],
     fodselsnummer: '21067630103',
     tilretteleggingsbehov: true,
 };

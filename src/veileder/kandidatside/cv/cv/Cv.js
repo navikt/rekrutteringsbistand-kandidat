@@ -212,24 +212,27 @@ const KandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.kurs && cv.kurs.length !== 0 && (
+            {cv.godkjenninger && cv.godkjenninger.length !== 0 && (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
-                        <Undertittel className="kandidat-cv__overskrift">Kurs</Undertittel>
+                        <Undertittel className="kandidat-cv__overskrift">
+                            Godkjenninger i lovreguelerte yrker
+                        </Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {sortByDato(cv.kurs).map((k, i) => (
+                        {sortByDato(cv.godkjenninger).map((s, i) => (
                             <Row
                                 className="kandidat-cv__row-kategori"
-                                key={JSON.stringify({ ...k, index: i })}
+                                key={JSON.stringify({ ...s, index: i })}
                             >
                                 <Undertekst className="kandidat-cv__tidsperiode">
-                                    <Tidsperiode fradato={k.fraDato} tildato={k.tilDato} />
+                                    <Tidsperiode fradato={s.gjennomfoert} />
                                 </Undertekst>
-                                {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
-                                {k.tittel && <Element>{k.tittel}</Element>}
-                                {kursOmfang(k.omfang) && (
-                                    <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>
+                                <Element>{s.tittel}</Element>
+                                {s.gjennomfoert && (
+                                    <Normaltekst>
+                                        Utløper: <Tidsperiode tildato={s.gjennomfoert} />
+                                    </Normaltekst>
                                 )}
                             </Row>
                         ))}
@@ -240,7 +243,7 @@ const KandidatCv = ({ cv }) => (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
                         <Undertittel className="kandidat-cv__overskrift">
-                            Sertifiseringer og sertifikater
+                            Andre godkjenninger
                         </Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
@@ -260,6 +263,30 @@ const KandidatCv = ({ cv }) => (
                                     <Normaltekst>
                                         Utløper: <Tidsperiode tildato={s.tilDato} />
                                     </Normaltekst>
+                                )}
+                            </Row>
+                        ))}
+                    </Column>
+                </Row>
+            )}
+            {cv.kurs && cv.kurs.length !== 0 && (
+                <Row className="kandidat-cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="kandidat-cv__overskrift">Kurs</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {sortByDato(cv.kurs).map((k, i) => (
+                            <Row
+                                className="kandidat-cv__row-kategori"
+                                key={JSON.stringify({ ...k, index: i })}
+                            >
+                                <Undertekst className="kandidat-cv__tidsperiode">
+                                    <Tidsperiode fradato={k.fraDato} tildato={k.tilDato} />
+                                </Undertekst>
+                                {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
+                                {k.tittel && <Element>{k.tittel}</Element>}
+                                {kursOmfang(k.omfang) && (
+                                    <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>
                                 )}
                             </Row>
                         ))}
