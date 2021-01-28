@@ -12,6 +12,7 @@ type Cv = {
     adresse: Adresse;
     aktorId: string;
     annenErfaring: any[];
+    godkjenninger: any[];
     ansettelsesformJobbprofil: any[];
     arbeidsdagerJobbprofil: any[];
     arbeidstidJobbprofil: any[];

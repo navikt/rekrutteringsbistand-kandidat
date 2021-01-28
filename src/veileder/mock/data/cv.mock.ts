@@ -109,6 +109,7 @@ const baseCv: Cv = {
     fagdokumentasjon: [
         { tittel: 'Fagbrev maritime fag', type: 'Fagbrev/svennebrev', beskrivelse: null },
         { tittel: 'Svennebrev urmaker', type: 'Fagbrev/svennebrev', beskrivelse: 'ssas' },
+        { tittel: 'Autorisasjon test', type: 'Autorisasjon', beskrivelse: 'aut' },
     ],
     yrkeserfaring: cvData.yrkeserfaring,
     sertifikater: cvData.sertifikater,
@@ -134,7 +135,30 @@ const baseCv: Cv = {
         { arbeidstidKode: 'DAGTID', arbeidstidKodeTekst: 'Dagtid' },
         { arbeidstidKode: 'KVELD', arbeidstidKodeTekst: 'Kveld' },
     ],
-    annenErfaring: [{ fraDato: '2004-01-02', tilDato: null, rolle: 'ss', beskrivelse: 'sas' }],
+    annenErfaring: [
+        {
+            fraDato: '2004-01-02',
+            tilDato: null,
+            rolle: 'ss',
+            beskrivelse: 'selger',
+        },
+    ],
+    godkjenninger: [
+        {
+            tittel: 'Førerbevis anleggsmaskinførere: Gravemaskin',
+            utsteder: 'testutsteder',
+            gjennomfoert: '2010-12-02',
+            utloeper: '2118-12-02',
+            konseptId: '381828',
+        },
+        {
+            tittel: 'Førerbevis test: test',
+            utsteder: 'testutsteder',
+            gjennomfoert: '2011-12-02',
+            utloeper: '',
+            konseptId: '3818',
+        },
+    ],
     fodselsnummer: '21067630103',
     tilretteleggingsbehov: true,
 };

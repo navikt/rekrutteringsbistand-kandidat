@@ -7,7 +7,7 @@ Koden inneholder derfor noen arkitekturavgjørelser fra den tidligere, felles ko
 
 ```sh
 npm install
-npm run mock
+npm run start:mock
 ```
 
 ## Kjør applikasjonen lokalt med backend

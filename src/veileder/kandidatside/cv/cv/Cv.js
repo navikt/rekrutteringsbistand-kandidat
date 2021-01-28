@@ -4,9 +4,9 @@ import { Column, Row } from 'nav-frontend-grid';
 import {
     Element,
     Normaltekst,
+    Systemtittel,
     Undertekst,
     Undertittel,
-    Systemtittel,
 } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import cvPropTypes from '../../../../felles/PropTypes';
@@ -102,27 +102,31 @@ const KandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.fagdokumentasjon && cv.fagdokumentasjon.length !== 0 && (
-                <Row className="kandidat-cv__row">
-                    <Column xs="12" sm="5">
-                        <Undertittel className="kandidat-cv__overskrift">
-                            Fagbrev/svennebrev, mesterbrev og autorisasjon
-                        </Undertittel>
-                    </Column>
-                    <Column xs="12" sm="7">
-                        {cv.fagdokumentasjon.map((f, i) => (
-                            <Row
-                                className="kandidat-cv__row-kategori"
-                                key={JSON.stringify({ ...f, index: i })}
-                            >
-                                {(f.tittel || f.type) && (
-                                    <Element>{f.tittel ? f.tittel : f.type}</Element>
-                                )}
-                            </Row>
-                        ))}
-                    </Column>
-                </Row>
-            )}
+            {cv.fagdokumentasjon &&
+                cv.fagdokumentasjon.length !== 0 &&
+                cv.fagdokumentasjon.some((f) => f.type !== 'Autorisasjon') && (
+                    <Row className="kandidat-cv__row">
+                        <Column xs="12" sm="5">
+                            <Undertittel className="kandidat-cv__overskrift">
+                                Fagbrev/svennebrev og mesterbrev
+                            </Undertittel>
+                        </Column>
+                        <Column xs="12" sm="7">
+                            {cv.fagdokumentasjon
+                                .filter((f) => f.type !== 'Autorisasjon')
+                                .map((f, i) => (
+                                    <Row
+                                        className="kandidat-cv__row-kategori"
+                                        key={JSON.stringify({ ...f, index: i })}
+                                    >
+                                        {(f.tittel || f.type) && (
+                                            <Element>{f.tittel ? f.tittel : f.type}</Element>
+                                        )}
+                                    </Row>
+                                ))}
+                        </Column>
+                    </Row>
+                )}
             {cv.yrkeserfaring && cv.yrkeserfaring.length !== 0 && (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
@@ -212,24 +216,28 @@ const KandidatCv = ({ cv }) => (
                     </Column>
                 </Row>
             )}
-            {cv.kurs && cv.kurs.length !== 0 && (
+            {cv.godkjenninger && cv.godkjenninger.length !== 0 && (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
-                        <Undertittel className="kandidat-cv__overskrift">Kurs</Undertittel>
+                        <Undertittel className="kandidat-cv__overskrift">
+                            Godkjenninger i lovreguelerte yrker
+                        </Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
-                        {sortByDato(cv.kurs).map((k, i) => (
+                        {sortByDato(cv.godkjenninger).map((s, i) => (
                             <Row
                                 className="kandidat-cv__row-kategori"
-                                key={JSON.stringify({ ...k, index: i })}
+                                key={JSON.stringify({ ...s, index: i })}
                             >
                                 <Undertekst className="kandidat-cv__tidsperiode">
-                                    <Tidsperiode fradato={k.fraDato} tildato={k.tilDato} />
+                                    <Tidsperiode fradato={s.gjennomfoert} />
                                 </Undertekst>
-                                {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
-                                {k.tittel && <Element>{k.tittel}</Element>}
-                                {kursOmfang(k.omfang) && (
-                                    <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>
+                                {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
+                                <Element>{s.tittel}</Element>
+                                {s.utloeper && (
+                                    <Normaltekst>
+                                        Utløper: <Tidsperiode tildato={s.utloeper} />
+                                    </Normaltekst>
                                 )}
                             </Row>
                         ))}
@@ -240,7 +248,7 @@ const KandidatCv = ({ cv }) => (
                 <Row className="kandidat-cv__row">
                     <Column xs="12" sm="5">
                         <Undertittel className="kandidat-cv__overskrift">
-                            Sertifiseringer og sertifikater
+                            Andre godkjenninger
                         </Undertittel>
                     </Column>
                     <Column xs="12" sm="7">
@@ -260,6 +268,30 @@ const KandidatCv = ({ cv }) => (
                                     <Normaltekst>
                                         Utløper: <Tidsperiode tildato={s.tilDato} />
                                     </Normaltekst>
+                                )}
+                            </Row>
+                        ))}
+                    </Column>
+                </Row>
+            )}
+            {cv.kurs && cv.kurs.length !== 0 && (
+                <Row className="kandidat-cv__row">
+                    <Column xs="12" sm="5">
+                        <Undertittel className="kandidat-cv__overskrift">Kurs</Undertittel>
+                    </Column>
+                    <Column xs="12" sm="7">
+                        {sortByDato(cv.kurs).map((k, i) => (
+                            <Row
+                                className="kandidat-cv__row-kategori"
+                                key={JSON.stringify({ ...k, index: i })}
+                            >
+                                <Undertekst className="kandidat-cv__tidsperiode">
+                                    <Tidsperiode fradato={k.fraDato} tildato={k.tilDato} />
+                                </Undertekst>
+                                {k.arrangor && <Normaltekst>{k.arrangor}</Normaltekst>}
+                                {k.tittel && <Element>{k.tittel}</Element>}
+                                {kursOmfang(k.omfang) && (
+                                    <Normaltekst>{`Varighet: ${kursOmfang(k.omfang)}`}</Normaltekst>
                                 )}
                             </Row>
                         ))}

@@ -182,7 +182,7 @@ export const yrkeserfaring = [
 
 export const sertifikater = [
     {
-        utsteder: '',
+        utsteder: 'testutsteder',
         sertifikatKode: '382068',
         sertifikatKodeNavn: 'Truckførerbevis T4',
         alternativtNavn: null,
