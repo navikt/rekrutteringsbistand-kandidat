@@ -234,7 +234,7 @@ const KandidatCv = ({ cv }) => (
                                 </Undertekst>
                                 {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
                                 <Element>{s.tittel}</Element>
-                                {s.gjennomfoert && (
+                                {s.utloeper && (
                                     <Normaltekst>
                                         Utløper: <Tidsperiode tildato={s.utloeper} />
                                     </Normaltekst>

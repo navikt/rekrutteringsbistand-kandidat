@@ -151,6 +151,13 @@ const baseCv: Cv = {
             utloeper: '2118-12-02',
             konseptId: '381828',
         },
+        {
+            tittel: 'Førerbevis test: test',
+            utsteder: 'testutsteder',
+            gjennomfoert: '2011-12-02',
+            utloeper: '',
+            konseptId: '3818',
+        },
     ],
     fodselsnummer: '21067630103',
     tilretteleggingsbehov: true,
