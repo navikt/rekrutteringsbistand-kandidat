@@ -108,7 +108,7 @@ const KandidatCv = ({ cv }) => (
                     <Row className="kandidat-cv__row">
                         <Column xs="12" sm="5">
                             <Undertittel className="kandidat-cv__overskrift">
-                                Fagbrev/svennebrev, mesterbrev og autorisasjon
+                                Fagbrev/svennebrev og mesterbrev
                             </Undertittel>
                         </Column>
                         <Column xs="12" sm="7">
