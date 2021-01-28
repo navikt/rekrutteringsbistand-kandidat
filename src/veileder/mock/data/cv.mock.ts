@@ -135,11 +135,18 @@ const baseCv: Cv = {
         { arbeidstidKode: 'DAGTID', arbeidstidKodeTekst: 'Dagtid' },
         { arbeidstidKode: 'KVELD', arbeidstidKodeTekst: 'Kveld' },
     ],
-    annenErfaring: [{ fraDato: '2004-01-02', tilDato: null, rolle: 'ss', beskrivelse: 'sas' }],
+    annenErfaring: [
+        {
+            fraDato: '2004-01-02',
+            tilDato: null,
+            rolle: 'ss',
+            beskrivelse: 'selger',
+        },
+    ],
     godkjenninger: [
         {
             tittel: 'Førerbevis anleggsmaskinførere: Gravemaskin',
-            utsteder: '',
+            utsteder: 'testutsteder',
             gjennomfoert: '2010-12-02',
             utloeper: '2118-12-02',
             konseptId: '381828',
