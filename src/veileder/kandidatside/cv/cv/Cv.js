@@ -235,7 +235,7 @@ const KandidatCv = ({ cv }) => (
                                 <Element>{s.tittel}</Element>
                                 {s.gjennomfoert && (
                                     <Normaltekst>
-                                        Utløper: <Tidsperiode tildato={s.gjennomfoert} />
+                                        Utløper: <Tidsperiode tildato={s.utloeper} />
                                     </Normaltekst>
                                 )}
                             </Row>
