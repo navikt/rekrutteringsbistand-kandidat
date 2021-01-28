@@ -4,9 +4,9 @@ import { Column, Row } from 'nav-frontend-grid';
 import {
     Element,
     Normaltekst,
+    Systemtittel,
     Undertekst,
     Undertittel,
-    Systemtittel,
 } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import cvPropTypes from '../../../../felles/PropTypes';
@@ -232,6 +232,7 @@ const KandidatCv = ({ cv }) => (
                                 <Undertekst className="kandidat-cv__tidsperiode">
                                     <Tidsperiode fradato={s.gjennomfoert} />
                                 </Undertekst>
+                                {s.utsteder && <Normaltekst>{s.utsteder}</Normaltekst>}
                                 <Element>{s.tittel}</Element>
                                 {s.gjennomfoert && (
                                     <Normaltekst>
