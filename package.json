@@ -42,7 +42,6 @@
         "@reach/menu-button": "^0.12.1",
         "@sentry/react": "^6.1.0",
         "amplitude-js": "^7.4.2",
-        "html-webpack-plugin": "^4.5.1",
         "lodash.throttle": "^4.1.1",
         "moment": "^2.29.1",
         "nav-datovelger": "^6.1.9",
