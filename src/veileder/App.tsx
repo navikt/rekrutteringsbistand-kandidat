@@ -52,6 +52,7 @@ Sentry.init({
     release: process.env.REACT_APP_SENTRY_RELEASE || 'unknown',
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
     beforeSend: fjernPersonopplysninger,
+    autoSessionTracking: false,
 });
 
 const søkefiltreReducer = combineReducers({
