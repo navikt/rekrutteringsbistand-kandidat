@@ -44,7 +44,7 @@ import * as Sentry from '@sentry/react';
 import { getMiljø } from '../felles/common/miljøUtils';
 import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
