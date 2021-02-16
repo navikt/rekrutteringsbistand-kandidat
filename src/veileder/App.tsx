@@ -43,6 +43,8 @@ import './sok/sok.less';
 import * as Sentry from '@sentry/react';
 import { getMiljø } from '../felles/common/miljøUtils';
 import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',
@@ -110,7 +112,7 @@ export type AppProps = {
 
 export const Main: FunctionComponent<AppProps> = ({ history, navKontor }) => {
     return (
-        <Sentry.ErrorBoundary>
+        <Sentry.ErrorBoundary fallback={(error) => <FeilMedApp {...error} />}>
             <Provider store={store}>
                 <Router history={history}>
                     <RekrutteringsbistandKandidat navKontor={navKontor} />
@@ -119,3 +121,15 @@ export const Main: FunctionComponent<AppProps> = ({ history, navKontor }) => {
         </Sentry.ErrorBoundary>
     );
 };
+
+const FeilMedApp: FunctionComponent<{
+    error: Error;
+    eventId: string | null;
+}> = ({ error, eventId }) => (
+    <AlertStripeFeil>
+        <Undertittel>Det har skjedd en feil</Undertittel>
+        <Normaltekst>ID: {eventId}</Normaltekst>
+        <br />
+        <Normaltekst>Feilmelding: {error.message}</Normaltekst>
+    </AlertStripeFeil>
+);
