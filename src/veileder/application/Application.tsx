@@ -26,13 +26,6 @@ const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
         <>
             <Normaltekst tag="div" className="Application">
                 <main className="Application__main">
-                    <button
-                        onClick={() => {
-                            throw new Error('Rett i fella!');
-                        }}
-                    >
-                        Trykk meg
-                    </button>
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
                         <Route
