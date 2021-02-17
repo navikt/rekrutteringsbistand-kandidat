@@ -1,4 +1,4 @@
-@import '../../felles/Variables';
+@import '../../variables';
 
 .search-button {
     padding: 10px !important;
@@ -11,7 +11,7 @@
 
 .search-button:hover,
 .search-button:active {
-    background-color: @blueDarken !important;
+    background-color: @navBlaDarken80 !important;
 }
 
 .search-button__icon {
@@ -39,26 +39,6 @@
 
     &:hover {
         border-color: @navBlaDarken40;
-    }
-}
-
-.panel--sokekriterier {
-    .ekspanderbartPanel--green();
-    margin-top: 2rem;
-
-    .ekspanderbartPanel__innhold {
-        padding: 0.25rem 1rem 0;
-
-        @media (min-width: @screen-md-min) {
-            padding: 1rem 1rem 1.25rem;
-            background: @gray2;
-        }
-    }
-}
-
-@media (min-width: @screen-sm-min) {
-    .panel--padding {
-        padding: 1.5rem 3rem;
     }
 }
 
@@ -158,23 +138,4 @@
 
 .text--italic {
     font-style: italic;
-}
-
-.SesjonUgaarModal {
-    width: 640px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-
-    .innhold {
-        margin-top: 1.25rem;
-    }
-
-    .knapperad {
-        margin-top: 2.5rem;
-
-        :not(:first-child) {
-            margin-left: 1rem;
-        }
-    }
 }
