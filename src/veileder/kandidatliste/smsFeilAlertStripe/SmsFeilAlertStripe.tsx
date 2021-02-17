@@ -30,8 +30,9 @@ const SmsFeilAlertStripe: FunctionComponent<Props> = ({ kandidater }) => {
             .map((kandidat) => kandidat.sms!.id)
             .forEach((id) => oppdatertLesteSmsIder.add(id));
 
-        window.localStorage.setItem(LESTE_SMS_IDER_KEY, JSON.stringify(oppdatertLesteSmsIder));
-        setLesteSmsIder(Array.from(oppdatertLesteSmsIder.values()));
+        const oppdatertLesteSmsIderArray = Array.from(oppdatertLesteSmsIder);
+        window.localStorage.setItem(LESTE_SMS_IDER_KEY, JSON.stringify(oppdatertLesteSmsIderArray));
+        setLesteSmsIder(oppdatertLesteSmsIderArray);
     };
 
     const navn = kandidaterMedUlesteSmsFeil
