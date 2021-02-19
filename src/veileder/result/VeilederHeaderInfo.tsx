@@ -1,6 +1,6 @@
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Sidetittel from '../../felles/common/Sidetittel';
-import { capitalizeEmployerName } from '../../felles/sok/utils';
+import { capitalizeEmployerName } from '../sok/utils';
 import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import React, { FunctionComponent, useState } from 'react';

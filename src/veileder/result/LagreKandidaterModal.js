@@ -7,7 +7,7 @@ import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../kandidatliste/PropTypes';
 import { formatterDato } from '../../felles/common/dateUtils';
-import { capitalizeEmployerName } from '../../felles/sok/utils';
+import { capitalizeEmployerName } from '../sok/utils';
 import { LAGRE_STATUS } from '../../felles/konstanter';
 import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';

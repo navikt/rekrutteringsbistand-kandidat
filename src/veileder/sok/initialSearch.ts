@@ -5,7 +5,7 @@ import { SEARCH_FAILURE, SET_STATE } from './searchReducer';
 import { SearchApiError } from '../../felles/api';
 import { search } from './typedSearchReducer';
 import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
-import { formatterStedsnavn } from '../../felles/sok/utils';
+import { formatterStedsnavn } from './utils';
 
 interface SøkMedInfoFraStillingAction {
     stillingsId: string;

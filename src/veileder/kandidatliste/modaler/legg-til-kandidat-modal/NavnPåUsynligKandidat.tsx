@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Navn } from '../../kandidatlistetyper';
-import { capitalizeFirstLetter } from '../../../../felles/sok/utils';
+import { capitalizeFirstLetter } from '../../../sok/utils';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 type Props = {

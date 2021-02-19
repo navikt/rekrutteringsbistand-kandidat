@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 import ForrigeNeste from './forrige-neste/ForrigeNeste';
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter } from '../../sok/utils';
 import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../../felles/common/dateUtils';
