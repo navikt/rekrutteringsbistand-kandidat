@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadSuggestionsRest } from '../../api.ts';
 import { BRANCHNAVN } from '../../../felles/konstanter';
-import { forerkortSuggestions } from '../../../felles/sok/forerkort/forerkort.ts';
 import { SearchApiError } from '../../../felles/api.ts';
+import { forerkortSuggestions } from '../../sok/forerkort/forerkort';
 
 /** *********************************************************
  * ACTIONS

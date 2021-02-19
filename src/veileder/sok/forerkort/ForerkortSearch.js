@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ForerkortSearchFelles from '../../../felles/sok/forerkort/ForerkortSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -13,6 +12,14 @@ import {
     TOGGLE_FORERKORT_PANEL_OPEN,
 } from './forerkortReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import Typeahead from '../typeahead/Typeahead';
+import { Knapp } from 'nav-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import { erGyldigForerkort } from './forerkort';
+import './Forerkort.less';
 
 const ForerkortSearch = ({ ...props }) => {
     const {
@@ -28,20 +35,113 @@ const ForerkortSearch = ({ ...props }) => {
         panelOpen,
         togglePanelOpen,
     } = props;
+
+    const [showTypeahead, setShowTypeahead] = useState(false);
+    const [typeaheadValue, setTypeaheadValue] = useState('');
+    const [feil, setFeil] = useState(false);
+    const typeahead = useRef(null);
+
+    const onTypeAheadForerkortChange = (value) => {
+        fetchTypeAheadSuggestionsForerkort(value);
+        setTypeaheadValue(value);
+        setFeil(false);
+    };
+
+    const onTypeAheadForerkortSelect = (value) => {
+        if (erGyldigForerkort(value)) {
+            selectTypeAheadValueForerkort(value);
+            clearTypeAheadForerkort();
+            setTypeaheadValue('');
+            search();
+            setFeil(false);
+        } else {
+            setFeil(true);
+        }
+    };
+
+    const onLeggTilForerkortClick = () => {
+        setShowTypeahead(true);
+        typeahead.current?.input.focus();
+    };
+
+    const onFjernForerkortClick = (forerkort) => {
+        removeForerkort(forerkort);
+        search();
+    };
+
+    const onSubmitForerkort = (e) => {
+        e.preventDefault();
+        onTypeAheadForerkortSelect(typeaheadValue);
+        typeahead.current?.input.focus();
+    };
+
+    const onTypeAheadBlur = () => {
+        setTypeaheadValue('');
+        setShowTypeahead(false);
+        setFeil(false);
+        clearTypeAheadForerkort();
+    };
+
     return (
-        <ForerkortSearchFelles
-            search={search}
-            removeForerkort={removeForerkort}
-            fetchTypeAheadSuggestionsForerkort={fetchTypeAheadSuggestionsForerkort}
-            selectTypeAheadValueForerkort={selectTypeAheadValueForerkort}
-            forerkortList={forerkortList}
-            typeAheadSuggestionsForerkort={typeAheadSuggestionsForerkort}
-            clearTypeAheadForerkort={clearTypeAheadForerkort}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-        />
+        <SokekriteriePanel
+            id="Forerkort__SokekriteriePanel"
+            fane="førerkort"
+            tittel="Førerkort"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <Element>Krav til førerkort</Element>
+            <Normaltekst>For eksempel: B - Personbil</Normaltekst>
+            <div className="sokekriterier--kriterier">
+                <div>
+                    {showTypeahead ? (
+                        <Typeahead
+                            ref={(typeAheadRef) => {
+                                typeahead.current = typeAheadRef;
+                            }}
+                            onSelect={onTypeAheadForerkortSelect}
+                            onChange={onTypeAheadForerkortChange}
+                            label=""
+                            name="forerkort"
+                            placeholder="Skriv inn førerkort"
+                            suggestions={typeAheadSuggestionsForerkort}
+                            value={typeaheadValue}
+                            id="typeahead-forerkort"
+                            onSubmit={onSubmitForerkort}
+                            onTypeAheadBlur={onTypeAheadBlur}
+                        />
+                    ) : (
+                        <Knapp
+                            onClick={onLeggTilForerkortClick}
+                            id="leggtil-forerkort-knapp"
+                            className="knapp-små-bokstaver"
+                            kompakt
+                        >
+                            + Legg til førerkort
+                        </Knapp>
+                    )}
+                    {feil && (
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            Ordet du har skrevet inn gir ingen treff
+                        </Normaltekst>
+                    )}
+                </div>
+                <div className="Merkelapp__wrapper">
+                    {forerkortList.map((forerkort) => (
+                        <Merkelapp
+                            onRemove={onFjernForerkortClick}
+                            key={forerkort}
+                            value={forerkort}
+                        >
+                            {forerkort}
+                        </Merkelapp>
+                    ))}
+                </div>
+            </div>
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.FORERKORT && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
 };
 
