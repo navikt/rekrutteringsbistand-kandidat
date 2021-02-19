@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import FritekstSearch from '../../sok/fritekst/FritekstSearch';
-import { SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import StillingSearch from '../../sok/stilling/StillingSearch';
 import GeografiSearch from '../../sok/geografi/GeografiSearch';

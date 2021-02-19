@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
+import { Checkbox } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
