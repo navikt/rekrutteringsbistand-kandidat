@@ -56,7 +56,7 @@ class UtdanningSearch extends React.Component {
             <SokekriteriePanel
                 id="Utdanning__SokekriteriePanel"
                 fane="utdanning"
-                tittel="Utdanning"
+                tittel="Utdanningsnivå"
                 onClick={this.props.togglePanelOpen}
                 apen={this.props.panelOpen}
             >
