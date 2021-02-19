@@ -8,7 +8,7 @@ import {
     UNCHECK_UTDANNINGSNIVA,
     TOGGLE_UTDANNING_PANEL_OPEN,
 } from './utdanningReducer';
-import { ALERTTYPE, BRANCHNAVN, UTDANNING } from '../../../felles/konstanter';
+import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
