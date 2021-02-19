@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import HovedmalSearchFelles from '../../../felles/sok/hovedmal/HovedmalSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CHECK_TOTAL_HOVEDMAL,
@@ -9,6 +8,16 @@ import {
     TOGGLE_HOVEDMAL_PANEL_OPEN,
 } from './hovedmalReducer';
 import { ALERTTYPE } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Checkbox } from 'nav-frontend-skjema';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import './Hovedmal.less';
+
+const HovedmalEnum = {
+    SKAFFE_ARBEID: 'SKAFFEA',
+    BEHOLDE_ARBEID: 'BEHOLDEA',
+    OKE_DELTAKELSE: 'OKEDELT',
+};
 
 const HovedmalSearch = ({ ...props }) => {
     const {
@@ -22,17 +31,46 @@ const HovedmalSearch = ({ ...props }) => {
         togglePanelOpen,
     } = props;
 
+    const hovedmal = [
+        { label: 'Skaffe arbeid', value: HovedmalEnum.SKAFFE_ARBEID },
+        { label: 'Beholde arbeid', value: HovedmalEnum.BEHOLDE_ARBEID },
+        { label: 'Øke deltakelse', value: HovedmalEnum.OKE_DELTAKELSE },
+    ];
+
+    const onTotalHovedmalChange = (e) => {
+        if (e.target.checked) {
+            checkHovedmal(e.target.value);
+        } else {
+            uncheckHovedmal(e.target.value);
+        }
+        search();
+    };
+
     return (
-        <HovedmalSearchFelles
-            search={search}
-            checkHovedmal={checkHovedmal}
-            uncheckHovedmal={uncheckHovedmal}
-            totaltHovedmal={totaltHovedmal}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-        />
+        <SokekriteriePanel
+            id="Hovedmaal__SokekriteriePanel"
+            fane="hovedmål"
+            tittel="Hovedmål"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <div>
+                {hovedmal.map((h) => (
+                    <Checkbox
+                        className="checkbox--hovedmal"
+                        id={`hovedmal-${h.value.toLowerCase()}-checkbox`}
+                        label={h.label}
+                        key={h.value}
+                        value={h.value}
+                        checked={totaltHovedmal.includes(h.value)}
+                        onChange={onTotalHovedmalChange}
+                    />
+                ))}
+            </div>
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
 };
 
