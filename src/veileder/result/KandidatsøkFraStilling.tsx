@@ -88,13 +88,14 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         stillingsIdFraUrl,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
+        stillingsId,
     ]);
 
     useEffect(() => {
         if (!harUrlParametere(window.location.href) || !kandidatliste) {
             hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
         }
-    }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
+    }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId, kandidatliste]);
 
     const header = (
         <Container className="container--header">
