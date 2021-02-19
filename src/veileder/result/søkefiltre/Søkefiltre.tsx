@@ -27,33 +27,35 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
         <div className="søkefiltre">
             <FritekstSearch />
 
-            <SkjemaGruppe
-                legend={<Element className="skjemagruppe--legend">Beskriv jobben</Element>}
-            >
+            <div className="søkefiltre--gruppe">
+                <Element className="skjemagruppe--legend">Beskriv jobben</Element>
                 <StillingSearch stillingsId={stillingsId} />
                 <GeografiSearch stillingsId={stillingsId} />
-            </SkjemaGruppe>
+            </div>
 
-            <SkjemaGruppe legend={<Element>Krav til kandidaten</Element>}>
+            <div className="søkefiltre--gruppe">
+                <Element>Krav til kandidaten</Element>
                 <KompetanseSearch />
                 <ArbeidserfaringSearch />
                 <UtdanningSearch />
                 <ForerkortSearch />
                 <SprakSearch />
-            </SkjemaGruppe>
+            </div>
 
-            <SkjemaGruppe legend={<Element>Om kandidaten</Element>}>
+            <div className="søkefiltre--gruppe">
+                <Element>Om kandidaten</Element>
                 <NavkontorSearch />
                 <PermitteringSearch />
                 <InnsatsgruppeSearch />
                 <HovedmalSearch />
                 <TilgjengelighetSearch />
                 <AlderSearch />
-            </SkjemaGruppe>
+            </div>
 
-            <SkjemaGruppe legend={<Element>Behov for inkludering</Element>}>
+            <div className="søkefiltre--gruppe">
+                <Element>Behov for inkludering</Element>
                 <TilretteleggingsbehovSearch />
-            </SkjemaGruppe>
+            </div>
         </div>
     );
 };
