@@ -6,6 +6,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { erGyldigEpost } from '../../../felles/epostValidering';
 import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 import './PresenterKandidaterModal.less';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const initalState = () => ({
     beskjed: '',
@@ -124,6 +125,10 @@ export default class PresenterKandidaterModal extends React.Component {
                     ) : (
                         <Systemtittel>{`Del ${antallKandidater} kandidater med arbeidsgiver`}</Systemtittel>
                     )}
+                    <AlertStripeAdvarsel>
+                        Husk at du må kontakte kandidatene og undersøke om stillingen er aktuell før
+                        du deler med arbeidsgiver.
+                    </AlertStripeAdvarsel>
                     <Normaltekst>* er obligatoriske felter du må fylle ut</Normaltekst>
                     <Normaltekst className="forklaringstekst">
                         Arbeidsgiveren du deler listen med vil motta en e-post med navn på stilling
