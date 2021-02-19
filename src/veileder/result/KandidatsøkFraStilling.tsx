@@ -90,9 +90,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     ]);
 
     useEffect(() => {
-        if (!harUrlParametere(window.location.href)) {
-            hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
-        }
+        hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
     }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
 
     const header = (
