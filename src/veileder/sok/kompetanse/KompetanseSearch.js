@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import KompetanseSearchFelles from '../../../felles/sok/kompetanse/KompetanseSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -13,6 +12,13 @@ import {
     TOGGLE_KOMPETANSE_PANEL_OPEN,
 } from './kompetanseReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import Typeahead from '../typeahead/Typeahead';
+import { Knapp } from 'nav-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import './Kompetanse.less';
 
 const KompetanseSearch = ({ ...props }) => {
     const {
@@ -23,29 +29,164 @@ const KompetanseSearch = ({ ...props }) => {
         kompetanser,
         kompetanseSuggestions,
         typeAheadSuggestionsKompetanse,
+        allowOnlyTypeaheadSuggestions,
+        kompetanseExamples,
         clearTypeAheadKompetanse,
         totaltAntallTreff,
         visAlertFaKandidater,
         panelOpen,
         togglePanelOpen,
     } = props;
+
+    const [showTypeAheadKompetanse, setShowTypeAheadKompetanse] = useState(false);
+    const [typeAheadValueKompetanse, setTypeAheadValueKompetanse] = useState('');
+    const [antallKompetanser, setAntallKompetanser] = useState(4);
+    const typeAhead = useRef(null);
+
+    const onTypeAheadKompetanseChange = (value) => {
+        fetchTypeAheadSuggestionsKompetanse(value);
+        setTypeAheadValueKompetanse(value);
+    };
+
+    const onTypeAheadKompetanseSelect = (value) => {
+        if (value !== '') {
+            selectTypeAheadValueKompetanse(value);
+            clearTypeAheadKompetanse();
+            setTypeAheadValueKompetanse('');
+            search();
+        }
+    };
+
+    const onLeggTilKompetanseClick = () => {
+        setShowTypeAheadKompetanse(true);
+        typeAhead.current?.input.focus();
+    };
+
+    const onFjernKompetanseClick = (kompetanse) => {
+        removeKompetanse(kompetanse);
+        search();
+    };
+
+    const onSubmitKompetanse = (e) => {
+        e.preventDefault();
+        onTypeAheadKompetanseSelect(typeAheadValueKompetanse);
+        typeAhead.current?.input.focus();
+    };
+
+    const onKompetanseSuggestionsClick = (kompetanse) => () => {
+        selectTypeAheadValueKompetanse(kompetanse);
+        search();
+    };
+
+    const onTypeAheadBlur = () => {
+        setTypeAheadValueKompetanse('');
+        setShowTypeAheadKompetanse(false);
+        clearTypeAheadKompetanse();
+    };
+
+    const onLeggTilFlereClick = () => {
+        setAntallKompetanser(antallKompetanser + 4);
+    };
+
+    const filtrerteKompetanseSuggestions = () =>
+        kompetanseSuggestions.filter((k) => !kompetanser.includes(k.feltnavn));
+
     return (
-        <KompetanseSearchFelles
-            search={search}
-            removeKompetanse={removeKompetanse}
-            fetchTypeAheadSuggestionsKompetanse={fetchTypeAheadSuggestionsKompetanse}
-            selectTypeAheadValueKompetanse={selectTypeAheadValueKompetanse}
-            kompetanser={kompetanser}
-            kompetanseSuggestions={kompetanseSuggestions}
-            typeAheadSuggestionsKompetanse={typeAheadSuggestionsKompetanse}
-            clearTypeAheadKompetanse={clearTypeAheadKompetanse}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-            allowOnlyTypeaheadSuggestions
-        />
+        <SokekriteriePanel
+            id="Kompetanse__SokekriteriePanel"
+            fane="kompetanse"
+            tittel="Kompetanse"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <Element>Krav til kompetanse</Element>
+            <Normaltekst>{kompetanseExamples}</Normaltekst>
+            <div className="sokekriterier--kriterier">
+                <div>
+                    {showTypeAheadKompetanse ? (
+                        <Typeahead
+                            ref={(typeAheadRef) => {
+                                typeAhead.current = typeAheadRef;
+                            }}
+                            onSelect={onTypeAheadKompetanseSelect}
+                            onChange={onTypeAheadKompetanseChange}
+                            label=""
+                            name="kompetanse"
+                            placeholder="Skriv inn kompetanse"
+                            suggestions={typeAheadSuggestionsKompetanse}
+                            value={typeAheadValueKompetanse}
+                            id="typeahead-kompetanse"
+                            onSubmit={onSubmitKompetanse}
+                            onTypeAheadBlur={onTypeAheadBlur}
+                            allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
+                            selectedSuggestions={kompetanser}
+                        />
+                    ) : (
+                        <Knapp
+                            onClick={onLeggTilKompetanseClick}
+                            id="leggtil-kompetanse-knapp"
+                            kompakt
+                            className="knapp-små-bokstaver"
+                        >
+                            + Legg til kompetanse
+                        </Knapp>
+                    )}
+                </div>
+                <div className="Merkelapp__wrapper">
+                    {kompetanser.map((kompetanse) => (
+                        <Merkelapp
+                            onRemove={onFjernKompetanseClick}
+                            key={kompetanse}
+                            value={kompetanse}
+                        >
+                            {kompetanse}
+                        </Merkelapp>
+                    ))}
+                </div>
+            </div>
+            {filtrerteKompetanseSuggestions.length > 0 && (
+                <div className="KompetanseSearch__suggestions">
+                    <div className="blokk-s border--bottom--thin" />
+                    <Element>
+                        Forslag til kompetanse knyttet til valgt stilling. Klikk for å legge til
+                    </Element>
+                    <div className="Kompetanseforslag__wrapper">
+                        {filtrerteKompetanseSuggestions
+                            .slice(0, antallKompetanser)
+                            .map((suggestedKompetanse) => (
+                                <button
+                                    onClick={onKompetanseSuggestionsClick(
+                                        suggestedKompetanse.feltnavn
+                                    )}
+                                    className="KompetanseSearch__etikett"
+                                    key={suggestedKompetanse.feltnavn}
+                                >
+                                    <div className="KompetanseSearch__etikett__text">
+                                        {suggestedKompetanse.feltnavn}
+                                    </div>
+                                    <i className="KompetanseSearch__etikett__icon" />
+                                </button>
+                            ))}
+                        {antallKompetanser < filtrerteKompetanseSuggestions.length && (
+                            <Knapp onClick={onLeggTilFlereClick} className="se-flere-forslag" mini>
+                                {`Se flere (${
+                                    filtrerteKompetanseSuggestions.length - antallKompetanser
+                                })`}
+                            </Knapp>
+                        )}
+                    </div>
+                </div>
+            )}
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
+};
+
+KompetanseSearch.defaultProps = {
+    kompetanseExamples: 'For eksempel: fagbrev, sertifisering, ferdigheter, programmer',
+    allowOnlyTypeaheadSuggestions: false,
 };
 
 KompetanseSearch.propTypes = {
@@ -65,8 +206,10 @@ KompetanseSearch.propTypes = {
     clearTypeAheadKompetanse: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
+    panelOpen: PropTypes.bool.isRequired,
+    kompetanseExamples: PropTypes.string,
+    allowOnlyTypeaheadSuggestions: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
