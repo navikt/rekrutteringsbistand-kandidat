@@ -34,7 +34,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
                 <GeografiSearch stillingsId={stillingsId} />
             </SkjemaGruppe>
 
-            <SkjemaGruppe legend={<Element>Krav til jobben</Element>}>
+            <SkjemaGruppe legend={<Element>Krav til kandidaten</Element>}>
                 <KompetanseSearch />
                 <ArbeidserfaringSearch />
                 <UtdanningSearch />
