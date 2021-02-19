@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import StillingSearchFelles from '../../../felles/sok/stilling/StillingSearch';
 import { FETCH_KOMPETANSE_SUGGESTIONS, SEARCH } from '../searchReducer';
 import {
     REMOVE_SELECTED_STILLING,
@@ -77,8 +76,8 @@ const StillingSearch = ({ ...props }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        this.onTypeAheadStillingSelect(typeAheadValue);
-        this.typeAhead.input.focus();
+        onTypeAheadStillingSelect(typeAheadValue);
+        typeAhead.current?.input.focus();
     };
 
     return (
