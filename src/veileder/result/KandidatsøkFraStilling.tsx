@@ -79,9 +79,8 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     useEffect(() => {
         if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else {
-            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         }
+        leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
     }, [
         kandidatliste,
         stillingsIdFraUrl,
@@ -90,9 +89,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     ]);
 
     useEffect(() => {
-        if (!harUrlParametere(window.location.href)) {
-            hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
-        }
+        hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
     }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
 
     const header = (
