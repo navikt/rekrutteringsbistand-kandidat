@@ -27,7 +27,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
             <FritekstSearch />
 
             <div className="søkefiltre--gruppe">
-                <Element className="skjemagruppe--legend">Beskriv jobben</Element>
+                <Element>Beskriv jobben</Element>
                 <StillingSearch stillingsId={stillingsId} />
                 <GeografiSearch stillingsId={stillingsId} />
             </div>
