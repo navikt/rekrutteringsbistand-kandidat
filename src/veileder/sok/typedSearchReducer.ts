@@ -70,7 +70,6 @@ export interface SearchState {
     visAlertFaKandidater: string; // TODO Dette er av typen ALERTTYPE
     valgtKandidatNr: string;
     scrolletFraToppen: number;
-    stillingsId?: string;
     harHentetStilling: boolean;
     stillingsoverskrift?: string;
     arbeidsgiver?: any;
@@ -109,7 +108,6 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
             return {
                 ...state,
                 maksAntallTreff: 0,
-                stillingsId: action.stillingsId,
             };
         case SEARCH_BEGIN:
             return {

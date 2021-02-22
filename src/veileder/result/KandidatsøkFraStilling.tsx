@@ -42,7 +42,6 @@ type Props = DefaultKandidatsøkProps & {
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
     fjernValgtKandidat: () => void;
-    stillingsId: string;
 };
 
 const KandidatsøkFraStilling: FunctionComponent<Props> = ({
@@ -63,7 +62,6 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     harHentetStilling,
     maksAntallTreff,
     fjernValgtKandidat,
-    stillingsId,
 }) => {
     const stillingsIdFraUrl = match.params.stillingsId;
 
@@ -79,7 +77,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     useEffect(() => {
         if (harUrlParametere(window.location.href)) {
             leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else {
+        } else if (!harHentetStilling) {
             leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
         }
     }, [
@@ -87,6 +85,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         stillingsIdFraUrl,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
+        harHentetStilling,
     ]);
 
     useEffect(() => {
@@ -97,9 +96,9 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     const header = (
         <Container className="container--header">
-            <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsId} />
+            <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsIdFraUrl} />
             <div className="container--header__lenker">
-                <Link className="SeStilling lenke" to={lenkeTilStilling(stillingsId)}>
+                <Link className="SeStilling lenke" to={lenkeTilStilling(stillingsIdFraUrl)}>
                     <i className="SeStilling__icon" />
                     Se stilling
                 </Link>
@@ -123,7 +122,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         search();
     };
 
-    const visFantFåKandidater = !!(stillingsId && maksAntallTreff < 5);
+    const visFantFåKandidater = maksAntallTreff < 5;
 
     return (
         <>
@@ -134,7 +133,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
             />
             <Kandidatsøk
                 visFantFåKandidater={visFantFåKandidater}
-                stillingsId={stillingsId}
+                stillingsId={stillingsIdFraUrl}
                 visSpinner={isInitialSearch}
                 header={header}
                 onRemoveCriteriaClick={onRemoveCriteriaClick}
@@ -155,7 +154,6 @@ const mapStateToProps = (state: AppState) => ({
             : undefined,
     maksAntallTreff: state.søk.maksAntallTreff,
     kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
-    stillingsId: state.søk.stillingsId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
