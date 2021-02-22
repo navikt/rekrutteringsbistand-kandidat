@@ -143,7 +143,6 @@ const NavkontorSearch = ({ ...props }) => {
                     checked={minekandidater}
                     onChange={onToggleMineKandidater}
                 />
-                )
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
                 <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
