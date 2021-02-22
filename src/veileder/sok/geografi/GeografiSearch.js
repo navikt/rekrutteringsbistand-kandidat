@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GeografiSearchFelles from '../../../felles/sok/geografi/GeografiSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -14,6 +13,14 @@ import {
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from './geografiReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Normaltekst } from 'nav-frontend-typografi';
+import Typeahead from '../typeahead/Typeahead';
+import { Knapp } from 'nav-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
+import CheckboxMedHjelpetekst from '../../../felles/common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import './Geografi.less';
 
 const GeografiSearch = ({ ...props }) => {
     const {
@@ -23,6 +30,7 @@ const GeografiSearch = ({ ...props }) => {
         totaltAntallTreff,
         visAlertFaKandidater,
         panelOpen,
+        onDisabledChange,
         maaBoInnenforGeografi,
         search,
         removeGeografi,
@@ -33,29 +41,144 @@ const GeografiSearch = ({ ...props }) => {
         toggleMaBoPaGeografi,
         stillingsId,
     } = props;
+
+    const [showTypeAhead, setShowTypeAhead] = useState(false);
+    const [typeAheadValue, setTypeAheadValue] = useState('');
+    const typeAhead = useRef(null);
+
+    useEffect(() => {
+        if (panelOpen === undefined && stillingsId) {
+            togglePanelOpen();
+        }
+    });
+
+    const onToggleMaBoPaGeografi = () => {
+        toggleMaBoPaGeografi();
+        search();
+    };
+
+    const onClickedDisabledCheckbox = (event) => {
+        if (onDisabledChange !== undefined) {
+            onDisabledChange();
+        }
+        event.preventDefault();
+    };
+
+    const onTypeAheadGeografiChange = (value) => {
+        fetchTypeAheadSuggestions(value);
+        setTypeAheadValue(value);
+    };
+
+    const onTypeAheadGeografiSelect = (value) => {
+        if (value !== '') {
+            const geografi = typeAheadSuggestionsGeografiKomplett.find(
+                (k) => k.geografiKodeTekst.toLowerCase() === value.toLowerCase()
+            );
+            if (geografi !== undefined) {
+                selectTypeAheadValue(geografi);
+                clearTypeAheadGeografi();
+                setTypeAheadValue('');
+                search();
+            }
+        }
+    };
+
+    const onLeggTilClick = () => {
+        setShowTypeAhead(true);
+        typeAhead.current?.input.focus();
+    };
+
+    const onFjernClick = (geografi) => {
+        if (geografiListKomplett && geografiListKomplett.length === 1 && maaBoInnenforGeografi) {
+            toggleMaBoPaGeografi();
+        }
+        removeGeografi(geografi);
+        search();
+    };
+
+    const onTypeAheadBlur = () => {
+        setTypeAheadValue('');
+        setShowTypeAhead(false);
+        clearTypeAheadGeografi();
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        onTypeAheadGeografiSelect(typeAheadValue);
+        typeAhead.current?.input.focus();
+    };
+
     return (
-        <GeografiSearchFelles
-            geografiListKomplett={geografiListKomplett}
-            typeAheadSuggestionsGeografi={typeAheadSuggestionsGeografi}
-            typeAheadSuggestionsGeografiKomplett={typeAheadSuggestionsGeografiKomplett}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            maaBoInnenforGeografi={maaBoInnenforGeografi}
-            search={search}
-            removeGeografi={removeGeografi}
-            fetchTypeAheadSuggestions={fetchTypeAheadSuggestions}
-            selectTypeAheadValue={selectTypeAheadValue}
-            clearTypeAheadGeografi={clearTypeAheadGeografi}
-            togglePanelOpen={togglePanelOpen}
-            toggleMaBoPaGeografi={toggleMaBoPaGeografi}
-            stillingsId={stillingsId}
-        />
+        <SokekriteriePanel
+            id="Geografi__SokekriteriePanel"
+            fane="fylke-kommune"
+            tittel="Fylke/kommune"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <Normaltekst>Vis bare kandidater som ønsker å jobbe i dette området</Normaltekst>
+            <div className="sokekriterier--kriterier">
+                <div className="sokefelt--wrapper--geografi">
+                    {showTypeAhead ? (
+                        <Typeahead
+                            ref={(typeAheadRef) => {
+                                typeAhead.current = typeAheadRef;
+                            }}
+                            onSelect={onTypeAheadGeografiSelect}
+                            onChange={onTypeAheadGeografiChange}
+                            label=""
+                            name="geografi"
+                            placeholder="Skriv inn fylke/kommune"
+                            suggestions={typeAheadSuggestionsGeografi}
+                            value={typeAheadValue}
+                            id="typeahead-geografi"
+                            onSubmit={onSubmit}
+                            onTypeAheadBlur={onTypeAheadBlur}
+                        />
+                    ) : (
+                        <Knapp
+                            onClick={onLeggTilClick}
+                            id="leggtil-sted-knapp"
+                            kompakt
+                            className="knapp-små-bokstaver"
+                        >
+                            + Legg til fylke/kommune
+                        </Knapp>
+                    )}
+                    <div className="Merkelapp__wrapper">
+                        {geografiListKomplett &&
+                            geografiListKomplett.map((geo) => (
+                                <Merkelapp
+                                    onRemove={onFjernClick}
+                                    key={geo.geografiKodeTekst}
+                                    value={geo.geografiKode}
+                                >
+                                    {geo.geografiKodeTekst}
+                                </Merkelapp>
+                            ))}
+                    </div>
+                    <CheckboxMedHjelpetekst
+                        id="toggle-ma-bo-pa-geografi"
+                        label="Vis bare kandidater som bor i området"
+                        checked={maaBoInnenforGeografi}
+                        value="geografiCheckbox"
+                        onChange={onToggleMaBoPaGeografi}
+                        disabled={geografiListKomplett && geografiListKomplett.length === 0}
+                        onDisabledChange={(event) => onClickedDisabledCheckbox(event)}
+                        tittel="Vis bare kandidater som bor i området"
+                    />
+                </div>
+            </div>
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
 };
 
 GeografiSearch.defaultProps = {
     panelOpen: undefined,
+    onDisabledChange: undefined,
     stillingsId: undefined,
 };
 
@@ -80,10 +203,11 @@ GeografiSearch.propTypes = {
     clearTypeAheadGeografi: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
-    panelOpen: PropTypes.bool,
+    panelOpen: PropTypes.bool.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     maaBoInnenforGeografi: PropTypes.bool.isRequired,
     toggleMaBoPaGeografi: PropTypes.func.isRequired,
+    onDisabledChange: PropTypes.func,
     stillingsId: PropTypes.string,
 };
 

@@ -1,69 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import UtdanningSearchFelles from '../../../felles/sok/utdanning/UtdanningSearch';
 import { SEARCH } from '../searchReducer';
-import {
-    CLEAR_TYPE_AHEAD_SUGGESTIONS,
-    FETCH_TYPE_AHEAD_SUGGESTIONS,
-} from '../../common/typeahead/typeaheadReducer';
 import {
     CHECK_UTDANNINGSNIVA,
     REMOVE_SELECTED_UTDANNING,
-    SELECT_TYPE_AHEAD_VALUE_UTDANNING,
     UNCHECK_UTDANNINGSNIVA,
     TOGGLE_UTDANNING_PANEL_OPEN,
 } from './utdanningReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
+import { Element } from 'nav-frontend-typografi';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import './Utdanning.less';
 
 const UtdanningSearch = ({ ...props }) => {
     const {
         search,
-        removeUtdanning,
-        fetchTypeAheadSuggestions,
-        selectTypeAheadValue,
         checkUtdanningsniva,
         uncheckUtdanningsniva,
-        utdanninger,
-        typeAheadSuggestionsUtdanning,
         utdanningsniva,
-        clearTypeAheadUtdanning,
         totaltAntallTreff,
         visAlertFaKandidater,
         panelOpen,
         togglePanelOpen,
     } = props;
+
+    const utdanningsnivaKategorier = Object.keys(UTDANNING).map((key) => UTDANNING[key]);
+
+    const onUtdanningsnivaChange = (e) => {
+        if (e.target.checked) {
+            checkUtdanningsniva(e.target.value);
+        } else {
+            uncheckUtdanningsniva(e.target.value);
+        }
+        search();
+    };
+
     return (
-        <UtdanningSearchFelles
-            search={search}
-            removeUtdanning={removeUtdanning}
-            fetchTypeAheadSuggestions={fetchTypeAheadSuggestions}
-            selectTypeAheadValue={selectTypeAheadValue}
-            checkUtdanningsniva={checkUtdanningsniva}
-            uncheckUtdanningsniva={uncheckUtdanningsniva}
-            utdanninger={utdanninger}
-            typeAheadSuggestionsUtdanning={typeAheadSuggestionsUtdanning}
-            utdanningsniva={utdanningsniva}
-            clearTypeAheadUtdanning={clearTypeAheadUtdanning}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-        />
+        <SokekriteriePanel
+            id="Utdanning__SokekriteriePanel"
+            fane="utdanning"
+            tittel="Utdanningsnivå"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <SkjemaGruppe legend={<Element>Velg ett eller flere utdanningsnivå</Element>}>
+                {utdanningsnivaKategorier.map((utdanning) => (
+                    <Checkbox
+                        className="checkbox--utdanningsniva"
+                        id={`utdanningsniva-${utdanning.key.toLowerCase()}-checkbox`}
+                        label={utdanning.label}
+                        key={utdanning.key}
+                        value={utdanning.key}
+                        checked={utdanningsniva.includes(utdanning.key)}
+                        onChange={onUtdanningsnivaChange}
+                    />
+                ))}
+            </SkjemaGruppe>
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.UTDANNING && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
 };
 
 UtdanningSearch.propTypes = {
     search: PropTypes.func.isRequired,
     removeUtdanning: PropTypes.func.isRequired,
-    fetchTypeAheadSuggestions: PropTypes.func.isRequired,
-    selectTypeAheadValue: PropTypes.func.isRequired,
     checkUtdanningsniva: PropTypes.func.isRequired,
     uncheckUtdanningsniva: PropTypes.func.isRequired,
-    utdanninger: PropTypes.arrayOf(PropTypes.string).isRequired,
-    typeAheadSuggestionsUtdanning: PropTypes.arrayOf(PropTypes.string).isRequired,
     utdanningsniva: PropTypes.arrayOf(PropTypes.string).isRequired,
-    clearTypeAheadUtdanning: PropTypes.func.isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
     visAlertFaKandidater: PropTypes.string.isRequired,
     panelOpen: PropTypes.bool.isRequired,
@@ -72,7 +80,6 @@ UtdanningSearch.propTypes = {
 
 const mapStateToProps = (state) => ({
     utdanninger: state.søkefilter.utdanning.utdanninger,
-    typeAheadSuggestionsUtdanning: state.søkefilter.typeahead.utdanning.suggestions,
     utdanningsniva: state.søkefilter.utdanning.utdanningsniva,
     totaltAntallTreff: state.søk.searchResultat.resultat.totaltAntallTreff,
     visAlertFaKandidater: state.søk.visAlertFaKandidater,
@@ -81,11 +88,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     search: () => dispatch({ type: SEARCH, alertType: ALERTTYPE.UTDANNING }),
-    clearTypeAheadUtdanning: () =>
-        dispatch({ type: CLEAR_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.UTDANNING }),
-    fetchTypeAheadSuggestions: (value) =>
-        dispatch({ type: FETCH_TYPE_AHEAD_SUGGESTIONS, branch: BRANCHNAVN.UTDANNING, value }),
-    selectTypeAheadValue: (value) => dispatch({ type: SELECT_TYPE_AHEAD_VALUE_UTDANNING, value }),
     removeUtdanning: (value) => dispatch({ type: REMOVE_SELECTED_UTDANNING, value }),
     checkUtdanningsniva: (value) => dispatch({ type: CHECK_UTDANNINGSNIVA, value }),
     uncheckUtdanningsniva: (value) => dispatch({ type: UNCHECK_UTDANNINGSNIVA, value }),

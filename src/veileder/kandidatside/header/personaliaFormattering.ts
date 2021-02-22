@@ -1,4 +1,4 @@
-import { capitalizePoststed } from '../../../felles/sok/utils';
+import { capitalizePoststed } from '../../sok/utils';
 
 export const formatMobileTelephoneNumber = (inputString) => {
     const inputStringNoWhiteSpace = inputString.replace(/\s/g, '');

@@ -1,5 +1,5 @@
 import AppState from '../AppState';
-import { getHashFromString } from '../../felles/sok/utils';
+import { getHashFromString } from './utils';
 import { Tilgjengelighet } from './Søkeresultat';
 
 type SøkekriterierBackend = any & {

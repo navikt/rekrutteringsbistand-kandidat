@@ -1,6 +1,6 @@
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Sidetittel from '../../felles/common/Sidetittel';
-import { capitalizeEmployerName } from '../../felles/sok/utils';
+import { capitalizeEmployerName } from '../sok/utils';
 import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import React, { FunctionComponent, useState } from 'react';
@@ -32,11 +32,7 @@ export const VeilederHeaderInfo: FunctionComponent<Props> = ({ kandidatliste, st
                     stillingsId ? 'stilling/' : ''
                 }kandidatliste:`}</Element>
             </div>
-            {tittel && (
-                <div className="header__row--veileder">
-                    <Sidetittel className="text">{tittel}</Sidetittel>
-                </div>
-            )}
+            {tittel && <Sidetittel className="text">{tittel}</Sidetittel>}
             <div className="header__row--veileder">
                 <div className="opprettet-av__row">
                     {organisasjonNavn && (

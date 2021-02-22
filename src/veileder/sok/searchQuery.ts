@@ -1,4 +1,4 @@
-import { getUrlParameterByName } from '../../felles/sok/utils';
+import { getUrlParameterByName } from './utils';
 import AppState, {
     FritekstState,
     GeografiState,

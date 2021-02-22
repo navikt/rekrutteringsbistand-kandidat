@@ -3,7 +3,7 @@ import { Element, Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import NavFrontendChevron from 'nav-frontend-chevron';
 
-import { capitalizeEmployerName } from '../../../felles/sok/utils';
+import { capitalizeEmployerName } from '../../sok/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
 import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../application/paths';
 import {

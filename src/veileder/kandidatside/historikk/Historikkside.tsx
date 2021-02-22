@@ -6,7 +6,7 @@ import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import 'nav-frontend-tabell-style';
 import './Historikkside.less';
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter } from '../../sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';

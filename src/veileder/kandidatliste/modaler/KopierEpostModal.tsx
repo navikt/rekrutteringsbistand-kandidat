@@ -4,7 +4,7 @@ import { Knapp, Flatknapp } from 'nav-frontend-knapper';
 import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter } from '../../sok/utils';
 import { FadingAlertStripeLiten } from '../../../felles/common/HjelpetekstFading';
 import { Kandidat } from '../kandidatlistetyper';
 import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';

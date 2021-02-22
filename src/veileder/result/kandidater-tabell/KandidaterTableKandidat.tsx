@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { capitalizeFirstLetter, capitalizePoststed } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter, capitalizePoststed } from '../../sok/utils';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { SET_SCROLL_POSITION } from '../../sok/searchReducer';
 import AppState from '../../AppState';

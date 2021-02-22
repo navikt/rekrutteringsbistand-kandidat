@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { capitalizeFirstLetter } from '../../../felles/sok/utils';
+import { capitalizeFirstLetter } from '../../sok/utils';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../application/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
+import { Checkbox } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
@@ -48,24 +48,22 @@ const PermitteringSearch: FunctionComponent<Props> = ({
             tittel="Permittert"
             onClick={togglePanel}
         >
-            <CheckboxGruppe>
-                <Checkbox
-                    id="permittering-permittert-checkbox"
-                    className="permittering-search__checkbox"
-                    label="Permittert"
-                    value={Permitteringsverdi.Permittert}
-                    checked={permittert}
-                    onChange={onChange}
-                />
-                <Checkbox
-                    id="permittering-ikke-permittert-checkbox"
-                    className="permittering-search__checkbox"
-                    label="Ikke permittert"
-                    value={Permitteringsverdi.IkkePermittert}
-                    checked={ikkePermittert}
-                    onChange={onChange}
-                />
-            </CheckboxGruppe>
+            <Checkbox
+                id="permittering-permittert-checkbox"
+                className="permittering-search__checkbox"
+                label="Permittert"
+                value={Permitteringsverdi.Permittert}
+                checked={permittert}
+                onChange={onChange}
+            />
+            <Checkbox
+                id="permittering-ikke-permittert-checkbox"
+                className="permittering-search__checkbox"
+                label="Ikke permittert"
+                value={Permitteringsverdi.IkkePermittert}
+                checked={ikkePermittert}
+                onChange={onChange}
+            />
         </SokekriteriePanel>
     );
 };

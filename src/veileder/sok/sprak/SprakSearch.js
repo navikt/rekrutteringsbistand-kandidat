@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SprakSearchFelles from '../../../felles/sok/sprak/SprakSearch';
 import { SEARCH } from '../searchReducer';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
@@ -13,6 +12,12 @@ import {
     TOGGLE_SPRAK_PANEL_OPEN,
 } from './sprakReducer';
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { Element } from 'nav-frontend-typografi';
+import Typeahead from '../typeahead/Typeahead';
+import { Knapp } from 'nav-frontend-knapper';
+import { Merkelapp } from 'pam-frontend-merkelapper';
+import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -28,20 +33,102 @@ const SprakSearch = ({ ...props }) => {
         panelOpen,
         togglePanelOpen,
     } = props;
+
+    const [typeAheadValue, setTypeAheadValue] = useState('');
+    const [showTypeAhead, setShowTypeAhead] = useState(false);
+    const typeAhead = useRef(null);
+
+    const onTypeAheadSprakChange = (value) => {
+        fetchTypeAheadSuggestions(value);
+        setTypeAheadValue(value);
+    };
+
+    const onTypeAheadSprakSelect = (value) => {
+        if (value !== '') {
+            const sprak = typeAheadSuggestionsSprak.find(
+                (s) => s.toLowerCase() === value.toLowerCase()
+            );
+            if (sprak !== undefined) {
+                selectTypeAheadValue(sprak);
+                clearTypeAheadSprak();
+                setTypeAheadValue('');
+                search();
+            }
+        }
+    };
+
+    const onLeggTilClick = () => {
+        setShowTypeAhead(true);
+        typeAhead.current?.input.focus();
+    };
+
+    const onFjernClick = (sprak) => {
+        removeSprak(sprak);
+        search();
+    };
+
+    const onTypeAheadBlur = () => {
+        setTypeAheadValue('');
+        setShowTypeAhead(false);
+        clearTypeAheadSprak();
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        onTypeAheadSprakSelect(typeAheadValue);
+        typeAhead.current?.input.focus();
+    };
+
     return (
-        <SprakSearchFelles
-            search={search}
-            removeSprak={removeSprak}
-            fetchTypeAheadSuggestions={fetchTypeAheadSuggestions}
-            selectTypeAheadValue={selectTypeAheadValue}
-            clearTypeAheadSprak={clearTypeAheadSprak}
-            sprak={sprak}
-            typeAheadSuggestionsSprak={typeAheadSuggestionsSprak}
-            totaltAntallTreff={totaltAntallTreff}
-            visAlertFaKandidater={visAlertFaKandidater}
-            panelOpen={panelOpen}
-            togglePanelOpen={togglePanelOpen}
-        />
+        <SokekriteriePanel
+            id="Spraak__SokekriteriePanel"
+            fane="språk"
+            tittel="Språk"
+            onClick={togglePanelOpen}
+            apen={panelOpen}
+        >
+            <Element>Krav til språk i jobbsituasjonen</Element>
+            <div className="sokekriterier--kriterier">
+                <div>
+                    {showTypeAhead ? (
+                        <Typeahead
+                            ref={(typeAheadRef) => {
+                                typeAhead.current = typeAheadRef;
+                            }}
+                            onSelect={onTypeAheadSprakSelect}
+                            onChange={onTypeAheadSprakChange}
+                            label=""
+                            name="utdanning"
+                            placeholder="Skriv inn språk"
+                            suggestions={typeAheadSuggestionsSprak}
+                            value={typeAheadValue}
+                            id="yrke"
+                            onSubmit={onSubmit}
+                            onTypeAheadBlur={onTypeAheadBlur}
+                        />
+                    ) : (
+                        <Knapp
+                            onClick={onLeggTilClick}
+                            id="leggtil-sprak-knapp"
+                            kompakt
+                            className="knapp-små-bokstaver"
+                        >
+                            + Legg til språk
+                        </Knapp>
+                    )}
+                </div>
+                <div className="Merkelapp__wrapper">
+                    {sprak.map((sprak) => (
+                        <Merkelapp onRemove={onFjernClick} key={sprak} value={sprak}>
+                            {sprak}
+                        </Merkelapp>
+                    ))}
+                </div>
+            </div>
+            {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.SPRAK && (
+                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+            )}
+        </SokekriteriePanel>
     );
 };
 

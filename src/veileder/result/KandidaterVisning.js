@@ -17,7 +17,7 @@ import {
 import LagreKandidaterTilStillingModal from './LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from './LagreKandidaterModal';
 import { Nettstatus } from '../../felles/common/remoteData.ts';
-import { formatterInt } from '../../felles/sok/utils';
+import { formatterInt } from '../sok/utils';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { sendEvent } from '../amplitude/amplitude';
 
@@ -174,7 +174,7 @@ class KandidaterVisning extends React.Component {
         if (this.props.leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
             this.toggleMarkeringAlleKandidater(false);
         }
-    }
+    };
 
     åpneLagreKandidaterTilStillingModal = () => {
         this.setState({
