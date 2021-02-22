@@ -261,6 +261,8 @@ export function* search(action: any = '') {
         yield put({ type: SEARCH_BEGIN });
         const state: AppState = yield select();
 
+        oppdaterUrlTilÅReflektereSøkekriterier(state);
+
         const [søkekriterier, searchQueryHash] = mapTilSøkekriterierBackend(state, action);
         const harNyeSokekriterier = searchQueryHash !== state.søk.searchQueryHash;
         const isPaginatedSok = !harNyeSokekriterier && søkekriterier.fraIndex > 0;
@@ -290,7 +292,6 @@ export function* search(action: any = '') {
             antallResultater: søkekriterier.antallResultater,
         });
         yield put({ type: SET_ALERT_TYPE_FAA_KANDIDATER, value: action.alertType || '' });
-        oppdaterUrlTilÅReflektereSøkekriterier(state);
     } catch (e) {
         if (e instanceof SearchApiError) {
             yield put({ type: SEARCH_FAILURE, error: e });
