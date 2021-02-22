@@ -37,7 +37,6 @@ const NavkontorSearch = ({ ...props }) => {
         togglePanelOpen,
         toggleMinekandidater,
         minekandidater,
-        showMineKandidater,
     } = props;
 
     const [typeAheadValue, setTypeAheadValue] = useState('');
@@ -128,7 +127,6 @@ const NavkontorSearch = ({ ...props }) => {
                         </Knapp>
                     )}
                 </div>
-
                 <div className="Merkelapp__wrapper">
                     {navkontor.map((nk) => (
                         <Merkelapp onRemove={onRemoveClick} key={nk} value={nk}>
@@ -136,27 +134,22 @@ const NavkontorSearch = ({ ...props }) => {
                         </Merkelapp>
                     ))}
                 </div>
-                {showMineKandidater ? (
-                    <Checkbox
-                        className="checkbox--minekandidater"
-                        id="minekandidater-checkbox"
-                        label="Vis bare mine brukere"
-                        key="minekandidater"
-                        value={minekandidater}
-                        checked={minekandidater}
-                        onChange={onToggleMineKandidater}
-                    />
-                ) : null}
+                <Checkbox
+                    className="checkbox--minekandidater"
+                    id="minekandidater-checkbox"
+                    label="Vis bare mine brukere"
+                    key="minekandidater"
+                    value={minekandidater}
+                    checked={minekandidater}
+                    onChange={onToggleMineKandidater}
+                />
+                )
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
                 <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );
-};
-
-NavkontorSearch.defaultProps = {
-    showMineKandidater: false,
 };
 
 NavkontorSearch.propTypes = {
@@ -173,7 +166,6 @@ NavkontorSearch.propTypes = {
     togglePanelOpen: PropTypes.func.isRequired,
     minekandidater: PropTypes.bool.isRequired,
     toggleMinekandidater: PropTypes.func.isRequired,
-    showMineKandidater: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
