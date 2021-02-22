@@ -26,13 +26,13 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
         <div className="søkefiltre">
             <FritekstSearch />
 
-            <div className="søkefiltre--gruppe">
+            <div className="søkefiltre__gruppe">
                 <Element>Beskriv jobben</Element>
                 <StillingSearch stillingsId={stillingsId} />
                 <GeografiSearch stillingsId={stillingsId} />
             </div>
 
-            <div className="søkefiltre--gruppe">
+            <div className="søkefiltre__gruppe">
                 <Element>Krav til kandidaten</Element>
                 <KompetanseSearch />
                 <ArbeidserfaringSearch />
@@ -41,7 +41,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
                 <SprakSearch />
             </div>
 
-            <div className="søkefiltre--gruppe">
+            <div className="søkefiltre__gruppe">
                 <Element>Om kandidaten</Element>
                 <NavkontorSearch />
                 <PermitteringSearch />
@@ -51,7 +51,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
                 <AlderSearch />
             </div>
 
-            <div className="søkefiltre--gruppe">
+            <div className="søkefiltre__gruppe">
                 <Element>Behov for inkludering</Element>
                 <TilretteleggingsbehovSearch />
             </div>
