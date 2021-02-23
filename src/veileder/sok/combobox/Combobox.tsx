@@ -6,7 +6,10 @@ import {
     ComboboxPopover,
 } from '@reach/combobox';
 import React, { FunctionComponent } from 'react';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { cssScopeForApp } from '../../../index';
 import '@reach/combobox/styles.css';
+import './Combobox.less';
 
 type Props = {
     label: string;
@@ -30,15 +33,19 @@ const Combobox: FunctionComponent<Props> = ({
     return (
         <ReachCombobox aria-label={label} onSelect={onSelect}>
             <ComboboxInput
+                autoComplete="off"
                 name={name}
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
+                className="combobox skjemaelement__input"
             />
-            <ComboboxPopover>
+            <ComboboxPopover className={cssScopeForApp}>
                 <ComboboxList persistSelection>
                     {suggestions.map((geografi) => (
-                        <ComboboxOption key={geografi} value={geografi} />
+                        <Normaltekst key={geografi}>
+                            <ComboboxOption className="combobox__forslag" value={geografi} />
+                        </Normaltekst>
                     ))}
                 </ComboboxList>
             </ComboboxPopover>
