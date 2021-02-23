@@ -4,6 +4,7 @@ import notater from './json/notater.json';
 import sokeord from './json/sokeord.json';
 import arenageografikoder from './json/arenageografikoder.json';
 import typeaheadgeo from './json/typeaheadgeo.json';
+import typeaheadsti from './json/typeaheadsti.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import sms from './json/sms.json';
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
@@ -289,6 +290,10 @@ const postEnhetsregister = () => {
     return enhetsregister;
 };
 
+const getTypeahead = (url: string) => {
+    return url.includes('?sti') ? typeaheadsti : typeaheadgeo;
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -308,7 +313,7 @@ fetchMock
     .get(url.kandidatlisteFraStilling, log(kandidatliste))
     .get(url.ferdigutfyltesokurl, log(ferdigutfyltesok))
     .post(url.ferdigutfyltesokurlPost, log(ferdigutfyltesok))
-    .get(url.typeahead, log(typeaheadgeo))
+    .get(url.typeahead, log(getTypeahead))
 
     // CV
     .get(url.cv, log(getCv))

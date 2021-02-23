@@ -4,6 +4,7 @@ import {
     ComboboxList,
     ComboboxOption,
     ComboboxPopover,
+    ComboboxOptionText,
 } from '@reach/combobox';
 import React, { FunctionComponent } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -42,6 +43,11 @@ const Combobox: FunctionComponent<Props> = ({
             />
             <ComboboxPopover className={cssScopeForApp}>
                 <ComboboxList persistSelection>
+                    <Normaltekst key="exact">
+                        <ComboboxOption className="combobox__forslag" value={value}>
+                            Bare "<ComboboxOptionText />"
+                        </ComboboxOption>
+                    </Normaltekst>
                     {suggestions.map((geografi) => (
                         <Normaltekst key={geografi}>
                             <ComboboxOption className="combobox__forslag" value={geografi} />

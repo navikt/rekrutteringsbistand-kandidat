@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FETCH_KOMPETANSE_SUGGESTIONS, SEARCH } from '../searchReducer';
@@ -14,9 +14,9 @@ import {
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import Combobox from '../combobox/Combobox';
 
 const StillingSearch = ({ ...props }) => {
     const {
@@ -34,10 +34,8 @@ const StillingSearch = ({ ...props }) => {
         togglePanelOpen,
         stillingsId,
         useJanzz,
-        allowOnlyTypeaheadSuggestions,
     } = props;
     const [typeAheadValue, setTypeAheadValue] = useState('');
-    const typeAhead = useRef(null);
 
     const onTypeAheadStillingChange = (value) => {
         fetchTypeAheadSuggestions(value);
@@ -60,17 +58,6 @@ const StillingSearch = ({ ...props }) => {
         search();
     };
 
-    const onTypeAheadBlur = () => {
-        setTypeAheadValue('');
-        clearTypeAheadStilling();
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        onTypeAheadStillingSelect(typeAheadValue);
-        typeAhead.current?.input.focus();
-    };
-
     return (
         <SokekriteriePanel
             id="Stilling__SokekriteriePanel"
@@ -84,25 +71,14 @@ const StillingSearch = ({ ...props }) => {
             <div className="sokekriterier--kriterier">
                 {/* TODO: Fjerne feature toggle */}
                 {!(useJanzz && stillinger.length > 0) && (
-                    <>
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeAhead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadStillingSelect}
-                            onChange={onTypeAheadStillingChange}
-                            label=""
-                            name="stilling"
-                            placeholder="Skriv inn stilling/yrke"
-                            suggestions={typeAheadSuggestionsStilling}
-                            value={typeAheadValue}
-                            id="typeahead-stilling"
-                            onSubmit={onSubmit}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                            allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
-                            selectedSuggestions={stillinger}
-                        />
-                    </>
+                    <Combobox
+                        label="Skriv inn stilling/yrke"
+                        name="stilling"
+                        suggestions={typeAheadSuggestionsStilling}
+                        value={typeAheadValue}
+                        onSelect={onTypeAheadStillingSelect}
+                        onChange={onTypeAheadStillingChange}
+                    />
                 )}
                 <div className="Merkelapp__wrapper">
                     {stillinger.map((stilling) => (
