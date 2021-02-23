@@ -85,7 +85,6 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
         stillingsIdFraUrl,
         leggInfoFraStillingIStateOgSøk,
         leggUrlParametereIStateOgSøk,
-        harHentetStilling,
     ]);
 
     useEffect(() => {
