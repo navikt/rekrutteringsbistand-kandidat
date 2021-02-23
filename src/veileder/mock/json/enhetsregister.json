@@ -1,0 +1,85 @@
+{
+    "took": 65,
+    "timed_out": false,
+    "_shards": { "total": 3, "successful": 3, "skipped": 0, "failed": 0 },
+    "hits": {
+        "total": { "value": 3, "relation": "eq" },
+        "max_score": 18.873999,
+        "hits": [
+            {
+                "_index": "underenhet20210223",
+                "_type": "_doc",
+                "_id": "976434099",
+                "_score": 18.873999,
+                "_source": {
+                    "organisasjonsnummer": "976434099",
+                    "navn": "TULLEKONTORET AS",
+                    "organisasjonsform": "BEDR",
+                    "antallAnsatte": 1,
+                    "overordnetEnhet": "912819973",
+                    "adresse": {
+                        "adresse": "Lilleakerveien 37D",
+                        "postnummer": "0284",
+                        "poststed": "OSLO",
+                        "kommunenummer": "0301",
+                        "kommune": "OSLO",
+                        "landkode": "NO",
+                        "land": "Norge"
+                    },
+                    "naringskoder": [
+                        {
+                            "kode": "90.012",
+                            "beskrivelse": "Utøvende kunstnere og underholdningsvirksomhet innen scenekunst"
+                        }
+                    ]
+                }
+            },
+            {
+                "_index": "underenhet20210223",
+                "_type": "_doc",
+                "_id": "921730810",
+                "_score": 18.872988,
+                "_source": {
+                    "organisasjonsnummer": "921730810",
+                    "navn": "TULLEKUNSTNEREN MARTINSEN",
+                    "organisasjonsform": "BEDR",
+                    "antallAnsatte": 0,
+                    "overordnetEnhet": "921323824",
+                    "adresse": {
+                        "adresse": "Skytterdalen 7",
+                        "postnummer": "1337",
+                        "poststed": "SANDVIKA",
+                        "kommunenummer": "3024",
+                        "kommune": "BÆRUM",
+                        "landkode": "NO",
+                        "land": "Norge"
+                    },
+                    "naringskoder": [{ "kode": "43.341", "beskrivelse": "Malerarbeid" }]
+                }
+            },
+            {
+                "_index": "underenhet20210223",
+                "_type": "_doc",
+                "_id": "972970492",
+                "_score": 18.236977,
+                "_source": {
+                    "organisasjonsnummer": "972970492",
+                    "navn": "En annen organisasjon",
+                    "organisasjonsform": "BEDR",
+                    "antallAnsatte": 0,
+                    "overordnetEnhet": "969944723",
+                    "adresse": {
+                        "adresse": "Veien 195",
+                        "postnummer": "0303",
+                        "poststed": "OSLO",
+                        "kommunenummer": "3006",
+                        "kommune": "KONGSBERG",
+                        "landkode": "NO",
+                        "land": "Norge"
+                    },
+                    "naringskoder": [{ "kode": "43.120", "beskrivelse": "Grunnarbeid" }]
+                }
+            }
+        ]
+    }
+}

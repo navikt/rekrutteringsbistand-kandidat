@@ -7,6 +7,7 @@ import typeaheadgeo from './json/typeaheadgeo.json';
 import midlertidigUtilgjengelig from './json/midlertidigUtilgjengelig.json';
 import sms from './json/sms.json';
 import ferdigutfyltesok from './json/ferdigutfyltesok.json';
+import enhetsregister from './json/enhetsregister.json';
 import cver from './data/cv.mock';
 
 import {
@@ -22,7 +23,12 @@ import søk from './data/søk.mock';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { KANDIDATSOK_API, MIDLERTIDIG_UTILGJENGELIG_API, SMS_API } from '../api';
+import {
+    KANDIDATSOK_API,
+    MIDLERTIDIG_UTILGJENGELIG_API,
+    SMS_API,
+    ENHETSREGISTER_API,
+} from '../api';
 
 fetchMock.config.fallbackToNetwork = true;
 
@@ -65,6 +71,7 @@ const url = {
     sms: `${smsApi}/:kandidatlisteId`,
     smsPost: `${smsApi}`,
     midlertidigUtilgjengelig: `${midlertidigUtilgjengeligApi}/:fnr`,
+    enhetsregister: `${ENHETSREGISTER_API}/underenhet/_search`,
 
     // Misc
     toggles: `${api}/veileder/kandidatsok/toggles`,
@@ -278,6 +285,10 @@ const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
     }
 };
 
+const postEnhetsregister = () => {
+    return enhetsregister;
+};
+
 const log = (response: MockResponse | MockResponseFunction) => {
     return (url: string, options) => {
         console.log(
@@ -327,4 +338,5 @@ fetchMock
     .put(url.putKandidatlistestatus, log(putKandidatlistestatus))
 
     // Misc
-    .get(url.toggles, log(featureToggles));
+    .get(url.toggles, log(featureToggles))
+    .post(url.enhetsregister, log(postEnhetsregister));

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import TypeaheadSuggestion from './TypeaheadSuggestion';
 import './Typeahead.less';
-import { Søkeknapp } from 'nav-frontend-ikonknapper';
 
 export default class Typeahead extends React.Component {
     constructor() {
@@ -208,17 +207,6 @@ export default class Typeahead extends React.Component {
                         this.input = input;
                     }}
                     className="skjemaelement__input input--fullbredde skjemaelement--blue"
-                />
-                <Søkeknapp
-                    aria-label="søk"
-                    type="flat"
-                    className="common-typeahead__søkeknapp"
-                    id="search-button-typeahead"
-                    onClick={this.props.onSubmit}
-                    onBlur={this.onSearchButtonBlur}
-                    onFocus={this.avoidBlur}
-                    onMouseDown={this.avoidBlur}
-                    onKeyDown={this.avoidBlur}
                 />
                 <ul
                     id={`${this.props.id}-suggestions`}
