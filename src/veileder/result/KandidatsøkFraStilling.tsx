@@ -76,16 +76,11 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     useEffect(() => {
         if (harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
+            leggUrlParametereIStateOgSøk(window.location.href);
         } else {
-            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl);
         }
-    }, [
-        kandidatliste,
-        stillingsIdFraUrl,
-        leggInfoFraStillingIStateOgSøk,
-        leggUrlParametereIStateOgSøk,
-    ]);
+    }, [stillingsIdFraUrl, leggInfoFraStillingIStateOgSøk, leggUrlParametereIStateOgSøk]);
 
     useEffect(() => {
         if (!harUrlParametere(window.location.href)) {
