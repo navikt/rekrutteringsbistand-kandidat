@@ -7,7 +7,7 @@ module.exports = {
             plugins: [
                 cssprefixer({
                     prefix: '.rek-kandidat',
-                    exclude: ['html', 'body', '.rek-kandidat'],
+                    exclude: ['html', 'body', '.rek-kandidat', 'reach-portal'],
                     transform: function (prefix, selector, prefixedSelector) {
                         if (selector.startsWith('body ')) {
                             return `body ${prefix} ${selector.slice(5)}`;
@@ -16,6 +16,8 @@ module.exports = {
                         } else if (selector.startsWith('.rek-kandidat ')) {
                             return selector;
                         } else if (selector.includes('modal')) {
+                            return selector;
+                        } else if (selector.includes('data-reach')) {
                             return selector;
                         }
                         return prefixedSelector;

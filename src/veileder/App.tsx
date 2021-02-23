@@ -38,6 +38,7 @@ import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadRed
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
+import '@reach/combobox/styles.css';
 import '../felles/styles.less';
 import './sok/sok.less';
 import * as Sentry from '@sentry/react';

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SEARCH } from '../searchReducer';
@@ -15,10 +15,10 @@ import {
 import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from '../../../felles/common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import Combobox from '../combobox/Combobox.tsx';
 import './Geografi.less';
 
 const GeografiSearch = ({ ...props }) => {
@@ -41,7 +41,6 @@ const GeografiSearch = ({ ...props }) => {
         stillingsId,
     } = props;
     const [typeAheadValue, setTypeAheadValue] = useState('');
-    const typeAhead = useRef(null);
 
     useEffect(() => {
         if (panelOpen === undefined && stillingsId) {
@@ -88,17 +87,6 @@ const GeografiSearch = ({ ...props }) => {
         search();
     };
 
-    const onTypeAheadBlur = () => {
-        setTypeAheadValue('');
-        clearTypeAheadGeografi();
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        onTypeAheadGeografiSelect(typeAheadValue);
-        typeAhead.current?.input.focus();
-    };
-
     return (
         <SokekriteriePanel
             id="Geografi__SokekriteriePanel"
@@ -110,20 +98,13 @@ const GeografiSearch = ({ ...props }) => {
             <Normaltekst>Vis bare kandidater som ønsker å jobbe i dette området</Normaltekst>
             <div className="sokekriterier--kriterier">
                 <div className="sokefelt--wrapper--geografi">
-                    <Typeahead
-                        ref={(typeAheadRef) => {
-                            typeAhead.current = typeAheadRef;
-                        }}
+                    <Combobox
+                        label="Skriv inn fylke/kommune"
+                        name="geografi"
                         onSelect={onTypeAheadGeografiSelect}
                         onChange={onTypeAheadGeografiChange}
-                        label=""
-                        name="geografi"
-                        placeholder="Skriv inn fylke/kommune"
                         suggestions={typeAheadSuggestionsGeografi}
                         value={typeAheadValue}
-                        id="typeahead-geografi"
-                        onSubmit={onSubmit}
-                        onTypeAheadBlur={onTypeAheadBlur}
                     />
                     <div className="Merkelapp__wrapper">
                         {geografiListKomplett &&
