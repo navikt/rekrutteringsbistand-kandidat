@@ -15,7 +15,6 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 import { erGyldigForerkort } from './forerkort';
@@ -36,7 +35,6 @@ const ForerkortSearch = ({ ...props }) => {
         togglePanelOpen,
     } = props;
 
-    const [showTypeahead, setShowTypeahead] = useState(false);
     const [typeaheadValue, setTypeaheadValue] = useState('');
     const [feil, setFeil] = useState(false);
     const typeahead = useRef(null);
@@ -59,11 +57,6 @@ const ForerkortSearch = ({ ...props }) => {
         }
     };
 
-    const onLeggTilForerkortClick = () => {
-        setShowTypeahead(true);
-        typeahead.current?.input.focus();
-    };
-
     const onFjernForerkortClick = (forerkort) => {
         removeForerkort(forerkort);
         search();
@@ -77,7 +70,6 @@ const ForerkortSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeaheadValue('');
-        setShowTypeahead(false);
         setFeil(false);
         clearTypeAheadForerkort();
     };
@@ -93,39 +85,28 @@ const ForerkortSearch = ({ ...props }) => {
             <Element>Krav til førerkort</Element>
             <Normaltekst>For eksempel: B - Personbil</Normaltekst>
             <div className="sokekriterier--kriterier">
-                <div>
-                    {showTypeahead ? (
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeahead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadForerkortSelect}
-                            onChange={onTypeAheadForerkortChange}
-                            label=""
-                            name="forerkort"
-                            placeholder="Skriv inn førerkort"
-                            suggestions={typeAheadSuggestionsForerkort}
-                            value={typeaheadValue}
-                            id="typeahead-forerkort"
-                            onSubmit={onSubmitForerkort}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                        />
-                    ) : (
-                        <Knapp
-                            onClick={onLeggTilForerkortClick}
-                            id="leggtil-forerkort-knapp"
-                            className="knapp-små-bokstaver"
-                            kompakt
-                        >
-                            + Legg til førerkort
-                        </Knapp>
-                    )}
+                <>
+                    <Typeahead
+                        ref={(typeAheadRef) => {
+                            typeahead.current = typeAheadRef;
+                        }}
+                        onSelect={onTypeAheadForerkortSelect}
+                        onChange={onTypeAheadForerkortChange}
+                        label=""
+                        name="forerkort"
+                        placeholder="Skriv inn førerkort"
+                        suggestions={typeAheadSuggestionsForerkort}
+                        value={typeaheadValue}
+                        id="typeahead-forerkort"
+                        onSubmit={onSubmitForerkort}
+                        onTypeAheadBlur={onTypeAheadBlur}
+                    />
                     {feil && (
                         <Normaltekst className="skjemaelement__feilmelding">
                             Ordet du har skrevet inn gir ingen treff
                         </Normaltekst>
                     )}
-                </div>
+                </>
                 <div className="Merkelapp__wrapper">
                     {forerkortList.map((forerkort) => (
                         <Merkelapp

@@ -16,7 +16,6 @@ import {
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -40,7 +39,6 @@ const NavkontorSearch = ({ ...props }) => {
     } = props;
 
     const [typeAheadValue, setTypeAheadValue] = useState('');
-    const [showTypeAhead, setShowTypeAhead] = useState(false);
     const typeAhead = useRef(null);
 
     const onTypeAheadNavkontorChange = (value) => {
@@ -64,13 +62,7 @@ const NavkontorSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValue('');
-        setShowTypeAhead(false);
         clearTypeAheadNavkontor();
-    };
-
-    const onAddClick = () => {
-        setShowTypeAhead(true);
-        typeAhead.current?.input.focus();
     };
 
     const onRemoveClick = (navkontor) => {
@@ -99,34 +91,21 @@ const NavkontorSearch = ({ ...props }) => {
         >
             <Element>Brukers NAV-kontor</Element>
             <div className="sokekriterier--kriterier">
-                <div>
-                    {showTypeAhead ? (
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeAhead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadNavkontorSelect}
-                            onChange={onTypeAheadNavkontorChange}
-                            label=""
-                            name="navkontor"
-                            placeholder="Skriv inn NAV-kontor"
-                            suggestions={typeAheadSuggestionsNavkontor}
-                            value={typeAheadValue}
-                            id="navkontor"
-                            onSubmit={onSubmit}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                        />
-                    ) : (
-                        <Knapp
-                            onClick={onAddClick}
-                            id="leggtil-navkontor-knapp"
-                            kompakt
-                            className="knapp-små-bokstaver"
-                        >
-                            + Legg til NAV-kontor
-                        </Knapp>
-                    )}
-                </div>
+                <Typeahead
+                    ref={(typeAheadRef) => {
+                        typeAhead.current = typeAheadRef;
+                    }}
+                    onSelect={onTypeAheadNavkontorSelect}
+                    onChange={onTypeAheadNavkontorChange}
+                    label=""
+                    name="navkontor"
+                    placeholder="Skriv inn NAV-kontor"
+                    suggestions={typeAheadSuggestionsNavkontor}
+                    value={typeAheadValue}
+                    id="navkontor"
+                    onSubmit={onSubmit}
+                    onTypeAheadBlur={onTypeAheadBlur}
+                />
                 <div className="Merkelapp__wrapper">
                     {navkontor.map((nk) => (
                         <Merkelapp onRemove={onRemoveClick} key={nk} value={nk}>

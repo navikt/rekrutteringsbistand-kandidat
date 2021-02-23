@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
@@ -14,7 +14,6 @@ import {
 } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../AppState';
-import { Knapp } from 'nav-frontend-knapper';
 
 interface Props {
     search: () => void;
@@ -27,15 +26,8 @@ interface Props {
 }
 
 const Merkelapper: FunctionComponent<Props> = (props) => {
-    const [showTypeAhead, setShowTypeAhead] = useState<boolean>(false);
     const [typeAheadValue, setTypeAheadValue] = useState<string>('');
     const [typeAheadRef, setTypeAheadRef] = useState<any>();
-
-    useEffect(() => {
-        if (showTypeAhead && typeAheadRef) {
-            typeAheadRef.input.focus();
-        }
-    }, [showTypeAhead, typeAheadRef]);
 
     const onTypeAheadArbeidserfaringChange = (value: string) => {
         props.fetchTypeAheadSuggestions(value);
@@ -51,10 +43,6 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
         }
     };
 
-    const onLeggTilClick = () => {
-        setShowTypeAhead(true);
-    };
-
     const onFjernClick = (erfaring: string) => {
         props.removeArbeidserfaring(erfaring);
         props.search();
@@ -62,7 +50,6 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValue('');
-        setShowTypeAhead(false);
         props.clearTypeAheadArbeidserfaring();
     };
 
@@ -77,32 +64,19 @@ const Merkelapper: FunctionComponent<Props> = (props) => {
             <Element className="blokk-xxxs">Hvilken erfaring skal kandidaten ha?</Element>
             <Normaltekst>For eksempel: barnehagelærer</Normaltekst>
             <div className="sokekriterier--kriterier">
-                <div>
-                    {showTypeAhead ? (
-                        <Typeahead
-                            ref={setTypeAheadRef}
-                            onSelect={onTypeAheadArbeidserfaringSelect}
-                            onChange={onTypeAheadArbeidserfaringChange}
-                            label=""
-                            name="arbeidserfaring"
-                            placeholder="Skriv inn arbeidserfaring"
-                            suggestions={props.typeAheadSuggestionsArbeidserfaring}
-                            value={typeAheadValue}
-                            id="typeahead-arbeidserfaring"
-                            onSubmit={onSubmit}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                        />
-                    ) : (
-                        <Knapp
-                            kompakt
-                            onClick={onLeggTilClick}
-                            id="leggtil-arbeidserfaring-knapp"
-                            className="knapp-små-bokstaver"
-                        >
-                            + Legg til arbeidserfaring
-                        </Knapp>
-                    )}
-                </div>
+                <Typeahead
+                    ref={setTypeAheadRef}
+                    onSelect={onTypeAheadArbeidserfaringSelect}
+                    onChange={onTypeAheadArbeidserfaringChange}
+                    label=""
+                    name="arbeidserfaring"
+                    placeholder="Skriv inn arbeidserfaring"
+                    suggestions={props.typeAheadSuggestionsArbeidserfaring}
+                    value={typeAheadValue}
+                    id="typeahead-arbeidserfaring"
+                    onSubmit={onSubmit}
+                    onTypeAheadBlur={onTypeAheadBlur}
+                />
                 <div className="Merkelapp__wrapper">
                     {props.arbeidserfaringer.map((arbeidserfaring) => (
                         <Merkelapp

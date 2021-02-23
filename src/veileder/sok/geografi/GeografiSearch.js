@@ -16,7 +16,6 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import CheckboxMedHjelpetekst from '../../../felles/common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
@@ -41,8 +40,6 @@ const GeografiSearch = ({ ...props }) => {
         toggleMaBoPaGeografi,
         stillingsId,
     } = props;
-
-    const [showTypeAhead, setShowTypeAhead] = useState(false);
     const [typeAheadValue, setTypeAheadValue] = useState('');
     const typeAhead = useRef(null);
 
@@ -83,11 +80,6 @@ const GeografiSearch = ({ ...props }) => {
         }
     };
 
-    const onLeggTilClick = () => {
-        setShowTypeAhead(true);
-        typeAhead.current?.input.focus();
-    };
-
     const onFjernClick = (geografi) => {
         if (geografiListKomplett && geografiListKomplett.length === 1 && maaBoInnenforGeografi) {
             toggleMaBoPaGeografi();
@@ -98,7 +90,6 @@ const GeografiSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValue('');
-        setShowTypeAhead(false);
         clearTypeAheadGeografi();
     };
 
@@ -119,32 +110,21 @@ const GeografiSearch = ({ ...props }) => {
             <Normaltekst>Vis bare kandidater som ønsker å jobbe i dette området</Normaltekst>
             <div className="sokekriterier--kriterier">
                 <div className="sokefelt--wrapper--geografi">
-                    {showTypeAhead ? (
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeAhead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadGeografiSelect}
-                            onChange={onTypeAheadGeografiChange}
-                            label=""
-                            name="geografi"
-                            placeholder="Skriv inn fylke/kommune"
-                            suggestions={typeAheadSuggestionsGeografi}
-                            value={typeAheadValue}
-                            id="typeahead-geografi"
-                            onSubmit={onSubmit}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                        />
-                    ) : (
-                        <Knapp
-                            onClick={onLeggTilClick}
-                            id="leggtil-sted-knapp"
-                            kompakt
-                            className="knapp-små-bokstaver"
-                        >
-                            + Legg til fylke/kommune
-                        </Knapp>
-                    )}
+                    <Typeahead
+                        ref={(typeAheadRef) => {
+                            typeAhead.current = typeAheadRef;
+                        }}
+                        onSelect={onTypeAheadGeografiSelect}
+                        onChange={onTypeAheadGeografiChange}
+                        label=""
+                        name="geografi"
+                        placeholder="Skriv inn fylke/kommune"
+                        suggestions={typeAheadSuggestionsGeografi}
+                        value={typeAheadValue}
+                        id="typeahead-geografi"
+                        onSubmit={onSubmit}
+                        onTypeAheadBlur={onTypeAheadBlur}
+                    />
                     <div className="Merkelapp__wrapper">
                         {geografiListKomplett &&
                             geografiListKomplett.map((geo) => (

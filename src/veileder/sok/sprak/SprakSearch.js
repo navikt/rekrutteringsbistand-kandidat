@@ -15,7 +15,6 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 
@@ -35,7 +34,6 @@ const SprakSearch = ({ ...props }) => {
     } = props;
 
     const [typeAheadValue, setTypeAheadValue] = useState('');
-    const [showTypeAhead, setShowTypeAhead] = useState(false);
     const typeAhead = useRef(null);
 
     const onTypeAheadSprakChange = (value) => {
@@ -57,11 +55,6 @@ const SprakSearch = ({ ...props }) => {
         }
     };
 
-    const onLeggTilClick = () => {
-        setShowTypeAhead(true);
-        typeAhead.current?.input.focus();
-    };
-
     const onFjernClick = (sprak) => {
         removeSprak(sprak);
         search();
@@ -69,7 +62,6 @@ const SprakSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValue('');
-        setShowTypeAhead(false);
         clearTypeAheadSprak();
     };
 
@@ -89,34 +81,21 @@ const SprakSearch = ({ ...props }) => {
         >
             <Element>Krav til språk i jobbsituasjonen</Element>
             <div className="sokekriterier--kriterier">
-                <div>
-                    {showTypeAhead ? (
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeAhead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadSprakSelect}
-                            onChange={onTypeAheadSprakChange}
-                            label=""
-                            name="utdanning"
-                            placeholder="Skriv inn språk"
-                            suggestions={typeAheadSuggestionsSprak}
-                            value={typeAheadValue}
-                            id="yrke"
-                            onSubmit={onSubmit}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                        />
-                    ) : (
-                        <Knapp
-                            onClick={onLeggTilClick}
-                            id="leggtil-sprak-knapp"
-                            kompakt
-                            className="knapp-små-bokstaver"
-                        >
-                            + Legg til språk
-                        </Knapp>
-                    )}
-                </div>
+                <Typeahead
+                    ref={(typeAheadRef) => {
+                        typeAhead.current = typeAheadRef;
+                    }}
+                    onSelect={onTypeAheadSprakSelect}
+                    onChange={onTypeAheadSprakChange}
+                    label=""
+                    name="utdanning"
+                    placeholder="Skriv inn språk"
+                    suggestions={typeAheadSuggestionsSprak}
+                    value={typeAheadValue}
+                    id="yrke"
+                    onSubmit={onSubmit}
+                    onTypeAheadBlur={onTypeAheadBlur}
+                />
                 <div className="Merkelapp__wrapper">
                     {sprak.map((sprak) => (
                         <Merkelapp onRemove={onFjernClick} key={sprak} value={sprak}>

@@ -38,7 +38,6 @@ const KompetanseSearch = ({ ...props }) => {
         togglePanelOpen,
     } = props;
 
-    const [showTypeAheadKompetanse, setShowTypeAheadKompetanse] = useState(false);
     const [typeAheadValueKompetanse, setTypeAheadValueKompetanse] = useState('');
     const [antallKompetanser, setAntallKompetanser] = useState(4);
     const typeAhead = useRef(null);
@@ -55,11 +54,6 @@ const KompetanseSearch = ({ ...props }) => {
             setTypeAheadValueKompetanse('');
             search();
         }
-    };
-
-    const onLeggTilKompetanseClick = () => {
-        setShowTypeAheadKompetanse(true);
-        typeAhead.current?.input.focus();
     };
 
     const onFjernKompetanseClick = (kompetanse) => {
@@ -80,7 +74,6 @@ const KompetanseSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValueKompetanse('');
-        setShowTypeAheadKompetanse(false);
         clearTypeAheadKompetanse();
     };
 
@@ -102,36 +95,23 @@ const KompetanseSearch = ({ ...props }) => {
             <Element>Krav til kompetanse</Element>
             <Normaltekst>{kompetanseExamples}</Normaltekst>
             <div className="sokekriterier--kriterier">
-                <div>
-                    {showTypeAheadKompetanse ? (
-                        <Typeahead
-                            ref={(typeAheadRef) => {
-                                typeAhead.current = typeAheadRef;
-                            }}
-                            onSelect={onTypeAheadKompetanseSelect}
-                            onChange={onTypeAheadKompetanseChange}
-                            label=""
-                            name="kompetanse"
-                            placeholder="Skriv inn kompetanse"
-                            suggestions={typeAheadSuggestionsKompetanse}
-                            value={typeAheadValueKompetanse}
-                            id="typeahead-kompetanse"
-                            onSubmit={onSubmitKompetanse}
-                            onTypeAheadBlur={onTypeAheadBlur}
-                            allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
-                            selectedSuggestions={kompetanser}
-                        />
-                    ) : (
-                        <Knapp
-                            onClick={onLeggTilKompetanseClick}
-                            id="leggtil-kompetanse-knapp"
-                            kompakt
-                            className="knapp-små-bokstaver"
-                        >
-                            + Legg til kompetanse
-                        </Knapp>
-                    )}
-                </div>
+                <Typeahead
+                    ref={(typeAheadRef) => {
+                        typeAhead.current = typeAheadRef;
+                    }}
+                    onSelect={onTypeAheadKompetanseSelect}
+                    onChange={onTypeAheadKompetanseChange}
+                    label=""
+                    name="kompetanse"
+                    placeholder="Skriv inn kompetanse"
+                    suggestions={typeAheadSuggestionsKompetanse}
+                    value={typeAheadValueKompetanse}
+                    id="typeahead-kompetanse"
+                    onSubmit={onSubmitKompetanse}
+                    onTypeAheadBlur={onTypeAheadBlur}
+                    allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
+                    selectedSuggestions={kompetanser}
+                />
                 <div className="Merkelapp__wrapper">
                     {kompetanser.map((kompetanse) => (
                         <Merkelapp

@@ -15,7 +15,6 @@ import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
 import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
-import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
 
@@ -37,8 +36,6 @@ const StillingSearch = ({ ...props }) => {
         useJanzz,
         allowOnlyTypeaheadSuggestions,
     } = props;
-
-    const [showTypeAhead, setShowTypeAhead] = useState(false);
     const [typeAheadValue, setTypeAheadValue] = useState('');
     const typeAhead = useRef(null);
 
@@ -57,11 +54,6 @@ const StillingSearch = ({ ...props }) => {
         }
     };
 
-    const onLeggTilClick = () => {
-        setShowTypeAhead(true);
-        typeAhead.current?.input.focus();
-    };
-
     const onFjernClick = (stilling) => {
         removeStilling(stilling);
         fetchKompetanseSuggestions();
@@ -70,7 +62,6 @@ const StillingSearch = ({ ...props }) => {
 
     const onTypeAheadBlur = () => {
         setTypeAheadValue('');
-        setShowTypeAhead(false);
         clearTypeAheadStilling();
     };
 
@@ -93,36 +84,25 @@ const StillingSearch = ({ ...props }) => {
             <div className="sokekriterier--kriterier">
                 {/* TODO: Fjerne feature toggle */}
                 {!(useJanzz && stillinger.length > 0) && (
-                    <div>
-                        {showTypeAhead ? (
-                            <Typeahead
-                                ref={(typeAheadRef) => {
-                                    typeAhead.current = typeAheadRef;
-                                }}
-                                onSelect={onTypeAheadStillingSelect}
-                                onChange={onTypeAheadStillingChange}
-                                label=""
-                                name="stilling"
-                                placeholder="Skriv inn stilling/yrke"
-                                suggestions={typeAheadSuggestionsStilling}
-                                value={typeAheadValue}
-                                id="typeahead-stilling"
-                                onSubmit={onSubmit}
-                                onTypeAheadBlur={onTypeAheadBlur}
-                                allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
-                                selectedSuggestions={stillinger}
-                            />
-                        ) : (
-                            <Knapp
-                                onClick={onLeggTilClick}
-                                id="leggtil-stilling-knapp"
-                                className="knapp-små-bokstaver"
-                                kompakt
-                            >
-                                + Legg til stilling/yrke
-                            </Knapp>
-                        )}
-                    </div>
+                    <>
+                        <Typeahead
+                            ref={(typeAheadRef) => {
+                                typeAhead.current = typeAheadRef;
+                            }}
+                            onSelect={onTypeAheadStillingSelect}
+                            onChange={onTypeAheadStillingChange}
+                            label=""
+                            name="stilling"
+                            placeholder="Skriv inn stilling/yrke"
+                            suggestions={typeAheadSuggestionsStilling}
+                            value={typeAheadValue}
+                            id="typeahead-stilling"
+                            onSubmit={onSubmit}
+                            onTypeAheadBlur={onTypeAheadBlur}
+                            allowOnlyTypeaheadSuggestions={allowOnlyTypeaheadSuggestions}
+                            selectedSuggestions={stillinger}
+                        />
+                    </>
                 )}
                 <div className="Merkelapp__wrapper">
                     {stillinger.map((stilling) => (
