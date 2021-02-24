@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Systemtittel, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { lenkeTilStilling } from '../../application/paths';
+import { lenkeTilStilling } from '../../app/paths';
 import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
 import { Link } from 'react-router-dom';
 

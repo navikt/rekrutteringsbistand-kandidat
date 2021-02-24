@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../application/paths';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
 import { Statusvisning } from '../../../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';

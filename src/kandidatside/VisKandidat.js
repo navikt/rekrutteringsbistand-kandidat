@@ -28,7 +28,7 @@ import {
     lenkeTilFinnKandidaterUtenStilling,
     lenkeTilKandidatliste,
     lenkeTilKandidatsøk,
-} from '../application/paths';
+} from '../app/paths';
 import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
 
 class VisKandidat extends React.Component {

@@ -1,31 +1,70 @@
-import React, { FunctionComponent } from 'react';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
+import React, { FunctionComponent, useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import { appPrefiks } from './paths';
+import {
+    FETCH_FEATURE_TOGGLES_BEGIN,
+    FJERN_ERROR,
+    LUKK_ALLE_SOKEPANEL,
+    SET_STATE,
+} from '../kandidatsøk/reducer/searchReducer';
+import { sendEvent } from '../amplitude/amplitude';
+import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
+import AppState from '../AppState';
+import { NavKontorActionTypes } from '../navKontor/navKontorReducer';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
-import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
-import CvSide from '../kandidatside/cv/CvSide';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { appPrefiks } from './paths';
 import DefaultKandidatsøk from '../kandidatsøk/DefaultKandidatsøk';
-import Historikkside from '../kandidatside/historikk/Historikkside';
+import KandidatsøkFraKandidatliste from '../kandidatsøk/KandidatsøkFraKandidatliste';
+import KandidatsøkFraStilling from '../kandidatsøk/KandidatsøkFraStilling';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
 import Kandidatside from '../kandidatside/Kandidatside';
-import KandidatsøkFraKandidatliste from '../kandidatsøk/KandidatsøkFraKandidatliste';
-import KandidatsøkFraStilling from '../kandidatsøk/KandidatsøkFraStilling';
+import CvSide from '../kandidatside/cv/CvSide';
+import Historikkside from '../kandidatside/historikk/Historikkside';
 import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
+import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
-import './Application.less';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import './App.less';
 
-const Application: FunctionComponent<RouteComponentProps> = ({ location }) => {
+type Props = {
+    error: {
+        status: number;
+    };
+    fetchFeatureToggles: () => void;
+    fjernError: () => void;
+    navKontor: string | null;
+    velgNavKontor: (navKontor: string | null) => void;
+};
+
+const App: FunctionComponent<Props> = (props) => {
+    const { error, fetchFeatureToggles, fjernError, navKontor, velgNavKontor } = props;
     useLoggNavigering();
+
+    useEffect(() => {
+        fetchFeatureToggles();
+        sendEvent('app', 'åpne', {
+            skjermbredde: window.screen.width,
+        });
+    }, [fetchFeatureToggles]);
+
+    useEffect(() => {
+        if (navKontor) {
+            velgNavKontor(navKontor);
+        }
+    }, [navKontor, velgNavKontor]);
+
+    if (error) {
+        return <ErrorSide error={error} fjernError={fjernError} />;
+    }
 
     return (
         <>
-            <Normaltekst tag="div" className="Application">
-                <main className="Application__main">
+            <Normaltekst tag="div" className="App">
+                <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
                         <Route
@@ -94,4 +133,17 @@ const AdvarselOmMocketApp = () => (
     </AlertStripeAdvarsel>
 );
 
-export default withRouter(Application);
+const mapStateToProps = (state: AppState) => ({
+    error: state.søk.error,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
+    fjernError: () => dispatch({ type: FJERN_ERROR }),
+    lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
+    velgNavKontor: (valgtNavKontor: string) =>
+        dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

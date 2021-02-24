@@ -6,7 +6,7 @@ import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
 import { formatterDato } from '../../utils/dateUtils';
 import './Kandidatheader.less';
-import useMaskerFødselsnumre from '../../application/useMaskerFødselsnumre';
+import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 
 interface Props {
     cv: any;

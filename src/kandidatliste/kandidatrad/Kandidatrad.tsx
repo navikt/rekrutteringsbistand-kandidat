@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
-import { lenkeTilCv } from '../../application/paths';
+import { lenkeTilCv } from '../../app/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
 import { Nettstatus } from '../../api/remoteData';

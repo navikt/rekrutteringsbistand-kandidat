@@ -2,8 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { Link, Router } from 'react-router-dom';
 
-import { cssScopeForApp } from '../index';
-import { Main } from '../App';
+import { AppContainer, cssScopeForApp } from '../index';
 import history from './history';
 import './Utviklingsapp.less';
 
@@ -33,7 +32,7 @@ const Utviklingsapp: FunctionComponent = () => {
                     </div>
                 </header>
                 <main>
-                    <Main history={history} navKontor={navKontor} />
+                    <AppContainer history={history} navKontor={navKontor} />
                 </main>
             </Router>
         </div>

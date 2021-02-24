@@ -5,7 +5,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 
 import { capitalizeEmployerName } from '../../kandidatsøk/utils';
 import { LenkeMedChevron } from '../../kandidatside/header/lenke-med-chevron/LenkeMedChevron';
-import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../application/paths';
+import { lenkeTilKandidatlisteoversikt, lenkeTilStilling } from '../../app/paths';
 import {
     FormidlingAvUsynligKandidat,
     KandidatIKandidatliste,

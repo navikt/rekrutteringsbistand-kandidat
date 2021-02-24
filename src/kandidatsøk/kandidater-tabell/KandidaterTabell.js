@@ -6,7 +6,7 @@ import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
 import cvPropTypes from '../../common/PropTypes';
 import './KandidaterTabell.less';
-import useMaskerFødselsnumre from '../../application/useMaskerFødselsnumre';
+import useMaskerFødselsnumre from '../../app/useMaskerFødselsnumre';
 
 export default function KandidaterTabell({
     antallResultater,

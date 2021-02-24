@@ -11,7 +11,7 @@ import Søkeresultat from './Søkeresultat';
 import './KandidaterTabell.less';
 import ErLagtIKandidatListeIkon from './er-lagt-i-kandidatliste-ikon/ErLagtIKandidatListeIkon';
 import { Checkbox } from 'nav-frontend-skjema';
-import { lenkeTilKandidat } from '../../application/paths';
+import { lenkeTilKandidat } from '../../app/paths';
 
 interface Props {
     kandidat: Søkeresultat;

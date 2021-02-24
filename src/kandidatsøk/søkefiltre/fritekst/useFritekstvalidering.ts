@@ -1,4 +1,4 @@
-import { lenkeTilCv } from '../../../application/paths';
+import { lenkeTilCv } from '../../../app/paths';
 import { useHistory } from 'react-router-dom';
 import { sendEvent } from '../../../amplitude/amplitude';
 import { useState, useEffect } from 'react';

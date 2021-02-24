@@ -13,7 +13,7 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
-import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
+import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
 import '../common/ikoner.less';
 

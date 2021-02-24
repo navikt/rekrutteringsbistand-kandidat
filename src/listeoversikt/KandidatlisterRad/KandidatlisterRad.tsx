@@ -14,7 +14,7 @@ import {
     lenkeTilFinnKandidaterUtenStilling,
     lenkeTilKandidatliste,
     lenkeTilStilling,
-} from '../../application/paths';
+} from '../../app/paths';
 import './KandidatlisterRad.less';
 
 export type FeilmeldingIMeny = {

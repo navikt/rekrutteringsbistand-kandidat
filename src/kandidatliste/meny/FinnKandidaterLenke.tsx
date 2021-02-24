@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
     lenkeTilFinnKandidaterMedStilling,
     lenkeTilFinnKandidaterUtenStilling,
-} from '../../application/paths';
+} from '../../app/paths';
 
 type Props = {
     stillingId: string | null;

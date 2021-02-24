@@ -30,7 +30,7 @@ import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
 import '../common/ikoner.less';
-import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
+import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
 

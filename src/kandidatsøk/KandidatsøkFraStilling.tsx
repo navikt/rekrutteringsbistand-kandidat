@@ -21,7 +21,7 @@ import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmel
 import { harUrlParametere } from './reducer/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../application/paths';
+import { lenkeTilKandidatliste, lenkeTilStilling } from '../app/paths';
 
 type Props = DefaultKandidatsøkProps & {
     maksAntallTreff: number;
