@@ -29,6 +29,7 @@ import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import './App.less';
+import FellesKandidatsøk from '../kandidatsøk/FellesKandidatsøk';
 
 type Props = {
     error: {
@@ -67,6 +68,11 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
+                        <Route
+                            exact
+                            path={`${appPrefiks}/kandidatsok`}
+                            component={FellesKandidatsøk}
+                        />
                         <Route
                             exact
                             path={`${appPrefiks}/kandidater`}
