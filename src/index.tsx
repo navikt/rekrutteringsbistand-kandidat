@@ -10,7 +10,7 @@ import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 export const cssScopeForApp = 'rek-kandidat';
 
 const AppMedCssScope: FunctionComponent<AppProps> = (props) => (
-    <div className={cssScopeForApp}>
+    <div id="rekrutteringsbistand-kandidat" className={cssScopeForApp}>
         <Main {...props} />
     </div>
 );

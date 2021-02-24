@@ -12,7 +12,7 @@ const useMaskerFødselsnumre = () => {
 
     useLayoutEffect(() => {
         if (maskerFødselsnumre) {
-            maskerAlleFødselsnumre(document.getElementById('app'));
+            maskerAlleFødselsnumre(document.getElementById('rekrutteringsbistand-kandidat'));
         }
     });
 };
