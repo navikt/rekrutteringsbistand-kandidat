@@ -16,7 +16,7 @@ import MidlertidigUtilgjengeligKnapp from './midlertidig-utilgjengelig-knapp/Mid
 import moment from 'moment';
 import { antallDagerMellom, dagensDato } from './validering';
 import { sendEvent } from '../../amplitude/amplitude';
-import { Tilgjengelighet } from '../../sok/Søkeresultat';
+import { Tilgjengelighet } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 
 interface Props {
     aktørId: string;

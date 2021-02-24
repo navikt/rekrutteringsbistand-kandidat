@@ -6,10 +6,10 @@ import {
     FJERN_ERROR,
     LUKK_ALLE_SOKEPANEL,
     SET_STATE,
-} from './sok/searchReducer';
+} from './kandidatsøk/reducer/searchReducer';
 import { sendEvent } from './amplitude/amplitude';
 import Application from './application/Application';
-import ErrorSide from './sok/error/ErrorSide';
+import ErrorSide from './kandidatsøk/søkefiltre/error/ErrorSide';
 import AppState from './AppState';
 import { NavKontorActionTypes } from './navKontor/navKontorReducer';
 

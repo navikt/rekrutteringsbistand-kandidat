@@ -1,16 +1,19 @@
 import { ListeoversiktState } from './listeoversikt/reducer/listeoversiktReducer';
-import { AlderState } from './sok/alder/alderReducer';
-import { ArbeidserfaringState, TypeaheadState } from './sok/arbeidserfaring/arbeidserfaringReducer';
+import { AlderState } from './kandidatsøk/søkefiltre/alder/alderReducer';
+import {
+    ArbeidserfaringState,
+    TypeaheadState,
+} from './kandidatsøk/søkefiltre/arbeidserfaring/arbeidserfaringReducer';
 import { CvState } from './kandidatside/cv/reducer/cvReducer';
-import { Geografi } from './result/fant-få-kandidater/FantFåKandidater';
+import { Geografi } from './kandidatsøk/fant-få-kandidater/FantFåKandidater';
 import { HistorikkState } from './kandidatside/historikk/historikkReducer';
 import { KandidatlisteState } from './kandidatliste/reducer/kandidatlisteReducer';
 import { MidlertidigUtilgjengeligState } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { NavKontorState } from './navKontor/navKontorReducer';
-import { PermitteringState } from './sok/permittering/permitteringReducer';
-import { SearchState } from './sok/typedSearchReducer';
-import { TilgjengelighetState } from './sok/tilgjengelighet/tilgjengelighetReducer';
-import { TilretteleggingsbehovState } from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
+import { PermitteringState } from './kandidatsøk/søkefiltre/permittering/permitteringReducer';
+import { SearchState } from './kandidatsøk/reducer/typedSearchReducer';
+import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet/tilgjengelighetReducer';
+import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 
 type AppState = {
     cv: CvState;

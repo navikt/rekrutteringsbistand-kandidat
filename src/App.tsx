@@ -5,46 +5,46 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { alderReducer } from './sok/alder/alderReducer';
+import { alderReducer } from './kandidatsøk/søkefiltre/alder/alderReducer';
 import { historikkReducer, historikkSaga } from './kandidatside/historikk/historikkReducer';
-import { searchReducer } from './sok/typedSearchReducer';
-import { saga } from './sok/searchReducer';
+import { searchReducer } from './kandidatsøk/reducer/typedSearchReducer';
+import { saga } from './kandidatsøk/reducer/searchReducer';
 import { History } from 'history';
-import arbeidserfaringReducer from './sok/arbeidserfaring/arbeidserfaringReducer';
+import arbeidserfaringReducer from './kandidatsøk/søkefiltre/arbeidserfaring/arbeidserfaringReducer';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
 import cvReducer, { cvSaga } from './kandidatside/cv/reducer/cvReducer';
 import enhetsregisterReducer, {
     enhetsregisterSaga,
 } from './common/typeahead/enhetsregisterReducer';
-import forerkortReducer from './sok/forerkort/forerkortReducer';
-import fritekstReducer from './sok/fritekst/fritekstReducer';
-import geografiReducer from './sok/geografi/geografiReducer';
-import hovedmalReducer from './sok/hovedmal/hovedmalReducer';
-import innsatsgruppeReducer from './sok/innsatsgruppe/innsatsgruppeReducer';
+import forerkortReducer from './kandidatsøk/søkefiltre/forerkort/forerkortReducer';
+import fritekstReducer from './kandidatsøk/søkefiltre/fritekst/fritekstReducer';
+import geografiReducer from './kandidatsøk/søkefiltre/geografi/geografiReducer';
+import hovedmalReducer from './kandidatsøk/søkefiltre/hovedmal/hovedmalReducer';
+import innsatsgruppeReducer from './kandidatsøk/søkefiltre/innsatsgruppe/innsatsgruppeReducer';
 import kandidatlisteReducer from './kandidatliste/reducer/kandidatlisteReducer';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
-import kompetanseReducer from './sok/kompetanse/kompetanseReducer';
+import kompetanseReducer from './kandidatsøk/søkefiltre/kompetanse/kompetanseReducer';
 import midlertidigUtilgjengeligReducer, {
     midlertidigUtilgjengeligSaga,
 } from './kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
-import navkontorReducer from './sok/navkontor/navkontorReducer';
-import permitteringReducer from './sok/permittering/permitteringReducer';
+import navkontorReducer from './kandidatsøk/søkefiltre/navkontor/navkontorReducer';
+import permitteringReducer from './kandidatsøk/søkefiltre/permittering/permitteringReducer';
 import RekrutteringsbistandKandidat from './RekrutteringsbistandKandidat';
-import sprakReducer from './sok/sprak/sprakReducer';
-import stillingReducer from './sok/stilling/stillingReducer';
-import tilgjengelighetReducer from './sok/tilgjengelighet/tilgjengelighetReducer';
-import tilretteleggingsbehovReducer from './sok/tilretteleggingsbehov/tilretteleggingsbehovReducer';
+import sprakReducer from './kandidatsøk/søkefiltre/sprak/sprakReducer';
+import stillingReducer from './kandidatsøk/søkefiltre/stilling/stillingReducer';
+import tilgjengelighetReducer from './kandidatsøk/søkefiltre/tilgjengelighet/tilgjengelighetReducer';
+import tilretteleggingsbehovReducer from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
 import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadReducer';
-import utdanningReducer from './sok/utdanning/utdanningReducer';
+import utdanningReducer from './kandidatsøk/søkefiltre/utdanning/utdanningReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
-import './common/styles.less';
-import './sok/sok.less';
 import * as Sentry from '@sentry/react';
 import { getMiljø } from './utils/miljøUtils';
 import { fjernPersonopplysninger } from './utils/sentryUtils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import './common/styles.less';
+import './App.less';
 
 Sentry.init({
     dsn: 'https://bd029fab6cab426eb0415b89a7f07124@sentry.gc.nav.no/20',

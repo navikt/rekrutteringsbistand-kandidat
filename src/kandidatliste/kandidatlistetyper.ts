@@ -1,7 +1,7 @@
 import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
-import { Tilgjengelighet } from '../sok/Søkeresultat';
+import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
 
 export enum Delestatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
     IkkeSpurt = 'IKKE_SPURT',

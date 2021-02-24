@@ -1,5 +1,5 @@
 import { Nettstatus } from '../../api/remoteData';
-import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
+import { INVALID_RESPONSE_STATUS } from '../../kandidatsøk/reducer/searchReducer';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
     deleteKandidatliste,

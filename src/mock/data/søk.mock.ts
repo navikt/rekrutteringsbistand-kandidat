@@ -1,6 +1,6 @@
-import { Tilgjengelighet, Innsatsgruppe } from '../../sok/Søkeresultat';
+import { Tilgjengelighet, Innsatsgruppe } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 import cver, { antall } from './cv.mock';
-import Søkeresultat from '../../sok/Søkeresultat';
+import Søkeresultat from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
 
 const resultater: Søkeresultat[] = cver.map((cv) => ({
     aktorId: cv.aktorId,

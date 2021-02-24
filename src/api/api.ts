@@ -10,7 +10,7 @@ import {
     postJson,
     putJson,
 } from './fetchUtils';
-import { FerdigutfylteStillingerKlikk } from '../result/viktigeyrker/Bransje';
+import { FerdigutfylteStillingerKlikk } from '../kandidatsøk/viktigeyrker/Bransje';
 import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';

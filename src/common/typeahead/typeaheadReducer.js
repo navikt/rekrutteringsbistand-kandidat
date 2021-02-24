@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchTypeaheadSuggestionsRest } from '../../api/api.ts';
 import { BRANCHNAVN } from '../konstanter';
-import { forerkortSuggestions } from '../../sok/forerkort/forerkort';
+import { forerkortSuggestions } from '../../kandidatsøk/søkefiltre/forerkort/forerkort';
 import { SearchApiError } from '../../api/fetchUtils';
 
 /** *********************************************************

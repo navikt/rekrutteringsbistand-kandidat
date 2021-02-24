@@ -9,7 +9,7 @@ import {
     putKandidatlistestatus,
 } from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
+import { INVALID_RESPONSE_STATUS, SEARCH } from '../../kandidatsøk/reducer/searchReducer';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     OpprettKandidatlisteAction,

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
 import { LAGRE_STATUS } from '../common/konstanter';
-import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
+import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../kandidatsøk/reducer/searchReducer';
 import { sendEvent } from '../amplitude/amplitude';
 import { Nettstatus } from '../api/remoteData.ts';
 import cvPropTypes from '../common/PropTypes';
@@ -18,8 +18,8 @@ import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
-import LagreKandidaterModal from '../result/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../result/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from '../kandidatsøk/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../kandidatsøk/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import './VisKandidat.less';
 import {
@@ -29,7 +29,7 @@ import {
     lenkeTilKandidatliste,
     lenkeTilKandidatsøk,
 } from '../application/paths';
-import { toUrlQuery } from '../sok/searchQuery';
+import { toUrlQuery } from '../kandidatsøk/reducer/searchQuery';
 
 class VisKandidat extends React.Component {
     constructor(props) {

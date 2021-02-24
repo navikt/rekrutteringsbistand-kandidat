@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { capitalizeFirstLetter } from '../../sok/utils';
+import { capitalizeFirstLetter } from '../../kandidatsøk/utils';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
 import { lenkeTilCv } from '../../application/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
@@ -16,7 +16,7 @@ import KandidatlisteAction from '../reducer/KandidatlisteAction';
 import KandidatlisteActionType from '../reducer/KandidatlisteActionType';
 import SmsStatusPopup from './smsstatus/SmsStatusPopup';
 import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
-import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
+import TilgjengelighetFlagg from '../../kandidatsøk/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallMedEndreIkon, { Utfall } from './utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Kandidatrad.less';
 import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
