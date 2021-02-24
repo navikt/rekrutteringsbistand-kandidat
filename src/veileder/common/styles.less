@@ -1,9 +1,9 @@
 @nodeModulesPath: './../../';
-@import '../../node_modules/nav-frontend-paneler-style/src/index';
-@import '../../node_modules/nav-frontend-skjema-style/src/index';
-@import '../../node_modules/nav-frontend-grid-style/src/index';
-@import '../../node_modules/pam-frontend-merkelapper/dist/style.css';
-@import '../variables.less';
+@import '~nav-frontend-paneler-style/src/index';
+@import '~nav-frontend-skjema-style/src/index';
+@import '~nav-frontend-grid-style/src/index';
+@import '~pam-frontend-merkelapper/dist/style.css';
+@import '../variabler.less';
 
 html {
     height: 100%;
@@ -16,58 +16,6 @@ body {
     min-height: 100%;
     overflow-y: scroll;
     color: @navMorkGra;
-}
-
-button:focus {
-    outline: 3px solid #ffbd66;
-}
-
-.main-vh100 {
-    min-height: 100vh;
-}
-
-.text-overflow {
-    max-height: 3rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.text-right {
-    text-align: right;
-}
-
-.flex-columns {
-    display: flex;
-}
-
-.flex-columns .typo-normal,
-.flex-columns .typo-etikett-liten {
-    width: 50%;
-    display: inline-block;
-    vertical-align: top;
-}
-
-button.lenke {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    padding: 0 0;
-}
-
-.vh-50 {
-    min-height: 50vh;
-}
-
-.muted {
-    opacity: 0.7;
-}
-
-.shown {
-    display: block;
-}
-
-.inline {
-    display: inline;
 }
 
 .text-center {

@@ -7,13 +7,13 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 
 import { CvActionType, HentCvStatus } from './cv/reducer/cvReducer.ts';
-import { LAGRE_STATUS } from '../../felles/konstanter';
+import { LAGRE_STATUS } from '../common/konstanter';
 import { LAST_FLERE_KANDIDATER, SETT_KANDIDATNUMMER } from '../sok/searchReducer';
 import { sendEvent } from '../amplitude/amplitude';
-import { Nettstatus } from '../../felles/common/remoteData.ts';
-import cvPropTypes from '../../felles/PropTypes';
+import { Nettstatus } from '../api/remoteData.ts';
+import cvPropTypes from '../common/PropTypes';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import HjelpetekstFading from '../common/HjelpetekstFading.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';

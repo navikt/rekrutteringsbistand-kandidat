@@ -4,7 +4,7 @@ import ForrigeNeste from './forrige-neste/ForrigeNeste';
 import { capitalizeFirstLetter } from '../../sok/utils';
 import { LenkeMedChevron } from './lenke-med-chevron/LenkeMedChevron';
 import { formatMobileTelephoneNumber, formatterAdresse } from './personaliaFormattering';
-import { formatterDato } from '../../../felles/common/dateUtils';
+import { formatterDato } from '../../utils/dateUtils';
 import './Kandidatheader.less';
 import useMaskerFødselsnumre from '../../application/useMaskerFødselsnumre';
 

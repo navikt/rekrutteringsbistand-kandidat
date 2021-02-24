@@ -38,11 +38,11 @@ import typeaheadReducer, { typeaheadSaga } from './common/typeahead/typeaheadRed
 import utdanningReducer from './sok/utdanning/utdanningReducer';
 import valgtNavKontorReducer from './navKontor/navKontorReducer';
 import listeoversiktReducer from './listeoversikt/reducer/listeoversiktReducer';
-import '../felles/styles.less';
+import './common/styles.less';
 import './sok/sok.less';
 import * as Sentry from '@sentry/react';
-import { getMiljø } from '../felles/common/miljøUtils';
-import { fjernPersonopplysninger } from '../felles/common/sentryUtils';
+import { getMiljø } from './utils/miljøUtils';
+import { fjernPersonopplysninger } from './utils/sentryUtils';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 

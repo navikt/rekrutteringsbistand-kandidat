@@ -22,7 +22,7 @@ class TruncatedTextList extends React.Component {
     render() {
         if (this.props.tekstElementer.length > this.props.antallElementerSomVisesMinimert) {
             return (
-                <div>
+                <>
                     <Row>
                         <Normaltekst>
                             {this.state.hideText
@@ -42,15 +42,13 @@ class TruncatedTextList extends React.Component {
                             {this.state.hideText ? 'Se alle' : 'Skjul'}
                         </Knapp>
                     </Row>
-                </div>
+                </>
             );
         }
         return (
-            <div>
-                <Row>
-                    <Normaltekst>{this.props.tekstElementer.join(', ')}</Normaltekst>
-                </Row>
-            </div>
+            <Row>
+                <Normaltekst>{this.props.tekstElementer.join(', ')}</Normaltekst>
+            </Row>
         );
     }
 }

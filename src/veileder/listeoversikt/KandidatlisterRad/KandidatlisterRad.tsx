@@ -2,9 +2,9 @@ import React, { FunctionComponent, MouseEvent, ReactNode, useState } from 'react
 import { Hamburgerknapp } from 'nav-frontend-ikonknapper';
 import { Link } from 'react-router-dom';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { formatterDato } from '../../../felles/common/dateUtils';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
-import MedPopover from '../../../felles/common/med-popover/MedPopover';
+import { formatterDato } from '../../utils/dateUtils';
+import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
+import MedPopover from '../../common/med-popover/MedPopover';
 import { KandidatlisteSammendrag } from '../../kandidatliste/kandidatlistetyper';
 import KandidatlisterMenyDropdown from './KandidatlisterDropdown';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';

@@ -11,12 +11,12 @@ import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,
 } from '../../common/typeahead/typeaheadReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 
 const StillingSearch = ({ ...props }) => {
     const {
@@ -120,7 +120,7 @@ const StillingSearch = ({ ...props }) => {
                 </Normaltekst>
             )}
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.STILLING && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

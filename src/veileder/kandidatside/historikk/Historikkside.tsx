@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { KandidatlisteForKandidat, KandidatlisterForKandidatActionType } from './historikkReducer';
-import { Nettstatus } from '../../../felles/common/remoteData';
+import { Nettstatus } from '../../api/remoteData';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import AppState from '../../AppState';
 import 'nav-frontend-tabell-style';
@@ -10,7 +10,7 @@ import { capitalizeFirstLetter } from '../../sok/utils';
 import { Ingress } from 'nav-frontend-typografi';
 import { Historikktabell } from './historikktabell/Historikktabell';
 import { KandidatQueryParam } from '../Kandidatside';
-import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { LAGRE_STATUS } from '../../common/konstanter';
 import { sendEvent } from '../../amplitude/amplitude';
 
 const Historikkside: FunctionComponent = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatISOString } from './dateUtils';
+import { formatISOString } from '../../../utils/dateUtils';
 
 export default function Tidsperiode({ fradato, tildato, navarende }) {
     const fradatoFormatted = formatISOString(fradato);

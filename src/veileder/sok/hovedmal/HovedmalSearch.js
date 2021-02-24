@@ -7,10 +7,10 @@ import {
     UNCHECK_TOTAL_HOVEDMAL,
     TOGGLE_HOVEDMAL_PANEL_OPEN,
 } from './hovedmalReducer';
-import { ALERTTYPE } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox } from 'nav-frontend-skjema';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Hovedmal.less';
 
 const HovedmalEnum = {
@@ -68,7 +68,7 @@ const HovedmalSearch = ({ ...props }) => {
                 ))}
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.HOVEDMAL && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

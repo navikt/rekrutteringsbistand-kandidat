@@ -8,13 +8,13 @@ import {
     SØK_MED_URL_PARAMETERE,
 } from '../sok/searchReducer';
 import './Resultat.less';
-import { Nettstatus } from '../../felles/common/remoteData';
+import { Nettstatus } from '../api/remoteData';
 import { Kandidatsøk } from './Kandidatsøk';
-import Sidetittel from '../../felles/common/Sidetittel';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { harUrlParametere } from '../sok/searchQuery';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
+import { Sidetittel } from 'nav-frontend-typografi';
 
 export const hentQueryUtenKriterier = (
     harHentetStilling: boolean,
@@ -74,7 +74,7 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
 
     const header = (
         <Container className="container--header--uten-stilling">
-            <Sidetittel> Kandidatsøk </Sidetittel>
+            <Sidetittel>Kandidatsøk</Sidetittel>
         </Container>
     );
 

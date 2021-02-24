@@ -5,7 +5,7 @@ import AppState from '../../../AppState';
 import { connect } from 'react-redux';
 import { ArbeidserfaringActionType } from '../arbeidserfaringReducer';
 import { SEARCH } from '../../searchReducer';
-import { ALERTTYPE } from '../../../../felles/konstanter';
+import { ALERTTYPE } from '../../../common/konstanter';
 import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 

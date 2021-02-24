@@ -5,9 +5,9 @@ import { Systemtittel, Normaltekst, Ingress, Element } from 'nav-frontend-typogr
 import Lenke from 'nav-frontend-lenker';
 
 import { capitalizeFirstLetter } from '../../sok/utils';
-import { FadingAlertStripeLiten } from '../../../felles/common/HjelpetekstFading';
+import { FadingAlertStripeLiten } from '../../common/HjelpetekstFading';
 import { Kandidat } from '../kandidatlistetyper';
-import { useTimeoutState } from '../../../felles/common/hooks/useTimeoutState';
+import { useTimeoutState } from '../../common/useTimeoutState';
 import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
 import './KopierEpostModal.less';
 

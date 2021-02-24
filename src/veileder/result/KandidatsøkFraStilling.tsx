@@ -9,11 +9,11 @@ import {
     SØK_MED_URL_PARAMETERE,
 } from '../sok/searchReducer';
 import './Resultat.less';
-import { Nettstatus } from '../../felles/common/remoteData';
+import { Nettstatus } from '../api/remoteData';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
-import { VeilederHeaderInfo } from './VeilederHeaderInfo';
+import { KandidatlisteHeader } from './KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
@@ -95,7 +95,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     const header = (
         <Container className="container--header">
-            <VeilederHeaderInfo kandidatliste={kandidatliste} stillingsId={stillingsIdFraUrl} />
+            <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsIdFraUrl} />
             <div className="container--header__lenker">
                 <Link className="SeStilling lenke" to={lenkeTilStilling(stillingsIdFraUrl)}>
                     <i className="SeStilling__icon" />

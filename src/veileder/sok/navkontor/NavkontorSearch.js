@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
 import { SEARCH } from '../searchReducer';
 import {
     REMOVE_SELECTED_NAVKONTOR,
@@ -13,12 +13,12 @@ import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,
 } from '../../common/typeahead/typeaheadReducer';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { Checkbox } from 'nav-frontend-skjema';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Navkontor.less';
 
 const NavkontorSearch = ({ ...props }) => {
@@ -124,7 +124,7 @@ const NavkontorSearch = ({ ...props }) => {
                 />
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.NAVKONTOR && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

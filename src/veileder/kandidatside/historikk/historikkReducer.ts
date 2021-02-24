@@ -1,16 +1,9 @@
 import { Kandidatstatus } from './../../kandidatliste/kandidatlistetyper';
-import {
-    ApiError,
-    feil,
-    ikkeLastet,
-    lasterInn,
-    Nettressurs,
-    suksess,
-} from '../../../felles/common/remoteData';
+import { ApiError, feil, ikkeLastet, lasterInn, Nettressurs, suksess } from '../../api/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { fetchKandidatlisterForKandidat } from '../../api';
-import { SearchApiError } from '../../../felles/api';
+import { fetchKandidatlisterForKandidat } from '../../api/api';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { SearchApiError } from '../../api/fetchUtils';
 
 export interface KandidatlisteForKandidat {
     kandidatnr: string;

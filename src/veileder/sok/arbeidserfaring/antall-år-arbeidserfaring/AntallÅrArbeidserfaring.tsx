@@ -2,7 +2,7 @@ import React, { ChangeEvent, FunctionComponent } from 'react';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { SEARCH } from '../../searchReducer';
-import { ALERTTYPE } from '../../../../felles/konstanter';
+import { ALERTTYPE } from '../../../common/konstanter';
 import { CHECK_TOTAL_ERFARING, UNCHECK_TOTAL_ERFARING } from '../arbeidserfaringReducer';
 import { connect } from 'react-redux';
 import AppState from '../../../AppState';

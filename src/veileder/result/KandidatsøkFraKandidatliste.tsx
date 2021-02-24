@@ -8,11 +8,11 @@ import {
     SØK_MED_URL_PARAMETERE,
 } from '../sok/searchReducer';
 import './Resultat.less';
-import { Nettstatus } from '../../felles/common/remoteData';
+import { Nettstatus } from '../api/remoteData';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
-import { VeilederHeaderInfo } from './VeilederHeaderInfo';
+import { KandidatlisteHeader } from './KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
@@ -85,12 +85,12 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     }, [kandidatlisteId, kandidatlisteIdFraSøk, leggUrlParametereIStateOgSøk, search]);
 
     useEffect(() => {
-        leggTilKandidaterReset()
+        leggTilKandidaterReset();
     }, [leggTilKandidaterReset]);
 
     const header = (
         <Container className="container--header">
-            <VeilederHeaderInfo kandidatliste={kandidatliste} />
+            <KandidatlisteHeader kandidatliste={kandidatliste} />
             <div className="container--header__lenker">
                 <Link
                     className="TilKandidater lenke"
@@ -154,10 +154,10 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
-    leggTilKandidaterReset: () => 
+    leggTilKandidaterReset: () =>
         dispatch({
             type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
-        })
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkFraKandidatliste);

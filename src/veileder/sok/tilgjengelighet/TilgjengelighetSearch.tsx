@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import MidlertidigUtilgjengeligSearch from './midlertidig-utilgjengelig/MidlertidigUtilgjengeligSearch';
 import OppstartstidspunktSearch from './oppstardstidspunkt/OppstartstidspunktSearch';
 import AppState from '../../AppState';

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { EkspanderbartpanelBase } from 'nav-frontend-ekspanderbartpanel';
 
-import { sendEvent } from '../../../veileder/amplitude/amplitude';
+import { sendEvent } from '../../amplitude/amplitude';
 import './SokekriteriePanel.less';
 
 type Props = {

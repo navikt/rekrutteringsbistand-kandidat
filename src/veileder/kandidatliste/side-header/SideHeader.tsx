@@ -13,7 +13,7 @@ import {
     Kandidatstatus,
 } from '../kandidatlistetyper';
 import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import Kandidatlistestatus from './rekrutteringsstatus/Kandidatlistestatus';
 import './SideHeader.less';
 

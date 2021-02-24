@@ -1,10 +1,4 @@
-import {
-    ikkeLastet,
-    lasterInn,
-    Nettstatus,
-    RemoteData,
-    suksess,
-} from '../../../felles/common/remoteData';
+import { ikkeLastet, lasterInn, Nettstatus, RemoteData, suksess } from '../../api/remoteData';
 import { HentStatus, MarkerSomMinStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Reducer } from 'redux';
 import { ListeoversiktAction, ListeoversiktActionType } from './ListeoversiktAction';

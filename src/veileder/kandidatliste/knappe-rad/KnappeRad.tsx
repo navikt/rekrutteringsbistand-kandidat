@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
-import MedPopover from '../../../felles/common/med-popover/MedPopover';
+import MedPopover from '../../common/med-popover/MedPopover';
 import { PopoverOrientering } from 'nav-frontend-popover';
 import './KnappeRad.less';
 

@@ -4,7 +4,7 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element } from 'nav-frontend-typografi';
 import KandidaterTableRow from './KandidaterTableKandidat';
 import KandidaterTableHeader from './KandidaterTableHeader';
-import cvPropTypes from '../../../felles/PropTypes';
+import cvPropTypes from '../../common/PropTypes';
 import './KandidaterTabell.less';
 import useMaskerFødselsnumre from '../../application/useMaskerFødselsnumre';
 

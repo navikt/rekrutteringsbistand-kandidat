@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'nav-frontend-typografi';
-import './AlertStripeInfo.less';
+import './FåKandidaterAlert.less';
 
-const AlertStripeInfo = ({ totaltAntallTreff }) => (
+const FåKandidaterAlert = ({ totaltAntallTreff }) => (
     <div className="info--wrapper">
         <i className="info--icon" />
         <Element className="info--text">
@@ -14,8 +14,8 @@ const AlertStripeInfo = ({ totaltAntallTreff }) => (
     </div>
 );
 
-AlertStripeInfo.propTypes = {
+FåKandidaterAlert.propTypes = {
     totaltAntallTreff: PropTypes.number.isRequired,
 };
 
-export default AlertStripeInfo;
+export default FåKandidaterAlert;

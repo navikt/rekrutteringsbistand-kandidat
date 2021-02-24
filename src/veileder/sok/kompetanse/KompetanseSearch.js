@@ -11,13 +11,13 @@ import {
     SELECT_TYPE_AHEAD_VALUE_KOMPETANSE,
     TOGGLE_KOMPETANSE_PANEL_OPEN,
 } from './kompetanseReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Knapp } from 'nav-frontend-knapper';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Kompetanse.less';
 
 const KompetanseSearch = ({ ...props }) => {
@@ -158,7 +158,7 @@ const KompetanseSearch = ({ ...props }) => {
                 </div>
             )}
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.KOMPETANSE && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

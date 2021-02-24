@@ -2,8 +2,8 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import {
     fetchArbeidsgivereEnhetsregister,
     fetchArbeidsgivereEnhetsregisterOrgnr,
-} from '../../api.ts';
-import { SearchApiError } from '../../../felles/api.ts';
+} from '../../api/api.ts';
+import { SearchApiError } from '../../api/fetchUtils';
 
 /** *********************************************************
  * ACTIONS

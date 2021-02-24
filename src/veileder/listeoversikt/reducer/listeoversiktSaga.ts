@@ -1,14 +1,18 @@
-import { Nettstatus } from '../../../felles/common/remoteData';
-import { SearchApiError } from '../../../felles/api';
+import { Nettstatus } from '../../api/remoteData';
 import { INVALID_RESPONSE_STATUS } from '../../sok/searchReducer';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { deleteKandidatliste, endreEierskapPaKandidatliste, fetchKandidatlister } from '../../api';
+import {
+    deleteKandidatliste,
+    endreEierskapPaKandidatliste,
+    fetchKandidatlister,
+} from '../../api/api';
 import AppState from '../../AppState';
 import {
     ListeoversiktActionType,
     SlettKandidatlisteAction,
     SlettKandidatlisteFerdigAction,
 } from './ListeoversiktAction';
+import { SearchApiError } from '../../api/fetchUtils';
 
 function* hentKandidatlister() {
     const state: AppState = yield select();

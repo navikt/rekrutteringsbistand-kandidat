@@ -1,4 +1,4 @@
-import { toDate, isValidISOString } from './dateUtils';
+import { toDate, isValidISOString } from '../../../utils/dateUtils';
 
 /**
  * Sorterer items etter dato. Sorterer først på tildato. Er disse like eller er en av disse

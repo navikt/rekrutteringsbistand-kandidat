@@ -1,5 +1,4 @@
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import Sidetittel from '../../felles/common/Sidetittel';
+import { Element, Normaltekst, Sidetittel } from 'nav-frontend-typografi';
 import { capitalizeEmployerName } from '../sok/utils';
 import { Flatknapp } from 'nav-frontend-knapper';
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -11,7 +10,7 @@ interface Props {
     stillingsId?: string;
 }
 
-export const VeilederHeaderInfo: FunctionComponent<Props> = ({ kandidatliste, stillingsId }) => {
+export const KandidatlisteHeader: FunctionComponent<Props> = ({ kandidatliste, stillingsId }) => {
     const [visBeskrivelse, setVisBeskrivelse] = useState<boolean>();
 
     const { tittel, organisasjonNavn, opprettetAv, beskrivelse } = kandidatliste || {

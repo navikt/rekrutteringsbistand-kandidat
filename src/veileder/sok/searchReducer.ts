@@ -1,10 +1,10 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api';
-import { SearchApiError } from '../../felles/api';
-import { postFerdigutfylteStillingerKlikk } from '../api';
+import { fetchFeatureToggles, fetchFerdigutfylteStillinger, fetchKandidaterES } from '../api/api';
+import { postFerdigutfylteStillingerKlikk } from '../api/api';
 import { esSearch, hentFlereKandidater } from './typedSearchReducer';
 import { leggInfoFraStillingIStateOgSøk, leggUrlParametereIStateOgSøk } from './initialSearch';
 import AppState from '../AppState';
+import { SearchApiError } from '../api/fetchUtils';
 
 /** *********************************************************
  * ACTIONS

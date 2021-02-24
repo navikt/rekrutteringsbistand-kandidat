@@ -1,4 +1,4 @@
-import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import { RemoteData, Nettstatus } from '../../api/remoteData';
 import {
     Kandidatliste,
     Kandidattilstander,

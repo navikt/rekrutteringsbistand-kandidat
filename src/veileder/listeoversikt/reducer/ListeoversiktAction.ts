@@ -1,4 +1,4 @@
-import { ResponseData } from '../../../felles/common/remoteData';
+import { ResponseData } from '../../api/remoteData';
 import { KandidatlisteSorteringsfelt } from '../Kandidatlistesortering';
 import { Retning } from '../../common/sorterbarKolonneheader/Retning';
 

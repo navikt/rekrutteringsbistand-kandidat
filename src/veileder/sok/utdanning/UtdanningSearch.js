@@ -8,11 +8,11 @@ import {
     UNCHECK_UTDANNINGSNIVA,
     TOGGLE_UTDANNING_PANEL_OPEN,
 } from './utdanningReducer';
-import { ALERTTYPE, UTDANNING } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, UTDANNING } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox, SkjemaGruppe } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Utdanning.less';
 
 const UtdanningSearch = ({ ...props }) => {
@@ -60,7 +60,7 @@ const UtdanningSearch = ({ ...props }) => {
                 ))}
             </SkjemaGruppe>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.UTDANNING && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

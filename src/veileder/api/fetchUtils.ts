@@ -1,4 +1,4 @@
-import { feil, ResponseData, suksess } from './common/remoteData';
+import { feil, ResponseData, suksess } from './remoteData';
 
 export const createCallIdHeader = () => ({
     'Nav-CallId': Math.random().toString(16).substr(2),

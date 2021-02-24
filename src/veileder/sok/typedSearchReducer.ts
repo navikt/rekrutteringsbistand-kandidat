@@ -1,7 +1,7 @@
 import FEATURE_TOGGLES, {
     KANDIDATLISTE_CHUNK_SIZE,
     KANDIDATLISTE_INITIAL_CHUNK_SIZE,
-} from '../../felles/konstanter';
+} from '../common/konstanter';
 import {
     FETCH_FEATURE_TOGGLES_FAILURE,
     FETCH_FEATURE_TOGGLES_SUCCESS,
@@ -25,11 +25,11 @@ import {
     TOGGLE_VIKTIGE_YRKER_APEN,
 } from './searchReducer';
 import { toUrlQuery } from './searchQuery';
-import { fetchKandidater, fetchKandidaterES } from '../api';
-import { SearchApiError } from '../../felles/api';
+import { fetchKandidater, fetchKandidaterES } from '../api/api';
 import { call, put, select } from 'redux-saga/effects';
 import AppState from '../AppState';
 import { mapTilSøkekriterierBackend } from './søkekriterierBackend';
+import { SearchApiError } from '../api/fetchUtils';
 
 interface SetStateAction {
     type: 'SET_STATE';

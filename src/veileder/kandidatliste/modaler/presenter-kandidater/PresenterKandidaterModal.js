@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { erGyldigEpost } from '../../../felles/epostValidering';
-import ModalMedKandidatScope from '../../../ModalMedKandidatScope';
+import { erGyldigEpost } from './epostValidering';
+import ModalMedKandidatScope from '../../../../ModalMedKandidatScope';
 import './PresenterKandidaterModal.less';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 

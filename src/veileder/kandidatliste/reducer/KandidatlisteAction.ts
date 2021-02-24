@@ -3,14 +3,14 @@ import {
     KandidatOutboundDto,
     FormidlingAvUsynligKandidatOutboundDto,
 } from './../modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
-import { ApiError } from '../../../felles/common/remoteData';
+import { ApiError } from '../../api/remoteData';
 import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from './../../kandidatside/cv/reducer/cv-typer';
-import { SearchApiError } from './../../../felles/api';
 import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Visningsstatus } from './../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
+import { SearchApiError } from '../../api/fetchUtils';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;

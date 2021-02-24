@@ -29,7 +29,7 @@ import useAlleFiltrerteErMarkerte from './hooks/useAlleFiltrerteErMarkerte';
 import useAntallFiltertreff from './hooks/useAntallFiltertreff';
 import FormidlingAvUsynligKandidatrad from './formidling-av-usynlig-kandidatrad/FormidlingAvUsynligKandidatrad';
 import { sorteringsalgoritmer, KandidatSorteringsfelt } from './kandidatsortering';
-import '../../felles/common/ikoner/ikoner.less';
+import '../common/ikoner.less';
 import useMaskerFødselsnumre from '../application/useMaskerFødselsnumre';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';

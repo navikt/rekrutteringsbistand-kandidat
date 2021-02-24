@@ -11,12 +11,12 @@ import {
     SELECT_TYPE_AHEAD_VALUE_FORERKORT,
     TOGGLE_FORERKORT_PANEL_OPEN,
 } from './forerkortReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { erGyldigForerkort } from './forerkort';
 import './Forerkort.less';
 
@@ -120,7 +120,7 @@ const ForerkortSearch = ({ ...props }) => {
                 </div>
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.FORERKORT && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

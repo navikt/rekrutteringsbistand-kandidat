@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
-import { LAGRE_STATUS } from '../../felles/konstanter';
+import HjelpetekstFading from '../common/HjelpetekstFading';
+import { LAGRE_STATUS } from '../common/konstanter';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../application/paths';
 

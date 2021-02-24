@@ -1,5 +1,5 @@
 import validator from '@navikt/fnrvalidator';
-import { hentKandidatnr } from '../../api';
+import { hentKandidatnr } from '../../api/api';
 
 export enum Fritekststatus {
     Validerer,

@@ -3,7 +3,7 @@ import moment from 'moment';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Nettressurs, Nettstatus } from '../../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../../../api/remoteData';
 import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 import { MidlertidigUtilgjengeligResponse } from '../../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import {

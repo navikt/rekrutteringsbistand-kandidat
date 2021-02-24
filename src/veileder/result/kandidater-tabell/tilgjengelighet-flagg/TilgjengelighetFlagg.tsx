@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
-import { Nettressurs } from '../../../../felles/common/remoteData';
+import { Nettressurs } from '../../../api/remoteData';
 import { Tilgjengelighet } from '../../../sok/Søkeresultat';
 import MerInformasjon from './MerInformasjon';
 import './TilgjengelighetFlagg.less';

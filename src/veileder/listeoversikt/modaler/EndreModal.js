@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Systemtittel } from 'nav-frontend-typografi';
-import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { LAGRE_STATUS } from '../../common/konstanter';
 import OpprettKandidatlisteForm from './OpprettKandidatlisteForm';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import ModalMedKandidatScope from '../../../ModalMedKandidatScope';

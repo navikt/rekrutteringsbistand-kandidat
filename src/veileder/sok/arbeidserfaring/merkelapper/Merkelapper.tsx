@@ -3,7 +3,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
 import { SEARCH } from '../../searchReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../../felles/konstanter';
+import { ALERTTYPE, BRANCHNAVN } from '../../../common/konstanter';
 import {
     CLEAR_TYPE_AHEAD_SUGGESTIONS,
     FETCH_TYPE_AHEAD_SUGGESTIONS,

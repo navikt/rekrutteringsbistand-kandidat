@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Notat } from '../../kandidatlistetyper';
-import { Nettstatus, Nettressurs } from '../../../../felles/common/remoteData';
+import { Nettstatus, Nettressurs } from '../../../api/remoteData';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import NotatInfo from './NotatInfo';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {

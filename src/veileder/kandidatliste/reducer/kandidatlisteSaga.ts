@@ -7,10 +7,9 @@ import {
     fetchUsynligKandidat,
     postFormidlingerAvUsynligKandidat,
     putKandidatlistestatus,
-} from './../../api';
+} from '../../api/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { INVALID_RESPONSE_STATUS, SEARCH } from '../../sok/searchReducer';
-import { SearchApiError } from '../../../felles/api';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import KandidatlisteAction, {
     OpprettKandidatlisteAction,
@@ -55,8 +54,9 @@ import {
     putStatusKandidat,
     putArkivert,
     putFormidlingsutfallForUsynligKandidat,
-} from '../../api';
+} from '../../api/api';
 import { Kandidatliste } from '../kandidatlistetyper';
+import { SearchApiError } from '../../api/fetchUtils';
 
 const loggManglendeAktørId = (kandidatliste: Kandidatliste) => {
     const aktøridRegex = /[0-9]{13}/;

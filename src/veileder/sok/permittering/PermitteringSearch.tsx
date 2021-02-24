@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Checkbox } from 'nav-frontend-skjema';
 import AppState from '../../AppState';
 import { connect } from 'react-redux';

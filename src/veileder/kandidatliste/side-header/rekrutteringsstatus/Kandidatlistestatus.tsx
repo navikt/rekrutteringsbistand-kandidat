@@ -10,7 +10,7 @@ import LåstHengelås from './LåstHengelås';
 import KandidatlisteActionType from '../../reducer/KandidatlisteActionType';
 import './Kandidatlistestatus.less';
 import AppState from '../../../AppState';
-import { Nettstatus } from '../../../../felles/common/remoteData';
+import { Nettstatus } from '../../../api/remoteData';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';
 import NudgeAvsluttOppdragModal from '../../modaler/NudgeAvsluttOppdragModal';
 import { skalViseModal } from './skalViseAvsluttOppdragModal';
@@ -108,7 +108,7 @@ const Kandidatlistestatus: FunctionComponent<Props> = ({
                     </Normaltekst>
                 )}
                 {erKnyttetTilStilling &&
-                    !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
+                !antallStillinger && ( // TODO: fjerne denne bolken når alle kandidatlistene er oppdatert fra stilling
                         <Normaltekst>
                             {besatteStillinger === 0 ? 'Ingen' : besatteStillinger} stilling
                             {besatteStillinger === 1 ? '' : 'er'} er besatt

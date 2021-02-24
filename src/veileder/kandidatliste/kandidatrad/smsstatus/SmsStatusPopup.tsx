@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import SendSmsIkon from './SendSmsIkon';
 import { Sms, SmsStatus } from '../../kandidatlistetyper';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import MedPopover from '../../../../felles/common/med-popover/MedPopover';
+import MedPopover from '../../../common/med-popover/MedPopover';
 import './SmsStatusPopup.less';
 
 const formaterSendtDato = (dato: Date) => {

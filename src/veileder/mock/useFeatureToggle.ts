@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import AppState from '../AppState';
-import FEATURE_TOGGLES from '../../felles/konstanter';
+import FEATURE_TOGGLES from '../common/konstanter';
 
 export const useFeatureToggle = (toggle: string) => {
     if (!FEATURE_TOGGLES.includes(toggle)) {

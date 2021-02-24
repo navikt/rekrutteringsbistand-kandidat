@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Nettstatus } from '../../felles/common/remoteData';
+import { Nettstatus } from '../api/remoteData';
 import AppState from '../AppState';
 import KandidatlisteOgModaler from './KandidatlisteOgModaler';
 import NavFrontendSpinner from 'nav-frontend-spinner';

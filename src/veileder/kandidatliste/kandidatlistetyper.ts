@@ -1,5 +1,5 @@
 import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import { RemoteData } from './../../felles/common/remoteData';
+import { RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../../veileder/sok/Søkeresultat';
 

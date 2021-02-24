@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { RemoteData, Nettstatus } from '../../../felles/common/remoteData';
+import { RemoteData, Nettstatus } from '../../api/remoteData';
 import { Kandidatliste } from '../kandidatlistetyper';
 import AppState from '../../AppState';
 

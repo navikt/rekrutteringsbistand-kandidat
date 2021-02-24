@@ -7,7 +7,6 @@ import {
 } from './../filter/filter-utils';
 import { Kandidatlistefilter, Navn } from '../kandidatlistetyper';
 import { Visningsstatus } from './../Kandidatliste';
-import { SearchApiError } from './../../../felles/api';
 import {
     Kandidat,
     Sms,
@@ -17,7 +16,7 @@ import {
     Kandidattilstand,
 } from './../kandidatlistetyper';
 import KandidatlisteActionType from './KandidatlisteActionType';
-import { LAGRE_STATUS } from '../../../felles/konstanter';
+import { LAGRE_STATUS } from '../../common/konstanter';
 import { Reducer } from 'redux';
 import {
     Nettressurs,
@@ -29,9 +28,10 @@ import {
     RemoteData,
     senderInn,
     suksess,
-} from '../../../felles/common/remoteData';
+} from '../../api/remoteData';
 import KandidatlisteAction from './KandidatlisteAction';
 import { Delestatus, HentStatus, Kandidatliste } from '../kandidatlistetyper';
+import { SearchApiError } from '../../api/fetchUtils';
 
 type FormidlingId = string;
 

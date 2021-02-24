@@ -4,8 +4,8 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import PropTypes from 'prop-types';
 
 import { HentCvStatus, CvActionType } from './cv/reducer/cvReducer';
-import { Nettstatus } from '../../felles/common/remoteData.ts';
-import cvPropTypes from '../../felles/PropTypes';
+import { Nettstatus } from '../api/remoteData.ts';
+import cvPropTypes from '../common/PropTypes';
 import ForrigeNeste from './header/forrige-neste/ForrigeNeste.tsx';
 import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
@@ -15,7 +15,7 @@ import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUti
 import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../application/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
-import '../../felles/common/ikoner/ikoner.less';
+import '../common/ikoner.less';
 
 class VisKandidatFraLister extends React.Component {
     componentDidMount() {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import MedPopover from '../../../felles/common/med-popover/MedPopover';
+import MedPopover from '../../common/med-popover/MedPopover';
 import './KnappMedHjelpetekst.less';
 
 const KnappMedHjelpetekst = ({ disabled, onClick, children, spinner, hjelpetekst, id, tittel }) =>

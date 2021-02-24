@@ -10,18 +10,18 @@ import {
     Kandidatstatus,
     SmsStatus,
 } from './kandidatlistetyper';
-import { LAGRE_STATUS } from '../../felles/konstanter';
-import { Nettressurs, Nettstatus } from '../../felles/common/remoteData';
+import { LAGRE_STATUS } from '../common/konstanter';
+import { Nettressurs, Nettstatus } from '../api/remoteData';
 import { sendEvent } from '../amplitude/amplitude';
 import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import AppState from '../AppState';
 import EndreUtfallModal from './modaler/EndreUtfallModal';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../common/HjelpetekstFading';
 import Kandidatliste, { Visningsstatus } from './Kandidatliste';
 import KandidatlisteAction from './reducer/KandidatlisteAction';
 import KandidatlisteActionType from './reducer/KandidatlisteActionType';
 import KopierEpostModal from './modaler/KopierEpostModal';
-import PresenterKandidaterModal from './modaler/PresenterKandidaterModal';
+import PresenterKandidaterModal from './modaler/presenter-kandidater/PresenterKandidaterModal';
 import SendSmsModal from './modaler/SendSmsModal';
 import './Kandidatliste.less';
 import { Kandidatresultat } from '../kandidatside/cv/reducer/cv-typer';

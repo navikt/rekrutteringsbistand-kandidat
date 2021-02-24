@@ -9,9 +9,9 @@ import {
     Undertittel,
 } from 'nav-frontend-typografi';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import cvPropTypes from '../../../../felles/PropTypes';
-import sortByDato from '../../../../felles/common/SortByDato';
-import Tidsperiode from '../../../../felles/common/Tidsperiode';
+import cvPropTypes from '../../../common/PropTypes';
+import sortByDato from './SortByDato';
+import Tidsperiode from './Tidsperiode';
 import './Cv.less';
 
 const VisCvBeskrivelse = ({ beskrivelse }) => {

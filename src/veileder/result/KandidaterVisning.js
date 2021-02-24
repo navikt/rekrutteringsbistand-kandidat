@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
-import cvPropTypes from '../../felles/PropTypes';
+import cvPropTypes from '../common/PropTypes';
 import { Kandidatliste } from '../kandidatliste/PropTypes';
 import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
 import './Resultat.less';
-import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../felles/konstanter';
+import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../common/konstanter';
 import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
@@ -16,7 +16,7 @@ import {
 } from '../sok/searchReducer';
 import LagreKandidaterTilStillingModal from './LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from './LagreKandidaterModal';
-import { Nettstatus } from '../../felles/common/remoteData.ts';
+import { Nettstatus } from '../api/remoteData.ts';
 import { formatterInt } from '../sok/utils';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { sendEvent } from '../amplitude/amplitude';
@@ -231,11 +231,8 @@ class KandidaterVisning extends React.Component {
                     />
                 )}
                 <div className="resultatvisning--header">
-                    <Undertittel className="text--left inline">
-                        <strong id="antall-kandidater-treff">
-                            {formatterInt(totaltAntallTreff)}
-                        </strong>
-                        {panelTekst}
+                    <Undertittel>
+                        {formatterInt(totaltAntallTreff)} {panelTekst}
                     </Undertittel>
                     <KnappMedHjelpetekst
                         hjelpetekst="Du må huke av for kandidatene du ønsker å lagre."

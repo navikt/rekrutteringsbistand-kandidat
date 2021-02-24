@@ -4,7 +4,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 
 import { appPrefiks } from './paths';
-import { getMiljø, Miljø } from '../../felles/common/miljøUtils';
+import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import CvSide from '../kandidatside/cv/CvSide';
 import DefaultKandidatsøk from '../result/DefaultKandidatsøk';

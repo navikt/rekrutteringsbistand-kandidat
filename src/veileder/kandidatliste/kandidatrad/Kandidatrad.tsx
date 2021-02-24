@@ -9,7 +9,7 @@ import { KandidatIKandidatliste, Kandidatliste, Kandidatlistestatus } from '../k
 import { lenkeTilCv } from '../../application/paths';
 import { MidlertidigUtilgjengeligState } from '../../kandidatside/midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { modifierTilListeradGrid } from '../liste-header/ListeHeader';
-import { Nettstatus } from '../../../felles/common/remoteData';
+import { Nettstatus } from '../../api/remoteData';
 import { sendEvent } from '../../amplitude/amplitude';
 import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteAction from '../reducer/KandidatlisteAction';
@@ -19,7 +19,7 @@ import StatusSelect, { Statusvisning } from './statusSelect/StatusSelect';
 import TilgjengelighetFlagg from '../../result/kandidater-tabell/tilgjengelighet-flagg/TilgjengelighetFlagg';
 import UtfallMedEndreIkon, { Utfall } from './utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Kandidatrad.less';
-import Lenkeknapp from '../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../common/lenkeknapp/Lenkeknapp';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';

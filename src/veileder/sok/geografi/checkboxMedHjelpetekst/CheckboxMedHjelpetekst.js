@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'nav-frontend-skjema';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import MedPopover from '../med-popover/MedPopover';
+import MedPopover from '../../../common/med-popover/MedPopover';
 import './CheckboxMedHjelpetekst.less';
 
 const CheckboxMedHjelpetekst = ({ id, label, checked, onChange, disabled, tittel }) => {

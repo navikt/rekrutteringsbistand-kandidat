@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Checkbox } from 'nav-frontend-skjema';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import { SEARCH } from '../searchReducer';
-import { ALERTTYPE, INNSATSGRUPPER } from '../../../felles/konstanter';
+import { ALERTTYPE, INNSATSGRUPPER } from '../../common/konstanter';
 import {
     CHECK_INNSATSGRUPPE,
     UNCHECK_INNSATSGRUPPE,
@@ -58,7 +58,7 @@ class InnsatsgruppeSearch extends React.Component {
                     ))}
                 </div>
                 {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.INNSATSGRUPPE && (
-                    <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                    <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
                 )}
             </SokekriteriePanel>
         );

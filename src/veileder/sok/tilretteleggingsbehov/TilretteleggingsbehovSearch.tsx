@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 
 import { SEARCH } from '../searchReducer';
 import {

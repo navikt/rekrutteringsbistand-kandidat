@@ -12,13 +12,13 @@ import {
     TOGGLE_GEOGRAFI_PANEL_OPEN,
     TOGGLE_MA_BO_INNENFOR_GEOGRAFI,
 } from './geografiReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import CheckboxMedHjelpetekst from '../../../felles/common/checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import CheckboxMedHjelpetekst from './checkboxMedHjelpetekst/CheckboxMedHjelpetekst';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 import './Geografi.less';
 
 const GeografiSearch = ({ ...props }) => {
@@ -150,7 +150,7 @@ const GeografiSearch = ({ ...props }) => {
                 </div>
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.GEOGRAFI && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

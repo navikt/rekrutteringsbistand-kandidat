@@ -9,8 +9,8 @@ import fnrValidator from '@navikt/fnrvalidator';
 
 import { HentStatus, Kandidatliste, Navn } from '../../kandidatlistetyper';
 import { Kandidatresultat } from '../../../kandidatside/cv/reducer/cv-typer';
-import { LAGRE_STATUS } from '../../../../felles/konstanter';
-import { Nettstatus, Nettressurs } from '../../../../felles/common/remoteData';
+import { LAGRE_STATUS } from '../../../common/konstanter';
+import { Nettstatus, Nettressurs } from '../../../api/remoteData';
 import AppState from '../../../AppState';
 import KandidatenFinnesIkke from './KandidatenFinnesIkke';
 import KandidatlisteAction from '../../reducer/KandidatlisteAction';

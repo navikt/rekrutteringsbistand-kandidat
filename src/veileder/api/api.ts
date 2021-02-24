@@ -1,6 +1,6 @@
-import { Kandidatlistestatus, Kandidatstatus } from './kandidatliste/kandidatlistetyper';
-import FEATURE_TOGGLES from './../felles/konstanter';
-import { ResponseData } from '../felles/common/remoteData';
+import { Kandidatlistestatus, Kandidatstatus } from '../kandidatliste/kandidatlistetyper';
+import FEATURE_TOGGLES from '../common/konstanter';
+import { ResponseData } from './remoteData';
 import {
     createCallIdHeader,
     deleteJsonMedType,
@@ -9,11 +9,11 @@ import {
     fetchJson,
     postJson,
     putJson,
-} from '../felles/api';
-import { FerdigutfylteStillingerKlikk } from './result/viktigeyrker/Bransje';
-import { Utfall } from './kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import { Kandidatliste } from './kandidatliste/kandidatlistetyper';
-import { FormidlingAvUsynligKandidatOutboundDto } from './kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
+} from './fetchUtils';
+import { FerdigutfylteStillingerKlikk } from '../result/viktigeyrker/Bransje';
+import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
+import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 
 const baseUrl = `/rekrutteringsbistand-kandidat`;
 
@@ -23,7 +23,7 @@ export const SMS_API = `${baseUrl}/sms-api`;
 export const MIDLERTIDIG_UTILGJENGELIG_API = `${baseUrl}/midlertidig-utilgjengelig-api`;
 
 if (process.env.REACT_APP_MOCK) {
-    require('./mock/api.ts');
+    require('../mock/api.ts');
 }
 
 const convertToUrlParams = (query) =>

@@ -1,11 +1,11 @@
 import { InitialQuery, mapStillingTilInitialQuery, mapUrlToInitialQuery } from './searchQuery';
 import { call, put } from 'redux-saga/effects';
-import { fetchGeografiKode, fetchStillingFraListe } from '../api';
+import { fetchGeografiKode, fetchStillingFraListe } from '../api/api';
 import { SEARCH_FAILURE, SET_STATE } from './searchReducer';
-import { SearchApiError } from '../../felles/api';
 import { search } from './typedSearchReducer';
 import { Geografi } from '../result/fant-få-kandidater/FantFåKandidater';
 import { formatterStedsnavn } from './utils';
+import { SearchApiError } from '../api/fetchUtils';
 
 interface SøkMedInfoFraStillingAction {
     stillingsId: string;

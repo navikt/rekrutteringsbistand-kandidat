@@ -1,14 +1,14 @@
-import { Nettressurs, Nettstatus, senderInn } from '../../../felles/common/remoteData';
+import { Nettressurs, Nettstatus, senderInn } from '../../api/remoteData';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../../felles/common/remoteData';
+import { ApiError, feil, ikkeLastet, lasterInn, suksess } from '../../api/remoteData';
 import { CvAction, CvActionType, FetchCvSuccessAction } from '../cv/reducer/cvReducer';
 import {
     deleteMidlertidigUtilgjengelig,
     fetchMidlertidigUtilgjengelig,
     postMidlertidigUtilgjengelig,
     putMidlertidigUtilgjengelig,
-} from '../../api';
-import { SearchApiError } from '../../../felles/api';
+} from '../../api/api';
+import { SearchApiError } from '../../api/fetchUtils';
 
 export type FetchMidlertidigUtilgjengeligAction = {
     type: 'FETCH_MIDLERTIDIG_UTILGJENGELIG';

@@ -5,13 +5,13 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { KandidatlisteSammendrag, MarkerSomMinStatus } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisterFilter } from './KandidatlisterFilter/KandidatlisterFilter';
 import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/KandidatlisterSideHeader';
-import { LAGRE_STATUS } from '../../felles/konstanter';
+import { LAGRE_STATUS } from '../common/konstanter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
-import { Nettressurs, Nettstatus } from '../../felles/common/remoteData';
+import { Nettressurs, Nettstatus } from '../api/remoteData';
 import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../sok/searchReducer';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading';
+import HjelpetekstFading from '../common/HjelpetekstFading';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatlistevisning from './Kandidatlistevisning';
 import ListeHeader from './ListeHeader';
@@ -400,7 +400,10 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
         dispatch({ type: ListeoversiktActionType.MARKER_KANDIDATLISTE_SOM_MIN, kandidatlisteId });
     },
     slettKandidatliste: (kandidatlisteSammendrag: KandidatlisteSammendrag) => {
-        dispatch({ type: ListeoversiktActionType.SLETT_KANDIDATLISTE, kandidatliste: kandidatlisteSammendrag });
+        dispatch({
+            type: ListeoversiktActionType.SLETT_KANDIDATLISTE,
+            kandidatliste: kandidatlisteSammendrag,
+        });
     },
     resetSletteStatus: () => {
         dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });

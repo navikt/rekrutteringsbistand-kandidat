@@ -11,12 +11,12 @@ import {
     REMOVE_SELECTED_SPRAK,
     TOGGLE_SPRAK_PANEL_OPEN,
 } from './sprakReducer';
-import { ALERTTYPE, BRANCHNAVN } from '../../../felles/konstanter';
-import SokekriteriePanel from '../../../felles/common/sokekriteriePanel/SokekriteriePanel';
+import { ALERTTYPE, BRANCHNAVN } from '../../common/konstanter';
+import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
 import { Element } from 'nav-frontend-typografi';
 import Typeahead from '../typeahead/Typeahead';
 import { Merkelapp } from 'pam-frontend-merkelapper';
-import AlertStripeInfo from '../../../felles/common/AlertStripeInfo';
+import FåKandidaterAlert from '../få-kandidater-alert/FåKandidaterAlert';
 
 const SprakSearch = ({ ...props }) => {
     const {
@@ -105,7 +105,7 @@ const SprakSearch = ({ ...props }) => {
                 </div>
             </div>
             {totaltAntallTreff <= 10 && visAlertFaKandidater === ALERTTYPE.SPRAK && (
-                <AlertStripeInfo totaltAntallTreff={totaltAntallTreff} />
+                <FåKandidaterAlert totaltAntallTreff={totaltAntallTreff} />
             )}
         </SokekriteriePanel>
     );

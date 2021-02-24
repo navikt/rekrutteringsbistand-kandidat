@@ -28,7 +28,7 @@ import {
     MIDLERTIDIG_UTILGJENGELIG_API,
     SMS_API,
     ENHETSREGISTER_API,
-} from '../api';
+} from '../api/api';
 
 fetchMock.config.fallbackToNetwork = true;
 

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import UtfallLabel from './UtfallLabel';
-import Lenkeknapp from '../../../../felles/common/Lenkeknapp';
+import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import '@reach/menu-button/styles.css';
 import './UtfallMedEndreIkon.less';
 

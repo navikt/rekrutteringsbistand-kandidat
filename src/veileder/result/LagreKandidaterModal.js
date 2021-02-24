@@ -6,10 +6,10 @@ import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typ
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Kandidatliste } from '../kandidatliste/PropTypes';
-import { formatterDato } from '../../felles/common/dateUtils';
+import { formatterDato } from '../utils/dateUtils';
 import { capitalizeEmployerName } from '../sok/utils';
-import { LAGRE_STATUS } from '../../felles/konstanter';
-import HjelpetekstFading from '../../felles/common/HjelpetekstFading.tsx';
+import { LAGRE_STATUS } from '../common/konstanter';
+import HjelpetekstFading from '../common/HjelpetekstFading.tsx';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { HentStatus } from '../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
