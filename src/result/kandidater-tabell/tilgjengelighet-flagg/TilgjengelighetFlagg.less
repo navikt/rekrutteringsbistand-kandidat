@@ -1,0 +1,32 @@
+@import 'src/variabler.less';
+
+.tilgjengelighet-flagg {
+    &__ikon {
+        transform: scale(1.7);
+    }
+
+    &__popover {
+        .popover__pil {
+            background-color: @navLysBlaLighten80;
+        }
+    }
+
+    &__popover-innhold {
+        padding: 1rem;
+        background-color: @navLysBlaLighten80;
+    }
+
+    &__knapp {
+        background: none;
+        border: none;
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px @fokusFarge;
+        }
+
+        &:not(:disabled) {
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,196 @@
+@import 'src/variabler.less';
+
+.kandidatliste-kandidat {
+    border: 1px solid @navGra20;
+    border-radius: 4px;
+    background-color: white;
+
+    &--checked {
+        border-color: #0067c5;
+    }
+
+    &--disabled {
+        border-color: @navGra60;
+        background-color: @navLysGra;
+    }
+
+    &:not(&__header) {
+        margin-top: 0.5rem;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px @fokusFarge;
+    }
+
+    &__header {
+        border: 1px solid #78706a;
+    }
+
+    &__antall-notater {
+        margin-right: 0.4rem;
+    }
+
+    &__lagt-til {
+        flex-wrap: wrap;
+        align-content: center;
+    }
+
+    &__chevron {
+        display: none;
+
+        @media (min-width: 1400px) {
+            display: unset;
+        }
+    }
+
+    &__wrap-hvor-som-helst {
+        overflow-wrap: anywhere;
+    }
+
+    &__kolonne-med-sms {
+        .lenke {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .hjelpetekst {
+            padding-left: 0.5rem;
+        }
+    }
+
+    &__tabell-tekst-inner {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__kolonne-checkboks {
+        padding-right: 1.25rem;
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            .skjemaelement {
+                padding-bottom: 1.5rem;
+            }
+        }
+    }
+
+    &__kolonne-midtstilt {
+        justify-content: center;
+        white-space: nowrap;
+    }
+
+    &__kolonne-høyrestilt {
+        justify-content: flex-end;
+    }
+
+    &__kolonne-med-hjelpetekst {
+        display: flex;
+        align-items: center;
+
+        .hjelpetekst {
+            margin-right: 0.5rem;
+            color: @navMorkGra;
+        }
+    }
+
+    &__fokuserbar-knapp {
+        padding: 0.25rem;
+    }
+
+    &__kolonne-tittel {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__rad {
+        height: 4.5rem;
+        display: grid;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        grid-template-columns:
+            1.6fr
+            minmax(0, 1fr)
+            minmax(0, 9fr)
+            minmax(0, 7fr)
+            minmax(0, 8fr)
+            minmax(0, 5fr)
+            minmax(0, 9fr)
+            minmax(0, 3fr)
+            minmax(0, 3fr);
+
+        &--vis-arkivering {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
+        }
+
+        &--vis-utfall {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 10fr)
+                minmax(0, 7fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 7fr)
+                minmax(0, 10fr)
+                minmax(0, 4fr)
+                minmax(0, 3fr);
+        }
+
+        &--vis-utfall-og-arkivering {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
+        }
+
+        > * {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__kolonne-sorterbar {
+        padding-left: 0.5rem;
+    }
+
+    .mer-info {
+        display: flex;
+
+        .kontaktinfo-kolonne {
+            flex: 2;
+        }
+
+        .innsatsgruppe-kolonne {
+            flex: 1;
+        }
+
+        .tekst {
+            margin-top: 1rem;
+            line-height: 1.3rem;
+        }
+    }
+
+    .StatusSelect {
+        max-width: 11rem;
+        min-width: 6rem;
+    }
+}

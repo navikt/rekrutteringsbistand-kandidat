@@ -1,0 +1,184 @@
+@import '~nav-frontend-paneler-style/src/index';
+@import '~nav-frontend-skjema-style/src/index';
+@import '~nav-frontend-grid-style/src/index';
+@import '~pam-frontend-merkelapper/dist/style.css';
+@import '../variabler.less';
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    min-height: 100%;
+    overflow-y: scroll;
+    color: @navMorkGra;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.checkboks + .skjemaelement__label {
+    padding-left: 32px;
+    line-height: 24px;
+    width: 100%;
+}
+
+.checkboks + .skjemaelement__label:before {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: solid 2px #c6c2bf;
+}
+
+.checkboks:hover + .skjemaelement__label:before {
+    // border-color: @navGronnDarken40;
+    border-width: 2px;
+}
+
+.border--bottom--medium {
+    border-bottom: solid 2px rgba(120, 112, 106, 0.5);
+    border-radius: 0;
+    margin-top: 1rem;
+}
+
+.border--bottom--thin {
+    border-bottom: solid 1px @navGra20;
+    border-radius: 0;
+}
+
+.border--top--thin {
+    border-top: solid 1px rgba(120, 112, 106, 0.5);
+    border-radius: 0;
+}
+
+.border--bottom--thin--margin {
+    margin: 2rem 0 1rem 0;
+}
+
+.TilbakeLenke {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+}
+
+.TilbakeLenke__lenke {
+    margin-left: 4px;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.hjelpetekst__apneknapp:focus {
+    box-shadow: 0 0 0 2pt @orangeFocus;
+}
+
+.knapp--sokekriterier {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    text-align: center;
+    word-break: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.fading {
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    margin-bottom: -3.5rem;
+}
+
+.fading.synlig {
+    opacity: 1;
+    visibility: visible;
+}
+
+.HjelpetekstFading {
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.HjelpetekstFading.alertstripe {
+    .alertstripe__tekst {
+        flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        -webkit-flex: 0 1 auto;
+    }
+    .alertstripe__ikon {
+        margin-right: 0;
+        padding-right: 0;
+        width: 2.2rem;
+    }
+}
+
+.FadingAlertStripeLiten.alertstripe {
+    .alertstripe__tekst {
+        flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        -webkit-flex: 0 1 auto;
+    }
+    .alertstripe__ikon {
+        margin-right: 0;
+        padding-right: 0;
+        width: 2.2rem;
+    }
+    &.fading {
+        margin-right: 2rem;
+        .alertstripe__tekst {
+            display: none;
+        }
+    }
+
+    &.fading.synlig {
+        margin-bottom: 2rem;
+        .alertstripe__tekst {
+            display: block;
+        }
+    }
+}
+
+.modal--bekreft {
+    padding: 1.5rem 2rem 1.5rem 2rem !important;
+    .knapp--hoved {
+        margin-right: 2.5rem;
+    }
+}
+
+select {
+    color: @navMorkGra;
+}
+
+@media (max-width: @screen-xs-max) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+.alertstripe__ikon {
+    align-items: center;
+}
+
+.hjelpetekst__tooltip {
+    background-color: @navBlaDarken80;
+    &:before,
+    :after {
+        background-color: @navBlaDarken80;
+    }
+}
+
+.knapp--flat,
+.knapp--standard:not(:active):not(:hover):not(:disabled) {
+    background-color: transparent;
+}

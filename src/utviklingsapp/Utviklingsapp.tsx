@@ -3,7 +3,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { Link, Router } from 'react-router-dom';
 
 import { cssScopeForApp } from '../index';
-import { Main } from '../veileder/App';
+import { Main } from '../App';
 import history from './history';
 import './Utviklingsapp.less';
 

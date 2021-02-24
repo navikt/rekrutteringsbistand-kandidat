@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import Navspa from '@navikt/navspa';
 
-import { AppProps, Main } from './veileder/App';
+import { AppProps, Main } from './App';
 import Utviklingsapp from './utviklingsapp/Utviklingsapp';
 
 // Alle klassenavn blir prefikset med ".rek-kandidat" i craco-configen, så også koden
