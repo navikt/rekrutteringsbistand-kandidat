@@ -254,22 +254,19 @@ class LagreKandidaterModal extends React.Component {
                 appElement={document.getElementById('app')}
             >
                 <div>
-                    <HjelpetekstFading
-                        synlig={visKandidaterLagret}
-                        type="suksess"
-                        innhold={`${
-                            antallLagredeKandidater > 1
-                                ? `${antallLagredeKandidater} kandidater`
-                                : 'Kandidaten'
-                        } er lagret i
-                            ${
-                                lagretKandidatliste.length > 1
-                                    ? `${lagretKandidatliste.length} lister`
-                                    : `kandidatlisten «${lagretKandidatliste.tittel}»`
-                            }`}
-                        id="hjelpetekstfading"
-                        className="LagreKandidaterModal__hjelpetekst"
-                    />
+                    {lagretKandidatliste && (
+                        <HjelpetekstFading
+                            synlig={visKandidaterLagret}
+                            type="suksess"
+                            innhold={`${
+                                antallLagredeKandidater > 1
+                                    ? `${antallLagredeKandidater} kandidater`
+                                    : 'Kandidaten'
+                            } er lagret i kandidatlisten «${lagretKandidatliste.tittel}»`}
+                            id="hjelpetekstfading"
+                            className="LagreKandidaterModal__hjelpetekst"
+                        />
+                    )}
                     <div className="LagreKandidaterModal--wrapper">
                         <Systemtittel className="tittel">Lagre kandidater</Systemtittel>
                         <Row className="lister--rader">
@@ -386,7 +383,7 @@ LagreKandidaterModal.propTypes = {
     lagretKandidatliste: PropTypes.shape({
         kandidatlisteId: PropTypes.string,
         tittel: PropTypes.string,
-    }).isRequired,
+    }),
     resetKandidatlisterSokekriterier: PropTypes.func.isRequired,
 };
 
