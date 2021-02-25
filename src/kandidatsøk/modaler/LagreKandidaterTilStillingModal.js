@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import ModalMedKandidatScope from '../common/ModalMedKandidatScope';
+import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import './LagreKandidaterTilStillingModal.less';
 
 const LagreKandidaterTilStillingModal = (props) => {
     const {

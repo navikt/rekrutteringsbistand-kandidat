@@ -18,8 +18,8 @@ import IkkeFunnet from './ikke-funnet/IkkeFunnet';
 import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
-import LagreKandidaterModal from '../kandidatsøk/LagreKandidaterModal';
-import LagreKandidaterTilStillingModal from '../kandidatsøk/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from '../kandidatsøk/modaler/LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from '../kandidatsøk/modaler/LagreKandidaterTilStillingModal';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
 import './VisKandidat.less';
 import {

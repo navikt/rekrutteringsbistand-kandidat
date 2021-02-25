@@ -5,17 +5,18 @@ import PropTypes from 'prop-types';
 import { Element, Normaltekst, Systemtittel, Undertekst } from 'nav-frontend-typografi';
 import { Row } from 'nav-frontend-grid';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Kandidatliste } from '../kandidatliste/PropTypes';
-import { formatterDato } from '../utils/dateUtils';
-import { capitalizeEmployerName } from './utils';
-import { LAGRE_STATUS } from '../common/konstanter';
-import HjelpetekstFading from '../common/HjelpetekstFading.tsx';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import { HentStatus } from '../kandidatliste/kandidatlistetyper';
+import { Kandidatliste } from '../../kandidatliste/PropTypes';
+import { formatterDato } from '../../utils/dateUtils';
+import { capitalizeEmployerName } from '../utils';
+import { LAGRE_STATUS } from '../../common/konstanter';
+import HjelpetekstFading from '../../common/HjelpetekstFading.tsx';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import { HentStatus } from '../../kandidatliste/kandidatlistetyper';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Søkeknapp } from 'nav-frontend-ikonknapper';
-import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
-import ModalMedKandidatScope from '../common/ModalMedKandidatScope';
+import { ListeoversiktActionType } from '../../listeoversikt/reducer/ListeoversiktAction';
+import ModalMedKandidatScope from '../../common/ModalMedKandidatScope';
+import './LagreKandidaterModal.less';
 
 const PAGINERING_BATCH_SIZE = 5;
 
