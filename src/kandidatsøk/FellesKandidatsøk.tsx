@@ -1,10 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { match } from 'react-router-dom';
-import DefaultKandidatsøk from './DefaultKandidatsøk';
-import KandidatsøkFraKandidatliste from './KandidatsøkFraKandidatliste';
-import KandidatsøkFraStilling from './KandidatsøkFraStilling';
 import { Kandidatsøk } from './Kandidatsøk';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
+import { useSelector } from 'react-redux';
+import AppState from '../AppState';
+import { Nettstatus } from '../api/remoteData';
+import { Sidetittel } from 'nav-frontend-typografi';
+import { Container } from 'nav-frontend-grid';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -26,42 +28,36 @@ type Props = {
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
     const { kandidatlisteId, stillingsId } = match.params;
+    const iKontekstAvKandidatliste = !!kandidatlisteId;
+    const iKontekstAvStilling = !!stillingsId;
 
-    const header = <KandidatlisteHeader kandidatliste={undefined} stillingsId={stillingsId} />;
+    const kandidatlistNetteressurs = useSelector(
+        (state: AppState) => state.kandidatliste.kandidatliste
+    );
+    const kandidatliste =
+        kandidatlistNetteressurs.kind === Nettstatus.Suksess
+            ? kandidatlistNetteressurs.data
+            : undefined;
 
-    // return (
-    //     <Kandidatsøk
-    //         visFantFåKandidater={visFantFåKandidater}
-    //         stillingsId={stillingsIdFraUrl}
-    //         visSpinner={isInitialSearch}
-    //         header={header}
-    //         onRemoveCriteriaClick={onRemoveCriteriaClick}
-    //     />
-    // );
-
-    if (stillingsId) {
-        return (
-            <KandidatsøkFraStilling
-                match={{
-                    params: {
-                        stillingsId,
-                    },
-                }}
-            />
+    const header =
+        iKontekstAvKandidatliste || iKontekstAvStilling ? (
+            <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsId} />
+        ) : (
+            <Container className="container--header--uten-stilling">
+                <Sidetittel>Kandidatsøk</Sidetittel>
+            </Container>
         );
-    } else if (kandidatlisteId) {
-        return (
-            <KandidatsøkFraKandidatliste
-                match={{
-                    params: {
-                        kandidatlisteId,
-                    },
-                }}
-            />
-        );
-    } else {
-        return <DefaultKandidatsøk />;
-    }
+
+    return (
+        <Kandidatsøk
+            kandidatlisteId={kandidatlisteId || kandidatliste?.kandidatlisteId}
+            stillingsId={stillingsId}
+            visFantFåKandidater={false} // todo
+            visSpinner={false} // todo
+            header={header}
+            onRemoveCriteriaClick={() => {}}
+        />
+    );
 };
 
 export default FellesKandidatsøk;
