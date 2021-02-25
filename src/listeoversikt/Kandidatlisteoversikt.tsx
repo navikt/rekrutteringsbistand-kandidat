@@ -92,7 +92,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
 
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
-        this.resetSearchQuery();
+        // this.resetSearchQuery();
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
         this.props.fjernValgtKandidat();
     }

@@ -5,7 +5,6 @@ import {
     FETCH_FEATURE_TOGGLES_BEGIN,
     FJERN_ERROR,
     LUKK_ALLE_SOKEPANEL,
-    SET_STATE,
 } from '../kandidatsøk/reducer/searchReducer';
 import { sendEvent } from '../amplitude/amplitude';
 import ErrorSide from '../kandidatsøk/søkefiltre/error/ErrorSide';
@@ -137,7 +136,6 @@ const mapDispatchToProps = (dispatch) => ({
     fetchFeatureToggles: () => dispatch({ type: FETCH_FEATURE_TOGGLES_BEGIN }),
     fjernError: () => dispatch({ type: FJERN_ERROR }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
-    resetQuery: (query) => dispatch({ type: SET_STATE, query }),
     velgNavKontor: (valgtNavKontor: string) =>
         dispatch({ type: NavKontorActionTypes.VelgNavKontor, valgtNavKontor }),
 });
