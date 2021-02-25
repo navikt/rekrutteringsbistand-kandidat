@@ -6,7 +6,6 @@ import { Undertittel } from 'nav-frontend-typografi';
 import cvPropTypes from '../common/PropTypes';
 import { Kandidatliste } from '../kandidatliste/PropTypes';
 import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
-import './Resultat.less';
 import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../common/konstanter';
 import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
@@ -14,8 +13,8 @@ import {
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
 } from './reducer/searchReducer';
-import LagreKandidaterTilStillingModal from './LagreKandidaterTilStillingModal';
-import LagreKandidaterModal from './LagreKandidaterModal';
+import LagreKandidaterTilStillingModal from './modaler/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from './modaler/LagreKandidaterModal';
 import { Nettstatus } from '../api/remoteData.ts';
 import { formatterInt } from './utils';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';

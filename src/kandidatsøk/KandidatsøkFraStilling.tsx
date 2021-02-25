@@ -16,14 +16,15 @@ import { Kandidatsøk } from './Kandidatsøk';
 import { KandidatlisteHeader } from './KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
-import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
+import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../app/paths';
+import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
-type Props = DefaultKandidatsøkProps & {
+type Props = FellesKandidatsøkProps & {
     maksAntallTreff: number;
     leggTilKandidatStatus: string;
     antallLagredeKandidater: number;
