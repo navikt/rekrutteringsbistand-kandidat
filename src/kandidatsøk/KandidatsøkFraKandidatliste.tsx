@@ -15,14 +15,14 @@ import { Kandidatsøk } from './Kandidatsøk';
 import { KandidatlisteHeader } from './KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
-import { DefaultKandidatsøkProps, hentQueryUtenKriterier } from './DefaultKandidatsøk';
+import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
+import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
-type Props = DefaultKandidatsøkProps & {
-    maksAntallTreff: number;
+type Props = FellesKandidatsøkProps & {
     leggTilKandidatStatus: string;
     antallLagredeKandidater: number;
     kandidatliste: Kandidatliste | undefined;

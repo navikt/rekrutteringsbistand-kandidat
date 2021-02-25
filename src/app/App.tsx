@@ -14,7 +14,6 @@ import { NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { appPrefiks } from './paths';
 import DefaultKandidatsøk from '../kandidatsøk/DefaultKandidatsøk';
 import KandidatsøkFraKandidatliste from '../kandidatsøk/KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from '../kandidatsøk/KandidatsøkFraStilling';
@@ -28,8 +27,8 @@ import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import './App.less';
 import FellesKandidatsøk from '../kandidatsøk/FellesKandidatsøk';
+import './App.less';
 
 type Props = {
     error: {
@@ -70,55 +69,46 @@ const App: FunctionComponent<Props> = (props) => {
                     <Switch>
                         <Route
                             exact
-                            path={`${appPrefiks}/kandidatsok`}
+                            path={[
+                                '/kandidatsok',
+                                '/kandidatsok/kandidatliste/:kandidatlisteId',
+                                '/kandidatsok/stilling/:stillingsId',
+                            ]}
                             component={FellesKandidatsøk}
                         />
+
+                        <Route exact path="/kandidater" component={DefaultKandidatsøk} />
                         <Route
                             exact
-                            path={`${appPrefiks}/kandidater`}
-                            component={DefaultKandidatsøk}
-                        />
-                        <Route
-                            exact
-                            path={`${appPrefiks}/kandidater/kandidatliste/:kandidatlisteId`}
+                            path="/kandidater/kandidatliste/:kandidatlisteId"
                             component={KandidatsøkFraKandidatliste}
                         />
                         <Route
                             exact
-                            path={`${appPrefiks}/kandidater/stilling/:stillingsId`}
+                            path="/kandidater/stilling/:stillingsId"
                             component={KandidatsøkFraStilling}
                         />
+                        <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route
                             exact
-                            path={`${appPrefiks}/kandidater/lister`}
-                            component={Kandidatlisteoversikt}
-                        />
-                        <Route
-                            exact
-                            path={`${appPrefiks}/kandidater/lister/stilling/:id/detaljer`}
+                            path="/kandidater/lister/stilling/:id/detaljer"
                             component={KandidatlistesideMedStilling}
                         />
                         <Route
                             exact
-                            path={`${appPrefiks}/kandidater/lister/detaljer/:listeid`}
+                            path="/kandidater/lister/detaljer/:listeid"
                             component={KandidatlisteUtenStilling}
                         />
-                        <Route path={`${appPrefiks}/kandidater/kandidat/:kandidatnr`}>
+                        <Route path="/kandidater/kandidat/:kandidatnr">
                             <Kandidatside>
                                 <Switch>
-                                    <Route
-                                        path={`${appPrefiks}/kandidater/kandidat/:kandidatnr/cv`}
-                                    >
+                                    <Route path="/kandidater/kandidat/:kandidatnr/cv">
                                         <CvSide />
                                     </Route>
-                                    <Route
-                                        path={`${appPrefiks}/kandidater/kandidat/:kandidatnr/historikk`}
-                                    >
+                                    <Route path="/kandidater/kandidat/:kandidatnr/historikk">
                                         <Historikkside />
                                     </Route>
-                                    <Redirect
-                                        to={`${appPrefiks}/kandidater/kandidat/:kandidatnr/cv`}
-                                    />
+                                    <Redirect to="/kandidater/kandidat/:kandidatnr/cv" />
                                 </Switch>
                             </Kandidatside>
                         </Route>

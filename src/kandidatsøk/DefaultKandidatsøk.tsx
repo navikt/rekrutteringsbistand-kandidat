@@ -15,40 +15,13 @@ import AppState from '../AppState';
 import { harUrlParametere } from './reducer/searchQuery';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { Sidetittel } from 'nav-frontend-typografi';
+import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
-export const hentQueryUtenKriterier = (
-    harHentetStilling: boolean,
-    kandidatlisteId: string | undefined
-) => ({
-    fritekst: '',
-    stillinger: [],
-    arbeidserfaringer: [],
-    utdanninger: [],
-    kompetanser: [],
-    geografiList: [],
-    geografiListKomplett: [],
-    totalErfaring: [],
-    utdanningsniva: [],
-    sprak: [],
-    kvalifiseringsgruppeKoder: [],
-    maaBoInnenforGeografi: false,
-    harHentetStilling: harHentetStilling,
-    kandidatlisteId: kandidatlisteId,
-});
-
-export interface DefaultKandidatsøkProps {
-    resetQuery: (query: any) => void;
-    leggUrlParametereIStateOgSøk: (href: string) => void;
-    search: () => void;
-    removeKompetanseSuggestions: () => void;
-    isInitialSearch: boolean;
-    harHentetStilling: boolean;
-    resetKandidatlisterSokekriterier: () => void;
-    lukkAlleSokepanel: () => void;
+type Props = FellesKandidatsøkProps & {
     søkestateKommerFraAnnetSøk: boolean;
-}
+};
 
-const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
+const DefaultKandidatsøk: FunctionComponent<Props> = ({
     isInitialSearch,
     leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
@@ -93,6 +66,26 @@ const DefaultKandidatsøk: FunctionComponent<DefaultKandidatsøkProps> = ({
         />
     );
 };
+
+export const hentQueryUtenKriterier = (
+    harHentetStilling: boolean,
+    kandidatlisteId: string | undefined
+) => ({
+    fritekst: '',
+    stillinger: [],
+    arbeidserfaringer: [],
+    utdanninger: [],
+    kompetanser: [],
+    geografiList: [],
+    geografiListKomplett: [],
+    totalErfaring: [],
+    utdanningsniva: [],
+    sprak: [],
+    kvalifiseringsgruppeKoder: [],
+    maaBoInnenforGeografi: false,
+    harHentetStilling: harHentetStilling,
+    kandidatlisteId: kandidatlisteId,
+});
 
 const mapStateToProps = (state: AppState) => ({
     isInitialSearch: state.søk.isInitialSearch,
