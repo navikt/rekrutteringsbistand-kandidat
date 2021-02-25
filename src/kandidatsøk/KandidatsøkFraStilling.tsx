@@ -23,17 +23,11 @@ import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
 type Props = FellesKandidatsøkProps & {
     maksAntallTreff: number;
-    leggTilKandidatStatus: string;
-    antallLagredeKandidater: number;
     kandidatliste: Kandidatliste | undefined;
     match: {
         params: {
             stillingsId: string;
         };
-    };
-    lagretKandidatliste: {
-        kandidatlisteId: string;
-        tittel: string;
     };
     leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
     hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
@@ -46,9 +40,6 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     match,
     kandidatliste,
     isInitialSearch,
-    antallLagredeKandidater,
-    lagretKandidatliste,
-    leggTilKandidatStatus,
     leggInfoFraStillingIStateOgSøk,
     hentKandidatlisteMedStillingsId,
     leggUrlParametereIStateOgSøk,
@@ -120,9 +111,6 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     isInitialSearch: state.søk.isInitialSearch,
-    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
     harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess

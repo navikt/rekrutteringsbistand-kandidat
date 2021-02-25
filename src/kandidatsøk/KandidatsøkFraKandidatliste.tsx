@@ -21,17 +21,11 @@ import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktA
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
 type Props = FellesKandidatsøkProps & {
-    leggTilKandidatStatus: string;
-    antallLagredeKandidater: number;
     kandidatliste: Kandidatliste | undefined;
     match: {
         params: {
             kandidatlisteId: string;
         };
-    };
-    lagretKandidatliste: {
-        kandidatlisteId: string;
-        tittel: string;
     };
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) => void;
     kandidatlisteIdFraSøk?: string;
@@ -43,9 +37,6 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
     match,
     kandidatliste,
     isInitialSearch,
-    antallLagredeKandidater,
-    lagretKandidatliste,
-    leggTilKandidatStatus,
     leggUrlParametereIStateOgSøk,
     resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
@@ -110,9 +101,6 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: AppState) => ({
     isInitialSearch: state.søk.isInitialSearch,
-    leggTilKandidatStatus: state.kandidatliste.leggTilKandidater.lagreStatus,
-    antallLagredeKandidater: state.kandidatliste.leggTilKandidater.antallLagredeKandidater,
-    lagretKandidatliste: state.kandidatliste.leggTilKandidater.lagretListe,
     harHentetStilling: state.søk.harHentetStilling,
     kandidatliste:
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
