@@ -3,6 +3,8 @@ import { match } from 'react-router-dom';
 import DefaultKandidatsøk from './DefaultKandidatsøk';
 import KandidatsøkFraKandidatliste from './KandidatsøkFraKandidatliste';
 import KandidatsøkFraStilling from './KandidatsøkFraStilling';
+import { Kandidatsøk } from './Kandidatsøk';
+import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -24,6 +26,18 @@ type Props = {
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
     const { kandidatlisteId, stillingsId } = match.params;
+
+    const header = <KandidatlisteHeader kandidatliste={undefined} stillingsId={stillingsId} />;
+
+    // return (
+    //     <Kandidatsøk
+    //         visFantFåKandidater={visFantFåKandidater}
+    //         stillingsId={stillingsIdFraUrl}
+    //         visSpinner={isInitialSearch}
+    //         header={header}
+    //         onRemoveCriteriaClick={onRemoveCriteriaClick}
+    //     />
+    // );
 
     if (stillingsId) {
         return (

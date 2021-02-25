@@ -12,7 +12,7 @@ import { Nettstatus } from '../api/remoteData';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
-import { KandidatlisteHeader } from './KandidatlisteHeader';
+import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
@@ -88,20 +88,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
         leggTilKandidaterReset();
     }, [leggTilKandidaterReset]);
 
-    const header = (
-        <Container className="container--header">
-            <KandidatlisteHeader kandidatliste={kandidatliste} />
-            <div className="container--header__lenker">
-                <Link
-                    className="TilKandidater lenke"
-                    to={`/kandidater/lister/detaljer/${kandidatlisteId}`}
-                >
-                    <i className="TilKandidater__icon" />
-                    Se kandidatliste
-                </Link>
-            </div>
-        </Container>
-    );
+    const header = <KandidatlisteHeader kandidatliste={kandidatliste} />;
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();

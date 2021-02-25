@@ -13,7 +13,7 @@ import { Nettstatus } from '../api/remoteData';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
-import { KandidatlisteHeader } from './KandidatlisteHeader';
+import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
@@ -95,24 +95,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
     }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
 
     const header = (
-        <Container className="container--header">
-            <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsIdFraUrl} />
-            <div className="container--header__lenker">
-                <Link className="SeStilling lenke" to={lenkeTilStilling(stillingsIdFraUrl)}>
-                    <i className="SeStilling__icon" />
-                    Se stilling
-                </Link>
-                {kandidatliste && (
-                    <Link
-                        className="TilKandidater lenke"
-                        to={lenkeTilKandidatliste(kandidatliste.kandidatlisteId)}
-                    >
-                        <i className="TilKandidater__icon" />
-                        Se kandidatliste
-                    </Link>
-                )}
-            </div>
-        </Container>
+        <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsIdFraUrl} />
     );
 
     const onRemoveCriteriaClick = () => {
