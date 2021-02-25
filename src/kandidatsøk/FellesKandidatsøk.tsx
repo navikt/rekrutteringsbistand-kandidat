@@ -1,12 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { match } from 'react-router-dom';
-import { Kandidatsøk } from './Kandidatsøk';
-import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { useSelector } from 'react-redux';
-import AppState from '../AppState';
+import { Column, Container } from 'nav-frontend-grid';
+import { Flatknapp } from 'nav-frontend-knapper';
+import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Nettstatus } from '../api/remoteData';
-import { Sidetittel } from 'nav-frontend-typografi';
-import { Container } from 'nav-frontend-grid';
+import AppState from '../AppState';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
+import KandidaterVisning from './KandidaterVisning';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import Søkefiltre from './søkefiltre/Søkefiltre';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -39,24 +43,51 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
             ? kandidatlistNetteressurs.data
             : undefined;
 
-    const header =
-        iKontekstAvKandidatliste || iKontekstAvStilling ? (
-            <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsId} />
-        ) : (
-            <Container className="container--header--uten-stilling">
-                <Sidetittel>Kandidatsøk</Sidetittel>
-            </Container>
-        );
+    const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
+    const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
+    const onRemoveCriteriaClick = () => {}; // TODO: Fjern alle kriterier? onCriteriasRemovasClickos
 
     return (
-        <Kandidatsøk
-            kandidatlisteId={kandidatlisteId || kandidatliste?.kandidatlisteId}
-            stillingsId={stillingsId}
-            visFantFåKandidater={false} // todo
-            visSpinner={false} // todo
-            header={header}
-            onRemoveCriteriaClick={() => {}}
-        />
+        <>
+            {(iKontekstAvKandidatliste || iKontekstAvStilling) && (
+                <KandidatlisteHeader kandidatliste={kandidatliste} stillingsId={stillingsId} />
+            )}
+            {visSpinner ? (
+                <div className="fullscreen-spinner">
+                    <NavFrontendSpinner type="L" />
+                </div>
+            ) : (
+                <Container fluid className="resultatvisning--container blokk-l">
+                    <ViktigeYrker />
+                    <Column xs="12" sm="4">
+                        <div className="sokekriterier--column" id="sokekriterier">
+                            <div className="knapp-wrapper">
+                                <Flatknapp
+                                    mini
+                                    id="slett-alle-kriterier-lenke"
+                                    onClick={onRemoveCriteriaClick}
+                                >
+                                    Slett alle kriterier
+                                </Flatknapp>
+                            </div>
+                            <Søkefiltre stillingsId={stillingsId} />
+                        </div>
+                    </Column>
+                    <Column xs="12" sm="8">
+                        <div className="kandidatervisning--column" id="sokeresultat">
+                            <KandidaterVisning
+                                skjulPaginering={visFantFåKandidater}
+                                kandidatlisteId={kandidatlisteId || kandidatliste?.kandidatlisteId}
+                                stillingsId={stillingsId}
+                            />
+                            {visFantFåKandidater && (
+                                <FantFåKandidater onRemoveCriteriaClick={onRemoveCriteriaClick} />
+                            )}
+                        </div>
+                    </Column>
+                </Container>
+            )}
+        </>
     );
 };
 

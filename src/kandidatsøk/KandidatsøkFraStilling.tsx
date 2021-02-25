@@ -14,14 +14,11 @@ import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActio
 import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { Kandidatsøk } from './Kandidatsøk';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
-import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from './reducer/searchQuery';
-import { Link } from 'react-router-dom';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
-import { lenkeTilKandidatliste, lenkeTilStilling } from '../app/paths';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 
 type Props = FellesKandidatsøkProps & {

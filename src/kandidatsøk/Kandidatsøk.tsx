@@ -27,7 +27,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
 }) => {
     return (
         <>
-            <div className="ResultatVisning--hovedside--header">{header}</div>
+            {header}
             {visSpinner ? (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />

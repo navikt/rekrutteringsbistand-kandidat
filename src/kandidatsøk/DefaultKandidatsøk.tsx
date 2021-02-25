@@ -46,9 +46,11 @@ const DefaultKandidatsøk: FunctionComponent<Props> = ({
     }, [leggUrlParametereIStateOgSøk, søkestateKommerFraAnnetSøk, search]);
 
     const header = (
-        <Container className="container--header--uten-stilling">
-            <Sidetittel>Kandidatsøk</Sidetittel>
-        </Container>
+        <div className="ResultatVisning--hovedside--header">
+            <Container className="container--header--uten-stilling">
+                <Sidetittel>Kandidatsøk</Sidetittel>
+            </Container>
+        </div>
     );
 
     const onRemoveCriteriaClick = () => {
