@@ -106,11 +106,7 @@ const KandidatsøkFraStilling: FunctionComponent<Props> = ({
 
     return (
         <>
-            <KandidaterErLagretSuksessmelding
-                antallLagredeKandidater={antallLagredeKandidater}
-                lagretKandidatliste={lagretKandidatliste}
-                leggTilKandidatStatus={leggTilKandidatStatus}
-            />
+            <KandidaterErLagretSuksessmelding />
             <Kandidatsøk
                 visFantFåKandidater={visFantFåKandidater}
                 stillingsId={stillingsIdFraUrl}

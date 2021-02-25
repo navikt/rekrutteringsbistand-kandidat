@@ -3,27 +3,21 @@ import HjelpetekstFading from '../common/HjelpetekstFading';
 import { LAGRE_STATUS } from '../common/konstanter';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste } from '../app/paths';
+import { useSelector } from 'react-redux';
+import AppState from '../AppState';
 
-interface Props {
-    antallLagredeKandidater?: number;
-    lagretKandidatliste?: {
-        kandidatlisteId: string;
-        tittel: string;
-    };
-    leggTilKandidatStatus: string;
-}
+export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
+    const { lagreStatus, antallLagredeKandidater, lagretListe } = useSelector(
+        (state: AppState) => state.kandidatliste.leggTilKandidater
+    );
 
-export const KandidaterErLagretSuksessmelding: FunctionComponent<Props> = ({
-    antallLagredeKandidater,
-    lagretKandidatliste,
-    leggTilKandidatStatus,
-}) => {
-    const [suksessmeldingLagreKandidatVises, setSuksessmeldingLagreKandidatVises] = useState<
-        boolean
-    >(false);
+    const [
+        suksessmeldingLagreKandidatVises,
+        setSuksessmeldingLagreKandidatVises,
+    ] = useState<boolean>(false);
 
     useEffect(() => {
-        if (leggTilKandidatStatus === LAGRE_STATUS.SUCCESS) {
+        if (lagreStatus === LAGRE_STATUS.SUCCESS) {
             setSuksessmeldingLagreKandidatVises(true);
 
             const timer = setTimeout(() => {
@@ -32,20 +26,17 @@ export const KandidaterErLagretSuksessmelding: FunctionComponent<Props> = ({
 
             return () => clearTimeout(timer);
         }
-    }, [leggTilKandidatStatus]);
+    }, [lagreStatus]);
 
-    if (antallLagredeKandidater && lagretKandidatliste) {
+    if (antallLagredeKandidater && lagretListe) {
         const innhold = (
             <>
                 {antallLagredeKandidater > 1
                     ? `${antallLagredeKandidater} kandidater`
                     : 'Kandidaten'}{' '}
                 er lagret i kandidatlisten{' '}
-                <Link
-                    className="lenke"
-                    to={lenkeTilKandidatliste(lagretKandidatliste.kandidatlisteId)}
-                >
-                    {lagretKandidatliste.tittel}
+                <Link className="lenke" to={lenkeTilKandidatliste(lagretListe.kandidatlisteId)}>
+                    {lagretListe.tittel}
                 </Link>
             </>
         );

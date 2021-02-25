@@ -11,6 +11,7 @@ import KandidaterVisning from './KandidaterVisning';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
+import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -87,6 +88,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                     </Column>
                 </Container>
             )}
+            <KandidaterErLagretSuksessmelding />
         </>
     );
 };

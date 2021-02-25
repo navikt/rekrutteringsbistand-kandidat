@@ -60,7 +60,10 @@ export interface KandidatlisteState {
     leggTilKandidater: {
         lagreStatus: string;
         antallLagredeKandidater: number;
-        lagretListe: {};
+        lagretListe?: {
+            kandidatlisteId: string;
+            tittel: string;
+        };
     };
     hentListeMedAnnonsenummerStatus: HentStatus;
     hentListeMedAnnonsenummerStatusMessage?: string;
@@ -99,7 +102,6 @@ const initialState: KandidatlisteState = {
     leggTilKandidater: {
         lagreStatus: LAGRE_STATUS.UNSAVED,
         antallLagredeKandidater: 0,
-        lagretListe: {},
     },
     hentListeMedAnnonsenummerStatus: HentStatus.IkkeHentet,
     hentListeMedAnnonsenummerStatusMessage: '',
@@ -467,7 +469,6 @@ const reducer: Reducer<KandidatlisteState, KandidatlisteAction> = (
                 leggTilKandidater: {
                     lagreStatus: LAGRE_STATUS.UNSAVED,
                     antallLagredeKandidater: 0,
-                    lagretListe: {},
                 },
             };
         case KandidatlisteActionType.LAGRE_KANDIDAT_I_KANDIDATLISTE:

@@ -97,11 +97,7 @@ const KandidatsøkFraKandidatliste: FunctionComponent<Props> = ({
 
     return (
         <>
-            <KandidaterErLagretSuksessmelding
-                antallLagredeKandidater={antallLagredeKandidater}
-                lagretKandidatliste={lagretKandidatliste}
-                leggTilKandidatStatus={leggTilKandidatStatus}
-            />
+            <KandidaterErLagretSuksessmelding />
             <Kandidatsøk
                 kandidatlisteId={kandidatlisteId}
                 visSpinner={isInitialSearch}
