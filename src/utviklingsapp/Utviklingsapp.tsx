@@ -28,7 +28,9 @@ const Utviklingsapp: FunctionComponent = () => {
                         <Link to="/kandidater">Kandidatsøk</Link>
                     </div>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/kandidatsok">Fellessøket</Link>
+                        <Link to={{ pathname: '/kandidatsok', state: { fraMeny: true } }}>
+                            Fellessøket
+                        </Link>
                     </div>
                     <div className="utviklingsapp__lenke">
                         <Link to="/kandidater/lister">Kandidatlister</Link>

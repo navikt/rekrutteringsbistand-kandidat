@@ -13,6 +13,7 @@ import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
+import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -48,9 +49,9 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
             ? kandidatlistNetteressurs.data
             : undefined;
 
-    const nullstillSøk = useCallback(() => {
+    const nullstillSøkestate = useCallback(() => {
         dispatch({
-            type: 'SET_STATE',
+            type: SET_STATE,
             query: hentQueryUtenKriterier(
                 false, // TODO: harHentetStilling
                 kandidatlisteId
@@ -59,12 +60,25 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
     }, [dispatch, kandidatlisteId]);
 
     useEffect(() => {
-        if (state.fraMeny) nullstillSøk();
-    }, [state, nullstillSøk]);
+        if (state?.fraMeny) nullstillSøkestate();
+    }, [state, nullstillSøkestate]);
 
     const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
     const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
-    const onRemoveCriteriaClick = () => {}; // TODO: Fjern alle kriterier? onCriteriasRemovasClickos
+
+    const lukkAlleSøkepanel = () => {
+        dispatch({ type: LUKK_ALLE_SOKEPANEL });
+    };
+
+    const oppdaterUrlOgSøkMedState = () => {
+        dispatch({ type: SEARCH });
+    };
+
+    const onSlettAlleKriterierKlikk = () => {
+        lukkAlleSøkepanel();
+        nullstillSøkestate();
+        oppdaterUrlOgSøkMedState();
+    };
 
     return (
         <>
@@ -84,7 +98,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                                 <Flatknapp
                                     mini
                                     id="slett-alle-kriterier-lenke"
-                                    onClick={onRemoveCriteriaClick}
+                                    onClick={onSlettAlleKriterierKlikk}
                                 >
                                     Slett alle kriterier
                                 </Flatknapp>
@@ -100,7 +114,9 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                                 stillingsId={stillingsId}
                             />
                             {visFantFåKandidater && (
-                                <FantFåKandidater onRemoveCriteriaClick={onRemoveCriteriaClick} />
+                                <FantFåKandidater
+                                    onRemoveCriteriaClick={onSlettAlleKriterierKlikk}
+                                />
                             )}
                         </div>
                     </Column>
