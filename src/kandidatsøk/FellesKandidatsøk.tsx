@@ -37,6 +37,11 @@ type Props = {
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
     const { kandidatlisteId, stillingsId } = match.params;
+    const kandidatlistNetteressurs = useSelector(
+        (state: AppState) => state.kandidatliste.kandidatliste
+    );
+    const maksAntallTreff = useSelector((state: AppState) => state.søk.maksAntallTreff);
+
     const dispatch = useDispatch();
 
     const iKontekstAvKandidatliste = !!kandidatlisteId;
@@ -53,14 +58,6 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
 
         nullstillKandidaterErLagretIKandidatlisteAlert();
     });
-
-    const kandidatlistNetteressurs = useSelector(
-        (state: AppState) => state.kandidatliste.kandidatliste
-    );
-    const kandidatliste =
-        kandidatlistNetteressurs.kind === Nettstatus.Suksess
-            ? kandidatlistNetteressurs.data
-            : undefined;
 
     const nullstillSøkestate = () => {
         dispatch({
@@ -86,8 +83,13 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
         oppdaterUrlOgSøkMedState();
     };
 
+    const kandidatliste =
+        kandidatlistNetteressurs.kind === Nettstatus.Suksess
+            ? kandidatlistNetteressurs.data
+            : undefined;
+
     const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
-    const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
+    const visFantFåKandidater = iKontekstAvStilling && maksAntallTreff < 5;
 
     return (
         <>
