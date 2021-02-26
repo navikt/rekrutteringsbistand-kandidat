@@ -14,8 +14,8 @@ import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
-import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -42,20 +42,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
     const iKontekstAvKandidatliste = !!kandidatlisteId;
     const iKontekstAvStilling = !!stillingsId;
 
-    useEffect(() => {
-        const nullstillSøkekriterierIKandidatlisteoversikt = () => {
-            dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
-        };
-
-        const nullstillValgtKandidatIKandidatliste = () => {
-            dispatch({
-                type: KandidatlisteActionType.VELG_KANDIDAT,
-            });
-        };
-
-        nullstillSøkekriterierIKandidatlisteoversikt();
-        nullstillValgtKandidatIKandidatliste();
-    });
+    useNullstillKandidatlisteState();
 
     useEffect(() => {
         const nullstillKandidaterErLagretIKandidatlisteAlert = () => {
@@ -85,9 +72,6 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
         });
     };
 
-    const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
-    const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
-
     const lukkAlleSøkepanel = () => {
         dispatch({ type: LUKK_ALLE_SOKEPANEL });
     };
@@ -101,6 +85,9 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
         nullstillSøkestate();
         oppdaterUrlOgSøkMedState();
     };
+
+    const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
+    const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
 
     return (
         <>
