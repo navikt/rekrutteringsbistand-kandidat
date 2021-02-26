@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
-import { match, useLocation } from 'react-router-dom';
+import React, { FunctionComponent, useEffect } from 'react';
+import { match } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Column, Container } from 'nav-frontend-grid';
 import { Flatknapp } from 'nav-frontend-knapper';
@@ -14,6 +14,7 @@ import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
+import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -34,12 +35,19 @@ type Props = {
 };
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
-    const { state } = useLocation<{ fraMeny: boolean }>();
     const { kandidatlisteId, stillingsId } = match.params;
     const dispatch = useDispatch();
 
     const iKontekstAvKandidatliste = !!kandidatlisteId;
     const iKontekstAvStilling = !!stillingsId;
+
+    useEffect(() => {
+        const nullstillSøkekriterierIKandidatlisteoversikt = () => {
+            dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
+        };
+
+        nullstillSøkekriterierIKandidatlisteoversikt();
+    });
 
     const kandidatlistNetteressurs = useSelector(
         (state: AppState) => state.kandidatliste.kandidatliste
@@ -49,7 +57,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
             ? kandidatlistNetteressurs.data
             : undefined;
 
-    const nullstillSøkestate = useCallback(() => {
+    const nullstillSøkestate = () => {
         dispatch({
             type: SET_STATE,
             query: hentQueryUtenKriterier(
@@ -57,11 +65,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                 kandidatlisteId
             ),
         });
-    }, [dispatch, kandidatlisteId]);
-
-    useEffect(() => {
-        if (state?.fraMeny) nullstillSøkestate();
-    }, [state, nullstillSøkestate]);
+    };
 
     const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
     const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
