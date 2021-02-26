@@ -15,6 +15,7 @@ import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmel
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
 import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -46,7 +47,24 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
             dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
         };
 
+        const nullstillValgtKandidatIKandidatliste = () => {
+            dispatch({
+                type: KandidatlisteActionType.VELG_KANDIDAT,
+            });
+        };
+
         nullstillSøkekriterierIKandidatlisteoversikt();
+        nullstillValgtKandidatIKandidatliste();
+    });
+
+    useEffect(() => {
+        const nullstillKandidaterErLagretIKandidatlisteAlert = () => {
+            dispatch({
+                type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
+            });
+        };
+
+        nullstillKandidaterErLagretIKandidatlisteAlert();
     });
 
     const kandidatlistNetteressurs = useSelector(
