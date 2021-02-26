@@ -8,7 +8,7 @@ import { KandidatlisterSideHeader } from './KandidatlisterSideHeader/Kandidatlis
 import { LAGRE_STATUS } from '../common/konstanter';
 import { ListeoversiktActionType } from './reducer/ListeoversiktAction';
 import { Nettressurs, Nettstatus } from '../api/remoteData';
-import { REMOVE_KOMPETANSE_SUGGESTIONS, SET_STATE } from '../kandidatsøk/reducer/searchReducer';
+import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../kandidatsøk/reducer/searchReducer';
 import AppState from '../AppState';
 import EndreModal from './modaler/EndreModal';
 import HjelpetekstFading from '../common/HjelpetekstFading';
@@ -20,6 +20,7 @@ import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import './Kandidatlisteoversikt.less';
+import { hentQueryUtenKriterier } from '../kandidatsøk/DefaultKandidatsøk';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -47,8 +48,6 @@ export type KandidatlisterSøkekriterier = {
 };
 
 type Props = {
-    resetQuery: any;
-    removeKompetanseSuggestions: any;
     hentKandidatlister: any;
     fetchingKandidatlister: any;
     kandidatlister: KandidatlisteSammendrag[];
@@ -62,7 +61,10 @@ type Props = {
     slettKandidatliste: any;
     resetSletteStatus: any;
     sletteStatus: Nettressurs<{ slettetTittel: string }>;
-    fjernValgtKandidat: any;
+
+    nullstillValgtKandidatIKandidatliste: any;
+    nullstillSøkekriterierIKandidatsøk: any;
+    lukkSøkepanelerIKandidatsøk: () => void;
 };
 
 class Kandidatlisteoversikt extends React.Component<Props> {
@@ -93,12 +95,11 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
 
-        // TODO: Fjern denne når felles kandidatsøkside er ferdig, den resetter seg selv
-        // TODO: Reset heller listeoversiktens Sokekriterier hvis state?.fraMeny er true
-        this.resetSearchQuery();
+        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier(false, undefined));
+        this.props.lukkSøkepanelerIKandidatsøk();
 
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
-        this.props.fjernValgtKandidat();
+        this.props.nullstillValgtKandidatIKandidatliste();
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -249,25 +250,6 @@ class Kandidatlisteoversikt extends React.Component<Props> {
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber + 1, PAGINERING_BATCH_SIZE);
     };
 
-    resetSearchQuery = () => {
-        this.props.resetQuery({
-            fritekst: '',
-            stillinger: [],
-            arbeidserfaringer: [],
-            utdanninger: [],
-            kompetanser: [],
-            geografiList: [],
-            geografiListKomplett: [],
-            totalErfaring: [],
-            utdanningsniva: [],
-            sprak: [],
-            kvalifiseringsgruppeKoder: [],
-            maaBoInnenforGeografi: false,
-            harHentetStilling: false,
-        });
-        this.props.removeKompetanseSuggestions();
-    };
-
     visSuccessMelding = (melding: string) => {
         this.setState({
             visSuccessMelding: true,
@@ -388,8 +370,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-    resetQuery: (query: any) => dispatch({ type: SET_STATE, query }),
-    removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
+    nullstillSøkekriterierIKandidatsøk: (query: any) => dispatch({ type: SET_STATE, query }),
     hentKandidatlister: (query, type, kunEgne, pagenumber, pagesize) =>
         dispatch({
             type: ListeoversiktActionType.HENT_KANDIDATLISTER,
@@ -412,10 +393,11 @@ const mapDispatchToProps = (dispatch: (action: any) => void) => ({
     resetSletteStatus: () => {
         dispatch({ type: ListeoversiktActionType.RESET_SLETTE_STATUS });
     },
-    fjernValgtKandidat: () =>
+    nullstillValgtKandidatIKandidatliste: () =>
         dispatch({
             type: KandidatlisteActionType.VELG_KANDIDAT,
         }),
+    lukkSøkepanelerIKandidatsøk: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Kandidatlisteoversikt);
