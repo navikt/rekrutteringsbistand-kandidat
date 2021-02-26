@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import { match } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Column, Container } from 'nav-frontend-grid';
@@ -13,9 +13,17 @@ import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
-import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
+import {
+    LUKK_ALLE_SOKEPANEL,
+    SEARCH,
+    SET_STATE,
+    SØK_MED_INFO_FRA_STILLING,
+    SØK_MED_URL_PARAMETERE,
+} from './reducer/searchReducer';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
+import { harUrlParametere } from './reducer/searchQuery';
+import useKandidatliste from './useKandidatliste';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -36,16 +44,28 @@ type Props = {
 };
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
-    const { kandidatlisteId, stillingsId } = match.params;
+    const { kandidatlisteId: kandidatlisteIdFraUrl, stillingsId } = match.params;
     const kandidatlistNetteressurs = useSelector(
         (state: AppState) => state.kandidatliste.kandidatliste
     );
+
+    const kandidatliste =
+        kandidatlistNetteressurs.kind === Nettstatus.Suksess
+            ? kandidatlistNetteressurs.data
+            : undefined;
+
+    const kandidatlisteId = kandidatlisteIdFraUrl || kandidatliste?.kandidatlisteId;
     const maksAntallTreff = useSelector((state: AppState) => state.søk.maksAntallTreff);
 
     const dispatch = useDispatch();
 
-    const iKontekstAvKandidatliste = !!kandidatlisteId;
+    const iKontekstAvKandidatliste = !!kandidatlisteIdFraUrl;
     const iKontekstAvStilling = !!stillingsId;
+
+    useKandidatliste(
+        iKontekstAvStilling ? stillingsId : undefined,
+        iKontekstAvKandidatliste ? kandidatlisteId : undefined
+    );
 
     useNullstillKandidatlisteState();
 
@@ -58,6 +78,55 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
 
         nullstillKandidaterErLagretIKandidatlisteAlert();
     });
+
+    const oppdaterUrlFraStateOgSøk = useCallback(() => {
+        dispatch({ type: SEARCH });
+    }, [dispatch]);
+
+    const oppdaterStateFraUrlOgSøk = useCallback(
+        (href: string) => {
+            dispatch({ type: SØK_MED_URL_PARAMETERE, href });
+        },
+        [dispatch]
+    );
+
+    const hentStillingOgOppdaterStateOgSøk = useCallback(
+        (stillingsId: string, kandidatlisteId: string) => {
+            dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId });
+        },
+        [dispatch]
+    );
+
+    useEffect(() => {
+        if (!iKontekstAvKandidatliste && !iKontekstAvStilling) {
+            if (harUrlParametere(window.location.href)) {
+                oppdaterStateFraUrlOgSøk(window.location.href);
+            } else {
+                oppdaterUrlFraStateOgSøk();
+            }
+        }
+    }, [
+        iKontekstAvKandidatliste,
+        iKontekstAvStilling,
+        oppdaterStateFraUrlOgSøk,
+        oppdaterUrlFraStateOgSøk,
+    ]);
+
+    useEffect(() => {
+        if (iKontekstAvStilling && stillingsId && kandidatlisteId) {
+            if (harUrlParametere(window.location.href)) {
+                oppdaterUrlFraStateOgSøk();
+            } else {
+                hentStillingOgOppdaterStateOgSøk(stillingsId, kandidatlisteId);
+            }
+        }
+    }, [
+        stillingsId,
+        iKontekstAvStilling,
+        kandidatlisteId,
+        oppdaterUrlFraStateOgSøk,
+        hentStillingOgOppdaterStateOgSøk,
+    ]);
 
     const nullstillSøkestate = () => {
         dispatch({
@@ -73,20 +142,11 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
         dispatch({ type: LUKK_ALLE_SOKEPANEL });
     };
 
-    const oppdaterUrlOgSøkMedState = () => {
-        dispatch({ type: SEARCH });
-    };
-
     const onSlettAlleKriterierKlikk = () => {
         lukkAlleSøkepanel();
         nullstillSøkestate();
-        oppdaterUrlOgSøkMedState();
+        oppdaterUrlFraStateOgSøk();
     };
-
-    const kandidatliste =
-        kandidatlistNetteressurs.kind === Nettstatus.Suksess
-            ? kandidatlistNetteressurs.data
-            : undefined;
 
     const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
     const visFantFåKandidater = iKontekstAvStilling && maksAntallTreff < 5;
@@ -120,6 +180,7 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                     <Column xs="12" sm="8">
                         <div className="kandidatervisning--column" id="sokeresultat">
                             <KandidaterVisning
+                                ikkeHentKandidatliste
                                 skjulPaginering={visFantFåKandidater}
                                 kandidatlisteId={kandidatlisteId || kandidatliste?.kandidatlisteId}
                                 stillingsId={stillingsId}

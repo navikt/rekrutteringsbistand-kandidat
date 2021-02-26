@@ -58,6 +58,10 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.ikkeHentKandidatliste) {
+            return;
+        }
+
         if (this.props.kandidatlisteId) {
             this.props.hentKandidatlisteMedKandidatlisteId(this.props.kandidatlisteId);
         }
@@ -270,6 +274,7 @@ KandidaterVisning.defaultProps = {
     stillingsId: undefined,
     kandidatliste: undefined,
     skjulPaginering: false,
+    ikkeHentKandidatliste: false,
 };
 
 KandidaterVisning.propTypes = {
@@ -293,6 +298,7 @@ KandidaterVisning.propTypes = {
     hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
     midlertidigUtilgjengeligEndretTidspunkt: PropTypes.number,
+    ikkeHentKandidatliste: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({
