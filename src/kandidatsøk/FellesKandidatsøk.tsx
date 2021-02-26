@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { match } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import { match, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Column, Container } from 'nav-frontend-grid';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
@@ -12,6 +12,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
+import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
 
 export type FellesKandidatsøkProps = {
     resetQuery: (query: any) => void;
@@ -32,7 +33,10 @@ type Props = {
 };
 
 const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
+    const { state } = useLocation<{ fraMeny: boolean }>();
     const { kandidatlisteId, stillingsId } = match.params;
+    const dispatch = useDispatch();
+
     const iKontekstAvKandidatliste = !!kandidatlisteId;
     const iKontekstAvStilling = !!stillingsId;
 
@@ -43,6 +47,20 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
         kandidatlistNetteressurs.kind === Nettstatus.Suksess
             ? kandidatlistNetteressurs.data
             : undefined;
+
+    const nullstillSøk = useCallback(() => {
+        dispatch({
+            type: 'SET_STATE',
+            query: hentQueryUtenKriterier(
+                false, // TODO: harHentetStilling
+                kandidatlisteId
+            ),
+        });
+    }, [dispatch, kandidatlisteId]);
+
+    useEffect(() => {
+        if (state.fraMeny) nullstillSøk();
+    }, [state, nullstillSøk]);
 
     const visSpinner = false; // TODO: Vis spinner ved første søk? initialSearch
     const visFantFåKandidater = false; // TODO: Vis denne hvis du er iKontekstAvStilling og færre enn 5 maks-treff.
