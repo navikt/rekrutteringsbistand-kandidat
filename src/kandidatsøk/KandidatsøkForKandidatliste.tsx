@@ -15,14 +15,18 @@ type Props = RouteChildrenProps<{
 }>;
 
 const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({ match }) => {
-    const kandidatlisteIdFraUrl = match?.params.kandidatlisteId;
     const dispatch = useDispatch();
-    const kandidatlisteIdFraApi = useSelector((state: AppState) => state.søk.kandidatlisteId);
+    const kandidatlisteIdFraUrl = match?.params.kandidatlisteId;
+
+    useKandidatliste(undefined, kandidatlisteIdFraUrl);
+
+    const kandidatlisteIdFraForrigeSøk = useSelector(
+        (state: AppState) => state.søk.kandidatlisteId
+    );
+
     const kandidatlisteNettressurs = useSelector(
         (state: AppState) => state.kandidatliste.kandidatliste
     );
-
-    useKandidatliste(undefined, kandidatlisteIdFraUrl);
 
     useEffect(() => {
         const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId?: string) => {
@@ -34,13 +38,14 @@ const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({ match }) => {
         };
 
         const søkestateKommerFraDenneKandidatlisten =
-            kandidatlisteIdFraApi === kandidatlisteIdFraUrl;
+            kandidatlisteIdFraForrigeSøk === kandidatlisteIdFraUrl;
+
         if (søkestateKommerFraDenneKandidatlisten && !harUrlParametere(window.location.href)) {
             oppdaterUrlFraStateOgSøk();
         } else {
             oppdaterStateFraUrlOgSøk(window.location.href, kandidatlisteIdFraUrl);
         }
-    }, [dispatch, kandidatlisteIdFraUrl, kandidatlisteIdFraApi]);
+    }, [dispatch, kandidatlisteIdFraUrl, kandidatlisteIdFraForrigeSøk]);
 
     return (
         <>

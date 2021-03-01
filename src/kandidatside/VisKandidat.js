@@ -221,12 +221,15 @@ class VisKandidat extends React.Component {
             lagreKandidaterModalTilStillingVises,
         } = this.state;
 
-        let tilbakeLink = lenkeTilKandidatsøk;
+        let tilbakeLink = lenkeTilKandidatsøk(this.props.kandidatsøkFilterParams);
         let forrigeKandidatLink = forrigeKandidat ? lenkeTilCv(forrigeKandidat) : undefined;
         let nesteKandidatLink = nesteKandidat ? lenkeTilCv(nesteKandidat) : undefined;
 
         if (kandidatlisteId) {
-            tilbakeLink = lenkeTilFinnKandidaterUtenStilling(kandidatlisteId);
+            tilbakeLink = lenkeTilFinnKandidaterUtenStilling(
+                kandidatlisteId,
+                this.props.kandidatsøkFilterParams
+            );
 
             forrigeKandidatLink = forrigeKandidat
                 ? lenkeTilCv(forrigeKandidat, kandidatlisteId)
@@ -238,7 +241,7 @@ class VisKandidat extends React.Component {
         } else if (stillingsId) {
             tilbakeLink = lenkeTilFinnKandidaterMedStilling(
                 stillingsId,
-                this.props.kandidatsokMedStillingparams
+                this.props.kandidatsøkFilterParams
             );
 
             forrigeKandidatLink = forrigeKandidat
@@ -394,7 +397,7 @@ const mapStateToProps = (state) => ({
             : undefined,
     lagreKandidatIKandidatlisteStatus: state.kandidatliste.lagreKandidatIKandidatlisteStatus,
     midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    kandidatsokMedStillingparams: toUrlQuery(state),
+    kandidatsøkFilterParams: toUrlQuery(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

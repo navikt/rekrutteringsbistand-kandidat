@@ -57,12 +57,6 @@ class KandidaterOgModal extends React.Component {
         }
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            window.scrollTo(0, this.props.scrolletFraToppen);
-        }, 10);
-    }
-
     componentDidUpdate(prevProps) {
         const { kandidater, antallKandidater, leggTilKandidatStatus } = this.props;
         const harNyeSokekriterier = this.props.searchQueryHash !== prevProps.searchQueryHash;
@@ -277,7 +271,6 @@ KandidaterOgModal.propTypes = {
     searchQueryHash: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
-    scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
     oppdaterMarkerteKandidater: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
@@ -311,7 +304,6 @@ const mapStateToProps = (state) => ({
     searchQueryHash: state.søk.searchQueryHash,
     antallKandidater: state.søk.antallVisteKandidater,
     valgtKandidatNr: state.søk.valgtKandidatNr,
-    scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatliste.kandidatliste.data

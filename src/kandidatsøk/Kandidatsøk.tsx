@@ -1,17 +1,18 @@
 import React, { FunctionComponent, ReactElement, useEffect } from 'react';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import { Flatknapp } from 'nav-frontend-knapper';
-import KandidaterOgModal from './kandidater-og-modal/KandidaterOgModal';
-import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import { Column, Container } from 'nav-frontend-grid';
-import Søkefiltre from './søkefiltre/Søkefiltre';
-import { useDispatch, useSelector } from 'react-redux';
-import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
+import { Flatknapp } from 'nav-frontend-knapper';
+import { useSelector } from 'react-redux';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+
 import AppState from '../AppState';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import './Kandidatsøk.less';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
+import KandidaterOgModal from './kandidater-og-modal/KandidaterOgModal';
+import Søkefiltre from './søkefiltre/Søkefiltre';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
+import useSlettAlleKriterier from './useSlettAlleKriterier';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
+import './Kandidatsøk.less';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     visFantFåKandidater?: boolean;
@@ -28,36 +29,22 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
 }) => {
     useNullstillKandidatlisteState();
 
-    const dispatch = useDispatch();
-    const { isInitialSearch, harHentetStilling } = useSelector((state: AppState) => state.søk);
+    const { state } = useLocation<{ fraMeny: boolean } | undefined>();
 
-    const søk = () => dispatch({ type: SEARCH });
-    const lukkAlleSøkepaneler = () => dispatch({ type: LUKK_ALLE_SOKEPANEL });
-    const nullstillSøkekriterier = () => {
-        const queryUtenKriterier = hentQueryUtenKriterier(harHentetStilling, kandidatlisteId);
-        dispatch({ type: SET_STATE, query: queryUtenKriterier });
-    };
+    const onSlettAlleKriterierKlikk = useSlettAlleKriterier(kandidatlisteId);
+    const venterPåFørsteSøk = useSelector((state: AppState) => state.søk.isInitialSearch);
+    const scrolletFraToppen = useSelector((state: AppState) => state.søk.scrolletFraToppen);
 
     useEffect(() => {
-        const nullstillKandidaterErLagretIKandidatlisteAlert = () => {
-            dispatch({
-                type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
-            });
-        };
-
-        nullstillKandidaterErLagretIKandidatlisteAlert();
-    }, [dispatch]);
-
-    const onSlettAlleKriterierKlikk = () => {
-        lukkAlleSøkepaneler();
-        nullstillSøkekriterier();
-        søk();
-    };
+        if (!venterPåFørsteSøk && !state?.fraMeny) {
+            window.scrollTo(0, scrolletFraToppen);
+        }
+    }, [venterPåFørsteSøk, scrolletFraToppen, state]);
 
     return (
         <>
             {header || null}
-            {isInitialSearch ? (
+            {venterPåFørsteSøk ? (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
                 </div>
@@ -97,23 +84,3 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
         </>
     );
 };
-
-export const hentQueryUtenKriterier = (
-    harHentetStilling: boolean,
-    kandidatlisteId: string | undefined
-) => ({
-    fritekst: '',
-    stillinger: [],
-    arbeidserfaringer: [],
-    utdanninger: [],
-    kompetanser: [],
-    geografiList: [],
-    geografiListKomplett: [],
-    totalErfaring: [],
-    utdanningsniva: [],
-    sprak: [],
-    kvalifiseringsgruppeKoder: [],
-    maaBoInnenforGeografi: false,
-    harHentetStilling: harHentetStilling,
-    kandidatlisteId: kandidatlisteId,
-});
