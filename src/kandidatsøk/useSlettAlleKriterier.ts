@@ -1,18 +1,15 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import AppState from '../AppState';
+import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
 
 const useSlettAlleKriterier = (kandidatlisteId?: string) => {
     const dispatch = useDispatch();
-    const { harHentetStilling } = useSelector((state: AppState) => state.søk);
 
     const søk = () => dispatch({ type: SEARCH });
     const lukkAlleSøkepaneler = () => dispatch({ type: LUKK_ALLE_SOKEPANEL });
     const nullstillSøkekriterier = () => {
-        const queryUtenKriterier = hentQueryUtenKriterier(harHentetStilling, kandidatlisteId);
-        dispatch({ type: SET_STATE, query: queryUtenKriterier });
+        dispatch({ type: SET_STATE, query: hentQueryUtenKriterier(kandidatlisteId) });
     };
 
     useEffect(() => {
@@ -32,10 +29,7 @@ const useSlettAlleKriterier = (kandidatlisteId?: string) => {
     };
 };
 
-export const hentQueryUtenKriterier = (
-    harHentetStilling: boolean,
-    kandidatlisteId: string | undefined
-) => ({
+export const hentQueryUtenKriterier = (kandidatlisteId?: string) => ({
     fritekst: '',
     stillinger: [],
     arbeidserfaringer: [],
@@ -48,7 +42,6 @@ export const hentQueryUtenKriterier = (
     sprak: [],
     kvalifiseringsgruppeKoder: [],
     maaBoInnenforGeografi: false,
-    harHentetStilling: harHentetStilling,
     kandidatlisteId: kandidatlisteId,
 });
 

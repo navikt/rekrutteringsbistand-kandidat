@@ -95,7 +95,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
 
-        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier(false, undefined));
+        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier());
         this.props.lukkSøkepanelerIKandidatsøk();
 
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);
