@@ -13,9 +13,9 @@ import { NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import DefaultKandidatsøk from '../kandidatsøk/DefaultKandidatsøk';
-import KandidatsøkFraKandidatliste from '../kandidatsøk/KandidatsøkFraKandidatliste';
-import KandidatsøkFraStilling from '../kandidatsøk/KandidatsøkFraStilling';
+import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
+import KandidatsøkForKandidatliste from '../kandidatsøk/KandidatsøkForKandidatliste';
+import KandidatsøkForStilling from '../kandidatsøk/KandidatsøkForStilling';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
@@ -76,16 +76,16 @@ const App: FunctionComponent<Props> = (props) => {
                             component={FellesKandidatsøk}
                         />
 
-                        <Route exact path="/kandidater" component={DefaultKandidatsøk} />
+                        <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact
                             path="/kandidater/kandidatliste/:kandidatlisteId"
-                            component={KandidatsøkFraKandidatliste}
+                            component={KandidatsøkForKandidatliste}
                         />
                         <Route
                             exact
                             path="/kandidater/stilling/:stillingsId"
-                            component={KandidatsøkFraStilling}
+                            component={KandidatsøkForStilling}
                         />
                         <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route

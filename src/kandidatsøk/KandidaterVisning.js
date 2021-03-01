@@ -58,16 +58,6 @@ class KandidaterVisning extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.ikkeHentKandidatliste) {
-            return;
-        }
-
-        if (this.props.kandidatlisteId) {
-            this.props.hentKandidatlisteMedKandidatlisteId(this.props.kandidatlisteId);
-        }
-        if (this.props.stillingsId) {
-            this.props.hentKandidatlisteMedStillingsId(this.props.stillingsId);
-        }
         setTimeout(() => {
             window.scrollTo(0, this.props.scrolletFraToppen);
         }, 10);
@@ -274,7 +264,6 @@ KandidaterVisning.defaultProps = {
     stillingsId: undefined,
     kandidatliste: undefined,
     skjulPaginering: false,
-    ikkeHentKandidatliste: false,
 };
 
 KandidaterVisning.propTypes = {
@@ -294,11 +283,8 @@ KandidaterVisning.propTypes = {
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string,
     stillingsId: PropTypes.string,
-    hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
-    hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
     midlertidigUtilgjengeligEndretTidspunkt: PropTypes.number,
-    ikkeHentKandidatliste: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -313,18 +299,6 @@ const mapDispatchToProps = (dispatch) => ({
     },
     oppdaterMarkerteKandidater: (markerteKandidater) => {
         dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater });
-    },
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
-            kandidatlisteId,
-        });
-    },
-    hentKandidatlisteMedStillingsId: (stillingsId) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-            stillingsId,
-        });
     },
 });
 

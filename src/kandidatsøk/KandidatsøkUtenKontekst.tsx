@@ -10,21 +10,18 @@ import {
 import './Resultat.less';
 import { Nettstatus } from '../api/remoteData';
 import { Kandidatsøk } from './Kandidatsøk';
-import { Container } from 'nav-frontend-grid';
 import AppState from '../AppState';
 import { harUrlParametere } from './reducer/searchQuery';
-import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
-import { Sidetittel } from 'nav-frontend-typografi';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
+import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 
 type Props = FellesKandidatsøkProps & {
     søkestateKommerFraAnnetSøk: boolean;
 };
 
-const DefaultKandidatsøk: FunctionComponent<Props> = ({
+const KandidatsøkUtenKontekst: FunctionComponent<Props> = ({
     isInitialSearch,
     leggUrlParametereIStateOgSøk,
-    resetKandidatlisterSokekriterier,
     lukkAlleSokepanel,
     resetQuery,
     removeKompetanseSuggestions,
@@ -32,10 +29,7 @@ const DefaultKandidatsøk: FunctionComponent<Props> = ({
     harHentetStilling,
     søkestateKommerFraAnnetSøk,
 }) => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        resetKandidatlisterSokekriterier();
-    }, [resetKandidatlisterSokekriterier]);
+    useNullstillKandidatlisteState();
 
     useEffect(() => {
         if (søkestateKommerFraAnnetSøk || harUrlParametere(window.location.href)) {
@@ -45,14 +39,6 @@ const DefaultKandidatsøk: FunctionComponent<Props> = ({
         }
     }, [leggUrlParametereIStateOgSøk, søkestateKommerFraAnnetSøk, search]);
 
-    const header = (
-        <div className="ResultatVisning--hovedside--header">
-            <Container className="container--header--uten-stilling">
-                <Sidetittel>Kandidatsøk</Sidetittel>
-            </Container>
-        </div>
-    );
-
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
         resetQuery(hentQueryUtenKriterier(harHentetStilling, undefined));
@@ -61,11 +47,7 @@ const DefaultKandidatsøk: FunctionComponent<Props> = ({
     };
 
     return (
-        <Kandidatsøk
-            visSpinner={isInitialSearch}
-            header={header}
-            onRemoveCriteriaClick={onRemoveCriteriaClick}
-        />
+        <Kandidatsøk visSpinner={isInitialSearch} onRemoveCriteriaClick={onRemoveCriteriaClick} />
     );
 };
 
@@ -105,10 +87,7 @@ const mapDispatchToProps = (dispatch) => ({
     removeKompetanseSuggestions: () => dispatch({ type: REMOVE_KOMPETANSE_SUGGESTIONS }),
     leggUrlParametereIStateOgSøk: (href: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
-    resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
-    },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultKandidatsøk);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkUtenKontekst);

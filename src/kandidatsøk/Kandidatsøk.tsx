@@ -13,7 +13,7 @@ interface Props {
     stillingsId?: string;
     visSpinner: boolean;
     suksessmeldingLagreKandidatVises?: boolean;
-    header: ReactElement;
+    header?: ReactElement;
     onRemoveCriteriaClick: () => void;
 }
 
@@ -27,7 +27,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
 }) => {
     return (
         <>
-            {header}
+            {header || null}
             {visSpinner ? (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />

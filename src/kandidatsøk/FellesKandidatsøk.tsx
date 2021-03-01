@@ -12,7 +12,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
-import { hentQueryUtenKriterier } from './DefaultKandidatsøk';
+import { hentQueryUtenKriterier } from './KandidatsøkUtenKontekst';
 import {
     LUKK_ALLE_SOKEPANEL,
     SEARCH,
@@ -180,7 +180,6 @@ const FellesKandidatsøk: FunctionComponent<Props> = ({ match }) => {
                     <Column xs="12" sm="8">
                         <div className="kandidatervisning--column" id="sokeresultat">
                             <KandidaterVisning
-                                ikkeHentKandidatliste
                                 skjulPaginering={visFantFåKandidater}
                                 kandidatlisteId={kandidatlisteId || kandidatliste?.kandidatlisteId}
                                 stillingsId={stillingsId}
