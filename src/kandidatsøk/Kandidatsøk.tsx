@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactElement, useEffect } from 'react';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { Flatknapp } from 'nav-frontend-knapper';
-import KandidaterVisning from './KandidaterVisning';
+import KandidaterOgModal from './kandidater-og-modal/KandidaterOgModal';
 import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
 import { Column, Container } from 'nav-frontend-grid';
 import Søkefiltre from './søkefiltre/Søkefiltre';
@@ -10,12 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer';
 import AppState from '../AppState';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
+import './Kandidatsøk.less';
 
 interface Props {
     visFantFåKandidater?: boolean;
     kandidatlisteId?: string;
     stillingsId?: string;
-    suksessmeldingLagreKandidatVises?: boolean;
     header?: ReactElement;
 }
 
@@ -77,7 +77,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                     </Column>
                     <Column xs="12" sm="8">
                         <div className="kandidatervisning--column" id="sokeresultat">
-                            <KandidaterVisning
+                            <KandidaterOgModal
                                 skjulPaginering={visFantFåKandidater}
                                 kandidatlisteId={kandidatlisteId}
                                 stillingsId={stillingsId}

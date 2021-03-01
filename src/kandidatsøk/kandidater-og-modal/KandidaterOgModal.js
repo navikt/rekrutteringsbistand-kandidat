@@ -3,22 +3,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
-import cvPropTypes from '../common/PropTypes';
-import { Kandidatliste } from '../kandidatliste/PropTypes';
-import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
-import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../common/konstanter';
-import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
+import cvPropTypes from '../../common/PropTypes';
+import { Kandidatliste } from '../../kandidatliste/PropTypes';
+import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
+import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
+import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
-} from './reducer/searchReducer';
-import LagreKandidaterTilStillingModal from './modaler/LagreKandidaterTilStillingModal';
-import LagreKandidaterModal from './modaler/LagreKandidaterModal';
+} from '../reducer/searchReducer';
+import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
 import { Nettstatus } from '../api/remoteData.ts';
-import { formatterInt } from './utils';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import { sendEvent } from '../amplitude/amplitude';
+import { formatterInt } from '../utils';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import { sendEvent } from '../../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
 
@@ -38,7 +38,7 @@ const markereKandidat = (kandidatnr, checked) => (k) => {
     return k;
 };
 
-class KandidaterVisning extends React.Component {
+class KandidaterOgModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -259,14 +259,14 @@ class KandidaterVisning extends React.Component {
     }
 }
 
-KandidaterVisning.defaultProps = {
+KandidaterOgModal.defaultProps = {
     kandidatlisteId: undefined,
     stillingsId: undefined,
     kandidatliste: undefined,
     skjulPaginering: false,
 };
 
-KandidaterVisning.propTypes = {
+KandidaterOgModal.propTypes = {
     skjulPaginering: PropTypes.bool,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
@@ -319,4 +319,4 @@ const mapStateToProps = (state) => ({
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterOgModal);

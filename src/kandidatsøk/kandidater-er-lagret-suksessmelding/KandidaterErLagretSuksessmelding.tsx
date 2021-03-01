@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import HjelpetekstFading from '../common/HjelpetekstFading';
-import { LAGRE_STATUS } from '../common/konstanter';
+import HjelpetekstFading from '../../common/HjelpetekstFading';
+import { LAGRE_STATUS } from '../../common/konstanter';
 import { Link } from 'react-router-dom';
-import { lenkeTilKandidatliste } from '../app/paths';
+import { lenkeTilKandidatliste } from '../../app/paths';
 import { useSelector } from 'react-redux';
-import AppState from '../AppState';
+import AppState from '../../AppState';
 
 export const KandidaterErLagretSuksessmelding: FunctionComponent = () => {
     const { lagreStatus, antallLagredeKandidater, lagretListe } = useSelector(

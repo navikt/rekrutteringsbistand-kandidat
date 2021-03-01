@@ -5,7 +5,6 @@ import { Kandidatsøk } from './Kandidatsøk';
 import { SEARCH, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
 import AppState from '../AppState';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
-import './Resultat.less';
 
 const KandidatsøkUtenKontekst: FunctionComponent = () => {
     const dispatch = useDispatch();
