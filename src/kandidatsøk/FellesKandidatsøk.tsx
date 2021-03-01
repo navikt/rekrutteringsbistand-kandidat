@@ -25,17 +25,6 @@ import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 import { harUrlParametere } from './reducer/searchQuery';
 import useKandidatliste from './useKandidatliste';
 
-export type FellesKandidatsøkProps = {
-    resetQuery: (query: any) => void;
-    leggUrlParametereIStateOgSøk: (href: string) => void;
-    search: () => void;
-    removeKompetanseSuggestions: () => void;
-    isInitialSearch: boolean;
-    harHentetStilling: boolean;
-    resetKandidatlisterSokekriterier: () => void;
-    lukkAlleSokepanel: () => void;
-};
-
 type Props = {
     match: match<{
         kandidatlisteId?: string;

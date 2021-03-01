@@ -1,34 +1,21 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SØK_MED_INFO_FRA_STILLING, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
-import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import { harUrlParametere } from './reducer/searchQuery';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
-import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Kandidatsøk } from './Kandidatsøk';
 import { Nettstatus } from '../api/remoteData';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
+import { RouteChildrenProps } from 'react-router-dom';
 import './Resultat.less';
 
-type Props = FellesKandidatsøkProps & {
-    maksAntallTreff: number;
-    kandidatliste: Kandidatliste | undefined;
-    match: {
-        params: {
-            stillingsId: string;
-        };
-    };
-    leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) => void;
-    hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
-    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
-    kandidatlisteIdFraSøk: string;
-};
+type Props = RouteChildrenProps<{ stillingsId: string }>;
 
 const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
-    const stillingsIdFraUrl = match.params.stillingsId;
+    const stillingsIdFraUrl = match?.params.stillingsId;
 
     const dispatch = useDispatch();
     const maksAntallTreff = useSelector((state: AppState) => state.søk.maksAntallTreff);
@@ -48,7 +35,7 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
         };
 
         const hentStillingOgOppdaterStateOgSøk = (
-            stillingsId: string,
+            stillingsId?: string,
             kandidatlisteId?: string
         ) => {
             dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId });
