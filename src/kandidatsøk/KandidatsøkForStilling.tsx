@@ -18,7 +18,6 @@ import AppState from '../AppState';
 import { hentQueryUtenKriterier } from './KandidatsøkUtenKontekst';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from './reducer/searchQuery';
-import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 import useKandidatliste from './useKandidatliste';
@@ -35,6 +34,7 @@ type Props = FellesKandidatsøkProps & {
     hentKandidatlisteMedStillingsId: (stillingsId: string) => void;
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) => void;
     kandidatlisteIdFraSøk: string;
+    nullstillKandidaterErLagretIKandidatlisteAlert: () => void;
 };
 
 const KandidatsøkForStilling: FunctionComponent<Props> = ({
@@ -42,7 +42,6 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({
     kandidatliste,
     isInitialSearch,
     leggInfoFraStillingIStateOgSøk,
-    hentKandidatlisteMedStillingsId,
     leggUrlParametereIStateOgSøk,
     lukkAlleSokepanel,
     resetQuery,
@@ -50,6 +49,7 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     maksAntallTreff,
+    nullstillKandidaterErLagretIKandidatlisteAlert,
 }) => {
     const stillingsIdFraUrl = match.params.stillingsId;
     useNullstillKandidatlisteState();
@@ -69,10 +69,8 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({
     ]);
 
     useEffect(() => {
-        if (!harUrlParametere(window.location.href)) {
-            hentKandidatlisteMedStillingsId(stillingsIdFraUrl);
-        }
-    }, [stillingsIdFraUrl, hentKandidatlisteMedStillingsId]);
+        nullstillKandidaterErLagretIKandidatlisteAlert();
+    }, [nullstillKandidaterErLagretIKandidatlisteAlert]);
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
@@ -119,20 +117,11 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId }),
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
-    resetKandidatlisterSokekriterier: () => {
-        dispatch({ type: ListeoversiktActionType.RESET_KANDIDATLISTER_SOKEKRITERIER });
-    },
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
-    fjernValgtKandidat: () =>
+    nullstillKandidaterErLagretIKandidatlisteAlert: () =>
         dispatch({
-            type: KandidatlisteActionType.VELG_KANDIDAT,
+            type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
         }),
-    hentKandidatlisteMedStillingsId: (stillingsId) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-            stillingsId,
-        });
-    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkForStilling);

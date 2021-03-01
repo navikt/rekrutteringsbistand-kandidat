@@ -14,9 +14,11 @@ import AppState from '../AppState';
 import { harUrlParametere } from './reducer/searchQuery';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
+import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 
 type Props = FellesKandidatsøkProps & {
     søkestateKommerFraAnnetSøk: boolean;
+    nullstillKandidaterErLagretIKandidatlisteAlert: () => void;
 };
 
 const KandidatsøkUtenKontekst: FunctionComponent<Props> = ({
@@ -28,6 +30,7 @@ const KandidatsøkUtenKontekst: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     søkestateKommerFraAnnetSøk,
+    nullstillKandidaterErLagretIKandidatlisteAlert,
 }) => {
     useNullstillKandidatlisteState();
 
@@ -38,6 +41,10 @@ const KandidatsøkUtenKontekst: FunctionComponent<Props> = ({
             search();
         }
     }, [leggUrlParametereIStateOgSøk, søkestateKommerFraAnnetSøk, search]);
+
+    useEffect(() => {
+        nullstillKandidaterErLagretIKandidatlisteAlert();
+    }, [nullstillKandidaterErLagretIKandidatlisteAlert]);
 
     const onRemoveCriteriaClick = () => {
         lukkAlleSokepanel();
@@ -88,6 +95,10 @@ const mapDispatchToProps = (dispatch) => ({
     leggUrlParametereIStateOgSøk: (href: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
+    nullstillKandidaterErLagretIKandidatlisteAlert: () =>
+        dispatch({
+            type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
+        }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkUtenKontekst);

@@ -17,7 +17,6 @@ import AppState from '../AppState';
 import { hentQueryUtenKriterier } from './KandidatsøkUtenKontekst';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
 import { harUrlParametere } from './reducer/searchQuery';
-import { ListeoversiktActionType } from '../listeoversikt/reducer/ListeoversiktAction';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 import useKandidatliste from './useKandidatliste';
@@ -32,7 +31,7 @@ type Props = FellesKandidatsøkProps & {
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) => void;
     kandidatlisteIdFraSøk?: string;
     fjernValgtKandidat: () => void;
-    leggTilKandidaterReset: () => void;
+    nullstillKandidaterErLagretIKandidatlisteAlert: () => void;
 };
 
 const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({
@@ -46,11 +45,10 @@ const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({
     search,
     harHentetStilling,
     kandidatlisteIdFraSøk,
-    leggTilKandidaterReset,
+    nullstillKandidaterErLagretIKandidatlisteAlert,
 }) => {
     const kandidatlisteId = match.params.kandidatlisteId;
     useNullstillKandidatlisteState();
-
     useKandidatliste(undefined, kandidatlisteId);
 
     useEffect(() => {
@@ -68,8 +66,8 @@ const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({
     }, [kandidatlisteId, kandidatlisteIdFraSøk, leggUrlParametereIStateOgSøk, search]);
 
     useEffect(() => {
-        leggTilKandidaterReset();
-    }, [leggTilKandidaterReset]);
+        nullstillKandidaterErLagretIKandidatlisteAlert();
+    }, [nullstillKandidaterErLagretIKandidatlisteAlert]);
 
     const header = <KandidatlisteHeader kandidatliste={kandidatliste} />;
 
@@ -110,7 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
     leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) =>
         dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
     lukkAlleSokepanel: () => dispatch({ type: LUKK_ALLE_SOKEPANEL }),
-    leggTilKandidaterReset: () =>
+    nullstillKandidaterErLagretIKandidatlisteAlert: () =>
         dispatch({
             type: KandidatlisteActionType.LEGG_TIL_KANDIDATER_RESET,
         }),
