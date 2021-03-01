@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { SEARCH, SØK_MED_INFO_FRA_STILLING, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { SØK_MED_INFO_FRA_STILLING, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import { harUrlParametere } from './reducer/searchQuery';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
@@ -27,29 +27,41 @@ type Props = FellesKandidatsøkProps & {
     kandidatlisteIdFraSøk: string;
 };
 
-const KandidatsøkForStilling: FunctionComponent<Props> = ({
-    match,
-    kandidatliste,
-    leggInfoFraStillingIStateOgSøk,
-    leggUrlParametereIStateOgSøk,
-    maksAntallTreff,
-}) => {
+const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
     const stillingsIdFraUrl = match.params.stillingsId;
+
+    const dispatch = useDispatch();
+    const maksAntallTreff = useSelector((state: AppState) => state.søk.maksAntallTreff);
+    const kandidatliste = useSelector((state: AppState) =>
+        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
+            ? state.kandidatliste.kandidatliste.data
+            : undefined
+    );
+    const kandidatlisteIdFraApi = kandidatliste?.kandidatlisteId;
+
     useNullstillKandidatlisteState();
     useKandidatliste(stillingsIdFraUrl);
 
     useEffect(() => {
-        if (harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk(window.location.href, kandidatliste?.kandidatlisteId);
-        } else {
-            leggInfoFraStillingIStateOgSøk(stillingsIdFraUrl, kandidatliste?.kandidatlisteId);
+        const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId?: string) => {
+            dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId });
+        };
+
+        const hentStillingOgOppdaterStateOgSøk = (
+            stillingsId: string,
+            kandidatlisteId?: string
+        ) => {
+            dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId });
+        };
+
+        if (kandidatlisteIdFraApi) {
+            if (harUrlParametere(window.location.href)) {
+                oppdaterStateFraUrlOgSøk(window.location.href, kandidatlisteIdFraApi);
+            } else {
+                hentStillingOgOppdaterStateOgSøk(stillingsIdFraUrl, kandidatlisteIdFraApi);
+            }
         }
-    }, [
-        kandidatliste,
-        stillingsIdFraUrl,
-        leggInfoFraStillingIStateOgSøk,
-        leggUrlParametereIStateOgSøk,
-    ]);
+    }, [dispatch, stillingsIdFraUrl, kandidatlisteIdFraApi]);
 
     return (
         <>
@@ -68,21 +80,4 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({
     );
 };
 
-const mapStateToProps = (state: AppState) => ({
-    kandidatliste:
-        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.kandidatliste.data
-            : undefined,
-    maksAntallTreff: state.søk.maksAntallTreff,
-    kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
-    leggInfoFraStillingIStateOgSøk: (stillingsId: string, kandidatlisteId?: string) =>
-        dispatch({ type: SØK_MED_INFO_FRA_STILLING, stillingsId, kandidatlisteId }),
-    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId?: string) =>
-        dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkForStilling);
+export default KandidatsøkForStilling;

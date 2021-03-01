@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SEARCH, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
 import { FellesKandidatsøkProps } from './FellesKandidatsøk';
 import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
-import { Kandidatliste } from '../kandidatliste/kandidatlistetyper';
 import { KandidatlisteHeader } from './headers/KandidatlisteHeader';
 import { Nettstatus } from '../api/remoteData';
 import AppState from '../AppState';
@@ -14,66 +13,59 @@ import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 import './Resultat.less';
 
 type Props = FellesKandidatsøkProps & {
-    kandidatliste: Kandidatliste | undefined;
     match: {
         params: {
             kandidatlisteId: string;
         };
     };
-    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) => void;
-    kandidatlisteIdFraSøk?: string;
-    fjernValgtKandidat: () => void;
-    nullstillKandidaterErLagretIKandidatlisteAlert: () => void;
 };
 
-const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({
-    match,
-    search,
-    kandidatliste,
-    leggUrlParametereIStateOgSøk,
-    kandidatlisteIdFraSøk,
-}) => {
-    const kandidatlisteId = match.params.kandidatlisteId;
+const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({ match }) => {
+    const kandidatlisteIdFraUrl = match.params.kandidatlisteId;
+    const dispatch = useDispatch();
+    const kandidatlisteIdFraApi = useSelector((state: AppState) => state.søk.kandidatlisteId);
+    const kandidatlisteNettressurs = useSelector(
+        (state: AppState) => state.kandidatliste.kandidatliste
+    );
+
     useNullstillKandidatlisteState();
-    useKandidatliste(undefined, kandidatlisteId);
+    useKandidatliste(undefined, kandidatlisteIdFraUrl);
 
     useEffect(() => {
+        const oppdaterStateFraUrlOgSøk = (href: string, kandidatlisteId: string) => {
+            dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId });
+        };
+
+        const oppdaterUrlFraStateOgSøk = () => {
+            dispatch({ type: SEARCH });
+        };
+
         const søkestateKommerFraDenneKandidatlisten =
-            !!kandidatlisteIdFraSøk && kandidatlisteIdFraSøk === kandidatlisteId;
-
-        const skalSøkeMedEksisterendeSøkestate =
-            !harUrlParametere(window.location.href) && søkestateKommerFraDenneKandidatlisten;
-
-        if (skalSøkeMedEksisterendeSøkestate) {
-            search();
+            kandidatlisteIdFraApi === kandidatlisteIdFraUrl;
+        if (søkestateKommerFraDenneKandidatlisten && !harUrlParametere(window.location.href)) {
+            oppdaterUrlFraStateOgSøk();
         } else {
-            leggUrlParametereIStateOgSøk(window.location.href, kandidatlisteId);
+            oppdaterStateFraUrlOgSøk(window.location.href, kandidatlisteIdFraUrl);
         }
-    }, [kandidatlisteId, kandidatlisteIdFraSøk, leggUrlParametereIStateOgSøk, search]);
+    }, [dispatch, kandidatlisteIdFraUrl, kandidatlisteIdFraApi]);
 
     return (
         <>
             <KandidaterErLagretSuksessmelding />
             <Kandidatsøk
-                kandidatlisteId={kandidatlisteId}
-                header={<KandidatlisteHeader kandidatliste={kandidatliste} />}
+                kandidatlisteId={kandidatlisteIdFraUrl}
+                header={
+                    <KandidatlisteHeader
+                        kandidatliste={
+                            kandidatlisteNettressurs.kind === Nettstatus.Suksess
+                                ? kandidatlisteNettressurs.data
+                                : undefined
+                        }
+                    />
+                }
             />
         </>
     );
 };
 
-const mapStateToProps = (state: AppState) => ({
-    kandidatliste:
-        state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
-            ? state.kandidatliste.kandidatliste.data
-            : undefined,
-    kandidatlisteIdFraSøk: state.søk.kandidatlisteId,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    search: () => dispatch({ type: SEARCH }),
-    leggUrlParametereIStateOgSøk: (href: string, kandidatlisteId: string) =>
-        dispatch({ type: SØK_MED_URL_PARAMETERE, href, kandidatlisteId }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(KandidatsøkForKandidatliste);
+export default KandidatsøkForKandidatliste;

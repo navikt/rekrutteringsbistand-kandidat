@@ -16,18 +16,18 @@ const KandidatsøkUtenKontekst: FunctionComponent = () => {
     useNullstillKandidatlisteState();
 
     useEffect(() => {
-        const leggUrlParametereIStateOgSøk = (href: string) => {
+        const oppdaterStateFraUrlOgSøk = (href: string) => {
             dispatch({ type: SØK_MED_URL_PARAMETERE, href });
         };
 
-        const søk = () => {
+        const oppdaterUrlFraStateOgSøk = () => {
             dispatch({ type: SEARCH });
         };
 
         if (søkestateKommerFraAnnetSøk || harUrlParametere(window.location.href)) {
-            leggUrlParametereIStateOgSøk(window.location.href);
+            oppdaterStateFraUrlOgSøk(window.location.href);
         } else {
-            søk();
+            oppdaterUrlFraStateOgSøk();
         }
     }, [dispatch, søkestateKommerFraAnnetSøk]);
 
