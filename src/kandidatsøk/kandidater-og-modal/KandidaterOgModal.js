@@ -15,7 +15,7 @@ import {
 } from '../reducer/searchReducer';
 import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
 import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
-import { Nettstatus } from '../api/remoteData.ts';
+import { Nettstatus } from '../../api/remoteData.ts';
 import { formatterInt } from '../utils';
 import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
 import { sendEvent } from '../../amplitude/amplitude';

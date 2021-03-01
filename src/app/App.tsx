@@ -26,7 +26,6 @@ import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import FellesKandidatsøk from '../kandidatsøk/FellesKandidatsøk';
 import './App.less';
 
 type Props = {
@@ -66,16 +65,6 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
-                        <Route
-                            exact
-                            path={[
-                                '/kandidatsok',
-                                '/kandidatsok/kandidatliste/:kandidatlisteId',
-                                '/kandidatsok/stilling/:stillingsId',
-                            ]}
-                            component={FellesKandidatsøk}
-                        />
-
                         <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact
