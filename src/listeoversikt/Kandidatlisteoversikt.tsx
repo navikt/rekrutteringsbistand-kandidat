@@ -20,7 +20,7 @@ import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
 import './Kandidatlisteoversikt.less';
-import { hentQueryUtenKriterier } from '../kandidatsøk/KandidatsøkUtenKontekst';
+import { hentQueryUtenKriterier } from '../kandidatsøk/Kandidatsøk';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',

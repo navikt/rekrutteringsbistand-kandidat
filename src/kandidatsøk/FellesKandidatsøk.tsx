@@ -12,7 +12,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Søkefiltre from './søkefiltre/Søkefiltre';
 import ViktigeYrker from './viktigeyrker/ViktigeYrker';
 import { KandidaterErLagretSuksessmelding } from './KandidaterErLagretSuksessmelding';
-import { hentQueryUtenKriterier } from './KandidatsøkUtenKontekst';
+import { hentQueryUtenKriterier } from './Kandidatsøk';
 import {
     LUKK_ALLE_SOKEPANEL,
     SEARCH,
