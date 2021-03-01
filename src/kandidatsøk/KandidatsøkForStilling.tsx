@@ -9,7 +9,6 @@ import { Kandidatsøk } from './Kandidatsøk';
 import { Nettstatus } from '../api/remoteData';
 import AppState from '../AppState';
 import useKandidatliste from './useKandidatliste';
-import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 
 type Props = RouteChildrenProps<{ stillingsId: string }>;
 
@@ -25,7 +24,6 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
     );
     const kandidatlisteIdFraApi = kandidatliste?.kandidatlisteId;
 
-    useNullstillKandidatlisteState();
     useKandidatliste(stillingsIdFraUrl);
 
     useEffect(() => {

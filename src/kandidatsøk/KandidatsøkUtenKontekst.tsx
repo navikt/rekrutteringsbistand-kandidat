@@ -4,15 +4,12 @@ import { harUrlParametere } from './reducer/searchQuery';
 import { Kandidatsøk } from './Kandidatsøk';
 import { SEARCH, SØK_MED_URL_PARAMETERE } from './reducer/searchReducer';
 import AppState from '../AppState';
-import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 
 const KandidatsøkUtenKontekst: FunctionComponent = () => {
     const dispatch = useDispatch();
     const søkestateKommerFraAnnetSøk = useSelector(
         (state: AppState) => !!state.søk.kandidatlisteId
     );
-
-    useNullstillKandidatlisteState();
 
     useEffect(() => {
         const oppdaterStateFraUrlOgSøk = (href: string) => {

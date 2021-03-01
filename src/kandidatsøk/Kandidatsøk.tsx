@@ -11,6 +11,7 @@ import { LUKK_ALLE_SOKEPANEL, SEARCH, SET_STATE } from './reducer/searchReducer'
 import AppState from '../AppState';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import './Kandidatsøk.less';
+import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
 
 interface Props {
     visFantFåKandidater?: boolean;
@@ -25,6 +26,8 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
     stillingsId,
     header,
 }) => {
+    useNullstillKandidatlisteState();
+
     const dispatch = useDispatch();
     const { isInitialSearch, harHentetStilling } = useSelector((state: AppState) => state.søk);
 
