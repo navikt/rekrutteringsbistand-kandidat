@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 
 const useKandidatliste = (stillingsId?: string, kandidatlisteId?: string) => {
-    console.log('USE KANDIDATLISTE:', stillingsId, kandidatlisteId);
     const dispatch = useDispatch();
 
     const hentKandidatliste = useCallback(
@@ -24,7 +23,6 @@ const useKandidatliste = (stillingsId?: string, kandidatlisteId?: string) => {
     );
 
     useEffect(() => {
-        console.log('SKAL HENTE KANDIDATLISTE');
         if (stillingsId) {
             hentKandidatliste(stillingsId);
         } else if (kandidatlisteId) {

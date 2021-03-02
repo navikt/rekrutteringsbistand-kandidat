@@ -19,8 +19,8 @@ import MarkerSomMinModal from './modaler/MarkerSomMinModal';
 import OpprettModal from './modaler/OpprettModal';
 import Paginering from './Paginering';
 import SlettKandidatlisteModal from './modaler/SlettKandidatlisteModal';
+import { hentQueryUtenKriterier } from '../kandidatsøk/useSlettAlleKriterier';
 import './Kandidatlisteoversikt.less';
-import { hentQueryUtenKriterier } from '../kandidatsøk/DefaultKandidatsøk';
 
 enum Modalvisning {
     Ingen = 'INGEN_MODAL',
@@ -95,7 +95,7 @@ class Kandidatlisteoversikt extends React.Component<Props> {
     componentDidMount() {
         const { query, type, kunEgne, pagenumber } = this.props.kandidatlisterSokeKriterier;
 
-        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier(false, undefined));
+        this.props.nullstillSøkekriterierIKandidatsøk(hentQueryUtenKriterier());
         this.props.lukkSøkepanelerIKandidatsøk();
 
         this.props.hentKandidatlister(query, type, kunEgne, pagenumber, PAGINERING_BATCH_SIZE);

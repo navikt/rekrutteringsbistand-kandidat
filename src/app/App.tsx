@@ -13,9 +13,9 @@ import { NavKontorActionTypes } from '../navKontor/navKontorReducer';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import DefaultKandidatsøk from '../kandidatsøk/DefaultKandidatsøk';
-import KandidatsøkFraKandidatliste from '../kandidatsøk/KandidatsøkFraKandidatliste';
-import KandidatsøkFraStilling from '../kandidatsøk/KandidatsøkFraStilling';
+import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
+import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
+import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
@@ -26,7 +26,6 @@ import NotFound from '../kandidatsøk/søkefiltre/error/NotFound';
 import { TilToppenKnapp } from '../common/tilToppenKnapp/TilToppenKnapp';
 import useLoggNavigering from './useLoggNavigering';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import FellesKandidatsøk from '../kandidatsøk/FellesKandidatsøk';
 import './App.less';
 
 type Props = {
@@ -66,26 +65,16 @@ const App: FunctionComponent<Props> = (props) => {
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>
-                        <Route
-                            exact
-                            path={[
-                                '/kandidatsok',
-                                '/kandidatsok/kandidatliste/:kandidatlisteId',
-                                '/kandidatsok/stilling/:stillingsId',
-                            ]}
-                            component={FellesKandidatsøk}
-                        />
-
-                        <Route exact path="/kandidater" component={DefaultKandidatsøk} />
+                        <Route exact path="/kandidater" component={KandidatsøkUtenKontekst} />
                         <Route
                             exact
                             path="/kandidater/kandidatliste/:kandidatlisteId"
-                            component={KandidatsøkFraKandidatliste}
+                            component={KandidatsøkIKontekstAvKandidatliste}
                         />
                         <Route
                             exact
                             path="/kandidater/stilling/:stillingsId"
-                            component={KandidatsøkFraStilling}
+                            component={KandidatsøkIKontekstAvStilling}
                         />
                         <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route

@@ -1,34 +1,50 @@
-import React, { FunctionComponent, ReactElement } from 'react';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import ViktigeYrker from './viktigeyrker/ViktigeYrker';
-import { Flatknapp } from 'nav-frontend-knapper';
-import KandidaterVisning from './KandidaterVisning';
-import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
+import React, { FunctionComponent, ReactElement, useEffect } from 'react';
 import { Column, Container } from 'nav-frontend-grid';
+import { Flatknapp } from 'nav-frontend-knapper';
+import { useSelector } from 'react-redux';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+
+import AppState from '../AppState';
+import FantFåKandidater from './fant-få-kandidater/FantFåKandidater';
+import KandidaterOgModal from './kandidater-og-modal/KandidaterOgModal';
 import Søkefiltre from './søkefiltre/Søkefiltre';
+import useNullstillKandidatlisteState from './useNullstillKandidatlistestate';
+import useSlettAlleKriterier from './useSlettAlleKriterier';
+import ViktigeYrker from './viktigeyrker/ViktigeYrker';
+import './Kandidatsøk.less';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     visFantFåKandidater?: boolean;
     kandidatlisteId?: string;
     stillingsId?: string;
-    visSpinner: boolean;
-    suksessmeldingLagreKandidatVises?: boolean;
-    header: ReactElement;
-    onRemoveCriteriaClick: () => void;
+    header?: ReactElement;
 }
 
 export const Kandidatsøk: FunctionComponent<Props> = ({
     visFantFåKandidater,
     kandidatlisteId,
     stillingsId,
-    visSpinner,
     header,
-    onRemoveCriteriaClick,
 }) => {
+    useNullstillKandidatlisteState();
+
+    const { state } = useLocation<{ fraMeny: boolean } | undefined>();
+
+    const onSlettAlleKriterierKlikk = useSlettAlleKriterier(kandidatlisteId);
+    const venterPåFørsteSøk = useSelector((state: AppState) => state.søk.isInitialSearch);
+    const scrolletFraToppen = useSelector((state: AppState) => state.søk.scrolletFraToppen);
+
+    useEffect(() => {
+        if (!venterPåFørsteSøk && !state?.fraMeny) {
+            window.scrollTo(0, scrolletFraToppen);
+        }
+    }, [venterPåFørsteSøk, scrolletFraToppen, state]);
+
     return (
         <>
-            {header}
-            {visSpinner ? (
+            {header || null}
+            {venterPåFørsteSøk ? (
                 <div className="fullscreen-spinner">
                     <NavFrontendSpinner type="L" />
                 </div>
@@ -41,7 +57,7 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                                 <Flatknapp
                                     mini
                                     id="slett-alle-kriterier-lenke"
-                                    onClick={onRemoveCriteriaClick}
+                                    onClick={onSlettAlleKriterierKlikk}
                                 >
                                     Slett alle kriterier
                                 </Flatknapp>
@@ -51,13 +67,15 @@ export const Kandidatsøk: FunctionComponent<Props> = ({
                     </Column>
                     <Column xs="12" sm="8">
                         <div className="kandidatervisning--column" id="sokeresultat">
-                            <KandidaterVisning
+                            <KandidaterOgModal
                                 skjulPaginering={visFantFåKandidater}
                                 kandidatlisteId={kandidatlisteId}
                                 stillingsId={stillingsId}
                             />
                             {visFantFåKandidater && (
-                                <FantFåKandidater onRemoveCriteriaClick={onRemoveCriteriaClick} />
+                                <FantFåKandidater
+                                    onRemoveCriteriaClick={onSlettAlleKriterierKlikk}
+                                />
                             )}
                         </div>
                     </Column>

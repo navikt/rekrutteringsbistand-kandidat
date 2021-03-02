@@ -70,7 +70,6 @@ export interface SearchState {
     visAlertFaKandidater: string; // TODO Dette er av typen ALERTTYPE
     valgtKandidatNr: string;
     scrolletFraToppen: number;
-    harHentetStilling: boolean;
     stillingsoverskrift?: string;
     arbeidsgiver?: any;
     annonseOpprettetAvNavn?: string;
@@ -99,7 +98,6 @@ const defaultState: SearchState = {
     visAlertFaKandidater: '',
     valgtKandidatNr: '',
     scrolletFraToppen: 0,
-    harHentetStilling: false,
 };
 
 export const searchReducer = (state: SearchState = defaultState, action: any): SearchState => {
@@ -220,7 +218,6 @@ export const searchReducer = (state: SearchState = defaultState, action: any): S
         case SET_STATE:
             return {
                 ...state,
-                harHentetStilling: action.query.harHentetStilling || false,
                 kandidatlisteId: action.query.kandidatlisteId,
             };
         case FJERN_ERROR:

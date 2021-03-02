@@ -25,11 +25,15 @@ const Utviklingsapp: FunctionComponent = () => {
                 <header className="utviklingsapp">
                     <Systemtittel>Utviklingsapp for rekrutteringsbistand-kandidat</Systemtittel>
                     <div className="utviklingsapp__lenke">
-                        <Link to="/kandidater">Kandidatsøk</Link>
-                    </div>
-                    <div className="utviklingsapp__lenke">
-                        <Link to={{ pathname: '/kandidatsok', state: { fraMeny: true } }}>
-                            Fellessøket
+                        <Link
+                            to={{
+                                pathname: '/kandidater',
+                                state: {
+                                    fraMeny: true,
+                                },
+                            }}
+                        >
+                            Kandidatsøk
                         </Link>
                     </div>
                     <div className="utviklingsapp__lenke">

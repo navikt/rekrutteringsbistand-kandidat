@@ -22,7 +22,6 @@ interface SearchQuery {
     forerkort?: string;
     kvalifiseringsgruppeKoder?: string;
     maaBoInnenforGeografi?: boolean;
-    harHentetStilling?: boolean;
     navkontor?: string;
     minekandidater?: boolean;
     hovedmal?: string;
@@ -73,7 +72,6 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
         );
     if (søkefilter.geografi.maaBoInnenforGeografi)
         urlQuery.maaBoInnenforGeografi = søkefilter.geografi.maaBoInnenforGeografi;
-    if (søk.harHentetStilling) urlQuery.harHentetStilling = søk.harHentetStilling;
     if (søkefilter.navkontor.navkontor && søkefilter.navkontor.navkontor.length > 0)
         urlQuery.navkontor = søkefilter.navkontor.navkontor.join('_');
     if (søkefilter.navkontor.minekandidater)
@@ -137,7 +135,6 @@ export type InitialQuery = FritekstState &
         utdanningsniva?: string[];
         totalErfaring?: string[];
         forerkort?: string[];
-        harHentetStilling?: boolean;
         hovedmal?: string[];
         tilretteleggingsbehov?: boolean;
         kategorier?: string[];
@@ -164,7 +161,6 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     const forerkort = getUrlParameterByName('forerkort', url);
     const kvalifiseringsgruppeKoder = getUrlParameterByName('kvalifiseringsgruppeKoder', url);
     const maaBoInnenforGeografi = getUrlParameterByName('maaBoInnenforGeografi', url);
-    const harHentetStilling = getUrlParameterByName('harHentetStilling', url);
     const navkontor = getUrlParameterByName('navkontor', url);
     const minekandidater = getUrlParameterByName('minekandidater', url);
     const hovedmal = getUrlParameterByName('hovedmal', url);
@@ -190,7 +186,6 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     if (kvalifiseringsgruppeKoder)
         stateFromUrl.kvalifiseringsgruppeKoder = kvalifiseringsgruppeKoder.split('_');
     if (maaBoInnenforGeografi === 'true') stateFromUrl.maaBoInnenforGeografi = true;
-    if (harHentetStilling === 'true') stateFromUrl.harHentetStilling = true;
     if (navkontor) stateFromUrl.navkontor = navkontor.split('_');
     if (minekandidater === 'true') stateFromUrl.minekandidater = true;
     if (hovedmal) stateFromUrl.hovedmal = hovedmal.split('_');
@@ -218,6 +213,5 @@ export const mapStillingTilInitialQuery = (stilling: any): InitialQuery => {
     return {
         stillinger: stilling.stilling,
         geografiList: stilling.kommune,
-        harHentetStilling: true,
     };
 };

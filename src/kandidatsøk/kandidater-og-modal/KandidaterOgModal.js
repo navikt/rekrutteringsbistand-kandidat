@@ -3,22 +3,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Undertittel } from 'nav-frontend-typografi';
-import cvPropTypes from '../common/PropTypes';
-import { Kandidatliste } from '../kandidatliste/PropTypes';
-import KandidaterTabell from './kandidater-tabell/KandidaterTabell';
-import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../common/konstanter';
-import KnappMedHjelpetekst from './knappMedHjelpetekst/KnappMedHjelpetekst';
+import cvPropTypes from '../../common/PropTypes';
+import { Kandidatliste } from '../../kandidatliste/PropTypes';
+import KandidaterTabell from '../kandidater-tabell/KandidaterTabell';
+import { KANDIDATLISTE_CHUNK_SIZE, LAGRE_STATUS } from '../../common/konstanter';
+import KnappMedHjelpetekst from '../knappMedHjelpetekst/KnappMedHjelpetekst';
 import {
     LAST_FLERE_KANDIDATER,
     MARKER_KANDIDATER,
     OPPDATER_ANTALL_KANDIDATER,
-} from './reducer/searchReducer';
-import LagreKandidaterTilStillingModal from './modaler/LagreKandidaterTilStillingModal';
-import LagreKandidaterModal from './modaler/LagreKandidaterModal';
-import { Nettstatus } from '../api/remoteData.ts';
-import { formatterInt } from './utils';
-import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
-import { sendEvent } from '../amplitude/amplitude';
+} from '../reducer/searchReducer';
+import LagreKandidaterTilStillingModal from '../modaler/LagreKandidaterTilStillingModal';
+import LagreKandidaterModal from '../modaler/LagreKandidaterModal';
+import { Nettstatus } from '../../api/remoteData.ts';
+import { formatterInt } from '../utils';
+import KandidatlisteActionType from '../../kandidatliste/reducer/KandidatlisteActionType';
+import { sendEvent } from '../../amplitude/amplitude';
 
 const antallKandidaterMarkert = (kandidater) => kandidater.filter((k) => k.markert).length;
 
@@ -38,7 +38,7 @@ const markereKandidat = (kandidatnr, checked) => (k) => {
     return k;
 };
 
-class KandidaterVisning extends React.Component {
+class KandidaterOgModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,22 +55,6 @@ class KandidaterVisning extends React.Component {
                 sendEvent('kandidatsøk', 'fra_midlertidig_utilgjengelig', { tid: tid });
             }
         }
-    }
-
-    componentDidMount() {
-        if (this.props.ikkeHentKandidatliste) {
-            return;
-        }
-
-        if (this.props.kandidatlisteId) {
-            this.props.hentKandidatlisteMedKandidatlisteId(this.props.kandidatlisteId);
-        }
-        if (this.props.stillingsId) {
-            this.props.hentKandidatlisteMedStillingsId(this.props.stillingsId);
-        }
-        setTimeout(() => {
-            window.scrollTo(0, this.props.scrolletFraToppen);
-        }, 10);
     }
 
     componentDidUpdate(prevProps) {
@@ -269,15 +253,14 @@ class KandidaterVisning extends React.Component {
     }
 }
 
-KandidaterVisning.defaultProps = {
+KandidaterOgModal.defaultProps = {
     kandidatlisteId: undefined,
     stillingsId: undefined,
     kandidatliste: undefined,
     skjulPaginering: false,
-    ikkeHentKandidatliste: false,
 };
 
-KandidaterVisning.propTypes = {
+KandidaterOgModal.propTypes = {
     skjulPaginering: PropTypes.bool,
     kandidater: PropTypes.arrayOf(cvPropTypes).isRequired,
     totaltAntallTreff: PropTypes.number.isRequired,
@@ -288,17 +271,13 @@ KandidaterVisning.propTypes = {
     searchQueryHash: PropTypes.string.isRequired,
     antallKandidater: PropTypes.number.isRequired,
     valgtKandidatNr: PropTypes.string.isRequired,
-    scrolletFraToppen: PropTypes.number.isRequired,
     oppdaterAntallKandidater: PropTypes.func.isRequired,
     oppdaterMarkerteKandidater: PropTypes.func.isRequired,
     leggTilKandidaterIKandidatliste: PropTypes.func.isRequired,
     kandidatlisteId: PropTypes.string,
     stillingsId: PropTypes.string,
-    hentKandidatlisteMedKandidatlisteId: PropTypes.func.isRequired,
-    hentKandidatlisteMedStillingsId: PropTypes.func.isRequired,
     kandidatliste: PropTypes.shape(Kandidatliste),
     midlertidigUtilgjengeligEndretTidspunkt: PropTypes.number,
-    ikkeHentKandidatliste: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -314,18 +293,6 @@ const mapDispatchToProps = (dispatch) => ({
     oppdaterMarkerteKandidater: (markerteKandidater) => {
         dispatch({ type: MARKER_KANDIDATER, kandidater: markerteKandidater });
     },
-    hentKandidatlisteMedKandidatlisteId: (kandidatlisteId) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_KANDIDATLISTE_ID,
-            kandidatlisteId,
-        });
-    },
-    hentKandidatlisteMedStillingsId: (stillingsId) => {
-        dispatch({
-            type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID,
-            stillingsId,
-        });
-    },
 });
 
 const mapStateToProps = (state) => ({
@@ -337,7 +304,6 @@ const mapStateToProps = (state) => ({
     searchQueryHash: state.søk.searchQueryHash,
     antallKandidater: state.søk.antallVisteKandidater,
     valgtKandidatNr: state.søk.valgtKandidatNr,
-    scrolletFraToppen: state.søk.scrolletFraToppen,
     kandidatliste:
         state.kandidatliste.kandidatliste.kind === Nettstatus.Suksess
             ? state.kandidatliste.kandidatliste.data
@@ -345,4 +311,4 @@ const mapStateToProps = (state) => ({
     midlertidigUtilgjengeligEndretTidspunkt: state.midlertidigUtilgjengelig.endretTidspunkt,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(KandidaterVisning);
+export default connect(mapStateToProps, mapDispatchToProps)(KandidaterOgModal);

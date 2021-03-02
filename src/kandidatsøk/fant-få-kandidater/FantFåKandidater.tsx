@@ -34,7 +34,6 @@ type Props = {
     kategorier: Kategori[];
     search: () => void;
     removeKompetanseSuggestions: () => void;
-    harHentetStilling: boolean;
     stillinger: string[];
     disableTilretteleggingsbehov: () => void;
     fetchKompetanseSuggestions: () => void;
@@ -129,7 +128,6 @@ const FantFåKandidater = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
     tilretteleggingsbehov: state.søkefilter.tilretteleggingsbehov.harTilretteleggingsbehov,
     kategorier: state.søkefilter.tilretteleggingsbehov.kategorier,
-    harHentetStilling: state.søk.harHentetStilling,
     stillinger: state.søkefilter.stilling.stillinger,
     geografiListKomplett: state.søkefilter.geografi.geografiListKomplett,
     maaBoInnenforGeografi: state.søkefilter.geografi.maaBoInnenforGeografi,

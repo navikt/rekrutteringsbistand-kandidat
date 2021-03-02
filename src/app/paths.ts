@@ -4,8 +4,6 @@ const nesteSeparator = (lenke: string) => (lenke.includes('?') ? '&' : '?');
 
 export const appPrefiks = '';
 
-export const lenkeTilKandidatsøk = `${appPrefiks}/kandidater`;
-
 export const lenkeTilKandidatlisteoversikt = `${appPrefiks}/kandidater/lister`;
 
 export const lenkeTilKandidatliste = (kandidatlisteId: string, filterQuery?: string) => {
@@ -35,11 +33,14 @@ export const lenkeTilStilling = (stillingsId: string, redigeringsmodus?: boolean
         redigeringsmodus ? '?redigeringsmodus=true' : ''
     }`;
 
+export const lenkeTilKandidatsøk = (params?: string) =>
+    `${appPrefiks}/kandidater${params ? '?' + params : ''}`;
+
 export const lenkeTilFinnKandidaterMedStilling = (stillingsId: string, params?: string) =>
     `${appPrefiks}/kandidater/stilling/${stillingsId}${params ? '?' + params : ''}`;
 
-export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string) =>
-    `${appPrefiks}/kandidater/kandidatliste/${stillingsId}`;
+export const lenkeTilFinnKandidaterUtenStilling = (stillingsId: string, params?: string) =>
+    `${appPrefiks}/kandidater/kandidatliste/${stillingsId}${params ? '?' + params : ''}`;
 
 export const lenkeTilCv = (
     kandidatnr: string,
