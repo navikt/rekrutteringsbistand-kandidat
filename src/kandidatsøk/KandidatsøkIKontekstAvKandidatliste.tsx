@@ -14,7 +14,7 @@ type Props = RouteChildrenProps<{
     kandidatlisteId: string;
 }>;
 
-const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({ match }) => {
+const KandidatsøkIKontekstAvKandidatliste: FunctionComponent<Props> = ({ match }) => {
     const dispatch = useDispatch();
     const kandidatlisteIdFraUrl = match?.params.kandidatlisteId;
 
@@ -66,4 +66,4 @@ const KandidatsøkForKandidatliste: FunctionComponent<Props> = ({ match }) => {
     );
 };
 
-export default KandidatsøkForKandidatliste;
+export default KandidatsøkIKontekstAvKandidatliste;

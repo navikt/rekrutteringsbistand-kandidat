@@ -12,7 +12,7 @@ import useKandidatliste from './useKandidatliste';
 
 type Props = RouteChildrenProps<{ stillingsId: string }>;
 
-const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
+const KandidatsøkIKontekstAvStilling: FunctionComponent<Props> = ({ match }) => {
     const stillingsIdFraUrl = match?.params.stillingsId;
 
     const dispatch = useDispatch();
@@ -64,4 +64,4 @@ const KandidatsøkForStilling: FunctionComponent<Props> = ({ match }) => {
     );
 };
 
-export default KandidatsøkForStilling;
+export default KandidatsøkIKontekstAvStilling;

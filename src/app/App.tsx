@@ -14,8 +14,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { getMiljø, Miljø } from '../utils/miljøUtils';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import KandidatsøkUtenKontekst from '../kandidatsøk/KandidatsøkUtenKontekst';
-import KandidatsøkForKandidatliste from '../kandidatsøk/KandidatsøkForKandidatliste';
-import KandidatsøkForStilling from '../kandidatsøk/KandidatsøkForStilling';
+import KandidatsøkIKontekstAvKandidatliste from '../kandidatsøk/KandidatsøkIKontekstAvKandidatliste';
+import KandidatsøkIKontekstAvStilling from '../kandidatsøk/KandidatsøkIKontekstAvStilling';
 import Kandidatlisteoversikt from '../listeoversikt/Kandidatlisteoversikt';
 import KandidatlistesideMedStilling from '../kandidatliste/KandidatlistesideMedStilling';
 import KandidatlisteUtenStilling from '../kandidatliste/KandidatlistesideUtenStilling';
@@ -69,12 +69,12 @@ const App: FunctionComponent<Props> = (props) => {
                         <Route
                             exact
                             path="/kandidater/kandidatliste/:kandidatlisteId"
-                            component={KandidatsøkForKandidatliste}
+                            component={KandidatsøkIKontekstAvKandidatliste}
                         />
                         <Route
                             exact
                             path="/kandidater/stilling/:stillingsId"
-                            component={KandidatsøkForStilling}
+                            component={KandidatsøkIKontekstAvStilling}
                         />
                         <Route exact path="/kandidater/lister" component={Kandidatlisteoversikt} />
                         <Route
