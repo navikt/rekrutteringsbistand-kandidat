@@ -77,12 +77,13 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
 
     const onSendSms = () => {
         const melding = genererMelding(valgtMal, stillingId);
+        const korrektLengdeFødselsnummer = 11;
 
         sendSmsTilKandidater(
             melding,
             kandidaterSomIkkeHarFåttSms
                 .map((kandidat) => kandidat.fodselsnr || '')
-                .filter((fnr) => fnr && fnr.length > 0),
+                .filter((fnr) => fnr && fnr.length === korrektLengdeFødselsnummer),
             kandidatlisteId
         );
     };
