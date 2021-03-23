@@ -1,18 +1,16 @@
 import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
 
-export const TOGGLE_TILRETTELEGGINGSBEHOV = 'TOGGLE_TILRETTELEGGINGSBEHOV';
-export const CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER = 'CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER';
-export const TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN = 'TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN';
+export const TOGGLE_PRIORITERTE_MÅLGRUPPER = 'TOGGLE_PRIORITERTE_MÅLGRUPPER';
+export const CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER = 'CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER';
+export const TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN = 'TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN';
 
 export interface PrioriterteMålgrupperState {
-    harTilretteleggingsbehov?: boolean;
     kategorier?: string[];
-    tilretteleggingsbehovPanelOpen: boolean;
+    prioriterteMålgrupperPanelOpen: boolean;
 }
 
 const initialState = {
-    harTilretteleggingsbehov: false,
-    tilretteleggingsbehovPanelOpen: false,
+    prioriterteMålgrupperPanelOpen: false,
     kategorier: [],
 };
 
@@ -22,39 +20,31 @@ export default function prioriterteMålgrupperReducer(
 ) {
     switch (action.type) {
         case SET_STATE: {
-            const { tilretteleggingsbehov, kategorier } = action.query;
+            const { prioriterteMålgrupper, kategorier } = action.query;
 
             return {
                 ...state,
-                harTilretteleggingsbehov: tilretteleggingsbehov || false,
                 kategorier: kategorier || [],
-                tilretteleggingsbehovPanelOpen:
+                prioriterteMålgrupperPanelOpen:
                     harEnParameter(kategorier) ||
-                    tilretteleggingsbehov ||
-                    state.tilretteleggingsbehovPanelOpen,
+                    prioriterteMålgrupper ||
+                    state.prioriterteMålgrupperPanelOpen,
             };
         }
-        case TOGGLE_TILRETTELEGGINGSBEHOV:
+        case TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN:
             return {
                 ...state,
-                harTilretteleggingsbehov: action.harTilretteleggingsbehov,
-                kategorier: [],
-            };
-        case TOGGLE_TILRETTELEGGINGSBEHOV_PANEL_OPEN:
-            return {
-                ...state,
-                tilretteleggingsbehovPanelOpen: !state.tilretteleggingsbehovPanelOpen,
+                prioriterteMålgrupperPanelOpen: !state.prioriterteMålgrupperPanelOpen,
             };
         case LUKK_ALLE_SOKEPANEL:
             return {
                 ...state,
-                tilretteleggingsbehovPanelOpen: false,
+                prioriterteMålgrupperPanelOpen: false,
             };
-        case CHANGE_TILRETTELEGGINGSBEHOV_KATEGORIER:
+        case CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER:
             return {
                 ...state,
                 kategorier: action.kategorier,
-                harTilretteleggingsbehov: true,
             };
         default:
             return state;

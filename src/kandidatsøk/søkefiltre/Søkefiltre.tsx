@@ -15,8 +15,8 @@ import HovedmalSearch from './hovedmal/HovedmalSearch';
 import InnsatsgruppeSearch from './innsatsgruppe/InnsatsgruppeSearch';
 import { AlderSearch } from './alder/AlderSearch';
 import TilretteleggingsbehovSearch from './tilretteleggingsbehov/TilretteleggingsbehovSearch';
-import './Søkefiltre.less';
 import PrioriterteMålgrupperSearch from './prioritertemålgrupper/PrioriterteMålgrupperSearch';
+import './Søkefiltre.less';
 
 type Props = {
     stillingsId: string | undefined;

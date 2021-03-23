@@ -32,6 +32,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { saga } from './kandidatsøk/reducer/searchReducer';
 import kandidatlisteSaga from './kandidatliste/reducer/kandidatlisteSaga';
 import listeoversiktSaga from './listeoversikt/reducer/listeoversiktSaga';
+import prioriterteMålgrupperReducer from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -50,6 +51,7 @@ const søkefiltreReducer = combineReducers({
     stilling: stillingReducer,
     tilgjengelighet: tilgjengelighetReducer,
     tilretteleggingsbehov: tilretteleggingsbehovReducer,
+    prioriterteMålgrupper: prioriterteMålgrupperReducer,
     typeahead: typeaheadReducer,
     utdanning: utdanningReducer,
 });

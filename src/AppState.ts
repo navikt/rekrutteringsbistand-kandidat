@@ -14,6 +14,7 @@ import { PermitteringState } from './kandidatsøk/søkefiltre/permittering/permi
 import { SearchState } from './kandidatsøk/reducer/typedSearchReducer';
 import { TilgjengelighetState } from './kandidatsøk/søkefiltre/tilgjengelighet/tilgjengelighetReducer';
 import { TilretteleggingsbehovState } from './kandidatsøk/søkefiltre/tilretteleggingsbehov/tilretteleggingsbehovReducer';
+import { PrioriterteMålgrupperState } from './kandidatsøk/søkefiltre/prioritertemålgrupper/prioriterteMålgrupperReducer';
 
 type AppState = {
     cv: CvState;
@@ -41,6 +42,7 @@ type AppState = {
         tilretteleggingsbehov: TilretteleggingsbehovState;
         typeahead: TypeaheadState;
         utdanning: UtdanningState;
+        prioriterteMålgrupper: PrioriterteMålgrupperState;
     };
 };
 
