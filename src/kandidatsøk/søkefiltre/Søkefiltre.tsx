@@ -54,8 +54,8 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
 
             <div className="søkefiltre__gruppe">
                 <Element>Behov for inkludering</Element>
-                <TilretteleggingsbehovSearch />
                 <PrioriterteMålgrupperSearch />
+                <TilretteleggingsbehovSearch />
             </div>
         </div>
     );
