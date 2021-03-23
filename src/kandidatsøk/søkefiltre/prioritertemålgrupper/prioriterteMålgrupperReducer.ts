@@ -1,17 +1,16 @@
-import { harEnParameter, LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
+import { LUKK_ALLE_SOKEPANEL, SET_STATE } from '../../reducer/searchReducer';
 
-export const TOGGLE_PRIORITERTE_MÅLGRUPPER = 'TOGGLE_PRIORITERTE_MÅLGRUPPER';
-export const CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER = 'CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER';
+export const CHANGE_PRIORITERTE_MÅLGRUPPER = 'CHANGE_PRIORITERTE_MÅLGRUPPER';
 export const TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN = 'TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN';
 
 export interface PrioriterteMålgrupperState {
     prioriterteMålgrupperPanelOpen: boolean;
-    kategorier?: string[];
+    valgte: string[];
 }
 
 const initialState = {
     prioriterteMålgrupperPanelOpen: false,
-    kategorier: [],
+    valgte: [],
 };
 
 export default function prioriterteMålgrupperReducer(
@@ -20,15 +19,12 @@ export default function prioriterteMålgrupperReducer(
 ) {
     switch (action.type) {
         case SET_STATE: {
-            const { prioriterteMålgrupper, kategorier } = action.query;
+            const { valgteMålgrupper } = action.query;
 
             return {
                 ...state,
-                kategorier: kategorier || [],
-                prioriterteMålgrupperPanelOpen:
-                    harEnParameter(kategorier) ||
-                    prioriterteMålgrupper ||
-                    state.prioriterteMålgrupperPanelOpen,
+                valgte: valgteMålgrupper || [],
+                prioriterteMålgrupperPanelOpen: valgteMålgrupper,
             };
         }
         case TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN:
@@ -41,10 +37,10 @@ export default function prioriterteMålgrupperReducer(
                 ...state,
                 prioriterteMålgrupperPanelOpen: false,
             };
-        case CHANGE_PRIORITERTE_MÅLGRUPPER_KATEGORIER:
+        case CHANGE_PRIORITERTE_MÅLGRUPPER:
             return {
                 ...state,
-                kategorier: action.kategorier,
+                valgte: action.valgteMålgrupper,
             };
         default:
             return state;
