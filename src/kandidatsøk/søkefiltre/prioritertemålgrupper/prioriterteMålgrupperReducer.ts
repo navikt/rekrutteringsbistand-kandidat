@@ -19,7 +19,7 @@ export default function prioriterteMålgrupperReducer(
 ) {
     switch (action.type) {
         case SET_STATE: {
-            const { valgteMålgrupper } = action.query;
+            const valgteMålgrupper = action.query.prioriterteMålgrupper;
 
             return {
                 ...state,
