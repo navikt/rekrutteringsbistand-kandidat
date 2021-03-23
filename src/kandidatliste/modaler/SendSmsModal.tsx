@@ -32,6 +32,7 @@ enum Meldingsmal {
     VurdertSomAktuell = 'vurdert-som-aktuell',
     EtterspurtPgaKorona = 'etterspurt_pga_korona',
     Jobbarrangement = 'jobbarrangement',
+    Webinar = 'webinar',
 }
 
 const genererLenkeTilStilling = (stillingId: string) => {
@@ -45,6 +46,8 @@ const genererMeldingUtenLenke = (valgtMal: Meldingsmal) => {
         return `Hei, koronasituasjonen gjør kompetansen din etterspurt. Se denne stillingen, hilsen NAV`;
     } else if (valgtMal === Meldingsmal.Jobbarrangement) {
         return `Hei, vi har et jobbarrangement som kan passe for deg, hilsen NAV. Se mer info:`;
+    } else if (valgtMal === Meldingsmal.Webinar) {
+        return `Hei, vi har et webinar som kan passe for deg, hilsen NAV. Se mer info:`;
     }
 };
 
@@ -146,6 +149,7 @@ const SendSmsModal: FunctionComponent<Props> = (props) => {
                         Koronavirus og behov for arbeidskraft
                     </option>
                     <option value={Meldingsmal.Jobbarrangement}>Jobbarrangement</option>
+                    <option value={Meldingsmal.Webinar}>Webinar</option>
                 </Select>
 
                 <label htmlFor="forhåndsvisning" className="typo-normal skjemaelement__label">
