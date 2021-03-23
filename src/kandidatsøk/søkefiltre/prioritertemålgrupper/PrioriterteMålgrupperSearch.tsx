@@ -9,7 +9,6 @@ import {
     TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN,
 } from './prioriterteMålgrupperReducer';
 import PrioritertMålgruppe from './PrioritertMålgruppe';
-import './PrioriterteMålgrupper.less';
 import AppState from '../../../AppState';
 
 interface PrioriterteMålgrupperSearchProps {
