@@ -7,12 +7,11 @@ export const TOGGLE_PRIORITERTE_MÅLGRUPPER_PANEL_OPEN = 'TOGGLE_PRIORITERTE_MÅ
 export interface PrioriterteMålgrupperState {
     prioriterteMålgrupperPanelOpen: boolean;
     kategorier?: string[];
-    harHullICv: boolean;
 }
 
 const initialState = {
     prioriterteMålgrupperPanelOpen: false,
-    harHullICv: false,
+    kategorier: [],
 };
 
 export default function prioriterteMålgrupperReducer(
