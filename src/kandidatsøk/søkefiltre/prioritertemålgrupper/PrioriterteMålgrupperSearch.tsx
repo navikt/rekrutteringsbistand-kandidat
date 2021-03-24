@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { connect } from 'react-redux';
 import SokekriteriePanel from '../sokekriteriePanel/SokekriteriePanel';
-
 import { SEARCH } from '../../reducer/searchReducer';
 import {
     CHANGE_PRIORITERTE_MÅLGRUPPER,
@@ -10,6 +9,9 @@ import {
 } from './prioriterteMålgrupperReducer';
 import PrioritertMålgruppe from './PrioritertMålgruppe';
 import AppState from '../../../AppState';
+import './PrioriterteMålgrupper.less';
+import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import { PopoverOrientering } from 'nav-frontend-popover';
 
 interface PrioriterteMålgrupperSearchProps {
     search: () => void;
@@ -47,13 +49,24 @@ const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) 
             onClick={togglePanelOpen}
             apen={panelOpen}
         >
-            <Checkbox
-                id="hullicv-checkbox"
-                label="Har hull i CV-en"
-                checked={valgteMålgrupper.includes(PrioritertMålgruppe.HullICv)}
-                value={PrioritertMålgruppe.HullICv}
-                onChange={onChange}
-            />
+            <div className="prioriterteMålgrupper__checkboksMedHjelpetekst">
+                <Checkbox
+                    id="hullicv-checkbox"
+                    label="Har hull i CV-en"
+                    checked={valgteMålgrupper.includes(PrioritertMålgruppe.HullICv)}
+                    value={PrioritertMålgruppe.HullICv}
+                    onChange={onChange}
+                />
+                <Hjelpetekst
+                    type={PopoverOrientering.Under}
+                    className="prioriterteMålgrupper__hjelpetekst"
+                >
+                    <div className="prioriterteMålgrupper__hjelpetekst__innhold">
+                        Du får treff på kandidater som ikke har registrert jobb eller utdanning i
+                        CV-en i en sammenhengende periode på 2 år i løpet av de siste 5 årene.
+                    </div>
+                </Hjelpetekst>
+            </div>
         </SokekriteriePanel>
     );
 };
