@@ -17,6 +17,7 @@ import { AlderSearch } from './alder/AlderSearch';
 import TilretteleggingsbehovSearch from './tilretteleggingsbehov/TilretteleggingsbehovSearch';
 import PrioriterteMålgrupperSearch from './prioritertemålgrupper/PrioriterteMålgrupperSearch';
 import './Søkefiltre.less';
+import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 type Props = {
     stillingsId: string | undefined;
@@ -54,7 +55,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
 
             <div className="søkefiltre__gruppe">
                 <Element>Behov for inkludering</Element>
-                <PrioriterteMålgrupperSearch />
+                {erIkkeProd && <PrioriterteMålgrupperSearch />}
                 <TilretteleggingsbehovSearch />
             </div>
         </div>
