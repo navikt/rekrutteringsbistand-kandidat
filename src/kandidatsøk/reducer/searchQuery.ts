@@ -106,7 +106,7 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
             '_'
         );
 
-    var valgteMålgrupper = søkefilter.prioriterteMålgrupper.valgte;
+    const valgteMålgrupper = søkefilter.prioriterteMålgrupper.valgte;
     if (valgteMålgrupper && valgteMålgrupper.length > 0)
         urlQuery.prioriterteMaalgrupper = valgteMålgrupper.join('_');
 
