@@ -31,6 +31,7 @@ interface SearchQuery {
     oppstartstidspunkter?: string;
     maksAlderArbeidserfaring?: number;
     midlertidigUtilgjengelig?: string;
+    prioriterteMaalgrupper?: string;
     alderFra?: number;
     alderTil?: number;
 }
@@ -104,6 +105,11 @@ const mapStateToSearchQuery = ({ søk, søkefilter }: AppState): SearchQuery => 
         urlQuery.midlertidigUtilgjengelig = søkefilter.tilgjengelighet.midlertidigUtilgjengelig.join(
             '_'
         );
+
+    const valgteMålgrupper = søkefilter.prioriterteMålgrupper.valgte;
+    if (valgteMålgrupper && valgteMålgrupper.length > 0)
+        urlQuery.prioriterteMaalgrupper = valgteMålgrupper.join('_');
+
     if (søkefilter.alder.fra) urlQuery.alderFra = søkefilter.alder.fra;
     if (søkefilter.alder.til) urlQuery.alderTil = søkefilter.alder.til;
 
@@ -143,6 +149,7 @@ export type InitialQuery = FritekstState &
         midlertidigUtilgjengelig?: string[];
         maksAlderArbeidserfaring?: number;
         kandidatlisteId?: string;
+        prioriterteMålgrupper?: string[];
         alderFra?: number;
         alderTil?: number;
     };
@@ -170,6 +177,7 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     const oppstartstidspunkter = getUrlParameterByName('oppstartstidspunkter');
     const maksAlderArbeidserfaring = getUrlParameterByName('maksAlderArbeidserfaring');
     const midlertidigUtilgjengelig = getUrlParameterByName('midlertidigUtilgjengelig');
+    const prioriterteMålgrupper = getUrlParameterByName('prioriterteMaalgrupper');
     const alderFra = getUrlParameterByName('alderFra');
     const alderTil = getUrlParameterByName('alderTil');
 
@@ -198,6 +206,8 @@ export const mapUrlToInitialQuery = (url: string, kandidatlisteId?: string): Ini
     if (maksAlderArbeidserfaring && !isNaN(parseInt(maksAlderArbeidserfaring)))
         stateFromUrl.maksAlderArbeidserfaring = parseInt(maksAlderArbeidserfaring);
     if (kandidatlisteId) stateFromUrl.kandidatlisteId = kandidatlisteId;
+    if (prioriterteMålgrupper)
+        stateFromUrl.prioriterteMålgrupper = prioriterteMålgrupper.split('_');
     if (alderFra && !isNaN(parseInt(alderFra))) stateFromUrl.alderFra = parseInt(alderFra);
     if (alderTil && !isNaN(parseInt(alderTil))) stateFromUrl.alderTil = parseInt(alderTil);
 

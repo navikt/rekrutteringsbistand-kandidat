@@ -84,6 +84,7 @@ export const mapTilSøkekriterierBackendFraState = ({
         listeId: søk.kandidatlisteId,
         antallAarFra: søkefilter.alder.fra,
         antallAarTil: søkefilter.alder.til,
+        prioriterteMaalgrupper: søkefilter.prioriterteMålgrupper.valgte,
     };
 };
 

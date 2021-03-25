@@ -15,6 +15,7 @@ import HovedmalSearch from './hovedmal/HovedmalSearch';
 import InnsatsgruppeSearch from './innsatsgruppe/InnsatsgruppeSearch';
 import { AlderSearch } from './alder/AlderSearch';
 import TilretteleggingsbehovSearch from './tilretteleggingsbehov/TilretteleggingsbehovSearch';
+import PrioriterteMålgrupperSearch from './prioritertemålgrupper/PrioriterteMålgrupperSearch';
 import './Søkefiltre.less';
 
 type Props = {
@@ -53,6 +54,7 @@ const Søkefiltre: FunctionComponent<Props> = ({ stillingsId }) => {
 
             <div className="søkefiltre__gruppe">
                 <Element>Behov for inkludering</Element>
+                <PrioriterteMålgrupperSearch />
                 <TilretteleggingsbehovSearch />
             </div>
         </div>
