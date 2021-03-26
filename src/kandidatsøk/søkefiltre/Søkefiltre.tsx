@@ -17,7 +17,6 @@ import { AlderSearch } from './alder/AlderSearch';
 import TilretteleggingsbehovSearch from './tilretteleggingsbehov/TilretteleggingsbehovSearch';
 import PrioriterteMålgrupperSearch from './prioritertemålgrupper/PrioriterteMålgrupperSearch';
 import './Søkefiltre.less';
-import { erIkkeProd } from '../../utils/featureToggleUtils';
 
 type Props = {
     stillingsId: string | undefined;
