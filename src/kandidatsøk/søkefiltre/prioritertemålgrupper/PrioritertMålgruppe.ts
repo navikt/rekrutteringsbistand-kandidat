@@ -1,5 +1,5 @@
 enum PrioritertMålgruppe {
-    Unge = 'unge',
+    Ung = 'ung',
     Senior = 'senior',
     HullICv = 'hullICv',
 }
