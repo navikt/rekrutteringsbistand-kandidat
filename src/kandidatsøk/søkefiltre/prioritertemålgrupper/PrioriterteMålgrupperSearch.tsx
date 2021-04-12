@@ -51,7 +51,7 @@ const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) 
         >
             <Checkbox
                 id="unge-checkbox"
-                className="prioriterteMålgrupper__kategori"
+                className="prioriterteMålgrupper__kategoriUtenHjelpetekst"
                 label="Unge under 30 år"
                 checked={valgteMålgrupper.includes(PrioritertMålgruppe.Unge)}
                 value={PrioritertMålgruppe.Unge}
@@ -59,7 +59,7 @@ const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) 
             />
             <Checkbox
                 id="senior-checkbox"
-                className="prioriterteMålgrupper__kategori"
+                className="prioriterteMålgrupper__kategoriUtenHjelpetekst"
                 label="Senior 50+"
                 checked={valgteMålgrupper.includes(PrioritertMålgruppe.Senior)}
                 value={PrioritertMålgruppe.Senior}
