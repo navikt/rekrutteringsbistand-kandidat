@@ -49,9 +49,26 @@ const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) 
             onClick={togglePanelOpen}
             apen={panelOpen}
         >
+            <Checkbox
+                id="unge-checkbox"
+                className="prioriterteMålgrupper__kategori"
+                label="Unge under 30 år"
+                checked={valgteMålgrupper.includes(PrioritertMålgruppe.Unge)}
+                value={PrioritertMålgruppe.Unge}
+                onChange={onChange}
+            />
+            <Checkbox
+                id="senior-checkbox"
+                className="prioriterteMålgrupper__kategori"
+                label="Senior 50+"
+                checked={valgteMålgrupper.includes(PrioritertMålgruppe.Senior)}
+                value={PrioritertMålgruppe.Senior}
+                onChange={onChange}
+            />
             <div className="prioriterteMålgrupper__checkboksMedHjelpetekst">
                 <Checkbox
                     id="hullicv-checkbox"
+                    className="prioriterteMålgrupper__kategori"
                     label="Har hull i CV-en"
                     checked={valgteMålgrupper.includes(PrioritertMålgruppe.HullICv)}
                     value={PrioritertMålgruppe.HullICv}
