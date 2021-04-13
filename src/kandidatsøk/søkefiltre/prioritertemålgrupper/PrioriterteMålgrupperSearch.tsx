@@ -50,10 +50,10 @@ const PrioriterteMålgrupperSearch = (props: PrioriterteMålgrupperSearchProps) 
             apen={panelOpen}
         >
             <Checkbox
-                id="unge-checkbox"
+                id="ung-checkbox"
                 className="prioriterteMålgrupper__kategoriUtenHjelpetekst"
                 label="Unge under 30 år"
-                checked={valgteMålgrupper.includes(PrioritertMålgruppe.Unge)}
+                checked={valgteMålgrupper.includes(PrioritertMålgruppe.Ung)}
                 value={PrioritertMålgruppe.Ung}
                 onChange={onChange}
             />
