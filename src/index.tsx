@@ -28,8 +28,9 @@ Sentry.init({
     release: process.env.REACT_APP_SENTRY_RELEASE || 'unknown',
     enabled: getMiljø() === 'dev-fss' || getMiljø() === 'prod-fss',
     beforeSend: fjernPersonopplysninger,
-    allowUrls: ['/kandidater'],
+    allowUrls: ['/rekrutteringsbistand-kandidat'],
     autoSessionTracking: false,
+    debug: true,
 });
 
 // Alle klassenavn blir prefikset med ".rek-kandidat" i craco-configen, så også koden
