@@ -62,6 +62,13 @@ const App: FunctionComponent<Props> = (props) => {
     return (
         <>
             <Normaltekst tag="div" className="App">
+                <button
+                    onClick={() => {
+                        throw new Error('Trigget feil!');
+                    }}
+                >
+                    Trykk meg!
+                </button>
                 <main className="App__main">
                     {getMiljø() === Miljø.LabsGcp && <AdvarselOmMocketApp />}
                     <Switch>

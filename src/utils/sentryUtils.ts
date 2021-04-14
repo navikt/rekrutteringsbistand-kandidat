@@ -1,6 +1,7 @@
 import { Breadcrumb, Event } from '@sentry/types';
 
 export const fjernPersonopplysninger = (event: Event): Event => {
+    console.log('Sender event fra rekrutteringsbistand-kandidat!');
     const url = event.request?.url ? maskerPersonopplysninger(event.request.url) : '';
 
     return {
