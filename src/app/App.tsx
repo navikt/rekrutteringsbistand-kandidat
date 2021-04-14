@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -55,6 +55,11 @@ const App: FunctionComponent<Props> = (props) => {
         }
     }, [navKontor, velgNavKontor]);
 
+    const [shouldThrowError, throwError] = useState<boolean>(false);
+    if (shouldThrowError) {
+        throw new Error('Feil i komponent!');
+    }
+
     if (error) {
         return <ErrorSide error={error} fjernError={fjernError} />;
     }
@@ -64,7 +69,7 @@ const App: FunctionComponent<Props> = (props) => {
             <Normaltekst tag="div" className="App">
                 <button
                     onClick={() => {
-                        throw new Error('Trigget feil!');
+                        throwError(true);
                     }}
                 >
                     Trykk meg!
