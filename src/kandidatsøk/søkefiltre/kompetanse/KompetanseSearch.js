@@ -81,8 +81,9 @@ const KompetanseSearch = ({ ...props }) => {
         setAntallKompetanser(antallKompetanser + 4);
     };
 
-    const filtrerteKompetanseSuggestions = () =>
-        kompetanseSuggestions.filter((k) => !kompetanser.includes(k.feltnavn));
+    const filtrerteKompetanseSuggestions = kompetanseSuggestions.filter(
+        (k) => !kompetanser.includes(k.feltnavn)
+    );
 
     return (
         <SokekriteriePanel
