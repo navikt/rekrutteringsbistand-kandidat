@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FETCH_KOMPETANSE_SUGGESTIONS, SEARCH } from '../../reducer/searchReducer';
@@ -39,6 +39,10 @@ const StillingSearch = ({ ...props }) => {
     const [typeAheadValue, setTypeAheadValue] = useState('');
     const typeAhead = useRef(null);
 
+    useEffect(() => {
+        fetchKompetanseSuggestions();
+    }, [stillinger, fetchKompetanseSuggestions]);
+
     const onTypeAheadStillingChange = (value) => {
         fetchTypeAheadSuggestions(value);
         setTypeAheadValue(value);
@@ -49,14 +53,12 @@ const StillingSearch = ({ ...props }) => {
             selectTypeAheadValue(value);
             clearTypeAheadStilling();
             setTypeAheadValue('');
-            fetchKompetanseSuggestions();
             search();
         }
     };
 
     const onFjernClick = (stilling) => {
         removeStilling(stilling);
-        fetchKompetanseSuggestions();
         search();
     };
 

@@ -21,12 +21,30 @@ const resultater: Søkeresultat[] = cver.map((cv) => ({
     midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig, // TODO: Dynamisk midl.util.
 }));
 
+const kompetanseAggregeringerFelt = [
+    {
+        feltnavn: 'Butikkarbeid',
+        antall: 1698,
+        subfelt: [],
+    },
+    {
+        feltnavn: 'Salg',
+        antall: 1081,
+        subfelt: [],
+    },
+    {
+        feltnavn: 'Butikkledelse',
+        antall: 925,
+        subfelt: [],
+    },
+];
+
 const søk = {
     totaltAntallTreff: antall,
     kandidater: resultater,
     aggregeringer: [
         { navn: 'listefyll', felt: [] },
-        { navn: 'kompetanse', felt: [] },
+        { navn: 'kompetanse', felt: kompetanseAggregeringerFelt },
     ],
 };
 
