@@ -41,7 +41,7 @@ const StillingSearch = ({ ...props }) => {
 
     useEffect(() => {
         fetchKompetanseSuggestions();
-    }, [stillinger]);
+    }, [stillinger, fetchKompetanseSuggestions]);
 
     const onTypeAheadStillingChange = (value) => {
         fetchTypeAheadSuggestions(value);
