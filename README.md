@@ -38,7 +38,7 @@ For å legge til en feature-toggle med navn `'test-toggle'` må man legge den ti
 
 -   Legg til `'test-toggle'` i `FEATURE_TOGGLES` i `src/felles/konstanter.js`.
 -   Legg til `'test-toggle': true` i `developmentToggles` `webpack.config.dev.js`.
--   Legg til `rekrutteringsbistand-kandidat.test-toggle` i unleash admin i [https://unleash.nais.io](https://unleash.nais.io).
+-   Legg til `pam-kandidatsøk.test-toggle` i unleash admin i [https://unleash.nais.io](https://unleash.nais.io).
 
 Toggle-endepunktet i kandidatsøket sin backend legger på prefixet `rekrutteringsbistand-kandidat` selv,
 som gjør at det kun er mulig å bruke feature toggles som starter med dette prefixet.
