@@ -82,7 +82,7 @@ const StillingSearch = ({ ...props }) => {
             apen={panelOpen === undefined && stillingsId ? true : panelOpen}
         >
             <Element>Hva slags kandidat trenger du?</Element>
-            <Normaltekst>For eksempel: pedagogisk leder</Normaltekst>
+            <Normaltekst>Søker mot kandidatenes jobbønsker</Normaltekst>
             <div className="sokekriterier--kriterier">
                 {/* TODO: Fjerne feature toggle */}
                 {!(useJanzz && stillinger.length > 0) && (
