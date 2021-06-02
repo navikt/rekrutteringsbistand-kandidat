@@ -36,6 +36,7 @@ spec:
     path: /metrics
   ingresses:
     - https://rekrutteringsbistand.nais.adeo.no/rekrutteringsbistand-kandidat
+    - https://rekrutteringsbistand.intern.nav.no/rekrutteringsbistand-kandidat
   env:
     - name: KANDIDATSOK_API_URL
       value: https://rekrutteringsbistand-kandidat-api.nais.adeo.no/rekrutteringsbistand-kandidat-api/rest
