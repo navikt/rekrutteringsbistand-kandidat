@@ -1,6 +1,10 @@
 @import 'src/variabler.less';
 
 .med-popover {
+    &[role='button'] {
+        cursor: unset;
+    }
+
     &:focus {
         outline: none;
         box-shadow: 0 0 0 3px @fokusFarge;
@@ -16,5 +20,12 @@
         padding: 1rem;
         background-color: @navLysBlaLighten80;
         max-width: 20rem;
+    }
+
+    &--hvit {
+        .popover__pil,
+        .med-popover__popup {
+            background-color: white;
+        }
     }
 }

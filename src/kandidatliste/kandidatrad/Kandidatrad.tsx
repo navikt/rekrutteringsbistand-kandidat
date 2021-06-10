@@ -215,7 +215,17 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
 
                 {visNyttKandidatstatusLayout ? (
-                    <StatusOgHendelser kandidat={kandidat} kanEditere={kandidatliste.kanEditere} />
+                    <StatusOgHendelser
+                        kandidat={kandidat}
+                        kanEditere={kandidatliste.kanEditere}
+                        onStatusChange={(status) => {
+                            onKandidatStatusChange(
+                                status,
+                                kandidatliste.kandidatlisteId,
+                                kandidat.kandidatnr
+                            );
+                        }}
+                    />
                 ) : (
                     <>
                         <div

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
-import { KandidatIKandidatliste } from '../../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatstatus } from '../../kandidatlistetyper';
 import { statusToDisplayName } from '../statusSelect/StatusSelect';
 import './StatusOgHendelser.less';
 import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
@@ -8,13 +8,15 @@ import MedPopover from '../../../common/med-popover/MedPopover';
 import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
 import EndreStatusOgHendelser from './EndreStatusOgHendelser';
 import SeHendelser from './SeHendelser';
+import { PopoverOrientering } from 'nav-frontend-popover';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
     kanEditere: boolean;
+    onStatusChange: (status: Kandidatstatus) => void;
 };
 
-const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere }) => {
+const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onStatusChange }) => {
     const etikettClassName = `status-og-hendelser__status status-og-hendelser__status--${kandidat.status.toLowerCase()}`;
 
     return (
@@ -42,8 +44,14 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere }) =
             )}
             {kanEditere ? (
                 <MedPopover
+                    hvit
                     hjelpetekst={
-                        <EndreStatusOgHendelser status={kandidat.status} utfall={kandidat.utfall} />
+                        <EndreStatusOgHendelser
+                            kandidatnummer={kandidat.kandidatnr}
+                            kandidatstatus={kandidat.status}
+                            onStatusChange={onStatusChange}
+                            utfall={kandidat.utfall}
+                        />
                     }
                 >
                     <Lenkeknapp
@@ -54,7 +62,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere }) =
                     </Lenkeknapp>
                 </MedPopover>
             ) : (
-                <MedPopover hjelpetekst={<SeHendelser utfall={kandidat.utfall} />}>
+                <MedPopover hvit hjelpetekst={<SeHendelser utfall={kandidat.utfall} />}>
                     <Lenkeknapp className="status-og-hendelser__knapp" tittel="Se hendelser">
                         <i className="status-og-hendelser__knappeikon status-og-hendelser__knappeikon--se" />
                     </Lenkeknapp>
