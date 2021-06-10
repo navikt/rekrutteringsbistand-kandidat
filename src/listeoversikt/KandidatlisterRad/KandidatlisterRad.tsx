@@ -81,7 +81,9 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
         : lenkeknappTilEndreUtenStilling;
 
     const visKanIkkeEndre = (
-        <MedPopover hjelpetekst="Du kan ikke redigere en kandidatliste som ikke er din.">
+        <MedPopover
+            hjelpetekst={() => <>'Du kan ikke redigere en kandidatliste som ikke er din.'</>}
+        >
             <i className="EditDisabled__icon" />
         </MedPopover>
     );
@@ -130,15 +132,14 @@ export const KandidatlisterRad: FunctionComponent<Props> = ({
             <MedPopover
                 className="kolonne-smal-knapp kandidatlister-rad__popover"
                 onPopoverClick={onDropdownPopoverClick}
-                hjelpetekst={
-                    <KandidatlisterMenyDropdown
-                        kandidatliste={kandidatlisteSammendrag}
-                        markerSomMinModal={markerKandidatlisteSomMin}
-                        slettKandidatliste={slettKandidatliste}
-                        toggleDisabledMarkerSomMinAnker={toggleDisabledMarkerSomMinAnker}
-                        toggleDisabledSlettknappAnker={toggleDisabledSlettknappAnker}
-                    />
-                }
+                hjelpetekstProps={{
+                    kandidatliste: kandidatlisteSammendrag,
+                    markerSomMinModal: markerKandidatlisteSomMin,
+                    slettKandidatliste: slettKandidatliste,
+                    toggleDisabledMarkerSomMinAnker: toggleDisabledMarkerSomMinAnker,
+                    toggleDisabledSlettknappAnker: toggleDisabledSlettknappAnker,
+                }}
+                hjelpetekst={KandidatlisterMenyDropdown}
             >
                 <Hamburgerknapp
                     aria-label={`Meny for kandidatlisten ${kandidatlisteSammendrag.tittel}`}

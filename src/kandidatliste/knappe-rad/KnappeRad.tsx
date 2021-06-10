@@ -77,11 +77,13 @@ const KnappeRad: FunctionComponent<Props> = ({
                         ) : (
                             <MedPopover
                                 tittel="Send SMS til de markerte kandidatene"
-                                hjelpetekst={
-                                    minstEnKandidatErMarkert
-                                        ? 'Du har allerede sendt SMS til alle markerte kandidater.'
-                                        : 'Du må huke av for kandidatene du ønsker å sende SMS til.'
-                                }
+                                hjelpetekst={() => (
+                                    <>
+                                        minstEnKandidatErMarkert ? 'Du har allerede sendt SMS til
+                                        alle markerte kandidater.' : 'Du må huke av for kandidatene
+                                        du ønsker å sende SMS til.'
+                                    </>
+                                )}
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Sms">
                                     <SmsKnapp />
@@ -98,7 +100,12 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å kopiere e-postadressen til."
+                                hjelpetekst={() => (
+                                    <>
+                                        "Du må huke av for kandidatene du ønsker å kopiere
+                                        e-postadressen til."
+                                    </>
+                                )}
                                 tittel="Send e-post til de markerte kandidatene"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Email">
@@ -118,7 +125,12 @@ const KnappeRad: FunctionComponent<Props> = ({
                             </Lenkeknapp>
                         ) : (
                             <MedPopover
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å presentere for arbeidsgiver."
+                                hjelpetekst={() => (
+                                    <>
+                                        "Du må huke av for kandidatene du ønsker å presentere for
+                                        arbeidsgiver."
+                                    </>
+                                )}
                                 tittel="Del de markerte kandidatene med arbeidsgiver (presenter)"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Share">
@@ -137,7 +149,12 @@ const KnappeRad: FunctionComponent<Props> = ({
                         ) : (
                             <MedPopover
                                 orientering={PopoverOrientering.UnderVenstre}
-                                hjelpetekst="Du må huke av for kandidatene du ønsker å angre sletting for."
+                                hjelpetekst={() => (
+                                    <>
+                                        "Du må huke av for kandidatene du ønsker å angre sletting
+                                        for."
+                                    </>
+                                )}
                                 tittel="Angre sletting for de markerte kandidatene"
                             >
                                 <Lenkeknapp className="kandidatlisteknapper__knapp Delete">

@@ -41,7 +41,8 @@ const SmsStatusIkon: FunctionComponent<Props> = ({ sms }) => {
     return (
         <MedPopover
             className="sms-status-popup"
-            hjelpetekst={<Popuptekst sms={sms} />}
+            hjelpetekstProps={{ sms: { sms } }}
+            hjelpetekst={Popuptekst}
             orientering={PopoverOrientering.Under}
         >
             <SendSmsIkon feil={sms.status === SmsStatus.Feil} />

@@ -45,14 +45,13 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
             {kanEditere ? (
                 <MedPopover
                     hvit
-                    hjelpetekst={
-                        <EndreStatusOgHendelser
-                            kandidatnummer={kandidat.kandidatnr}
-                            kandidatstatus={kandidat.status}
-                            onStatusChange={onStatusChange}
-                            utfall={kandidat.utfall}
-                        />
-                    }
+                    hjelpetekstProps={{
+                        kandidatnummer: kandidat.kandidatnr,
+                        kandidatstatus: kandidat.status,
+                        onStatusChange: onStatusChange,
+                        utfall: kandidat.utfall,
+                    }}
+                    hjelpetekst={EndreStatusOgHendelser}
                 >
                     <Lenkeknapp
                         className="status-og-hendelser__knapp"
@@ -62,7 +61,11 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
                     </Lenkeknapp>
                 </MedPopover>
             ) : (
-                <MedPopover hvit hjelpetekst={<SeHendelser utfall={kandidat.utfall} />}>
+                <MedPopover
+                    hvit
+                    hjelpetekstProps={{ utfall: kandidat.utfall }}
+                    hjelpetekst={SeHendelser}
+                >
                     <Lenkeknapp className="status-og-hendelser__knapp" tittel="Se hendelser">
                         <i className="status-og-hendelser__knappeikon status-og-hendelser__knappeikon--se" />
                     </Lenkeknapp>
