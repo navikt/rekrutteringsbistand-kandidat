@@ -64,7 +64,7 @@ export interface Kandidat {
     fodselsdato: string;
     fodselsnr: string | null;
     innsatsgruppe: string;
-    utfall: string;
+    utfall: Utfall;
     erSynlig: boolean;
     antallNotater?: number;
     arkivert: boolean;
