@@ -1,0 +1,38 @@
+@import '../../../variabler.less';
+
+.status-og-hendelser {
+    display: flex;
+    align-items: center;
+
+    &__status {
+        &--vurderes {
+            background-color: @navLysGra;
+            border-color: @navMorkGra;
+        }
+
+        &--kontaktet {
+            background-color: @navBlaLighten80;
+            border-color: @navBla;
+        }
+
+        &--aktuell {
+            background-color: @navOransjeLighten80;
+            border-color: @navOransje;
+        }
+
+        &--uaktuell {
+            background-color: @redErrorLighten80;
+            border-color: @redError;
+        }
+
+        &--uinteressert {
+            background-color: @redErrorLighten80;
+            border-color: @redError;
+        }
+
+        &--til_intervju {
+            background-color: @navLysBlaLighten80;
+            border-color: @navLysBla;
+        }
+    }
+}

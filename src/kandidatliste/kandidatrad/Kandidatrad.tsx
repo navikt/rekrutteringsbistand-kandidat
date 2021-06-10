@@ -24,6 +24,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import Notater from './notater/Notater';
 import MerInfo from './mer-info/MerInfo';
 import AppState from '../../AppState';
+import StatusOgHendelser from './status-og-hendelser/StatusOgHendelser';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -214,7 +215,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                 </div>
 
                 {visNyttKandidatstatusLayout ? (
-                    <div>Nytt layout!</div>
+                    <StatusOgHendelser kandidat={kandidat} />
                 ) : (
                     <>
                         <div
