@@ -108,6 +108,8 @@
         display: grid;
         padding-left: 1.25rem;
         padding-right: 1.25rem;
+
+        // Ingen arkiveringskolonne, listen har ikke arbeidsgiver
         grid-template-columns:
             1.6fr
             minmax(0, 1fr)
@@ -119,6 +121,21 @@
             minmax(0, 3fr)
             minmax(0, 3fr);
 
+        // Ingen arkiveringskolonne, listen har ikke arbeidsgiver, nytt layout
+        &--nytt-layout {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr);
+        }
+
+        // Har arkiveringskolonne, listen har ikke arbeidsgiver
         &--vis-arkivering {
             grid-template-columns:
                 1.6fr
@@ -133,6 +150,22 @@
                 minmax(0, 2fr);
         }
 
+        // Har arkiveringskolonne, listen har ikke arbeidsgiver, nytt layout
+        &--vis-arkivering-nytt-layout {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
+        }
+
+        // Ingen arkiveringskolonne, listen har arbeidsgiver
         &--vis-utfall {
             grid-template-columns:
                 1.6fr
@@ -147,6 +180,21 @@
                 minmax(0, 3fr);
         }
 
+        // Ingen arkiveringskolonne, listen har arbeidsgiver, nytt layout
+        &--vis-utfall-nytt-layout {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 10fr)
+                minmax(0, 7fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 10fr)
+                minmax(0, 4fr)
+                minmax(0, 3fr);
+        }
+
+        // Har arkiveringskolonne, listen har arbeidsgiver
         &--vis-utfall-og-arkivering {
             grid-template-columns:
                 1.6fr
@@ -157,6 +205,21 @@
                 minmax(0, 5fr)
                 minmax(0, 9fr)
                 minmax(0, 9fr)
+                minmax(0, 3fr)
+                minmax(0, 3fr)
+                minmax(0, 2fr);
+        }
+
+        // Har arkiveringskolonne, listen har arbeidsgiver, nytt layout
+        &--vis-utfall-og-arkivering-nytt-layout {
+            grid-template-columns:
+                1.6fr
+                minmax(0, 1fr)
+                minmax(0, 9fr)
+                minmax(0, 7fr)
+                minmax(0, 8fr)
+                minmax(0, 5fr)
+                minmax(0, 10fr)
                 minmax(0, 3fr)
                 minmax(0, 3fr)
                 minmax(0, 2fr);

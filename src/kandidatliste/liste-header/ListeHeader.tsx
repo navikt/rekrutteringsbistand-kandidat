@@ -8,6 +8,8 @@ import { Kandidatsortering } from '../Kandidatliste';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
 import '../kandidatrad/Kandidatrad.less';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
 
 interface Props {
     kandidatliste: Kandidatliste;
@@ -20,14 +22,27 @@ interface Props {
 
 export const modifierTilListeradGrid = (
     visUtfallskolonne: boolean,
-    visArkiveringskolonne: boolean
+    visArkiveringskolonne: boolean,
+    visNyttKandidatstatusLayout: boolean
 ) => {
-    if (visUtfallskolonne) {
-        return visArkiveringskolonne
-            ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
-            : ' kandidatliste-kandidat__rad--vis-utfall';
+    if (visNyttKandidatstatusLayout) {
+        if (visUtfallskolonne) {
+            return visArkiveringskolonne
+                ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering-nytt-layout'
+                : ' kandidatliste-kandidat__rad--vis-utfall-nytt-layout';
+        } else {
+            return visArkiveringskolonne
+                ? ' kandidatliste-kandidat__rad--vis-arkivering-nytt-layout'
+                : ' kandidatliste-kandidat__rad--nytt-layout';
+        }
     } else {
-        return visArkiveringskolonne ? ' kandidatliste-kandidat__rad--vis-arkivering' : '';
+        if (visUtfallskolonne) {
+            return visArkiveringskolonne
+                ? ' kandidatliste-kandidat__rad--vis-utfall-og-arkivering'
+                : ' kandidatliste-kandidat__rad--vis-utfall';
+        } else {
+            return visArkiveringskolonne ? ' kandidatliste-kandidat__rad--vis-arkivering' : '';
+        }
     }
 };
 
@@ -60,9 +75,17 @@ const ListeHeader: FunctionComponent<Props> = ({
             ? ' kandidatliste-kandidat--disabled'
             : '');
 
+    const visNyttKandidatstatusLayout = useSelector(
+        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
+    );
+
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(
+            kandidatliste.stillingId !== null,
+            visArkiveringskolonne,
+            visNyttKandidatstatusLayout
+        );
 
     const [aktivtSorteringsfelt, setAktivtSorteringsfelt] = useState<KandidatSorteringsfelt | null>(
         null
@@ -122,24 +145,30 @@ const ListeHeader: FunctionComponent<Props> = ({
                     aktivSorteringsretning={aktivSorteringsretning}
                     onClick={endreSortering}
                 />
-                <SorterbarKolonneheader
-                    tekst="Status"
-                    sorteringsfelt={KandidatSorteringsfelt.Status}
-                    aktivtSorteringsfelt={aktivtSorteringsfelt}
-                    aktivSorteringsretning={aktivSorteringsretning}
-                    onClick={endreSortering}
-                    className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
-                >
-                    <StatusHjelpetekst />
-                </SorterbarKolonneheader>
-                {kandidatliste.stillingId && (
-                    <SorterbarKolonneheader
-                        tekst="Utfall"
-                        sorteringsfelt={KandidatSorteringsfelt.Utfall}
-                        aktivtSorteringsfelt={aktivtSorteringsfelt}
-                        aktivSorteringsretning={aktivSorteringsretning}
-                        onClick={endreSortering}
-                    />
+                {visNyttKandidatstatusLayout ? (
+                    <Kolonne tekst="Status/hendelser" />
+                ) : (
+                    <>
+                        <SorterbarKolonneheader
+                            tekst="Status"
+                            sorteringsfelt={KandidatSorteringsfelt.Status}
+                            aktivtSorteringsfelt={aktivtSorteringsfelt}
+                            aktivSorteringsretning={aktivSorteringsretning}
+                            onClick={endreSortering}
+                            className="kandidatliste-kandidat__kolonne-med-hjelpetekst"
+                        >
+                            <StatusHjelpetekst />
+                        </SorterbarKolonneheader>
+                        {kandidatliste.stillingId && (
+                            <SorterbarKolonneheader
+                                tekst="Utfall"
+                                sorteringsfelt={KandidatSorteringsfelt.Utfall}
+                                aktivtSorteringsfelt={aktivtSorteringsfelt}
+                                aktivSorteringsretning={aktivSorteringsretning}
+                                onClick={endreSortering}
+                            />
+                        )}
+                    </>
                 )}
                 <Kolonne tekst="Notater" />
                 <Kolonne tekst="Info" className="kandidatliste-kandidat__kolonne-midtstilt" />

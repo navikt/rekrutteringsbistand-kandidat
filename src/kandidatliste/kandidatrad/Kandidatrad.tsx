@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -57,6 +57,10 @@ const Kandidatrad: FunctionComponent<Props> = ({
 }) => {
     const dispatch = useDispatch();
     const kandidatRadRef = useRef<HTMLDivElement>(null);
+
+    const visNyttKandidatstatusLayout = useSelector(
+        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
+    );
 
     useEffect(() => {
         const erSistValgteKandidat =
@@ -131,7 +135,11 @@ const Kandidatrad: FunctionComponent<Props> = ({
 
     const klassenavnForListerad =
         'kandidatliste-kandidat__rad' +
-        modifierTilListeradGrid(kandidatliste.stillingId !== null, visArkiveringskolonne);
+        modifierTilListeradGrid(
+            kandidatliste.stillingId !== null,
+            visArkiveringskolonne,
+            visNyttKandidatstatusLayout
+        );
 
     const klassenavn = `kandidatliste-kandidat${
         kandidatliste.status === Kandidatlistestatus.Lukket
@@ -204,44 +212,51 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <span>{moment(kandidat.lagtTilTidspunkt).format('DD.MM.')}</span>
                     <span>{moment(kandidat.lagtTilTidspunkt).format('YYYY')}</span>
                 </div>
-                <div
-                    role="cell"
-                    aria-label="Status"
-                    className="kandidatliste-kandidat__kolonne-sorterbar"
-                >
-                    {visArkiveringskolonne ? (
-                        <StatusSelect
-                            kanEditere={
-                                kandidatliste.status === Kandidatlistestatus.Åpen &&
-                                kandidatliste.kanEditere
-                            }
-                            value={kandidat.status}
-                            onChange={(status) => {
-                                onKandidatStatusChange(
-                                    status,
-                                    kandidatliste.kandidatlisteId,
-                                    kandidat.kandidatnr
-                                );
-                            }}
-                        />
-                    ) : (
-                        <Statusvisning status={kandidat.status} />
-                    )}
-                </div>
-                {kandidatliste.stillingId && (
-                    <div role="cell" className="kandidatliste-kandidat__kolonne-sorterbar">
-                        <UtfallMedEndreIkon
-                            kanEndreUtfall={
-                                kandidatliste.kanEditere &&
-                                kandidatliste.status === Kandidatlistestatus.Åpen
-                            }
-                            utfall={kandidat.utfall as Utfall}
-                            onClick={() => {
-                                visEndreUtfallModal(kandidat);
-                            }}
-                            className="Notat kandidatliste-kandidat__fokuserbar-knapp"
-                        />
-                    </div>
+
+                {visNyttKandidatstatusLayout ? (
+                    <div>Nytt layout!</div>
+                ) : (
+                    <>
+                        <div
+                            role="cell"
+                            aria-label="Status"
+                            className="kandidatliste-kandidat__kolonne-sorterbar"
+                        >
+                            {visArkiveringskolonne ? (
+                                <StatusSelect
+                                    kanEditere={
+                                        kandidatliste.status === Kandidatlistestatus.Åpen &&
+                                        kandidatliste.kanEditere
+                                    }
+                                    value={kandidat.status}
+                                    onChange={(status) => {
+                                        onKandidatStatusChange(
+                                            status,
+                                            kandidatliste.kandidatlisteId,
+                                            kandidat.kandidatnr
+                                        );
+                                    }}
+                                />
+                            ) : (
+                                <Statusvisning status={kandidat.status} />
+                            )}
+                        </div>
+                        {kandidatliste.stillingId && (
+                            <div role="cell" className="kandidatliste-kandidat__kolonne-sorterbar">
+                                <UtfallMedEndreIkon
+                                    kanEndreUtfall={
+                                        kandidatliste.kanEditere &&
+                                        kandidatliste.status === Kandidatlistestatus.Åpen
+                                    }
+                                    utfall={kandidat.utfall as Utfall}
+                                    onClick={() => {
+                                        visEndreUtfallModal(kandidat);
+                                    }}
+                                    className="Notat kandidatliste-kandidat__fokuserbar-knapp"
+                                />
+                            </div>
+                        )}
+                    </>
                 )}
 
                 <div role="cell">
