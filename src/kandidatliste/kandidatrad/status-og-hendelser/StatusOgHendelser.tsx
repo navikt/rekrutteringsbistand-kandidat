@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent, FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+import Popover from 'nav-frontend-popover';
 
 import { KandidatIKandidatliste, Kandidatstatus } from '../../kandidatlistetyper';
 import { statusToDisplayName } from '../statusSelect/StatusSelect';
