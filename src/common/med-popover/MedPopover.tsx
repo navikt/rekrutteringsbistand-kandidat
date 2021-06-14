@@ -6,24 +6,20 @@ import './MedPopover.less';
 type Props = {
     id?: string;
     tittel?: string;
-    hjelpetekst: FunctionComponent;
+    hjelpetekst: ReactNode;
     orientering?: PopoverOrientering;
-    hvit?: boolean;
     onPopoverClick?: () => void;
     className?: string;
-    hjelpetekstProps?: any;
 };
 
 const MedPopover: FunctionComponent<Props> = ({
     id,
-    hvit,
     tittel,
     hjelpetekst,
     orientering,
     onPopoverClick,
     className,
     children,
-    hjelpetekstProps,
 }) => {
     const [anker, setAnker] = useState<HTMLElement | undefined>(undefined);
 
@@ -41,9 +37,7 @@ const MedPopover: FunctionComponent<Props> = ({
             role="button"
             title={tittel}
             onClick={toggleAnker}
-            className={`med-popover${hvit ? ' med-popover--hvit' : ''}${
-                className ? ' ' + className : ''
-            }`}
+            className={`med-popover${className ? ' ' + className : ''}`}
         >
             {children}
             <Popover
@@ -52,7 +46,7 @@ const MedPopover: FunctionComponent<Props> = ({
                 onRequestClose={lukkAnker}
             >
                 <Normaltekst onClick={onPopoverClick} tag="div" className="med-popover__popup">
-                    {React.createElement(hjelpetekst, { ...hjelpetekstProps, lukkAnker }) || ''}
+                    {hjelpetekst}
                 </Normaltekst>
             </Popover>
         </div>
