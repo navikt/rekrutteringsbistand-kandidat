@@ -2,7 +2,7 @@ import React, { FunctionComponent, MouseEvent } from 'react';
 import Lenkeknapp from '../../../../common/lenkeknapp/Lenkeknapp';
 
 type Props = {
-    onClick: (event: MouseEvent<HTMLElement>) => void;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 const SeHendelserKnapp: FunctionComponent<Props> = ({ onClick }) => {

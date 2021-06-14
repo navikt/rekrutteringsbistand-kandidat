@@ -12,6 +12,7 @@ import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatus
 import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
 import './StatusOgHendelser.less';
+import usePopoverOrientering from './usePopoverOrientering';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -20,14 +21,15 @@ type Props = {
 };
 
 const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onStatusChange }) => {
-    const [popoverAnker, setPopoverAnker] = useState<HTMLElement | undefined>(undefined);
-    const etikettClassName = `status-og-hendelser__status status-og-hendelser__status--${kandidat.status.toLowerCase()}`;
+    const [popoverAnker, setPopoverAnker] = useState<HTMLButtonElement | undefined>(undefined);
+    const popoverOrientering = usePopoverOrientering(popoverAnker);
 
-    const togglePopover = (event: MouseEvent<HTMLElement>) => {
+    const togglePopover = (event: MouseEvent<HTMLButtonElement>) => {
         setPopoverAnker(popoverAnker ? undefined : event.currentTarget);
     };
 
     const lukkPopover = () => {
+        popoverAnker?.focus();
         setPopoverAnker(undefined);
     };
 
@@ -35,6 +37,8 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
         onStatusChange(status);
         lukkPopover();
     };
+
+    const etikettClassName = `status-og-hendelser__status status-og-hendelser__status--${kandidat.status.toLowerCase()}`;
 
     return (
         <div className="status-og-hendelser">
@@ -49,7 +53,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
                 <SeHendelserKnapp onClick={togglePopover} />
             )}
             <Popover
-                orientering={PopoverOrientering.Under}
+                orientering={popoverOrientering}
                 ankerEl={popoverAnker}
                 onRequestClose={lukkPopover}
             >
