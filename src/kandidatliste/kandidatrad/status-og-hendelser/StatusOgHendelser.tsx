@@ -1,15 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React, { useState, MouseEvent, FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+
 import { KandidatIKandidatliste, Kandidatstatus } from '../../kandidatlistetyper';
 import { statusToDisplayName } from '../statusSelect/StatusSelect';
-import './StatusOgHendelser.less';
 import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
-import Lenkeknapp from '../../../common/lenkeknapp/Lenkeknapp';
-import EndreStatusOgHendelser from './EndreStatusOgHendelser';
-import SeHendelser from './SeHendelser';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { useState } from 'react';
-import { MouseEvent } from 'react';
+import CvDeltEtikett from './CvDeltEtikett';
+import FåttJobbenEtikett from './FåttJobbenEtikett';
+import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
+import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
+import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
+import SeHendelser from './se-hendelser/SeHendelser';
+import './StatusOgHendelser.less';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -39,56 +41,30 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
             <Etikett mini type="info" className={etikettClassName}>
                 {statusToDisplayName(kandidat.status)}
             </Etikett>
-            {kandidat.utfall === Utfall.Presentert && (
-                <Etikett
-                    mini
-                    type="info"
-                    className="status-og-hendelser__hendelse status-og-hendelser__hendelse--presentert"
-                >
-                    CV delt
-                </Etikett>
-            )}
-            {kandidat.utfall === Utfall.FåttJobben && (
-                <Etikett
-                    mini
-                    type="info"
-                    className="status-og-hendelser__hendelse status-og-hendelser__hendelse--fatt-jobben"
-                >
-                    Fått jobben
-                </Etikett>
-            )}
+            {kandidat.utfall === Utfall.Presentert && <CvDeltEtikett />}
+            {kandidat.utfall === Utfall.FåttJobben && <FåttJobbenEtikett />}
             {kanEditere ? (
-                <Lenkeknapp
-                    onClick={togglePopover}
-                    className="status-og-hendelser__knapp"
-                    tittel="Endre status eller hendelser"
-                >
-                    <i className="status-og-hendelser__knappeikon status-og-hendelser__knappeikon--endre" />
-                </Lenkeknapp>
+                <EndreStatusOgHendelserKnapp onClick={togglePopover} />
             ) : (
-                <Lenkeknapp
-                    onClick={togglePopover}
-                    className="status-og-hendelser__knapp"
-                    tittel="Se hendelser"
-                >
-                    <i className="status-og-hendelser__knappeikon status-og-hendelser__knappeikon--se" />
-                </Lenkeknapp>
+                <SeHendelserKnapp onClick={togglePopover} />
             )}
             <Popover
                 orientering={PopoverOrientering.Under}
                 ankerEl={popoverAnker}
                 onRequestClose={lukkPopover}
             >
-                {kanEditere ? (
-                    <EndreStatusOgHendelser
-                        kandidatnummer={kandidat.kandidatnr}
-                        kandidatstatus={kandidat.status}
-                        onStatusChange={endreStatusOgLukkPopover}
-                        utfall={kandidat.utfall}
-                    />
-                ) : (
-                    <SeHendelser utfall={kandidat.utfall} />
-                )}
+                <div className="status-og-hendelser__popover">
+                    {kanEditere ? (
+                        <EndreStatusOgHendelser
+                            kandidatnummer={kandidat.kandidatnr}
+                            kandidatstatus={kandidat.status}
+                            onStatusChange={endreStatusOgLukkPopover}
+                            utfall={kandidat.utfall}
+                        />
+                    ) : (
+                        <SeHendelser utfall={kandidat.utfall} />
+                    )}
+                </div>
             </Popover>
         </div>
     );
