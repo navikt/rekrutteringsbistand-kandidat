@@ -12,7 +12,6 @@ type Props = {
     kandidatstatus: Kandidatstatus;
     onStatusChange: (status: Kandidatstatus) => void;
     utfall: Utfall;
-    lukkAnker(): () => any;
 };
 
 const hentStatusbeskrivelse = (status: Kandidatstatus) => {
@@ -25,7 +24,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatnummer,
     kandidatstatus,
     onStatusChange,
-    lukkAnker,
 }) => {
     const [status, setStatus] = useState(kandidatstatus);
 
@@ -33,7 +31,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const onConfirmStatus = () => {
         onStatusChange(status);
-        lukkAnker();
     };
 
     return (
