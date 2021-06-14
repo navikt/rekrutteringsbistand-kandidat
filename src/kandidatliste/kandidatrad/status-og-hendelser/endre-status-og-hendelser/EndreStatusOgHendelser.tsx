@@ -2,9 +2,9 @@ import React, { FunctionComponent, useState } from 'react';
 import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Kandidatstatus } from '../../kandidatlistetyper';
-import { statusToDisplayName } from '../statusSelect/StatusSelect';
-import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Kandidatstatus } from '../../../kandidatlistetyper';
+import { statusToDisplayName } from '../../statusSelect/StatusSelect';
+import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
