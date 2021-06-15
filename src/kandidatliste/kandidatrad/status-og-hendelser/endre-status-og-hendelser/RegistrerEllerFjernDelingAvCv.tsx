@@ -115,7 +115,7 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                         mini
                         kompakt
                         onClick={onBekreftRegistreringClick}
-                        className="endre-status-og-hendelser__bekreft-delt-cv-knapp"
+                        className="endre-status-og-hendelser__bekreft-knapp"
                     >
                         CV-en er blitt delt
                     </Hovedknapp>
@@ -132,14 +132,14 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                     checked={checked}
                     tittel={'Fjern registreringen "delt med arbeidsgiver"'}
                     beskrivelse={
-                        'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort'
+                        'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
                     }
                 >
                     <Hovedknapp
                         mini
                         kompakt
                         onClick={onBekreftFjerningAvRegistrering}
-                        className="endre-status-og-hendelser__bekreft-fjern-delt-cv-knapp"
+                        className="endre-status-og-hendelser__bekreft-knapp"
                     >
                         Fjern registreringen
                     </Hovedknapp>

@@ -13,6 +13,7 @@ import './EndreStatusOgHendelser.less';
 
 type Props = {
     kandidatlisteId: string;
+    navn: string;
     kandidatnummer: string;
     kandidatstatus: Kandidatstatus;
     onStatusChange: (status: Kandidatstatus) => void;
@@ -29,6 +30,7 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatlisteId,
+    navn,
     kandidatnummer,
     kandidatstatus,
     onStatusChange,
@@ -97,9 +99,12 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                         kandidatnummer={kandidatnummer}
                         kandidatlisteId={kandidatlisteId}
                     />
-                    <Hendelse checked={utfall === Utfall.FåttJobben}>
-                        <RegistrerEllerFjernFåttJobben utfall={utfall} />
-                    </Hendelse>
+                    <RegistrerEllerFjernFåttJobben
+                        navn={navn}
+                        utfall={utfall}
+                        kandidatnummer={kandidatnummer}
+                        kandidatlisteId={kandidatlisteId}
+                    />
                 </ol>
             </div>
         </div>

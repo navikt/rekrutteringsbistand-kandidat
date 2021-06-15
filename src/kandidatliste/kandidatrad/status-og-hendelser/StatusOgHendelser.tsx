@@ -66,6 +66,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                 <div className="status-og-hendelser__popover">
                     {kanEditere ? (
                         <EndreStatusOgHendelser
+                            navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
                             kandidatlisteId={kandidatlisteId}
                             kandidatnummer={kandidat.kandidatnr}
                             kandidatstatus={kandidat.status}
