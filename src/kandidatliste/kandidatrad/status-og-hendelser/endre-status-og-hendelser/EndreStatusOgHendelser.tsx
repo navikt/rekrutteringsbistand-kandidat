@@ -1,14 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
 import moment from 'moment';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+
 import { Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
+import RegistrerEllerFjernDelingAvCv from './RegistrerEllerFjernDelingAvCv';
 import Hendelse from './Hendelse';
+import RegistrerEllerFjernFåttJobben from './RegistrerEllerFjernFåttJobben';
 import './EndreStatusOgHendelser.less';
-import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 
 type Props = {
     kandidatnummer: string;
@@ -40,6 +42,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     const onConfirmStatus = () => {
         onStatusChange(status);
     };
+
+    const cvDeltBeskrivelse = `Lagt til i listen av ${lagtTilAv.navn} (${
+        lagtTilAv.ident
+    }) ${formaterTidspunkt(lagtTilTidspunkt)}`;
 
     return (
         <div className="endre-status-og-hendelser">
@@ -80,13 +86,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
             <div className="endre-status-og-hendelser__hendelser">
                 <Undertittel>Hendelser</Undertittel>
                 <ul className="endre-status-og-hendelser__hendelsesliste">
-                    <Hendelse
-                        checked
-                        tittel="Ny kandidat"
-                        beskrivelse={`Lagt til i listen av ${lagtTilAv.navn} (${
-                            lagtTilAv.ident
-                        }) ${formaterTidspunkt(lagtTilTidspunkt)}`}
-                    />
+                    <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
                     <Hendelse
                         checked={utfall === Utfall.FåttJobben || utfall === Utfall.Presentert}
                         tittel="CV-en er delt med arbeidsgiver"
@@ -94,46 +94,10 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                             utfall === Utfall.IkkePresentert ? 'Deles i kandidatlisten' : undefined
                         }
                     >
-                        {utfall === Utfall.IkkePresentert ? (
-                            <Flatknapp
-                                className="endre-status-og-hendelser__registrer-hendelse"
-                                kompakt
-                                mini
-                            >
-                                <AddCircle />
-                                Registrer manuelt
-                            </Flatknapp>
-                        ) : (
-                            <Flatknapp
-                                className="endre-status-og-hendelser__registrer-hendelse"
-                                kompakt
-                                mini
-                            >
-                                <MinusCircle />
-                                Fjern registrering
-                            </Flatknapp>
-                        )}
+                        <RegistrerEllerFjernDelingAvCv utfall={utfall} />
                     </Hendelse>
                     <Hendelse checked={utfall === Utfall.FåttJobben}>
-                        {utfall === Utfall.FåttJobben ? (
-                            <Flatknapp
-                                className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
-                                kompakt
-                                mini
-                            >
-                                <MinusCircle />
-                                Fjern registrering
-                            </Flatknapp>
-                        ) : (
-                            <Flatknapp
-                                className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
-                                kompakt
-                                mini
-                            >
-                                <AddCircle />
-                                Registrer at kandidaten har fått jobb
-                            </Flatknapp>
-                        )}
+                        <RegistrerEllerFjernFåttJobben utfall={utfall} />
                     </Hendelse>
                 </ul>
             </div>
