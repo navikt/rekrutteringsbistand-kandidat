@@ -1,4 +1,6 @@
 import React, { useState, MouseEvent, FunctionComponent } from 'react';
+import { Close } from '@navikt/ds-icons';
+import { Knapp } from 'nav-frontend-knapper';
 import Etikett from 'nav-frontend-etiketter';
 import Popover from 'nav-frontend-popover';
 
@@ -11,10 +13,8 @@ import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHen
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
-import './StatusOgHendelser.less';
 import usePopoverOrientering from './usePopoverOrientering';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Close } from '@navikt/ds-icons';
+import './StatusOgHendelser.less';
 
 type Props = {
     kandidatlisteId: string;
