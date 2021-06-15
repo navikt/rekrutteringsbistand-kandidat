@@ -45,12 +45,20 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
 
     const onBekreftRegistreringClick = () => {
+        endreUtfallForKandidat(Utfall.Presentert);
+    };
+
+    const onBekreftFjerningAvRegistrering = () => {
+        endreUtfallForKandidat(Utfall.IkkePresentert);
+    };
+
+    const endreUtfallForKandidat = (nyttUtfall: Utfall) => {
         dispatch({
+            kandidatlisteId,
+            utfall: nyttUtfall,
             type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT,
-            utfall: Utfall.Presentert,
             navKontor: valgtNavKontor,
             kandidatnr: kandidatnummer,
-            kandidatlisteId,
         });
     };
 
@@ -130,6 +138,7 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                     <Hovedknapp
                         mini
                         kompakt
+                        onClick={onBekreftFjerningAvRegistrering}
                         className="endre-status-og-hendelser__bekreft-fjern-delt-cv-knapp"
                     >
                         Fjern registreringen
