@@ -53,10 +53,7 @@ export interface Kandidat {
     sisteArbeidserfaring: string;
     status: Kandidatstatus;
     lagtTilTidspunkt: string;
-    lagtTilAv: {
-        ident: string;
-        navn: string;
-    };
+    lagtTilAv: LagtTilAv;
     fornavn: string;
     etternavn: string;
     epost?: string;
@@ -73,6 +70,11 @@ export interface Kandidat {
     aktørid?: string;
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
 }
+
+export type LagtTilAv = {
+    ident: string;
+    navn: string;
+};
 
 export interface FormidlingAvUsynligKandidat {
     id: string;

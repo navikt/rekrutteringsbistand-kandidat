@@ -64,6 +64,8 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
                             kandidatstatus={kandidat.status}
                             onStatusChange={endreStatusOgLukkPopover}
                             utfall={kandidat.utfall}
+                            lagtTilAv={kandidat.lagtTilAv}
+                            lagtTilTidspunkt={kandidat.lagtTilTidspunkt}
                         />
                     ) : (
                         <SeHendelser utfall={kandidat.utfall} />

@@ -1,0 +1,46 @@
+@import '../../../../variabler.less';
+
+.hendelse {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0.5rem;
+    border-left: 2px solid transparent;
+
+    // Stiplet strek til neste hendelse
+    &:not(:last-child) {
+        padding-bottom: 2rem;
+        border-color: @navMorkGra;
+        border-left-style: dotted;
+    }
+
+    &--checked {
+        // Heltrukken strek til neste hendelse
+        &:not(:last-child) {
+            border-color: @navMorkGra;
+            border-left-style: solid;
+        }
+    }
+
+    &__ikon {
+        flex-shrink: 0;
+        margin-right: 0.5rem;
+        transform: translateX(-50% - 4px);
+
+        height: 1.5rem;
+        width: 1.5rem;
+        border-radius: 50%;
+        background-color: white;
+        border: 2px dotted @navMorkGra;
+        box-shadow: 0px 0px 0px 2px white;
+
+        &--checked {
+            background-color: @navGronnDarken40;
+            border-color: @navGronnDarken40;
+            border-style: solid;
+        }
+    }
+
+    &__tekst {
+        margin-right: 1rem;
+    }
+}
