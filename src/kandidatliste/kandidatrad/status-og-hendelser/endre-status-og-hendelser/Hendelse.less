@@ -22,6 +22,10 @@
     }
 
     &__ikon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         flex-shrink: 0;
         margin-right: 0.5rem;
         transform: translateX(-50% - 4px);
@@ -38,6 +42,10 @@
             border-color: @navGronnDarken40;
             border-style: solid;
         }
+    }
+
+    &__ikon-grafikk path {
+        fill: white;
     }
 
     &__tekst {

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { SuccessStroke } from '@navikt/ds-icons';
 import './Hendelse.less';
 
 type Props = {
@@ -19,7 +20,9 @@ const Hendelse: FunctionComponent<Props> = ({ checked, tittel, beskrivelse, chil
 
     return (
         <li className={className}>
-            <div className={ikonClassName} />
+            <div className={ikonClassName}>
+                {checked && <SuccessStroke className="hendelse__ikon-grafikk" />}
+            </div>
             {(tittel || beskrivelse) && (
                 <div className="hendelse__tekst">
                     {tittel && <Element tag="h3">{tittel}</Element>}
