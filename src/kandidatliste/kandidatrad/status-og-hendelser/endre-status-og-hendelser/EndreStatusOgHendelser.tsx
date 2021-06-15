@@ -3,23 +3,17 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
-import { Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
-import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Hendelse from './Hendelse';
 import RegistrerEllerFjernFåttJobben from './RegistrerEllerFjernFåttJobben';
 import RegistrerEllerFjernDelingAvCv from './RegistrerEllerFjernDelingAvCv';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
+    kandidat: KandidatIKandidatliste;
     kandidatlisteId: string;
-    navn: string;
-    kandidatnummer: string;
-    kandidatstatus: Kandidatstatus;
     onStatusChange: (status: Kandidatstatus) => void;
-    utfall: Utfall;
-    lagtTilAv: LagtTilAv;
-    lagtTilTidspunkt: string;
 };
 
 const hentStatusbeskrivelse = (status: Kandidatstatus) => {
@@ -29,16 +23,11 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 };
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
+    kandidat,
     kandidatlisteId,
-    navn,
-    kandidatnummer,
-    kandidatstatus,
     onStatusChange,
-    utfall,
-    lagtTilAv,
-    lagtTilTidspunkt,
 }) => {
-    const [status, setStatus] = useState(kandidatstatus);
+    const [status, setStatus] = useState(kandidat.status);
 
     const statuser = Object.entries(Kandidatstatus);
 
@@ -46,9 +35,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
         onStatusChange(status);
     };
 
-    const cvDeltBeskrivelse = `Lagt til i listen av ${lagtTilAv.navn} (${
-        lagtTilAv.ident
-    }) ${new Date(lagtTilTidspunkt).toLocaleString('no-NB', {
+    const cvDeltBeskrivelse = `Lagt til i listen av ${kandidat.lagtTilAv.navn} (${
+        kandidat.lagtTilAv.ident
+    }) ${new Date(kandidat.lagtTilTidspunkt).toLocaleString('no-NB', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -81,7 +70,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                                         )}
                                     </>
                                 }
-                                name={`kandidatstatus-${kandidatnummer}`}
+                                name={`kandidatstatus-${kandidat.kandidatnr}`}
                             />
                         );
                     })}
@@ -95,14 +84,14 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
                     <RegistrerEllerFjernDelingAvCv
-                        utfall={utfall}
-                        kandidatnummer={kandidatnummer}
+                        utfall={kandidat.utfall}
+                        kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
                     />
                     <RegistrerEllerFjernFåttJobben
-                        navn={navn}
-                        utfall={utfall}
-                        kandidatnummer={kandidatnummer}
+                        navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
+                        utfall={kandidat.utfall}
+                        kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
                     />
                 </ol>
