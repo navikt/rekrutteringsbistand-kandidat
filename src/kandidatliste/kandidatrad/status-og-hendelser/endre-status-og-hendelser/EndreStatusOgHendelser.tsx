@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import moment from 'moment';
-import { Knapp } from 'nav-frontend-knapper';
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Flatknapp } from 'nav-frontend-knapper';
 import { Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
@@ -29,6 +28,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
     kandidatnummer,
     kandidatstatus,
     onStatusChange,
+    utfall,
     lagtTilAv,
     lagtTilTidspunkt,
 }) => {
@@ -87,9 +87,9 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                         }) ${formaterTidspunkt(lagtTilTidspunkt)}`}
                     />
                     <Hendelse
-                        checked={false}
+                        checked={utfall===Utfall.FåttJobben || utfall===Utfall.Presentert}
                         tittel="CV-en er delt med arbeidsgiver"
-                        beskrivelse="Deles i kandidatlisten"
+                        beskrivelse={ utfall === Utfall.IkkePresentert ? 'Deles i kandidatlisten' : undefined}
                     >
                         <Flatknapp mini>Registrer manuelt</Flatknapp>
                     </Hendelse>
