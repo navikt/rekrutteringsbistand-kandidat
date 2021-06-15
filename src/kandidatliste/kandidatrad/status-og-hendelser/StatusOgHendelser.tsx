@@ -15,12 +15,18 @@ import './StatusOgHendelser.less';
 import usePopoverOrientering from './usePopoverOrientering';
 
 type Props = {
+    kandidatlisteId: string;
     kandidat: KandidatIKandidatliste;
     kanEditere: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
 };
 
-const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onStatusChange }) => {
+const StatusOgHendelser: FunctionComponent<Props> = ({
+    kandidatlisteId,
+    kandidat,
+    kanEditere,
+    onStatusChange,
+}) => {
     const [popoverAnker, setPopoverAnker] = useState<HTMLButtonElement | undefined>(undefined);
     const popoverOrientering = usePopoverOrientering(popoverAnker);
 
@@ -60,6 +66,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({ kandidat, kanEditere, onS
                 <div className="status-og-hendelser__popover">
                     {kanEditere ? (
                         <EndreStatusOgHendelser
+                            kandidatlisteId={kandidatlisteId}
                             kandidatnummer={kandidat.kandidatnr}
                             kandidatstatus={kandidat.status}
                             onStatusChange={endreStatusOgLukkPopover}

@@ -12,6 +12,7 @@ import RegistrerEllerFjernDelingAvCv from './RegistrerEllerFjernDelingAvCv';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
+    kandidatlisteId: string;
     kandidatnummer: string;
     kandidatstatus: Kandidatstatus;
     onStatusChange: (status: Kandidatstatus) => void;
@@ -27,6 +28,7 @@ const hentStatusbeskrivelse = (status: Kandidatstatus) => {
 };
 
 const EndreStatusOgHendelser: FunctionComponent<Props> = ({
+    kandidatlisteId,
     kandidatnummer,
     kandidatstatus,
     onStatusChange,
@@ -90,7 +92,11 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <Undertittel>Hendelser</Undertittel>
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <RegistrerEllerFjernDelingAvCv utfall={utfall} />
+                    <RegistrerEllerFjernDelingAvCv
+                        utfall={utfall}
+                        kandidatnummer={kandidatnummer}
+                        kandidatlisteId={kandidatlisteId}
+                    />
                     <Hendelse checked={utfall === Utfall.FåttJobben}>
                         <RegistrerEllerFjernFåttJobben utfall={utfall} />
                     </Hendelse>
