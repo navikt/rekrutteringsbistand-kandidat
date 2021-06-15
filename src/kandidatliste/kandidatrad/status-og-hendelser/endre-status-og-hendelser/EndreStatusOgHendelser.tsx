@@ -85,7 +85,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
             </div>
             <div className="endre-status-og-hendelser__hendelser">
                 <Undertittel>Hendelser</Undertittel>
-                <ul className="endre-status-og-hendelser__hendelsesliste">
+                <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
                     <Hendelse
                         checked={utfall === Utfall.FåttJobben || utfall === Utfall.Presentert}
@@ -99,7 +99,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Hendelse checked={utfall === Utfall.FåttJobben}>
                         <RegistrerEllerFjernFåttJobben utfall={utfall} />
                     </Hendelse>
-                </ul>
+                </ol>
             </div>
         </div>
     );
