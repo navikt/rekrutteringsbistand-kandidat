@@ -8,6 +8,7 @@ import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Hendelse from './Hendelse';
 import './EndreStatusOgHendelser.less';
+import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 
 type Props = {
     kandidatnummer: string;
@@ -87,14 +88,52 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                         }) ${formaterTidspunkt(lagtTilTidspunkt)}`}
                     />
                     <Hendelse
-                        checked={utfall===Utfall.FåttJobben || utfall===Utfall.Presentert}
+                        checked={utfall === Utfall.FåttJobben || utfall === Utfall.Presentert}
                         tittel="CV-en er delt med arbeidsgiver"
-                        beskrivelse={ utfall === Utfall.IkkePresentert ? 'Deles i kandidatlisten' : undefined}
+                        beskrivelse={
+                            utfall === Utfall.IkkePresentert ? 'Deles i kandidatlisten' : undefined
+                        }
                     >
-                        <Flatknapp mini>Registrer manuelt</Flatknapp>
+                        {utfall === Utfall.IkkePresentert ? (
+                            <Flatknapp
+                                className="endre-status-og-hendelser__registrer-hendelse"
+                                kompakt
+                                mini
+                            >
+                                <AddCircle />
+                                Registrer manuelt
+                            </Flatknapp>
+                        ) : (
+                            <Flatknapp
+                                className="endre-status-og-hendelser__registrer-hendelse"
+                                kompakt
+                                mini
+                            >
+                                <MinusCircle />
+                                Fjern registrering
+                            </Flatknapp>
+                        )}
                     </Hendelse>
-                    <Hendelse checked={false}>
-                        <Flatknapp mini>Registrer at kandidaten har fått jobb</Flatknapp>
+                    <Hendelse checked={utfall === Utfall.FåttJobben}>
+                        {utfall === Utfall.FåttJobben ? (
+                            <Flatknapp
+                                className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
+                                kompakt
+                                mini
+                            >
+                                <MinusCircle />
+                                Fjern registrering
+                            </Flatknapp>
+                        ) : (
+                            <Flatknapp
+                                className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
+                                kompakt
+                                mini
+                            >
+                                <AddCircle />
+                                Registrer at kandidaten har fått jobb
+                            </Flatknapp>
+                        )}
                     </Hendelse>
                 </ul>
             </div>
