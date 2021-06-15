@@ -13,6 +13,8 @@ import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
 import SeHendelser from './se-hendelser/SeHendelser';
 import './StatusOgHendelser.less';
 import usePopoverOrientering from './usePopoverOrientering';
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { Close } from '@navikt/ds-icons';
 
 type Props = {
     kandidatlisteId: string;
@@ -78,6 +80,13 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                     ) : (
                         <SeHendelser utfall={kandidat.utfall} />
                     )}
+                    <Knapp
+                        mini
+                        className="status-og-hendelser__lukk-popover-knapp"
+                        onClick={lukkPopover}
+                    >
+                        <Close />
+                    </Knapp>
                 </div>
             </Popover>
         </div>

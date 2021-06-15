@@ -3,9 +3,19 @@
 .status-og-hendelser {
     display: flex;
     align-items: center;
+    position: relative;
 
     &__popover {
         padding: 1.25rem 2rem;
+    }
+
+    &__lukk-popover-knapp {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
     }
 
     &__status {
