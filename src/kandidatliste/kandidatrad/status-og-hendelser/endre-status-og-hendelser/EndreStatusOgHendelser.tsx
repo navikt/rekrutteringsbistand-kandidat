@@ -6,9 +6,9 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
-import RegistrerEllerFjernDelingAvCv from './RegistrerEllerFjernDelingAvCv';
 import Hendelse from './Hendelse';
 import RegistrerEllerFjernFåttJobben from './RegistrerEllerFjernFåttJobben';
+import RegistrerEllerFjernDelingAvCv from './RegistrerEllerFjernDelingAvCv';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -90,15 +90,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <Undertittel>Hendelser</Undertittel>
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <Hendelse
-                        checked={utfall === Utfall.FåttJobben || utfall === Utfall.Presentert}
-                        tittel="CV-en er delt med arbeidsgiver"
-                        beskrivelse={
-                            utfall === Utfall.IkkePresentert ? 'Deles i kandidatlisten' : undefined
-                        }
-                    >
-                        <RegistrerEllerFjernDelingAvCv utfall={utfall} />
-                    </Hendelse>
+                    <RegistrerEllerFjernDelingAvCv utfall={utfall} />
                     <Hendelse checked={utfall === Utfall.FåttJobben}>
                         <RegistrerEllerFjernFåttJobben utfall={utfall} />
                     </Hendelse>

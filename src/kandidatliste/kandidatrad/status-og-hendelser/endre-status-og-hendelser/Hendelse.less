@@ -21,6 +21,18 @@
         }
     }
 
+    &__innhold {
+        display: flex;
+
+        &--children-below-content {
+            flex-direction: column;
+
+            .hendelse__children {
+                margin-top: 1.5rem;
+            }
+        }
+    }
+
     &__ikon {
         display: flex;
         align-items: center;
@@ -49,7 +61,7 @@
     }
 
     &__tekst {
-        margin-right: 1rem;
+        margin-right: 0.5rem;
         margin-top: 0.0625rem;
     }
 }
