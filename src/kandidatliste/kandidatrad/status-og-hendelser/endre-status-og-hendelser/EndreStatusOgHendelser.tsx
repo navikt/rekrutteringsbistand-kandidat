@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import moment from 'moment';
 import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
@@ -45,7 +44,11 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const cvDeltBeskrivelse = `Lagt til i listen av ${lagtTilAv.navn} (${
         lagtTilAv.ident
-    }) ${formaterTidspunkt(lagtTilTidspunkt)}`;
+    }) ${new Date(lagtTilTidspunkt).toLocaleString('no-NB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    })}`;
 
     return (
         <div className="endre-status-og-hendelser">
@@ -103,10 +106,6 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
             </div>
         </div>
     );
-};
-
-const formaterTidspunkt = (tidspunkt: string) => {
-    return moment(tidspunkt).format('DD.MM.YYYY'); // TODO: Format skal være '26. mars 2021'
 };
 
 export default EndreStatusOgHendelser;
