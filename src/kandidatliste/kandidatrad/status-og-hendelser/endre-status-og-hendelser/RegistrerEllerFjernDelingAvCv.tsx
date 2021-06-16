@@ -9,6 +9,7 @@ import AppState from '../../../../AppState';
 import { useEffect } from 'react';
 
 type Props = {
+    redigerbart?: boolean;
     utfall: Utfall;
     kandidatnummer: string;
     kandidatlisteId: string;
@@ -22,6 +23,7 @@ enum Visning {
 }
 
 const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
+    redigerbart,
     utfall,
     kandidatnummer,
     kandidatlisteId,
@@ -72,15 +74,17 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse="Gjøres i kandidatlisten"
                 >
-                    <Flatknapp
-                        mini
-                        kompakt
-                        onClick={onRegistrer}
-                        className="endre-status-og-hendelser__registrer-hendelse"
-                    >
-                        <AddCircle />
-                        Registrer manuelt
-                    </Flatknapp>
+                    {redigerbart && (
+                        <Flatknapp
+                            mini
+                            kompakt
+                            onClick={onRegistrer}
+                            className="endre-status-og-hendelser__registrer-hendelse"
+                        >
+                            <AddCircle />
+                            Registrer manuelt
+                        </Flatknapp>
+                    )}
                 </Hendelse>
             );
 
@@ -91,15 +95,17 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={undefined}
                 >
-                    <Flatknapp
-                        onClick={onFjernRegistrering}
-                        className="endre-status-og-hendelser__registrer-hendelse"
-                        kompakt
-                        mini
-                    >
-                        <MinusCircle />
-                        Fjern registrering
-                    </Flatknapp>
+                    {redigerbart && (
+                        <Flatknapp
+                            onClick={onFjernRegistrering}
+                            className="endre-status-og-hendelser__registrer-hendelse"
+                            kompakt
+                            mini
+                        >
+                            <MinusCircle />
+                            Fjern registrering
+                        </Flatknapp>
+                    )}
                 </Hendelse>
             );
 
@@ -111,17 +117,21 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                     tittel="Registrer at CV-en er blitt delt"
                     beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
-                    <Hovedknapp
-                        mini
-                        kompakt
-                        onClick={onBekreftRegistreringClick}
-                        className="endre-status-og-hendelser__bekreft-knapp"
-                    >
-                        CV-en er blitt delt
-                    </Hovedknapp>
-                    <Knapp mini kompakt onClick={onAvbrytRegistrering}>
-                        Avbryt
-                    </Knapp>
+                    {redigerbart && (
+                        <>
+                            <Hovedknapp
+                                mini
+                                kompakt
+                                onClick={onBekreftRegistreringClick}
+                                className="endre-status-og-hendelser__bekreft-knapp"
+                            >
+                                CV-en er blitt delt
+                            </Hovedknapp>
+                            <Knapp mini kompakt onClick={onAvbrytRegistrering}>
+                                Avbryt
+                            </Knapp>
+                        </>
+                    )}
                 </Hendelse>
             );
 
@@ -135,17 +145,21 @@ const RegistrerEllerFjernDelingAvCv: FunctionComponent<Props> = ({
                         'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
                     }
                 >
-                    <Hovedknapp
-                        mini
-                        kompakt
-                        onClick={onBekreftFjerningAvRegistrering}
-                        className="endre-status-og-hendelser__bekreft-knapp"
-                    >
-                        Fjern registreringen
-                    </Hovedknapp>
-                    <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
-                        Avbryt
-                    </Knapp>
+                    {redigerbart && (
+                        <>
+                            <Hovedknapp
+                                mini
+                                kompakt
+                                onClick={onBekreftFjerningAvRegistrering}
+                                className="endre-status-og-hendelser__bekreft-knapp"
+                            >
+                                Fjern registreringen
+                            </Hovedknapp>
+                            <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
+                                Avbryt
+                            </Knapp>
+                        </>
+                    )}
                 </Hendelse>
             );
     }

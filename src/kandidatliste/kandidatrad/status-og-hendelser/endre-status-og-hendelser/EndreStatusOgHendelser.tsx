@@ -3,7 +3,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
-import { KandidatIKandidatliste, Kandidatstatus, LagtTilAv } from '../../../kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatstatus } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import Hendelse from './Hendelse';
 import RegistrerEllerFjernFåttJobben from './RegistrerEllerFjernFåttJobben';
@@ -84,11 +84,13 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
                     <RegistrerEllerFjernDelingAvCv
+                        redigerbart
                         utfall={kandidat.utfall}
                         kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
                     />
                     <RegistrerEllerFjernFåttJobben
+                        redigerbart
                         navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
                         utfall={kandidat.utfall}
                         kandidatnummer={kandidat.kandidatnr}
