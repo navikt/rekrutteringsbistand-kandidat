@@ -73,7 +73,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                             onStatusChange={endreStatusOgLukkPopover}
                         />
                     ) : (
-                        <SeHendelser utfall={kandidat.utfall} />
+                        <SeHendelser kandidat={kandidat} kandidatlisteId={kandidatlisteId} />
                     )}
                     <Knapp
                         mini

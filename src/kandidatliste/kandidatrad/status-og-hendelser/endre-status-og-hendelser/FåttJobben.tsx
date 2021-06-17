@@ -8,6 +8,7 @@ import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import AppState from '../../../../AppState';
 
 type Props = {
+    erRedigerbar?: boolean;
     utfall: Utfall;
     kandidatnummer: string;
     kandidatlisteId: string;
@@ -21,7 +22,8 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
+const FåttJobben: FunctionComponent<Props> = ({
+    erRedigerbar,
     utfall,
     kandidatnummer,
     kandidatlisteId,
@@ -67,15 +69,17 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
         case Visning.Registrer:
             return (
                 <Hendelse checked={checked} tittel={undefined} beskrivelse={undefined}>
-                    <Flatknapp
-                        mini
-                        kompakt
-                        onClick={onRegistrer}
-                        className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
-                    >
-                        <AddCircle />
-                        Registrer at kandidaten har fått jobb
-                    </Flatknapp>
+                    {erRedigerbar && (
+                        <Flatknapp
+                            mini
+                            kompakt
+                            onClick={onRegistrer}
+                            className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
+                        >
+                            <AddCircle />
+                            Registrer at kandidaten har fått jobb
+                        </Flatknapp>
+                    )}
                 </Hendelse>
             );
 
@@ -86,15 +90,17 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                     tittel="Kandidaten har fått jobben"
                     beskrivelse={undefined}
                 >
-                    <Flatknapp
-                        mini
-                        kompakt
-                        onClick={onFjernRegistrering}
-                        className="endre-status-og-hendelser__registrer-hendelse"
-                    >
-                        <MinusCircle />
-                        Fjern registreringen
-                    </Flatknapp>
+                    {erRedigerbar && (
+                        <Flatknapp
+                            mini
+                            kompakt
+                            onClick={onFjernRegistrering}
+                            className="endre-status-og-hendelser__registrer-hendelse"
+                        >
+                            <MinusCircle />
+                            Fjern registreringen
+                        </Flatknapp>
+                    )}
                 </Hendelse>
             );
 
@@ -106,17 +112,21 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                     tittel={`Registrer at ${navn} har fått jobben`}
                     beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
                 >
-                    <Hovedknapp
-                        mini
-                        kompakt
-                        onClick={onBekreftRegistreringClick}
-                        className="endre-status-og-hendelser__bekreft-knapp"
-                    >
-                        Registrere fått jobben
-                    </Hovedknapp>
-                    <Knapp mini kompakt onClick={onAvbrytRegistrering}>
-                        Avbryt
-                    </Knapp>
+                    {erRedigerbar && (
+                        <>
+                            <Hovedknapp
+                                mini
+                                kompakt
+                                onClick={onBekreftRegistreringClick}
+                                className="endre-status-og-hendelser__bekreft-knapp"
+                            >
+                                Registrere fått jobben
+                            </Hovedknapp>
+                            <Knapp mini kompakt onClick={onAvbrytRegistrering}>
+                                Avbryt
+                            </Knapp>
+                        </>
+                    )}
                 </Hendelse>
             );
 
@@ -130,20 +140,24 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                         'Hvis du fjerner registreringen vil tellingen på "fått jobben" taes bort.'
                     }
                 >
-                    <Hovedknapp
-                        mini
-                        kompakt
-                        onClick={onBekreftFjerningAvRegistrering}
-                        className="endre-status-og-hendelser__bekreft-knapp"
-                    >
-                        Fjern registreringen
-                    </Hovedknapp>
-                    <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
-                        Avbryt
-                    </Knapp>
+                    {erRedigerbar && (
+                        <>
+                            <Hovedknapp
+                                mini
+                                kompakt
+                                onClick={onBekreftFjerningAvRegistrering}
+                                className="endre-status-og-hendelser__bekreft-knapp"
+                            >
+                                Fjern registreringen
+                            </Hovedknapp>
+                            <Knapp mini kompakt onClick={onAvbrytFjerningAvRegistrering}>
+                                Avbryt
+                            </Knapp>
+                        </>
+                    )}
                 </Hendelse>
             );
     }
 };
 
-export default RegistrerEllerFjernFåttJobben;
+export default FåttJobben;
