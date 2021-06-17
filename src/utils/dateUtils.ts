@@ -51,3 +51,11 @@ export function formatISOString(isoString, format = 'MMMM YYYY') {
     }
     return '';
 }
+
+export function datoformatNorskLang(dato: string): string {
+    return new Date(dato).toLocaleString('no-NB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    })
+}

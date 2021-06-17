@@ -2,8 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
 import { Undertittel } from 'nav-frontend-typografi';
 import Hendelse from '../endre-status-og-hendelser/Hendelse';
-import RegistrerEllerFjernDelingAvCv from '../endre-status-og-hendelser/RegistrerEllerFjernDelingAvCv';
-import RegistrerEllerFjernFåttJobben from '../endre-status-og-hendelser/RegistrerEllerFjernFåttJobben';
+import DelingAvCv from '../endre-status-og-hendelser/DelingAvCv';
+import FåttJobben from '../endre-status-og-hendelser/FåttJobben';
+import { datoformatNorskLang } from '../../../../utils/dateUtils';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -13,11 +14,7 @@ type Props = {
 const SeHendelser: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) => {
     const cvDeltBeskrivelse = `Lagt til i listen av ${kandidat.lagtTilAv.navn} (${
         kandidat.lagtTilAv.ident
-    }) ${new Date(kandidat.lagtTilTidspunkt).toLocaleString('no-NB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    })}`;
+    }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
     return (
         <div className="endre-status-og-hendelser">
@@ -25,12 +22,12 @@ const SeHendelser: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) =>
                 <Undertittel>Hendelser</Undertittel>
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <RegistrerEllerFjernDelingAvCv
+                    <DelingAvCv
                         utfall={kandidat.utfall}
                         kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
                     />
-                    <RegistrerEllerFjernFåttJobben
+                    <FåttJobben
                         navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
                         utfall={kandidat.utfall}
                         kandidatnummer={kandidat.kandidatnr}

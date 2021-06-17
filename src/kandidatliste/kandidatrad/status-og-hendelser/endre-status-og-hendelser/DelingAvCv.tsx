@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
@@ -6,13 +6,13 @@ import Hendelse from './Hendelse';
 import { useDispatch, useSelector } from 'react-redux';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import AppState from '../../../../AppState';
+import { useEffect } from 'react';
 
 type Props = {
-    redigerbart?: boolean;
+    erRedigerbar?: boolean;
     utfall: Utfall;
     kandidatnummer: string;
     kandidatlisteId: string;
-    navn: string;
 };
 
 enum Visning {
@@ -22,22 +22,23 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
-    redigerbart,
+const DelingAvCv: FunctionComponent<Props> = ({
+    erRedigerbar,
     utfall,
     kandidatnummer,
     kandidatlisteId,
-    navn,
 }) => {
     const dispatch = useDispatch();
     const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
 
     const [visning, setVisning] = useState<Visning>(
-        utfall === Utfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
+        utfall === Utfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
     );
 
     useEffect(() => {
-        setVisning(utfall === Utfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer);
+        setVisning(
+            utfall === Utfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
+        );
     }, [utfall]);
 
     const onRegistrer = () => setVisning(Visning.BekreftRegistrer);
@@ -46,11 +47,11 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
 
     const onBekreftRegistreringClick = () => {
-        endreUtfallForKandidat(Utfall.FåttJobben);
+        endreUtfallForKandidat(Utfall.Presentert);
     };
 
     const onBekreftFjerningAvRegistrering = () => {
-        endreUtfallForKandidat(Utfall.Presentert);
+        endreUtfallForKandidat(Utfall.IkkePresentert);
     };
 
     const endreUtfallForKandidat = (nyttUtfall: Utfall) => {
@@ -63,21 +64,25 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
         });
     };
 
-    const checked = utfall === Utfall.FåttJobben;
+    const checked = utfall === Utfall.FåttJobben || utfall === Utfall.Presentert;
 
     switch (visning) {
         case Visning.Registrer:
             return (
-                <Hendelse checked={checked} tittel={undefined} beskrivelse={undefined}>
-                    {redigerbart && (
+                <Hendelse
+                    checked={checked}
+                    tittel="CV-en er delt med arbeidsgiver"
+                    beskrivelse="Gjøres i kandidatlisten"
+                >
+                    {erRedigerbar && (
                         <Flatknapp
                             mini
                             kompakt
                             onClick={onRegistrer}
-                            className="endre-status-og-hendelser__registrer-hendelse endre-status-og-hendelser__registrer-hendelse--kompenser-for-padding"
+                            className="endre-status-og-hendelser__registrer-hendelse"
                         >
                             <AddCircle />
-                            Registrer at kandidaten har fått jobb
+                            Registrer manuelt
                         </Flatknapp>
                     )}
                 </Hendelse>
@@ -87,18 +92,18 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
             return (
                 <Hendelse
                     checked={checked}
-                    tittel="Kandidaten har fått jobben"
+                    tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={undefined}
                 >
-                    {redigerbart && (
+                    {erRedigerbar && (
                         <Flatknapp
-                            mini
-                            kompakt
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
+                            kompakt
+                            mini
                         >
                             <MinusCircle />
-                            Fjern registreringen
+                            Fjern registrering
                         </Flatknapp>
                     )}
                 </Hendelse>
@@ -109,10 +114,10 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                 <Hendelse
                     renderChildrenBelowContent
                     checked={checked}
-                    tittel={`Registrer at ${navn} har fått jobben`}
-                    beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
+                    tittel="Registrer at CV-en er blitt delt"
+                    beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
-                    {redigerbart && (
+                    {erRedigerbar && (
                         <>
                             <Hovedknapp
                                 mini
@@ -120,7 +125,7 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                                 onClick={onBekreftRegistreringClick}
                                 className="endre-status-og-hendelser__bekreft-knapp"
                             >
-                                Registrere fått jobben
+                                CV-en er blitt delt
                             </Hovedknapp>
                             <Knapp mini kompakt onClick={onAvbrytRegistrering}>
                                 Avbryt
@@ -135,12 +140,12 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
                 <Hendelse
                     renderChildrenBelowContent
                     checked={checked}
-                    tittel={'Fjern registreringen "fått jobben"'}
+                    tittel={'Fjern registreringen "delt med arbeidsgiver"'}
                     beskrivelse={
-                        'Hvis du fjerner registreringen vil tellingen på "fått jobben" taes bort.'
+                        'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
                     }
                 >
-                    {redigerbart && (
+                    {erRedigerbar && (
                         <>
                             <Hovedknapp
                                 mini
@@ -160,4 +165,4 @@ const RegistrerEllerFjernFåttJobben: FunctionComponent<Props> = ({
     }
 };
 
-export default RegistrerEllerFjernFåttJobben;
+export default DelingAvCv;
