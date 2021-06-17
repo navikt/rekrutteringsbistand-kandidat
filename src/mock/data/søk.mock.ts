@@ -15,7 +15,6 @@ const resultater: Søkeresultat[] = cver.map((cv) => ({
     score: 'NaN',
     poststed: cv.adresse.poststednavn,
     hoyesteUtdanning: cv.utdanning[0],
-    mestRelevanteYrkeserfaring: cv.yrkeserfaring[0],
     servicebehov: 'Varig tilpasset innsats',
     innsatsgruppe: Innsatsgruppe.Standard,
     midlertidigUtilgjengeligStatus: Tilgjengelighet.Tilgjengelig, // TODO: Dynamisk midl.util.

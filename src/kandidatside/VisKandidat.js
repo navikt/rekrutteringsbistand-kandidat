@@ -361,7 +361,6 @@ VisKandidat.defaultProps = {
     antallKandidater: undefined,
     kandidat: {
         arenaKandidatnr: undefined,
-        mestRelevanteYrkeserfaring: {},
     },
     kandidatliste: undefined,
 };

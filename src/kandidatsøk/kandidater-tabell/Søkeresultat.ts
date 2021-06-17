@@ -23,10 +23,6 @@ type Søkeresultat = {
         nusKodeGrad: any;
     };
     innsatsgruppe: Innsatsgruppe;
-    mestRelevanteYrkeserfaring: {
-        styrkKodeStillingstittel: string;
-        yrkeserfaringManeder: number;
-    };
     midlertidigUtilgjengeligStatus: Tilgjengelighet;
     poststed: string;
     score: any;

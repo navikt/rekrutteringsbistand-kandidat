@@ -276,7 +276,6 @@ const postFnrsok = (url: string, options: fetchMock.MockOptionsMethodPost) => {
             arenaKandidatnr: cv.kandidatnummer,
             fornavn: cv.fornavn,
             etternavn: cv.etternavn,
-            mestRelevanteYrkeserfaring: null,
         };
     } else {
         return {

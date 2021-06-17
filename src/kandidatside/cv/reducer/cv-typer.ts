@@ -56,10 +56,6 @@ export type Kandidatresultat = {
     arenaKandidatnr: string;
     fornavn: string;
     etternavn: string;
-    mestRelevanteYrkeserfaring: {
-        styrkKodeStillingstittel?: string;
-        yrkeserfaringManeder?: string;
-    };
 };
 
 export default Cv;
