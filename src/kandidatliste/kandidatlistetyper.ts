@@ -3,13 +3,13 @@ import { RemoteData } from '../api/remoteData';
 import { Visningsstatus } from './Kandidatliste';
 import { Tilgjengelighet } from '../kandidatsøk/kandidater-tabell/Søkeresultat';
 
-export enum Delestatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
+export enum Delestatus {
     IkkeSpurt = 'IKKE_SPURT',
     Loading = 'LOADING',
     Success = 'SUCCESS',
 }
 
-export enum HentStatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
+export enum HentStatus {
     IkkeHentet = 'IKKE_HENTET',
     Loading = 'LOADING',
     Success = 'SUCCESS',
@@ -24,7 +24,7 @@ export enum SmsStatus {
     Feil = 'FEIL',
 }
 
-export enum MarkerSomMinStatus { // TODO Are: Brukes ikke i denne filen, bør flyttes? Ref. package-by-feature
+export enum MarkerSomMinStatus {
     IkkeGjort = 'IKKE_GJORT',
     Loading = 'LOADING',
     Success = 'SUCCESS',
@@ -50,7 +50,6 @@ export enum Kandidatstatus {
 export interface Kandidat {
     kandidatId: string;
     kandidatnr: string;
-    sisteArbeidserfaring: string;
     status: Kandidatstatus;
     lagtTilTidspunkt: string;
     lagtTilAv: LagtTilAv;

@@ -26,7 +26,6 @@ const MAKS_NOTATLENGDE = 2000;
 export type KandidatOutboundDto = {
     kandidatnr: string;
     notat: string;
-    sisteArbeidserfaring?: string;
 };
 
 export type FormidlingAvUsynligKandidatOutboundDto = {
@@ -184,9 +183,6 @@ class LeggTilKandidatModal extends React.Component<Props> {
             {
                 kandidatnr: kandidat.arenaKandidatnr,
                 notat,
-                sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
-                    ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
-                    : '',
             },
         ];
 

@@ -333,7 +333,6 @@ function* leggTilKandidater(action: LeggTilKandidaterAction) {
 
 function* lagreKandidatIKandidatliste(action) {
     try {
-        const response = yield call(fetchKandidatMedFnr, action.fodselsnummer);
         yield call(leggTilKandidater, {
             type: KandidatlisteActionType.LEGG_TIL_KANDIDATER,
             kandidatliste: action.kandidatliste,
@@ -341,9 +340,6 @@ function* lagreKandidatIKandidatliste(action) {
                 {
                     kandidatnr: action.kandidatnr,
                     notat: action.notat,
-                    sisteArbeidserfaring: response.mestRelevanteYrkeserfaring
-                        ? response.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
-                        : '',
                 },
             ],
         });

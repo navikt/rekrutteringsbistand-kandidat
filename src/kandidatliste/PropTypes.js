@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 export const Kandidat = {
     kandidatId: PropTypes.string,
     kandidatnr: PropTypes.string,
-    sisteArbeidserfaring: PropTypes.string,
     status: PropTypes.string,
     lagtTilTidspunkt: PropTypes.string,
     lagtTilAv: PropTypes.shape({

@@ -98,7 +98,6 @@ export const mockKandidat = (
 ): Kandidat => ({
     kandidatId: lagUuid(cver[cvIndex].kandidatnummer),
     kandidatnr: cver[cvIndex].kandidatnummer,
-    sisteArbeidserfaring: 'Butikkinnehaver (liten butikk)',
     status: Kandidatstatus.Vurderes,
     lagtTilTidspunkt: lagtTilTidspunkt.toISOString(),
     lagtTilAv: {
@@ -128,20 +127,6 @@ const mockMidlertidigUtilgjengeligStatus = (cvIndex: number) => {
         : cvIndex === 4
         ? Tilgjengelighet.MidlertidigUtilgjengelig
         : Tilgjengelighet.Tilgjengelig;
-};
-
-export const mockMidlertidigUtilgjengelig = (cvIndex: number) => {
-    return {
-        midlertidigUtilgjengelig: {
-            aktørId: '1234567891023',
-            fraDato: '2020-05-04T09:32:10.634147',
-            tilDato: '2020-05-26T00:00:00',
-            registrertAvIdent: meg.ident,
-            registrertAvNavn: meg.navn,
-            sistEndretAvIdent: enVeileder.ident,
-            sistEndretAvNavn: enVeileder.navn,
-        },
-    };
 };
 
 const fraCvTilUsynligKandidat = (cv: Cv): FormidlingAvUsynligKandidat => ({

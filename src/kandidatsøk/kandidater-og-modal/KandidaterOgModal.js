@@ -117,17 +117,12 @@ class KandidaterOgModal extends React.Component {
     };
 
     onLagreKandidatliste = (kandidatliste) => {
-        this.props.leggTilKandidaterIKandidatliste(
-            kandidatliste,
-            this.state.kandidater
-                .filter((kandidat) => kandidat.markert)
-                .map((kandidat) => ({
-                    kandidatnr: kandidat.arenaKandidatnr,
-                    sisteArbeidserfaring: kandidat.mestRelevanteYrkeserfaring
-                        ? kandidat.mestRelevanteYrkeserfaring.styrkKodeStillingstittel
-                        : '',
-                }))
-        );
+        const kandidatnr = this.state.kandidater
+            .filter((kandidat) => kandidat.markert)
+            .map((kandidat) => ({
+                kandidatnr: kandidat.arenaKandidatnr,
+            }));
+        this.props.leggTilKandidaterIKandidatliste(kandidatliste, kandidatnr);
     };
 
     onToggleMarkeringAlleKandidater = () => {
