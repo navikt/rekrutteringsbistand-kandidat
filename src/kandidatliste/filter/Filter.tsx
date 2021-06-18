@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Checkbox } from 'nav-frontend-skjema';
+import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
@@ -10,6 +10,8 @@ import { utfallToDisplayName } from '../kandidatrad/utfall-med-endre-ikon/Utfall
 import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Filter.less';
 import { Kandidatstatus } from '../kandidatlistetyper';
+import { useSelector } from 'react-redux';
+import AppState from '../../AppState';
 
 interface Props {
     antallTreff: AntallFiltertreff;
@@ -31,6 +33,9 @@ const Filter: FunctionComponent<Props> = ({
     onToggleUtfall,
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
+    const visNyttKandidatstatusLayout = useSelector(
+        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
+    );
 
     const statuscheckbokser = Object.values(Kandidatstatus).map((status) => (
         <Checkbox
@@ -58,6 +63,20 @@ const Filter: FunctionComponent<Props> = ({
           ))
         : undefined;
 
+    const hendelsescheckbokser = utfallsfilter
+        ? Object.values(Utfall).map((utfall) => (
+              <Checkbox
+                  key={utfall}
+                  value={utfall}
+                  label={`${utfallTilHendelse(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
+                  checked={utfallsfilter[utfall]}
+                  name="hendelsesfilter"
+                  className="kandidatliste-filter__checkbox"
+                  onChange={(e) => onToggleUtfall(e.currentTarget.value as Utfall)}
+              />
+          ))
+        : undefined;
+
     const arkivfilter = (
         <Checkbox
             label={`Vis kun slettede (${antallTreff.arkiverte})`}
@@ -68,9 +87,22 @@ const Filter: FunctionComponent<Props> = ({
 
     return harStorSkjerm ? (
         <aside className="kandidatliste-filter">
-            <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
-            {utfallsfilter && (
-                <KategoriStorSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriStorSkjerm>
+            {visNyttKandidatstatusLayout ? (
+                <KategoriStorSkjerm kategori="Status/hendelser">
+                    <CheckboxGruppe legend="Status">{statuscheckbokser}</CheckboxGruppe>
+                    {hendelsescheckbokser && (
+                        <CheckboxGruppe legend="Hendelser">{hendelsescheckbokser}</CheckboxGruppe>
+                    )}
+                </KategoriStorSkjerm>
+            ) : (
+                <>
+                    <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
+                    {utfallsfilter && (
+                        <KategoriStorSkjerm kategori="Utfall">
+                            {utfallscheckbokser}
+                        </KategoriStorSkjerm>
+                    )}
+                </>
             )}
             <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
         </aside>
@@ -81,12 +113,38 @@ const Filter: FunctionComponent<Props> = ({
             border
         >
             <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
-            {utfallsfilter && (
-                <KategoriLitenSkjerm kategori="Utfall">{utfallscheckbokser}</KategoriLitenSkjerm>
+
+            {visNyttKandidatstatusLayout ? (
+                <>
+                    {hendelsescheckbokser && (
+                        <KategoriLitenSkjerm kategori="Hendelser">
+                            {hendelsescheckbokser}
+                        </KategoriLitenSkjerm>
+                    )}
+                </>
+            ) : (
+                <>
+                    {utfallscheckbokser && (
+                        <KategoriLitenSkjerm kategori="Utfall">
+                            {utfallscheckbokser}
+                        </KategoriLitenSkjerm>
+                    )}
+                </>
             )}
             <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
         </Ekspanderbartpanel>
     );
+};
+
+const utfallTilHendelse = (utfall: Utfall) => {
+    switch (utfall) {
+        case Utfall.FåttJobben:
+            return 'Fått jobben';
+        case Utfall.Presentert:
+            return 'Delt med arbeidsgiver';
+        case Utfall.IkkePresentert:
+            return 'Ikke delt med arbeidsgiver';
+    }
 };
 
 export default Filter;

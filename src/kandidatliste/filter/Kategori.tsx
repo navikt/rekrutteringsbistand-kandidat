@@ -6,7 +6,12 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 type Props = { kategori: string };
 
 export const KategoriStorSkjerm: FunctionComponent<Props> = ({ kategori, children }) => (
-    <Ekspanderbartpanel apen border tittel={<Element>{kategori}</Element>}>
+    <Ekspanderbartpanel
+        className="kandidatliste-filter__kategori kandidatliste-filter__kategori--stor-skjerm"
+        apen
+        border
+        tittel={<Element>{kategori}</Element>}
+    >
         {children}
     </Ekspanderbartpanel>
 );

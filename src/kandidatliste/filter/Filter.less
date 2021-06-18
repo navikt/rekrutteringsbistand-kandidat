@@ -8,15 +8,31 @@
     }
 
     &__kategori {
-        flex: 1;
+        &:first-child {
+            flex: 4;
+        }
+
+        flex: 5;
 
         &:last-child {
-            flex: 2;
+            flex: 7;
+        }
+
+        &--stor-skjerm {
+            .skjemagruppe.checkboxgruppe:not(:first-child) {
+                .skjemagruppe__legend {
+                    padding-top: 1rem;
+                }
+            }
+
+            .skjemagruppe__legend {
+                margin-bottom: 0.5rem !important;
+            }
         }
     }
 
     &__checkbox.skjemaelement:not(:last-child) {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.5rem !important;
     }
 
     .ekspanderbartPanel:not(:last-child) {
