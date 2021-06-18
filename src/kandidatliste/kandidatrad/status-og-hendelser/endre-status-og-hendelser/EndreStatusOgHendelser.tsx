@@ -9,6 +9,7 @@ import Hendelse from './Hendelse';
 import FåttJobben from './FåttJobben';
 import DelingAvCv from './DelingAvCv';
 import './EndreStatusOgHendelser.less';
+import { datoformatNorskLang } from '../../../../utils/dateUtils';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -37,11 +38,7 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
 
     const cvDeltBeskrivelse = `Lagt til i listen av ${kandidat.lagtTilAv.navn} (${
         kandidat.lagtTilAv.ident
-    }) ${new Date(kandidat.lagtTilTidspunkt).toLocaleString('no-NB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    })}`;
+    }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
     return (
         <div className="endre-status-og-hendelser">

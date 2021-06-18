@@ -17,25 +17,23 @@ const SeHendelser: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) =>
     }) ${datoformatNorskLang(kandidat.lagtTilTidspunkt)}`;
 
     return (
-        <div className="endre-status-og-hendelser">
-            <div className="endre-status-og-hendelser__hendelser">
-                <Undertittel>Hendelser</Undertittel>
-                <ol className="endre-status-og-hendelser__hendelsesliste">
-                    <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <DelingAvCv
-                        utfall={kandidat.utfall}
-                        kandidatnummer={kandidat.kandidatnr}
-                        kandidatlisteId={kandidatlisteId}
-                    />
-                    <FåttJobben
-                        navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
-                        utfall={kandidat.utfall}
-                        kandidatnummer={kandidat.kandidatnr}
-                        kandidatlisteId={kandidatlisteId}
-                    />
-                </ol>
-            </div>
-        </div>
+        <>
+            <Undertittel>Hendelser</Undertittel>
+            <ol className="endre-status-og-hendelser__hendelsesliste">
+                <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
+                <DelingAvCv
+                    utfall={kandidat.utfall}
+                    kandidatnummer={kandidat.kandidatnr}
+                    kandidatlisteId={kandidatlisteId}
+                />
+                <FåttJobben
+                    navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
+                    utfall={kandidat.utfall}
+                    kandidatnummer={kandidat.kandidatnr}
+                    kandidatlisteId={kandidatlisteId}
+                />
+            </ol>
+        </>
     );
 };
 
