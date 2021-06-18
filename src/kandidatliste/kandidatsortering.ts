@@ -1,5 +1,6 @@
-import { KandidatIKandidatliste } from './kandidatlistetyper';
+import { KandidatIKandidatliste, Kandidatstatus } from './kandidatlistetyper';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
+import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 
 export enum KandidatSorteringsfelt {
     Navn,
@@ -8,6 +9,7 @@ export enum KandidatSorteringsfelt {
     Utfall,
     LagtTilAv,
     LagtTilTidspunkt,
+    StatusOgHendelser,
 }
 
 export type Kandidatsammenlikning = (
@@ -54,6 +56,49 @@ const sorterPåLagtTilTidspunkt = (retning: Retning): Kandidatsammenlikning => (
     }
 };
 
+const sorterPåStatusOgHendelser = (retning: Retning): Kandidatsammenlikning => (k1, k2) => {
+    return k1.utfall === k2.utfall
+        ? sorterKronologiskPåStatus(k1, k2, retning)
+        : sorterKronologiskPåHendelser(k1, k2, retning);
+};
+const kronologiskHendelseRekkefølge: Array<Utfall> = [
+    Utfall.IkkePresentert,
+    Utfall.Presentert,
+    Utfall.FåttJobben,
+];
+
+const sorterKronologiskPåHendelser = (
+    k1: KandidatIKandidatliste,
+    k2: KandidatIKandidatliste,
+    retning: Retning
+) => {
+    return (
+        (retning === Retning.Synkende ? 1 : -1) *
+        (kronologiskHendelseRekkefølge.indexOf(k1.utfall) -
+            kronologiskHendelseRekkefølge.indexOf(k2.utfall))
+    );
+};
+
+const kronologiskStatusRekkefølge: Array<Kandidatstatus> = [
+    Kandidatstatus.Uaktuell,
+    Kandidatstatus.Uinteressert,
+    Kandidatstatus.Vurderes,
+    Kandidatstatus.Kontaktet,
+    Kandidatstatus.Aktuell,
+];
+
+const sorterKronologiskPåStatus = (
+    k1: KandidatIKandidatliste,
+    k2: KandidatIKandidatliste,
+    retning: Retning
+) => {
+    return (
+        (retning === Retning.Synkende ? 1 : -1) *
+        (kronologiskStatusRekkefølge.indexOf(k1.status) -
+            kronologiskStatusRekkefølge.indexOf(k2.status))
+    );
+};
+
 export const sorteringsalgoritmer: Record<
     KandidatSorteringsfelt,
     Record<Retning, Kandidatsammenlikning>
@@ -81,5 +126,9 @@ export const sorteringsalgoritmer: Record<
     [KandidatSorteringsfelt.LagtTilTidspunkt]: {
         [Retning.Stigende]: sorterPåLagtTilTidspunkt(Retning.Stigende),
         [Retning.Synkende]: sorterPåLagtTilTidspunkt(Retning.Synkende),
+    },
+    [KandidatSorteringsfelt.StatusOgHendelser]: {
+        [Retning.Stigende]: sorterPåStatusOgHendelser(Retning.Stigende),
+        [Retning.Synkende]: sorterPåStatusOgHendelser(Retning.Synkende),
     },
 };

@@ -146,7 +146,13 @@ const ListeHeader: FunctionComponent<Props> = ({
                     onClick={endreSortering}
                 />
                 {visNyttKandidatstatusLayout ? (
-                    <Kolonne tekst="Status/hendelser" />
+                    <SorterbarKolonneheader
+                        tekst="Status/hendelser"
+                        sorteringsfelt={KandidatSorteringsfelt.StatusOgHendelser}
+                        aktivtSorteringsfelt={aktivtSorteringsfelt}
+                        aktivSorteringsretning={aktivSorteringsretning}
+                        onClick={endreSortering}
+                    />
                 ) : (
                     <>
                         <SorterbarKolonneheader

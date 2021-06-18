@@ -1,10 +1,10 @@
 import {
-    Kandidatstatus,
-    Kandidatlistestatus,
-    Kandidatliste,
-    Kandidat,
     FormidlingAvUsynligKandidat,
+    Kandidat,
+    Kandidatliste,
     KandidatlisteSammendrag,
+    Kandidatlistestatus,
+    Kandidatstatus,
 } from '../../kandidatliste/kandidatlistetyper';
 import { KanSletteEnum } from '../../listeoversikt/Kandidatlisteoversikt';
 import { Tilgjengelighet } from '../../kandidatsøk/kandidater-tabell/Søkeresultat';
@@ -12,7 +12,7 @@ import { v5 as uuid } from 'uuid';
 import cver from './cv.mock';
 import { Utfall } from '../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Cv from '../../kandidatside/cv/reducer/cv-typer';
-import { meg, enVeileder, Veileder, enAnnenVeileder } from './veiledere.mock';
+import { enAnnenVeileder, enVeileder, meg, Veileder } from './veiledere.mock';
 
 const antall = 15;
 const tomListe = [...new Array(antall)];
@@ -164,14 +164,37 @@ export const kandidatlister: Kandidatliste[] = tomListe.map((_, i) => {
             status: Kandidatstatus.Aktuell,
             utfall: Utfall.FåttJobben,
         },
-        mockKandidat(1, meg),
-        mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
-        mockKandidat(3, meg, forrigeUke),
-        mockKandidat(4, meg),
-        mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
-        mockKandidat(6, meg, forrigeUke),
+        {
+            ...mockKandidat(1, meg),
+            status: Kandidatstatus.Kontaktet,
+            utfall: Utfall.Presentert,
+        },
+        {
+            ...mockKandidat(2, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+            status: Kandidatstatus.Kontaktet,
+            utfall: Utfall.IkkePresentert,
+        },
+        {
+            ...mockKandidat(3, meg, forrigeUke),
+            status: Kandidatstatus.Aktuell,
+            utfall: Utfall.IkkePresentert,
+        },
+        {
+            ...mockKandidat(4, meg),
+            status: Kandidatstatus.Uaktuell,
+            utfall: Utfall.FåttJobben,
+        },
+        {
+            ...mockKandidat(5, enAnnenVeilederHarOgsåLagtTilKandidater ? enAnnenVeileder : meg),
+            status: Kandidatstatus.Uinteressert,
+            utfall: Utfall.IkkePresentert,
+        },
+        {
+            ...mockKandidat(6, meg, forrigeUke),
+            status: Kandidatstatus.Vurderes,
+            utfall: Utfall.FåttJobben,
+        },
     ];
-
     if (!erTomListe) {
         kandidater = standardKandidater;
     }
