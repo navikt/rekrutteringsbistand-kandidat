@@ -92,7 +92,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                 className="formidling-av-usynlig-kandidatrad__utfall formidling-av-usynlig-kandidatrad__kolonne"
             >
                 {visNyttKandidatstatusLayout ? (
-                    <div className="status-og-hendelser">
+                    <div className="status-og-hendelser" ref={popoverRef}>
                         {formidling.utfall === Utfall.Presentert && <CvDeltEtikett />}
                         {formidling.utfall === Utfall.FåttJobben && <FåttJobbenEtikett />}
                         {kanEditere ? (
@@ -105,7 +105,7 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                             ankerEl={popoverAnker}
                             onRequestClose={lukkPopover}
                         >
-                            <div className="status-og-hendelser__popover" ref={popoverRef}>
+                            <div className="status-og-hendelser__popover">
                                 <div className="endre-status-og-hendelser">
                                     {
                                         <div className="endre-status-og-hendelser__hendelser">

@@ -59,7 +59,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                 ankerEl={popoverAnker}
                 onRequestClose={lukkPopover}
             >
-                <div className="status-og-hendelser__popover" ref={popoverRef}>
+                <div className="status-og-hendelser__popover">
                     {kanEditere ? (
                         <EndreStatusOgHendelser
                             kandidat={kandidat}
