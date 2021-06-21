@@ -23,6 +23,7 @@ import AppState from '../../AppState';
 import './FormidlingAvUsynligKandidatrad.less';
 import '../kandidatrad/status-og-hendelser/StatusOgHendelser.less';
 import '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelser.less';
+import FåttJobben from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/FåttJobben';
 
 type Props = {
     kandidatlisteId: string;
@@ -106,26 +107,26 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
                             onRequestClose={lukkPopover}
                         >
                             <div className="status-og-hendelser__popover">
-                                <div className="endre-status-og-hendelser">
-                                    {
-                                        <div className="endre-status-og-hendelser__hendelser">
-                                            <Undertittel>Hendelser</Undertittel>
-                                            <ol className="endre-status-og-hendelser__hendelsesliste">
-                                                <Hendelse
-                                                    checked
-                                                    tittel="Ny kandidat"
-                                                    beskrivelse={cvDeltBeskrivelse}
-                                                />
-                                                <DelingAvCv
-                                                    kanEndre={kanEditere}
-                                                    utfall={formidling.utfall}
-                                                    onEndreUtfall={
-                                                        endreFormidlingsutfallForUsynligKandidat
-                                                    }
-                                                />
-                                            </ol>
-                                        </div>
-                                    }
+                                <div className="endre-status-og-hendelser__hendelser">
+                                    <Undertittel>Hendelser</Undertittel>
+                                    <ol className="endre-status-og-hendelser__hendelsesliste">
+                                        <Hendelse
+                                            checked
+                                            tittel="Ny kandidat"
+                                            beskrivelse={cvDeltBeskrivelse}
+                                        />
+                                        <DelingAvCv
+                                            kanEndre={kanEditere}
+                                            utfall={formidling.utfall}
+                                            onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                        />
+                                        <FåttJobben
+                                            kanEndre={kanEditere}
+                                            utfall={formidling.utfall}
+                                            navn={fulltNavn}
+                                            onEndreUtfall={endreFormidlingsutfallForUsynligKandidat}
+                                        />
+                                    </ol>
                                 </div>
                                 <Knapp
                                     mini
