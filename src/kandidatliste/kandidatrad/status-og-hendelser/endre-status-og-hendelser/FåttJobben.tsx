@@ -3,16 +3,12 @@ import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Hendelse from './Hendelse';
-import { useDispatch, useSelector } from 'react-redux';
-import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
-import AppState from '../../../../AppState';
 
 type Props = {
-    erRedigerbar?: boolean;
+    kanEndre?: boolean;
     utfall: Utfall;
-    kandidatnummer: string;
-    kandidatlisteId: string;
     navn: string;
+    onEndreUtfall: (nyttUtfall: Utfall) => void;
 };
 
 enum Visning {
@@ -22,16 +18,7 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const FåttJobben: FunctionComponent<Props> = ({
-    erRedigerbar,
-    utfall,
-    kandidatnummer,
-    kandidatlisteId,
-    navn,
-}) => {
-    const dispatch = useDispatch();
-    const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
-
+const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndreUtfall }) => {
     const [visning, setVisning] = useState<Visning>(
         utfall === Utfall.FåttJobben ? Visning.FjernRegistrering : Visning.Registrer
     );
@@ -46,21 +33,11 @@ const FåttJobben: FunctionComponent<Props> = ({
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
 
     const onBekreftRegistreringClick = () => {
-        endreUtfallForKandidat(Utfall.FåttJobben);
+        onEndreUtfall(Utfall.FåttJobben);
     };
 
     const onBekreftFjerningAvRegistrering = () => {
-        endreUtfallForKandidat(Utfall.Presentert);
-    };
-
-    const endreUtfallForKandidat = (nyttUtfall: Utfall) => {
-        dispatch({
-            kandidatlisteId,
-            utfall: nyttUtfall,
-            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT,
-            navKontor: valgtNavKontor,
-            kandidatnr: kandidatnummer,
-        });
+        onEndreUtfall(Utfall.Presentert);
     };
 
     const checked = utfall === Utfall.FåttJobben;
@@ -69,7 +46,7 @@ const FåttJobben: FunctionComponent<Props> = ({
         case Visning.Registrer:
             return (
                 <Hendelse checked={checked} tittel={undefined} beskrivelse={undefined}>
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <Flatknapp
                             mini
                             kompakt
@@ -90,7 +67,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                     tittel="Kandidaten har fått jobben"
                     beskrivelse={undefined}
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <Flatknapp
                             mini
                             kompakt
@@ -112,7 +89,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                     tittel={`Registrer at ${navn} har fått jobben`}
                     beskrivelse="Når du registrerer at en kandidat har fått jobb vil resultatet bli telt, og tellingen vil bli brukt til statistikk"
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <>
                             <Hovedknapp
                                 mini
@@ -140,7 +117,7 @@ const FåttJobben: FunctionComponent<Props> = ({
                         'Hvis du fjerner registreringen vil tellingen på "fått jobben" taes bort.'
                     }
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <>
                             <Hovedknapp
                                 mini

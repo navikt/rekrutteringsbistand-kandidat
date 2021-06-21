@@ -1,18 +1,13 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useEffect, FunctionComponent, useState } from 'react';
 import { Flatknapp, Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { AddCircle, MinusCircle } from '@navikt/ds-icons';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Hendelse from './Hendelse';
-import { useDispatch, useSelector } from 'react-redux';
-import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
-import AppState from '../../../../AppState';
-import { useEffect } from 'react';
 
 type Props = {
-    erRedigerbar?: boolean;
     utfall: Utfall;
-    kandidatnummer: string;
-    kandidatlisteId: string;
+    onEndreUtfall: (utfall: Utfall) => void;
+    kanEndre?: boolean;
 };
 
 enum Visning {
@@ -22,15 +17,7 @@ enum Visning {
     BekreftFjernRegistrering,
 }
 
-const DelingAvCv: FunctionComponent<Props> = ({
-    erRedigerbar,
-    utfall,
-    kandidatnummer,
-    kandidatlisteId,
-}) => {
-    const dispatch = useDispatch();
-    const valgtNavKontor = useSelector((state: AppState) => state.navKontor.valgtNavKontor);
-
+const DelingAvCv: FunctionComponent<Props> = ({ kanEndre, utfall, onEndreUtfall }) => {
     const [visning, setVisning] = useState<Visning>(
         utfall === Utfall.IkkePresentert ? Visning.Registrer : Visning.FjernRegistrering
     );
@@ -47,21 +34,11 @@ const DelingAvCv: FunctionComponent<Props> = ({
     const onAvbrytFjerningAvRegistrering = () => setVisning(Visning.FjernRegistrering);
 
     const onBekreftRegistreringClick = () => {
-        endreUtfallForKandidat(Utfall.Presentert);
+        onEndreUtfall(Utfall.Presentert);
     };
 
     const onBekreftFjerningAvRegistrering = () => {
-        endreUtfallForKandidat(Utfall.IkkePresentert);
-    };
-
-    const endreUtfallForKandidat = (nyttUtfall: Utfall) => {
-        dispatch({
-            kandidatlisteId,
-            utfall: nyttUtfall,
-            type: KandidatlisteActionType.ENDRE_UTFALL_KANDIDAT,
-            navKontor: valgtNavKontor,
-            kandidatnr: kandidatnummer,
-        });
+        onEndreUtfall(Utfall.IkkePresentert);
     };
 
     const checked = utfall === Utfall.FåttJobben || utfall === Utfall.Presentert;
@@ -74,7 +51,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse="Gjøres i kandidatlisten"
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <Flatknapp
                             mini
                             kompakt
@@ -95,7 +72,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="CV-en er delt med arbeidsgiver"
                     beskrivelse={undefined}
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <Flatknapp
                             onClick={onFjernRegistrering}
                             className="endre-status-og-hendelser__registrer-hendelse"
@@ -117,7 +94,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                     tittel="Registrer at CV-en er blitt delt"
                     beskrivelse="Når du registrerer at CV-en er blitt delt med arbeidsgiver vil det bli telt, og tellingen vil bli brukt til statistikk"
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <>
                             <Hovedknapp
                                 mini
@@ -145,7 +122,7 @@ const DelingAvCv: FunctionComponent<Props> = ({
                         'Hvis du fjerner registreringen vil tellingen på "presentert" taes bort.'
                     }
                 >
-                    {erRedigerbar && (
+                    {kanEndre && (
                         <>
                             <Hovedknapp
                                 mini

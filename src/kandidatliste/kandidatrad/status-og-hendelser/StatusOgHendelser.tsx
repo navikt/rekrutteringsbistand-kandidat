@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Etikett from 'nav-frontend-etiketter';
@@ -16,6 +16,7 @@ import SeHendelser from './se-hendelser/SeHendelser';
 import usePopoverOrientering from './usePopoverOrientering';
 import './StatusOgHendelser.less';
 import { useRef } from 'react';
+import usePopoverAnker from './usePopoverAnker';
 
 type Props = {
     kandidatlisteId: string;
@@ -30,22 +31,9 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kanEditere,
     onStatusChange,
 }) => {
-    const [popoverAnker, setPopoverAnker] = useState<HTMLButtonElement | undefined>(undefined);
     const popoverRef = useRef<HTMLDivElement | null>(null);
+    const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
     const popoverOrientering = usePopoverOrientering(popoverAnker);
-
-    const togglePopover = (event: MouseEvent<HTMLButtonElement>) => {
-        setPopoverAnker(popoverAnker ? undefined : event.currentTarget);
-    };
-
-    const lukkPopover = () => {
-        const noeIPopoverErFokusert = popoverRef?.current?.contains(document.activeElement);
-        if (noeIPopoverErFokusert) {
-            popoverAnker?.focus();
-        }
-
-        setPopoverAnker(undefined);
-    };
 
     const endreStatusOgLukkPopover = (status: Kandidatstatus) => {
         onStatusChange(status);
@@ -55,7 +43,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     const etikettClassName = `status-og-hendelser__status status-og-hendelser__status--${kandidat.status.toLowerCase()}`;
 
     return (
-        <div className="status-og-hendelser">
+        <div className="status-og-hendelser" ref={popoverRef}>
             <Etikett mini type="info" className={etikettClassName}>
                 {statusToDisplayName(kandidat.status)}
             </Etikett>
@@ -71,7 +59,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
                 ankerEl={popoverAnker}
                 onRequestClose={lukkPopover}
             >
-                <div className="status-og-hendelser__popover" ref={popoverRef}>
+                <div className="status-og-hendelser__popover">
                     {kanEditere ? (
                         <EndreStatusOgHendelser
                             kandidat={kandidat}

@@ -214,6 +214,7 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                             {props.kandidatliste.formidlingerAvUsynligKandidat.map(
                                 (formidlingAvUsynligKandidat) => (
                                     <FormidlingAvUsynligKandidatrad
+                                        kandidatlisteId={props.kandidatliste.kandidatlisteId}
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
