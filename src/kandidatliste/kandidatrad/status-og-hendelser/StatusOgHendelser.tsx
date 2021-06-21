@@ -16,6 +16,7 @@ import SeHendelser from './se-hendelser/SeHendelser';
 import usePopoverOrientering from './usePopoverOrientering';
 import './StatusOgHendelser.less';
 import { useRef } from 'react';
+import usePopoverAnker from './usePopoverAnker';
 
 type Props = {
     kandidatlisteId: string;
@@ -30,22 +31,9 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     kanEditere,
     onStatusChange,
 }) => {
-    const [popoverAnker, setPopoverAnker] = useState<HTMLButtonElement | undefined>(undefined);
     const popoverRef = useRef<HTMLDivElement | null>(null);
+    const { popoverAnker, togglePopover, lukkPopover } = usePopoverAnker(popoverRef);
     const popoverOrientering = usePopoverOrientering(popoverAnker);
-
-    const togglePopover = (event: MouseEvent<HTMLButtonElement>) => {
-        setPopoverAnker(popoverAnker ? undefined : event.currentTarget);
-    };
-
-    const lukkPopover = () => {
-        const noeIPopoverErFokusert = popoverRef?.current?.contains(document.activeElement);
-        if (noeIPopoverErFokusert) {
-            popoverAnker?.focus();
-        }
-
-        setPopoverAnker(undefined);
-    };
 
     const endreStatusOgLukkPopover = (status: Kandidatstatus) => {
         onStatusChange(status);

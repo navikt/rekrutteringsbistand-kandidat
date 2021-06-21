@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react';
 import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
 import { Undertittel } from 'nav-frontend-typografi';
 import Hendelse from '../endre-status-og-hendelser/Hendelse';
-import DelingAvCv from '../endre-status-og-hendelser/DelingAvCv';
+import DelingAvCvForKandidat from '../endre-status-og-hendelser/DelingAvCvForKandidat';
 import FåttJobben from '../endre-status-og-hendelser/FåttJobben';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
-    kandidatlisteId;
+    kandidatlisteId: string;
 };
 
 const SeHendelser: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) => {
@@ -21,7 +21,7 @@ const SeHendelser: FunctionComponent<Props> = ({ kandidat, kandidatlisteId }) =>
             <Undertittel>Hendelser</Undertittel>
             <ol className="endre-status-og-hendelser__hendelsesliste">
                 <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                <DelingAvCv
+                <DelingAvCvForKandidat
                     utfall={kandidat.utfall}
                     kandidatnummer={kandidat.kandidatnr}
                     kandidatlisteId={kandidatlisteId}

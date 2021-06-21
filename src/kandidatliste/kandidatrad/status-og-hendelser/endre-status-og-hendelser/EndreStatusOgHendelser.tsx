@@ -7,9 +7,9 @@ import { KandidatIKandidatliste, Kandidatstatus } from '../../../kandidatlistety
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import Hendelse from './Hendelse';
 import FåttJobben from './FåttJobben';
-import DelingAvCv from './DelingAvCv';
-import './EndreStatusOgHendelser.less';
+import DelingAvCvForKandidat from './DelingAvCvForKandidat';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
+import './EndreStatusOgHendelser.less';
 
 type Props = {
     kandidat: KandidatIKandidatliste;
@@ -80,8 +80,8 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                 <Undertittel>Hendelser</Undertittel>
                 <ol className="endre-status-og-hendelser__hendelsesliste">
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
-                    <DelingAvCv
-                        erRedigerbar
+                    <DelingAvCvForKandidat
+                        kanEndre
                         utfall={kandidat.utfall}
                         kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
