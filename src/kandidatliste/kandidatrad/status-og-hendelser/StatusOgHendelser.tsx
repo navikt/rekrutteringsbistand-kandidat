@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Close } from '@navikt/ds-icons';
 import { Knapp } from 'nav-frontend-knapper';
 import Etikett from 'nav-frontend-etiketter';
