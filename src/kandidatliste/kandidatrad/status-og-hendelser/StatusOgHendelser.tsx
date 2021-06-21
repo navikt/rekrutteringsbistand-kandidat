@@ -43,7 +43,7 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
     const etikettClassName = `status-og-hendelser__status status-og-hendelser__status--${kandidat.status.toLowerCase()}`;
 
     return (
-        <div className="status-og-hendelser">
+        <div className="status-og-hendelser" ref={popoverRef}>
             <Etikett mini type="info" className={etikettClassName}>
                 {statusToDisplayName(kandidat.status)}
             </Etikett>
