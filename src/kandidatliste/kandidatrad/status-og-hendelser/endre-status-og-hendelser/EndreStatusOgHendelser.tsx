@@ -6,9 +6,9 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { KandidatIKandidatliste, Kandidatstatus } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import Hendelse from './Hendelse';
-import FåttJobben from './FåttJobben';
 import DelingAvCvForKandidat from './DelingAvCvForKandidat';
 import { datoformatNorskLang } from '../../../../utils/dateUtils';
+import FåttJobbenForKandidat from './FåttJobbenForKandidat';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
@@ -82,16 +82,13 @@ const EndreStatusOgHendelser: FunctionComponent<Props> = ({
                     <Hendelse checked tittel="Ny kandidat" beskrivelse={cvDeltBeskrivelse} />
                     <DelingAvCvForKandidat
                         kanEndre
-                        utfall={kandidat.utfall}
-                        kandidatnummer={kandidat.kandidatnr}
                         kandidatlisteId={kandidatlisteId}
+                        kandidat={kandidat}
                     />
-                    <FåttJobben
-                        erRedigerbar
-                        navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
-                        utfall={kandidat.utfall}
-                        kandidatnummer={kandidat.kandidatnr}
+                    <FåttJobbenForKandidat
+                        kanEndre
                         kandidatlisteId={kandidatlisteId}
+                        kandidat={kandidat}
                     />
                 </ol>
             </div>

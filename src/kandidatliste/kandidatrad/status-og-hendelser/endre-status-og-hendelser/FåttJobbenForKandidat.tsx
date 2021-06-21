@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
-import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
-import DelingAvCv from './DelingAvCv';
+import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
+import FåttJobben from './FåttJobben';
 import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
     kandidat: KandidatIKandidatliste;
 };
 
-const DelingAvCvForKandidat: FunctionComponent<Props> = ({
+const FåttJobbenForKandidat: FunctionComponent<Props> = ({
     kanEndre,
     kandidatlisteId,
     kandidat,
@@ -31,12 +31,13 @@ const DelingAvCvForKandidat: FunctionComponent<Props> = ({
     };
 
     return (
-        <DelingAvCv
-            utfall={kandidat.utfall}
+        <FåttJobben
             kanEndre={kanEndre}
+            navn={`${kandidat.fornavn} ${kandidat.etternavn}`}
+            utfall={kandidat.utfall}
             onEndreUtfall={endreUtfallForKandidat}
         />
     );
 };
 
-export default DelingAvCvForKandidat;
+export default FåttJobbenForKandidat;
