@@ -148,6 +148,9 @@ const Kandidatrad: FunctionComponent<Props> = ({
             : ''
     } ${kandidat.tilstand.markert ? 'kandidatliste-kandidat--checked' : ''}`;
 
+    const kanEndreKandidatlisten =
+        kandidatliste.status === Kandidatlistestatus.Åpen && kandidatliste.kanEditere;
+
     return (
         <div role="rowgroup" tabIndex={-1} ref={kandidatRadRef} className={klassenavn}>
             <div role="row" className={klassenavnForListerad}>
@@ -218,7 +221,7 @@ const Kandidatrad: FunctionComponent<Props> = ({
                     <StatusOgHendelser
                         kandidatlisteId={kandidatliste.kandidatlisteId}
                         kandidat={kandidat}
-                        kanEditere={kandidatliste.kanEditere}
+                        kanEditere={kanEndreKandidatlisten}
                         onStatusChange={(status) => {
                             onKandidatStatusChange(
                                 status,

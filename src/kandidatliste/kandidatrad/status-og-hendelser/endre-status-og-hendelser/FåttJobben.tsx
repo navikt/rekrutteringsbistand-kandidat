@@ -45,7 +45,11 @@ const FåttJobben: FunctionComponent<Props> = ({ kanEndre, utfall, navn, onEndre
     switch (visning) {
         case Visning.Registrer:
             return (
-                <Hendelse checked={checked} tittel={undefined} beskrivelse={undefined}>
+                <Hendelse
+                    checked={checked}
+                    tittel={kanEndre ? undefined : 'Kandidaten har fått jobb'}
+                    beskrivelse={kanEndre ? undefined : 'Gjøres av eier av stillingen/listen'}
+                >
                     {kanEndre && (
                         <Flatknapp
                             mini
