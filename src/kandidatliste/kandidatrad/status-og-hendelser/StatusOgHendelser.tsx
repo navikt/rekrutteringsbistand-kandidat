@@ -7,8 +7,7 @@ import Popover from 'nav-frontend-popover';
 import { Kandidat, Kandidatstatus } from '../../kandidatlistetyper';
 import { statusToDisplayName } from '../statusSelect/StatusSelect';
 import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
-import CvDeltEtikett from './CvDeltEtikett';
-import FåttJobbenEtikett from './FåttJobbenEtikett';
+import UtfallEtikett from './UtfallEtikett';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';
@@ -47,8 +46,9 @@ const StatusOgHendelser: FunctionComponent<Props> = ({
             <Etikett mini type="info" className={etikettClassName}>
                 {statusToDisplayName(kandidat.status)}
             </Etikett>
-            {kandidat.utfall === Utfall.Presentert && <CvDeltEtikett />}
-            {kandidat.utfall === Utfall.FåttJobben && <FåttJobbenEtikett />}
+            {kandidat.utfall !== Utfall.IkkePresentert && (
+                <UtfallEtikett utfall={kandidat.utfall} />
+            )}
             {kanEditere ? (
                 <EndreStatusOgHendelserKnapp onClick={togglePopover} />
             ) : (

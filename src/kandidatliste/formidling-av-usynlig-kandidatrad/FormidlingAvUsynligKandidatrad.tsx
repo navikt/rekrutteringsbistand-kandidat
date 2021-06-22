@@ -4,9 +4,8 @@ import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import CvDeltEtikett from '../kandidatrad/status-og-hendelser/CvDeltEtikett';
+import UtfallEtikett from '../kandidatrad/status-og-hendelser/UtfallEtikett';
 import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
-import FåttJobbenEtikett from '../kandidatrad/status-og-hendelser/FåttJobbenEtikett';
 import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';
 import usePopoverOrientering from '../kandidatrad/status-og-hendelser/usePopoverOrientering';
@@ -94,8 +93,9 @@ const FormidlingAvUsynligKandidatrad: FunctionComponent<Props> = ({
             >
                 {visNyttKandidatstatusLayout ? (
                     <div className="status-og-hendelser" ref={popoverRef}>
-                        {formidling.utfall === Utfall.Presentert && <CvDeltEtikett />}
-                        {formidling.utfall === Utfall.FåttJobben && <FåttJobbenEtikett />}
+                        {formidling.utfall !== Utfall.IkkePresentert && (
+                            <UtfallEtikett utfall={formidling.utfall} />
+                        )}
                         {kanEditere ? (
                             <EndreStatusOgHendelserKnapp onClick={togglePopover} />
                         ) : (
