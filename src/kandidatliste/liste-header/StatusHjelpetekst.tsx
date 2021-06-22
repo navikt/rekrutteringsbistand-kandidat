@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
 import { Kandidatstatus } from '../kandidatlistetyper';
+import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
 
 const forklaringer: Record<Kandidatstatus, string> = {
     [Kandidatstatus.Vurderes]: 'Kandidater som er lagt i en kandidatliste får status vurderes',

@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from '../../../../AppState';
-import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import FåttJobben from './FåttJobben';
 import { Kandidat } from '../../../kandidatlistetyper';
+import { Utfall } from '../etiketter/UtfallEtikett';
 
 type Props = {
     kanEndre: boolean;

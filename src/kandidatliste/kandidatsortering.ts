@@ -1,6 +1,6 @@
 import { KandidatIKandidatliste, Kandidatstatus } from './kandidatlistetyper';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
-import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export enum KandidatSorteringsfelt {
     Navn,

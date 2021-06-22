@@ -7,10 +7,10 @@ import { ApiError } from '../../api/remoteData';
 import { Kandidatliste, Notat, Navn, Sms, Kandidat } from '../kandidatlistetyper';
 import { Kandidatlistefilter } from '../kandidatlistetyper';
 import { Kandidatresultat } from '../../kandidatside/cv/reducer/cv-typer';
-import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { Visningsstatus } from '../Kandidatliste';
 import KandidatlisteActionType from './KandidatlisteActionType';
 import { SearchApiError } from '../../api/fetchUtils';
+import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export interface HentKandidatlisteMedStillingsIdAction {
     type: KandidatlisteActionType.HENT_KANDIDATLISTE_MED_STILLINGS_ID;

@@ -1,11 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
-import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './UtfallEtikett.less';
 
 type Props = {
     utfall: Utfall;
 };
+
+export enum Utfall {
+    IkkePresentert = 'IKKE_PRESENTERT',
+    Presentert = 'PRESENTERT',
+    FåttJobben = 'FATT_JOBBEN',
+}
 
 const UtfallEtikett: FunctionComponent<Props> = ({ utfall }) => (
     <Etikett mini type="info" className={`utfall-etikett utfall-etikett--${utfall.toLowerCase()}`}>

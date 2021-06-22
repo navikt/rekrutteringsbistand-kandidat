@@ -4,8 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
 import { Kandidat, Kandidatstatus } from '../../kandidatlistetyper';
-import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
-import UtfallEtikett from './etiketter/UtfallEtikett';
+import UtfallEtikett, { Utfall } from './etiketter/UtfallEtikett';
 import EndreStatusOgHendelser from './endre-status-og-hendelser/EndreStatusOgHendelser';
 import EndreStatusOgHendelserKnapp from './endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from './se-hendelser/SeHendelserKnapp';

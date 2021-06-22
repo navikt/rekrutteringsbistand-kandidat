@@ -5,13 +5,11 @@ import {
     Kandidatliste as Kandidatlistetype,
     KandidatIKandidatliste,
     Kandidatlistefilter,
-    FormidlingAvUsynligKandidat,
     Kandidatstatus,
     Kandidatlistestatus,
 } from './kandidatlistetyper';
 import { queryParamsTilFilter, filterTilQueryParams } from './filter/filter-utils';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Utfall } from './kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import Filter from './filter/Filter';
 import FinnKandidaterLenke from './meny/FinnKandidaterLenke';
 import IngenKandidater from './ingen-kandidater/IngenKandidater';
@@ -33,6 +31,7 @@ import '../common/ikoner.less';
 import useMaskerFødselsnumre from '../app/useMaskerFødselsnumre';
 import { Retning } from '../common/sorterbarKolonneheader/Retning';
 import useHentSendteMeldinger from './hooks/useHentSendteMeldinger';
+import { Utfall } from './kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 export enum Visningsstatus {
     SkjulPanel = 'SKJUL_PANEL',
@@ -54,8 +53,6 @@ type Props = {
     onFjernAllMarkering: () => void;
     onMarkerKandidater: (kandidatnumre: string[]) => void;
     onKandidatStatusChange: any;
-    visEndreUtfallModal: (kandidat: KandidatIKandidatliste) => void;
-    visEndreUtfallModalUsynligKandidat: (formidling: FormidlingAvUsynligKandidat) => void;
     onKandidatShare: any;
     onEmailKandidater: any;
     onKandidaterAngreArkivering: any;
@@ -218,9 +215,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidatlistenErLukket={!kandidatlistenErÅpen}
                                         key={formidlingAvUsynligKandidat.lagtTilTidspunkt}
                                         formidling={formidlingAvUsynligKandidat}
-                                        visEndreUtfallModalUsynligKandidat={
-                                            props.visEndreUtfallModalUsynligKandidat
-                                        }
                                         erEierAvKandidatlisten={props.kandidatliste.kanEditere}
                                     />
                                 )
@@ -232,7 +226,6 @@ const Kandidatliste: FunctionComponent<Props> = (props) => {
                                         kandidat={kandidat}
                                         kandidatliste={props.kandidatliste}
                                         onKandidatStatusChange={props.onKandidatStatusChange}
-                                        visEndreUtfallModal={props.visEndreUtfallModal}
                                         onToggleKandidat={props.onToggleMarkert}
                                         onVisningChange={props.onVisningChange}
                                         toggleArkivert={props.onToggleArkivert}

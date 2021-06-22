@@ -3,15 +3,12 @@ import { Checkbox, CheckboxGruppe } from 'nav-frontend-skjema';
 import { Undertittel } from 'nav-frontend-typografi';
 import { AntallFiltertreff } from '../hooks/useAntallFiltertreff';
 import { KategoriLitenSkjerm, KategoriStorSkjerm } from './Kategori';
-import { statusToDisplayName } from '../kandidatrad/statusSelect/StatusSelect';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import useVinduErBredereEnn from '../hooks/useVinduErBredereEnn';
-import { utfallToDisplayName } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
-import { Utfall } from '../kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './Filter.less';
 import { Kandidatstatus } from '../kandidatlistetyper';
-import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import { statusToDisplayName } from '../kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
+import { Utfall } from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 interface Props {
     antallTreff: AntallFiltertreff;
@@ -33,9 +30,6 @@ const Filter: FunctionComponent<Props> = ({
     onToggleUtfall,
 }) => {
     const harStorSkjerm = useVinduErBredereEnn(1280);
-    const visNyttKandidatstatusLayout = useSelector(
-        (state: AppState) => state.søk.featureToggles['nytt-kandidatstatus-layout']
-    );
 
     const statuscheckbokser = Object.values(Kandidatstatus).map((status) => (
         <Checkbox
@@ -48,20 +42,6 @@ const Filter: FunctionComponent<Props> = ({
             onChange={(e) => onToggleStatus(e.currentTarget.value as Kandidatstatus)}
         />
     ));
-
-    const utfallscheckbokser = utfallsfilter
-        ? Object.values(Utfall).map((utfall) => (
-              <Checkbox
-                  key={utfall}
-                  value={utfall}
-                  label={`${utfallToDisplayName(utfall)} (${antallTreff.utfall[utfall] ?? 0})`}
-                  checked={utfallsfilter[utfall]}
-                  name="utfallsfilter"
-                  className="kandidatliste-filter__checkbox"
-                  onChange={(e) => onToggleUtfall(e.currentTarget.value as Utfall)}
-              />
-          ))
-        : undefined;
 
     const hendelsescheckbokser = utfallsfilter
         ? Object.values(Utfall).map((utfall) => (
@@ -87,24 +67,13 @@ const Filter: FunctionComponent<Props> = ({
 
     return harStorSkjerm ? (
         <aside className="kandidatliste-filter">
-            {visNyttKandidatstatusLayout ? (
-                <KategoriStorSkjerm kategori="Status/hendelser">
-                    <CheckboxGruppe legend="Status">{statuscheckbokser}</CheckboxGruppe>
-                    {hendelsescheckbokser && (
-                        <CheckboxGruppe legend="Hendelser">{hendelsescheckbokser}</CheckboxGruppe>
-                    )}
-                </KategoriStorSkjerm>
-            ) : (
-                <>
-                    <KategoriStorSkjerm kategori="Status">{statuscheckbokser}</KategoriStorSkjerm>
-                    {utfallsfilter && (
-                        <KategoriStorSkjerm kategori="Utfall">
-                            {utfallscheckbokser}
-                        </KategoriStorSkjerm>
-                    )}
-                </>
-            )}
-            <KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
+            <KategoriStorSkjerm kategori="Status/hendelser">
+                <CheckboxGruppe legend="Status">{statuscheckbokser}</CheckboxGruppe>
+                {hendelsescheckbokser && (
+                    <CheckboxGruppe legend="Hendelser">{hendelsescheckbokser}</CheckboxGruppe>
+                )}
+            </KategoriStorSkjerm>
+            )<KategoriStorSkjerm kategori="Slettet">{arkivfilter}</KategoriStorSkjerm>
         </aside>
     ) : (
         <Ekspanderbartpanel
@@ -113,23 +82,10 @@ const Filter: FunctionComponent<Props> = ({
             border
         >
             <KategoriLitenSkjerm kategori="Status">{statuscheckbokser}</KategoriLitenSkjerm>
-
-            {visNyttKandidatstatusLayout ? (
-                <>
-                    {hendelsescheckbokser && (
-                        <KategoriLitenSkjerm kategori="Hendelser">
-                            {hendelsescheckbokser}
-                        </KategoriLitenSkjerm>
-                    )}
-                </>
-            ) : (
-                <>
-                    {utfallscheckbokser && (
-                        <KategoriLitenSkjerm kategori="Utfall">
-                            {utfallscheckbokser}
-                        </KategoriLitenSkjerm>
-                    )}
-                </>
+            {hendelsescheckbokser && (
+                <KategoriLitenSkjerm kategori="Hendelser">
+                    {hendelsescheckbokser}
+                </KategoriLitenSkjerm>
             )}
             <KategoriLitenSkjerm kategori="Slettet">{arkivfilter}</KategoriLitenSkjerm>
         </Ekspanderbartpanel>

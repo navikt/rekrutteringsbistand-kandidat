@@ -20,7 +20,6 @@ import {
 import { kandidatlisterForKandidatMock } from './data/kandidatlister-for-kandidat.mock';
 import { featureToggles } from './data/feature-toggles.mock';
 import søk from './data/søk.mock';
-import { Utfall } from '../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
 import { meg } from './data/veiledere.mock';
 import { FormidlingAvUsynligKandidatOutboundDto } from '../kandidatliste/modaler/legg-til-kandidat-modal/LeggTilKandidatModal';
 import {
@@ -29,6 +28,7 @@ import {
     SMS_API,
     ENHETSREGISTER_API,
 } from '../api/api';
+import { Utfall } from '../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 
 fetchMock.config.fallbackToNetwork = true;
 
