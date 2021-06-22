@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Etikett from 'nav-frontend-etiketter';
-import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
+import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import './UtfallEtikett.less';
 
 type Props = {

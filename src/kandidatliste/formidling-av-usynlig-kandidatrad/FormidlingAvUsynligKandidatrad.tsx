@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Popover from 'nav-frontend-popover';
 
 import { FormidlingAvUsynligKandidat } from '../kandidatlistetyper';
-import UtfallEtikett from '../kandidatrad/status-og-hendelser/UtfallEtikett';
+import UtfallEtikett from '../kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
 import EndreStatusOgHendelserKnapp from '../kandidatrad/status-og-hendelser/endre-status-og-hendelser/EndreStatusOgHendelserKnapp';
 import SeHendelserKnapp from '../kandidatrad/status-og-hendelser/se-hendelser/SeHendelserKnapp';
 import usePopoverAnker from '../kandidatrad/status-og-hendelser/usePopoverAnker';

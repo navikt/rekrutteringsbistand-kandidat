@@ -1,4 +1,4 @@
-@import '../../../variabler.less';
+@import 'src/variabler.less';
 
 .status-og-hendelser {
     display: flex;
@@ -16,40 +16,6 @@
         width: 2rem;
         height: 2rem;
         padding: 0;
-    }
-
-    &__status {
-        margin-right: 0.5rem;
-
-        &--vurderes {
-            background-color: @navLysGra;
-            border-color: @navMorkGra;
-        }
-
-        &--kontaktet {
-            background-color: @navBlaLighten80;
-            border-color: @navBla;
-        }
-
-        &--aktuell {
-            background-color: @navOransjeLighten80;
-            border-color: @navOransje;
-        }
-
-        &--uaktuell {
-            background-color: @redErrorLighten80;
-            border-color: @redError;
-        }
-
-        &--uinteressert {
-            background-color: @redErrorLighten80;
-            border-color: @redError;
-        }
-
-        &--til_intervju {
-            background-color: @navLysBlaLighten80;
-            border-color: @navLysBla;
-        }
     }
 
     &__knappeikon {
