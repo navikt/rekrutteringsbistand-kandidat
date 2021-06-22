@@ -4,12 +4,12 @@ import AppState from '../../../../AppState';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import DelingAvCv from './DelingAvCv';
-import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
+import { Kandidat } from '../../../kandidatlistetyper';
 
 type Props = {
     kanEndre: boolean;
     kandidatlisteId: string;
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
 };
 
 const DelingAvCvForKandidat: FunctionComponent<Props> = ({

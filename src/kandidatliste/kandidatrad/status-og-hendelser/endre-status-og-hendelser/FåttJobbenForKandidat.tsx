@@ -4,12 +4,12 @@ import AppState from '../../../../AppState';
 import { Utfall } from '../../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import KandidatlisteActionType from '../../../reducer/KandidatlisteActionType';
 import FåttJobben from './FåttJobben';
-import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
+import { Kandidat } from '../../../kandidatlistetyper';
 
 type Props = {
     kanEndre: boolean;
     kandidatlisteId: string;
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
 };
 
 const FåttJobbenForKandidat: FunctionComponent<Props> = ({

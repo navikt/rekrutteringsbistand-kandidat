@@ -3,7 +3,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Radio, RadioGruppe } from 'nav-frontend-skjema';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
-import { KandidatIKandidatliste, Kandidatstatus } from '../../../kandidatlistetyper';
+import { Kandidat, Kandidatstatus } from '../../../kandidatlistetyper';
 import { statusToDisplayName } from '../../statusSelect/StatusSelect';
 import Hendelse from './Hendelse';
 import DelingAvCvForKandidat from './DelingAvCvForKandidat';
@@ -12,7 +12,7 @@ import FåttJobbenForKandidat from './FåttJobbenForKandidat';
 import './EndreStatusOgHendelser.less';
 
 type Props = {
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
     kandidatlisteId: string;
     onStatusChange: (status: Kandidatstatus) => void;
 };

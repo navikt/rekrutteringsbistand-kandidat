@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { KandidatIKandidatliste } from '../../../kandidatlistetyper';
+import { Kandidat } from '../../../kandidatlistetyper';
 import { Undertittel } from 'nav-frontend-typografi';
 import Hendelse from '../endre-status-og-hendelser/Hendelse';
 import DelingAvCvForKandidat from '../endre-status-og-hendelser/DelingAvCvForKandidat';
@@ -7,7 +7,7 @@ import { datoformatNorskLang } from '../../../../utils/dateUtils';
 import FåttJobbenForKandidat from '../endre-status-og-hendelser/FåttJobbenForKandidat';
 
 type Props = {
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
     kandidatlisteId: string;
 };
 

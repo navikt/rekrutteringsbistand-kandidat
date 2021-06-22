@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import Etikett from 'nav-frontend-etiketter';
 import Popover from 'nav-frontend-popover';
 
-import { KandidatIKandidatliste, Kandidatstatus } from '../../kandidatlistetyper';
+import { Kandidat, Kandidatstatus } from '../../kandidatlistetyper';
 import { statusToDisplayName } from '../statusSelect/StatusSelect';
 import { Utfall } from '../utfall-med-endre-ikon/UtfallMedEndreIkon';
 import CvDeltEtikett from './CvDeltEtikett';
@@ -20,7 +20,7 @@ import usePopoverAnker from './usePopoverAnker';
 
 type Props = {
     kandidatlisteId: string;
-    kandidat: KandidatIKandidatliste;
+    kandidat: Kandidat;
     kanEditere: boolean;
     onStatusChange: (status: Kandidatstatus) => void;
 };

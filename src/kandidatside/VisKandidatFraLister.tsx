@@ -10,29 +10,22 @@ import Kandidatheader from './header/Kandidatheader';
 import KandidatlisteActionType from '../kandidatliste/reducer/KandidatlisteActionType';
 import Kandidatmeny from './meny/Kandidatmeny';
 import MidlertidigUtilgjengelig from './midlertidig-utilgjengelig/MidlertidigUtilgjengelig';
-import StatusSelect from '../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import { lenkeTilCv, lenkeTilKandidatliste } from '../app/paths';
 import { filterTilQueryParams } from '../kandidatliste/filter/filter-utils';
-import '../common/ikoner.less';
 import Cv from './cv/reducer/cv-typer';
 import {
     Kandidatliste,
     Kandidatlistefilter,
+    Kandidatlistestatus,
     Kandidatstatus,
     Kandidattilstander,
 } from '../kandidatliste/kandidatlistetyper';
 import AppState from '../AppState';
 import { MidlertidigUtilgjengeligResponse } from './midlertidig-utilgjengelig/midlertidigUtilgjengeligReducer';
 import { ReactNode } from 'react';
+import StatusOgHendelser from '../kandidatliste/kandidatrad/status-og-hendelser/StatusOgHendelser';
+import '../common/ikoner.less';
 
-/*
-    kandidatliste: state.kandidatliste.kandidatliste,
-    hentStatus: state.cv.hentStatus,
-    cv: state.cv.cv,
-    midlertidigUtilgjengelig: state.midlertidigUtilgjengelig[state.cv.cv.kandidatnummer],
-    kandidatlistefilter: state.kandidatliste.filter,
-    kandidattilstander: state.kandidatliste.kandidattilstander,
-*/
 type Props = {
     kandidatNr: string;
     cv: Cv;
@@ -156,14 +149,15 @@ class VisKandidatFraLister extends React.Component<Props> {
                             />
                             {gjeldendeKandidat && (
                                 <div className="vis-kandidat__status-select">
-                                    <span>Status:</span>
-                                    <StatusSelect
+                                    <StatusOgHendelser
                                         kanEditere={
                                             kandidatliste.kind === Nettstatus.Suksess &&
-                                            kandidatliste.data.kanEditere
+                                            kandidatliste.data.kanEditere &&
+                                            kandidatliste.data.status === Kandidatlistestatus.Åpen
                                         }
-                                        value={gjeldendeKandidat.status}
-                                        onChange={this.onKandidatStatusChange}
+                                        kandidat={gjeldendeKandidat}
+                                        kandidatlisteId={kandidatlisteId}
+                                        onStatusChange={this.onKandidatStatusChange}
                                     />
                                 </div>
                             )}
