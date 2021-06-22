@@ -19,8 +19,7 @@ export const Historikktabell: FunctionComponent<Props> = ({
                 <th>Navn på kandidatliste</th>
                 <th>Arbeidsgiver</th>
                 <th>Lagt til av</th>
-                <th>Status</th>
-                <th>Utfall</th>
+                <th>Status/hendelser</th>
                 <th>Stilling</th>
             </tr>
         </thead>

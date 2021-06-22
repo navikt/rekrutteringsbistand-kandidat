@@ -1,12 +1,13 @@
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { lenkeTilKandidatliste, lenkeTilStilling } from '../../../../app/paths';
-import { Statusvisning } from '../../../../kandidatliste/kandidatrad/statusSelect/StatusSelect';
 import React, { FunctionComponent } from 'react';
 import { KandidatlisteForKandidat } from '../../historikkReducer';
-import './Historikkrad.less';
 import { Undertekst } from 'nav-frontend-typografi';
-import { utfallToDisplayName } from '../../../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import UtfallEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/UtfallEtikett';
+import StatusEtikett from '../../../../kandidatliste/kandidatrad/status-og-hendelser/etiketter/StatusEtikett';
+import { Utfall } from '../../../../kandidatliste/kandidatrad/utfall-med-endre-ikon/UtfallMedEndreIkon';
+import './Historikkrad.less';
 
 interface Props {
     kandidatliste: KandidatlisteForKandidat;
@@ -38,9 +39,11 @@ export const Historikkrad: FunctionComponent<Props> = ({ kandidatliste, aktiv })
                 {kandidatliste.lagtTilAvNavn} ({kandidatliste.lagtTilAvIdent})
             </td>
             <td>
-                <Statusvisning status={kandidatliste.status} />
+                <StatusEtikett status={kandidatliste.status} />
+                {kandidatliste.utfall !== Utfall.IkkePresentert && (
+                    <UtfallEtikett utfall={kandidatliste.utfall} />
+                )}
             </td>
-            <td className="historikkrad__utfall">{utfallToDisplayName(kandidatliste.utfall)}</td>
             <td className="historikkrad__stilling">
                 {!kandidatliste.slettet && kandidatliste.stillingId && (
                     <Link to={lenkeTilStilling(kandidatliste.stillingId)} className="lenke">
