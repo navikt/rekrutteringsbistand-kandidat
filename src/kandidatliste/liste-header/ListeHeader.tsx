@@ -2,14 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Kandidatliste, Kandidatlistestatus } from '../kandidatlistetyper';
-import StatusHjelpetekst from './StatusHjelpetekst';
 import { KandidatSorteringsfelt } from '../kandidatsortering';
 import { Kandidatsortering } from '../Kandidatliste';
 import { nesteSorteringsretning, Retning } from '../../common/sorterbarKolonneheader/Retning';
-import '../kandidatrad/Kandidatrad.less';
 import SorterbarKolonneheader from '../../common/sorterbarKolonneheader/SorterbarKolonneheader';
-import { useSelector } from 'react-redux';
-import AppState from '../../AppState';
+import '../kandidatrad/Kandidatrad.less';
 
 interface Props {
     kandidatliste: Kandidatliste;
